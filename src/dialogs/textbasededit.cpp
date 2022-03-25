@@ -60,7 +60,8 @@ void VideoTextEdit::cleanup()
     cutZones.clear();
     m_hoveredBlock = -1;
     clear();
-    document()->setDefaultStyleSheet(QString("body {font-size:%2px;}\na { text-decoration:none;color:%1;font-size:%2px;}").arg(palette().text().color().name()).arg(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize()));
+    document()->setDefaultStyleSheet(QString("a {text-decoration:none;color:%1}").arg(palette().text().color().name()));
+    setCurrentFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
 const QString VideoTextEdit::selectionStartAnchor(QTextCursor &cursor, int start, int max)
@@ -500,12 +501,11 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
         QTextCursor cursor = textCursor();
         if (!cursor.selectedText().isEmpty()) {
             // We have a selection, ensure full word is selected
-            int pos = cursor.position();
             int start = cursor.selectionStart();
             int end = cursor.selectionEnd();
             if (document()->characterAt(end - 1) == QLatin1Char(' ')) {
-                // Selection already ends with a space
-                return;
+                // Selection ends with a space
+                end--;
             }
             QTextBlock 	bk = cursor.block();
             if (bk.text().simplified() == i18n("No speech")) {
@@ -517,10 +517,6 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
                 cursor.movePosition(QTextCursor::StartOfWord, QTextCursor::MoveAnchor);
                 cursor.setPosition(end, QTextCursor::KeepAnchor);
                 cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
-            }
-            if (!cursor.atBlockEnd() && document()->characterAt(pos - 1) != QLatin1Char(' ')) {
-                // Remove trailing space
-                cursor.setPosition(pos + 1, QTextCursor::KeepAnchor);
             }
             setTextCursor(cursor);
         }
@@ -535,7 +531,6 @@ void VideoTextEdit::mouseReleaseEvent(QMouseEvent *e)
 
 void VideoTextEdit::mouseMoveEvent(QMouseEvent *e)
 {
-    qDebug()<<"==== MOUSE MOVE EVENT!!!";
     QTextEdit::mouseMoveEvent(e);
     if (e->buttons() & Qt::LeftButton) {
         /*QTextCursor cursor = textCursor();
@@ -566,6 +561,9 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     m_visualEditor->installEventFilter(this);
     l->addWidget(m_visualEditor);
     text_frame->setLayout(l);
+    m_document.setDefaultFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //m_document = m_visualEditor->document(); 
+    //m_document.setDefaultFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_visualEditor->setDocument(&m_document);
     connect(&m_document, &QTextDocument::blockCountChanged, this, [this](int ct) {
         m_visualEditor->repaintLines();
@@ -924,18 +922,17 @@ void TextBasedEdit::slotProcessSpeech()
     auto loadDoc = QJsonDocument::fromJson(saveData.toUtf8(), &error);
     qDebug()<<"===JSON ERROR: "<<error.errorString();
     QTextCursor cursor = m_visualEditor->textCursor();
+    QTextCharFormat fmt = cursor.charFormat();
+    //fmt.setForeground(palette().text().color());
     if (loadDoc.isObject()) {
         QJsonObject obj = loadDoc.object();
         if (!obj.isEmpty()) {
             //QString itemText = obj["text"].toString();
-            QString htmlLine;
+            bool textFound = false;
             QPair <double, double>sentenceZone;
             if (obj["result"].isArray()) {
                 QJsonArray obj2 = obj["result"].toArray();
-                // Store words with their start/end time
-                foreach (const QJsonValue & v, obj2) {
-                    htmlLine.append(QString("<a href=\"%1#%2:%3\">%4</a> ").arg(m_binId).arg(v.toObject().value("start").toDouble() + m_clipOffset).arg(v.toObject().value("end").toDouble() + m_clipOffset).arg(v.toObject().value("word").toString()));
-                }
+                
                 // Get start time for first word
                 QJsonValue val = obj2.first();
                 if (val.isObject() && val.toObject().keys().contains("start")) {
@@ -946,8 +943,9 @@ void TextBasedEdit::slotProcessSpeech()
                         // Insert space
                         GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
                         m_visualEditor->moveCursor(QTextCursor::End);
-                        QString htmlSpace = QString("<a href=\"#%1:%2\">%3</a>").arg(silenceStart.seconds()).arg(GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()).arg(i18n("No speech"));
-                        m_visualEditor->insertHtml(htmlSpace);
+                        fmt.setAnchorHref(QString("%1#%2").arg(silenceStart.seconds()).arg(GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()));
+                        fmt.setAnchor(true);
+                        cursor.insertText(i18n("No speech"), fmt);
                         m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
                         m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(), GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds());
                     }
@@ -961,16 +959,26 @@ void TextBasedEdit::slotProcessSpeech()
                         }
                     }
                 }
+                // Store words with their start/end time
+                foreach (const QJsonValue & v, obj2) {
+                    textFound = true;
+                    fmt.setAnchor(true);
+                    fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(v.toObject().value("start").toDouble() + m_clipOffset).arg(v.toObject().value("end").toDouble() + m_clipOffset));
+                    cursor.insertText(v.toObject().value("word").toString(), fmt);
+                    fmt.setAnchor(false);
+                    cursor.insertText(QStringLiteral(" "), fmt);
+                }
             } else {
                 // Last empty object - no speech detected
                 GenTime silenceStart(m_lastPosition + 1, pCore->getCurrentFps());
                 m_visualEditor->moveCursor(QTextCursor::End);
-                QString htmlSpace = QString("<a href=\"#%1:%2\">%3</a>").arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()).arg(i18n("No speech"));
-                m_visualEditor->insertHtml(htmlSpace);
+                
+                fmt.setAnchorHref(QString("%1#%2").arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
+                fmt.setAnchor(true);
+                cursor.insertText(i18n("No speech"), fmt);
                 m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(), GenTime(m_clipDuration + m_clipOffset).seconds());
             }
-            if (!htmlLine.isEmpty()) {
-                m_visualEditor->insertHtml(htmlLine.simplified());
+            if (textFound) {
                 if (sentenceZone.second < m_clipOffset + m_clipDuration) {
                     m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
                 }
@@ -1116,6 +1124,9 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
             // We opened a resulting playlist, do not clear text edit
             return;
         }
+        if (!m_visualEditor->toPlainText().isEmpty()) {
+            m_visualEditor->cleanup();
+        }
         m_visualEditor->cleanup();
         QString speech;
         QList<QPoint> cutZones;
@@ -1137,16 +1148,23 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
             speech = clip->getProducerProperty(QStringLiteral("kdenlive:speech"));
             clipNameLabel->setText(clip->clipName());
         }
+        if (speech.isEmpty()) {
+            // Nothing else to do
+            button_add->setEnabled(false);
+            button_start->setEnabled(true);
+            return;
+        }
         m_visualEditor->insertHtml(speech);
         if (!cutZones.isEmpty()) {
             m_visualEditor->processCutZones(cutZones);
         }
         m_visualEditor->rebuildZones();
-        button_add->setEnabled(!speech.isEmpty());
+        button_add->setEnabled(true);
         button_start->setEnabled(true);
     } else {
         button_start->setEnabled(false);
         clipNameLabel->clear();
+        m_visualEditor->cleanup();
     }
 }
 
