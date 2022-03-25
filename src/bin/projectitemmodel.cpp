@@ -915,6 +915,21 @@ std::vector<QString> ProjectItemModel::getAllClipIds() const
     return result;
 }
 
+void ProjectItemModel::updateCacheThumbnail(std::unordered_map<QString, std::vector<int>> &thumbData)
+{
+    READ_LOCK();
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem) {
+            int frameNumber = qMax(0, std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+            thumbData[c->clipId()].push_back(frameNumber);
+        } else if (c->itemType() == AbstractProjectItem::SubClipItem) {
+            QPoint p = c->zone();
+            thumbData[std::static_pointer_cast<ProjectSubClip>(c)->getMasterClip()->clipId()].push_back(p.x());
+        }
+    }
+}
+
 QStringList ProjectItemModel::getClipByUrl(const QFileInfo &url) const
 {
     READ_LOCK();

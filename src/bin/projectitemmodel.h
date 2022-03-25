@@ -87,6 +87,9 @@ public:
 
     /** @brief Returns the id of all the clips (excluding folders) */
     std::vector<QString> getAllClipIds() const;
+    
+    /** @brief Updates the list of all created bin thumbnails */
+    void updateCacheThumbnail(std::unordered_map<QString, std::vector<int>> &thumbData);
 
     /** @brief Convenience method to access root folder */
     std::shared_ptr<ProjectFolder> getRootFolder() const;
