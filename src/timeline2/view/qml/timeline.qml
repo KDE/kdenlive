@@ -626,7 +626,7 @@ Rectangle {
                 }
             }
             clearDropData()
-            regainFocus(Qt.point(drag.x + trackHeaders.width, drag.y + ruler.height))
+            regainFocus(mapToItem(root, drag.x, drag.y))
         }
     }
     DropArea {
@@ -791,7 +791,7 @@ Rectangle {
         }
         onDropped: {
             processDrop()
-            regainFocus(Qt.point(drag.x + trackHeaders.width, drag.y + ruler.height))
+            regainFocus(mapToItem(root, drag.x, drag.y))
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)

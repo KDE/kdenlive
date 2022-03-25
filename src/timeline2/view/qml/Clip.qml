@@ -283,6 +283,7 @@ Rectangle {
             dropSource = ''
             dropRow = -1
             drag.acceptProposedAction
+            root.regainFocus(mapToItem(root, drag.x, drag.y))
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
         }
         onExited: {
