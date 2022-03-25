@@ -1982,6 +1982,7 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
     isLoading = false;
     shouldCheckProfile = false;
+    pCore->textEditWidget()->openClip(nullptr);
 }
 
 const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
@@ -2286,7 +2287,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
             if (itemType == AbstractProjectItem::ClipItem) {
                 clip = std::static_pointer_cast<ProjectClip>(currentItem);
                 m_tagsWidget->setTagData(clip->tags());
-                ClipType::ProducerType type = clip->clipType();
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
             } else if (itemType == AbstractProjectItem::FolderItem) {
