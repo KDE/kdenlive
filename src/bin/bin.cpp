@@ -704,6 +704,28 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
         QModelIndexList indexes = selectedIndexes();
         auto *drag = new QDrag(this);
         drag->setMimeData(model()->mimeData(indexes));
+        QModelIndex ix = indexes.constFirst();
+        if (ix.isValid()) {
+            QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
+            QPixmap pix = icon.pixmap(iconSize());
+            QSize size = pix.size() / 2;
+            QImage image(size, QImage::Format_ARGB32_Premultiplied);
+            image.fill(Qt::transparent);
+            QPainter p(&image);
+            p.setOpacity(0.7);
+            p.drawPixmap(0, 0, image.width(), image.height(), pix);
+            p.setOpacity(1);
+            if (indexes.count() > 1) {
+                QPalette palette;
+                int radius = size.height() / 3;
+                p.setBrush(palette.highlight());
+                p.setPen(palette.highlightedText().color());
+                p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
+                p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
+            }
+            p.end();
+            drag->setPixmap(QPixmap::fromImage(image));
+        }
         drag->exec();
         emit processDragEnd();
         return;
@@ -880,12 +902,12 @@ bool MyTreeView::performDrag()
     if (ix.isValid()) {
         QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
         QPixmap pix = icon.pixmap(iconSize());
-        QSize size = pix.size();
+        QSize size = pix.size() / 2;
         QImage image(size, QImage::Format_ARGB32_Premultiplied);
         image.fill(Qt::transparent);
         QPainter p(&image);
         p.setOpacity(0.7);
-        p.drawPixmap(0, 0, pix);
+        p.drawPixmap(0, 0, image.width(), image.height(), pix);
         p.setOpacity(1);
         if (indexes.count() > 1) {
             QPalette palette;
