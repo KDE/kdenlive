@@ -299,7 +299,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         // We don't follow m_isCanceled there,
                         qDebug()<<"=== GOT THUMB FOR: "<<m_in<<"x"<<m_out;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,false));
-                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, true);
+                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, false);
                     }
                 }
             }

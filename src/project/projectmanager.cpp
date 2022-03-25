@@ -360,7 +360,15 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
-    ThumbnailCache::get()->saveCachedThumbs(pCore->window()->getMainTimeline()->controller()->getThumbKeys());
+    std::unordered_map<QString, std::vector<int>> thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
+    pCore->projectItemModel()->updateCacheThumbnail(thumbKeys);
+    // Remove duplicates
+    for (auto p : thumbKeys) {
+        std::sort(p.second.begin(), p.second.end());
+        auto last = std::unique(p.second.begin(), p.second.end());
+        p.second.erase(last, p.second.end());
+    }
+    ThumbnailCache::get()->saveCachedThumbs(thumbKeys);
     if (!saveACopy) {
         m_project->setUrl(url);
         // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/

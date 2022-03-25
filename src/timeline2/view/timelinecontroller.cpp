@@ -4197,11 +4197,6 @@ const std::unordered_map<QString, std::vector<int>> TimelineController::getThumb
         framesToStore[binId].push_back(clp.second->getIn());
         framesToStore[binId].push_back(clp.second->getOut());
     }
-    for (auto p : framesToStore) {
-        std::sort(p.second.begin(), p.second.end());
-        auto last = std::unique(p.second.begin(), p.second.end());
-        p.second.erase(last, p.second.end());
-    }
     return framesToStore;
 }
 
