@@ -516,8 +516,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
     // Make sure we have a hash for this clip
-    getFileHash();
     updateProducer(producer);
+    getFileHash();
     emit producerChanged(m_binId, producer);
     m_thumbsProducer.reset();
     connectEffectStack();
