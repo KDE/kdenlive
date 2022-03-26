@@ -75,7 +75,11 @@ void NotesWidget::createMarker(const QStringList &anchors)
             clipMarkers.insert(binId, timecodes);
         } else {
             // That is a guide
-            guides << anchor.toInt();
+            if (anchor.contains(QLatin1Char('?'))) {
+                guides << anchor.section(QLatin1Char('?'), 0, 0).toInt();
+            } else {
+                guides << anchor.toInt();
+            }
         }
     }
     QMapIterator<QString, QList<int>> i(clipMarkers);
