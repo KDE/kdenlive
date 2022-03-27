@@ -660,6 +660,19 @@ void ClipLoadTask::run()
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             fps = producer->get_double(property);
+            QString codecName = QStringLiteral("meta.media.%1.codec.name").arg(vindex);
+            QString codec = producer->get(codecName.toUtf8().constData());
+            if (codec == QLatin1String("mjpeg")) {
+                int frame_rate = producer->get_int("meta.media.frame_rate_num");
+                if (frame_rate == 90000) {
+                    // This is an audio file with cover art, ignore video stream
+                    producer->set("video_index", -1);
+                    producer->set("set.test_image", 1);
+                    vindex = -1;
+                    hasVideo = false;
+                    checkProfile = false;
+                }
+            }
         }
 
         // Check for variable frame rate
