@@ -440,15 +440,17 @@ void VideoTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top()) {
             if (m_selectedBlocks.contains(blockNumber)) {
                 painter.fillRect(QRect(0, top, lineNumberArea->width(), bottom - top), palette().highlight().color());
+                painter.setPen(col_1);
+            } else {
+                painter.setPen((this->textCursor().blockNumber() == blockNumber) ? col_2 : col_0);
             }
             QString number = pCore->timecode().getDisplayTimecode(GenTime(speechZones[blockNumber].first), false);
-            painter.setPen(QColor(120, 120, 120));
-            painter.setPen((this->textCursor().blockNumber() == blockNumber) ? col_2 : m_selectedBlocks.contains(blockNumber) ? col_1 : col_0);
             painter.drawText(-5, top,
                              lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);
         }
-
+        painter.setPen(palette().dark().color());
+        painter.drawLine(0, bottom, width(), bottom);
         block = block.next();
         top = bottom;
         bottom = top + int(this->document()->documentLayout()->blockBoundingRect(block).height());
@@ -886,6 +888,20 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
             showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
         }
     } else {
+        // Last empty object - no speech detected
+        GenTime silenceStart(m_lastPosition + 1, pCore->getCurrentFps());
+        if (silenceStart.seconds() < m_clipDuration + m_clipOffset) {
+            m_visualEditor->moveCursor(QTextCursor::End);
+            QTextCursor cursor = m_visualEditor->textCursor();
+            QTextCharFormat fmt = cursor.charFormat();
+            fmt.setAnchorHref(QString("%1#%2").arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
+            fmt.setAnchor(true);
+            cursor.insertText(i18n("No speech"), fmt);
+            m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
+            m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(), GenTime(m_clipDuration + m_clipOffset).seconds());
+            m_visualEditor->repaintLines();
+        }
+
         button_add->setEnabled(true);
         showMessage(i18n("Speech recognition finished."), KMessageWidget::Positive);
         // Store speech analysis in clip properties
@@ -970,13 +986,6 @@ void TextBasedEdit::slotProcessSpeech()
                 }
             } else {
                 // Last empty object - no speech detected
-                GenTime silenceStart(m_lastPosition + 1, pCore->getCurrentFps());
-                m_visualEditor->moveCursor(QTextCursor::End);
-                
-                fmt.setAnchorHref(QString("%1#%2").arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
-                fmt.setAnchor(true);
-                cursor.insertText(i18n("No speech"), fmt);
-                m_visualEditor->speechZones << QPair<double, double>(silenceStart.seconds(), GenTime(m_clipDuration + m_clipOffset).seconds());
             }
             if (textFound) {
                 if (sentenceZone.second < m_clipOffset + m_clipDuration) {
