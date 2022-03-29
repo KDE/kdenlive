@@ -1035,6 +1035,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
+    pCore->window()->slotUpdateProjectDuration(m_mainTimelineModel->duration() - 1);
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
@@ -1056,9 +1057,10 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     return true;
 }
 
-void ProjectManager::adjustProjectDuration()
+void ProjectManager::adjustProjectDuration(int duration)
 {
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, nullptr);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(duration - 1, nullptr);
+
 }
 
 void ProjectManager::activateAsset(const QVariantMap &effectData)

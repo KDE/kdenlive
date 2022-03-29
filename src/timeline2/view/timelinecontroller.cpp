@@ -264,7 +264,7 @@ void TimelineController::checkDuration()
     int currentLength = m_model->duration();
     if (currentLength != m_duration) {
         m_duration = currentLength;
-        emit durationChanged();
+        emit durationChanged(m_duration);
     }
 }
 

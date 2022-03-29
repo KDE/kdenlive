@@ -125,6 +125,10 @@ Rectangle {
         controller.requestAddToSelection(clipRoot.clipId)
     }
 
+    function doesContainMouse(pnt) {
+        return pnt.x > 0.5 && pnt.x < clipRoot.width
+    }
+
     onClipResourceChanged: {
         if (itemType === ProducerType.Color) {
             color: Qt.darker(getColor(), 1.5)
@@ -287,7 +291,7 @@ Rectangle {
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
         }
         onExited: {
-            endDrag()
+            root.endDrag()
         }
     }
     MouseArea {
@@ -356,7 +360,7 @@ Rectangle {
         }
 
         onExited: {
-            endDrag()
+            root.endDrag()
             if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
                 timeline.showToolTip()
             }
@@ -636,7 +640,7 @@ Rectangle {
                         if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
-                            endDrag()
+                            root.endDrag()
                         }
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
@@ -773,7 +777,7 @@ Rectangle {
                         if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
-                            endDrag()
+                            root.endDrag()
                         }
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {

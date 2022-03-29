@@ -102,6 +102,10 @@ Item {
         }
     }
 
+    function doesContainMouse(pnt) {
+        return pnt.x >= 0 && pnt.x < displayRect.width && (pnt.y > displayRect.y - trackOffset)
+    }
+
     onTrackIdChanged: {
         compositionRoot.parentTrack = Logic.getTrackById(trackId)
         compositionRoot.y = compositionRoot.originalTrackId == -1 || trackId == originalTrackId ? 0 : parentTrack.y - Logic.getTrackById(compositionRoot.originalTrackId).y;

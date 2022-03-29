@@ -281,6 +281,8 @@ private:
     QLabel *m_trimLabel;
     QActionGroup *m_scaleGroup;
     ToolType::ProjectTool m_activeTool;
+    /** @brief Store latest mouse position in timeline. */
+    int m_mousePosition;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
@@ -342,6 +344,8 @@ public slots:
     void updateProjectPath(const QString &path);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(int mode);
+    /** @brief Update duration of projet in timeline toolbar. */
+    void slotUpdateProjectDuration(int pos);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -350,8 +354,7 @@ private slots:
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
-    void slotUpdateMousePosition(int pos);
-    void slotUpdateProjectDuration(int pos);
+    void slotUpdateMousePosition(int pos, int duration = -1);
     void slotEditProjectSettings();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
