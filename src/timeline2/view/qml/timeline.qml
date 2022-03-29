@@ -324,25 +324,25 @@ Rectangle {
     function regainFocus(mousePos) {
         var currentMouseTrack = Logic.getTrackIdFromPos(mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY)
         // Try to find correct item
-        //console.log('checking item on TK: ', currentMouseTrack, ' AT: XPOS', (mousePos.x - trackHeaders.width), ', SCROLL:', scrollView.contentX, ', RES: ', ((mousePos.x - trackHeaders.width + scrollView.contentX) / root.timeScale), ' SCROLL POS: ', (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY))
         var sourceTrack = Logic.getTrackById(currentMouseTrack)
-        var mouseYPos = (mousePos.y - ruler.height - subtitleTrack.height + scrollView.contentY) - sourceTrack.y
+        var mouseYPos = (mousePos.y - ruler.height + scrollView.contentY) - sourceTrack.y
         var allowComposition = mouseYPos > sourceTrack.height / 2
         var tentativeClip = undefined
+        root.mousePosChanged(Math.max(0, Math.floor((mousePos.x - trackHeaders.width + scrollView.contentX) / root.timeScale)))
         if (allowComposition) {
-            tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width + scrollView.contentX, true)
+            tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), true)
             if (tentativeClip) {
                 // Ensure mouse is really over the composition
-                if (mouseYPos < tentativeClip.displayHeight) {
+                if (!tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y))) {
                     tentativeClip = undefined
                 }
             }
         }
         if (!tentativeClip) {
-            tentativeClip = getItemAtPos(currentMouseTrack, mousePos.x - trackHeaders.width + scrollView.contentX, false)
+            tentativeClip = getItemAtPos(currentMouseTrack, (mousePos.x - trackHeaders.width + scrollView.contentX), false)
         }
 
-        if (tentativeClip && tentativeClip.clipId) {
+        if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y))) {
             dragProxy.draggedItem = tentativeClip.clipId
             var tk = controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
@@ -569,7 +569,7 @@ Rectangle {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 if (track !== -1) {
-                    var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
+                    var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                     if (clipBeingDroppedId >= 0) {
                         if (controller.isAudioTrack(track) != isAudioDrag) {
                             // Don't allow moving composition to an audio track
@@ -602,6 +602,7 @@ Rectangle {
                     }
                 }
             }
+            root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
         }
         onExited:{
             if (clipBeingDroppedId != -1) {
@@ -626,7 +627,7 @@ Rectangle {
                 }
             }
             clearDropData()
-            regainFocus(mapToItem(root, drag.x, drag.y))
+            regainFocus(clipDropArea.mapToItem(root, drag.x, drag.y))
         }
     }
     DropArea {
@@ -695,8 +696,11 @@ Rectangle {
                 }
                 fakeTrack = -1
                 fakeFrame = -1
+                clearDropData()
+                if (clipDropArea.containsDrag) {
+                    regainFocus(clipDropArea.mapToItem(root, drag.x, drag.y))
+                }
             }
-            clearDropData()
         }
         onEntered: {
             if (clipBeingDroppedId > -1 && lastDragUuid != drag.getDataAsString('kdenlive/dragid') && timeline.exists(clipBeingDroppedId)) {
@@ -761,7 +765,7 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     //timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var targetTrack = tracksRepeater.itemAt(track).trackInternalId
-                    var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
+                    var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                     if (clipBeingDroppedId > -1) {
                         var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
                         fakeFrame = moveData[0]
@@ -788,10 +792,10 @@ Rectangle {
                     }
                 }
             }
+            root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
         }
         onDropped: {
             processDrop()
-            regainFocus(mapToItem(root, drag.x, drag.y))
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)
@@ -838,9 +842,10 @@ Rectangle {
                     }
                 }
             }
+            root.mousePosChanged(Math.max(0, Math.floor((drag.x + scrollView.contentX) / root.timeScale)))
         }
         onDropped: {
-            var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
+            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             var track = timeline.activeTrack
             //var binIds = clipBeingDroppedData.split(";")
             //if (binIds.length == 1) {
@@ -1161,12 +1166,12 @@ Rectangle {
                 Column {
                     id: trackHeadersResizer
                     spacing: 0
-                    width: root.baseUnit / 2
+                    width: Math.round(root.baseUnit/3)
                     Rectangle {
                         id: resizer
                         height: trackHeaders.height + subtitleTrackHeader.height
-                        width: root.baseUnit / 2
-                        x: root.headerWidth - 2
+                        width: parent.width
+                        x: root.headerWidth - width
                         color: 'red'
                         opacity: 0
                         Drag.active: headerMouseArea.drag.active
@@ -1378,8 +1383,7 @@ Rectangle {
                         proxy.position = Math.floor((scrollView.contentX + mouse.x) / root.timeScale)
                     }
                 }
-                var mousePos = Math.max(0, Math.round((mouse.x + scrollView.contentX) / root.timeScale))
-                root.mousePosChanged(mousePos)
+                root.mousePosChanged(Math.max(0, Math.floor((mouse.x + scrollView.contentX) / root.timeScale)))
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (shiftPress && mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
@@ -1796,7 +1800,7 @@ Rectangle {
                                     function moveItem() {
                                         if (dragProxy.draggedItem > -1) {
                                             var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, dragProxyArea.mouseX, 0).x)
-                                            root.mousePosChanged(Math.round(mapped / root.timeScale))
+                                            root.mousePosChanged(Math.floor(mapped / root.timeScale))
                                             var posx = Math.round((parent.x)/ root.timeScale)
                                             var posy = Math.min(Math.max(0, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                             var tId = Logic.getTrackIdFromPos(posy)

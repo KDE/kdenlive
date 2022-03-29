@@ -760,7 +760,7 @@ signals:
     void scaleFactorChanged();
     void audioThumbFormatChanged();
     void audioThumbNormalizeChanged();
-    void durationChanged();
+    void durationChanged(int duration);
     void audioTargetChanged();
     void videoTargetChanged();
     void hasAudioTargetChanged();

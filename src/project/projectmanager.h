@@ -170,7 +170,7 @@ public slots:
     void setDocumentNotes(const QString &notes);
 
     /** @brief Project's duration changed, adjust monitor, etc. */
-    void adjustProjectDuration();
+    void adjustProjectDuration(int duration);
     /** @brief Add an asset in timeline (effect, transition). */
     void activateAsset(const QVariantMap &effectData);
     /** @brief insert current timeline timecode in notes widget and focus widget to allow entering quick note */

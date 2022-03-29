@@ -141,6 +141,7 @@ static QString defaultStyle(const char *fallback = nullptr)
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
     , m_activeTool(ToolType::SelectTool)
+    , m_mousePosition(0)
 {
     // Init all action categories that are used by other parts of the software
     // before we call MainWindow::init and therefore can't be initilized there
@@ -2279,26 +2280,31 @@ void MainWindow::slotCleanProject()
     pCore->bin()->cleanupUnused();
 }
 
-void MainWindow::slotUpdateMousePosition(int pos)
+void MainWindow::slotUpdateMousePosition(int pos, int duration)
 {
     if (pCore->currentDoc()) {
+        if (duration < 0) {
+            duration = getMainTimeline()->controller()->duration() - 1;
+        }
+        if (pos >= 0) {
+            m_mousePosition = pos;
+        }
         switch (m_timeFormatButton->currentItem()) {
         case 0:
-            m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(pos) + QStringLiteral(" / ") +
-                                        pCore->currentDoc()->timecode().getTimecodeFromFrames(getMainTimeline()->controller()->duration() - 1));
+            m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(m_mousePosition) + QStringLiteral(" / ") +
+                                        pCore->currentDoc()->timecode().getTimecodeFromFrames(duration));
             break;
         default:
             m_timeFormatButton->setText(
-                QStringLiteral("%1 / %2").arg(pos, 6, 10, QLatin1Char('0')).arg(getMainTimeline()->controller()->duration() - 1, 6, 10, QLatin1Char('0')));
+                QStringLiteral("%1 / %2").arg(m_mousePosition, 6, 10, QLatin1Char('0')).arg(duration, 6, 10, QLatin1Char('0')));
         }
     }
 }
 
-void MainWindow::slotUpdateProjectDuration(int pos)
+void MainWindow::slotUpdateProjectDuration(int duration)
 {
-    Q_UNUSED(pos)
     if (pCore->currentDoc()) {
-        slotUpdateMousePosition(getMainTimeline()->controller()->getMousePos());
+        slotUpdateMousePosition(-1, duration);
     }
 }
 

@@ -454,8 +454,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_timePos = new TimecodeDisplay(pCore->timecode(), this);
 
     if (id == Kdenlive::ProjectMonitor) {
-        // TODO: reimplement
-        // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
     } else if (id == Kdenlive::ClipMonitor) {
@@ -1519,6 +1517,9 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel>
         connect(markerModel.get(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(checkOverlay()));
+    } else {
+        // Project simply changed length, update display
+        emit durationChanged(length);
     }
 }
 
