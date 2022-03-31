@@ -178,7 +178,7 @@ void MainWindow::init(const QString &mltPath)
     QStringList availableStyles = QStyleFactory::keys();
     if (KdenliveSettings::widgetstyle().isEmpty()) {
         // First run
-        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("Windows")};
+        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("Windows"), QStringLiteral("macintosh")};
 
         if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
             if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
