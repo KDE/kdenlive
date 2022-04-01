@@ -56,8 +56,8 @@
 
 using namespace Mlt;
 
-GLWidget::GLWidget(int id, QObject *parent)
-    : QQuickView(static_cast<QWindow *>(parent))
+GLWidget::GLWidget(int id, QWidget *parent)
+    : QQuickWidget(parent)
     , sendFrameForAnalysis(false)
     , m_glslManager(nullptr)
     , m_consumer(nullptr)
@@ -102,6 +102,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
+    setAcceptDrops(true);
 
     if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & 0x01)) {
         m_rulerHeight = 0;
@@ -110,10 +111,10 @@ GLWidget::GLWidget(int id, QObject *parent)
     }
     m_displayRulerHeight = m_rulerHeight;
 
-    setPersistentOpenGLContext(true);
-    setPersistentSceneGraph(true);
-    setClearBeforeRendering(false);
-    setResizeMode(QQuickView::SizeRootObjectToView);
+    quickWindow()->setPersistentOpenGLContext(true);
+    quickWindow()->setPersistentSceneGraph(true);
+    quickWindow()->setClearBeforeRendering(false);
+    setResizeMode(QQuickWidget::SizeRootObjectToView);
     auto fmt = QOpenGLContext::globalShareContext()->format();
     fmt.setDepthBufferSize(format().depthBufferSize());
     fmt.setStencilBufferSize(format().stencilBufferSize());
@@ -132,8 +133,8 @@ GLWidget::GLWidget(int id, QObject *parent)
         disableGPUAccel();
     }
 
-    connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
-    connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
+    connect(quickWindow(), &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
+    connect(quickWindow(), &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
     //connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
 
     registerTimelineItems();
@@ -178,7 +179,7 @@ void GLWidget::initializeGL()
 {
     if (m_isInitialized) return;
 
-    openglContext()->makeCurrent(&m_offscreenSurface);
+    quickWindow()->openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
 
     // C & D
@@ -189,6 +190,7 @@ void GLWidget::initializeGL()
     createShader();
 
     m_openGLSync = initGPUAccelSync();
+    quickWindow()->openglContext()->doneCurrent();
 
     // C & D
     if (m_glslManager) {
@@ -198,19 +200,19 @@ void GLWidget::initializeGL()
         // See this Qt bug for more info: https://bugreports.qt.io/browse/QTBUG-44677
         // TODO: QTBUG-44677 is closed. still applicable?
         m_shareContext = new QOpenGLContext;
-        m_shareContext->setFormat(openglContext()->format());
-        m_shareContext->setShareContext(openglContext());
+        m_shareContext->setFormat(quickWindow()->openglContext()->format());
+        m_shareContext->setShareContext(quickWindow()->openglContext());
         m_shareContext->create();
     }
 
-    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface, m_ClientWaitSync);
+    m_frameRenderer = new FrameRenderer(quickWindow()->openglContext(), &m_offscreenSurface, m_ClientWaitSync);
 
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 
-    openglContext()->makeCurrent(this);
-    connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
+    quickWindow()->openglContext()->makeCurrent(quickWindow());
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
+    connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
     m_initSem.release();
     m_isInitialized = true;
     QMetaObject::invokeMethod(this, "reconfigure", Qt::QueuedConnection);
@@ -257,8 +259,8 @@ void GLWidget::resizeGL(int width, int height)
 
 void GLWidget::resizeEvent(QResizeEvent *event)
 {
+    QQuickWidget::resizeEvent(event);
     resizeGL(event->size().width(), event->size().height());
-    QQuickView::resizeEvent(event);
 }
 
 void GLWidget::createGPUAccelFragmentProg()
@@ -391,7 +393,7 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
 void GLWidget::clear()
 {
     stopGlsl();
-    update();
+    quickWindow()->update();
 }
 
 void GLWidget::releaseAnalyse()
@@ -402,12 +404,12 @@ void GLWidget::releaseAnalyse()
 bool GLWidget::acquireSharedFrameTextures()
 {
     // A
-    if ((m_glslManager == nullptr) && !openglContext()->supportsThreadedOpenGL()) {
+    if ((m_glslManager == nullptr) && !quickWindow()->openglContext()->supportsThreadedOpenGL()) {
         QMutexLocker locker(&m_contextSharedAccess);
         if (!m_sharedFrame.is_valid()) {
             return false;
         }
-        uploadTextures(openglContext(), m_sharedFrame, m_texture);
+        uploadTextures(quickWindow()->openglContext(), m_sharedFrame, m_texture);
     } else if (m_glslManager) {
         // C & D
         m_contextSharedAccess.lock();
@@ -472,7 +474,7 @@ void GLWidget::disableGPUAccel()
 
 bool GLWidget::onlyGLESGPUAccel() const
 {
-    return (m_glslManager != nullptr) && openglContext()->isOpenGLES();
+    return (m_glslManager != nullptr) && quickWindow()->openglContext()->isOpenGLES();
 }
 
 #if defined(Q_OS_WIN)
@@ -487,9 +489,9 @@ bool GLWidget::initGPUAccelSync()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
     if (m_glslManager == nullptr) return false;
-    if (!openglContext()->hasExtension("GL_ARB_sync")) return false;
+    if (!quickWindow()->openglContext()->hasExtension("GL_ARB_sync")) return false;
 
-    m_ClientWaitSync = ClientWaitSync_fp(openglContext()->getProcAddress("glClientWaitSync"));
+    m_ClientWaitSync = ClientWaitSync_fp(quickWindow()->openglContext()->getProcAddress("glClientWaitSync"));
     if (m_ClientWaitSync) {
         return true;
     } else {
@@ -504,7 +506,7 @@ bool GLWidget::initGPUAccelSync()
 
 void GLWidget::paintGL()
 {
-    QOpenGLFunctions *f = openglContext()->functions();
+    QOpenGLFunctions *f = quickWindow()->openglContext()->functions();
     float width = float(this->width() * devicePixelRatio());
     float height = float(this->height() * devicePixelRatio());
 
@@ -731,9 +733,11 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     if ((rootObject() != nullptr) && rootObject()->property("captureRightClick").toBool() && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
-        QQuickView::mousePressEvent(event);
+        QQuickWidget::mousePressEvent(event);
         return;
     }
+    QQuickWidget::mousePressEvent(event);
+    event->accept();
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
             // Pan view
@@ -748,8 +752,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
     }
-    QQuickView::mousePressEvent(event);
-    event->accept();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -757,34 +759,32 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     if ((rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") && !(event->modifiers() & Qt::ControlModifier) &&
         !(event->buttons() & Qt::MiddleButton)) {
         event->ignore();
-        QQuickView::mouseMoveEvent(event);
+        QQuickWidget::mouseMoveEvent(event);
         return;
     }
-    /*    if (event->modifiers() == Qt::ShiftModifier && m_producer) {
-        emit seekTo(m_producer->get_length() *  event->x() / width());
+    QQuickWidget::mouseMoveEvent(event);
+    if (!(event->buttons() & Qt::LeftButton)) {
+        event->accept();
         return;
-    }*/
-    QQuickView::mouseMoveEvent(event);
+    }
     if (!m_panStart.isNull()) {
         emit panView(m_panStart - event->pos());
         m_panStart = event->pos();
         event->accept();
-        QQuickView::mouseMoveEvent(event);
         return;
     }
-    if (!(event->buttons() & Qt::LeftButton)) {
-        QQuickView::mouseMoveEvent(event);
-        return;
-    }
+
     if (!event->isAccepted() && !m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
         m_dragStart = QPoint();
         emit startDrag();
     }
+    event->accept();
+
 }
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
-    QQuickView::keyPressEvent(event);
+    QQuickWidget::keyPressEvent(event);
     if (!event->isAccepted()) {
         emit passKeyEvent(event);
     }
@@ -1292,7 +1292,7 @@ void GLWidget::setZoom(float zoom)
         double scaley = rootObject()->property("scaley").toDouble() * zoomRatio;
         rootObject()->setProperty("scaley", scaley);
     }
-    update();
+    quickWindow()->update();
 }
 
 void GLWidget::onFrameDisplayed(const SharedFrame &frame)
@@ -1301,18 +1301,24 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_sharedFrame = frame;
     m_sendFrame = sendFrameForAnalysis;
     m_contextSharedAccess.unlock();
-    update();
+    quickWindow()->update();
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    QQuickView::mouseReleaseEvent(event);
-    if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") &&
+    QQuickWidget::mouseReleaseEvent(event);
+    /*if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") &&
         !(event->modifiers() & Qt::ControlModifier)) {
-        event->ignore();
+        event->accept();
+        qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
+        return;
+    }*/
+    if ((event->modifiers() & Qt::ControlModifier)) {
+        event->accept();
         return;
     }
     if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
+        event->accept();
         emit monitorPlay();
     }
     m_dragStart = QPoint();
@@ -1331,7 +1337,7 @@ void GLWidget::purgeCache()
 
 void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    QQuickView::mouseDoubleClickEvent(event);
+    QQuickWidget::mouseDoubleClickEvent(event);
     if (event->isAccepted()) {
         return;
     }
@@ -1344,11 +1350,10 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 void GLWidget::setOffsetX(int x, int max)
 {
     m_offset.setX(x);
-    emit offsetChanged();
     if (rootObject()) {
         rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0f + 10 * m_zoom : 0);
     }
-    update();
+    quickWindow()->update();
 }
 
 void GLWidget::setOffsetY(int y, int max)
@@ -1357,7 +1362,7 @@ void GLWidget::setOffsetY(int y, int max)
     if (rootObject()) {
         rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0f + 10 * m_zoom : 0);
     }
-    update();
+    quickWindow()->update();
 }
 
 std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
