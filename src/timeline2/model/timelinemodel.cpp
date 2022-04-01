@@ -6251,7 +6251,7 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;
                 }
-                if (qAbs(deltaLeft - deltaRight > 2)) {
+                if (qAbs(deltaLeft - deltaRight) > 2) {
                     // Mix not exactly centered
                     emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
                     return;

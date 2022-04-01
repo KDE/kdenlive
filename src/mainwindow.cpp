@@ -141,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
     , m_activeTool(ToolType::SelectTool)
     , m_mousePosition(0)
+    , m_effectBasket(nullptr)
 {
     // Init all action categories that are used by other parts of the software
     // before we call MainWindow::init and therefore can't be initilized there

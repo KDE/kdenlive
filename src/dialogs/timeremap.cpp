@@ -651,7 +651,7 @@ void RemapView::centerCurrentKeyframe()
     QMap<int,int>nextKeyframes;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
-        if (*it != m_keyframes.last() && it != m_keyframes.end()) {
+        if (it != m_keyframes.end() && *it != m_keyframes.last()) {
             it++;
             while (it != m_keyframes.end()) {
                 nextKeyframes.insert(it.key(), it.value());
@@ -697,7 +697,7 @@ void RemapView::centerCurrentTopKeyframe()
     int offset = m_position + m_inFrame - m_currentKeyframe.second;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
-        if (*it != m_keyframes.last() && it != m_keyframes.end()) {
+        if (it != m_keyframes.end() && *it != m_keyframes.last()) {
             it++;
             while (it != m_keyframes.end()) {
                 nextKeyframes.insert(it.key(), it.value());

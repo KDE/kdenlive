@@ -143,7 +143,7 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
         // First task for this clip
         m_taskList[ownerId] = {task};
     } else {
-        m_taskList[ownerId].emplace_back(std::move(task));
+        m_taskList[ownerId].emplace_back(task);
     }
     if (task->m_type == AbstractTask::TRANSCODEJOB || task->m_type == AbstractTask::PROXYJOB) {
         // We only want a limited concurrent jobs for those as for example GPU usually only accept 2 concurrent encoding jobs

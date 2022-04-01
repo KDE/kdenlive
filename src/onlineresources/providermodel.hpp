@@ -34,7 +34,7 @@ struct ResourceItemInfo
     QStringList downloadLabels;
     QString imageUrl;
     QString previewUrl;
-    int filesize;
+    //int filesize;
 };
 
 class ProviderModel : public QObject
