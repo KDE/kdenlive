@@ -115,7 +115,7 @@ Item {
     
     onHeightChanged: {
         if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
+            controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight)/ 6) + root.zoomOffset
         } else {
             controller.rulerHeight = root.zoomOffset
         }
@@ -203,6 +203,23 @@ Item {
                 }
             }
         }
+        DropArea { //Drop area for effects
+            id: effectArea
+            anchors.fill: parent
+            keys: 'kdenlive/effect'
+            property string droppedData
+            property string droppedDataSource
+            onEntered: {
+                drag.acceptProposedAction()
+                droppedData = drag.getDataAsString('kdenlive/effect')
+                droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
+            }
+            onDropped: {
+                controller.addEffect(droppedData, droppedDataSource)
+                droppedData = ""
+                droppedDataSource = ""
+            }
+        }
         Item {
             id: monitorOverlay
             anchors.fill: parent
@@ -216,6 +233,10 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: root.zoomOffset
                 }
+                height: isAudioClip ? parent.height : parent.height / 6
+                //font.pixelSize * 3
+                width: parent.width
+                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipType == ProducerType.Playlist)
                 Label {
                     id: clipStreamLabel
                     font: fixedFont
@@ -231,10 +252,6 @@ Item {
                     visible: text != ""
                     padding :4
                 }
-                height: isAudioClip ? parent.height : parent.height / 6
-                //font.pixelSize * 3
-                width: parent.width
-                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipType == ProducerType.Playlist)
                 onStateVisibleChanged: {
                     // adjust monitor image size
                     if (stateVisible && root.permanentAudiothumb && audioThumb.visible) {

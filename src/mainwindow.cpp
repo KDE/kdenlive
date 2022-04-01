@@ -321,7 +321,6 @@ void MainWindow::init(const QString &mltPath)
     });
     installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
-    connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
