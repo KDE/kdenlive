@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SUBTITLEMODEL_HPP
-#define SUBTITLEMODEL_HPP
+#pragma once
 
 #include "bin/bin.h"
 #include "definitions.h"
@@ -183,4 +182,3 @@ protected:
 
 };
 Q_DECLARE_METATYPE(SubtitleModel *)
-#endif // SUBTITLEMODEL_HPP

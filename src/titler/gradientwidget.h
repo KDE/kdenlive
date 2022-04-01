@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GRADIENTWIDGET_H
-#define GRADIENTWIDGET_H
+#pragma once
 
 #include "ui_gradientedit_ui.h"
 
@@ -47,5 +46,3 @@ private slots:
     void loadGradient();
     void deleteGradient();
 };
-
-#endif

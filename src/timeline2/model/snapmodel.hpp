@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SNAPMODEL_H
-#define SNAPMODEL_H
+#pragma once
 
 #include <map>
 #include <vector>
@@ -81,5 +80,3 @@ private:
     std::map<int, int> m_snaps;
     std::vector<int> m_ignore;
 };
-
-#endif

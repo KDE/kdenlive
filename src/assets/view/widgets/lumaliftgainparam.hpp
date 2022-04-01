@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef LUMALIFTGAINPARAMWIDGET_H
-#define LUMALIFTGAINPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include <QWidget>
@@ -55,5 +54,3 @@ public slots:
      */
     void slotRefresh(int pos);
 };
-
-#endif

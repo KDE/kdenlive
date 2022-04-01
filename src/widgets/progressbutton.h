@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROGRESSBUTTON_H
-#define PROGRESSBUTTON_H
+#pragma once
 
 #include <QElapsedTimer>
 #include <QStyleOptionToolButton>
@@ -46,5 +45,3 @@ private:
 signals:
     void progressChanged();
 };
-
-#endif

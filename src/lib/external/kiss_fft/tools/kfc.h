@@ -18,8 +18,7 @@ USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEOR
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KFC_H
-#define KFC_H
+#pragma once
 
 #include "../kiss_fft.h"
 
@@ -62,6 +61,4 @@ void kfc_cleanup(void);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTSTACKVIEW_H
-#define EFFECTSTACKVIEW_H
+#pragma once
 
 #include "definitions.h"
 #include <QMutex>
@@ -120,5 +119,3 @@ signals:
     void checkScrollBar();
     void scrollView(QRect);
 };
-
-#endif

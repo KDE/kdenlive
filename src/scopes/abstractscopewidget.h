@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTSCOPEWIDGET_H
-#define ABSTRACTSCOPEWIDGET_H
+#pragma once
 
 #include <QFuture>
 #include <QMenu>
@@ -297,5 +296,3 @@ protected slots:
     /** Resets the acceleration factors to 1 when realtime rendering is disabled. */
     void slotResetRealtimeFactor(bool realtimeChecked);
 };
-
-#endif // ABSTRACTSCOPEWIDGET_H

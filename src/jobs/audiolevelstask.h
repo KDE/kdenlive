@@ -6,8 +6,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOLEVELSTASK_H
-#define AUDIOLEVELSTASK_H
+#pragma once
 
 #include "abstracttask.h"
 
@@ -24,5 +23,3 @@ protected:
     void run() override;
 
 };
-
-#endif // AUDIOLEVELSTASK_H

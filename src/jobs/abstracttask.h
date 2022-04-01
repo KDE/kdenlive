@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTTASK_H
-#define ABSTRACTTASK_H
+#pragma once
 
 #include "definitions.h"
 
@@ -61,5 +60,3 @@ private:
 signals:
     void jobCanceled();
 };
-
-#endif // ABSTRACTTASK_H

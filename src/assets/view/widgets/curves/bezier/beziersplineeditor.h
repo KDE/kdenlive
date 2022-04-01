@@ -3,11 +3,10 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BEZIERSPLINEEDITOR_H
-#define BEZIERSPLINEEDITOR_H
+#pragma once
 
 #include "../abstractcurvewidget.h"
-#include "bpoint.h"
+#include "../../../../bpoint.h"
 #include "utils/colortools.h"
 #include "cubicbezierspline.h"
 
@@ -61,5 +60,3 @@ private:
      * If no point is near enough -1 is returned. */
     int nearestPointInRange(const QPointF &p, int wWidth, int wHeight, BPoint::PointType *sel);
 };
-
-#endif

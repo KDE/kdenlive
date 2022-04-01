@@ -338,12 +338,6 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     if (offset == 0 || m_endlessResize) {
         return true;
     }
-    // TODO
-    /*if (m_endlessResize) {
-        offset = inPoint;
-        outPoint = out - in;
-        inPoint = 0;
-    }*/
     int in = m_producer->get_in();
     int out = m_producer->get_out();
     int old_in = in, old_out = out;

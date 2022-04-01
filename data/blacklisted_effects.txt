@@ -171,7 +171,7 @@ frei0r.bgsubtract0r
 frei0r.colorhalftone
 frei0r.delaygrab
 frei0r.lightgraffiti
-frei0r.premultiply
+# frei0r.premultiply
 gtkrescale
 region
 resize

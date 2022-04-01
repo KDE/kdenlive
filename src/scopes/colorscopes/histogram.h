@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef HISTOGRAM_H
-#define HISTOGRAM_H
+#pragma once
 
 #include "abstractgfxscopewidget.h"
 #include "ui_histogram_ui.h"
@@ -45,5 +44,3 @@ private:
     QImage renderBackground(uint accelerationFactor) override;
     Ui::Histogram_UI *m_ui;
 };
-
-#endif // HISTOGRAM_H

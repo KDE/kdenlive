@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVE_BIN_H
-#define KDENLIVE_BIN_H
+#pragma once
 
 #include "abstractprojectitem.h"
 #include "utils/timecode.h"
@@ -365,9 +364,6 @@ private slots:
      * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
 
-    /** @brief Update status for clip jobs  */
-    void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(),
-                             const QString &details = QString());
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();
@@ -606,5 +602,3 @@ signals:
     void selectMarkers();
     void requestBinClose();
 };
-
-#endif

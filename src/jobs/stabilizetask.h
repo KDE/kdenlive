@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef STABILIZETASK_H
-#define STABILIZETASK_H
+#pragma once
 
 #include "abstracttask.h"
 #include <memory>
@@ -38,6 +37,3 @@ private:
     std::unique_ptr<QProcess> m_jobProcess;
     std::pair<bool,bool> m_addToProject;
 };
-
-
-#endif

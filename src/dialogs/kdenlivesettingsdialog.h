@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVESETTINGSDIALOG_H
-#define KDENLIVESETTINGSDIALOG_H
+#pragma once
 
 #include <KConfigDialog>
 #include <KProcess>
@@ -179,5 +178,3 @@ signals:
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
 };
-
-#endif

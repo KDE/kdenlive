@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLOREDITWIDGET_H
-#define COLOREDITWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include <QWidget>
@@ -49,5 +48,3 @@ signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GROUPMODEL_H
-#define GROUPMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -220,5 +219,3 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
 };
-
-#endif

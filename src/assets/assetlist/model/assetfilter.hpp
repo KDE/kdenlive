@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETFILTER_H
-#define ASSETFILTER_H
+#pragma once
 
 #include <QSortFilterProxyModel>
 #include <memory>
@@ -51,4 +50,3 @@ protected:
     bool m_name_enabled{false};
     QString m_name_value;
 };
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEWIDGET_H
-#define TIMELINEWIDGET_H
+#pragma once
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
@@ -105,5 +104,3 @@ signals:
     void focusProjectMonitor();
     void zoneMoved(const QPoint &zone);
 };
-
-#endif

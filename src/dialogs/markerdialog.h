@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MARKERDIALOG_H
-#define MARKERDIALOG_H
+#pragma once
 
 #include "ui_markerdialog_ui.h"
 
@@ -45,5 +44,3 @@ private:
 signals:
     void updateThumb();
 };
-
-#endif

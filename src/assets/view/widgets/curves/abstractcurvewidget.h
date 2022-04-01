@@ -3,10 +3,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTCURVEWIDGET_H
-#define ABSTRACTCURVEWIDGET_H
+#pragma once
 
-#include "bezier/bpoint.h"
+#include "../../../bpoint.h"
 #include <QWidget>
 #include <memory>
 
@@ -142,5 +141,3 @@ protected:
 };
 
 #include "abstractcurvewidget.ipp"
-
-#endif

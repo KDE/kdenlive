@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MACROS_H
-#define MACROS_H
+#pragma once
 
 /** This file contains a collection of macros that can be used in model related classes.
     The class only needs to have the following members:
@@ -77,5 +76,3 @@ reading a Read-protected property. In that case, we try to write lock it first (
     LOCK_IN_LAMBDA(operation)                                                                                                                                  \
     LOCK_IN_LAMBDA(reverse)                                                                                                                                    \
     UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo)
-
-#endif

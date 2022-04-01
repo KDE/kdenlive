@@ -3309,7 +3309,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
             continue;
         }
-        if (trackId == -2 && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
             continue;
         }
         if (right) {
@@ -3612,7 +3612,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
         if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
             continue;
         }
-        if (trackId == -2 && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
             continue;
         }
         if (right) {
@@ -4852,6 +4852,11 @@ bool TimelineModel::isAudioTrack(int trackId) const
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
     return (*it)->isAudioTrack();
+}
+
+bool TimelineModel::isSubtitleTrack(int trackId) const
+{
+    return trackId == -2;
 }
 
 bool TimelineModel::requestCompositionMove(int compoId, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)

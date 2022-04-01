@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOGRAPHSPECTRUM_H
-#define AUDIOGRAPHSPECTRUM_H
+#pragma once
 
 #include "scopewidget.h"
 #include "sharedframe.h"
@@ -84,5 +83,3 @@ public slots:
 private slots:
     void activate(bool enable);
 };
-
-#endif

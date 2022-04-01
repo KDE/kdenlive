@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RECMANAGER_H
-#define RECMANAGER_H
+#pragma once
 
 #include "definitions.h"
 
@@ -87,5 +86,3 @@ signals:
     void addClipToProject(const QUrl &);
     void warningMessage(const QString &, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
 };
-
-#endif

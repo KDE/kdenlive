@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SLIDESHOWCLIP_H
-#define SLIDESHOWCLIP_H
+#pragma once
 
 #include "definitions.h"
 #include "utils/timecode.h"
@@ -63,5 +62,3 @@ private:
     Timecode m_timecode;
     KIO::PreviewJob *m_thumbJob;
 };
-
-#endif

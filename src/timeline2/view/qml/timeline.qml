@@ -499,7 +499,7 @@ Rectangle {
     }
 
     onViewActiveTrackChanged: {
-        if (timeline.activeTrack === -2) {
+        if (controller.isSubtitleTrack(timeline.activeTrack)) {
             // subtitle track
             scrollView.contentY = 0
             return
@@ -943,7 +943,7 @@ Rectangle {
                     height: subtitleTrack.height
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
                     visible: height > 0
-                    color: (timeline.activeTrack === -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                    color: controller.isSubtitleTrack(timeline.activeTrack) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
@@ -1610,7 +1610,7 @@ Rectangle {
                         border.width: 1
                         border.color: root.frameColor
                         height: subtitleTrack.height
-                        color: (timeline.activeTrack === -2) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                        color: controller.isSubtitleTrack(timeline.activeTrack) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
                     }
                     Column {
                         y: subtitleTrack.height

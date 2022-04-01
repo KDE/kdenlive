@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SIMPLETIMELINEWIDGET_H
-#define SIMPLETIMELINEWIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -58,5 +57,3 @@ signals:
     void keyframeAdded(int pos);
     void keyframeRemoved(int pos);
 };
-
-#endif

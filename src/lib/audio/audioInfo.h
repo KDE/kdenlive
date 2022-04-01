@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2012 Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOINFO_H
-#define AUDIOINFO_H
+#pragma once
 
 #include <QList>
 #include <memory>
@@ -25,5 +24,3 @@ public:
 private:
     QList<AudioStreamInfo *> m_list;
 };
-
-#endif // AUDIOINFO_H

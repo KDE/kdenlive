@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPDURATIONDIALOG_H
-#define CLIPDURATIONDIALOG_H
+#pragma once
 
 #include "widgets/timecodedisplay.h"
 #include "ui_clipdurationdialog_ui.h"
@@ -42,5 +41,3 @@ private:
     GenTime m_crop;
     GenTime m_length;
 };
-
-#endif

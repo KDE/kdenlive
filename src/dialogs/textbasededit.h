@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TEXTBASEDEDIT_H
-#define TEXTBASEDEDIT_H
+#pragma once
 
 #include "ui_textbasededit_ui.h"
 #include "definitions.h"
@@ -182,5 +181,3 @@ private:
     QTemporaryFile m_playlistWav;
     SpeechToText *m_stt;
 };
-
-#endif

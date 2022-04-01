@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERPRESETTREEMODEL_H
-#define RENDERPRESETTREEMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 
@@ -33,5 +32,3 @@ public:
     /** @brief This function returns the model index corresponding to a given @param presetName */
     QModelIndex findPreset(const QString &presetName);
 };
-
-#endif

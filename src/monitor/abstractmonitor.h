@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTMONITOR_H
-#define ABSTRACTMONITOR_H
+#pragma once
 
 #include "definitions.h"
 
@@ -93,5 +92,3 @@ signals:
     /** @brief Scopes are ready to receive a new frame. */
     void scopesClear();
 };
-
-#endif

@@ -8,9 +8,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-
-#ifndef STATUSBARMESSAGELABEL_H
-#define STATUSBARMESSAGELABEL_H
+#pragma once
 
 #include <QColor>
 #include <QLabel>
@@ -129,5 +127,3 @@ private:
     QList<StatusBarMessageItem> m_messageQueue;
     StatusBarMessageItem m_currentMessage;
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTPARAMWIDGET_H
-#define ABSTRACTPARAMWIDGET_H
+#pragma once
 
 #include <QDebug>
 #include <QPersistentModelIndex>
@@ -65,5 +64,3 @@ protected:
     std::shared_ptr<AssetParameterModel> m_model;
     QPersistentModelIndex m_index;
 };
-
-#endif

@@ -453,7 +453,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         } else {
             pbox->setCheckState(Qt::Unchecked);
         }
-        pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
+        pbox->setEnabled(pCore->projectManager()->current()->useProxy());
         connect(pbox, &QCheckBox::stateChanged, this, [this, pbox](int state) {
             emit requestProxy(state == Qt::PartiallyChecked);
             if (state == Qt::Checked) {

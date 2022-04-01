@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MOVEABLEITEM_H
-#define MOVEABLEITEM_H
+#pragma once
 
 #include "timelinemodel.hpp"
 #include "undohelper.hpp"
@@ -112,4 +111,3 @@ protected:
 };
 
 #include "moveableItem.ipp"
-#endif

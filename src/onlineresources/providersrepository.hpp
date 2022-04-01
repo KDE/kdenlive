@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROVIDERSREPOSITORY_H
-#define PROVIDERSREPOSITORY_H
+#pragma once
 
 #include "definitions.h"
 #include "providermodel.hpp"
@@ -43,5 +42,3 @@ protected:
     std::unordered_map<QString, std::unique_ptr<ProviderModel>> m_providers;
 
 };
-
-#endif // PROVIDERSREPOSITORY_H

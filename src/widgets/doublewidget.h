@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DOUBLEWIDGET_H
-#define DOUBLEWIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -69,5 +68,3 @@ signals:
     // same signal as valueChanged, but add an extra boolean to tell if user is dragging value or not
     void valueChanging(double, bool);
 };
-
-#endif

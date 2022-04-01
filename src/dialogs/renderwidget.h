@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERWIDGET_H
-#define RENDERWIDGET_H
+#pragma once
 
 #include <QPainter>
 #include <QPushButton>
@@ -237,5 +236,3 @@ signals:
     void selectedRenderProfile(const QMap<QString, QString> &renderProps);
     void shutdown();
 };
-
-#endif

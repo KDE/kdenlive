@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEMODEL_H
-#define TIMELINEMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -186,8 +185,11 @@ public:
     /** @brief returns the track index (id) from its position */
     int getTrackIndexFromPosition(int pos) const;
 
-    /** @brief returns the track index (id) from its position */
+    /** @brief @returns true if the track is a audio track */
     Q_INVOKABLE bool isAudioTrack(int trackId) const;
+
+    /** @brief @returns true if the track is a subtitle track */
+    Q_INVOKABLE bool isSubtitleTrack(int trackId) const;
 
     /** @brief returns the number of clips */
     int getClipsCount() const;
@@ -973,4 +975,3 @@ protected:
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
 };
-#endif

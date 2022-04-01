@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef JOGSHUTTLECONFIG_H
-#define JOGSHUTTLECONFIG_H
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -20,5 +19,3 @@ public:
     static QStringList actionMap(const QString &actionMap);
     static QString actionMap(const QStringList &actionMap);
 };
-
-#endif // JOGSHUTTLECONFIG_H

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MARKERLISTMODEL_H
-#define MARKERLISTMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "utils/gentime.h"
@@ -194,5 +193,3 @@ signals:
 
 };
 Q_DECLARE_METATYPE(MarkerListModel *)
-
-#endif

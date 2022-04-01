@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLORPLANEEXPORT_H
-#define COLORPLANEEXPORT_H
+#pragma once
 
 #include "utils/colortools.h"
 #include "ui_colorplaneexport_ui.h"
@@ -40,5 +39,3 @@ private slots:
     void slotColormodeChanged();
     void slotUpdateDisplays();
 };
-
-#endif // COLORPLANEEXPORT_H

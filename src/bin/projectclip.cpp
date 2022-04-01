@@ -595,7 +595,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         } else if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1 &&
                    (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
             bool skipProducer = false;
-            if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() == 1) {
+            if (pCore->currentDoc()->useExternalProxy()) {
                 QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
                 // We have a camcorder profile, check if we have opened a proxy clip
                 if (externalParams.count() >= 6) {

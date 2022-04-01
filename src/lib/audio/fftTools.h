@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef FFTTOOLS_H
-#define FFTTOOLS_H
+#pragma once
 
 #include "../../definitions.h"
 #include "../external/kiss_fft/tools/kiss_fftr.h"
@@ -74,5 +73,3 @@ private:
     QHash<QString, kiss_fftr_cfg> m_fftCfgs;          // FFT cfg cache
     QHash<QString, QVector<float>> m_windowFunctions; // Window function cache
 };
-
-#endif // FFTTOOLS_H

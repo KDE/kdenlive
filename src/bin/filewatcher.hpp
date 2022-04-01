@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef FILEWATCHER_H
-#define FILEWATCHER_H
+#pragma once
 
 #include "definitions.h"
 #include <KDirWatch>
@@ -66,5 +65,3 @@ private:
     /// Add a file to the list of watched items
     void doAddFile(const QString &binId, const QString &url);
 };
-
-#endif

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERJOB_H
-#define RENDERJOB_H
+#pragma once
 
 #ifdef NODBUS
 #include <QLocalSocket>
@@ -78,5 +77,3 @@ private:
 signals:
     void renderingFinished();
 };
-
-#endif

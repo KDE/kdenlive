@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MONITORPROXY_H
-#define MONITORPROXY_H
+#pragma once
 
 #include "definitions.h"
 #include <QImage>
@@ -185,5 +184,3 @@ private:
 public slots:
     void updateClipBounds(const QVector <QPoint>&bounds);
 };
-
-#endif

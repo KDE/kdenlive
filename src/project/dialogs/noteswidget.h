@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef NOTESWIDGET_H
-#define NOTESWIDGET_H
+#pragma once
 
 #include <QTextEdit>
 
@@ -46,5 +45,3 @@ signals:
     void seekProject(const QString);
     void reAssign(QStringList anchors, QList <QPoint> points);
 };
-
-#endif

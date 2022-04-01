@@ -5,8 +5,7 @@ SPDX-FileCopyrightText: 2020 Julius Künzel <jk.kdedev@smartlab.uber.space>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef LAYOUTMANAGEMENT_H
-#define LAYOUTMANAGEMENT_H
+#pragma once
 
 #include <QObject>
 #include <QMap>
@@ -63,5 +62,3 @@ signals:
     /** @brief Connect/disconnect stuff to update titlebars on dock location changed. */
     void connectDocks(bool doConnect);
 };
-
-#endif

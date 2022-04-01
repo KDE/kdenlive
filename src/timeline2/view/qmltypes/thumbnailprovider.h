@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef THUMBNAILPROVIDER_H
-#define THUMBNAILPROVIDER_H
+#pragma once
 
 #include <KImageCache>
 #include <QCache>
@@ -26,5 +25,3 @@ private:
     QImage makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize);
     QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
 };
-
-#endif // THUMBNAILPROVIDER_H

@@ -3,8 +3,8 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#ifndef ABSTRACTPYTHONINTERFACE_H
-#define ABSTRACTPYTHONINTERFACE_H
+
+#pragma once
 
 #include <KMessageWidget>
 #include <QObject>
@@ -91,5 +91,3 @@ private:
     bool m_updated;
 
 };
-
-#endif

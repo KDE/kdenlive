@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILEWIDGET_H
-#define PROFILEWIDGET_H
+#pragma once
 
 #include "dialogs/profilesdialog.h"
 #include <memory>
@@ -71,5 +70,3 @@ private:
 signals:
     void profileChanged();
 };
-
-#endif

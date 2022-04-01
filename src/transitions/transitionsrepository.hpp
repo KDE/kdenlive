@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRANSITIONSREPOSITORY_H
-#define TRANSITIONSREPOSITORY_H
+#pragma once
 
 #include "assets/abstractassetsrepository.hpp"
 #include "assets/model/assetparametermodel.hpp"
@@ -69,5 +68,3 @@ protected:
     static std::unique_ptr<TransitionsRepository> instance;
     static std::once_flag m_onceFlag; // flag to create the repository only once;
 };
-
-#endif

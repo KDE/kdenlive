@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTCLIP_H
-#define PROJECTCLIP_H
+#pragma once
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
@@ -336,5 +335,3 @@ signals:
     void boundsChanged(QVector <QPoint>bounds);
     void registeredClipChanged();
 };
-
-#endif

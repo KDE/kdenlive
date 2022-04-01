@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef POSITIONWIDGET_H
-#define POSITIONWIDGET_H
+#pragma once
 
 #include "utils/timecode.h"
 #include <QString>
@@ -62,5 +61,3 @@ private slots:
 signals:
     void valueChanged();
 };
-
-#endif

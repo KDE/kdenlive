@@ -3241,55 +3241,6 @@ const QString Bin::getDocumentProperty(const QString &key)
     return m_doc->getDocumentProperty(key);
 }
 
-void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const QString &label, const QString &actionName, const QString &details)
-{
-    Q_UNUSED(id)
-    Q_UNUSED(jobType)
-    Q_UNUSED(status)
-    Q_UNUSED(label)
-    Q_UNUSED(actionName)
-    Q_UNUSED(details)
-    // TODO refac
-    /*
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-    if (clip) {
-        clip->setJobStatus((AbstractClipJob::JOBTYPE)jobType, (ClipJobStatus)status);
-    }
-    if (status == JobCrashed) {
-        QList<QAction *> actions = m_infoMessage->actions();
-        if (m_infoMessage->isHidden()) {
-            if (!details.isEmpty()) {
-                m_infoMessage->setText(label + QStringLiteral(" <a href=\"#\">") + i18n("Show log") + QStringLiteral("</a>"));
-            } else {
-                m_infoMessage->setText(label);
-            }
-            m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
-            m_infoMessage->setMessageType(KMessageWidget::Warning);
-        }
-
-        if (!actionName.isEmpty()) {
-            QAction *action = nullptr;
-            QList<KActionCollection *> collections = KActionCollection::allCollections();
-            for (int i = 0; i < collections.count(); ++i) {
-                KActionCollection *coll = collections.at(i);
-                action = coll->action(actionName);
-                if (action) {
-                    break;
-                }
-            }
-            if ((action != nullptr) && !actions.contains(action)) {
-                m_infoMessage->addAction(action);
-            }
-        }
-        if (!details.isEmpty()) {
-            m_errorLog.append(details);
-        }
-        m_infoMessage->setCloseButtonVisible(true);
-        m_infoMessage->animatedShow();
-    }
-    */
-}
-
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions, bool showCloseButton, BinMessage::BinCategory messageCategory)
 {
     // Remove existing actions if any

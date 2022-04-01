@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BUTTONPARAMWIDGET_H
-#define BUTTONPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include <QWidget>
@@ -50,5 +49,3 @@ private:
     QString m_alternatebuttonName;
     bool m_displayConditional;
 };
-
-#endif

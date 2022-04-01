@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROXYTEST_H
-#define PROXYTEST_H
+#pragma once
 
 #include "ui_testproxy_ui.h"
 
@@ -55,5 +54,3 @@ private:
     MyTreeWidgetItem *m_failedProfiles;
     QMutex m_locker;
 };
-
-#endif

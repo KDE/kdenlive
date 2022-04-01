@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVE_TAGWIDGET_H
-#define KDENLIVE_TAGWIDGET_H
+#pragma once
 
 #include <QToolButton>
 
@@ -62,5 +61,3 @@ signals:
     void switchTag(const QString &tag, bool add);
     void updateProjectTags(QMap <QString, QString> newTags);
 };
-
-#endif

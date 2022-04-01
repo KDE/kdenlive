@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PREVIEWMANAGER_H
-#define PREVIEWMANAGER_H
+#pragma once
 
 #include "definitions.h"
 
@@ -147,5 +146,3 @@ signals:
     void cleanupOldPreviews();
     void previewRender(int frame, const QString &file, int progress);
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COMPOSITIONMODEL_H
-#define COMPOSITIONMODEL_H
+#pragma once
 
 #include "assets/model/assetparametermodel.hpp"
 #include "moveableItem.hpp"
@@ -104,5 +103,3 @@ private:
     QString m_compositionName;
     int m_duration;
 };
-
-#endif

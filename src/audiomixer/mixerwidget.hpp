@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MIXERWIDGET_H
-#define MIXERWIDGET_H
+#pragma once
 
 #include "definitions.h"
 #include "mlt++/MltService.h"
@@ -102,6 +101,3 @@ signals:
     void muteTrack(int tid, bool mute);
     void toggleSolo(int tid, bool toggled);
 };
-
-#endif
-

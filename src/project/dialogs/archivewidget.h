@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ARCHIVEWIDGET_H
-#define ARCHIVEWIDGET_H
+#pragma once
 
 #include "ui_archivewidget_ui.h"
 #include "timeline2/model/timelinemodel.hpp"
@@ -122,5 +121,3 @@ signals:
     void extractingFinished();
     void showMessage(const QString &, const QString &);
 };
-
-#endif

@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOLEVELWIDGET_H
-#define AUDIOLEVELWIDGET_H
+#pragma once
 
 #include <QWidget>
 #include <memory>
@@ -43,5 +42,3 @@ private:
 public slots:
     void setAudioValues(const QVector<double> &values);
 };
-
-#endif

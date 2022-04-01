@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef FONTPARAMWIDGET_H
-#define FONTPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include "ui_fontval_ui.h"
@@ -34,5 +33,3 @@ public slots:
      */
     void slotRefresh() override;
 };
-
-#endif

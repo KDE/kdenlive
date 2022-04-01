@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2012 Simon A. Eugster (Granjow)  <simon.eu@gmail.com>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef FFTCORRELATION_H
-#define FFTCORRELATION_H
+#pragma once
 
 #include <QtGlobal>
 /** @class FFTCorrelation
@@ -32,5 +31,3 @@ public:
 
     static void correlate(const qint64 *left, const size_t leftSize, const qint64 *right, const size_t rightSize, qint64 *out_correlated);
 };
-
-#endif // FFTCORRELATION_H

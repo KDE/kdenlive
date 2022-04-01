@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#pragma once
 
 #include <QFont>
 #include <QMutex>
@@ -338,4 +337,3 @@ public:
     QOpenGLFunctions_3_2_Core *m_gl32;
     bool sendAudioForAnalysis;
 };
-#endif

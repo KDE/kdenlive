@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOSIGNAL_H
-#define AUDIOSIGNAL_H
+#pragma once
 
 #include "abstractaudioscopewidget.h"
 
@@ -52,5 +51,3 @@ private slots:
 signals:
     void updateAudioMonitoring();
 };
-
-#endif

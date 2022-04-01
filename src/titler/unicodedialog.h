@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef UNICODEDIALOG_H
-#define UNICODEDIALOG_H
+#pragma once
 
 #include "ui_unicodewidget_ui.h"
 #include <QDialog>
@@ -85,5 +84,3 @@ private slots:
     void slotNextUnicode();
     void slotPrevUnicode();
 };
-
-#endif

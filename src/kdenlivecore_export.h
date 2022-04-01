@@ -4,9 +4,7 @@
     SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef KDENLIVECORE_EXPORT_H
-#define KDENLIVECORE_EXPORT_H
-
+#pragma once
 
 #ifndef KDENLIVECORE_EXPORT
 #if defined(MAKE_KDENLIVECORE_LIB)
@@ -16,6 +14,4 @@
 /* We are using this library */
 #define KDENLIVECORE_EXPORT Q_DECL_IMPORT
 #endif
-#endif
-
 #endif
