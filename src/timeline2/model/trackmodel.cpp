@@ -1138,6 +1138,7 @@ std::pair<int, int> TrackModel::getClipIndexAt(int position, int playlist)
                 return {j, m_playlists[j].get_clip_index_at(position)};
             }
         }
+        return {-1, -1};
     }
     if (!m_playlists[playlist].is_blank_at(position)) {
         return {playlist, m_playlists[playlist].get_clip_index_at(position)};
