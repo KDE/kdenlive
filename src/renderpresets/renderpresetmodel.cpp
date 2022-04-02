@@ -228,7 +228,7 @@ QDomElement RenderPresetModel::toXml()
     if (!m_aQualities.isEmpty()) {
         profileElement.setAttribute(QStringLiteral("audioqualities"), m_aQualities);
     }
-    if (m_speeds.isEmpty()) {
+    if (!m_speeds.isEmpty()) {
         // profile has a variable speed
         profileElement.setAttribute(QStringLiteral("speeds"), m_speeds);
     }
