@@ -989,9 +989,15 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
             bool screenFound = false;
+            int ix = -1;
             if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
                 for (const QScreen* screen : qApp->screens()) {
+#ifdef Q_OS_WIN
+                    ix++;
+                    if (QString::number(ix) == KdenliveSettings::fullscreen_monitor()) {
+#else
                     if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
+#endif
                         // Match
                         m_glWidget->setParent(nullptr);
                         m_glWidget->move(screen->geometry().topLeft());

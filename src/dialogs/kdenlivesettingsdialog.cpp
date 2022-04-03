@@ -743,8 +743,16 @@ void KdenliveSettingsDialog::initDevices()
     QSignalBlocker bk(m_configSdl.fullscreen_monitor);
     m_configSdl.fullscreen_monitor->clear();
     m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
+    int ix = 0;
     for (const QScreen* screen : qApp->screens()) {
+#ifdef Q_OS_WIN
+        // Screen manufacturer, model and serial don't work under Windows
+        m_configSdl.fullscreen_monitor->addItem(QString("%1: %2").arg(QString::number(ix), screen->name()), QString::number(ix));
+        ix++;
+#else
         m_configSdl.fullscreen_monitor->addItem(QString("%1 %2 (%3)").arg(screen->manufacturer(), screen->model(), screen->name()), screen->serialNumber());
+#endif
+
     }
     if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
         int ix = m_configSdl.fullscreen_monitor->findData(KdenliveSettings::fullscreen_monitor());
