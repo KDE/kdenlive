@@ -30,6 +30,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_date()
     , m_binId(std::move(id))
     , m_usage(0)
+    , m_AudioUsage(0)
     , m_rating(0)
     , m_clipStatus(FileStatus::StatusReady)
     , m_itemType(type)

@@ -1492,6 +1492,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 Bin::~Bin()
 {
     if (m_isMainBin) {
+        disconnect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
         pCore->taskManager.slotCancelJobs();
         blockSignals(true);
         m_proxyModel->selectionModel()->blockSignals(true);

@@ -69,6 +69,7 @@ GLWidget::GLWidget(int id, QWidget *parent)
     , m_initSem(0)
     , m_analyseSem(1)
     , m_isInitialized(false)
+    , m_maxProducerPosition(0)
     , m_threadStartEvent(nullptr)
     , m_threadStopEvent(nullptr)
     , m_threadCreateEvent(nullptr)
@@ -704,15 +705,14 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         }
         return true;
     } else if (isPlaying) {
-        int maxPos = m_producer->get_length() - 1 - offset;
-        if (pos > maxPos - 2 && !(speed < 0.)) {
+        if (pos > m_maxProducerPosition - 2 && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_proxy->setSpeed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
-            m_proxy->setPosition(qMax(0, maxPos));
-            m_producer->seek(qMax(0, maxPos));
+            m_proxy->setPosition(qMax(0, m_maxProducerPosition));
+            m_producer->seek(qMax(0, m_maxProducerPosition));
             return false;
         } else if (pos <= 0 && speed < 0.) {
             // rewinding reached 0, pause
@@ -1727,6 +1727,7 @@ int GLWidget::getCurrentPos() const
 
 void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model)
 {
+    m_maxProducerPosition = duration;
     rootObject()->setProperty("duration", duration);
     if (model != nullptr) {
         // we are resetting marker/snap model, reset zone

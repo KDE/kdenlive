@@ -49,7 +49,6 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
     } else {
         buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Transcode"));
     }
-    autorotate->setChecked(KdenliveSettings::transcodeFriendlyRotate());
     messagewidget->setVisible(false);
 }
 
@@ -180,6 +179,5 @@ QString TranscodeSeek::params(int clipType) const
 
 QString TranscodeSeek::preParams() const
 {
-    KdenliveSettings::setTranscodeFriendlyRotate(autorotate->isChecked());
-    return autorotate->isChecked() ? QStringLiteral("-noautorotate") : QString();
+    return QStringLiteral("-noautorotate");
 }

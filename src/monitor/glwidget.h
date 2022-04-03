@@ -202,6 +202,7 @@ private:
     QSemaphore m_initSem;
     QSemaphore m_analyseSem;
     bool m_isInitialized;
+    int m_maxProducerPosition;
     Mlt::Event *m_threadStartEvent;
     Mlt::Event *m_threadStopEvent;
     Mlt::Event *m_threadCreateEvent;

@@ -228,7 +228,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         end.clear();
                         comment.clear();
                         QStringList dialogue = line.section(":", 1).split(QLatin1Char(','));
-                        if (dialogue.count() >= textIndex) {
+                        if (dialogue.count() > textIndex) {
                             //TIME
                             start = dialogue.at(1);
                             startPos= stringtoTime(start);
