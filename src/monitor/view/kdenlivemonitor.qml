@@ -40,7 +40,7 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
-    property color overlayColor: 'cyan'
+    property color overlayColor: controller.overlayColor
     property bool isClipMonitor: false
 
     FontMetrics {

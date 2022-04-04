@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
+#include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
@@ -1121,6 +1122,12 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
         emit pCore->window()->getMainTimeline()->controller()->colorsChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
+    }
+
+    if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
+        KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
     }
 
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {

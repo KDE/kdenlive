@@ -20,7 +20,7 @@ Item {
     property point center
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int overlayType: controller.overlayType
-    property color overlayColor: 'cyan'
+    property color overlayColor: controller.overlayColor
     property double scalex : 1
     property double scaley : 1
     property bool captureRightClick: true

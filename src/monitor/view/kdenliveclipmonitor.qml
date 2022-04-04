@@ -52,7 +52,7 @@ Item {
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
-    property color overlayColor: 'cyan'
+    property color overlayColor: controller.overlayColor
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath

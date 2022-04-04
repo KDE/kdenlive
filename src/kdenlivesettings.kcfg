@@ -1024,6 +1024,11 @@
       <default>#2ed172</default>
     </entry>
 
+    <entry name="overlayColor" type="Color">
+      <label>Color to draw the monitor overlay guides.</label>
+      <default>#00ffff</default>
+    </entry>
+
     <entry name="rescalekeepratio" type="Bool">
       <label>Keep aspect ratio in render dialog rescale widget.</label>
       <default>true</default>
