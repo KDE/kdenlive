@@ -99,7 +99,7 @@ public:
     void releaseMonitor();
     int droppedFrames() const;
     void resetDrops();
-    bool checkFrameNumber(int pos, int offset, bool isPlaying);
+    bool checkFrameNumber(int pos, bool isPlaying);
     /** @brief Return current timeline position */
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
