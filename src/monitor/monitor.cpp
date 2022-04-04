@@ -2018,7 +2018,7 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
-    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_offset, m_playAction->isActive())) {
+    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_playAction->isActive())) {
         updatePlayAction(false);
     }
     emit m_monitorManager->frameDisplayed(frame);

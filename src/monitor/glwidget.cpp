@@ -681,7 +681,7 @@ void GLWidget::refresh()
     }
 }
 
-bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
+bool GLWidget::checkFrameNumber(int pos, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
@@ -689,6 +689,8 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         if (isPlaying && pos >= m_loopOut) {
             m_consumer->purge();
             if (!m_isLoopMode) {
+                // end play zone mode
+                m_isZoneMode = false;
                 m_producer->set_speed(0);
                 m_proxy->setSpeed(0);
                 m_consumer->set("refresh", 0);
