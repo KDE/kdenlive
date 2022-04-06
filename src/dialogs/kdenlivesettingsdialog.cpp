@@ -730,7 +730,19 @@ void KdenliveSettingsDialog::initDevices()
     }
 
     m_configSdl.kcfg_audio_backend->addItem(i18n("SDL"), KdenliveSettings::sdlAudioBackend());
-    m_configSdl.kcfg_audio_backend->addItem(i18n("RtAudio"), "rtaudio");
+    if (KdenliveSettings::consumerslist().isEmpty()) {
+        Mlt::Properties *consumers = pCore->getMltRepository()->consumers();
+        QStringList consumersItemList;
+        consumersItemList.reserve(consumers->count());
+        for (int i = 0; i < consumers->count(); ++i) {
+            consumersItemList << consumers->get_name(i);
+        }
+        delete consumers;
+        KdenliveSettings::setConsumerslist(consumersItemList);
+    }
+    if (KdenliveSettings::consumerslist().contains("rtaudio")) {
+        m_configSdl.kcfg_audio_backend->addItem(i18n("RtAudio"), "rtaudio");
+    }
 
     if (!KdenliveSettings::audiobackend().isEmpty()) {
         int ix = m_configSdl.kcfg_audio_backend->findData(KdenliveSettings::audiobackend());

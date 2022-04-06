@@ -983,7 +983,10 @@
       <label>Collapse audio mixer (only show master channel).</label>
       <default>false</default>
     </entry>
-
+    <entry name="consumerslist" type ="StringList">
+      <label>Detected MLT consumers.</label>
+      <default></default>
+    </entry>
     <entry name="producerslist" type="StringList">
       <label>List of available MLT producers.</label>
       <default></default>

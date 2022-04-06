@@ -478,6 +478,7 @@ void Wizard::checkMltComponents()
             consumersItemList << consumers->get_name(i);
         }
         delete consumers;
+        KdenliveSettings::setConsumerslist(consumersItemList);
         if (consumersItemList.contains(QStringLiteral("sdl2_audio"))) {
             // MLT >= 6.6.0 and SDL2 module
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl2_audio"));
