@@ -201,7 +201,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addAction(menuAction);
 
     m_lay->addWidget(m_keyframeview);
-    auto *hlay = new QHBoxLayout(this);
+    auto *hlay = new QHBoxLayout;
     hlay->addWidget(m_toolbar);
     hlay->addWidget(m_time);
     hlay->addStretch();
