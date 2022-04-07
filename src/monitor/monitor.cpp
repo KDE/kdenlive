@@ -923,13 +923,15 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             bool screenFound = false;
             int ix = -1;
             if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
+                // If the platform does now provide screen serial number, use indexes
                 for (const QScreen* screen : qApp->screens()) {
-#ifdef Q_OS_WIN
                     ix++;
-                    if (QString::number(ix) == KdenliveSettings::fullscreen_monitor()) {
-#else
-                    if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
-#endif
+                    bool match = KdenliveSettings::fullscreen_monitor() == QString("%1:%2").arg(QString::number(ix),screen->serialNumber());
+                    // Check if monitor's index changed
+                    if (!match && !screen->serialNumber().isEmpty()) {
+                        match = KdenliveSettings::fullscreen_monitor().section(QLatin1Char(':'), 1) == screen->serialNumber();
+                    }
+                    if (match) {
                         // Match
                         m_glWidget->setParent(nullptr);
                         m_glWidget->move(screen->geometry().topLeft());
