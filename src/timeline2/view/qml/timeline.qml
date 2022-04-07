@@ -1864,6 +1864,9 @@ Rectangle {
                                             timeline.showToolTip()
                                             //bubbleHelp.hide()
                                             tracksArea.focus = true
+                                            if (!dragProxyArea.containsMouse) {
+                                                regainFocus(dragProxyArea.mapToItem(root,mouseX, mouseY))
+                                            }
                                         }
                                     }
                                     onDoubleClicked: {
