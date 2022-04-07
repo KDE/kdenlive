@@ -98,6 +98,8 @@ private slots:
     void downloadModelFinished(KJob* job);
     void processArchive(const QString &path);
     void doShowSpeechMessage(const QString &message, int messageType);
+    /** @brief fill list of connected monitors */
+    void fillMonitorData();
     
 private:
     KPageWidgetItem *m_page1;
