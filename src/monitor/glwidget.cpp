@@ -508,13 +508,13 @@ bool GLWidget::initGPUAccelSync()
 void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = quickWindow()->openglContext()->functions();
-    float width = float(this->width() * devicePixelRatio());
-    float height = float(this->height() * devicePixelRatio());
+    float width = this->width() * devicePixelRatioF();
+    float height = this->height() * devicePixelRatioF();
 
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, qRound(m_displayRulerHeight * devicePixelRatio() * 0.5), int(width), int(height));
+    f->glViewport(0, qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5), int(width), int(height));
     check_error(f);
     f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
     f->glClear(GL_COLOR_BUFFER_BIT);
@@ -543,7 +543,7 @@ void GLWidget::paintGL()
     // Set model view.
     QMatrix4x4 modelView;
     if (!qFuzzyCompare(m_zoom, 1.0f)) {
-        if ((offset().x() != 0) || (offset().y() != 0)) modelView.translate(float(-offset().x() * devicePixelRatio()), float(offset().y() * devicePixelRatio()));
+        if ((offset().x() != 0) || (offset().y() != 0)) modelView.translate(-offset().x() * devicePixelRatioF(), offset().y() * devicePixelRatioF());
         modelView.scale(zoom(), zoom());
     }
     m_shader->setUniformValue(m_modelViewLocation, modelView);
@@ -551,8 +551,8 @@ void GLWidget::paintGL()
 
     // Provide vertices of triangle strip.
     QVector<QVector2D> vertices;
-    width = float(m_rect.width() * devicePixelRatio());
-    height = float(m_rect.height() * devicePixelRatio());
+    width = m_rect.width() * devicePixelRatioF();
+    height = m_rect.height() * devicePixelRatioF();
     vertices << QVector2D(-width / 2.0f, -height / 2.0f);
     vertices << QVector2D(-width / 2.0f, height / 2.0f);
     vertices << QVector2D(width / 2.0f, -height / 2.0f);
