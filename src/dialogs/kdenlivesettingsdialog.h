@@ -67,7 +67,6 @@ private slots:
     void slotEditAudioApplication();
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
-    void slotSetFullscreenMonitor();
     void slotCheckAlsaDriver();
     void slotCheckAudioBackend();
     void slotAddTranscode();
