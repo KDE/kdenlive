@@ -483,7 +483,7 @@ void KdenliveSettingsDialog::initSdlPage(bool gpuAllowed)
     connect(m_configSdl.reload_blackmagic, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadBlackMagic);
     // m_configSdl.kcfg_openglmonitors->setHidden(true);
     connect(m_configSdl.fullscreen_monitor, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotSetFullscreenMonitor);
+            &KdenliveSettingsDialog::slotDialogModified);
     connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &KdenliveSettingsDialog::slotCheckAlsaDriver);
     connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -1004,6 +1004,10 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
     }
 
+    if (m_configSdl.fullscreen_monitor->currentData().toString() != KdenliveSettings::fullscreen_monitor()) {
+        KdenliveSettings::setFullscreen_monitor(m_configSdl.fullscreen_monitor->currentData().toString());
+    }
+
     if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
         updateCapturePath = true;
@@ -1248,12 +1252,6 @@ void KdenliveSettingsDialog::updateSettings()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup settingsGroup(config, "settings");
     settingsGroup.writeEntry("dialogSize", QVariant(size()));
-}
-
-void KdenliveSettingsDialog::slotSetFullscreenMonitor()
-{
-    QString value = m_configSdl.fullscreen_monitor->currentData().toString();
-    KdenliveSettings::setFullscreen_monitor(value);
 }
 
 void KdenliveSettingsDialog::slotCheckAlsaDriver()
