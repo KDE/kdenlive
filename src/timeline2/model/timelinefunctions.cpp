@@ -949,7 +949,7 @@ bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel>
     }
     result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
     if (result && track > -1) {
-        result = timeline->getTrackById(track)->requestClipInsertion(clipId, start, true, true, local_undo, local_redo);
+        result = timeline->getTrackById(track)->requestClipInsertion(clipId, start, true, true, local_undo, local_redo, false, false);
     }
     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;
