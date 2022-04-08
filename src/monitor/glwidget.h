@@ -15,7 +15,7 @@
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
-#include <QQuickView>
+#include <QQuickWidget>
 #include <QRect>
 #include <QSemaphore>
 #include <QThread>
@@ -52,12 +52,11 @@ using thread_function_t = void *(*)(void *);
  *    C. RGB gl texture multithreaded w/ GPU filter acceleration and no sync
  *    D. RGB gl texture multithreaded w/ GPU filter acceleration and sync
  */
-class GLWidget : public QQuickView, protected QOpenGLFunctions
+class GLWidget : public QQuickWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
     Q_PROPERTY(QRect rect READ rect NOTIFY rectChanged)
     Q_PROPERTY(float zoom READ zoom NOTIFY zoomChanged)
-    Q_PROPERTY(QPoint offset READ offset NOTIFY offsetChanged)
 
 public:
     friend class MonitorController;
@@ -65,7 +64,7 @@ public:
     friend class MonitorProxy;
     using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 
-    GLWidget(int id, QObject *parent = nullptr);
+    GLWidget(int id, QWidget *parent = nullptr);
     ~GLWidget() override;
 
     int requestedSeekPosition;
@@ -170,7 +169,6 @@ signals:
     void playing();
     void rectChanged();
     void zoomChanged(float zoomRatio);
-    void offsetChanged();
     void monitorPlay();
     void switchFullScreen(bool minimizeOnly = false);
     void mouseSeek(int eventDelta, uint modifiers);

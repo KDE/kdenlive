@@ -102,6 +102,7 @@ public:
     Q_INVOKABLE bool autoKeyframe() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
     Q_INVOKABLE bool seekOnDrop() const;
+    Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
@@ -156,6 +157,7 @@ signals:
     void trimmingTC2Changed();
     void speedChanged();
     void clipBoundsChanged();
+    void addTimelineEffect(const QStringList &);
 
 private:
     GLWidget *q;

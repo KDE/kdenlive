@@ -84,6 +84,23 @@ Item {
             controller.setWidgetKeyBinding();
         }
     }
+    DropArea { //Drop area for effects
+        id: effectArea
+        anchors.fill: parent
+        keys: 'kdenlive/effect'
+        property string droppedData
+        property string droppedDataSource
+        onEntered: {
+            drag.acceptProposedAction()
+            droppedData = drag.getDataAsString('kdenlive/effect')
+            droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
+        }
+        onDropped: {
+            controller.addEffect(droppedData, droppedDataSource)
+            droppedData = ""
+            droppedDataSource = ""
+        }
+    }
     SceneToolBar {
         id: sceneToolBar
         anchors {

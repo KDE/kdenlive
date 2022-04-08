@@ -7,6 +7,7 @@
 
 #include "monitorproxy.h"
 #include "core.h"
+#include "bin/bin.h"
 #include "doc/kthumb.h"
 #include "glwidget.h"
 #include "kdenlivesettings.h"
@@ -463,5 +464,17 @@ const QPoint MonitorProxy::clipBoundary(int ix)
 bool MonitorProxy::seekOnDrop() const
 {
     return KdenliveSettings::seekonaddeffect();
+}
+
+void MonitorProxy::addEffect(const QString &effectData, const QString &effectSource)
+{
+    QStringList effectInfo = effectSource.split(QLatin1Char('-'));
+    effectInfo.prepend(effectData);
+    if (m_clipId > -1) {
+        pCore->bin()->slotAddEffect(QString::number(m_clipId), effectInfo);
+    } else {
+        // Dropped in project monitor
+        emit addTimelineEffect(effectInfo);
+    }
 }
 

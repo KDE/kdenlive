@@ -39,7 +39,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_mainTimeline, &TimelineWidget::zoneUpdated);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdatedWithUndo, m_mainTimeline, &TimelineWidget::zoneUpdatedWithUndo);
     connect(m_mainTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
 }
 
 TimelineTabs::~TimelineTabs()

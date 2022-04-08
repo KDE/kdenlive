@@ -11,9 +11,9 @@
 #include <QFontDatabase>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QQuickView>
+#include <QQuickWidget>
 
-QmlManager::QmlManager(QQuickView *view)
+QmlManager::QmlManager(QQuickWidget *view)
     : QObject(view)
     , m_view(view)
     , m_sceneType(MonitorSceneNone)
