@@ -265,7 +265,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     return []() { return false; };
 }
 
-bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, const QList<int> &allowedClipMixes)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool newInsertion, const QList<int> &allowedClipMixes)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -300,7 +300,7 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
                 // A clip move changed the track duration, update track effects
                 m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
             }
-            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalMove);
+            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, newInsertion);
             UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;

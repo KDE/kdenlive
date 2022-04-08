@@ -3976,7 +3976,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
         }
         res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, {trackId});
     }
-    res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
+    res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo, false, false);
     if (res) {
         // Terminate fake move
         if (m_model->isClip(clipId)) {

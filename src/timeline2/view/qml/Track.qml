@@ -106,7 +106,7 @@ Item{
                     target: loader.item
                     property: "selected"
                     value: model.selected
-                    when: loader.status == Loader.Ready && model.clipType != ProducerType.Track
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item

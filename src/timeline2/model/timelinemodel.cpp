@@ -841,7 +841,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         } else {
         }
     }
-    ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, allowedClipMixes);
+    ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, false, allowedClipMixes);
 
     if (!ok) {
         qWarning() << "clip insertion failed";
@@ -2924,11 +2924,11 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         if (!right) {
             pos += getItemPlaytime(id) - size;
         }
-        result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, true);
+        result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, false);
         bool pitchCompensate = m_allClips[id]->getIntProperty(QStringLiteral("warp_pitch"));
         result = result && requestClipTimeWarp(id, speed, pitchCompensate, true, undo, redo);
         result = result && requestItemResize(id, size, true, true, undo, redo);
-        result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo);
+        result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo, false, false);
         if (!result) {
             break;
         }
@@ -5422,7 +5422,7 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
         if (forceDuration > -1) {
             m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
         }
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo, false, false);
         if (maxDuration != m_allClips[clipId]->getMaxDuration()) {
             QModelIndex ix = makeClipIndexFromID(clipId);
             emit dataChanged(ix, ix, {TimelineModel::MaxDurationRole});
@@ -5467,7 +5467,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
         success = m_allClips[clipId]->useTimewarpProducer(speed, pitchCompensate, changeDuration, local_undo, local_redo);
     }
     if (trackId != -1) {
-        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo, false, false);
     }
     if (!success) {
         local_undo();
@@ -5525,7 +5525,7 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
         success = m_allClips[clipId]->useTimeRemapProducer(enable, local_undo, local_redo);
     }
     if (trackId != -1) {
-        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
+        success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo, false, false);
         if (success && !enable && previousDuration > 0) {
             // Restore input duration
             requestItemResize(clipId, previousDuration, true, true, local_undo, local_redo);

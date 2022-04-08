@@ -391,7 +391,7 @@ Rectangle {
             color: 'transparent'
             id: itemBorder
             anchors.fill: parent
-            border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+            border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : clipRoot.selected ? root.selectionColor : grouped ? root.groupColor : borderColor
             border.width: isGrabbed ? 8 : 2
         }
 
@@ -1153,7 +1153,7 @@ Rectangle {
                 }
             },
             State {
-                name: 'selected'
+                name: 'selectedClip'
                 when: clipRoot.selected === true
                 PropertyChanges {
                     target: clipRoot
@@ -1446,7 +1446,7 @@ Rectangle {
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
             x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
-            visible: root.activeTool === ProjectTool.SlipTool && selected && clipRoot.maxDuration > 0 // don't show for endless clips
+            visible: root.activeTool === ProjectTool.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
             Rectangle {
