@@ -2326,6 +2326,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             }
             m_clipsActionsMenu->setEnabled(itemType != AbstractProjectItem::FolderItem);
             m_editAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_editAction->setEnabled(true);
             m_extractAudioAction->menuAction()->setVisible(hasAudio);
             m_extractAudioAction->setEnabled(hasAudio);
             m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
