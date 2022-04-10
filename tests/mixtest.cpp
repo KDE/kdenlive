@@ -211,7 +211,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
         REQUIRE(timeline->getClipPosition(cid5) == 540);
 
-        // CID 3 length=20, pos=500, CID4 length=20, pos=520, CID% length=20, pos=540
+        // CID 3 length=20, pos=500, CID4 length=20, pos=520, CID5 length=20, pos=540
         // Default mix duration = 25 frames (12 before / 13 after)
 
         REQUIRE(timeline->mixClip(cid4));

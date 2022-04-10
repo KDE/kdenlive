@@ -912,7 +912,7 @@ void TimelineController::setInPoint(bool ripple)
     }
     auto requestResize = [this, ripple](int id, int size){
         if (ripple) {
-            m_model->requestItemRippleResize(m_model, id, size, false, true, 0, false);
+            m_model->requestItemRippleResize(m_model, id, size, false, true, !KdenliveSettings::lockedGuides(), 0, false);
             setPosition(m_model->getItemPosition(id));
         } else {
             m_model->requestItemResize(id, size, false, true, 0, false);
@@ -992,7 +992,7 @@ void TimelineController::setOutPoint(bool ripple)
     }
     auto requestResize = [this, ripple](int id, int size){
         if (ripple) {
-            m_model->requestItemRippleResize(m_model, id, size, true, true, 0, false);
+            m_model->requestItemRippleResize(m_model, id, size, true, true, !KdenliveSettings::lockedGuides(), 0, false);
         } else {
             m_model->requestItemResize(id, size, true, true, 0, false);
         }
@@ -1977,7 +1977,7 @@ void TimelineController::removeSplitOverlay()
 }
 
 int TimelineController::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
-    return m_model->requestItemRippleResize(m_model, itemId, size, right, logUndo, snapDistance, allowSingleResize);
+    return m_model->requestItemRippleResize(m_model, itemId, size, right, logUndo, !KdenliveSettings::lockedGuides(), snapDistance, allowSingleResize);
 }
 
 void TimelineController::updateTrimmingMode() {
