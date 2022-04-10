@@ -882,11 +882,14 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
     int noSpaceInClip = 0;
     int leftMax = 0;
     int rightMax = 0;
+    std::unordered_set<int> clipIds;
     if (idToMove != -1) {
-        initialSelection = {idToMove};
-        idToMove = -1;
+        clipIds = {idToMove};
+    } else {
+        clipIds = initialSelection;
     }
-    for (int s : initialSelection) {
+    int movingId = -1;
+    for (int s : clipIds) {
         if (!isClip(s)) {
             continue;
         }
@@ -958,7 +961,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
             // Create Mix at start of selected clip
             clipsToMix.first = previousClip;
             clipsToMix.second = s;
-            idToMove = s;
+            movingId = s;
             break;
         } else {
             // Mix at end of selected clip
@@ -987,7 +990,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
             mixPosition += clipDuration;
             clipsToMix.first = s;
             clipsToMix.second = nextClip;
-            idToMove = s;
+            movingId = s;
             break;
         }
     }
@@ -995,7 +998,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), ErrorMessage, 500);
         return false;
     }
-    if (idToMove == -1 || !isClip(idToMove)) {
+    if (movingId == -1 || !isClip(movingId)) {
         pCore->displayMessage(i18n("Select a clip to apply the mix"), ErrorMessage, 500);
         return false;
     }
@@ -1033,13 +1036,13 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
  redo, false);
     if (result) {
         // Check if this is an AV split group
-        if (m_groups->isInGroup(idToMove)) {
-            int parentGroup = m_groups->getRootId(idToMove);
+        if (m_groups->isInGroup(movingId)) {
+            int parentGroup = m_groups->getRootId(movingId);
             if (parentGroup > -1 && m_groups->getType(parentGroup) == GroupType::AVSplit) {
                 std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
                 // Perform mix on split clip
                 for (int current_id : sub) {
-                    if (idToMove == current_id) {
+                    if (movingId == current_id) {
                         continue;
                     }
                     int splitTrack = m_allClips[current_id]->getCurrentTrackId();
@@ -3401,7 +3404,7 @@ bool TimelineModel::requestItemResize(int itemId, int &size, bool right, bool lo
     return result;
 }
 
-int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize) {
+int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, bool moveGuides, int snapDistance, bool allowSingleResize) {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isItem(itemId));
@@ -3620,7 +3623,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
         } else {
             finalSize = qMax(0, getItemPosition(id)) + getItemPlaytime(id) - finalPos;
         }
-        result = result && requestItemRippleResize(timeline, id, finalSize, right, logUndo, undo, redo);
+        result = result && requestItemRippleResize(timeline, id, finalSize, right, logUndo, moveGuides, undo, redo);
         resizedCount++;
     }
     result = result && resizedCount != 0;
@@ -3649,7 +3652,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
     return res;
 }
 
-bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
+bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, bool moveGuides, Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
     Fun local_undo = []() { return true; };
@@ -3693,7 +3696,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
         size = m_allClips[itemId]->getMaxDuration() > 0 ? qBound(1, size, m_allClips[itemId]->getMaxDuration()) : qMax(1, size);
         int delta = size - m_allClips[itemId]->getPlaytime();
         qDebug() << "requestItemRippleResize logUndo: " << logUndo << " size: " << size << " playtime: " << m_allClips[itemId]->getPlaytime() <<" delta: " << delta;
-        auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right, timeline](int position) {
+        auto spacerOperation = [this, itemId, affectAllTracks, &local_undo, &local_redo, delta, right, moveGuides, timeline](int position) {
             int trackId = getItemTrackId(itemId);
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
@@ -3704,7 +3707,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             }
             int endPos = getItemPosition(cid) + delta;
             // Start undoable command
-            TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false);
+            TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, moveGuides, local_undo, local_redo, false);
             return true;
         };
         if (delta > 0) {
