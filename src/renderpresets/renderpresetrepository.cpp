@@ -392,7 +392,7 @@ bool RenderPresetRepository::deletePreset(const QString &name, bool dontRefresh)
         return false;
     }
 
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
+    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/customprofiles.xml");
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
