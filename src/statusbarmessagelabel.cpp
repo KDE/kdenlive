@@ -13,8 +13,12 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
+#include <kconfigwidgets_version.h>
 #include <KNotification>
 #include <kcolorscheme.h>
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 93, 0)
+#include <kstatefulbrush.h>
+#endif
 #include <kiconloader.h>
 #include <klocalizedstring.h>
 
