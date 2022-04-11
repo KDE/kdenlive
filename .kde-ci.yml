@@ -29,8 +29,11 @@ Dependencies:
     'frameworks/kxmlgui' : '@stable'
     'frameworks/kfilemetadata' : '@stable'
     'frameworks/purpose' : '@stable'
-    #'plasma/breeze' : '@stable' #do we need this?
 
 #- 'on': ['Linux', 'FreeBSD']
   #'require':
     #'plasma/drkonqi' : '@stable'
+
+Options:
+  require-passing-tests-on: [ 'Linux' ]
+
