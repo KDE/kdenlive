@@ -147,24 +147,35 @@ void TimelineController::setTargetTracks(bool hasVideo, const QMap <int, QString
         videoTrack = m_model->getFirstVideoTrackIndex();
     }
     if (m_hasAudioTarget > 0) {
-        QVector <int> tracks;
-        auto it = m_model->m_allTracks.cbegin();
-        while (it != m_model->m_allTracks.cend()) {
-            if ((*it)->isAudioTrack()) {
-                tracks << (*it)->getId();
+        if (m_lastAudioTarget.count() == audioTargets.count()) {
+            // Use existing track targets
+            QList<int> audioStreams = audioTargets.keys();
+            QMapIterator <int, int>st(m_lastAudioTarget);
+            while (st.hasNext()) {
+                st.next();
+                audioTracks.insert(st.key(), audioStreams.takeLast());
             }
-            ++it;
-        }
-        if (KdenliveSettings::multistream_checktrack() && audioTargets.count() > tracks.count()) {
-            pCore->bin()->checkProjectAudioTracks(QString(), audioTargets.count());
-        }
-        QMapIterator <int, QString>st(audioTargets);
-        while (st.hasNext()) {
-            st.next();
-            if (tracks.isEmpty()) {
-                break;
+        } else {
+            // Use audio tracks from the first
+            QVector <int> tracks;
+            auto it = m_model->m_allTracks.cbegin();
+            while (it != m_model->m_allTracks.cend()) {
+                if ((*it)->isAudioTrack()) {
+                    tracks << (*it)->getId();
+                }
+                ++it;
             }
-            audioTracks.insert(tracks.takeLast(), st.key());
+            if (KdenliveSettings::multistream_checktrack() && audioTargets.count() > tracks.count()) {
+                pCore->bin()->checkProjectAudioTracks(QString(), audioTargets.count());
+            }
+            QMapIterator <int, QString>st(audioTargets);
+            while (st.hasNext()) {
+                st.next();
+                if ( tracks.isEmpty()) {
+                    break;
+                }
+                audioTracks.insert(tracks.takeLast(), st.key());
+            }
         }
     }
     emit hasAudioTargetChanged();
