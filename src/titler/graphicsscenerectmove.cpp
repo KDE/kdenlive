@@ -360,8 +360,14 @@ void MyTextItem::updateGeometry()
     setAlignment(m_alignment);
     QPointF topRight = boundingRect().topRight();
 
-    if ((m_alignment & static_cast<int>((Qt::AlignRight) != 0)) != 0) {
+    // if the text is right-aligned, then shift the container leftwards by the
+    // same amount it grew to maintain right-alignment
+    if (m_alignment & Qt::AlignRight) {
         setPos(pos() + (topRightPrev - topRight));
+    }
+    // likewise, shift it halfway if we're center-aligned
+    else if (m_alignment & Qt::AlignHCenter) {
+        setPos(pos() + (topRightPrev - topRight) / 2);
     }
 }
 
