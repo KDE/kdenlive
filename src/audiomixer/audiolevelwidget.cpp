@@ -10,9 +10,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mlt++/Mlt.h"
 
 #include <cmath>
-
+#include <KLocalizedString>
 #include <QFont>
 #include <QFontDatabase>
+#include <QToolTip>
 #include <QPaintEvent>
 #include <QPainter>
 
@@ -24,6 +25,7 @@ AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     , m_channelWidth(width / 2)
     , m_channelDistance(2)
     , m_channelFillWidth(m_channelWidth)
+    , m_displayToolTip(false)
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -32,8 +34,22 @@ AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     setMinimumWidth(4);
 }
 
+
 AudioLevelWidget::~AudioLevelWidget()
 = default;
+
+void AudioLevelWidget::enterEvent(QEvent *event)
+{
+    QWidget::enterEvent(event);
+    m_displayToolTip = true;
+    updateToolTip();
+}
+
+void AudioLevelWidget::leaveEvent(QEvent *event)
+{
+    QWidget::leaveEvent(event);
+    m_displayToolTip = false;
+}
 
 void AudioLevelWidget::resizeEvent(QResizeEvent *event)
 {
@@ -200,4 +216,25 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
         p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, rect.height() - val, palette().dark());
         p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, rect.height() - peak, m_channelFillWidth, 1, palette().text());
     }
+    if (m_displayToolTip) {
+        updateToolTip();
+    }
+}
+
+void AudioLevelWidget::updateToolTip()
+{
+    QString tip;
+    int channels = m_values.count();
+    for (int i = 0; i < channels; i++) {
+        if (m_values.at(i) >= 100) {
+            tip.append(QStringLiteral("-100dB"));
+        } else {
+            tip.append(QString::number(m_values.at(i), 'f', 2) + QStringLiteral("dB"));
+        }
+        if (channels == 2 && i == 0) {
+            tip.prepend(i18nc("L as in Left", "L:"));
+            tip.append(i18nc("R as in Right", "\nR:"));
+        }
+    }
+    QToolTip::showText(QCursor::pos(), tip, this);
 }

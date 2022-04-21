@@ -27,6 +27,8 @@ protected:
     void paintEvent(QPaintEvent *) override;
     void resizeEvent(QResizeEvent *event) override;
     void changeEvent(QEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private:
     std::unique_ptr<Mlt::Filter> m_filter;
@@ -39,7 +41,10 @@ private:
     int m_channelWidth;
     int m_channelDistance;
     int m_channelFillWidth;
+    bool m_displayToolTip;
     void drawBackground(int channels = 2);
+    /** @brief Update tooltip with current dB values */
+    void updateToolTip();
 
 public slots:
     void setAudioValues(const QVector<double> &values);
