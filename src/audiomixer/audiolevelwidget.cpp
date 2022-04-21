@@ -125,8 +125,11 @@ void AudioLevelWidget::drawBackground(int channels)
     for (int i = 0; i < dbLabelCount; i++) {
         int value = dbscale[i];
         QString label = QString::asprintf("%d", value);
-        y = newSize.height() - qRound(IEC_ScaleMax(value, m_maxDb) * (double)newSize.height() + (double)labelHeight / 2.0);
-        if (y - labelHeight < 0) {
+        y = newSize.height() - qRound(IEC_ScaleMax(value, m_maxDb) * (double)newSize.height());
+        p.setPen(palette().window().color().rgb());
+        p.drawLine(m_offset, y, m_offset + totalWidth - 1, y);
+        y -= qRound(labelHeight / 2.0);
+        if (y < 0) {
             y = 0;
         }
         if (prevY < 0 || y - prevY > 2) {
@@ -134,8 +137,6 @@ void AudioLevelWidget::drawBackground(int channels)
             p.drawText(QRectF(0, y, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
             prevY = y + labelHeight;
         }
-        p.setPen(palette().window().color().rgb());
-        p.drawLine(m_offset, y + labelHeight / 2., m_offset + totalWidth - 1, y + labelHeight / 2.);
     }
 
     p.setOpacity(isEnabled() ? 1 : 0.5);
@@ -206,7 +207,6 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
         return;
     }
     p.drawPixmap(rect, m_pixmap);
-    p.setPen(palette().dark().color());
     p.setOpacity(0.9);
     for (int i = 0; i < m_values.count(); i++) {
         if (m_values.at(i) >= 100) {
@@ -214,7 +214,7 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
         }
         int val = IEC_ScaleMax(m_values.at(i), m_maxDb) * rect.height();
         int peak = IEC_ScaleMax(m_peaks.at(i), m_maxDb) * rect.height();
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, rect.height() - val, palette().dark());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, rect.height() - val, palette().window());
         p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, rect.height() - peak, m_channelFillWidth, 1, palette().text());
     }
     if (m_displayToolTip) {
