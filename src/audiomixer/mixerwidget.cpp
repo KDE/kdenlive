@@ -8,6 +8,7 @@
 #include "audiolevelwidget.hpp"
 #include "capture/mediacapture.h"
 #include "core.h"
+#include "iecscale.h"
 #include "kdenlivesettings.h"
 #include "mixermanager.hpp"
 #include "mlt++/MltEvent.h"
@@ -31,29 +32,6 @@
 #include <klocalizedstring.h>
 #include <utility>
 
-static inline double IEC_Scale(double dB)
-{
-    dB = log10(dB) * 20.0;
-    double fScale = 1.0;
-
-    if (dB < -70.0)
-        fScale = 0.0;
-    else if (dB < -60.0)
-        fScale = (dB + 70.0) * 0.0025;
-    else if (dB < -50.0)
-        fScale = (dB + 60.0) * 0.005 + 0.025;
-    else if (dB < -40.0)
-        fScale = (dB + 50.0) * 0.0075 + 0.075;
-    else if (dB < -30.0)
-        fScale = (dB + 40.0) * 0.015 + 0.15;
-    else if (dB < -20.0)
-        fScale = (dB + 30.0) * 0.02 + 0.3;
-    else if (dB < -0.001 || dB > 0.001)  /* if (dB < 0.0f) */
-        fScale = (dB + 20.0) * 0.025 + 0.5;
-
-    return fScale;
-}
-
 static inline int fromDB(double level)
 {
     int value = 60;
@@ -74,10 +52,28 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, mlt_event
         if (!widget->m_levels.contains(pos)) {
             QVector<double> levels;
             for (int i = 0; i < widget->m_channels; i++) {
-                levels << IEC_Scale(mlt_properties_get_double(filter_props, QString("_audio_level.%1").arg(i).toUtf8().constData()));
+                // NOTE: this is an approximation. To get the real peak level, we need version 2 of audiolevel MLT filter, see property_changedV2
+                levels << log10(mlt_properties_get_double(filter_props, QString("_audio_level.%1").arg(i).toUtf8().constData()) / 1.18) * 20;
             }
             widget->m_levels[pos] = std::move(levels);
-            //{IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.0")), IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+            if (widget->m_levels.size() > widget->m_maxLevels) {
+                widget->m_levels.erase(widget->m_levels.begin());
+            }
+        }
+    }
+}
+
+void MixerWidget::property_changedV2( mlt_service , MixerWidget *widget, mlt_event_data data )
+{
+    if (widget && !strcmp(Mlt::EventData(data).to_string(), "_position")) {
+        mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
+        int pos = mlt_properties_get_int(filter_props, "_position");
+        if (!widget->m_levels.contains(pos)) {
+            QVector<double> levels;
+            for (int i = 0; i < widget->m_channels; i++) {
+                levels << mlt_properties_get_double(filter_props, QString("_audio_level.%1").arg(i).toUtf8().constData());
+            }
+            widget->m_levels[pos] = std::move(levels);
             if (widget->m_levels.size() > widget->m_maxLevels) {
                 widget->m_levels.erase(widget->m_levels.begin());
             }
@@ -228,6 +224,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_monitorFilter.reset(new Mlt::Filter(service->get_profile(), "audiolevel"));
         if (m_monitorFilter->is_valid()) {
             m_monitorFilter->set("iec_scale", 0);
+            m_monitorFilter->set("peak", 1);
             service->attach(*m_monitorFilter.get());
         }
     }
@@ -492,10 +489,10 @@ void MixerWidget::gotRecLevels(QVector<qreal>levels)
             m_audioMeterWidget->setAudioValues({-100, -100});
             break;
         case 1:
-            m_audioMeterWidget->setAudioValues({IEC_Scale(levels[0]), -100});
+            m_audioMeterWidget->setAudioValues({IEC_Scale(log10(levels[0]) * 20.0), -100});
             break;
         default:
-            m_audioMeterWidget->setAudioValues({IEC_Scale(levels[0]), IEC_Scale(levels[1])});
+            m_audioMeterWidget->setAudioValues({IEC_Scale(log10(levels[0]) * 20.0), IEC_Scale(log10(levels[1]) * 20.0)});
             break;
     }
 }
@@ -531,16 +528,24 @@ void MixerWidget::setRecordState(bool recording)
     updateLabel();
 }
 
-void MixerWidget::connectMixer(bool doConnect)
+void MixerWidget::connectMixer(bool doConnect, bool filterV2)
 {
     if (doConnect) {
-        if (m_listener == nullptr) {
-            m_listener = m_monitorFilter->listen("property-changed", this, reinterpret_cast<mlt_listener>(property_changed));
+        if (m_tid == -1) {
+            // Master level
+            connect(pCore.get(), &Core::audioLevelsAvailable, m_audioMeterWidget.get(), &AudioLevelWidget::setAudioValues);
+        } else if (m_listener == nullptr) {
+            m_listener = m_monitorFilter->listen("property-changed", this, filterV2 ? reinterpret_cast<mlt_listener>(property_changedV2) : reinterpret_cast<mlt_listener>(property_changed));
         }
     } else {
-        delete m_listener;
-        m_listener = nullptr;
+        if (m_tid == -1) {
+            disconnect(pCore.get(), &Core::audioLevelsAvailable, m_audioMeterWidget.get(), &AudioLevelWidget::setAudioValues);
+        } else {
+            delete m_listener;
+            m_listener = nullptr;
+        }
     }
+    pauseMonitoring(!doConnect);
 }
 
 void MixerWidget::pauseMonitoring(bool pause)

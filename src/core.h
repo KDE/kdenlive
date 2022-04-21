@@ -278,7 +278,8 @@ public:
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist);
-
+    /** @brief Returns true if the audio mixer widget is visible */
+    bool audioMixerVisible{false};
     QString packageType() { return m_packageType; };
 
 private:
@@ -372,6 +373,10 @@ signals:
     void updatePalette();
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
     void clipInstanceResized(const QString &binId);
+    /** @brief Contains the project audio levels */
+    void audioLevelsAvailable(const QVector<double>& levels);
+    /** @brief A frame was displayed in monitor, update audio mixer */
+    void updateMixerLevels(int pos);
 };
 
 #endif
