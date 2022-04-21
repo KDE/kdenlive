@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "audiolevelwidget.hpp"
 #include "core.h"
 #include "profiles/profilemodel.hpp"
-
+#include "iecscale.h"
 #include "mlt++/Mlt.h"
 
 #include <cmath>
@@ -37,7 +37,7 @@ AudioLevelWidget::~AudioLevelWidget()
 
 void AudioLevelWidget::resizeEvent(QResizeEvent *event)
 {
-    Q_UNUSED(event)
+    QWidget::resizeEvent(event);
     drawBackground(m_peaks.size());
 }
 
@@ -63,19 +63,29 @@ void AudioLevelWidget::drawBackground(int channels)
     if (!newSize.isValid()) {
         return;
     }
-    newSize.setWidth(newSize.width() - m_offset - 1);
-    QLinearGradient gradient(0, newSize.height(), 0, 0);
-    gradient.setColorAt(0.0, Qt::darkGreen);
-    gradient.setColorAt(0.379, Qt::darkGreen);
-    gradient.setColorAt(0.38, Qt::green); // -20db
-    gradient.setColorAt(0.868, Qt::green);
-    gradient.setColorAt(0.869, Qt::yellow); // -2db
-    gradient.setColorAt(0.95, Qt::yellow);
-    gradient.setColorAt(0.951, Qt::red); // 0db
-    m_pixmap = QPixmap(QWidget::size());
+    m_pixmap = QPixmap(newSize);
     if (m_pixmap.isNull()) {
         return;
     }
+    // Channel labels are vertical along the left.
+    QVector<int> dbscale;
+    dbscale << 0 << -5 << -10 << -15 << -20 << -25 << -30 << -35 << -40 << -50;
+    m_maxDb = dbscale.first();
+    int dbLabelCount = dbscale.size();
+
+    newSize.setWidth(newSize.width() - m_offset - 1);
+    QLinearGradient gradient(0, newSize.height(), 0, 0);
+    double gradientVal = 0.;
+    gradient.setColorAt(gradientVal, Qt::darkGreen);
+    gradientVal = IEC_ScaleMax(-12, m_maxDb);
+    gradient.setColorAt(gradientVal - 0.001, Qt::darkGreen);
+    gradient.setColorAt(gradientVal, Qt::green); // -12db
+    gradientVal = IEC_ScaleMax(-6, m_maxDb);
+    gradient.setColorAt(gradientVal - 0.001, Qt::green);
+    gradient.setColorAt(gradientVal, Qt::yellow); // -6db
+    gradientVal = IEC_ScaleMax(0, m_maxDb);
+    gradient.setColorAt(gradientVal - 0.001, Qt::yellow);
+    gradient.setColorAt(gradientVal, Qt::red); // 0db
     m_pixmap.fill(Qt::transparent);
     int totalWidth;
     if (channels < 2) {
@@ -91,26 +101,26 @@ void AudioLevelWidget::drawBackground(int channels)
     p.setFont(font());
     p.fillRect(rect, QBrush(gradient));
 
-    // Channel labels are vertical along the bottom.
-    QVector<int> dbscale;
-    dbscale << 0 << -2 << -5 << -10 << -15 << -20 << -30 << -45;
-    int dbLabelCount = dbscale.size();
     // dB scale is vertical along the bottom
     int labelHeight = fontMetrics().ascent();
+
+    int prevY = -1;
+    p.setPen(palette().text().color().rgb());
+    int y = 0;
     for (int i = 0; i < dbLabelCount; i++) {
-        int value = dbscale.at(i);
-        QString label = QString::number(value);
-        //int labelWidth = fontMetrics().width(label);
-        double xf = m_pixmap.height() - pow(10.0, double(dbscale.at(i)) / 50.0) * m_pixmap.height() * 40.0 / 42;
-        /*if (xf + labelWidth / 2 > m_pixmap.height()) {
-            xf = height() - labelWidth / 2;
-        }*/
-        p.setPen(palette().dark().color());
-        p.drawLine(m_offset, int(xf), m_offset + totalWidth - 1, int(xf));
-        xf -= labelHeight * 2 / 3;
-        p.setPen(palette().text().color().rgb());
-        p.drawText(QRectF(0, xf, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
+        int value = dbscale[i];
+        QString label = QString::asprintf("%d", value);
+        y = newSize.height() - qRound(IEC_ScaleMax(value, m_maxDb) * (double)newSize.height() + (double)labelHeight / 2.0);
+        if (y - labelHeight < 0) {
+            y = 0;
+        }
+        if (prevY < 0 || y - prevY > 2) {
+            p.drawText(QRectF(0, y, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
+            prevY = y + labelHeight;
+        }
+        p.drawLine(m_offset, y + labelHeight / 2., m_offset + totalWidth - 1, y + labelHeight / 2.);
     }
+
     p.setOpacity(isEnabled() ? 1 : 0.5);
     p.setPen(palette().dark().color());
     // Clear space between the channels
@@ -144,7 +154,7 @@ void AudioLevelWidget::setAudioValues(const QVector<double> &values)
         drawBackground(values.size());
     } else {
         for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i] -= .003;
+            m_peaks[i] -= .2;
             if (m_values.at(i) > m_peaks.at(i)) {
                 m_peaks[i] = m_values.at(i);
             }
@@ -185,8 +195,9 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
         if (m_values.at(i) >= 100) {
             continue;
         }
-        //int val = (50 + m_values.at(i)) / 150.0 * rect.height();
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - int(m_values.at(i) * rect.height()), palette().dark());
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - int(m_peaks.at(i) * rect.height()), m_channelFillWidth, 1, palette().text());
+        int val = IEC_ScaleMax(m_values.at(i), m_maxDb) * rect.height();
+        int peak = IEC_ScaleMax(m_peaks.at(i), m_maxDb) * rect.height();
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, rect.height() - val, palette().dark());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, rect.height() - peak, m_channelFillWidth, 1, palette().text());
     }
 }

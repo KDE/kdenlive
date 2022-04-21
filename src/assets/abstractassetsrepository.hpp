@@ -41,6 +41,8 @@ public:
 
     /** @brief Return description of asset */
     QString getDescription(const QString &assetId) const;
+    /** @brief Return version of asset */
+    int getVersion(const QString &assetId) const;
 
     /** @brief Returns a DomElement representing the asset's properties */
     QDomElement getXml(const QString &assetId) const;

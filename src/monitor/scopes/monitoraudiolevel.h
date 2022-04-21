@@ -11,10 +11,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidget>
 #include <memory>
 
-namespace Mlt {
-class Filter;
-} // namespace Mlt
-
 class MonitorAudioLevel : public ScopeWidget
 {
     Q_OBJECT
@@ -31,11 +27,11 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    std::unique_ptr<Mlt::Filter> m_filter;
     int m_height;
     QPixmap m_pixmap;
-    QVector<int> m_peaks;
-    QVector<int> m_values;
+    QVector<double> m_peaks;
+    int m_maxDb;
+    QVector<double> m_values;
     int m_channelHeight;
     int m_channelDistance;
     int m_channelFillHeight;
@@ -43,5 +39,8 @@ private:
     void refreshScope(const QSize &size, bool full) override;
 
 public slots:
-    void setAudioValues(const QVector<int> &values);
+    void setAudioValues(const QVector<double> &values);
+
+signals:
+    void audioLevelsAvailable(const QVector<double>& levels);
 };

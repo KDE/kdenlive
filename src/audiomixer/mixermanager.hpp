@@ -38,6 +38,8 @@ public:
     void pauseMonitoring(bool pause);
     /** @brief Release the timeline model ownership */
     void unsetModel();
+    /** @brief Some features rely on a specific version of MLT's audiolevel filter, so check it */
+    void checkAudioLevelVersion();
 
 public slots:
     void recordStateChanged(int tid, bool recording);
@@ -69,5 +71,6 @@ private:
     int m_expandedWidth;
     QVector <int> m_soloMuted;
     int m_recommendedWidth;
+    bool m_filterIsV2;
 
 };

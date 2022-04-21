@@ -478,6 +478,8 @@ void MainWindow::init(const QString &mltPath)
     addAction(QStringLiteral("audiomixer_button"), showMixer);
     connect(m_mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
         pCore->mixer()->connectMixer(visible);
+        pCore->audioMixerVisible = visible;
+        m_projectMonitor->displayAudioMonitor(m_projectMonitor->isActive());
         showMixer->setChecked(visible);
     });
     connect(showMixer, &QAction::triggered, this, [&]() {
@@ -2330,12 +2332,7 @@ void MainWindow::connectDocument()
     });
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
             Qt::UniqueConnection);
-    connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
-        emit pCore->mixer()->updateLevels(frame.get_position());
-        //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
-    });
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
-
     getMainTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
 
     connect(m_projectMonitor, &Monitor::zoneUpdated, project, [&](const QPoint &) { project->setModified(); });

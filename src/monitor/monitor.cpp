@@ -424,6 +424,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioMeterWidget->setVisibility(false);
     } else {
         m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
+        if (id == Kdenlive::ProjectMonitor) {
+            connect(m_audioMeterWidget, &MonitorAudioLevel::audioLevelsAvailable, pCore.get(), &Core::audioLevelsAvailable);
+        }
     }
 
     // Trimming tool bar buttons
@@ -2021,10 +2024,13 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
+    emit m_monitorManager->frameDisplayed(frame);
+    if (m_id == Kdenlive::ProjectMonitor) {
+        emit pCore->updateMixerLevels(frame.get_position());
+    }
     if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_playAction->isActive())) {
         updatePlayAction(false);
     }
-    emit m_monitorManager->frameDisplayed(frame);
 }
 
 void Monitor::checkDrops()
@@ -2403,7 +2409,7 @@ void Monitor::slotSwitchAudioMonitor()
 
 void Monitor::displayAudioMonitor(bool isActive)
 {
-    bool enable = isActive && ((KdenliveSettings::monitoraudio() & m_id) != 0);
+    bool enable = isActive && ((KdenliveSettings::monitoraudio() & m_id) != 0 || (m_id == Kdenlive::ProjectMonitor && pCore->audioMixerVisible));
     if (enable) {
         connect(m_monitorManager, &MonitorManager::frameDisplayed, m_audioMeterWidget, &ScopeWidget::onNewFrame, Qt::UniqueConnection);
     } else {

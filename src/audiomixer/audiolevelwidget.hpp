@@ -34,6 +34,7 @@ private:
     QPixmap m_pixmap;
     QVector<double> m_peaks;
     QVector<double> m_values;
+    int m_maxDb;
     int m_channelWidth;
     int m_channelDistance;
     int m_channelFillWidth;

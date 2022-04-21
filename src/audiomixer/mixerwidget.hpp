@@ -43,6 +43,7 @@ public:
     /** @brief discard stored audio values */
     void clear();
     static void property_changed( mlt_service , MixerWidget *self, mlt_event_data data );
+    static void property_changedV2( mlt_service , MixerWidget *widget, mlt_event_data data );
     void setTrackName(const QString &name);
     void setMute(bool mute);
     /** @brief Returns true if track is muted
@@ -52,7 +53,7 @@ public:
      * */
     void unSolo();
     /** @brief Connect the mixer widgets to the correspondent filters */
-    void connectMixer(bool doConnect);
+    void connectMixer(bool doConnect, bool filterV2);
     /** @brief Disable/enable monitoring by disabling/enabling filter */
     void pauseMonitoring(bool pause);
 
