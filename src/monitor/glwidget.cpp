@@ -125,6 +125,7 @@ GLWidget::GLWidget(int id, QWidget *parent)
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(10);
     m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
+    m_blackClip->set("mlt_image_format", "rgba");
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
@@ -934,7 +935,6 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         // Reset markersModel
         rootContext()->setContextProperty("markersModel", nullptr);
     }
-    // redundant check. postcondition of above is m_producer != null
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
     error = reconfigure();
@@ -1256,6 +1256,7 @@ void GLWidget::reloadProfile()
     }
     m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
+    m_blackClip->set("mlt_image_format", "rgba");
     if (existingConsumer) {
         reconfigure();
     }
