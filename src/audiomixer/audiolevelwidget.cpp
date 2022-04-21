@@ -121,7 +121,6 @@ void AudioLevelWidget::drawBackground(int channels)
     int labelHeight = fontMetrics().ascent();
 
     int prevY = -1;
-    p.setPen(palette().text().color().rgb());
     int y = 0;
     for (int i = 0; i < dbLabelCount; i++) {
         int value = dbscale[i];
@@ -131,9 +130,11 @@ void AudioLevelWidget::drawBackground(int channels)
             y = 0;
         }
         if (prevY < 0 || y - prevY > 2) {
+            p.setPen(palette().text().color().rgb());
             p.drawText(QRectF(0, y, m_offset - 5, labelHeight), label, QTextOption(Qt::AlignRight));
             prevY = y + labelHeight;
         }
+        p.setPen(palette().window().color().rgb());
         p.drawLine(m_offset, y + labelHeight / 2., m_offset + totalWidth - 1, y + labelHeight / 2.);
     }
 
