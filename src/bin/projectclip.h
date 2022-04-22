@@ -144,7 +144,7 @@ public:
     QString getToolTip() const override;
 
     /** @brief The clip hash created from the clip's resource. */
-    const QString hash();
+    const QString hash(bool createIfEmpty = true);
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
