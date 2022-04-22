@@ -1156,11 +1156,14 @@ QPoint ProjectClip::zone() const
 
 const QString ProjectClip::hash(bool createIfEmpty)
 {
+    if (m_clipStatus == FileStatus::StatusWaiting) {
+        return QString();
+    }
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
-    if (!clipHash.isEmpty()) {
+    if (!clipHash.isEmpty() || createIfEmpty) {
         return clipHash;
     }
-    return createIfEmpty ? getFileHash() : QString();
+    return getFileHash();
 }
 
 const QByteArray ProjectClip::getFolderHash(const QDir &dir, QString fileName)
