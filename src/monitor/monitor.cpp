@@ -699,6 +699,7 @@ void Monitor::buildBackgroundedProducer(int pos) {
         int maxLength = m_controller->originalProducer()->get_length();
         bg->set("length", maxLength);
         bg->set("out", maxLength - 1);
+        bg->set("mlt_image_format", "rgba");
         trac.set_track(*bg.get(), 0);
         trac.set_track(*m_controller->originalProducer().get(), 1);
         QString composite = TransitionsRepository::get()->getCompositingTransition();

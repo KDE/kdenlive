@@ -2215,6 +2215,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     std::shared_ptr<Mlt::Producer> black(new Mlt::Producer(*m_model->m_tractor->profile(), "color:black"));
     black->set("length", previewLength);
     black->set_in_and_out(0, previewLength);
+    black->set("mlt_image_format", "rgba");
     trac.set_track(*black.get(), 0);
     //trac.set_track( 1);
 

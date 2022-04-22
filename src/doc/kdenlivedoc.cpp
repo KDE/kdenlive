@@ -344,6 +344,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     xmlConsumer.set("store", "kdenlive");
     Mlt::Tractor tractor(docProfile);
     Mlt::Producer bk(docProfile, "color:black");
+    bk.set("mlt_image_format", "rgba");
     tractor.insert_track(bk, 0);
     for (int i = 0; i < tracks.count(); ++i) {
         Mlt::Tractor track(docProfile);

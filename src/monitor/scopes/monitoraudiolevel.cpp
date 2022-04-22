@@ -24,7 +24,7 @@ MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     , audioChannels(2)
     , m_height(height)
     , m_channelHeight(height / 2)
-    , m_channelDistance(2)
+    , m_channelDistance(1)
     , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -40,9 +40,12 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
     SharedFrame sFrame;
     while (m_queue.count() > 0) {
         sFrame = m_queue.pop();
-        if (sFrame.is_valid() && sFrame.get_audio_samples() > 0) {
-            int channels = sFrame.get_audio_channels();
+        if (sFrame.is_valid()) {
             int samples = sFrame.get_audio_samples();
+            if (samples <= 0) {
+                continue;
+            }
+            int channels = sFrame.get_audio_channels();
             QVector<double> levels;
             const int16_t* audio = sFrame.get_audio();
             for ( int c = 0; c < channels; c++ ) {
@@ -116,10 +119,9 @@ void MonitorAudioLevel::drawBackground(int channels)
     }
     QRect rect(0, 0, newSize.width(), totalHeight);
     QPainter p(&m_pixmap);
-    p.setOpacity(0.4);
+    p.setOpacity(0.6);
     p.setFont(ft);
     p.fillRect(rect, QBrush(gradient));
-
     // Channel labels are horizontal along the bottom.
     QVector<int> dbscale;
     dbscale << 0 << -5 << -10 << -15 << -20 << -25 << -30 << -35 << -40 << -50;
@@ -133,7 +135,10 @@ void MonitorAudioLevel::drawBackground(int channels)
         int value = dbscale[i];
         QString label = QString::asprintf("%d", value);
         int labelWidth = fontMetrics().horizontalAdvance(label);
-        x = IEC_ScaleMax(value, m_maxDb) * m_pixmap.width() - labelWidth / 2;
+        x = IEC_ScaleMax(value, m_maxDb) * m_pixmap.width();
+        p.setPen(palette().window().color());
+        p.drawLine(x, 0, x, totalHeight);
+        x -= qRound(labelWidth / 2.);
         if (x + labelWidth > m_pixmap.width()) {
             x = m_pixmap.width() - labelWidth;
         }
@@ -142,30 +147,15 @@ void MonitorAudioLevel::drawBackground(int channels)
             p.drawText(x, y, label);
             prevX = x;
         }
-        x += labelWidth / 2;
-        p.setPen(palette().dark().color());
-        p.drawLine(x, 0, x, totalHeight - 1);
     }
-    p.setOpacity(isEnabled() ? 1 : 0.5);
-    p.setPen(palette().dark().color());
+    p.setOpacity(1);
+    p.setPen(palette().window().color());
     // Clear space between the 2 channels
     p.setCompositionMode(QPainter::CompositionMode_Source);
-    if (m_channelHeight < 4) {
-        // too many audio channels, simple line between channels
-        m_channelDistance = 1;
-        m_channelFillHeight = m_channelHeight;
-        for (int i = 0; i < channels; i++) {
-            p.drawLine(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, i * (m_channelHeight + m_channelDistance));
-        }
-    } else {
-        m_channelDistance = 2;
-        m_channelFillHeight = m_channelHeight - 2;
-        for (int i = 0; i < channels; i++) {
-            p.drawRect(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, m_channelHeight - 1);
-            if (i > 0) {
-                p.fillRect(0, i * (m_channelHeight + m_channelDistance) - 2, rect.width(), 2, Qt::transparent);
-            }
-        }
+    m_channelDistance = 1;
+    m_channelFillHeight = m_channelHeight;
+    for (int i = 1; i < channels; i++) {
+        p.drawLine(0, i * (m_channelHeight + m_channelDistance) - 1, rect.width() - 1, i * (m_channelHeight + m_channelDistance) - 1);
     }
     p.end();
 }
@@ -214,7 +204,6 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
         return;
     }
     p.drawPixmap(rect, m_pixmap);
-    p.setPen(palette().dark().color());
     p.setOpacity(0.9);
     int width = m_channelDistance == 1 ? rect.width() : rect.width() - 1;
     for (int i = 0; i < m_values.count(); i++) {
@@ -223,7 +212,7 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
         }
         int val = IEC_ScaleMax(m_values.at(i), m_maxDb) * width;
         int peak = IEC_ScaleMax(m_peaks.at(i), m_maxDb) * width;
-        p.fillRect(val, i * (m_channelHeight + m_channelDistance) + 1, width - val, m_channelFillHeight, palette().dark());
-        p.fillRect(peak, i * (m_channelHeight + m_channelDistance) + 1, 1, m_channelFillHeight, palette().text());
+        p.fillRect(val, i * (m_channelHeight + m_channelDistance), width - val, m_channelFillHeight, palette().window());
+        p.fillRect(peak, i * (m_channelHeight + m_channelDistance), 1, m_channelFillHeight, palette().text());
     }
 }
