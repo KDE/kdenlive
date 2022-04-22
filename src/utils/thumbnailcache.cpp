@@ -142,6 +142,30 @@ const QList <QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
     return pathList;
 }
 
+QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos, bool volatileOnly) const
+{
+    if (hash.isEmpty()) {
+        return QImage();
+    }
+    hash.append(QString("#%1.jpg").arg(pos));
+    QMutexLocker locker(&m_mutex);
+    if (m_volatileCache->contains(hash)) {
+        return m_volatileCache->get(hash);
+    }
+    if (volatileOnly) {
+        return QImage();
+    }
+    bool ok = false;
+    QDir thumbFolder = getDir(false, &ok);
+    if (ok && thumbFolder.exists(hash)) {
+        if(m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+            m_storedOnDisk[binId].push_back(pos);
+        }
+        return QImage(thumbFolder.absoluteFilePath(hash));
+    }
+    return QImage();
+}
+
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
     QMutexLocker locker(&m_mutex);

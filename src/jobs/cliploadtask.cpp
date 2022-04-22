@@ -232,11 +232,11 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
     qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (producer->get_int("video_index") > -1) {
-        if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
+        QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hash(false), QString::number(m_owner.second), frameNumber);
+        if (!thumb.isNull()) {
             // Thumbnail found in cache
-            QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);
             qDebug()<<"=== FOUND THUMB IN CACHe";
-            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,true));
+            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,thumb), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,true));
         } else {
             QString mltService = producer->get("mlt_service");
             const QString mltResource = producer->get("resource");

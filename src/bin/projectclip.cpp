@@ -1154,13 +1154,13 @@ QPoint ProjectClip::zone() const
     return ClipController::zone();
 }
 
-const QString ProjectClip::hash()
+const QString ProjectClip::hash(bool createIfEmpty)
 {
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
     if (!clipHash.isEmpty()) {
         return clipHash;
     }
-    return getFileHash();
+    return createIfEmpty ? getFileHash() : QString();
 }
 
 const QByteArray ProjectClip::getFolderHash(const QDir &dir, QString fileName)
@@ -1624,7 +1624,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
     if (!ok) {
         return QString();
     }
-    const QString clipHash = hash();
+    const QString clipHash = hash(false);
     if (clipHash.isEmpty()) {
         return QString();
     }
@@ -1907,7 +1907,10 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     if (percent < 0) {
         if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
             int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-            setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
+            QImage thumb = ThumbnailCache::get()->getThumbnail(hash(false), m_binId, framePos);
+            if (!thumb.isNull()) {
+                setThumbnail(thumb, -1, -1);
+            }
         }
         return;
     }
@@ -1915,11 +1918,14 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
-    if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
-        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
+    QImage thumb = ThumbnailCache::get()->getThumbnail(hash(false), m_binId, framePos);
+    if (!thumb.isNull()) {
+        setThumbnail(thumb, -1, -1);
     } else {
         // Generate percent thumbs
-        CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
+        if (!pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB)) {
+            CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
+        }
     }
     if (storeFrame) {
         setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);

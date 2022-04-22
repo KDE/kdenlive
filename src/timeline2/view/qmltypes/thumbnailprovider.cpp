@@ -33,13 +33,13 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     bool ok;
     int frameNumber = id.section('#', -1).toInt(&ok);
     if (ok) {
-        if (ThumbnailCache::get()->hasThumbnail(binId, frameNumber, false)) {
-            result = ThumbnailCache::get()->getThumbnail(binId, frameNumber);
-            *size = result.size();
-            return result;
-        }
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
         if (binClip) {
+            result = ThumbnailCache::get()->getThumbnail(binClip->hash(false), binId, frameNumber);
+            if (!result.isNull()) {
+                *size = result.size();
+                return result;
+            }
             std::shared_ptr<Mlt::Producer> prod = binClip->thumbProducer();
             if (prod && prod->is_valid()) {
                 result = makeThumbnail(prod, frameNumber, requestedSize);

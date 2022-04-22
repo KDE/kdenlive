@@ -43,6 +43,7 @@ public:
        @param pos is the position where we query
        @param volatileOnly if true, we only check the volatile cache (no disk access)
     */
+    QImage getThumbnail(QString hash, const QString &binId, int pos, bool volatileOnly = false) const;
     QImage getThumbnail(const QString &binId, int pos, bool volatileOnly = false) const;
     QImage getAudioThumbnail(const QString &binId, bool volatileOnly = false) const;
     const QList <QUrl> getAudioThumbPath(const QString &binId) const;
