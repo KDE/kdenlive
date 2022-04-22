@@ -41,6 +41,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "tagwidget.hpp"
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
+#include "macros.hpp"
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
 #include <dialogs/textbasededit.h>
@@ -1107,7 +1108,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_tagsWidget = new TagWidget(this);
     connect(m_tagsWidget, &TagWidget::switchTag, this, &Bin::switchTag);
     connect(m_tagsWidget, &TagWidget::updateProjectTags, this, &Bin::updateTags);
-    m_tagsWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    m_tagsWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_layout->addWidget(m_tagsWidget);
     m_tagsWidget->setVisible(false);
 
@@ -1517,8 +1518,10 @@ void Bin::slotUpdatePalette()
         m_videoIcon.fill(Qt::transparent);
         QPainter p(&m_audioIcon);
         audioIcon.paint(&p, 0, 0, m_audioIcon.width(), m_audioIcon.height());
+        p.end();
         QPainter p2(&m_videoIcon);
         videoIcon.paint(&p2, 0, 0, m_videoIcon.width(), m_videoIcon.height());
+        p2.end();
         m_audioUsedIcon = m_audioIcon;
         KIconEffect::toMonochrome(m_audioUsedIcon, palette().link().color(), palette().link().color(), 1);
         m_videoUsedIcon = m_videoIcon;
@@ -2029,19 +2032,18 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
     }
 
     //setBinEffectsEnabled(!binEffectsDisabled, false);
-    QMap <QString, QString> projectTags = m_doc->getProjectTags();
+    QMap <int, QStringList> projectTags = m_doc->getProjectTags();
     m_tagsWidget->rebuildTags(projectTags);
-    rebuildFilters(projectTags);
+    rebuildFilters(projectTags.size());
     return folderName;
 }
 
-void Bin::rebuildFilters(const QMap <QString, QString> &tags)
+void Bin::rebuildFilters(int tagsCount)
 {
     m_filterMenu->clear();
     // Add tag filters
     QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear Filters"), this);
     m_filterMenu->addAction(clearFilter);
-    int tagsCount = tags.size();
     for (int i = 1; i <= tagsCount; i++) {
         QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
         if (tag) {
@@ -3507,10 +3509,137 @@ void Bin::switchTag(const QString &tag, bool add)
     editTags(allClips, tag, add);
 }
 
-void Bin::updateTags(const QMap <QString, QString> &tags)
+void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <int, QStringList> &tags)
 {
-    rebuildFilters(tags);
-    pCore->updateProjectTags(tags);
+    Fun undo = [this, previousTags, tags]() {
+        m_tagsWidget->rebuildTags(previousTags);
+        rebuildFilters(previousTags.size());
+        pCore->updateProjectTags(tags.size(), previousTags);
+        return true;
+    };
+    Fun redo = [this, previousTags, tags]() {
+        m_tagsWidget->rebuildTags(tags);
+        rebuildFilters(tags.size());
+        pCore->updateProjectTags(previousTags.size(), tags);
+        return true;
+    };
+    // Check if some tags were removed
+    QList<QStringList> previous = previousTags.values();
+    QList<QStringList> updated = tags.values();
+    QStringList deletedTags;
+    QMap <QString, QString> modifiedTags;
+    for (auto p : previous) {
+        bool tagExists = false;
+        for (auto n : updated) {
+            if (n.first() == p.first()) {
+                // Tag still exists
+                if (n.at(1) != p.at(1)) {
+                    // Tag color has changed
+                    modifiedTags.insert(p.at(1), n.at(1));
+                }
+                tagExists = true;
+                break;
+            }
+        }
+        if (!tagExists) {
+            // Tag was removed
+            deletedTags << p.at(1);
+        }
+    }
+    if (!deletedTags.isEmpty()) {
+        // Remove tag from clips
+        for (auto &t : deletedTags) {
+            // Find clips with the tag
+            const QList <QString> clips = getAllClipsWithTag(t);
+            Fun update_tags_redo = [this, clips, t]() {
+                for (auto &cid : clips) {
+                    std::shared_ptr<ProjectClip> clip = getBinClip(cid);
+                    if (clip) {
+                        QString tags = clip->tags();
+                        QStringList tagsList = tags.split(QLatin1Char(';'));
+                        tagsList.removeAll(t);
+                        QMap <QString, QString> props;
+                        props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
+                        slotUpdateClipProperties(cid, props, false);
+                    }
+                }
+                return true;
+            };
+            Fun update_tags_undo = [this, clips, t]() {
+                for (auto &cid : clips) {
+                    std::shared_ptr<ProjectClip> clip = getBinClip(cid);
+                    if (clip) {
+                        QString tags = clip->tags();
+                        QStringList tagsList = tags.split(QLatin1Char(';'));
+                        if (!tagsList.contains(t)) {
+                            tagsList << t;
+                        }
+                        QMap <QString, QString> props;
+                        props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
+                        slotUpdateClipProperties(cid, props, false);
+                    }
+                }
+                return true;
+            };
+            UPDATE_UNDO_REDO(update_tags_redo, update_tags_undo, undo, redo);
+        }
+    }
+    if (!modifiedTags.isEmpty()) {
+        // Replace tag in clips
+        QMapIterator<QString, QString> i(modifiedTags);
+        while (i.hasNext()) {
+            // Find clips with the tag
+            i.next();
+            const QList <QString> clips = getAllClipsWithTag(i.key());
+            Fun update_tags_redo = [this, clips, previous = i.key(), updated = i.value()]() {
+                for (auto &cid : clips) {
+                    std::shared_ptr<ProjectClip> clip = getBinClip(cid);
+                    if (clip) {
+                        QString tags = clip->tags();
+                        QStringList tagsList = tags.split(QLatin1Char(';'));
+                        tagsList.removeAll(previous);
+                        tagsList << updated;
+                        QMap <QString, QString> props;
+                        props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
+                        slotUpdateClipProperties(cid, props, false);
+                    }
+                }
+                return true;
+            };
+            Fun update_tags_undo = [this, clips, previous = i.key(), updated = i.value()]() {
+                for (auto &cid : clips) {
+                    std::shared_ptr<ProjectClip> clip = getBinClip(cid);
+                    if (clip) {
+                        QString tags = clip->tags();
+                        QStringList tagsList = tags.split(QLatin1Char(';'));
+                        tagsList.removeAll(updated);
+                        if (!tagsList.contains(previous)) {
+                            tagsList << previous;
+                        }
+                        QMap <QString, QString> props;
+                        props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
+                        slotUpdateClipProperties(cid, props, false);
+                    }
+                }
+                return true;
+            };
+            UPDATE_UNDO_REDO(update_tags_redo, update_tags_undo, undo, redo);
+        }
+    }
+    redo();
+    pCore->pushUndo(undo, redo, i18n("Edit Tags"));
+}
+
+const QList<QString> Bin::getAllClipsWithTag(const QString &tag)
+{
+    QList<QString> list;
+    QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
+    for(const auto &clip : qAsConst(allClipIds)) {
+        if (clip->tags().contains(tag)) {
+            list << clip->clipId();
+        }
+    }
+    return list;
 }
 
 void Bin::editTags(const QList <QString> &allClips, const QString &tag, bool add)

@@ -1782,23 +1782,24 @@ bool KdenliveDoc::updatePreviewSettings(const QString &profile)
     return false;
 }
 
-QMap <QString, QString> KdenliveDoc::getProjectTags()
+QMap <int, QStringList> KdenliveDoc::getProjectTags() const
 {
-    QMap <QString, QString> tags;
-    for (int i = 1 ; i< 20; i++) {
+    QMap <int, QStringList> tags;
+    int ix = 1;
+    for (int i = 1 ; i< 50; i++) {
         QString current = getDocumentProperty(QString("tag%1").arg(i));
         if (current.isEmpty()) {
             break;
-        } else {
-            tags.insert(current.section(QLatin1Char(':'), 0, 0), current.section(QLatin1Char(':'), 1));
         }
+        tags.insert(ix, {QString::number(ix), current.section(QLatin1Char(':'), 0, 0), current.section(QLatin1Char(':'), 1)});
+        ix++;
     }
     if (tags.isEmpty()) {
-        tags.insert(QStringLiteral("#ff0000"), i18n("Red"));
-        tags.insert(QStringLiteral("#00ff00"), i18n("Green"));
-        tags.insert(QStringLiteral("#0000ff"), i18n("Blue"));
-        tags.insert(QStringLiteral("#ffff00"), i18n("Yellow"));
-        tags.insert(QStringLiteral("#00ffff"), i18n("Cyan"));
+        tags.insert(1, {QStringLiteral("1"),QStringLiteral("#ff0000"), i18n("Red")});
+        tags.insert(2, {QStringLiteral("2"),QStringLiteral("#00ff00"), i18n("Green")});
+        tags.insert(3, {QStringLiteral("3"),QStringLiteral("#0000ff"), i18n("Blue")});
+        tags.insert(4, {QStringLiteral("4"),QStringLiteral("#ffff00"), i18n("Yellow")});
+        tags.insert(5, {QStringLiteral("5"),QStringLiteral("#00ffff"), i18n("Cyan")});
     }
     return tags;
 }

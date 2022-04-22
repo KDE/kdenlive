@@ -1068,22 +1068,22 @@ void Core::processInvalidFilter(const QString &service, const QString &id, const
     if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
 }
 
-void Core::updateProjectTags(const QMap <QString, QString> &tags)
+void Core::updateProjectTags(int previousCount, const QMap <int, QStringList> &tags)
 {
-    // Clear previous tags
-    for (int i = 1 ; i< 20; i++) {
-        QString current = currentDoc()->getDocumentProperty(QString("tag%1").arg(i));
-        if (current.isEmpty()) {
-            break;
-        } else {
-            currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString());
+    if (previousCount > tags.size()) {
+        // Clear previous tags
+        for (int i = 1 ; i <= previousCount; i++) {
+            QString current = currentDoc()->getDocumentProperty(QString("tag%1").arg(i));
+            if (!current.isEmpty()) {
+                currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString());
+            }
         }
     }
-    QMapIterator<QString, QString> j(tags);
+    QMapIterator<int, QStringList> j(tags);
     int i = 1;
     while (j.hasNext()) {
         j.next();
-        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.key(), j.value()));
+        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.value().at(1), j.value().at(2)));
         i++;
     }
 }

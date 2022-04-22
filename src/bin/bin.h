@@ -396,8 +396,8 @@ private slots:
     void switchTag(const QString &tag, bool add);
     /** @brief Update project tags
      */
-    void updateTags(const QMap <QString, QString> &tags);
-    void rebuildFilters(const QMap <QString, QString> &tags);
+    void updateTags(const QMap <int, QStringList> &previousTags, const QMap <int, QStringList> &tags);
+    void rebuildFilters(int tagsCount);
     /** @brief Switch a tag on  a clip list
      */
     void editTags(const QList <QString> &allClips, const QString &tag, bool add);
@@ -549,6 +549,8 @@ private:
     QStringList m_audioThumbsList;
     QString m_processingAudioThumb;
     QMutex m_audioThumbMutex;
+    /** @brief This is a lock that ensures safety in case of concurrent access */
+    mutable QReadWriteLock m_lock;
     /** @brief Total number of milliseconds to process for audio thumbnails */
     long m_audioDuration;
     /** @brief Total number of milliseconds already processed for audio thumbnails */
@@ -568,6 +570,8 @@ private:
     QString m_clipsCountMessage;
     /** @brief Show the clip count and key binfing info in status bar. */
     void showBinInfo();
+    /** @brief Find all clip Ids that have a specific tag. */
+    const QList<QString> getAllClipsWithTag(const QString &tag);
 
 signals:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);

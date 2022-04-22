@@ -231,7 +231,7 @@ public:
     /** @brief An error occurred within a filter, inform user */
     void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(const QMap <QString, QString> &tags);
+    void updateProjectTags(int previousCount, const QMap <int, QStringList> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
     /** @brief Returns the consumer profile, that will be scaled
