@@ -20,7 +20,7 @@
         <property name="av.sigma">0</property>
     </effect>
     <effect id="frei0r.transparency">
-        <property name="0">1</property>
+        <property name="0">0=1</property>
     </effect>
     <effect id="frei0r.alpha0ps">
         <property name="Shrink/Grow/Blur amount">1=0.5</property>

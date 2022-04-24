@@ -8,6 +8,7 @@ audiospectrum.xml
 audiowave.xml
 audiowaveform.xml
 boxblur.xml
+box_blur.xml
 brightness.xml
 channelcopy.xml
 copychannelstostereo.xml
