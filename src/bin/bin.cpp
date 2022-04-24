@@ -685,13 +685,14 @@ void MyListView::mousePressEvent(QMouseEvent *event)
 {
     QListView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
-        m_startPos = event->pos();
-        QModelIndex ix = indexAt(m_startPos);
+        QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
             QAbstractItemDelegate *del = itemDelegate(ix);
             m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
+            m_startPos = event->pos();
         } else {
             m_dragType = PlaylistState::Disabled;
+            m_startPos = QPoint();
         }
         emit updateDragMode(m_dragType);
     }
@@ -700,34 +701,41 @@ void MyListView::mousePressEvent(QMouseEvent *event)
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
-    if ((event->buttons() & Qt::LeftButton) != 0u && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
-        QModelIndexList indexes = selectedIndexes();
-        auto *drag = new QDrag(this);
-        drag->setMimeData(model()->mimeData(indexes));
-        QModelIndex ix = indexes.constFirst();
-        if (ix.isValid()) {
-            QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
-            QPixmap pix = icon.pixmap(iconSize());
-            QSize size = pix.size() / 2;
-            QImage image(size, QImage::Format_ARGB32_Premultiplied);
-            image.fill(Qt::transparent);
-            QPainter p(&image);
-            p.setOpacity(0.7);
-            p.drawPixmap(0, 0, image.width(), image.height(), pix);
-            p.setOpacity(1);
-            if (indexes.count() > 1) {
-                QPalette palette;
-                int radius = size.height() / 3;
-                p.setBrush(palette.highlight());
-                p.setPen(palette.highlightedText().color());
-                p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
-                p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
+    if ((event->buttons() & Qt::LeftButton) != 0u) {
+        if (!m_startPos.isNull() && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
+            QModelIndexList indexes = selectedIndexes();
+            if (indexes.isEmpty()) {
+                // Dragging from empty zone, abort
+                return;
             }
-            p.end();
-            drag->setPixmap(QPixmap::fromImage(image));
+            auto *drag = new QDrag(this);
+            drag->setMimeData(model()->mimeData(indexes));
+            QModelIndex ix = indexes.constFirst();
+            if (ix.isValid()) {
+                QIcon icon = ix.data(AbstractProjectItem::DataThumbnail).value<QIcon>();
+                QPixmap pix = icon.pixmap(iconSize());
+                QSize size = pix.size() / 2;
+                QImage image(size, QImage::Format_ARGB32_Premultiplied);
+                image.fill(Qt::transparent);
+                QPainter p(&image);
+                p.setOpacity(0.7);
+                p.drawPixmap(0, 0, image.width(), image.height(), pix);
+                p.setOpacity(1);
+                if (indexes.count() > 1) {
+                    QPalette palette;
+                    int radius = size.height() / 3;
+                    p.setBrush(palette.highlight());
+                    p.setPen(palette.highlightedText().color());
+                    p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
+                    p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
+                }
+                p.end();
+                drag->setPixmap(QPixmap::fromImage(image));
+            }
+            drag->exec();
+            emit processDragEnd();
         }
-        drag->exec();
-        emit processDragEnd();
+        QListView::mouseMoveEvent(event);
         return;
     }
     QModelIndex index = indexAt(event->pos());
@@ -781,13 +789,14 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
     QTreeView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
-        m_startPos = event->pos();
-        QModelIndex ix = indexAt(m_startPos);
+        QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
             QAbstractItemDelegate *del = itemDelegate(ix);
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
+            m_startPos = event->pos();
         } else {
             m_dragType = PlaylistState::Disabled;
+            m_startPos = QPoint();
         }
     }
     event->accept();
@@ -817,10 +826,13 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
     bool dragged = false;
     if ((event->buttons() & Qt::LeftButton) != 0u) {
-        int distance = (event->pos() - m_startPos).manhattanLength();
-        if (distance >= QApplication::startDragDistance()) {
-            dragged = performDrag();
+        if (!m_startPos.isNull()) {
+            int distance = (event->pos() - m_startPos).manhattanLength();
+            if (distance >= QApplication::startDragDistance()) {
+                dragged = performDrag();
+            }
         }
+        return;
     } else {
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
