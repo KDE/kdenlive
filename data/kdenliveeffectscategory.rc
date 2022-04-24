@@ -6,7 +6,7 @@
 <text>Alpha, Mask and Keying</text>
 </group>
 
-<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,avfilter.unsharp,avfilter.sab">
+<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,box_blur,avfilter.unsharp,avfilter.sab">
 <text>Blur and Sharpen</text>
 </group>
 
