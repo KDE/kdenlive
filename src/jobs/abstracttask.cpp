@@ -60,7 +60,7 @@ void AbstractTask::cancelJob(bool softDelete)
     if (softDelete) {
         m_softDelete.testAndSetAcquire(0, 1);
     }
-    qDebug()<<"====== SETTING TACK CANCELED: "<<m_isCanceled;
+    qDebug()<<"====== SETTING TASK CANCELED: "<<m_isCanceled;
     emit jobCanceled();
 }
 

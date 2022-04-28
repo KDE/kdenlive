@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CACHETASK_H
-#define CACHETASK_H
+#pragma once
 
 #include "definitions.h"
 #include "abstracttask.h"
@@ -39,5 +38,3 @@ private:
     QString m_errorMessage;
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip);
 };
-
-#endif // CLIPLOADTASK_H

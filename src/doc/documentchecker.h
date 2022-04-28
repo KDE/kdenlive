@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DOCUMENTCHECKER_H
-#define DOCUMENTCHECKER_H
+#pragma once
 
 #include "definitions.h"
 #include "ui_missingclips_ui.h"
@@ -86,5 +85,3 @@ private:
 signals:
     void showScanning(const QString);
 };
-
-#endif

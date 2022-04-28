@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROVIDERMODEL_H
-#define PROVIDERMODEL_H
+#pragma once
 
 #include <QObject>
 #include <QJsonDocument>
@@ -35,7 +34,7 @@ struct ResourceItemInfo
     QStringList downloadLabels;
     QString imageUrl;
     QString previewUrl;
-    int filesize;
+    //int filesize;
 };
 
 class ProviderModel : public QObject
@@ -96,5 +95,3 @@ signals:
     void authorizeWithBrowser(const QUrl &url);
 
 };
-
-#endif // PROVIDERMODEL_H

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BACKUPWIDGET_H
-#define BACKUPWIDGET_H
+#pragma once
 
 #include "ui_backupdialog_ui.h"
 
@@ -36,5 +35,3 @@ private:
     QString m_projectWildcard;
     QUrl m_projectFolder;
 };
-
-#endif

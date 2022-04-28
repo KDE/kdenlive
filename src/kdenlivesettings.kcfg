@@ -251,11 +251,6 @@
       <default>Lossy x264 I frame only</default>
     </entry>
 
-    <entry name="transcodeFriendlyRotate" type="Bool">
-      <label>If true, autorotate is disabled on transcoding.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="previewextension" type="String">
       <label>File extension for timeline preview.</label>
       <default></default>
@@ -371,8 +366,8 @@
       <default>true</default>
     </entry>
 
-    <entry name="verticalzoom" type="Bool">
-      <label>Vertical drag in timeline ruler zooms.</label>
+    <entry name="seekonaddeffect" type="Bool">
+      <label>Seek to clip when adding an effect.</label>
       <default>false</default>
     </entry>
 
@@ -915,14 +910,14 @@
       <default>false</default>
     </entry>
 
+    <entry name="renderProfile" type="String">
+      <label>Default render profile.</label>
+      <default>MP4-H264/AAC</default>
+    </entry>
+
     <entry name="validated_luts" type="StringList">
       <label>The paths of lut files that have been validated.</label>
       <default></default>
-    </entry>
-
-    <entry name="showrenderparams" type="Bool">
-      <label>Show avformat render parameters in rendering dialog.</label>
-      <default>false</default>
     </entry>
 
     <entry name="displayClipMonitorInfo" type="Int">
@@ -988,7 +983,10 @@
       <label>Collapse audio mixer (only show master channel).</label>
       <default>false</default>
     </entry>
-
+    <entry name="consumerslist" type ="StringList">
+      <label>Detected MLT consumers.</label>
+      <default></default>
+    </entry>
     <entry name="producerslist" type="StringList">
       <label>List of available MLT producers.</label>
       <default></default>
@@ -1029,6 +1027,11 @@
       <default>#2ed172</default>
     </entry>
 
+    <entry name="overlayColor" type="Color">
+      <label>Color to draw the monitor overlay guides.</label>
+      <default>#00ffff</default>
+    </entry>
+
     <entry name="rescalekeepratio" type="Bool">
       <label>Keep aspect ratio in render dialog rescale widget.</label>
       <default>true</default>
@@ -1047,6 +1050,11 @@
     <entry name="slideshowbymime" type="Bool">
       <label>True if slideshow default method is MIME type.</label>
       <default>true</default>
+    </entry>
+
+    <entry name="slideshowmimeextension" type="String">
+      <label>The default image extension for slideshows.</label>
+      <default></default>
     </entry>
 
     <entry name="monitorscene_directupdate" type="Bool">
@@ -1217,6 +1225,10 @@
         <entry name="titlerShowbg" type="Bool">
         <label>Show titler background.</label>
         <default>false</default>
+        </entry>
+        <entry name="titlerAlign" type="Int">
+        <label>Default text align for titler.</label>
+        <default>0</default>
         </entry>
    </group>
    <group name="speech">

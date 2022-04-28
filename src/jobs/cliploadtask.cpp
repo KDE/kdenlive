@@ -55,7 +55,7 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
         task = nullptr;
     }
     if (task) {
-        // Otherwise, start a new audio levels generation thread.
+        // Otherwise, start a new load task thread.
         task->m_isForce = force;
         connect(task, &ClipLoadTask::taskDone, [readyCallBack]() {
             QMetaObject::invokeMethod(qApp, [readyCallBack]{ readyCallBack();});
@@ -167,20 +167,26 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 {
     int ttl = Xml::getXmlProperty(m_xml, QStringLiteral("ttl")).toInt();
     QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
+    bool lowPass = Xml::getXmlProperty(m_xml, QStringLiteral("low-pass"), QStringLiteral("0")).toInt() == 1;
+    if (lowPass) {
+        auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "avfilter.avgblur");
+        if ((blur == nullptr) || !blur->is_valid()) {
+            delete blur;
+            blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
+        }
+        if ((blur != nullptr) && blur->is_valid()) {
+            producer->attach(*blur);
+        }
+    }
     if (!anim.isEmpty()) {
         auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
             int cycle = ttl;
             QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
             if (!geometry.isEmpty()) {
-                if (anim.contains(QStringLiteral("low-pass"))) {
-                    auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
-                    if ((blur != nullptr) && blur->is_valid()) {
-                        producer->attach(*blur);
-                    }
-                }
-                filter->set("transition.geometry", geometry.toUtf8().data());
+                filter->set("transition.rect", geometry.toUtf8().data());
                 filter->set("transition.cycle", cycle);
+                filter->set("transition.mirror_off", 1);
                 producer->attach(*filter);
             }
         }
@@ -226,11 +232,11 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
     qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (producer->get_int("video_index") > -1) {
-        if (ThumbnailCache::get()->hasThumbnail(QString::number(m_owner.second), frameNumber, false)) {
+        QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hash(false), QString::number(m_owner.second), frameNumber);
+        if (!thumb.isNull()) {
             // Thumbnail found in cache
-            QImage result = ThumbnailCache::get()->getThumbnail(QString::number(m_owner.second), frameNumber);
             qDebug()<<"=== FOUND THUMB IN CACHe";
-            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,true));
+            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,thumb), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,true));
         } else {
             QString mltService = producer->get("mlt_service");
             const QString mltResource = producer->get("resource");
@@ -267,16 +273,16 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                     thumbProd->seek(frameNumber);
                 }
                 QScopedPointer<Mlt::Frame> frame(thumbProd->get_frame());
-#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
-                frame->set("deinterlace_method", "onefield");
-                frame->set("top_field_first", -1);
-                frame->set("rescale.interp", "nearest");
-#else
-                frame->set("consumer.deinterlacer", "onefield");
-                frame->set("consumer.top_field_first", -1);
-                frame->set("consumer.rescale", "nearest");
-#endif
                 if ((frame != nullptr) && frame->is_valid()) {
+#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
+                    frame->set("deinterlace_method", "onefield");
+                    frame->set("top_field_first", -1);
+                    frame->set("rescale.interp", "nearest");
+#else
+                    frame->set("consumer.deinterlacer", "onefield");
+                    frame->set("consumer.top_field_first", -1);
+                    frame->set("consumer.rescale", "nearest");
+#endif
                     int imageHeight(pCore->thumbProfile()->height());
                     int imageWidth(pCore->thumbProfile()->width());
                     int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
@@ -293,7 +299,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         // We don't follow m_isCanceled there,
                         qDebug()<<"=== GOT THUMB FOR: "<<m_in<<"x"<<m_out;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,false));
-                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, true);
+                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, false);
                     }
                 }
             }
@@ -486,6 +492,8 @@ void ClipLoadTask::run()
                     cType = ClipType::Audio;
                 } else if (producer->get_int("audio_index") == -1) {
                     cType = ClipType::Video;
+                } else {
+                    cType = ClipType::AV;
                 }
             }
             producer.reset();
@@ -627,6 +635,8 @@ void ClipLoadTask::run()
                     cType = ClipType::Audio;
                 } else if (!hasAudio) {
                     cType = ClipType::Video;
+                } else {
+                    cType = ClipType::AV;
                 }
             }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()), Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
@@ -650,6 +660,19 @@ void ClipLoadTask::run()
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             fps = producer->get_double(property);
+            QString codecName = QStringLiteral("meta.media.%1.codec.name").arg(vindex);
+            QString codec = producer->get(codecName.toUtf8().constData());
+            if (codec == QLatin1String("mjpeg")) {
+                int frame_rate = producer->get_int("meta.media.frame_rate_num");
+                if (frame_rate == 90000) {
+                    // This is an audio file with cover art, ignore video stream
+                    producer->set("video_index", -1);
+                    producer->set("set.test_image", 1);
+                    vindex = -1;
+                    hasVideo = false;
+                    checkProfile = false;
+                }
+            }
         }
 
         // Check for variable frame rate
@@ -670,6 +693,8 @@ void ClipLoadTask::run()
                     cType = ClipType::Audio;
                 } else if (!hasAudio) {
                     cType = ClipType::Video;
+                } else {
+                    cType = ClipType::AV;
                 }
             }
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString), Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));

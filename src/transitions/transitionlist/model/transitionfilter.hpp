@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRANSITIONFILTER_H
-#define TRANSITIONFILTER_H
+#pragma once
 
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -34,4 +33,3 @@ protected:
     bool m_type_enabled;
     AssetListType::AssetType m_type_value;
 };
-#endif

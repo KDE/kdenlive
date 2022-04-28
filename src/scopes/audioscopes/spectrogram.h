@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SPECTROGRAM_H
-#define SPECTROGRAM_H
+#pragma once
 
 #include "abstractaudioscopewidget.h"
 #include "lib/audio/fftTools.h"
@@ -78,5 +77,3 @@ private:
 private slots:
     void slotResetMaxFreq();
 };
-
-#endif // SPECTROGRAM_H

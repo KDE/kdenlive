@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVE_BIN_H
-#define KDENLIVE_BIN_H
+#pragma once
 
 #include "abstractprojectitem.h"
 #include "utils/timecode.h"
@@ -75,6 +74,7 @@ protected:
     void focusInEvent(QFocusEvent *event) override;
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 signals:
     void focusView();
@@ -343,6 +343,8 @@ public:
     std::atomic<bool> shouldCheckProfile;
     /** @brief Set the message for key binding info. */
     void updateKeyBinding(const QString &bindingMessage = QString());
+    /** @brief Returns true if a clip with id cid is visible in this bin. */
+    bool containsId(const QString &cid) const;
 
 private slots:
     void slotAddClip();
@@ -362,9 +364,6 @@ private slots:
      * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
 
-    /** @brief Update status for clip jobs  */
-    void slotUpdateJobStatus(const QString &, int, int, const QString &label = QString(), const QString &actionName = QString(),
-                             const QString &details = QString());
     void slotSetIconSize(int size);
     void selectProxyModel(const QModelIndex &id);
     void slotSaveHeaders();
@@ -397,8 +396,8 @@ private slots:
     void switchTag(const QString &tag, bool add);
     /** @brief Update project tags
      */
-    void updateTags(const QMap <QString, QString> &tags);
-    void rebuildFilters(const QMap <QString, QString> &tags);
+    void updateTags(const QMap <int, QStringList> &previousTags, const QMap <int, QStringList> &tags);
+    void rebuildFilters(int tagsCount);
     /** @brief Switch a tag on  a clip list
      */
     void editTags(const QList <QString> &allClips, const QString &tag, bool add);
@@ -499,7 +498,7 @@ private:
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */
-    QSize m_iconSize;
+    QSize m_baseIconSize;
     /** @brief Keeps the column width info of the tree view. */
     QByteArray m_headerInfo;
     QVBoxLayout *m_layout;
@@ -550,6 +549,8 @@ private:
     QStringList m_audioThumbsList;
     QString m_processingAudioThumb;
     QMutex m_audioThumbMutex;
+    /** @brief This is a lock that ensures safety in case of concurrent access */
+    mutable QReadWriteLock m_lock;
     /** @brief Total number of milliseconds to process for audio thumbnails */
     long m_audioDuration;
     /** @brief Total number of milliseconds already processed for audio thumbnails */
@@ -569,6 +570,8 @@ private:
     QString m_clipsCountMessage;
     /** @brief Show the clip count and key binfing info in status bar. */
     void showBinInfo();
+    /** @brief Find all clip Ids that have a specific tag. */
+    const QList<QString> getAllClipsWithTag(const QString &tag);
 
 signals:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
@@ -603,5 +606,3 @@ signals:
     void selectMarkers();
     void requestBinClose();
 };
-
-#endif

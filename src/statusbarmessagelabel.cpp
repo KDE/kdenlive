@@ -13,8 +13,12 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
+#include <kconfigwidgets_version.h>
 #include <KNotification>
 #include <kcolorscheme.h>
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 93, 0)
+#include <kstatefulbrush.h>
+#endif
 #include <kiconloader.h>
 #include <klocalizedstring.h>
 
@@ -66,6 +70,9 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     auto *lay2 = new QHBoxLayout(m_container);
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
+    m_selectionLabel = new QLabel(this);
+    m_selectionLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_selectionLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_label = new QLabel(this);
     m_label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     m_label->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -73,6 +80,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     m_keyMap->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     m_keyMap->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_progress = new QProgressBar(this);
+    lay2->addWidget(m_selectionLabel);
     lay2->addWidget(m_pixmap);
     lay2->addWidget(m_label);
     lay2->addWidget(m_progress);
@@ -126,6 +134,11 @@ void StatusBarMessageLabel::setProgressMessage(const QString &text, MessageType 
         return;
     }
     setMessage(text, type, 0);
+}
+
+void StatusBarMessageLabel::setSelectionMessage(const QString &text)
+{
+    m_selectionLabel->setText(text);
 }
 
 void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, int timeoutMS)

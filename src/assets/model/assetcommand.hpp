@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETCOMMAND_H
-#define ASSETCOMMAND_H
+#pragma once
 
 #include "assetparametermodel.hpp"
 #include <QPersistentModelIndex>
@@ -98,4 +97,3 @@ private:
     QVector<QPair<QString, QVariant>> m_value;
     QVector<QPair<QString, QVariant>> m_oldValue;
 };
-#endif

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef TIMECODEDISPLAY_H
-#define TIMECODEDISPLAY_H
+#pragma once
 
 #include "utils/gentime.h"
 #include "utils/timecode.h"
@@ -120,5 +119,3 @@ protected:
     void leaveEvent(QEvent *e) override;
     QAbstractSpinBox::StepEnabled stepEnabled() const override;
 };
-
-#endif

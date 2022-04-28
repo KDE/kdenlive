@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2016 Jean-Baptiste Mardelle <jb@kdenlive.org>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOLEVELWIDGET_H
-#define AUDIOLEVELWIDGET_H
+#pragma once
 
 #include <QWidget>
 #include <memory>
@@ -27,6 +26,8 @@ protected:
     void paintEvent(QPaintEvent *) override;
     void resizeEvent(QResizeEvent *event) override;
     void changeEvent(QEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private:
     std::unique_ptr<Mlt::Filter> m_filter;
@@ -35,13 +36,15 @@ private:
     QPixmap m_pixmap;
     QVector<double> m_peaks;
     QVector<double> m_values;
+    int m_maxDb;
     int m_channelWidth;
     int m_channelDistance;
     int m_channelFillWidth;
+    bool m_displayToolTip;
     void drawBackground(int channels = 2);
+    /** @brief Update tooltip with current dB values */
+    void updateToolTip();
 
 public slots:
     void setAudioValues(const QVector<double> &values);
 };
-
-#endif

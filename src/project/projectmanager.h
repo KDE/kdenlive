@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTMANAGER_H
-#define PROJECTMANAGER_H
+#pragma once
 
 #include "kdenlivecore_export.h"
 #include <KRecentFilesAction>
@@ -170,7 +169,7 @@ public slots:
     void setDocumentNotes(const QString &notes);
 
     /** @brief Project's duration changed, adjust monitor, etc. */
-    void adjustProjectDuration();
+    void adjustProjectDuration(int duration);
     /** @brief Add an asset in timeline (effect, transition). */
     void activateAsset(const QVariantMap &effectData);
     /** @brief insert current timeline timecode in notes widget and focus widget to allow entering quick note */
@@ -215,5 +214,3 @@ private:
     bool m_loading{false};
     void saveRecentFiles();
 };
-
-#endif

@@ -2,11 +2,11 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <data name="effects" version="0">
     
-<group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,mask_start-rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,frei0r.bluescreen0r,lumakey,shape,mask_start-shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker,strobe,mask_start-frei0r.alphaspot,mask_apply,mask_start-frei0r.select0r">
+<group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,mask_start-rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,frei0r.bluescreen0r,lumakey,shape,mask_start-shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker,strobe,mask_start-frei0r.alphaspot,mask_apply,mask_start-frei0r.select0r,frei0r.premultiply">
 <text>Alpha, Mask and Keying</text>
 </group>
 
-<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,avfilter.unsharp,avfilter.sab">
+<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,box_blur,avfilter.unsharp,avfilter.sab">
 <text>Blur and Sharpen</text>
 </group>
 
@@ -58,7 +58,7 @@
 <text>VR360 and 3D</text>
 </group>
 
-<group list="avfilter.derain,avfilter.sr,avfilter.fspp,avfilter.deblock,avfilter.deflate,avfilter.deshake,avfilter.inflate,deshake,fieldorder,frei0r.colorhalftone,frei0r.delaygrab,frei0r.premultiply,gtkrescale,resize,avfilter.nlmeans,avfilter.owdenoise,region">
+<group list="avfilter.derain,avfilter.sr,avfilter.fspp,avfilter.deblock,avfilter.deflate,avfilter.deshake,avfilter.inflate,deshake,fieldorder,frei0r.colorhalftone,frei0r.delaygrab,gtkrescale,resize,avfilter.nlmeans,avfilter.owdenoise,region">
 <text>More checks</text>
 </group>
 

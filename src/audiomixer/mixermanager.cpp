@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "effects/effectsrepository.hpp"
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
@@ -29,6 +30,7 @@ MixerManager::MixerManager(QWidget *parent)
     , m_visibleMixerManager(false)
     , m_expandedWidth(-1)
     , m_recommendedWidth(300)
+    , m_filterIsV2(false)
 {
     m_masterBox = new QHBoxLayout;
     setContentsMargins(0, 0, 0, 0);
@@ -51,6 +53,11 @@ MixerManager::MixerManager(QWidget *parent)
     setLayout(m_box);
 }
 
+void MixerManager::checkAudioLevelVersion()
+{
+    m_filterIsV2 = EffectsRepository::get()->exists(QStringLiteral("audiolevel")) && EffectsRepository::get()->getVersion(QStringLiteral("audiolevel")) > 100;
+}
+
 void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName)
 {
     if (m_mixers.count(tid) > 0) {
@@ -62,9 +69,9 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
     if (m_visibleMixerManager) {
-        mixer->connectMixer(!KdenliveSettings::mixerCollapse());
+        mixer->connectMixer(!KdenliveSettings::mixerCollapse(), m_filterIsV2);
     }
-    connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
+    connect(pCore.get(), &Core::updateMixerLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
     connect(mixer.get(), &MixerWidget::toggleSolo, this, [&](int trid, bool solo) {
         if (!solo) {
@@ -163,9 +170,8 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
     if (m_visibleMixerManager) {
-        m_masterMixer->connectMixer(true);
+        m_masterMixer->connectMixer(true, m_filterIsV2);
     }
-    connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, m_masterMixer.get(), &MixerWidget::clear);
     m_masterBox->addWidget(m_masterMixer.get());
     if (KdenliveSettings::mixerCollapse()) {
@@ -184,10 +190,10 @@ void MixerManager::connectMixer(bool doConnect)
 {
     m_visibleMixerManager = doConnect;
     for (const auto &item : m_mixers) {
-        item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse());
+        item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse(), m_filterIsV2);
     }
     if (m_masterMixer != nullptr) {
-        m_masterMixer->connectMixer(m_visibleMixerManager);
+        m_masterMixer->connectMixer(m_visibleMixerManager, m_filterIsV2);
     }
 }
 

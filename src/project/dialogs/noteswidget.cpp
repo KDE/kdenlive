@@ -75,7 +75,11 @@ void NotesWidget::createMarker(const QStringList &anchors)
             clipMarkers.insert(binId, timecodes);
         } else {
             // That is a guide
-            guides << anchor.toInt();
+            if (anchor.contains(QLatin1Char('?'))) {
+                guides << anchor.section(QLatin1Char('?'), 0, 0).toInt();
+            } else {
+                guides << anchor.toInt();
+            }
         }
     }
     QMapIterator<QString, QList<int>> i(clipMarkers);
@@ -214,6 +218,7 @@ void NotesWidget::addTextNote(const QString &text)
 void NotesWidget::insertFromMimeData(const QMimeData *source)
 {
     QString pastedText = source->text();
+    bool enforceHtml = false;
     // Check for timecodes
     QStringList words = pastedText.split(QLatin1Char(' '));
     for (const QString &w : qAsConst(words)) {
@@ -222,8 +227,13 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
             int frames = pCore->timecode().getFrameCount(w);
             if (frames > 0) {
                 pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
+                enforceHtml = true;
             }
         }
     }
-    insertHtml(pastedText);
+    if (enforceHtml || Qt::mightBeRichText(pastedText)) {
+        insertHtml(pastedText);
+    } else {
+        insertPlainText(pastedText);
+    }
 }

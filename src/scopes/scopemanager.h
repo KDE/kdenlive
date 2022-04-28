@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SCOPEMANAGER_H
-#define SCOPEMANAGER_H
+#pragma once
 
 #include "audioscopes/abstractaudioscopewidget.h"
 #include "colorscopes/abstractgfxscopewidget.h"
@@ -133,5 +132,3 @@ private slots:
     void slotRequestFrame(const QString &widgetName);
     void slotScopeReady();
 };
-
-#endif // SCOPEMANAGER_H

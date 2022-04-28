@@ -601,7 +601,7 @@ Rectangle {
     }
     Rectangle {
             id: resizer
-            height: 4
+            height: Math.round(root.baseUnit/3)
             color: 'red'
             opacity: 0
             Drag.active: trimInMouseArea.drag.active

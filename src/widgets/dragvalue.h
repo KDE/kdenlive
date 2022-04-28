@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DRAGVALUE_H
-#define DRAGVALUE_H
+#pragma once
 
 #include <QDoubleSpinBox>
 #include <QProgressBar>
@@ -150,5 +149,3 @@ private:
     QAction *m_directUpdate;
     CustomLabel *m_label;
 };
-
-#endif

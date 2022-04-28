@@ -173,28 +173,28 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 #endif
 #if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
-    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+    if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = KdenliveSettings::rendererpath();
-        qWarning() << "meltPath from KdenliveSetting::rendererPath: " << profilePath;
+        qWarning() << "meltPath from KdenliveSetting::rendererPath: " << meltPath;
     }
 #endif
-    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+    if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/%1").arg(appName)) + exeSuffix;
-        qWarning() << "meltPath from profilePath/.../bin: " << profilePath;
+        qWarning() << "meltPath from profilePath/../../../bin: " << meltPath;
     }
 #ifdef Q_OS_MAC
-    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+    if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../MacOS/%1").arg(appName));
-        qWarning() << "meltPath from profilePath/.../MacOS: " << profilePath;
+        qWarning() << "meltPath from profilePath/../../../MacOS: " << meltPath;
     }
 #endif
-    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+    if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = QStandardPaths::findExecutable(appName);
-        qWarning() << "meltPath from findExe: " << profilePath;
+        qWarning() << "meltPath from findExe" << appName << ": " << meltPath;
     }
-    if ((meltPath.isEmpty() || !QFile::exists(meltPath))) {
+    if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = QStandardPaths::findExecutable("mlt-melt");
-        qWarning() << "meltPath from findExe: " << profilePath;
+        qWarning() << "meltPath from findExe \"mlt-melt\" : " << meltPath;
     }
     KdenliveSettings::setRendererpath(meltPath);
 

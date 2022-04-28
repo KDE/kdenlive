@@ -126,6 +126,16 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         m_dataCombo->setItemData(ix, opacity, Qt::UserRole + 4);
         ix++;
     }
+    // If we have several available parameters, put the geometry first
+    if (m_dataCombo->count() > 1) {
+        for (int indx = 0; indx < m_dataCombo->count(); indx++) {
+            auto type = m_dataCombo->itemData(indx, Qt::UserRole + 1).value<ParamType>();
+            if (type == ParamType::AnimatedRect) {
+                m_dataCombo->setCurrentIndex(indx);
+                break;
+            }
+        }
+    }
     m_previewLabel = new QLabel(this);
     m_previewLabel->setMinimumSize(100, 150);
     m_previewLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -137,6 +147,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     if (out <= 0) {
         out = in + parentDuration;
     }
+    out = qMin(out, m_model->data(m_indexes.first(), AssetParameterModel::ParentInRole).toInt() + m_model->data(m_indexes.first(), AssetParameterModel::ParentDurationRole).toInt() - 1);
     m_inPoint = new PositionWidget(i18n("In"), in, 0, out, pCore->currentDoc()->timecode(), QString(), this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
@@ -570,10 +581,10 @@ QString KeyframeImport::selectedData() const
         std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
         animData->anim_get_double("key", m_inPoint->getPosition(), m_outPoint->getPosition());
         int existingKeys = anim->key_count();
+        int out = m_outPoint->getPosition();
         if (m_limitKeyframes->isChecked() && m_limitNumber->value() < existingKeys) {
             // We need to limit keyframes, create new animation
             int in = m_inPoint->getPosition();
-            int out = m_outPoint->getPosition();
             std::shared_ptr<Mlt::Properties> animData2 = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
             std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData2->get_animation("key")));
             anim2->interpolate();
@@ -605,63 +616,79 @@ QString KeyframeImport::selectedData() const
             double interval = double(length) / (m_limitNumber->value() - 1);
             for (int i = 0; i < m_limitNumber->value(); i++) {
                 int pos = firstKeyframe + in + i * interval;
+                if (pos > out) {
+                    break;
+                }
                 pos = qMin(pos, length - 1);
                 double dval = animData->anim_get_double("key", pos);
                 animData2->anim_set("key", dval, pos);
-                
             }
             anim2->interpolate();
             return anim2->serialize_cut();
+        } else {
+            // Ensure we have a keyframe at destination end
+            if (out < anim->length() && !anim->is_key(out)) {
+                double dval = animData->anim_get_double("key", out);
+                animData->anim_set("key", dval, out);
+            }
         }
         return anim->serialize_cut();
     }
     std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
     std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
     animData->anim_get_rect("key", m_inPoint->getPosition(), m_outPoint->getPosition());
+    // Ensure we have a keyframe at destination end
+    int out = m_outPoint->getPosition();
     int existingKeys = anim->key_count();
     if (m_limitKeyframes->isChecked() && m_limitNumber->value() < existingKeys) {
-            // We need to limit keyframes, create new animation
-            int in = m_inPoint->getPosition();
-            int out = m_outPoint->getPosition();
-            std::shared_ptr<Mlt::Properties> animData2 = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
-            std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData2->get_animation("key")));
-            anim2->interpolate();
+        // We need to limit keyframes, create new animation
+        int in = m_inPoint->getPosition();
+        std::shared_ptr<Mlt::Properties> animData2 = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
+        std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData2->get_animation("key")));
+        anim2->interpolate();
             
-            // Remove existing kfrs
-            int firstKeyframe = -1;
-            int lastKeyframe = -1;
-            if (anim2->is_key(0)) {
-                if (in == 0) {
-                    firstKeyframe = 0;
-                }
-                anim2->remove(0);
+        // Remove existing kfrs
+        int firstKeyframe = -1;
+        int lastKeyframe = -1;
+        if (anim2->is_key(0)) {
+            if (in == 0) {
+                firstKeyframe = 0;
             }
-            int keyPos = anim2->next_key(0);
-            while (anim2->is_key(keyPos)) {
-                if (firstKeyframe == -1) {
-                    firstKeyframe = keyPos;
-                }
-                if (keyPos < out) {
-                    lastKeyframe = keyPos;
-                } else {
-                    lastKeyframe = out;
-                }
-                anim2->remove(keyPos);
-                keyPos = anim2->next_key(keyPos);
-            }
-            anim2->interpolate();
-            int length = lastKeyframe - firstKeyframe;
-            double interval = double(length) / (m_limitNumber->value() - 1);
-            for (int i = 0; i < m_limitNumber->value(); i++) {
-                int pos = firstKeyframe + i * interval;
-                pos = qMin(pos, lastKeyframe);
-                mlt_rect rect = animData->anim_get_rect("key", pos);
-                animData2->anim_set("key", rect, pos);
-            }
-            anim2->interpolate();
-            return anim2->serialize_cut();
+            anim2->remove(0);
         }
-    
+        int keyPos = anim2->next_key(0);
+        while (anim2->is_key(keyPos)) {
+            if (firstKeyframe == -1) {
+                firstKeyframe = keyPos;
+            }
+            if (keyPos < out) {
+                lastKeyframe = keyPos;
+            } else {
+                lastKeyframe = out;
+            }
+            anim2->remove(keyPos);
+            keyPos = anim2->next_key(keyPos);
+        }
+        anim2->interpolate();
+        int length = lastKeyframe - firstKeyframe;
+        double interval = double(length) / (m_limitNumber->value() - 1);
+        for (int i = 0; i < m_limitNumber->value(); i++) {
+            int pos = firstKeyframe + i * interval;
+            pos = qMin(pos, lastKeyframe);
+            if (pos > out) {
+                break;
+            }
+            mlt_rect rect = animData->anim_get_rect("key", pos);
+            animData2->anim_set("key", rect, pos);
+        }
+        anim2->interpolate();
+        return anim2->serialize_cut();
+    } else {
+        if (out < anim->length() && !anim->is_key(out)) {
+            mlt_rect rect = animData->anim_get_rect("key", out);
+            animData->anim_set("key", rect, out);
+        }
+    }
     return anim->serialize_cut();
 }
 
@@ -836,6 +863,9 @@ void KeyframeImport::importSelectedData()
                 QJsonObject json = QJsonDocument::fromJson(selectedData().toLocal8Bit()).object();
                 for (int i = 0; i < json.count(); i++) {
                     int frame = json.keys().at(i).toInt();
+                    if (frame > m_outPoint->getPosition()) {
+                        break;
+                    }
                     km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), KeyframeType::Linear, json.value(json.keys().at(i)), true, undo, redo);
                 }
                 continue;
@@ -845,6 +875,9 @@ void KeyframeImport::importSelectedData()
             for (int i = 0; i < anim->key_count(); i++) {
                 int frame = 0;
                 int error = anim->key_get(i, frame, type);
+                if (frame > m_outPoint->getPosition()) {
+                    break;
+                }
                 if (error) {
                     continue;
                 }
@@ -1043,6 +1076,9 @@ void KeyframeImport::importSelectedData()
             mlt_keyframe_type type;
             for (int i = 0; i < anim->key_count(); i++) {
                 int error = anim->key_get(i, frame, type);
+                if (frame > m_outPoint->getPosition()) {
+                    break;
+                }
                 if (error) {
                     continue;
                 }

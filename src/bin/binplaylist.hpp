@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BINPLAYLIST_H
-#define BINPLAYLIST_H
+#pragma once
 
 #include "definitions.h"
 #include <QObject>
@@ -85,5 +84,3 @@ private:
     /** @brief Set of the bin inserted */
     std::unordered_set<QString> m_allClips;
 };
-
-#endif

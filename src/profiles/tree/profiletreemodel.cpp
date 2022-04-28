@@ -73,8 +73,15 @@ std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
         std::unique_ptr<ProfileModel> &ptr = ProfileRepository::get()->getProfile(profile.second);
         // we create the data list corresponding to this profile
         QList<QVariant> data;
-        data << profile.first << profile.second << ptr->height() << ptr->width() << ptr->display_aspect_num() << ptr->display_aspect_den() << ptr->sar()
-             << ptr->fps() << ProfileRepository::getColorspaceDescription(ptr->colorspace());
+        data << profile.first
+             << profile.second
+             << ptr->height()
+             << ptr->width()
+             << ptr->display_aspect_num()
+             << ptr->display_aspect_den()
+             << ptr->sar()
+             << ptr->fps()
+             << ProfileRepository::getColorspaceDescription(ptr->colorspace());
         for (const auto &filter : filters) {
             bool matching = true;
             for (size_t i = 0; i < nbCrit && matching; ++i) {

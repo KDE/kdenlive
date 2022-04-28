@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef VECTORSCOPEGENERATOR_H
-#define VECTORSCOPEGENERATOR_H
+#pragma once
 
 #include <QImage>
 #include <QObject>
@@ -33,5 +32,3 @@ public:
 signals:
     void signalCalculationFinished(const QImage &image, uint ms);
 };
-
-#endif // VECTORSCOPEGENERATOR_H

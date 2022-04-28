@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRANSITIONPARAMETERVIEW_H
-#define TRANSITIONPARAMETERVIEW_H
+#pragma once
 
 #include "assets/model/assetparametermodel.hpp"
 #include <QQuickWidget>
@@ -25,5 +24,3 @@ public:
 protected:
     std::shared_ptr<AssetParameterModel> m_model;
 };
-
-#endif

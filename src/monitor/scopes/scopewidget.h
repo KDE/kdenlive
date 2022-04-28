@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SCOPEWIDGET_H
-#define SCOPEWIDGET_H
+#pragma once
 
 #include "dataqueue.h"
 #include "sharedframe.h"
@@ -113,5 +112,3 @@ private:
     bool m_forceRefresh{false};
     QSize m_size;
 };
-
-#endif // SCOPEWIDGET_H

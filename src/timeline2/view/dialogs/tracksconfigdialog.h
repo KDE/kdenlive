@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRACKSCONFIGDIALOG_H
-#define TRACKSCONFIGDIALOG_H
+#pragma once
 
 #include "ui_tracksconfigdialog_ui.h"
 
@@ -62,5 +61,3 @@ private:
     Timeline *m_timeline;
     QList<int> m_deletedRows;
 };
-
-#endif

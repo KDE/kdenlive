@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SHUTTLE_H
-#define SHUTTLE_H
+#pragma once
 
 #include <QEvent>
 #include <QMap>
@@ -84,5 +83,3 @@ signals:
     void shuttlePos(int);
     void button(int);
 };
-
-#endif

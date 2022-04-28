@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTCLIP_H
-#define PROJECTCLIP_H
+#pragma once
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
@@ -144,7 +143,7 @@ public:
     QString getToolTip() const override;
 
     /** @brief The clip hash created from the clip's resource. */
-    const QString hash();
+    const QString hash(bool createIfEmpty = true);
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
@@ -336,5 +335,3 @@ signals:
     void boundsChanged(QVector <QPoint>bounds);
     void registeredClipChanged();
 };
-
-#endif

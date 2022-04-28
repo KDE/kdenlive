@@ -208,7 +208,7 @@ void TranscodeTask::run()
                 parameters << t;
             }
         }
-        qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
+        qDebug()<<"/// FULL TRANSCODE PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
@@ -233,10 +233,14 @@ void TranscodeTask::run()
                 QMap <QString, QString> sourceProps;
                 QMap <QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), binClip->url());
+                sourceProps.insert(QStringLiteral("kdenlive:originalurl"), binClip->url());
+                sourceProps.insert(QStringLiteral("kdenlive:proxy"), binClip->getProducerProperty(QStringLiteral("kdenlive:proxy")));
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), binClip->clipName());
                 sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
                 newProps.insert(QStringLiteral("resource"), destUrl);
+                newProps.insert(QStringLiteral("kdenlive:originalurl"), destUrl);
                 newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(destUrl).fileName());
+                newProps.insert(QStringLiteral("kdenlive:proxy"), QString());
                 newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
                 pCore->bin()->slotEditClipCommand(binClip->clipId(), sourceProps, newProps);
                 if (m_checkProfile) {

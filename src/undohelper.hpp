@@ -3,8 +3,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef UNDOHELPER_H
-#define UNDOHELPER_H
+#pragma once
+
 #include <functional>
 
 using Fun = std::function<bool(void)>;
@@ -43,5 +43,3 @@ private:
     Fun m_undo, m_redo;
     bool m_undone;
 };
-
-#endif

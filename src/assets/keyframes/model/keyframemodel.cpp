@@ -8,7 +8,7 @@
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
-#include "rotoscoping/bpoint.h"
+#include "../../bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
 #include <QDebug>
@@ -883,7 +883,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    QSignalBlocker bk(this);
+    disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
     removeAllKeyframes(undo, redo);
     int in = 0;
     int out = 0;
@@ -938,6 +938,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
     }
+    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 void KeyframeModel::resetAnimProperty(const QString &prop)

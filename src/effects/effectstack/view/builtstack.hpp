@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BUILTSTACK_H
-#define BUILTSTACK_H
+#pragma once
 
 #include "definitions.h"
 #include <QQuickWidget>
@@ -25,5 +24,3 @@ public:
 private:
     std::shared_ptr<EffectStackModel> m_model;
 };
-
-#endif

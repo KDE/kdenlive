@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOENVELOPE_H
-#define AUDIOENVELOPE_H
+#pragma once
 
 #include "audioInfo.h"
 #include <QFutureWatcher>
@@ -99,5 +98,3 @@ private:
 signals:
     void envelopeReady(AudioEnvelope *envelope);
 };
-
-#endif // AUDIOENVELOPE_H

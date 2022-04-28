@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SUBTITLEEDIT_H
-#define SUBTITLEEDIT_H
+#pragma once
 
 #include "ui_editsub_ui.h"
 
@@ -60,5 +59,3 @@ signals:
     void addSubtitle(const QString &);
     void cutSubtitle(int id, int cursorPos);
 };
-
-#endif

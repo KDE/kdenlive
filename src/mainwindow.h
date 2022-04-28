@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QComboBox>
 #ifndef NODBUS
@@ -282,6 +281,8 @@ private:
     QLabel *m_trimLabel;
     QActionGroup *m_scaleGroup;
     ToolType::ProjectTool m_activeTool;
+    /** @brief Store latest mouse position in timeline. */
+    int m_mousePosition;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
@@ -343,6 +344,8 @@ public slots:
     void updateProjectPath(const QString &path);
     /** @brief Update compositing action to display current project setting. */
     void slotUpdateCompositeAction(int mode);
+    /** @brief Update duration of projet in timeline toolbar. */
+    void slotUpdateProjectDuration(int pos);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -351,8 +354,7 @@ private slots:
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
-    void slotUpdateMousePosition(int pos);
-    void slotUpdateProjectDuration(int pos);
+    void slotUpdateMousePosition(int pos, int duration = -1);
     void slotEditProjectSettings();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
@@ -576,6 +578,7 @@ signals:
     void setPreviewProgress(int);
     void setRenderProgress(int);
     void displayMessage(const QString &, MessageType, int);
+    void displaySelectionMessage(const QString &);
     void displayProgressMessage(const QString &, MessageType, int);
     /** @brief Project profile changed, update render widget accordingly. */
     void updateRenderWidgetProfile();
@@ -588,5 +591,3 @@ signals:
     bool focusTimeline(bool focus, bool highlight);
     void removeBinDock(const QString &name);
 };
-
-#endif

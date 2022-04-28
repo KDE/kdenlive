@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>589</width>
-    <height>532</height>
+    <width>694</width>
+    <height>646</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -68,9 +68,9 @@
     </spacer>
    </item>
    <item row="6" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_verticalzoom">
+    <widget class="QCheckBox" name="kcfg_seekonaddeffect">
      <property name="text">
-      <string>Zoom using vertical drag in ruler</string>
+      <string>Seek to clip when adding effect</string>
      </property>
     </widget>
    </item>
@@ -253,7 +253,7 @@
   <tabstop>kcfg_ffmpegaudiothumbnails</tabstop>
   <tabstop>kcfg_showmarkers</tabstop>
   <tabstop>kcfg_autoscroll</tabstop>
-  <tabstop>kcfg_verticalzoom</tabstop>
+  <tabstop>kcfg_seekonaddeffect</tabstop>
   <tabstop>kcfg_scrollvertically</tabstop>
   <tabstop>kcfg_trackheight</tabstop>
  </tabstops>

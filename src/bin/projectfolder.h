@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTFOLDER_H
-#define PROJECTFOLDER_H
+#pragma once
 
 #include "abstractprojectitem.h"
 
@@ -75,5 +74,3 @@ public:
     /** @brief Returns a clip id if folder contains clip with matching at \@hash, empty if not found. */
     QString childByHash(const QString &hash);
 };
-
-#endif

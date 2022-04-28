@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GRAPHICSSCENERECTMOVE_H
-#define GRAPHICSSCENERECTMOVE_H
+#pragma once
 
 #include <QGraphicsEffect>
 #include <QGraphicsScene>
@@ -37,7 +36,7 @@ class MyTextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 public:
-    MyTextItem(const QString &, QGraphicsItem *parent = nullptr);
+    MyTextItem(const QString& txt, QGraphicsItem* parent = nullptr);
     void setAlignment(Qt::Alignment alignment);
     /** @brief returns an extended bounding containing shadow */
     QRectF boundingRect() const override;
@@ -176,5 +175,3 @@ signals:
     void actionFinished();
     void doubleClickEvent();
 };
-
-#endif

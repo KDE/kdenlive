@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEMODEL_H
-#define TIMELINEMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -186,8 +185,11 @@ public:
     /** @brief returns the track index (id) from its position */
     int getTrackIndexFromPosition(int pos) const;
 
-    /** @brief returns the track index (id) from its position */
+    /** @brief @returns true if the track is a audio track */
     Q_INVOKABLE bool isAudioTrack(int trackId) const;
+
+    /** @brief @returns true if the track is a subtitle track */
+    Q_INVOKABLE bool isSubtitleTrack(int trackId) const;
 
     /** @brief returns the number of clips */
     int getClipsCount() const;
@@ -514,9 +516,9 @@ public:
     bool requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /** @brief @todo TODO */
-    int requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+    int requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo = true, bool moveGuides = false, int snapDistance = -1, bool allowSingleResize = false);
     /** @brief @todo TODO */
-    bool requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+    bool requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo, bool moveGuides, Fun &undo, Fun &redo, bool blockUndo = false);
 
     /** @brief Move ("slip") in and out point of a clip by the given offset
        This action is undoable
@@ -881,9 +883,6 @@ protected:
     /** @brief Refresh project monitor if cursor was inside range */
     void checkRefresh(int start, int end);
 
-    /** @brief Send signal to require clearing effet/composition view */
-    void clearAssetView(int itemId);
-
     bool m_blockRefresh;
 
 signals:
@@ -976,4 +975,3 @@ protected:
     virtual QModelIndex makeTrackIndexFromID(int) const = 0;
     virtual void _resetView() = 0;
 };
-#endif

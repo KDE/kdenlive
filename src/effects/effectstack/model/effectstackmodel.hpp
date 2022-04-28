@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTSTACKMODEL_H
-#define EFFECTSTACKMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "definitions.h"
@@ -183,5 +182,3 @@ signals:
     /** @brief: Currently active effect changed */
     void currentChanged(QModelIndex ix, bool active);
 };
-
-#endif

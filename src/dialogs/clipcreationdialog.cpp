@@ -237,6 +237,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &pa
     if (dia->exec() == QDialog::Accepted) {
         // Ready, create xml
         KRecentDirs::add(QStringLiteral(":KdenliveSlideShowFolder"), QUrl::fromLocalFile(dia->selectedPath()).adjusted(QUrl::RemoveFilename).toLocalFile());
+        KdenliveSettings::setSlideshowmimeextension(dia->extension());
         std::unordered_map<QString, QString> properties;
         properties[QStringLiteral("ttl")] = QString::number(doc->getFramePos(dia->clipDuration()));
         properties[QStringLiteral("loop")] = QString::number(static_cast<int>(dia->loop()));
@@ -246,6 +247,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &pa
         properties[QStringLiteral("luma_file")] = dia->lumaFile();
         properties[QStringLiteral("softness")] = QString::number(dia->softness());
         properties[QStringLiteral("animation")] = dia->animation();
+        properties[QStringLiteral("low-pass")] = QString::number(dia->lowPass());
 
         int duration = doc->getFramePos(dia->clipDuration()) * dia->imageCount();
         ClipCreator::createSlideshowClip(dia->selectedPath(), duration, dia->clipName(), parentId, properties, std::move(model));

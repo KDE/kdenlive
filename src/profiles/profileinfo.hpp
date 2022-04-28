@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILEINFO_H
-#define PROFILEINFO_H
+#pragma once
 
 #include <QString>
 #include <memory>
@@ -53,5 +52,3 @@ public:
     const QString descriptiveString() const;
     const QString dialogDescriptiveString() const;
 };
-
-#endif

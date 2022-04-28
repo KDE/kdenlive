@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RGBPARADEGENERATOR_H
-#define RGBPARADEGENERATOR_H
+#pragma once
 
 #include <QObject>
 
@@ -30,5 +29,3 @@ public:
     static const uchar distRight;
     static const uchar distBottom;
 };
-
-#endif // RGBPARADEGENERATOR_H

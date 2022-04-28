@@ -18,7 +18,7 @@ Item {
     property rect adjustedFrame
     property point profile: controller.profile
     property int overlayType: controller.overlayType
-    property color overlayColor: 'cyan'
+    property color overlayColor: controller.overlayColor
     property point center
     property double scalex
     property double scaley

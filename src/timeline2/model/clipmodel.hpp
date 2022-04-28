@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPMODEL_H
-#define CLIPMODEL_H
+#pragma once
 
 #include "moveableItem.hpp"
 #include "undohelper.hpp"
@@ -277,5 +276,3 @@ protected:
     /** @brief True if the clip has a timeremap effect */
     bool m_hasTimeRemap;
 };
-
-#endif

@@ -7,8 +7,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTITEMMODEL_H
-#define PROJECTITEMMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "definitions.h"
@@ -87,6 +86,9 @@ public:
 
     /** @brief Returns the id of all the clips (excluding folders) */
     std::vector<QString> getAllClipIds() const;
+    
+    /** @brief Updates the list of all created bin thumbnails */
+    void updateCacheThumbnail(std::unordered_map<QString, std::vector<int>> &thumbData);
 
     /** @brief Convenience method to access root folder */
     std::shared_ptr<ProjectFolder> getRootFolder() const;
@@ -228,7 +230,7 @@ protected:
 
 public slots:
     /** @brief An item in the list was modified, notify */
-    void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role);
+    void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, const QVector<int> &roles);
     void onItemUpdated(const QString &binId, int role);
 
     void setDragType(PlaylistState::ClipState type);
@@ -267,5 +269,3 @@ signals:
     void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
 };
-
-#endif

@@ -3,8 +3,7 @@
    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MLTDEVICECAPTURE_H
-#define MLTDEVICECAPTURE_H
+#pragma once
 
 #include "definitions.h"
 #include "gentime.h"
@@ -129,5 +128,3 @@ public slots:
     /** @brief Stops the consumer. */
     void stop();
 };
-
-#endif

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SLIDESHOWCLIP_H
-#define SLIDESHOWCLIP_H
+#pragma once
 
 #include "definitions.h"
 #include "utils/timecode.h"
@@ -34,6 +33,10 @@ public:
     QString lumaFile() const;
     int softness() const;
     QString animation() const;
+    /** @brief Should we add a low-pass (blur) filter */
+    int lowPass() const;
+    /** @brief The selected image extension */
+    const QString extension() const;
 
     /** @brief Get the image frame number from a file path, for example image_047.jpg will return 47. */
     static int getFrameNumberFromPath(const QUrl &path);
@@ -59,5 +62,3 @@ private:
     Timecode m_timecode;
     KIO::PreviewJob *m_thumbJob;
 };
-
-#endif

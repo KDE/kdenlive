@@ -5,10 +5,10 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVE_TAGWIDGET_H
-#define KDENLIVE_TAGWIDGET_H
+#pragma once
 
 #include <QToolButton>
+#include <QScrollArea>
 
 
 /** @class DragButton
@@ -52,7 +52,7 @@ class TagWidget : public QWidget
 public:
     explicit TagWidget(QWidget *parent = nullptr);
     void setTagData(const QString &tagData = QString());
-    void rebuildTags(const QMap <QString, QString> &newTags);
+    void rebuildTags(const QMap <int, QStringList> &newTags);
 
 private:
     QList <DragButton *> tags;
@@ -60,7 +60,5 @@ private:
 
 signals:
     void switchTag(const QString &tag, bool add);
-    void updateProjectTags(QMap <QString, QString> newTags);
+    void updateProjectTags(const QMap <int, QStringList> &oldTags, const QMap <int, QStringList> &newTags);
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MIXSTACKVIEW_H
-#define MIXSTACKVIEW_H
+#pragma once
 
 #include "assets/view/assetparameterview.hpp"
 #include "definitions.h"
@@ -47,5 +46,3 @@ private:
     MixAlignment alignment() const;
     void checkAlignment();
 };
-
-#endif

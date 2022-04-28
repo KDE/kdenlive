@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTITEMMODEL_H
-#define EFFECTITEMMODEL_H
+#pragma once
 
 #include "abstracteffectitem.hpp"
 #include "abstractmodel/treeitem.hpp"
@@ -57,5 +56,3 @@ protected:
     void updateEnable(bool updateTimeline = true) override;
     int m_childId;
 };
-
-#endif

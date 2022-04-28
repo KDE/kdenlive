@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MIXERMANGER_H
-#define MIXERMANGER_H
+#pragma once
 
 #include "definitions.h"
 #include <memory>
@@ -39,6 +38,8 @@ public:
     void pauseMonitoring(bool pause);
     /** @brief Release the timeline model ownership */
     void unsetModel();
+    /** @brief Some features rely on a specific version of MLT's audiolevel filter, so check it */
+    void checkAudioLevelVersion();
 
 public slots:
     void recordStateChanged(int tid, bool recording);
@@ -70,8 +71,6 @@ private:
     int m_expandedWidth;
     QVector <int> m_soloMuted;
     int m_recommendedWidth;
+    bool m_filterIsV2;
 
 };
-
-#endif
-

@@ -72,7 +72,7 @@ bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE typ
     }
     std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
     for (AbstractTask* t : taskList) {
-        if (type == t->m_type && t->m_progress < 100) {
+        if (type == t->m_type && t->m_progress < 100 && !t->m_isCanceled) {
             return true;
         }
     }
@@ -143,7 +143,7 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
         // First task for this clip
         m_taskList[ownerId] = {task};
     } else {
-        m_taskList[ownerId].emplace_back(std::move(task));
+        m_taskList[ownerId].emplace_back(task);
     }
     if (task->m_type == AbstractTask::TRANSCODEJOB || task->m_type == AbstractTask::PROXYJOB) {
         // We only want a limited concurrent jobs for those as for example GPU usually only accept 2 concurrent encoding jobs

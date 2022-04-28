@@ -90,7 +90,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 #include <knewstuff_version.h>
-// TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
 #include <kns3/downloaddialog.h>
 #else
@@ -141,6 +140,8 @@ static QString defaultStyle(const char *fallback = nullptr)
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
     , m_activeTool(ToolType::SelectTool)
+    , m_mousePosition(0)
+    , m_effectBasket(nullptr)
 {
     // Init all action categories that are used by other parts of the software
     // before we call MainWindow::init and therefore can't be initilized there
@@ -177,7 +178,7 @@ void MainWindow::init(const QString &mltPath)
     QStringList availableStyles = QStyleFactory::keys();
     if (KdenliveSettings::widgetstyle().isEmpty()) {
         // First run
-        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("Windows")};
+        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("Windows"), QStringLiteral("macintosh")};
 
         if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
             if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
@@ -282,7 +283,7 @@ void MainWindow::init(const QString &mltPath)
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
-    QDockWidget *textEditingDock = addDock(i18n("Text Edit"), QStringLiteral("textedit"), pCore->textEditWidget());
+    QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
     connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock] (int id) {
         if (id > -1) {
@@ -319,7 +320,6 @@ void MainWindow::init(const QString &mltPath)
     });
     installEventFilter(this);
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
-    connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
@@ -394,7 +394,7 @@ void MainWindow::init(const QString &mltPath)
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this, [&](int cid, const QString &compositionId) {
-        getMainTimeline()->controller()->getModel()->switchComposition(cid, compositionId);
+        getMainTimeline()->model()->switchComposition(cid, compositionId);
     });
 
     connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
@@ -406,6 +406,9 @@ void MainWindow::init(const QString &mltPath)
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&] () {
         m_effectStackDock->raise();
     });
+    
+    connect(m_timelineTabs, &TimelineTabs::updateAssetPosition, m_assetPanel, &AssetPanel::updateAssetPosition);
+    
 
     connect(m_timelineTabs, &TimelineTabs::showSubtitle, this, [&, subtitlesDock] (int id) {
         if (id > -1) {
@@ -475,6 +478,8 @@ void MainWindow::init(const QString &mltPath)
     addAction(QStringLiteral("audiomixer_button"), showMixer);
     connect(m_mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
         pCore->mixer()->connectMixer(visible);
+        pCore->audioMixerVisible = visible;
+        m_projectMonitor->displayAudioMonitor(m_projectMonitor->isActive());
         showMixer->setChecked(visible);
     });
     connect(showMixer, &QAction::triggered, this, [&]() {
@@ -1348,6 +1353,7 @@ void MainWindow::setupActions()
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     connect(this, &MainWindow::displayMessage, m_messageLabel, &StatusBarMessageLabel::setMessage);
+    connect(this, &MainWindow::displaySelectionMessage, m_messageLabel, &StatusBarMessageLabel::setSelectionMessage);
     connect(this, &MainWindow::displayProgressMessage, m_messageLabel, &StatusBarMessageLabel::setProgressMessage);
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addPermanentWidget(toolbar);
@@ -2218,7 +2224,7 @@ void MainWindow::setRenderingProgress(const QString &url, int progress, int fram
 {
     emit setRenderProgress(progress);
     if (m_renderWidget) {
-        m_renderWidget->setRenderJob(url, progress, frame);
+        m_renderWidget->setRenderProgress(url, progress, frame);
     }
 }
 
@@ -2275,26 +2281,31 @@ void MainWindow::slotCleanProject()
     pCore->bin()->cleanupUnused();
 }
 
-void MainWindow::slotUpdateMousePosition(int pos)
+void MainWindow::slotUpdateMousePosition(int pos, int duration)
 {
     if (pCore->currentDoc()) {
+        if (duration < 0) {
+            duration = getMainTimeline()->controller()->duration() - 1;
+        }
+        if (pos >= 0) {
+            m_mousePosition = pos;
+        }
         switch (m_timeFormatButton->currentItem()) {
         case 0:
-            m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(pos) + QStringLiteral(" / ") +
-                                        pCore->currentDoc()->timecode().getTimecodeFromFrames(getMainTimeline()->controller()->duration() - 1));
+            m_timeFormatButton->setText(pCore->currentDoc()->timecode().getTimecodeFromFrames(m_mousePosition) + QStringLiteral(" / ") +
+                                        pCore->currentDoc()->timecode().getTimecodeFromFrames(duration));
             break;
         default:
             m_timeFormatButton->setText(
-                QStringLiteral("%1 / %2").arg(pos, 6, 10, QLatin1Char('0')).arg(getMainTimeline()->controller()->duration() - 1, 6, 10, QLatin1Char('0')));
+                QStringLiteral("%1 / %2").arg(m_mousePosition, 6, 10, QLatin1Char('0')).arg(duration, 6, 10, QLatin1Char('0')));
         }
     }
 }
 
-void MainWindow::slotUpdateProjectDuration(int pos)
+void MainWindow::slotUpdateProjectDuration(int duration)
 {
-    Q_UNUSED(pos)
     if (pCore->currentDoc()) {
-        slotUpdateMousePosition(getMainTimeline()->controller()->getMousePos());
+        slotUpdateMousePosition(-1, duration);
     }
 }
 
@@ -2321,12 +2332,7 @@ void MainWindow::connectDocument()
     });
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
             Qt::UniqueConnection);
-    connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
-        emit pCore->mixer()->updateLevels(frame.get_position());
-        //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
-    });
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
-
     getMainTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
 
     connect(m_projectMonitor, &Monitor::zoneUpdated, project, [&](const QPoint &) { project->setModified(); });
@@ -2351,7 +2357,9 @@ void MainWindow::connectDocument()
     connect(pCore->bin(), &Bin::processDragEnd, getMainTimeline(), &TimelineWidget::endDrag);
     
     // Load master effect zones
-    getMainTimeline()->controller()->updateMasterZones(getMainTimeline()->controller()->getModel()->getMasterEffectZones());
+    getMainTimeline()->controller()->updateMasterZones(getMainTimeline()->model()->getMasterEffectZones());
+    // Connect stuff for timeline preview
+    connect(getMainTimeline()->model().get(), &TimelineModel::invalidateZone, getMainTimeline()->controller(), &TimelineController::invalidateZone, Qt::DirectConnection);
 
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -2524,7 +2532,7 @@ void MainWindow::slotShowTimelineTags()
     KdenliveSettings::setTagsintimeline(!KdenliveSettings::tagsintimeline());
     m_buttonTimelineTags->setChecked(KdenliveSettings::tagsintimeline());
     // Reset view to update timeline colors
-    getMainTimeline()->controller()->getModel()->_resetView();
+    getMainTimeline()->model()->_resetView();
 }
 
 void MainWindow::slotDeleteItem()
@@ -2594,7 +2602,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     }
 
     bool markerFound = false;
-    CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &markerFound);
+    clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
         if (allowGuideDeletion && m_projectMonitor->isActive()) {
             slotDeleteGuide();
@@ -2643,13 +2651,15 @@ void MainWindow::slotEditClipMarker()
     }
 
     bool markerFound = false;
-    CommentedTime oldMarker = clip->getMarkerModel()->getMarker(pos, &markerFound);
+    clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
         m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
         return;
     }
 
     clip->getMarkerModel()->editMarkerGui(pos, this, false, clip.get());
+    // Focus back clip monitor
+    m_clipMonitor->setFocus();
 }
 
 void MainWindow::slotAddMarkerGuideQuickly()
@@ -2954,7 +2964,6 @@ void MainWindow::slotAddTransition(QAction *result)
 
 void MainWindow::slotAddEffect(QAction *result)
 {
-    qDebug() << "// EFFECTS MENU TRIGGERED: " << result->data().toString();
     if (!result) {
         return;
     }
@@ -3125,7 +3134,7 @@ void MainWindow::slotChangeEdit(QAction *action)
     } else if (action == m_insertEditTool) {
         mode = TimelineMode::InsertEdit;
     }
-    getMainTimeline()->controller()->getModel()->setEditMode(mode);
+    getMainTimeline()->model()->setEditMode(mode);
     showToolMessage();
     if (mode == TimelineMode::InsertEdit) {
         // Disable spacer tool in insert mode
@@ -3187,8 +3196,8 @@ void MainWindow::showToolMessage()
         toolLabel = i18n("Multicam");
     }
     TimelineMode::EditMode mode = TimelineMode::NormalEdit;
-    if (getMainTimeline()->controller() && getMainTimeline()->controller()->getModel()) {
-        mode = getMainTimeline()->controller()->getModel()->editMode();
+    if (getMainTimeline()->controller() && getMainTimeline()->model()) {
+        mode = getMainTimeline()->model()->editMode();
     }
     if (mode != TimelineMode::NormalEdit) {
         if (!toolLabel.isEmpty()) {
@@ -3268,7 +3277,7 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
 void MainWindow::raiseBin()
 {
     Bin *bin = activeBin();
-    if (bin && !bin->isVisible()) {
+    if (bin) {
         bin->parentWidget()->setVisible(true);
         bin->parentWidget()->raise();
     }
@@ -3278,7 +3287,24 @@ void MainWindow::slotClipInProjectTree()
 {
     QList<int> ids = getMainTimeline()->controller()->selection();
     if (!ids.isEmpty()) {
-        raiseBin();
+        const QString binId = getMainTimeline()->controller()->getClipBinId(ids.constFirst());
+        // If we have multiple bins, check first if a visible bin contains it
+        bool binFound = false;
+        if (binCount() > 1) {
+            for (auto &bin : m_binWidgets) {
+                if (bin->isVisible() && !bin->visibleRegion().isEmpty()) {
+                    // Check if clip is a child of this bin
+                    if (bin->containsId(binId)) {
+                        binFound = true;
+                        bin->setFocus();
+                        raiseBin();
+                    }
+                }
+            }
+        }
+        if (!binFound) {
+            raiseBin();
+        }
         ObjectId id(ObjectType::TimelineClip, ids.constFirst());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
@@ -3313,7 +3339,7 @@ void MainWindow::slotClipInProjectTree()
         if (!containsPos) {
             pos = start;
         }
-        pCore->selectBinClip(getMainTimeline()->controller()->getClipBinId(ids.constFirst()), true, pos, zone);
+        activeBin()->selectClipById(binId, pos, zone, true);
     }
 }
 
@@ -3346,7 +3372,6 @@ void MainWindow::slotResizeItemEnd()
 int MainWindow::getNewStuff(const QString &configFile)
 {
 
-// TODO The NewStuff QML Dialog doesn't work on windows for some reasons, use the old one until we found out why
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5,78,0)
     KNS3::Entry::List entries;
     QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
@@ -3421,7 +3446,7 @@ void MainWindow::slotUpdateTimelineView(QAction *action)
 {
     int viewMode = action->data().toInt();
     KdenliveSettings::setAudiotracksbelow(viewMode);
-    getMainTimeline()->controller()->getModel()->_resetView();
+    getMainTimeline()->model()->_resetView();
 }
 
 void MainWindow::slotShowTimeline(bool show)
@@ -4224,7 +4249,7 @@ bool MainWindow::timelineVisible() const
 void MainWindow::slotActivateAudioTrackSequence()
 {
     auto *action = qobject_cast<QAction *>(sender());
-    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(true);
+    const QList<int> trackIds = getMainTimeline()->model()->getTracksIds(true);
     int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
     int tid = trackIds.at(trackPos);
     getCurrentTimeline()->controller()->setActiveTrack(tid);
@@ -4233,7 +4258,7 @@ void MainWindow::slotActivateAudioTrackSequence()
 void MainWindow::slotActivateVideoTrackSequence()
 {
     auto *action = qobject_cast<QAction *>(sender());
-    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(false);
+    const QList<int> trackIds = getMainTimeline()->model()->getTracksIds(false);
     int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
     int tid = trackIds.at(trackIds.count() - 1 - trackPos);
     getCurrentTimeline()->controller()->setActiveTrack(tid);
@@ -4271,8 +4296,8 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel == nullptr) {
         // Starting a new subtitle for this project
-        subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->controller()->getModel(), this));
-        getMainTimeline()->controller()->getModel()->setSubModel(subtitleModel);
+        subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->model(), this));
+        getMainTimeline()->model()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel);
         pCore->subtitleWidget()->setModel(subtitleModel);
         const QString subPath = pCore->currentDoc()->subTitlePath(true);

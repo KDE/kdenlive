@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef NOTESPLUGIN_H
-#define NOTESPLUGIN_H
+#pragma once
 
 #include <QObject>
 
@@ -43,5 +42,3 @@ private:
     QDockWidget *m_notesDock;
     QToolBar *m_tb;
 };
-
-#endif

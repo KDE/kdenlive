@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETSREPOSITORY_H
-#define ASSETSREPOSITORY_H
+#pragma once
 
 #include "definitions.h"
 #include <QSet>
@@ -42,6 +41,8 @@ public:
 
     /** @brief Return description of asset */
     QString getDescription(const QString &assetId) const;
+    /** @brief Return version of asset */
+    int getVersion(const QString &assetId) const;
 
     /** @brief Returns a DomElement representing the asset's properties */
     QDomElement getXml(const QString &assetId) const;
@@ -103,5 +104,3 @@ protected:
 };
 
 #include "abstractassetsrepository.ipp"
-
-#endif

@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DOCKTITLEBARMANAGER_H
-#define DOCKTITLEBARMANAGER_H
+#pragma once
 
 #include <QObject>
 class QAction;
@@ -40,5 +39,3 @@ private slots:
     /** @brief Toggles the the global visible state of the DockWidget title bars */
     void slotSwitchTitleBars();
 };
-
-#endif

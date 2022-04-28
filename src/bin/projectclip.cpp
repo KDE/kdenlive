@@ -185,7 +185,7 @@ void ProjectClip::connectEffectStack()
     connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, [&]() {
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::IconOverlay);
+                                                                           {AbstractProjectItem::IconOverlay});
         }
     });
 }
@@ -408,6 +408,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         if (!xml.isNull()) {
             bool hashChanged = false;
             m_thumbsProducer.reset();
+            m_clipStatus = FileStatus::StatusWaiting;
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
@@ -423,13 +424,13 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 }
             }
             m_audioThumbCreated = false;
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             // Reset uuid to enforce reloading thumbnails from qml cache
             m_uuid = QUuid::createUuid();
-            updateTimelineClips({TimelineModel::ClipThumbRole});
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
+            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            m_thumbsProducer.reset();
             ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
         }
     }
@@ -479,7 +480,7 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::DataThumbnail);
+                                                                       {AbstractProjectItem::DataThumbnail});
     }
     if (!inCache && (m_clipType == ClipType::Text || m_clipType == ClipType::TextTemplate)) {
         // Title clips always use the same thumb as bin, refresh
@@ -511,10 +512,12 @@ QPixmap ProjectClip::thumbnail(int width, int height)
 
 bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb)
 {
-    qDebug() << "################### ProjectClip::setproducer";
+    qDebug() << "################### ProjectClip::setproducer #################";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
+    // Make sure we have a hash for this clip
     updateProducer(producer);
+    getFileHash();
     emit producerChanged(m_binId, producer);
     m_thumbsProducer.reset();
     connectEffectStack();
@@ -536,18 +539,19 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    QVector<int>updateRoles;
     if (m_clipStatus != currentStatus) {
-        updateTimelineClips({TimelineModel::StatusRole});
+        updateRoles = {AbstractProjectItem::ClipStatus, AbstractProjectItem::IconOverlay};
+        updateTimelineClips({TimelineModel::StatusRole,TimelineModel::ClipThumbRole});
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     if (auto ptr = m_model.lock()) {
+        updateRoles << AbstractProjectItem::DataDuration;
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::DataDuration);
+                                                                       updateRoles);
         std::static_pointer_cast<ProjectItemModel>(ptr)->updateWatcher(std::static_pointer_cast<ProjectClip>(shared_from_this()));
     }
-    // Make sure we have a hash for this clip
-    getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
     if (generateThumb && m_clipType != ClipType::Audio) {
@@ -591,7 +595,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         } else if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1 &&
                    (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
             bool skipProducer = false;
-            if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() == 1) {
+            if (pCore->currentDoc()->useExternalProxy()) {
                 QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
                 // We have a camcorder profile, check if we have opened a proxy clip
                 if (externalParams.count() >= 6) {
@@ -648,7 +652,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (m_thumbsProducer) {
         return m_thumbsProducer;
     }
-    if (clipType() == ClipType::Unknown || m_masterProducer == nullptr) {
+    if (clipType() == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;
     }
     QMutexLocker lock(&m_thumbMutex);
@@ -1150,10 +1154,13 @@ QPoint ProjectClip::zone() const
     return ClipController::zone();
 }
 
-const QString ProjectClip::hash()
+const QString ProjectClip::hash(bool createIfEmpty)
 {
+    if (m_clipStatus == FileStatus::StatusWaiting) {
+        return QString();
+    }
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
-    if (!clipHash.isEmpty()) {
+    if (!clipHash.isEmpty() || createIfEmpty) {
         return clipHash;
     }
     return getFileHash();
@@ -1268,7 +1275,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         m_description = properties.value(QStringLiteral("templatetext"));
         if (auto ptr = m_model.lock())
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::ClipStatus);
+                                                                           {AbstractProjectItem::ClipStatus});
         refreshPanel = true;
     }
     // Some properties also need to be passed to track producers
@@ -1277,7 +1284,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         QStringLiteral("force_colorspace"), QStringLiteral("force_tff"), QStringLiteral("force_progressive"), QStringLiteral("video_delay")
     };
     QStringList forceReloadProperties{QStringLiteral("rotate"),QStringLiteral("autorotate"), QStringLiteral("templatetext"), QStringLiteral("resource"), QStringLiteral("force_fps"), QStringLiteral("set.test_image"), QStringLiteral("video_index"), QStringLiteral("disable_exif")};
-    QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"), QStringLiteral("softness"), QStringLiteral("crop"), QStringLiteral("animation")};
+    QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"), QStringLiteral("softness"), QStringLiteral("crop"), QStringLiteral("animation"), QStringLiteral("low-pass")};
     QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();
@@ -1347,6 +1354,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
     if (!reload && (properties.contains(QStringLiteral("xmldata")) || !passProperties.isEmpty())) {
         reload = true;
+        updateRoles << TimelineModel::ResourceRole;
     }
     if (refreshAnalysis) {
         emit refreshAnalysisPanel();
@@ -1361,7 +1369,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         m_duration = getStringDuration();
         if (auto ptr = m_model.lock())
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataDuration);
+                                                                           {AbstractProjectItem::DataDuration});
         refreshOnly = false;
         reload = true;
     }
@@ -1370,7 +1378,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         setTags(properties.value(QStringLiteral("kdenlive:tags")));
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataTag);
+                                                                           {AbstractProjectItem::DataTag});
         }
         refreshRoles << TimelineModel::TagRole;
     }
@@ -1379,7 +1387,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshPanel = true;
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataName);
+                                                                           {AbstractProjectItem::DataName});
         }
         refreshRoles << TimelineModel::NameRole;
     }
@@ -1619,7 +1627,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
     if (!ok) {
         return QString();
     }
-    const QString clipHash = hash();
+    const QString clipHash = hash(false);
     if (clipHash.isEmpty()) {
         return QString();
     }
@@ -1811,7 +1819,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         }
         if (auto timeline = clip.second.lock()) {
             timeline->requestClipUngroup(clip.first, undo, redo);
-            timeline->requestItemDeletion(clip.first, undo, redo);
+            timeline->requestItemDeletion(clip.first, undo, redo, true);
         } else {
             qDebug() << "Error while deleting clip: timeline unavailable";
             Q_ASSERT(false);
@@ -1902,7 +1910,10 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     if (percent < 0) {
         if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
             int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-            setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
+            QImage thumb = ThumbnailCache::get()->getThumbnail(hash(false), m_binId, framePos);
+            if (!thumb.isNull()) {
+                setThumbnail(thumb, -1, -1);
+            }
         }
         return;
     }
@@ -1910,11 +1921,14 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
-    if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
-        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos), -1, -1);
+    QImage thumb = ThumbnailCache::get()->getThumbnail(hash(false), m_binId, framePos);
+    if (!thumb.isNull()) {
+        setThumbnail(thumb, -1, -1);
     } else {
         // Generate percent thumbs
-        CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
+        if (!pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::CACHEJOB)) {
+            CacheTask::start({ObjectType::BinClip,m_binId.toInt()}, 30, 0, 0, this);
+        }
     }
     if (storeFrame) {
         setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
@@ -2005,7 +2019,7 @@ void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
     updateTimelineClips({TimelineModel::StatusRole});
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                       AbstractProjectItem::IconOverlay);
+                                                                       {AbstractProjectItem::IconOverlay});
     }
 }
 

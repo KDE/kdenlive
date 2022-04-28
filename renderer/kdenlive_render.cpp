@@ -44,7 +44,7 @@ int main(int argc, char **argv)
         }
 
         // Do we want a split render
-        if (args.count() > 0 && args.at(0) == QLatin1String("-split")) {
+        if (args.count() > 5 && args.at(0) == QLatin1String("-split")) {
             args.removeFirst();
             // chunks to render
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)

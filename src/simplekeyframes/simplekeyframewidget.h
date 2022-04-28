@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SIMPLEKEYFRAMEWIDGET_H
-#define SIMPLEKEYFRAMEWIDGET_H
+#pragma once
 
 #include "utils/timecode.h"
 
@@ -47,5 +46,3 @@ private:
     QToolButton *m_buttonNext;
     TimecodeDisplay *m_time;
 };
-
-#endif

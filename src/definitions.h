@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#pragma once
 
 #include "utils/gentime.h"
 
@@ -22,7 +21,7 @@ const int MAXCLIPDURATION = 15000;
 
 namespace Kdenlive {
 
-enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10 };
+enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10, RenderMonitor = 0x20 };
 
 const int DefaultThumbHeight = 100;
 } // namespace Kdenlive
@@ -371,4 +370,3 @@ public:
 public: // actually private, but avoids compiler template friendship issues
     mutable std::weak_ptr<T> weak_this_;
 };
-#endif

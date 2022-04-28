@@ -3,8 +3,8 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#ifndef TRANSITIONSETTINGS_H
-#define TRANSITIONSETTINGS_H
+
+#pragma once
 
 #include <QDomElement>
 
@@ -61,5 +61,3 @@ signals:
     void seekTimeline(int);
     void importClipKeyframes(GraphicsRectItem, const ItemInfo &, const QDomElement &, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
 };
-
-#endif

@@ -5,12 +5,11 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef QMLMANAGER_H
-#define QMLMANAGER_H
+#pragma once
 
 #include "definitions.h"
 
-class QQuickView;
+class QQuickWidget;
 
 /** @class QmlManager
     @brief Manages all Qml monitor overlays
@@ -21,7 +20,7 @@ class QmlManager : public QObject
     Q_OBJECT
 
 public:
-    explicit QmlManager(QQuickView *view);
+    explicit QmlManager(QQuickWidget *view);
 
     /** @brief return current active scene type */
     MonitorSceneType sceneType() const;
@@ -31,7 +30,7 @@ public:
     void setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration);
 
 private:
-    QQuickView *m_view;
+    QQuickWidget *m_view;
     MonitorSceneType m_sceneType;
 
 private slots:
@@ -44,5 +43,3 @@ signals:
     void effectPointsChanged(const QVariantList &);
     void activateTrack(int);
 };
-
-#endif

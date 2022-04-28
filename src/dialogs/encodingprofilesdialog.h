@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ENCODINGPROFILESDIALOG_H
-#define ENCODINGPROFILESDIALOG_H
+#pragma once
 
 #include <KConfigGroup>
 
@@ -70,5 +69,3 @@ private slots:
     void loadEncodingProfiles();
 
 };
-
-#endif

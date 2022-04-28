@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitoraudiolevel.h"
 #include "core.h"
 #include "profiles/profilemodel.hpp"
+#include "audiomixer/iecscale.h"
 
 #include "mlt++/Mlt.h"
 
@@ -18,32 +19,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPainter>
 #include <memory>
 
-const double log_factor = 1.0 / log10(1.0 / 127);
-
-static inline double levelToDB(double level)
-{
-    if (level <= 0) {
-        return -100;
-    }
-    return 100 * (1.0 - log10(level) * log_factor);
-}
-
 MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     : ScopeWidget(parent)
     , audioChannels(2)
     , m_height(height)
     , m_channelHeight(height / 2)
-    , m_channelDistance(2)
+    , m_channelDistance(1)
     , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), "audiolevel");
-    if (!m_filter->is_valid()) {
-        isValid = false;
-        return;
-    }
-    m_filter->set("iec_scale", 0);
     isValid = true;
+    connect(this, &MonitorAudioLevel::audioLevelsAvailable, this, &MonitorAudioLevel::setAudioValues);
 }
 
 MonitorAudioLevel::~MonitorAudioLevel()
@@ -54,24 +40,29 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
     SharedFrame sFrame;
     while (m_queue.count() > 0) {
         sFrame = m_queue.pop();
-        if (sFrame.is_valid() && sFrame.get_audio_samples() > 0) {
-            mlt_audio_format format = mlt_audio_s16;
-            int channels = sFrame.get_audio_channels();
-            int frequency = sFrame.get_audio_frequency();
+        if (sFrame.is_valid()) {
             int samples = sFrame.get_audio_samples();
-            Mlt::Frame mFrame = sFrame.clone(true, false, false);
-            m_filter->process(mFrame);
-            mFrame.get_audio(format, frequency, channels, samples);
-            if (samples == 0) {
-                // There was an error processing audio from frame
+            if (samples <= 0) {
                 continue;
             }
-            QVector<int> levels;
-            for (int i = 0; i < audioChannels; i++) {
-                QString s = QStringLiteral("meta.media.audio_level.%1").arg(i);
-                levels << int(levelToDB(mFrame.get_double(s.toLatin1().constData())));
+            int channels = sFrame.get_audio_channels();
+            QVector<double> levels;
+            const int16_t* audio = sFrame.get_audio();
+            for ( int c = 0; c < channels; c++ ) {
+                int16_t peak = 0;
+                const int16_t* p = audio + c;
+                for ( int s = 0; s < samples; s++ ) {
+                    int16_t sample = abs( *p );
+                    if (sample > peak) peak = sample;
+                    p += channels;
+                }
+                if (peak == 0) {
+                    levels << -100;
+                } else {
+                    levels << 20 * log10((double)peak / (double)std::numeric_limits<int16_t>::max());
+                }
             }
-            QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(QVector<int>, levels));
+            emit audioLevelsAvailable(levels);
         }
     }
 }
@@ -102,13 +93,17 @@ void MonitorAudioLevel::drawBackground(int channels)
     int textHeight = fontMetrics().ascent();
     newSize.setHeight(newSize.height() - textHeight);
     QLinearGradient gradient(0, 0, newSize.width(), 0);
-    gradient.setColorAt(0.0, Qt::darkGreen);
-    gradient.setColorAt(0.379, Qt::darkGreen);
-    gradient.setColorAt(0.38, Qt::green); // -20db
-    gradient.setColorAt(0.868, Qt::green);
-    gradient.setColorAt(0.869, Qt::yellow); // -2db
-    gradient.setColorAt(0.95, Qt::yellow);
-    gradient.setColorAt(0.951, Qt::red); // 0db
+    double gradientVal = 0.;
+    gradient.setColorAt(gradientVal, Qt::darkGreen);
+    gradientVal = IEC_ScaleMax(-12, m_maxDb);
+    gradient.setColorAt(gradientVal - 0.001, Qt::darkGreen);
+    gradient.setColorAt(gradientVal, Qt::green); // -12db
+    gradientVal = IEC_ScaleMax(-6, m_maxDb);
+    gradient.setColorAt(gradientVal - 0.001, Qt::green);
+    gradient.setColorAt(gradientVal, Qt::yellow); // -6db
+    gradientVal = IEC_ScaleMax(0, m_maxDb);
+    gradient.setColorAt(gradientVal - 0.001, Qt::yellow);
+    gradient.setColorAt(gradientVal, Qt::red); // 0db
     m_pixmap = QPixmap(QWidget::size());
     if (m_pixmap.isNull()) {
         return;
@@ -124,60 +119,49 @@ void MonitorAudioLevel::drawBackground(int channels)
     }
     QRect rect(0, 0, newSize.width(), totalHeight);
     QPainter p(&m_pixmap);
-    p.setOpacity(0.4);
+    p.setOpacity(0.6);
     p.setFont(ft);
     p.fillRect(rect, QBrush(gradient));
-
     // Channel labels are horizontal along the bottom.
     QVector<int> dbscale;
-    dbscale << 0 << -2 << -5 << -10 << -15 << -20 << -30 << -45;
+    dbscale << 0 << -5 << -10 << -15 << -20 << -25 << -30 << -35 << -40 << -50;
     int dbLabelCount = dbscale.size();
+    m_maxDb = dbscale.first();
     // dB scale is horizontal along the bottom
-    int prevX = m_pixmap.width() * 2;
     int y = totalHeight + textHeight;
+    int prevX = -1;
+    int x = 0;
     for (int i = 0; i < dbLabelCount; i++) {
-        int value = dbscale.at(i);
-        QString label = QString::number(value);
+        int value = dbscale[i];
+        QString label = QString::asprintf("%d", value);
         int labelWidth = fontMetrics().horizontalAdvance(label);
-        double xf = pow(10.0, double(dbscale.at(i)) / 50.0) * m_pixmap.width() * 40.0 / 42;
-        if (xf + labelWidth / 2 > m_pixmap.width()) {
-            xf = width() - labelWidth / 2;
+        x = IEC_ScaleMax(value, m_maxDb) * m_pixmap.width();
+        p.setPen(palette().window().color());
+        p.drawLine(x, 0, x, totalHeight);
+        x -= qRound(labelWidth / 2.);
+        if (x + labelWidth > m_pixmap.width()) {
+            x = m_pixmap.width() - labelWidth;
         }
-        if (prevX - (xf + labelWidth / 2) >= 2) {
-            p.setPen(palette().dark().color());
-            p.drawLine(int(xf), 0, int(xf), totalHeight - 1);
-            xf -= labelWidth / 2;
+        if (prevX < 0 || prevX - (x + labelWidth) > 2) {
             p.setPen(palette().text().color().rgb());
-            p.drawText(int(xf), y, label);
-            prevX = int(xf);
+            p.drawText(x, y, label);
+            prevX = x;
         }
     }
-    p.setOpacity(isEnabled() ? 1 : 0.5);
-    p.setPen(palette().dark().color());
+    p.setOpacity(1);
+    p.setPen(palette().window().color());
     // Clear space between the 2 channels
     p.setCompositionMode(QPainter::CompositionMode_Source);
-    if (m_channelHeight < 4) {
-        // too many audio channels, simple line between channels
-        m_channelDistance = 1;
-        m_channelFillHeight = m_channelHeight;
-        for (int i = 0; i < channels; i++) {
-            p.drawLine(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, i * (m_channelHeight + m_channelDistance));
-        }
-    } else {
-        m_channelDistance = 2;
-        m_channelFillHeight = m_channelHeight - 2;
-        for (int i = 0; i < channels; i++) {
-            p.drawRect(0, i * (m_channelHeight + m_channelDistance), rect.width() - 1, m_channelHeight - 1);
-            if (i > 0) {
-                p.fillRect(0, i * (m_channelHeight + m_channelDistance) - 2, rect.width(), 2, Qt::transparent);
-            }
-        }
+    m_channelDistance = 1;
+    m_channelFillHeight = m_channelHeight;
+    for (int i = 1; i < channels; i++) {
+        p.drawLine(0, i * (m_channelHeight + m_channelDistance) - 1, rect.width() - 1, i * (m_channelHeight + m_channelDistance) - 1);
     }
     p.end();
 }
 
 // cppcheck-suppress unusedFunction
-void MonitorAudioLevel::setAudioValues(const QVector<int> &values)
+void MonitorAudioLevel::setAudioValues(const QVector<double> &values)
 {
     m_values = values;
     if (m_peaks.size() != m_values.size()) {
@@ -185,7 +169,7 @@ void MonitorAudioLevel::setAudioValues(const QVector<int> &values)
         drawBackground(values.size());
     } else {
         for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i]--;
+            m_peaks[i] -= 0.2;
             if (m_values.at(i) > m_peaks.at(i)) {
                 m_peaks[i] = m_values.at(i);
             }
@@ -220,15 +204,15 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
         return;
     }
     p.drawPixmap(rect, m_pixmap);
-    p.setPen(palette().dark().color());
     p.setOpacity(0.9);
     int width = m_channelDistance == 1 ? rect.width() : rect.width() - 1;
     for (int i = 0; i < m_values.count(); i++) {
         if (m_values.at(i) >= 100) {
             continue;
         }
-        int val = int((50 + m_values.at(i)) / 150.0 * rect.width());
-        p.fillRect(val, i * (m_channelHeight + m_channelDistance) + 1, width - val, m_channelFillHeight, palette().dark());
-        p.fillRect(int((50 + m_peaks.at(i)) / 150.0 * rect.width()), i * (m_channelHeight + m_channelDistance) + 1, 1, m_channelFillHeight, palette().text());
+        int val = IEC_ScaleMax(m_values.at(i), m_maxDb) * width;
+        int peak = IEC_ScaleMax(m_peaks.at(i), m_maxDb) * width;
+        p.fillRect(val, i * (m_channelHeight + m_channelDistance), width - val, m_channelFillHeight, palette().window());
+        p.fillRect(peak, i * (m_channelHeight + m_channelDistance), 1, m_channelFillHeight, palette().text());
     }
 }

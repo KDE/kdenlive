@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef LISTDEPPARAMWIDGET_H
-#define LISTDEPPARAMWIDGET_H
+#pragma once
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "ui_listdependencyparamwidget_ui.h"
@@ -74,5 +73,3 @@ private:
     void checkDependencies(const QString &val);
 
 };
-
-#endif

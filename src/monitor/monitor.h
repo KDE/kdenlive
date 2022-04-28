@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MONITOR_H
-#define MONITOR_H
+#pragma once
 
 #include "abstractmonitor.h"
 #include "bin/model/markerlistmodel.hpp"
@@ -42,20 +41,6 @@ namespace Mlt {
 class Profile;
 class Filter;
 } // namespace Mlt
-
-class QuickEventEater : public QObject
-{
-    Q_OBJECT
-public:
-    explicit QuickEventEater(QObject *parent = nullptr);
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
-
-signals:
-    void addEffect(const QStringList &);
-    void doKeyPressEvent(QKeyEvent *);
-};
 
 class VolumeAction : public QWidgetAction
 {
@@ -172,8 +157,6 @@ protected:
      * opposite on mouse wheel up/forward.
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
     void wheelEvent(QWheelEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    virtual QStringList mimeTypes() const;
     void updateBgColor();
 
 private:
@@ -186,8 +169,6 @@ private:
     QScrollBar *m_verticalScroll;
     /** @brief Scrollbar for our monitor view, used when zooming the monitor **/
     QScrollBar *m_horizontalScroll;
-    /** @brief Widget holding the window for the QQuickView **/
-    QWidget *m_videoWidget;
     /** @brief Manager for qml overlay for the QQuickView **/
     QmlManager *m_qmlManager;
     std::shared_ptr<SnapModel> m_snaps;
@@ -263,7 +244,6 @@ private slots:
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotLockMonitor(bool lock);
-    void slotAddEffect(const QStringList &effect);
     void slotSwitchPlay();
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */
@@ -379,8 +359,7 @@ signals:
     void addClipToProject(const QUrl &);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
-    void addEffect(const QStringList &);
-    void addMasterEffect(QString, const QStringList &);
+    void addTimelineEffect(const QStringList &);
     void passKeyPress(QKeyEvent *);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
     void multitrackView(bool, bool);
@@ -394,5 +373,3 @@ signals:
     void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
 };
-
-#endif

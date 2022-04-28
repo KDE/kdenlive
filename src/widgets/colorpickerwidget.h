@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLORPICKERWIDGET_H
-#define COLORPICKERWIDGET_H
+#pragma once
 
 #include <QFrame>
 #include <QPoint>
@@ -86,5 +85,3 @@ signals:
     /** @brief When user wants to pick a color, it's better to disable filter so we get proper color values. */
     void disableCurrentFilter(bool);
 };
-
-#endif

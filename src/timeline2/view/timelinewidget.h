@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEWIDGET_H
-#define TIMELINEWIDGET_H
+#pragma once
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
@@ -63,6 +62,7 @@ public slots:
     void endDrag();
     /** @brief Show menu to switch track target audio stream */
     void showTargetMenu(int tid = -1);
+    /** @brief Focus qml item under mouse in timeline, for example after app looses focus or a menu showed up*/
     void regainFocus();
 
 private slots:
@@ -104,5 +104,3 @@ signals:
     void focusProjectMonitor();
     void zoneMoved(const QPoint &zone);
 };
-
-#endif

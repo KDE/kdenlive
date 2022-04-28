@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
+#include "monitor/monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
@@ -483,7 +484,7 @@ void KdenliveSettingsDialog::initSdlPage(bool gpuAllowed)
     connect(m_configSdl.reload_blackmagic, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadBlackMagic);
     // m_configSdl.kcfg_openglmonitors->setHidden(true);
     connect(m_configSdl.fullscreen_monitor, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotSetFullscreenMonitor);
+            &KdenliveSettingsDialog::slotDialogModified);
     connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &KdenliveSettingsDialog::slotCheckAlsaDriver);
     connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -730,7 +731,19 @@ void KdenliveSettingsDialog::initDevices()
     }
 
     m_configSdl.kcfg_audio_backend->addItem(i18n("SDL"), KdenliveSettings::sdlAudioBackend());
-    m_configSdl.kcfg_audio_backend->addItem(i18n("RtAudio"), "rtaudio");
+    if (KdenliveSettings::consumerslist().isEmpty()) {
+        Mlt::Properties *consumers = pCore->getMltRepository()->consumers();
+        QStringList consumersItemList;
+        consumersItemList.reserve(consumers->count());
+        for (int i = 0; i < consumers->count(); ++i) {
+            consumersItemList << consumers->get_name(i);
+        }
+        delete consumers;
+        KdenliveSettings::setConsumerslist(consumersItemList);
+    }
+    if (KdenliveSettings::consumerslist().contains("rtaudio")) {
+        m_configSdl.kcfg_audio_backend->addItem(i18n("RtAudio"), "rtaudio");
+    }
 
     if (!KdenliveSettings::audiobackend().isEmpty()) {
         int ix = m_configSdl.kcfg_audio_backend->findData(KdenliveSettings::audiobackend());
@@ -740,21 +753,43 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend().startsWith(QLatin1String("sdl")));
     
     // Fill monitors data
+    fillMonitorData();
+    connect(qApp, &QApplication::screenAdded, this, &KdenliveSettingsDialog::fillMonitorData);
+    connect(qApp, &QApplication::screenRemoved, this, &KdenliveSettingsDialog::fillMonitorData);
+    loadCurrentV4lProfileInfo();
+}
+
+
+
+void KdenliveSettingsDialog::fillMonitorData()
+{
     QSignalBlocker bk(m_configSdl.fullscreen_monitor);
     m_configSdl.fullscreen_monitor->clear();
     m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
+    int ix = 0;
     for (const QScreen* screen : qApp->screens()) {
-        m_configSdl.fullscreen_monitor->addItem(QString("%1 %2 (%3)").arg(screen->manufacturer(), screen->model(), screen->name()), screen->serialNumber());
+        QString screenName = screen->name().isEmpty() ? i18n("Monitor %1", ix + 1) : QString("%1: %2").arg(ix + 1).arg(screen->name());
+        if (!screen->model().isEmpty()) {
+            screenName.append(QString(" - %1").arg(screen->model()));
+        }
+        if (!screen->manufacturer().isEmpty()) {
+            screenName.append(QString(" (%1)").arg(screen->manufacturer()));
+        }
+        m_configSdl.fullscreen_monitor->addItem(screenName, QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+        ix++;
     }
     if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
         int ix = m_configSdl.fullscreen_monitor->findData(KdenliveSettings::fullscreen_monitor());
         if (ix > -1) {
             m_configSdl.fullscreen_monitor->setCurrentIndex(ix);
+        } else {
+            // Monitor not found, reset
+            m_configSdl.fullscreen_monitor->setCurrentIndex(0);
+            KdenliveSettings::setFullscreen_monitor(QString());
         }
     }
-
-    loadCurrentV4lProfileInfo();
 }
+
 
 void KdenliveSettingsDialog::slotReadAudioDevices()
 {
@@ -970,6 +1005,10 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
     }
 
+    if (m_configSdl.fullscreen_monitor->currentData().toString() != KdenliveSettings::fullscreen_monitor()) {
+        KdenliveSettings::setFullscreen_monitor(m_configSdl.fullscreen_monitor->currentData().toString());
+    }
+
     if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
         updateCapturePath = true;
@@ -1115,6 +1154,12 @@ void KdenliveSettingsDialog::updateSettings()
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
+    if (m_configColors.kcfg_overlayColor->color() != KdenliveSettings::overlayColor()) {
+        KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
+    }
+
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
         KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
         resetConsumer = true;
@@ -1174,6 +1219,10 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configTimeline.kcfg_pauseonseek->isChecked() != KdenliveSettings::pauseonseek()) {
         KdenliveSettings::setPauseonseek(m_configTimeline.kcfg_pauseonseek->isChecked());
     }
+    
+    if (m_configTimeline.kcfg_seekonaddeffect->isChecked() != KdenliveSettings::seekonaddeffect()) {
+        KdenliveSettings::setSeekonaddeffect(m_configTimeline.kcfg_seekonaddeffect->isChecked());
+    }
 
     if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
         KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
@@ -1210,12 +1259,6 @@ void KdenliveSettingsDialog::updateSettings()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup settingsGroup(config, "settings");
     settingsGroup.writeEntry("dialogSize", QVariant(size()));
-}
-
-void KdenliveSettingsDialog::slotSetFullscreenMonitor()
-{
-    QString value = m_configSdl.fullscreen_monitor->currentData().toString();
-    KdenliveSettings::setFullscreen_monitor(value);
 }
 
 void KdenliveSettingsDialog::slotCheckAlsaDriver()

@@ -11,8 +11,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TITLEWIDGET_H
-#define TITLEWIDGET_H
+#pragma once
 
 #include "graphicsscenerectmove.h"
 #include "utils/timecode.h"
@@ -112,6 +111,7 @@ private:
     QGraphicsRectItem *m_frameBorder;
     QGraphicsRectItem *m_frameBackground;
     QGraphicsPixmapItem *m_frameImage;
+    QButtonGroup *m_textAlignGroup;
     int m_frameWidth;
     int m_frameHeight;
     int m_count;
@@ -401,5 +401,3 @@ signals:
     void requestBackgroundFrame(bool request);
     void updatePatternsBackgroundFrame();
 };
-
-#endif

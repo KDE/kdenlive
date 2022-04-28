@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <QFontDatabase>
 #include <QStandardPaths>
+#include <QPushButton>
 #include <klocalizedstring.h>
 
 TranscodeSeek::TranscodeSeek(QWidget *parent)
@@ -26,11 +27,28 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
     KConfigGroup group(&conf, "intermediate");
     m_encodeParams = group.entryMap();
     encodingprofiles->addItems(group.keyList());
+    connect(encodingprofiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&](int ix) {
+        const QString currentParams = m_encodeParams.value(encodingprofiles->itemText(ix));
+        if (currentParams.endsWith(QLatin1String(";audio"))) {
+            buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Audio transcode"));
+        } else if (currentParams.endsWith(QLatin1String(";video"))) {
+            buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Video transcode"));
+        } else {
+            buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Transcode"));
+        }
+    });
     int ix = encodingprofiles->findText(KdenliveSettings::transcodeFriendly());
     if (ix > -1) {
         encodingprofiles->setCurrentIndex(ix);
     }
-    autorotate->setChecked(KdenliveSettings::transcodeFriendlyRotate());
+    const QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
+    if (currentParams.endsWith(QLatin1String(";audio"))) {
+        buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Audio transcode"));
+    } else if (currentParams.endsWith(QLatin1String(";video"))) {
+        buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Video transcode"));
+    } else {
+        buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Transcode"));
+    }
     messagewidget->setVisible(false);
 }
 
@@ -58,9 +76,11 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
             }
         }
     }
+    const QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
     if (listWidget->count() == 1) {
+        QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
         if (type == ClipType::Audio) {
-            if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
+            if (!currentParams.endsWith(QLatin1String(";audio"))) {
                 // Switch to audio only profile
                 QMapIterator<QString, QString> i(m_encodeParams);
                 while (i.hasNext()) {
@@ -75,7 +95,7 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
                 }
             }
         } else if (type == ClipType::Video) {
-            if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";video"))) {
+            if (!currentParams.endsWith(QLatin1String(";video"))) {
                 // Switch to video only profile
                 QMapIterator<QString, QString> i(m_encodeParams);
                 while (i.hasNext()) {
@@ -91,7 +111,7 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
             }
         }
     } else {
-        if ((type != ClipType::Video && m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";video"))) || (type != ClipType::Audio && m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio")))) {
+        if ((type != ClipType::Video && currentParams.endsWith(QLatin1String(";video"))) || (type != ClipType::Audio && currentParams.endsWith(QLatin1String(";audio")))) {
             // Switch back to an AV profile
             QMapIterator<QString, QString> i(m_encodeParams);
             while (i.hasNext()) {
@@ -159,6 +179,5 @@ QString TranscodeSeek::params(int clipType) const
 
 QString TranscodeSeek::preParams() const
 {
-    KdenliveSettings::setTranscodeFriendlyRotate(autorotate->isChecked());
-    return autorotate->isChecked() ? QStringLiteral("-noautorotate") : QString();
+    return QStringLiteral("-noautorotate");
 }

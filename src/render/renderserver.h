@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef RENDERSERVER_H
-#define RENDERSERVER_H
+#pragma once
 
 #include <QJsonObject>
 #include <QLocalServer>
@@ -34,5 +33,3 @@ private:
     QLocalServer m_server;
     QHash<QString, QLocalSocket*> m_jobSocket;
 };
-
-#endif

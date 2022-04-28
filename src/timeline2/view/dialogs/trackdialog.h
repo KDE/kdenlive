@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRACKDIALOG2_H
-#define TRACKDIALOG2_H
+#pragma once
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "ui_addtrack_ui.h"
@@ -55,5 +54,3 @@ private slots:
      */
     void buildCombo();
 };
-
-#endif

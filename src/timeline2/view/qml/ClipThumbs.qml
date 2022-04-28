@@ -28,10 +28,10 @@ Row {
         // 1: only show first thumbnail
         // 0: will disable thumbnails
         // Track trackThumbsFormat is: 2 = In frame only, 0 = in/out, 1 = All frames, 3 = No thumbs
-        model: parentTrack.trackThumbsFormat === 0 ?  (container.width > thumbRow.thumbWidth ? 2 : 1) : parentTrack.trackThumbsFormat === 1 ? Math.ceil(container.width / thumbRow.thumbWidth) : parentTrack.trackThumbsFormat === 2 ? 1 : 0
+        model: parentTrack.trackThumbsFormat === 0 ?  (parent.width > thumbRow.thumbWidth ? 2 : 1) : parentTrack.trackThumbsFormat === 1 ? Math.ceil(parent.width / thumbRow.thumbWidth) : parentTrack.trackThumbsFormat === 2 ? 1 : 0
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
-        property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
+        property real imageWidth: Math.max(thumbRow.thumbWidth, parent.width / thumbRepeater.count)
         property int thumbStartFrame: fixedThumbs ? 0 :
                                                     (clipRoot.speed >= 0)
                                                     ? Math.round(clipRoot.inPoint * thumbRow.initialSpeed)

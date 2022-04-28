@@ -6,8 +6,7 @@
     This file is part of Kdenlive. See www.kdenlive.org.
 */
 
-#ifndef JOGMANAGER_H
-#define JOGMANAGER_H
+#pragma once
 
 #include <QObject>
 
@@ -33,5 +32,3 @@ private:
     JogShuttle *m_shuttle{nullptr};
     JogShuttleAction *m_shuttleAction{nullptr};
 };
-
-#endif

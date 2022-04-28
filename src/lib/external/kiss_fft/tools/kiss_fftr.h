@@ -18,8 +18,7 @@ USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEOR
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef KISS_FFTR_H
-#define KISS_FFTR_H
+#pragma once
 
 #include "../kiss_fft.h"
 #ifdef __cplusplus
@@ -59,5 +58,4 @@ void kiss_fftri(kiss_fftr_cfg cfg, const kiss_fft_cpx *freqdata, kiss_fft_scalar
 
 #ifdef __cplusplus
 }
-#endif
 #endif

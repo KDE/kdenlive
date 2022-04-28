@@ -134,13 +134,13 @@ bool AbstractPythonInterface::checkSetup()
 #endif
     if (m_pyExec.isEmpty()) {
         emit setupError(i18n("Cannot find python3, please install it on your system.\n"
-                                   "If already installed, check it is installed in a directory"
+                                   "If already installed, check it is installed in a directory "
                                    "listed in PATH environment variable"));
         return false;
     }
     if (m_pip3Exec.isEmpty()) {
         emit setupError(i18n("Cannot find pip3, please install it on your system.\n"
-                                   "If already installed, check it is installed in a directory"
+                                   "If already installed, check it is installed in a directory "
                                    "listed in PATH environment variable"));
         return false;
     }

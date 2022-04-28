@@ -3,13 +3,12 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BPOINT_H
-#define BPOINT_H
+#pragma once
 
 #include <QPointF>
 
 /** @class BPoint
- * @brief Represents a point in a cubic Bézier spline.
+ *  @brief Represents a point in a cubic Bézier spline.
  */
 class BPoint
 {
@@ -54,5 +53,3 @@ public:
     /** handles are linked to achieve a natural locking spline => PH1 = -r*PH2 ; a line can be drawn through h1, p, h2 */
     bool handlesLinked{true};
 };
-
-#endif

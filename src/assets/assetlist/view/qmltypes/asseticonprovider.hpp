@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETICONPROVIDER_H
-#define ASSETICONPROVIDER_H
+#pragma once
 
 #include <KImageCache>
 #include <QCache>
@@ -27,5 +26,3 @@ private:
 
     bool m_effect;
 };
-
-#endif

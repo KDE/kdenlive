@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINECONTROLLER_H
-#define TIMELINECONTROLLER_H
+#pragma once
 
 #include "definitions.h"
 #include "lib/audio/audioCorrelation.h"
@@ -601,7 +600,7 @@ public:
     /** @brief Set keyboard grabbing on current selection */
     Q_INVOKABLE void grabCurrent();
     /** @brief Returns keys for all used thumbnails */
-    QStringList getThumbKeys();
+    const std::unordered_map<QString, std::vector<int>> getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */
     bool dragOperationRunning();
     /** @brief Returns true if the timeline is in trimming mode (slip, slide, ripple, rolle) */
@@ -694,6 +693,8 @@ public slots:
     Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     Q_INVOKABLE void updateEffectZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
     void updateTrimmingMode();
+    /** @brief When a clip or composition is moved, inform asset panel to update cursor position in keyframe views. */
+    void checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles);
 
 private slots:
     void updateClipActions();
@@ -758,7 +759,7 @@ signals:
     void scaleFactorChanged();
     void audioThumbFormatChanged();
     void audioThumbNormalizeChanged();
-    void durationChanged();
+    void durationChanged(int duration);
     void audioTargetChanged();
     void videoTargetChanged();
     void hasAudioTargetChanged();
@@ -809,6 +810,5 @@ signals:
     void masterZonesChanged();
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
+    void updateAssetPosition(int itemId);
 };
-
-#endif

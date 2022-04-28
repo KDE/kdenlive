@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CUTTASK_H
-#define CUTTASK_H
+#pragma once
 
 #include "abstracttask.h"
 #include <memory>
@@ -37,6 +36,3 @@ private:
     int m_jobDuration;
     bool m_addToProject;
 };
-
-
-#endif
