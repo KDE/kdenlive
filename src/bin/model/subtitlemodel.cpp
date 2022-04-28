@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QRegExp>
 #include <QTextCodec>
 #include <utility>
 
@@ -72,10 +73,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 {
     QString start,end,comment;
     QString timeLine;
+    QStringList srtTime;
     GenTime startPos, endPos;
-    int turn = 0,r = 0;
+    int turn = 0,r = 0,endIndex;
     /*
-     * turn = 0 -> Parse next subtitle line [srt] (or) [vtt] (or) Parse next section [ssa]
+     * turn = 0 -> Parse next subtitle line [srt] (or) [vtt] (or) [sbv] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
      * turn > 1 -> Add string to completeLine
      */
@@ -87,7 +89,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         return true;
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
-    if (filePath.endsWith(".srt") || filePath.endsWith(".vtt")) { //SRT and VTT formats are nearly identical, VTT holds additional information after the timestamps which this function will ignore. When Kdenlive has the functionality and ability to change the look of the captions this information can be used.
+    if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) { //SRT and VTT formats are nearly identical, VTT holds additional information after the timestamps which this function will ignore. When Kdenlive has the functionality and ability to change the look of the captions this information can be used. sbv files have a little more trouble but follow the same general format
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
@@ -98,6 +100,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         QTextStream stream(&srtFile);
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
         QString line;
+	QStringList srtTime;
+	QRegExp rx("([0-9]{1,2}):([0-9]{2})");
         while (stream.readLineInto(&line)) {
             line = line.simplified();
             if (!line.isEmpty()) {
@@ -106,12 +110,18 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     turn++;
                     continue;
                 }
-                if (line.contains(QLatin1String("-->"))) {
+                if (line.contains(QLatin1String("-->")) || line.contains(rx)) {
                     timeLine += line;
-                    QStringList srtTime = timeLine.split(QLatin1Char(' '));
+		    if (filePath.endsWith(".sbv")) {
+		      srtTime = timeLine.split(QLatin1Char(','));
+		      endIndex = 1;
+		    } else {
+		      srtTime = timeLine.split(QLatin1Char(' '));
+		      endIndex = 2;
+		    }
                     start = srtTime.at(0);
                     startPos= stringtoTime(start);
-                    end = srtTime.at(2);
+                    end = srtTime.at(endIndex);
                     endPos = stringtoTime(end);
                 } else {
                     r++;
@@ -126,13 +136,14 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+		    qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
                 } else {
                     qDebug()<<"===== INVALID SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
                 }
                 //reinitialize
                 comment.clear();
                 timeLine.clear();
-                if (!filePath.endsWith(".vtt")) {turn = 0;}
+                if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {turn = -1;}
                 r = 0;
             }            
         }  
@@ -268,7 +279,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     update_model();
     if (externalImport) {
         pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
-    }
+    } 
 }
 
 void SubtitleModel::parseSubtitle(const QString &subPath)
