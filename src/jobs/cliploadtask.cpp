@@ -232,7 +232,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
     qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (producer->get_int("video_index") > -1) {
-        QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hash(false), QString::number(m_owner.second), frameNumber);
+        QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hash(), QString::number(m_owner.second), frameNumber);
         if (!thumb.isNull()) {
             // Thumbnail found in cache
             qDebug()<<"=== FOUND THUMB IN CACHe";

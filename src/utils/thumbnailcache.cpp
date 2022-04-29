@@ -93,7 +93,7 @@ std::unique_ptr<ThumbnailCache> &ThumbnailCache::get()
 
 bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
-    QMutexLocker locker(&m_mutex);
+    QReadLocker locker(&m_mutex);
     bool ok = false;
     auto key = pos < 0 ? getAudioKey(binId, &ok).constFirst() : getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
@@ -108,7 +108,7 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 
 QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly) const
 {
-    QMutexLocker locker(&m_mutex);
+    QReadLocker locker(&m_mutex);
     bool ok = false;
     auto key = getAudioKey(binId, &ok).constFirst();
     if (ok && m_volatileCache->contains(key)) {
@@ -127,7 +127,7 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
 
 const QList <QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
 {
-    QMutexLocker locker(&m_mutex);
+    QReadLocker locker(&m_mutex);
     bool ok = false;
     auto key = getAudioKey(binId, &ok);
     QDir thumbFolder = getDir(true, &ok);
@@ -148,7 +148,7 @@ QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos,
         return QImage();
     }
     hash.append(QString("#%1.jpg").arg(pos));
-    QMutexLocker locker(&m_mutex);
+    QReadLocker locker(&m_mutex);
     if (m_volatileCache->contains(hash)) {
         return m_volatileCache->get(hash);
     }
@@ -168,7 +168,7 @@ QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos,
 
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
-    QMutexLocker locker(&m_mutex);
+    QReadLocker locker(&m_mutex);
     bool ok = false;
     auto key = getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
@@ -189,7 +189,7 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
 
 void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent)
 {
-    QMutexLocker locker(&m_mutex);
+    QWriteLocker locker(&m_mutex);
     bool ok = false;
     const QString key = getKey(binId, pos, &ok);
     if (!ok) {
@@ -204,18 +204,15 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
             if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
                 m_storedOnDisk[binId].push_back(pos);
             }
-            // if volatile cache also contains this entry, update it
-            if (m_volatileCache->contains(key)) {
-                m_volatileCache->remove(key);
-            } else {
-                m_storedVolatile[binId].push_back(pos);
-            }
-            m_volatileCache->insert(key, img, (int)img.sizeInBytes());
         }
+    }
+    // if volatile cache also contains this entry, update it
+    if (m_volatileCache->contains(key)) {
+        m_volatileCache->remove(key);
     } else {
-        m_volatileCache->insert(key, img, (int)img.sizeInBytes());
         m_storedVolatile[binId].push_back(pos);
     }
+    m_volatileCache->insert(key, img, (int)img.sizeInBytes());
 }
 
 void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vector<int>> &keys)
@@ -225,6 +222,7 @@ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vec
     if (!ok) {
         return;
     }
+    QReadLocker locker(&m_mutex);
     for (auto &key : keys) {
         bool ok;
         for(const auto& pos: key.second) {
@@ -249,7 +247,7 @@ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vec
 
 void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 {
-    QMutexLocker locker(&m_mutex);
+    QWriteLocker locker(&m_mutex);
     if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
         bool ok = false;
         for (int pos : m_storedVolatile.at(binId)) {
@@ -279,7 +277,7 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 
 void ThumbnailCache::clearCache()
 {
-    QMutexLocker locker(&m_mutex);
+    QWriteLocker locker(&m_mutex);
     m_volatileCache->clear();
     m_storedVolatile.clear();
     m_storedOnDisk.clear();
@@ -293,7 +291,7 @@ QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
         return QString();
     }
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
-    *ok = binClip != nullptr;
+    *ok = binClip != nullptr && binClip->statusReady();
     return *ok ? binClip->hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".jpg") : QString();
 }
 
