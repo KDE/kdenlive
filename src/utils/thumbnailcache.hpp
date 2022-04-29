@@ -9,7 +9,7 @@
 #include <QDir>
 #include <QUrl>
 #include <QImage>
-#include <QMutex>
+#include <QReadWriteLock>
 #include <memory>
 #include <mutex>
 #include <unordered_map>
@@ -80,7 +80,7 @@ protected:
 
     class Cache_t;
     std::unique_ptr<Cache_t> m_volatileCache;
-    mutable QMutex m_mutex;
+    mutable QReadWriteLock m_mutex;
 
     // the following maps keeps track of the positions that we store for each clip in volatile caches.
     // Note that we don't track deletions due to items dropped from the cache. So the maps can contain more items that are currently stored.

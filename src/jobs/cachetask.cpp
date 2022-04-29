@@ -97,7 +97,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip)
                 frame->set("consumer.rescale", "nearest");
 #endif
                 QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
-                if (!result.isNull()) {
+                if (!result.isNull() && !m_isCanceled) {
                     qDebug()<<"==== CACHING FRAME: "<<i;
                     ThumbnailCache::get()->storeThumbnail(clipId, i, result, true);
                 }
