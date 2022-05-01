@@ -9,8 +9,8 @@ add_library(mltpreview MODULE ${mltpreview_SRCS})
 
 
 target_link_libraries(mltpreview
-        Qt5::Core
-        Qt5::Gui
+        Qt${QT_MAJOR_VERSION}::Core
+        Qt${QT_MAJOR_VERSION}::Gui
         KF5::KIOCore
         KF5::KIOWidgets
   ${MLT_LIBRARIES}
