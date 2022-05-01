@@ -30,12 +30,11 @@ ProxyTask::ProxyTask(const ObjectId &owner, QObject* object)
 
 void ProxyTask::start(const ObjectId &owner, QObject* object, bool force)
 {
-    ProxyTask* task = new ProxyTask(owner, object);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::PROXYJOB)) {
-        delete task;
-        task = nullptr;
+        return;
     }
+    ProxyTask* task = new ProxyTask(owner, object);
     if (task) {
         // Otherwise, start a new proxy generation thread.
         task->m_isForce = force;

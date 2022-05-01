@@ -40,12 +40,11 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const
 
 void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
 {
-    TranscodeTask* task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
-        delete task;
-        task = 0;
+        return;
     }
+    TranscodeTask* task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;

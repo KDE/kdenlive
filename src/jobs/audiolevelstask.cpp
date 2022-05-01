@@ -39,13 +39,12 @@ AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject* object)
 
 void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
 {
-    AudioLevelsTask* task = new AudioLevelsTask(owner, object);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
         qDebug()<<"AUDIO LEVELS TASK STARTED TWICE!!!!";
-        delete task;
-        task = nullptr;
+        return;
     }
+    AudioLevelsTask* task = new AudioLevelsTask(owner, object);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
