@@ -15,7 +15,7 @@ Dependencies:
     'frameworks/kguiaddons' : '@stable'
     'frameworks/ki18n' : '@stable'
     'frameworks/kiconthemes' : '@stable'
-    'frameworks/kinit' : '@stable'
+    #'frameworks/kinit' : '@stable'
     'frameworks/kio' : '@stable'
     'frameworks/kitemviews' : '@stable'
     'frameworks/kjobwidgets' : '@stable'
