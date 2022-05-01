@@ -1,9 +1,0 @@
-diff -ruN libxml2-2.9.8.orig/libxml-2.0.pc.in libxml2-2.9.8/libxml-2.0.pc.in
---- libxml2-2.9.8.orig/libxml-2.0.pc.in	2016-06-07 12:04:14.000000000 +0200
-+++ libxml2-2.9.8/libxml-2.0.pc.in	2018-09-08 15:48:45.978098926 +0200
-@@ -10,4 +10,4 @@
- Requires:
- Libs: -L${libdir} -lxml2
- Libs.private: @ICU_LIBS@ @THREAD_LIBS@ @Z_LIBS@ @LZMA_LIBS@ @ICONV_LIBS@ @M_LIBS@ @WIN32_EXTRA_LIBADD@ @LIBS@
--Cflags: @XML_INCLUDEDIR@ @XML_CFLAGS@
-+Cflags: @XML_INCLUDEDIR@ @ICU_CFLAGS@ @XML_CFLAGS@
