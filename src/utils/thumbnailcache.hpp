@@ -64,6 +64,9 @@ public:
     /** @brief Reset cache (discarding all thumbs stored in memory) */
     void clearCache();
 
+    /** @brief Ensure the cache is not corrupted */
+    bool checkIntegrity() const;
+
 protected:
     // Constructor is protected because class is a Singleton
     ThumbnailCache();

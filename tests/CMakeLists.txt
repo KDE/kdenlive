@@ -17,6 +17,7 @@ add_executable(runTests
     timewarptest.cpp
     treetest.cpp
     trimmingtest.cpp
+    cachetest.cpp
 )
 set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
 target_link_libraries(runTests kdenliveLib)

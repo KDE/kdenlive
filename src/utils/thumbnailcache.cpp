@@ -71,6 +71,19 @@ public:
         m_cache.clear();
         m_currentCost = 0;
     }
+    bool checkIntegrity() const
+    {
+        if (m_data.size() != m_cache.size()) {
+            // Cache is corrupted
+            return false;
+        }
+        for (const auto &d : m_data) {
+            if (!contains(d.first)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 protected:
     int m_maxCost;
@@ -213,6 +226,11 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
         m_storedVolatile[binId].push_back(pos);
     }
     m_volatileCache->insert(key, img, (int)img.sizeInBytes());
+}
+
+bool ThumbnailCache::checkIntegrity() const
+{
+    return m_volatileCache->checkIntegrity();
 }
 
 void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vector<int>> &keys)
