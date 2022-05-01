@@ -735,7 +735,6 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
             drag->exec();
             emit processDragEnd();
         }
-        QListView::mouseMoveEvent(event);
         return;
     }
     QModelIndex index = indexAt(event->pos());
