@@ -78,7 +78,7 @@ list(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 list(APPEND kdenlive_SRCS ${top_SRCS})
 ## Others special cases
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
-install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
 if(NOT NODBUS)
     if(USE_VERSIONLESS_TARGETS)

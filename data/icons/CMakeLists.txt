@@ -33,7 +33,7 @@ ecm_install_icons(ICONS
   sc-mimetypes-application-x-kdenlivetitle.svgz
   sc-mimetypes-application-x-kdenlive.svgz
   sc-mimetypes-video-mlt-playlist.svgz
-  DESTINATION ${ICON_INSTALL_DIR})
+  DESTINATION ${KDE_INSTALL_ICONDIR})
 
 if(OLD_FALLBACK_ICONS)
     ecm_install_icons(ICONS
@@ -96,5 +96,5 @@ if(OLD_FALLBACK_ICONS)
         sc-actions-kdenlive-zindex-up.svgz
         sc-actions-kdenlive-zone-end.svgz
         sc-actions-kdenlive-zone-start.svgz
-        DESTINATION ${ICON_INSTALL_DIR})
+        DESTINATION ${KDE_INSTALL_ICONDIR})
 endif()
