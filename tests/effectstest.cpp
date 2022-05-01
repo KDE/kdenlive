@@ -112,4 +112,6 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }

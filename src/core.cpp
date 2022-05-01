@@ -1197,9 +1197,13 @@ void Core::cleanup()
 {
     audioThumbCache.clear();
     taskManager.slotCancelJobs();
-    timeRemapWidget()->selectedClip(-1);
-    disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
-    m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+    if (timeRemapWidget()) {
+        timeRemapWidget()->selectedClip(-1);
+    }
+    if (m_mainWindow && m_mainWindow->getMainTimeline()) {
+        disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
+        m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+    }
 }
 
 int Core::getNewStuff(const QString &config)

@@ -39,13 +39,8 @@ TEST_CASE("Cache insert-remove", "[Cache]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    // Create a track
-    int tid1;
-    REQUIRE(timeline->requestTrackInsertion(-1, tid1));
-
     // Create bin clip
-    QString binId = createProducer(profile_cache, "red", binModel);
-    std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);
+    QString binId = createProducer(profile_cache, "red", binModel, 20, false);
 
     SECTION("Insert and remove thumbnail")
     {
@@ -56,4 +51,6 @@ TEST_CASE("Cache insert-remove", "[Cache]")
         ThumbnailCache::get()->storeThumbnail(binId, 0, img, false);
         REQUIRE(ThumbnailCache::get()->checkIntegrity());
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
