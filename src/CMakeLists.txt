@@ -170,13 +170,13 @@ if(USE_VERSIONLESS_TARGETS)
         Qt::NetworkAuth)
 else()
     target_link_libraries(kdenliveLib
-        Qt5::Svg
-        Qt5::Quick
-        Qt5::QuickControls2
-        Qt5::QuickWidgets
-        Qt5::Concurrent
-        Qt5::Multimedia
-        Qt5::NetworkAuth)
+        Qt${QT_MAJOR_VERSION}::Svg
+        Qt${QT_MAJOR_VERSION}::Quick
+        Qt${QT_MAJOR_VERSION}::QuickControls2
+        Qt${QT_MAJOR_VERSION}::QuickWidgets
+        Qt${QT_MAJOR_VERSION}::Concurrent
+        Qt${QT_MAJOR_VERSION}::Multimedia
+        Qt${QT_MAJOR_VERSION}::NetworkAuth)
 endif()
 
 if(NOT NODBUS)
