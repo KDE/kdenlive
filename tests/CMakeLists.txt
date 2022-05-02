@@ -15,6 +15,7 @@ add_executable(runTests
     snaptest.cpp
     test_utils.cpp
     timewarptest.cpp
+    titlertest.cpp
     treetest.cpp
     trimmingtest.cpp
     cachetest.cpp
