@@ -147,6 +147,10 @@ void ClipTranscode::slotStartTransCode()
     bool mltEncoding = s_url.endsWith(QLatin1String(".mlt")) || s_url.endsWith(QLatin1String(".kdenlive"));
     
     if (QFile::exists(destination + extension)) {
+	    if( destination + extension == s_url){ //If the source and destination are the same, ffmpeg will fail             
+                KMessageBox::error(this, i18n("Source and destination file can't be the same"));
+		return;
+	    }
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
             // Abort operation
             if (m_automaticMode) {
