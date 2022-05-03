@@ -27,9 +27,6 @@ option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(NODBUS "Build without DBus IPC" OFF)
 option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
 
-# TODO we should completely remove this if there are no complains in the next time or otherwise update the icons from breeze
-option(OLD_FALLBACK_ICONS "Install old looking fallback icons (deprecated, better use breeze)" OFF)
-
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
 set(MLT_MIN_MINOR_VERSION 4)
