@@ -489,10 +489,10 @@ void MixerWidget::gotRecLevels(QVector<qreal>levels)
             m_audioMeterWidget->setAudioValues({-100, -100});
             break;
         case 1:
-            m_audioMeterWidget->setAudioValues({IEC_Scale(log10(levels[0]) * 20.0), -100});
+            m_audioMeterWidget->setAudioValues({levels[0], -100});
             break;
         default:
-            m_audioMeterWidget->setAudioValues({IEC_Scale(log10(levels[0]) * 20.0), IEC_Scale(log10(levels[1]) * 20.0)});
+            m_audioMeterWidget->setAudioValues({levels[0], levels[1]});
             break;
     }
 }
