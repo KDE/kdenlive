@@ -9,8 +9,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QAudioBuffer>
 #include <QAudioRecorder>
+#include <QAudioInput>
 #include <QCamera>
 #include <QMediaRecorder>
+#include <QIODevice>
 #include <QStringList>
 #include <QUrl>
 #include <QTimer>
@@ -19,6 +21,24 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 class QAudioRecorder;
 class QAudioProbe;
+
+
+class AudioDevInfo: public QIODevice
+{
+    Q_OBJECT
+public:
+    AudioDevInfo(const QAudioFormat &format, QObject *parent = nullptr);
+
+signals:
+    void levelChanged(const QVector<qreal> &dbLevels);
+
+protected:
+    qint64 readData(char *data, qint64 maxSize) override;
+    qint64 writeData(const char *data, qint64 maxSize) override;
+private:
+    const QAudioFormat m_format;
+    quint32 m_maxAmplitude = 0;
+};
 
 class MediaCapture : public QObject
 {
@@ -46,6 +66,7 @@ public:
     int currentState;
     Q_INVOKABLE QVector<qreal> levels() const;
     Q_INVOKABLE int recordState() const;
+    Q_INVOKABLE void switchMonitorState(bool run);
 
 public slots:
     void displayErrorMessage();
@@ -54,6 +75,8 @@ public slots:
 
 private:
     std::unique_ptr<QAudioRecorder> m_audioRecorder;
+    std::unique_ptr<QAudioInput> m_audioInput;
+    QScopedPointer<AudioDevInfo> m_audioInfo;
     std::unique_ptr<QMediaRecorder> m_videoRecorder;
     std::unique_ptr<QCamera> m_camera;
     std::unique_ptr<QAudioProbe> m_probe;

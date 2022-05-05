@@ -523,6 +523,9 @@ Rectangle {
                 visible: showAudioRecord && (trackHeadRoot.height >= 2 * muteButton.height + resizer.height)
                 source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
                 onLoaded: item.trackId = trackId
+                onVisibleChanged: {
+                    audiorec.switchMonitorState(audioVuMeter.visible)
+                }
             }
         }
         Item {

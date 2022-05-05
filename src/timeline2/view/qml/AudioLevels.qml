@@ -100,7 +100,7 @@ Item {
                         if (currentLevel > peak) {
                             peak = currentLevel
                         } else if (peak > 0) {
-                            peak -= 0.2
+                            peak -= 0.02
                         }
                     }
                     Rectangle {
