@@ -268,4 +268,5 @@ signals:
     void effectDropped(const QStringList &, const QModelIndex &);
     void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
+    void resetPlayOrLoopZone(const QString &id);
 };

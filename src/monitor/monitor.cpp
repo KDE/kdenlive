@@ -1790,7 +1790,6 @@ void Monitor::reloadActiveStream()
     }
 }
 
-
 const QString Monitor::activeClipId()
 {
     if (m_controller) {

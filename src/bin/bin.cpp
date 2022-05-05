@@ -1088,6 +1088,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , m_baseIconSize(160, 90)
     , m_propertiesDock(nullptr)
     , m_propertiesPanel(nullptr)
+    , m_monitor(nullptr)
     , m_blankThumb()
     , m_clipWidget()
     , m_filterGroup(this)
@@ -1969,6 +1970,7 @@ void Bin::setMonitor(Monitor *monitor)
     m_monitor = monitor;
     connect(m_monitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
+    connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, m_monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) {
         m_monitor->slotOpenClip(clip, in, out);
         if (clip && clip->hasLimitedDuration()) {
