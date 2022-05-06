@@ -4,7 +4,7 @@
 
 TEST_CASE("Title text left alignment", "[Titler]")
 {
-    MyTextItem *txt = new MyTextItem("Hello, world!", nullptr);
+    QScopedPointer<MyTextItem>txt(new MyTextItem("Hello, world!", nullptr));
     txt->setAlignment(Qt::AlignLeft);
     QRectF origBB = txt->boundingRect();
     qreal origX = txt->x();
@@ -20,7 +20,7 @@ TEST_CASE("Title text left alignment", "[Titler]")
 
 TEST_CASE("Title text right alignment", "[Titler]")
 {
-    MyTextItem *txt = new MyTextItem("Hello, world!", nullptr);
+    QScopedPointer<MyTextItem>txt(new MyTextItem("Hello, world!", nullptr));
     txt->setAlignment(Qt::AlignRight);
     QRectF origBB = txt->boundingRect();
     // origX is the left edge of the txt object
@@ -39,7 +39,7 @@ TEST_CASE("Title text right alignment", "[Titler]")
 
 TEST_CASE("Title text center alignment", "[Titler]")
 {
-    MyTextItem *txt = new MyTextItem("short", nullptr);
+    QScopedPointer<MyTextItem>txt(new MyTextItem("short", nullptr));
     txt->setAlignment(Qt::AlignHCenter);
     QRectF origBB = txt->boundingRect();
     qreal origX = txt->x();
