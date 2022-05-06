@@ -536,8 +536,7 @@ void CollapsibleEffectView::slotSaveEffect()
             namedId.prepend(QStringLiteral("fadeout_"));
         }
         effect.setAttribute(QStringLiteral("id"), namedId);
-        QString masterType = effect.attribute(QLatin1String("type"));
-        effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
+        effect.setAttribute(QStringLiteral("type"), m_model->isAudio() ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
 
         QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
         effect.removeChild(effectname);
