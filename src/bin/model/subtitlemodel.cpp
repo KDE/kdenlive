@@ -75,7 +75,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     QString timeLine;
     QStringList srtTime;
     GenTime startPos, endPos;
-    int turn = 0,r = 0,endIndex;
+    int turn = 0,r = 0,endIndex = 1,defaultTurn = 0;
     /*
      * turn = 0 -> Parse next subtitle line [srt] (or) [vtt] (or) [sbv] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
@@ -89,21 +89,26 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         return true;
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
-    if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) { //SRT and VTT formats are nearly identical, VTT holds additional information after the timestamps which this function will ignore. When Kdenlive has the functionality and ability to change the look of the captions this information can be used. sbv files have a little more trouble but follow the same general format
+    if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
+      if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
+      endIndex = filePath.endsWith(".sbv") ? 1 : 2;
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
             return;
         }
-        qDebug()<< "srt File";
+        qDebug()<< "srt/vtt/sbv File";
         //parsing srt file
         QTextStream stream(&srtFile);
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
         QString line;
 	QStringList srtTime;
 	QRegExp rx("([0-9]{1,2}):([0-9]{2})");
+	QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.simplified();
+	    qDebug()<<"Turn: "<<turn;
+	    qDebug()<<"Line: "<<line<<"\n";
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
@@ -112,17 +117,13 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 }
                 if (line.contains(QLatin1String("-->")) || line.contains(rx)) {
                     timeLine += line;
-		    if (filePath.endsWith(".sbv")) {
-		      srtTime = timeLine.split(QLatin1Char(','));
-		      endIndex = 1;
-		    } else {
-		      srtTime = timeLine.split(QLatin1Char(' '));
-		      endIndex = 2;
-		    }
-                    start = srtTime.at(0);
-                    startPos= stringtoTime(start);
-                    end = srtTime.at(endIndex);
-                    endPos = stringtoTime(end);
+		    srtTime = timeLine.split(QLatin1Char(separator));
+		    if (srtTime.count() > endIndex) {
+		      start = srtTime.at(0);
+		      startPos= stringtoTime(start);
+		      end = srtTime.at(endIndex);
+		      endPos = stringtoTime(end);
+		    } else { continue; }
                 } else {
                     r++;
                     if (!comment.isEmpty())
@@ -143,8 +144,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 //reinitialize
                 comment.clear();
                 timeLine.clear();
-                if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {turn = -1;}
                 r = 0;
+		turn = defaultTurn;
             }            
         }  
         srtFile.close();
