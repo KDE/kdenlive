@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef AUDIOCORRELATIONINFO_H
-#define AUDIOCORRELATIONINFO_H
+#pragma once
 
 #include <QImage>
 
@@ -48,5 +47,3 @@ private:
     qint64 *m_correlationVector;
     qint64 m_max;
 };
-
-#endif // AUDIOCORRELATIONINFO_H

@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPCONTROLLER_H
-#define CLIPCONTROLLER_H
+#pragma once
 
 #include "definitions.h"
 
@@ -249,5 +248,3 @@ private:
     QMap <QString, QVariant> m_tempProps;
     QString m_controllerBinId;
 };
-
-#endif

@@ -8,9 +8,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-
-#ifndef STATUSBARMESSAGELABEL_H
-#define STATUSBARMESSAGELABEL_H
+#pragma once
 
 #include <QColor>
 #include <QLabel>
@@ -90,6 +88,7 @@ protected:
 public slots:
     void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100);
     void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
+    void setSelectionMessage(const QString &text);
     /** @brief Display a key binding info in status bar */
     void setKeyMap(const QString &text);
     /** @brief Display a temporary key binding info in status bar, revert to default one if text is empty */
@@ -116,6 +115,7 @@ private:
 
     int m_minTextHeight;
     FlashLabel *m_container;
+    QLabel *m_selectionLabel;
     QLabel *m_pixmap;
     QLabel *m_label;
     QLabel *m_keyMap;
@@ -127,5 +127,3 @@ private:
     QList<StatusBarMessageItem> m_messageQueue;
     StatusBarMessageItem m_currentMessage;
 };
-
-#endif

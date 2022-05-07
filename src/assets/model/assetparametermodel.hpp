@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETPARAMETERMODEL_H
-#define ASSETPARAMETERMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "klocalizedstring.h"
@@ -268,5 +267,3 @@ signals:
     void enabledChange(bool);
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
 };
-
-#endif

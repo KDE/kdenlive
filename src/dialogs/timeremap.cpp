@@ -651,7 +651,7 @@ void RemapView::centerCurrentKeyframe()
     QMap<int,int>nextKeyframes;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
-        if (*it != m_keyframes.last() && it != m_keyframes.end()) {
+        if (it != m_keyframes.end() && *it != m_keyframes.last()) {
             it++;
             while (it != m_keyframes.end()) {
                 nextKeyframes.insert(it.key(), it.value());
@@ -697,7 +697,7 @@ void RemapView::centerCurrentTopKeyframe()
     int offset = m_position + m_inFrame - m_currentKeyframe.second;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
-        if (*it != m_keyframes.last() && it != m_keyframes.end()) {
+        if (it != m_keyframes.end() && *it != m_keyframes.last()) {
             it++;
             while (it != m_keyframes.end()) {
                 nextKeyframes.insert(it.key(), it.value());
@@ -1578,8 +1578,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     QAction *ac = new QAction(i18n("Transcode"), this);
     warningMessage->addAction(ac);
     connect(ac, &QAction::triggered, this, [&]() {
-        
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(bool, false));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0), Q_ARG(bool, false));
     });
     m_in = new TimecodeDisplay(pCore->timecode(), this);
     inLayout->addWidget(m_in);
@@ -1646,7 +1645,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     });
     connect(button_del, &QToolButton::clicked, this, [this]() {
         if (m_cid > -1) {
-            std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+            std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
             model->requestClipTimeRemap(m_cid, false);
             selectedClip(-1);
         }
@@ -1679,7 +1678,7 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
     if (!m_view->movingKeyframe()) {
         int newDuration = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
         // Check if the keyframes were modified by an external resize operation
-        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
         std::shared_ptr<ClipModel> clip = model->getClipPtr(m_cid);
         QMap<QString,QString> values = clip->getRemapValues();
         if (values.value(QLatin1String("map")) == m_view->getKeyframesData()) {
@@ -1708,7 +1707,7 @@ void TimeRemap::selectedClip(int cid)
     QObject::disconnect( m_seekConnection2 );
     QObject::disconnect( m_seekConnection3 );
     connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
-    std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+    std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
     disconnect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     if (cid == -1) {
         m_binId.clear();
@@ -2005,7 +2004,7 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int,int> &updatedKeyframes, c
     local_redo();
     if (durationChanged) {
         int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
-        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->controller()->getModel();
+        std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
         model->requestItemResize(m_cid, length, true, true, undo, redo);
         if (m_splitId > 0) {
             model->requestItemResize(m_splitId, length, true, true, undo, redo);

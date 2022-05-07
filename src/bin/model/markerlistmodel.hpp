@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MARKERLISTMODEL_H
-#define MARKERLISTMODEL_H
+#pragma once
 
 #include "definitions.h"
 #include "utils/gentime.h"
@@ -90,8 +89,8 @@ public:
     /** @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos, bool *ok) const;
 
-    /** @brief Returns all markers in model */
-    QList<CommentedTime> getAllMarkers() const;
+    /** @brief Returns all markers in model or – if a type is given – all markers of the given type */
+    QList<CommentedTime> getAllMarkers(int type = -1) const;
 
     /** @brief Returns all markers of model that are intersect with a given range.
      * @param start is the position where start to search for markers
@@ -194,5 +193,3 @@ signals:
 
 };
 Q_DECLARE_METATYPE(MarkerListModel *)
-
-#endif

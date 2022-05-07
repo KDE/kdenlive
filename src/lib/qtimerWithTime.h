@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef QTIMERWITHTIME_H
-#define QTIMERWITHTIME_H
+#pragma once
 
 #include <QElapsedTimer>
 #include <QTimer>
@@ -21,4 +20,3 @@ public:
 private:
     QElapsedTimer m_time;
 };
-#endif

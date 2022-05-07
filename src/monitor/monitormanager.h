@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MONITORMANAGER_H
-#define MONITORMANAGER_H
+#pragma once
 
 #include "monitor.h"
 
@@ -168,5 +167,3 @@ signals:
     /** @brief monitor scaling was changed, update select action */
     void scalingChanged();
 };
-
-#endif

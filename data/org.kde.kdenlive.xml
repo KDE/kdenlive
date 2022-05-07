@@ -5,7 +5,7 @@
     <comment xml:lang="ar">مستند مشروع «كدينلايف» فيديو</comment>
     <comment xml:lang="az">Kdenlive video layihəsi sənədi</comment>
     <comment xml:lang="ca">Document de projecte de vídeo del Kdenlive</comment>
-    <comment xml:lang="ca@valencia">Document de projecte de vídeo del Kdenlive</comment>
+    <comment xml:lang="ca@valencia">Document de projecte de vídeo de Kdenlive</comment>
     <comment xml:lang="cs">Dokument video projektu Kdenlive</comment>
     <comment xml:lang="de">Kdenlive-Videoprojektdokument</comment>
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
@@ -25,6 +25,7 @@
     <comment xml:lang="ru">Видеопроект Kdenlive</comment>
     <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
+    <comment xml:lang="tr">Kdenlive video proje belgesi</comment>
     <comment xml:lang="uk">документ відеопроєкту Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 视频工程文件</comment>
     <sub-class-of type="video/mlt-playlist"/>
@@ -35,7 +36,7 @@
     <comment xml:lang="ar">عنوان فيديو «كدينلايف»</comment>
     <comment xml:lang="az">Kdenlive video başlığı</comment>
     <comment xml:lang="ca">Títol de vídeo del Kdenlive</comment>
-    <comment xml:lang="ca@valencia">Títol de vídeo del Kdenlive</comment>
+    <comment xml:lang="ca@valencia">Títol de vídeo de Kdenlive</comment>
     <comment xml:lang="cs">Název videa Kdenlive</comment>
     <comment xml:lang="de">Kdenlive-Videotitel</comment>
     <comment xml:lang="en_GB">Kdenlive video title</comment>
@@ -54,6 +55,7 @@
     <comment xml:lang="ru">Видеотитры Kdenlive</comment>
     <comment xml:lang="sl">Naslov videa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-video</comment>
+    <comment xml:lang="tr">Kdenlive video başlığı</comment>
     <comment xml:lang="uk">заголовок відео Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 视频标题</comment>
     <sub-class-of type="application/xml"/>
@@ -82,6 +84,7 @@
     <comment xml:lang="ru">Макет приложения Kdenlive</comment>
     <comment xml:lang="sl">Postavitev programa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive programlayout</comment>
+    <comment xml:lang="tr">Kdenlive uygulama yerleşimi</comment>
     <comment xml:lang="uk">Компонування вікон програми Kdenlive</comment>
     <comment xml:lang="zh_CN">Kdenlive 应用程序布局</comment>
     <sub-class-of type="text/plain"/>

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPTRANSCODE_H
-#define CLIPTRANSCODE_H
+#pragma once
 
 #include "ui_cliptranscode_ui.h"
 
@@ -46,5 +45,3 @@ signals:
     void addClip(const QUrl &url, const QString &folderInfo = QString());
     void transcodedClip(const QUrl &source, const QUrl &result);
 };
-
-#endif

@@ -6,8 +6,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MLTPREVIEW_H
-#define MLTPREVIEW_H
+#pragma once
 
 #include <kio/thumbcreator.h>
 #include <memory>
@@ -27,5 +26,3 @@ protected:
     static int imageVariance(const QImage &image);
     QImage getFrame(std::shared_ptr<Mlt::Producer> producer, int framepos, int width, int height);
 };
-
-#endif

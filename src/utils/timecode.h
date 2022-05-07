@@ -3,8 +3,7 @@
    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMECODE_H
-#define TIMECODE_H
+#pragma once
 
 #include <QString>
 
@@ -68,5 +67,3 @@ private:
     const QString getTimecodeDropFrame(const GenTime &time) const;
     const QString getTimecodeDropFrame(int framenumber) const;
 };
-
-#endif

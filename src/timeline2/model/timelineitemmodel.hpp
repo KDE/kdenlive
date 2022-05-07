@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINEITEMMODEL_H
-#define TIMELINEITEMMODEL_H
+#pragma once
 
 #include "timelinemodel.hpp"
 #include "undohelper.hpp"
@@ -105,4 +104,3 @@ signals:
     void trackVisibilityChanged();
     void showTrackEffectStack(int tid);
 };
-#endif

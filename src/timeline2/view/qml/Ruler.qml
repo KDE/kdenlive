@@ -146,7 +146,7 @@ Item {
                         anchors.top: parent.top
                         width: parent.width
                         height: parent.height
-                        acceptedButtons: Qt.LeftButton
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
                         property int prevFrame
@@ -177,6 +177,9 @@ Item {
                         onClicked: {
                             if (root.activeTool !== ProjectTool.SlipTool) {
                                 proxy.position = model.frame
+                            }
+                            if (mouse.button == Qt.RightButton) {
+                                root.showRulerMenu()
                             }
                         }
                         onEntered: {

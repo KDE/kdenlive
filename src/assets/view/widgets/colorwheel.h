@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLORWHEELPARAM_H
-#define COLORWHEELPARAM_H
+#pragma once
 
 #include "utils/qcolorutils.h"
 
@@ -96,5 +95,3 @@ private:
 signals:
     void colorChange(const NegQColor &color);
 };
-
-#endif // COLORWHEEL_H

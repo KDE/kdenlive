@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTSETTINGS_H
-#define PROJECTSETTINGS_H
+#pragma once
 
 #include <QDialog>
 #include <QPushButton>
@@ -103,5 +102,3 @@ signals:
     void disablePreview();
     void refreshProfiles();
 };
-
-#endif

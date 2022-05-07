@@ -43,6 +43,7 @@ public:
        @param pos is the position where we query
        @param volatileOnly if true, we only check the volatile cache (no disk access)
     */
+    QImage getThumbnail(QString hash, const QString &binId, int pos, bool volatileOnly = false) const;
     QImage getThumbnail(const QString &binId, int pos, bool volatileOnly = false) const;
     QImage getAudioThumbnail(const QString &binId, bool volatileOnly = false) const;
     const QList <QUrl> getAudioThumbPath(const QString &binId) const;
@@ -58,7 +59,7 @@ public:
     void invalidateThumbsForClip(const QString &binId);
 
     /** @brief Save all cached thumbs to disk */
-    void saveCachedThumbs(const QStringList &keys);
+    void saveCachedThumbs(const std::unordered_map<QString, std::vector<int>> &keys);
 
     /** @brief Reset cache (discarding all thumbs stored in memory) */
     void clearCache();

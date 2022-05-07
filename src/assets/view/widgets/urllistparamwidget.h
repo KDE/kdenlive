@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef URLLISTPARAMWIDGET_H
-#define URLLISTPARAMWIDGET_H
+#pragma once
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "ui_urllistparamwidget_ui.h"
@@ -85,5 +84,3 @@ public slots:
     void downloadNewItems();
 
 };
-
-#endif

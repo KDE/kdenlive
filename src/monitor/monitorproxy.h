@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MONITORPROXY_H
-#define MONITORPROXY_H
+#pragma once
 
 #include "definitions.h"
 #include <QImage>
@@ -42,6 +41,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
+    Q_PROPERTY(QColor overlayColor READ overlayColor NOTIFY colorsChanged)
     Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
@@ -76,6 +76,7 @@ public:
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QColor thumbColor1() const;
     Q_INVOKABLE QColor thumbColor2() const;
+    Q_INVOKABLE QColor overlayColor() const;
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE const QPoint clipBoundary(int ix);
     bool audioThumbFormat() const;
@@ -101,6 +102,8 @@ public:
     Q_INVOKABLE void switchAutoKeyframe();
     Q_INVOKABLE bool autoKeyframe() const;
     Q_INVOKABLE void setWidgetKeyBinding(const QString &text = QString()) const;
+    Q_INVOKABLE bool seekOnDrop() const;
+    Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
@@ -155,6 +158,7 @@ signals:
     void trimmingTC2Changed();
     void speedChanged();
     void clipBoundsChanged();
+    void addTimelineEffect(const QStringList &);
 
 private:
     GLWidget *q;
@@ -182,5 +186,3 @@ private:
 public slots:
     void updateClipBounds(const QVector <QPoint>&bounds);
 };
-
-#endif

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILESDIALOG_H
-#define PROFILESDIALOG_H
+#pragma once
 
 #include "definitions.h"
 #include "ui_profiledialog_ui.h"
@@ -56,5 +55,3 @@ private:
     void connectDialog();
     void showMessage(const QString &text = QString(), KMessageWidget::MessageType type = KMessageWidget::Warning);
 };
-
-#endif

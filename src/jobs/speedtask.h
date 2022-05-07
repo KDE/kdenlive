@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SPEEDTASK_H
-#define SPEEDTASK_H
+#pragma once
 
 #include "abstracttask.h"
 #include <memory>
@@ -41,6 +40,3 @@ private:
     bool m_addToFolder;
     std::unique_ptr<QProcess> m_jobProcess;
 };
-
-
-#endif

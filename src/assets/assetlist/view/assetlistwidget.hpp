@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETLISTWIDGET_H
-#define ASSETLISTWIDGET_H
+#pragma once
 
 #include "effects/effectsrepository.hpp"
 #include <QQuickWidget>
@@ -69,5 +68,3 @@ protected:
 signals:
     void activateAsset(const QVariantMap data);
 };
-
-#endif

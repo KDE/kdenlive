@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLLAPSIBLEEFFECTVIEW_H
-#define COLLAPSIBLEEFFECTVIEW_H
+#pragma once
 
 #include "abstractcollapsiblewidget.h"
 #include "definitions.h"
@@ -162,5 +161,3 @@ signals:
     void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
     void refresh();
 };
-
-#endif

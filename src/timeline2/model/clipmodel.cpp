@@ -224,32 +224,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     } else {
         roles.push_back(TimelineModel::OutPointRole);
     }
-    Fun operation = [this, inPoint, outPoint, roles, oldIn, oldOut, right, logUndo, track_operation]() {
+    Fun operation = [this, inPoint, outPoint, roles, logUndo, track_operation]() {
         if (track_operation()) {
             setInOut(inPoint, outPoint);
-            if (m_currentTrackId > -1) {
-                if (auto ptr = m_parent.lock()) {
-                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                    ptr->notifyChange(ix, ix, roles);
-                    // invalidate timeline preview
-                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {                        
-                        if (right) {
-                            int newOut = m_position + getOut() - getIn();
-                            if (oldOut < newOut) {
-                                emit ptr->invalidateZone(oldOut, newOut);
-                            } else {
-                                emit ptr->invalidateZone(newOut, oldOut);
-                            }
-                        } else {
-                            if (oldIn < m_position) {
-                                emit ptr->invalidateZone(oldIn, m_position);
-                            } else {
-                                emit ptr->invalidateZone(m_position, oldIn);
-                            }
-                        }
-                    }
-                }
-            }
             if (logUndo && !m_endlessResize) {
                 emit pCore->clipInstanceResized(m_binClipId);
             }
@@ -257,8 +234,33 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         }
         return false;
     };
+    Fun postProcess = [this, roles, oldIn, oldOut, right, logUndo]() {
+        if (m_currentTrackId > -1) {
+            if (auto ptr = m_parent.lock()) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->notifyChange(ix, ix, roles);
+                // invalidate timeline preview
+                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {                        
+                    if (right) {
+                        int newOut = m_position + getOut() - getIn();
+                        if (oldOut < newOut) {
+                            emit ptr->invalidateZone(oldOut, newOut);
+                        } else {
+                            emit ptr->invalidateZone(newOut, oldOut);
+                        }
+                    } else {
+                        if (oldIn < m_position) {
+                            emit ptr->invalidateZone(oldIn, m_position);
+                        } else {
+                            emit ptr->invalidateZone(m_position, oldIn);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    };
     if (operation()) {
-        Fun reverse = []() { return true; };
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
@@ -273,31 +275,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
                 }
         }
-        reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
+        Fun reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
             if (track_reverse()) {
                 setInOut(old_in, old_out);
-                if (m_currentTrackId > -1) {
-                    if (auto ptr = m_parent.lock()) {
-                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                        ptr->notifyChange(ix, ix, roles);
-                        if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                            if (right) {
-                                int newOut = m_position + getOut() - getIn();
-                                if (oldOut < newOut) {
-                                    emit ptr->invalidateZone(oldOut, newOut);
-                                } else {
-                                    emit ptr->invalidateZone(newOut, oldOut);
-                                }
-                            } else {
-                                if (oldIn < m_position) {
-                                    emit ptr->invalidateZone(oldIn, m_position);
-                                } else {
-                                    emit ptr->invalidateZone(m_position, oldIn);
-                                }
-                            }
-                        }
-                    }
-                }
                 if (logUndo && !m_endlessResize) {
                     emit pCore->clipInstanceResized(m_binClipId);
                 }
@@ -306,6 +286,31 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
             return false;
         };
+        Fun preProcess = [this, roles, oldIn, oldOut, newIn = m_position, newOut = m_position + getOut() - getIn(), right, logUndo]() {
+            if (m_currentTrackId > -1) {
+            if (auto ptr = m_parent.lock()) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->notifyChange(ix, ix, roles);
+                // invalidate timeline preview
+                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {                        
+                    if (right) {
+                        if (oldOut < newOut) {
+                            emit ptr->invalidateZone(oldOut, newOut);
+                        } else {
+                            emit ptr->invalidateZone(newOut, oldOut);
+                        }
+                    } else {
+                        if (oldIn < newIn) {
+                            emit ptr->invalidateZone(oldIn, newIn);
+                        } else {
+                            emit ptr->invalidateZone(newIn, oldIn);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    };
         if (logUndo) {
         qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << "-"
                 <<outPoint<<", "<< m_producer->get_playtime();
@@ -318,6 +323,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             }
             adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         }
+        postProcess();
+        PUSH_LAMBDA(postProcess, operation);
+        PUSH_LAMBDA(preProcess, reverse);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -330,12 +338,6 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
     if (offset == 0 || m_endlessResize) {
         return true;
     }
-    // TODO
-    /*if (m_endlessResize) {
-        offset = inPoint;
-        outPoint = out - in;
-        inPoint = 0;
-    }*/
     int in = m_producer->get_in();
     int out = m_producer->get_out();
     int old_in = in, old_out = out;
@@ -757,7 +759,6 @@ bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << ".... ADJUSTING FADE LENGTH: " << duration << " / " << effectName;
     Fun operation = [this, duration, effectName, originalDuration]() {
         return m_effectStack->adjustFadeLength(duration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")), audioEnabled(),
                                                !isAudioOnly(), originalDuration > 0);
@@ -1333,13 +1334,7 @@ bool ClipModel::checkConsistency()
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     auto instances = binClip->timelineInstances();
-    bool found = false;
-    for (const auto &i : qAsConst(instances)) {
-        if (i == m_id) {
-            found = true;
-            break;
-        }
-    }
+    bool found = instances.contains(m_id);
     if (!found) {
         qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence";
         return false;

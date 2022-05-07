@@ -6,8 +6,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTPROJECTITEM_H
-#define ABSTRACTPROJECTITEM_H
+#pragma once
 
 #include "abstractmodel/treeitem.hpp"
 #include "undohelper.hpp"
@@ -218,5 +217,3 @@ protected:
 private:
     bool m_isCurrent;
 };
-
-#endif

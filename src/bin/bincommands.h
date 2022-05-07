@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef BINCOMMANDS_H
-#define BINCOMMANDS_H
+#pragma once
 
 #include <QMap>
 #include <QUndoCommand>
@@ -76,5 +75,3 @@ private:
      * only on the later executions of the command, since on the first execution, the properties panel already contains the correct info. */
     bool m_firstExec;
 };
-
-#endif

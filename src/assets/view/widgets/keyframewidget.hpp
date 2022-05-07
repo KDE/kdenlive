@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KEYFRAMEWIDGET_H
-#define KEYFRAMEWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 
@@ -98,5 +97,3 @@ signals:
     void goToPrevious();
     void addRemove();
 };
-
-#endif

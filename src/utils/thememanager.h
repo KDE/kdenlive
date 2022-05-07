@@ -4,8 +4,7 @@
     SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef THEMEMANAGER_H
-#define THEMEMANAGER_H
+#pragma once
 
 // Qt includes
 
@@ -39,5 +38,3 @@ private:
 signals:
     void themeChanged(const QString &name);
 };
-
-#endif /* THEMEMANAGER_H */

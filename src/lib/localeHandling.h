@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2020 Simon A. Eugster <simon.eu@gmail.com>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVE_LOCALEHANDLING_H
-#define KDENLIVE_LOCALEHANDLING_H
+#pragma once
 
 #include <QtCore/QLocale>
 #include <QtCore/QString>
@@ -40,5 +39,3 @@ public:
     static void resetLocale();
     static void resetAllLocale();
 };
-
-#endif // KDENLIVE_LOCALEHANDLING_H

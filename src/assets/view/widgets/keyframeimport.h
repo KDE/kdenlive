@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KEYFRAMEIMPORT_H
-#define KEYFRAMEIMPORT_H
+#pragma once
 
 #include <QDialog>
 #include <QDoubleSpinBox>
@@ -93,5 +92,3 @@ public slots:
 signals:
     void updateQmlView();
 };
-
-#endif

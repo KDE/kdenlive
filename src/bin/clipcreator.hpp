@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPCREATOR_H
-#define CLIPCREATOR_H
+#pragma once
 
 #include "definitions.h"
 #include "undohelper.hpp"
@@ -86,5 +85,3 @@ const QString createClipsFromList(const QList<QUrl> &list, bool checkRemovable, 
  */
 QDomDocument getXmlFromUrl(const QString &path);
 } // namespace ClipCreator
-
-#endif

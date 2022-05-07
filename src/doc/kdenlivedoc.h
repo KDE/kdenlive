@@ -9,8 +9,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  *
  *  Instances of KdenliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
 */
-#ifndef KDENLIVEDOC_H
-#define KDENLIVEDOC_H
+
+#pragma once
 
 #include <QAction>
 #include <QDir>
@@ -151,7 +151,7 @@ public:
     /** @brief Returns the number of clips in this project (useful to show loading progress) */
     int clipsCount() const;
     /** @brief Returns a list of project tags (color / description) */
-    QMap <QString, QString> getProjectTags();
+    QMap <int, QStringList> getProjectTags() const;
     /** @brief Returns the number of audio channels for this project */
     int audioChannels() const;
     /** @brief Ensure we don't have leftover preview chunks (created after last save */
@@ -273,5 +273,3 @@ signals:
     /** @brief Update compositing info */
     void updateCompositionMode(int);
 };
-
-#endif

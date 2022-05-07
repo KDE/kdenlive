@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef WIZARD_H
-#define WIZARD_H
+#pragma once
 
 #include <QVBoxLayout>
 #include <QWizard>
@@ -71,5 +70,3 @@ private slots:
     void slotUpdateDecklinkDevice(uint captureCard);
     void slotOpenManual();
 };
-
-#endif

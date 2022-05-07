@@ -4,9 +4,7 @@
     This file is part of the examples of the Qt Toolkit.
 */
 
-
-#ifndef FLOWLAYOUT_H
-#define FLOWLAYOUT_H
+#pragma once
 
 #include <QLayout>
 #include <QRect>
@@ -44,5 +42,3 @@ private:
 protected:
     mutable  QSize m_minimumSize;
 };
-
-#endif // FLOWLAYOUT_H

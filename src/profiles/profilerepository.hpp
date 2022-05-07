@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILEREPOSITORY_H
-#define PROFILEREPOSITORY_H
+#pragma once
 
 #include "definitions.h" //for QString hash function
 #include "profileinfo.hpp"
@@ -80,5 +79,3 @@ protected:
     */
     std::unordered_map<QString, std::unique_ptr<ProfileModel>> m_profiles;
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMELINETABS_H
-#define TIMELINETABS_H
+#pragma once
 
 #include <QTabWidget>
 #include <memory>
@@ -73,6 +72,7 @@ signals:
     /** @brief Requests that a given effectstack model is displayed in the asset panel */
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize, bool);
     void showSubtitle(int itemId);
+    void updateAssetPosition(int itemId);
     /** @brief Zoom level changed in timeline, update slider
      */
     void updateZoom(int);
@@ -80,5 +80,3 @@ signals:
 private:
     TimelineWidget *m_mainTimeline;
 };
-
-#endif

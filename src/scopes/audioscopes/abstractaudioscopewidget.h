@@ -5,8 +5,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ABSTRACTAUDIOSCOPEWIDGET_H
-#define ABSTRACTAUDIOSCOPEWIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -49,5 +48,3 @@ private:
     audioShortVector m_audioFrame;
     QAtomicInt m_newData;
 };
-
-#endif // ABSTRACTAUDIOSCOPEWIDGET_H

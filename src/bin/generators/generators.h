@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GENERATORS_H
-#define GENERATORS_H
+#pragma once
 
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/assetparameterview.hpp"
@@ -53,5 +52,3 @@ private slots:
     void updateProducer();
     void updateDuration(int duration);
 };
-
-#endif

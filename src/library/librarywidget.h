@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef LIBRARYWIDGET_H
-#define LIBRARYWIDGET_H
+#pragma once
 
 #include "definitions.h"
 
@@ -199,5 +198,3 @@ signals:
     void enableAddSelection(bool);
     void saveTimelineSelection(QDir);
 };
-
-#endif

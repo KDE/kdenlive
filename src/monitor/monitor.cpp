@@ -59,56 +59,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <utility>
 #define SEEK_INACTIVE (-1)
 
-QuickEventEater::QuickEventEater(QObject *parent)
-    : QObject(parent)
-{
-}
-
-bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
-{
-    switch (event->type()) {
-    case QEvent::DragEnter: {
-        auto *ev = reinterpret_cast<QDragEnterEvent *>(event);
-        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
-            ev->acceptProposedAction();
-            return true;
-        }
-        break;
-    }
-    case QEvent::DragMove: {
-        auto *ev = reinterpret_cast<QDragEnterEvent *>(event);
-        if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
-            ev->acceptProposedAction();
-            return true;
-        }
-        break;
-    }
-    case QEvent::Drop: {
-        auto *ev = static_cast<QDropEvent *>(event);
-        if (ev) {
-            QStringList effectData;
-            effectData << QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effect")));
-            QStringList source = QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char('-'));
-            effectData << source;
-            emit addEffect(effectData);
-            ev->accept();
-            return true;
-        }
-        break;
-    }
-    if (event->type() == QEvent::KeyPress) {
-        auto *ev = static_cast<QKeyEvent *>(event);
-        if (ev) {
-            emit doKeyPressEvent(ev);
-            return true;
-        }
-    }
-    default:
-        break;
-    }
-    return QObject::eventFilter(obj, event);
-}
-
 VolumeAction::VolumeAction(QObject *parent)
     : QWidgetAction(parent)
 {
@@ -169,24 +119,18 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     // Create container widget
-    m_glWidget = new QWidget;
+    m_glWidget = new QWidget(this);
     m_glWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     auto *glayout = new QGridLayout(m_glWidget);
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-    m_glMonitor = new GLWidget(id);
+    m_glMonitor = new GLWidget(id, this);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
-
-    m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
-    m_videoWidget->setAcceptDrops(true);
-    auto *leventEater = new QuickEventEater(this);
-    m_videoWidget->installEventFilter(leventEater);
-    connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
-    connect(leventEater, &QuickEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addTimelineEffect, this, &Monitor::addTimelineEffect);
 
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
@@ -195,7 +139,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         emit activateTrack(ix, false);
     });
 
-    glayout->addWidget(m_videoWidget, 0, 0);
+    glayout->addWidget(m_glMonitor, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
     glayout->addWidget(m_verticalScroll, 0, 1);
     m_verticalScroll->hide();
@@ -206,7 +150,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
     connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::mouseSeek, this, &Monitor::slotMouseSeek);
-    connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
     connect(m_glMonitor, &GLWidget::switchFullScreen, this, &Monitor::slotSwitchFullScreen);
     connect(m_glMonitor, &GLWidget::zoomChanged, this, &Monitor::setZoom);
     connect(m_glMonitor, SIGNAL(lockMonitor(bool)), this, SLOT(slotLockMonitor(bool)), Qt::DirectConnection);
@@ -279,6 +222,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_recManager = new RecManager(this);
         connect(m_recManager, &RecManager::warningMessage, this, &Monitor::warningMessage);
         connect(m_recManager, &RecManager::addClipToProject, this, &Monitor::addClipToProject);
+        connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
         // Show timeline clip usage
         connect(pCore.get(), &Core::clipInstanceResized, this, [this](const QString &binId) {
             if (m_controller && activeClipId() == binId) {
@@ -454,8 +398,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_timePos = new TimecodeDisplay(pCore->timecode(), this);
 
     if (id == Kdenlive::ProjectMonitor) {
-        // TODO: reimplement
-        // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
     } else if (id == Kdenlive::ClipMonitor) {
@@ -482,6 +424,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioMeterWidget->setVisibility(false);
     } else {
         m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
+        if (id == Kdenlive::ProjectMonitor) {
+            connect(m_audioMeterWidget, &MonitorAudioLevel::audioLevelsAvailable, pCore.get(), &Core::audioLevelsAvailable);
+        }
     }
 
     // Trimming tool bar buttons
@@ -542,7 +487,6 @@ Monitor::~Monitor()
 {
     delete m_audioMeterWidget;
     delete m_glMonitor;
-    delete m_videoWidget;
     delete m_glWidget;
     delete m_timePos;
 }
@@ -567,17 +511,6 @@ void Monitor::slotGetCurrentImage(bool request)
         QTimer::singleShot(500, m_monitorManager, &MonitorManager::checkScopes);
     } else {
         m_glMonitor->releaseAnalyse();
-    }
-}
-
-void Monitor::slotAddEffect(const QStringList &effect)
-{
-    if (m_id == Kdenlive::ClipMonitor) {
-        if (m_controller) {
-            emit addMasterEffect(m_controller->AbstractProjectItem::clipId(), effect);
-        }
-    } else {
-        emit addEffect(effect);
     }
 }
 
@@ -742,14 +675,14 @@ void Monitor::slotForceSize(QAction *a)
         // resize full size
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         profileHeight += m_glMonitor->m_displayRulerHeight;
-        m_videoWidget->setMinimumSize(profileWidth, profileHeight);
-        m_videoWidget->setMaximumSize(profileWidth, profileHeight);
+        m_glMonitor->setMinimumSize(profileWidth, profileHeight);
+        m_glMonitor->setMaximumSize(profileWidth, profileHeight);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height()));
         break;
     default:
         // Free resize
-        m_videoWidget->setMinimumSize(profileWidth, profileHeight);
-        m_videoWidget->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        m_glMonitor->setMinimumSize(profileWidth, profileHeight);
+        m_glMonitor->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
         break;
@@ -766,6 +699,7 @@ void Monitor::buildBackgroundedProducer(int pos) {
         int maxLength = m_controller->originalProducer()->get_length();
         bg->set("length", maxLength);
         bg->set("out", maxLength - 1);
+        bg->set("mlt_image_format", "rgba");
         trac.set_track(*bg.get(), 0);
         trac.set_track(*m_controller->originalProducer().get(), 1);
         QString composite = TransitionsRepository::get()->getCompositingTransition();
@@ -991,9 +925,17 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
             bool screenFound = false;
+            int ix = -1;
             if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
+                // If the platform does now provide screen serial number, use indexes
                 for (const QScreen* screen : qApp->screens()) {
-                    if (screen->serialNumber() == KdenliveSettings::fullscreen_monitor()) {
+                    ix++;
+                    bool match = KdenliveSettings::fullscreen_monitor() == QString("%1:%2").arg(QString::number(ix),screen->serialNumber());
+                    // Check if monitor's index changed
+                    if (!match && !screen->serialNumber().isEmpty()) {
+                        match = KdenliveSettings::fullscreen_monitor().section(QLatin1Char(':'), 1) == screen->serialNumber();
+                    }
+                    if (match) {
                         // Match
                         m_glWidget->setParent(nullptr);
                         m_glWidget->move(screen->geometry().topLeft());
@@ -1019,18 +961,19 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             m_glWidget->setParent(nullptr);
         }
         m_glWidget->showFullScreen();
-        m_videoWidget->setFocus();
+        setFocus();
     } else {
         m_glWidget->showNormal();
         auto *lay = static_cast<QVBoxLayout *>(layout());
         lay->insertWidget(0, m_glWidget, 10);
+        activateWindow();
         setFocus();
     }
 }
 
 void Monitor::fixFocus()
 {
-    m_videoWidget->setFocus();
+    setFocus();
 }
 
 // virtual
@@ -1077,58 +1020,8 @@ void Monitor::slotStartDrag()
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
-    drag->exec(Qt::MoveAction);
+    drag->exec(Qt::CopyAction);
     emit pCore->bin()->processDragEnd();
-}
-
-// virtual
-void Monitor::mouseMoveEvent(QMouseEvent *event)
-{
-    if (m_dragStarted || m_controller == nullptr) {
-        return;
-    }
-
-    if ((event->pos() - m_DragStartPosition).manhattanLength() < QApplication::startDragDistance()) {
-        return;
-    }
-
-    {
-        auto *drag = new QDrag(this);
-        auto *mimeData = new QMimeData;
-        m_dragStarted = true;
-        QStringList list;
-        list.append(m_controller->AbstractProjectItem::clipId());
-        QPoint p = m_glMonitor->getControllerProxy()->zone();
-        list.append(QString::number(p.x()));
-        list.append(QString::number(p.y()));
-        QByteArray clipData;
-        clipData.append(list.join(QLatin1Char(';')).toUtf8());
-        mimeData->setData(QStringLiteral("kdenlive/clip"), clipData);
-        drag->setMimeData(mimeData);
-        drag->exec(Qt::MoveAction);
-    }
-    event->accept();
-}
-
-/*void Monitor::dragMoveEvent(QDragMoveEvent * event) {
-    event->setDropAction(Qt::IgnoreAction);
-    event->setDropAction(Qt::MoveAction);
-    if (event->mimeData()->hasText()) {
-        event->acceptProposedAction();
-    }
-}
-
-Qt::DropActions Monitor::supportedDropActions() const {
-    // returns what actions are supported when dropping
-    return Qt::MoveAction;
-}*/
-
-QStringList Monitor::mimeTypes() const
-{
-    QStringList qstrList;
-    // list of accepted MIME types for drop
-    qstrList.append(QStringLiteral("kdenlive/clip"));
-    return qstrList;
 }
 
 // virtual
@@ -1274,7 +1167,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                 KdenliveSettings::setPreviewScaling(0);
                 m_glMonitor->updateScaling();
             }
-            // Create Qimage with frame
+            // Create QImage with frame
             QImage frame;
             // check if we are using a proxy
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
@@ -1322,7 +1215,10 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                             QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Qt::QueuedConnection, Q_ARG(QList<QUrl>, {QUrl::fromLocalFile(selectedFile)}), Q_ARG(QString,folderInfo));
                         }
                     });
-                    refreshMonitor();
+                    if (proxiedClips.isEmpty()) {
+                        // If there is a proxy, replacing it in timeline will trigger the monitor once replaced
+                        refreshMonitor();
+                    }
                     return;
                 } else {
                     frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
@@ -1516,6 +1412,9 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel>
         connect(markerModel.get(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(checkOverlay()));
         connect(markerModel.get(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(checkOverlay()));
+    } else {
+        // Project simply changed length, update display
+        emit durationChanged(length);
     }
 }
 
@@ -2126,10 +2025,13 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
-    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_offset, m_playAction->isActive())) {
+    emit m_monitorManager->frameDisplayed(frame);
+    if (m_id == Kdenlive::ProjectMonitor) {
+        emit pCore->updateMixerLevels(frame.get_position());
+    }
+    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_playAction->isActive())) {
         updatePlayAction(false);
     }
-    emit m_monitorManager->frameDisplayed(frame);
 }
 
 void Monitor::checkDrops()
@@ -2362,6 +2264,9 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         break;
     case MonitorSceneDefault:
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
+        if (m_id == Kdenlive::ClipMonitor) {
+            QObject::connect(root, SIGNAL(endDrag()), pCore->bin(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
+        }
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
@@ -2505,7 +2410,7 @@ void Monitor::slotSwitchAudioMonitor()
 
 void Monitor::displayAudioMonitor(bool isActive)
 {
-    bool enable = isActive && ((KdenliveSettings::monitoraudio() & m_id) != 0);
+    bool enable = isActive && ((KdenliveSettings::monitoraudio() & m_id) != 0 || (m_id == Kdenlive::ProjectMonitor && pCore->audioMixerVisible));
     if (enable) {
         connect(m_monitorManager, &MonitorManager::frameDisplayed, m_audioMeterWidget, &ScopeWidget::onNewFrame, Qt::UniqueConnection);
     } else {

@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KDENLIVESETTINGSDIALOG_H
-#define KDENLIVESETTINGSDIALOG_H
+#pragma once
 
 #include <KConfigDialog>
 #include <KProcess>
@@ -68,7 +67,6 @@ private slots:
     void slotEditAudioApplication();
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
-    void slotSetFullscreenMonitor();
     void slotCheckAlsaDriver();
     void slotCheckAudioBackend();
     void slotAddTranscode();
@@ -98,6 +96,8 @@ private slots:
     void downloadModelFinished(KJob* job);
     void processArchive(const QString &path);
     void doShowSpeechMessage(const QString &message, int messageType);
+    /** @brief fill list of connected monitors */
+    void fillMonitorData();
     
 private:
     KPageWidgetItem *m_page1;
@@ -179,5 +179,3 @@ signals:
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
 };
-
-#endif

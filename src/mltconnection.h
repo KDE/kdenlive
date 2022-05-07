@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef MLTCONNECTION_H
-#define MLTCONNECTION_H
+#pragma once
 
 #include <QString>
 #include <memory>
@@ -54,5 +53,3 @@ protected:
     /** @brief The MLT repository, useful for filter/producer requests */
     std::unique_ptr<Mlt::Repository> m_repository;
 };
-
-#endif

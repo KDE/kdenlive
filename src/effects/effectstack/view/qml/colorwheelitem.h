@@ -7,8 +7,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef COLORWHEELITEM_H
-#define COLORWHEELITEM_H
+#pragma once
 
 #include "utils/qcolorutils.h"
 
@@ -64,5 +63,3 @@ private:
     void drawSlider();
     void updateCursor(const QPoint &pos);
 };
-
-#endif // COLORWHEELITEM_H

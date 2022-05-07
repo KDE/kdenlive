@@ -174,10 +174,11 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         }
         if (KdenliveSettings::customprojectfolder()) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
+            QDir folder(projectFolder);
             if (!projectFolder.endsWith(QLatin1Char('/'))) {
                 projectFolder.append(QLatin1Char('/'));
             }
-            documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
+            documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(documentId));
         }
     } else {
         QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), QStringList(), projectTracks.first, projectTracks.second, audioChannels, KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
@@ -359,7 +360,14 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
-    QStringList thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
+    std::unordered_map<QString, std::vector<int>> thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
+    pCore->projectItemModel()->updateCacheThumbnail(thumbKeys);
+    // Remove duplicates
+    for (auto p : thumbKeys) {
+        std::sort(p.second.begin(), p.second.end());
+        auto last = std::unique(p.second.begin(), p.second.end());
+        p.second.erase(last, p.second.end());
+    }
     ThumbnailCache::get()->saveCachedThumbs(thumbKeys);
     if (!saveACopy) {
         m_project->setUrl(url);
@@ -1027,6 +1035,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
+    pCore->window()->slotUpdateProjectDuration(m_mainTimelineModel->duration() - 1);
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
@@ -1048,9 +1057,10 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     return true;
 }
 
-void ProjectManager::adjustProjectDuration()
+void ProjectManager::adjustProjectDuration(int duration)
 {
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, nullptr);
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(duration - 1, nullptr);
+
 }
 
 void ProjectManager::activateAsset(const QVariantMap &effectData)

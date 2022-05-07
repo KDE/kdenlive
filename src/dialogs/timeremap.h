@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TIMEREMAP_H
-#define TIMEREMAP_H
+#pragma once
 
 #include "ui_timeremap_ui.h"
 
@@ -175,5 +174,3 @@ private:
     QMetaObject::Connection m_seekConnection3;
 
 };
-
-#endif

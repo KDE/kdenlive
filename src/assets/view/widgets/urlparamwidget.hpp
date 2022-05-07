@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef URLPARAMWIDGET_H
-#define URLPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include "ui_urlval_ui.h"
@@ -34,5 +33,3 @@ public slots:
      */
     void slotRefresh() override;
 };
-
-#endif

@@ -3,10 +3,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CUBICBEZIERSPLINE_H
-#define CUBICBEZIERSPLINE_H
+#pragma once
 
-#include "bpoint.h"
+#include "../../../../bpoint.h"
 
 #include <QList>
 #include <QString>
@@ -78,5 +77,3 @@ private:
 
     QList<BPoint> m_points;
 };
-
-#endif

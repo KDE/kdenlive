@@ -455,14 +455,14 @@ void TemporaryData::deleteThumbs()
     }
 }
 
-void TemporaryData::deleteCurrentCacheData()
+void TemporaryData::deleteCurrentCacheData(bool warn)
 {
     bool ok = false;
     QDir dir = m_doc->getCacheDir(CacheBase, &ok);
     if (!ok) {
         return;
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache folder:\n%1\nCache folder contains the audio and video thumbnails, as well as timeline previews. All this data will be recreated on project opening.", dir.absolutePath())) != KMessageBox::Continue) {
+    if (warn && KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache folder:\n%1\nCache folder contains the audio and video thumbnails, as well as timeline previews. All this data will be recreated on project opening.", dir.absolutePath())) != KMessageBox::Continue) {
         return;
     }
     if (dir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
@@ -470,7 +470,9 @@ void TemporaryData::deleteCurrentCacheData()
         emit disableProxies();
         dir.removeRecursively();
         m_doc->initCacheDirs();
-        updateDataInfo();
+        if (warn) {
+            updateDataInfo();
+        }
     }
 }
 
@@ -517,8 +519,6 @@ void TemporaryData::gotBackupSize(KJob *job)
 void TemporaryData::updateGlobalInfo()
 {
     listWidget->blockSignals(true);
-    m_totalGlobal = 0;
-    listWidget->clear();
     bool ok = false;
     QDir preview = m_doc->getCacheDir(SystemCacheRoot, &ok);
     if (!ok) {
@@ -528,8 +528,10 @@ void TemporaryData::updateGlobalInfo()
     m_globalDir = preview;
     m_globalDirectories.clear();
     m_processingDirectory.clear();
+    m_totalGlobal = 0;
+    listWidget->clear();
     m_globalDirectories = m_globalDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    // These are some KDE cache dirs relater to Kdenlice that don't manage ourselves
+    // These are some KDE cache dirs related to Kdenlive that don't manage ourselves
     m_globalDirectories.removeAll(QStringLiteral("knewstuff"));
     m_globalDirectories.removeAll(QStringLiteral("attica"));
     m_globalDirectories.removeAll(QStringLiteral("proxy"));
@@ -551,6 +553,9 @@ void TemporaryData::processglobalDirectories()
 
 void TemporaryData::gotFolderSize(KJob *job)
 {
+    if (m_processingDirectory.isEmpty()) {
+        return;
+    }
     auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
@@ -637,7 +642,7 @@ void TemporaryData::deleteCache(QStringList &folders)
     for (const QString &folder : qAsConst(folders)) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
-            deleteCurrentCacheData();
+            deleteCurrentCacheData(false);
             continue;
         }
         QDir toRemove(m_globalDir.filePath(folder));

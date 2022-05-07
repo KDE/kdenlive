@@ -4,8 +4,8 @@
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#ifndef KIS_CURVE_WIDGET_H
-#define KIS_CURVE_WIDGET_H
+
+#pragma once
 
 // Qt includes.
 
@@ -81,5 +81,3 @@ private:
     bool m_guideVisible;
     QColor m_colorGuide;
 };
-
-#endif /* KIS_CURVE_WIDGET_H */

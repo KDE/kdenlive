@@ -6,6 +6,7 @@
 */
 
 #include "scopewidget.h"
+#include "core.h"
 #include "kdenlive_debug.h"
 #include <QtConcurrent>
 
@@ -39,7 +40,7 @@ void ScopeWidget::requestRefresh()
 
 void ScopeWidget::refreshInThread()
 {
-    if (m_size.isEmpty()) {
+    if (m_size.isEmpty() && !pCore->audioMixerVisible) {
         return;
     }
 

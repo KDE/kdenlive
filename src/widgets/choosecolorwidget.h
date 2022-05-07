@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CHOOSECOLORWIDGET_H
-#define CHOOSECOLORWIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -50,5 +49,3 @@ signals:
     void disableCurrentFilter(bool);
     void valueChanged();
 };
-
-#endif

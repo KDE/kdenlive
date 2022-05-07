@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef EFFECTSREPOSITORY_H
-#define EFFECTSREPOSITORY_H
+#pragma once
 
 #include "assets/abstractassetsrepository.hpp"
 #include "definitions.h"
@@ -77,5 +76,3 @@ protected:
     /** @brief flag to create the repository only once */
     static std::once_flag m_onceFlag;
 };
-
-#endif

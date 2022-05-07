@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KFRMONITORHELPER_H
-#define KFRMONITORHELPER_H
+#pragma once
 
 #include <QPersistentModelIndex>
 
@@ -64,5 +63,3 @@ signals:
      */
     void updateKeyframeData(QPersistentModelIndex index, const QVariant &v);
 };
-
-#endif

@@ -57,12 +57,21 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.image_type->addItem(i18n("Preview from CR2 (*.cr2)"), QStringLiteral("cr2"));
     m_view.image_type->addItem(i18n("Preview from ARW (*.arw)"), QStringLiteral("arw"));
     m_view.animation->addItem(i18n("None"), QString());
-    m_view.animation->addItem(i18nc("Image Pan", "Pan"), QStringLiteral("Pan"));
-    m_view.animation->addItem(i18n("Pan, low-pass"), QStringLiteral("Pan, low-pass"));
-    m_view.animation->addItem(i18n("Pan and zoom"), QStringLiteral("Pan and zoom"));
-    m_view.animation->addItem(i18n("Pan and zoom, low-pass"), QStringLiteral("Pan and zoom, low-pass"));
-    m_view.animation->addItem(i18n("Zoom"), QStringLiteral("Zoom"));
-    m_view.animation->addItem(i18n("Zoom, low-pass"), QStringLiteral("Zoom, low-pass"));
+
+    KConfig conf(QStringLiteral("slideanimations.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, "slides");
+    QMap<QString,QString>slideTranslations;
+    slideTranslations.insert(QStringLiteral("Pan"), i18nc("Image Pan", "Pan"));
+    slideTranslations.insert(QStringLiteral("Pan and zoom"), i18n("Pan and zoom"));
+    slideTranslations.insert(QStringLiteral("Zoom"), i18n("Zoom"));
+    QStringList animValues = group.keyList();
+    for (const auto &val : animValues) {
+        if (slideTranslations.contains(val)) {
+            m_view.animation->addItem(slideTranslations.value(val), val);
+        } else {
+            m_view.animation->addItem(val, val);
+        }
+    }
 
     m_view.clip_duration->setInputMask(m_timecode.mask());
     m_view.luma_duration->setInputMask(m_timecode.mask());
@@ -86,11 +95,9 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
             m_view.folder_url->setText(QFileInfo(url).absolutePath());
             QString filter = QFileInfo(url).fileName();
             QString ext = filter.section(QLatin1Char('.'), -1);
-            for (int i = 0; i < m_view.image_type->count(); ++i) {
-                if (m_view.image_type->itemData(i).toString() == ext) {
-                    m_view.image_type->setCurrentIndex(i);
-                    break;
-                }
+            int ix = m_view.image_type->findData(ext);
+            if (ix > -1) {
+                m_view.image_type->setCurrentIndex(ix);
             }
         } else {
             // the image sequence is defined by pattern
@@ -98,6 +105,12 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
             m_view.pattern_url->setText(url);
         }
     } else {
+        if (!KdenliveSettings::slideshowmimeextension().isEmpty()) {
+            int ix = m_view.image_type->findData(KdenliveSettings::slideshowmimeextension());
+            if (ix > -1) {
+                m_view.image_type->setCurrentIndex(ix);
+            }
+        }
         m_view.method_mime->setChecked(KdenliveSettings::slideshowbymime());
         slotMethodChanged(m_view.method_mime->isChecked());
     }
@@ -155,6 +168,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         } else {
             m_view.animation->setCurrentIndex(0);
         }
+        m_view.low_pass->setChecked(clip->getProducerProperty(QStringLiteral("low-pass")) == QLatin1String("1"));
         int ttl = clip->getProducerIntProperty(QStringLiteral("ttl"));
         m_view.clip_duration->setText(tc.getTimecodeFromFrames(ttl));
         m_view.clip_duration_frames->setValue(ttl);
@@ -170,6 +184,10 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         slotEnableLumaFile(m_view.luma_fade->checkState());
         parseFolder();
     }
+    m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull());
+    connect(m_view.animation, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
+        m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull());
+    });
     // adjustSize();
 }
 
@@ -242,7 +260,7 @@ void SlideshowClip::parseFolder()
     QString filter;
     if (isMime) {
         // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-        filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+        filter = m_view.image_type->currentData().toString();
         filters << QStringLiteral("*.") + filter;
         dir.setNameFilters(filters);
         result = dir.entryList(QDir::Files);
@@ -355,7 +373,7 @@ QString SlideshowClip::selectedPath()
         url = m_view.pattern_url->url();
     }
     QString path = selectedPath(url, m_view.method_mime->isChecked(),
-                                QStringLiteral(".all.") + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
+                                QStringLiteral(".all.") + m_view.image_type->currentData().toString(), &list);
     m_count = list.count();
     // qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
     return path;
@@ -484,10 +502,10 @@ QString SlideshowClip::lumaFile() const
 
 QString SlideshowClip::animation() const
 {
-    if (m_view.animation->itemData(m_view.animation->currentIndex()).isNull()) {
+    if (m_view.animation->currentData().isNull()) {
         return QString();
     }
-    return m_view.animation->itemData(m_view.animation->currentIndex()).toString();
+    return m_view.animation->currentData().toString();
 }
 
 void SlideshowClip::slotUpdateDurationFormat(int ix)
@@ -524,22 +542,33 @@ void SlideshowClip::slotMethodChanged(bool active)
     parseFolder();
 }
 
+int SlideshowClip::lowPass() const
+{
+    return m_view.low_pass->isEnabled() && m_view.low_pass->isChecked() ? 1 : 0;
+}
+
 // static
 QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
 {
+    // load animation profiles
+    KConfig conf(QStringLiteral("slideanimations.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, "slides");
     QString geometry;
-    if (animation.startsWith(QLatin1String("Pan and zoom"))) {
-        geometry = QString::asprintf(
-            "0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%;%d=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%", ttl - 1,
-            ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1);
-        ttl *= 3;
-    } else if (animation.startsWith(QLatin1String("Pan"))) {
-        geometry = QString::asprintf("0=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/"
-                                     "-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%",
-                                     ttl - 1, ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1, ttl * 3, ttl * 4 - 1);
-        ttl *= 4;
-    } else if (animation.startsWith(QLatin1String("Zoom"))) {
-        geometry = QString::asprintf("0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%", ttl - 1);
+    if (group.hasKey(animation)) {
+        geometry = group.readEntry(animation);
+    }
+    int frames = geometry.count(QLatin1String("%d="));
+    int frameNumber = ttl - 1;
+    QString str = QStringLiteral("%d");
+    for (int i = 0; i < frames; i++) {
+        geometry.replace(geometry.indexOf(str), 2, QString::number(frameNumber));
+        frameNumber = qFloor((i + 3)/2) * ttl;
+        frameNumber -= (i % 2);
     }
     return geometry;
+}
+
+const QString SlideshowClip::extension() const
+{
+    return m_view.image_type->currentData().toString();
 }

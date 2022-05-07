@@ -12,8 +12,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TITLEDOCUMENT_H
-#define TITLEDOCUMENT_H
+#pragma once
 
 #include <QColor>
 #include <QDomDocument>
@@ -80,5 +79,3 @@ private:
     static int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString & pojectPath);
     static QPixmap createInvalidPixmap(const QString &url, int height);
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETPARAMETERVIEW_H
-#define ASSETPARAMETERVIEW_H
+#pragma once
 
 #include "definitions.h"
 #include <QModelIndex>
@@ -101,5 +100,3 @@ signals:
     void previousKeyframe();
     void addRemoveKeyframe();
 };
-
-#endif

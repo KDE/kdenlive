@@ -5,8 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef OTIOCONVERTIONS_H
-#define OTIOCONVERTIONS_H
+#pragma once
 
 #include "pythoninterfaces/abstractpythoninterface.h"
 
@@ -33,5 +32,3 @@ public slots:
     void slotExportProject();
     void slotImportProject();
 };
-
-#endif // OTIOCONVERTIONS_H

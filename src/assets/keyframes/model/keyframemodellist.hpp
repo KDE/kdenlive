@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KEYFRAMELISTMODELLIST_H
-#define KEYFRAMELISTMODELLIST_H
+#pragma once
 
 #include "definitions.h"
 #include "utils/gentime.h"
@@ -186,5 +185,3 @@ public:
     auto begin() -> decltype(m_parameters.begin()->second->begin()) { return m_parameters.begin()->second->begin(); }
     auto end() -> decltype(m_parameters.begin()->second->end()) { return m_parameters.begin()->second->end(); }
 };
-
-#endif

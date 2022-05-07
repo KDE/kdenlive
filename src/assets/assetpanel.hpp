@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ASSETPANEL_H
-#define ASSETPANEL_H
+#pragma once
 
 #include <QVBoxLayout>
 #include <QWidget>
@@ -70,6 +69,8 @@ public slots:
     void slotAddRemoveKeyframe();
     void slotNextKeyframe();
     void slotPreviousKeyframe();
+    /** @brief Update timelinbe position in keyframe views */
+    void updateAssetPosition(int itemId);
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */
@@ -110,5 +111,3 @@ signals:
     void switchCurrentComposition(int tid, const QString &compoId);
     void slotSaveStack();
 };
-
-#endif

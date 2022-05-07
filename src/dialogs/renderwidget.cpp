@@ -1,14 +1,15 @@
 /*
     SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
-SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "renderwidget.h"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "dialogs/profilesdialog.h"
+#include "dialogs/renderpresetdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
@@ -16,12 +17,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "utils/timecode.h"
-#include "ui_saveprofile_ui.h"
 #include "xml/xml.hpp"
+
+#include "renderpresets/tree/renderpresettreemodel.hpp"
+#include "renderpresets/renderpresetrepository.hpp"
+#include "renderpresets/renderpresetmodel.hpp"
 
 #include "klocalizedstring.h"
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
+#include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
 #include <KNotification>
 #include <KRun>
@@ -58,24 +63,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <xlocale.h>
 #endif
 
-// Render profiles roles
-enum {
-    GroupRole = Qt::UserRole,
-    ExtensionRole,
-    StandardRole,
-    RenderRole,
-    ParamsRole,
-    EditableRole,
-    ExtraRole,
-    BitratesRole,
-    DefaultBitrateRole,
-    AudioBitratesRole,
-    DefaultAudioBitrateRole,
-    SpeedsRole,
-    FieldRole,
-    ErrorRole
-};
-
 // Render job roles
 enum {
     ParametersRole = Qt::UserRole + 1,
@@ -83,7 +70,8 @@ enum {
     ProgressRole,
     ExtraInfoRole = ProgressRole + 2, // vpinon: don't understand why, else spurious message displayed
     LastTimeRole,
-    LastFrameRole
+    LastFrameRole,
+    OpenBrowserRole
 };
 
 // Running job status
@@ -151,96 +139,108 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
 
-    setWindowTitle(i18nc("@title:window", "Rendering"));
+    // ===== "Render Project" tab =====
     m_view.buttonDelete->setIconSize(iconSize);
     m_view.buttonEdit->setIconSize(iconSize);
-    m_view.buttonSave->setIconSize(iconSize);
-    m_view.buttonFavorite->setIconSize(iconSize);
+    m_view.buttonNew->setIconSize(iconSize);
+    m_view.buttonSaveAs->setIconSize(iconSize);
     m_view.buttonDownload->setIconSize(iconSize);
-
-    m_view.buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
-    m_view.buttonDelete->setToolTip(i18n("Delete profile"));
-    m_view.buttonDelete->setEnabled(false);
-
-    m_view.buttonEdit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
-    m_view.buttonEdit->setToolTip(i18n("Edit profile…"));
-    m_view.buttonEdit->setEnabled(false);
-
-    m_view.buttonSave->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    m_view.buttonSave->setToolTip(i18n("Create new profile"));
-
-    m_view.hide_log->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
-
-    m_view.buttonFavorite->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
-    m_view.buttonFavorite->setToolTip(i18n("Copy profile to favorites"));
-
-    m_view.buttonDownload->setIcon(QIcon::fromTheme(QStringLiteral("edit-download")));
-    m_view.buttonDownload->setToolTip(i18n("Download New Render Profiles…"));
-
-    m_view.out_file->button()->setToolTip(i18n("Select output destination"));
-    m_view.advanced_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-
-    m_view.optionsGroup->setVisible(m_view.options->isChecked());
-    connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
-    m_view.videoLabel->setVisible(m_view.options->isChecked());
-    connect(m_view.options, &QAbstractButton::toggled, m_view.videoLabel, &QWidget::setVisible);
-    m_view.video->setVisible(m_view.options->isChecked());
-    connect(m_view.options, &QAbstractButton::toggled, m_view.video, &QWidget::setVisible);
-    m_view.audioLabel->setVisible(m_view.options->isChecked());
-    connect(m_view.options, &QAbstractButton::toggled, m_view.audioLabel, &QWidget::setVisible);
-    m_view.audio->setVisible(m_view.options->isChecked());
-    connect(m_view.options, &QAbstractButton::toggled, m_view.audio, &QWidget::setVisible);
-    connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustAVQualities);
-    connect(m_view.video, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::adjustQuality);
-    connect(m_view.speed, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustSpeed);
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
+
+    connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index){
+        if (m_treeModel->parent(index) == QModelIndex()) {
+            // This is a top level item - group - don't edit
+            return;
+        }
+        slotEditPreset();
+    });
+    connect(m_view.buttonNew, &QAbstractButton::clicked, this, &RenderWidget::slotNewPreset);
+    connect(m_view.buttonEdit, &QAbstractButton::clicked, this, &RenderWidget::slotEditPreset);
+    connect(m_view.buttonDelete, &QAbstractButton::clicked, this, [this](){
+        RenderPresetRepository::get()->deletePreset(m_currentProfile);
+        m_currentProfile = QString();
+        parseProfiles();
+        refreshView();
+    });
+    connect(m_view.buttonSaveAs, &QAbstractButton::clicked, this, &RenderWidget::slotSavePresetAs);
+    connect(m_view.buttonDownload, &QAbstractButton::clicked, this, [&](){
+        if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
+            parseProfiles();
+        }
+    });
+    m_view.optionsGroup->setVisible(m_view.options->isChecked());
+    connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
+
+    connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
+    connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
+
+    connect(m_view.render_multi, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
+    connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
+    connect(m_view.render_zone, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
+    connect(m_view.render_full, &QAbstractButton::clicked, this, &RenderWidget::slotRenderModeChanged);
+
+    connect(m_view.guide_end, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
+    connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
+
+
+    // === "More Options" widget ===
     setRescaleEnabled(false);
-    m_view.guides_box->setVisible(false);
-    m_view.create_chapter->setVisible(false);
-    m_view.open_browser->setVisible(false);
+    m_view.guide_zone_box->setVisible(false);
+    m_view.guide_multi_box->setVisible(false);
     m_view.error_box->setVisible(false);
-    m_view.tc_type->setEnabled(false);
+    m_view.tc_type->addItem(i18n("None"));
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
     m_view.tc_type->addItem(i18n("Timecode Non Drop Frame"), QStringLiteral("#smtpe_ndf#"));
     m_view.tc_type->addItem(i18n("Frame Number"), QStringLiteral("#frame#"));
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
-    connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
+    connect(m_view.proxy_render, &QCheckBox::toggled, this, [&](bool enabled){
+        errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString());
+    });
 
-    m_view.encoder_threads->setMinimum(0);
+    connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::refreshParams);
+    connect(m_view.qualityGroup, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
+    connect(m_view.speed, &QAbstractSlider::valueChanged, this, &RenderWidget::adjustSpeed);
+
     m_view.encoder_threads->setMaximum(QThread::idealThreadCount());
-    m_view.encoder_threads->setToolTip(i18n("Encoding threads (0 is automatic)"));
     m_view.encoder_threads->setValue(KdenliveSettings::encodethreads());
-    connect(m_view.encoder_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateEncodeThreads);
+    connect(m_view.encoder_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setEncodethreads);
+    connect(m_view.encoder_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::refreshParams);
 
+    connect(m_view.video_box, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
+    connect(m_view.audio_box, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
     m_view.rescale_keep->setChecked(KdenliveSettings::rescalekeepratio());
+    connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::setRescaleEnabled);
+    connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::refreshParams);
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
-    m_view.rescale_keep->setIcon(QIcon::fromTheme(QStringLiteral("edit-link")));
-    m_view.rescale_keep->setToolTip(i18n("Preserve aspect ratio"));
     connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
+    m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
+    connect(m_view.parallel_process, &QCheckBox::stateChanged, [&](int state) {
+        KdenliveSettings::setParallelrender(state == Qt::Checked);
+        refreshParams();
+    });
+    if (KdenliveSettings::gpu_accel()) {
+        // Disable parallel rendering for movit
+        m_view.parallel_process->setEnabled(false);
+    }
+    connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
+    connect(m_view.checkTwoPass, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
 
-    connect(m_view.buttonRender, SIGNAL(clicked()), this, SLOT(slotPrepareExport()));
-    connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, &RenderWidget::slotGenerateScript);
-
-    m_view.abort_job->setEnabled(false);
-    m_view.start_script->setEnabled(false);
-    m_view.delete_script->setEnabled(false);
+    connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&](){ slotPrepareExport(); });
+    connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&](){ slotPrepareExport(true); });
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
-
-    connect(m_view.export_audio, &QCheckBox::stateChanged, this, &RenderWidget::slotUpdateAudioLabel);
-    m_view.export_audio->setCheckState(Qt::PartiallyChecked);
-
-    checkCodecs();
     parseProfiles();
+
+    // ===== "Job Queue" tab =====
     parseScriptFiles();
     m_view.running_jobs->setUniformRowHeights(false);
     m_view.running_jobs->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(m_view.running_jobs, &QTreeWidget::customContextMenuRequested, this, &RenderWidget::prepareMenu);
+    connect(m_view.running_jobs, &QTreeWidget::customContextMenuRequested, this, &RenderWidget::prepareJobContextMenu);
     m_view.scripts_list->setUniformRowHeights(false);
     connect(m_view.start_script, &QAbstractButton::clicked, this, &RenderWidget::slotStartScript);
     connect(m_view.delete_script, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteScript);
@@ -248,42 +248,14 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.running_jobs, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckJob);
     connect(m_view.running_jobs, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotPlayRendering);
 
-    connect(m_view.buttonSave, &QAbstractButton::clicked, this, &RenderWidget::slotSaveProfile);
-    connect(m_view.buttonEdit, &QAbstractButton::clicked, this, &RenderWidget::slotEditProfile);
-    connect(m_view.buttonDelete, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteProfile);
-    connect(m_view.buttonFavorite, &QAbstractButton::clicked, this, &RenderWidget::slotCopyToFavorites);
-    connect(m_view.buttonDownload, &QAbstractButton::clicked, this, &RenderWidget::slotDownloadNewRenderProfiles);
-
     connect(m_view.abort_job, &QAbstractButton::clicked, this, &RenderWidget::slotAbortCurrentJob);
     connect(m_view.start_job, &QAbstractButton::clicked, this, &RenderWidget::slotStartCurrentJob);
-    connect(m_view.clean_up, &QAbstractButton::clicked, this, &RenderWidget::slotCLeanUpJobs);
+    connect(m_view.clean_up, &QAbstractButton::clicked, this, &RenderWidget::slotCleanUpJobs);
     connect(m_view.hide_log, &QAbstractButton::clicked, this, &RenderWidget::slotHideLog);
 
     connect(m_view.buttonClose, &QAbstractButton::clicked, this, &QWidget::hide);
     connect(m_view.buttonClose2, &QAbstractButton::clicked, this, &QWidget::hide);
     connect(m_view.buttonClose3, &QAbstractButton::clicked, this, &QWidget::hide);
-    connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::setRescaleEnabled);
-    connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
-    connect(m_view.out_file, &KUrlRequester::urlSelected, this, static_cast<void (RenderWidget::*)(const QUrl &)>(&RenderWidget::slotUpdateButtons));
-
-    connect(m_view.formats, &QTreeWidget::currentItemChanged, this, &RenderWidget::refreshParams);
-    connect(m_view.formats, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotEditItem);
-
-    connect(m_view.render_guide, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
-    connect(m_view.render_zone, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
-    connect(m_view.render_full, &QAbstractButton::clicked, this, &RenderWidget::slotUpdateGuideBox);
-
-    connect(m_view.guide_end, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
-    connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
-
-    connect(m_view.tc_overlay, &QAbstractButton::toggled, m_view.tc_type, &QWidget::setEnabled);
-
-    // m_view.splitter->setStretchFactor(1, 5);
-    // m_view.splitter->setStretchFactor(0, 2);
-
-    m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
-    m_view.out_file->setMode(KFile::File);
-    m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
     m_jobsDelegate = new RenderViewDelegate(this);
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File"));
@@ -294,6 +266,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     header->resizeSection(0, size + 4);
     header->setSectionResizeMode(1, QHeaderView::Interactive);
 
+    // ===== "Scripts" tab =====
     m_view.scripts_list->setHeaderLabels(QStringList() << QString() << i18n("Stored Playlists"));
     m_scriptsDelegate = new RenderViewDelegate(this);
     m_view.scripts_list->setItemDelegate(m_scriptsDelegate);
@@ -329,19 +302,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.shareButton->setEnabled(false);
 #endif
 
-    // Parallel rendering
-    m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
-    connect(m_view.parallel_process, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setParallelrender(state == Qt::Checked); });
-    if (KdenliveSettings::gpu_accel()) {
-        // Disable parallel rendering for movit
-        m_view.parallel_process->setEnabled(false);
-    }
-
-    m_view.field_order->setEnabled(false);
-    connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) { m_view.field_order->setEnabled(index == 2); });
     loadConfig();
     refreshView();
-    focusFirstVisibleItem();
+    focusItem();
     adjustSize();
 }
 
@@ -401,31 +364,6 @@ void RenderWidget::loadConfig()
     m_view.options->setChecked(resourceConfig.readEntry("showoptions", false));
 }
 
-void RenderWidget::slotEditItem(QTreeWidgetItem *item)
-{
-    if (item->parent() == nullptr) {
-        // This is a top level item - group - don't edit
-        return;
-    }
-    const QString edit = item->data(0, EditableRole).toString();
-    if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
-        slotSaveProfile();
-    } else {
-        slotEditProfile();
-    }
-}
-
-void RenderWidget::showInfoPanel()
-{
-    if (m_view.advanced_params->isVisible()) {
-        m_view.advanced_params->setVisible(false);
-        KdenliveSettings::setShowrenderparams(false);
-    } else {
-        m_view.advanced_params->setVisible(true);
-        KdenliveSettings::setShowrenderparams(true);
-    }
-}
-
 void RenderWidget::updateDocumentPath()
 {
     if (m_view.out_file->url().isEmpty()) {
@@ -436,9 +374,49 @@ void RenderWidget::updateDocumentPath()
     parseScriptFiles();
 }
 
-void RenderWidget::slotUpdateGuideBox()
+void RenderWidget::slotRenderModeChanged()
 {
-    m_view.guides_box->setVisible(m_view.render_guide->isChecked());
+    m_view.guide_zone_box->setVisible(m_view.render_guide->isChecked());
+    m_view.guide_multi_box->setVisible(m_view.render_multi->isChecked());
+    m_view.buttonGenerateScript->setVisible(!m_view.render_multi->isChecked());
+}
+
+void RenderWidget::slotUpdateRescaleWidth(int val)
+{
+    KdenliveSettings::setDefaultrescalewidth(val);
+    if (!m_view.rescale_keep->isChecked()) {
+        refreshParams();
+        return;
+    }
+    m_view.rescale_height->blockSignals(true);
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
+    m_view.rescale_height->setValue(val * profile->height() / profile->width());
+    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
+    m_view.rescale_height->blockSignals(false);
+    refreshParams();
+}
+
+void RenderWidget::slotUpdateRescaleHeight(int val)
+{
+    KdenliveSettings::setDefaultrescaleheight(val);
+    if (!m_view.rescale_keep->isChecked()) {
+        refreshParams();
+        return;
+    }
+    m_view.rescale_width->blockSignals(true);
+    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
+    m_view.rescale_width->setValue(val * profile->width() / profile->height());
+    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
+    m_view.rescale_width->blockSignals(false);
+    refreshParams();
+}
+
+void RenderWidget::slotSwitchAspectRatio()
+{
+    KdenliveSettings::setRescalekeepratio(m_view.rescale_keep->isChecked());
+    if (m_view.rescale_keep->isChecked()) {
+        slotUpdateRescaleWidth(m_view.rescale_width->value());
+    }
 }
 
 void RenderWidget::slotCheckStartGuidePosition()
@@ -471,13 +449,15 @@ void RenderWidget::reloadGuides()
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
     m_view.guide_end->clear();
+    m_view.guideCategoryCombo->clear();
+
     if (auto ptr = m_guidesModel.lock()) {
         QList<CommentedTime> markers = ptr->getAllMarkers();
-        double fps = pCore->getCurrentProfile()->fps();
+        double fps = pCore->getCurrentFps();
         m_view.render_guide->setEnabled(!markers.isEmpty());
+        m_view.render_multi->setEnabled(!markers.isEmpty());
         if (!markers.isEmpty()) {
             m_view.guide_start->addItem(i18n("Beginning"), 0);
-            m_view.create_chapter->setEnabled(true);
             for (const auto &marker : qAsConst(markers)) {
                 GenTime pos = marker.time();
                 const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
@@ -493,571 +473,122 @@ void RenderWidget::reloadGuides()
                 int ix = qMax(m_view.guide_start->currentIndex() + 1, m_view.guide_end->findData(endData));
                 m_view.guide_end->setCurrentIndex(ix);
             }
+
+            // Set up guide categories
+            static std::array<QColor, 9> markerTypes = ptr->markerTypes;
+            QPixmap pixmap(32,32);
+            m_view.guideCategoryCombo->addItem(i18n("All Categories"), -1);
+            for (uint i = 0; i < markerTypes.size(); ++i) {
+                if (!ptr->getAllMarkers(i).isEmpty()) {
+                    pixmap.fill(markerTypes[size_t(i)]);
+                    QIcon colorIcon(pixmap);
+                    m_view.guideCategoryCombo->addItem(colorIcon, i18n("Category %1", i), i);
+                }
+            }
+        } else {
+            if (m_view.render_guide->isChecked() || m_view.render_multi->isChecked()) {
+                m_view.render_full->setChecked(true);
+            }
         }
     } else {
         m_view.render_guide->setEnabled(false);
-        m_view.create_chapter->setEnabled(false);
+        m_view.render_multi->setEnabled(false);
+        if (m_view.render_guide->isChecked() || m_view.render_multi->isChecked()) {
+            m_view.render_full->setChecked(true);
+        }
     }
+    slotRenderModeChanged();
 }
 
-/**
- * Will be called when the user selects an output file via the file dialog.
- * File extension will be added automatically.
- */
 void RenderWidget::slotUpdateButtons(const QUrl &url)
 {
-    if (m_view.out_file->url().isEmpty()) {
-        m_view.buttonGenerateScript->setEnabled(false);
-        m_view.buttonRender->setEnabled(false);
-    } else {
-        updateButtons(); // This also checks whether the selected format is available
-    }
-    if (url.isValid()) {
-        QTreeWidgetItem *item = m_view.formats->currentItem();
-        if ((item == nullptr) || (item->parent() == nullptr)) { // categories have no parent
-            m_view.buttonRender->setEnabled(false);
-            m_view.buttonGenerateScript->setEnabled(false);
-            return;
-        }
-        const QString extension = item->data(0, ExtensionRole).toString();
-        m_view.out_file->setUrl(filenameWithExtension(url, extension));
-    }
-}
-
-/**
- * Will be called when the user changes the output file path in the text line.
- * File extension must NOT be added, would make editing impossible!
- */
-void RenderWidget::slotUpdateButtons()
-{
-    if (m_view.out_file->url().isEmpty()) {
-        m_view.buttonRender->setEnabled(false);
-        m_view.buttonGenerateScript->setEnabled(false);
-    } else {
-        updateButtons(); // This also checks whether the selected format is available
-    }
-}
-
-void RenderWidget::slotSaveProfile()
-{
-    Ui::SaveProfile_UI ui;
-    QPointer<QDialog> d = new QDialog(this);
-    ui.setupUi(d);
-
-    QString customGroup;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList arguments = m_view.advanced_params->toPlainText().split(' ', QString::SkipEmptyParts);
-#else
-    QStringList arguments = m_view.advanced_params->toPlainText().split(' ', Qt::SkipEmptyParts);
-#endif
-    if (!arguments.isEmpty()) {
-        ui.parameters->setText(arguments.join(QLatin1Char(' ')));
-    }
-    ui.profile_name->setFocus();
-    QTreeWidgetItem *item = m_view.formats->currentItem();
-    if ((item != nullptr) && (item->parent() != nullptr)) { // not a category
-        // Duplicate current item settings
-        customGroup = item->parent()->text(0);
-        ui.extension->setText(item->data(0, ExtensionRole).toString());
-        if (ui.parameters->toPlainText().contains(QStringLiteral("%bitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%quality"))) {
-            if (ui.parameters->toPlainText().contains(QStringLiteral("%quality"))) {
-                ui.vbitrates_label->setText(i18n("Qualities"));
-                ui.default_vbitrate_label->setText(i18n("Default quality"));
-            } else {
-                ui.vbitrates_label->setText(i18n("Bitrates"));
-                ui.default_vbitrate_label->setText(i18n("Default bitrate"));
-            }
-            if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && (item->data(0, BitratesRole).toStringList().count() != 0)) {
-                QStringList bitrates = item->data(0, BitratesRole).toStringList();
-                ui.vbitrates_list->setText(bitrates.join(QLatin1Char(',')));
-                if (item->data(0, DefaultBitrateRole).canConvert(QVariant::String)) {
-                    ui.default_vbitrate->setValue(item->data(0, DefaultBitrateRole).toInt());
-                }
-            }
-        } else {
-            ui.vbitrates->setHidden(true);
-        }
-        if (ui.parameters->toPlainText().contains(QStringLiteral("%audiobitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%audioquality"))) {
-            if (ui.parameters->toPlainText().contains(QStringLiteral("%audioquality"))) {
-                ui.abitrates_label->setText(i18n("Qualities"));
-                ui.default_abitrate_label->setText(i18n("Default quality"));
-            } else {
-                ui.abitrates_label->setText(i18n("Bitrates"));
-                ui.default_abitrate_label->setText(i18n("Default bitrate"));
-            }
-            if ((item != nullptr) && item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) &&
-                (item->data(0, AudioBitratesRole).toStringList().count() != 0)) {
-                QStringList bitrates = item->data(0, AudioBitratesRole).toStringList();
-                ui.abitrates_list->setText(bitrates.join(QLatin1Char(',')));
-                if (item->data(0, DefaultAudioBitrateRole).canConvert(QVariant::String)) {
-                    ui.default_abitrate->setValue(item->data(0, DefaultAudioBitrateRole).toInt());
-                }
-            }
-        } else {
-            ui.abitrates->setHidden(true);
-        }
-
-        if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
-            QStringList speeds = item->data(0, SpeedsRole).toStringList();
-            ui.speeds_list->setText(speeds.join('\n'));
-        }
-    }
-
-    if (customGroup.isEmpty()) {
-        customGroup = i18nc("Group Name", "Custom");
-    }
-    ui.group_name->setText(customGroup);
-
-    if (d->exec() == QDialog::Accepted && !ui.profile_name->text().simplified().isEmpty()) {
-        QString newProfileName = ui.profile_name->text().simplified();
-        QString newGroupName = ui.group_name->text().simplified();
-        if (newGroupName.isEmpty()) {
-            newGroupName = i18nc("Group Name", "Custom");
-        }
-
-        QDomDocument doc;
-        QDomElement profileElement = doc.createElement(QStringLiteral("profile"));
-        profileElement.setAttribute(QStringLiteral("name"), newProfileName);
-        profileElement.setAttribute(QStringLiteral("category"), newGroupName);
-        profileElement.setAttribute(QStringLiteral("extension"), ui.extension->text().simplified());
-        QString args = ui.parameters->toPlainText().simplified();
-        profileElement.setAttribute(QStringLiteral("args"), args);
-        if (args.contains(QStringLiteral("%bitrate"))) {
-            // profile has a variable bitrate
-            profileElement.setAttribute(QStringLiteral("defaultbitrate"), QString::number(ui.default_vbitrate->value()));
-            profileElement.setAttribute(QStringLiteral("bitrates"), ui.vbitrates_list->text());
-        } else if (args.contains(QStringLiteral("%quality"))) {
-            profileElement.setAttribute(QStringLiteral("defaultquality"), QString::number(ui.default_vbitrate->value()));
-            profileElement.setAttribute(QStringLiteral("qualities"), ui.vbitrates_list->text());
-        }
-
-        if (args.contains(QStringLiteral("%audiobitrate"))) {
-            // profile has a variable bitrate
-            profileElement.setAttribute(QStringLiteral("defaultaudiobitrate"), QString::number(ui.default_abitrate->value()));
-            profileElement.setAttribute(QStringLiteral("audiobitrates"), ui.abitrates_list->text());
-        } else if (args.contains(QStringLiteral("%audioquality"))) {
-            // profile has a variable bitrate
-            profileElement.setAttribute(QStringLiteral("defaultaudioquality"), QString::number(ui.default_abitrate->value()));
-            profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
-        }
-        QString speeds_list_str = ui.speeds_list->toPlainText();
-        if (!speeds_list_str.isEmpty()) {
-            profileElement.setAttribute(QStringLiteral("speeds"), speeds_list_str.replace('\n', ';').simplified());
-        }
-
-        doc.appendChild(profileElement);
-        saveProfile(doc.documentElement());
-
-        parseProfiles(newProfileName);
-    }
-    delete d;
-}
-
-bool RenderWidget::saveProfile(QDomElement newprofile)
-{
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-    }
-    QDomDocument doc;
-    QFile file(dir.absoluteFilePath(QStringLiteral("customprofiles.xml")));
-    doc.setContent(&file, false);
-    file.close();
-    QDomElement documentElement;
-    QDomElement profiles = doc.documentElement();
-    if (profiles.isNull() || profiles.tagName() != QLatin1String("profiles")) {
-        doc.clear();
-        profiles = doc.createElement(QStringLiteral("profiles"));
-        profiles.setAttribute(QStringLiteral("version"), 1);
-        doc.appendChild(profiles);
-    }
-    int version = profiles.attribute(QStringLiteral("version"), nullptr).toInt();
-    if (version < 1) {
-        doc.clear();
-        profiles = doc.createElement(QStringLiteral("profiles"));
-        profiles.setAttribute(QStringLiteral("version"), 1);
-        doc.appendChild(profiles);
-    }
-
-    QDomNodeList profilelist = doc.elementsByTagName(QStringLiteral("profile"));
-    QString newProfileName = newprofile.attribute(QStringLiteral("name"));
-    // Check existing profiles
-    QStringList existingProfileNames;
-    int i = 0;
-    while (!profilelist.item(i).isNull()) {
-        documentElement = profilelist.item(i).toElement();
-        QString profileName = documentElement.attribute(QStringLiteral("name"));
-        existingProfileNames << profileName;
-        i++;
-    }
-    // Check if a profile with that same name already exists
-    bool ok;
-    while (existingProfileNames.contains(newProfileName)) {
-        QString updatedProfileName = QInputDialog::getText(this, i18nc("@title:window", "Profile Already Exists"),
-                                                           i18n("This profile name already exists. Change the name if you do not want to overwrite it."),
-                                                           QLineEdit::Normal, newProfileName, &ok);
-        if (!ok) {
-            return false;
-        }
-        if (updatedProfileName == newProfileName) {
-            // remove previous profile
-            profiles.removeChild(profilelist.item(existingProfileNames.indexOf(newProfileName)));
-            break;
-        } else {
-            newProfileName = updatedProfileName;
-            newprofile.setAttribute(QStringLiteral("name"), newProfileName);
-        }
-    }
-
-    profiles.appendChild(newprofile);
-
-    // QCString save = doc.toString().utf8();
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        KMessageBox::sorry(this, i18n("Unable to write to file %1", dir.absoluteFilePath("customprofiles.xml")));
-        return false;
-    }
-    QTextStream out(&file);
-    out.setCodec("UTF-8");
-    out << doc.toString();
-    if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", dir.absoluteFilePath("customprofiles.xml")));
-        file.close();
-        return false;
-    }
-    file.close();
-    return true;
-}
-
-void RenderWidget::slotCopyToFavorites()
-{
-    QTreeWidgetItem *item = m_view.formats->currentItem();
-    if ((item == nullptr) || (item->parent() == nullptr)) {
-        return;
-    }
-
-    QString params = item->data(0, ParamsRole).toString();
-    QString extension = item->data(0, ExtensionRole).toString();
-    QString currentProfile = item->text(0);
-    QDomDocument doc;
-    QDomElement profileElement = doc.createElement(QStringLiteral("profile"));
-    profileElement.setAttribute(QStringLiteral("name"), currentProfile);
-    profileElement.setAttribute(QStringLiteral("category"), i18nc("Category Name", "Custom"));
-    profileElement.setAttribute(QStringLiteral("destinationid"), QStringLiteral("favorites"));
-    profileElement.setAttribute(QStringLiteral("extension"), extension);
-    profileElement.setAttribute(QStringLiteral("args"), params);
-    if (params.contains(QStringLiteral("%bitrate"))) {
-        // profile has a variable bitrate
-        profileElement.setAttribute(QStringLiteral("defaultbitrate"), item->data(0, DefaultBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("bitrates"), item->data(0, BitratesRole).toStringList().join(QLatin1Char(',')));
-    } else if (params.contains(QStringLiteral("%quality"))) {
-        profileElement.setAttribute(QStringLiteral("defaultquality"), item->data(0, DefaultBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("qualities"), item->data(0, BitratesRole).toStringList().join(QLatin1Char(',')));
-    }
-    if (params.contains(QStringLiteral("%audiobitrate"))) {
-        // profile has a variable bitrate
-        profileElement.setAttribute(QStringLiteral("defaultaudiobitrate"), item->data(0, DefaultAudioBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("audiobitrates"), item->data(0, AudioBitratesRole).toStringList().join(QLatin1Char(',')));
-    } else if (params.contains(QStringLiteral("%audioquality"))) {
-        // profile has a variable bitrate
-        profileElement.setAttribute(QStringLiteral("defaultaudioquality"), item->data(0, DefaultAudioBitrateRole).toString());
-        profileElement.setAttribute(QStringLiteral("audioqualities"), item->data(0, AudioBitratesRole).toStringList().join(QLatin1Char(',')));
-    }
-    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
-        // profile has a variable speed
-        profileElement.setAttribute(QStringLiteral("speeds"), item->data(0, SpeedsRole).toStringList().join(QLatin1Char(';')));
-    }
-    doc.appendChild(profileElement);
-    if (saveProfile(doc.documentElement())) {
-        parseProfiles(profileElement.attribute(QStringLiteral("name")));
-    }
-}
-
-void RenderWidget::slotDownloadNewRenderProfiles()
-{
-    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
-        reloadProfiles();
-    }
-}
-
-void RenderWidget::slotEditProfile()
-{
-    QTreeWidgetItem *item = m_view.formats->currentItem();
-    if ((item == nullptr) || (item->parent() == nullptr)) {
-        return;
-    }
-    QString params = item->data(0, ParamsRole).toString();
-
-    Ui::SaveProfile_UI ui;
-    QPointer<QDialog> d = new QDialog(this);
-    ui.setupUi(d);
-
-    QString customGroup = item->parent()->text(0);
-    if (customGroup.isEmpty()) {
-        customGroup = i18nc("Group Name", "Custom");
-    }
-    ui.group_name->setText(customGroup);
-
-    ui.profile_name->setText(item->text(0));
-    ui.extension->setText(item->data(0, ExtensionRole).toString());
-    ui.parameters->setText(params);
-    ui.profile_name->setFocus();
-    if (params.contains(QStringLiteral("%bitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%quality"))) {
-        if (params.contains(QStringLiteral("%quality"))) {
-            ui.vbitrates_label->setText(i18n("Qualities"));
-            ui.default_vbitrate_label->setText(i18n("Default quality"));
-        } else {
-            ui.vbitrates_label->setText(i18n("Bitrates"));
-            ui.default_vbitrate_label->setText(i18n("Default bitrate"));
-        }
-        if (item->data(0, BitratesRole).canConvert(QVariant::StringList) && (item->data(0, BitratesRole).toStringList().count() != 0)) {
-            QStringList bitrates = item->data(0, BitratesRole).toStringList();
-            ui.vbitrates_list->setText(bitrates.join(QLatin1Char(',')));
-            if (item->data(0, DefaultBitrateRole).canConvert(QVariant::String)) {
-                ui.default_vbitrate->setValue(item->data(0, DefaultBitrateRole).toInt());
-            }
-        }
-    } else {
-        ui.vbitrates->setHidden(true);
-    }
-
-    if (params.contains(QStringLiteral("%audiobitrate")) || ui.parameters->toPlainText().contains(QStringLiteral("%audioquality"))) {
-        if (params.contains(QStringLiteral("%audioquality"))) {
-            ui.abitrates_label->setText(i18n("Qualities"));
-            ui.default_abitrate_label->setText(i18n("Default quality"));
-        } else {
-            ui.abitrates_label->setText(i18n("Bitrates"));
-            ui.default_abitrate_label->setText(i18n("Default bitrate"));
-        }
-        if (item->data(0, AudioBitratesRole).canConvert(QVariant::StringList) && (item->data(0, AudioBitratesRole).toStringList().count() != 0)) {
-            QStringList bitrates = item->data(0, AudioBitratesRole).toStringList();
-            ui.abitrates_list->setText(bitrates.join(QLatin1Char(',')));
-            if (item->data(0, DefaultAudioBitrateRole).canConvert(QVariant::String)) {
-                ui.default_abitrate->setValue(item->data(0, DefaultAudioBitrateRole).toInt());
-            }
-        }
-    } else {
-        ui.abitrates->setHidden(true);
-    }
-
-    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
-        QStringList speeds = item->data(0, SpeedsRole).toStringList();
-        ui.speeds_list->setText(speeds.join('\n'));
-    }
-
-    d->setWindowTitle(i18nc("@title:window", "Edit Profile"));
-
-    if (d->exec() == QDialog::Accepted) {
-        slotDeleteProfile(true);
-        QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
-        QDomDocument doc;
-        QFile file(exportFile);
-        doc.setContent(&file, false);
-        file.close();
-        QDomElement documentElement;
-        QDomElement profiles = doc.documentElement();
-
-        if (profiles.isNull() || profiles.tagName() != QLatin1String("profiles")) {
-            doc.clear();
-            profiles = doc.createElement(QStringLiteral("profiles"));
-            profiles.setAttribute(QStringLiteral("version"), 1);
-            doc.appendChild(profiles);
-        }
-
-        int version = profiles.attribute(QStringLiteral("version"), nullptr).toInt();
-        if (version < 1) {
-            doc.clear();
-            profiles = doc.createElement(QStringLiteral("profiles"));
-            profiles.setAttribute(QStringLiteral("version"), 1);
-            doc.appendChild(profiles);
-        }
-
-        QString newProfileName = ui.profile_name->text().simplified();
-        QString newGroupName = ui.group_name->text().simplified();
-        if (newGroupName.isEmpty()) {
-            newGroupName = i18nc("Group Name", "Custom");
-        }
-        QDomNodeList profilelist = doc.elementsByTagName(QStringLiteral("profile"));
-        int i = 0;
-        while (!profilelist.item(i).isNull()) {
-            // make sure a profile with same name doesn't exist
-            documentElement = profilelist.item(i).toElement();
-            QString profileName = documentElement.attribute(QStringLiteral("name"));
-            if (profileName == newProfileName) {
-                // a profile with that same name already exists
-                bool ok;
-                newProfileName = QInputDialog::getText(this, i18nc("@title:window", "Profile Already Exists"),
-                                                       i18n("This profile name already exists. Change the name if you do not want to overwrite it."),
-                                                       QLineEdit::Normal, newProfileName, &ok);
-                if (!ok) {
-                    return;
-                }
-                if (profileName == newProfileName) {
-                    profiles.removeChild(profilelist.item(i));
-                    break;
-                }
-            }
-            ++i;
-        }
-
-        QDomElement profileElement = doc.createElement(QStringLiteral("profile"));
-        profileElement.setAttribute(QStringLiteral("name"), newProfileName);
-        profileElement.setAttribute(QStringLiteral("category"), newGroupName);
-        profileElement.setAttribute(QStringLiteral("extension"), ui.extension->text().simplified());
-        QString args = ui.parameters->toPlainText().simplified();
-        profileElement.setAttribute(QStringLiteral("args"), args);
-        if (args.contains(QStringLiteral("%bitrate"))) {
-            // profile has a variable bitrate
-            profileElement.setAttribute(QStringLiteral("defaultbitrate"), QString::number(ui.default_vbitrate->value()));
-            profileElement.setAttribute(QStringLiteral("bitrates"), ui.vbitrates_list->text());
-        } else if (args.contains(QStringLiteral("%quality"))) {
-            profileElement.setAttribute(QStringLiteral("defaultquality"), QString::number(ui.default_vbitrate->value()));
-            profileElement.setAttribute(QStringLiteral("qualities"), ui.vbitrates_list->text());
-        }
-        if (args.contains(QStringLiteral("%audiobitrate"))) {
-            // profile has a variable bitrate
-            profileElement.setAttribute(QStringLiteral("defaultaudiobitrate"), QString::number(ui.default_abitrate->value()));
-            profileElement.setAttribute(QStringLiteral("audiobitrates"), ui.abitrates_list->text());
-        } else if (args.contains(QStringLiteral("%audioquality"))) {
-            profileElement.setAttribute(QStringLiteral("defaultaudioquality"), QString::number(ui.default_abitrate->value()));
-            profileElement.setAttribute(QStringLiteral("audioqualities"), ui.abitrates_list->text());
-        }
-
-        QString speeds_list_str = ui.speeds_list->toPlainText();
-        if (!speeds_list_str.isEmpty()) {
-            // profile has a variable speed
-            profileElement.setAttribute(QStringLiteral("speeds"), speeds_list_str.replace('\n', ';').simplified());
-        }
-
-        profiles.appendChild(profileElement);
-
-        // QCString save = doc.toString().utf8();
-        delete d;
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
-            return;
-        }
-        QTextStream out(&file);
-        out.setCodec("UTF-8");
-        out << doc.toString();
-        if (file.error() != QFile::NoError) {
-            KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
-            file.close();
-            return;
-        }
-        file.close();
-        parseProfiles(newProfileName);
-    } else {
-        delete d;
-    }
-}
-
-void RenderWidget::slotDeleteProfile(bool dontRefresh)
-{
-    // TODO: delete a profile installed by KNewStuff the easy way
-    /*
-    QString edit = m_view.formats->currentItem()->data(EditableRole).toString();
-    if (!edit.endsWith(QLatin1String("customprofiles.xml"))) {
-        // This is a KNewStuff installed file, process through KNS
-        KNS::Engine engine(0);
-        if (engine.init("kdenlive_render.knsrc")) {
-            KNS::Entry::List entries;
-        }
-        return;
-    }*/
-    QTreeWidgetItem *item = m_view.formats->currentItem();
-    if ((item == nullptr) || (item->parent() == nullptr)) {
-        return;
-    }
-    QString currentProfile = item->text(0);
-
-    QString exportFile = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/export/customprofiles.xml");
-    QDomDocument doc;
-    QFile file(exportFile);
-    doc.setContent(&file, false);
-    file.close();
-
-    QDomElement documentElement;
-    QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
-    int i = 0;
-    QString profileName;
-    while (!profiles.item(i).isNull()) {
-        documentElement = profiles.item(i).toElement();
-        profileName = documentElement.attribute(QStringLiteral("name"));
-        if (profileName == currentProfile) {
-            doc.documentElement().removeChild(profiles.item(i));
-            break;
-        }
-        ++i;
-    }
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
-        return;
-    }
-    QTextStream out(&file);
-    out.setCodec("UTF-8");
-    out << doc.toString();
-    if (file.error() != QFile::NoError) {
-        KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
-        file.close();
-        return;
-    }
-    file.close();
-    if (dontRefresh) {
-        return;
-    }
-    parseProfiles();
-    focusFirstVisibleItem();
-}
-
-void RenderWidget::updateButtons()
-{
-    if ((m_view.formats->currentItem() == nullptr) || m_view.formats->currentItem()->isHidden()) {
-        m_view.buttonSave->setEnabled(false);
+    if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+        m_view.buttonSaveAs->setEnabled(false);
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);
     } else {
-        m_view.buttonSave->setEnabled(true);
-        m_view.buttonRender->setEnabled(m_view.formats->currentItem()->data(0, ErrorRole).isNull());
-        m_view.buttonGenerateScript->setEnabled(m_view.formats->currentItem()->data(0, ErrorRole).isNull());
-        QString edit = m_view.formats->currentItem()->data(0, EditableRole).toString();
-        if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
-            m_view.buttonDelete->setEnabled(false);
-            m_view.buttonEdit->setEnabled(false);
-        } else {
-            m_view.buttonDelete->setEnabled(true);
-            m_view.buttonEdit->setEnabled(true);
+        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+        m_view.buttonRender->setEnabled(!m_view.out_file->url().isEmpty() && profile->error().isEmpty());
+        m_view.buttonGenerateScript->setEnabled(!m_view.out_file->url().isEmpty() && profile->error().isEmpty());
+        m_view.buttonSaveAs->setEnabled(true);
+        m_view.buttonDelete->setEnabled(profile->editable());
+        m_view.buttonEdit->setEnabled(profile->editable());
+    }
+    if (url.isValid()) {
+        if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+            m_view.buttonRender->setEnabled(false);
+            m_view.buttonGenerateScript->setEnabled(false);
+            return;
         }
+        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+        m_view.out_file->setUrl(filenameWithExtension(url, profile->extension()));
     }
 }
 
-void RenderWidget::focusFirstVisibleItem(const QString &profile)
+
+void RenderWidget::slotUpdateButtons()
 {
-    QTreeWidgetItem *item = nullptr;
-    if (!profile.isEmpty()) {
-        QList<QTreeWidgetItem *> items = m_view.formats->findItems(profile, Qt::MatchExactly | Qt::MatchRecursive);
-        if (!items.isEmpty()) {
-            item = items.constFirst();
+    slotUpdateButtons(QUrl());
+}
+
+void RenderWidget::slotSavePresetAs()
+{
+    if (RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+
+        QPointer<RenderPresetDialog> dialog = new RenderPresetDialog(this, profile.get(), RenderPresetDialog::SaveAs);
+        if (dialog->exec() == QDialog::Accepted) {
+            parseProfiles(dialog->saveName());
         }
+        delete dialog;
+    } else {
+        slotNewPreset();
     }
-    if (!item) {
-        // searched profile not found in any category, select 1st available profile
-        for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
-            item = m_view.formats->topLevelItem(i);
-            if (item->childCount() > 0) {
-                item = item->child(0);
-                break;
-            }
-        }
+}
+
+void RenderWidget::slotNewPreset()
+{
+    QPointer<RenderPresetDialog> dialog = new RenderPresetDialog(this);
+    if (dialog->exec() == QDialog::Accepted) {
+        parseProfiles(dialog->saveName());
     }
-    if (item && item->parent()) {
-        m_view.formats->setCurrentItem(item);
-        item->parent()->setExpanded(true);
-        refreshParams();
+    delete dialog;
+}
+
+void RenderWidget::slotEditPreset()
+{
+    if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+        return;
     }
-    updateButtons();
+    std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+
+    if (!profile->editable()) {
+        return;
+    }
+
+    QPointer<RenderPresetDialog> dialog = new RenderPresetDialog(this, profile.get(), RenderPresetDialog::Edit);
+    if (dialog->exec() == QDialog::Accepted) {      
+        parseProfiles(dialog->saveName());
+    }
+    delete dialog;
+}
+
+void RenderWidget::focusItem(const QString &profile)
+{
+    QItemSelectionModel *selection = m_view.profileTree->selectionModel();
+    QModelIndex index = m_treeModel->findPreset(profile);
+    if (!index.isValid() && RenderPresetRepository::get()->presetExists(KdenliveSettings::renderProfile())) {
+        index = m_treeModel->findPreset(KdenliveSettings::renderProfile());
+    }
+    if (index.isValid()) {
+        selection->select(index, QItemSelectionModel::Select);
+        // expand corresponding category
+        auto parent = m_treeModel->parent(index);
+        m_view.profileTree->expand(parent);
+        m_view.profileTree->scrollTo(index, QAbstractItemView::PositionAtCenter);
+    }
 }
 
 void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scriptPath)
@@ -1082,11 +613,6 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
             return;
         }
     }
-    QString chapterFile;
-    if (m_view.create_chapter->isChecked()) {
-        chapterFile = m_view.out_file->url().toLocalFile() + QStringLiteral(".dvdchapter");
-    }
-
     // mantisbt 1051
     QDir dir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile());
     if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
@@ -1095,154 +621,16 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
         return;
     }
 
-    prepareRendering(delayedRendering, chapterFile);
+    prepareRendering(delayedRendering);
 }
 
-void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapterFile)
+void RenderWidget::prepareRendering(bool delayedRendering)
 {
+    saveRenderProfile();
+
     KdenliveDoc *project = pCore->currentDoc();
-
-    // Save rendering profile to document
-    QMap<QString, QString> renderProps;
-    renderProps.insert(QStringLiteral("rendercategory"), m_view.formats->currentItem()->parent()->text(0));
-    renderProps.insert(QStringLiteral("renderprofile"), m_view.formats->currentItem()->text(0));
-    renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->url().toLocalFile());
-    renderProps.insert(QStringLiteral("renderzone"), QString::number(static_cast<int>(m_view.render_zone->isChecked())));
-    renderProps.insert(QStringLiteral("renderguide"), QString::number(static_cast<int>(m_view.render_guide->isChecked())));
-    renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
-    renderProps.insert(QStringLiteral("renderendguide"), QString::number(m_view.guide_end->currentIndex()));
-    renderProps.insert(QStringLiteral("renderscanning"), QString::number(m_view.scanning_list->currentIndex()));
-    renderProps.insert(QStringLiteral("renderfield"), QString::number(m_view.field_order->currentIndex()));
-    int export_audio = 0;
-    if (m_view.export_audio->checkState() == Qt::Checked) {
-        export_audio = 2;
-    } else if (m_view.export_audio->checkState() == Qt::Unchecked) {
-        export_audio = 1;
-    }
-
-    renderProps.insert(QStringLiteral("renderexportaudio"), QString::number(export_audio));
-    renderProps.insert(QStringLiteral("renderrescale"), QString::number(static_cast<int>(m_view.rescale->isChecked())));
-    renderProps.insert(QStringLiteral("renderrescalewidth"), QString::number(m_view.rescale_width->value()));
-    renderProps.insert(QStringLiteral("renderrescaleheight"), QString::number(m_view.rescale_height->value()));
-    renderProps.insert(QStringLiteral("rendertcoverlay"), QString::number(static_cast<int>(m_view.tc_overlay->isChecked())));
-    renderProps.insert(QStringLiteral("rendertctype"), QString::number(m_view.tc_type->currentIndex()));
-    renderProps.insert(QStringLiteral("renderratio"), QString::number(static_cast<int>(m_view.rescale_keep->isChecked())));
-    renderProps.insert(QStringLiteral("renderplay"), QString::number(static_cast<int>(m_view.play_after->isChecked())));
-    renderProps.insert(QStringLiteral("rendertwopass"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked())));
-    renderProps.insert(QStringLiteral("renderquality"), QString::number(m_view.video->value()));
-    renderProps.insert(QStringLiteral("renderaudioquality"), QString::number(m_view.audio->value()));
-    renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
-    renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
-
-    emit selectedRenderProfile(renderProps);
-
-    QString playlistPath;
-    QString renderName;
-
-    if (delayedRendering) {
-        bool ok;
-        renderName = QFileInfo(pCore->currentDoc()->url().toLocalFile()).fileName();
-        if (renderName.isEmpty()) {
-            renderName = i18n("export") + QStringLiteral(".mlt");
-        } else {
-            renderName = renderName.section(QLatin1Char('.'), 0, -2);
-            renderName.append(QStringLiteral(".mlt"));
-        }
-        QDir projectFolder(pCore->currentDoc()->projectDataFolder());
-        projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
-        projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
-        if (projectFolder.exists(renderName)) {
-            int ix = 1;
-            while (projectFolder.exists(renderName)) {
-                if (renderName.contains(QLatin1Char('-'))) {
-                    renderName = renderName.section(QLatin1Char('-'), 0, -2);
-                } else {
-                    renderName = renderName.section(QLatin1Char('.'), 0, -2);
-                }
-                renderName.append(QString("-%1.mlt").arg(ix));
-                ix++;
-            }
-        }
-        renderName = renderName.section(QLatin1Char('.'), 0, -2);
-        renderName = QInputDialog::getText(this, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal, renderName, &ok);
-        if (!ok) {
-            return;
-        }
-        if (!renderName.endsWith(QStringLiteral(".mlt"))) {
-            renderName.append(QStringLiteral(".mlt"));
-        }
-        if (projectFolder.exists(renderName)) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", renderName)) == KMessageBox::No) {
-                return;
-            }
-        }
-        playlistPath = projectFolder.absoluteFilePath(renderName);
-    } else {
-        QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
-        if (!tmp.open()) {
-            // Something went wrong
-            return;
-        }
-        tmp.close();
-        playlistPath = tmp.fileName();
-    }
-    int in = 0;
-    int out;
-    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
-    bool zoneOnly = m_view.render_zone->isChecked();
-    if (zoneOnly) {
-        in = pMon->getZoneStart();
-        out = pMon->getZoneEnd() - 1;
-    } else {
-        // Remove last black frame
-        out = pCore->projectDuration() - 2;
-    }
-    QString overlayData;
-    if (m_view.tc_overlay->checkState() == Qt::Checked) {
-        overlayData = m_view.tc_type->currentData().toString();
-    }
-
+    QString overlayData = m_view.tc_type->currentData().toString();
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
-    if (!chapterFile.isEmpty()) {
-        QDomDocument doc;
-        QDomElement chapters = doc.createElement(QStringLiteral("chapters"));
-        chapters.setAttribute(QStringLiteral("fps"), pCore->getCurrentFps());
-        doc.appendChild(chapters);
-        const QList<CommentedTime> guidesList = project->getGuideModel()->getAllMarkers();
-        for (int i = 0; i < guidesList.count(); i++) {
-            const CommentedTime &c = guidesList.at(i);
-            int time = c.time().frames(pCore->getCurrentFps());
-            if (time >= in && time < out) {
-                if (zoneOnly) {
-                    time = time - in;
-                }
-            }
-            QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
-            chapters.appendChild(chapter);
-            chapter.setAttribute(QStringLiteral("title"), c.comment());
-            chapter.setAttribute(QStringLiteral("time"), time);
-        }
-        if (!chapters.childNodes().isEmpty()) {
-            if (!project->getGuideModel()->hasMarker(out)) {
-                // Always insert a guide in pos 0
-                QDomElement chapter = doc.createElement(QStringLiteral("chapter"));
-                chapters.insertBefore(chapter, QDomNode());
-                chapter.setAttribute(QStringLiteral("title"), i18nc("the first in a list of chapters", "Start"));
-                chapter.setAttribute(QStringLiteral("time"), QStringLiteral("0"));
-            }
-            // save chapters file
-            QFile file(chapterFile);
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
-            } else {
-                file.write(doc.toString().toUtf8());
-                if (file.error() != QFile::NoError) {
-                    qCWarning(KDENLIVE_LOG) << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
-                }
-                file.close();
-            }
-        }
-    }
 
     // Set playlist audio volume to 100%
     QDomDocument doc;
@@ -1265,19 +653,135 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
     }
 
     // Do we want proxy rendering
-    if (project->useProxy() && !proxyRendering()) {
+    if (project->useProxy() && !m_view.proxy_render->isChecked()) {
         pCore->currentDoc()->useOriginals(doc);
     }
-    generateRenderFiles(doc, playlistPath, in, out, delayedRendering);
+
+    QString outputFile = m_view.out_file->url().toLocalFile();
+    // in/out points
+    int in = 0;
+    // Remove last black frame
+    int out = pCore->projectDuration() - 2;
+    Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
+    double fps = pCore->getCurrentProfile()->fps();
+    if (m_view.render_zone->isChecked()) {
+        in = pMon->getZoneStart();
+        out = pMon->getZoneEnd() - 1;
+        generateRenderFiles(doc, in, out, outputFile, delayedRendering);
+    } else if (m_view.render_guide->isChecked()) {
+        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+        in = int(GenTime(guideStart).frames(fps));
+        // End rendering at frame before last guide
+        out = int(GenTime(guideEnd).frames(fps)) - 1;
+        generateRenderFiles(doc, in, out, outputFile, delayedRendering);
+    } else if (m_view.render_multi->isChecked()) {
+        if (auto ptr = m_guidesModel.lock()) {
+            int category = m_view.guideCategoryCombo->currentData().toInt();
+            QList<CommentedTime> markers = ptr->getAllMarkers(category);
+            if (!markers.isEmpty()) {
+                bool beginParsed = false;
+                QStringList names;
+                for (int i = 0; i < markers.count(); i++) {
+                    QString name;
+                    int absoluteOut = pCore->projectDuration() - 2;
+                    in = 0;
+                    out = absoluteOut;
+                    if (!beginParsed && i == 0 && markers.at(i).time().frames(fps) != 0) {
+                        i -= 1;
+                        beginParsed = true;
+                        name = i18n("begin");
+                    }
+                    if (i >= 0) {
+                        name = markers.at(i).comment();
+                        in = markers.at(i).time().frames(fps);
+                    }
+                    int j = 0;
+                    QString newName = name;
+                    // if name alrady exist, add a suffix
+                    while (names.contains(newName)) {
+                        newName = QStringLiteral("%1_%2").arg(name).arg(j);
+                        j++;
+                    }
+                    names.append(newName);
+                    name = newName;
+                    if (in < absoluteOut) {
+                        if (i+1 < markers.count()) {
+                            out = qMin(markers.at(i+1).time().frames(fps) - 1, absoluteOut);
+                        }
+                        QString filename = outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
+                        QDomDocument docCopy = doc.cloneNode(true).toDocument();
+                        generateRenderFiles(docCopy, in, out, filename, false);
+                    }
+                }
+            }
+        }
+    } else {
+        generateRenderFiles(doc, in, out, outputFile, delayedRendering);
+    }
 }
 
-void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out, bool delayedRendering)
+QString RenderWidget::generatePlaylistFile(bool delayedRendering)
 {
-    QDomDocument clone;
-    KdenliveDoc *project = pCore->currentDoc();
-    int passes = m_view.checkTwoPass->isChecked() ? 2 : 1;
+    if (delayedRendering) {
+        bool ok;
+        QString filename = QFileInfo(pCore->currentDoc()->url().toLocalFile()).fileName();
+        const QString fileExtension = QStringLiteral(".mlt");
+        if (filename.isEmpty()) {
+            filename = i18n("export");
+        } else {
+            filename = filename.section(QLatin1Char('.'), 0, -2);
+        }
+
+        QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+        projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
+        projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
+        int ix = 1;
+        QString newFilename = filename;
+        // if name alrady exist, add a suffix
+        while (projectFolder.exists(newFilename + fileExtension)) {
+            newFilename = QStringLiteral("%1-%2").arg(filename).arg(ix);
+            ix++;
+        }
+        filename = QInputDialog::getText(this, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal, newFilename, &ok);
+        if (!ok) {
+            return {};
+        }
+        if (!filename.endsWith(fileExtension)) {
+            filename.append(fileExtension);
+        }
+        if (projectFolder.exists(newFilename)) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", filename)) == KMessageBox::No) {
+                return {};
+            }
+        }
+        return projectFolder.absoluteFilePath(filename);
+    }
+    // No delayed rendering, we can use a temp file
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+    if (!tmp.open()) {
+        // Something went wrong
+        return {};
+    }
+    tmp.close();
+    return tmp.fileName();
+}
+
+void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering)
+{
+    QString playlistPath = generatePlaylistFile(delayedRendering);
+    QString extension = outputFile.section(QLatin1Char('.'), -1);
+
+    if (playlistPath.isEmpty()) {
+        return;
+    }
+
     QString renderArgs = m_view.advanced_params->toPlainText().simplified();
     QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
+    consumer.setAttribute(QStringLiteral("in"), in);
+    consumer.setAttribute(QStringLiteral("out"), out);
+    consumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+
     QDomNodeList profiles = doc.elementsByTagName(QStringLiteral("profile"));
     if (profiles.isEmpty()) {
         doc.documentElement().insertAfter(consumer, doc.documentElement());
@@ -1285,129 +789,18 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
     }
 
-    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    if (renderArgs.contains(QLatin1String("%dv_standard"))) {
-        QString dvstd;
-        if (fmod(double(profile->frame_rate_num() / profile->frame_rate_den()), 30.01) > 27) {
-            dvstd = QStringLiteral("ntsc");
-        } else {
-            dvstd = QStringLiteral("pal");
-        }
-        if (double(profile->display_aspect_num() / profile->display_aspect_den()) > 1.5) {
-            dvstd += QLatin1String("_wide");
-        }
-        renderArgs.replace(QLatin1String("%dv_standard"), dvstd);
-    }
-
+    // insert params from preset
     QStringList args = renderArgs.split(QLatin1Char(' '));
     for (auto &param : args) {
         if (param.contains(QLatin1Char('='))) {
+            QString paramName = param.section(QLatin1Char('='), 0, 0);
             QString paramValue = param.section(QLatin1Char('='), 1);
-            if (paramValue.startsWith(QLatin1Char('%'))) {
-                if (paramValue.startsWith(QStringLiteral("%bitrate")) || paramValue == QStringLiteral("%quality")) {
-                    if (paramValue.contains("+'k'"))
-                        paramValue = QString::number(m_view.video->value()) + 'k';
-                    else
-                        paramValue = QString::number(m_view.video->value());
-                }
-                if (paramValue.startsWith(QStringLiteral("%audiobitrate")) || paramValue == QStringLiteral("%audioquality")) {
-                    if (paramValue.contains("+'k'"))
-                        paramValue = QString::number(m_view.audio->value()) + 'k';
-                    else
-                        paramValue = QString::number(m_view.audio->value());
-                }
-                if (paramValue == QStringLiteral("%dar"))
-                    paramValue = '@' + QString::number(profile->display_aspect_num()) + QLatin1Char('/') + QString::number(profile->display_aspect_den());
-                if (paramValue == QStringLiteral("%passes")) paramValue = QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1);
-            }
-            consumer.setAttribute(param.section(QLatin1Char('='), 0, 0), paramValue);
+            consumer.setAttribute(paramName, paramValue);
         }
     }
 
-    // Check for movit
-    if (KdenliveSettings::gpu_accel()) {
-        consumer.setAttribute(QStringLiteral("glsl."), 1);
-    }
-
-    // in/out points
-    if (m_view.render_guide->isChecked()) {
-        double fps = profile->fps();
-        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        in = int(GenTime(guideStart).frames(fps));
-        // End rendering at frame before last guide
-        out = int(GenTime(guideEnd).frames(fps)) - 1;
-    }
-    
-    consumer.setAttribute(QStringLiteral("in"), in);
-    consumer.setAttribute(QStringLiteral("out"), out);
-
-    // Audio Channels
-    consumer.setAttribute(QStringLiteral("channels"), pCore->audioChannels());
-
-    // Check if the rendering profile is different from project profile,
-    // in which case we need to use the producer_comsumer from MLT
-    QString subsize;
-    if (renderArgs.startsWith(QLatin1String("s="))) {
-        subsize = renderArgs.section(QLatin1Char(' '), 0, 0).toLower();
-        subsize = subsize.section(QLatin1Char('='), 1, 1);
-    } else if (renderArgs.contains(QStringLiteral(" s="))) {
-        subsize = renderArgs.section(QStringLiteral(" s="), 1, 1);
-        subsize = subsize.section(QLatin1Char(' '), 0, 0).toLower();
-    } else if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
-        subsize = QStringLiteral("%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value());
-    }
-    if (!subsize.isEmpty()) {
-        consumer.setAttribute(QStringLiteral("s"), subsize);
-    }
-
-    // Project metadata
-    if (m_view.export_meta->isChecked()) {
-        QMap<QString, QString> metadata = project->metadata();
-        QMap<QString, QString>::const_iterator i = metadata.constBegin();
-        while (i != metadata.constEnd()) {
-            consumer.setAttribute(i.key(), i.value());
-            ++i;
-        }
-    }
-
-    // Adjust encoding speed
-    if (m_view.speed->isEnabled() && m_view.formats->currentItem()) {
-        QStringList speeds = m_view.formats->currentItem()->data(0, SpeedsRole).toStringList();
-        if (m_view.speed->value() < speeds.count()) {
-            const QString &speedValue = speeds.at(m_view.speed->value());
-            if (speedValue.contains(QLatin1Char('='))) {
-                consumer.setAttribute(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
-            }
-        }
-    }
-
-    // Adjust scanning
-    switch (m_view.scanning_list->currentIndex()) {
-    case 1:
-        consumer.setAttribute(QStringLiteral("progressive"), 1);
-        break;
-    case 2:
-        // Interlaced rendering
-        consumer.setAttribute(QStringLiteral("progressive"), 0);
-        // Adjust field order
-        consumer.setAttribute(QStringLiteral("top_field_first"), m_view.field_order->currentIndex());
-        break;
-    default:
-        // leave as is
-        break;
-    }
-
-    // check if audio export is selected
-    bool exportAudio;
-    if (automaticAudioExport()) {
-        // TODO check if projact contains audio
-        // exportAudio = pCore->projectManager()->currentTimeline()->checkProjectAudio();
-        exportAudio = true;
-    } else {
-        exportAudio = selectedAudioExport();
-    }
-
+    // If we use a pix_fmt with alpha channel (ie. transparent),
+    // we need to remove the black background track
     if (renderArgs.contains(QLatin1String("pix_fmt=argb"))
      || renderArgs.contains(QLatin1String("pix_fmt=abgr"))
      || renderArgs.contains(QLatin1String("pix_fmt=bgra"))
@@ -1426,113 +819,109 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         }
     }
 
-    // disable audio if requested
-    if (!exportAudio) {
-        consumer.setAttribute(QStringLiteral("an"), 1);
+    QMap<QString, QString> renderFiles;
+    if (renderArgs.contains("=stills/"))
+    {
+        // Image sequence, ensure we have a %0xd at file end.
+        // Format string for counter
+        QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
+        if (!rx.match(outputFile).hasMatch()) {
+            outputFile = outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
+        }
     }
 
-    int threadCount = QThread::idealThreadCount();
-    if (threadCount < 2 || !m_view.parallel_process->isChecked() || !m_view.parallel_process->isEnabled()) {
-        threadCount = 1;
-    } else {
-        threadCount = qMin(4, threadCount - 1);
-    }
+    if (m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled()) {
+        if (delayedRendering) {
+            if (KMessageBox::warningContinueCancel(this, i18n("Script rendering and multi track audio export can not be used together.\n"
+                                                        "Script will be saved without multi track export."))
+                                                   == KMessageBox::Cancel) { return; };
+        }
+        int audioCount = 0;
+        QDomNodeList orginalTractors = doc.elementsByTagName(QStringLiteral("tractor"));
+        // process in reversed order to make file naming fit to UI
+        for (int i = orginalTractors.size(); i >= 0; i--) {
+            bool isAudio = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:audio_track")).toInt() == 1;
+            QString trackName = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:track_name"));
+            if (isAudio) {
+                // setup filenames
+                QString appendix = QString("_Audio_%1%2%3.").arg(audioCount + 1).arg(trackName.isEmpty() ? QString() : QStringLiteral("-")).arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
+                QString playlistFile = playlistPath.section(QLatin1Char('.'), 0, -2) + appendix + playlistPath.section(QLatin1Char('.'), -1);
+                QString targetFile = outputFile.section(QLatin1Char('.'), 0, -2) + appendix + extension;
+                renderFiles.insert(playlistFile, targetFile);
 
-    // Set the thread counts
-    if (!renderArgs.contains(QStringLiteral("threads="))) {
-        consumer.setAttribute(QStringLiteral("threads"), KdenliveSettings::encodethreads());
-    }
-    consumer.setAttribute(QStringLiteral("real_time"), -threadCount);
-
-    // check which audio tracks have to be exported
-    /*if (stemExport) {
-        // TODO refac
-        //TODO port to new timeline model
-        Timeline *ct = pCore->projectManager()->currentTimeline();
-        int allTracksCount = ct->tracksCount();
-
-        // reset tracks count (tracks to be rendered)
-        tracksCount = 0;
-        // begin with track 1 (track zero is a hidden black track)
-        for (int i = 1; i < allTracksCount; i++) {
-            Track *track = ct->track(i);
-            // add only tracks to render list that are not muted and have audio
-            if ((track != nullptr) && !track->info().isMute && track->hasAudio()) {
+                // init doc copy
                 QDomDocument docCopy = doc.cloneNode(true).toDocument();
-                QString trackName = track->info().trackName;
+                QDomElement copyConsumer = docCopy.elementsByTagName(QStringLiteral("consumer")).at(0).toElement();
+                copyConsumer.setAttribute(QStringLiteral("target"), targetFile);
 
-                // save track name
-                trackNames << trackName;
-                qCDebug(KDENLIVE_LOG) << "Track-Name: " << trackName;
-
-                // create stem export doc content
-                QDomNodeList tracks = docCopy.elementsByTagName(QStringLiteral("track"));
-                for (int j = 0; j < allTracksCount; j++) {
-                    if (j != i) {
-                        // mute other tracks
-                        tracks.at(j).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
+                QDomNodeList tracktors = docCopy.elementsByTagName(QStringLiteral("tractor"));
+                // the last tractor is the main tracktor, don't process it (-1)
+                for (int j = 0; j < tracktors.size() - 1; j++) {
+                    QDomNodeList tracks = tracktors.at(j).toElement().elementsByTagName(QStringLiteral("track"));
+                    for (int l = 0; l < tracks.size(); l++) {
+                        if (i != j) {
+                            tracks.at(l).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
+                        }
                     }
                 }
-                docList << docCopy;
-                tracksCount++;
-            }
-        }
-    }*/
 
-    if (m_view.checkTwoPass->isChecked()) {
+                QFile file(playlistFile);
+                if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
+                    return;
+                }
+                file.write(docCopy.toString().toUtf8());
+                if (file.error() != QFile::NoError) {
+                    pCore->displayMessage(i18n("Cannot write to file %1", playlistFile), ErrorMessage);
+                    file.close();
+                    return;
+                }
+                file.close();
+                audioCount++;
+            }
+
+        }
+    }
+
+    QDomDocument clone;
+    int passes = m_view.checkTwoPass->isChecked() ? 2 : 1;
+    if (passes == 2) {
         // We will generate 2 files, one for each pass.
         clone = doc.cloneNode(true).toDocument();
     }
-    QStringList playlists;
-    QString renderedFile = m_view.out_file->url().toLocalFile();
-    if (m_view.advanced_params->toPlainText().simplified().contains("=stills/"))
-    {
-        // Image sequence, ensure we have a %0xd at file end
-        QString extension = renderedFile.section(QLatin1Char('.'), -1);
-        // format string for counter
-        QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
-        if (!rx.match(renderedFile).hasMatch()) {
-            renderedFile = renderedFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
-        }
-    }
+
     for (int i = 0; i < passes; i++) {
         // Append consumer settings
         QDomDocument final = i > 0 ? clone : doc;
-        QDomNodeList cons = final.elementsByTagName(QStringLiteral("consumer"));
-        QDomElement myConsumer = cons.at(0).toElement();
-        QString mytarget = renderedFile;
+        QDomNodeList consList = final.elementsByTagName(QStringLiteral("consumer"));
+        QDomElement finalConsumer = consList.at(0).toElement();
+        finalConsumer.setAttribute(QStringLiteral("target"), outputFile);
+        int pass = passes == 2 ? i + 1 : 0;
         QString playlistName = playlistPath;
-        myConsumer.setAttribute(QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-        if (passes == 2 && i == 1) {
-            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QString("-pass%1.").arg(2) + playlistName.section(QLatin1Char('.'), -1);
+        if (pass == 2) {
+            playlistName = playlistName.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-pass%1.").arg(2) + extension;
         }
-        playlists << playlistName;
-        myConsumer.setAttribute(QStringLiteral("target"), mytarget);
-
-        // Preview rendering
-        if (m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height()) {
-            myConsumer.setAttribute(QStringLiteral("scale"), double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height());
-        }
+        renderFiles.insert(playlistName, outputFile);
 
         // Prepare rendering args
-        int pass = passes == 2 ? i + 1 : 0;
+        QString logFile = QStringLiteral("%1_2pass.log").arg(outputFile);
         if (renderArgs.contains(QStringLiteral("libx265"))) {
             if (pass == 1 || pass == 2) {
-                QString x265params = myConsumer.attribute("x265-params");
-                x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(mytarget.replace(":", "\\:") + "_2pass.log", x265params);
-                myConsumer.setAttribute("x265-params", x265params);
+                QString x265params = finalConsumer.attribute("x265-params");
+                x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(logFile.replace(":", "\\:"), x265params);
+                finalConsumer.setAttribute("x265-params", x265params);
             }
         } else {
             if (pass == 1 || pass == 2) {
-                myConsumer.setAttribute("pass", pass);
-                myConsumer.setAttribute("passlogfile", mytarget + "_2pass.log");
+                finalConsumer.setAttribute("pass", pass);
+                finalConsumer.setAttribute("passlogfile", logFile);
             }
             if (pass == 1) {
-                myConsumer.setAttribute("fastfirstpass", 1);
-                myConsumer.removeAttribute("acodec");
-                myConsumer.setAttribute("an", 1);
+                finalConsumer.setAttribute("fastfirstpass", 1);
+                finalConsumer.removeAttribute("acodec");
+                finalConsumer.setAttribute("an", 1);
             } else {
-                myConsumer.removeAttribute("fastfirstpass");
+                finalConsumer.removeAttribute("fastfirstpass");
             }
         }
         QFile file(playlistName);
@@ -1549,104 +938,66 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         file.close();
     }
 
-    // Create job
-    RenderJobItem *renderItem = nullptr;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(renderedFile, Qt::MatchExactly, 1);
-    if (!existing.isEmpty()) {
-        renderItem = static_cast<RenderJobItem *>(existing.at(0));
-        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
-            KMessageBox::information(
-                this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", renderedFile),
-                i18n("Already running"));
-            return;
-        }
-        if (delayedRendering || playlists.size() > 1) {
-            delete renderItem;
-            renderItem = nullptr;
-        } else {
-            renderItem->setData(1, ProgressRole, 0);
-            renderItem->setStatus(WAITINGJOB);
-            renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-            renderItem->setData(1, Qt::UserRole, i18n("Waiting…"));
-            QStringList argsJob = {KdenliveSettings::rendererpath(), playlistPath, renderedFile,
-                                   QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
-            renderItem->setData(1, ParametersRole, argsJob);
-            QDateTime t = QDateTime::currentDateTime();
-            renderItem->setData(1, StartTimeRole, t);
-            renderItem->setData(1, LastTimeRole, t);
-            renderItem->setData(1, LastFrameRole, in);
-            if (!exportAudio) {
-                renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
-            } else {
-                renderItem->setData(1, ExtraInfoRole, QString());
-            }
-            m_view.running_jobs->setCurrentItem(renderItem);
-            m_view.tabWidget->setCurrentIndex(1);
-            checkRenderStatus();
-            return;
-        }
-    }
+    // Create jobs
     if (delayedRendering) {
         parseScriptFiles();
         return;
     }
     QList<RenderJobItem *> jobList;
-    for (const QString &pl : qAsConst(playlists)) {
-        renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << renderedFile);
-        QDateTime t = QDateTime::currentDateTime();
-        renderItem->setData(1, StartTimeRole, t);
-        renderItem->setData(1, LastTimeRole, t);
-        renderItem->setData(1, LastFrameRole, in);
-        QStringList argsJob = {KdenliveSettings::rendererpath(), pl, renderedFile, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
-        renderItem->setData(1, ParametersRole, argsJob);
-        qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
-        if (!exportAudio) {
-            renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
-        } else {
-            renderItem->setData(1, ExtraInfoRole, QString());
+    QMap<QString, QString>::const_iterator i = renderFiles.constBegin();
+    while (i != renderFiles.constEnd()) {
+        RenderJobItem *renderItem = createRenderJob(i.key(), i.value(), in, out);
+        if (renderItem != nullptr) {
+            jobList << renderItem;
         }
-        jobList << renderItem;
+        ++i;
     }
-
-    m_view.running_jobs->setCurrentItem(jobList.at(0));
-    m_view.tabWidget->setCurrentIndex(1);
+    if (jobList.count() > 0) {
+        m_view.running_jobs->setCurrentItem(jobList.at(0));
+    }
+    m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     // check render status
     checkRenderStatus();
+}
 
-    // create full playlistPaths
-    /*
-    QString mltSuffix(QStringLiteral(".mlt"));
-    QList<QString> playlistPaths;
-    QList<QString> trackNames;
-    for (int i = 0; i < tracksCount; i++) {
-        QString plPath(playlistPath);
+RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, int in, int out)
+{
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(outputFile, Qt::MatchExactly, 1);
+    RenderJobItem *renderItem = nullptr;
+    if (!existing.isEmpty()) {
+        renderItem = static_cast<RenderJobItem *>(existing.at(0));
+        if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
+            // There is an existing job that is still pending
+            KMessageBox::information(this,
+                i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", outputFile),
+                i18n("Already running"));
+            // focus the running job
+            m_view.running_jobs->setCurrentItem(renderItem);
+            return nullptr;
+        }
+        // There is an existing job that already finished
+        delete renderItem;
+        renderItem = nullptr;
+    }
+    renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << outputFile);
 
-        // add track number to path name
-        if (stemExport) {
-            plPath = plPath + QLatin1Char('_') + QString(trackNames.at(i)).replace(QLatin1Char(' '), QLatin1Char('_'));
-        }
-        // add mlt suffix
-        if (!plPath.endsWith(mltSuffix)) {
-            plPath += mltSuffix;
-        }
-        playlistPaths << plPath;
-        qCDebug(KDENLIVE_LOG) << "playlistPath: " << plPath << endl;
-
-        // Do save scenelist
-        QFile file(plPath);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            pCore->displayMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
-            return;
-        }
-        file.write(docList.at(i).toString().toUtf8());
-        if (file.error() != QFile::NoError) {
-            pCore->displayMessage(i18n("Cannot write to file %1", plPath), ErrorMessage);
-            file.close();
-            return;
-        }
-        file.close();
-    }*/
-    // slotExport(delayedRendering, in, out, project->metadata(), playlistPaths, trackNames, renderName, exportAudio);
+    QDateTime t = QDateTime::currentDateTime();
+    renderItem->setData(1, StartTimeRole, t);
+    renderItem->setData(1, LastTimeRole, t);
+    renderItem->setData(1, LastFrameRole, in);
+    QStringList argsJob = {KdenliveSettings::rendererpath(), playlist, outputFile,
+                           QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()), QStringLiteral("-out"), QString::number(out)};
+    renderItem->setData(1, ParametersRole, argsJob);
+    qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
+    renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
+    if (!m_view.audio_box->isChecked()) {
+        renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
+    } else if (!m_view.video_box->isChecked()) {
+        renderItem->setData(1, ExtraInfoRole, i18n("Audio without video track"));
+    } else {
+        renderItem->setData(1, ExtraInfoRole, QString());
+    }
+    return renderItem;
 }
 
 void RenderWidget::checkRenderStatus()
@@ -1656,16 +1007,13 @@ void RenderWidget::checkRenderStatus()
         return;
     }
 
+    // Make sure no other rendering is running
+    if (runningJobsCount() > 0) {
+        return;
+    }
+
     auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
 
-    // Make sure no other rendering is running
-    while (item != nullptr) {
-        if (item->status() == RUNNINGJOB) {
-            return;
-        }
-        item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
-    }
-    item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     bool waitingJob = false;
 
     // Find first waiting job
@@ -1718,7 +1066,20 @@ int RenderWidget::waitingJobsCount() const
     int count = 0;
     auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {
-        if (item->status() == WAITINGJOB || item->status() == STARTINGJOB) {
+        if (item->status() == WAITINGJOB) {
+            count++;
+        }
+        item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
+    }
+    return count;
+}
+
+int RenderWidget::runningJobsCount() const
+{
+    int count = 0;
+    auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
+    while (item != nullptr) {
+        if (item->status() == RUNNINGJOB || item->status() == STARTINGJOB) {
             count++;
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
@@ -1728,7 +1089,6 @@ int RenderWidget::waitingJobsCount() const
 
 void RenderWidget::adjustViewToProfile()
 {
-    m_view.scanning_list->setCurrentIndex(0);
     m_view.rescale_width->setValue(KdenliveSettings::defaultrescalewidth());
     if (!m_view.rescale_keep->isChecked()) {
         m_view.rescale_height->blockSignals(true);
@@ -1740,113 +1100,8 @@ void RenderWidget::adjustViewToProfile()
 
 void RenderWidget::refreshView()
 {
-    m_view.formats->blockSignals(true);
-    QIcon brokenIcon = QIcon::fromTheme(QStringLiteral("dialog-close"));
-    QIcon warningIcon = QIcon::fromTheme(QStringLiteral("dialog-warning"));
-
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
-    const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
-    const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
-
-    // We borrow a reference to the profile's pointer to query it more easily
-    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    double project_framerate = double(profile->frame_rate_num()) / profile->frame_rate_den();
-    for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
-        QTreeWidgetItem *group = m_view.formats->topLevelItem(i);
-        for (int j = 0; j < group->childCount(); ++j) {
-            QTreeWidgetItem *item = group->child(j);
-            QString std = item->data(0, StandardRole).toString();
-            if (std.isEmpty() ||
-                (std.contains(QStringLiteral("PAL"), Qt::CaseInsensitive) && profile->frame_rate_num() == 25 && profile->frame_rate_den() == 1) ||
-                (std.contains(QStringLiteral("NTSC"), Qt::CaseInsensitive) && profile->frame_rate_num() == 30000 && profile->frame_rate_den() == 1001)) {
-                // Standard OK
-            } else {
-                item->setData(0, ErrorRole, i18n("Standard (%1) not compatible with project profile (%2)", std, project_framerate));
-                item->setIcon(0, brokenIcon);
-                item->setForeground(0, disabled);
-                continue;
-            }
-            QString params = item->data(0, ParamsRole).toString();
-            // Make sure the selected profile uses the same frame rate as project profile
-            if (params.contains(QStringLiteral("mlt_profile="))) {
-                QString profile_str = params.section(QStringLiteral("mlt_profile="), 1, 1).section(QLatin1Char(' '), 0, 0);
-                std::unique_ptr<ProfileModel> &target_profile = ProfileRepository::get()->getProfile(profile_str);
-                if (target_profile->frame_rate_den() > 0) {
-                    double profile_rate = double(target_profile->frame_rate_num()) / target_profile->frame_rate_den();
-                    if (int(1000.0 * profile_rate) != int(1000.0 * project_framerate)) {
-                        item->setData(0, ErrorRole, i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate));
-                        item->setIcon(0, brokenIcon);
-                        item->setForeground(0, disabled);
-                        continue;
-                    }
-                }
-            }
-
-            // Make sure the selected profile uses an installed avformat codec / format
-            if (!m_supportedFormats.isEmpty()) {
-                QString format;
-                if (params.startsWith(QLatin1String("f="))) {
-                    format = params.section(QStringLiteral("f="), 1, 1);
-                } else if (params.contains(QStringLiteral(" f="))) {
-                    format = params.section(QStringLiteral(" f="), 1, 1);
-                }
-                if (!format.isEmpty()) {
-                    format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                    if (!m_supportedFormats.contains(format)) {
-                        item->setData(0, ErrorRole, i18n("Unsupported video format: %1", format));
-                        item->setIcon(0, brokenIcon);
-                        item->setForeground(0, disabled);
-                        continue;
-                    }
-                }
-            }
-            // check for missing audio codecs
-            QString format;
-            if (params.startsWith(QLatin1String("acodec="))) {
-                format = params.section(QStringLiteral("acodec="), 1, 1);
-            } else if (params.contains(QStringLiteral(" acodec="))) {
-                format = params.section(QStringLiteral(" acodec="), 1, 1);
-            }
-            if (!format.isEmpty()) {
-                format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                if (!m_acodecsList.contains(format)) {
-                    item->setData(0, ErrorRole, i18n("Unsupported audio codec: %1", format));
-                    item->setIcon(0, brokenIcon);
-                    item->setForeground(0, disabled);
-                    item->setBackground(0, disabledbg);
-                }
-            }
-            // check for missing audio codecs
-            format.clear();
-            if (params.startsWith(QLatin1String("vcodec="))) {
-                format = params.section(QStringLiteral("vcodec="), 1, 1);
-            } else if (params.contains(QStringLiteral(" vcodec="))) {
-                format = params.section(QStringLiteral(" vcodec="), 1, 1);
-            }
-            if (!format.isEmpty()) {
-                format = format.section(QLatin1Char(' '), 0, 0).toLower();
-                if (!m_vcodecsList.contains(format)) {
-                    item->setData(0, ErrorRole, i18n("Unsupported video codec: %1", format));
-                    item->setIcon(0, brokenIcon);
-                    item->setForeground(0, disabled);
-                    continue;
-                }
-            }
-
-            if (params.contains(QStringLiteral(" profile=")) || params.startsWith(QLatin1String("profile="))) {
-                // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
-                // (https://github.com/mltframework/mlt/commit/d8a3a5c9190646aae72048f71a39ee7446a3bd45)
-                item->setData(0, ErrorRole,
-                              i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably "
-                                   "have to change it to 'mlt_profile'."));
-                item->setIcon(0, warningIcon);
-                continue;
-            }
-        }
-    }
-    focusFirstVisibleItem();
-    m_view.formats->blockSignals(false);
-    refreshParams();
+    focusItem();
+    loadProfile();
 }
 
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
@@ -1855,18 +1110,18 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
-    QString filename = url.fileName();
-    if (filename.isEmpty()) {
-        filename = pCore->currentDoc()->url().fileName();
-    }
-    QString ext;
 
+    QString ext;
     if (extension.startsWith(QLatin1Char('.'))) {
         ext = extension;
     } else {
         ext = '.' + extension;
     }
 
+    QString filename = url.fileName();
+    if (filename.isEmpty()) {
+        filename = pCore->currentDoc()->url().fileName();
+    }
     if (filename.isEmpty()) {
         filename = i18n("untitled");
     }
@@ -1883,550 +1138,292 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
     return QUrl::fromLocalFile(directory + filename);
 }
 
-void RenderWidget::refreshParams()
+void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelIndex &previous)
 {
-    // Format not available (e.g. codec not installed); Disable start button
-    QTreeWidgetItem *item = m_view.formats->currentItem();
-    if ((item == nullptr) || item->parent() == nullptr) {
-        // This is a category item, not a real profile
-        m_view.buttonBox->setEnabled(false);
-    } else {
-        m_view.buttonBox->setEnabled(true);
+    if (m_treeModel->parent(current) == QModelIndex()) {
+        // in that case, we have selected a category, which we don't want
+        QItemSelectionModel *selection = m_view.profileTree->selectionModel();
+        selection->select(previous, QItemSelectionModel::Select);
+        // expand corresponding category
+        auto parent = m_treeModel->parent(previous);
+        m_view.profileTree->expand(parent);
+        m_view.profileTree->scrollTo(previous, QAbstractItemView::PositionAtCenter);
+        return;
     }
-    QString extension;
-    if (item) {
-        extension = item->data(0, ExtensionRole).toString();
-    }
-    if ((item == nullptr) || item->isHidden() || extension.isEmpty()) {
-        if (!item) {
-            errorMessage(ProfileError, i18n("No matching profile"));
-        } else if (!item->parent()) // category
-            ;
-        else if (extension.isEmpty()) {
-            errorMessage(ProfileError, i18n("Invalid profile"));
+    m_currentProfile = m_treeModel->getPreset(current);
+    KdenliveSettings::setRenderProfile(m_currentProfile);
+    loadProfile();
+}
+
+void RenderWidget::loadProfile()
+{
+    slotUpdateButtons();
+    // Format not available (e.g. codec not installed); Disable start
+    if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+        if (m_currentProfile.isEmpty()) {
+            errorMessage(PresetError, i18n("No preset selected"));
+        } else {
+            errorMessage(PresetError, i18n("No matching preset"));
         }
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);
+        m_view.optionsGroup->setEnabled(false);
         return;
     }
-    QString params = item->data(0, ParamsRole).toString();
-    errorMessage(ProfileError, item->data(0, ErrorRole).toString());
-    m_view.advanced_params->setPlainText(params);
-    if (params.contains(QStringLiteral(" s=")) || params.startsWith(QLatin1String("s=")) || params.contains(QLatin1String("%dv_standard"))) {
-        // profile has a fixed size, do not allow resize
-        m_view.rescale->setEnabled(false);
-        setRescaleEnabled(false);
-    } else {
-        m_view.rescale->setEnabled(true);
-        setRescaleEnabled(m_view.rescale->isChecked());
+    std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+    QString params = profile->params();
+
+    if (profile->extension().isEmpty()) {
+        errorMessage(PresetError, i18n("Invalid preset"));
     }
-    QUrl url = filenameWithExtension(m_view.out_file->url(), extension);
+    QString error = profile->error();
+    if (error.isEmpty()) {
+        error = profile->warning();
+    }
+    errorMessage(PresetError, error);
+
+    QUrl url = filenameWithExtension(m_view.out_file->url(), profile->extension());
     m_view.out_file->setUrl(url);
-    m_view.out_file->setFilter("*." + extension);
-    QString edit = item->data(0, EditableRole).toString();
-    if (edit.isEmpty() || !edit.endsWith(QLatin1String("customprofiles.xml"))) {
-        m_view.buttonDelete->setEnabled(false);
-        m_view.buttonEdit->setEnabled(false);
-    } else {
-        m_view.buttonDelete->setEnabled(true);
-        m_view.buttonEdit->setEnabled(true);
-    }
+    m_view.out_file->setFilter("*." + profile->extension());
 
-    // video quality control
-    m_view.video->blockSignals(true);
-    bool quality = false;
-    if ((params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%bitrate"))) &&
-        item->data(0, BitratesRole).canConvert(QVariant::StringList)) {
-        // bitrates or quantizers list
-        QStringList qs = item->data(0, BitratesRole).toStringList();
-        if (qs.count() > 1) {
-            quality = true;
-            int qmax = qs.constFirst().toInt();
-            int qmin = qs.last().toInt();
-            if (qmax < qmin) {
-                // always show best quality on right
-                m_view.video->setRange(qmax, qmin);
-                m_view.video->setProperty("decreasing", true);
-            } else {
-                m_view.video->setRange(qmin, qmax);
-                m_view.video->setProperty("decreasing", false);
-            }
-        }
-    }
-    m_view.video->setEnabled(quality);
-    m_view.quality->setEnabled(quality);
-    m_view.qualityLabel->setEnabled(quality);
-    m_view.video->blockSignals(false);
+    m_view.buttonDelete->setEnabled(profile->editable());
+    m_view.buttonEdit->setEnabled(profile->editable());
 
-    // audio quality control
-    quality = false;
-    m_view.audio->blockSignals(true);
-    if ((params.contains(QStringLiteral("%audioquality")) || params.contains(QStringLiteral("%audiobitrate"))) &&
-        item->data(0, AudioBitratesRole).canConvert(QVariant::StringList)) {
-        // bitrates or quantizers list
-        QStringList qs = item->data(0, AudioBitratesRole).toStringList();
-        if (qs.count() > 1) {
-            quality = true;
-            int qmax = qs.constFirst().toInt();
-            int qmin = qs.last().toInt();
-            if (qmax < qmin) {
-                m_view.audio->setRange(qmax, qmin);
-                m_view.audio->setProperty("decreasing", true);
-            } else {
-                m_view.audio->setRange(qmin, qmax);
-                m_view.audio->setProperty("decreasing", false);
-            }
-            if (params.contains(QStringLiteral("%audiobitrate"))) {
-                m_view.audio->setSingleStep(32); // 32kbps step
-            } else {
-                m_view.audio->setSingleStep(1);
-            }
-        }
-    }
-    m_view.audio->setEnabled(quality);
-    m_view.audio->blockSignals(false);
-    if (m_view.quality->isEnabled()) {
-        adjustAVQualities(m_view.quality->value());
-    }
-
-    if (item->data(0, SpeedsRole).canConvert(QVariant::StringList) && (item->data(0, SpeedsRole).toStringList().count() != 0)) {
-        int speed = item->data(0, SpeedsRole).toStringList().count() - 1;
+    if (!profile->speeds().isEmpty()) {
+        int speed = profile->speeds().count() - 1;
         m_view.speed->setEnabled(true);
         m_view.speed->setMaximum(speed);
         m_view.speed->setValue(speed * 3 / 4); // default to intermediate speed
     } else {
         m_view.speed->setEnabled(false);
     }
-    if (!item->data(0, FieldRole).isNull()) {
-        m_view.field_order->setCurrentIndex(item->data(0, FieldRole).toInt());
-    }
     adjustSpeed(m_view.speed->value());
-    bool passes = params.contains(QStringLiteral("passes"));
+    bool passes = profile->hasParam(QStringLiteral("passes"));
     m_view.checkTwoPass->setEnabled(passes);
     m_view.checkTwoPass->setChecked(passes && params.contains(QStringLiteral("passes=2")));
 
-    m_view.encoder_threads->setEnabled(!params.contains(QStringLiteral("threads=")));
+    m_view.encoder_threads->setEnabled(!profile->hasParam(QStringLiteral("threads")));
 
-    m_view.buttonRender->setEnabled(m_view.formats->currentItem()->data(0, ErrorRole).isNull());
-    m_view.buttonGenerateScript->setEnabled(m_view.formats->currentItem()->data(0, ErrorRole).isNull());
+    m_view.video_box->setChecked(profile->getParam(QStringLiteral("vn")) != QStringLiteral("1"));
+    m_view.audio_box->setChecked(profile->getParam(QStringLiteral("an")) != QStringLiteral("1"));
+
+    m_view.buttonRender->setEnabled(error.isEmpty());
+    m_view.buttonGenerateScript->setEnabled(error.isEmpty());
+    m_view.optionsGroup->setEnabled(true);
+    refreshParams();
 }
 
-void RenderWidget::reloadProfiles()
+void RenderWidget::refreshParams()
 {
-    parseProfiles();
+    if (!RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+        return;
+    }
+    std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
+
+    if (preset->hasFixedSize()) {
+        // profile has a fixed size, do not allow resize
+        m_view.rescale->setEnabled(false);
+        setRescaleEnabled(false);
+    } else {
+        m_view.rescale->setEnabled(m_view.video_box->isChecked());
+        setRescaleEnabled(m_view.video_box->isChecked() && m_view.rescale->isChecked());
+    }
+
+    QStringList removeParams = {
+        QStringLiteral("an"),
+        QStringLiteral("audio_off"),
+        QStringLiteral("vn"),
+        QStringLiteral("video_off"),
+        QStringLiteral("real_time")
+    };
+
+    QStringList newParams;
+
+    // Audio Channels: don't override, only set if it is not yet set
+    if (!preset->hasParam(QStringLiteral("channels"))) {
+        newParams.append(QStringLiteral("channels=%1").arg(pCore->audioChannels()));
+    }
+
+    // Check for movit
+    if (KdenliveSettings::gpu_accel()) {
+        newParams.append(QStringLiteral("glsl.=1"));
+    }
+
+    // In case of libx265 add x265-param
+    if (preset->getParam(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
+        newParams.append(QStringLiteral("x265-param=%1").arg(preset->x265Params()));
+    }
+
+    // Rescale
+    bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
+    if (rescale) {
+        removeParams.append({QStringLiteral("s"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("sample_aspect_num"), QStringLiteral("sample_aspect_den")});
+        newParams.append(QStringLiteral("s=%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value()));
+        if (preset->hasParam(QStringLiteral("sample_aspect_num")) || preset->hasParam(QStringLiteral("sample_aspect_den"))) {
+            //reset display aspect ratio to 1:1 if we override the resolution to avoid errors
+            newParams.append(QStringLiteral("sample_aspect_num=1 sample_aspect_den=1"));
+        }
+    }
+
+    // Preview rendering
+    bool previewRes = m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height();
+    if (previewRes) {
+        removeParams.append(QStringLiteral("scale"));
+        newParams.append(QStringLiteral("scale=%1").arg(double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height()));
+    }
+
+    // disable audio if requested
+    if (!m_view.audio_box->isChecked()) {
+        newParams.append(QStringLiteral("an=1 audio_off=1"));
+    }
+
+    if (!m_view.video_box->isChecked()) {
+        newParams.append(QStringLiteral("vn=1 video_off=1"));
+    }
+
+    if (!(m_view.video_box->isChecked() || m_view.audio_box->isChecked())) {
+        errorMessage(OptionsError, i18n("Rendering without audio and video does not work. Please enable at least one of both."));
+        m_view.buttonRender->setEnabled(false);
+    } else {
+        errorMessage(OptionsError, QString());
+        m_view.buttonRender->setEnabled(preset->error().isEmpty());
+    }
+
+    // Parallel Processing
+    int threadCount = QThread::idealThreadCount();
+    if (threadCount < 2 || !m_view.parallel_process->isChecked() || !m_view.parallel_process->isEnabled()) {
+        threadCount = 1;
+    } else {
+        threadCount = qMin(4, threadCount - 1);
+    }
+    newParams.append(QStringLiteral("real_time=%1").arg(-threadCount));
+
+    // Adjust encoding speed
+    if (m_view.speed->isEnabled()) {
+        QStringList speeds = preset->speeds();
+        if (m_view.speed->value() < speeds.count()) {
+            const QString &speedValue = speeds.at(m_view.speed->value());
+            if (speedValue.contains(QLatin1Char('='))) {
+                newParams.append(speedValue);
+            }
+        }
+    }
+
+    QString params = preset->params(removeParams);
+
+    // Set the thread counts
+    if (!params.contains(QStringLiteral("threads="))) {
+        newParams.append(QStringLiteral("threads=%1").arg(KdenliveSettings::encodethreads()));
+    }
+
+    // Project metadata
+    if (m_view.export_meta->isChecked()) {
+        QMap<QString, QString> metadata = pCore->currentDoc()->metadata();
+        QMap<QString, QString>::const_iterator i = metadata.constBegin();
+        while (i != metadata.constEnd()) {
+            newParams.append(QStringLiteral("%1=%2").arg(i.key(), i.value()));
+            ++i;
+        }
+    }
+
+    if (params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%audioquality"))) {
+        m_view.qualityGroup->setEnabled(true);
+    } else {
+        m_view.qualityGroup->setEnabled(false);
+    }
+
+    double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
+    m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
+    // historically qualities are sorted from best to worse for some reason
+    int min = preset->videoQualities().last().toInt();
+    int max = preset->videoQualities().first().toInt();
+    int val = preset->defaultVQuality().toInt();
+    if (m_view.qualityGroup->isChecked()) {
+        if (min < max) {
+            int range = max - min;
+            val = min + int(range * percent);
+        } else {
+            int range = min - max;
+            val = min - int(range * percent);
+        }
+    }
+    params.replace(QStringLiteral("%quality"), QString::number(val));
+    // TODO check if this is finally correct
+    params.replace(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
+    params.replace(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
+
+    val = preset->defaultABitrate().toInt() * 1000;
+    if (m_view.qualityGroup->isChecked()) {
+        val *= percent;
+    }
+    // cvbr = Constrained Variable Bit Rate
+    params.replace(QStringLiteral("%cvbr"), QString::number(val));
+
+    // historically qualities are sorted from best to worse for some reason
+    min = preset->audioQualities().last().toInt();
+    max = preset->audioQualities().first().toInt();
+    val = preset->defaultAQuality().toInt();
+    if (m_view.qualityGroup->isChecked()) {
+        if (min < max) {
+            int range = max - min;
+            val = min + int(range * percent);
+        } else {
+            int range = min - max;
+            val = min - int(range * percent);
+        }
+    }
+    params.replace(QStringLiteral("%audioquality"), QString::number(val));
+    // TODO check if this is finally correct
+    params.replace(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultABitrate()));
+    params.replace(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(preset->defaultABitrate()));
+
+    std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
+    if (params.contains(QLatin1String("%dv_standard"))) {
+        QString dvstd;
+        if (fmod(double(projectProfile->frame_rate_num() / projectProfile->frame_rate_den()), 30.01) > 27) {
+            dvstd = QStringLiteral("ntsc");
+        } else {
+            dvstd = QStringLiteral("pal");
+        }
+        if (double(projectProfile->display_aspect_num() / projectProfile->display_aspect_den()) > 1.5) {
+            dvstd += QLatin1String("_wide");
+        }
+        params.replace(QLatin1String("%dv_standard"), dvstd);
+    }
+
+    params.replace(QLatin1String("%dar"), QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num())).arg(QString::number(projectProfile->display_aspect_den())));
+    params.replace(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
+
+    newParams.prepend(params);
+
+    m_view.advanced_params->setPlainText(newParams.join(QStringLiteral(" ")));
 }
 
 void RenderWidget::parseProfiles(const QString &selectedProfile)
 {
-    m_view.formats->clear();
-
-    // Parse our xml profile
-    QString exportFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
-    parseFile(exportFile, false);
-
-    // Parse some MLT's profiles
-    parseMltPresets();
-    QStringList filter = {QStringLiteral("*.xml")};
-    QString exportFolder = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/export/");
-    QDir directory(exportFolder);
-    QStringList fileList = directory.entryList(filter, QDir::Files);
-    // We should parse customprofiles.xml in last position, so that user profiles
-    // can also override profiles installed by KNewStuff
-    fileList.removeAll(QStringLiteral("customprofiles.xml"));
-    for (const QString &filename : qAsConst(fileList)) {
-        parseFile(directory.absoluteFilePath(filename), true);
-    }
-    if (directory.exists(QStringLiteral("customprofiles.xml"))) {
-        parseFile(directory.absoluteFilePath(QStringLiteral("customprofiles.xml")), true);
-    }
-
-    focusFirstVisibleItem(selectedProfile);
+    m_treeModel.reset();
+    m_treeModel = RenderPresetTreeModel::construct(this);
+    m_view.profileTree->setModel(m_treeModel.get());
+    QItemSelectionModel *selectionModel = m_view.profileTree->selectionModel();
+    connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &RenderWidget::slotChangeSelection);
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection &selected, const QItemSelection &deselected) {
+        QModelIndex current;
+        QModelIndex old;
+        if (!selected.indexes().isEmpty()) {
+            current = selected.indexes().front();
+        }
+        if (!deselected.indexes().isEmpty()) {
+            old = deselected.indexes().front();
+        }
+        slotChangeSelection(current, old);
+    });
+    focusItem(selectedProfile);
 }
 
-void RenderWidget::parseMltPresets()
+void RenderWidget::setRenderProgress(const QString &dest, int progress, int frame)
 {
-    QDir root(KdenliveSettings::mltpath());
-    if (!root.cd(QStringLiteral("../presets/consumer/avformat"))) {
-        // Cannot find MLT's presets directory
-        qCWarning(KDENLIVE_LOG) << " / / / WARNING, cannot find MLT's preset folder";
-        return;
-    }
-    if (root.cd(QStringLiteral("lossless"))) {
-        QString groupName = i18n("Lossless/HQ");
-        QList<QTreeWidgetItem *> foundGroup = m_view.formats->findItems(groupName, Qt::MatchExactly);
-        QTreeWidgetItem *groupItem;
-        if (!foundGroup.isEmpty()) {
-            groupItem = foundGroup.takeFirst();
-        } else {
-            groupItem = new QTreeWidgetItem(QStringList(groupName));
-            m_view.formats->addTopLevelItem(groupItem);
-            groupItem->setExpanded(true);
-        }
-
-        const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        for (const QString &prof : profiles) {
-            KConfig config(root.absoluteFilePath(prof), KConfig::SimpleConfig);
-            KConfigGroup group = config.group(QByteArray());
-            QString vcodec = group.readEntry("vcodec");
-            QString acodec = group.readEntry("acodec");
-            QString extension = group.readEntry("meta.preset.extension");
-            QString note = group.readEntry("meta.preset.note");
-            QString profileName = prof;
-            if (!vcodec.isEmpty() || !acodec.isEmpty()) {
-                profileName.append(" (");
-                if (!vcodec.isEmpty()) {
-                    profileName.append(vcodec);
-                    if (!acodec.isEmpty()) {
-                        profileName.append("+" + acodec);
-                    }
-                } else if (!acodec.isEmpty()) {
-                    profileName.append(acodec);
-                }
-                profileName.append(QLatin1Char(')'));
-            }
-            QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(profileName));
-            item->setData(0, ExtensionRole, extension);
-            item->setData(0, RenderRole, "avformat");
-            item->setData(0, ParamsRole, QString("properties=lossless/" + prof));
-            if (!note.isEmpty()) {
-                item->setToolTip(0, note);
-            }
-            groupItem->addChild(item);
-        }
-    }
-    if (root.cd(QStringLiteral("../stills"))) {
-        QString groupName = i18nc("Category Name", "Images sequence");
-        QList<QTreeWidgetItem *> foundGroup = m_view.formats->findItems(groupName, Qt::MatchExactly);
-        QTreeWidgetItem *groupItem;
-        if (!foundGroup.isEmpty()) {
-            groupItem = foundGroup.takeFirst();
-        } else {
-            groupItem = new QTreeWidgetItem(QStringList(groupName));
-            m_view.formats->addTopLevelItem(groupItem);
-            groupItem->setExpanded(true);
-        }
-        QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        for (const QString &prof : qAsConst(profiles)) {
-            QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(prof), prof);
-            if (!item) {
-                continue;
-            }
-            item->setData(0, ParamsRole, QString("properties=stills/" + prof));
-            groupItem->addChild(item);
-        }
-        // Add GIF as image sequence
-        root.cdUp();
-        QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"));
-        if (item) {
-            item->setData(0, ParamsRole, QStringLiteral("properties=GIF"));
-            groupItem->addChild(item);
-        }
-    }
-}
-
-QTreeWidgetItem *RenderWidget::loadFromMltPreset(const QString &groupName, const QString &path, const QString &profileName)
-{
-    KConfig config(path, KConfig::SimpleConfig);
-    KConfigGroup group = config.group(QByteArray());
-    QString extension = group.readEntry("meta.preset.extension");
-    QString note = group.readEntry("meta.preset.note");
-    if (extension.isEmpty()) {
-        return nullptr;
-    }
-    QTreeWidgetItem *item = new QTreeWidgetItem(QStringList(profileName));
-    item->setData(0, GroupRole, groupName);
-    item->setData(0, ExtensionRole, extension);
-    item->setData(0, RenderRole, "avformat");
-    if (!note.isEmpty()) {
-        item->setToolTip(0, note);
-    }
-    return item;
-}
-
-void RenderWidget::parseFile(const QString &exportFile, bool editable)
-{
-    QDomDocument doc;
-    QFile file(exportFile);
-    doc.setContent(&file, false);
-    file.close();
-    QDomElement documentElement;
-    QDomElement profileElement;
-    QString extension;
-    QDomNodeList groups = doc.elementsByTagName(QStringLiteral("group"));
-    QTreeWidgetItem *item = nullptr;
-    bool replaceVorbisCodec = false;
-    if (m_acodecsList.contains(QStringLiteral("libvorbis"))) {
-        replaceVorbisCodec = true;
-    }
-    bool replaceLibfaacCodec = false;
-    if (m_acodecsList.contains(QStringLiteral("libfaac"))) {
-        replaceLibfaacCodec = true;
-    }
-
-    if (editable || groups.isEmpty()) {
-        QDomElement profiles = doc.documentElement();
-        if (editable && profiles.attribute(QStringLiteral("version"), nullptr).toInt() < 1) {
-            // this is an old profile version, update it
-            QDomDocument newdoc;
-            QDomElement newprofiles = newdoc.createElement(QStringLiteral("profiles"));
-            newprofiles.setAttribute(QStringLiteral("version"), 1);
-            newdoc.appendChild(newprofiles);
-            QDomNodeList profilelist = doc.elementsByTagName(QStringLiteral("profile"));
-            for (int i = 0; i < profilelist.count(); ++i) {
-                QString category = i18nc("Category Name", "Custom");
-                QString ext;
-                QDomNode parent = profilelist.at(i).parentNode();
-                if (!parent.isNull()) {
-                    QDomElement parentNode = parent.toElement();
-                    if (parentNode.hasAttribute(QStringLiteral("name"))) {
-                        category = parentNode.attribute(QStringLiteral("name"));
-                    }
-                    ext = parentNode.attribute(QStringLiteral("extension"));
-                }
-                if (!profilelist.at(i).toElement().hasAttribute(QStringLiteral("category"))) {
-                    profilelist.at(i).toElement().setAttribute(QStringLiteral("category"), category);
-                }
-                if (!ext.isEmpty()) {
-                    profilelist.at(i).toElement().setAttribute(QStringLiteral("extension"), ext);
-                }
-                QDomNode n = profilelist.at(i).cloneNode();
-                newprofiles.appendChild(newdoc.importNode(n, true));
-            }
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
-                return;
-            }
-            QTextStream out(&file);
-            out.setCodec("UTF-8");
-            out << newdoc.toString();
-            file.close();
-            parseFile(exportFile, editable);
-            return;
-        }
-
-        QDomNode node = doc.elementsByTagName(QStringLiteral("profile")).at(0);
-        if (node.isNull()) {
-            return;
-        }
-        int count = 1;
-        while (!node.isNull()) {
-            QDomElement profile = node.toElement();
-            QString profileName = profile.attribute(QStringLiteral("name"));
-            QString standard = profile.attribute(QStringLiteral("standard"));
-            QTextDocument docConvert;
-            docConvert.setHtml(profile.attribute(QStringLiteral("args")));
-            QString params = docConvert.toPlainText().simplified();
-
-            if (replaceVorbisCodec && params.contains(QStringLiteral("acodec=vorbis"))) {
-                // replace vorbis with libvorbis
-                params = params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
-            }
-            if (replaceLibfaacCodec && params.contains(QStringLiteral("acodec=aac"))) {
-                // replace libfaac with aac
-                params = params.replace(QLatin1String("aac"), QLatin1String("libfaac"));
-            }
-
-            QString prof_extension = profile.attribute(QStringLiteral("extension"));
-            if (!prof_extension.isEmpty()) {
-                extension = prof_extension;
-            }
-            QString groupName = profile.attribute(QStringLiteral("category"), i18nc("Category Name", "Custom"));
-            QList<QTreeWidgetItem *> foundGroup = m_view.formats->findItems(groupName, Qt::MatchExactly);
-            QTreeWidgetItem *groupItem;
-            if (!foundGroup.isEmpty()) {
-                groupItem = foundGroup.takeFirst();
-            } else {
-                groupItem = new QTreeWidgetItem(QStringList(groupName));
-                if (editable) {
-                    m_view.formats->insertTopLevelItem(0, groupItem);
-                } else {
-                    m_view.formats->addTopLevelItem(groupItem);
-                    groupItem->setExpanded(true);
-                }
-            }
-
-            // Check if item with same name already exists and replace it,
-            // allowing to override default profiles
-            QTreeWidgetItem *childitem = nullptr;
-            for (int j = 0; j < groupItem->childCount(); ++j) {
-                if (groupItem->child(j)->text(0) == profileName) {
-                    childitem = groupItem->child(j);
-                    break;
-                }
-            }
-            if (!childitem) {
-                childitem = new QTreeWidgetItem(QStringList(profileName));
-            }
-            childitem->setData(0, GroupRole, groupName);
-            childitem->setData(0, ExtensionRole, extension);
-            childitem->setData(0, RenderRole, "avformat");
-            childitem->setData(0, StandardRole, standard);
-            childitem->setData(0, ParamsRole, params);
-            if (params.contains(QLatin1String("%quality"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                childitem->setData(0, DefaultBitrateRole, profile.attribute(QStringLiteral("defaultquality")));
-            } else if (params.contains(QLatin1String("%bitrate"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                childitem->setData(0, DefaultBitrateRole, profile.attribute(QStringLiteral("defaultbitrate")));
-            }
-            if (params.contains(QLatin1String("%audioquality"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                childitem->setData(0, DefaultAudioBitrateRole, profile.attribute(QStringLiteral("defaultaudioquality")));
-            } else if (params.contains(QLatin1String("%audiobitrate"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                childitem->setData(0, DefaultAudioBitrateRole, profile.attribute(QStringLiteral("defaultaudiobitrate")));
-            }
-            if (profile.hasAttribute(QStringLiteral("speeds"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                childitem->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
-#else
-                childitem->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), Qt::SkipEmptyParts));
-#endif
-            }
-            if (profile.hasAttribute(QStringLiteral("url"))) {
-                childitem->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
-            }
-            if (profile.hasAttribute(QStringLiteral("top_field_first"))) {
-                childitem->setData(0, FieldRole, profile.attribute(QStringLiteral("top_field_first")));
-            }
-            if (editable) {
-                childitem->setData(0, EditableRole, exportFile);
-                if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) {
-                    childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("favorite")));
-                } else {
-                    childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("internet-services")));
-                }
-            }
-            groupItem->addChild(childitem);
-            node = doc.elementsByTagName(QStringLiteral("profile")).at(count);
-            count++;
-        }
-        return;
-    }
-
-    int i = 0;
-    QString groupName;
-    QString profileName;
-
-    QString prof_extension;
-    QString renderer;
-    QString params;
-    QString standard;
-
-    while (!groups.item(i).isNull()) {
-        documentElement = groups.item(i).toElement();
-        groupName = documentElement.attribute(QStringLiteral("name"), i18nc("Attribute Name", "Custom"));
-        extension = documentElement.attribute(QStringLiteral("extension"), QString());
-        renderer = documentElement.attribute(QStringLiteral("renderer"), QString());
-        QList<QTreeWidgetItem *> foundGroup = m_view.formats->findItems(groupName, Qt::MatchExactly);
-        QTreeWidgetItem *groupItem;
-        if (!foundGroup.isEmpty()) {
-            groupItem = foundGroup.takeFirst();
-        } else {
-            groupItem = new QTreeWidgetItem(QStringList(groupName));
-            m_view.formats->addTopLevelItem(groupItem);
-            groupItem->setExpanded(true);
-        }
-
-        QDomNode n = groups.item(i).firstChild();
-        while (!n.isNull()) {
-            if (n.toElement().tagName() != QLatin1String("profile")) {
-                n = n.nextSibling();
-                continue;
-            }
-            profileElement = n.toElement();
-            profileName = profileElement.attribute(QStringLiteral("name"));
-            standard = profileElement.attribute(QStringLiteral("standard"));
-            params = profileElement.attribute(QStringLiteral("args")).simplified();
-
-            if (replaceVorbisCodec && params.contains(QStringLiteral("acodec=vorbis"))) {
-                // replace vorbis with libvorbis
-                params = params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
-            }
-            if (replaceLibfaacCodec && params.contains(QStringLiteral("acodec=aac"))) {
-                // replace libfaac with aac
-                params = params.replace(QLatin1String("aac"), QLatin1String("libfaac"));
-            }
-
-            prof_extension = profileElement.attribute(QStringLiteral("extension"));
-            if (!prof_extension.isEmpty()) {
-                extension = prof_extension;
-            }
-            item = new QTreeWidgetItem(QStringList(profileName));
-            item->setData(0, GroupRole, groupName);
-            item->setData(0, ExtensionRole, extension);
-            item->setData(0, RenderRole, renderer);
-            item->setData(0, StandardRole, standard);
-            item->setData(0, ParamsRole, params);
-            if (params.contains(QLatin1String("%quality"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                item->setData(0, DefaultBitrateRole, profileElement.attribute(QStringLiteral("defaultquality")));
-            } else if (params.contains(QLatin1String("%bitrate"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                item->setData(0, DefaultBitrateRole, profileElement.attribute(QStringLiteral("defaultbitrate")));
-            }
-            if (params.contains(QLatin1String("%audioquality"))) {
-                item->setData(0, AudioBitratesRole,
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                              profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                              profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                item->setData(0, DefaultAudioBitrateRole, profileElement.attribute(QStringLiteral("defaultaudioquality")));
-            } else if (params.contains(QLatin1String("%audiobitrate"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
-#else
-                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
-#endif
-                item->setData(0, DefaultAudioBitrateRole, profileElement.attribute(QStringLiteral("defaultaudiobitrate")));
-            }
-            if (profileElement.hasAttribute(QStringLiteral("speeds"))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
-#else
-                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), Qt::SkipEmptyParts));
-#endif
-            }
-            if (profileElement.hasAttribute(QStringLiteral("url"))) {
-                item->setData(0, ExtraRole, profileElement.attribute(QStringLiteral("url")));
-            }
-            groupItem->addChild(item);
-            n = n.nextSibling();
-        }
-
-        ++i;
-    }
-}
-
-void RenderWidget::setRenderJob(const QString &dest, int progress, int frame)
-{
-    RenderJobItem *item;
+    RenderJobItem *item = nullptr;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
@@ -2467,7 +1464,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress, int frame)
 
 void RenderWidget::setRenderStatus(const QString &dest, int status, const QString &error)
 {
-    RenderJobItem *item;
+    RenderJobItem *item = nullptr;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
@@ -2502,12 +1499,10 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         notify->setText(notif);
         notify->setUrls({QUrl::fromLocalFile(dest)});
         notify->sendEvent();
-        QString itemGroup = item->data(0, Qt::UserRole).toString();
-        if (itemGroup == QLatin1String("websites")) {
-            QString url = item->metadata();
-            if (!url.isEmpty()) {
-                new KRun(QUrl::fromLocalFile(url), this);
-            }
+        QUrl url = QUrl::fromLocalFile(item->text(1));
+        bool exists = QFile(url.toLocalFile()).exists();
+        if (exists && item->data(1, OpenBrowserRole).toBool()) {
+            KIO::highlightInFileManager({url});
         }
     } else if (status == -2) {
         // Rendering crashed
@@ -2575,16 +1570,9 @@ void RenderWidget::slotCheckJob()
 #endif
     }
     m_view.abort_job->setEnabled(activate);
-    /*
-    for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); ++i) {
-        current = static_cast<RenderJobItem*>(m_view.running_jobs->topLevelItem(i));
-        if (current == static_cast<RenderJobItem*> (m_view.running_jobs->currentItem())) {
-            current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 3));
-        } else current->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
-    }*/
 }
 
-void RenderWidget::slotCLeanUpJobs()
+void RenderWidget::slotCleanUpJobs()
 {
     int ix = 0;
     auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(ix));
@@ -2605,7 +1593,6 @@ void RenderWidget::parseScriptFiles()
     scriptsFilter << QStringLiteral("*.mlt");
     m_view.scripts_list->clear();
 
-    QTreeWidgetItem *item;
     // List the project scripts
     QDir projectFolder(pCore->currentDoc()->projectDataFolder());
     if (!projectFolder.exists(QStringLiteral("kdenlive-renderqueue"))) {
@@ -2635,7 +1622,7 @@ void RenderWidget::parseScriptFiles()
         if (target.isEmpty()) {
             continue;
         }
-        item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
         auto icon = QFileIconProvider().icon(QFileInfo(f));
         item->setIcon(0, icon.isNull() ? QIcon::fromTheme(QStringLiteral("application-x-executable-script")) : icon);
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
@@ -2707,7 +1694,7 @@ void RenderWidget::slotStartScript()
         QStringList argsJob = {KdenliveSettings::rendererpath(), path, destination, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
-        m_view.tabWidget->setCurrentIndex(1);
+        m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     }
 }
 
@@ -2725,11 +1712,6 @@ void RenderWidget::slotDeleteScript()
     }
 }
 
-void RenderWidget::slotGenerateScript()
-{
-    slotPrepareExport(true);
-}
-
 void RenderWidget::slotHideLog()
 {
     m_view.error_box->setVisible(false);
@@ -2737,19 +1719,8 @@ void RenderWidget::slotHideLog()
 
 void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
 {
-    m_view.scanning_list->setCurrentIndex(props.value(QStringLiteral("renderscanning")).toInt());
-    m_view.field_order->setCurrentIndex(props.value(QStringLiteral("renderfield")).toInt());
     int exportAudio = props.value(QStringLiteral("renderexportaudio")).toInt();
-    switch (exportAudio) {
-    case 1:
-        m_view.export_audio->setCheckState(Qt::Unchecked);
-        break;
-    case 2:
-        m_view.export_audio->setCheckState(Qt::Checked);
-        break;
-    default:
-        m_view.export_audio->setCheckState(Qt::PartiallyChecked);
-    }
+    m_view.audio_box->setChecked(exportAudio != 1);
     if (props.contains(QStringLiteral("renderrescale"))) {
         m_view.rescale->setChecked(props.value(QStringLiteral("renderrescale")).toInt() != 0);
     }
@@ -2763,11 +1734,14 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (props.contains(QStringLiteral("renderrescaleheight"))) {
         m_view.rescale_height->setValue(props.value(QStringLiteral("renderrescaleheight")).toInt());
     }
-    if (props.contains(QStringLiteral("rendertcoverlay"))) {
-        m_view.tc_overlay->setChecked(props.value(QStringLiteral("rendertcoverlay")).toInt() != 0);
-    }
     if (props.contains(QStringLiteral("rendertctype"))) {
-        m_view.tc_type->setCurrentIndex(props.value(QStringLiteral("rendertctype")).toInt());
+        m_view.tc_type->setCurrentIndex(props.value(QStringLiteral("rendertctype")).toInt() + 1);
+    }
+    if (props.contains(QStringLiteral("rendertcoverlay"))) {
+        // for backward compatibility
+        if (props.value(QStringLiteral("rendertcoverlay")).toInt() == 0) {
+            m_view.tc_type->setCurrentIndex(0);
+        }
     }
     if (props.contains(QStringLiteral("renderratio"))) {
         m_view.rescale_keep->setChecked(props.value(QStringLiteral("renderratio")).toInt() != 0);
@@ -2785,23 +1759,25 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.render_at_preview_res->setChecked(false);
     }
 
-    if (props.value(QStringLiteral("renderzone")) == QLatin1String("1")) {
+    int mode = props.value(QStringLiteral("renderguide")).toInt();
+    if (mode == 1) {
         m_view.render_zone->setChecked(true);
-    } else if (props.value(QStringLiteral("renderguide")) == QLatin1String("1")) {
+    } else if (mode == 2) {
         m_view.render_guide->setChecked(true);
         m_view.guide_start->setCurrentIndex(props.value(QStringLiteral("renderstartguide")).toInt());
         m_view.guide_end->setCurrentIndex(props.value(QStringLiteral("renderendguide")).toInt());
+    } else if (mode == 3) {
+        m_view.render_multi->setChecked(true);
     } else {
         m_view.render_full->setChecked(true);
     }
-    slotUpdateGuideBox();
+    slotRenderModeChanged();
 
     QString url = props.value(QStringLiteral("renderurl"));
     if (url.isEmpty()) {
-        QTreeWidgetItem *item = m_view.formats->currentItem();
-        if (item && item->parent()) { // categories have no parent
-            const QString extension = item->data(0, ExtensionRole).toString();
-            url = filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator()), extension).toLocalFile();
+        if (RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+            std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+            url = filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator()), profile->extension()).toLocalFile();
         }
     } else if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
@@ -2809,26 +1785,51 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     m_view.out_file->setUrl(QUrl::fromLocalFile(url));
 
     if (props.contains(QStringLiteral("renderprofile")) || props.contains(QStringLiteral("rendercategory"))) {
-        focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")));
-    }
-
-    if (props.contains(QStringLiteral("renderquality"))) {
-        m_view.video->setValue(props.value(QStringLiteral("renderquality")).toInt());
-    } else if (props.contains(QStringLiteral("renderbitrate"))) {
-        m_view.video->setValue(props.value(QStringLiteral("renderbitrate")).toInt());
-    } else {
-        m_view.quality->setValue(m_view.quality->maximum() * 3 / 4);
-    }
-    if (props.contains(QStringLiteral("renderaudioquality"))) {
-        m_view.audio->setValue(props.value(QStringLiteral("renderaudioquality")).toInt());
-    }
-    if (props.contains(QStringLiteral("renderaudiobitrate"))) {
-        m_view.audio->setValue(props.value(QStringLiteral("renderaudiobitrate")).toInt());
+        focusItem(props.value(QStringLiteral("renderprofile")));
     }
 
     if (props.contains(QStringLiteral("renderspeed"))) {
         m_view.speed->setValue(props.value(QStringLiteral("renderspeed")).toInt());
     }
+}
+
+void RenderWidget::saveRenderProfile()
+{
+    // Save rendering profile to document
+    QMap<QString, QString> renderProps;
+    std::unique_ptr<RenderPresetModel> &preset = RenderPresetRepository::get()->getPreset(m_currentProfile);
+    renderProps.insert(QStringLiteral("rendercategory"), preset->groupName());
+    renderProps.insert(QStringLiteral("renderprofile"), preset->name());
+    renderProps.insert(QStringLiteral("renderurl"), m_view.out_file->url().toLocalFile());
+    int mode = 0; // 0 = full project
+    if (m_view.render_zone->isChecked()) {
+        mode = 1;
+    } else if (m_view.render_guide->isChecked()) {
+        mode = 2;
+    } else if (m_view.render_multi->isChecked()) {
+        mode = 3;
+    }
+    renderProps.insert(QStringLiteral("rendermode"), QString::number(mode));
+    renderProps.insert(QStringLiteral("renderstartguide"), QString::number(m_view.guide_start->currentIndex()));
+    renderProps.insert(QStringLiteral("renderendguide"), QString::number(m_view.guide_end->currentIndex()));
+    int export_audio = 0;
+
+    renderProps.insert(QStringLiteral("renderexportaudio"), QString::number(export_audio));
+    renderProps.insert(QStringLiteral("renderrescale"), QString::number(static_cast<int>(m_view.rescale->isChecked())));
+    renderProps.insert(QStringLiteral("renderrescalewidth"), QString::number(m_view.rescale_width->value()));
+    renderProps.insert(QStringLiteral("renderrescaleheight"), QString::number(m_view.rescale_height->value()));
+
+    // for backward compatibility, remove ones we have a doc version > 1.04
+    renderProps.insert(QStringLiteral("rendertcoverlay"), QString::number(static_cast<int>(!m_view.tc_type->currentData().toString().isEmpty())));
+
+    renderProps.insert(QStringLiteral("rendertctype"), QString::number(m_view.tc_type->currentIndex() - 1));
+    renderProps.insert(QStringLiteral("renderratio"), QString::number(static_cast<int>(m_view.rescale_keep->isChecked())));
+    renderProps.insert(QStringLiteral("renderplay"), QString::number(static_cast<int>(m_view.play_after->isChecked())));
+    renderProps.insert(QStringLiteral("rendertwopass"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked())));
+    renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
+    renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
+
+    emit selectedRenderProfile(renderProps);
 }
 
 bool RenderWidget::startWaitingRenderJobs()
@@ -2917,78 +1918,9 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
     }
 }
 
-void RenderWidget::slotUpdateEncodeThreads(int val)
-{
-    KdenliveSettings::setEncodethreads(val);
-}
-
-void RenderWidget::slotUpdateRescaleWidth(int val)
-{
-    KdenliveSettings::setDefaultrescalewidth(val);
-    if (!m_view.rescale_keep->isChecked()) {
-        return;
-    }
-    m_view.rescale_height->blockSignals(true);
-    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_height->setValue(val * profile->height() / profile->width());
-    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_height->value());
-    m_view.rescale_height->blockSignals(false);
-}
-
-void RenderWidget::slotUpdateRescaleHeight(int val)
-{
-    KdenliveSettings::setDefaultrescaleheight(val);
-    if (!m_view.rescale_keep->isChecked()) {
-        return;
-    }
-    m_view.rescale_width->blockSignals(true);
-    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    m_view.rescale_width->setValue(val * profile->width() / profile->height());
-    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
-    m_view.rescale_width->blockSignals(false);
-}
-
-void RenderWidget::slotSwitchAspectRatio()
-{
-    KdenliveSettings::setRescalekeepratio(m_view.rescale_keep->isChecked());
-    if (m_view.rescale_keep->isChecked()) {
-        slotUpdateRescaleWidth(m_view.rescale_width->value());
-    }
-}
-
-void RenderWidget::slotUpdateAudioLabel(int ix)
-{
-    if (ix == Qt::PartiallyChecked) {
-        m_view.export_audio->setText(i18n("Export audio (automatic)"));
-    } else {
-        m_view.export_audio->setText(i18n("Export audio"));
-    }
-    m_view.stemAudioExport->setEnabled(ix != Qt::Unchecked);
-}
-
-bool RenderWidget::automaticAudioExport() const
-{
-    return (m_view.export_audio->checkState() == Qt::PartiallyChecked);
-}
-
-bool RenderWidget::selectedAudioExport() const
-{
-    return (m_view.export_audio->checkState() != Qt::Unchecked);
-}
-
 void RenderWidget::updateProxyConfig(bool enable)
 {
-    m_view.proxy_render->setHidden(!enable);
-}
-
-bool RenderWidget::proxyRendering()
-{
-    return m_view.proxy_render->isChecked();
-}
-
-bool RenderWidget::isStemAudioExportEnabled() const
-{
-    return (m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isVisible() && m_view.stemAudioExport->isEnabled());
+    m_view.proxy_render->setVisible(enable);
 }
 
 void RenderWidget::setRescaleEnabled(bool enable)
@@ -3004,12 +1936,12 @@ void RenderWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
         switch (m_view.tabWidget->currentIndex()) {
-        case 1:
+        case Tabs::RenderTab:
             if (m_view.start_job->isEnabled()) {
                 slotStartCurrentJob();
             }
             break;
-        case 2:
+        case Tabs::ScriptsTab:
             if (m_view.start_script->isEnabled()) {
                 slotStartScript();
             }
@@ -3022,7 +1954,7 @@ void RenderWidget::keyPressEvent(QKeyEvent *e)
         }
     } else if (e->key() == Qt::Key_Delete) {
         // If in Scripts tab, let Del key invoke DeleteScript
-        if (m_view.tabWidget->currentIndex() == 2) {
+        if (m_view.tabWidget->currentIndex() == Tabs::ScriptsTab) {
             if (m_view.delete_script->isEnabled()) {
                 slotDeleteScript();
             }
@@ -3034,79 +1966,21 @@ void RenderWidget::keyPressEvent(QKeyEvent *e)
     }
 }
 
-void RenderWidget::adjustAVQualities(int quality)
-{
-    // calculate video/audio quality indexes from the general quality cursor
-    // taking into account decreasing/increasing video/audio quality parameter
-    double q = double(quality) / m_view.quality->maximum();
-
-    int dq = int(q * (m_view.video->maximum() - m_view.video->minimum()));
-    // prevent video spinbox to update quality cursor (loop)
-    m_view.video->blockSignals(true);
-    m_view.video->setValue(m_view.video->property("decreasing").toBool() ? m_view.video->maximum() - dq : m_view.video->minimum() + dq);
-    m_view.video->blockSignals(false);
-    dq = int(q * (m_view.audio->maximum() - m_view.audio->minimum()));
-    dq -= dq % m_view.audio->singleStep(); // keep a 32 pitch  for bitrates
-    m_view.audio->setValue(m_view.audio->property("decreasing").toBool() ? m_view.audio->maximum() - dq : m_view.audio->minimum() + dq);
-}
-
-void RenderWidget::adjustQuality(int videoQuality)
-{
-    int dq = videoQuality * m_view.quality->maximum() / (m_view.video->maximum() - m_view.video->minimum());
-    m_view.quality->blockSignals(true);
-    m_view.quality->setValue(m_view.video->property("decreasing").toBool() ? m_view.video->maximum() - dq : m_view.video->minimum() + dq);
-    m_view.quality->blockSignals(false);
-}
-
 void RenderWidget::adjustSpeed(int speedIndex)
 {
-    if (m_view.formats->currentItem()) {
-        QStringList speeds = m_view.formats->currentItem()->data(0, SpeedsRole).toStringList();
+    std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+    if (profile) {
+        QStringList speeds = profile->speeds();
         if (speedIndex < speeds.count()) {
             m_view.speed->setToolTip(i18n("Codec speed parameters:\n%1", speeds.at(speedIndex)));
         }
     }
+    refreshParams();
 }
 
-void RenderWidget::checkCodecs()
+void RenderWidget::prepareJobContextMenu(const QPoint &pos)
 {
-    Mlt::Profile p;
-    auto *consumer = new Mlt::Consumer(p, "avformat");
-    if (consumer) {
-        consumer->set("vcodec", "list");
-        consumer->set("acodec", "list");
-        consumer->set("f", "list");
-        consumer->start();
-        m_vcodecsList.clear();
-        Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
-        m_vcodecsList.reserve(vcodecs.count());
-        for (int i = 0; i < vcodecs.count(); ++i) {
-            m_vcodecsList << QString(vcodecs.get(i));
-        }
-        m_acodecsList.clear();
-        Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
-        m_acodecsList.reserve(acodecs.count());
-        for (int i = 0; i < acodecs.count(); ++i) {
-            m_acodecsList << QString(acodecs.get(i));
-        }
-        m_supportedFormats.clear();
-        Mlt::Properties formats(mlt_properties(consumer->get_data("f")));
-        m_supportedFormats.reserve(formats.count());
-        for (int i = 0; i < formats.count(); ++i) {
-            m_supportedFormats << QString(formats.get(i));
-        }
-        delete consumer;
-    }
-}
-
-void RenderWidget::slotProxyWarn(bool enableProxy)
-{
-    errorMessage(ProxyWarning, enableProxy ? i18n("Rendering using low quality proxy") : QString());
-}
-
-void RenderWidget::prepareMenu(const QPoint &pos)
-{
-    QTreeWidgetItem *nd = m_view.running_jobs->itemAt( pos );
+    QTreeWidgetItem *nd = m_view.running_jobs->itemAt(pos);
     RenderJobItem *renderItem = nullptr;
     if (nd) {
         renderItem = static_cast<RenderJobItem *>(nd);
@@ -3129,10 +2003,10 @@ void RenderWidget::prepareMenu(const QPoint &pos)
 
 void RenderWidget::resetRenderPath(const QString &path)
 {
-    QTreeWidgetItem *item = m_view.formats->currentItem();
     QString extension;
-    if (item && item->parent()) { // categories have no parent
-        extension = item->data(0, ExtensionRole).toString();
+    if (RenderPresetRepository::get()->presetExists(m_currentProfile)) {
+        std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
+        extension = profile->extension();
     } else {
         extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
     }

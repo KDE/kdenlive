@@ -229,7 +229,7 @@ void ScopeManager::slotCheckActiveScopes()
 
 bool ScopeManager::audioAcceptedByScopes() const
 {
-    bool accepted = false;
+    bool accepted = pCore->audioMixerVisible;
     for (auto m_audioScope : m_audioScopes) {
         if (m_audioScope.scope->isVisible() && m_audioScope.scope->autoRefreshEnabled()) {
             accepted = true;
@@ -263,7 +263,6 @@ void ScopeManager::checkActiveAudioScopes()
 #ifdef DEBUG_SM
     qCDebug(KDENLIVE_LOG) << "ScopeManager: New audio data still requested? " << audioStillRequested;
 #endif
-
     KdenliveSettings::setMonitor_audio(audioStillRequested);
     pCore->monitorManager()->slotUpdateAudioMonitoring();
 }

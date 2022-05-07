@@ -315,6 +315,7 @@ void ProxyTask::run()
         if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
             // The noautorotate flag must be passed before input source
             parameters << QStringLiteral("-noautorotate");
+            proxyParams.replace(QStringLiteral("-noautorotate"), QString());
         }
         if (proxyParams.contains(QLatin1String("-i "))) {
             // we have some pre-filename parameters, filename will be inserted later
@@ -328,11 +329,9 @@ void ProxyTask::run()
         for (const QString &s : params.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
 #endif
             QString t = s.simplified();
-            if (t != QLatin1String("-noautorotate")) {
-                parameters << t;
-                if (t == QLatin1String("-i")) {
-                    parameters << source;
-                }
+            parameters << t;
+            if (t == QLatin1String("-i")) {
+                parameters << source;
             }
         }
 

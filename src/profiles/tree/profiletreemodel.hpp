@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROFILETREEMODEL_H
-#define PROFILETREEMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 
@@ -32,5 +31,3 @@ public:
     /** @brief This function returns the model index corresponding to a given @param profile path */
     QModelIndex findProfile(const QString &profile);
 };
-
-#endif

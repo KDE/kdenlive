@@ -4,8 +4,7 @@
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTCOMMANDS_H
-#define PROJECTCOMMANDS_H
+#pragma once
 
 #include "definitions.h"
 
@@ -77,5 +76,3 @@ private:
     QString m_id;
     bool m_doIt;
 };
-
-#endif

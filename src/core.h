@@ -3,8 +3,7 @@ SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CORE_H
-#define CORE_H
+#pragma once
 
 #include "definitions.h"
 #include "jobs/taskmanager.h"
@@ -174,6 +173,8 @@ public:
     void pushUndo(QUndoCommand *command);
     /** @brief display a user info/warning message in statusbar */
     void displayMessage(const QString &message, MessageType type, int timeout = -1);
+    /** @brief display timeline selection info in statusbar */
+    void displaySelectionMessage(const QString &message);
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
     /** @brief Returns the effectstack of a given bin clip. */
@@ -230,7 +231,7 @@ public:
     /** @brief An error occurred within a filter, inform user */
     void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(const QMap <QString, QString> &tags);
+    void updateProjectTags(int previousCount, const QMap <int, QStringList> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile *getProjectProfile();
     /** @brief Returns the consumer profile, that will be scaled
@@ -276,7 +277,8 @@ public:
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist);
-
+    /** @brief Returns true if the audio mixer widget is visible */
+    bool audioMixerVisible{false};
     QString packageType() { return m_packageType; };
 
 private:
@@ -370,6 +372,8 @@ signals:
     void updatePalette();
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
     void clipInstanceResized(const QString &binId);
+    /** @brief Contains the project audio levels */
+    void audioLevelsAvailable(const QVector<double>& levels);
+    /** @brief A frame was displayed in monitor, update audio mixer */
+    void updateMixerLevels(int pos);
 };
-
-#endif

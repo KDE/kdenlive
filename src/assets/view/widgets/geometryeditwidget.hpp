@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef GEOMEDITWIDGET_H
-#define GEOMEDITWIDGET_H
+#pragma once
 
 #include "utils/timecode.h"
 #include <QWidget>
@@ -43,5 +42,3 @@ private slots:
 private:
     GeometryWidget *m_geom;
 };
-
-#endif

@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef XML_H
-#define XML_H
+#pragma once
 
 #include "definitions.h"
 #include <QDomElement>
@@ -71,5 +70,3 @@ void renameXmlProperty(const QDomElement &effect, const QString &oldName, const 
 QMap<QString, QString> getXmlPropertyByWildcard(const QDomElement &element, const QString &propertyName);
 
 } // namespace Xml
-
-#endif

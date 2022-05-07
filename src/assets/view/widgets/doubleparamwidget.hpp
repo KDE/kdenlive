@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef DOUBLEPARAMWIDGET_H
-#define DOUBLEPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include <QModelIndex>
@@ -37,5 +36,3 @@ protected:
     DoubleWidget *m_doubleWidget;
     QVBoxLayout *m_lay;
 };
-
-#endif

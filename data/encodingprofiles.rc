@@ -39,9 +39,9 @@ DNxHD 1080p 59.94fps=r=59.94 s=1920x1080 vb=90M threads=0 vcodec=dnxhd progressi
 DNxHD 1080p 60fps=r=60 s=1920x1080 vb=90M threads=0 vcodec=dnxhd progressive=1;mov
 ProRes=vcodec=prores_ks vb=0 g=1 bf=0 vprofile=0 vendor=ap10 qscale=4 s=800x450;mov
 MJPEG=f=avi vcodec=mjpeg progressive=1 qscale=1;avi
-x264-nvenc=vcodec=h264_nvenc g=1 bf=0 profile=0 preset=fast qmin=10 qmax=30;mkv
+x264-nvenc=vcodec=h264_nvenc g=1 bf=0 preset=fast qmin=10 qmax=30;mkv
 x264-vaapi=vcodec=h264_vaapi g=1 bf=0 profile=578;mkv
-NVENC H264=vcodec=h264_nvenc vb=0 rc=cbr acodec=aac ab=192k;mp4
-NVENC H265=vcodec=hevc_nvenc vb=0 acodec=aac ab=192k;mp4
-VAAPI Intel=vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k;mp4
-VAAPI AMD=hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k acodec=aac ab=192k;mp4
+NVENC H264=vcodec=h264_nvenc vb=0 rc=cbr;mp4
+NVENC H265=vcodec=hevc_nvenc vb=0;mp4
+VAAPI Intel=vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k;mp4
+VAAPI AMD=hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k;mp4

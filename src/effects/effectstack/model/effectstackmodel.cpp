@@ -665,7 +665,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 keyframes->resizeKeyframes(oldIn, oldIn + oldDuration, newIn, out - 1, offset, adjustFromEnd, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
                 Fun refresh = [effect, index]() {
-                    emit effect->dataChanged(index, index, QVector<int>());
+                    emit effect->dataChanged(index, QModelIndex(), QVector<int>());
                     return true;
                 };
                 refresh();

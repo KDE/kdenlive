@@ -99,6 +99,11 @@ Rectangle {
         }
     }
 
+    function itemHeight() {
+        return clipRoot.height
+    }
+
+
     function boundValue(min, val, max) {
         return Math.max(min, Math.min(val, max))
     }
@@ -118,6 +123,10 @@ Rectangle {
         controller.requestClearSelection()
         controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)
         controller.requestAddToSelection(clipRoot.clipId)
+    }
+
+    function doesContainMouse(pnt) {
+        return pnt.x > 0.5 && pnt.x < clipRoot.width
     }
 
     onClipResourceChanged: {
@@ -267,17 +276,22 @@ Rectangle {
             console.log("Add effect: ", dropData)
             if (dropSource == '') {
                 // drop from effects list
-                controller.addClipEffect(clipRoot.clipId, dropData);
+                controller.addClipEffect(clipRoot.clipId, dropData)
+                if (proxy.seekOnDrop() && (proxy.position < clipRoot.modelStart || proxy.position > clipRoot.modelStart + clipRoot.clipDuration)) {
+                    // If timeline cursor is not inside clip, seek to drop position
+                    proxy.position = clipRoot.modelStart + drag.x / timeScale
+                }
             } else {
-                controller.copyClipEffect(clipRoot.clipId, dropSource);
+                controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
             dropSource = ''
             dropRow = -1
             drag.acceptProposedAction
+            root.regainFocus(mapToItem(root, drag.x, drag.y))
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
         }
         onExited: {
-            endDrag()
+            root.endDrag()
         }
     }
     MouseArea {
@@ -346,7 +360,7 @@ Rectangle {
         }
 
         onExited: {
-            endDrag()
+            root.endDrag()
             if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
                 timeline.showToolTip()
             }
@@ -377,7 +391,7 @@ Rectangle {
             color: 'transparent'
             id: itemBorder
             anchors.fill: parent
-            border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+            border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : clipRoot.selected ? root.selectionColor : grouped ? root.groupColor : borderColor
             border.width: isGrabbed ? 8 : 2
         }
 
@@ -423,6 +437,11 @@ Rectangle {
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
                             controller.requestMixSelection(clipRoot.clipId);
+                        }
+                        onEntered: {
+                            var text = i18n("Mix duration: %1, Cut at: %2".arg(timeline.simplifiedTC(clipRoot.mixDuration))
+                            .arg(timeline.simplifiedTC(clipRoot.mixDuration - clipRoot.mixCut)))
+                            timeline.showToolTip(text)
                         }
                     }
                     Rectangle {
@@ -480,6 +499,13 @@ Rectangle {
                                 if (currentFrame != previousMix) {
                                     parent.width = currentFrame * clipRoot.timeScale
                                     sizeChanged = true
+                                    if (currentFrame > previousMix) {
+                                        timeline.showToolTip(i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
+                                    } else {
+                                        timeline.showToolTip(i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
+                                    }
+                                } else {
+                                    timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
                                 }
                                 if (x < mixCutPos.x) {
                                     // This will delete the mix
@@ -492,13 +518,17 @@ Rectangle {
                         onEntered: {
                             if (!pressed) {
                                 mixOut.color = 'red'
-                                timeline.showToolTip(i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration)))
+                                timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
                             }
                         }
                         onExited: {
                             if (!pressed) {
                                 mixOut.color = itemBorder.border.color
-                                timeline.showToolTip()
+                                if (!mouseArea.containsMouse) {
+                                    timeline.showToolTip()
+                                } else {
+                                    clipRoot.showClipInfo()
+                                }
                             }
                         }
                         Rectangle {
@@ -577,7 +607,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0 && !controller.hasClipEndMix(clipRoot.clipId))
-                enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                enabled: !isLocked && (pressed || clipRoot.width > 3 * width) && clipRoot.clipId == dragProxy.draggedItem
                 hoverEnabled: true
                 drag.target: trimInMouseArea
                 drag.axis: Drag.XAxis
@@ -610,7 +640,7 @@ Rectangle {
                         if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
-                            endDrag()
+                            root.endDrag()
                         }
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
@@ -713,7 +743,7 @@ Rectangle {
                 width: root.baseUnit / 2
                 hoverEnabled: true
                 visible: root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
-                enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                enabled: !isLocked && (pressed || clipRoot.width > 3 * width) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
@@ -747,7 +777,7 @@ Rectangle {
                         if (!controlTrim && root.activeTool !== ProjectTool.RippleTool) {
                             updateDrag()
                         } else {
-                            endDrag()
+                            root.endDrag()
                         }
                     } else {
                         if (root.activeTool === ProjectTool.RippleTool) {
@@ -1123,7 +1153,7 @@ Rectangle {
                 }
             },
             State {
-                name: 'selected'
+                name: 'selectedClip'
                 when: clipRoot.selected === true
                 PropertyChanges {
                     target: clipRoot
@@ -1416,7 +1446,7 @@ Rectangle {
             height: container.height
             width: clipRoot.maxDuration * clipRoot.timeScale
             x: - (clipRoot.inPoint - slipOffset) * clipRoot.timeScale
-            visible: root.activeTool === ProjectTool.SlipTool && selected && clipRoot.maxDuration > 0 // don't show for endless clips
+            visible: root.activeTool === ProjectTool.SlipTool && clipRoot.selected && clipRoot.maxDuration > 0 // don't show for endless clips
             property int inPoint: clipRoot.inPoint
             property int outPoint: clipRoot.outPoint
             Rectangle {

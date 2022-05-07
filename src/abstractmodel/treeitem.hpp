@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TREEITEM_H
-#define TREEITEM_H
+#pragma once
 
 #include "definitions.h"
 #include <QList>
@@ -172,4 +171,3 @@ template <class T, class BinaryOperation> T TreeItem::accumulate_const(T init, B
     }
     return res;
 }
-#endif

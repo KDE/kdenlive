@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef TRANSITIONTREEMODEL_H
-#define TRANSITIONTREEMODEL_H
+#pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "assets/assetlist/model/assettreemodel.hpp"
@@ -27,5 +26,3 @@ public:
     void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) override;
 protected:
 };
-
-#endif

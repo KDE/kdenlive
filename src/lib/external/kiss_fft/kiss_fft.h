@@ -3,8 +3,7 @@
     SPDX-License-Identifier: BSD-3-Clause
 */
 
-#ifndef KISS_FFT_H
-#define KISS_FFT_H
+#pragma once
 
 #include <config-kdenlive.h>
 
@@ -116,6 +115,4 @@ void kiss_fft_stride(kiss_fft_cfg cfg, const kiss_fft_cpx *fin, kiss_fft_cpx *fo
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

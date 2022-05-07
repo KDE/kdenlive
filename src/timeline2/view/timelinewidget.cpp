@@ -430,10 +430,14 @@ void TimelineWidget::slotUngrabHack()
         // Reset menu position, necessary if user closes the menu without selecting any action
         rootObject()->setProperty("clickFrame", -1);
     });
-    if (quickWindow() && quickWindow()->mouseGrabberItem()) {
-        quickWindow()->mouseGrabberItem()->ungrabMouse();
-        QPoint mousePos = mapFromGlobal(QCursor::pos());
-        QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));
+    if (quickWindow()) {
+        if (quickWindow()->mouseGrabberItem()) {
+            quickWindow()->mouseGrabberItem()->ungrabMouse();
+            QPoint mousePos = mapFromGlobal(QCursor::pos());
+            QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));
+        } else {
+            QMetaObject::invokeMethod(rootObject(), "endDrag", Qt::DirectConnection);
+        }
     }
 }
 
@@ -497,7 +501,6 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
 
 void TimelineWidget::regainFocus()
 {
-    qDebug()<<"=== REG FOCUS: "<<underMouse();
     if (underMouse() && rootObject()) {
         QPoint mousePos = mapFromGlobal(QCursor::pos());
         QMetaObject::invokeMethod(rootObject(), "regainFocus", Qt::DirectConnection, Q_ARG(QVariant, mousePos));

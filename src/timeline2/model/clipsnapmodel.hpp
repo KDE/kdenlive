@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLIPSNAPMODEL_H
-#define CLIPSNAPMODEL_H
+#pragma once
 
 #include "snapmodel.hpp"
 
@@ -54,5 +53,3 @@ private:
     void removeAllSnaps();
 
 };
-
-#endif

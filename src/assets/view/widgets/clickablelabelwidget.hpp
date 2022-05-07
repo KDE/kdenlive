@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef CLICKABLEPARAMWIDGET_H
-#define CLICKABLEPARAMWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include <QWidget>
@@ -46,5 +45,3 @@ private:
     QToolButton *m_tb;
     QString m_displayName;
 };
-
-#endif

@@ -142,6 +142,30 @@ const QList <QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
     return pathList;
 }
 
+QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos, bool volatileOnly) const
+{
+    if (hash.isEmpty()) {
+        return QImage();
+    }
+    hash.append(QString("#%1.jpg").arg(pos));
+    QMutexLocker locker(&m_mutex);
+    if (m_volatileCache->contains(hash)) {
+        return m_volatileCache->get(hash);
+    }
+    if (volatileOnly) {
+        return QImage();
+    }
+    bool ok = false;
+    QDir thumbFolder = getDir(false, &ok);
+    if (ok && thumbFolder.exists(hash)) {
+        if(m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+            m_storedOnDisk[binId].push_back(pos);
+        }
+        return QImage(thumbFolder.absoluteFilePath(hash));
+    }
+    return QImage();
+}
+
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
     QMutexLocker locker(&m_mutex);
@@ -155,7 +179,9 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
     }
     QDir thumbFolder = getDir(false, &ok);
     if (ok && thumbFolder.exists(key)) {
-        m_storedOnDisk[binId].push_back(pos);
+        if(m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+            m_storedOnDisk[binId].push_back(pos);
+        }
         return QImage(thumbFolder.absoluteFilePath(key));
     }
     return QImage();
@@ -175,7 +201,9 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
                 qDebug() << ".............\n!!!!!!!! ERROR SAVING THUMB in: "<<thumbFolder.absoluteFilePath(key);
             }
-            m_storedOnDisk[binId].push_back(pos);
+            if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+                m_storedOnDisk[binId].push_back(pos);
+            }
             // if volatile cache also contains this entry, update it
             if (m_volatileCache->contains(key)) {
                 m_volatileCache->remove(key);
@@ -190,19 +218,30 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
     }
 }
 
-void ThumbnailCache::saveCachedThumbs(const QStringList &keys)
+void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vector<int>> &keys)
 {
     bool ok;
     QDir thumbFolder = getDir(false, &ok);
     if (!ok) {
         return;
     }
-    for (const QString &key : keys) {
-        if (!thumbFolder.exists(key) && m_volatileCache->contains(key)) {
-            QImage img = m_volatileCache->get(key);
-            if (!img.save(thumbFolder.absoluteFilePath(key))) {
-                qDebug() << "// Error writing thumbnails to " << thumbFolder.absolutePath();
-                break;
+    for (auto &key : keys) {
+        bool ok;
+        for(const auto& pos: key.second) {
+            if (m_storedOnDisk.find(key.first) == m_storedOnDisk.end() || std::find(m_storedOnDisk[key.first].begin(), m_storedOnDisk[key.first].end(), pos) == m_storedOnDisk[key.first].end()) {
+                const QString thumbKey = getKey(key.first, pos, &ok);
+                if (!ok) {
+                    continue;
+                }
+                if (!thumbFolder.exists(thumbKey) && m_volatileCache->contains(thumbKey)) {
+                    QImage img = m_volatileCache->get(thumbKey);
+                    if (!img.save(thumbFolder.absoluteFilePath(thumbKey))) {
+                        qDebug() << "// Error writing thumbnails to " << thumbFolder.absolutePath();
+                        break;
+                    } else {
+                        m_storedOnDisk[key.first].push_back(pos);
+                    }
+                }
             }
         }
     }
@@ -226,7 +265,7 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
     QDir thumbFolder = getDir(false, &ok);
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
-        for (int pos : m_storedOnDisk.at(binId)) {
+        for (const auto &pos : m_storedOnDisk.at(binId)) {
             if (pos >= 0) {
                 auto key = getKey(binId, pos, &ok);
                 if (ok) {

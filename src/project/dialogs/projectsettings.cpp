@@ -110,7 +110,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     QString currentProf;
     if (doc) {
         currentProf = pCore->getCurrentProfile()->path();
-        enable_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
+        enable_proxy->setChecked(doc->useProxy());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));

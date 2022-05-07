@@ -5,11 +5,10 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef ROTOHELPER_H
-#define ROTOHELPER_H
+#pragma once
 
 #include "assets/keyframes/model/keyframemonitorhelper.hpp"
-#include "bpoint.h"
+#include "../../../bpoint.h"
 #include <QPersistentModelIndex>
 #include <QVariant>
 
@@ -44,5 +43,3 @@ public:
 private slots:
     void slotUpdateFromMonitorData(const QVariantList &v) override;
 };
-
-#endif

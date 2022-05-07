@@ -5,8 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef PROJECTSUBCLIP_H
-#define PROJECTSUBCLIP_H
+#pragma once
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
@@ -86,5 +85,3 @@ private:
 private slots:
     void gotThumb(int pos, const QImage &img);
 };
-
-#endif

@@ -4,8 +4,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef KIS_CUBIC_CURVE_H
-#define KIS_CUBIC_CURVE_H
+#pragma once
 
 #include <QList>
 #include <QVector>
@@ -62,5 +61,3 @@ private:
     struct Private;
     Private *const d; // NOLINT
 };
-
-#endif

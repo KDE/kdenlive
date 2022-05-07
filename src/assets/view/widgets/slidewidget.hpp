@@ -3,8 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#ifndef SLIDEWIDGET_H
-#define SLIDEWIDGET_H
+#pragma once
 
 #include "abstractparamwidget.hpp"
 #include "ui_wipeval_ui.h"
@@ -55,5 +54,3 @@ signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(const QString &);
 };
-
-#endif
