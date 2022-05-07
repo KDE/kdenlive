@@ -107,8 +107,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 	QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.simplified();
-	    qDebug()<<"Turn: "<<turn;
-	    qDebug()<<"Line: "<<line<<"\n";
+	    //qDebug()<<"Turn: "<<turn;
+	    //qDebug()<<"Line: "<<line<<"\n";
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
@@ -137,7 +137,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
-		    qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
+		    //qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
                 } else {
                     qDebug()<<"===== INVALID SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
                 }
