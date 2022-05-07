@@ -169,6 +169,7 @@ void TranscodeTask::run()
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     } else {
@@ -213,6 +214,7 @@ void TranscodeTask::run()
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     }

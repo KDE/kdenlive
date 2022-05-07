@@ -10,12 +10,25 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "kdenlivesettings.h"
+
+#ifdef Q_OS_UNIX
+// on Unix systems we can use setpriority() to make proxy-rendering tasks lower
+// priority
+#include "sys/resource.h"
+#endif
+
+#ifdef Q_OS_WIN
+// on Windows we can use SetPriorityClass() instead
+#include <windows.h>
+#endif
 
 #include <QElapsedTimer>
 #include <QFile>
 #include <QImage>
 #include <QList>
 #include <QMutex>
+#include <QProcess>
 #include <QRgb>
 #include <QString>
 #include <QThreadPool>
@@ -81,4 +94,30 @@ bool AbstractTask::operator==(const AbstractTask &b)
 void AbstractTask::run()
 {
     qDebug()<<"============0\n\nABSTRACT TASKSTARTRING\n\n==================";
+}
+
+// Background tasks should not slow down the main UI too much. Unless the user
+// has opted out, lower the priority of proxy and transcode tasks.
+void AbstractTask::setPreferredPriority(qint64 pid) {
+    if (!KdenliveSettings::nice_tasks()) {
+        qDebug() << "Not changing process priority for PID" << pid;
+        return;
+    }
+#ifdef Q_OS_UNIX
+    qDebug() << "Lowering task priority for PID" << pid;
+    int err = setpriority(PRIO_PROCESS, pid, 10);
+    if (err != 0) {
+        qWarning() << "Failed to lower task priority for PID" << pid << " - error" << strerror(errno);
+    }
+#endif
+#ifdef Q_OS_WIN
+    HANDLE processHandle = OpenProcess(PROCESS_SET_INFORMATION, FALSE, pid);
+    if (processHandle) {
+        qDebug() << "Lowering priority for PID" << pid;
+        SetPriorityClass(processHandle, BELOW_NORMAL_PRIORITY_CLASS);
+        CloseHandle(processHandle);
+    } else {
+        qWarning() << "Could not get HANDLE for PID" << pid;
+    }
+#endif
 }

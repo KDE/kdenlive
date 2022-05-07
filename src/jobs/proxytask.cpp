@@ -181,6 +181,7 @@ void ProxyTask::run()
         QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
         delete playlist;
@@ -276,7 +277,7 @@ void ProxyTask::run()
             QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
                                          QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
                                          QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
-                                         
+
             // Check if the transcoded file uses a cuda supported codec (we don't check for specific cards so not 100% exact)
             bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
             if (proxyParams.contains(QStringLiteral("scale_npp")) && !KdenliveSettings::nvScalingEnabled()) {
@@ -343,6 +344,7 @@ void ProxyTask::run()
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
         QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     }
