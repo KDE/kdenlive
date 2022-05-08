@@ -643,6 +643,7 @@ void MainWindow::init(const QString &mltPath)
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("export_guides")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_in")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
@@ -1816,6 +1817,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("export_guides"), i18n("Export Guides"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-properties")));
 
     QAction *lockGuides = addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     lockGuides->setCheckable(true);
@@ -2774,6 +2776,13 @@ void MainWindow::slotUnselectAllTracks()
 void MainWindow::slotEditGuide()
 {
     getCurrentTimeline()->controller()->editGuide();
+}
+
+void MainWindow::slotExportGuides()
+{
+    pCore->currentDoc()->getGuideModel()->exportGuidesGui(
+        this, GenTime(getMainTimeline()->controller()->duration() - 1, pCore->getCurrentFps())
+    );
 }
 
 void MainWindow::slotLockGuides(bool lock)

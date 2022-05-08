@@ -434,6 +434,7 @@ private slots:
     void slotRemoveAllSpace();
     void slotAddGuide();
     void slotEditGuide();
+    void slotExportGuides();
     void slotLockGuides(bool lock);
     void slotDeleteGuide();
     void slotDeleteAllGuides();

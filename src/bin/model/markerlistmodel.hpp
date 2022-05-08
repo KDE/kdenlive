@@ -131,6 +131,7 @@ public:
        @return true if dialog was accepted and modification successful
      */
     bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
+    void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

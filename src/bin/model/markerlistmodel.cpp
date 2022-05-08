@@ -8,6 +8,7 @@
 #include "bin/projectclip.h"
 #include "core.h"
 #include "dialogs/markerdialog.h"
+#include "dialogs/exportguidesdialog.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -650,4 +651,10 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
         return addMarker(marker.time(), marker.comment(), marker.markerType());
     }
     return false;
+}
+
+void MarkerListModel::exportGuidesGui(QWidget *parent, GenTime projectDuration) const
+{
+    QScopedPointer<ExportGuidesDialog> dialog(new ExportGuidesDialog(this, projectDuration, parent));
+    dialog->exec();
 }
