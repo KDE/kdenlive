@@ -1,5 +1,10 @@
 <!DOCTYPE kpartgui>
 <transition tag="mix" id="mix" type="audio">
     <name>Audio Mix</name>
+    <description>Applies a stationary transition between the current and next frames.</description>
+    <author>Dan Dennedy</author>
+    <parameter type="bool" name="reverse" max="1" min="0" default="0">
+        <name>Reverse</name>
+    </parameter>
 </transition>
 
