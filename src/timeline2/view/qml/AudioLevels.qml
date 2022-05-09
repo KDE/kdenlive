@@ -4,6 +4,7 @@
 */
 
 import QtQuick 2.11
+import QtQuick.Controls 2.4
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.11
 
@@ -18,11 +19,14 @@ Item {
         if (recState == 1) {
             // Recording
             recbutton.color = 'orange'
+            recbutton.ToolTip.text = i18n("Stop")
         } else if (recState == 2) {
             // Paused
             recbutton.color = 'white'
+            recbutton.ToolTip.text = i18n("Paused")
         } else {
             recbutton.color = 'darkred'
+            recbutton.ToolTip.text = i18n("Record")
         }
     }
     RowLayout {
@@ -35,7 +39,12 @@ Item {
             radius: root.baseUnit * .75
             color: trackHeadRoot.isLocked ? 'grey' : 'darkred'
             border.color: 'black'
+            ToolTip.visible: buttonArea.containsMouse
+            ToolTip.delay: 1000
+            ToolTip.timeout: 5000
+            ToolTip.text: i18n("Record")
             MouseArea {
+                id: buttonArea
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -57,6 +66,10 @@ Item {
             id: levelsContainer
             width: recContainer.width - recbutton.width - 6
             height: recbutton.height
+            ToolTip.text: i18n("Mic level")
+            ToolTip.visible: levelArea.containsMouse
+            ToolTip.delay: 1000
+            ToolTip.timeout: 5000
             color: Qt.lighter(activePalette.base)
             Repeater {
                 model: audiorec.levels.length === 0 ? 2 : audiorec.levels.length
@@ -67,12 +80,14 @@ Item {
                         anchors.fill: parent
                         anchors.margins: 0.5
                         start: Qt.point(0,0)
-                        end: Qt.point(recContainer.width, 0)
+                        end: Qt.point(levelsContainer.width, 0)
                         gradient: Gradient {
-                            GradientStop { position: 0.0; color: "green" }
-                            GradientStop { position: 0.6; color: "greenyellow" }
-                            GradientStop { position: 0.7; color: "yellow" }
-                            GradientStop { position: 0.9; color: "gold" }
+                            GradientStop { position: 0.0; color: "darkgreen" }
+                            GradientStop { position: 0.69; color: "darkgreen" }
+                            GradientStop { position: 0.7; color: "green" }
+                            GradientStop { position: 0.84; color: "green" }
+                            GradientStop { position: 0.85; color: "yellow" }
+                            GradientStop { position: 0.99; color: "yellow" }
                             GradientStop { position: 1.0; color: "red" }
                         }
                     }
@@ -90,7 +105,8 @@ Item {
                     property double currentLevel: audiorec.levels.length <= 0 ? 0 : audiorec.levels[index]
                     property double peak: 0
                     Rectangle {
-                        color: "#cc000000"
+                        color: activePalette.base
+                        opacity: 0.9
                         width: parent.width * (1.0 - currentLevel)
                         anchors.right: parent.right
                         height: parent.height / levelRepeater.count
@@ -129,6 +145,12 @@ Item {
                 color: "#00000000"
                 border.color: "#000000"
                 border.width: 1
+            }
+            MouseArea {
+                id: levelArea
+                hoverEnabled: true
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
             }
         }
     }

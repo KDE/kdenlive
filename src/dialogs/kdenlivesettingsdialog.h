@@ -88,8 +88,6 @@ private slots:
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
     void loadExternalProxyProfiles();
-    void slotUpdateAudioCaptureChannels(int index);
-    void slotUpdateAudioCaptureSampleRate(int index);
     void slotParseVoskDictionaries();
     void getDictionary(const QUrl &sourceUrl = QUrl());
     void removeDictionary();
@@ -178,4 +176,6 @@ signals:
     void updateMonitorBg();
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
+    /** @brief audio volume or rec channels changed, update audio monitor view */
+    void resetAudioMonitoring();
 };

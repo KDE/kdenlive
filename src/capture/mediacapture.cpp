@@ -185,6 +185,7 @@ void MediaCapture::switchMonitorState(bool run)
             m_levels = level;
             emit levelsChanged();
         });
+        m_audioInput->setVolume(KdenliveSettings::audiocapturevolume()/100.0);
         m_audioInfo->open(QIODevice::WriteOnly);
         m_audioInput->start(m_audioInfo.data());
     } else {
@@ -194,6 +195,11 @@ void MediaCapture::switchMonitorState(bool run)
         }
         m_audioInput.reset();
     }
+}
+
+bool MediaCapture::isMonitoring() const
+{
+    return m_audioInput != nullptr;
 }
 
 MediaCapture::~MediaCapture() = default;

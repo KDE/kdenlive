@@ -1029,6 +1029,14 @@ MediaCapture *Core::getAudioDevice()
     return m_capture.get();
 }
 
+void Core::resetAudioMonitoring()
+{
+    if (m_capture && m_capture->isMonitoring()) {
+        m_capture->switchMonitorState(false);
+        m_capture->switchMonitorState(true);
+    }
+}
+
 QString Core::getProjectFolderName()
 {
     if (currentDoc()) {

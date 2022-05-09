@@ -67,6 +67,8 @@ public:
     Q_INVOKABLE QVector<qreal> levels() const;
     Q_INVOKABLE int recordState() const;
     Q_INVOKABLE void switchMonitorState(bool run);
+    /** @brief Returns true is audio monitoring is currently in progress **/
+    bool isMonitoring() const;
 
 public slots:
     void displayErrorMessage();

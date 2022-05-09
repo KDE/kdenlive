@@ -399,9 +399,9 @@ void KdenliveSettingsDialog::initCapturePage()
 
     int channelsIndex = m_configCapture.audiocapturechannels->findData(KdenliveSettings::audiocapturechannels());
     m_configCapture.audiocapturechannels->setCurrentIndex(qMax(channelsIndex, 0));
-    connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateAudioCaptureChannels);
-
+    connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
+        updateButtons();
+    });
     // audio capture sample rate
     m_configCapture.audiocapturesamplerate->clear();
     m_configCapture.audiocapturesamplerate->addItem(i18n("44100 Hz"), 44100);
@@ -409,8 +409,9 @@ void KdenliveSettingsDialog::initCapturePage()
 
     int sampleRateIndex = m_configCapture.audiocapturesamplerate->findData(KdenliveSettings::audiocapturesamplerate());
     m_configCapture.audiocapturesamplerate->setCurrentIndex(qMax(sampleRateIndex, 0));
-    connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate);
+    connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
+        updateButtons();
+    });
 
     m_configCapture.labelNoAudioDevices->setVisible(false);
 
@@ -1038,6 +1039,14 @@ void KdenliveSettingsDialog::updateSettings()
         emit updateFullScreenGrab();
     }
 
+    // Check audio capture changes
+    if (KdenliveSettings::audiocapturechannels() != m_configCapture.audiocapturechannels->currentData().toInt() || KdenliveSettings::audiocapturevolume() != m_configCapture.kcfg_audiocapturevolume->value() || KdenliveSettings::audiocapturesamplerate() != m_configCapture.audiocapturesamplerate->currentData().toInt()) {
+        KdenliveSettings::setAudiocapturechannels(m_configCapture.audiocapturechannels->currentData().toInt());
+        KdenliveSettings::setAudiocapturevolume(m_configCapture.kcfg_audiocapturevolume->value());
+        KdenliveSettings::setAudiocapturesamplerate(m_configCapture.audiocapturesamplerate->currentData().toInt());
+        emit resetAudioMonitoring();
+    }
+
     // Check encoding profiles
     // FFmpeg
     QString string = m_v4lProfiles->currentParams();
@@ -1431,6 +1440,12 @@ bool KdenliveSettingsDialog::hasChanged()
     if (m_modified || m_shuttleModified) {
         return true;
     }
+    if (KdenliveSettings::audiocapturechannels() != m_configCapture.audiocapturechannels->currentData().toInt()) {
+        return true;
+    }
+    if (KdenliveSettings::audiocapturesamplerate() != m_configCapture.audiocapturesamplerate->currentData().toInt()) {
+        return true;
+    }
     return KConfigDialog::hasChanged();
 }
 
@@ -1633,16 +1648,6 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     KdenliveSettings::setShuttledevicepaths(devPathList);
     QTimer::singleShot(200, this, [&](){ slotUpdateShuttleDevice(); });
 #endif // USE_JOGSHUTTLE
-}
-
-void KdenliveSettingsDialog::slotUpdateAudioCaptureChannels(int index)
-{
-    KdenliveSettings::setAudiocapturechannels(m_configCapture.audiocapturechannels->itemData(index).toInt());
-}
-
-void KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate(int index)
-{
-    KdenliveSettings::setAudiocapturesamplerate(m_configCapture.audiocapturesamplerate->itemData(index).toInt());
 }
 
 void KdenliveSettingsDialog::initSpeechPage()

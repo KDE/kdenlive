@@ -345,6 +345,8 @@ public slots:
     void addBin(const QString &id = QString());
     /** @brief Transcode a bin clip video. */
     void transcodeFriendlyFile(const QString &binId, bool checkProfile);
+    /** @brief Reset audio  monitoring volume and channels. */
+    void resetAudioMonitoring();
 
 signals:
     void coreIsReady();

@@ -2448,6 +2448,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, [&]() {
         pCore->monitorManager()->updateBgColor();
     });
+    connect(dialog, &KdenliveSettingsDialog::resetAudioMonitoring, pCore.get(), &Core::resetAudioMonitoring);
 
     dialog->show();
     if (page != -1) {
