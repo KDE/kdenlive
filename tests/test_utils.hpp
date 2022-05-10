@@ -85,3 +85,5 @@ using namespace fakeit;
 QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20, bool limited = true);
 
 QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 10);
+
+QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 10);
