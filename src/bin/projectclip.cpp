@@ -1624,7 +1624,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
         return QString();
     }
     bool ok = false;
-    QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
+    QDir thumbFolder = pCore->projectManager()->cacheDir(true, &ok);
     if (!ok) {
         return QString();
     }
