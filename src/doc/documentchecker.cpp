@@ -1595,7 +1595,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
         }
     }
     for (const QString &fontelement : fonts) {
-        if (m_safeFonts.contains(fontelement)) {
+        if (m_safeFonts.contains(fontelement) || m_missingFonts.contains(fontelement)) {
             continue;
         }
         QFont f(fontelement);
