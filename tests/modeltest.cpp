@@ -115,6 +115,85 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     pCore->m_projectManager = nullptr;
 }
 
+TEST_CASE("Adding multiple A/V tracks", "[TrackModel]")
+{
+
+    auto binModel = pCore->projectItemModel();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    TimelineItemModel tim(&profile_model, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    SECTION("Check AV track ordering")
+    {
+        // start state:
+        // * V2 (position 3)
+        // * V1
+        // * A1
+        // * A2 (position 0)
+        int a1, a2, v1, v2;
+        REQUIRE(timeline->requestTrackInsertion(0, a2, QString(), true));
+        REQUIRE(timeline->requestTrackInsertion(1, a1, QString(), true));
+        REQUIRE(timeline->requestTrackInsertion(2, v1, QString(), false));
+        REQUIRE(timeline->requestTrackInsertion(3, v2, QString(), false));
+
+        // when we add 3 AV tracks above V1, we should have:
+        // * V5 (position 9)
+        // * V4
+        // * V3
+        // * V2
+        // * V1
+        // * A1
+        // * A2
+        // * A3
+        // * A4
+        // * A5 (position 0)
+        QString trackName("New track");
+        REQUIRE(timeline->addTracksAtPosition(3, 3, trackName, false, true, false));
+        // but if the new tracks keep getting added at the same position 3, then we'll get
+        // * V2
+        // * V3
+        // * V1
+        // * V4
+        // * A4
+        // * V5
+        // * A5
+        // * A1
+        // * A3
+        // * A2
+        // (numbering doesn't look like this in the GUI)
+
+        REQUIRE(timeline->getTracksCount() == 10);
+
+        // first 5 tracks should be audio, and last 5 tracks should be video
+        auto it = timeline->m_allTracks.cbegin();
+        int position = 0;
+        while (it != timeline->m_allTracks.cend()) {
+            if (position < 5) {
+                CHECK((*it)->isAudioTrack());
+            } else {
+                CHECK(!(*it)->isAudioTrack());
+            }
+            it++;
+            position++;
+        }
+        // V1 track should be at index 5 (i.e. we shouldn't have inserted any video
+        // tracks before it)
+        REQUIRE(timeline->getTrackIndexFromPosition(5) == v1);
+    }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
+
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 {
 
@@ -2065,8 +2144,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         REQUIRE(timeline->requestItemResize(compo, 17, true) == 17);
         check(17);
     }
-    
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
-

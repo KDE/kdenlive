@@ -2726,7 +2726,7 @@ void MainWindow::slotNormalizeAudioChannel()
 void MainWindow::slotInsertTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    getCurrentTimeline()->controller()->addTrack(-1);
+    getCurrentTimeline()->controller()->beginAddTrack(-1);
 }
 
 void MainWindow::slotDeleteTrack()

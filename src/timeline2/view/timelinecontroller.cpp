@@ -688,44 +688,19 @@ bool TimelineController::showWaveforms() const
     return KdenliveSettings::audiothumbnails();
 }
 
-void TimelineController::addTrack(int tid)
+void TimelineController::beginAddTrack(int tid)
 {
     if (tid == -1) {
         tid = m_activeTrack;
     }
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
-        bool audioRecTrack = d->addRecTrack();
-        bool addAVTrack = d->addAVTrack();
-        int tracksCount = d->tracksCount();
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
-        bool result = true;
-        for (int ix = 0; ix < tracksCount; ++ix) {
-            int newTid;
-            result = m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack(), undo, redo);
-            if (result) {
-                if (addAVTrack) {
-                    int newTid2;
-                    int mirrorPos = 0;
-                    int mirrorId = m_model->getMirrorAudioTrackId(newTid);
-                    if (mirrorId > -1) {
-                        mirrorPos = m_model->getTrackMltIndex(mirrorId);
-                    }
-                    result = m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true, undo, redo);
-                }
-                if (audioRecTrack) {
-                    m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
-                }
-            } else {
-                break;
-            }
-        }
-        if (result) {
-            pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18nc("@action", "Insert Tracks") : i18nc("@action", "Insert Track"));
-        } else {
+        auto trackName = d->trackName();
+        bool result = m_model->addTracksAtPosition(d->selectedTrackPosition(),
+                             d->tracksCount(), trackName,
+                             d->addAudioTrack(), d->addAVTrack(), d->addRecTrack());
+        if (!result) {
             pCore->displayMessage(i18n("Could not insert track"), ErrorMessage, 500);
-            undo();
         }
     }
 }

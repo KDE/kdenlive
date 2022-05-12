@@ -272,9 +272,9 @@ public:
     /** @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
-    /** @brief Insert a timeline track
+    /** @brief Invoke the GUI to add new timeline tracks
      */
-    Q_INVOKABLE void addTrack(int tid);
+    Q_INVOKABLE void beginAddTrack(int tid);
     /** @brief Remove multiple(or single) timeline tracks
      */
     Q_INVOKABLE void deleteMultipleTracks(int tid);
