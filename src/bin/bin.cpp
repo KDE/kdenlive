@@ -4500,12 +4500,12 @@ void Bin::reloadAllProducers(bool reloadThumbs)
             }
         }
         if (!xml.isNull()) {
-            clip->setClipStatus(FileStatus::StatusWaiting);
-            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true);
             clip->discardAudioThumb();
             if (reloadThumbs) {
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
+            clip->setClipStatus(FileStatus::StatusWaiting);
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true, {AbstractTask::TRANSCODEJOB,AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB});
             ClipLoadTask::start({ObjectType::BinClip,clip->clipId().toInt()}, xml, false, -1, -1, this);
         }
     }

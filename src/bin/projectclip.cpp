@@ -1258,12 +1258,6 @@ double ProjectClip::getOriginalFps() const
     return originalFps();
 }
 
-bool ProjectClip::hasProxy() const
-{
-    QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    return proxy.size() > 2;
-}
-
 void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool refreshPanel)
 {
     qDebug() << "// SETTING CLIP PROPERTIES: " << properties;

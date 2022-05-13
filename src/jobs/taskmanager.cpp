@@ -38,9 +38,9 @@ void TaskManager::updateConcurrency()
     m_transcodePool.setMaxThreadCount(KdenliveSettings::proxythreads());
 }
 
-void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete)
+void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
-    qDebug()<<"========== READY FOR TASK DELETION ON: "<<owner.second;
+    qDebug()<<"========== READY FOR TASK DISCARD ON: "<<owner.second;
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.second) == m_taskList.end()) {
@@ -52,6 +52,10 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
     for (AbstractTask* t : taskList) {
         if ((type == AbstractTask::NOJOBTYPE || type == t->m_type) && t->m_progress < 100) {
             // If so, then just add ourselves to be notified upon completion.
+            if (exceptions.contains(t->m_type)) {
+                // Don't abort
+                continue;
+            }
             t->cancelJob(softDelete);
             qDebug()<<"========== DELETING JOB!!!!";
             // Block until the task is finished
@@ -120,19 +124,23 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
 }
 
 
-void TaskManager::slotCancelJobs()
+void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions)
 {
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     for (const auto &task : m_taskList) {
         for (AbstractTask* t : task.second) {
-            // If so, then just add ourselves to be notified upon completion.
-            t->cancelJob();
+            if (!exceptions.contains(t->m_type)) {
+                // If so, then just add ourselves to be notified upon completion.
+                t->cancelJob();
+            }
         }
     }
     m_tasksListLock.unlock();
-    m_taskPool.waitForDone();
-    m_transcodePool.waitForDone();
+    if (exceptions.isEmpty()) {
+        m_taskPool.waitForDone();
+        m_transcodePool.waitForDone();
+    }
     updateJobCount();
 }
 

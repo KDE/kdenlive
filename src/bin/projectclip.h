@@ -147,9 +147,6 @@ public:
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
-    /** @brief Returns true if we are using a proxy for this clip. */
-    bool hasProxy() const;
-
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
     bool audioThumbCreated() const;

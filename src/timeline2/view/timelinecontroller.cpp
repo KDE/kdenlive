@@ -1292,13 +1292,14 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
 
 void TimelineController::addAsset(const QVariantMap &data)
 {
-    QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
     const auto selection = m_model->getCurrentSelection();
-    bool audioEffect = EffectsRepository::get()->isAudioEffect(effect);
-    int affectedClips = 0;
-    int cid = -1;
     if (!selection.empty()) {
         QList<int> effectSelection;
+        int affectedClips = 0;
+        int cid = -1;
+        QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
+        bool audioEffect = EffectsRepository::get()->isAudioEffect(effect);
+
         for (int id : selection) {
             if (m_model->isClip(id) && audioEffect == m_model->m_allClips.at(id)->isAudioOnly()) {
                 effectSelection << id;

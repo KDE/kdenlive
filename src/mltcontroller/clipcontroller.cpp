@@ -178,12 +178,14 @@ void ClipController::getInfoForProducer()
             proxy.prepend(pCore->currentDoc()->documentRoot());
             m_properties->set("kdenlive:proxy", proxy.toUtf8().constData());
         }
-        // This is a proxy producer, read original url from kdenlive property
-        path = m_properties->get("kdenlive:originalurl");
-        if (QFileInfo(path).isRelative()) {
-            path.prepend(pCore->currentDoc()->documentRoot());
+        if (proxy == path) {
+            // This is a proxy producer, read original url from kdenlive property
+            path = m_properties->get("kdenlive:originalurl");
+            if (QFileInfo(path).isRelative()) {
+                path.prepend(pCore->currentDoc()->documentRoot());
+            }
+            m_usesProxy = true;
         }
-        m_usesProxy = true;
     } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
                    path != QLatin1String("<producer>")) {
         path.prepend(pCore->currentDoc()->documentRoot());
@@ -336,7 +338,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     Mlt::Properties passProperties;
     // Keep track of necessary properties
     QString proxy = producer->get("kdenlive:proxy");
-    if (proxy.length() > 2) {
+    if (proxy.length() > 2 && producer->get("resource") == proxy) {
         // This is a proxy producer, read original url from kdenlive property
         m_usesProxy = true;
     } else {
@@ -1021,4 +1023,11 @@ const QString ClipController::getOriginalUrl()
         path.prepend(pCore->currentDoc()->documentRoot());
     }
     return path;
+}
+
+bool ClipController::hasProxy() const
+{
+    QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
+    //qDebug()<<"::: PROXY: "<<proxy<<" = "<<clipUrl();
+    return proxy.size() > 2 && proxy == clipUrl();
 }
