@@ -1328,6 +1328,17 @@ void TimelineController::showTrackAsset(int trackId)
     emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(), false);
 }
 
+void TimelineController::adjustTrackHeight(int trackId, int height)
+{
+    if (trackId > -1) {
+        m_model->getTrackById(trackId)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(height));
+        m_model->setTrackProperty(trackId, "kdenlive:collapsed", QStringLiteral("0"));
+        QModelIndex modelStart = m_model->makeTrackIndexFromID(trackId);
+        emit m_model->dataChanged(modelStart, modelStart, {TimelineModel::HeightRole});
+        return;
+    }
+}
+
 void TimelineController::adjustAllTrackHeight(int trackId, int height)
 {
     bool isAudio = m_model->getTrackById_const(trackId)->isAudioTrack();

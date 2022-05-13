@@ -337,6 +337,7 @@ public:
     Q_INVOKABLE void showTrackAsset(int trackId);
     /** @brief Adjust height of all similar (audio or video) tracks
     */
+    Q_INVOKABLE void adjustTrackHeight(int trackId, int height);
     Q_INVOKABLE void adjustAllTrackHeight(int trackId, int height);
     Q_INVOKABLE void collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight);
 

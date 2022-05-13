@@ -36,6 +36,13 @@ Rectangle {
     onIsLockedChanged: {
         flashLock.restart();
     }
+    
+    onShowAudioRecordChanged: {
+        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + resizer.height) {
+            // Ensure trackheight is large enough to have the vu-meter visible
+            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + resizer.height)
+        }
+    }
 
     color: getTrackColor(isAudio, true)
     //border.color: selected? 'red' : 'transparent'
@@ -516,11 +523,11 @@ Rectangle {
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
-            height: showAudioRecord ? root.collapsedHeight : 0
+            height: showAudioRecord ? root.collapsedHeight - 4 : 0
             Loader {
                 id: audioVuMeter
                 anchors.fill: parent
-                visible: showAudioRecord && (trackHeadRoot.height >= 2 * muteButton.height + resizer.height)
+                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + resizer.height)
                 source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
                 onLoaded: item.trackId = trackId
                 onVisibleChanged: {
