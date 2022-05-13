@@ -4510,12 +4510,15 @@ void TimelineController::finishRecording(const QString &recordedFile)
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
         if (m_recordStart.second > 0) {
             // Limited space on track
-            int out = qMin(int(clip->frameDuration() - 1), m_recordStart.second - 1);
-            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(out);
+            m_recordStart.second = qMin(int(clip->frameDuration() - 1), m_recordStart.second);
+            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second);
             m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
+            m_recordStart.second++;
         } else {
+            m_recordStart.second = clip->frameDuration();
             m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);
         }
+        setPosition(m_recordStart.first + m_recordStart.second);
     };
     QString binId =
         ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
