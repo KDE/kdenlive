@@ -54,6 +54,11 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
     // QModelIndex makeIndex(int trackIndex, int clipIndex) const;
+
+    /** @brief Add multiple tracks at a specific position (used by the Add Track
+     * dialog). Returns true if successful, false otherwise. */
+    bool addTracksAtPosition(int position, int tracksCount, QString &trackName, bool addAudioTrack, bool addAVTrack, bool addRecTrack);
+
     /** @brief Creates an index based on the ID of the clip*/
     QModelIndex makeClipIndexFromID(int clipId) const override;
     /** @brief Creates an index based on the ID of the compoition*/
