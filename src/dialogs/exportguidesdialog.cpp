@@ -11,6 +11,7 @@
 
 #include "kdenlive_debug.h"
 #include <KMessageWidget>
+#include <QDateTimeEdit>
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QClipboard>
@@ -48,17 +49,26 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     ));
     messageWidget->setVisible(false);
 
-    updateContentByModel(defaultFormat, markerTypeComboBox->currentIndex() - 1);
+    updateContentByModel();
 
     QPushButton * btn = buttonBox->addButton(i18n("Copy to Clipboard"), QDialogButtonBox::ActionRole);
     btn->setIcon(QIcon::fromTheme("edit-copy"));
 
-    connect(markerTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int newIndex) {
-        updateContentByModel(formatEdit->text(), newIndex - 1);
+    connect(markerTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() {
+        updateContentByModel();
+    });
+
+    connect(offsetTimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int newIndex) {
+        offsetTime->setEnabled(newIndex != 0);
+        updateContentByModel();
+    });
+
+    connect(offsetTime, QOverload<const QTime &>::of(&QDateTimeEdit::timeChanged), this, [this]() {
+        updateContentByModel();
     });
 
     connect(formatEdit, &QLineEdit::textEdited, this, [this]() {
-        updateContentByModel(formatEdit->text(), markerTypeComboBox->currentIndex() - 1);
+        updateContentByModel();
     });
 
     connect(btn, &QAbstractButton::clicked, this, [this]() {
@@ -73,7 +83,38 @@ ExportGuidesDialog::~ExportGuidesDialog()
 {
 }
 
-void ExportGuidesDialog::updateContentByModel(const QString & format, int markerIndex) const
+double ExportGuidesDialog::offsetTimeMs() const
+{
+    switch (offsetTimeComboBox->currentIndex()) {
+    case 1: // Add
+        return offsetTime->time().msecsSinceStartOfDay();
+    case 2: // Subtract
+        return - offsetTime->time().msecsSinceStartOfDay();
+    case 0: // Disabled
+    default:
+        return 0;
+    }
+}
+
+void ExportGuidesDialog::updateContentByModel() const
+{
+    updateContentByModel(formatEdit->text(), markerTypeComboBox->currentIndex() - 1, offsetTimeMs());
+}
+
+QString chapterTimeStringFromMs(double timeMs) {
+    bool negative = timeMs < 0;
+    int totalSec = qAbs(timeMs / 1000);
+    int hour = totalSec / 3600;
+    int min = totalSec % 3600 / 60;
+    int sec = totalSec % 3600 % 60;
+    if (hour == 0) {
+        return QString::asprintf("%s%d:%02d", negative ? "-" : "", min, sec);
+    } else {
+        return QString::asprintf("%s%d:%02d:%02d", negative ? "-" : "", hour, min, sec);
+    }
+}
+
+void ExportGuidesDialog::updateContentByModel(const QString & format, int markerIndex, double offset) const
 {
     QStringList chapterTexts;
     QList<CommentedTime> markers(m_markerListModel->getAllMarkers(markerIndex));
@@ -81,26 +122,27 @@ void ExportGuidesDialog::updateContentByModel(const QString & format, int marker
     bool needShowInfoMsg = false;
 
     const int markerCount = markers.length();
+    const double currentFps = pCore->getCurrentFps();
     for (int i = 0; i < markers.length(); i++) {
         const CommentedTime &currentMarker = markers.at(i);
         const GenTime &nextGenTime = markerCount - 1 == i ? m_projectDuration : markers.at(i + 1).time();
 
         QString line(format);
-        QTime currentTime = QTime(0,0).addMSecs(currentMarker.time().ms());
-        QTime nextTime = QTime(0,0).addMSecs(nextGenTime.ms());
+        double currentTimeMs = currentMarker.time().ms() + offset;
+        double nextTimeMs = nextGenTime.ms() + offset;
 
-        if (i == 0 && needCheck && currentTime.msec() != 0) {
+        if (i == 0 && needCheck && !qFuzzyCompare(currentTimeMs, 0)) {
             needShowInfoMsg = true;
         }
 
-        if (needCheck && currentTime.secsTo(nextTime) < 10) {
+        if (needCheck && (nextTimeMs / 1000 - currentTimeMs / 1000) < 10) {
             needShowInfoMsg = true;
         }
 
         line.replace("{{index}}", QString::number(i + 1));
-        line.replace("{{timecode}}", currentTime.hour() <= 0 ? currentTime.toString("mm:ss") : currentTime.toString("h:mm:ss"));
-        line.replace("{{nexttimecode}}", nextTime.hour() <= 0 ? nextTime.toString("mm:ss") : nextTime.toString("h:mm:ss"));
-        line.replace("{{frame}}", QString::number(currentMarker.time().frames(pCore->getCurrentFps())));
+        line.replace("{{timecode}}", chapterTimeStringFromMs(currentTimeMs));
+        line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTimeMs));
+        line.replace("{{frame}}", QString::number(currentMarker.time().frames(currentFps)));
         line.replace("{{comment}}", currentMarker.comment());
         chapterTexts.append(line);
     }
