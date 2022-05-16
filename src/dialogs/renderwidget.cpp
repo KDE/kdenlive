@@ -171,6 +171,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         }
     });
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
+    m_view.optionsGroup->setMinimumWidth(m_view.optionsGroup->width() + m_view.optionsGroup->verticalScrollBar()->width());
     connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
 
     connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
@@ -335,7 +336,7 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
 QSize RenderWidget::sizeHint() const
 {
     // Make sure the widget has minimum size on opening
-    return {200, 200};
+    return {200, qMax(200, screen()->availableGeometry().height())};
 }
 
 RenderWidget::~RenderWidget()
