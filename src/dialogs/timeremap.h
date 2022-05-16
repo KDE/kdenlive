@@ -155,7 +155,7 @@ public:
     bool isInRange() const;
 
 private slots:
-    void updateKeyframes(bool resize = true);
+    void updateKeyframes();
     void updateKeyframesWithUndo(const QMap<int,int>&updatedKeyframes, const QMap<int,int>&previousKeyframes);
     void checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& roles);
     void switchRemapParam();

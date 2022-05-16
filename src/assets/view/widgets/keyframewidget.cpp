@@ -465,7 +465,7 @@ void KeyframeWidget::slotRefresh()
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
     int out = in + duration;
 
-    m_keyframeview->setDuration(duration, in);
+    m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
     if (m_model->monitorId == Kdenlive::ProjectMonitor) {
@@ -493,7 +493,7 @@ void KeyframeWidget::resetKeyframes()
     // reset keyframes
     m_keyframes->refresh();
     // m_model->dataChanged(QModelIndex(), QModelIndex());
-    m_keyframeview->setDuration(duration, in);
+    m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
     m_time->setOffset(in);
     slotRefreshParams();
