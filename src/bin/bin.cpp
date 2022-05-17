@@ -5043,21 +5043,27 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile] () {
             QMap<QString,QStringList> ids = m_transcodingDialog->ids();
-            QString firstId = ids.firstKey();
-            QMapIterator<QString, QStringList> i(ids);
-            while (i.hasNext()) {
-                i.next();
-                std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
-                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, i.key() == firstId ? checkProfile : false);
+            if (!ids.isEmpty()) {
+                QString firstId = ids.firstKey();
+                QMapIterator<QString, QStringList> i(ids);
+                while (i.hasNext()) {
+                    i.next();
+                    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
+                    TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, i.key() == firstId ? checkProfile : false);
+                }
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });
         connect(m_transcodingDialog, &QDialog::rejected, this, [&, checkProfile] () {
-            QString firstId = m_transcodingDialog->ids().firstKey();
+            QMap<QString,QStringList> ids = m_transcodingDialog->ids();
+            QString firstId;
+            if (!ids.isEmpty()) {
+                firstId = ids.firstKey();
+            }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
-            if (checkProfile) {
+            if (checkProfile && !firstId.isEmpty()) {
                 pCore->bin()->slotCheckProfile(firstId);
             }
         });
