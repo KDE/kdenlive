@@ -139,7 +139,9 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     m_channelsLayout->insertWidget(0, line);
     m_channelsLayout->insertWidget(0, mixer.get());
     m_recommendedWidth = (mixer->minimumWidth() + 12 + line->minimumWidth()) * (qMin(2, int(m_mixers.size())));
-    m_channelsBox->setMinimumWidth(m_recommendedWidth);
+    if (!KdenliveSettings::mixerCollapse()) {
+        m_channelsBox->setMinimumWidth(m_recommendedWidth);
+    }
 }
 
 void MixerManager::deregisterTrack(int tid)
