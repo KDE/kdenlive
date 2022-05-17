@@ -35,9 +35,6 @@ public:
 protected:
     void run() override;
 
-private slots:
-    void doProposeTranscode(const QString &resource);
-
 private:
     //QString cacheKey();
     QDomElement m_xml;
@@ -49,6 +46,5 @@ private:
     void abort();
 
 signals:
-    void proposeTranscode(const QString &resource);
     void taskDone();
 };

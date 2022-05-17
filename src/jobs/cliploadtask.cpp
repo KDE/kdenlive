@@ -40,7 +40,6 @@ ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool t
     , m_out(out)
     , m_thumbOnly(thumbOnly)
 {
-    QObject::connect(this, &ClipLoadTask::proposeTranscode, this, &ClipLoadTask::doProposeTranscode, Qt::QueuedConnection);
 }
 
 ClipLoadTask::~ClipLoadTask()
@@ -755,15 +754,4 @@ void ClipLoadTask::abort()
             }
         }
     }
-}
-
-void ClipLoadTask::doProposeTranscode(const QString &resource)
-{
-    QAction *ac = new QAction(i18n("Transcode"), m_object);
-    QObject::connect(ac, &QAction::triggered, [resource]() {
-        pCore->transcodeFile(resource);
-    });
-    QList<QAction*>actions = {ac};
-    QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot get duration for file %1", resource)),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QList<QAction*>, actions));
 }
