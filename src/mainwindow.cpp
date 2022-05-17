@@ -1817,7 +1817,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
-    addAction(QStringLiteral("export_guides"), i18n("Export Guides"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
 
     QAction *lockGuides = addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     lockGuides->setCheckable(true);
@@ -2367,13 +2367,6 @@ void MainWindow::connectDocument()
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     getMainTimeline()->focusTimeline();
-}
-
-void MainWindow::slotGuidesUpdated()
-{
-    if (m_renderWidget) {
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
-    }
 }
 
 void MainWindow::slotEditKeys()
