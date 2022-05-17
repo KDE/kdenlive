@@ -105,7 +105,7 @@ void AudioLevelWidget::drawBackground(int channels)
     m_pixmap.fill(Qt::transparent);
     int totalWidth;
     if (channels < 2) {
-        m_channelWidth = newSize.width() / 2;
+        m_channelWidth = newSize.width();
         totalWidth = m_channelWidth;
     } else {
         m_channelWidth = (newSize.width() - (channels - 1)) / channels;
@@ -150,7 +150,7 @@ void AudioLevelWidget::drawBackground(int channels)
         for (int i = 0; i < channels; i++) {
             p.drawLine(m_offset + i * (m_channelWidth + m_channelDistance), 0, i * (m_channelWidth + m_channelDistance), rect.height() - 1);
         }
-    } else {
+    } else if (channels > 1) {
         m_channelDistance = 2;
         m_channelFillWidth = m_channelWidth - 2;
         for (int i = 0; i < channels; i++) {
@@ -159,6 +159,10 @@ void AudioLevelWidget::drawBackground(int channels)
                 p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) - 2, 0, 2, rect.height(), Qt::transparent);
             }
         }
+    } else {
+        m_channelDistance = 0;
+        m_channelFillWidth = m_channelWidth;
+        p.drawRect(m_offset, 0, m_channelWidth - 1, rect.height() - 1);
     }
     p.end();
 }

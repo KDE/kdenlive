@@ -812,4 +812,8 @@ signals:
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
     void updateAssetPosition(int itemId);
+    /** @brief An audio recording started, display timeline waveform
+     */
+    void startAudioRecord(int trackId);
+    void stopAudioRecord();
 };

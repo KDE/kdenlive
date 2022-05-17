@@ -203,6 +203,7 @@ private:
     QSemaphore m_analyseSem;
     bool m_isInitialized;
     int m_maxProducerPosition;
+    int m_bckpMax;
     Mlt::Event *m_threadStartEvent;
     Mlt::Event *m_threadStopEvent;
     Mlt::Event *m_threadCreateEvent;
@@ -248,6 +249,7 @@ private slots:
     void onFrameDisplayed(const SharedFrame &frame);
     int reconfigure();
     void refresh();
+    void switchRecordState(bool on);
 
 protected:
     QMutex m_contextSharedAccess;

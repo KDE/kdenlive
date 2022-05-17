@@ -10,6 +10,8 @@
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
+#include "capture/mediacapture.h"
+
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
@@ -30,6 +32,7 @@ MixerManager::MixerManager(QWidget *parent)
     , m_visibleMixerManager(false)
     , m_expandedWidth(-1)
     , m_recommendedWidth(300)
+    , m_monitorTrack(-1)
     , m_filterIsV2(false)
 {
     m_masterBox = new QHBoxLayout;
@@ -56,6 +59,34 @@ MixerManager::MixerManager(QWidget *parent)
 void MixerManager::checkAudioLevelVersion()
 {
     m_filterIsV2 = EffectsRepository::get()->exists(QStringLiteral("audiolevel")) && EffectsRepository::get()->getVersion(QStringLiteral("audiolevel")) > 100;
+}
+
+void MixerManager::monitorAudio(int tid, bool monitor)
+{
+    if (!monitor) {
+        if (m_mixers.count(tid) > 0) {
+            m_mixers[tid]->monitorAudio(false);
+        }
+        m_monitorTrack = -1;
+        pCore->getAudioDevice()->switchMonitorState(false);
+        return;
+    }
+    // We want to monitor audio
+    if (m_monitorTrack > -1) {
+        // Another track is monitoring
+        if (m_mixers.count(m_monitorTrack) > 0) {
+            m_mixers[m_monitorTrack]->monitorAudio(false);
+        }
+        m_monitorTrack = -1;
+    } else {
+        pCore->getAudioDevice()->switchMonitorState(true);
+    }
+    if (m_mixers.count(tid) > 0) {
+        m_mixers[tid]->monitorAudio(true);
+    } else {
+        return;
+    }
+    m_monitorTrack = tid;
 }
 
 void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName)
@@ -184,6 +215,7 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     if (m_mixers.count(tid) > 0) {
         m_mixers[tid]->setRecordState(recording);
     }
+    emit pCore->switchTimelineRecord(recording);
 }
 
 void MixerManager::connectMixer(bool doConnect)

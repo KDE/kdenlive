@@ -4464,9 +4464,11 @@ void TimelineController::switchRecording(int trackId)
         }
         pCore->monitorManager()->slotSwitchMonitors(false);
         pCore->startMediaCapture(trackId, true, false);
+        emit startAudioRecord(trackId);
         pCore->monitorManager()->slotPlay();
     } else {
         pCore->stopMediaCapture(trackId, true, false);
+        emit stopAudioRecord();
         pCore->monitorManager()->slotPause();
     }
 }

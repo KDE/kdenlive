@@ -18,6 +18,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "lib/localeHandling.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
+#include "capture/mediacapture.h"
+
 #include "monitormanager.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
@@ -1535,7 +1537,18 @@ void Monitor::slotSwitchPlay()
         emit pCore->autoScrollChanged();
     }
     m_speedIndex = 0;
-    m_glMonitor->switchPlay(m_playAction->isActive(), m_offset);
+    bool play = m_playAction->isActive();
+    if (pCore->getAudioDevice()->isRecording()) {
+        int recState = pCore->getAudioDevice()->recordState();
+        if (recState == QMediaRecorder::RecordingState) {
+            if (!play) {
+                pCore->getAudioDevice()->pauseRecording();
+            }
+        } else if (recState == QMediaRecorder::PausedState && play) {
+            pCore->getAudioDevice()->resumeRecording();
+        }
+    }
+    m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
         showDropped =  KdenliveSettings::displayClipMonitorInfo() & 0x20;

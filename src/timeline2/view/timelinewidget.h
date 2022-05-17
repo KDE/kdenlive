@@ -60,6 +60,9 @@ public slots:
     void updateTransitionFavorites();
     /** @brief Bin clip drag ended, make sure we correctly processed the drop */
     void endDrag();
+    /** @brief Start an audio recording on track tid*/
+    void startAudioRecord(int tid);
+    void stopAudioRecord();
     /** @brief Show menu to switch track target audio stream */
     void showTargetMenu(int tid = -1);
     /** @brief Focus qml item under mouse in timeline, for example after app looses focus or a menu showed up*/

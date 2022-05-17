@@ -138,6 +138,7 @@ GLWidget::GLWidget(int id, QWidget *parent)
     connect(quickWindow(), &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(quickWindow(), &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
     //connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
+    connect(pCore.get(), &Core::switchTimelineRecord, this, &GLWidget::switchRecordState);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -1735,6 +1736,16 @@ void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel>
     if (model != nullptr) {
         // we are resetting marker/snap model, reset zone
         rootContext()->setContextProperty("markersModel", model.get());
+    }
+}
+
+void GLWidget::switchRecordState(bool on)
+{
+    if (on) {
+        m_bckpMax = m_maxProducerPosition;
+        m_maxProducerPosition = 0x7fffffff;
+    } else {
+        m_maxProducerPosition = m_bckpMax;
     }
 }
 

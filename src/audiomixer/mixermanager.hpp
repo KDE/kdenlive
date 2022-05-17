@@ -40,6 +40,8 @@ public:
     void unsetModel();
     /** @brief Some features rely on a specific version of MLT's audiolevel filter, so check it */
     void checkAudioLevelVersion();
+    /** @brief Enable/disable audio monitoring on a track */
+    void monitorAudio(int tid, bool monitor);
 
 public slots:
     void recordStateChanged(int tid, bool recording);
@@ -71,6 +73,7 @@ private:
     int m_expandedWidth;
     QVector <int> m_soloMuted;
     int m_recommendedWidth;
+    int m_monitorTrack;
     bool m_filterIsV2;
 
 };

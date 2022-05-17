@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMediaRecorder>
 #include <QIODevice>
 #include <QStringList>
+#include <QElapsedTimer>
 #include <QUrl>
 #include <QTimer>
 #include <QMutex>
@@ -28,16 +29,17 @@ class AudioDevInfo: public QIODevice
     Q_OBJECT
 public:
     AudioDevInfo(const QAudioFormat &format, QObject *parent = nullptr);
+    quint32 maxAmplitude = 0;
 
 signals:
     void levelChanged(const QVector<qreal> &dbLevels);
+    void levelRecChanged(const QVector<qreal> &dbLevels);
 
 protected:
     qint64 readData(char *data, qint64 maxSize) override;
     qint64 writeData(const char *data, qint64 maxSize) override;
 private:
     const QAudioFormat m_format;
-    quint32 m_maxAmplitude = 0;
 };
 
 class MediaCapture : public QObject
@@ -66,9 +68,14 @@ public:
     int currentState;
     Q_INVOKABLE QVector<qreal> levels() const;
     Q_INVOKABLE int recordState() const;
-    Q_INVOKABLE void switchMonitorState(bool run);
+    void switchMonitorState(bool run);
     /** @brief Returns true is audio monitoring is currently in progress **/
     bool isMonitoring() const;
+    const QVector<double> recLevels() const;
+    /** @brief Start monitoring a track **/
+    Q_INVOKABLE void switchMonitorState(int tid, bool run);
+    void pauseRecording();
+    void resumeRecording();
 
 public slots:
     void displayErrorMessage();
@@ -81,16 +88,17 @@ private:
     QScopedPointer<AudioDevInfo> m_audioInfo;
     std::unique_ptr<QMediaRecorder> m_videoRecorder;
     std::unique_ptr<QCamera> m_camera;
-    std::unique_ptr<QAudioProbe> m_probe;
+    QElapsedTimer m_recTimer;
     QString m_audioDevice;
     QUrl m_path;
     QVector<qreal> m_levels;
+    QVector<double> m_recLevels;
     int m_recordState;
+    int m_lastPos;
     QTimer m_resetTimer;
     QMutex m_recMutex;
 
 private slots:
-    void processBuffer(const QAudioBuffer &buffer);
     void resetIfUnused();
 
 signals:

@@ -378,4 +378,6 @@ signals:
     void audioLevelsAvailable(const QVector<double>& levels);
     /** @brief A frame was displayed in monitor, update audio mixer */
     void updateMixerLevels(int pos);
+    /** @brief Audio recording was started or stopped*/
+    void switchTimelineRecord(bool on);
 };
