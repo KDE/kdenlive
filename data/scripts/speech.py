@@ -20,12 +20,18 @@ if not os.path.exists(sys.argv[2]):
     print ("Please download the model from https://alphacephei.com/vosk/models and unpack as ", sys.argv[2]," in the current folder.")
     exit (1)
 
+if sys.platform == 'darwin':
+    from os.path import abspath, dirname, join
+    path = abspath(join(dirname(__file__), '../../MacOS/ffmpeg'))
+else:
+    path = 'ffmpeg'
+
 sample_rate=16000
 model = Model(sys.argv[2])
 rec = KaldiRecognizer(model, sample_rate)
 rec.SetWords(True)
 
-process = subprocess.Popen(['ffmpeg', '-loglevel', 'quiet', '-i',
+process = subprocess.Popen([path, '-loglevel', 'quiet', '-i',
                             sys.argv[3],
                             '-ar', str(sample_rate) , '-ac', '1', '-f', 's16le', '-'],
                             stdout=subprocess.PIPE)
