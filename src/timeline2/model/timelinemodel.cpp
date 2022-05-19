@@ -2207,6 +2207,46 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         }
     }
     bool trackChanged = false;
+    if (delta_track != 0) {
+        //Ensure the track move is possible (not outside our current tracks)
+        for (int item : all_items) {
+            int current_track_id = old_track_ids[item];
+            int current_track_position = getTrackPosition(current_track_id);
+            bool audioTrack = getTrackById_const(current_track_id)->isAudioTrack();
+            int d = audioTrack ? audio_delta : video_delta;
+            int target_track_position = current_track_position + d;
+            bool brokenMove = target_track_position < 0 || target_track_position >= getTracksCount();
+            if (!brokenMove) {
+                int target_id = getTrackIndexFromPosition(target_track_position);
+                brokenMove = audioTrack != getTrackById_const(target_id)->isAudioTrack();
+            }
+            if (brokenMove) {
+                if (isClip(item)) {
+                    int lastTid = m_allClips[item]->getFakeTrackId();
+                    int originalTid = m_allClips[item]->getCurrentTrackId();
+                    int last_position = getTrackPosition(lastTid);
+                    int original_position = getTrackPosition(originalTid);
+                    int lastDelta = last_position - original_position;
+                    if (audioTrack) {
+                        if (qAbs(audio_delta) > qAbs(lastDelta)) {
+                            audio_delta = lastDelta;
+                        }
+                        if (video_delta != 0) {
+                            video_delta = - lastDelta;
+                        }
+                    } else {
+                        if (qAbs(video_delta) > qAbs(lastDelta)) {
+                            video_delta = lastDelta;
+                        }
+                        if (audio_delta != 0) {
+                            audio_delta = - lastDelta;
+                        }
+                    }
+                };
+            }
+        }
+    }
+
 
     // Reverse sort. We need to insert from left to right to avoid confusing the view
     for (int item : all_items) {
