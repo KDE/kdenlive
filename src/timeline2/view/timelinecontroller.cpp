@@ -3943,6 +3943,26 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     int trackId = m_model->m_allClips[clipId]->getFakeTrackId();
     if (m_model->getClipPosition(clipId) == position && m_model->getClipTrackId(clipId) == trackId) {
         qDebug() << "* * ** END FAKE; NO MOVE RQSTED";
+        // Ensure clip height binds again with parent track height
+        if (m_model->m_groups->isInGroup(clipId)) {
+            int groupId = m_model->m_groups->getRootId(clipId);
+            auto all_items = m_model->m_groups->getLeaves(groupId);
+            for (int item : all_items) {
+                if (m_model->isClip(item)) {
+                    m_model->m_allClips[item]->setFakeTrackId(-1);
+                    QModelIndex modelIndex = m_model->makeClipIndexFromID(item);
+                    if (modelIndex.isValid()) {
+                        m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
+                    }
+                }
+            }
+        } else {
+            m_model->m_allClips[clipId]->setFakeTrackId(-1);
+            QModelIndex modelIndex = m_model->makeClipIndexFromID(clipId);
+            if (modelIndex.isValid()) {
+                m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
+            }
+        }
         return true;
     }
     if (m_model->m_groups->isInGroup(clipId)) {
