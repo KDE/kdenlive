@@ -273,6 +273,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     mute->setDefaultAction(m_muteAction);
     mute->setAutoRaise(true);
 
+    QToolButton *showEffects = nullptr;
+
     // Setup default width
     setFixedWidth(3 * mute->sizeHint().width());
 
@@ -320,6 +322,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             m_collapse->setIcon(m_collapse->isChecked() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
             m_manager->collapseMixers();
         });
+        showEffects = new QToolButton(this);
+        showEffects->setIcon(QIcon::fromTheme("autocorrection"));
+        showEffects->setToolTip(i18n("Open Effect Stack"));
+        showEffects->setAutoRaise(true);
+        connect(showEffects, &QToolButton::clicked, this,  [&]() {
+            emit m_manager->showEffectStack(m_tid);
+        });
+
     }
 
     connect(m_volumeSlider, &QSlider::valueChanged, this, [&](int value) {
@@ -377,6 +387,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     }
     if (m_monitor) {
         buttonslay->addWidget(m_monitor);
+    }
+    if (showEffects) {
+        buttonslay->addWidget(showEffects);
     }
     lay->addLayout(buttonslay);
     if (m_balanceSlider) {
