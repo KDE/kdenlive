@@ -1973,12 +1973,18 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", "luma");
                 m_track->plant_transition(*t.get(), 0, 1);
-                if (dest_track == 0) {
-                    t->set("reverse", 1);
-                }
             }
-            if (dest_track == 0 && Xml::hasXmlParameter(xml, QStringLiteral("reverse"))) {
-                Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
+            if (dest_track == 0) {
+                // Mix should be reversed
+                if (mixId == QLatin1String("luma") || mixId == QLatin1String("dissolve") || mixId == QLatin1String("mix")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
+                } else if (mixId == QLatin1String("composite")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("invert"), QStringLiteral("1"));
+                } else if (mixId == QLatin1String("wipe")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%"));
+                } else if (mixId == QLatin1String("slide")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("rect"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%"));
+                }
             }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
             m_sameCompositions[clipIds.second] = asset;
@@ -2544,8 +2550,12 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
     // First remove existing mix
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     const QString currentAsset = m_sameCompositions[cid]->getAssetId();
+    QVector<QPair<QString, QVariant>> allParams = m_sameCompositions[cid]->getAllParameters();
+    // Check if mix should be reversed
+
+    bool reverse = m_allClips[cid]->getSubPlaylistIndex() == 0;
     // TODO: handle revert mixes
-    Fun local_redo = [this, cid, composition]() {
+    Fun local_redo = [this, cid, composition, reverse]() {
         m_playlists[0].lock();
         m_playlists[1].lock();
         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
@@ -2563,6 +2573,18 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
             m_track->plant_transition(*t.get(), 0, 1);
             t->set("kdenlive:mixcut", mixCutPos);
             QDomElement xml = TransitionsRepository::get()->getXml(composition);
+            if (reverse) {
+                // Mix should be reversed
+                if (composition == QLatin1String("luma") || composition == QLatin1String("dissolve") || composition == QLatin1String("mix")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
+                } else if (composition == QLatin1String("composite")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("invert"), QStringLiteral("1"));
+                } else if (composition == QLatin1String("wipe")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%"));
+                } else if (composition == QLatin1String("slide")) {
+                    Xml::setXmlParameter(xml, QStringLiteral("rect"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%"));
+                }
+            }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
         }
@@ -2570,7 +2592,7 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
         m_playlists[1].unlock();
         return true;
     };
-    Fun local_undo = [this, cid, currentAsset]() {
+    Fun local_undo = [this, cid, currentAsset, allParams]() {
         m_playlists[0].lock();
         m_playlists[1].lock();
         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
@@ -2586,6 +2608,17 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
             t->set_in_and_out(in, out);
             m_track->plant_transition(*t.get(), 0, 1);
             QDomElement xml = TransitionsRepository::get()->getXml(currentAsset);
+            QDomNodeList xmlParams = xml.elementsByTagName(QStringLiteral("parameter"));
+                for (int i = 0; i < xmlParams.count(); ++i) {
+                    QDomElement currentParameter = xmlParams.item(i).toElement();
+                    QString paramName = currentParameter.attribute(QStringLiteral("name"));
+                    for (const auto &p : qAsConst(allParams)) {
+                        if (p.first == paramName) {
+                            currentParameter.setAttribute(QStringLiteral("value"), p.second.toString());
+                            break;
+                        }
+                    }
+                }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, currentAsset, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
         }
