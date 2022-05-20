@@ -683,7 +683,6 @@ void MyListView::leaveEvent(QEvent *event)
 
 void MyListView::mousePressEvent(QMouseEvent *event)
 {
-    QListView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
@@ -696,7 +695,7 @@ void MyListView::mousePressEvent(QMouseEvent *event)
         }
         emit updateDragMode(m_dragType);
     }
-    event->accept();
+    QListView::mousePressEvent(event);
 }
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
@@ -706,6 +705,7 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
             QModelIndexList indexes = selectedIndexes();
             if (indexes.isEmpty()) {
                 // Dragging from empty zone, abort
+                QListView::mouseMoveEvent(event);
                 return;
             }
             auto *drag = new QDrag(this);
@@ -734,7 +734,9 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
             }
             drag->exec();
             emit processDragEnd();
+            return;
         }
+        QListView::mouseMoveEvent(event);
         return;
     }
     QModelIndex index = indexAt(event->pos());
@@ -829,8 +831,10 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
             int distance = (event->pos() - m_startPos).manhattanLength();
             if (distance >= QApplication::startDragDistance()) {
                 dragged = performDrag();
+                return;
             }
         }
+        QTreeView::mouseMoveEvent(event);
         return;
     } else {
         QModelIndex index = indexAt(event->pos());
@@ -932,6 +936,7 @@ bool MyTreeView::performDrag()
         drag->setPixmap(QPixmap::fromImage(image));
     }
     drag->exec();
+    drag->deleteLater();
     emit processDragEnd();
     return true;
 }
@@ -2260,7 +2265,6 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
             m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
         }
     } else {
-        m_proxyModel->selectionModel()->clearSelection();
         std::shared_ptr<ProjectClip> clip = getBinClip(clipId);
         if (clip == nullptr) {
             return;
@@ -2295,8 +2299,10 @@ void Bin::selectProxyModel(const QModelIndex &id)
             // Set item as current so that it displays its content in clip monitor
             setCurrent(currentItem);
             AbstractProjectItem::PROJECTITEMTYPE itemType = currentItem->itemType();
+            bool isClip = itemType == AbstractProjectItem::ClipItem;
+            bool isFolder = itemType == AbstractProjectItem::FolderItem;
             std::shared_ptr<ProjectClip> clip = nullptr;
-            if (itemType == AbstractProjectItem::ClipItem) {
+            if (isClip) {
                 clip = std::static_pointer_cast<ProjectClip>(currentItem);
                 m_tagsWidget->setTagData(clip->tags());
                 m_deleteAction->setText(i18n("Delete Clip"));
@@ -2319,7 +2325,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             if (clip && clip->statusReady()) {
                 emit requestShowClipProperties(clip, false);
                 m_proxyAction->blockSignals(true);
-                if (itemType == AbstractProjectItem::ClipItem) {
+                if (isClip) {
                     emit findInTimeline(clip->clipId(), clip->timelineInstances());
                 }
                 clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
@@ -2335,30 +2341,30 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 emit findInTimeline(QString());
                 m_openAction->setEnabled(false);
             }
-            m_clipsActionsMenu->setEnabled(itemType != AbstractProjectItem::FolderItem);
-            m_editAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_clipsActionsMenu->setEnabled(!isFolder);
+            m_editAction->setVisible(!isFolder);
             m_editAction->setEnabled(true);
             m_extractAudioAction->menuAction()->setVisible(hasAudio);
             m_extractAudioAction->setEnabled(hasAudio);
             m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
-            m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-            m_duplicateAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
-            m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-            m_inTimelineAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
-            m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
-            m_locateAction->setEnabled(itemType != AbstractProjectItem::FolderItem && isImported);
-            m_locateAction->setVisible(itemType != AbstractProjectItem::FolderItem && isImported);
-            m_proxyAction->setEnabled(m_doc->useProxy() && itemType != AbstractProjectItem::FolderItem);
-            m_reloadAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
-            m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-            m_replaceAction->setEnabled(itemType == AbstractProjectItem::ClipItem);
-            m_replaceAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+            m_openAction->setVisible(!isFolder);
+            m_duplicateAction->setEnabled(isClip);
+            m_duplicateAction->setVisible(!isFolder);
+            m_inTimelineAction->setEnabled(isClip);
+            m_inTimelineAction->setVisible(isClip);
+            m_locateAction->setEnabled(!isFolder && isImported);
+            m_locateAction->setVisible(!isFolder && isImported);
+            m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
+            m_reloadAction->setEnabled(isClip);
+            m_reloadAction->setVisible(!isFolder);
+            m_replaceAction->setEnabled(isClip);
+            m_replaceAction->setVisible(!isFolder);
             m_clipsActionsMenu->menuAction()->setVisible(
-                itemType != AbstractProjectItem::FolderItem &&
+                !isFolder &&
                 (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
 
-            m_transcodeAction->setEnabled(itemType != AbstractProjectItem::FolderItem);
-            m_transcodeAction->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
+            m_transcodeAction->setEnabled(!isFolder);
+            m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
 
             m_deleteAction->setEnabled(true);
             m_renameAction->setEnabled(true);
@@ -3027,14 +3033,14 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
         view->expand(m_proxyModel->mapFromSource(ix.parent()));
         const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
         if (id.isValid() && id2.isValid()) {
-            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
         }
     } else {
         // Ensure parent folder is currently opened
         m_itemView->setRootIndex(m_proxyModel->mapFromSource(ix.parent()));
         m_upAction->setEnabled(!ix.parent().data(AbstractProjectItem::DataId).toString().isEmpty());
         if (id.isValid()) {
-            m_proxyModel->selectionModel()->setCurrentIndex(m_proxyModel->mapFromSource(id), QItemSelectionModel::ClearAndSelect);
+            m_proxyModel->selectionModel()->select(m_proxyModel->mapFromSource(id), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
         }
     }
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
