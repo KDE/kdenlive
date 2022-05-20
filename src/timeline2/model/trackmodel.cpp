@@ -2544,6 +2544,7 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
     // First remove existing mix
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     const QString currentAsset = m_sameCompositions[cid]->getAssetId();
+    // TODO: handle revert mixes
     Fun local_redo = [this, cid, composition]() {
         m_playlists[0].lock();
         m_playlists[1].lock();
