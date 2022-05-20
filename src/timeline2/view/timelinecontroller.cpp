@@ -447,6 +447,7 @@ void TimelineController::insertNewMix(int tid, int position, const QString &tran
 
 int TimelineController::insertNewCompositionAtPos(int tid, int position, const QString &transitionId)
 {
+    // TODO: adjust position and duration to existing clips ?
     return insertComposition(tid, position, transitionId, true);
 }
 
@@ -517,10 +518,12 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         props = std::make_unique<Mlt::Properties>();
         if (transitionId == QLatin1String("dissolve")) {
             props->set("reverse", 1);
-        } else if (transitionId == QLatin1String("composite") || transitionId == QLatin1String("slide")) {
+        } else if (transitionId == QLatin1String("composite")) {
             props->set("invert", 1);
         } else if (transitionId == QLatin1String("wipe")) {
             props->set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
+        } else if (transitionId == QLatin1String("slide")) {
+            props->set("rect", "0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%");
         }
     }
     if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, std::move(props), id, logUndo)) {
@@ -541,7 +544,34 @@ int TimelineController::insertComposition(int tid, int position, const QString &
 {
     int id;
     int duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
-    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, nullptr, id, logUndo)) {
+    // Check if composition should be reversed (top clip at beginning, bottom at end)
+    int a_track = m_model->getPreviousVideoTrackPos(tid);
+    int topClip = m_model->getTrackById_const(tid)->getClipByPosition(position);
+    int bottomTid = m_model->getTrackIndexFromPosition(a_track - 1);
+    int bottomClip = -1;
+    if (bottomTid > -1) {
+        bottomClip = m_model->getTrackById_const(bottomTid)->getClipByPosition(position);
+    }
+    bool reverse = false;
+    if (topClip > -1 && bottomClip > -1) {
+        if (m_model->getClipPosition(topClip) + m_model->getClipPlaytime(topClip) < m_model->getClipPosition(bottomClip) + m_model->getClipPlaytime(bottomClip)) {
+            reverse = true;
+        }
+    }
+    std::unique_ptr<Mlt::Properties> props(nullptr);
+    if (reverse) {
+        props = std::make_unique<Mlt::Properties>();
+        if (transitionId == QLatin1String("dissolve")) {
+            props->set("reverse", 1);
+        } else if (transitionId == QLatin1String("composite")) {
+            props->set("invert", 1);
+        } else if (transitionId == QLatin1String("wipe")) {
+            props->set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
+        } else if (transitionId == QLatin1String("slide")) {
+            props->set("rect", "0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%");
+        }
+    }
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, std::move(props), id, logUndo)) {
         id = -1;
     }
     return id;

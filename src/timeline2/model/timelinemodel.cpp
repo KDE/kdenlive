@@ -6044,7 +6044,33 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
 
     bool res = requestCompositionDeletion(cid, undo, redo);
     int newId = -1;
-    res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, nullptr, newId, undo, redo);
+    // Check if composition should be reversed (top clip at beginning, bottom at end)
+    int topClip = getTrackById_const(currentTrack)->getClipByPosition(currentPos);
+    int bottomTid = getTrackIndexFromPosition(a_track - 1);
+    int bottomClip = -1;
+    if (bottomTid > -1) {
+        bottomClip = getTrackById_const(bottomTid)->getClipByPosition(currentPos);
+    }
+    bool reverse = false;
+    if (topClip > -1 && bottomClip > -1) {
+        if (getClipPosition(topClip) + getClipPlaytime(topClip) < getClipPosition(bottomClip) + getClipPlaytime(bottomClip)) {
+            reverse = true;
+        }
+    }
+    std::unique_ptr<Mlt::Properties> props(nullptr);
+    if (reverse) {
+        props = std::make_unique<Mlt::Properties>();
+        if (compoId == QLatin1String("dissolve")) {
+            props->set("reverse", 1);
+        } else if (compoId == QLatin1String("composite")) {
+            props->set("invert", 1);
+        } else if (compoId == QLatin1String("wipe")) {
+            props->set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
+        } else if (compoId == QLatin1String("slide")) {
+            props->set("rect", "0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%");
+        }
+    }
+    res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, std::move(props), newId, undo, redo);
     if (res) {
         if (forcedTrack > -1 && isComposition(newId)) {
             m_allCompositions[newId]->setForceTrack(true);
