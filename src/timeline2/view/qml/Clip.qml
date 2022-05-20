@@ -563,6 +563,10 @@ Rectangle {
                            ? (clipRoot.maxDuration - clipRoot.inPoint) * clipRoot.timeScale + (Math.round(model.frame / clipRoot.speed)) * clipRoot.timeScale - itemBorder.border.width
                            : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * clipRoot.timeScale - itemBorder.border.width;
                         color: model.color
+                        ToolTip.visible: markerArea.containsMouse
+                        ToolTip.text: textMetrics.text
+                        ToolTip.delay: 1000
+                        ToolTip.timeout: 5000
                     }
                     Rectangle {
                         visible: mlabel.visible
@@ -575,6 +579,7 @@ Rectangle {
                         color: model.color
                         MouseArea {
                             z: 10
+                            id: markerArea
                             anchors.fill: parent
                             acceptedButtons: Qt.LeftButton
                             cursorShape: Qt.PointingHandCursor
