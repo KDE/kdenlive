@@ -330,6 +330,8 @@ protected:
     int isOnCut(int cid);
     /** @brief Returns all mix info as xml */
     QDomElement mixXml(QDomDocument &document, int cid) const;
+    /** @brief Check if a mix is reversed (moslty used in tests) */
+    bool mixIsReversed(int cid) const;
 
 public slots:
     /** Delete the current track and all its associated clips */
@@ -359,6 +361,8 @@ private:
 
     /// This is a lock that ensures safety in case of concurrent access
     mutable QReadWriteLock m_lock;
+    void reverseCompositionXml(const QString &composition, QDomElement xml);
+    void updateCompositionDirection(Mlt::Transition &transition, bool reverse);
 
 protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
