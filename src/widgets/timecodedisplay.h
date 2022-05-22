@@ -39,6 +39,11 @@ public:
      * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
      * @param parent parent Widget */
     explicit TimecodeDisplay(const Timecode &t, QWidget *parent = nullptr);
+    /** @brief Constructor for the widget, sets value to 0.
+     *  This variant of ctor is mainly for the usage in QtDesigner,
+     *  remember to set a correct timecode with setTimecode()
+     * @param parent parent Widget */
+    explicit TimecodeDisplay(QWidget *parent = nullptr);
 
     /** @brief Returns the minimum value, which can be entered.
      * default is 0 */
@@ -61,6 +66,9 @@ public:
 
     /** @brief Returns the widget's timecode object. */
     Timecode timecode() const;
+
+    /** @brief Setup the timecode in case you are using this widget with QtDesigner. */
+    void setTimecode(const Timecode &t);
 
     /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.
      * @param frametimecode true = frames, false = HH:MM:SS:FF

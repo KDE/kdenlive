@@ -116,12 +116,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QTimeEdit" name="offsetTime">
+      <widget class="TimecodeDisplay" name="offsetTime" native="true">
        <property name="enabled">
         <bool>false</bool>
-       </property>
-       <property name="displayFormat">
-        <string>h:mm:ss</string>
        </property>
       </widget>
      </item>
@@ -134,6 +131,11 @@
    <class>KMessageWidget</class>
    <extends>QWidget</extends>
    <header>kmessagewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QAbstractSpinBox</extends>
+   <header>widgets/timecodedisplay.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

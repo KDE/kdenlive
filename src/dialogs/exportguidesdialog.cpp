@@ -30,6 +30,9 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     setupUi(this);
     setWindowTitle(i18n("Export guides as chapters description"));
 
+    // We should setup TimecodeDisplay since it requires a proper Timecode
+    offsetTime->setTimecode(Timecode(Timecode::HH_MM_SS_FF, pCore->getCurrentFps()));
+
     const QString defaultFormat(YT_FORMAT);
     formatEdit->setText(defaultFormat);
 
@@ -63,7 +66,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         updateContentByModel();
     });
 
-    connect(offsetTime, QOverload<const QTime &>::of(&QDateTimeEdit::timeChanged), this, [this]() {
+    connect(offsetTime, &TimecodeDisplay::timeCodeUpdated, this, [this]() {
         updateContentByModel();
     });
 
@@ -87,9 +90,9 @@ double ExportGuidesDialog::offsetTimeMs() const
 {
     switch (offsetTimeComboBox->currentIndex()) {
     case 1: // Add
-        return offsetTime->time().msecsSinceStartOfDay();
+        return offsetTime->gentime().ms();
     case 2: // Subtract
-        return - offsetTime->time().msecsSinceStartOfDay();
+        return - offsetTime->gentime().ms();
     case 0: // Disabled
     default:
         return 0;
