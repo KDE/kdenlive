@@ -77,6 +77,7 @@ void MixerManager::monitorAudio(int tid, bool monitor)
         // Another track is monitoring
         if (m_mixers.count(m_monitorTrack) > 0) {
             m_mixers[m_monitorTrack]->monitorAudio(false);
+            pCore->monitorAudio(m_monitorTrack, false);
         }
         m_monitorTrack = -1;
     } else {
@@ -84,6 +85,7 @@ void MixerManager::monitorAudio(int tid, bool monitor)
     }
     if (m_mixers.count(tid) > 0) {
         m_mixers[tid]->monitorAudio(true);
+        pCore->monitorAudio(tid, true);
     } else {
         return;
     }

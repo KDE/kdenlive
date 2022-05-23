@@ -54,7 +54,6 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
     connect(m_proxy, &TimelineController::regainFocus, this, &TimelineWidget::regainFocus, Qt::DirectConnection);
-    connect(m_proxy, &TimelineController::startAudioRecord, this, &TimelineWidget::startAudioRecord, Qt::DirectConnection);
     connect(m_proxy, &TimelineController::stopAudioRecord, this, &TimelineWidget::stopAudioRecord, Qt::DirectConnection);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);

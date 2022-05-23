@@ -2276,14 +2276,13 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         break;
     case MonitorSceneDefault:
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
-        if (m_id == Kdenlive::ClipMonitor) {
-            QObject::connect(root, SIGNAL(endDrag()), pCore->bin(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
-        }
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
+            QObject::connect(root, SIGNAL(endDrag()), pCore->bin(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
+            QObject::connect(root, SIGNAL(startRecording()), pCore.get(), SLOT(startRecording()), Qt::UniqueConnection);
         }
         break;
     case MonitorSplitTrack:
@@ -2663,4 +2662,12 @@ void Monitor::seekTimeline(const QString &frameAndTrack)
         frame = frameAndTrack.toInt();
     }
     requestSeek(frame);
+}
+
+void Monitor::startCountDown()
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (root) {
+        QMetaObject::invokeMethod(root, "startCountdown");
+    }
 }

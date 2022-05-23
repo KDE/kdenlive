@@ -347,6 +347,10 @@ public slots:
     void transcodeFriendlyFile(const QString &binId, bool checkProfile);
     /** @brief Reset audio  monitoring volume and channels. */
     void resetAudioMonitoring();
+    /** @brief Start audio recording (after countdown). */
+    void startRecording();
+    /** @brief Show or hide track head audio rec controls. */
+    void monitorAudio(int tid, bool monitor);
 
 signals:
     void coreIsReady();

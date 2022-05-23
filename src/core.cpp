@@ -1009,6 +1009,18 @@ void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
     }
 }
 
+void Core::monitorAudio(int tid, bool monitor)
+{
+    m_mainWindow->getCurrentTimeline()->controller()->switchTrackRecord(tid, monitor);
+}
+
+void Core::startRecording()
+{
+    int trackId = m_capture->startCapture();
+    m_mainWindow->getCurrentTimeline()->startAudioRecord(trackId);
+    pCore->monitorManager()->slotPlay();
+}
+
 QStringList Core::getAudioCaptureDevices()
 {
     return m_capture->getAudioCaptureDevices();

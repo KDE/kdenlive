@@ -758,7 +758,7 @@ void TimelineController::deleteMultipleTracks(int tid)
     }
 }
 
-void TimelineController::switchTrackRecord(int tid)
+void TimelineController::switchTrackRecord(int tid, bool monitor)
 {
     if (tid == -1) {
         tid = m_activeTrack;
@@ -767,11 +767,19 @@ void TimelineController::switchTrackRecord(int tid)
         pCore->displayMessage(i18n("Select an audio track to display record controls"), ErrorMessage, 500);
     }
     int recDisplayed = m_model->getTrackProperty(tid, QStringLiteral("kdenlive:audio_rec")).toInt();
-    if (recDisplayed == 1) {
+    if (monitor == false) {
         // Disable rec controls
+        if (recDisplayed == 0) {
+            // Already hidden
+            return;
+        }
         m_model->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), QStringLiteral("0"));
     } else {
         // Enable rec controls
+        if (recDisplayed == 1) {
+            // Already displayed
+            return;
+        }
         m_model->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), QStringLiteral("1"));
     }
     QModelIndex ix = m_model->makeTrackIndexFromID(tid);
@@ -4514,8 +4522,7 @@ void TimelineController::switchRecording(int trackId)
         }
         pCore->monitorManager()->slotSwitchMonitors(false);
         pCore->startMediaCapture(trackId, true, false);
-        emit startAudioRecord(trackId);
-        pCore->monitorManager()->slotPlay();
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
     } else {
         pCore->stopMediaCapture(trackId, true, false);
         emit stopAudioRecord();

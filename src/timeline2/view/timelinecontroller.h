@@ -280,7 +280,7 @@ public:
     Q_INVOKABLE void deleteMultipleTracks(int tid);
     /** @brief Show / hide audio rec controls in active track
      */
-    void switchTrackRecord(int tid = -1);
+    void switchTrackRecord(int tid = -1, bool monitor = false);
     /** @brief Group selected items in timeline
      */
     Q_INVOKABLE void groupSelection();
@@ -812,8 +812,5 @@ signals:
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
     void updateAssetPosition(int itemId);
-    /** @brief An audio recording started, display timeline waveform
-     */
-    void startAudioRecord(int trackId);
     void stopAudioRecord();
 };

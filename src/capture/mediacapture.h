@@ -76,6 +76,8 @@ public:
     Q_INVOKABLE void switchMonitorState(int tid, bool run);
     void pauseRecording();
     void resumeRecording();
+    /** @brief Start the real audio capture **/
+    int startCapture();
 
 public slots:
     void displayErrorMessage();
@@ -95,6 +97,7 @@ private:
     QVector<double> m_recLevels;
     int m_recordState;
     int m_lastPos;
+    int m_tid;
     QTimer m_resetTimer;
     QMutex m_recMutex;
 

@@ -49,6 +49,7 @@ Item {
     }
 
     signal editCurrentMarker()
+    signal startRecording()
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
@@ -59,6 +60,14 @@ Item {
     }
     function updatePalette() {
         clipMonitorRuler.forceRepaint()
+    }
+
+    function startCountdown() {
+        countDownLoader.source = "Countdown.qml"
+    }
+    function stopCountdown() {
+        root.startRecording()
+        countDownLoader.source = ""
     }
 
     function switchOverlay() {
@@ -141,6 +150,10 @@ Item {
                             return "OverlayThirds.qml";
                     }
                 }
+            }
+            Loader {
+                id: countDownLoader
+                anchors.fill: parent
             }
         }
         Item {

@@ -452,7 +452,7 @@ private slots:
     void slotDeleteTrack();
     /** @brief Show context menu to switch current track target audio stream. */
     void slotSwitchTrackAudioStream();
-    void slotShowTrackRec();
+    void slotShowTrackRec(bool checked);
     /** @brief Select all clips in active track. */
     void slotSelectTrack();
     /** @brief Select all clips in timeline. */

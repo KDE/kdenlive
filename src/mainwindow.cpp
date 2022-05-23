@@ -2733,9 +2733,10 @@ void MainWindow::slotSwitchTrackAudioStream()
     getCurrentTimeline()->showTargetMenu();
 }
 
-void MainWindow::slotShowTrackRec()
+void MainWindow::slotShowTrackRec(bool checked)
 {
-    getCurrentTimeline()->controller()->switchTrackRecord();
+    pCore->mixer()->monitorAudio(getCurrentTimeline()->controller()->activeTrack(), checked);
+    getCurrentTimeline()->controller()->switchTrackRecord(-1, checked);
 }
 
 void MainWindow::slotSelectTrack()

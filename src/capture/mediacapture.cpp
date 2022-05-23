@@ -148,6 +148,7 @@ MediaCapture::MediaCapture(QObject *parent)
     , m_audioDevice("default:")
     , m_path(QUrl())
     , m_recordState(0)
+    , m_tid(-1)
 {
     m_resetTimer.setInterval(5000);
     m_resetTimer.setSingleShot(true);
@@ -257,6 +258,7 @@ void MediaCapture::resetIfUnused()
 void MediaCapture::recordAudio(int tid, bool record)
 {
     QMutexLocker lk(&m_recMutex);
+    m_tid = tid;
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
         connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, this, [&, tid] (QMediaRecorder::State state) {
@@ -264,7 +266,6 @@ void MediaCapture::recordAudio(int tid, bool record)
             if (m_recordState == QMediaRecorder::StoppedState) {
                 m_resetTimer.start();
                 m_recLevels.clear();
-                m_recTimer.invalidate();
                 m_lastPos = -1;
                 emit audioLevels(QVector <qreal>());
                 emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
@@ -274,6 +275,8 @@ void MediaCapture::recordAudio(int tid, bool record)
     }
 
     if (record && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
+        m_recTimer.invalidate();
+        m_resetTimer.stop();
         setAudioCaptureDevice();
         m_audioRecorder->setAudioInput(m_audioDevice);
         setCaptureOutputLocation();
@@ -291,18 +294,24 @@ void MediaCapture::recordAudio(int tid, bool record)
         audioSettings.setChannelCount(KdenliveSettings::audiocapturechannels());
         m_audioRecorder->setEncodingSettings(audioSettings);
         m_audioRecorder->setOutputLocation(m_path);
-        m_lastPos = -1;
         m_recLevels.clear();
-        m_audioRecorder->record();
-        m_recTimer.start();
     } else if (!record) {
         m_audioRecorder->stop();
         m_recTimer.invalidate();
     } else {
-        m_audioRecorder->record();
+        qDebug()<<"::: RESTARTING RECORD\n\nBBBBBB";
         m_lastPos = -1;
-        m_recTimer.restart();
+        m_recTimer.start();
+        m_audioRecorder->record();
     }
+}
+
+int MediaCapture::startCapture()
+{
+    m_lastPos = -1;
+    m_recTimer.start();
+    m_audioRecorder->record();
+    return m_tid;
 }
 
 void MediaCapture::recordVideo(int tid, bool record)
@@ -445,9 +454,8 @@ void MediaCapture::pauseRecording()
 void MediaCapture::resumeRecording()
 {
     if (m_audioRecorder->state() == QMediaRecorder::PausedState) {
-        // Pause is not supported on this platform
         m_lastPos = -1;
+        m_recTimer.start();
         m_audioRecorder->record();
-        m_recTimer.restart();
     }
 }
