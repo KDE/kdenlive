@@ -275,14 +275,14 @@ QStringList RenderPresetModel::audioQualities() const
         return m_aQualities.split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
     } else {
-        //int aq = ui->audioQualitySpinner->value();
+        // ATTENTION: historically qualities are sorted from best to worse for some reason
         QString acodec = getParam(QStringLiteral("acodec")).toLower();
         if (acodec == "libmp3lame") {
-            return {"9", "0"};
+            return {"0", "9"};
         } else if (acodec == "libvorbis" || acodec == "vorbis") {
-            return {"0", "10"};
+            return {"10", "0"};
         } else {
-            return {"0", "500"};
+            return {"500", "0"};
         }
     }
 }
@@ -315,15 +315,16 @@ QStringList RenderPresetModel::videoQualities() const
         return m_vQualities.split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
     } else {
+        // ATTENTION: historically qualities are sorted from best to worse for some reason
         QString vcodec = getParam(QStringLiteral("vcodec")).toLower();
         if (vcodec == "libx265" || vcodec.contains("nvenc") || vcodec.endsWith("_amf") || vcodec.startsWith("libx264") || vcodec.endsWith("_vaapi") || vcodec.endsWith("_qsv")) {
-            return {"51", "0"};
+            return {"0", "51"};
         } else if (vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
-            return {"63", "0"};
+            return {"0", "63"};
         } else if (vcodec.startsWith("libwebp")) {
-            return {"0", "100"};
+            return {"100", "0"};
         } else {
-            return {"31", "1"};
+            return {"1", "31"};
         }
     }
 }
