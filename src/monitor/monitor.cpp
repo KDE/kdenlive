@@ -953,9 +953,13 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                         m_glWidget->setParent(nullptr);
                         m_glWidget->move(screenRect.topLeft());
                         m_glWidget->resize(screenRect.size());
+                        screenFound = true;
                         break;
                     }
                 }
+            }
+            if (!screenFound) {
+                m_glWidget->setParent(nullptr);
             }
         } else {
             m_glWidget->setParent(nullptr);
