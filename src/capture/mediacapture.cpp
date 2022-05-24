@@ -236,7 +236,7 @@ const QVector<double> MediaCapture::recLevels() const
 
 bool MediaCapture::isMonitoring() const
 {
-    return m_audioInput != nullptr;
+    return m_audioInput != nullptr && !isRecording();
 }
 
 MediaCapture::~MediaCapture() = default;

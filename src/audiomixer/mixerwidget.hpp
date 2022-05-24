@@ -89,7 +89,6 @@ private:
     std::shared_ptr<AudioLevelWidget> m_audioMeterWidget;
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
-    QToolButton *m_record;
     QToolButton *m_collapse;
     QToolButton *m_monitor;
     KSqueezedTextLabel *m_trackLabel;

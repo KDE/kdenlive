@@ -70,7 +70,7 @@ TimelineController::TimelineController(QObject *parent)
     m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
-    connect(pCore->mixer(), &MixerManager::recordAudio, this, &TimelineController::switchRecording);
+    connect(pCore.get(), &Core::recordAudio, this, &TimelineController::switchRecording);
 }
 
 TimelineController::~TimelineController()
@@ -4497,6 +4497,9 @@ QColor TimelineController::selectionColor() const
 
 void TimelineController::switchRecording(int trackId)
 {
+    if (trackId == -1) {
+        trackId = pCore->mixer()->recordTrack();
+    }
     if (!pCore->isMediaCapturing()) {
         qDebug() << "start recording" << trackId;
         if (!m_model->isTrack(trackId)) {

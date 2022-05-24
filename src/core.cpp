@@ -1031,9 +1031,19 @@ int Core::getMediaCaptureState()
     return m_capture->getState();
 }
 
-bool Core::isMediaCapturing()
+bool Core::isMediaMonitoring() const
+{
+    return m_capture->isMonitoring();
+}
+
+bool Core::isMediaCapturing() const
 {
     return m_capture->isRecording();
+}
+
+void Core::switchCapture()
+{
+    emit recordAudio(-1);
 }
 
 MediaCapture *Core::getAudioDevice()

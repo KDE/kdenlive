@@ -42,6 +42,8 @@ public:
     void checkAudioLevelVersion();
     /** @brief Enable/disable audio monitoring on a track */
     void monitorAudio(int tid, bool monitor);
+    /** @brief Track currently monitored that will be used for recording */
+    int recordTrack() const;
 
 public slots:
     void recordStateChanged(int tid, bool recording);
@@ -51,7 +53,6 @@ private slots:
 
 signals:
     void updateLevels(int);
-    void recordAudio(int tid);
     void purgeCache();
     void clearMixers();
     void updateRecVolume();

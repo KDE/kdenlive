@@ -531,9 +531,6 @@ Rectangle {
                 visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + resizer.height)
                 source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
                 onLoaded: item.trackId = trackId
-                onVisibleChanged: {
-                    audiorec.switchMonitorState(trackId, audioVuMeter.visible)
-                }
             }
         }
         Item {

@@ -218,7 +218,8 @@ public:
     void stopMediaCapture(int tid, bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
-    bool isMediaCapturing();
+    bool isMediaMonitoring() const;
+    bool isMediaCapturing() const;
     MediaCapture *getAudioDevice();
     /** @brief Returns Project Folder name for capture output location */
     QString getProjectFolderName();
@@ -280,6 +281,8 @@ public:
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
     QString packageType() { return m_packageType; };
+    /** @brief Start / stop audio capture */
+    void switchCapture();
 
 private:
     explicit Core(const QString &packageType);
@@ -384,4 +387,6 @@ signals:
     void updateMixerLevels(int pos);
     /** @brief Audio recording was started or stopped*/
     void switchTimelineRecord(bool on);
+    /** @brief Launch audio recording on track tid*/
+    void recordAudio(int tid);
 };

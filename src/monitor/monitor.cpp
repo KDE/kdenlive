@@ -1547,6 +1547,8 @@ void Monitor::slotSwitchPlay()
         } else if (recState == QMediaRecorder::PausedState && play) {
             pCore->getAudioDevice()->resumeRecording();
         }
+    } else if (pCore->getAudioDevice()->isMonitoring()) {
+        pCore->recordAudio(-1);
     }
     m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;

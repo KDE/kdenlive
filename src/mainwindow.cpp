@@ -2735,8 +2735,11 @@ void MainWindow::slotSwitchTrackAudioStream()
 
 void MainWindow::slotShowTrackRec(bool checked)
 {
-    pCore->mixer()->monitorAudio(getCurrentTimeline()->controller()->activeTrack(), checked);
-    getCurrentTimeline()->controller()->switchTrackRecord(-1, checked);
+    if (checked) {
+        pCore->mixer()->monitorAudio(getCurrentTimeline()->controller()->activeTrack(), checked);
+    } else {
+        pCore->mixer()->monitorAudio(pCore->mixer()->recordTrack(), false);
+    }
 }
 
 void MainWindow::slotSelectTrack()
@@ -4395,6 +4398,14 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
         case QEvent::ShortcutOverride:
             if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+                if (pCore->isMediaMonitoring()) {
+                    slotShowTrackRec(false);
+                    return true;
+                }
+                if (pCore->isMediaCapturing()) {
+                    pCore->switchCapture();
+                    return true;
+                }
                 if (m_activeTool != ToolType::SelectTool) {
                     m_buttonSelectTool->trigger();
                     return true;

@@ -92,7 +92,6 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, QString
     , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
     , m_solo(nullptr)
-    , m_record(nullptr)
     , m_collapse(nullptr)
     , m_monitor(nullptr)
     , m_lastVolume(0)
@@ -114,7 +113,6 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, QString trackTag, const
     , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, int(service->get_fps() * 1.5)))
     , m_solo(nullptr)
-    , m_record(nullptr)
     , m_collapse(nullptr)
     , m_monitor(nullptr)
     , m_lastVolume(0)
@@ -154,7 +152,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     m_volumeSpin->setFrame(false);
 
     connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&](double val) {
-        if (m_recording || (m_monitor && m_monitor->isChecked())) {
+        if (m_monitor && m_monitor->isChecked()) {
             m_volumeSlider->setValue(val);
         } else {
             m_volumeSlider->setValue(fromDB(val));
@@ -289,11 +287,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             emit toggleSolo(m_tid, toggled);
             updateLabel();
         });
-        m_record = new QToolButton(this);
-        m_record->setIcon(QIcon::fromTheme("media-record"));
-        m_record->setToolTip(i18n("Record"));
-        m_record->setCheckable(true);
-        m_record->setAutoRaise(true);
 
         m_monitor = new QToolButton(this);
         m_monitor->setIcon(QIcon::fromTheme("audio-input-microphone"));
@@ -302,13 +295,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_monitor->setAutoRaise(true);
         connect(m_monitor, &QToolButton::toggled, this, [&](bool toggled) {
             m_manager->monitorAudio(m_tid, toggled);
-        });
-        connect(m_record, &QToolButton::clicked, this, [&]() {
-            if (!m_monitor->isChecked()) {
-                // Start monitoring first
-                emit m_manager->monitorAudio(m_tid, true);
-            }
-            emit m_manager->recordAudio(m_tid);
         });
     } else {
         m_collapse = new QToolButton(this);
@@ -322,15 +308,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             m_collapse->setIcon(m_collapse->isChecked() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
             m_manager->collapseMixers();
         });
-        showEffects = new QToolButton(this);
-        showEffects->setIcon(QIcon::fromTheme("autocorrection"));
-        showEffects->setToolTip(i18n("Open Effect Stack"));
-        showEffects->setAutoRaise(true);
-        connect(showEffects, &QToolButton::clicked, this,  [&]() {
-            emit m_manager->showEffectStack(m_tid);
-        });
-
     }
+    showEffects = new QToolButton(this);
+    showEffects->setIcon(QIcon::fromTheme("autocorrection"));
+    showEffects->setToolTip(i18n("Open Effect Stack"));
+    showEffects->setAutoRaise(true);
+    connect(showEffects, &QToolButton::clicked, this,  [&]() {
+        emit m_manager->showEffectStack(m_tid);
+    });
 
     connect(m_volumeSlider, &QSlider::valueChanged, this, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
@@ -381,9 +366,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     buttonslay->addWidget(mute);
     if (m_solo) {
         buttonslay->addWidget(m_solo);
-    }
-    if (m_record) {
-        buttonslay->addWidget(m_record);
     }
     if (m_monitor) {
         buttonslay->addWidget(m_monitor);
@@ -530,7 +512,7 @@ void MixerWidget::updateMonitorState()
 {
     QSignalBlocker bk(m_volumeSpin);
     QSignalBlocker bk2(m_volumeSlider);
-    if (m_recording || (m_monitor && m_monitor->isChecked())) {
+    if (m_monitor && m_monitor->isChecked()) {
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         if (m_balanceSlider) {
             m_balanceSlider->setEnabled(false);
@@ -571,7 +553,6 @@ void MixerWidget::monitorAudio(bool monitor)
 void MixerWidget::setRecordState(bool recording)
 {
     m_recording = recording;
-    m_record->setChecked(m_recording);
     updateMonitorState();
 }
 
