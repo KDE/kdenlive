@@ -117,7 +117,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 }
                 if (line.contains(QLatin1String("-->")) || line.contains(rx)) {
                     timeLine += line;
-		    srtTime = timeLine.split(QLatin1Char(separator));
+		    srtTime = timeLine.split(separator);
 		    if (srtTime.count() > endIndex) {
 		      start = srtTime.at(0);
 		      startPos= stringtoTime(start);
