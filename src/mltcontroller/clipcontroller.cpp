@@ -1028,6 +1028,6 @@ const QString ClipController::getOriginalUrl()
 bool ClipController::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    //qDebug()<<"::: PROXY: "<<proxy<<" = "<<clipUrl();
-    return proxy.size() > 2 && proxy == clipUrl();
+    //qDebug()<<"::: PROXY: "<<proxy<<" = "<<getProducerProperty(QStringLiteral("resource"));
+    return proxy.size() > 2 && proxy == getProducerProperty(QStringLiteral("resource"));
 }
