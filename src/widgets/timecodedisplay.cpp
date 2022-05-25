@@ -60,6 +60,11 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
     connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
 }
 
+TimecodeDisplay::TimecodeDisplay(QWidget *parent)
+    : TimecodeDisplay(Timecode(), parent)
+{
+}
+
 // virtual protected
 QAbstractSpinBox::StepEnabled TimecodeDisplay::stepEnabled() const
 {
@@ -174,6 +179,11 @@ GenTime TimecodeDisplay::gentime() const
 Timecode TimecodeDisplay::timecode() const
 {
     return m_timecode;
+}
+
+void TimecodeDisplay::setTimecode(const Timecode &t)
+{
+    m_timecode = t;
 }
 
 void TimecodeDisplay::setRange(int min, int max)
