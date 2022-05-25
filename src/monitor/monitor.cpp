@@ -1298,9 +1298,9 @@ void Monitor::checkOverlay(int pos)
     }
 
     if (model) {
-        bool found = false;
-        CommentedTime marker = model->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
-        if (found) {
+        int mid = model->markerIdAtFrame(pos);
+        if (mid > -1) {
+            CommentedTime marker = model->markerById(mid);
             overlayText = marker.comment();
             color = model->markerTypes.at(marker.markerType());
         }
@@ -2370,7 +2370,7 @@ void Monitor::slotEditInlineMarker()
         }
         QString newComment = root->property("markerText").toString();
         bool found = false;
-        CommentedTime oldMarker = model->getMarker(m_timePos->gentime(), &found);
+        CommentedTime oldMarker = model->getMarker(m_timePos->getValue(), &found);
         if (!found || newComment == oldMarker.comment()) {
             // No change
             return;

@@ -1302,7 +1302,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
     if (frame == -1) {
         frame = pCore->getTimelinePosition();
     }
-    CommentedTime marker = pCore->currentDoc()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
+    CommentedTime marker = pCore->currentDoc()->getGuideModel()->getMarker(frame, &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
             pCore->displayMessage(i18n("No guide found at current position"), ErrorMessage, 500);
