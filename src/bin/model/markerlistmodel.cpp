@@ -55,27 +55,40 @@ void MarkerListModel::setup()
     connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
 }
 
-bool MarkerListModel::hasMarker(GenTime pos) const
+int MarkerListModel::markerIdAtFrame(int pos) const
 {
-    std::map<int, CommentedTime>::const_iterator it = m_markerList.begin();
-    while (it != m_markerList.end()) {
-        if (it->second.time() == pos) {
-            return true;
-        }
-        it++;
+    if (m_markerPositions.contains(pos)) {
+        return m_markerPositions.value(pos);
     }
-    return false;
+    return -1;
 }
 
+bool MarkerListModel::hasMarker(GenTime pos) const
+{
+    int frame = pos.frames(pCore->getCurrentFps());
+    return hasMarker(frame);
+}
+
+CommentedTime MarkerListModel::markerById(int mid) const
+{
+    Q_ASSERT(m_markerPositions.values().contains(mid));
+    return m_markerList.at(mid);
+}
+
+CommentedTime MarkerListModel::marker(int frame) const
+{
+    int mid = markerIdAtFrame(frame);
+    if (mid > -1) {
+        return m_markerList.at(mid);
+    }
+    return CommentedTime();
+}
 
 CommentedTime MarkerListModel::marker(GenTime pos) const
 {
-    std::map<int, CommentedTime>::const_iterator it = m_markerList.begin();
-    while (it != m_markerList.end()) {
-        if (it->second.time() == pos) {
-            return it->second;
-        }
-        it++;
+    int mid = markerIdAtFrame(pos.frames(pCore->getCurrentFps()));
+    if (mid > -1) {
+        return m_markerList.at(mid);
     }
     return CommentedTime();
 }
@@ -214,13 +227,14 @@ int MarkerListModel::getRowfromId(int mid) const
 
 int MarkerListModel::getIdFromPos(const GenTime &pos) const
 {
-    READ_LOCK();
-    std::map<int, CommentedTime>::const_iterator it = m_markerList.begin();
-    while (it != m_markerList.end()) {
-        if (it->second.time() == pos) {
-            return it->first;
-        }
-        it++;
+    int frame = pos.frames(pCore->getCurrentFps());
+    return getIdFromPos(frame);
+}
+
+int MarkerListModel::getIdFromPos(int frame) const
+{
+    if (m_markerPositions.contains(frame)) {
+        return m_markerPositions.value(frame);
     }
     return -1;
 }
@@ -234,7 +248,10 @@ bool MarkerListModel::moveMarker(int mid, GenTime pos)
         return false;
     }
     int row = getRowfromId(mid);
+    int oldPos = m_markerList.at(mid).time().frames(pCore->getCurrentFps());
     m_markerList[mid].setTime(pos);
+    m_markerPositions.remove(oldPos);
+    m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
     emit dataChanged(index(row), index(row), {FrameRole});
     return true;
 }
@@ -249,7 +266,10 @@ void MarkerListModel::moveMarkersWithoutUndo(const QVector<int> &markersId, int 
     int lastRow = -1;
     for (auto mid : markersId) {
         Q_ASSERT(m_markerList.count(mid) > 0);
-        GenTime t = m_markerList.at(mid).time() + GenTime(offset, pCore->getCurrentFps());
+        GenTime t = m_markerList.at(mid).time();
+        m_markerPositions.remove(t.frames(pCore->getCurrentFps()));
+        t += GenTime(offset, pCore->getCurrentFps());
+        m_markerPositions.insert(t.frames(pCore->getCurrentFps()), mid);
         m_markerList[mid].setTime(t);
         if (!updateView) {
             continue;
@@ -327,6 +347,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
         int insertionRow = static_cast<int>(model->m_markerList.size());
         model->beginInsertRows(QModelIndex(), insertionRow, insertionRow);
         model->m_markerList[mid] = CommentedTime(pos, comment, type);
+        model->m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
         model->endInsertRows();
         model->addSnapPoint(pos);
         return true;
@@ -345,6 +366,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
         int row = model->getRowfromId(mid);
         model->beginRemoveRows(QModelIndex(), row, row);
         model->m_markerList.erase(mid);
+        model->m_markerPositions.remove(pos.frames(pCore->getCurrentFps()));
         model->endRemoveRows();
         model->removeSnapPoint(pos);
         return true;
@@ -435,6 +457,18 @@ int MarkerListModel::rowCount(const QModelIndex &parent) const
     return static_cast<int>(m_markerList.size());
 }
 
+CommentedTime MarkerListModel::getMarker(int frame, bool *ok) const
+{
+    READ_LOCK();
+    if (hasMarker(frame) == false) {
+        // return empty marker
+        *ok = false;
+        return CommentedTime();
+    }
+    *ok = true;
+    return marker(frame);
+}
+
 CommentedTime MarkerListModel::getMarker(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
@@ -462,13 +496,12 @@ QList<CommentedTime> MarkerListModel::getAllMarkers(int type) const
 
 QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) const
 {
-    READ_LOCK();
     QList<CommentedTime> markers;
-    for (const auto &marker : m_markerList) {
-        int pos = marker.second.time().frames(pCore->getCurrentFps());
-        if(pos >= start && (end == -1 || pos <= end)) {
-            markers << marker.second;
-        }
+    QVector <int> mids = getMarkersIdInRange(start, end);
+    // Now extract markers
+    READ_LOCK();
+    for (const auto &marker : mids) {
+        markers << m_markerList.at(marker);
     }
     std::sort(markers.begin(), markers.end());
     return markers;
@@ -478,25 +511,24 @@ int MarkerListModel::getMarkerPos(int mid) const
 {
     READ_LOCK();
     Q_ASSERT(m_markerList.count(mid) > 0);
-    return m_markerList.at(mid).time().frames(pCore->getCurrentFps());
+    return m_markerPositions.key(mid);
 
 }
 
 QVector<int> MarkerListModel::getMarkersIdInRange(int start, int end) const
 {
     READ_LOCK();
+    // First find marker ids in range
     QVector<int> markers;
-    // Ensure we provide sorted markers list
-    std::map<CommentedTime,int> sortedList;
-
-    for(std::map<int, CommentedTime>::const_iterator it = m_markerList.begin(); it != m_markerList.end(); ++it)
-        sortedList.insert(std::pair<CommentedTime, int>(it -> second, it -> first));
-
-    for (const auto &marker : sortedList) {
-        int pos = marker.first.time().frames(pCore->getCurrentFps());
-        if(pos >= start && (end == -1 || pos <= end)) {
-            markers << marker.second;
+    QMap<int, int>::const_iterator i = m_markerPositions.constBegin();
+    while (i != m_markerPositions.constEnd()) {
+        if (end > -1 && i.key() > end) {
+            break;
         }
+        if (i.key() >= start) {
+            markers << i.value();
+        }
+        ++i;
     }
     return markers;
 }
@@ -504,17 +536,15 @@ QVector<int> MarkerListModel::getMarkersIdInRange(int start, int end) const
 std::vector<int> MarkerListModel::getSnapPoints() const
 {
     READ_LOCK();
-    std::vector<int> markers;
-    for (const auto &marker : m_markerList) {
-        markers.push_back(marker.second.time().frames(pCore->getCurrentFps()));
-    }
+    const QList<int> positions = m_markerPositions.keys();
+    std::vector<int> markers(positions.cbegin(), positions.cend());
     return markers;
 }
 
 bool MarkerListModel::hasMarker(int frame) const
 {
     READ_LOCK();
-    return hasMarker(GenTime(frame, pCore->getCurrentFps()));
+    return m_markerPositions.contains(frame);
 }
 
 void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel)
@@ -526,9 +556,10 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
         m_registeredSnaps.push_back(snapModel);
 
         // we now add the already existing markers to the snap
-        for (const auto &marker : m_markerList) {
-            qDebug() << " *- *-* REGISTERING MARKER: " << marker.second.time().frames(pCore->getCurrentFps());
-            ptr->addPoint(marker.second.time().frames(pCore->getCurrentFps()));
+        QMap<int, int>::const_iterator i = m_markerPositions.constBegin();
+        while (i != m_markerPositions.constEnd()) {
+            ptr->addPoint(i.key());
+            ++i;
         }
     } else {
         qDebug() << "Error: added snapmodel is null";
