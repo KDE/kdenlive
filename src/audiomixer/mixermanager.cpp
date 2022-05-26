@@ -41,7 +41,6 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsBox->setContentsMargins(0, 0, 0, 0);
     m_box = new QHBoxLayout;
     m_box->setSpacing(0);
-    m_box->addStretch(10);
     auto *channelsBoxContainer = new QWidget(this);
     m_channelsBox->setWidget(channelsBoxContainer);
     m_channelsBox->setWidgetResizable(true);
