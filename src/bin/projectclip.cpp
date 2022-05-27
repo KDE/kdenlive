@@ -408,7 +408,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         if (!xml.isNull()) {
             bool hashChanged = false;
             m_thumbsProducer.reset();
-            m_clipStatus = FileStatus::StatusWaiting;
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
@@ -430,6 +429,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 discardAudioThumb();
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            m_clipStatus = FileStatus::StatusWaiting;
             m_thumbsProducer.reset();
             ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
         }
