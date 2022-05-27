@@ -782,7 +782,7 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
                 m_missingClips.append(e);
                 missingPaths.append(resource);
             }
-        } else if (service.startsWith(QLatin1String("avformat")) || slideshow) {
+        } else if (service.startsWith(QLatin1String("avformat")) || slideshow || service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
             // Check if file changed
             const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
             if (!hash.isEmpty()) {
