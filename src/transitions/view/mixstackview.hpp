@@ -36,7 +36,7 @@ private slots:
     void slotAlignCenter();
 
 private:
-    //QHBoxLayout *m_positionLayout;
+    // QHBoxLayout *m_positionLayout;
     PositionWidget *m_position;
     QHBoxLayout *m_durationLayout;
     TimecodeDisplay *m_duration;

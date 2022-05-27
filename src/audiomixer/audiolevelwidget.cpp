@@ -5,17 +5,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "audiolevelwidget.hpp"
 #include "core.h"
-#include "profiles/profilemodel.hpp"
 #include "iecscale.h"
 #include "mlt++/Mlt.h"
+#include "profiles/profilemodel.hpp"
 
-#include <cmath>
 #include <KLocalizedString>
 #include <QFont>
 #include <QFontDatabase>
-#include <QToolTip>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QToolTip>
+#include <cmath>
 
 AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     : QWidget(parent)
@@ -34,9 +34,7 @@ AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     setMinimumWidth(4);
 }
 
-
-AudioLevelWidget::~AudioLevelWidget()
-= default;
+AudioLevelWidget::~AudioLevelWidget() = default;
 
 void AudioLevelWidget::enterEvent(QEvent *event)
 {
@@ -109,7 +107,7 @@ void AudioLevelWidget::drawBackground(int channels)
         totalWidth = m_channelWidth;
     } else {
         m_channelWidth = (newSize.width() - (channels - 1)) / channels;
-        totalWidth= channels * m_channelWidth + (channels - 1);
+        totalWidth = channels * m_channelWidth + (channels - 1);
     }
     QRect rect(m_offset, 0, newSize.width(), newSize.height());
     QPainter p(&m_pixmap);

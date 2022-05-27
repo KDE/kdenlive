@@ -145,6 +145,7 @@ public:
     void fixFocus();
     /** @brief Show a rec countdown over the monitor **/
     void startCountDown();
+    void stopCountDown();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

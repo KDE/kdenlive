@@ -115,10 +115,8 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     }
     if (qFuzzyIsNull(version)) {
         // version missing, try with latest
-        KMessageBox::sorry(
-            QApplication::activeWindow(),
-            i18n("Version of the project file cannot be read.\nAttempting to open nonetheless."),
-            i18n("Incorrect project file"));
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("Version of the project file cannot be read.\nAttempting to open nonetheless."),
+                           i18n("Incorrect project file"));
         version = currentVersion;
     }
     // Upgrade the document to the latest version
@@ -837,7 +835,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 mlt.insertBefore(pr, firstProd);
             }
         }
-        //TODO MLT7: port?
+        // TODO MLT7: port?
         /*int profileWidth;
         int profileHeight;
         if (profile.isNull()) {
@@ -1538,7 +1536,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // AV clips are not supported anymore. Check if we have some and add extra audio tracks if necessary
         // Update the main bin name as well to be xml compliant
         for (int i = 0; i < playlists.count(); i++) {
-            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") ||
+                playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
                 playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
                 mainplaylist = playlists.at(i);
                 QString oldGroups = Xml::getXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:clipgroups"));
@@ -1715,7 +1714,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 j.next();
                 Xml::removeXmlProperty(masterProducers.at(i).toElement(), j.key());
                 QJsonObject currentZone;
-                currentZone.insert(QLatin1String("name"), QJsonValue(j.key().section(QLatin1Char('.'),1)));
+                currentZone.insert(QLatin1String("name"), QJsonValue(j.key().section(QLatin1Char('.'), 1)));
                 if (!j.value().contains(QLatin1Char(';'))) {
                     // invalid zone
                     continue;
@@ -1746,8 +1745,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 } else if (animation == QLatin1String("0%/0%:100%x100%:0;-1=0%/0%:100%x100%:100")) {
                     Xml::setXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 0%;-1=0% 0% 100% 100% 100%"));
                 }
-            }
-            else if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("affine")) {
+            } else if (Xml::getXmlProperty(t, QStringLiteral("kdenlive_id")) == QLatin1String("affine")) {
                 Xml::renameXmlProperty(t, QStringLiteral("geometry"), QStringLiteral("rect"));
             }
         }
@@ -1770,7 +1768,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         for (int i = 0; i < max; ++i) {
             QDomElement t = effects.at(i).toElement();
             QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
-            if (Xml::getXmlProperty(t, QStringLiteral("mlt_service")) == QLatin1String("affine") &&  kdenliveId != QLatin1String("pan_zoom")) {
+            if (Xml::getXmlProperty(t, QStringLiteral("mlt_service")) == QLatin1String("affine") && kdenliveId != QLatin1String("pan_zoom")) {
                 QDomElement effect = EffectsRepository::get()->getXml(kdenliveId);
 
                 // check wether the effect already uses mlt rect
@@ -1782,8 +1780,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
                     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
 
-                    if (!dir.exists(newId + QStringLiteral(".xml")))
-                    {
+                    if (!dir.exists(newId + QStringLiteral(".xml"))) {
                         // update the custom effect xml too (create a new fixed xml with "(mlt7)" appendix)
                         QDomDocument doc;
                         doc.appendChild(doc.importNode(effect, true));
@@ -1800,13 +1797,13 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         newNodeTag.appendChild(text);
                         root.replaceChild(newNodeTag, nodelist);
 
-                        //QDomElement e = doc.documentElement();
-                        //e.setAttribute("id", newId);
+                        // QDomElement e = doc.documentElement();
+                        // e.setAttribute("id", newId);
 
                         auto params = doc.elementsByTagName(QStringLiteral("parameter"));
                         for (int j = 0; j < params.count(); j++) {
                             QString paramName = params.at(j).attributes().namedItem("name").nodeValue();
-                            if(paramName == QStringLiteral("transition.geometry")) {
+                            if (paramName == QStringLiteral("transition.geometry")) {
                                 QDomElement e = params.at(j).toElement();
                                 e.setAttribute("name", QStringLiteral("transition.rect"));
                             }
@@ -1824,7 +1821,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
-        if(!changedEffects.isEmpty()) {
+        if (!changedEffects.isEmpty()) {
             KMessageBox::informationList(nullptr, "changedEffects", changedEffects);
             pCore->window()->slotReloadEffects(changedEffects);
         }
@@ -1840,7 +1837,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             QString kdenliveId = Xml::getXmlProperty(t, QStringLiteral("kdenlive_id"));
             if (kdenliveId.startsWith(QLatin1String("fade_"))) {
                 bool fadeIn = kdenliveId.startsWith(QLatin1String("fade_from_"));
-                bool isAlpha = Xml::getXmlProperty(t, QStringLiteral("alpha")).toInt() ==  -1;
+                bool isAlpha = Xml::getXmlProperty(t, QStringLiteral("alpha")).toInt() == -1;
                 // Clear unused properties
                 Xml::removeXmlProperty(t, QStringLiteral("start"));
                 Xml::removeXmlProperty(t, QStringLiteral("end"));
@@ -1897,7 +1894,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     // Convert from hh:mm:ss.mmm to frames
                     inPoint = props.time_to_frames(filterIn.toUtf8().constData());
                 }
-                qDebug()<<"=== FOUND TRACKER WITH IN POINT: "<<inPoint;
+                qDebug() << "=== FOUND TRACKER WITH IN POINT: " << inPoint;
                 QString animation = Xml::getXmlProperty(t, QStringLiteral("results"));
                 props.set("key", animation.toUtf8().constData());
                 // This is a fake query to force the animation to be parsed
@@ -1915,7 +1912,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
+auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString
+{
 
     bool modified = false;
     auto decimalPoint = documentLocale.decimalPoint();
@@ -1923,22 +1921,20 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
     if (decimalPoint != '.') {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
-        auto fixTimecode = [decimalPoint] (QString &value) {
+        auto fixTimecode = [decimalPoint](QString &value) {
             QRegularExpression reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
             QRegularExpression reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
-            value.replace(reTimecode, "\\1.\\2")
-                    .replace(reValue, "\\1.\\2");
+            value.replace(reTimecode, "\\1.\\2").replace(reValue, "\\1.\\2");
         };
-
 
         // List of properties which always need to be fixed
         // Example: <property name="aspect_ratio">1,00247</property>
         QList<QString> generalPropertiesToFix = {
-                "warp_speed",
-                "length",
-                "aspect_ratio",
-                "kdenlive:clipanalysis.motion_vector_list",
-                "kdenlive:original.meta.attr.com.apple.quicktime.rating.user.markup",
+            "warp_speed",
+            "length",
+            "aspect_ratio",
+            "kdenlive:clipanalysis.motion_vector_list",
+            "kdenlive:original.meta.attr.com.apple.quicktime.rating.user.markup",
         };
 
         // Fix properties just by name, anywhere in the file
@@ -1951,9 +1947,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 QDomText text = element.firstChild().toText();
                 if (!text.isNull()) {
 
-                    bool autoReplace = propName.endsWith("frame_rate")
-                            || propName.endsWith("aspect_ratio")
-                            || (generalPropertiesToFix.indexOf(propName) >= 0);
+                    bool autoReplace = propName.endsWith("frame_rate") || propName.endsWith("aspect_ratio") || (generalPropertiesToFix.indexOf(propName) >= 0);
 
                     QString originalValue = text.nodeValue();
                     QString value(originalValue);
@@ -1969,27 +1963,24 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
 
                     if (originalValue != value) {
                         text.setNodeValue(value);
-                        qDebug() << "Decimal point: Converted " << propName << " from " << originalValue << " to "
-                                 << value;
+                        qDebug() << "Decimal point: Converted " << propName << " from " << originalValue << " to " << value;
                     }
                 }
             }
         }
 
-
         QList<QString> filterPropertiesToFix = {
-                "version",
+            "version",
         };
 
         // Fix filter specific properties.
         // The first entry is the filter (MLT service) name, the second entry a list of properties to fix.
         // Warning: This list may not be complete!
-        QMap <QString, QList<QString> > servicePropertiesToFix;
+        QMap<QString, QList<QString>> servicePropertiesToFix;
         servicePropertiesToFix.insert("panner", {"start"});
         servicePropertiesToFix.insert("volume", {"level"});
         servicePropertiesToFix.insert("window", {"gain"});
         servicePropertiesToFix.insert("lumaliftgaingamma", {"lift", "gain", "gamma"});
-
 
         // Fix filter properties.
         // Note that effect properties will be fixed when the effect is loaded
@@ -2019,7 +2010,6 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                     }
                 }
             }
-
         }
 
         auto fixAttribute = [fixTimecode](QDomElement &el, const QString &attributeName) {

@@ -24,27 +24,27 @@
 #include <QVariantList>
 #include <klocalizedstring.h>
 
-static QList<AudioLevelsTask*> tasksList;
+static QList<AudioLevelsTask *> tasksList;
 static QMutex tasksListMutex;
 
-static void deleteQVariantList(QVector <uint8_t>* list)
+static void deleteQVariantList(QVector<uint8_t> *list)
 {
     delete list;
 }
 
-AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject* object)
+AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject *object)
     : AbstractTask(owner, AbstractTask::AUDIOTHUMBJOB, object)
 {
 }
 
-void AudioLevelsTask::start(const ObjectId &owner, QObject* object, bool force)
+void AudioLevelsTask::start(const ObjectId &owner, QObject *object, bool force)
 {
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::AUDIOTHUMBJOB)) {
-        qDebug()<<"AUDIO LEVELS TASK STARTED TWICE!!!!";
+        qDebug() << "AUDIO LEVELS TASK STARTED TWICE!!!!";
         return;
     }
-    AudioLevelsTask* task = new AudioLevelsTask(owner, object);
+    AudioLevelsTask *task = new AudioLevelsTask(owner, object);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
@@ -73,7 +73,8 @@ void AudioLevelsTask::run()
     }
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
     if ((producer == nullptr) || !producer->is_valid()) {
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", QFileInfo(binClip->url()).fileName())),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                  Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", QFileInfo(binClip->url()).fileName())),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
@@ -81,7 +82,8 @@ void AudioLevelsTask::run()
     int lengthInFrames = producer->get_length(); // Multiply this if we want more than 1 sample per frame
     if (lengthInFrames == INT_MAX || lengthInFrames == 0) {
         // This is a broken file or live feed, don't attempt to generate audio thumbnails
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: unknown file length for %1", QFileInfo(binClip->url()).fileName())),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                  Q_ARG(QString, i18n("Audio thumbs: unknown file length for %1", QFileInfo(binClip->url()).fileName())),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
@@ -92,8 +94,8 @@ void AudioLevelsTask::run()
     int channels = binClip->audioInfo()->channels();
     channels = channels <= 0 ? 2 : channels;
 
-    QMap <int, QString> streams = binClip->audioInfo()->streams();
-    QMap <int, int> audioChannels = binClip->audioInfo()->streamChannels();
+    QMap<int, QString> streams = binClip->audioInfo()->streams();
+    QMap<int, int> audioChannels = binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
     bool audioCreated = false;
     while (st.hasNext() && !m_isCanceled) {
@@ -104,7 +106,7 @@ void AudioLevelsTask::run()
         }
         // Generate one thumb per stream
         QString cachePath = binClip->getAudioThumbPath(stream);
-        QVector <uint8_t> mltLevels;
+        QVector<uint8_t> mltLevels;
         if (!m_isForce && QFile::exists(cachePath)) {
             // Audio thumb already exists
             QImage image(cachePath);
@@ -119,10 +121,10 @@ void AudioLevelsTask::run()
                     mltLevels << qAlpha(p);
                 }
                 if (mltLevels.size() > 0) {
-                    QVector <uint8_t>* levelsCopy = new QVector <uint8_t>(mltLevels);
+                    QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
                     producer->lock();
                     QString key = QString("_kdenlive:audio%1").arg(stream);
-                    producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
+                    producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
                     producer->unlock();
                     continue;
                 }
@@ -136,8 +138,9 @@ void AudioLevelsTask::run()
         }
         QScopedPointer<Mlt::Producer> audioProducer(new Mlt::Producer(*producer->profile(), service.toUtf8().constData(), producer->get("resource")));
         if (!audioProducer->is_valid()) {
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                      Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -173,8 +176,8 @@ void AudioLevelsTask::run()
                 for (int channel = 0; channel < channels; ++channel) {
                     uint lev = 256 * qMin(mltFrame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
                     mltLevels << lev;
-                    //double lev = mltFrame->get_double(keys.at(channel).toUtf8().constData());
-                    //mltLevels << lev;
+                    // double lev = mltFrame->get_double(keys.at(channel).toUtf8().constData());
+                    // mltLevels << lev;
                     maxLevel = qMax(lev, maxLevel);
                 }
             } else if (!mltLevels.isEmpty()) {
@@ -185,15 +188,15 @@ void AudioLevelsTask::run()
             // Incrementally update the audio levels every 3 seconds.
             if (updateTime.elapsed() > 3000 && !m_isCanceled) {
                 updateTime.restart();
-                QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
+                QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
                 producer->lock();
                 QString key = QString("_kdenlive:audio%1").arg(stream);
-                producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
+                producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
                 producer->unlock();
                 QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, false));
             }
         }
-        
+
         /*// Normalize
         for (double &v : mltLevels) {
             m_audioLevels << uchar(255 * v / maxLevel);
@@ -204,29 +207,29 @@ void AudioLevelsTask::run()
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
         }
         if (mltLevels.size() > 0) {
-            QVector <uint8_t>* levelsCopy = new  QVector <uint8_t>(mltLevels);
+            QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
             producer->lock();
             QString key = QString("_kdenlive:audio%1").arg(stream);
             QString key2 = QString("kdenlive:audio_max%1").arg(stream);
             producer->set(key2.toUtf8().constData(), int(maxLevel));
-            producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor) deleteQVariantList);
+            producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
             producer->unlock();
-            //qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
+            // qDebug()<<"=== FINISHED PRODUCING AUDIO FOR: "<<key<<", SIZE: "<<levelsCopy->size();
             m_progress = 100;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             // Put into an image for caching.
             int count = mltLevels.size();
             QImage image((count + 3) / 4 / channels, channels, QImage::Format_ARGB32);
             int n = image.width() * image.height();
-            for (int i = 0; i < n; i ++) {
+            for (int i = 0; i < n; i++) {
                 QRgb p;
-                if ((4*i + 3) < count) {
-                    p = qRgba(mltLevels.at(4*i), mltLevels.at(4*i+1), mltLevels.at(4*i+2), mltLevels.at(4*i+3));
+                if ((4 * i + 3) < count) {
+                    p = qRgba(mltLevels.at(4 * i), mltLevels.at(4 * i + 1), mltLevels.at(4 * i + 2), mltLevels.at(4 * i + 3));
                 } else {
                     int last = mltLevels.last();
-                    int r = (4*i+0) < count? mltLevels.at(4*i+0) : last;
-                    int g = (4*i+1) < count? mltLevels.at(4*i+1) : last;
-                    int b = (4*i+2) < count? mltLevels.at(4*i+2) : last;
+                    int r = (4 * i + 0) < count ? mltLevels.at(4 * i + 0) : last;
+                    int g = (4 * i + 1) < count ? mltLevels.at(4 * i + 1) : last;
+                    int b = (4 * i + 2) < count ? mltLevels.at(4 * i + 2) : last;
                     int a = last;
                     p = qRgba(r, g, b, a);
                 }

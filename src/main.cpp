@@ -49,14 +49,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <klocalizedstring.h>
 
 #ifdef Q_OS_WIN
-extern "C"
-{
-    // Inform the driver we could make use of the discrete gpu
-    // __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-    // __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+extern "C" {
+// Inform the driver we could make use of the discrete gpu
+// __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+// __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 #endif
-
 
 int main(int argc, char *argv[])
 {
@@ -71,9 +69,9 @@ int main(int argc, char *argv[])
 #endif
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    //TODO: is it a good option ?
+    // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-    
+
 #if defined(Q_OS_WIN)
     KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
     KConfigGroup grp1(configWin, "misc");
@@ -107,9 +105,9 @@ int main(int argc, char *argv[])
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
 #endif
-#if defined(Q_OS_WIN) || defined (Q_OS_MACOS)
-    const QStringList themes {"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
-    for(const QString &theme : themes ) {
+#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+    const QStringList themes{"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
+    for (const QString &theme : themes) {
         const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
         if (!themePath.isEmpty()) {
             const QString iconSubdir = theme.left(theme.lastIndexOf('/'));
@@ -134,7 +132,8 @@ int main(int argc, char *argv[])
         QString appPath = qApp->applicationDirPath();
         if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
             packageType = QStringLiteral("appimage");
-        } if (appPath.contains(QStringLiteral("/snap"))) {
+        }
+        if (appPath.contains(QStringLiteral("/snap"))) {
             packageType = QStringLiteral("snap");
         } else {
             qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
@@ -166,9 +165,9 @@ int main(int argc, char *argv[])
             }
         }
     }
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(5,60,0)
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(5, 60, 0)
     // work around bug in Kirigami2 resetting icon theme path
-    qputenv("XDG_CURRENT_DESKTOP","KDE");
+    qputenv("XDG_CURRENT_DESKTOP", "KDE");
 #endif
 
 #ifndef NODBUS
@@ -183,13 +182,13 @@ int main(int argc, char *argv[])
     qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
-    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"), QStringLiteral("https://bugs.kde.org/"));
+    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
+                             QStringLiteral("https://bugs.kde.org/"));
     if (!packageType.isEmpty()) {
         otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
     }
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
-                         i18n("Copyright © 2007–2022 Kdenlive authors"), otherText,
-                         QStringLiteral("https://kdenlive.org"));
+                         i18n("Copyright © 2007–2022 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
     // active developers with major involvement
@@ -211,14 +210,16 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,87,0)
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 87, 0)
     aboutData.setOtherText(
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
 #endif
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5,84,0)
-    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(), QStringLiteral("https://mltframework.org")/*, KAboutLicense::LGPL_V2_1*/);
-    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(), QStringLiteral("https://ffmpeg.org"));
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 84, 0)
+    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
+                           QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
+    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
+                           QStringLiteral("https://ffmpeg.org"));
 #endif
 
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
@@ -304,9 +305,7 @@ int main(int argc, char *argv[])
         result = EXIT_CLEAN_RESTART;
     } else {
         QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
-        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&] () {
-            splash.finish(pCore->window());
-        });
+        QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
         pCore->initGUI(inSandbox, parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
         result = app.exec();
     }
@@ -320,7 +319,7 @@ int main(int argc, char *argv[])
                 // Make sure we delete our config file
                 QFile f(QStandardPaths::locate(QStandardPaths::GenericConfigLocation, config->name(), QStandardPaths::LocateFile));
                 if (f.exists()) {
-                    qDebug()<<" = = = =\nGOT Deleted file: "<<f.fileName();
+                    qDebug() << " = = = =\nGOT Deleted file: " << f.fileName();
                     f.remove();
                 }
             }
@@ -332,7 +331,7 @@ int main(int argc, char *argv[])
             if (dir.exists()) {
                 QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
                 if (f.exists()) {
-                    qDebug()<<" = = = =\nGOT Deleted file: "<<f.fileName();
+                    qDebug() << " = = = =\nGOT Deleted file: " << f.fileName();
                     f.remove();
                 }
             }

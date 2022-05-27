@@ -305,7 +305,7 @@ AudioGraphSpectrum::~AudioGraphSpectrum()
 
 void AudioGraphSpectrum::dockVisible(bool visible)
 {
-    if (KdenliveSettings::enableaudiospectrum())  {
+    if (KdenliveSettings::enableaudiospectrum()) {
         if (!visible) {
             disconnect(m_manager, &MonitorManager::frameDisplayed, this, &ScopeWidget::onNewFrame);
         } else {

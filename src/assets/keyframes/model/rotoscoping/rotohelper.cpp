@@ -8,8 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "rotohelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
-#include "utils/gentime.h"
 #include "monitor/monitor.h"
+#include "utils/gentime.h"
 
 #include <QSize>
 #include <utility>

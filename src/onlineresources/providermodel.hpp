@@ -6,14 +6,14 @@
 
 #pragma once
 
-#include <QObject>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <kio/jobclasses.h>
 #include <QNetworkReply>
-#include <QTemporaryFile>
+#include <QObject>
 #include <QPixmap>
+#include <QTemporaryFile>
 #include <QtNetworkAuth>
+#include <kio/jobclasses.h>
 
 struct ResourceItemInfo
 {
@@ -34,14 +34,14 @@ struct ResourceItemInfo
     QStringList downloadLabels;
     QString imageUrl;
     QString previewUrl;
-    //int filesize;
+    // int filesize;
 };
 
 class ProviderModel : public QObject
 {
     Q_OBJECT
 public:
-    enum SERVICETYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, IMAGE = 3};
+    enum SERVICETYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, IMAGE = 3 };
     ProviderModel() = delete;
     ProviderModel(const QString &path);
 
@@ -58,7 +58,7 @@ public:
 public slots:
     void slotStartSearch(const QString &searchText, int page);
     void slotFetchFiles(const QString &id);
-    //void slotShowResults(QNetworkReply *reply);
+    // void slotShowResults(QNetworkReply *reply);
 
 protected:
     QOAuth2AuthorizationCodeFlow m_oauth2;
@@ -93,5 +93,4 @@ signals:
     void authenticated(const QString &token);
     void usePreview();
     void authorizeWithBrowser(const QUrl &url);
-
 };

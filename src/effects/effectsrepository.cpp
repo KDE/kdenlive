@@ -124,7 +124,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         }
 
         if (customAssets.count(result.id) > 0) {
-            //qDebug() << "duplicate effect" << result.id;
+            // qDebug() << "duplicate effect" << result.id;
         }
 
         result.xml = currentEffect;
@@ -229,11 +229,10 @@ bool EffectsRepository::hasInternalEffect(const QString &effectId) const
 QString EffectsRepository::getCustomPath(const QString &id)
 {
     QString customAssetDir = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
-    QPair <QStringList, QStringList> results;
+    QPair<QStringList, QStringList> results;
     QDir current_dir(customAssetDir);
     return current_dir.absoluteFilePath(QString("%1.xml").arg(id));
 }
-  
 
 QPair<QString, QString> EffectsRepository::reloadCustom(const QString &path)
 {
@@ -261,11 +260,10 @@ bool EffectsRepository::isGroup(const QString &assetId) const
     return false;
 }
 
-
-QPair <QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
+QPair<QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
 {
     QString customAssetDir = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
-    QPair <QStringList, QStringList> results;
+    QPair<QStringList, QStringList> results;
     QDir current_dir(customAssetDir);
     QStringList filter;
     filter << QStringLiteral("*.xml");
@@ -273,7 +271,7 @@ QPair <QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
     QStringList failed;
     for (const auto &file : qAsConst(fileList)) {
         QString path = current_dir.absoluteFilePath(file);
-        QPair <QString, QString> fixResult = fixCustomAssetFile(path);
+        QPair<QString, QString> fixResult = fixCustomAssetFile(path);
         if (!fixResult.first.isEmpty()) {
             results.first << fixResult.first;
         } else if (!fixResult.second.isEmpty()) {
@@ -283,9 +281,9 @@ QPair <QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
     return results;
 }
 
-QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &path)
+QPair<QString, QString> EffectsRepository::fixCustomAssetFile(const QString &path)
 {
-    QPair <QString, QString> results;
+    QPair<QString, QString> results;
     QFile file(path);
     QDomDocument doc;
     doc.setContent(&file, false);
@@ -334,7 +332,8 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
                     continue;
                 }
                 QDomElement param = node.toElement();
-                if (param.hasAttribute(QLatin1String("factor")) && (param.attribute(QLatin1String("type")) == QLatin1String("simplekeyframe") || param.attribute(QLatin1String("type")) == QLatin1String("animated"))) {
+                if (param.hasAttribute(QLatin1String("factor")) && (param.attribute(QLatin1String("type")) == QLatin1String("simplekeyframe") ||
+                                                                    param.attribute(QLatin1String("type")) == QLatin1String("animated"))) {
                     // This is an old style effect, adjust current and default values
                     QString currentValue;
                     if (!param.hasAttribute(QLatin1String("value"))) {
@@ -406,7 +405,7 @@ bool EffectsRepository::isAudioEffect(const QString &assetId) const
 {
     if (m_assets.count(assetId) > 0) {
         AssetListType::AssetType type = m_assets.at(assetId).type;
-        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio ;
+        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio;
     }
     return false;
 }

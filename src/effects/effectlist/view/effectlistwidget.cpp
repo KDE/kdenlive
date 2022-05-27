@@ -52,9 +52,7 @@ void EffectListWidget::updateFavorite(const QModelIndex &index)
     emit reloadFavorites();
 }
 
-EffectListWidget::~EffectListWidget()
-{
-}
+EffectListWidget::~EffectListWidget() {}
 
 void EffectListWidget::setFilterType(const QString &type)
 {
@@ -87,7 +85,6 @@ void EffectListWidget::reloadCustomEffectIx(const QModelIndex &index)
     static_cast<EffectTreeModel *>(m_model.get())->reloadEffectFromIndex(m_proxyModel->mapToSource(index));
     m_proxyModel->sort(0, Qt::AscendingOrder);
 }
-
 
 void EffectListWidget::reloadCustomEffect(const QString &path)
 {
@@ -125,17 +122,18 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     form.addRow(&buttonBox);
     QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
     QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
-    if(dialog.exec() == QDialog::Accepted) {
+    if (dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();
         if (name.trimmed().isEmpty() && enteredDescription.trimmed().isEmpty()) {
-           return;
+            return;
         }
         m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
     }
 }
 
-void EffectListWidget::exportCustomEffect(const QModelIndex &index) {
+void EffectListWidget::exportCustomEffect(const QModelIndex &index)
+{
     QString name = getName(index);
     if (name.isEmpty()) {
         return;

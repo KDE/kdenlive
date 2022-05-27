@@ -6,12 +6,12 @@
 */
 
 #include "renderpresetmodel.hpp"
-#include "renderpresetrepository.hpp"
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
-#include "profiles/profilerepository.hpp"
 #include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
+#include "renderpresetrepository.hpp"
 
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -92,8 +92,8 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     checkPreset();
 }
 
-RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate, const QString &defaultVQuality,
-                                       const QString &defaultABitrate, const QString &defaultAQuality, const QString &speeds)
+RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate,
+                                     const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality, const QString &speeds)
     : m_presetFile()
     , m_editable()
     , m_name(name)
@@ -122,7 +122,8 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     checkPreset();
 }
 
-void RenderPresetModel::checkPreset() {
+void RenderPresetModel::checkPreset()
+{
     QStringList acodecs = RenderPresetRepository::acodecs();
     QStringList vcodecs = RenderPresetRepository::vcodecs();
     QStringList supportedFormats = RenderPresetRepository::supportedFormats();
@@ -187,7 +188,7 @@ void RenderPresetModel::checkPreset() {
 
     if (hasParam(QStringLiteral("profile"))) {
         m_warnings = i18n("This render preset uses a 'profile' parameter.<br />Unless you know what you are doing you will probably "
-                               "have to change it to 'mlt_profile'.");
+                          "have to change it to 'mlt_profile'.");
         return;
     }
 }
@@ -244,13 +245,13 @@ QString RenderPresetModel::params(QStringList removeParams) const
     return params.simplified();
 }
 
-QString RenderPresetModel::extension() const {
+QString RenderPresetModel::extension() const
+{
     if (!m_extension.isEmpty()) {
-            return m_extension;
+        return m_extension;
     }
     return getParam(QStringLiteral("f"));
 };
-
 
 QStringList RenderPresetModel::audioBitrates() const
 {
@@ -279,7 +280,7 @@ QStringList RenderPresetModel::audioQualities() const
         QString acodec = getParam(QStringLiteral("acodec")).toLower();
         if (acodec == "libmp3lame") {
             return {"0", "9"};
-        } else if (acodec == "libvorbis" || acodec == "vorbis") {
+        } else if (acodec == "libvorbis" || acodec == "vorbis" || acodec == "libopus") {
             return {"10", "0"};
         } else {
             return {"500", "0"};
@@ -317,7 +318,8 @@ QStringList RenderPresetModel::videoQualities() const
     } else {
         // ATTENTION: historically qualities are sorted from best to worse for some reason
         QString vcodec = getParam(QStringLiteral("vcodec")).toLower();
-        if (vcodec == "libx265" || vcodec.contains("nvenc") || vcodec.endsWith("_amf") || vcodec.startsWith("libx264") || vcodec.endsWith("_vaapi") || vcodec.endsWith("_qsv")) {
+        if (vcodec == "libx265" || vcodec.contains("nvenc") || vcodec.endsWith("_amf") || vcodec.startsWith("libx264") || vcodec.endsWith("_vaapi") ||
+            vcodec.endsWith("_qsv")) {
             return {"0", "51"};
         } else if (vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
             return {"0", "63"};
@@ -368,13 +370,9 @@ RenderPresetModel::RateControl RenderPresetModel::videoRateControl() const
     QString vbufsize = getParam(QStringLiteral("vbufsize"));
     QString vcodec = getParam(QStringLiteral("vcodec"));
     if (!getParam(QStringLiteral("crf")).isEmpty()) {
-        return !vbufsize.isEmpty()
-                ? (vcodec.endsWith("_ videotoolbox") ? RateControl::Average : RateControl::Quality)
-                : RateControl::Constrained;
+        return !vbufsize.isEmpty() ? (vcodec.endsWith("_ videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
     }
-    if (!getParam(QStringLiteral("vq")).isEmpty()
-            || !getParam(QStringLiteral("vglobal_quality")).isEmpty()
-            || !getParam(QStringLiteral("qscale")).isEmpty()) {
+    if (!getParam(QStringLiteral("vq")).isEmpty() || !getParam(QStringLiteral("vglobal_quality")).isEmpty() || !getParam(QStringLiteral("qscale")).isEmpty()) {
         return vbufsize.isEmpty() ? RateControl::Quality : RateControl::Constrained;
     } else if (!vbufsize.isEmpty()) {
         return RateControl::Constant;
@@ -470,8 +468,7 @@ RenderPresetModel::InstallType RenderPresetModel::installType() const
 bool RenderPresetModel::hasFixedSize() const
 {
     // TODO
-    return hasParam(QStringLiteral("s"))
-            || m_params.contains(QLatin1String("%dv_standard"));
+    return hasParam(QStringLiteral("s")) || m_params.contains(QLatin1String("%dv_standard"));
 }
 
 QString RenderPresetModel::error() const

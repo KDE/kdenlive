@@ -7,8 +7,8 @@
     This file is part of Kdenlive. See www.kdenlive.org.
 */
 
-#include "core.h"
 #include "docktitlebarmanager.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include <klocalizedstring.h>
@@ -34,7 +34,7 @@ void DockTitleBarManager::slotInstallRightClick()
         tab->setChangeCurrentOnDrag(true);
         connect(tab, &QWidget::customContextMenuRequested, this, &DockTitleBarManager::slotSwitchTitleBars);
     }
-    
+
     connectDocks(true);
     slotUpdateTitleBars();
 }
@@ -59,7 +59,8 @@ void DockTitleBarManager::slotUpdateDockLocation(Qt::DockWidgetArea dockLocation
     slotUpdateTitleBars(dockLocationArea != Qt::NoDockWidgetArea);
 }
 
-void DockTitleBarManager::slotShowTitleBars(bool show) {
+void DockTitleBarManager::slotShowTitleBars(bool show)
+{
     KdenliveSettings::setShowtitlebars(show);
     slotUpdateTitleBars();
 }
@@ -108,8 +109,9 @@ void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
             continue;
         }
 
-        const bool hasVisibleDockSibling =
-            std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) { return sub->toggleViewAction()->isChecked() && !sub->isTopLevel(); }) != std::end(docked);
+        const bool hasVisibleDockSibling = std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) {
+                                               return sub->toggleViewAction()->isChecked() && !sub->isTopLevel();
+                                           }) != std::end(docked);
 
         if (!hasVisibleDockSibling) {
             handleRemoveBar();

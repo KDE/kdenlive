@@ -6,8 +6,8 @@
 */
 
 #include "monitorproxy.h"
-#include "core.h"
 #include "bin/bin.h"
+#include "core.h"
 #include "doc/kthumb.h"
 #include "glwidget.h"
 #include "kdenlivesettings.h"
@@ -330,7 +330,7 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     emit clipNameChanged();
 }
 
-void MonitorProxy::setAudioThumb(const QList <int> &streamIndexes, const QList <int> &channels)
+void MonitorProxy::setAudioThumb(const QList<int> &streamIndexes, const QList<int> &channels)
 {
     m_audioChannels = channels;
     m_audioStreams = streamIndexes;
@@ -342,7 +342,6 @@ void MonitorProxy::setAudioStream(const QString &name)
     m_clipStream = name;
     emit clipStreamChanged();
 }
-
 
 QPoint MonitorProxy::profile()
 {
@@ -476,10 +475,10 @@ void MonitorProxy::addEffect(const QString &effectData, const QString &effectSou
     QStringList effectInfo = effectSource.split(QLatin1Char('-'));
     effectInfo.prepend(effectData);
     if (m_clipId > -1) {
-        QMetaObject::invokeMethod(pCore->bin(), "slotAddEffect", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_clipId)), Q_ARG(QStringList, effectInfo));
+        QMetaObject::invokeMethod(pCore->bin(), "slotAddEffect", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_clipId)),
+                                  Q_ARG(QStringList, effectInfo));
     } else {
         // Dropped in project monitor
         emit addTimelineEffect(effectInfo);
     }
 }
-

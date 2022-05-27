@@ -29,6 +29,7 @@ public:
     void downloadNewLumas();
     void reloadCustomEffectIx(const QModelIndex &path) override;
     void editCustomAsset(const QModelIndex &index) override;
+
 private:
     TransitionListWidgetProxy *m_proxy;
 

@@ -19,9 +19,9 @@
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
 
-#include "renderpresets/tree/renderpresettreemodel.hpp"
-#include "renderpresets/renderpresetrepository.hpp"
 #include "renderpresets/renderpresetmodel.hpp"
+#include "renderpresets/renderpresetrepository.hpp"
+#include "renderpresets/tree/renderpresettreemodel.hpp"
 
 #include "klocalizedstring.h"
 #include <KColorScheme>
@@ -149,7 +149,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
 
-    connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index){
+    connect(m_view.profileTree, &QTreeView::doubleClicked, this, [&](const QModelIndex &index) {
         if (m_treeModel->parent(index) == QModelIndex()) {
             // This is a top level item - group - don't edit
             return;
@@ -158,14 +158,14 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     });
     connect(m_view.buttonNew, &QAbstractButton::clicked, this, &RenderWidget::slotNewPreset);
     connect(m_view.buttonEdit, &QAbstractButton::clicked, this, &RenderWidget::slotEditPreset);
-    connect(m_view.buttonDelete, &QAbstractButton::clicked, this, [this](){
+    connect(m_view.buttonDelete, &QAbstractButton::clicked, this, [this]() {
         RenderPresetRepository::get()->deletePreset(m_currentProfile);
         m_currentProfile = QString();
         parseProfiles();
         refreshView();
     });
     connect(m_view.buttonSaveAs, &QAbstractButton::clicked, this, &RenderWidget::slotSavePresetAs);
-    connect(m_view.buttonDownload, &QAbstractButton::clicked, this, [&](){
+    connect(m_view.buttonDownload, &QAbstractButton::clicked, this, [&]() {
         if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
             parseProfiles();
         }
@@ -185,7 +185,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.guide_end, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckStartGuidePosition);
     connect(m_view.guide_start, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &RenderWidget::slotCheckEndGuidePosition);
 
-
     // === "More Options" widget ===
     setRescaleEnabled(false);
     m_view.guide_zone_box->setVisible(false);
@@ -197,9 +196,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.tc_type->addItem(i18n("Frame Number"), QStringLiteral("#frame#"));
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
-    connect(m_view.proxy_render, &QCheckBox::toggled, this, [&](bool enabled){
-        errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString());
-    });
+    connect(m_view.proxy_render, &QCheckBox::toggled, this,
+            [&](bool enabled) { errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString()); });
 
     connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::refreshParams);
     connect(m_view.qualityGroup, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
@@ -230,8 +228,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.checkTwoPass, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
 
-    connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&](){ slotPrepareExport(); });
-    connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&](){ slotPrepareExport(true); });
+    connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(); });
+    connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(true); });
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
@@ -284,7 +282,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            KMessageBox::sorry(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
+            KMessageBox::sorry(this,
+                               i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
 
@@ -481,7 +480,7 @@ void RenderWidget::reloadGuides()
 
             // Set up guide categories
             static std::array<QColor, 9> markerTypes = ptr->markerTypes;
-            QPixmap pixmap(32,32);
+            QPixmap pixmap(32, 32);
             m_view.guideCategoryCombo->addItem(i18n("All Categories"), -1);
             for (uint i = 0; i < markerTypes.size(); ++i) {
                 if (!ptr->getAllMarkers(i).isEmpty()) {
@@ -532,7 +531,6 @@ void RenderWidget::slotUpdateButtons(const QUrl &url)
     }
 }
 
-
 void RenderWidget::slotUpdateButtons()
 {
     slotUpdateButtons(QUrl());
@@ -574,7 +572,7 @@ void RenderWidget::slotEditPreset()
     }
 
     QPointer<RenderPresetDialog> dialog = new RenderPresetDialog(this, profile.get(), RenderPresetDialog::Edit);
-    if (dialog->exec() == QDialog::Accepted) {      
+    if (dialog->exec() == QDialog::Accepted) {
         parseProfiles(dialog->saveName());
     }
     delete dialog;
@@ -635,7 +633,8 @@ void RenderWidget::prepareRendering(bool delayedRendering)
 
     KdenliveDoc *project = pCore->currentDoc();
     QString overlayData = m_view.tc_type->currentData().toString();
-    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
+    QString playlistContent =
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
 
     // Set playlist audio volume to 100%
     QDomDocument doc;
@@ -711,10 +710,11 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                     names.append(newName);
                     name = newName;
                     if (in < absoluteOut) {
-                        if (i+1 < markers.count()) {
-                            out = qMin(markers.at(i+1).time().frames(fps) - 1, absoluteOut);
+                        if (i + 1 < markers.count()) {
+                            out = qMin(markers.at(i + 1).time().frames(fps) - 1, absoluteOut);
                         }
-                        QString filename = outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
+                        QString filename =
+                            outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
                         QDomDocument docCopy = doc.cloneNode(true).toDocument();
                         generateRenderFiles(docCopy, in, out, filename, false);
                     }
@@ -748,7 +748,8 @@ QString RenderWidget::generatePlaylistFile(bool delayedRendering)
             newFilename = QStringLiteral("%1-%2").arg(filename).arg(ix);
             ix++;
         }
-        filename = QInputDialog::getText(this, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal, newFilename, &ok);
+        filename = QInputDialog::getText(this, i18nc("@title:window", "Delayed Rendering"), i18n("Select a name for this rendering."), QLineEdit::Normal,
+                                         newFilename, &ok);
         if (!ok) {
             return {};
         }
@@ -806,14 +807,10 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
 
     // If we use a pix_fmt with alpha channel (ie. transparent),
     // we need to remove the black background track
-    if (renderArgs.contains(QLatin1String("pix_fmt=argb"))
-     || renderArgs.contains(QLatin1String("pix_fmt=abgr"))
-     || renderArgs.contains(QLatin1String("pix_fmt=bgra"))
-     || renderArgs.contains(QLatin1String("pix_fmt=gbra"))
-     || renderArgs.contains(QLatin1String("pix_fmt=rgba"))
-     || renderArgs.contains(QLatin1String("pix_fmt=yuva"))
-     || renderArgs.contains(QLatin1String("pix_fmt=ya"  ))
-     || renderArgs.contains(QLatin1String("pix_fmt=ayuv"))) {
+    if (renderArgs.contains(QLatin1String("pix_fmt=argb")) || renderArgs.contains(QLatin1String("pix_fmt=abgr")) ||
+        renderArgs.contains(QLatin1String("pix_fmt=bgra")) || renderArgs.contains(QLatin1String("pix_fmt=gbra")) ||
+        renderArgs.contains(QLatin1String("pix_fmt=rgba")) || renderArgs.contains(QLatin1String("pix_fmt=yuva")) ||
+        renderArgs.contains(QLatin1String("pix_fmt=ya")) || renderArgs.contains(QLatin1String("pix_fmt=ayuv"))) {
         auto prods = doc.elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < prods.count(); ++i) {
             auto prod = prods.at(i).toElement();
@@ -825,8 +822,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     }
 
     QMap<QString, QString> renderFiles;
-    if (renderArgs.contains("=stills/"))
-    {
+    if (renderArgs.contains("=stills/")) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
         QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
@@ -838,8 +834,9 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     if (m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled()) {
         if (delayedRendering) {
             if (KMessageBox::warningContinueCancel(this, i18n("Script rendering and multi track audio export can not be used together.\n"
-                                                        "Script will be saved without multi track export."))
-                                                   == KMessageBox::Cancel) { return; };
+                                                              "Script will be saved without multi track export.")) == KMessageBox::Cancel) {
+                return;
+            };
         }
         int audioCount = 0;
         QDomNodeList orginalTractors = doc.elementsByTagName(QStringLiteral("tractor"));
@@ -849,7 +846,10 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
             QString trackName = Xml::getXmlProperty(orginalTractors.at(i).toElement(), QStringLiteral("kdenlive:track_name"));
             if (isAudio) {
                 // setup filenames
-                QString appendix = QString("_Audio_%1%2%3.").arg(audioCount + 1).arg(trackName.isEmpty() ? QString() : QStringLiteral("-")).arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
+                QString appendix = QString("_Audio_%1%2%3.")
+                                       .arg(audioCount + 1)
+                                       .arg(trackName.isEmpty() ? QString() : QStringLiteral("-"))
+                                       .arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
                 QString playlistFile = playlistPath.section(QLatin1Char('.'), 0, -2) + appendix + playlistPath.section(QLatin1Char('.'), -1);
                 QString targetFile = outputFile.section(QLatin1Char('.'), 0, -2) + appendix + extension;
                 renderFiles.insert(playlistFile, targetFile);
@@ -884,7 +884,6 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
                 file.close();
                 audioCount++;
             }
-
         }
     }
 
@@ -974,8 +973,8 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
         if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
             // There is an existing job that is still pending
             KMessageBox::information(this,
-                i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", outputFile),
-                i18n("Already running"));
+                                     i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", outputFile),
+                                     i18n("Already running"));
             // focus the running job
             m_view.running_jobs->setCurrentItem(renderItem);
             return nullptr;
@@ -990,8 +989,12 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, in);
-    QStringList argsJob = {KdenliveSettings::rendererpath(), playlist, outputFile,
-                           QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()), QStringLiteral("-out"), QString::number(out)};
+    QStringList argsJob = {KdenliveSettings::rendererpath(),
+                           playlist,
+                           outputFile,
+                           QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),
+                           QStringLiteral("-out"),
+                           QString::number(out)};
     renderItem->setData(1, ParametersRole, argsJob);
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
@@ -1235,13 +1238,8 @@ void RenderWidget::refreshParams()
         setRescaleEnabled(m_view.video_box->isChecked() && m_view.rescale->isChecked());
     }
 
-    QStringList removeParams = {
-        QStringLiteral("an"),
-        QStringLiteral("audio_off"),
-        QStringLiteral("vn"),
-        QStringLiteral("video_off"),
-        QStringLiteral("real_time")
-    };
+    QStringList removeParams = {QStringLiteral("an"), QStringLiteral("audio_off"), QStringLiteral("vn"), QStringLiteral("video_off"),
+                                QStringLiteral("real_time")};
 
     QStringList newParams;
 
@@ -1263,10 +1261,11 @@ void RenderWidget::refreshParams()
     // Rescale
     bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
     if (rescale) {
-        removeParams.append({QStringLiteral("s"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("sample_aspect_num"), QStringLiteral("sample_aspect_den")});
+        removeParams.append(
+            {QStringLiteral("s"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("sample_aspect_num"), QStringLiteral("sample_aspect_den")});
         newParams.append(QStringLiteral("s=%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value()));
         if (preset->hasParam(QStringLiteral("sample_aspect_num")) || preset->hasParam(QStringLiteral("sample_aspect_den"))) {
-            //reset display aspect ratio to 1:1 if we override the resolution to avoid errors
+            // reset display aspect ratio to 1:1 if we override the resolution to avoid errors
             newParams.append(QStringLiteral("sample_aspect_num=1 sample_aspect_den=1"));
         }
     }
@@ -1398,7 +1397,9 @@ void RenderWidget::refreshParams()
         params.replace(QLatin1String("%dv_standard"), dvstd);
     }
 
-    params.replace(QLatin1String("%dar"), QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num())).arg(QString::number(projectProfile->display_aspect_den())));
+    params.replace(
+        QLatin1String("%dar"),
+        QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num())).arg(QString::number(projectProfile->display_aspect_den())));
     params.replace(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
 
     newParams.prepend(params);
@@ -1608,7 +1609,8 @@ void RenderWidget::parseScriptFiles()
     QStringList scriptFiles = projectFolder.entryList(scriptsFilter, QDir::Files);
     if (scriptFiles.isEmpty()) {
         // No scripts, delete directory
-        if (projectFolder.dirName() == QStringLiteral("kdenlive-renderqueue") && projectFolder.entryList(scriptsFilter, QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        if (projectFolder.dirName() == QStringLiteral("kdenlive-renderqueue") &&
+            projectFolder.entryList(scriptsFilter, QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
             projectFolder.removeRecursively();
             return;
         }
@@ -1697,7 +1699,12 @@ void RenderWidget::slotStartScript()
         QDateTime t = QDateTime::currentDateTime();
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);
-        QStringList argsJob = {KdenliveSettings::rendererpath(), path, destination, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),QStringLiteral("-out"),QString::number(out)};
+        QStringList argsJob = {KdenliveSettings::rendererpath(),
+                               path,
+                               destination,
+                               QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),
+                               QStringLiteral("-out"),
+                               QString::number(out)};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
         m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
@@ -1999,11 +2006,9 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     }
     QMenu menu(this);
     QAction *newAct = new QAction(i18n("Add to current project"), this);
-    connect(newAct, &QAction::triggered, [&, renderItem]() {
-        pCore->bin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1)));
-    });
+    connect(newAct, &QAction::triggered, [&, renderItem]() { pCore->bin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1))); });
     menu.addAction(newAct);
-    
+
     menu.exec(m_view.running_jobs->mapToGlobal(pos));
 }
 

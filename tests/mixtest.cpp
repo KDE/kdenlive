@@ -39,20 +39,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-        // Create a request
+    // Create a request
     int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid2 = TrackModel::construct(timeline);
     int tid4 = TrackModel::construct(timeline);
-    
+
     // Create clip with audio
     QString binId = createProducerWithSound(profile_mix, binModel, 100);
-    
+
     // Create video clip
     QString binId2 = createProducer(profile_mix, "red", binModel, 50, false);
     // Setup insert stream data
-    QMap <int, QString>audioInfo;
-    audioInfo.insert(1,QStringLiteral("stream1"));
+    QMap<int, QString> audioInfo;
+    audioInfo.insert(1, QStringLiteral("stream1"));
     timeline->m_binAudioTargets = audioInfo;
 
     // Create AV clip 1
@@ -63,19 +63,19 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     int cid5;
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 100, cid1));
     REQUIRE(timeline->requestItemResize(cid1, 10, true, true));
-    
+
     // Create AV clip 2
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 110, cid2));
     REQUIRE(timeline->requestItemResize(cid2, 10, true, true));
     REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
-    
+
     // Create color clip 1
     REQUIRE(timeline->requestClipInsertion(binId2, tid2, 500, cid3));
     REQUIRE(timeline->requestItemResize(cid3, 20, true, true));
     REQUIRE(timeline->requestClipInsertion(binId2, tid2, 520, cid4));
     REQUIRE(timeline->requestItemResize(cid4, 20, true, true));
     int mixDuration = pCore->getDurationFromString(KdenliveSettings::mix_duration());
-    
+
     auto state0 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
         REQUIRE(timeline->getClipPlaytime(cid1) == 10);
@@ -107,7 +107,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
     };
-    
+
     auto state1 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
         REQUIRE(timeline->getClipPlaytime(cid1) > 10);
@@ -129,7 +129,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
-    
+
     auto state3 = [&, mixDuration]() {
         REQUIRE(timeline->getClipsCount() == 6);
         REQUIRE(timeline->getClipPlaytime(cid1) > 30);
@@ -140,7 +140,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
-    
+
     auto state2 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
         REQUIRE(timeline->getClipPlaytime(cid3) == 32);
@@ -165,7 +165,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Create mix on color clips and move main (right side) clip")
     {
         // CID 3 length=20, pos=500, CID4 length=20, pos=520
@@ -173,10 +173,10 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         REQUIRE(timeline->mixClip(cid4));
         state2();
-        
+
         // Move right clip to the left, should fail
         REQUIRE(timeline->requestClipMove(cid4, tid2, 506) == false);
-        
+
         // Move clip inside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid4, tid2, 509));
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
@@ -199,17 +199,17 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Create mix on color clip and move left side clip")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
         state2();
-        
+
         // Move left clip to the right, should silently fail
         REQUIRE(timeline->requestClipMove(cid3, tid2, 502, true, true, false) == false);
         REQUIRE(timeline->getClipPosition(cid3) == 500);
-        
+
         // Move clip inside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid3, tid2, 499));
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
@@ -282,7 +282,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Create mix on color clips and group move")
     {
         state0();
@@ -312,7 +312,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Create and delete mix on AV clips")
     {
         state0();
@@ -328,7 +328,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Create mix and move AV clips")
     {
         // CID 1 length=10, pos=100, CID2 length=10, pos=110
@@ -383,21 +383,24 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         state0b();
 
-        // Resize clip, should resize the mix
+        // CID 1 length=10, pos=100, CID2 length=20, pos=130, CID5 length=20, pos=130
+
+        // Create mix between cid1 and cid2
         REQUIRE(timeline->mixClip(cid2));
         state1b();
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         int audio2 = timeline->getClipSplitPartner(cid2);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
 
+        // Create mix between cid2 and cid5
         REQUIRE(timeline->mixClip(cid5));
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
         int audio5 = timeline->getClipSplitPartner(cid5);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio5) == true);
         // Undo cid5 mix
         undoStack->undo();
-
 
         state1b();
         // Undo cid2 mix
@@ -410,7 +413,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         state0();
     }
-    
+
     SECTION("Create mix on color clip and resize")
     {
         state0();
@@ -493,7 +496,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Create mix on AV clips and resize")
     {
         state0();
@@ -505,7 +508,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestItemResize(cid2, 30, false, true) == 30);
         REQUIRE(timeline->requestClipMove(cid2, tid2, 130));
         REQUIRE(timeline->requestItemResize(cid1, 30, true, true) == 30);
-        
+
         REQUIRE(timeline->mixClip(cid2));
         state3();
         // CID 1 length=30, pos=100, CID2 length=30, pos=130
@@ -565,7 +568,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
-    
+
     SECTION("Test chained mixes on color clips")
     {
         // Add 2 more color clips
@@ -579,13 +582,13 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
         REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid7));
         REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
-        
+
         // Cid3 pos=500, duration=20
         // Cid4 pos=520, duration=20
         // Cid5 pos=540, duration=20
         // Cid6 pos=560, duration=40
         // Cid7 pos=600, duration=20
-        
+
         // Mix 3 and 4
         REQUIRE(timeline->mixClip(cid4));
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
@@ -594,7 +597,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        
+
         // Mix 6 and 7
         REQUIRE(timeline->mixClip(cid7));
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
@@ -603,7 +606,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
-        
+
         // Mix 5 and 6
         REQUIRE(timeline->mixClip(cid6));
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
@@ -612,7 +615,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
-        
+
         // Undo mix 5 and 6
         undoStack->undo();
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
@@ -621,7 +624,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
-        
+
         // Undo mix 6 and 7
         undoStack->undo();
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
@@ -633,7 +636,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Undo mix 3 and 4
         undoStack->undo();
-        
+
         // Undo insert/resize ops
         undoStack->undo();
         undoStack->undo();
@@ -641,7 +644,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         undoStack->undo();
         undoStack->undo();
-        
+
         state0();
     }
 

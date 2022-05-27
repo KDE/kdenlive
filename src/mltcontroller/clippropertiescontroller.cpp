@@ -208,15 +208,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
     m_clipLabel = new ElidedLinkLabel(this);
-    
+
     if (m_type == ClipType::Color || controller->clipUrl().isEmpty()) {
         m_clipLabel->setLabelText(controller->clipName(), QString());
     } else {
         m_clipLabel->setLabelText(controller->clipUrl(), controller->clipUrl());
     }
-    connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) {
-        KIO::highlightInFileManager({QUrl::fromLocalFile(link)});
-    });
+    connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
     lay->addWidget(m_clipLabel);
     lay->addWidget(&m_warningMessage);
     m_warningMessage.setCloseButtonVisible(false);
@@ -339,9 +337,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
         connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
-        
+
         // Autorotate
-         if (m_type == ClipType::Image) {
+        if (m_type == ClipType::Image) {
             int autorotate = m_properties->get_int("disable_exif");
             m_originalProperties.insert(QStringLiteral("disable_exif"), QString::number(autorotate));
             hlay = new QHBoxLayout;
@@ -621,9 +619,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         }
         // Disable force rotate when autorotate is disabled
         combo->setEnabled(!box->isChecked());
-        connect(box, &QCheckBox::stateChanged, this, [combo](int state) {
-            combo->setEnabled(state != Qt::Unchecked);
-        });
+        connect(box, &QCheckBox::stateChanged, this, [combo](int state) { combo->setEnabled(state != Qt::Unchecked); });
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
         hlay->addWidget(combo);
@@ -683,7 +679,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Audio index
         QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
         if (!audioStreamsInfo.isEmpty()) {
-            QList <int> enabledStreams = m_controller->activeStreams().keys();
+            QList<int> enabledStreams = m_controller->activeStreams().keys();
             QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
             QStringList streamString;
@@ -733,7 +729,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     item->setCheckState(Qt::Unchecked);
                 }
             }
-            connect(m_audioStreamsView, &QListWidget::currentRowChanged, this, [this] (int row) {
+            connect(m_audioStreamsView, &QListWidget::currentRowChanged, this, [this](int row) {
                 if (row > -1) {
                     m_audioEffectGroup->setEnabled(true);
                     QListWidgetItem *item = m_audioStreamsView->item(row);
@@ -761,7 +757,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     m_audioEffectGroup->setEnabled(false);
                 }
             });
-            connect(m_audioStreamsView, &QListWidget::itemChanged, this, [this] (QListWidgetItem *item) {
+            connect(m_audioStreamsView, &QListWidget::itemChanged, this, [this](QListWidgetItem *item) {
                 if (!item) {
                     return;
                 }
@@ -830,7 +826,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             auto *vbox = new QVBoxLayout;
             // Normalize
             m_normalize = new QCheckBox(i18n("Normalize"), this);
-            connect(m_normalize, &QCheckBox::stateChanged, this, [this] (int state) {
+            connect(m_normalize, &QCheckBox::stateChanged, this, [this](int state) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -848,7 +844,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
             // Swap channels
             m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
-            connect(m_swapChannels, &QCheckBox::stateChanged, this, [this] (int state) {
+            connect(m_swapChannels, &QCheckBox::stateChanged, this, [this](int state) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -876,7 +872,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             copyLay->addWidget(m_copyChannel2);
             copyLay->addStretch(1);
             vbox->addLayout(copyLay);
-            connect(m_copyChannelGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [this] (QAbstractButton *but, bool) {
+            connect(m_copyChannelGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [this](QAbstractButton *but, bool) {
                 if (but == m_copyChannel1) {
                     QSignalBlocker bk(m_copyChannelGroup);
                     m_copyChannel2->setChecked(false);
@@ -900,7 +896,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             m_gain = new QSpinBox(this);
             m_gain->setRange(-100, 60);
             m_gain->setSuffix(i18n("dB"));
-            connect(m_gain, QOverload<int>::of(&QSpinBox::valueChanged), this, [this] (int value) {
+            connect(m_gain, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int value) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -986,13 +982,14 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(box);
         hlay->addStretch(10);
         fpBox->addLayout(hlay);
-        
+
         // Check for variable frame rate
         if (m_properties->get_int("meta.media.variable_frame_rate")) {
             m_warningMessage.setText(i18n("File uses a variable frame rate, not recommended"));
             QAction *ac = new QAction(i18n("Transcode"));
             QObject::connect(ac, &QAction::triggered, [id = m_id, resource = controller->clipUrl()]() {
-                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(int, 0), Q_ARG(bool, false));
+                QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, id), Q_ARG(int, 0),
+                                          Q_ARG(bool, false));
             });
             m_warningMessage.setMessageType(KMessageWidget::Warning);
             m_warningMessage.addAction(ac);
@@ -1092,8 +1089,8 @@ void ClipPropertiesController::slotReloadProperties()
                 QSignalBlocker bk(m_audioStream);
                 m_originalProperties.insert(QStringLiteral("audio_index"), QString::number(audio_ix));
             }
-            QList <int> enabledStreams = m_controller->activeStreams().keys();
-            qDebug()<<"=== GOT ACTIVE STREAMS: "<<enabledStreams;
+            QList<int> enabledStreams = m_controller->activeStreams().keys();
+            qDebug() << "=== GOT ACTIVE STREAMS: " << enabledStreams;
             QSignalBlocker bk(m_audioStreamsView);
             for (int ix = 0; ix < m_audioStreamsView->count(); ix++) {
                 QListWidgetItem *item = m_audioStreamsView->item(ix);
@@ -1305,7 +1302,7 @@ void ClipPropertiesController::fillProperties()
             if (length == 0) {
                 length = m_properties->time_to_frames(m_sourceProperties.get("length"));
             }
-            int cnt = qCeil(length/ ttl);
+            int cnt = qCeil(length / ttl);
             propertyMap.append({i18n("Image count:"), QString::number(cnt)});
         }
     } else if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Audio) {
@@ -1440,7 +1437,7 @@ void ClipPropertiesController::slotDeleteMarker()
     for (auto &ix : indexes) {
         mapped << m_sortMarkers->mapToSource(ix);
     }
-    QList <GenTime> positions;
+    QList<GenTime> positions;
     for (auto &ix : mapped) {
         if (ix.isValid()) {
             positions << GenTime(markerModel->data(ix, MarkerListModel::PosRole).toDouble());
@@ -1567,7 +1564,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                             exif->setExpanded(true);
                         }
                         m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
-                                                      tag.section(QLatin1Char('='), 1).simplified());
+                                                          tag.section(QLatin1Char('='), 1).simplified());
                         new QTreeWidgetItem(exif, {tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified()});
                     }
                 }
@@ -1601,7 +1598,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                         if (m_type != ClipType::Image) {
                             // Do not store image exif metadata in project file, would be too much noise
                             m_controller->setProducerProperty("kdenlive:meta.exiftool." + tag.section(QLatin1Char('='), 0, 0),
-                                                          tag.section(QLatin1Char('='), 1).simplified());
+                                                              tag.section(QLatin1Char('='), 1).simplified());
                         }
                         new QTreeWidgetItem(exif, {tag.section(QLatin1Char('='), 0, 0), tag.section(QLatin1Char('='), 1).simplified()});
                     }
@@ -1683,8 +1680,8 @@ void ClipPropertiesController::slotDeleteAnalysis()
 
 void ClipPropertiesController::slotSaveAnalysis()
 {
-    const QString url =
-        QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+    const QString url = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Save Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(),
+                                                     i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }
@@ -1696,8 +1693,8 @@ void ClipPropertiesController::slotSaveAnalysis()
 
 void ClipPropertiesController::slotLoadAnalysis()
 {
-    const QString url =
-        QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(), i18n("Text File (*.txt)"));
+    const QString url = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Analysis Data"), QFileInfo(m_controller->clipUrl()).absolutePath(),
+                                                     i18n("Text File (*.txt)"));
     if (url.isEmpty()) {
         return;
     }

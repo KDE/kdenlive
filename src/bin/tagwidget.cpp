@@ -10,11 +10,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 
 #include <KActionCollection>
-#include <KLocalizedString>
 #include <KColorCombo>
-#include <KLineEdit>
-#include <KMessageWidget>
 #include <KIconEffect>
+#include <KLineEdit>
+#include <KLocalizedString>
+#include <KMessageWidget>
 
 #include <QApplication>
 #include <QDebug>
@@ -55,15 +55,12 @@ DragButton::DragButton(int ix, const QString &tag, const QString &description, Q
     ac->setCheckable(true);
     setDefaultAction(ac);
     pCore->window()->addAction(QString("tag_%1").arg(ix), ac, {}, QStringLiteral("bintags"));
-    connect(ac, &QAction::triggered, this, [&] (bool checked) {
-        emit switchTag(m_tag, checked);
-    });
+    connect(ac, &QAction::triggered, this, [&](bool checked) { emit switchTag(m_tag, checked); });
 }
 
 void DragButton::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
-        m_dragStartPosition = event->pos();
+    if (event->button() == Qt::LeftButton) m_dragStartPosition = event->pos();
     QToolButton::mousePressEvent(event);
     m_dragging = false;
 }
@@ -74,8 +71,7 @@ void DragButton::mouseMoveEvent(QMouseEvent *event)
     if (!(event->buttons() & Qt::LeftButton) || m_dragging) {
         return;
     }
-    if ((event->pos() - m_dragStartPosition).manhattanLength()
-         < QApplication::startDragDistance()) {
+    if ((event->pos() - m_dragStartPosition).manhattanLength() < QApplication::startDragDistance()) {
         return;
     }
 
@@ -121,9 +117,7 @@ TagWidget::TagWidget(QWidget *parent)
     QAction *ca = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure"), this);
     config->setAutoRaise(true);
     config->setDefaultAction(ca);
-    connect(config, &QToolButton::triggered, this, [&]() {
-        showTagsConfig ();
-    });
+    connect(config, &QToolButton::triggered, this, [&]() { showTagsConfig(); });
     lay->addWidget(config);
     setLayout(lay);
 }
@@ -137,7 +131,7 @@ void TagWidget::setTagData(const QString &tagData)
     }
 }
 
-void TagWidget::rebuildTags(const QMap <int, QStringList> &newTags)
+void TagWidget::rebuildTags(const QMap<int, QStringList> &newTags)
 {
     auto *lay = static_cast<QHBoxLayout *>(layout());
     qDeleteAll(tags);
@@ -178,7 +172,7 @@ void TagWidget::showTagsConfig()
     QList<QColor> existingTagColors;
     int ix = 1;
     // Build list of tags
-    QMap <int, QStringList> originalTags;
+    QMap<int, QStringList> originalTags;
     for (DragButton *tb : qAsConst(tags)) {
         const QString color = tb->tag();
         existingTagColors << color;
@@ -188,7 +182,7 @@ void TagWidget::showTagsConfig()
         auto *item = new QListWidgetItem(ic, desc, &list);
         item->setData(Qt::UserRole, color);
         item->setData(Qt::UserRole + 1, ix);
-        originalTags.insert(ix, {QString::number(ix),color,desc});
+        originalTags.insert(ix, {QString::number(ix), color, desc});
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
         ix++;
     }
@@ -334,12 +328,12 @@ void TagWidget::showTagsConfig()
     if (d.exec() != QDialog::Accepted) {
         return;
     }
-    QMap <int, QStringList> newTags;
+    QMap<int, QStringList> newTags;
     int newIx = 1;
     for (int i = 0; i < list.count(); i++) {
         QListWidgetItem *item = list.item(i);
         if (item) {
-            newTags.insert(newIx, {QString::number(item->data(Qt::UserRole + 1).toInt()), item->data(Qt::UserRole).toString(),item->text()});
+            newTags.insert(newIx, {QString::number(item->data(Qt::UserRole + 1).toInt()), item->data(Qt::UserRole).toString(), item->text()});
             newIx++;
         }
     }

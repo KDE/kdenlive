@@ -8,8 +8,8 @@
 #include "definitions.h"
 #include <QMutex>
 #include <QStyledItemDelegate>
-#include <QWidget>
 #include <QTimer>
+#include <QWidget>
 #include <memory>
 
 class QVBoxLayout;

@@ -3,6 +3,7 @@
 #include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
 #include "doc/docundostack.hpp"
+#include "tests_definitions.h"
 #include <iostream>
 #include <memory>
 #include <random>
@@ -20,6 +21,7 @@
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "bin/clipcreator.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -29,7 +31,6 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
-#include "bin/model/subtitlemodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/timelinefunctions.hpp"
@@ -39,9 +40,9 @@
 #include "transitions/transitionsrepository.hpp"
 
 using namespace fakeit;
-#define RESET(mock)                                                                                                                                         \
+#define RESET(mock)                                                                                                                                            \
     mock.Reset();                                                                                                                                              \
-    Fake(Method(mock, adjustAssetRange));                                                                                        \
+    Fake(Method(mock, adjustAssetRange));                                                                                                                      \
     Spy(Method(mock, _beginInsertRows));                                                                                                                       \
     Spy(Method(mock, _beginRemoveRows));                                                                                                                       \
     Spy(Method(mock, _endInsertRows));                                                                                                                         \
@@ -55,8 +56,8 @@ using namespace fakeit;
     VerifyNoOtherInvocations(Method(timMock, _beginInsertRows));                                                                                               \
     VerifyNoOtherInvocations(Method(timMock, _endRemoveRows));                                                                                                 \
     VerifyNoOtherInvocations(Method(timMock, _endInsertRows));                                                                                                 \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                      \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                       \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                       \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                   \
     RESET(timMock);
 
 #define CHECK_MOVE(times)                                                                                                                                      \
@@ -73,7 +74,7 @@ using namespace fakeit;
     NO_OTHERS();
 
 #define CHECK_RESIZE(times)                                                                                                                                    \
-    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &))).Exactly(times);                                                                \
+    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &))).Exactly(times);                      \
     NO_OTHERS();
 
 #define CHECK_UPDATE(role)                                                                                                                                     \

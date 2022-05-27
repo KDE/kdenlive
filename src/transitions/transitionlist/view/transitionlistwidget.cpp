@@ -35,9 +35,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     setup();
 }
 
-TransitionListWidget::~TransitionListWidget()
-{
-}
+TransitionListWidget::~TransitionListWidget() {}
 
 bool TransitionListWidget::isAudio(const QString &assetId) const
 {
@@ -78,11 +76,6 @@ void TransitionListWidget::downloadNewLumas()
     }
 }
 
-void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &)
-{
-}
+void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &) {}
 
-void TransitionListWidget::editCustomAsset(const QModelIndex &)
-{
-
-}
+void TransitionListWidget::editCustomAsset(const QModelIndex &) {}

@@ -150,23 +150,19 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     QDir global = m_doc->getCacheDir(SystemCacheRoot, &ok);
     QDir proxyFolder(global.absoluteFilePath(QStringLiteral("proxy")));
     gProxyPath->setText(QString("<a href='#'>%1</a>").arg(proxyFolder.absolutePath()));
-    connect(gProxyPath, &QLabel::linkActivated, [proxyFolder]() {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(proxyFolder.absolutePath()));
-    });
+    connect(gProxyPath, &QLabel::linkActivated, [proxyFolder]() { QDesktopServices::openUrl(QUrl::fromLocalFile(proxyFolder.absolutePath())); });
 
     // Backup data
     connect(gBackupClean, &QToolButton::clicked, this, &TemporaryData::cleanBackup);
     connect(gBackupDelete, &QToolButton::clicked, this, &TemporaryData::deleteBackup);
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
     gBackupPath->setText(QString("<a href='#'>%1</a>").arg(backupFolder.absolutePath()));
-    connect(gBackupPath, &QLabel::linkActivated, [backupFolder]() {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(backupFolder.absolutePath()));
-    });
+    connect(gBackupPath, &QLabel::linkActivated, [backupFolder]() { QDesktopServices::openUrl(QUrl::fromLocalFile(backupFolder.absolutePath())); });
 
     // Config cleanup age
     gCleanupSpin->setSuffix(i18np(" month", " months", KdenliveSettings::cleanCacheMonths()));
     gCleanupSpin->setValue(KdenliveSettings::cleanCacheMonths());
-    connect(gCleanupSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&] (int value) {
+    connect(gCleanupSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         KdenliveSettings::setCleanCacheMonths(value);
         gCleanupSpin->setSuffix(i18np(" month", " months", KdenliveSettings::cleanCacheMonths()));
     });
@@ -178,10 +174,10 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     bool globalOnly = pCore->bin()->isEmpty();
     if (currentProjectOnly) {
         tabWidget->removeTab(1);
-        //globalPage->setEnabled(false);
+        // globalPage->setEnabled(false);
     } else if (globalOnly) {
         tabWidget->removeTab(0);
-        //projectPage->setEnabled(false);
+        // projectPage->setEnabled(false);
     }
 
     if (globalOnly && !currentProjectOnly) {
@@ -310,7 +306,10 @@ void TemporaryData::deletePreview()
     if (!ok) {
         return;
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the preview folder:\n%1\nPreview folder contains the timeline previews, and can be recreated with the source project.", dir.absolutePath())) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(
+            this,
+            i18n("Delete all data in the preview folder:\n%1\nPreview folder contains the timeline previews, and can be recreated with the source project.",
+                 dir.absolutePath())) != KMessageBox::Continue) {
         return;
     }
     if (dir.dirName() == QLatin1String("preview")) {
@@ -324,7 +323,9 @@ void TemporaryData::deletePreview()
 void TemporaryData::deleteBackup()
 {
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the backup folder:\n%1\nA copy of all your project files is kept in this folder for recovery in case of corruption.", backupFolder.absolutePath())) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(
+            this, i18n("Delete all data in the backup folder:\n%1\nA copy of all your project files is kept in this folder for recovery in case of corruption.",
+                       backupFolder.absolutePath())) != KMessageBox::Continue) {
         return;
     }
     if (backupFolder.dirName() == QLatin1String(".backup")) {
@@ -349,8 +350,9 @@ void TemporaryData::cleanBackup()
         KMessageBox::information(this, i18n("No backup data older than %1 months was found.", KdenliveSettings::cleanCacheMonths()));
         return;
     }
-    if (KMessageBox::warningContinueCancelList(this, i18n("This will delete backup data for projects older than %1 months.", KdenliveSettings::cleanCacheMonths()), oldFiles) !=
-        KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this,
+                                               i18n("This will delete backup data for projects older than %1 months.", KdenliveSettings::cleanCacheMonths()),
+                                               oldFiles) != KMessageBox::Continue) {
         return;
     }
     if (backupFolder.dirName() == QLatin1String(".backup")) {
@@ -374,7 +376,7 @@ void TemporaryData::cleanCache()
     size_t total = 0;
     QDateTime current = QDateTime::currentDateTime();
     int max = root->childCount();
-    for (int i = 0; i< max; i++) {
+    for (int i = 0; i < max; i++) {
         QTreeWidgetItem *child = root->child(i);
         if (child->data(2, Qt::UserRole).toDateTime().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             emptyDirs << child;
@@ -390,8 +392,10 @@ void TemporaryData::cleanCache()
         return;
     }
 
-    if (KMessageBox::warningContinueCancelList(this, i18n("This will delete cache data (%1) for missing projects or projects older than %2 months.", KIO::convertSize(total), KdenliveSettings::cleanCacheMonths()), folders) !=
-        KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this,
+                                               i18n("This will delete cache data (%1) for missing projects or projects older than %2 months.",
+                                                    KIO::convertSize(total), KdenliveSettings::cleanCacheMonths()),
+                                               folders) != KMessageBox::Continue) {
         return;
     }
     deleteCache(folders);
@@ -410,8 +414,11 @@ void TemporaryData::deleteProjectProxy()
     }
     dir.setNameFilters(m_proxies);
     QStringList files = dir.entryList(QDir::Files);
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the proxy folder:\n%1\nProxy folder contains the proxy clips for all your projects. This proxies can be recreated from the source clips.", dir.absolutePath()), files) !=
-        KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this,
+                                               i18n("Delete all project data in the proxy folder:\n%1\nProxy folder contains the proxy clips for all your "
+                                                    "projects. This proxies can be recreated from the source clips.",
+                                                    dir.absolutePath()),
+                                               files) != KMessageBox::Continue) {
         return;
     }
     for (const QString &file : qAsConst(files)) {
@@ -428,7 +435,9 @@ void TemporaryData::deleteAudio()
     if (!ok) {
         return;
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache audio folder:\n%1\nThis folder contains the data for audio thumbnails in this project.", dir.absolutePath())) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(
+            this, i18n("Delete all data in the cache audio folder:\n%1\nThis folder contains the data for audio thumbnails in this project.",
+                       dir.absolutePath())) != KMessageBox::Continue) {
         return;
     }
     if (dir.dirName() == QLatin1String("audiothumbs")) {
@@ -445,7 +454,9 @@ void TemporaryData::deleteThumbs()
     if (!ok) {
         return;
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache thumbnail folder:\n%1\nThis folder contains the data for video thumbnails in this project.", dir.absolutePath())) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(
+            this, i18n("Delete all data in the cache thumbnail folder:\n%1\nThis folder contains the data for video thumbnails in this project.",
+                       dir.absolutePath())) != KMessageBox::Continue) {
         return;
     }
     if (dir.dirName() == QLatin1String("videothumbs")) {
@@ -462,7 +473,9 @@ void TemporaryData::deleteCurrentCacheData(bool warn)
     if (!ok) {
         return;
     }
-    if (warn && KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache folder:\n%1\nCache folder contains the audio and video thumbnails, as well as timeline previews. All this data will be recreated on project opening.", dir.absolutePath())) != KMessageBox::Continue) {
+    if (warn && KMessageBox::warningContinueCancel(this, i18n("Delete all data in the cache folder:\n%1\nCache folder contains the audio and video thumbnails, "
+                                                              "as well as timeline previews. All this data will be recreated on project opening.",
+                                                              dir.absolutePath())) != KMessageBox::Continue) {
         return;
     }
     if (dir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
@@ -629,8 +642,11 @@ void TemporaryData::deleteSelected()
             folders << current->data(0, Qt::UserRole).toString();
         }
     }
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1\nCache folders contains the audio and video thumbnails, as well as timeline previews. All this data will be recreated on project opening.", m_globalDir.absolutePath()), folders) !=
-        KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this,
+                                               i18n("Delete the following cache folders from\n%1\nCache folders contains the audio and video thumbnails, as "
+                                                    "well as timeline previews. All this data will be recreated on project opening.",
+                                                    m_globalDir.absolutePath()),
+                                               folders) != KMessageBox::Continue) {
         return;
     }
     deleteCache(folders);
@@ -688,7 +704,8 @@ void TemporaryData::cleanProxy()
         KMessageBox::information(this, i18n("No proxy clips older than %1 months was found.", KdenliveSettings::cleanCacheMonths()));
         return;
     }
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following proxy clips (%1)\nProxy clips can be recreated on project opening.", KIO::convertSize(size)), oldFiles) !=
+    if (KMessageBox::warningContinueCancelList(
+            this, i18n("Delete the following proxy clips (%1)\nProxy clips can be recreated on project opening.", KIO::convertSize(size)), oldFiles) !=
         KMessageBox::Continue) {
         return;
     }

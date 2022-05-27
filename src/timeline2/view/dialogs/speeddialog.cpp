@@ -3,12 +3,11 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-
 #include "speeddialog.h"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
-#include "widgets/timecodedisplay.h"
 #include "ui_clipspeed_ui.h"
+#include "widgets/timecodedisplay.h"
 
 #include <KMessageWidget>
 #include <QDebug>
@@ -68,22 +67,21 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
             QSignalBlocker bk2(ui->speedSpin);
             ui->speedSpin->setValue(updatedSpeed);
             checkSpeed(infoMessage, updatedSpeed);
-            
         });
     }
 
-    connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&, speed] (double value) {
+    connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&, speed](double value) {
         QSignalBlocker bk(ui->speedSlider);
         ui->speedSlider->setValue(int(qLn(value) * 12));
         if (m_durationDisplay) {
             QSignalBlocker bk2(m_durationDisplay);
             int dur = qRound(m_duration * std::fabs(speed / value));
-            qDebug()<<"==== CALCULATED SPEED DIALOG DURATION: "<<dur;
+            qDebug() << "==== CALCULATED SPEED DIALOG DURATION: " << dur;
             m_durationDisplay->setValue(dur);
         }
         ui->buttonBox->button((QDialogButtonBox::Ok))->setEnabled(!qFuzzyIsNull(value));
     });
-    connect(ui->speedSlider, &QSlider::valueChanged, this, [this, infoMessage, speed] (int value) {
+    connect(ui->speedSlider, &QSlider::valueChanged, this, [this, infoMessage, speed](int value) {
         double res = qExp(value / 12.);
         QSignalBlocker bk(ui->speedSpin);
         checkSpeed(infoMessage, res);
@@ -96,11 +94,11 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     });
 }
 
-
 void SpeedDialog::checkSpeed(KMessageWidget *infoMessage, double res)
 {
     if (res < ui->speedSpin->minimum() || res > ui->speedSpin->maximum()) {
-        infoMessage->setText(res < ui->speedSpin->minimum() ? i18n("Minimum speed is %1", ui->speedSpin->minimum()) : i18n("Maximum speed is %1", ui->speedSpin->maximum()));
+        infoMessage->setText(res < ui->speedSpin->minimum() ? i18n("Minimum speed is %1", ui->speedSpin->minimum())
+                                                            : i18n("Maximum speed is %1", ui->speedSpin->maximum()));
         infoMessage->setCloseButtonVisible(true);
         infoMessage->setMessageType(KMessageWidget::Warning);
         infoMessage->animatedShow();

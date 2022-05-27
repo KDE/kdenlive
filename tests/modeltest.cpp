@@ -1013,8 +1013,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         int cid6 = -1;
         // Setup insert stream data
-        QMap <int, QString>audioInfo;
-        audioInfo.insert(1,QStringLiteral("stream1"));
+        QMap<int, QString> audioInfo;
+        audioInfo.insert(1, QStringLiteral("stream1"));
         timeline->m_binAudioTargets = audioInfo;
         REQUIRE(timeline->requestClipInsertion(binId3, tid5, 3, cid6, true, true, false));
         int cid7 = timeline->m_groups->getSplitPartner(cid6);

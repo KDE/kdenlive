@@ -170,8 +170,7 @@ void ColorPlaneExport::slotExportPlane()
         img = m_colorTools->yuvColorWheel(size, sliderColor->value(), m_scaling, true, false);
         break;
     case CPE_RGB_CURVE:
-        img = m_colorTools->rgbCurvePlane(size, ColorTools::ColorsRGB(cbVariant->itemData(cbVariant->currentIndex()).toInt()),
-                                          sliderScaling->value() / 255.f);
+        img = m_colorTools->rgbCurvePlane(size, ColorTools::ColorsRGB(cbVariant->itemData(cbVariant->currentIndex()).toInt()), sliderScaling->value() / 255.f);
         break;
     case CPE_YPbPr:
         img = m_colorTools->yPbPrColorWheel(size, sliderColor->value(), m_scaling, false);

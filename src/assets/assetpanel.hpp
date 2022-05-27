@@ -18,8 +18,6 @@ class QToolButton;
 class QComboBox;
 class QScrollArea;
 
-
-
 class AssetParameterModel;
 class AssetParameterView;
 class EffectStackModel;
@@ -27,7 +25,6 @@ class EffectStackView;
 class TransitionStackView;
 class MixStackView;
 class QLabel;
-
 
 /** @class AssetPanel
     @brief This class is the widget that provides interaction with the asset currently selected.

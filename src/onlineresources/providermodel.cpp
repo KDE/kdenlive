@@ -45,7 +45,7 @@ ProviderModel::ProviderModel(const QString &path)
         validate();
     }
 
-    if(!m_invalid) {
+    if (!m_invalid) {
         m_apiroot = m_doc["api"].toObject()["root"].toString();
         m_search = m_doc["api"].toObject()["search"].toObject();
         m_download = m_doc["api"].toObject()["downloadUrls"].toObject();
@@ -54,39 +54,39 @@ ProviderModel::ProviderModel(const QString &path)
         m_attribution = m_doc["attributionHtml"].toString();
         m_homepage = m_doc["homepage"].toString();
 
-        #ifndef DOXYGEN_SHOULD_SKIP_THIS // don't make this any more public than it is.
-        if(!m_clientkey.isEmpty()) {
-            //all these keys are registered with online-resources@kdenlive.org
-            m_clientkey.replace("%freesound_apikey%","aJuPDxHP7vQlmaPSmvqyca6YwNdP0tPaUnvmtjIn");
-            m_clientkey.replace("%pexels_apikey%","563492ad6f91700001000001c2c34d4986e5421eb353e370ae5a89d0");
-            m_clientkey.replace("%pixabay_apikey%","20228828-57acfa09b69e06ae394d206af");
+#ifndef DOXYGEN_SHOULD_SKIP_THIS // don't make this any more public than it is.
+        if (!m_clientkey.isEmpty()) {
+            // all these keys are registered with online-resources@kdenlive.org
+            m_clientkey.replace("%freesound_apikey%", "aJuPDxHP7vQlmaPSmvqyca6YwNdP0tPaUnvmtjIn");
+            m_clientkey.replace("%pexels_apikey%", "563492ad6f91700001000001c2c34d4986e5421eb353e370ae5a89d0");
+            m_clientkey.replace("%pixabay_apikey%", "20228828-57acfa09b69e06ae394d206af");
         }
-        #endif
+#endif
 
-        if( m_doc["type"].toString() == "music")  {
+        if (m_doc["type"].toString() == "music") {
             m_type = SERVICETYPE::AUDIO;
-        } else if( m_doc["type"].toString() == "sound")  {
+        } else if (m_doc["type"].toString() == "sound") {
             m_type = SERVICETYPE::AUDIO;
-        } else if( m_doc["type"].toString() == "video")  {
+        } else if (m_doc["type"].toString() == "video") {
             m_type = SERVICETYPE::VIDEO;
-        } else if( m_doc["type"].toString() == "image")  {
+        } else if (m_doc["type"].toString() == "image") {
             m_type = SERVICETYPE::IMAGE;
         } else {
             m_type = SERVICETYPE::UNKNOWN;
         }
 
-        if(downloadOAuth2() == true) {
-            QJsonObject ouath2Info= m_doc["api"].toObject()["oauth2"].toObject();
+        if (downloadOAuth2() == true) {
+            QJsonObject ouath2Info = m_doc["api"].toObject()["oauth2"].toObject();
             auto replyHandler = new QOAuthHttpServerReplyHandler(1337, this);
             m_oauth2.setReplyHandler(replyHandler);
             m_oauth2.setAuthorizationUrl(QUrl(ouath2Info["authorizationUrl"].toString()));
             m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
             m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
             m_oauth2.setClientIdentifierSharedKey(m_clientkey);
-#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken){
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken) {
 #else
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::tokenChanged, this, [&](const QString &refreshToken){
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::tokenChanged, this, [&](const QString &refreshToken) {
 #endif
                 KSharedConfigPtr config = KSharedConfig::openConfig();
                 KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
@@ -95,7 +95,7 @@ ProviderModel::ProviderModel(const QString &path)
 
             m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QVariantMap *parameters) {
                 if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
-                    if(m_oauth2.scope().isEmpty()) {
+                    if (m_oauth2.scope().isEmpty()) {
                         parameters->remove("scope");
                     }
                 }
@@ -103,11 +103,10 @@ ProviderModel::ProviderModel(const QString &path)
                     parameters->insert("client_id", m_oauth2.clientIdentifier());
                     parameters->insert("client_secret", m_oauth2.clientIdentifierSharedKey());
                 }
-
             });
 
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
-                if (status == QAbstractOAuth::Status::Granted ) {
+                if (status == QAbstractOAuth::Status::Granted) {
                     emit authenticated(m_oauth2.token());
                 } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
                     KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
@@ -124,30 +123,31 @@ ProviderModel::ProviderModel(const QString &path)
     }
 }
 
-void ProviderModel::authorize() {
+void ProviderModel::authorize()
+{
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
 
     QString strRefreshTokenFromSettings = authGroup.readEntry(QStringLiteral("refresh_token"));
 
-    if(m_oauth2.token().isEmpty()) {
+    if (m_oauth2.token().isEmpty()) {
         if (!strRefreshTokenFromSettings.isEmpty()) {
             m_oauth2.setRefreshToken(strRefreshTokenFromSettings);
             m_oauth2.refreshAccessToken();
         } else {
             m_oauth2.grant();
         }
-    }  else {
-        if(m_oauth2.expirationAt() < QDateTime::currentDateTime()) {
+    } else {
+        if (m_oauth2.expirationAt() < QDateTime::currentDateTime()) {
             emit authenticated(m_oauth2.token());
         } else {
             m_oauth2.refreshAccessToken();
         }
-
     }
 }
 
-void ProviderModel::refreshAccessToken() {
+void ProviderModel::refreshAccessToken()
+{
     m_oauth2.refreshAccessToken();
 }
 
@@ -155,52 +155,53 @@ void ProviderModel::refreshAccessToken() {
  * @brief ProviderModel::validate
  * Check if config has all required fields. Result can be gotten with is_valid()
  */
-void ProviderModel::validate() {
+void ProviderModel::validate()
+{
 
     m_invalid = true;
-    if(m_doc.isNull() || m_doc.isEmpty() || !m_doc.isObject()) {
+    if (m_doc.isNull() || m_doc.isEmpty() || !m_doc.isObject()) {
         qCWarning(KDENLIVE_LOG) << "Root object missing or invalid";
         return;
     }
 
-    if(!m_doc["integration"].isString() || m_doc["integration"].toString() != "buildin") {
+    if (!m_doc["integration"].isString() || m_doc["integration"].toString() != "buildin") {
         qCWarning(KDENLIVE_LOG) << "Currently only integration type \"buildin\" is supported";
         return;
     }
 
-    if(!m_doc["name"].isString() ) {
+    if (!m_doc["name"].isString()) {
         qCWarning(KDENLIVE_LOG) << "Missing key name of type string ";
         return;
     }
 
-    if(!m_doc["homepage"].isString() ) {
+    if (!m_doc["homepage"].isString()) {
         qCWarning(KDENLIVE_LOG) << "Missing key homepage of type string ";
         return;
     }
 
-    if(!m_doc["type"].isString() ) {
+    if (!m_doc["type"].isString()) {
         qCWarning(KDENLIVE_LOG) << "Missing key type of type string ";
         return;
     }
 
-    if(!m_doc["api"].isObject() || !m_doc["api"].toObject()["search"].isObject()) {
-        qCWarning(KDENLIVE_LOG)  << "Missing api of type object or key search of type object";
+    if (!m_doc["api"].isObject() || !m_doc["api"].toObject()["search"].isObject()) {
+        qCWarning(KDENLIVE_LOG) << "Missing api of type object or key search of type object";
         return;
     }
-    if(downloadOAuth2()) {
-        if(!m_doc["api"].toObject()["oauth2"].isObject()) {
+    if (downloadOAuth2()) {
+        if (!m_doc["api"].toObject()["oauth2"].isObject()) {
             qCWarning(KDENLIVE_LOG) << "Missing OAuth2 configuration (required)";
             return;
         }
-        if(m_doc["api"].toObject()["oauth2"].toObject()["authorizationUrl"].toString().isEmpty()) {
+        if (m_doc["api"].toObject()["oauth2"].toObject()["authorizationUrl"].toString().isEmpty()) {
             qCWarning(KDENLIVE_LOG) << "Missing authorizationUrl for OAuth2";
             return;
         }
-        if(m_doc["api"].toObject()["oauth2"].toObject()["accessTokenUrl"].toString().isEmpty()) {
+        if (m_doc["api"].toObject()["oauth2"].toObject()["accessTokenUrl"].toString().isEmpty()) {
             qCWarning(KDENLIVE_LOG) << "Missing accessTokenUrl for OAuth2";
             return;
         }
-        if(m_doc["api"].toObject()["oauth2"].toObject()["clientId"].toString().isEmpty()) {
+        if (m_doc["api"].toObject()["oauth2"].toObject()["clientId"].toString().isEmpty()) {
             qCWarning(KDENLIVE_LOG) << "Missing clientId for OAuth2";
             return;
         }
@@ -209,32 +210,39 @@ void ProviderModel::validate() {
     m_invalid = false;
 }
 
-bool ProviderModel::is_valid() const {
+bool ProviderModel::is_valid() const
+{
     return !m_invalid;
 }
 
-QString ProviderModel::name() const {
+QString ProviderModel::name() const
+{
     return m_name;
 }
 
-QString ProviderModel::homepage() const {
+QString ProviderModel::homepage() const
+{
     return m_homepage;
 }
 
-ProviderModel::SERVICETYPE ProviderModel::type() const {
+ProviderModel::SERVICETYPE ProviderModel::type() const
+{
     return m_type;
 }
 
-QString ProviderModel::attribution() const {
+QString ProviderModel::attribution() const
+{
     return m_attribution;
 }
 
-bool ProviderModel::downloadOAuth2() const {
+bool ProviderModel::downloadOAuth2() const
+{
     return m_doc["downloadOAuth2"].toBool(false);
 }
 
-bool ProviderModel::requiresLogin() const {
-    if(downloadOAuth2()) {
+bool ProviderModel::requiresLogin() const
+{
+    if (downloadOAuth2()) {
         KSharedConfigPtr config = KSharedConfig::openConfig();
         KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
         authGroup.exists();
@@ -255,13 +263,14 @@ bool ProviderModel::requiresLogin() const {
  * In addition this function takes care of modifiers like "$" for placeholders, etc. but does not parse them (use objectGetString for this purpose)
  */
 
-QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key) {
+QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key)
+{
     QJsonObject tmpKeys = m_search["res"].toObject();
-    if(key.contains(".")) {
+    if (key.contains(".")) {
         QStringList subkeys = key.split(".");
 
         for (const auto &subkey : qAsConst(subkeys)) {
-            if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
+            if (subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
                 key = subkey;
             } else {
                 tmpKeys = tmpKeys[subkey].toObject();
@@ -271,26 +280,25 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key) {
 
     QString parseKey = tmpKeys[key].toString();
     // "$" means template, store template string instead of using as key
-    if(parseKey.startsWith("$")) {
+    if (parseKey.startsWith("$")) {
         return tmpKeys[key];
     }
 
     // "." in key means value is in a subobject
-    if(parseKey.contains(".")) {
+    if (parseKey.contains(".")) {
         QStringList subkeys = tmpKeys[key].toString().split(".");
 
         for (const auto &subkey : qAsConst(subkeys)) {
-            if(subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
+            if (subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
                 parseKey = subkey;
             } else {
                 item = item[subkey].toObject();
             }
-
         }
     }
 
     // "%" means placeholder, store placeholder instead of using as key
-    if(parseKey.startsWith("%")) {
+    if (parseKey.startsWith("%")) {
         return tmpKeys[key];
     }
 
@@ -307,14 +315,15 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key) {
  * Same as objectGetValue but more specific only for strings. In addition this function parses template strings and palceholders.
  */
 
-QString ProviderModel::objectGetString(QJsonObject item, const QString &key, const QString &id, const QString &parentKey) {
+QString ProviderModel::objectGetString(QJsonObject item, const QString &key, const QString &id, const QString &parentKey)
+{
     QJsonValue val = objectGetValue(item, key);
-    if(!val.isString()) {
+    if (!val.isString()) {
         return QString();
     }
     QString result = val.toString();
 
-    if(result.startsWith("$")) {
+    if (result.startsWith("$")) {
         result = result.replace("%id%", id);
         QStringList sections = result.split("{");
         for (auto &section : sections) {
@@ -322,7 +331,7 @@ QString ProviderModel::objectGetString(QJsonObject item, const QString &key, con
             section.remove(section.indexOf("}"), section.length());
 
             // "&" is a placeholder for the parent key
-            if(section.startsWith("&")) {
+            if (section.startsWith("&")) {
                 result.replace("{" + section + "}", parentKey);
             } else {
                 result.replace("{" + section + "}", item[section].isDouble() ? QString::number(item[section].toDouble()) : item[section].toString());
@@ -334,11 +343,12 @@ QString ProviderModel::objectGetString(QJsonObject item, const QString &key, con
     return result;
 }
 
-QString ProviderModel::replacePlaceholders(QString string, const QString &query, const int page, const QString &id) {
+QString ProviderModel::replacePlaceholders(QString string, const QString &query, const int page, const QString &id)
+{
     string = string.replace("%query%", query);
     string = string.replace("%pagenum%", QString::number(page));
     string = string.replace("%perpage%", QString::number(m_perPage));
-    string = string.replace("%shortlocale%", "en-US"); //TODO
+    string = string.replace("%shortlocale%", "en-US"); // TODO
     string = string.replace("%clientkey%", m_clientkey);
     string = string.replace("%id%", id);
 
@@ -351,7 +361,8 @@ QString ProviderModel::replacePlaceholders(QString string, const QString &query,
  * @param page The page to request
  * Get the url to search for items
  */
-QUrl ProviderModel::getSearchUrl(const QString &searchText, const int page) {
+QUrl ProviderModel::getSearchUrl(const QString &searchText, const int page)
+{
 
     QUrl url(m_apiroot);
     const QJsonObject req = m_search["req"].toObject();
@@ -376,28 +387,29 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
 {
     QUrl uri = getSearchUrl(searchText, page);
 
-    if(m_search["req"].toObject()["method"].toString() == "GET") {
+    if (m_search["req"].toObject()["method"].toString() == "GET") {
 
         auto *manager = new QNetworkAccessManager(this);
 
         QNetworkRequest request(uri);
 
-        if(m_search["req"].toObject()["header"].isArray()) {
-            for (const auto &header: m_search["req"].toObject()["header"].toArray()) {
-                request.setRawHeader(header.toObject()["key"].toString().toUtf8(), replacePlaceholders(header.toObject()["value"].toString(), searchText, page).toUtf8());
+        if (m_search["req"].toObject()["header"].isArray()) {
+            for (const auto &header : m_search["req"].toObject()["header"].toArray()) {
+                request.setRawHeader(header.toObject()["key"].toString().toUtf8(),
+                                     replacePlaceholders(header.toObject()["value"].toString(), searchText, page).toUtf8());
             }
         }
         QNetworkReply *reply = manager->get(request);
 
         connect(reply, &QNetworkReply::finished, this, [=]() {
-            if(reply->error() == QNetworkReply::NoError) {
+            if (reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QList<ResourceItemInfo>, const int> result = parseSearchResponse(response);
                 emit searchDone(result.first, result.second);
 
             } else {
-              emit searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
-              qCDebug(KDENLIVE_LOG) << reply->errorString();
+                emit searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
+                qCDebug(KDENLIVE_LOG) << reply->errorString();
             }
             reply->deleteLater();
         });
@@ -418,15 +430,16 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
  * @return pair of  of QList containing ResourceItemInfo and int reflecting the number of found pages
  * Parse the response data of a search request, usually after slotStartSearch
  */
-std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse(const QByteArray &data) {
+std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse(const QByteArray &data)
+{
     QJsonObject keys = m_search["res"].toObject();
     QList<ResourceItemInfo> list;
     int pageCount = 0;
-    if(keys["format"].toString() == "json") {
+    if (keys["format"].toString() == "json") {
         QJsonDocument res = QJsonDocument::fromJson(data);
 
         QJsonArray items;
-        if(keys["list"].toString("").isEmpty()) {
+        if (keys["list"].toString("").isEmpty()) {
             items = res.array();
         } else {
             items = objectGetValue(res.object(), "list").toArray();
@@ -441,16 +454,18 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
             onlineItem.name = objectGetString(item.toObject(), "name");
             onlineItem.filetype = objectGetString(item.toObject(), "filetype");
             onlineItem.description = objectGetString(item.toObject(), "description");
-            onlineItem.id = (objectGetValue(item.toObject(), "id").isString() ? objectGetString(item.toObject(), "id") : QString::number(objectGetValue(item.toObject(), "id").toInt()));
+            onlineItem.id = (objectGetValue(item.toObject(), "id").isString() ? objectGetString(item.toObject(), "id")
+                                                                              : QString::number(objectGetValue(item.toObject(), "id").toInt()));
             onlineItem.infoUrl = objectGetString(item.toObject(), "url");
             onlineItem.license = objectGetString(item.toObject(), "licenseUrl");
             onlineItem.imageUrl = objectGetString(item.toObject(), "imageUrl");
             onlineItem.previewUrl = objectGetString(item.toObject(), "previewUrl");
             onlineItem.width = objectGetValue(item.toObject(), "width").toInt();
             onlineItem.height = objectGetValue(item.toObject(), "height").toInt();
-            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? int(objectGetValue(item.toObject(), "duration").toDouble()) : objectGetValue(item.toObject(), "duration").toInt();
+            onlineItem.duration = objectGetValue(item.toObject(), "duration").isDouble() ? int(objectGetValue(item.toObject(), "duration").toDouble())
+                                                                                         : objectGetValue(item.toObject(), "duration").toInt();
 
-            if(keys["downloadUrls"].isObject()) {
+            if (keys["downloadUrls"].isObject()) {
                 for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {
                     onlineItem.downloadUrls << objectGetString(urlItem.toObject(), "downloadUrls.url");
                     onlineItem.downloadLabels << objectGetString(urlItem.toObject(), "downloadUrls.name");
@@ -458,7 +473,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
                 if (onlineItem.previewUrl.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrls.first();
                 }
-            } else if(keys["downloadUrl"].isString()){
+            } else if (keys["downloadUrl"].isString()) {
                 onlineItem.downloadUrl = objectGetString(item.toObject(), "downloadUrl");
                 if (onlineItem.previewUrl.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrl;
@@ -470,7 +485,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
     } else {
         qCWarning(KDENLIVE_LOG) << "WARNING: unknown response format: " << keys["format"];
     }
-    return std::pair<QList<ResourceItemInfo>, const int> (list, pageCount);
+    return std::pair<QList<ResourceItemInfo>, const int>(list, pageCount);
 }
 
 /**
@@ -479,10 +494,11 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
  * @return the url
  * Get the url to fetch metadata about the available files.
  */
-QUrl ProviderModel::getFilesUrl(const QString &id) {
+QUrl ProviderModel::getFilesUrl(const QString &id)
+{
 
     QUrl url(m_apiroot);
-    if(!m_download["req"].isObject()) {
+    if (!m_download["req"].isObject()) {
         return QUrl();
     }
     const QJsonObject req = m_download["req"].toObject();
@@ -503,37 +519,37 @@ QUrl ProviderModel::getFilesUrl(const QString &id) {
  * @param id The providers id of the item the date should be fetched for
  * Fetch metadata about the available files, if they are not included in the search response (e.g. archive.org)
  */
-void ProviderModel::slotFetchFiles(const QString &id) {
+void ProviderModel::slotFetchFiles(const QString &id)
+{
 
     QUrl uri = getFilesUrl(id);
 
-    if(uri.isEmpty()) {
+    if (uri.isEmpty()) {
         return;
     }
 
-    if(m_download["req"].toObject()["method"].toString() == "GET") {
+    if (m_download["req"].toObject()["method"].toString() == "GET") {
 
         auto *manager = new QNetworkAccessManager(this);
 
         QNetworkRequest request(uri);
 
-        if(m_download["req"].toObject()["header"].isArray()) {
-            for (const auto &header: m_search["req"].toObject()["header"].toArray()) {
+        if (m_download["req"].toObject()["header"].isArray()) {
+            for (const auto &header : m_search["req"].toObject()["header"].toArray()) {
                 request.setRawHeader(header.toObject()["key"].toString().toUtf8(), replacePlaceholders(header.toObject()["value"].toString()).toUtf8());
             }
         }
         QNetworkReply *reply = manager->get(request);
 
         connect(reply, &QNetworkReply::finished, this, [=]() {
-            if(reply->error() == QNetworkReply::NoError) {
+            if (reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QStringList, QStringList> result = parseFilesResponse(response, id);
                 emit fetchedFiles(result.first, result.second);
                 reply->deleteLater();
-            }
-            else {
-              emit fetchedFiles(QStringList(),QStringList());
-              qCDebug(KDENLIVE_LOG) << reply->errorString();
+            } else {
+                emit fetchedFiles(QStringList(), QStringList());
+                qCDebug(KDENLIVE_LOG) << reply->errorString();
             }
         });
 
@@ -554,25 +570,27 @@ void ProviderModel::slotFetchFiles(const QString &id) {
  * @return pair of two QStringList First list contains urls to files, second list contains labels describing the files
  * Parse the response data of a fetch files request, usually after slotFetchFiles
  */
-std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByteArray &data, const QString &id) {
+std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByteArray &data, const QString &id)
+{
     QJsonObject keys = m_download["res"].toObject();
     QStringList urls;
     QStringList labels;
 
-    if(keys["format"].toString() == "json") {
+    if (keys["format"].toString() == "json") {
         QJsonObject res = QJsonDocument::fromJson(data).object();
 
-        if(keys["downloadUrls"].isObject()) {
-            if(keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
+        if (keys["downloadUrls"].isObject()) {
+            if (keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
                 QJsonObject list = objectGetValue(res, "downloadUrls.key").toObject();
                 for (const auto &key : list.keys()) {
                     QJsonObject urlItem = list[key].toObject();
                     QString format = objectGetString(urlItem, "downloadUrls.format", id, key);
-                    //This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs for each frame and metafiles
-                    if(m_type == ProviderModel::VIDEO && m_homepage == "https://archive.org" && format != QLatin1String("Animated GIF") && format != QLatin1String("Metadata")
-                            && format != QLatin1String("Archive BitTorrent") && format != QLatin1String("Thumbnail") && format != QLatin1String("JSON")
-                            && format != QLatin1String("JPEG") && format != QLatin1String("JPEG Thumb") && format != QLatin1String("PNG")
-                            && format != QLatin1String("Video Index")) {
+                    // This ugly check is only for the complicated archive.org api to avoid a long file list for videos caused by thumbs for each frame and
+                    // metafiles
+                    if (m_type == ProviderModel::VIDEO && m_homepage == "https://archive.org" && format != QLatin1String("Animated GIF") &&
+                        format != QLatin1String("Metadata") && format != QLatin1String("Archive BitTorrent") && format != QLatin1String("Thumbnail") &&
+                        format != QLatin1String("JSON") && format != QLatin1String("JPEG") && format != QLatin1String("JPEG Thumb") &&
+                        format != QLatin1String("PNG") && format != QLatin1String("Video Index")) {
                         urls << objectGetString(urlItem, "downloadUrls.url", id, key);
                         labels << objectGetString(urlItem, "downloadUrls.name", id, key);
                     }
@@ -584,12 +602,12 @@ std::pair<QStringList, QStringList> ProviderModel::parseFilesResponse(const QByt
                 }
             }
 
-        } else if(keys["downloadUrl"].isString()){
+        } else if (keys["downloadUrl"].isString()) {
             urls << objectGetString(res, "downloadUrl", id);
         }
 
     } else {
         qCWarning(KDENLIVE_LOG) << "WARNING fetch files: unknown response format: " << keys["format"];
     }
-    return std::pair<QStringList, QStringList> (urls, labels);
+    return std::pair<QStringList, QStringList>(urls, labels);
 }

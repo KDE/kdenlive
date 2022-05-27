@@ -297,7 +297,7 @@ void AbstractProjectItem::updateParent(std::shared_ptr<TreeItem> newParent)
     TreeItem::updateParent(newParent);
 }
 
-const QString & AbstractProjectItem::tags() const
+const QString &AbstractProjectItem::tags() const
 {
     return m_tags;
 }
@@ -306,7 +306,6 @@ void AbstractProjectItem::setTags(const QString &tags)
 {
     m_tags = tags;
 }
-
 
 uint AbstractProjectItem::rating() const
 {
@@ -321,7 +320,7 @@ void AbstractProjectItem::setRating(uint rating)
 Fun AbstractProjectItem::getAudio_lambda()
 {
     return []() {
-        qDebug()<<"============\n\nABSTRACT AUDIO CHECK\n\n===========";
+        qDebug() << "============\n\nABSTRACT AUDIO CHECK\n\n===========";
         return true;
     };
 }

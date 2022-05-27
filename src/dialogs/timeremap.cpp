@@ -15,11 +15,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
-#include "widgets/timecodedisplay.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
+#include "widgets/timecodedisplay.h"
 
 #include "kdenlive_debug.h"
 #include <QFontDatabase>
@@ -39,7 +39,7 @@ RemapView::RemapView(QWidget *parent)
     , m_scale(1.)
     , m_zoomFactor(1)
     , m_zoomStart(0)
-    , m_zoomHandle(0,1)
+    , m_zoomHandle(0, 1)
     , m_clip(nullptr)
     , m_service(nullptr)
     , m_moveKeyframeMode(NoMove)
@@ -91,7 +91,7 @@ void RemapView::updateInPos(int pos)
             m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
         }
         slotSetPosition(pos);
-        std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
+        std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
         emit updateSpeeds(speeds);
         emit updateKeyframes(true);
         update();
@@ -103,10 +103,10 @@ void RemapView::updateOutPos(int pos)
     if (m_currentKeyframe.first > -1) {
         if (m_keyframes.contains(pos)) {
             // Cannot move kfr over an existing one
-            qDebug()<<"==== KEYFRAME ALREADY EXISTS AT: "<<pos;
+            qDebug() << "==== KEYFRAME ALREADY EXISTS AT: " << pos;
             return;
         }
-        QMap<int,int>updated;
+        QMap<int, int> updated;
         int offset = pos - m_currentKeyframe.first;
         if (m_moveNext) {
             QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
@@ -132,7 +132,7 @@ void RemapView::updateOutPos(int pos)
             m_keyframes.insert(i.key() + offset, i.value());
         }
         m_bottomPosition = pos - m_inFrame;
-        std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
+        std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
         emit updateSpeeds(speeds);
         emit updateKeyframes(true);
         update();
@@ -186,7 +186,7 @@ void RemapView::setBinClipDuration(std::shared_ptr<ProjectClip> clip, int durati
     m_duration = duration;
     int maxWidth = width() - (2 * m_offset);
     m_scale = maxWidth / double(qMax(1, remapMax()));
-    m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
+    m_currentKeyframe = m_currentKeyframeOriginal = {-1, -1};
 }
 
 void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration, int sourceDuration)
@@ -219,7 +219,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
             int lastPos = m_inFrame + duration - 1;
             if (lastPos > lastKeyframePos) {
                 keyframeAdded = true;
-                std::pair<double,double>speeds = getSpeed({lastKeyframePos,lastKeyframeValue});
+                std::pair<double, double> speeds = getSpeed({lastKeyframePos, lastKeyframeValue});
                 // Move last keyframe
                 it--;
                 int updatedVal = it.value() + ((lastPos - it.key()) * speeds.first);
@@ -230,7 +230,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
             keyframeAdded = true;
             // Remove all Keyframes after duration
             int lastPos = m_inFrame + duration - 1;
-            QList <int> toDelete;
+            QList<int> toDelete;
             QMapIterator<int, int> i(m_keyframes);
             while (i.hasNext()) {
                 i.next();
@@ -243,7 +243,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
                 int posToMove = toDelete.takeFirst();
                 if (!m_keyframes.contains(lastPos)) {
                     int lastKeyframeValue = m_keyframes.value(posToMove);
-                    std::pair<double,double>speeds = getSpeed({posToMove,lastKeyframeValue});
+                    std::pair<double, double> speeds = getSpeed({posToMove, lastKeyframeValue});
                     m_keyframes.remove(posToMove);
                     while (!toDelete.isEmpty()) {
                         m_keyframes.remove(toDelete.takeFirst());
@@ -274,7 +274,7 @@ void RemapView::setDuration(std::shared_ptr<Mlt::Producer> service, int duration
     m_zoomStart = m_zoomHandle.x() * maxWidth;
     m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
     if (!m_keyframes.contains(m_currentKeyframe.first)) {
-        m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
+        m_currentKeyframe = m_currentKeyframeOriginal = {-1, -1};
         update();
     }
     if (keyframeAdded) {
@@ -293,8 +293,8 @@ void RemapView::loadKeyframes(const QString &mapData)
         m_currentKeyframe = {m_inFrame, m_inFrame};
         m_keyframes.insert(m_currentKeyframe.first, m_currentKeyframe.second);
         m_keyframes.insert(m_inFrame + m_duration - 1, m_inFrame + m_duration - 1);
-        std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
-        std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+        std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+        std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
         emit selectedKf(m_currentKeyframe, speeds, atEnd);
         emit atKeyframe(true, true);
         emit updateKeyframes(false);
@@ -319,14 +319,14 @@ void RemapView::loadKeyframes(const QString &mapData)
             emit atKeyframe(false, false);
         }
         if (m_keyframes.contains(m_currentKeyframe.first)) {
-            //bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
-            //emit atKeyframe(true, isLast);
-            std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
-            std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+            // bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
+            // emit atKeyframe(true, isLast);
+            std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+            std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
             emit selectedKf(m_currentKeyframe, speeds, atEnd);
         } else {
-            m_currentKeyframe = {-1,-1};
-            emit selectedKf(m_currentKeyframe, {-1,-1} );
+            m_currentKeyframe = {-1, -1};
+            emit selectedKf(m_currentKeyframe, {-1, -1});
         }
     }
     int maxWidth = width() - (2 * m_offset);
@@ -357,10 +357,10 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             }
         }
         if (pos == -1) {
-            pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart ) / m_scale);
+            pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
         }
     } else {
-        pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart ) / m_scale);
+        pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
     }
     pos = qBound(0, pos, m_maxLength - 1);
     GenTime position(pos, pCore->getCurrentFps());
@@ -368,13 +368,13 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         bool hoverKeyframe = false;
         if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
             // mouse move in top keyframes area
-            std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame);
+            std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame);
             if (keyframe.first > -1 && qAbs(keyframe.second - pos - m_inFrame) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                 hoverKeyframe = true;
             }
         } else if (event->y() > m_bottomView - 2 * m_lineHeight && event->y() < m_bottomView - m_lineHeight) {
             // move in bottom keyframe area
-            std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
+            std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
             if (keyframe.first > -1 && qAbs(keyframe.first - pos - m_inFrame) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                 hoverKeyframe = true;
             }
@@ -408,7 +408,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 double clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset) - m_clickOffset;
                 double newX = m_zoomHandle.x() + clickOffset;
                 if (newX < 0) {
-                    clickOffset = - m_zoomHandle.x();
+                    clickOffset = -m_zoomHandle.x();
                     newX = 0;
                 }
                 double newY = m_zoomHandle.y() + clickOffset;
@@ -426,8 +426,9 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             }
             return;
         }
-        //qDebug()<<"=== MOVING MOUSE: "<<pos<<" = "<<m_currentKeyframe<<", MOVE KFMODE: "<<m_moveKeyframeMode;
-        if ((m_currentKeyframe.second == pos + m_inFrame && m_moveKeyframeMode == TopMove) || (m_currentKeyframe.first == pos + m_inFrame && m_moveKeyframeMode == BottomMove)) {
+        // qDebug()<<"=== MOVING MOUSE: "<<pos<<" = "<<m_currentKeyframe<<", MOVE KFMODE: "<<m_moveKeyframeMode;
+        if ((m_currentKeyframe.second == pos + m_inFrame && m_moveKeyframeMode == TopMove) ||
+            (m_currentKeyframe.first == pos + m_inFrame && m_moveKeyframeMode == BottomMove)) {
             return;
         }
         if (m_currentKeyframe.first >= 0 && m_moveKeyframeMode != NoMove) {
@@ -442,19 +443,19 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         int updatedPos = i.key() + delta;
                         if (!m_selectedKeyframes.contains(updatedPos) && m_keyframes.contains(updatedPos)) {
                             // Don't allow moving over another keyframe
-                            qDebug()<<"== MOVE ABORTED; OVERLAPPING EXISTING";
+                            qDebug() << "== MOVE ABORTED; OVERLAPPING EXISTING";
                             return;
                         }
                     }
                     i.toFront();
-                    QMap <int,int> updated;
+                    QMap<int, int> updated;
                     while (i.hasNext()) {
                         i.next();
                         if (i.key() < m_currentKeyframe.first) {
                             continue;
                         }
-                        //qDebug()<<"=== MOVING KFR: "<<i.key()<<" > "<<(i.key() + delta);
-                        //m_keyframes.insert(i.key() + delta, i.value());
+                        // qDebug()<<"=== MOVING KFR: "<<i.key()<<" > "<<(i.key() + delta);
+                        // m_keyframes.insert(i.key() + delta, i.value());
                         updated.insert(i.key() + delta, i.value());
                         m_keyframes.remove(i.key());
                     }
@@ -463,7 +464,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         j.next();
                         m_keyframes.insert(j.key(), j.value());
                     }
-                    QMap<int,int> updatedSelection;
+                    QMap<int, int> updatedSelection;
                     QMapIterator<int, int> k(m_previousSelection);
                     while (k.hasNext()) {
                         k.next();
@@ -471,8 +472,8 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     }
                     m_previousSelection = updatedSelection;
                     m_currentKeyframe.first += delta;
-                    std::pair<double,double>speeds = getSpeed(m_currentKeyframe);
-                    std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+                    std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+                    std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
                     emit selectedKf(m_currentKeyframe, speeds, atEnd);
 
                     m_selectedKeyframes = updated;
@@ -488,12 +489,12 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     update();
                     return;
                 } else {
-                    qDebug()<<"=== KEYFRAME :"<< pos<<" ALREADY EXISTS";
+                    qDebug() << "=== KEYFRAME :" << pos << " ALREADY EXISTS";
                 }
             } else if (m_moveKeyframeMode == TopMove) {
                 // Moving top keyframe
                 int realPos = qMax(m_inFrame, pos + m_inFrame);
-                //pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
+                // pos = GenTime(m_remapLink->anim_get_double("map", pos)).frames(pCore->getCurrentFps());
                 int delta = realPos - m_currentKeyframe.second;
                 // Check that the move is possible
                 QMapIterator<int, int> i(m_selectedKeyframes);
@@ -519,7 +520,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     }
                 }
                 i.toFront();
-                QMap<int,int>updated;
+                QMap<int, int> updated;
                 while (i.hasNext()) {
                     i.next();
                     m_keyframes.insert(i.key(), i.value() + delta);
@@ -528,15 +529,15 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                         m_currentKeyframe.second = realPos;
                     }
                 }
-                QMap<int,int> updatedSelection;
+                QMap<int, int> updatedSelection;
                 QMapIterator<int, int> k(m_previousSelection);
                 while (k.hasNext()) {
                     k.next();
                     updatedSelection.insert(k.key(), k.value() + delta);
                 }
                 m_previousSelection = updatedSelection;
-                std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-                std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+                std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+                std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
                 emit selectedKf(m_currentKeyframe, speeds, atEnd);
                 m_selectedKeyframes = updated;
                 slotSetPosition(pos + m_inFrame);
@@ -560,7 +561,7 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             int max = qMax(m_clickPoint, m_clickEnd);
             min = qMax(1, min);
             m_selectedKeyframes.clear();
-            m_currentKeyframeOriginal = m_currentKeyframe = {-1,-1};
+            m_currentKeyframeOriginal = m_currentKeyframe = {-1, -1};
             QMapIterator<int, int> i(m_keyframes);
             while (i.hasNext()) {
                 i.next();
@@ -618,7 +619,8 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             update();
             return;
         }
-        if (m_zoomHandle != QPointF(0, 1) && event->x() > m_offset + (m_zoomHandle.x() * (width() - 2 * m_offset)) && event->x() < m_offset + (m_zoomHandle.y() * (width() - 2 * m_offset))) {
+        if (m_zoomHandle != QPointF(0, 1) && event->x() > m_offset + (m_zoomHandle.x() * (width() - 2 * m_offset)) &&
+            event->x() < m_offset + (m_zoomHandle.y() * (width() - 2 * m_offset))) {
             setCursor(Qt::PointingHandCursor);
             m_hoverZoom = true;
             m_hoverZoomIn = false;
@@ -648,7 +650,7 @@ void RemapView::centerCurrentKeyframe()
         // No keyframe selected, abort
         return;
     }
-    QMap<int,int>nextKeyframes;
+    QMap<int, int> nextKeyframes;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
         if (it != m_keyframes.end() && *it != m_keyframes.last()) {
@@ -677,8 +679,8 @@ void RemapView::centerCurrentKeyframe()
         i.next();
         m_keyframes.insert(i.key() + offset, i.value());
     }
-    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-    std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+    std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+    std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
     emit selectedKf(m_currentKeyframe, speeds, atEnd);
     bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
     emit atKeyframe(true, isLast);
@@ -692,8 +694,8 @@ void RemapView::centerCurrentTopKeyframe()
         // No keyframe selected, abort
         return;
     }
-    //std::pair<int,int> range = getRange(m_currentKeyframe);
-    QMap<int,int>nextKeyframes;
+    // std::pair<int,int> range = getRange(m_currentKeyframe);
+    QMap<int, int> nextKeyframes;
     int offset = m_position + m_inFrame - m_currentKeyframe.second;
     if (m_moveNext) {
         QMap<int, int>::iterator it = m_keyframes.find(m_currentKeyframe.first);
@@ -721,8 +723,8 @@ void RemapView::centerCurrentTopKeyframe()
         i.next();
         m_keyframes.insert(i.key(), i.value() + offset);
     }
-    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-    std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+    std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+    std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
     emit selectedKf(m_currentKeyframe, speeds, atEnd);
     bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
     emit atKeyframe(true, isLast);
@@ -730,10 +732,10 @@ void RemapView::centerCurrentTopKeyframe()
     update();
 }
 
-std::pair<int,int> RemapView::getClosestKeyframe(int pos, bool bottomKeyframe) const
+std::pair<int, int> RemapView::getClosestKeyframe(int pos, bool bottomKeyframe) const
 {
     int deltaMin = -1;
-    std::pair<int,int> result = {-1,-1};
+    std::pair<int, int> result = {-1, -1};
     QMapIterator<int, int> i(m_keyframes);
     while (i.hasNext()) {
         i.next();
@@ -773,7 +775,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
 {
     event->accept();
     m_lastMaxDuration = remapMax();
-    int pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart ) / m_scale);
+    int pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
     pos = qBound(0, pos, m_maxLength);
     m_moveKeyframeMode = NoMove;
     m_keyframesOrigin = m_keyframes;
@@ -785,8 +787,8 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 m_clickPoint = pos + m_inFrame;
                 return;
             }
-            if (event->y() < 2 *m_lineHeight && event->y() > m_lineHeight) {
-                std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame);
+            if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
+                std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame);
                 if (keyframe.first > -1 && qAbs(keyframe.second - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                     // Clicked on a top keyframe
                     m_currentKeyframeOriginal = keyframe;
@@ -803,8 +805,8 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     // Select and seek to keyframe
                     m_currentKeyframe = m_currentKeyframeOriginal;
                     // Calculate speeds
-                    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-                    std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+                    std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+                    std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
                     emit selectedKf(m_currentKeyframe, speeds, atEnd);
                     if (m_currentKeyframeOriginal.first > -1) {
                         m_moveKeyframeMode = TopMove;
@@ -833,8 +835,8 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 }
             }
             // no keyframe next to mouse
-            //m_selectedKeyframes.clear();
-            //m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
+            // m_selectedKeyframes.clear();
+            // m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
             m_moveKeyframeMode = CursorMove;
             if (pos != m_position) {
                 slotSetPosition(pos + m_inFrame);
@@ -855,7 +857,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 return;
             }
             if (event->y() > (m_bottomView - 2 * m_lineHeight) && (event->y() < m_bottomView - m_lineHeight)) {
-                std::pair<int,int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
+                std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
                 if (keyframe.first > -1 && qAbs(keyframe.first - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                     m_currentKeyframeOriginal = keyframe;
                     if (event->modifiers() & Qt::ControlModifier) {
@@ -870,8 +872,8 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                     }
                     // Select and seek to keyframe
                     m_currentKeyframe = m_currentKeyframeOriginal;
-                    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-                    std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+                    std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+                    std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
                     emit selectedKf(m_currentKeyframe, speeds, atEnd);
                     if (m_currentKeyframeOriginal.first > -1) {
                         m_moveKeyframeMode = BottomMove;
@@ -901,8 +903,8 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 }
             }
             // no keyframe next to mouse
-            //m_selectedKeyframes.clear();
-            //m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
+            // m_selectedKeyframes.clear();
+            // m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
             m_moveKeyframeMode = CursorMoveBottom;
             pos = qMin(pos, m_keyframes.lastKey() - m_inFrame);
             if (pos != m_bottomPosition) {
@@ -914,7 +916,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 } else {
                     emit atKeyframe(false, false);
                 }
-                //slotUpdatePosition();
+                // slotUpdatePosition();
                 emit seekToPos(-1, pos);
                 update();
             }
@@ -949,7 +951,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
         }
     }
     if (pos != m_position) {
-        //emit seekToPos(pos);
+        // emit seekToPos(pos);
         update();
     }
 }
@@ -1023,13 +1025,12 @@ void RemapView::wheelEvent(QWheelEvent *event)
     }
 }
 
-
 void RemapView::slotSetPosition(int pos)
 {
     if (pos != m_position + m_inFrame) {
         m_position = pos - m_inFrame;
-        //int offset = pCore->getItemIn(m_model->getOwnerId());
-        //emit atKeyframe(m_keyframes.contains(pos));
+        // int offset = pCore->getItemIn(m_model->getOwnerId());
+        // emit atKeyframe(m_keyframes.contains(pos));
         double zoomPos = double(m_position) / m_duration;
         if (zoomPos < m_zoomHandle.x()) {
             double interval = m_zoomHandle.y() - m_zoomHandle.x();
@@ -1075,13 +1076,13 @@ void RemapView::goNext()
     while (i.hasNext()) {
         i.next();
         if (i.key() > m_bottomPosition + m_inFrame) {
-            m_currentKeyframe = {i.key(),i.value()};
+            m_currentKeyframe = {i.key(), i.value()};
             m_selectedKeyframes = {m_currentKeyframe};
             slotSetPosition(i.key());
             m_bottomPosition = m_currentKeyframe.first - m_inFrame;
             emit seekToPos(i.value(), m_bottomPosition);
-            std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-            std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+            std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+            std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
             emit selectedKf(m_currentKeyframe, speeds, atEnd);
             bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
             emit atKeyframe(true, isLast);
@@ -1107,8 +1108,8 @@ void RemapView::goPrev()
         slotSetPosition(m_currentKeyframe.second);
         m_bottomPosition = m_currentKeyframe.first - m_inFrame;
         emit seekToPos(m_currentKeyframe.second, m_bottomPosition);
-        std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-        std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+        std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+        std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
         emit selectedKf(m_currentKeyframe, speeds, atEnd);
         bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
         emit atKeyframe(true, isLast);
@@ -1122,8 +1123,8 @@ void RemapView::goPrev()
         slotSetPosition(m_currentKeyframe.second);
         m_bottomPosition = m_currentKeyframe.first - m_inFrame;
         emit seekToPos(m_currentKeyframe.second, m_bottomPosition);
-        std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-        std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+        std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+        std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
         emit selectedKf(m_currentKeyframe, speeds, atEnd);
     }
 }
@@ -1211,7 +1212,7 @@ void RemapView::updateAfterSpeed(double speed)
     }
 }
 
-const QString RemapView::getKeyframesData(QMap<int,int> keyframes) const
+const QString RemapView::getKeyframesData(QMap<int, int> keyframes) const
 {
     QStringList result;
     if (keyframes.isEmpty()) {
@@ -1235,7 +1236,7 @@ const QString RemapView::getKeyframesData(QMap<int,int> keyframes) const
 void RemapView::reloadProducer()
 {
     if (!m_clip || !m_clip->clipUrl().endsWith(QLatin1String(".mlt"))) {
-        qDebug()<<"==== this is not a playlist clip, aborting";
+        qDebug() << "==== this is not a playlist clip, aborting";
         return;
     }
     Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", m_clip->clipUrl().toUtf8().constData());
@@ -1243,12 +1244,12 @@ void RemapView::reloadProducer()
     if (serv == nullptr) {
         return;
     }
-    qDebug()<<"==== GOR PLAYLIST SERVICE: "<<serv->type()<<" / "<<serv->consumer()->type()<<", SAVING TO "<<m_clip->clipUrl();
+    qDebug() << "==== GOR PLAYLIST SERVICE: " << serv->type() << " / " << serv->consumer()->type() << ", SAVING TO " << m_clip->clipUrl();
     Mlt::Multitrack s2(*serv.data());
-    qDebug()<<"==== MULTITRACK: "<<s2.count();
+    qDebug() << "==== MULTITRACK: " << s2.count();
     Mlt::Tractor s(pCore->getCurrentProfile()->profile());
     s.set_track(*s2.track(0), 0);
-    qDebug()<<"==== GOT TRACKS: "<<s.count();
+    qDebug() << "==== GOT TRACKS: " << s.count();
     int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
@@ -1257,7 +1258,7 @@ void RemapView::reloadProducer()
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
-    //c.set("no_profile", 1);
+    // c.set("no_profile", 1);
     c.set("root", "/");
     c.set("store", "kdenlive");
     c.run();
@@ -1266,9 +1267,9 @@ void RemapView::reloadProducer()
     }
 }
 
-std::pair<double,double> RemapView::getSpeed(std::pair<int,int>kf)
+std::pair<double, double> RemapView::getSpeed(std::pair<int, int> kf)
 {
-    std::pair<double,double> speeds = {-1,-1};
+    std::pair<double, double> speeds = {-1, -1};
     QMap<int, int>::const_iterator it = m_keyframes.constFind(kf.first);
     if (it == m_keyframes.constEnd()) {
         // Not a keyframe
@@ -1293,8 +1294,8 @@ void RemapView::addKeyframe()
     if (m_keyframes.contains(m_bottomPosition + m_inFrame)) {
         m_keyframes.remove(m_bottomPosition + m_inFrame);
         if (m_currentKeyframe.first == m_bottomPosition + m_inFrame) {
-            m_currentKeyframe = m_currentKeyframeOriginal = {-1,-1};
-            emit selectedKf(m_currentKeyframe, {-1,-1});
+            m_currentKeyframe = m_currentKeyframeOriginal = {-1, -1};
+            emit selectedKf(m_currentKeyframe, {-1, -1});
         }
         emit atKeyframe(false, false);
         emit updateKeyframesWithUndo(m_keyframes, m_keyframesOrigin);
@@ -1302,8 +1303,8 @@ void RemapView::addKeyframe()
         return;
     }
     QMapIterator<int, int> i(m_keyframes);
-    std::pair<int, int> newKeyframe = {-1,-1};
-    std::pair<int, int> previous = {-1,-1};
+    std::pair<int, int> newKeyframe = {-1, -1};
+    std::pair<int, int> previous = {-1, -1};
     newKeyframe.first = m_bottomPosition + m_inFrame;
     while (i.hasNext()) {
         i.next();
@@ -1314,9 +1315,9 @@ void RemapView::addKeyframe()
                 newKeyframe.second = i.value() * ratio;
                 break;
             } else if (previous.first > -1) {
-                std::pair<int,int> current = {i.key(), i.value()};
+                std::pair<int, int> current = {i.key(), i.value()};
                 double ratio = (double)(m_bottomPosition + m_inFrame - previous.first) / (current.first - previous.first);
-                qDebug()<<"=== RATIO: "<<ratio;
+                qDebug() << "=== RATIO: " << ratio;
                 newKeyframe.second = previous.second + (qAbs(current.second - previous.second) * ratio);
                 break;
             }
@@ -1335,8 +1336,8 @@ void RemapView::addKeyframe()
     m_keyframes.insert(newKeyframe.first, newKeyframe.second);
     m_currentKeyframe = newKeyframe;
     m_selectedKeyframes = {m_currentKeyframe};
-    std::pair<double,double> speeds = getSpeed(m_currentKeyframe);
-    std::pair<bool,bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
+    std::pair<double, double> speeds = getSpeed(m_currentKeyframe);
+    std::pair<bool, bool> atEnd = {m_currentKeyframe.first == m_inFrame, m_currentKeyframe.first == m_keyframes.lastKey()};
     emit selectedKf(m_currentKeyframe, speeds, atEnd);
     bool isLast = m_currentKeyframe.first == m_keyframes.firstKey() || m_currentKeyframe.first == m_keyframes.lastKey();
     emit atKeyframe(true, isLast);
@@ -1379,7 +1380,7 @@ void RemapView::paintEvent(QPaintEvent *event)
     KColorScheme scheme(pal.currentColorGroup(), KColorScheme::Window);
     m_colSelected = palette().highlight().color();
     m_colKeyframe = scheme.foreground(KColorScheme::NormalText).color();
-    QColor bg = scheme.background(KColorScheme::AlternateBackground ).color();
+    QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
     QStylePainter p(this);
     int maxWidth = width() - (2 * m_offset);
     int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
@@ -1397,7 +1398,7 @@ void RemapView::paintEvent(QPaintEvent *event)
     double factor = 1;
     if (displayedLength < 2) {
         // 1 frame tick
-    } else if (displayedLength < 30 ) {
+    } else if (displayedLength < 30) {
         // 1 sec tick
         factor = fps;
     } else if (displayedLength < 150) {
@@ -1434,8 +1435,8 @@ void RemapView::paintEvent(QPaintEvent *event)
         if (scaledTick >= maxWidth + m_offset) {
             break;
         }
-        p.drawLine(QPointF(scaledTick , m_lineHeight + 1), QPointF(scaledTick, m_lineHeight - 3));
-        p.drawLine(QPointF(scaledTick , m_bottomView - m_lineHeight + 1), QPointF(scaledTick, m_bottomView - m_lineHeight - 3));
+        p.drawLine(QPointF(scaledTick, m_lineHeight + 1), QPointF(scaledTick, m_lineHeight - 3));
+        p.drawLine(QPointF(scaledTick, m_bottomView - m_lineHeight + 1), QPointF(scaledTick, m_bottomView - m_lineHeight - 3));
     }
 
     /*
@@ -1444,15 +1445,15 @@ void RemapView::paintEvent(QPaintEvent *event)
      */
     p.setPen(m_colKeyframe);
     // Top timeline
-    //qDebug()<<"=== MAX KFR WIDTH: "<<maxWidth<<", DURATION SCALED: "<<(m_duration * m_scale)<<", POS: "<<(m_position * m_scale);
+    // qDebug()<<"=== MAX KFR WIDTH: "<<maxWidth<<", DURATION SCALED: "<<(m_duration * m_scale)<<", POS: "<<(m_position * m_scale);
     int maxPos = maxWidth + m_offset - 1;
     p.drawLine(m_offset, m_lineHeight, maxPos, m_lineHeight);
     p.drawLine(m_offset, m_lineHeight - m_lineHeight / 4, m_offset, m_lineHeight + m_lineHeight / 4);
     p.drawLine(maxPos, m_lineHeight - m_lineHeight / 4, maxPos, m_lineHeight + m_lineHeight / 4);
     // Bottom timeline
     p.drawLine(m_offset, m_bottomView - m_lineHeight, maxPos, m_bottomView - m_lineHeight);
-    p.drawLine(m_offset, m_bottomView  - m_lineHeight - m_lineHeight / 4, m_offset, m_bottomView  - m_lineHeight + m_lineHeight / 4);
-    p.drawLine(maxPos, m_bottomView - m_lineHeight - m_lineHeight / 4, maxPos, m_bottomView  - m_lineHeight + m_lineHeight / 4);
+    p.drawLine(m_offset, m_bottomView - m_lineHeight - m_lineHeight / 4, m_offset, m_bottomView - m_lineHeight + m_lineHeight / 4);
+    p.drawLine(maxPos, m_bottomView - m_lineHeight - m_lineHeight / 4, maxPos, m_bottomView - m_lineHeight + m_lineHeight / 4);
 
     /*
      * Original clip in/out
@@ -1546,7 +1547,7 @@ void RemapView::paintEvent(QPaintEvent *event)
             bottomCursor << QPointF(-int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(int(m_lineHeight / 3), m_lineHeight * 0.5) << QPointF(0, 0);
             bottomCursor.translate(scaledPos2, m_bottomView - m_lineHeight);
             p.setBrush(m_colSelected);
-            p.drawPolygon(bottomCursor  );
+            p.drawPolygon(bottomCursor);
         }
         if (scaledPos > -1) {
             p.drawLine(scaledPos, m_lineHeight * 1.75, scaledPos2, m_bottomView - (m_lineHeight * 1.75));
@@ -1560,13 +1561,9 @@ void RemapView::paintEvent(QPaintEvent *event)
     p.setBrush(palette().mid());
     p.drawRoundedRect(0, m_bottomView + 2, width() - 2 * 0, m_zoomHeight, m_lineHeight / 3, m_lineHeight / 3);
     p.setBrush(palette().highlight());
-    p.drawRoundedRect(int((width()) * m_zoomHandle.x()),
-                      m_bottomView + 2,
-                      int((width()) * (m_zoomHandle.y() - m_zoomHandle.x())),
-                      m_zoomHeight,
+    p.drawRoundedRect(int((width()) * m_zoomHandle.x()), m_bottomView + 2, int((width()) * (m_zoomHandle.y() - m_zoomHandle.x())), m_zoomHeight,
                       m_lineHeight / 3, m_lineHeight / 3);
 }
-
 
 TimeRemap::TimeRemap(QWidget *parent)
     : QWidget(parent)
@@ -1578,7 +1575,8 @@ TimeRemap::TimeRemap(QWidget *parent)
     QAction *ac = new QAction(i18n("Transcode"), this);
     warningMessage->addAction(ac);
     connect(ac, &QAction::triggered, this, [&]() {
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0), Q_ARG(bool, false));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0),
+                                  Q_ARG(bool, false));
     });
     m_in = new TimecodeDisplay(pCore->timecode(), this);
     inLayout->addWidget(m_in);
@@ -1588,7 +1586,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     speedBefore->setKeyboardTracking(false);
     speedAfter->setKeyboardTracking(false);
     remapLayout->addWidget(m_view);
-    connect(m_view, &RemapView::selectedKf, this, [this](std::pair<int,int>selection, std::pair<double,double>speeds, std::pair<bool,bool>atEnd) {
+    connect(m_view, &RemapView::selectedKf, this, [this](std::pair<int, int> selection, std::pair<double, double> speeds, std::pair<bool, bool> atEnd) {
         info_frame->setEnabled(selection.first > -1);
         QSignalBlocker bk(m_in);
         QSignalBlocker bk2(m_out);
@@ -1601,7 +1599,7 @@ TimeRemap::TimeRemap(QWidget *parent)
         speedAfter->setEnabled(!atEnd.second);
         speedAfter->setValue(100. * speeds.second);
     });
-    connect(m_view, &RemapView::updateSpeeds, this, [this](std::pair<double,double>speeds) {
+    connect(m_view, &RemapView::updateSpeeds, this, [this](std::pair<double, double> speeds) {
         QSignalBlocker bk3(speedBefore);
         QSignalBlocker bk4(speedAfter);
         speedBefore->setEnabled(speeds.first > 0);
@@ -1617,14 +1615,10 @@ TimeRemap::TimeRemap(QWidget *parent)
     button_prev->setToolTip(i18n("Go to previous keyframe"));
     connect(m_view, &RemapView::updateKeyframes, this, &TimeRemap::updateKeyframes);
     connect(m_view, &RemapView::updateKeyframesWithUndo, this, &TimeRemap::updateKeyframesWithUndo);
-    connect(m_in, &TimecodeDisplay::timeCodeUpdated, this, [this]() {
-        m_view->updateInPos(m_in->getValue() + m_view->m_inFrame);
-    });
+    connect(m_in, &TimecodeDisplay::timeCodeUpdated, this, [this]() { m_view->updateInPos(m_in->getValue() + m_view->m_inFrame); });
     button_center->setToolTip(i18n("Move selected keyframe to cursor"));
     button_center_top->setToolTip(i18n("Move selected keyframe to cursor"));
-    connect(m_out, &TimecodeDisplay::timeCodeUpdated, this, [this]() {
-        m_view->updateOutPos(m_out->getValue() + m_view->m_inFrame);
-    });
+    connect(m_out, &TimecodeDisplay::timeCodeUpdated, this, [this]() { m_view->updateOutPos(m_out->getValue() + m_view->m_inFrame); });
     connect(button_center, &QToolButton::clicked, m_view, &RemapView::centerCurrentKeyframe);
     connect(button_center_top, &QToolButton::clicked, m_view, &RemapView::centerCurrentTopKeyframe);
     connect(m_view, &RemapView::atKeyframe, button_add, [&](bool atKeyframe, bool last) {
@@ -1637,12 +1631,8 @@ TimeRemap::TimeRemap(QWidget *parent)
         }
         button_add->setEnabled(!atKeyframe || !last);
     });
-    connect(speedBefore, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) {
-        m_view->updateBeforeSpeed(speed);
-    });
-    connect(speedAfter, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) {
-        m_view->updateAfterSpeed(speed);
-    });
+    connect(speedBefore, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) { m_view->updateBeforeSpeed(speed); });
+    connect(speedAfter, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) { m_view->updateAfterSpeed(speed); });
     connect(button_del, &QToolButton::clicked, this, [this]() {
         if (m_cid > -1) {
             std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
@@ -1658,7 +1648,7 @@ TimeRemap::TimeRemap(QWidget *parent)
     connect(frame_blending, &QCheckBox::toggled, this, &TimeRemap::switchRemapParam);
     connect(m_view, &RemapView::updateMaxDuration, this, [this]() {
         m_out->setRange(0, INT_MAX);
-        //m_in->setRange(0, duration - 1);
+        // m_in->setRange(0, duration - 1);
     });
     remap_box->setEnabled(false);
 }
@@ -1668,7 +1658,7 @@ const QString &TimeRemap::currentClip() const
     return m_binId;
 }
 
-void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &, const QVector<int>& roles)
+void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles)
 {
     int id = int(topLeft.internalId());
     if (m_cid != id || !roles.contains(TimelineModel::FinalMoveRole)) {
@@ -1676,11 +1666,11 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
     }
     // Don't resize view if we are moving a keyframe
     if (!m_view->movingKeyframe()) {
-        int newDuration = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
+        int newDuration = pCore->getItemDuration({ObjectType::TimelineClip, m_cid});
         // Check if the keyframes were modified by an external resize operation
         std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
         std::shared_ptr<ClipModel> clip = model->getClipPtr(m_cid);
-        QMap<QString,QString> values = clip->getRemapValues();
+        QMap<QString, QString> values = clip->getRemapValues();
         if (values.value(QLatin1String("map")) == m_view->getKeyframesData()) {
             // Resize was triggered by our keyframe move, nothing to do
             return;
@@ -1688,8 +1678,8 @@ void TimeRemap::checkClipUpdate(const QModelIndex &topLeft, const QModelIndex &,
         // Reload keyframes
         m_lastLength = newDuration;
         m_view->m_remapLink->set("map", values.value(QLatin1String("map")).toUtf8().constData());
-        int min = pCore->getItemIn({ObjectType::TimelineClip,m_cid});
-        m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,m_cid});
+        int min = pCore->getItemIn({ObjectType::TimelineClip, m_cid});
+        m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip, m_cid});
         m_in->setRange(0, m_view->m_maxLength - min);
         m_out->setRange(0, INT_MAX);
         m_view->loadKeyframes(values.value(QLatin1String("map")));
@@ -1703,9 +1693,9 @@ void TimeRemap::selectedClip(int cid)
         warningMessage->hide();
         return;
     }
-    QObject::disconnect( m_seekConnection1 );
-    QObject::disconnect( m_seekConnection2 );
-    QObject::disconnect( m_seekConnection3 );
+    QObject::disconnect(m_seekConnection1);
+    QObject::disconnect(m_seekConnection2);
+    QObject::disconnect(m_seekConnection3);
     connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
     disconnect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
@@ -1730,17 +1720,17 @@ void TimeRemap::selectedClip(int cid)
     }
     m_view->m_remapLink.reset();
     m_splitId = model->m_groups->getSplitPartner(cid);
-    m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip,cid});
-    m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip,cid});
+    m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip, cid});
+    m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip, cid});
     model->requestClipTimeRemap(cid);
     m_cid = cid;
     connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     m_view->m_maxLength = prod->get_length();
     m_in->setRange(0, m_view->m_maxLength - prod->get_in());
-    //m_in->setRange(0, m_lastLength - 1);
+    // m_in->setRange(0, m_lastLength - 1);
     m_out->setRange(0, INT_MAX);
     m_view->setDuration(prod, m_lastLength, prod->parent().get_length());
-    qDebug()<<"===== GOT PRODUCER TYPE: "<<prod->parent().type();
+    qDebug() << "===== GOT PRODUCER TYPE: " << prod->parent().type();
     if (prod->parent().type() == mlt_service_chain_type) {
         Mlt::Chain fromChain(prod->parent());
         int count = fromChain.link_count();
@@ -1782,18 +1772,19 @@ void TimeRemap::selectedClip(int cid)
             }
         }
     } else {
-        qDebug()<<"/// PRODUCER IS NOT A CHAIN!!!!";
+        qDebug() << "/// PRODUCER IS NOT A CHAIN!!!!";
     }
     if (!m_binId.isEmpty() && pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == m_binId) {
-        connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, Qt::UniqueConnection);
+        connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap,
+                Qt::UniqueConnection);
     }
     m_seekConnection1 = connect(m_view, &RemapView::seekToPos, this, [this](int topPos, int bottomPos) {
         if (topPos > -1) {
             if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() != m_binId) {
-                int min = pCore->getItemIn({ObjectType::TimelineClip,m_cid});
-                int lastLength = pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
+                int min = pCore->getItemIn({ObjectType::TimelineClip, m_cid});
+                int lastLength = pCore->getItemDuration({ObjectType::TimelineClip, m_cid});
                 int max = min + lastLength;
-                pCore->selectBinClip(m_binId, true, min, {min,max});
+                pCore->selectBinClip(m_binId, true, min, {min, max});
             }
             pCore->getMonitor(Kdenlive::ClipMonitor)->requestSeekIfVisible(topPos);
         }
@@ -1801,9 +1792,8 @@ void TimeRemap::selectedClip(int cid)
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(bottomPos + m_view->m_startPos);
         }
     });
-    m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this, [this](int pos) {
-        m_view->slotSetBottomPosition(pos - m_view->m_startPos);
-    });
+    m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ProjectMonitor), &Monitor::seekPosition, this,
+                                [this](int pos) { m_view->slotSetBottomPosition(pos - m_view->m_startPos); });
 }
 
 void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
@@ -1811,9 +1801,9 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     if (m_cid > -1 && clip == nullptr) {
         return;
     }
-    QObject::disconnect( m_seekConnection1 );
-    QObject::disconnect( m_seekConnection2 );
-    QObject::disconnect( m_seekConnection3 );
+    QObject::disconnect(m_seekConnection1);
+    QObject::disconnect(m_seekConnection2);
+    QObject::disconnect(m_seekConnection3);
     m_cid = -1;
     m_binId.clear();
     if (clip == nullptr || !clip->statusReady() || clip->clipType() != ClipType::Playlist) {
@@ -1832,62 +1822,62 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         m_view->setBinClipDuration(clip, max - min);
         if (clip->clipType() == ClipType::Playlist) {
             Mlt::Service service(clip->originalProducer()->producer()->get_service());
-            qDebug()<<"==== producer type: "<<service.type();
+            qDebug() << "==== producer type: " << service.type();
             if (service.type() == mlt_service_multitrack_type) {
                 Mlt::Multitrack multi(service);
                 for (int i = 0; i < multi.count(); i++) {
                     std::unique_ptr<Mlt::Producer> track(multi.track(i));
-                    qDebug()<<"==== GOT TRACK TYPE: "<<track->type();
+                    qDebug() << "==== GOT TRACK TYPE: " << track->type();
                     switch (track->type()) {
-                        case mlt_service_chain_type: {
-                            Mlt::Chain fromChain(*track.get());
-                            int count = fromChain.link_count();
-                            for (int j = 0; j < count; j++) {
-                                QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
-                                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
-                                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                                        // Found a timeremap effect, read params
-                                        m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
-                                        QString mapData(fromLink->get("map"));
-                                        m_view->loadKeyframes(mapData);
-                                        keyframesLoaded = true;
-                                        break;
-                                    }
+                    case mlt_service_chain_type: {
+                        Mlt::Chain fromChain(*track.get());
+                        int count = fromChain.link_count();
+                        for (int j = 0; j < count; j++) {
+                            QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
+                            if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                                if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                                    // Found a timeremap effect, read params
+                                    m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
+                                    QString mapData(fromLink->get("map"));
+                                    m_view->loadKeyframes(mapData);
+                                    keyframesLoaded = true;
+                                    break;
                                 }
                             }
-                            break;
                         }
-                        case mlt_service_playlist_type: {
-                            // that is a single track
-                            Mlt::Playlist local_playlist(*track);
-                            int count = local_playlist.count();
-                            qDebug()<<"==== PLAYLIST COUNT: "<<count;
-                            if (count == 1) {
-                                Mlt::Producer prod = local_playlist.get_clip(0)->parent();
-                                qDebug()<<"==== GOT PROD TYPE: "<<prod.type()<<" = "<<prod.get("mlt_service")<<" = "<<prod.get("resource");
-                                if (prod.type() == mlt_service_chain_type) {
-                                    Mlt::Chain fromChain(prod);
-                                    int linkCount = fromChain.link_count();
-                                    for (int j = 0; j < linkCount; j++) {
-                                        QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
-                                        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
-                                            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                                                // Found a timeremap effect, read params
-                                                m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
-                                                QString mapData(fromLink->get("map"));
-                                                m_view->loadKeyframes(mapData);
-                                                keyframesLoaded = true;
-                                                break;
-                                            }
+                        break;
+                    }
+                    case mlt_service_playlist_type: {
+                        // that is a single track
+                        Mlt::Playlist local_playlist(*track);
+                        int count = local_playlist.count();
+                        qDebug() << "==== PLAYLIST COUNT: " << count;
+                        if (count == 1) {
+                            Mlt::Producer prod = local_playlist.get_clip(0)->parent();
+                            qDebug() << "==== GOT PROD TYPE: " << prod.type() << " = " << prod.get("mlt_service") << " = " << prod.get("resource");
+                            if (prod.type() == mlt_service_chain_type) {
+                                Mlt::Chain fromChain(prod);
+                                int linkCount = fromChain.link_count();
+                                for (int j = 0; j < linkCount; j++) {
+                                    QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
+                                    if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                                        if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                                            // Found a timeremap effect, read params
+                                            m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
+                                            QString mapData(fromLink->get("map"));
+                                            m_view->loadKeyframes(mapData);
+                                            keyframesLoaded = true;
+                                            break;
                                         }
                                     }
                                 }
                             }
-                            break;
                         }
-                        default:
-                            qDebug()<<"=== UNHANDLED TRACK TYPE";
-                            break;
+                        break;
+                    }
+                    default:
+                        qDebug() << "=== UNHANDLED TRACK TYPE";
+                        break;
                     }
                 }
             }
@@ -1896,9 +1886,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
             m_view->loadKeyframes(QString());
         }
         m_seekConnection1 = connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
-        m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, this, [&](int pos) {
-            m_view->slotSetPosition(pos);
-        });
+        m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, this, [&](int pos) { m_view->slotSetPosition(pos); });
         remap_box->setEnabled(m_view->m_remapLink != nullptr);
     } else {
         remap_box->setEnabled(false);
@@ -1920,7 +1908,7 @@ void TimeRemap::updateKeyframes()
     }
 }
 
-void TimeRemap::updateKeyframesWithUndo(const QMap<int,int> &updatedKeyframes, const QMap<int,int> &previousKeyframes)
+void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, const QMap<int, int> &previousKeyframes)
 {
     if (m_view->m_remapLink == nullptr) {
         return;
@@ -1929,10 +1917,13 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int,int> &updatedKeyframes, c
     bool useBlend = frame_blending->isChecked();
     bool hadPitch = m_view->m_remapLink->get_int("pitch") == 1;
     bool hadBlend = m_view->m_remapLink->get("image_mode") != QLatin1String("nearest");
-    bool durationChanged = updatedKeyframes.isEmpty() ? false : updatedKeyframes.lastKey() - pCore->getItemIn({ObjectType::TimelineClip,m_cid}) + 1 != pCore->getItemDuration({ObjectType::TimelineClip,m_cid});
+    bool durationChanged = updatedKeyframes.isEmpty() ? false
+                                                      : updatedKeyframes.lastKey() - pCore->getItemIn({ObjectType::TimelineClip, m_cid}) + 1 !=
+                                                            pCore->getItemDuration({ObjectType::TimelineClip, m_cid});
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Fun local_undo = [this, link = m_view->m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch, hadBlend]() {
+    Fun local_undo = [this, link = m_view->m_remapLink, splitLink = m_splitRemap, previousKeyframes, cid = m_cid, oldIn = m_view->m_oldInFrame, hadPitch,
+                      hadBlend]() {
         QString oldKfData;
         bool keyframesChanged = false;
         if (!previousKeyframes.isEmpty()) {
@@ -2016,7 +2007,7 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int,int> &updatedKeyframes, c
 
 void TimeRemap::switchRemapParam()
 {
-    updateKeyframesWithUndo(QMap<int,int>(),QMap<int,int>());
+    updateKeyframesWithUndo(QMap<int, int>(), QMap<int, int>());
 }
 
 bool TimeRemap::isInRange() const
@@ -2026,5 +2017,5 @@ bool TimeRemap::isInRange() const
 
 TimeRemap::~TimeRemap()
 {
-    //delete m_previewTimer;
+    // delete m_previewTimer;
 }

@@ -22,7 +22,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QThread>
 #include <klocalizedstring.h>
 
-SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object)
+SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out,
+                     std::unordered_map<QString, QVariant> filterParams, QObject *object)
     : AbstractTask(owner, AbstractTask::SPEEDJOB, object)
     , m_binId(binId)
     , m_filterParams(filterParams)
@@ -34,7 +35,7 @@ SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString 
     m_outPoint = out > -1 ? qRound(out / m_speed) : -1;
 }
 
-void SpeedTask::start(QObject* object, bool force)
+void SpeedTask::start(QObject *object, bool force)
 {
     Q_UNUSED(object)
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
@@ -111,7 +112,8 @@ void SpeedTask::start(QObject* object, bool force)
         }
         // Filter several clips, destination points to a folder
         if (QFile::exists(mltfile)) {
-            KIO::RenameDialog renameDialog(qApp->activeWindow(), i18n("File already exists"), QUrl::fromLocalFile(mltfile), QUrl::fromLocalFile(mltfile), KIO::RenameDialog_Option::RenameDialog_Overwrite );
+            KIO::RenameDialog renameDialog(qApp->activeWindow(), i18n("File already exists"), QUrl::fromLocalFile(mltfile), QUrl::fromLocalFile(mltfile),
+                                           KIO::RenameDialog_Option::RenameDialog_Overwrite);
             if (renameDialog.exec() != QDialog::Rejected) {
                 QUrl final = renameDialog.newDestUrl();
                 if (final.isValid()) {
@@ -124,14 +126,14 @@ void SpeedTask::start(QObject* object, bool force)
         destinations[binId] = mltfile;
     }
 
-    for (auto & id : binIds) {
-        SpeedTask* task = nullptr;
+    for (auto &id : binIds) {
+        SpeedTask *task = nullptr;
         ObjectId owner;
         if (id.contains(QLatin1Char('/'))) {
             QStringList binData = id.split(QLatin1Char('/'));
             if (binData.size() < 3) {
                 // Invalid subclip data
-                qDebug()<<"=== INVALID SUBCLIP DATA: "<<id;
+                qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
             owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
@@ -163,26 +165,26 @@ void SpeedTask::run()
         return;
     }
     m_running = true;
-    qDebug()<<" + + + + + + + + STARTING STAB TASK";
-    
+    qDebug() << " + + + + + + + + STARTING STAB TASK";
+
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
-    QStringList producerArgs = {QStringLiteral("progress=1"),QStringLiteral("-profile"),pCore->getCurrentProfilePath()};
+    QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
     if (binClip) {
         // Filter applied on a timeline or bin clip
         url = binClip->url();
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         producerArgs << QString("timewarp:%1:%2").arg(m_speed).arg(url);
         if (m_inPoint > -1) {
-           producerArgs << QString("in=%1").arg(m_inPoint);
+            producerArgs << QString("in=%1").arg(m_inPoint);
         }
         if (m_outPoint > -1) {
-           producerArgs << QString("out=%1").arg(m_outPoint);
+            producerArgs << QString("out=%1").arg(m_outPoint);
         }
     } else {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
@@ -207,7 +209,7 @@ void SpeedTask::run()
 
     // Process filter params
     for (const auto &it : m_filterParams) {
-        qDebug()<<". . ."<<it.first<<" = "<<it.second;
+        qDebug() << ". . ." << it.first << " = " << it.second;
         if (it.second.type() == QVariant::Double) {
             producerArgs << QString("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
         } else {
@@ -222,10 +224,10 @@ void SpeedTask::run()
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SpeedTask::processLogInfo);
-    qDebug()<<"=== STARTING PROCESS: "<<producerArgs;
+    qDebug() << "=== STARTING PROCESS: " << producerArgs;
     m_jobProcess->start(KdenliveSettings::rendererpath(), producerArgs);
     m_jobProcess->waitForFinished(-1);
-    qDebug()<<" + + + + + + + + SOURCE FILE PROCESSED: "<<m_jobProcess->exitStatus();
+    qDebug() << " + + + + + + + + SOURCE FILE PROCESSED: " << m_jobProcess->exitStatus();
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
@@ -233,12 +235,13 @@ void SpeedTask::run()
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create speed clip.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+                                      Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
         return;
     }
 
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString,m_destination), Q_ARG(QString,binClip->parent()->clipId()), Q_ARG(QString,m_addToFolder ? i18n("Speed Change") : QString()));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
+                              Q_ARG(QString, binClip->parent()->clipId()), Q_ARG(QString, m_addToFolder ? i18n("Speed Change") : QString()));
     return;
 }
 

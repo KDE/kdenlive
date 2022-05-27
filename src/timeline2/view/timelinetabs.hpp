@@ -20,10 +20,10 @@ class TimelineContainer : public QWidget
 
 public:
     TimelineContainer(QWidget *parent);
+
 protected:
     QSize sizeHint() const override;
 };
-
 
 class TimelineTabs : public QTabWidget
 {

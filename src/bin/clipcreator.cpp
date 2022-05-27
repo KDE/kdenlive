@@ -53,9 +53,7 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->activeBin()->selectClipById(binId);
-    };
+    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
@@ -68,9 +66,7 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     auto prod = createProducer(xml, ClipType::Color, color, name, duration, QStringLiteral("color"));
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->activeBin()->selectClipById(binId);
-    };
+    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
@@ -81,14 +77,14 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
     QUrl fileUrl = QUrl::fromLocalFile(path);
     if (fileUrl.matches(pCore->currentDoc()->url(), QUrl::RemoveScheme | QUrl::NormalizePathSegments)) {
         // Cannot embed a project in itself
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));        
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));
         return xml;
     }
     QMimeDatabase db;
     QMimeType type = db.mimeTypeForUrl(fileUrl);
 
     QDomElement prod;
-    qDebug()<<"=== GOT DROPPED MIME: "<<type.name();
+    qDebug() << "=== GOT DROPPED MIME: " << type.name();
     if (type.name().startsWith(QLatin1String("image/")) && !type.name().contains(QLatin1String("image/gif"))) {
         int duration = pCore->getDurationFromString(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
@@ -164,9 +160,7 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
     Xml::addXmlProperties(prod, properties);
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->activeBin()->selectClipById(binId);
-    };
+    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create slideshow clip"), callBack);
     return res ? id : QStringLiteral("-1");
 }
@@ -200,15 +194,13 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     }
 
     QString id;
-    std::function<void(const QString &)> callBack = [](const QString &binId) {
-        pCore->activeBin()->selectClipById(binId);
-    };
+    std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create title template"), callBack);
     return res ? id : QStringLiteral("-1");
 }
 
-const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
-                                      Fun &undo, Fun &redo, bool topLevel)
+const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder,
+                                               const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo, bool topLevel)
 {
     QString createdItem;
     // Check for duplicates
@@ -225,10 +217,11 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         }
     }
     if (!duplicates.isEmpty()) {
-        if (KMessageBox::warningYesNoList(QApplication::activeWindow(), i18n("The following clips are already inserted in the project. Do you want to duplicate them?"), duplicates) ==
-                KMessageBox::Yes) {
-                cleanList = list;
-            }
+        if (KMessageBox::warningYesNoList(QApplication::activeWindow(),
+                                          i18n("The following clips are already inserted in the project. Do you want to duplicate them?"),
+                                          duplicates) == KMessageBox::Yes) {
+            cleanList = list;
+        }
     }
 
     qDebug() << "/////////// creatclipsfromlist" << cleanList << checkRemovable << parentFolder;
@@ -248,7 +241,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             continue;
         }
         if (urlsCount > 3) {
-            pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100*current/urlsCount));
+            pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100 * current / urlsCount));
         }
         QFileInfo info(file.toLocalFile());
         if (info.isDir()) {
@@ -348,20 +341,19 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         } else {
             // file is not a directory
             if (checkRemovable && isOnRemovableDevice(file) && !removableProject) {
-                int answer = KMessageBox::warningContinueCancel(
-                    QApplication::activeWindow(),
-                    i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position.\nYou "
-                         "may want to copy it first to your hard-drive. Would you like to add it anyways?",
-                         file.path()),
-                    i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("confirm_removable_device"));
+                int answer = KMessageBox::warningContinueCancel(QApplication::activeWindow(),
+                                                                i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is "
+                                                                     "unplugged or mounted at a different position.\nYou "
+                                                                     "may want to copy it first to your hard-drive. Would you like to add it anyways?",
+                                                                     file.path()),
+                                                                i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                                QStringLiteral("confirm_removable_device"));
 
                 if (answer == KMessageBox::Cancel) continue;
             }
             std::function<void(const QString &)> callBack = [](const QString &) {};
             if (firstClip) {
-                callBack = [](const QString &binId) {
-                    pCore->activeBin()->selectClipById(binId);
-                };
+                callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
                 firstClip = false;
             }
             if (model->uuid() != uuid) {
@@ -381,7 +373,8 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }
 
-const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder,
+                                               std::shared_ptr<ProjectItemModel> model)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };

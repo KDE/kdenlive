@@ -66,7 +66,6 @@ QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) 
     return QString();
 }
 
-
 QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {

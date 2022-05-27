@@ -41,8 +41,8 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     // emit the signal of the base class when appropriate
     connect(this->m_slider, &QAbstractSlider::valueChanged, this, [this](int val) {
         if (m_inverted) {
-            val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() - 1 -
-                  val;
+            val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() -
+                  1 - val;
         } else if (!m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
             val += m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
         }

@@ -9,12 +9,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transcodeseek.h"
 #include "kdenlivesettings.h"
 
-#include <kxmlgui_version.h>
 #include <KMessageBox>
 #include <QFontDatabase>
-#include <QStandardPaths>
 #include <QPushButton>
+#include <QStandardPaths>
 #include <klocalizedstring.h>
+#include <kxmlgui_version.h>
 
 TranscodeSeek::TranscodeSeek(QWidget *parent)
     : QDialog(parent)
@@ -52,9 +52,7 @@ TranscodeSeek::TranscodeSeek(QWidget *parent)
     messagewidget->setVisible(false);
 }
 
-TranscodeSeek::~TranscodeSeek()
-{
-}
+TranscodeSeek::~TranscodeSeek() {}
 
 void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message)
 {
@@ -111,7 +109,8 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
             }
         }
     } else {
-        if ((type != ClipType::Video && currentParams.endsWith(QLatin1String(";video"))) || (type != ClipType::Audio && currentParams.endsWith(QLatin1String(";audio")))) {
+        if ((type != ClipType::Video && currentParams.endsWith(QLatin1String(";video"))) ||
+            (type != ClipType::Audio && currentParams.endsWith(QLatin1String(";audio")))) {
             // Switch back to an AV profile
             QMapIterator<QString, QString> i(m_encodeParams);
             while (i.hasNext()) {
@@ -128,9 +127,9 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
     }
 }
 
-QMap<QString,QStringList> TranscodeSeek::ids() const
+QMap<QString, QStringList> TranscodeSeek::ids() const
 {
-    QMap<QString,QStringList> urls;
+    QMap<QString, QStringList> urls;
     for (int i = 0; i < listWidget->count(); i++) {
         QListWidgetItem *item = listWidget->item(i);
         urls.insert(item->data(Qt::UserRole).toString(), {item->data(Qt::UserRole + 1).toString(), item->data(Qt::UserRole + 2).toString()});
@@ -141,34 +140,34 @@ QMap<QString,QStringList> TranscodeSeek::ids() const
 QString TranscodeSeek::params(int clipType) const
 {
     switch (clipType) {
-        case ClipType::Audio: {
-            if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
-                // Switch to audio only profile
-                QMapIterator<QString, QString> i(m_encodeParams);
-                while (i.hasNext()) {
-                    i.next();
-                    if (i.value().endsWith(QLatin1String(";audio"))) {
-                        return i.value().section(QLatin1Char(';'), 0, -2);
-                    }
+    case ClipType::Audio: {
+        if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
+            // Switch to audio only profile
+            QMapIterator<QString, QString> i(m_encodeParams);
+            while (i.hasNext()) {
+                i.next();
+                if (i.value().endsWith(QLatin1String(";audio"))) {
+                    return i.value().section(QLatin1Char(';'), 0, -2);
                 }
             }
-            break;
         }
-        case ClipType::Video: {
-            if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";video"))) {
-                // Switch to video only profile
-                QMapIterator<QString, QString> i(m_encodeParams);
-                while (i.hasNext()) {
-                    i.next();
-                    if (i.value().endsWith(QLatin1String(";video"))) {
-                        return i.value().section(QLatin1Char(';'), 0, -2);
-                    }
+        break;
+    }
+    case ClipType::Video: {
+        if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";video"))) {
+            // Switch to video only profile
+            QMapIterator<QString, QString> i(m_encodeParams);
+            while (i.hasNext()) {
+                i.next();
+                if (i.value().endsWith(QLatin1String(";video"))) {
+                    return i.value().section(QLatin1Char(';'), 0, -2);
                 }
             }
-            break;
         }
-        default:
-            break;
+        break;
+    }
+    default:
+        break;
     }
     if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
         // Only store selected av preset

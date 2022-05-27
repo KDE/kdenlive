@@ -43,9 +43,21 @@ public:
      */
     bool presetExists(const QString &name) const;
 
-    static QStringList acodecs() { checkCodecs(); return m_acodecsList; };
-    static QStringList vcodecs() { checkCodecs(); return m_vcodecsList; };
-    static QStringList supportedFormats() { checkCodecs(); return m_supportedFormats; };
+    static QStringList acodecs()
+    {
+        checkCodecs();
+        return m_acodecsList;
+    };
+    static QStringList vcodecs()
+    {
+        checkCodecs();
+        return m_vcodecsList;
+    };
+    static QStringList supportedFormats()
+    {
+        checkCodecs();
+        return m_supportedFormats;
+    };
 
     /** @brief Saves given preset
      *  @returns The name of the saved preset
@@ -77,7 +89,7 @@ protected:
     /** @brief map from the presets name to the instance of the preset.
      * @details We use unordered_map because QMap and QHash currently don't support
      * move insertion, hence inserting unique_ptr is impossible.
-    */
+     */
     std::unordered_map<QString, std::unique_ptr<RenderPresetModel>> m_profiles;
     QStringList m_groups;
 };

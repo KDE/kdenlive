@@ -17,7 +17,7 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
 
     // setup the name
     label->setText(m_model->data(m_index, Qt::DisplayRole).toString());
-    
+
     QStringList kwrdValues = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
     QStringList kwrdNames = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     comboboxwidget->addItems(kwrdNames);
@@ -36,17 +36,14 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     setMinimumHeight(comboboxwidget->sizeHint().height());
 
     // emit the signal of the base class when appropriate
-    connect(lineeditwidget, &QLineEdit::editingFinished, this, [this]() { 
-        emit valueChanged(m_index, lineeditwidget->text(), true);
-    });
-    connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, [this](int ix) {
-            if (ix > 0) {
-                QString comboval = comboboxwidget->itemData(ix).toString();
-                this->lineeditwidget->insert(comboval);
-                emit valueChanged(m_index, lineeditwidget->text(), true);
-                comboboxwidget->setCurrentIndex(0);
-            }
+    connect(lineeditwidget, &QLineEdit::editingFinished, this, [this]() { emit valueChanged(m_index, lineeditwidget->text(), true); });
+    connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int ix) {
+        if (ix > 0) {
+            QString comboval = comboboxwidget->itemData(ix).toString();
+            this->lineeditwidget->insert(comboval);
+            emit valueChanged(m_index, lineeditwidget->text(), true);
+            comboboxwidget->setCurrentIndex(0);
+        }
     });
 }
 
@@ -59,4 +56,3 @@ void KeywordParamWidget::slotRefresh()
 {
     lineeditwidget->setText(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
 }
-

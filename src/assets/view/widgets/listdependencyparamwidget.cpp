@@ -21,7 +21,6 @@
 #include <KRun>
 #endif
 
-
 ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
@@ -73,11 +72,10 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     slotRefresh();
 
     // emit the signal of the base class when appropriate
-    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this, [this](int) {
-                const QString val = m_list->itemData(m_list->currentIndex()).toString();
-                emit valueChanged(m_index, val, true);
-                checkDependencies(val);
+    connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int) {
+        const QString val = m_list->itemData(m_list->currentIndex()).toString();
+        emit valueChanged(m_index, val, true);
+        checkDependencies(val);
     });
 }
 
@@ -106,9 +104,7 @@ void ListDependencyParamWidget::setIconSize(const QSize &size)
     m_list->setIconSize(size);
 }
 
-void ListDependencyParamWidget::slotShowComment(bool /*show*/)
-{
-}
+void ListDependencyParamWidget::slotShowComment(bool /*show*/) {}
 
 QString ListDependencyParamWidget::getValue()
 {
@@ -195,7 +191,7 @@ void ListDependencyParamWidget::slotRefresh()
         }
         if (!value.isEmpty()) {
             int ix = m_list->findData(value);
-            if (ix > -1)  {
+            if (ix > -1) {
                 m_list->setCurrentIndex(ix);
             }
         }

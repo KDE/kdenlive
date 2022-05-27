@@ -23,7 +23,6 @@ FileWatcher::FileWatcher(QObject *parent)
     connect(&m_queueTimer, &QTimer::timeout, this, &FileWatcher::slotProcessQueue);
 }
 
-
 void FileWatcher::slotProcessQueue()
 {
     if (m_pendingUrls.size() == 0) {
@@ -55,7 +54,7 @@ void FileWatcher::doAddFile(const QString &binId, const QString &url)
         return;
     }
     if (m_occurences.count(url) == 0) {
-        //QtConcurrent::run([=] { KDirWatch::self()->addFile(url); });
+        // QtConcurrent::run([=] { KDirWatch::self()->addFile(url); });
         m_fileWatcher->addFile(url);
     }
     m_occurences[url].insert(binId);

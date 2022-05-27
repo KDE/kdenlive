@@ -74,7 +74,7 @@ void TitleDocument::setScene(QGraphicsScene *_scene, int width, int height)
     m_height = height;
 }
 
-int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString & pojectPath)
+int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &pojectPath)
 {
     if (embed) {
         if (!item->data(Qt::UserRole + 1).toString().isEmpty()) {
@@ -126,7 +126,8 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
     return xml(m_scene->items(), m_width, m_height, startv, endv, embed, m_projectPath);
 }
 
-QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> & items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed, const QString & projectPath)
+QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed,
+                                const QString &projectPath)
 {
     QDomDocument doc;
 
@@ -343,7 +344,7 @@ QColor TitleDocument::getBackgroundColor() const
 
 /** \brief Get the background color (incl. alpha) from list of items, if possibly
  * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
-QColor TitleDocument::getBackgroundColor(const QList<QGraphicsItem *> & items)
+QColor TitleDocument::getBackgroundColor(const QList<QGraphicsItem *> &items)
 {
     QColor color(0, 0, 0, 0);
     for (auto item : qAsConst(items)) {
@@ -386,7 +387,8 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
     return result;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, const QString &projectpath)
+int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration,
+                               const QString &projectpath)
 {
     m_projectPath = projectpath;
 
@@ -408,9 +410,10 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove * 
     return res;
 }
 
-int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> & gitems, int & width, int & height, GraphicsSceneRectMove * scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int & missingElements)
+int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &gitems, int &width, int &height, GraphicsSceneRectMove *scene,
+                               QGraphicsRectItem *startv, QGraphicsRectItem *endv, int *duration, int &missingElements)
 {
-    for (auto * i : gitems) {
+    for (auto *i : gitems) {
         delete i;
     }
     gitems.clear();

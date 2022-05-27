@@ -78,7 +78,8 @@ void EncodingProfilesDialog::slotLoadProfiles()
     profile_list->clear();
 
     delete m_configGroup;
-    m_configGroup = new KConfigGroup(m_configFile, EncodingProfilesManager::configGroupName(EncodingProfilesManager::ProfileType(profile_type->currentIndex())));
+    m_configGroup =
+        new KConfigGroup(m_configFile, EncodingProfilesManager::configGroupName(EncodingProfilesManager::ProfileType(profile_type->currentIndex())));
     QMap<QString, QString> values = m_configGroup->entryMap();
     QMapIterator<QString, QString> i(values);
     while (i.hasNext()) {
@@ -181,7 +182,6 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
-
 EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType type, bool showAutoItem, const QString &configName)
     : QWidget(parent)
     , m_type(type)
@@ -216,8 +216,7 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
 
     connect(buttonConfigure, &QAbstractButton::clicked, this, &EncodingProfilesChooser::slotManageEncodingProfile);
     connect(buttonInfo, &QAbstractButton::clicked, m_info, &QWidget::setVisible);
-    connect(m_profilesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            &EncodingProfilesChooser::slotUpdateProfile);
+    connect(m_profilesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &EncodingProfilesChooser::slotUpdateProfile);
     loadEncodingProfiles();
     if (!configName.isEmpty()) {
         KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
@@ -235,7 +234,8 @@ void EncodingProfilesChooser::slotManageEncodingProfile()
     loadEncodingProfiles();
 }
 
-void EncodingProfilesChooser::loadEncodingProfiles() {
+void EncodingProfilesChooser::loadEncodingProfiles()
+{
 
     m_profilesCombo->blockSignals(true);
     QString currentItem = m_profilesCombo->currentText();

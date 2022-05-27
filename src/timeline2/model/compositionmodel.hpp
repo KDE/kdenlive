@@ -55,8 +55,8 @@ public:
      * is moved to another track. When false, the a_track will automatically change to lower video track
      */
     void setForceTrack(bool force);
-    /** @brief Returns the id of the second track involved in the composition (a_track) or -1 if the a_track should be automatically updated when the composition
-     * changes track
+    /** @brief Returns the id of the second track involved in the composition (a_track) or -1 if the a_track should be automatically updated when the
+     * composition changes track
      */
     int getForcedTrack() const;
 

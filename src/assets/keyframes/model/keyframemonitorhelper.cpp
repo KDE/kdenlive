@@ -46,7 +46,7 @@ QList<QPersistentModelIndex> KeyframeMonitorHelper::getIndexes()
     return m_indexes;
 }
 
-void KeyframeMonitorHelper::refreshParams(int /* pos */ )
+void KeyframeMonitorHelper::refreshParams(int /* pos */)
 {
     QVariantList points;
     QVariantList types;
@@ -121,4 +121,3 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
         break;
     }
 }
-

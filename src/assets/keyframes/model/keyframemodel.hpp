@@ -7,8 +7,8 @@
 
 #include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
-#include "utils/gentime.h"
 #include "undohelper.hpp"
+#include "utils/gentime.h"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -19,7 +19,6 @@
 class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
-
 
 enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
 Q_DECLARE_METATYPE(KeyframeType)
@@ -208,7 +207,7 @@ private:
 
 signals:
     void modelChanged();
-    void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int>&);
+    void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
 public:
     // this is to enable for range loops

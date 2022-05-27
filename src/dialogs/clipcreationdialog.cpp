@@ -18,12 +18,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
-#include "widgets/timecodedisplay.h"
 #include "titler/titlewidget.h"
 #include "titletemplatedialog.h"
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
 #include "utils/devices.hpp"
+#include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
 #include "klocalizedstring.h"
@@ -103,7 +103,7 @@ QStringList ClipCreationDialog::getExtensions()
     return allExtensions;
 }
 
-QString ClipCreationDialog::getExtensionsFilter(const QStringList& additionalFilters)
+QString ClipCreationDialog::getExtensionsFilter(const QStringList &additionalFilters)
 {
     const QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
     QString filter = i18n("All Supported Files") + " (" + allExtensions + ')';
@@ -446,15 +446,15 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     }
 }
 
-void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
+void ClipCreationDialog::clipWidget(QDockWidget *m_DockClipWidget)
 {
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
+    KFileWidget *fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     QString allExtensions = getExtensions().join(QLatin1Char(' '));
     QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
 
-    QPushButton* importseq = new QPushButton(i18n("Import image sequence"));
+    QPushButton *importseq = new QPushButton(i18n("Import image sequence"));
     // Make importseq checkable so that we can differentiate between a double click in filewidget and a click on the pushbutton
     importseq->setCheckable(true);
     QCheckBox *b = new QCheckBox(i18n("Ignore subfolder structure"));
@@ -475,14 +475,12 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
             return;
         }
         fileWidget->accept();
-        QList <QUrl> urls = fileWidget->selectedUrls();
+        QList<QUrl> urls = fileWidget->selectedUrls();
         pCore->bin()->droppedUrls(urls);
     });
     fileWidget->setFilter(dialogFilter);
-    QObject::connect(b, &QCheckBox::toggled , [](bool checked) {
-        KdenliveSettings::setIgnoresubdirstructure(checked);
-    });
-    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=]{
+    QObject::connect(b, &QCheckBox::toggled, [](bool checked) { KdenliveSettings::setIgnoresubdirstructure(checked); });
+    QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=] {
         fileWidget->slotOk();
         emit fileWidget->accepted();
         fileWidget->accept();
@@ -495,7 +493,7 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
         importseq->setChecked(false);
         if (count >= 1) {
             while (fileName.size() > 0 && fileName.at(fileName.size() - 1).isDigit()) {
-                  fileName.chop(1);
+                fileName.chop(1);
             }
             QString parentFolder = "-1";
             KdenliveDoc *doc = pCore->currentDoc();
@@ -510,7 +508,6 @@ void ClipCreationDialog::clipWidget(QDockWidget* m_DockClipWidget)
             int frame_duration = doc->getFramePos(duration) * count;
             ClipCreator::createSlideshowClip(pattern, frame_duration, fileName, parentFolder, properties, pCore->projectItemModel());
             return;
-
         }
     });
     m_DockClipWidget->setWidget(fileWidget);

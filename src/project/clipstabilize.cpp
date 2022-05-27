@@ -55,7 +55,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     m_vbox = new QVBoxLayout(optionsbox);
     if (m_filtername == QLatin1String("vidstab")) {
         m_view = std::make_unique<AssetParameterView>(this);
-        qDebug()<<"// Fetching effect: "<<m_filtername;
+        qDebug() << "// Fetching effect: " << m_filtername;
         std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(m_filtername);
         auto prop = std::make_unique<Mlt::Properties>(asset->get_properties());
         QDomElement xml = EffectsRepository::get()->getXml(m_filtername);
@@ -131,7 +131,8 @@ void ClipStabilize::slotValidate()
 {
     if (m_binIds.size() == 1) {
         if (QFile::exists(dest_url->url().toLocalFile())) {
-            KIO::RenameDialog renameDialog(this, i18n("File already exists"), dest_url->url(), dest_url->url(), KIO::RenameDialog_Option::RenameDialog_Overwrite );
+            KIO::RenameDialog renameDialog(this, i18n("File already exists"), dest_url->url(), dest_url->url(),
+                                           KIO::RenameDialog_Option::RenameDialog_Overwrite);
             if (renameDialog.exec() != QDialog::Rejected) {
                 QUrl final = renameDialog.newDestUrl();
                 if (final.isValid()) {
@@ -161,4 +162,3 @@ void ClipStabilize::slotValidate()
     m_view->slotSavePreset(i18n("Last setting"));
     accept();
 }
-

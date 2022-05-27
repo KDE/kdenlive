@@ -137,7 +137,7 @@ SlideWidget::wipeInfo SlideWidget::getWipeInfo(QString value)
     }
 
     if (start.split(QLatin1Char(' ')).count() == 5) {
-        qDebug()<<"== READING START TR: "<<start.section(QLatin1Char(' '), -1);
+        qDebug() << "== READING START TR: " << start.section(QLatin1Char(' '), -1);
         info.startTransparency = start.section(QLatin1Char(' '), -1).section(QLatin1Char('%'), 0, 0).toInt();
     } else {
         info.startTransparency = 100;

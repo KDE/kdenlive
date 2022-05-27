@@ -40,7 +40,8 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream = -1, double speed = 1., bool warp_pitch = false);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream = -1,
+                         double speed = 1., bool warp_pitch = false);
 
     /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -73,7 +74,7 @@ public:
     /** @brief Returns the duration of the input map */
     int getRemapInputDuration() const;
     /** @brief Get the time remap effect parameters */
-    QMap<QString,QString> getRemapValues() const;
+    QMap<QString, QString> getRemapValues() const;
     void setRemapValue(const QString &name, const QString &value);
 
     /** @brief Returns a comma separated list of effect names */
@@ -165,7 +166,7 @@ protected:
      *  @param undo Lambda function containing the current undo stack. Will be updated with current operation
      *  @param redo Lambda function containing the current redo queue. Will be updated with current operation
      *  @return Returns true if the operation succeeded, and otherwise nothing is modified
-    */
+     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) override;
 
     /** @brief Performs a slip of the given clip
@@ -174,7 +175,7 @@ protected:
      *  @param undo Lambda function containing the current undo stack. Will be updated with current operation
      *  @param redo Lambda function containing the current redo queue. Will be updated with current operation
      *  @return Returns true if the operation succeeded, and otherwise nothing is modified
-    */
+     */
     bool requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo = true);
 
     void setCurrentTrackId(int tid, bool finalMove = true) override;
@@ -190,7 +191,8 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false, bool timeremap = false);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false,
+                                bool timeremap = false);
     void refreshProducerFromBin(int trackId);
 
     /** @brief This functions replaces the current producer with a slowmotion one
@@ -199,10 +201,10 @@ protected:
     bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
     Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
-    
+
     bool useTimeRemapProducer(bool enable, Fun &undo, Fun &redo);
     /** @brief Lambda that merely changes the speed (in and out are untouched) */
-    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString,QString> &remapProperties);
+    Fun useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString, QString> &remapProperties);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

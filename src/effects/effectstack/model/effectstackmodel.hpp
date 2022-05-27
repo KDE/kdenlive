@@ -50,7 +50,8 @@ public:
     /** @brief Import all effects from the given effect stack
      */
     bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state);
-    void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false, const QString &originalDecimalPoint = QString());
+    void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false,
+                       const QString &originalDecimalPoint = QString());
     bool removeFade(bool fromStart);
 
     /** @brief This function change the global (timeline-wise) enabled state of the effects
@@ -130,10 +131,10 @@ public:
 
     /** @brief Return true if an asset id is already added to this effect stack */
     bool hasEffect(const QString &assetId) const;
-    
+
     /** @brief Remove all effects for this stack */
-    void removeAllEffects(Fun &undo, Fun & redo);
-    
+    void removeAllEffects(Fun &undo, Fun &redo);
+
     /** @brief Returns a list of zones for all effects */
     QVariantList getEffectZones() const;
 

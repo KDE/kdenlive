@@ -50,7 +50,8 @@ public:
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels, const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels,
+                                 const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
     : QDialog(parent)
     , m_savedProject(savedProject)
     , m_lumas(std::move(lumas))
@@ -68,9 +69,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
 
-    connect(custom_folder, &QCheckBox::toggled, this, [this](bool checked) {
-        same_folder->setEnabled(!checked);
-    });
+    connect(custom_folder, &QCheckBox::toggled, this, [this](bool checked) { same_folder->setEnabled(!checked); });
     connect(same_folder, &QCheckBox::toggled, this, [this](bool checked) {
         custom_folder->setEnabled(!checked);
         project_folder->setEnabled(!checked && custom_folder->isChecked());
@@ -82,7 +81,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
-    qDebug()<<"::::: GOT PROJECT AUDIO CHANNELS: "<<audiochannels<<"\nBBBBBBBBBBBBBBBBBBB";
+    qDebug() << "::::: GOT PROJECT AUDIO CHANNELS: " << audiochannels << "\nBBBBBBBBBBBBBBBBBBB";
     if (audiochannels == 4) {
         audio_channels->setCurrentIndex(1);
     } else if (audiochannels == 6) {
@@ -98,7 +97,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
             video_tracks->setValue(1);
         }
     });
-    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this] () {
+    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             audio_tracks->setValue(1);
         }
@@ -125,7 +124,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
-        if(doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
+        if (doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
             same_folder->setChecked(true);
         } else if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
@@ -320,24 +319,26 @@ void ProjectSettings::slotDeleteUnused()
     QStringList toDelete;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
-        if(!clip->isIncludedInTimeline()) {
+        if (!clip->isIncludedInTimeline()) {
             QUrl url(clip->getOriginalUrl());
             if (url.isValid() && !toDelete.contains(url.path())) toDelete << url.path();
         }
     }
     // make sure our urls are not used in another clip
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
-        if(clip->isIncludedInTimeline()) {
+        if (clip->isIncludedInTimeline()) {
             QUrl url(clip->getOriginalUrl());
             if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
         }
     }
-    if(toDelete.count() == 0) {
+    if (toDelete.count() == 0) {
         return;
     }
     if (KMessageBox::warningYesNoList(this,
-                                      i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know what you are doing.\nAre you sure you want to continue?"),
-                                      toDelete, i18n("Delete unused clips")) != KMessageBox::Yes) return;
+                                      i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know "
+                                           "what you are doing.\nAre you sure you want to continue?"),
+                                      toDelete, i18n("Delete unused clips")) != KMessageBox::Yes)
+        return;
     pCore->projectItemModel()->requestTrashClips(toDelete);
     slotUpdateFiles();
 }
@@ -520,12 +521,12 @@ QPair<int, int> ProjectSettings::tracks() const
 int ProjectSettings::audioChannels() const
 {
     switch (audio_channels->currentIndex()) {
-        case 1:
-            return 4;
-        case 2:
-            return 6;
-        default:
-            return 2;
+    case 1:
+        return 4;
+    case 2:
+        return 6;
+    default:
+        return 2;
     }
 }
 
@@ -732,10 +733,12 @@ void ProjectSettings::slotExportToText()
 {
     QFileDialog fd(this);
     fd.setMimeTypeFilters(QStringList() << "text/plain");
-    if (fd.exec() != QDialog::Accepted) { return; }
-    
+    if (fd.exec() != QDialog::Accepted) {
+        return;
+    }
+
     const QString savePath = fd.selectedFiles().constFirst();
-    
+
     QString text;
     text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');
     text.append(i18n("Project profile: %1", m_pw->selectedProfile()) + '\n');

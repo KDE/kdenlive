@@ -30,8 +30,7 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     }
 }
 
-bool AssetFilter::lessThan(const QModelIndex &left,
-                                      const QModelIndex &right) const
+bool AssetFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
     QString leftData = sourceModel()->data(left).toString();
     QString rightData = sourceModel()->data(right).toString();

@@ -388,5 +388,5 @@ signals:
     /** @brief Audio recording was started or stopped*/
     void switchTimelineRecord(bool on);
     /** @brief Launch audio recording on track tid*/
-    void recordAudio(int tid);
+    void recordAudio(int tid, bool record);
 };

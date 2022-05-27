@@ -239,10 +239,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
             QColor col = AbstractScopeWidget::colHighlightDark;
             QColor spec = spectrumColor;
             float f = std::sin(float(M_PI_2) * m_colorizeFactor);
-            spectrumColor = QColor(int(f * col.red()   + (1.f - f) * spec.red()),
-                                   int(f * col.green() + (1.f - f) * spec.green()),
-                                   int(f * col.blue()  + (1.f - f) * spec.blue()),
-                                   spec.alpha());
+            spectrumColor = QColor(int(f * col.red() + (1.f - f) * spec.red()), int(f * col.green() + (1.f - f) * spec.green()),
+                                   int(f * col.blue() + (1.f - f) * spec.blue()), spec.alpha());
             // Limit the maximum colorization for non-overmodulated frames to better
             // recognize consecutively overmodulated frames
             if (m_colorizeFactor > MAX_OVM_COLOR) {
@@ -414,8 +412,7 @@ QImage AudioSpectrum::renderHUD(uint)
                 QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, uint(m_innerScopeRect.width()), 0, right, -120);
 
                 db = dbMap[mouseX];
-                y = topDist + m_innerScopeRect.height() - 1 -
-                    int((dbMap[mouseX] - m_dBmin) / (m_dBmax - m_dBmin) * (m_innerScopeRect.height() - 1));
+                y = topDist + m_innerScopeRect.height() - 1 - int((dbMap[mouseX] - m_dBmin) / (m_dBmax - m_dBmin) * (m_innerScopeRect.height() - 1));
 
                 if (y < topDist + m_innerScopeRect.height() - 1) {
                     drawDb = true;

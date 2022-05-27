@@ -99,16 +99,14 @@ QVariant RenderPresetTreeModel::data(const QModelIndex &index, int role) const
             }
 
             switch (preset->installType()) {
-                case RenderPresetModel::Custom:
-                    return QIcon::fromTheme(QStringLiteral("favorite"));
-                case RenderPresetModel::Download:
-                    return QIcon::fromTheme(QStringLiteral("internet-services"));
-                default:
-                    return QVariant();
+            case RenderPresetModel::Custom:
+                return QIcon::fromTheme(QStringLiteral("favorite"));
+            case RenderPresetModel::Download:
+                return QIcon::fromTheme(QStringLiteral("internet-services"));
+            default:
+                return QVariant();
             }
         }
-
-
     }
 
     auto item = getItemById(int(index.internalId()));

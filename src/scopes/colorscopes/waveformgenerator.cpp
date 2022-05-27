@@ -23,8 +23,8 @@ WaveformGenerator::WaveformGenerator() = default;
 
 WaveformGenerator::~WaveformGenerator() = default;
 
-QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
-                                            ITURec rec, uint accelFactor)
+QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis, ITURec rec,
+                                            uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -100,9 +100,9 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
                 // Logarithmic scale. Needs fine tuning by hand, but looks great.
                 wave.setPixel(i, waveformSize.height() - j - 1,
                               qRgba(CHOP255(52 * logf(0.1f * gain * float(waveValues[size_t(i)][size_t(j)]))),
-                                    CHOP255(52 * logf(      gain * float(waveValues[size_t(i)][size_t(j)]))),
+                                    CHOP255(52 * logf(gain * float(waveValues[size_t(i)][size_t(j)]))),
                                     CHOP255(52 * logf(.25f * gain * float(waveValues[size_t(i)][size_t(j)]))),
-                                    CHOP255(64 * logf(      gain * float(waveValues[size_t(i)][size_t(j)])))));
+                                    CHOP255(64 * logf(gain * float(waveValues[size_t(i)][size_t(j)])))));
             }
         }
         break;

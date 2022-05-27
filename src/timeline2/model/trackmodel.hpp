@@ -27,9 +27,9 @@ public:
     int firstClipId = -1;
     int secondClipId = -1;
     /** @brief in and out of the first clip in the mix */
-    std::pair<int, int> firstClipInOut = {-1,-1};
+    std::pair<int, int> firstClipInOut = {-1, -1};
     /** @brief in and out of the second clip in the mix */
-    std::pair<int, int> secondClipInOut = {-1,-1};
+    std::pair<int, int> secondClipInOut = {-1, -1};
     /** @brief Distance between first clip out and cut pos */
     int mixOffset = 0;
 };
@@ -109,20 +109,21 @@ public:
     /** @brief Remove a composition between 2 same track clips */
     bool requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &redo);
     /** @brief Create a composition between 2 same track clips */
-    bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo,
+                        Fun &redo, bool groupMove);
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
     bool deleteMix(int clipId, bool final, bool notify = true);
     /** @brief Create a mix composition using clip ids */
     bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
-    bool createMix(MixInfo info, std::pair<QString,QVector<QPair<QString, QVariant>>> params, bool finalMove);
+    bool createMix(MixInfo info, std::pair<QString, QVector<QPair<QString, QVariant>>> params, bool finalMove);
     /** @brief Create a mix composition using mix info */
     bool createMix(MixInfo info, bool isAudio);
     /** @brief Change id of first clip in a mix (in case of clip cut) */
     bool reAssignEndMix(int currentId, int newId);
     /** @brief Get all necessary infos to clone a mix */
-    std::pair<QString,QVector<QPair<QString, QVariant>>> getMixParams(int cid);
+    std::pair<QString, QVector<QPair<QString, QVariant>>> getMixParams(int cid);
     void switchMix(int cid, const QString &composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
@@ -173,7 +174,8 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, bool newInsertion = true, const QList<int> &allowedClipMixes = {});
+    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, bool newInsertion = true,
+                              const QList<int> &allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false, const QList<int> &allowedClipMixes = {});
 
@@ -185,10 +187,12 @@ protected:
        @param finalMove if the move is finished (not while dragging), so we invalidate timeline preview / check project duration
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
-       @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be performed separately
+       @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be
+       performed separately
        @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion, const QList<int> &allowedClipMixes = {});
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion,
+                             const QList<int> &allowedClipMixes = {});
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 
@@ -225,13 +229,13 @@ protected:
     int getClipEnd(int position, int track);
     /** @brief Returns true if clip at position is the last on playlist
      * @param position the position in playlist
-    */
+     */
     bool isLastClip(int position);
 
     /** @brief Returns the best composition duration depending on clips on the track */
     int suggestCompositionLength(int position);
     /** @brief Returns the best composition duration depending on compositions on the track */
-    QPair <int, int> validateCompositionLength(int pos, int offset, int duration, int endPos);
+    QPair<int, int> validateCompositionLength(int pos, int offset, int duration, int endPos);
 
     /** @brief Returns the (unique) construction id of the track*/
     int getId() const;
@@ -313,7 +317,7 @@ protected:
     /** @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration, int playlist);
     /** @brief Returns true if we have a blank at position for duration, with the exception of clip ids exception */
-    bool isAvailableWithExceptions(int position, int duration, const QVector<int>&exceptions);
+    bool isAvailableWithExceptions(int position, int duration, const QVector<int> &exceptions);
     /** @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */
@@ -325,7 +329,7 @@ protected:
     /** @brief Returns the cid of the second partner or -1 if the given clip has no end mix */
     int getSecondMixPartner(int cid) const;
     /** @brief Returns the cut position if the composition is over a cut between 2 clips, -1 otherwise
-    */
+     */
     int isOnCut(int cid);
     /** @brief Returns all mix info as xml */
     QDomElement mixXml(QDomDocument &document, int cid) const;
@@ -346,7 +350,7 @@ private:
     std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
     /// A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
-    QMap <int, int> m_mixList;
+    QMap<int, int> m_mixList;
 
     /** This is important to keep an ordered structure to store the clips, since we use their ids order as row order*/
     std::map<int, std::shared_ptr<ClipModel>> m_allClips;

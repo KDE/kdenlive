@@ -142,16 +142,16 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
     return QImage();
 }
 
-const QList <QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
+const QList<QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
 {
     bool ok = false;
     auto key = getAudioKey(binId, &ok);
     QDir thumbFolder = getDir(true, &ok);
-    QList <QUrl> pathList;
+    QList<QUrl> pathList;
     if (ok) {
         for (const QString &p : qAsConst(key)) {
             if (thumbFolder.exists(p)) {
-                pathList <<QUrl::fromLocalFile(thumbFolder.absoluteFilePath(p));
+                pathList << QUrl::fromLocalFile(thumbFolder.absoluteFilePath(p));
             }
         }
     }
@@ -174,7 +174,8 @@ QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos,
     bool ok = false;
     QDir thumbFolder = getDir(false, &ok);
     if (ok && thumbFolder.exists(hash)) {
-        if(m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+        if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() ||
+            std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
             m_storedOnDisk[binId].push_back(pos);
         }
         locker.unlock();
@@ -196,7 +197,8 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
     }
     QDir thumbFolder = getDir(false, &ok);
     if (ok && thumbFolder.exists(key)) {
-        if(m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+        if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() ||
+            std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
             m_storedOnDisk[binId].push_back(pos);
         }
         locker.unlock();
@@ -223,12 +225,13 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
     if (persistent) {
         QDir thumbFolder = getDir(false, &ok);
         if (ok) {
-            if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+            if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() ||
+                std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
                 m_storedOnDisk[binId].push_back(pos);
             }
             m_mutex.unlock();
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
-                qDebug() << ".............\n!!!!!!!! ERROR SAVING THUMB in: "<<thumbFolder.absoluteFilePath(key);
+                qDebug() << ".............\n!!!!!!!! ERROR SAVING THUMB in: " << thumbFolder.absoluteFilePath(key);
             }
         }
     }
@@ -249,8 +252,9 @@ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vec
     QReadLocker locker(&m_mutex);
     for (auto &key : keys) {
         bool ok;
-        for(const auto& pos: key.second) {
-            if (m_storedOnDisk.find(key.first) == m_storedOnDisk.end() || std::find(m_storedOnDisk[key.first].begin(), m_storedOnDisk[key.first].end(), pos) == m_storedOnDisk[key.first].end()) {
+        for (const auto &pos : key.second) {
+            if (m_storedOnDisk.find(key.first) == m_storedOnDisk.end() ||
+                std::find(m_storedOnDisk[key.first].begin(), m_storedOnDisk[key.first].end(), pos) == m_storedOnDisk[key.first].end()) {
                 const QString thumbKey = getKey(key.first, pos, &ok);
                 if (!ok) {
                     continue;
@@ -338,7 +342,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
         QString streams = binClip->getProducerProperty(QStringLiteral("kdenlive:active_streams"));
         if (streams == QString::number(INT_MAX)) {
             // activate all audio streams
-            QList <int> streamIxes = binClip->audioStreams().keys();
+            QList<int> streamIxes = binClip->audioStreams().keys();
             if (streamIxes.size() > 1) {
                 QStringList streamsList;
                 for (const int st : qAsConst(streamIxes)) {

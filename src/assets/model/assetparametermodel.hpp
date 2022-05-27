@@ -21,9 +21,9 @@ typedef QVector<QPair<QString, QVariant>> paramVector;
 
 enum class ParamType {
     Double,
-    List, // Value can be chosen from a list of pre-defined ones
-    ListWithDependency,  // Value can be chosen from a list of pre-defined ones. Some values might not be available due to missing dependencies
-    UrlList, // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
+    List,               // Value can be chosen from a list of pre-defined ones
+    ListWithDependency, // Value can be chosen from a list of pre-defined ones. Some values might not be available due to missing dependencies
+    UrlList,            // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
     MultiSwitch,
@@ -59,8 +59,8 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
 {
     Q_OBJECT
 
-friend class KeyframeModelList;
-friend class KeyframeModel;
+    friend class KeyframeModelList;
+    friend class KeyframeModel;
 
 public:
     /**
@@ -74,8 +74,7 @@ public:
      * @param parent
      */
     explicit AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
-                                 const QString& originalDecimalPoint = QString(),
-                                 QObject *parent = nullptr);
+                                 const QString &originalDecimalPoint = QString(), QObject *parent = nullptr);
     ~AssetParameterModel() override;
     enum DataRoles {
         NameRole = Qt::UserRole + 1,
@@ -242,7 +241,7 @@ protected:
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
-    QVector<int>m_selectedKeyframes;
+    QVector<int> m_selectedKeyframes;
     int m_activeKeyframe;
     /** @brief if true, keyframe tools will be hidden by default */
     bool m_hideKeyframesByDefault;
@@ -265,5 +264,5 @@ signals:
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
     void enabledChange(bool);
-    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
 };

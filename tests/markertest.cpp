@@ -12,7 +12,7 @@ double fps;
 void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::vector<Marker> &l, const std::shared_ptr<SnapModel> &snaps)
 {
     auto list = l;
-    //std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
+    // std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
 
     REQUIRE(model->rowCount() == (int)list.size());
     if (model->rowCount() == 0) {

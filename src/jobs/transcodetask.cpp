@@ -23,7 +23,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool checkProfile)
+TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out,
+                             bool replaceProducer, QObject *object, bool checkProfile)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
@@ -38,13 +39,14 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const
 {
 }
 
-void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
+void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer,
+                          QObject *object, bool force, bool checkProfile)
 {
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
         return;
     }
-    TranscodeTask* task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
+    TranscodeTask *task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
@@ -83,7 +85,7 @@ void TranscodeTask::run()
 
     QString transcoderExt = m_transcodeParams.section(QLatin1String("%1"), 1).section(QLatin1Char(' '), 0, 0);
     if (transcoderExt.isEmpty()) {
-        qDebug()<<"// INVALID TRANSCODING PROFILE";
+        qDebug() << "// INVALID TRANSCODING PROFILE";
         m_progress = 100;
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
@@ -93,7 +95,8 @@ void TranscodeTask::run()
     QDir dir;
     if (type == ClipType::Text) {
         fileName = binClip->name();
-        dir = QDir(pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
+        dir = QDir(pCore->currentDoc()->url().isValid() ? pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile()
+                                                        : KdenliveSettings::defaultprojectfolder());
     } else {
         fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
         dir = finfo.absoluteDir();
@@ -177,8 +180,9 @@ void TranscodeTask::run()
         QStringList parameters;
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
             // FFmpeg not detected, cannot process the Job
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                      Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment")),
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -208,7 +212,7 @@ void TranscodeTask::run()
                 parameters << t;
             }
         }
-        qDebug()<<"/// FULL TRANSCODE PARAMS:\n"<<parameters<<"\n------";
+        qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
@@ -228,11 +232,11 @@ void TranscodeTask::run()
             QFile::remove(destUrl);
             // File was not created
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+                                      Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         } else {
             if (m_replaceProducer && binClip) {
-                QMap <QString, QString> sourceProps;
-                QMap <QString, QString> newProps;
+                QMap<QString, QString> sourceProps;
+                QMap<QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), binClip->url());
                 sourceProps.insert(QStringLiteral("kdenlive:originalurl"), binClip->url());
                 sourceProps.insert(QStringLiteral("kdenlive:proxy"), binClip->getProducerProperty(QStringLiteral("kdenlive:proxy")));
@@ -255,8 +259,8 @@ void TranscodeTask::run()
                         folder = containingFolder->clipId();
                     }
                 }
-                QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(QString,destUrl), Q_ARG(QString,folder));
-                //id = ClipCreator::createClipFromFile(destUrl, folderId, pCore->projectItemModel());
+                QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(QString, destUrl), Q_ARG(QString, folder));
+                // id = ClipCreator::createClipFromFile(destUrl, folderId, pCore->projectItemModel());
             }
         }
     } else {
@@ -264,7 +268,7 @@ void TranscodeTask::run()
         QFile::remove(destUrl);
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+                                      Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
     }
 }
@@ -302,7 +306,7 @@ void TranscodeTask::processLogInfo()
             }
             m_progress = 100 * progress / m_jobDuration;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
-            //emit jobProgress(int(100.0 * progress / m_jobDuration));
+            // emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output

@@ -20,26 +20,24 @@
 
 ShiftEnterFilter::ShiftEnterFilter(QObject *parent)
     : QObject(parent)
-{}
+{
+}
 
 bool ShiftEnterFilter::eventFilter(QObject *obj, QEvent *event)
 {
-    if(event->type() == QEvent::KeyPress)
-    {
-        auto *keyEvent = static_cast <QKeyEvent*> (event);
-        if((keyEvent->modifiers() & Qt::ShiftModifier) && ((keyEvent->key() == Qt::Key_Enter) || (keyEvent->key() == Qt::Key_Return))) {
+    if (event->type() == QEvent::KeyPress) {
+        auto *keyEvent = static_cast<QKeyEvent *>(event);
+        if ((keyEvent->modifiers() & Qt::ShiftModifier) && ((keyEvent->key() == Qt::Key_Enter) || (keyEvent->key() == Qt::Key_Return))) {
             emit triggerUpdate();
             return true;
         }
     }
-    if (event->type() == QEvent::FocusOut)
-    {
+    if (event->type() == QEvent::FocusOut) {
         emit triggerUpdate();
         return true;
     }
     return QObject::eventFilter(obj, event);
 }
-
 
 SubtitleEdit::SubtitleEdit(QWidget *parent)
     : QWidget(parent)
@@ -67,7 +65,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             buttonCut->setEnabled(true);
         }
     });
-    
+
     m_position = new TimecodeDisplay(pCore->timecode(), this);
     m_endPosition = new TimecodeDisplay(pCore->timecode(), this);
     m_duration = new TimecodeDisplay(pCore->timecode(), this);
@@ -83,7 +81,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     duration_box->addWidget(m_duration);
     spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     duration_box->addSpacerItem(spacer);
-    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
+    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -93,7 +91,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
         }
     });
-    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
+    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -103,13 +101,11 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
         }
     });
-    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, this, [this] (int value) {
+    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
         updateSubtitle();
         m_model->requestResize(m_activeSub, value, true);
     });
-    connect(buttonAdd, &QToolButton::clicked, this, [this]() {
-        emit addSubtitle(subText->toPlainText());
-    });
+    connect(buttonAdd, &QToolButton::clicked, this, [this]() { emit addSubtitle(subText->toPlainText()); });
     connect(buttonCut, &QToolButton::clicked, this, [this]() {
         if (m_activeSub > -1 && subText->hasFocus()) {
             int pos = subText->textCursor().position();
@@ -120,15 +116,9 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);
     connect(buttonPrev, &QToolButton::clicked, this, &SubtitleEdit::goToPrevious);
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
-    connect(buttonIn, &QToolButton::clicked, []() {
-        pCore->triggerAction(QStringLiteral("resize_timeline_clip_start"));
-    });
-    connect(buttonOut, &QToolButton::clicked, []() {
-        pCore->triggerAction(QStringLiteral("resize_timeline_clip_end"));
-    });
-    connect(buttonDelete, &QToolButton::clicked, []() {
-        pCore->triggerAction(QStringLiteral("delete_timeline_clip"));
-    });
+    connect(buttonIn, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_start")); });
+    connect(buttonOut, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_end")); });
+    connect(buttonDelete, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("delete_timeline_clip")); });
     buttonNext->setToolTip(i18n("Go to next subtitle"));
     buttonPrev->setToolTip(i18n("Go to previous subtitle"));
     buttonAdd->setToolTip(i18n("Add subtitle"));
@@ -147,9 +137,10 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
         QSignalBlocker bk(subText);
         subText->clear();
     } else {
-        connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
+        connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector<int> &roles) {
             if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub)) {
-                if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) || roles.contains(SubtitleModel::EndFrameRole)) {
+                if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) ||
+                    roles.contains(SubtitleModel::EndFrameRole)) {
                     setActiveSubtitle(m_activeSub);
                 }
             }
@@ -241,7 +232,7 @@ void SubtitleEdit::goToNext()
     if (m_model) {
         int id = -1;
         if (m_activeSub > -1) {
-             id = m_model->getNextSub(m_activeSub);
+            id = m_model->getNextSub(m_activeSub);
         } else {
             // Start from timeline cursor position
             int cursorPos = pCore->getTimelinePosition();

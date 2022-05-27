@@ -60,7 +60,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 
     KConfig conf(QStringLiteral("slideanimations.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "slides");
-    QMap<QString,QString>slideTranslations;
+    QMap<QString, QString> slideTranslations;
     slideTranslations.insert(QStringLiteral("Pan"), i18nc("Image Pan", "Pan"));
     slideTranslations.insert(QStringLiteral("Pan and zoom"), i18n("Pan and zoom"));
     slideTranslations.insert(QStringLiteral("Zoom"), i18n("Zoom"));
@@ -185,9 +185,8 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         parseFolder();
     }
     m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull());
-    connect(m_view.animation, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
-        m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull());
-    });
+    connect(m_view.animation, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+            [&]() { m_view.low_pass->setEnabled(!m_view.animation->currentData().isNull()); });
     // adjustSize();
 }
 
@@ -372,8 +371,7 @@ QString SlideshowClip::selectedPath()
     } else {
         url = m_view.pattern_url->url();
     }
-    QString path = selectedPath(url, m_view.method_mime->isChecked(),
-                                QStringLiteral(".all.") + m_view.image_type->currentData().toString(), &list);
+    QString path = selectedPath(url, m_view.method_mime->isChecked(), QStringLiteral(".all.") + m_view.image_type->currentData().toString(), &list);
     m_count = list.count();
     // qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
     return path;
@@ -562,7 +560,7 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
     QString str = QStringLiteral("%d");
     for (int i = 0; i < frames; i++) {
         geometry.replace(geometry.indexOf(str), 2, QString::number(frameNumber));
-        frameNumber = qFloor((i + 3)/2) * ttl;
+        frameNumber = qFloor((i + 3) / 2) * ttl;
         frameNumber -= (i % 2);
     }
     return geometry;

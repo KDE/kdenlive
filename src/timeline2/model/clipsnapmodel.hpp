@@ -39,7 +39,6 @@ public:
     /** @brief Retrieve all snap points */
     void allSnaps(std::vector<int> &snaps, int offset = 0) const;
 
-
 private:
     std::weak_ptr<SnapModel> m_registeredSnap;
     std::weak_ptr<MarkerListModel> m_parentModel;
@@ -51,5 +50,4 @@ private:
     double m_speed{1.};
     void addAllSnaps();
     void removeAllSnaps();
-
 };

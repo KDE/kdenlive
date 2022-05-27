@@ -37,7 +37,7 @@ public slots:
     */
     bool slotAddKeyframe(int pos = -1);
     /** @brief Duplicate selected keyframe at cursor position
-    */
+     */
     void slotDuplicateKeyframe();
     /** @brief If there is a keyframe at current position, it is removed.
        Otherwise, we add a new one with given value.
@@ -66,7 +66,7 @@ private:
     int m_duration;
     int m_position;
     int m_currentKeyframeOriginal;
-    QVector <int>m_selectedKeyframes;
+    QVector<int> m_selectedKeyframes;
     int m_hoverKeyframe;
     int m_lineHeight;
     int m_zoomHeight;

@@ -6,9 +6,9 @@
 #pragma once
 
 #include "definitions.h"
-#include "utils/gentime.h"
 #include "keyframemodel.hpp"
 #include "undohelper.hpp"
+#include "utils/gentime.h"
 
 #include <QReadWriteLock>
 
@@ -48,7 +48,7 @@ public:
     /** @brief Removes the keyframe at the given position. */
     bool removeKeyframe(GenTime pos);
     bool removeKeyframeWithUndo(GenTime pos, Fun &undo, Fun &redo);
-    
+
     /** @brief Duplicate a keyframe at the given position. */
     bool duplicateKeyframeWithUndo(GenTime srcPos, GenTime destPos, Fun &undo, Fun &redo);
     /** @brief Delete all the keyframes of the model (except first) */
@@ -119,7 +119,6 @@ public:
        @param index is the index of the queried parameter. */
     QVariant getInterpolatedValue(const GenTime &pos, const QPersistentModelIndex &index) const;
 
-
     /** @brief Load keyframes from the current parameter value. */
     void refresh();
     /** @brief Reset all keyframes and add a default one */
@@ -148,10 +147,10 @@ public:
 
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
-    
+
     /** @brief Parent item size change, update keyframes*/
     void moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo);
-    
+
     /** @brief Return position of the nth keyframe (ix = nth)*/
     GenTime getPosAtIndex(int ix);
     int getIndexForPos(GenTime pos);

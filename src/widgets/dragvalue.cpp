@@ -23,9 +23,8 @@
 #include <klocalizedstring.h>
 #include <kwidgetsaddons_version.h>
 
-
-DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, bool oddOnly, 
-                     QWidget *parent)
+DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
+                     bool oddOnly, QWidget *parent)
     : QWidget(parent)
     , m_maximum(max)
     , m_minimum(min)
@@ -94,14 +93,14 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         double steps = (m_maximum - m_minimum) / factor;
         m_doubleEdit->setSingleStep(steps);
         m_label->setStep(steps);
-        //m_label->setStep(1);
+        // m_label->setStep(1);
         l->addWidget(m_doubleEdit);
         m_doubleEdit->setValue(m_default);
         m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
-    connect(m_label, SIGNAL(valueChanged(double,bool)), this, SLOT(setValueFromProgress(double,bool)));
+    connect(m_label, SIGNAL(valueChanged(double, bool)), this, SLOT(setValueFromProgress(double, bool)));
     connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
     setLayout(l);
     if (m_intEdit) {
@@ -135,7 +134,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_menu->addAction(timeline);
     }
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
     connect(m_scale, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &DragValue::slotSetScaleMode);
 #else
     connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);
@@ -155,8 +154,7 @@ DragValue::~DragValue()
 
 bool DragValue::eventFilter(QObject *watched, QEvent *event)
 {
-    if (event->type() == QEvent::Wheel)
-    {
+    if (event->type() == QEvent::Wheel) {
         // Check if we should ignore the event
         bool useEvent = false;
         if (m_intEdit) {
@@ -336,7 +334,7 @@ void DragValue::setValue(double value, bool final)
 
 void DragValue::slotEditingFinished()
 {
-    qDebug()<<"::: EDITING FINISHED...";
+    qDebug() << "::: EDITING FINISHED...";
     if (m_intEdit) {
         int newValue = m_intEdit->value();
         m_intEdit->blockSignals(true);
@@ -452,7 +450,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
         if (m_dragMode) {
             if (KdenliveSettings::dragvalue_mode() > 0 || !m_showSlider) {
                 int diff = e->x() - m_dragLastPosition.x();
-                if(qApp->isRightToLeft()) {
+                if (qApp->isRightToLeft()) {
                     diff = 0 - diff;
                 }
 
@@ -470,14 +468,14 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                 }
             } else {
                 double nv;
-                if(qApp->isLeftToRight()) {
+                if (qApp->isLeftToRight()) {
                     nv = minimum() + ((double)maximum() - minimum()) / width() * e->pos().x();
                 } else {
                     nv = maximum() - ((double)maximum() - minimum()) / width() * e->pos().x();
                 }
                 if (!qFuzzyCompare(nv, value())) {
                     if (m_step > 1) {
-                        int current = (int) value();
+                        int current = (int)value();
                         int diff = (nv - current) / m_step;
                         setNewValue(current + diff * m_step, true);
                     } else {
@@ -509,12 +507,12 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     } else if (m_showSlider) {
-        int newVal =(double)maximum() * e->pos().x() / width();
-        if(qApp->isRightToLeft()) {
+        int newVal = (double)maximum() * e->pos().x() / width();
+        if (qApp->isRightToLeft()) {
             newVal = maximum() - newVal;
         }
         if (m_step > 1) {
-            int current = (int) value();
+            int current = (int)value();
             int diff = (newVal - current) / m_step;
             setNewValue(current + diff * m_step, true);
         } else {
@@ -528,10 +526,10 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
 
 void CustomLabel::wheelEvent(QWheelEvent *e)
 {
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     if (e->delta() > 0) {
 #else
-    qDebug()<<":::: GOT WHEEL DELTA: "<<e->angleDelta().y();
+    qDebug() << ":::: GOT WHEEL DELTA: " << e->angleDelta().y();
     if (e->angleDelta().y() > 0) {
 #endif
         if (e->modifiers() == Qt::ControlModifier) {

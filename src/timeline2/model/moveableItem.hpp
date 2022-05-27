@@ -65,7 +65,7 @@ public:
     bool isGrabbed() const;
 
     /** @brief True if item is selected in timeline */
-    bool selected {false};
+    bool selected{false};
     /** @brief Set selected status */
     virtual void setSelected(bool sel) = 0;
 

@@ -297,7 +297,8 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 
 QStringList ProjectItemModel::mimeTypes() const
 {
-    QStringList types {QStringLiteral("kdenlive/producerslist"), QStringLiteral("text/uri-list"), QStringLiteral("kdenlive/clip"), QStringLiteral("kdenlive/effect"), QStringLiteral("kdenlive/tag")};
+    QStringList types{QStringLiteral("kdenlive/producerslist"), QStringLiteral("text/uri-list"), QStringLiteral("kdenlive/clip"),
+                      QStringLiteral("kdenlive/effect"), QStringLiteral("kdenlive/tag")};
     return types;
 }
 
@@ -354,7 +355,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         QByteArray data;
         data.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/producerslist"), data);
-        mimeData->setData(QStringLiteral("kdenlive/rootId"),parentId.toLatin1());
+        mimeData->setData(QStringLiteral("kdenlive/rootId"), parentId.toLatin1());
         mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
         mimeData->setText(QString::number(duration));
     }
@@ -441,10 +442,10 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString 
     return nullptr;
 }
 
-QList <std::shared_ptr<ProjectFolder> > ProjectItemModel::getFolders()
+QList<std::shared_ptr<ProjectFolder>> ProjectItemModel::getFolders()
 {
     READ_LOCK();
-    QList <std::shared_ptr<ProjectFolder> > folders;
+    QList<std::shared_ptr<ProjectFolder>> folders;
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::FolderItem) {
@@ -568,7 +569,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
         }
         int in = entryObj[QLatin1String("in")].toInt();
         int out = entryObj[QLatin1String("out")].toInt();
-        QMap <QString, QString> zoneProperties;
+        QMap<QString, QString> zoneProperties;
         zoneProperties.insert(QStringLiteral("name"), entryObj[QLatin1String("name")].toString(i18n("Zone")));
         zoneProperties.insert(QStringLiteral("rating"), QString::number(entryObj[QLatin1String("rating")].toInt()));
         zoneProperties.insert(QStringLiteral("tags"), entryObj[QLatin1String("tags")].toString(QString()));
@@ -715,8 +716,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
-        id =
-            Xml::getXmlProperty(description, QStringLiteral("kdenlive:id"), QStringLiteral("-1"));
+        id = Xml::getXmlProperty(description, QStringLiteral("kdenlive:id"), QStringLiteral("-1"));
         if (id == QStringLiteral("-1") || !isIdFree(id)) {
             id = QString::number(getFreeClipId());
         }
@@ -726,12 +726,13 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
-        ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
+        ClipLoadTask::start({ObjectType::BinClip, id.toInt()}, description, false, -1, -1, this, false, std::bind(readyCallBack, id));
     }
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText, const std::function<void(const QString &)> &readyCallBack)
+bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText,
+                                         const std::function<void(const QString &)> &readyCallBack)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -761,7 +762,8 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
     return res;
 }
 
-bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo,
+                                            Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -1026,7 +1028,8 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog)
+void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
+                                       QStringList &expandedFolders, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1055,7 +1058,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
             if (progressDialog) {
                 progressDialog->setMaximum(progressDialog->maximum() + max);
             }
-            QMap <int, std::shared_ptr<Mlt::Producer> > binProducers;
+            QMap<int, std::shared_ptr<Mlt::Producer>> binProducers;
             for (int i = 0; i < max; i++) {
                 if (progressDialog) {
                     progressDialog->setValue(i);
@@ -1064,7 +1067,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 if (prod->is_blank() || !prod->is_valid() || prod->parent().property_exists("kdenlive:remove")) {
-                    qDebug()<<"==== IGNORING BIN PRODUCER: "<<prod->parent().get("kdenlive:id");
+                    qDebug() << "==== IGNORING BIN PRODUCER: " << prod->parent().get("kdenlive:id");
                     continue;
                 }
                 std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
@@ -1073,7 +1076,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 binProducers.insert(id, producer);
             }
             // Do the real insertion
-            QMapIterator<int, std::shared_ptr<Mlt::Producer> > i(binProducers);
+            QMapIterator<int, std::shared_ptr<Mlt::Producer>> i(binProducers);
             while (i.hasNext()) {
                 i.next();
                 QString newId = QString::number(getFreeClipId());

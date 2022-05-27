@@ -46,7 +46,7 @@ reading a Read-protected property. In that case, we try to write lock it first (
 /** @brief This macro takes some lambdas that represent undo/redo for an operation and the text (name) associated with this operation
  * The lambdas are transformed to make sure they lock access to the class they operate on.
  * Then they are added on the undoStack
-*/
+ */
 #define PUSH_UNDO(undo, redo, text)                                                                                                                            \
     if (auto ptr = m_undoStack.lock()) {                                                                                                                       \
         ptr->push(new FunctionalUndoCommand(undo, redo, text));                                                                                                \
@@ -58,7 +58,7 @@ reading a Read-protected property. In that case, we try to write lock it first (
 /** @brief This macro takes as parameter one atomic operation and its reverse, and update
  * the undo and redo functional stacks/queue accordingly
  * This should be used in the rare case where we don't need a lock mutex. In general, prefer the other version
-*/
+ */
 #define UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo)                                                                                                \
     undo = [reverse, undo]() {                                                                                                                                 \
         bool v = reverse();                                                                                                                                    \
@@ -71,7 +71,7 @@ reading a Read-protected property. In that case, we try to write lock it first (
 /** @brief This macro takes as parameter one atomic operation and its reverse, and update
  *  the undo and redo functional stacks/queue accordingly
  *  It will also ensure that operation and reverse are dealing with mutexes
-*/
+ */
 #define UPDATE_UNDO_REDO(operation, reverse, undo, redo)                                                                                                       \
     LOCK_IN_LAMBDA(operation)                                                                                                                                  \
     LOCK_IN_LAMBDA(reverse)                                                                                                                                    \

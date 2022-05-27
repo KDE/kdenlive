@@ -75,8 +75,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
         }
     } else {
         // load Profiles
-        KSharedConfigPtr config =
-            KSharedConfig::openConfig(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+        KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
         QMap<QString, QString> profiles = transConfig.entryMap();
@@ -99,7 +98,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
     connect(&m_transcodeProcess, &QProcess::readyReadStandardOutput, this, &ClipTranscode::slotShowTranscodeInfo);
     connect(&m_transcodeProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &ClipTranscode::slotTranscodeFinished);
 
-    //ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
+    // ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     adjustSize();
 }
@@ -145,12 +144,12 @@ void ClipTranscode::slotStartTransCode()
     QString extension = params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0);
     QString s_url = source_url->url().toLocalFile();
     bool mltEncoding = s_url.endsWith(QLatin1String(".mlt")) || s_url.endsWith(QLatin1String(".kdenlive"));
-    
+
     if (QFile::exists(destination + extension)) {
-	    if( destination + extension == s_url){ //If the source and destination are the same, ffmpeg will fail             
-                KMessageBox::error(this, i18n("Source and destination file can't be the same"));
-		return;
-	    }
+        if (destination + extension == s_url) { // If the source and destination are the same, ffmpeg will fail
+            KMessageBox::error(this, i18n("Source and destination file can't be the same"));
+            return;
+        }
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
             // Abort operation
             if (m_automaticMode) {
@@ -164,7 +163,7 @@ void ClipTranscode::slotStartTransCode()
             parameters << QStringLiteral("-y");
         }
     }
-    
+
     if (mltEncoding) {
         params.replace(QStringLiteral("%1"), QString("-consumer %1"));
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)

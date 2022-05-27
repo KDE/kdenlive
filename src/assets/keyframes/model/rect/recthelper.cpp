@@ -9,8 +9,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
-#include "utils/gentime.h"
 #include "monitor/monitor.h"
+#include "utils/gentime.h"
 
 #include <QSize>
 #include <utility>
@@ -34,7 +34,8 @@ bool RectHelper::connectMonitor(bool activate)
     return m_active;
 }
 
-void RectHelper::slotUpdateFromMonitorRect(const QRect &rect) {
+void RectHelper::slotUpdateFromMonitorRect(const QRect &rect)
+{
     QSize frameSize = pCore->getCurrentFrameSize();
     double x = double(rect.x() + rect.width() / 2) / frameSize.width();
     double y = double(rect.y() + rect.height() / 2) / frameSize.height();
@@ -69,6 +70,6 @@ void RectHelper::refreshParams(int pos)
     }
     if (m_monitor) {
         qDebug() << QRect(x, y, w, h);
-        m_monitor->setUpEffectGeometry(QRect(x-w/2, y-h/2, w, h));
+        m_monitor->setUpEffectGeometry(QRect(x - w / 2, y - h / 2, w, h));
     }
 }

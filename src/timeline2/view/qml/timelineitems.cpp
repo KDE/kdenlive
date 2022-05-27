@@ -5,10 +5,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "kdenlivesettings.h"
 #include "bin/projectitemmodel.h"
-#include "core.h"
 #include "capture/mediacapture.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include <QElapsedTimer>
 #include <QPainter>
@@ -51,7 +50,7 @@ public:
     TimelinePlayhead(QQuickItem *parent = nullptr)
         : QQuickPaintedItem(parent)
     {
-        connect(this, &TimelinePlayhead::colorChanged, this, [&](const QColor &){ update(); });
+        connect(this, &TimelinePlayhead::colorChanged, this, [&](const QColor &) { update(); });
     }
 
     void paint(QPainter *painter) override
@@ -101,9 +100,9 @@ public:
         setOpaquePainting(m_opaquePaint);
         setEnabled(false);
         m_precisionFactor = 1;
-        //setRenderTarget(QQuickPaintedItem::FramebufferObject);
-        //setMipmap(true);
-        //setTextureSize(QSize(1, 1));
+        // setRenderTarget(QQuickPaintedItem::FramebufferObject);
+        // setMipmap(true);
+        // setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
             if (!m_binId.isEmpty()) {
                 if (m_audioLevels.isEmpty() && m_stream >= 0) {
@@ -142,8 +141,8 @@ public:
             painter->fillRect(bgRect, m_bgColor);
         }
         QPen pen(painter->pen());
-        double increment = qMax(1., m_scale / m_channels); //qMax(1., 1. / qAbs(indicesPrPixel));
-        qreal indicesPrPixel = m_channels / m_scale * qAbs(m_speed); //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        double increment = qMax(1., m_scale / m_channels);           // qMax(1., 1. / qAbs(indicesPrPixel));
+        qreal indicesPrPixel = m_channels / m_scale * qAbs(m_speed); // qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
         int h = int(height());
         double offset = 0;
         bool pathDraw = increment > 1.2;
@@ -200,7 +199,7 @@ public:
                 if (pathDraw) {
                     double val = height() - level * height();
                     path.lineTo(i, val);
-                    path.lineTo(( j + 1) * increment - offset, val);
+                    path.lineTo((j + 1) * increment - offset, val);
                 } else {
                     painter->drawLine(int(i), h, int(i), int(h - (h * level)));
                 }
@@ -331,9 +330,9 @@ public:
         setOpaquePainting(m_opaquePaint);
         setEnabled(false);
         m_precisionFactor = 1;
-        //setRenderTarget(QQuickPaintedItem::FramebufferObject);
-        //setMipmap(true);
-        //setTextureSize(QSize(1, 1));
+        // setRenderTarget(QQuickPaintedItem::FramebufferObject);
+        // setMipmap(true);
+        // setTextureSize(QSize(1, 1));
         connect(this, &TimelineRecWaveform::propertyChanged, this, static_cast<void (QQuickItem::*)()>(&QQuickItem::update));
     }
 
@@ -354,7 +353,7 @@ public:
         QPen pen(painter->pen());
         int maxLength = audioLevels.length();
         double increment = 1 / m_scale;
-        qreal indicesPrPixel = m_channels / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        qreal indicesPrPixel = m_channels / m_scale; // qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
         int h = int(height());
         double offset = 0;
         bool pathDraw = increment > 1.2;
@@ -393,7 +392,7 @@ public:
             if (pathDraw) {
                 double val = height() - level * height();
                 path.lineTo(i, val);
-                path.lineTo(( j + 1) * increment - offset, val);
+                path.lineTo((j + 1) * increment - offset, val);
             } else {
                 painter->drawLine(int(i), h, int(i), int(h - (h * level)));
             }

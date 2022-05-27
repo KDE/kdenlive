@@ -19,8 +19,8 @@
  <group name="Ultra-High Definition (4K)" renderer="avformat" type="av">
   <profile name="WebM-VP9/Opus (libre)" extension="webm"
    qualities="15,45" defaultquality="25"
-   audioqualities="7,3" defaultaudioquality="5"
-   args="f=webm vcodec=libvpx-vp9 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tile-columns=4 frame-parallel=1 acodec=libopus aq=%audioquality"/>
+   audioqualities="10,0" defaultaudioquality="5"
+   args="f=webm vcodec=libvpx-vp9 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tile-columns=4 frame-parallel=1 acodec=libopus compression_level=%audioquality"/>
   <profile name="WebM-AV1/Opus (libre)" extension="webm"
    qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
@@ -65,11 +65,11 @@
   <profile name="NVENC H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=mp4 vcodec=nvenc_h264 vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
+   args="f=mp4 vcodec=h264_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 VBR" extension="mp4"
    qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=mp4 vcodec=nvenc_h264 rc=constqp vglobal_quality=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
+   args="f=mp4 vcodec=h264_nvenc rc=constqp vglobal_quality=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H265 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"

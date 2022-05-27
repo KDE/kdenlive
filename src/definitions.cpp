@@ -206,32 +206,32 @@ GenTime SubtitledTime::end() const
     return m_endtime;
 }
 
-void SubtitledTime::setSubtitle(const QString& sub)
+void SubtitledTime::setSubtitle(const QString &sub)
 {
     m_subtitle = sub;
 }
 
-void SubtitledTime::setEndTime(const GenTime& end)
+void SubtitledTime::setEndTime(const GenTime &end)
 {
     m_endtime = end;
 }
 
-bool SubtitledTime::operator>(const SubtitledTime& op) const
+bool SubtitledTime::operator>(const SubtitledTime &op) const
 {
-    return(m_starttime > op.m_starttime && m_endtime > op.m_endtime && m_starttime > op.m_endtime);
+    return (m_starttime > op.m_starttime && m_endtime > op.m_endtime && m_starttime > op.m_endtime);
 }
 
-bool SubtitledTime::operator<(const SubtitledTime& op) const
+bool SubtitledTime::operator<(const SubtitledTime &op) const
 {
-    return(m_starttime < op.m_starttime && m_endtime < op.m_endtime && m_endtime < op.m_starttime);
+    return (m_starttime < op.m_starttime && m_endtime < op.m_endtime && m_endtime < op.m_starttime);
 }
 
-bool SubtitledTime::operator==(const SubtitledTime& op) const
+bool SubtitledTime::operator==(const SubtitledTime &op) const
 {
-   return(m_starttime == op.m_starttime && m_endtime == op.m_endtime);
+    return (m_starttime == op.m_starttime && m_endtime == op.m_endtime);
 }
 
-bool SubtitledTime::operator!=(const SubtitledTime& op) const
+bool SubtitledTime::operator!=(const SubtitledTime &op) const
 {
-    return(m_starttime != op.m_starttime && m_endtime != op.m_endtime);
+    return (m_starttime != op.m_starttime && m_endtime != op.m_endtime);
 }

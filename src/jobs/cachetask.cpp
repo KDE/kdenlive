@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <klocalizedstring.h>
 #include <set>
 
-CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject* object)
+CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject *object)
     : AbstractTask(owner, AbstractTask::CACHEJOB, object)
     , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : qRound(pCore->thumbProfile()->height() * pCore->getCurrentDar()))
     , m_thumbsCount(thumbsCount)
@@ -29,20 +29,18 @@ CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QO
     , m_out(out)
 {
     if (m_fullWidth % 2 > 0) {
-        m_fullWidth ++;
+        m_fullWidth++;
     }
 }
 
-CacheTask::~CacheTask()
-{
-}
+CacheTask::~CacheTask() {}
 
-void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, QObject* object, bool force)
+void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, QObject *object, bool force)
 {
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
         return;
     }
-    CacheTask* task = new CacheTask(owner, thumbsCount, in, out, object);
+    CacheTask *task = new CacheTask(owner, thumbsCount, in, out, object);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
@@ -50,9 +48,9 @@ void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, Q
     }
 }
 
-void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip)
+void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
 {
-        // Fetch thumbnail
+    // Fetch thumbnail
     if (binClip->clipType() != ClipType::Audio) {
         std::shared_ptr<Mlt::Producer> thumbProd(nullptr);
         int duration = m_out > 0 ? m_out - m_in : binClip->getFramePlaytime();
@@ -97,14 +95,13 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip)
 #endif
                 QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
                 if (!result.isNull() && !m_isCanceled) {
-                    qDebug()<<"==== CACHING FRAME: "<<i;
+                    qDebug() << "==== CACHING FRAME: " << i;
                     ThumbnailCache::get()->storeThumbnail(clipId, i, result, true);
                 }
             }
         }
     }
 }
-
 
 void CacheTask::run()
 {

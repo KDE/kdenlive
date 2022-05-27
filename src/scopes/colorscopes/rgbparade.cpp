@@ -122,11 +122,10 @@ QImage RGBParade::renderHUD(uint)
             valY = scopeRect().height() - bottom;
         }
 
-    int val = 255 + int(255. * (1 - y) / (scopeRect().height() - RGBParadeGenerator::distBottom));
-	if((val >= 0) && (val <= 255)) {
-        	davinci.drawText(x, valY, QVariant(val).toString());
-	}
-
+        int val = 255 + int(255. * (1 - y) / (scopeRect().height() - RGBParadeGenerator::distBottom));
+        if ((val >= 0) && (val <= 255)) {
+            davinci.drawText(x, valY, QVariant(val).toString());
+        }
     }
 
     emit signalHUDRenderingFinished(1, 1);

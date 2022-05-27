@@ -65,7 +65,7 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         connect(audioScope, &AbstractScopeWidget::requestAutoRefresh, this, &ScopeManager::slotCheckActiveScopes);
         if (audioScopeWidget != nullptr) {
             connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
-            connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, [this, audioScope](){slotRequestFrame(QString(audioScope->widgetName()));});
+            connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, [this, audioScope]() { slotRequestFrame(QString(audioScope->widgetName())); });
         }
 
         added = true;
@@ -96,7 +96,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         connect(colorScope, &AbstractScopeWidget::signalScopeRenderingFinished, this, &ScopeManager::slotScopeReady);
         if (colorScopeWidget != nullptr) {
             connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
-            connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, [this, colorScope](){slotRequestFrame(QString(colorScope->widgetName()));});
+            connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, [this, colorScope]() { slotRequestFrame(QString(colorScope->widgetName())); });
         }
 
         added = true;

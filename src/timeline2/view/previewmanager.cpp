@@ -18,8 +18,8 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QCollator>
-#include <QProcess>
 #include <QMutexLocker>
+#include <QProcess>
 #include <QStandardPaths>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
@@ -36,7 +36,6 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     m_previewGatherTimer.setInterval(200);
     QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &PreviewManager::processEnded);
 
-
     // Find path for Kdenlive renderer
 #ifdef Q_OS_WIN
     m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
@@ -46,7 +45,8 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            KMessageBox::sorry(pCore->window(), i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
+            KMessageBox::sorry(pCore->window(),
+                               i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
     connect(this, &PreviewManager::abortPreview, &m_previewProcess, &QProcess::kill, Qt::DirectConnection);
@@ -160,7 +160,6 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
                 m_previewTrack->insert_at(position, clip.get(), 1);
             } else {
                 dirtyChunks << position;
-
             }
         }
     }
@@ -212,14 +211,14 @@ void PreviewManager::reconnectTrack()
         m_tractor->insert_track(*m_previewTrack, m_previewTrackIndex);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex));
         tk->set("hide", 2);
-        //tk->set("id", "timeline_preview");
+        // tk->set("id", "timeline_preview");
         increment++;
     }
     if (m_overlayTrack) {
         m_tractor->insert_track(*m_overlayTrack, m_previewTrackIndex + increment);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex + increment));
         tk->set("hide", 2);
-        //tk->set("id", "timeline_overlay");
+        // tk->set("id", "timeline_overlay");
     }
 }
 
@@ -548,17 +547,16 @@ void PreviewManager::startPreviewRender()
             const QString final = doc.toString().toUtf8();
             QSaveFile file(sceneList);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qDebug()<<"//////  ERROR writing to file: " << sceneList;
+                qDebug() << "//////  ERROR writing to file: " << sceneList;
                 return;
             }
             file.write(final.toUtf8());
             if (!file.commit()) {
-                qDebug()<<"Cannot write to file "<<sceneList;
+                qDebug() << "Cannot write to file " << sceneList;
                 return;
             }
         } else {
             pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
-
         }
         m_previewTimer.stop();
         doPreviewRender(sceneList);
@@ -595,7 +593,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
     QMutexLocker lock(&m_dirtyMutex);
     Q_ASSERT(m_previewProcess.state() == QProcess::NotRunning);
     std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
-    qDebug()<<":: got dirty chks: "<<m_dirtyChunks;
+    qDebug() << ":: got dirty chks: " << m_dirtyChunks;
     const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     m_chunksToRender = m_dirtyChunks.count();
     m_processedChunks = 0;
@@ -678,7 +676,8 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
     m_previewGatherTimer.stop();
     bool stopPreview = m_previewProcess.state() == QProcess::Running;
-    if (m_renderedChunks.isEmpty() || ((workingPreview < m_renderedChunks.first().toInt() || workingPreview > m_renderedChunks.last().toInt()) && (end < m_renderedChunks.first().toInt() || start > m_renderedChunks.last().toInt()))) {
+    if (m_renderedChunks.isEmpty() || ((workingPreview < m_renderedChunks.first().toInt() || workingPreview > m_renderedChunks.last().toInt()) &&
+                                       (end < m_renderedChunks.first().toInt() || start > m_renderedChunks.last().toInt()))) {
         // invalidated zone is not in the preview zone, don't stop process
         stopPreview = false;
     }

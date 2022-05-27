@@ -40,7 +40,6 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     setCursor(Qt::CrossCursor);
 }
 
-
 void WheelContainer::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
 {
     m_sizeFactor = factor;
@@ -53,7 +52,7 @@ NegQColor WheelContainer::color() const
     return m_color;
 }
 
-void WheelContainer::setColor(const QList <double> &values)
+void WheelContainer::setColor(const QList<double> &values)
 {
     const NegQColor color = NegQColor::fromRgbF(values.at(0) / m_sizeFactor, values.at(1) / m_sizeFactor, values.at(2) / m_sizeFactor);
     m_color = color;
@@ -108,11 +107,11 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        qDebug()<<"== CLICK VALIE: "<<value;
+        qDebug() << "== CLICK VALIE: " << value;
         if (!qFuzzyCompare(m_zeroShift, 0.)) {
             value = value - m_zeroShift;
         }
-        qDebug()<<"== CLICK VALIE AFTER SHIFT: "<<value<<", SIZE F: "<<m_sizeFactor;
+        qDebug() << "== CLICK VALIE AFTER SHIFT: " << value << ", SIZE F: " << m_sizeFactor;
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
     return {};
@@ -132,7 +131,7 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
 {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     if (m_sliderRegion.contains(event->pos())) {
-# else
+#else
     if (m_sliderRegion.contains(event->position().toPoint())) {
 #endif
         double y = m_color.valueF();
@@ -141,7 +140,7 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         } else {
             y += event->angleDelta().y() > 0 ? 0.04 : -0.04;
         }
-        m_color.setValueF(qBound(-m_zeroShift, y, 1. - m_zeroShift)); 
+        m_color.setValueF(qBound(-m_zeroShift, y, 1. - m_zeroShift));
         changeColor(m_color);
     } else {
         QWidget::wheelEvent(event);
@@ -250,9 +249,9 @@ const QString WheelContainer::getParamValues() const
            QLatin1Char(',') + QString::number(m_color.blueF() * m_sizeFactor, 'f', 3);
 }
 
-const QList <double> WheelContainer::getNiceParamValues() const
+const QList<double> WheelContainer::getNiceParamValues() const
 {
-    return {m_color.redF()* m_sizeFactor, m_color.greenF()* m_sizeFactor , m_color.blueF()* m_sizeFactor};
+    return {m_color.redF() * m_sizeFactor, m_color.greenF() * m_sizeFactor, m_color.blueF() * m_sizeFactor};
 }
 
 void WheelContainer::paintEvent(QPaintEvent *event)
@@ -264,7 +263,7 @@ void WheelContainer::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawImage(0, 0, m_image);
     // painter.drawRect(0, 0, width(), height());
-    //painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + QLatin1Char(' ') + getParamValues());
+    // painter.drawText(m_margin, wheelSize() + m_unitSize - m_margin, m_name + QLatin1Char(' ') + getParamValues());
     drawWheelDot(painter);
     drawSliderBar(painter);
     //    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
@@ -301,7 +300,7 @@ void WheelContainer::drawWheel()
     QBrush saturationBrush(radialGradient);
     painter.setBrush(saturationBrush);
     painter.drawEllipse(QPointF(0, 0), r / 2 - m_margin, r / 2 - m_margin);
-    
+
     painter.setBrush(Qt::gray);
     painter.setOpacity(0.4);
     painter.drawEllipse(QPointF(0, 0), r / 2 - m_unitSize * .6, r / 2 - m_unitSize * .6);
@@ -365,7 +364,6 @@ double WheelContainer::yForColor()
     return m_margin + value * h;
 }
 
-
 void WheelContainer::drawSliderBar(QPainter &painter)
 {
     qreal value = 1.0 - m_color.valueF();
@@ -393,7 +391,6 @@ void WheelContainer::changeColor(const NegQColor &color)
     update();
     emit colorChange(m_color);
 }
-
 
 ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
     : QWidget(parent)
@@ -435,8 +432,8 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
     hb->setContentsMargins(0, 0, 0, 0);
     lay->addLayout(hb);
     m_container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    connect(m_container, &WheelContainer::colorChange, this, [&] (const NegQColor &col) {
-        QList <double> vals = m_container->getNiceParamValues();
+    connect(m_container, &WheelContainer::colorChange, this, [&](const NegQColor &col) {
+        QList<double> vals = m_container->getNiceParamValues();
         m_redEdit->blockSignals(true);
         m_greenEdit->blockSignals(true);
         m_blueEdit->blockSignals(true);
@@ -448,20 +445,16 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
         m_blueEdit->blockSignals(false);
         emit colorChange(col);
     });
-    connect(m_redEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]() {
-        m_container->setRedColor(m_redEdit->value());
-    });
-    connect(m_greenEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]() {
-        m_container->setGreenColor(m_greenEdit->value());
-    });
-    connect(m_blueEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&]() {
-        m_container->setBlueColor(m_blueEdit->value());
-    });
+    connect(m_redEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            [&]() { m_container->setRedColor(m_redEdit->value()); });
+    connect(m_greenEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            [&]() { m_container->setGreenColor(m_greenEdit->value()); });
+    connect(m_blueEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
+            [&]() { m_container->setBlueColor(m_blueEdit->value()); });
     setMinimumHeight(m_wheelName->height() + m_container->minimumHeight() + m_redEdit->height());
     setMaximumWidth(m_container->maximumWidth());
     setMinimumWidth(3 * m_redEdit->sizeHint().width());
 }
-
 
 NegQColor ColorWheel::color() const
 {
@@ -499,4 +492,3 @@ void ColorWheel::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
     m_greenEdit->setSingleStep(.01);
     m_blueEdit->setSingleStep(.01);
 }
-

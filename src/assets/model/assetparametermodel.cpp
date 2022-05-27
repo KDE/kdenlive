@@ -12,7 +12,6 @@
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
 #include <QDir>
-#include <QDir>
 #include <QDirIterator>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -21,7 +20,7 @@
 #define DEBUG_LOCALE false
 
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
-                                         const QString& originalDecimalPoint, QObject *parent)
+                                         const QString &originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
@@ -127,53 +126,53 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             bool converted = true;
             QString originalValue(value);
             switch (currentRow.type) {
-                case ParamType::KeyframeParam:
-                case ParamType::Position:
-                    // Fix values like <position>=1,5
-                    value.replace(QRegularExpression(R"((=\d+),(\d+))"), "\\1.\\2");
-                    break;
-                case ParamType::AnimatedRect:
-                    // Fix values like <position>=50 20 1920 1080 0,75
-                    value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
-                    break;
-                case ParamType::ColorWheel:
-                    // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
-                case ParamType::Double:
-                case ParamType::Hidden:
-                case ParamType::List:
-                case ParamType::ListWithDependency:
-                    // Despite its name, a list type parameter is a single value *chosen from* a list.
-                    // If it contains a non-“.” decimal separator, it is very likely wrong.
-                    // Fall-through, treat like Double
-                case ParamType::Bezier_spline:
-                    value.replace(originalDecimalPoint, ".");
-                    break;
-                case ParamType::Bool:
-                case ParamType::Color:
-                case ParamType::Fontfamily:
-                case ParamType::Keywords:
-                case ParamType::Readonly:
-                case ParamType::RestrictedAnim: // Fine because unsupported
-                case ParamType::Animated: // Fine because unsupported
-                case ParamType::Addedgeometry: // Fine because unsupported
-                case ParamType::Url:
-                case ParamType::UrlList:
-                    // All fine
-                    converted = false;
-                    break;
-                case ParamType::Curve:
-                case ParamType::Geometry:
-                case ParamType::Switch:
-                case ParamType::MultiSwitch:
-                case ParamType::Wipe:
-                    // Pretty sure that those are fine
-                    converted = false;
-                    break;
-                case ParamType::Roto_spline: // Not sure because cannot test
-                case ParamType::Filterjob:
-                    // Not sure if fine
-                    converted = false;
-                    break;
+            case ParamType::KeyframeParam:
+            case ParamType::Position:
+                // Fix values like <position>=1,5
+                value.replace(QRegularExpression(R"((=\d+),(\d+))"), "\\1.\\2");
+                break;
+            case ParamType::AnimatedRect:
+                // Fix values like <position>=50 20 1920 1080 0,75
+                value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
+                break;
+            case ParamType::ColorWheel:
+                // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
+            case ParamType::Double:
+            case ParamType::Hidden:
+            case ParamType::List:
+            case ParamType::ListWithDependency:
+                // Despite its name, a list type parameter is a single value *chosen from* a list.
+                // If it contains a non-“.” decimal separator, it is very likely wrong.
+                // Fall-through, treat like Double
+            case ParamType::Bezier_spline:
+                value.replace(originalDecimalPoint, ".");
+                break;
+            case ParamType::Bool:
+            case ParamType::Color:
+            case ParamType::Fontfamily:
+            case ParamType::Keywords:
+            case ParamType::Readonly:
+            case ParamType::RestrictedAnim: // Fine because unsupported
+            case ParamType::Animated:       // Fine because unsupported
+            case ParamType::Addedgeometry:  // Fine because unsupported
+            case ParamType::Url:
+            case ParamType::UrlList:
+                // All fine
+                converted = false;
+                break;
+            case ParamType::Curve:
+            case ParamType::Geometry:
+            case ParamType::Switch:
+            case ParamType::MultiSwitch:
+            case ParamType::Wipe:
+                // Pretty sure that those are fine
+                converted = false;
+                break;
+            case ParamType::Roto_spline: // Not sure because cannot test
+            case ParamType::Filterjob:
+                // Not sure if fine
+                converted = false;
+                break;
             }
             if (converted) {
                 if (value != originalValue) {
@@ -239,8 +238,9 @@ QStringList AssetParameterModel::getKeyframableParameters() const
     QStringList paramNames;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect || m_params.at(name).type == ParamType::ColorWheel) {
-            //addKeyframeParam(index(ix, 0));
+        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
+            m_params.at(name).type == ParamType::ColorWheel) {
+            // addKeyframeParam(index(ix, 0));
             paramNames << name;
         }
         ix++;
@@ -352,9 +352,9 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
                 if (km) {
                     km->refresh();
                 } else {
-                    qDebug()<<"====ERROR KFMODEL NOT FOUND FOR: "<<name<<", "<<paramIndex;
+                    qDebug() << "====ERROR KFMODEL NOT FOUND FOR: " << name << ", " << paramIndex;
                 }
-                //m_keyframes->refresh();
+                // m_keyframes->refresh();
             }
         } else {
             m_fixedParams[name] = paramValue;
@@ -432,36 +432,34 @@ AssetParameterModel::~AssetParameterModel() = default;
 
 QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
 {
-    const QVector<int> bypassRoles = {
-        AssetParameterModel::InRole,
-        AssetParameterModel::OutRole,
-        AssetParameterModel::ParentInRole,
-        AssetParameterModel::ParentDurationRole,
-        AssetParameterModel::ParentPositionRole,
-        AssetParameterModel::HideKeyframesFirstRole
-    };
+    const QVector<int> bypassRoles = {AssetParameterModel::InRole,
+                                      AssetParameterModel::OutRole,
+                                      AssetParameterModel::ParentInRole,
+                                      AssetParameterModel::ParentDurationRole,
+                                      AssetParameterModel::ParentPositionRole,
+                                      AssetParameterModel::HideKeyframesFirstRole};
 
     if (bypassRoles.contains(role)) {
         switch (role) {
-            case InRole:
-                return m_asset->get_int("in");
-            case OutRole:
-                return m_asset->get_int("out");
-            case ParentInRole:
-                return pCore->getItemIn(m_ownerId);
-            case ParentDurationRole:
-                if (m_asset->get_int("kdenlive:force_in_out") == 1) {
-                    // Zone effect, return effect length
-                    return m_asset->get_int("out") - m_asset->get_int("in");
-                }
-                return pCore->getItemDuration(m_ownerId);
-            case ParentPositionRole:
-                return pCore->getItemPosition(m_ownerId);
-            case HideKeyframesFirstRole:
-                return m_hideKeyframesByDefault;
-            default:
-                qDebug()<<"WARNING; UNHANDLED DATA: "<<role;
-                return QVariant();
+        case InRole:
+            return m_asset->get_int("in");
+        case OutRole:
+            return m_asset->get_int("out");
+        case ParentInRole:
+            return pCore->getItemIn(m_ownerId);
+        case ParentDurationRole:
+            if (m_asset->get_int("kdenlive:force_in_out") == 1) {
+                // Zone effect, return effect length
+                return m_asset->get_int("out") - m_asset->get_int("in");
+            }
+            return pCore->getItemDuration(m_ownerId);
+        case ParentPositionRole:
+            return pCore->getItemPosition(m_ownerId);
+        case HideKeyframesFirstRole:
+            return m_hideKeyframesByDefault;
+        default:
+            qDebug() << "WARNING; UNHANDLED DATA: " << role;
+            return QVariant();
         }
     }
     if (index.row() < 0 || index.row() >= m_rows.size() || !index.isValid()) {
@@ -545,7 +543,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
                 values << val;
             }
             if (!valueFound) {
-                return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element) : element.attribute(QStringLiteral("value")));
+                return (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
+                                                                            : element.attribute(QStringLiteral("value")));
             }
             return values.join(QLatin1Char('\n'));
         }
@@ -627,10 +626,9 @@ const QString AssetParameterModel::framesToTime(int t) const
     return m_asset->frames_to_time(t, mlt_time_clock);
 }
 
-
 int AssetParameterModel::rowCount(const QModelIndex &parent) const
 {
-    //qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
+    // qDebug() << "===================================================== Requested rowCount" << parent << m_rows.size();
     if (parent.isValid()) return 0;
     return m_rows.size();
 }
@@ -733,9 +731,10 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     if (type == ParamType::UrlList && attribute == QLatin1String("default")) {
         QString values = element.attribute(QStringLiteral("paramlist"));
         if (values == QLatin1String("%lutPaths")) {
-            QString filter = element.attribute(QStringLiteral("filter"));;
-            filter.remove(0, filter.indexOf(QLatin1String("("))+1);
-            filter.remove(filter.indexOf(QLatin1String(")"))-1, -1);
+            QString filter = element.attribute(QStringLiteral("filter"));
+            ;
+            filter.remove(0, filter.indexOf(QLatin1String("(")) + 1);
+            filter.remove(filter.indexOf(QLatin1String(")")) - 1, -1);
             QStringList fileExt = filter.split(QStringLiteral(" "));
             // check for Kdenlive installed luts files
             QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
@@ -758,7 +757,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     int width = profile->width();
     int height = profile->height();
     QSize frameSize = pCore->getItemFrameSize(owner);
-    if(type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
+    if (type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
         int contentHeight = height;
         int contentWidth = width;
         double sourceDar = frameSize.width() / frameSize.height();
@@ -777,8 +776,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
-        double fitScale = qMin(double(width) / double(frameSize.width()),
-                               double(height) / double(frameSize.height()));
+        double fitScale = qMin(double(width) / double(frameSize.width()), double(height) / double(frameSize.height()));
         // replace symbols in the double parameter
         content.replace(QLatin1String("%maxWidth"), QString::number(width))
             .replace(QLatin1String("%maxHeight"), QString::number(height))
@@ -796,11 +794,11 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                 QStringList numbers = content.split(QLatin1Char(' '));
                 content.clear();
                 int ix = 0;
-                for ( QString &val : numbers) {
+                for (QString &val : numbers) {
                     if (val.endsWith(QLatin1Char('%'))) {
                         val.chop(1);
-                        double n = val.toDouble()/100.;
-                        if (ix %2 == 0) {
+                        double n = val.toDouble() / 100.;
+                        if (ix % 2 == 0) {
                             n *= width;
                         } else {
                             n *= height;
@@ -812,8 +810,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                     }
                 }
             }
-        }
-        else if (type == ParamType::Double || type == ParamType::Hidden) {
+        } else if (type == ParamType::Double || type == ParamType::Hidden) {
             // Use a Mlt::Properties to parse mathematical operators
             Mlt::Properties p;
             p.set("eval", content.prepend(QLatin1Char('@')).toLatin1().constData());
@@ -856,7 +853,7 @@ QVariant AssetParameterModel::parseSubAttributes(const QString &attribute, const
     QVariantList jobDataList;
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement currentParameter = nodeList.item(i).toElement();
-        QStringList jobData {currentParameter.attribute(QStringLiteral("name")), currentParameter.text()};
+        QStringList jobData{currentParameter.attribute(QStringLiteral("name")), currentParameter.text()};
         jobDataList << jobData;
     }
     return jobDataList;
@@ -913,7 +910,8 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
             QJsonObject currentParam;
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
-            currentParam.insert(QLatin1String("value"), fixed.second.type() == QVariant::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
+            currentParam.insert(QLatin1String("value"),
+                                fixed.second.type() == QVariant::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -936,30 +934,32 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
     QString x, y, w, h;
     int rectIn = 0, rectOut = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::Roto_spline) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect &&
+            param.second.type != ParamType::Roto_spline) {
             continue;
         }
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
 
-        if(param.first.contains(QLatin1String("Position X"))) {
+        if (param.first.contains(QLatin1String("Position X"))) {
             x = param.second.value.toString();
             rectIn = data(ix, AssetParameterModel::ParentInRole).toInt();
             rectOut = rectIn + data(ix, AssetParameterModel::ParentDurationRole).toInt();
         }
-        if(param.first.contains(QLatin1String("Position Y"))) {
+        if (param.first.contains(QLatin1String("Position Y"))) {
             y = param.second.value.toString();
         }
-        if(param.first.contains(QLatin1String("Size X"))) {
+        if (param.first.contains(QLatin1String("Size X"))) {
             w = param.second.value.toString();
         }
-        if(param.first.contains(QLatin1String("Size Y"))) {
+        if (param.first.contains(QLatin1String("Size Y"))) {
             h = param.second.value.toString();
         }
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
-        currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble()) : QJsonValue(param.second.value.toString()));
+        currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble())
+                                                                                                  : QJsonValue(param.second.value.toString()));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -979,12 +979,12 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         currentParam.insert(QLatin1String("opacity"), QJsonValue(opacity));
         list.push_back(currentParam);
     }
-    if(!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
+    if (!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
         QJsonObject currentParam;
         currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
         int size = x.split(";").length();
         QString value;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             QSize frameSize = pCore->getCurrentFrameSize();
             QString pos = x.split(";").at(i).split("=").at(0);
             double xval = x.split(";").at(i).split("=").at(1).toDouble();
@@ -995,7 +995,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
             wval = wval * frameSize.width() * 2;
             double hval = h.split(";").at(i).split("=").at(1).toDouble();
             hval = hval * frameSize.height() * 2;
-            value.append(QString("%1=%2 %3 %4 %5 1;").arg(pos).arg(int(xval - wval/2)).arg(int(yval - hval/2)).arg(int(wval)).arg(int(hval)));
+            value.append(QString("%1=%2 %3 %4 %5 1;").arg(pos).arg(int(xval - wval / 2)).arg(int(yval - hval / 2)).arg(int(wval)).arg(int(hval)));
         }
         currentParam.insert(QLatin1String("value"), value);
         currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
@@ -1011,7 +1011,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
 QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
 {
     QJsonArray list;
-    if(!m_keyframes) {
+    if (!m_keyframes) {
         return QJsonDocument(list);
     }
 
@@ -1021,7 +1021,8 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             auto value = m_keyframes->getInterpolatedValue(pos, ix);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
-            currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+            currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(
+                                                            value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1042,7 +1043,8 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
     double x, y, w, h;
     int count = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect && param.second.type != ParamType::ColorWheel) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect &&
+            param.second.type != ParamType::ColorWheel) {
             continue;
         }
 
@@ -1068,7 +1070,8 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         }
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
-        currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+        currentParam.insert(QLatin1String("value"),
+                            QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1085,7 +1088,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         list.push_back(currentParam);
     }
 
-    if(count == 4) {
+    if (count == 4) {
         QJsonObject currentParam;
         currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
         QSize frameSize = pCore->getCurrentFrameSize();
@@ -1093,7 +1096,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         y = y * frameSize.height();
         w = w * frameSize.width() * 2;
         h = h * frameSize.height() * 2;
-        currentParam.insert(QLatin1String("value"), QString("0=%1 %2 %3 %4 1;").arg(int(x - x/2)).arg(int(y - y/2)).arg(int(w)).arg(int(h)));
+        currentParam.insert(QLatin1String("value"), QString("0=%1 %2 %3 %4 1;").arg(int(x - x / 2)).arg(int(y - y / 2)).arg(int(w)).arg(int(h)));
         currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
         currentParam.insert(QLatin1String("min"), QJsonValue(0));
         currentParam.insert(QLatin1String("max"), QJsonValue(0));

@@ -7,8 +7,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include "assets/keyframes/model/keyframemonitorhelper.hpp"
 #include "../../../bpoint.h"
+#include "assets/keyframes/model/keyframemonitorhelper.hpp"
 #include <QPersistentModelIndex>
 #include <QVariant>
 

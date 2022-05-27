@@ -14,7 +14,7 @@
 #include "timelinewidget.h"
 
 TimelineContainer::TimelineContainer(QWidget *parent)
-    :QWidget(parent)
+    : QWidget(parent)
 {
 }
 

@@ -31,17 +31,18 @@ RenderServer::~RenderServer() {}
 
 void RenderServer::jobConnected()
 {
-    QLocalSocket* socket = m_server.nextPendingConnection();
+    QLocalSocket *socket = m_server.nextPendingConnection();
     connect(socket, &QLocalSocket::readyRead, this, &RenderServer::jobSent);
 }
 
-void RenderServer::jobSent() {
-    QLocalSocket* socket = reinterpret_cast<QLocalSocket*>(sender());
+void RenderServer::jobSent()
+{
+    QLocalSocket *socket = reinterpret_cast<QLocalSocket *>(sender());
     QTextStream text(socket);
     QString block, line;
-    while(text.readLineInto(&line)) {
+    while (text.readLineInto(&line)) {
         block.append(line);
-        if(line == QLatin1String("}")) { // end of json object
+        if (line == QLatin1String("}")) { // end of json object
             QJsonParseError error;
             const QJsonObject json = QJsonDocument::fromJson(block.toUtf8(), &error).object();
             if (error.error != QJsonParseError::NoError) {
@@ -52,16 +53,12 @@ void RenderServer::jobSent() {
                 m_jobSocket[json["url"].toString()] = socket;
             }
             if (json.contains("setRenderingProgress")) {
-                emit setRenderingProgress(
-                            json["setRenderingProgress"]["url"].toString(),
-                            json["setRenderingProgress"]["progress"].toInt(),
-                            json["setRenderingProgress"]["frame"].toInt());
+                emit setRenderingProgress(json["setRenderingProgress"]["url"].toString(), json["setRenderingProgress"]["progress"].toInt(),
+                                          json["setRenderingProgress"]["frame"].toInt());
             }
             if (json.contains("setRenderingFinished")) {
-                emit setRenderingFinished(
-                            json["setRenderingFinished"]["url"].toString(),
-                            json["setRenderingFinished"]["status"].toInt(),
-                            json["setRenderingFinished"]["error"].toString());
+                emit setRenderingFinished(json["setRenderingFinished"]["url"].toString(), json["setRenderingFinished"]["status"].toInt(),
+                                          json["setRenderingFinished"]["error"].toString());
                 m_jobSocket.remove(json["setRenderingFinished"]["url"].toString());
             }
             block.clear();
@@ -69,7 +66,8 @@ void RenderServer::jobSent() {
     }
 }
 
-void RenderServer::abortJob(const QString &job) {
+void RenderServer::abortJob(const QString &job)
+{
     if (m_jobSocket.contains(job)) {
         m_jobSocket[job]->write("abort");
         m_jobSocket[job]->flush();

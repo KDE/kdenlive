@@ -187,3 +187,9 @@ elseif(BUILD_FUZZING)
     message(STATUS "Fuzzing build was requested but not enabled because compiler is ${CMAKE_CXX_COMPILER_ID} and not Clang")
 endif()
 
+# pre-commit hook
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.79.0")
+    include(KDEGitCommitHooks)
+    kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+endif()
+

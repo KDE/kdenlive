@@ -157,7 +157,7 @@ bool Xml::hasXmlProperty(const QDomElement &element, const QString &propertyName
 
 QMap<QString, QString> Xml::getXmlPropertyByWildcard(const QDomElement &element, const QString &propertyName)
 {
-    QMap <QString, QString> props;
+    QMap<QString, QString> props;
     QDomNodeList params = element.elementsByTagName(QStringLiteral("property"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement e = params.item(i).toElement();

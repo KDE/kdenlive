@@ -32,8 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <monitor/monitor.h>
 #include <profiles/profilemodel.hpp>
 
-
-ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object)
+ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject *object)
     : AbstractTask(owner, AbstractTask::LOADJOB, object)
     , m_xml(xml)
     , m_in(in)
@@ -42,13 +41,12 @@ ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool t
 {
 }
 
-ClipLoadTask::~ClipLoadTask()
-{
-}
+ClipLoadTask::~ClipLoadTask() {}
 
-void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject* object, bool force, const std::function<void()> &readyCallBack)
+void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject *object, bool force,
+                         const std::function<void()> &readyCallBack)
 {
-    ClipLoadTask* task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
+    ClipLoadTask *task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         delete task;
         task = nullptr;
@@ -56,9 +54,7 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     if (task) {
         // Otherwise, start a new load task thread.
         task->m_isForce = force;
-        connect(task, &ClipLoadTask::taskDone, [readyCallBack]() {
-            QMetaObject::invokeMethod(qApp, [readyCallBack]{ readyCallBack();});
-        });
+        connect(task, &ClipLoadTask::taskDone, [readyCallBack]() { QMetaObject::invokeMethod(qApp, [readyCallBack] { readyCallBack(); }); });
         pCore->taskManager.startTask(owner.second, task);
     }
 }
@@ -116,7 +112,7 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
     if (*clipProfile.get() == *projectProfile.get()) {
         // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
         // Beware that "consumer" currently crashes on audio mixes!
-        //resource.prepend(QStringLiteral("xml:"));
+        // resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
         if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
@@ -124,7 +120,8 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
             loader.prepend(QStringLiteral("consumer:"));
             return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
         } else {
-            m_errorMessage = i18n("Playlist %1 has a different framerate (%2/%3fps), not supported.", resource, xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den());
+            m_errorMessage =
+                i18n("Playlist %1 has a different framerate (%2/%3fps), not supported.", resource, xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den());
             return nullptr;
         }
     }
@@ -225,17 +222,18 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
     }
 }
 
-void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer)
+void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::shared_ptr<Mlt::Producer> producer)
 {
     // Fetch thumbnail
-    qDebug()<<"===== \nREADY FOR THUMB"<<binClip->clipType()<<"\n\n=========";
+    qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType() << "\n\n=========";
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (producer->get_int("video_index") > -1) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hash(), QString::number(m_owner.second), frameNumber);
         if (!thumb.isNull()) {
             // Thumbnail found in cache
-            qDebug()<<"=== FOUND THUMB IN CACHe";
-            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,thumb), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,true));
+            qDebug() << "=== FOUND THUMB IN CACHe";
+            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, thumb), Q_ARG(int, m_in), Q_ARG(int, m_out),
+                                      Q_ARG(bool, true));
         } else {
             QString mltService = producer->get("mlt_service");
             const QString mltResource = producer->get("resource");
@@ -246,12 +244,12 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
             Mlt::Profile *profile = pCore->thumbProfile();
             if (mltService.startsWith(QLatin1String("xml"))) {
                 int profileWidth = profile->width();
-                int profileHeight= profile->height();
+                int profileHeight = profile->height();
                 thumbProd.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
                 profile->set_width(profileWidth);
                 profile->set_height(profileHeight);
             } else {
-                thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(),mltResource.toUtf8().constData()));
+                thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
             }
             if (thumbProd) {
                 thumbProd->set("audio_index", -1);
@@ -263,11 +261,11 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                 Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
                 thumbProd->set("audio_index", -1);
                 // Required to make get_playtime() return > 1
-                thumbProd->set("out", thumbProd->get_length() -1);
+                thumbProd->set("out", thumbProd->get_length() - 1);
                 thumbProd->attach(scaler);
                 thumbProd->attach(padder);
                 thumbProd->attach(converter);
-                qDebug()<<"===== \nSEEKING THUMB PROD\n\n=========";
+                qDebug() << "===== \nSEEKING THUMB PROD\n\n=========";
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
@@ -293,11 +291,13 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::s
                         QPainter p(&result);
                         p.setPen(Qt::white);
                         p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
-                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,false));
+                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
+                                                  Q_ARG(int, m_out), Q_ARG(bool, false));
                     } else if (binClip.get()) {
                         // We don't follow m_isCanceled there,
-                        qDebug()<<"=== GOT THUMB FOR: "<<m_in<<"x"<<m_out;
-                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage,result), Q_ARG(int,m_in), Q_ARG(int,m_out), Q_ARG(bool,false));
+                        qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out;
+                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
+                                                  Q_ARG(int, m_out), Q_ARG(bool, false));
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, false);
                     }
                 }
@@ -313,7 +313,7 @@ void ClipLoadTask::run()
         abort();
         return;
     }
-    //QThread::currentThread()->setPriority(QThread::HighestPriority);
+    // QThread::currentThread()->setPriority(QThread::HighestPriority);
     if (m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
@@ -325,7 +325,7 @@ void ClipLoadTask::run()
     m_running = true;
     emit pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
-    qDebug()<<"============STARTING LOAD TASK FOR: "<<resource<<"\n\n:::::::::::::::::::";
+    qDebug() << "============STARTING LOAD TASK FOR: " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
@@ -344,75 +344,74 @@ void ClipLoadTask::run()
         break;
     case ClipType::Text:
     case ClipType::TextTemplate: {
-            bool ok = false;
-            int producerLength = 0;
-            QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
-            if (pLength.isEmpty()) {
-                producerLength = m_xml.attribute(QStringLiteral("length")).toInt();
-            } else {
-                producerLength = pLength.toInt(&ok);
-            }
-            producer = loadResource(resource, QStringLiteral("kdenlivetitle:"));
-
-            if (!resource.isEmpty()) {
-                if (!ok) {
-                    producerLength = producer->time_to_frames(pLength.toUtf8().constData());
-                }
-                // Title from .kdenlivetitle file
-                QFile txtfile(resource);
-                QDomDocument txtdoc(QStringLiteral("titledocument"));
-                if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
-                    txtfile.close();
-                    if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
-                        duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
-                    } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
-                        duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
-                    }
-                }
-            } else {
-                QString xmlDuration = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:duration"));
-                duration = xmlDuration.toInt(&ok);
-                if (!ok) {
-                    // timecode duration
-                    duration = producer->time_to_frames(xmlDuration.toUtf8().constData());
-                }
-            }
-            qDebug()<<"===== GOT PRODUCER DURATION: "<<duration<<"; PROD: "<<producerLength;
-            if (duration <= 0) {
-                if (producerLength > 0) {
-                    duration = producerLength;
-                } else {
-                    duration = pCore->getDurationFromString(KdenliveSettings::title_duration());
-                }
-            }
-            if (producerLength <= 0) {
-                producerLength = duration;
-            }
-            producer->set("length", producerLength);
-            producer->set("kdenlive:duration", duration);
-            producer->set("out", producerLength - 1);
+        bool ok = false;
+        int producerLength = 0;
+        QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
+        if (pLength.isEmpty()) {
+            producerLength = m_xml.attribute(QStringLiteral("length")).toInt();
+        } else {
+            producerLength = pLength.toInt(&ok);
         }
-        break;
+        producer = loadResource(resource, QStringLiteral("kdenlivetitle:"));
+
+        if (!resource.isEmpty()) {
+            if (!ok) {
+                producerLength = producer->time_to_frames(pLength.toUtf8().constData());
+            }
+            // Title from .kdenlivetitle file
+            QFile txtfile(resource);
+            QDomDocument txtdoc(QStringLiteral("titledocument"));
+            if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
+                txtfile.close();
+                if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
+                    duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
+                } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
+                    duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
+                }
+            }
+        } else {
+            QString xmlDuration = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:duration"));
+            duration = xmlDuration.toInt(&ok);
+            if (!ok) {
+                // timecode duration
+                duration = producer->time_to_frames(xmlDuration.toUtf8().constData());
+            }
+        }
+        qDebug() << "===== GOT PRODUCER DURATION: " << duration << "; PROD: " << producerLength;
+        if (duration <= 0) {
+            if (producerLength > 0) {
+                duration = producerLength;
+            } else {
+                duration = pCore->getDurationFromString(KdenliveSettings::title_duration());
+            }
+        }
+        if (producerLength <= 0) {
+            producerLength = duration;
+        }
+        producer->set("length", producerLength);
+        producer->set("kdenlive:duration", duration);
+        producer->set("out", producerLength - 1);
+    } break;
     case ClipType::QText:
         producer = loadResource(resource, QStringLiteral("qtext:"));
         break;
     case ClipType::Qml: {
-            bool ok;
-            int producerLength = 0;
-            QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
-            if (pLength.isEmpty()) {
-                producerLength = m_xml.attribute(QStringLiteral("length")).toInt();
-            } else {
-                producerLength = pLength.toInt(&ok);
-            }
-            if (producerLength <= 0) {
-                producerLength = pCore->getDurationFromString(KdenliveSettings::title_duration());
-            }
-            producer = loadResource(resource, QStringLiteral("qml:"));
-            producer->set("length", producerLength);
-            producer->set("kdenlive:duration", producerLength);
-            producer->set("out", producerLength - 1);
-            break;
+        bool ok;
+        int producerLength = 0;
+        QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
+        if (pLength.isEmpty()) {
+            producerLength = m_xml.attribute(QStringLiteral("length")).toInt();
+        } else {
+            producerLength = pLength.toInt(&ok);
+        }
+        if (producerLength <= 0) {
+            producerLength = pCore->getDurationFromString(KdenliveSettings::title_duration());
+        }
+        producer = loadResource(resource, QStringLiteral("qml:"));
+        producer->set("length", producerLength);
+        producer->set("kdenlive:duration", producerLength);
+        producer->set("out", producerLength - 1);
+        break;
     }
     case ClipType::Playlist: {
         producer = loadPlaylist(resource);
@@ -431,17 +430,17 @@ void ClipLoadTask::run()
                     bool ok = false;
                     int offset = offsetData.toInt(&ok);
                     if (ok) {
-                        qDebug()<<" / / / FIXING OFFSET DATA: "<<offset;
+                        qDebug() << " / / / FIXING OFFSET DATA: " << offset;
                         offset = producer->get_playtime() - offset - 1;
                         producer->set("out", offset - 1);
                         producer->set("length", offset);
                         producer->set("kdenlive:duration", offset);
                     }
                 } else {
-                    qDebug()<<"// NO OFFSET DAT FOUND\n\n";
+                    qDebug() << "// NO OFFSET DAT FOUND\n\n";
                 }
             } else {
-                qDebug()<<":_______\n______<nEMPTY PLAYLIST\n----";
+                qDebug() << ":_______\n______<nEMPTY PLAYLIST\n----";
             }
         }
         break;
@@ -474,7 +473,8 @@ void ClipLoadTask::run()
         if (producer) {
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                  Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         abort();
         return;
@@ -497,7 +497,10 @@ void ClipLoadTask::run()
             }
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile), Q_ARG(QString, QString()), Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
+        QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
+                                  Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, pCore->bin()->shouldCheckProfile),
+                                  Q_ARG(QString, QString()),
+                                  Q_ARG(QString, i18n("Duration of file <b>%1</b> cannot be determined.", QFileInfo(resource).fileName())));
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
         }
@@ -522,16 +525,15 @@ void ClipLoadTask::run()
     QMimeDatabase db;
     const QString mime = db.mimeTypeForFile(resource).name();
     const bool isGif = mime.contains(QLatin1String("image/gif"));
-    if ((duration == 0 && (
-                type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText
-                || type == ClipType::Color || type == ClipType::Image || type == ClipType::SlideShow))
-            || (isGif && mltService == QLatin1String("qimage"))) {
+    if ((duration == 0 && (type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Color ||
+                           type == ClipType::Image || type == ClipType::SlideShow)) ||
+        (isGif && mltService == QLatin1String("qimage"))) {
         int length;
         if (m_xml.hasAttribute(QStringLiteral("length"))) {
             length = m_xml.attribute(QStringLiteral("length")).toInt();
             clipOut = qMax(1, length - 1);
         } else {
-            if(isGif && mltService == QLatin1String("qimage")) {
+            if (isGif && mltService == QLatin1String("qimage")) {
                 length = pCore->getDurationFromString(KdenliveSettings::image_duration());
                 clipOut = qMax(1, length - 1);
             } else {
@@ -541,7 +543,6 @@ void ClipLoadTask::run()
                     length = clipOut == 1 ? 1 : clipOut + 1;
                 }
             }
-
         }
         // Pass duration if it was forced
         if (m_xml.hasAttribute(QStringLiteral("duration"))) {
@@ -638,7 +639,9 @@ void ClipLoadTask::run()
                     cType = ClipType::AV;
                 }
             }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()), Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
+                                      Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, QString()),
+                                      Q_ARG(QString, i18n("File <b>%1</b> is not seekable.", QFileInfo(resource).fileName())));
         }
 
         // check if there are multiple streams
@@ -696,7 +699,10 @@ void ClipLoadTask::run()
                     cType = ClipType::AV;
                 }
             }
-            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource), Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile), Q_ARG(QString, adjustedFpsString), Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
+            QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
+                                      Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(int, cType), Q_ARG(bool, checkProfile),
+                                      Q_ARG(QString, adjustedFpsString),
+                                      Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
         }
 
         if (fps <= 0 && !m_isCanceled) {
@@ -717,7 +723,7 @@ void ClipLoadTask::run()
     if (!m_isCanceled) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
-            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>,producer), Q_ARG(bool,true));
+            QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, producer), Q_ARG(bool, true));
             if (checkProfile && !isVariableFrameRate && seekable) {
                 pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
@@ -738,7 +744,7 @@ void ClipLoadTask::abort()
     Fun redo = []() { return true; };
     m_progress = 100;
     pCore->taskManager.taskDone(m_owner.second, this);
-    qDebug()<<pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second))->clipUrl();
+    qDebug() << pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second))->clipUrl();
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
@@ -750,7 +756,6 @@ void ClipLoadTask::abort()
             } else {
                 // An existing clip just became invalid, mark it as missing.
                 binClip->setClipStatus(FileStatus::StatusMissing);
-                
             }
         }
     }

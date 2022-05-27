@@ -95,7 +95,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
     connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
-    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=] (ObjectId id, QPair <int, int>inOut, bool checked) {
+    connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=](ObjectId id, QPair<int, int> inOut, bool checked) {
         m_inOutButton->setChecked(checked);
         zoneFrame->setFixedHeight(checked ? frame->height() : 0);
         slotSwitch(m_collapse->isActive());
@@ -109,7 +109,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     });
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
-    
+
     // In /out effect button
     auto *layZone = new QHBoxLayout(zoneFrame);
     layZone->setContentsMargins(0, 0, 0, 0);
@@ -135,7 +135,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     layZone->addWidget(setOut);
     m_outPos = new TimecodeDisplay(pCore->timecode(), this);
     layZone->addWidget(m_outPos);
-    
+
     connect(setIn, &QToolButton::clicked, this, [=]() {
         if (m_model->getOwnerId().first == ObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
@@ -152,7 +152,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         }
         updateEffectZone();
     });
-    
+
     m_inOutButton = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-width")), i18n("Use effect zone"), this);
     m_inOutButton->setCheckable(true);
     inOutButton->setDefaultAction(m_inOutButton);
@@ -199,7 +199,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     lay->setSpacing(0);
     lay->addWidget(m_view);
     connect(keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
-        if(toggle) {
+        if (toggle) {
             keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
         } else {
             keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
@@ -383,7 +383,7 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     if (m_inOutButton->isChecked()) {
         emit showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
     } else {
-        emit showEffectZone(m_model->getOwnerId(), {0,0}, false);
+        emit showEffectZone(m_model->getOwnerId(), {0, 0}, false);
     }
 }
 
@@ -476,8 +476,7 @@ void CollapsibleEffectView::slotSaveEffect()
     QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
     QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
-    if (dialog.exec() == QDialog::Accepted)
-    {
+    if (dialog.exec() == QDialog::Accepted) {
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();
         if (name.trimmed().isEmpty()) {
@@ -490,7 +489,8 @@ void CollapsibleEffectView::slotSaveEffect()
         }
 
         if (dir.exists(name + QStringLiteral(".xml")))
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) ==
+                KMessageBox::No) {
                 return;
             }
 
@@ -524,15 +524,17 @@ void CollapsibleEffectView::slotSaveEffect()
         effect.removeAttribute(QStringLiteral("kdenlive_ix"));
         QString namedId = name;
         QString sourceId = effect.attribute("id");
-        // When saving an effect as custom, it might be necessary to keep track of the original 
+        // When saving an effect as custom, it might be necessary to keep track of the original
         // effect id as it is sometimes used in Kdenlive to trigger special behaviors
         if (sourceId.startsWith(QStringLiteral("fade_to_"))) {
             namedId.prepend(QStringLiteral("fade_to_"));
         } else if (sourceId.startsWith(QStringLiteral("fade_from_"))) {
             namedId.prepend(QStringLiteral("fade_from_"));
-        } if (sourceId.startsWith(QStringLiteral("fadein"))) {
+        }
+        if (sourceId.startsWith(QStringLiteral("fadein"))) {
             namedId.prepend(QStringLiteral("fadein_"));
-        } if (sourceId.startsWith(QStringLiteral("fadeout"))) {
+        }
+        if (sourceId.startsWith(QStringLiteral("fadeout"))) {
             namedId.prepend(QStringLiteral("fadeout_"));
         }
         effect.setAttribute(QStringLiteral("id"), namedId);
@@ -549,13 +551,13 @@ void CollapsibleEffectView::slotSaveEffect()
         effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
         QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 
-        if(!enteredDescription.trimmed().isEmpty()){
-                    QDomElement root = doc.documentElement();
-                    QDomElement nodelist = root.firstChildElement("description");
-                    QDomElement newNodeTag = doc.createElement(QString("description"));
-                    QDomText text = doc.createTextNode(enteredDescription);
-                    newNodeTag.appendChild(text);
-                    root.replaceChild(newNodeTag, nodelist);
+        if (!enteredDescription.trimmed().isEmpty()) {
+            QDomElement root = doc.documentElement();
+            QDomElement nodelist = root.firstChildElement("description");
+            QDomElement newNodeTag = doc.createElement(QString("description"));
+            QDomText text = doc.createTextNode(enteredDescription);
+            newNodeTag.appendChild(text);
+            root.replaceChild(newNodeTag, nodelist);
         }
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -567,7 +569,6 @@ void CollapsibleEffectView::slotSaveEffect()
         emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     }
 }
-
 
 QDomDocument CollapsibleEffectView::toXml() const
 {
@@ -597,7 +598,6 @@ void CollapsibleEffectView::slotResetEffect()
     m_view->resetValues();
 }
 
-
 void CollapsibleEffectView::updateHeight()
 {
     if (m_view->height() == widgetFrame->height()) {
@@ -618,8 +618,8 @@ void CollapsibleEffectView::switchCollapsed(int row)
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
     widgetFrame->setFixedHeight(collapse ? 0 : m_view->height());
-    zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 :frame->height());
-    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height()+ 2 * (contentsMargins().top() + decoframe->lineWidth()));
+    zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 : frame->height());
+    setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
     m_model->setCollapsed(collapse);
     emit switchHeight(m_model, height());
 }
@@ -636,7 +636,8 @@ void CollapsibleEffectView::setGroupIndex(int ix)
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
 }
 
-void CollapsibleEffectView::setGroupName(const QString &groupName){
+void CollapsibleEffectView::setGroupName(const QString &groupName)
+{
     Q_UNUSED(groupName)
     /*m_info.groupName = groupName;
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
@@ -908,29 +909,27 @@ void CollapsibleEffectView::switchInOut(bool checked)
     if (inOut.first == inOut.second || !checked) {
         ObjectId owner = m_model->getOwnerId();
         switch (owner.first) {
-            case ObjectType::TimelineClip:
-            {
-                int in = pCore->getItemIn(owner);
-                inOut = {in, in + pCore->getItemDuration(owner)};
-                break;
+        case ObjectType::TimelineClip: {
+            int in = pCore->getItemIn(owner);
+            inOut = {in, in + pCore->getItemDuration(owner)};
+            break;
+        }
+        case ObjectType::TimelineTrack:
+        case ObjectType::Master: {
+            if (!checked) {
+                inOut = {0, 0};
+            } else {
+                int in = pCore->getTimelinePosition();
+                inOut = {in, in + pCore->getDurationFromString(KdenliveSettings::transition_duration())};
             }
-            case ObjectType::TimelineTrack:
-            case ObjectType::Master:
-            {
-                if (!checked) {
-                    inOut = {0,0};
-                } else {
-                    int in = pCore->getTimelinePosition();
-                    inOut = {in, in + pCore->getDurationFromString(KdenliveSettings::transition_duration())};
-                }
-                break;
-            }
-            default:
-                qDebug()<<"== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: "<<int(owner.first);
-                break;
+            break;
+        }
+        default:
+            qDebug() << "== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: " << int(owner.first);
+            break;
         }
     }
-    qDebug()<<"==== SWITCHING IN / OUT: "<<inOut.first<<"-"<<inOut.second;
+    qDebug() << "==== SWITCHING IN / OUT: " << inOut.first << "-" << inOut.second;
     if (inOut.first > -1) {
         m_model->setInOut(effectName, inOut, checked, true);
         m_inPos->setValue(inOut.first);
@@ -941,7 +940,7 @@ void CollapsibleEffectView::switchInOut(bool checked)
 void CollapsibleEffectView::updateInOut(QPair<int, int> inOut, bool withUndo)
 {
     if (!m_inOutButton->isChecked()) {
-        qDebug()<<"=== CANNOT UPDATE ZONE ON EFFECT!!!";
+        qDebug() << "=== CANNOT UPDATE ZONE ON EFFECT!!!";
         return;
     }
     QString effectId = m_model->getAssetId();
@@ -975,4 +974,3 @@ void CollapsibleEffectView::addRemoveKeyframe()
 {
     emit m_view->addRemoveKeyframe();
 }
-

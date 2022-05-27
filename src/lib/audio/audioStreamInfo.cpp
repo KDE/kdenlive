@@ -41,15 +41,15 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
             if (channelDescription.isEmpty()) {
                 channelDescription = QString("%1|").arg(streamIndex++);
                 switch (chan) {
-                    case 1:
-                        channelDescription.append(i18n("Mono "));
-                        break;
-                    case 2:
-                        channelDescription.append(i18n("Stereo "));
-                        break;
-                    default:
-                        channelDescription.append(i18n("%1 channels ", chan));
-                        break;
+                case 1:
+                    channelDescription.append(i18n("Mono "));
+                    break;
+                case 2:
+                    channelDescription.append(i18n("Stereo "));
+                    break;
+                default:
+                    channelDescription.append(i18n("%1 channels ", chan));
+                    break;
                 }
                 // Frequency
                 memset(property, 0, 200);
@@ -112,12 +112,12 @@ int AudioStreamInfo::channels() const
     return m_channels;
 }
 
-QMap <int, QString> AudioStreamInfo::streams() const
+QMap<int, QString> AudioStreamInfo::streams() const
 {
     return m_audioStreams;
 }
 
-QMap <int, int> AudioStreamInfo::streamChannels() const
+QMap<int, int> AudioStreamInfo::streamChannels() const
 {
     return m_audioChannels;
 }
@@ -130,12 +130,12 @@ int AudioStreamInfo::channelsForStream(int stream) const
     return m_channels;
 }
 
-QList <int> AudioStreamInfo::activeStreamChannels() const
+QList<int> AudioStreamInfo::activeStreamChannels() const
 {
     if (m_activeStreams.size() == 1 && m_activeStreams.contains(INT_MAX)) {
         return m_audioChannels.values();
     }
-    QList <int> activeChannels;
+    QList<int> activeChannels;
     QMapIterator<int, QString> i(m_audioStreams);
     while (i.hasNext()) {
         i.next();
@@ -146,9 +146,9 @@ QList <int> AudioStreamInfo::activeStreamChannels() const
     return activeChannels;
 }
 
-QMap <int, QString> AudioStreamInfo::activeStreams() const
+QMap<int, QString> AudioStreamInfo::activeStreams() const
 {
-    QMap <int, QString> active;
+    QMap<int, QString> active;
     QMapIterator<int, QString> i(m_audioStreams);
     if (m_activeStreams.size() == 1 && m_activeStreams.contains(INT_MAX)) {
         active.insert(INT_MAX, i18n("Merged streams"));
@@ -210,26 +210,26 @@ void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
     m_activeStreams.clear();
     if (activeStreams.isEmpty()) {
         switch (KdenliveSettings::multistream()) {
-            case 1:
-                // Enable first stream only
-                m_activeStreams << m_audioStreams.firstKey();
-                break;
-            case 2:
-                // Enable the first two streams only
-                {
-                    QList <int> str = m_audioStreams.keys();
-                    while (!str.isEmpty()) {
-                        m_activeStreams << str.takeFirst();
-                        if (m_activeStreams.size() == 2) {
-                            break;
-                        }
+        case 1:
+            // Enable first stream only
+            m_activeStreams << m_audioStreams.firstKey();
+            break;
+        case 2:
+            // Enable the first two streams only
+            {
+                QList<int> str = m_audioStreams.keys();
+                while (!str.isEmpty()) {
+                    m_activeStreams << str.takeFirst();
+                    if (m_activeStreams.size() == 2) {
+                        break;
                     }
-                    break;
                 }
-            default:
-                // Enable all streams
-                m_activeStreams = m_audioStreams.keys();
                 break;
+            }
+        default:
+            // Enable all streams
+            m_activeStreams = m_audioStreams.keys();
+            break;
         }
         return;
     }

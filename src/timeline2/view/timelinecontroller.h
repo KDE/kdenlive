@@ -125,7 +125,7 @@ public:
 
     /** @brief Show/hide audio record controls on a track
      */
-    Q_INVOKABLE void switchRecording(int trackId);
+    Q_INVOKABLE void switchRecording(int trackId, bool record);
     /** @brief Add recorded file to timeline
      */
     void finishRecording(const QString &recordedFile);

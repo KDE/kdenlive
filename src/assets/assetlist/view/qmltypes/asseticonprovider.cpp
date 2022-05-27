@@ -52,9 +52,10 @@ QImage AssetIconProvider::makeIcon(const QString &effectName, const QSize &size)
     AssetListType::AssetType type = AssetListType::AssetType(effectName.section(QLatin1Char('/'), -1).toInt());
     if (m_effect) {
         isAudio = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::TemplateAudio;
-        isCustom = type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::Template || type == AssetListType::AssetType::TemplateAudio;
+        isCustom = type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::Template ||
+                   type == AssetListType::AssetType::TemplateAudio;
         if (isCustom) {
-            //isGroup = EffectsRepository::get()->isGroup(effectId);
+            // isGroup = EffectsRepository::get()->isGroup(effectId);
         }
     } else {
         isAudio = (type == AssetListType::AssetType::AudioComposition) || (type == AssetListType::AssetType::AudioTransition);

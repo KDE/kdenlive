@@ -12,8 +12,8 @@
 #ifndef NODBUS
 #include <QtDBus>
 #else
-#include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonObject>
 #endif
 #include <QDebug>
 #include <QDir>
@@ -34,12 +34,12 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_progress(0)
     , m_prog(render)
     , m_player()
-    #ifndef NODBUS
+#ifndef NODBUS
     , m_jobUiserver(nullptr)
     , m_kdenliveinterface(nullptr)
-    #else
+#else
     , m_kdenlivesocket(new QLocalSocket(this))
-    #endif
+#endif
     , m_usekuiserver(true)
     , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath())))
@@ -94,7 +94,8 @@ void RenderJob::slotAbort(const QString &url)
     }
 }
 
-void RenderJob::sendFinish(int status, const QString &error) {
+void RenderJob::sendFinish(int status, const QString &error)
+{
 #ifndef NODBUS
     if (m_kdenliveinterface) {
         m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), {m_dest, status, error});
@@ -124,7 +125,8 @@ void RenderJob::slotAbort()
         QFile(m_scenelist).remove();
     }
     QFile(m_dest).remove();
-    m_logstream << "Job aborted by user" << "\n";
+    m_logstream << "Job aborted by user"
+                << "\n";
     m_logstream.flush();
     m_logfile.close();
 #ifndef NODBUS
@@ -235,7 +237,7 @@ void RenderJob::start()
         initKdenliveDbusInterface();
     }
 #else
-    connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this](){
+    connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this]() {
         m_kdenlivesocket->write(QJsonDocument({{"url", m_dest}}).toJson());
         m_kdenlivesocket->flush();
         QJsonObject method, args;
@@ -246,7 +248,7 @@ void RenderJob::start()
         m_kdenlivesocket->write(QJsonDocument(method).toJson());
         m_kdenlivesocket->flush();
     });
-    connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this](){
+    connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this]() {
         QByteArray msg = m_kdenlivesocket->readAll();
         if (msg == "abort") {
             slotAbort();
@@ -317,7 +319,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         QProcess::startDetached(QStringLiteral("kdialog"), {QStringLiteral("--error"), error});
         m_logstream << error << "\n";
         emit renderingFinished();
-        //qApp->quit();
+        // qApp->quit();
     }
     if (m_erase) {
         QFile(m_scenelist).remove();
@@ -338,7 +340,8 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (!m_dualpass) {
             sendFinish(-1, QString());
         }
-        m_logstream << "Rendering of " << m_dest << " finished" << "\n";
+        m_logstream << "Rendering of " << m_dest << " finished"
+                    << "\n";
         if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();

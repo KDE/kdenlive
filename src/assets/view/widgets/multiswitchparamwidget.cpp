@@ -37,7 +37,7 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
             if (value.contains(QLatin1String("-1="))) {
                 // Replace -1 with out position
                 int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
-                value.replace(QLatin1String("-1="),  QString("%1=").arg(m_model->framesToTime(out)));
+                value.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
             }
         } else {
             value = m_model->data(m_index, AssetParameterModel::MinRole).toString();
@@ -47,7 +47,7 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
             if (value.contains(QLatin1String("-1="))) {
                 // Replace -1 with out position
                 int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
-                value.replace(QLatin1String("-1="),  QString("%1=").arg(m_model->framesToTime(out)));
+                value.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
             }
         }
         emit valueChanged(m_index, value, true);
@@ -76,14 +76,15 @@ void MultiSwitchParamWidget::slotRefresh()
     if (max.contains(QLatin1String("-1=")) && !value.contains(QLatin1String("-1="))) {
         // Replace -1 with out position
         int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
-        qDebug()<<"=== REPLACING WITH MAX OUT: "<<out;
+        qDebug() << "=== REPLACING WITH MAX OUT: " << out;
         if (convertToTime) {
             max.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
         } else {
             max.replace(QLatin1String("-1="), QString("%1=").arg(out));
         }
     }
-    qDebug()<<"=== GOT FILTER IN ROLE: "<<m_model->data(m_index, AssetParameterModel::InRole).toInt()<<" / OUT: "<<m_model->data(m_index, AssetParameterModel::OutRole).toInt();
-    qDebug()<<"==== COMPARING MULTISWITCH: "<<value<<" = "<<max;
+    qDebug() << "=== GOT FILTER IN ROLE: " << m_model->data(m_index, AssetParameterModel::InRole).toInt()
+             << " / OUT: " << m_model->data(m_index, AssetParameterModel::OutRole).toInt();
+    qDebug() << "==== COMPARING MULTISWITCH: " << value << " = " << max;
     m_checkBox->setChecked(value == max);
 }

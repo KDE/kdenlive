@@ -35,7 +35,7 @@
 #include <QTime>
 #include <QVariantList>
 
-AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
+AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject *object)
     : QRunnable()
     , m_owner(owner)
     , m_object(object)
@@ -48,22 +48,22 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object)
 {
     setAutoDelete(true);
     switch (type) {
-        case AbstractTask::LOADJOB:
-            m_priority = 10;
-            break;
-        case AbstractTask::TRANSCODEJOB:
-        case AbstractTask::PROXYJOB:
-            m_priority = 8;
-            break;
-        case AbstractTask::FILTERCLIPJOB:
-        case AbstractTask::STABILIZEJOB:
-        case AbstractTask::ANALYSECLIPJOB:
-        case AbstractTask::SPEEDJOB:
-            m_priority = 5;
-            break;
-        default:
-            m_priority = 5;
-            break;
+    case AbstractTask::LOADJOB:
+        m_priority = 10;
+        break;
+    case AbstractTask::TRANSCODEJOB:
+    case AbstractTask::PROXYJOB:
+        m_priority = 8;
+        break;
+    case AbstractTask::FILTERCLIPJOB:
+    case AbstractTask::STABILIZEJOB:
+    case AbstractTask::ANALYSECLIPJOB:
+    case AbstractTask::SPEEDJOB:
+        m_priority = 5;
+        break;
+    default:
+        m_priority = 5;
+        break;
     }
 }
 
@@ -73,7 +73,7 @@ void AbstractTask::cancelJob(bool softDelete)
     if (softDelete) {
         m_softDelete.testAndSetAcquire(0, 1);
     }
-    qDebug()<<"====== SETTING TASK CANCELED: "<<m_isCanceled<<", TYPE: "<<m_type;
+    qDebug() << "====== SETTING TASK CANCELED: " << m_isCanceled << ", TYPE: " << m_type;
     emit jobCanceled();
 }
 
@@ -82,9 +82,7 @@ const ObjectId AbstractTask::ownerId() const
     return m_owner;
 }
 
-AbstractTask::~AbstractTask()
-{
-}
+AbstractTask::~AbstractTask() {}
 
 bool AbstractTask::operator==(const AbstractTask &b)
 {
@@ -93,12 +91,13 @@ bool AbstractTask::operator==(const AbstractTask &b)
 
 void AbstractTask::run()
 {
-    qDebug()<<"============0\n\nABSTRACT TASKSTARTRING\n\n==================";
+    qDebug() << "============0\n\nABSTRACT TASKSTARTRING\n\n==================";
 }
 
 // Background tasks should not slow down the main UI too much. Unless the user
 // has opted out, lower the priority of proxy and transcode tasks.
-void AbstractTask::setPreferredPriority(qint64 pid) {
+void AbstractTask::setPreferredPriority(qint64 pid)
+{
     if (!KdenliveSettings::nice_tasks()) {
         qDebug() << "Not changing process priority for PID" << pid;
         return;

@@ -447,13 +447,13 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     SECTION("Cut should preserve AV groups")
     {
         QString binId3 = createProducerWithSound(profile_trimming, binModel);
-        
+
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid5 = TrackModel::construct(timeline);
-    
+
         // Setup timeline audio drop info
-        QMap <int, QString>audioInfo;
-        audioInfo.insert(1,QStringLiteral("stream1"));
+        QMap<int, QString> audioInfo;
+        audioInfo.insert(1, QStringLiteral("stream1"));
         timeline->m_binAudioTargets = audioInfo;
         timeline->m_videoTarget = tid5;
 
@@ -567,11 +567,11 @@ TEST_CASE("Spacer operations", "[Spacer]")
     int tid1 = TrackModel::construct(timeline);
 
     // Add an audio track
-    //int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    // int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
 
-    //int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
+    // int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
 
     timeline->m_allClips[cid1]->m_endlessResize = false;
     timeline->m_allClips[cid2]->m_endlessResize = false;
@@ -627,7 +627,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         };
         state1();
 
-        int startPos = timeline->getClipPosition(cid3) + l/2;
+        int startPos = timeline->getClipPosition(cid3) + l / 2;
         spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
         REQUIRE(spacerIid > -1);
         undo = []() { return true; };
@@ -671,10 +671,10 @@ TEST_CASE("Spacer operations", "[Spacer]")
         REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
         int p3 = l + l + 20;
         REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
-        guideModel->addMarker(GenTime(l/2, profile_trimming.fps()), "guide1");
-        guideModel->addMarker(GenTime(l+2, profile_trimming.fps()), "guide2");
-        guideModel->addMarker(GenTime(l+7, profile_trimming.fps()), "guide3");
-        guideModel->addMarker(GenTime(p2 + l/2, profile_trimming.fps()), "guide4");
+        guideModel->addMarker(GenTime(l / 2, profile_trimming.fps()), "guide1");
+        guideModel->addMarker(GenTime(l + 2, profile_trimming.fps()), "guide2");
+        guideModel->addMarker(GenTime(l + 7, profile_trimming.fps()), "guide3");
+        guideModel->addMarker(GenTime(p2 + l / 2, profile_trimming.fps()), "guide4");
         guideModel->addMarker(GenTime(p3, profile_trimming.fps()), "guide5");
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
@@ -702,7 +702,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         int space = 18;
         REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, true, undo, redo));
         auto state1 = [&]() {
-            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l/2, l+2, l+7, p2 + l/2 + space, p3 + space});
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l / 2, l + 2, l + 7, p2 + l / 2 + space, p3 + space});
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
             REQUIRE(timeline->getClipPlaytime(cid2) == l);
@@ -719,7 +719,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         };
         state1();
 
-        int startPos = timeline->getClipPosition(cid3) + l/2;
+        int startPos = timeline->getClipPosition(cid3) + l / 2;
         spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
         REQUIRE(spacerIid > -1);
         undo = []() { return true; };
@@ -728,7 +728,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         int space2 = 3;
         REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, true, undo, redo));
         auto state2 = [&]() {
-            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l/2, l+2, l+7, p2 + l/2 + space, p3 + space + space2});
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l / 2, l + 2, l + 7, p2 + l / 2 + space, p3 + space + space2});
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
             REQUIRE(timeline->getClipPlaytime(cid2) == l);
@@ -807,7 +807,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         };
         state1();
 
-        int startPos = timeline->getClipPosition(cid3) + l/2;
+        int startPos = timeline->getClipPosition(cid3) + l / 2;
         spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
         REQUIRE(spacerIid > -1);
         undo = []() { return true; };
@@ -823,7 +823,6 @@ TEST_CASE("Spacer operations", "[Spacer]")
         undoStack->redo();
         state1();
     }
-
 
     binModel->clean();
     pCore->m_projectManager = nullptr;
@@ -861,10 +860,10 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid1 = TrackModel::construct(timeline);
     TrackModel::construct(timeline);
-    
+
     // Setup timeline audio drop info
-    QMap <int, QString>audioInfo;
-    audioInfo.insert(1,QStringLiteral("stream1"));
+    QMap<int, QString> audioInfo;
+    audioInfo.insert(1, QStringLiteral("stream1"));
     timeline->m_binAudioTargets = audioInfo;
     timeline->m_videoTarget = tid1;
 
@@ -1005,7 +1004,8 @@ TEST_CASE("Copy/paste", "[CP]")
 
     Mock<KdenliveDoc> docMock;
     When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        Q_UNUSED(name) Q_UNUSED(defaultValue)
+        Q_UNUSED(name)
+        Q_UNUSED(defaultValue)
         qDebug() << "Intercepted call";
         return QStringLiteral("dummyId");
     });
@@ -1036,10 +1036,10 @@ TEST_CASE("Copy/paste", "[CP]")
     int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid1 = TrackModel::construct(timeline);
     int tid1b = TrackModel::construct(timeline);
-    
+
     // Setup timeline audio drop info
-    QMap <int, QString>audioInfo;
-    audioInfo.insert(1,QStringLiteral("stream1"));
+    QMap<int, QString> audioInfo;
+    audioInfo.insert(1, QStringLiteral("stream1"));
     timeline->m_binAudioTargets = audioInfo;
     timeline->m_videoTarget = tid1;
 
@@ -1483,7 +1483,6 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
         state2();
         undoStack->redo();
         state();
-
     }
 
     // if offset is bigger than the borders use the biggest possible offset without going beyond the borders
@@ -1496,7 +1495,6 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
         REQUIRE(timeline->requestItemResize(cid1, l - 5, true) == l - 5);
         REQUIRE(timeline->requestItemResize(cid1, l - 11, false) == l - 11);
         REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
-
 
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -1577,7 +1575,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
             REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
             REQUIRE(timeline->getClipPtr(cid2)->getIn() == 11);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 -1);
+            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
             REQUIRE(timeline->getClipTrackId(cid2) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
@@ -2115,4 +2113,3 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
-

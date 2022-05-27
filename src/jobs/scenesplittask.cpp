@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
-#include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -27,7 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <klocalizedstring.h>
 #include <project/projectmanager.h>
 
-SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object)
+SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject *object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
     , m_jobDuration(0)
     , m_markersType(markersCategory)
@@ -37,7 +36,7 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int mark
 {
 }
 
-void SceneSplitTask::start(QObject* object, bool force)
+void SceneSplitTask::start(QObject *object, bool force)
 {
     Q_UNUSED(object)
     QPointer<QDialog> d = new QDialog;
@@ -48,7 +47,7 @@ void SceneSplitTask::start(QObject* object, bool force)
     view.cut_scenes->setChecked(KdenliveSettings::scenesplitsubclips());
     // Set  up categories
     static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
-    QPixmap pixmap(32,32);
+    QPixmap pixmap(32, 32);
     for (uint i = 0; i < markerTypes.size(); ++i) {
         pixmap.fill(markerTypes[size_t(i)]);
         QIcon colorIcon(pixmap);
@@ -68,14 +67,14 @@ void SceneSplitTask::start(QObject* object, bool force)
     KdenliveSettings::setScenesplitsubclips(view.cut_scenes->isChecked());
 
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
-    for (auto & id : binIds) {
-        SceneSplitTask* task = nullptr;
+    for (auto &id : binIds) {
+        SceneSplitTask *task = nullptr;
         ObjectId owner;
         if (id.contains(QLatin1Char('/'))) {
             QStringList binData = id.split(QLatin1Char('/'));
             if (binData.size() < 3) {
                 // Invalid subclip data
-                qDebug()<<"=== INVALID SUBCLIP DATA: "<<id;
+                qDebug() << "=== INVALID SUBCLIP DATA: " << id;
                 continue;
             }
             owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
@@ -116,33 +115,46 @@ void SceneSplitTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot analyse this clip type.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
-        qDebug()<<"=== ABORT 1";
+        qDebug() << "=== ABORT 1";
         return;
     }
     if (KdenliveSettings::ffmpegpath().isEmpty()) {
         // FFmpeg not detected, cannot process the Job
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment.")),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                  Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
         pCore->taskManager.taskDone(m_owner.second, this);
-        qDebug()<<"=== ABORT 2";
+        qDebug() << "=== ABORT 2";
         return;
     }
     m_jobDuration = int(binClip->duration().seconds());
     int producerDuration = binClip->frameDuration();
-    //QStringList parameters = {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
-    QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
+    // QStringList parameters =
+    // {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
+    QStringList parameters = {QStringLiteral("-y"),
+                              QStringLiteral("-loglevel"),
+                              QStringLiteral("info"),
+                              QStringLiteral("-i"),
+                              source,
+                              QStringLiteral("-filter:v"),
+                              QString("select='gt(scene,0.1)',showinfo"),
+                              QStringLiteral("-vsync"),
+                              QStringLiteral("vfr"),
+                              QStringLiteral("-f"),
+                              QStringLiteral("null"),
+                              QStringLiteral("-")};
 
     m_jobProcess.reset(new QProcess);
-    //m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
+    // m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");
     m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
-    qDebug()<<"=== READY TO START JOB:"<<parameters;
+    qDebug() << "=== READY TO START JOB:" << parameters;
     QObject::connect(this, &SceneSplitTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardOutput, this, &SceneSplitTask::processLogInfo);
     QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &SceneSplitTask::processLogErr);
     m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters);
-    //m_jobProcess->closeReadChannel(QProcess::StandardError);
+    // m_jobProcess->closeReadChannel(QProcess::StandardError);
     m_jobProcess->waitForStarted();
-    //QString data;
+    // QString data;
     /*while(m_jobProcess->waitForReadyRead()) {
         //data.append(m_jobProcess->readAll());
         qDebug()<<"???? READ: \n"<<m_jobProcess->readAll();
@@ -155,7 +167,7 @@ void SceneSplitTask::run()
     pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (result && !m_isCanceled) {
-        qDebug()<<"========================\n\nGOR RESULTS: "<<m_results<<"\n\n=========";
+        qDebug() << "========================\n\nGOR RESULTS: " << m_results << "\n\n=========";
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (m_markersType >= 0) {
             // Build json data for markers
@@ -176,7 +188,7 @@ void SceneSplitTask::run()
                 ix++;
             }
             QJsonDocument json(list);
-            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(QString,QString(json.toJson())));
+            QMetaObject::invokeMethod(m_object, "importJsonMarkers", Q_ARG(QString, QString(json.toJson())));
         }
         if (m_subClips) {
             // Create zones
@@ -207,7 +219,8 @@ void SceneSplitTask::run()
             json.setArray(list);
             if (!json.isEmpty()) {
                 QString dataMap(json.toJson());
-                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString,QString::number(m_owner.second)), Q_ARG(QString,dataMap));
+                QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString, QString::number(m_owner.second)),
+                                          Q_ARG(QString, dataMap));
             }
         }
     } else {
@@ -220,7 +233,7 @@ void SceneSplitTask::run()
 void SceneSplitTask::processLogErr()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
-    qDebug()<<"ERROR: ----\n"<<buffer;
+    qDebug() << "ERROR: ----\n" << buffer;
 }
 
 void SceneSplitTask::processLogInfo()
@@ -229,7 +242,7 @@ void SceneSplitTask::processLogInfo()
     m_logDetails.append(buffer);
     int progress = 0;
     // Parse FFmpeg output
-    qDebug()<<"-------------\n"<<buffer;
+    qDebug() << "-------------\n" << buffer;
     if (buffer.contains(QLatin1String("[Parsed_showinfo"))) {
         QString timeMarker("pts_time:");
         bool ok;
@@ -245,11 +258,11 @@ void SceneSplitTask::processLogInfo()
         }
     }
     if (m_jobDuration == 0) {
-        qDebug()<<"=== NO DURATION!!!";
+        qDebug() << "=== NO DURATION!!!";
         if (buffer.contains(QLatin1String("Duration:"))) {
             QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
             if (!data.isEmpty()) {
-                qDebug()<<"==== GOT DURATION:"<<data;
+                qDebug() << "==== GOT DURATION:" << data;
                 QStringList numbers = data.split(QLatin1Char(':'));
                 if (numbers.size() < 3) {
                     return;
@@ -259,7 +272,7 @@ void SceneSplitTask::processLogInfo()
         }
     } else if (buffer.contains(QLatin1String("time="))) {
         QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
-        qDebug()<<"=== GOT PROGRESS TIME: "<<time;
+        qDebug() << "=== GOT PROGRESS TIME: " << time;
         if (!time.isEmpty()) {
             QStringList numbers = time.split(QLatin1Char(':'));
             if (numbers.size() < 3) {
@@ -273,6 +286,6 @@ void SceneSplitTask::processLogInfo()
         }
         m_progress = 100 * progress / m_jobDuration;
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        //emit jobProgress(int(100.0 * progress / m_jobDuration));
+        // emit jobProgress(int(100.0 * progress / m_jobDuration));
     }
 }

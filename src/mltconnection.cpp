@@ -21,23 +21,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 static void mlt_log_handler(void *service, int mlt_level, const char *format, va_list args)
 {
-    if (mlt_level > mlt_log_get_level())
-        return;
+    if (mlt_level > mlt_log_get_level()) return;
     QString message;
-    mlt_properties properties = service? MLT_SERVICE_PROPERTIES(mlt_service(service)) : nullptr;
+    mlt_properties properties = service ? MLT_SERVICE_PROPERTIES(mlt_service(service)) : nullptr;
     if (properties) {
         char *mlt_type = mlt_properties_get(properties, "mlt_type");
         char *service_name = mlt_properties_get(properties, "mlt_service");
         char *resource = mlt_properties_get(properties, "resource");
         char *id = mlt_properties_get(properties, "id");
-        if (!resource || resource[0] != '<' || resource[strlen(resource) - 1] != '>')
-            mlt_type = mlt_properties_get(properties, "mlt_type" );
+        if (!resource || resource[0] != '<' || resource[strlen(resource) - 1] != '>') mlt_type = mlt_properties_get(properties, "mlt_type");
         if (service_name)
             message = QString("[%1 %2 %3] ").arg(mlt_type, service_name, id);
         else
             message = QString::asprintf("[%s %p] ", mlt_type, service);
-        if (resource)
-            message.append(QString("\"%1\" ").arg(resource));
+        if (resource) message.append(QString("\"%1\" ").arg(resource));
         message.append(QString::vasprintf(format, args));
         message.replace('\n', "");
         if (!strcmp(mlt_type, "filter")) {
@@ -49,7 +46,6 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
     }
     qDebug() << "MLT:" << message;
 }
-
 
 std::unique_ptr<MltConnection> MltConnection::m_self;
 MltConnection::MltConnection(const QString &mltPath)
@@ -103,7 +99,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     QString profilePath = mltPath;
     QString appName;
     QString libName;
-#if(defined(Q_OS_WIN)||defined(Q_OS_MAC))
+#if (defined(Q_OS_WIN) || defined(Q_OS_MAC))
     appName = QStringLiteral("melt");
     libName = QStringLiteral("mlt");
 #else
@@ -129,7 +125,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         qWarning() << "profilePath from $MLT_PREFIX/Resources: " << profilePath;
     }
 #endif
-#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
+#if (!(defined(Q_OS_WIN) || defined(Q_OS_MAC)))
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !KdenliveSettings::mltpath().isEmpty()) {
         profilePath = KdenliveSettings::mltpath();
@@ -171,7 +167,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
         qWarning() << "meltPath from MLT_PREFIX/MacOS: " << meltPath;
     }
 #endif
-#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
+#if (!(defined(Q_OS_WIN) || defined(Q_OS_MAC)))
     // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
     if (meltPath.isEmpty() || !QFile::exists(meltPath)) {
         meltPath = KdenliveSettings::rendererpath();

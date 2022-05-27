@@ -40,16 +40,16 @@ void TaskManager::updateConcurrency()
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
-    qDebug()<<"========== READY FOR TASK DISCARD ON: "<<owner.second;
+    qDebug() << "========== READY FOR TASK DISCARD ON: " << owner.second;
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.second) == m_taskList.end()) {
         m_tasksListLock.unlock();
         return;
     }
-    std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
+    std::vector<AbstractTask *> taskList = m_taskList.at(owner.second);
     m_tasksListLock.unlock();
-    for (AbstractTask* t : taskList) {
+    for (AbstractTask *t : taskList) {
         if ((type == AbstractTask::NOJOBTYPE || type == t->m_type) && t->m_progress < 100) {
             // If so, then just add ourselves to be notified upon completion.
             if (exceptions.contains(t->m_type)) {
@@ -57,9 +57,9 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
                 continue;
             }
             t->cancelJob(softDelete);
-            qDebug()<<"========== DELETING JOB!!!!";
+            qDebug() << "========== DELETING JOB!!!!";
             // Block until the task is finished
-            //t->m_runMutex.lock();
+            // t->m_runMutex.lock();
         }
     }
 }
@@ -74,8 +74,8 @@ bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE typ
     if (m_taskList.find(owner.second) == m_taskList.end()) {
         return false;
     }
-    std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
-    for (AbstractTask* t : taskList) {
+    std::vector<AbstractTask *> taskList = m_taskList.at(owner.second);
+    for (AbstractTask *t : taskList) {
         if (type == t->m_type && t->m_progress < 100 && !t->m_isCanceled) {
             return true;
         }
@@ -90,10 +90,11 @@ TaskManagerStatus TaskManager::jobStatus(const ObjectId &owner) const
         // No job for this clip
         return TaskManagerStatus::NoJob;
     }
-    std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
-    for (AbstractTask* t : taskList) {
+    std::vector<AbstractTask *> taskList = m_taskList.at(owner.second);
+    for (AbstractTask *t : taskList) {
         if (t->m_running) {
-            return TaskManagerStatus::Running;;
+            return TaskManagerStatus::Running;
+            ;
         }
     }
     return TaskManagerStatus::Pending;
@@ -123,13 +124,12 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
     QMetaObject::invokeMethod(this, "updateJobCount");
 }
 
-
 void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions)
 {
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     for (const auto &task : m_taskList) {
-        for (AbstractTask* t : task.second) {
+        for (AbstractTask *t : task.second) {
             if (!exceptions.contains(t->m_type)) {
                 // If so, then just add ourselves to be notified upon completion.
                 t->cancelJob();
@@ -169,13 +169,13 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner) const
     if (m_taskList.find(owner.second) == m_taskList.end()) {
         return 100;
     }
-    std::vector<AbstractTask*> taskList = m_taskList.at(owner.second);
+    std::vector<AbstractTask *> taskList = m_taskList.at(owner.second);
     int cnt = taskList.size();
     if (cnt == 0) {
         return 100;
     }
     int total = 0;
-    for (AbstractTask* t : taskList) {
+    for (AbstractTask *t : taskList) {
         total += t->m_progress;
     }
     total /= cnt;

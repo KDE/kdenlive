@@ -40,9 +40,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QXmlStreamWriter>
 #include <kio_version.h>
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
-#include <KIO/OpenUrlJob>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 71, 0)
 #include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #endif
 
 // Recommended MLT version
@@ -388,8 +388,8 @@ void Wizard::checkMltComponents()
         int mltVersion = QT_VERSION_CHECK(MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION, MLT_MIN_PATCH_VERSION);
         int runningVersion = mlt_version_get_int();
         if (runningVersion < mltVersion) {
-            m_errors.append(
-                i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION, MLT_MIN_PATCH_VERSION));
+            m_errors.append(i18n("<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>", MLT_MIN_MAJOR_VERSION, MLT_MIN_MINOR_VERSION,
+                                 MLT_MIN_PATCH_VERSION));
             m_systemCheckIsOk = false;
         }
         // Retrieve the list of available transitions.
@@ -430,8 +430,7 @@ void Wizard::checkMltComponents()
         if (!hasAvfilter) {
             // AVFilter effects not found
             qDebug() << "Missing AVFilter module";
-            m_warnings.append(
-                i18n("<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install recommended</li>"));
+            m_warnings.append(i18n("<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install recommended</li>"));
         } else {
             // Check that we have the avfilter.subtitles effects installed
             bool hasSubtitle = false;
@@ -445,14 +444,12 @@ void Wizard::checkMltComponents()
             if (!hasSubtitle) {
                 // avfilter.subtitles effect not found
                 qDebug() << "Missing avfilter.subtitles module";
-                m_warnings.append(
-                    i18n("<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle feature. Install recommended</li>"));
+                m_warnings.append(i18n("<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle feature. Install recommended</li>"));
             }
         }
         delete filters;
 
-
-#if(!(defined(Q_OS_WIN)||defined(Q_OS_MAC)))
+#if (!(defined(Q_OS_WIN) || defined(Q_OS_MAC)))
         // Check that we have the breeze icon theme installed
         const QStringList iconPaths = QIcon::themeSearchPaths();
         bool hasBreeze = false;
@@ -565,7 +562,7 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
         if (exepath.isEmpty()) {
             exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
         }
-        qDebug() << "Found FFMpeg binary: "<<exepath;
+        qDebug() << "Found FFMpeg binary: " << exepath;
         if (exepath.isEmpty()) {
             // Check for libav version
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
@@ -865,15 +862,16 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 71, 0)
     auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
     job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
-    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
+    // KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
 #else
-    KRun::runUrl(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"), this, KRun::RunFlags());
+    KRun::runUrl(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"), this,
+                 KRun::RunFlags());
 #endif
 }
 
@@ -919,7 +917,8 @@ void Wizard::testHwEncoders()
     tmp.close();
 
     // VAAPI testing
-    QStringList args{"-hide_banner", "-y",
+    QStringList args{"-hide_banner",
+                     "-y",
                      "-vaapi_device",
                      "/dev/dri/renderD128",
                      "-f",
@@ -954,24 +953,25 @@ void Wizard::testHwEncoders()
     KdenliveSettings::setVaapiEnabled(vaapiSupported);
 
     // VAAPI with scaling support
-    QStringList scaleargs{"-hide_banner", "-y"
-                     ,"-hwaccel"
-                     ,"vaapi"
-                     ,"-hwaccel_output_format"
-                     ,"vaapi"
-                     ,"/dev/dri/renderD128"
-                     ,"-f"
-                     ,"lavfi"
-                     ,"-i"
-                     ,"smptebars=duration=5:size=1280x720:rate=25"
-                     ,"-vf"
-                     ,"scale_vaapi=w=640:h=-2:format=nv12,hwupload"
-                     ,"-c:v"
-                     ,"h264_vaapi"
-                     ,"-an"
-                     ,"-f"
-                     ,"mp4"
-                     ,tmp.fileName()};
+    QStringList scaleargs{"-hide_banner",
+                          "-y",
+                          "-hwaccel",
+                          "vaapi",
+                          "-hwaccel_output_format",
+                          "vaapi",
+                          "/dev/dri/renderD128",
+                          "-f",
+                          "lavfi",
+                          "-i",
+                          "smptebars=duration=5:size=1280x720:rate=25",
+                          "-vf",
+                          "scale_vaapi=w=640:h=-2:format=nv12,hwupload",
+                          "-c:v",
+                          "h264_vaapi",
+                          "-an",
+                          "-f",
+                          "mp4",
+                          tmp.fileName()};
     qDebug() << "// FFMPEG ARGS: " << scaleargs;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), scaleargs);
     bool vaapiScalingSupported = false;
@@ -997,9 +997,8 @@ void Wizard::testHwEncoders()
         return;
     }
     tmp2.close();
-    QStringList args2{"-hide_banner", "-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",
-                      "smptebars=duration=5:size=1280x720:rate=25",
-                      "-c:v", "h264_nvenc", "-an",   "-f", "mp4",   tmp2.fileName()};
+    QStringList args2{"-hide_banner", "-y",         "-hwaccel", "cuvid", "-f",  "lavfi",        "-i", "smptebars=duration=5:size=1280x720:rate=25",
+                      "-c:v",         "h264_nvenc", "-an",      "-f",    "mp4", tmp2.fileName()};
     qDebug() << "// FFMPEG ARGS: " << args2;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);
     bool nvencSupported = false;
@@ -1020,7 +1019,7 @@ void Wizard::testHwEncoders()
     KdenliveSettings::setNvencEnabled(nvencSupported);
 
     // Testing NVIDIA SCALER
-    QStringList args3{"-hide_banner",   "-filters"};
+    QStringList args3{"-hide_banner", "-filters"};
     qDebug() << "// FFMPEG ARGS: " << args3;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args3);
     bool nvScalingSupported = false;

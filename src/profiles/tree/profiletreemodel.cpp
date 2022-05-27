@@ -56,15 +56,15 @@ std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
     auto customCat = createCat(i18n("Custom"));
     // We define lambdas that controls how a given field should be filtered
     std::array<std::function<bool(QVariant, std::unique_ptr<ProfileModel> &)>, nbCrit> filtLambdas;
-    filtLambdas[0] = [](const QVariant& width, std::unique_ptr<ProfileModel> &ptr) { return width == -1 || ptr->width() == width; };
-    filtLambdas[1] = [](const QVariant& height, std::unique_ptr<ProfileModel> &ptr) {
+    filtLambdas[0] = [](const QVariant &width, std::unique_ptr<ProfileModel> &ptr) { return width == -1 || ptr->width() == width; };
+    filtLambdas[1] = [](const QVariant &height, std::unique_ptr<ProfileModel> &ptr) {
         if (height.canConvert<int>()) {
             return height.toInt() == -1 || ptr->height() == height.toInt();
         }
         QPair<int, int> valid_values = height.value<QPair<int, int>>();
         return ptr->height() == valid_values.first || ptr->height() == valid_values.second;
     };
-    filtLambdas[2] = [](const QVariant& display_aspect_num, std::unique_ptr<ProfileModel> &ptr) {
+    filtLambdas[2] = [](const QVariant &display_aspect_num, std::unique_ptr<ProfileModel> &ptr) {
         return display_aspect_num == -1 || ptr->display_aspect_num() == display_aspect_num;
     };
     for (const auto &profile : qAsConst(profiles)) {
@@ -73,15 +73,8 @@ std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
         std::unique_ptr<ProfileModel> &ptr = ProfileRepository::get()->getProfile(profile.second);
         // we create the data list corresponding to this profile
         QList<QVariant> data;
-        data << profile.first
-             << profile.second
-             << ptr->height()
-             << ptr->width()
-             << ptr->display_aspect_num()
-             << ptr->display_aspect_den()
-             << ptr->sar()
-             << ptr->fps()
-             << ProfileRepository::getColorspaceDescription(ptr->colorspace());
+        data << profile.first << profile.second << ptr->height() << ptr->width() << ptr->display_aspect_num() << ptr->display_aspect_den() << ptr->sar()
+             << ptr->fps() << ProfileRepository::getColorspaceDescription(ptr->colorspace());
         for (const auto &filter : filters) {
             bool matching = true;
             for (size_t i = 0; i < nbCrit && matching; ++i) {

@@ -28,7 +28,7 @@
 SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool, bool, QWidget *parent)
     : QDialog(parent)
     , m_timeline(timeline)
-    
+
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -36,9 +36,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, []() {
-        pCore->window()->slotPreferences(8);
-    });
+    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(8); });
     m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
         language_box->clear();
         language_box->addItems(models);
@@ -56,12 +54,9 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             }
         }
     });
-    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
-        KdenliveSettings::setVosk_srt_model(language_box->currentText());
-    });
-    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this, zone]() {
-        slotProcessSpeech(zone);
-    });
+    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
+            [this]() { KdenliveSettings::setVosk_srt_model(language_box->currentText()); });
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this, zone]() { slotProcessSpeech(zone); });
     m_stt->parseVoskDictionaries();
     frame_progress->setVisible(false);
     button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
@@ -101,7 +96,7 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     if (tmpPlaylist.open()) {
         sceneList = tmpPlaylist.fileName();
     }
-    tmpPlaylist.close();    
+    tmpPlaylist.close();
     if (m_tmpSrt->open()) {
         speech = m_tmpSrt->fileName();
     }
@@ -112,12 +107,12 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     m_tmpAudio->close();
     m_timeline->sceneList(QDir::temp().absolutePath(), sceneList);
     Mlt::Producer producer(*m_timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
-    qDebug()<<"=== STARTING RENDER B";
+    qDebug() << "=== STARTING RENDER B";
     Mlt::Consumer xmlConsumer(*m_timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());
     if (!xmlConsumer.is_valid() || !producer.is_valid()) {
-        qDebug()<<"=== STARTING CONSUMER ERROR";
+        qDebug() << "=== STARTING CONSUMER ERROR";
         if (!producer.is_valid()) {
-            qDebug()<<"=== PRODUCER INVALID";
+            qDebug() << "=== PRODUCER INVALID";
         }
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Audio export failed"));
@@ -132,29 +127,28 @@ void SpeechDialog::slotProcessSpeech(QPoint zone)
     xmlConsumer.set("properties", "WAV");
     producer.set_in_and_out(zone.x(), zone.y());
     xmlConsumer.connect(producer);
-    qDebug()<<"=== STARTING RENDER C, IN:"<<zone.x()<<" - "<<zone.y();
+    qDebug() << "=== STARTING RENDER C, IN:" << zone.x() << " - " << zone.y();
     m_duration = zone.y() - zone.x();
     qApp->processEvents();
     xmlConsumer.run();
     qApp->processEvents();
-    qDebug()<<"=== STARTING RENDER D";
+    qDebug() << "=== STARTING RENDER D";
     QString language = language_box->currentText();
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
     QString modelDirectory = m_stt->voskModelPath();
-    qDebug()<<"==== ANALYSIS SPEECH: "<<modelDirectory<<" - "<<language<<" - "<<audio<<" - "<<speech;
+    qDebug() << "==== ANALYSIS SPEECH: " << modelDirectory << " - " << language << " - " << audio << " - " << speech;
     m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
-    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, [this, speech, zone](int, QProcess::ExitStatus status) {
-       slotProcessSpeechStatus(status, speech, zone);
-    });
+    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
+            [this, speech, zone](int, QProcess::ExitStatus status) { slotProcessSpeechStatus(status, speech, zone); });
     m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, language, audio, speech});
 }
 
 void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone)
 {
-    qDebug()<<"/// TERMINATING SPEECH JOB\n\n+++++++++++++++++++++++++++";
+    qDebug() << "/// TERMINATING SPEECH JOB\n\n+++++++++++++++++++++++++++";
     if (status == QProcess::CrashExit) {
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Speech recognition aborted."));
@@ -175,11 +169,11 @@ void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QS
 
 void SpeechDialog::slotProcessProgress()
 {
-     QString saveData = QString::fromUtf8(m_speechJob->readAll());
-     qDebug()<<"==== GOT SPEECH DATA: "<<saveData;
-     if (saveData.startsWith(QStringLiteral("progress:"))) {
-         double prog = saveData.section(QLatin1Char(':'), 1).toInt() * 3.12;
-        qDebug()<<"=== GOT DATA:\n"<<saveData;
+    QString saveData = QString::fromUtf8(m_speechJob->readAll());
+    qDebug() << "==== GOT SPEECH DATA: " << saveData;
+    if (saveData.startsWith(QStringLiteral("progress:"))) {
+        double prog = saveData.section(QLatin1Char(':'), 1).toInt() * 3.12;
+        qDebug() << "=== GOT DATA:\n" << saveData;
         speech_progress->setValue(static_cast<int>(100 * prog / m_duration));
-     }
+    }
 }
