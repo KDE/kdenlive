@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QRegExp>
 #include <QTextCodec>
 #include <utility>
 
@@ -78,10 +79,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 {
     QString start, end, comment;
     QString timeLine;
+    QStringList srtTime;
     GenTime startPos, endPos;
-    int turn = 0, r = 0;
+    int turn = 0, r = 0, endIndex = 1, defaultTurn = 0;
     /*
-     * turn = 0 -> Parse next subtitle line [srt] (or) Parse next section [ssa]
+     * turn = 0 -> Parse next subtitle line [srt] (or) [vtt] (or) [sbv] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
      * turn > 1 -> Add string to completeLine
      */
@@ -92,58 +94,67 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         return true;
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
-    if (filePath.endsWith(".srt")) {
+    if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
+      if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
+      endIndex = filePath.endsWith(".sbv") ? 1 : 2;
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
             return;
         }
-        qDebug() << "srt File";
-        // parsing srt file
+
+        qDebug() << "srt/vtt/sbv File";
+        //parsing srt file
         QTextStream stream(&srtFile);
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
         QString line;
+	QStringList srtTime;
+	QRegExp rx("([0-9]{1,2}):([0-9]{2})");
+	QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.simplified();
+	    //qDebug()<<"Turn: "<<turn;
+	    //qDebug()<<"Line: "<<line<<"\n";
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
                     turn++;
                     continue;
                 }
-                if (line.contains(QLatin1String("-->"))) {
+                if (line.contains(QLatin1String("-->")) || line.contains(rx)) {
                     timeLine += line;
-                    QStringList srtTime = timeLine.split(QLatin1Char(' '));
-                    if (srtTime.count() < 3) {
-                        // invalid time
+                    srtTime = timeLine.split(separator);
+                    if (srtTime.count() > endIndex) {
+                        start = srtTime.at(0);
+                        startPos= stringtoTime(start);
+                        end = srtTime.at(endIndex);
+                        endPos = stringtoTime(end);
+                    } else {
                         continue;
                     }
-                    start = srtTime.at(0);
-                    startPos = stringtoTime(start);
-                    end = srtTime.at(2);
-                    endPos = stringtoTime(end);
                 } else {
                     r++;
                     if (!comment.isEmpty()) comment += " ";
                     if (r == 1)
                         comment += line;
                     else
-                        comment = comment + "\n" + line; // changed from \r
+                        comment = comment + "\n" + line;
                 }
                 turn++;
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+		    //qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
                 } else {
                     qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
                 }
                 // reinitialize
                 comment.clear();
                 timeLine.clear();
-                turn = 0;
                 r = 0;
-            }
-        }
+                turn = defaultTurn;
+            }            
+        }  
         srtFile.close();
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug() << "ass File";
@@ -254,6 +265,16 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             }
         }
         assFile.close();
+	} else {
+	  if (endPos > startPos) {
+	    addSubtitle(startPos+subtitleOffset, endPos+subtitleOffset, comment, undo, redo, false);
+	  } else {
+	    qDebug()<<"===== INVALID VTT SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
+	  }
+	//   reinitialize for next comment:
+	  comment.clear();
+	  timeLine.clear();
+	  turn = 0; r = 0;	      
     }
     Fun update_model = [this]() {
         emit modelChanged();
@@ -263,7 +284,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     update_model();
     if (externalImport) {
         pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
-    }
+    } 
 }
 
 void SubtitleModel::parseSubtitle(const QString &subPath)
