@@ -897,7 +897,7 @@ int GLWidget::setProducer(const QString &file)
         m_producer.reset();
     }
     m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
-    if (!m_producer && !m_producer->is_valid()) {
+    if (!m_producer || !m_producer->is_valid()) {
         m_producer.reset();
         m_producer = m_blackClip;
     }
