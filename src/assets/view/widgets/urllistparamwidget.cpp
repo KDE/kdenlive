@@ -5,8 +5,8 @@
 
 #include "urllistparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
-#include "kdenlivesettings.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 
@@ -93,8 +93,8 @@ void UrlListParamWidget::slotRefresh()
     QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
     QString currentValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
-    filter.remove(0, filter.indexOf("(")+1);
-    filter.remove(filter.indexOf(")")-1, -1);
+    filter.remove(0, filter.indexOf("(") + 1);
+    filter.remove(filter.indexOf(")") - 1, -1);
     m_fileExt = filter.split(" ");
     if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
@@ -145,7 +145,7 @@ void UrlListParamWidget::slotRefresh()
     values.removeDuplicates();
 
     // build ui list
-    QMap <QString, QString> entryMap;
+    QMap<QString, QString> entryMap;
     int ix = 0;
     // Put all name/value combinations in a map
     for (const QString &value : qAsConst(values)) {
@@ -158,7 +158,7 @@ void UrlListParamWidget::slotRefresh()
                     validated << value;
                     KdenliveSettings::setValidated_luts(validated);
                 } else {
-                    qDebug()<<":::: FOUND INVALID LUT FILE: "<<value;
+                    qDebug() << ":::: FOUND INVALID LUT FILE: " << value;
                 }
             } else {
                 entryMap.insert(QFileInfo(value).baseName(), value);
@@ -194,7 +194,7 @@ void UrlListParamWidget::slotRefresh()
     // select current value
     if (!currentValue.isEmpty()) {
         int ix = m_list->findData(currentValue);
-        if (ix > -1)  {
+        if (ix > -1) {
             m_list->setCurrentIndex(ix);
             m_currentIndex = ix;
         }
@@ -207,8 +207,7 @@ bool UrlListParamWidget::isValidCubeFile(const QString &path)
     if (f.open(QFile::ReadOnly | QFile::Text)) {
         int lineCt = 0;
         QTextStream in(&f);
-        while (!in.atEnd() && lineCt < 30)
-        {
+        while (!in.atEnd() && lineCt < 30) {
             QString line = in.readLine();
             if (line.contains(QStringLiteral("LUT_3D_SIZE"))) {
                 f.close();
@@ -253,12 +252,12 @@ void UrlListParamWidget::openFile()
 void UrlListParamWidget::downloadNewItems()
 {
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
-    if(configFile.isEmpty()) {
+    if (configFile.isEmpty()) {
         return;
     }
 
     if (pCore->getNewStuff(configFile) > 0) {
-        if(configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
+        if (configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
             MltConnection::refreshLumas();
         }
         slotRefresh();

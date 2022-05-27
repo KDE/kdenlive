@@ -15,7 +15,7 @@
 
 class ProfileModel;
 
-/** @class ProfileRepository 
+/** @class ProfileRepository
     @brief This class is used to read all the profiles available to the user (MLT defaults one and Custom ones).
     You can then query profiles based on their paths
     Note that this class is a Singleton, with Mutex protections to allow concurrent access.
@@ -76,6 +76,6 @@ protected:
     /** @brief map from the profile path to the instance of the profile.
      * @details We use unordered_map because QMap and QHash currently don't support
      * move insertion, hence inserting unique_ptr is impossible.
-    */
+     */
     std::unordered_map<QString, std::unique_ptr<ProfileModel>> m_profiles;
 };

@@ -20,7 +20,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
         if (m_childEffects.size() == 0) {
             return;
         }
-        //qDebug() << "* * *SETTING EFFECT PARAM: " << name << " = " << m_asset->get(name.toUtf8().constData());
+        // qDebug() << "* * *SETTING EFFECT PARAM: " << name << " = " << m_asset->get(name.toUtf8().constData());
         QMapIterator<int, std::shared_ptr<EffectItemModel>> i(m_childEffects);
         while (i.hasNext()) {
             i.next();
@@ -49,7 +49,8 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     return self;
 }
 
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, const QString &originalDecimalPoint)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack,
+                                                            const QString &originalDecimalPoint)
 {
     QString effectId = effect->get("kdenlive_id");
     if (effectId.isEmpty()) {
@@ -230,14 +231,14 @@ bool EffectItemModel::isUnique() const
     return EffectsRepository::get()->isUnique(m_assetId);
 }
 
-QPair <int, int> EffectItemModel::getInOut() const
+QPair<int, int> EffectItemModel::getInOut() const
 {
     return {m_asset->get_int("in"), m_asset->get_int("out")};
 }
 
-void EffectItemModel::setInOut(const QString &effectName, QPair<int, int>bounds, bool enabled, bool withUndo)
+void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo)
 {
-    QPair<int, int>currentInOut = {m_asset->get_int("in"), m_asset->get_int("out")};
+    QPair<int, int> currentInOut = {m_asset->get_int("in"), m_asset->get_int("out")};
     int currentState = m_asset->get_int("kdenlive:force_in_out");
     Fun undo = [this, currentState, currentInOut]() {
         m_asset->set("kdenlive:force_in_out", currentState);

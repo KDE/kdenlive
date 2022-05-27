@@ -48,8 +48,8 @@ RTTR_REGISTRATION
     registration::class_<TimelineFunctions>("TimelineFunctions")
         .method("requestClipCut", select_overload<bool(std::shared_ptr<TimelineItemModel>, int, int)>(&TimelineFunctions::requestClipCut))(
             parameter_names("timeline", "clipId", "position"))
-        .method("requestDeleteBlankAt", select_overload<bool(const std::shared_ptr<TimelineItemModel>&, int, int, bool)>(&TimelineFunctions::requestDeleteBlankAt))(
-            parameter_names("timeline", "trackId", "position", "affectAllTracks"));
+        .method("requestDeleteBlankAt", select_overload<bool(const std::shared_ptr<TimelineItemModel> &, int, int, bool)>(
+                                            &TimelineFunctions::requestDeleteBlankAt))(parameter_names("timeline", "trackId", "position", "affectAllTracks"));
 }
 #else
 #define TRACE_STATIC(...)
@@ -148,18 +148,20 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
     timeline->m_allClips[newId]->setSubPlaylistIndex(timeline->m_allClips[clipId]->getSubPlaylistIndex(), trackId);
     res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
-    
+
     if (timeline->getTrackById_const(trackId)->hasEndMix(clipId)) {
-        Fun local_undo = [timeline, trackId, clipId, newId]() { 
+        Fun local_undo = [timeline, trackId, clipId, newId]() {
             timeline->getTrackById_const(trackId)->reAssignEndMix(newId, clipId);
-            return true; };
+            return true;
+        };
         Fun local_redo = [timeline, trackId, clipId, newId]() {
             timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId);
-            return true; };
+            return true;
+        };
         local_redo();
         UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
-    
+
     if (durationChanged) {
         // Track length changed, check project duration
         Fun updateDuration = [timeline]() {
@@ -255,7 +257,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         auto criterion = [timeline, position](int cid) { return timeline->getItemPosition(cid) < position; };
         bool res = true;
         for (const int topId : topElements) {
-            qDebug()<<"// CHECKING REGROUP ELEMENT: "<<topId<<", ISCLIP: "<<timeline->isClip(topId)<<timeline->isGroup(topId);
+            qDebug() << "// CHECKING REGROUP ELEMENT: " << topId << ", ISCLIP: " << timeline->isClip(topId) << timeline->isGroup(topId);
             res = res && timeline->m_groups->split(topId, criterion, undo, redo);
         }
         if (!res) {
@@ -271,7 +273,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         }
     }
     return count > 0;
-}   
+}
 
 bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> timeline, int position)
 {
@@ -279,7 +281,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
 
-    for (const auto &track: timeline->m_allTracks) {
+    for (const auto &track : timeline->m_allTracks) {
         if (!track->isLocked()) {
             affectedTracks << track;
         }
@@ -291,7 +293,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     }
 
     unsigned count = 0;
-    for (auto track: qAsConst(affectedTracks)) {
+    for (auto track : qAsConst(affectedTracks)) {
         int clipId = track->getClipByPosition(position);
         if (clipId > -1) {
             // Found clip at position in track, cut it. Update undo/redo as we go.
@@ -316,7 +318,8 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     return count > 0;
 }
 
-int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups, bool allowGroupBreaking)
+int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups,
+                                                   bool allowGroupBreaking)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
@@ -330,7 +333,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         std::unordered_set<int> groupsToRemove;
         int firstCid = -1;
         int firstPosition = -1;
-        QMap<int,int>firstPositions;
+        QMap<int, int> firstPositions;
         std::unordered_set<int> toSelect;
         for (int r : roots) {
             if (timeline->isGroup(r)) {
@@ -412,7 +415,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
             if (trackId > -1) {
                 // Easy, check blank size
                 int spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(firstPosition - 1);
-                if (spaceDuration > 0 ) {
+                if (spaceDuration > 0) {
                     spacerMinPosition = firstPosition - spaceDuration;
                 }
             } else {
@@ -441,7 +444,8 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition,
+                                                  int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo)
 {
     // Move group back to original position
     spacerMinPosition = -1;
@@ -544,7 +548,6 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     return false;
 }
 
-
 bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, Fun &undo, Fun &redo)
 {
     // Check if we have grouped clips that are on unaffected tracks, and ungroup them
@@ -559,7 +562,7 @@ bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemMo
         if (timeline->m_groups->isInGroup(item)) {
             int groupId = timeline->m_groups->getRootId(item);
             std::unordered_set<int> all_children = timeline->m_groups->getLeaves(groupId);
-            for (int child: all_children) {
+            for (int child : all_children) {
                 int childTrackId = timeline->getItemTrackId(child);
                 if (!tracks.contains(childTrackId) && timeline->m_groups->isInGroup(child)) {
                     // This item should not be affected by the operation, ungroup it
@@ -592,8 +595,8 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, const QList<int> &trackIds, const QString &binId, int insertFrame, QPoint zone,
-                                   bool overwrite, bool useTargets)
+bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, const QList<int> &trackIds, const QString &binId, int insertFrame,
+                                   QPoint zone, bool overwrite, bool useTargets)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -656,7 +659,8 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
                 result = result && TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
             }
         }
-        result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, affectedTracks);
+        result =
+            result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, affectedTracks);
     }
     if (result) {
         if (!trackIds.isEmpty()) {
@@ -681,11 +685,13 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
             // Check if we have a mix
-            std::pair<MixInfo,MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(startClipId);
+            std::pair<MixInfo, MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(startClipId);
             bool abortCut = false;
             if (mixData.first.firstClipId > -1) {
                 // Clip has a start mix
-                if (mixData.first.secondClipInOut.first + (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first) - mixData.first.mixOffset >= zone.x()) {
+                if (mixData.first.secondClipInOut.first + (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first) -
+                        mixData.first.mixOffset >=
+                    zone.x()) {
                     // Cut pos is in the mix zone before clip cut, completely remove clip
                     abortCut = true;
                 }
@@ -704,11 +710,13 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
             // Check if we have a mix
-            std::pair<MixInfo,MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(endClipId);
+            std::pair<MixInfo, MixInfo> mixData = timeline->getTrackById_const(trackId)->getMixInfo(endClipId);
             bool abortCut = false;
             if (mixData.second.firstClipId > -1) {
                 // Clip has an end mix
-                if (mixData.second.firstClipInOut.second - (mixData.second.firstClipInOut.second - mixData.second.secondClipInOut.first) - mixData.first.mixOffset <= zone.y()) {
+                if (mixData.second.firstClipInOut.second - (mixData.second.firstClipInOut.second - mixData.second.secondClipInOut.first) -
+                        mixData.first.mixOffset <=
+                    zone.y()) {
                     // Cut pos is in the mix zone after clip cut, completely remove clip
                     abortCut = true;
                 }
@@ -730,7 +738,8 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     return true;
 }
 
-bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks, bool useTargets)
+bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks,
+                                    bool useTargets)
 {
     std::unordered_set<int> clips;
     if (useTargets) {
@@ -760,11 +769,13 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     int targetPos = timeline->getItemPosition(itemId) + zone.x() - zone.y();
 
     if (timeline->m_groups->isInGroup(itemId)) {
-        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, true, allowedTracks);
+        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, true,
+                                            allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
     } else {
-        result = timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true, undo, redo);
+        result =
+            timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true, undo, redo);
     }
     timeline->requestClearSelection();
     if (!result) {
@@ -773,7 +784,8 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, const QVector<int> &allowedTracks)
+bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo,
+                                           const QVector<int> &allowedTracks)
 {
     timeline->requestClearSelection();
     Fun local_undo = []() { return true; };
@@ -800,8 +812,8 @@ bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemMod
 
     // TODO the three move functions should be unified in a "requestItemMove" function
     if (timeline->m_groups->isInGroup(itemId)) {
-        result =
-            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo, true, true, true, allowedTracks);
+        result = result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo,
+                                                      true, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, local_undo, local_redo);
     } else {
@@ -1161,7 +1173,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
         for (int tid : videoTracks) {
             int b_track = timeline->getTrackMltIndex(tid);
             Mlt::Transition transition(*timeline->m_tractor->profile(), "qtblend");
-            //transition.set("mlt_service", "composite");
+            // transition.set("mlt_service", "composite");
             transition.set("a_track", 0);
             transition.set("b_track", b_track);
             // 200 is an arbitrary number so we can easily remove these transition later
@@ -1572,7 +1584,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
                 }
             }
             // This should not happen
-            qDebug()<<"INCORRECT GROUP ID FOUND";
+            qDebug() << "INCORRECT GROUP ID FOUND";
             return -1;
         } else {
             return parent;
@@ -1601,10 +1613,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     return false;
 }
 
-bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo)
+bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo,
+                                   Fun &redo)
 {
     timeline->requestClearSelection();
-    while(!semaphore.tryAcquire(1)) {
+    while (!semaphore.tryAcquire(1)) {
         qApp->processEvents();
     }
     waitingBinIds.clear();
@@ -1694,7 +1707,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     std::sort(videoTracks.begin(), videoTracks.end());
     std::sort(audioTracks.begin(), audioTracks.end());
     std::sort(singleAudioTracks.begin(), singleAudioTracks.end());
-    //qDebug()<<"== GOT WANTED TKS\n VIDEO: "<<videoTracks<<"\n AUDIO TKS: "<<audioTracks<<"\n SINGLE AUDIO: "<<singleAudioTracks;
+    // qDebug()<<"== GOT WANTED TKS\n VIDEO: "<<videoTracks<<"\n AUDIO TKS: "<<audioTracks<<"\n SINGLE AUDIO: "<<singleAudioTracks;
     int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
@@ -1763,7 +1776,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             return false;
         }
         tracksMap.insert(tk, projectTracks.second.at(newPos));
-        //qDebug() << "/// MAPPING SOURCE TRACK: "<<tk<<" TO PROJECT TK: "<<projectTracks.second.at(newPos)<<" = "<<timeline->getTrackMltIndex(projectTracks.second.at(newPos));
+        // qDebug() << "/// MAPPING SOURCE TRACK: "<<tk<<" TO PROJECT TK: "<<projectTracks.second.at(newPos)<<" =
+        // "<<timeline->getTrackMltIndex(projectTracks.second.at(newPos));
     }
     bool audioOffsetCalculated = false;
     int audioOffset = 0;
@@ -1873,7 +1887,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         // Clips from same document, directly proceed to pasting
         return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false);
     }
-    qDebug()<<"++++++++++++\nWAITIND FOR BIN INSERTION: "<<waitingBinIds<<"\n\n+++++++++++++";
+    qDebug() << "++++++++++++\nWAITIND FOR BIN INSERTION: " << waitingBinIds << "\n\n+++++++++++++";
     return true;
 }
 
@@ -1884,7 +1898,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, timeline_undo, timeline_redo, true);
 }
 
-bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position, Fun &timeline_undo, Fun & timeline_redo, bool pushToStack)
+bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position, Fun &timeline_undo,
+                                           Fun &timeline_redo, bool pushToStack)
 {
     // Wait until all bin clips are inserted
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
@@ -1919,7 +1934,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         }
         int audioStream = prod.attribute(QStringLiteral("audioStream")).toInt();
         int newId;
-        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), audioStream, speed, warp_pitch, timeline_undo, timeline_redo);
+        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), audioStream, speed, warp_pitch,
+                                                     timeline_undo, timeline_redo);
         if (!created) {
             // Something is broken
             pCore->displayMessage(i18n("Could not paste items in timeline"), ErrorMessage, 500);
@@ -1946,7 +1962,6 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                     }
                 }
             }
-            
         }
         if (timeline->m_allClips[newId]->m_endlessResize) {
             out = out - in;
@@ -1967,7 +1982,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
             destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), timeline_undo, timeline_redo);
         } else {
-            qDebug()<<"=== COULD NOT PASTE CLIP: "<<newId<<" ON TRACK: "<<curTrackId<<" AT: "<<position;
+            qDebug() << "=== COULD NOT PASTE CLIP: " << newId << " ON TRACK: " << curTrackId << " AT: " << position;
             break;
         }
         // Mixes (same track transitions)
@@ -1995,13 +2010,13 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
                 QDomElement e = paramsXml.at(j).toElement();
                 params.append({e.attribute(QLatin1String("name")), e.text()});
             }
-            std::pair<QString,QVector<QPair<QString, QVariant>>> mixParams = {mix.attribute(QLatin1String("asset")),params};
+            std::pair<QString, QVector<QPair<QString, QVariant>>> mixParams = {mix.attribute(QLatin1String("asset")), params};
             MixInfo mixData;
             mixData.firstClipId = correspondingIds[originalFirstClipId];
             mixData.secondClipId = correspondingIds[originalSecondClipId];
             mixData.firstClipInOut.second = mix.attribute(QLatin1String("mixEnd")).toInt();
             mixData.secondClipInOut.first = mix.attribute(QLatin1String("mixStart")).toInt();
-            mixData.mixOffset =  mix.attribute(QLatin1String("mixOffset")).toInt();
+            mixData.mixOffset = mix.attribute(QLatin1String("mixOffset")).toInt();
             timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, true);
         }
     }
@@ -2025,9 +2040,10 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
             for (int j = 0; j < props.count(); j++) {
                 transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
-                            props.at(j).toElement().text().toUtf8().constData());
+                                props.at(j).toElement().text().toUtf8().constData());
             }
-            res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, timeline_undo, timeline_redo);
+            res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId,
+                                                               timeline_undo, timeline_redo);
         }
     }
     if (res && !subtitles.isEmpty()) {
@@ -2037,7 +2053,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             int in = prod.attribute(QStringLiteral("in")).toInt() - offset;
             int out = prod.attribute(QStringLiteral("out")).toInt() - offset;
             QString text = prod.attribute(QStringLiteral("text"));
-            res = res && subModel->addSubtitle(GenTime(position + in, pCore->getCurrentFps()), GenTime(position + out, pCore->getCurrentFps()), text, timeline_undo, timeline_redo);
+            res = res && subModel->addSubtitle(GenTime(position + in, pCore->getCurrentFps()), GenTime(position + out, pCore->getCurrentFps()), text,
+                                               timeline_undo, timeline_redo);
         }
     }
     if (!res) {
@@ -2060,7 +2077,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     };
     PUSH_FRONT_LAMBDA(unselect, timeline_undo);
     PUSH_FRONT_LAMBDA(unselect, timeline_redo);
-    //UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
+    // UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
     if (pushToStack) {
         pCore->pushUndo(timeline_undo, timeline_redo, i18n("Paste timeline clips"));
     }
@@ -2074,7 +2091,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     int spaceStart = 0;
     if (affectAllTracks) {
         int lastFrame = 0;
-        for (const auto &track: timeline->m_allTracks) {
+        for (const auto &track : timeline->m_allTracks) {
             if (!track->isLocked()) {
                 if (!track->isBlankAt(position)) {
                     return false;
@@ -2140,10 +2157,10 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     container.setAttribute(QStringLiteral("offset"), pos);
     container.setAttribute(QStringLiteral("documentid"), QStringLiteral("000000"));
     // Process producers
-    QList <int> processedProducers;
-    QMap <QString, int> producerMap;
-    QMap <QString, double> producerSpeed;
-    QMap <QString, int> producerSpeedResource;
+    QList<int> processedProducers;
+    QMap<QString, int> producerMap;
+    QMap<QString, double> producerSpeed;
+    QMap<QString, int> producerSpeedResource;
     QDomNodeList producers = sourceDoc.elementsByTagName(QLatin1String("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement currentProd = producers.item(i).toElement();
@@ -2151,26 +2168,26 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
         if (!ok) {
             const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
-            qDebug()<<"===== CLIP NOT FOUND: "<<resource;
+            qDebug() << "===== CLIP NOT FOUND: " << resource;
             if (producerSpeedResource.contains(resource)) {
                 clipId = producerSpeedResource.value(resource);
-                qDebug()<<"===== GOT PREVIOUS ID: "<<clipId;
+                qDebug() << "===== GOT PREVIOUS ID: " << clipId;
                 QString baseProducerId;
                 int baseProducerClipId = 0;
-                QMapIterator<QString, int>m(producerMap);
+                QMapIterator<QString, int> m(producerMap);
                 while (m.hasNext()) {
                     m.next();
                     if (m.value() == clipId) {
                         baseProducerId = m.key();
                         baseProducerClipId = m.value();
-                        qDebug()<<"=== FOUND PRODUCER FOR ID: "<<m.key();
+                        qDebug() << "=== FOUND PRODUCER FOR ID: " << m.key();
                         break;
                     }
                 }
                 if (!baseProducerId.isEmpty()) {
                     producerSpeed.insert(currentProd.attribute(QLatin1String("id")), producerSpeed.value(baseProducerId));
                     producerMap.insert(currentProd.attribute(QLatin1String("id")), baseProducerClipId);
-                    qDebug()<<"/// INSERTING PRODUCERMAP: "<<currentProd.attribute(QLatin1String("id"))<<"="<<baseProducerClipId;
+                    qDebug() << "/// INSERTING PRODUCERMAP: " << currentProd.attribute(QLatin1String("id")) << "=" << baseProducerClipId;
                 }
                 // Producer already processed;
                 continue;
@@ -2178,17 +2195,17 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 clipId = pCore->projectItemModel()->getFreeClipId();
             }
             Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), QString::number(clipId));
-            qDebug()<<"=== UNKNOWN CLIP FOUND: "<<Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            qDebug() << "=== UNKNOWN CLIP FOUND: " << Xml::getXmlProperty(currentProd, QLatin1String("resource"));
         }
         producerMap.insert(currentProd.attribute(QLatin1String("id")), clipId);
-        qDebug()<<"/// INSERTING SOURCE PRODUCERMAP: "<<currentProd.attribute(QLatin1String("id"))<<"="<<clipId;
+        qDebug() << "/// INSERTING SOURCE PRODUCERMAP: " << currentProd.attribute(QLatin1String("id")) << "=" << clipId;
         QString mltService = Xml::getXmlProperty(currentProd, QStringLiteral("mlt_service"));
         if (mltService == QLatin1String("timewarp")) {
             // Speed producer
             double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
             Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
             producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
-            qDebug()<<"===== CLIP SPEED RESOURCE: "<<Xml::getXmlProperty(currentProd, QLatin1String("resource"))<<" = "<<clipId;
+            qDebug() << "===== CLIP SPEED RESOURCE: " << Xml::getXmlProperty(currentProd, QLatin1String("resource")) << " = " << clipId;
             QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
             Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
             producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
@@ -2204,7 +2221,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         bin.appendChild(destDoc.importNode(currentProd, true));
     }
     // Check for audio tracks
-    QMap <QString, bool> tracksType;
+    QMap<QString, bool> tracksType;
     int audioTracks = 0;
     int videoTracks = 0;
     QDomNodeList tracks = sourceDoc.elementsByTagName(QLatin1String("track"));
@@ -2254,7 +2271,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 clipElement.setAttribute(QLatin1String("out"), out);
                 clipElement.setAttribute(QLatin1String("position"), position + pos);
                 clipElement.setAttribute(QLatin1String("track"), track);
-                //clipElement.setAttribute(QStringLiteral("state"), (int)m_currentState);
+                // clipElement.setAttribute(QStringLiteral("state"), (int)m_currentState);
                 clipElement.setAttribute(QStringLiteral("state"), audioTrack ? 2 : 1);
                 if (audioTrack) {
                     clipElement.setAttribute(QLatin1String("audioTrack"), 1);
@@ -2332,7 +2349,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             }
         }
     }
-    qDebug()<<"=== GOT CONVERTED DOCUMENT\n\n"<<destDoc.toString();
+    qDebug() << "=== GOT CONVERTED DOCUMENT\n\n" << destDoc.toString();
     return destDoc;
 }
 

@@ -6,8 +6,8 @@
 #pragma once
 
 #include "definitions.h"
-#include "utils/gentime.h"
 #include "undohelper.hpp"
+#include "utils/gentime.h"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -46,7 +46,7 @@ public:
        @param type is the type (color) associated with the marker. If -1 is passed, then the value is pulled from kdenlive's defaults
      */
     bool addMarker(GenTime pos, const QString &comment, int type = -1);
-    bool addMarkers(const QMap <GenTime, QString> &markers, int type = -1);
+    bool addMarkers(const QMap<GenTime, QString> &markers, int type = -1);
 
 protected:
     /** @brief Same function but accumulates undo/redo */
@@ -96,7 +96,7 @@ public:
     /** @brief Returns all markers of model that are intersect with a given range.
      * @param start is the position where start to search for markers
      * @param end is the position after which markers will not be returned, set to -1 to get all markers after start
-    */
+     */
     QList<CommentedTime> getMarkersInRange(int start, int end) const;
     QVector<int> getMarkersIdInRange(int start, int end) const;
 
@@ -200,6 +200,5 @@ private:
 
 signals:
     void modelChanged();
-
 };
 Q_DECLARE_METATYPE(MarkerListModel *)

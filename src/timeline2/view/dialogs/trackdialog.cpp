@@ -37,14 +37,13 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
         comboTracks->setVisible(false);
         label->setText(i18n("Select tracks to be deleted :"));
         this->adjustSize();
-    }
-    else {
+    } else {
         deleteTracks->setVisible(false);
     }
     buildCombo();
     connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
-    connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), this, [this] (int count) {
+    connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int count) {
         tracks_count->setSuffix(i18ncp("Spinbox suffix", " track", " tracks", count));
         track_name->setEnabled(count == 1);
     });
@@ -66,16 +65,15 @@ void TrackDialog::buildCombo()
         }
         const QString trackName = m_model->getTrackFullName(tid);
         if (m_deleteMode) {
-            auto *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
-            m_idByTrackname.insert(trackName,tid);
+            auto *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon, trackName);
+            m_idByTrackname.insert(trackName, tid);
             track->setFlags(track->flags() | Qt::ItemIsUserCheckable);
             track->setCheckState(Qt::Unchecked);
-            if(m_activeTrack == tid) {
+            if (m_activeTrack == tid) {
                 track->setCheckState(Qt::Checked);
             }
             deleteTracks->addItem(track);
-        }
-        else {
+        } else {
             comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
         }
         // Track index in in MLT, so add + 1 to compensate black track
@@ -119,8 +117,7 @@ int TrackDialog::selectedTrackId() const
 QList<int> TrackDialog::toDeleteTrackIds()
 {
     QList<int> todeleteIds;
-    for (int i = deleteTracks->count() - 1; i >= 0; i--)
-    {
+    for (int i = deleteTracks->count() - 1; i >= 0; i--) {
         QListWidgetItem *listitem = deleteTracks->item(i);
         if (listitem->checkState() == Qt::Checked) {
             todeleteIds.append(m_idByTrackname[listitem->text()]);

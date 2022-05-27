@@ -146,7 +146,7 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
     int trackId = m_allClips.at(clipId)->getCurrentTrackId();
     if (trackId == -1) {
         // Clip is not inserted in a track
-        qDebug() << "/// WARNING; INVALID CLIP INDEX REQUESTED: "<<clipId<<"\n________________";
+        qDebug() << "/// WARNING; INVALID CLIP INDEX REQUESTED: " << clipId << "\n________________";
         return {};
     }
     int row = getTrackById_const(trackId)->getRowfromClip(clipId);
@@ -720,7 +720,8 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
             if (hasMixer) {
-                pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()), (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
+                pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
+                                              (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
                 connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
             }
         }

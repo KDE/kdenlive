@@ -22,7 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <dialogs/timeremap.h>
 #include <timeline2/view/timelinecontroller.h>
 
-const double MonitorManager::speedArray[6] = {1. ,1.5, 2., 3., 5.5, 10.};
+const double MonitorManager::speedArray[6] = {1., 1.5, 2., 3., 5.5, 10.};
 
 MonitorManager::MonitorManager(QObject *parent)
     : QObject(parent)
@@ -154,7 +154,6 @@ void MonitorManager::refreshMonitors()
             activateMonitor(Kdenlive::ProjectMonitor);
             refreshProjectMonitor(true);
         }
-
     }
 }
 
@@ -183,7 +182,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
                 m_clipMonitor->fixFocus();
             }
             if (!m_clipMonitor->isVisible()) {
-                pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"), MessageType::InformationMessage);
+                pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
+                                      MessageType::InformationMessage);
                 m_activeMonitor = m_projectMonitor;
                 return false;
             }
@@ -197,7 +197,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
                 m_projectMonitor->fixFocus();
             }
             if (!m_projectMonitor->isVisible()) {
-                pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"), MessageType::InformationMessage);
+                pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"),
+                                      MessageType::InformationMessage);
                 m_activeMonitor = m_clipMonitor;
                 return false;
             }
@@ -376,7 +377,8 @@ void MonitorManager::slotPerformMultiTrackMode()
     if (m_activeMultiTrack == -1) {
         return;
     }
-    pCore->window()->getCurrentTimeline()->controller()->processMultitrackOperation(m_activeMultiTrack, pCore->window()->getCurrentTimeline()->controller()->multicamIn);
+    pCore->window()->getCurrentTimeline()->controller()->processMultitrackOperation(m_activeMultiTrack,
+                                                                                    pCore->window()->getCurrentTimeline()->controller()->multicamIn);
     m_activeMultiTrack = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
     pCore->window()->getCurrentTimeline()->controller()->setMulticamIn(m_projectMonitor->position());
 }
@@ -406,7 +408,7 @@ void MonitorManager::resetProfiles()
     }
     if (m_projectMonitor) {
         m_projectMonitor->resetProfile();
-    }  
+    }
 }
 
 void MonitorManager::resetConsumers(bool fullReset)
@@ -496,8 +498,7 @@ void MonitorManager::setupActions()
 
     QAction *monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
     connect(monitorSeekBackwardOneFrame, &QAction::triggered, this, &MonitorManager::slotRewindOneFrame);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-frame"), monitorSeekBackwardOneFrame, Qt::Key_Left,
-                               QStringLiteral("navandplayback"));
+    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-frame"), monitorSeekBackwardOneFrame, Qt::Key_Left, QStringLiteral("navandplayback"));
 
     QAction *monitorSeekBackwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Second"), this);
     connect(monitorSeekBackwardOneSecond, &QAction::triggered, this, &MonitorManager::slotRewindOneSecond);
@@ -505,7 +506,7 @@ void MonitorManager::setupActions()
                                QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
-    connect(monitorSeekForward,  &QAction::triggered, this, &MonitorManager::slotForward);
+    connect(monitorSeekForward, &QAction::triggered, this, &MonitorManager::slotForward);
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward, Qt::Key_L, QStringLiteral("navandplayback"));
 
     QAction *projectStart = new QAction(QIcon::fromTheme(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
@@ -518,8 +519,7 @@ void MonitorManager::setupActions()
 
     QAction *monitorSeekForwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Frame"), this);
     connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-frame"), monitorSeekForwardOneFrame, Qt::Key_Right,
-                               QStringLiteral("navandplayback"));
+    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-frame"), monitorSeekForwardOneFrame, Qt::Key_Right, QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Second"), this);
     connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
@@ -559,7 +559,7 @@ void MonitorManager::setupActions()
     } else {
         interlace->setCurrentItem(0);
     }
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
     connect(interlace, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetDeinterlacer);
 #else
     connect(interlace, &KSelectAction::indexTriggered, this, &MonitorManager::slotSetDeinterlacer);
@@ -581,14 +581,14 @@ void MonitorManager::setupActions()
     } else {
         interpol->setCurrentItem(0);
     }
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5,78,0)
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
     connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
 #else
     connect(interpol, &KSelectAction::indexTriggered, this, &MonitorManager::slotSetInterpolation);
 #endif
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
     pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
-    
+
     QAction *progressive = new QAction(i18n("Progressive playback"), this);
     connect(progressive, &QAction::triggered, this, &MonitorManager::slotProgressivePlay);
     pCore->window()->addAction(QStringLiteral("mlt_progressive"), progressive);
@@ -596,9 +596,7 @@ void MonitorManager::setupActions()
     progressive->setChecked(KdenliveSettings::monitor_progressive());
 
     QAction *audioScrub = new QAction(i18n("Audio Scrubbing"), this);
-    connect(audioScrub, &QAction::triggered, this, [&] (bool enable) {
-        KdenliveSettings::setAudio_scrub(enable);
-    });
+    connect(audioScrub, &QAction::triggered, this, [&](bool enable) { KdenliveSettings::setAudio_scrub(enable); });
     pCore->window()->addAction(QStringLiteral("mlt_scrub"), audioScrub);
     audioScrub->setCheckable(true);
     audioScrub->setChecked(KdenliveSettings::audio_scrub());

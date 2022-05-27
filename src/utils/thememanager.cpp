@@ -49,14 +49,13 @@ ThemeManager::ThemeManager(QObject *parent)
                 themesMenu->setActiveAction(ac);
                 scheme = ac->text();
             }
-            
         }
     }
     for (QAction *ac : qAsConst(duplicates)) {
         themesMenu->removeAction(ac);
     }
     qDeleteAll(duplicates);
-    
+
     // Since 5.67 KColorSchemeManager includes a system color scheme option that reacts to system
     // scheme changes. This scheme will be activated if we pass an empty string to KColorSchemeManager
     // So no need anymore to read the current global scheme ourselves if no custom one is configured.
@@ -87,7 +86,7 @@ QString ThemeManager::loadCurrentPath() const
     return cg.readEntry("ColorSchemePath");
 }
 
-void ThemeManager::saveCurrentScheme(const QString & path)
+void ThemeManager::saveCurrentScheme(const QString &path)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup cg(config, "UiSettings");

@@ -6,11 +6,11 @@
 #include <mlt++/MltRepository.h>
 #define private public
 #define protected public
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "mltconnection.h"
 #include "src/effects/effectsrepository.hpp"
 #include "src/mltcontroller/clipcontroller.h"
-#include "bin/projectitemmodel.h"
 
 /* This file is intended to remain empty.
 Write your tests in a file with a name corresponding to what you're testing */

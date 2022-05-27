@@ -158,6 +158,6 @@ signals:
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
     void activateEffect(int row);
-    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void refresh();
 };

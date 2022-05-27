@@ -18,8 +18,8 @@ QColor QColorUtils::stringToColor(QString strColor)
             uint intval = strColor.toUInt(&ok, 16);
             color.setRgb((intval >> 24) & 0xff, // r
                          (intval >> 16) & 0xff, // g
-                         (intval >>  8) & 0xff, // b
-                          intval        & 0xff); // a
+                         (intval >> 8) & 0xff,  // b
+                         intval & 0xff);        // a
         } else {
             // 0xRRGGBB, 0xRGB
             color.setNamedColor(strColor.replace(0, 2, QLatin1Char('#')));
@@ -29,9 +29,9 @@ QColor QColorUtils::stringToColor(QString strColor)
             // #AARRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
             uint intval = strColor.toUInt(&ok, 16);
-            color.setRgb((intval >> 16) & 0xff, // r
-                         (intval >>  8) & 0xff, // g
-                          intval        & 0xff, // b
+            color.setRgb((intval >> 16) & 0xff,  // r
+                         (intval >> 8) & 0xff,   // g
+                         intval & 0xff,          // b
                          (intval >> 24) & 0xff); // a
         } else if (strColor.length() == 8) {
             // 0xRRGGBB
@@ -65,10 +65,7 @@ QString QColorUtils::colorToString(const QColor &color, bool alpha)
     return colorStr;
 }
 
-NegQColor::NegQColor()
-{
-
-}
+NegQColor::NegQColor() {}
 
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 {
@@ -82,8 +79,7 @@ NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 
 QDebug operator<<(QDebug qd, const NegQColor &c)
 {
-    qd << c.qcolor << "(redF" << c.redF() << "greenF" << c.greenF() << "blueF" << c.blueF()
-    << "valueF" << c.valueF() << "hueF" << c.hueF() << ")";
+    qd << c.qcolor << "(redF" << c.redF() << "greenF" << c.greenF() << "blueF" << c.blueF() << "valueF" << c.valueF() << "hueF" << c.hueF() << ")";
     return qd.maybeSpace();
 }
 

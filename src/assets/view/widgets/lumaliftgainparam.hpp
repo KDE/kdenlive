@@ -6,9 +6,9 @@
 #pragma once
 
 #include "abstractparamwidget.hpp"
-#include <QWidget>
-#include <QDomElement>
 #include "utils/qcolorutils.h"
+#include <QDomElement>
+#include <QWidget>
 
 class ColorWheel;
 class FlowLayout;
@@ -46,7 +46,7 @@ signals:
     void liftChanged(const NegQColor &color);
     void gammaChanged(const NegQColor &color);
     void gainChanged(const NegQColor &color);
-    void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
+    void valuesChanged(const QList<QModelIndex>, const QStringList &, bool);
     void updateHeight(int height);
 
 public slots:

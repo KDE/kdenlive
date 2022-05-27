@@ -49,9 +49,11 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         m_presetGroup->setExclusive(true);
         m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, &AssetParameterView::resetValues);
         // Save preset
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset…"), this, [&](){ slotSavePreset(); });
-        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, &AssetParameterView::slotUpdatePreset);
-        QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset…"), this, [&]() { slotSavePreset(); });
+        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this,
+                                                        &AssetParameterView::slotUpdatePreset);
+        QAction *deletePreset =
+            m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, &AssetParameterView::slotDeleteCurrentPreset);
         m_presetMenu->addSeparator();
         QStringList presets = m_model->getPresetList(presetFile);
         if (presetName.isEmpty() || presets.isEmpty()) {
@@ -74,8 +76,8 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget &&
-            (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim || type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
+        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim ||
+                                     type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
             // Keyframe widget can have some extra params that shouldn't build a new widget
             qDebug() << "// FOUND ADDED PARAM";
             if (type != ParamType::ColorWheel) {
@@ -146,7 +148,8 @@ void AssetParameterView::resetValues()
     // Unselect preset if any
     QAction *ac = m_presetGroup->checkedAction();
     if (ac) {
-        ac->setChecked(false);;
+        ac->setChecked(false);
+        ;
     }
 }
 
@@ -167,7 +170,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
     }
 }
 
-void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> &indexes, const QStringList &values, bool storeUndo)
+void AssetParameterView::commitMultipleChanges(const QList<QModelIndex> &indexes, const QStringList &values, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetMultiCommand(m_model, indexes, values);
@@ -329,7 +332,8 @@ void AssetParameterView::slotSavePreset(QString presetName)
 {
     if (presetName.isEmpty()) {
         bool ok;
-        presetName = QInputDialog::getText(this, i18nc("@title:window", "Enter Preset Name"), i18n("Enter the name of this preset:"), QLineEdit::Normal, QString(), &ok);
+        presetName =
+            QInputDialog::getText(this, i18nc("@title:window", "Enter Preset Name"), i18n("Enter the name of this preset:"), QLineEdit::Normal, QString(), &ok);
         if (!ok) return;
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
@@ -360,4 +364,3 @@ QMenu *AssetParameterView::presetMenu()
 {
     return m_presetMenu;
 }
-

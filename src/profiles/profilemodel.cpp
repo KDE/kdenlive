@@ -35,8 +35,7 @@ ProfileModel::ProfileModel(const QString &path)
     if (f.open(QFile::ReadOnly | QFile::Text)) {
         int lineCt = 0;
         QTextStream in(&f);
-        while (!in.atEnd() && lineCt < 30)
-        {
+        while (!in.atEnd() && lineCt < 30) {
             QString line = in.readLine();
             if (line.contains(QStringLiteral("bottom_field_first"))) {
                 m_bottom_field_first = line.split(QStringLiteral("=")).at(1).toInt() == 1;

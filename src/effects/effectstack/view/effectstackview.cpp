@@ -102,7 +102,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_scrollTimer.setSingleShot(true);
     m_scrollTimer.setInterval(250);
     connect(&m_scrollTimer, &QTimer::timeout, this, &EffectStackView::checkScrollBar);
-    
+
     m_timerHeight.setSingleShot(true);
     m_timerHeight.setInterval(50);
 }
@@ -250,9 +250,9 @@ void EffectStackView::changeEnabledState()
 
 void EffectStackView::loadEffects()
 {
-    //QMutexLocker lock(&m_mutex);
+    // QMutexLocker lock(&m_mutex);
     int max = m_model->rowCount();
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects COUNT: "<<max;
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects COUNT: " << max;
     if (max == 0) {
         // blank stack
         ObjectId item = m_model->getOwnerId();
@@ -284,9 +284,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
-        connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) {
-            m_model->setActiveEffect(row);
-        });
+        connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) { m_model->setActiveEffect(row); });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
@@ -400,7 +398,6 @@ void EffectStackView::resizeEvent(QResizeEvent *event)
     m_scrollTimer.start();
 }
 
-
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
     Q_UNUSED(roles)
@@ -424,7 +421,7 @@ void EffectStackView::unsetModel(bool reset)
     Kdenlive::MonitorId id = Kdenlive::NoMonitor;
     if (m_model) {
         ObjectId item = m_model->getOwnerId();
-        pCore->showEffectZone(item, {0,0}, false);
+        pCore->showEffectZone(item, {0, 0}, false);
         id = item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor;
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);

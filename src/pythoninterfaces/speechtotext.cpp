@@ -5,9 +5,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include "speechtotext.h"
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "speechtotext.h"
 
 #include <KLocalizedString>
 #include <QDebug>
@@ -23,11 +23,13 @@ SpeechToText::SpeechToText()
     addScript(QStringLiteral("speechtotext.py"));
 }
 
-QString SpeechToText::featureName() {
+QString SpeechToText::featureName()
+{
     return i18n("Speech to text");
 }
 
-QString SpeechToText::voskModelPath() {
+QString SpeechToText::voskModelPath()
+{
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
     if (modelDirectory.isEmpty()) {
         modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
@@ -39,7 +41,7 @@ QStringList SpeechToText::parseVoskDictionaries()
 {
     QString modelDirectory = voskModelPath();
     if (modelDirectory.isEmpty()) {
-        qDebug()<<"=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
+        qDebug() << "=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
         emit pCore->voskModelUpdate({});
         return {};
     }
@@ -55,5 +57,3 @@ QStringList SpeechToText::parseVoskDictionaries()
     emit pCore->voskModelUpdate(final);
     return final;
 }
-
-

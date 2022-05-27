@@ -9,7 +9,6 @@
 #include <QQuickWidget>
 #include <memory>
 
-
 class AssetIconProvider;
 class AssetFilter;
 class AssetTreeModel;

@@ -36,4 +36,3 @@ void FontParamWidget::slotRefresh()
     const QString family = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     fontfamilywidget->setCurrentFont(QFont(family));
 }
-

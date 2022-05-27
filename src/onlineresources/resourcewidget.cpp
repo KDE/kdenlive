@@ -38,16 +38,14 @@ ResourceWidget::ResourceWidget(QWidget *parent)
 
     slider_zoom->setRange(0, 15);
     connect(slider_zoom, &QAbstractSlider::valueChanged, this, &ResourceWidget::slotSetIconSize);
-    connect(button_zoomin, &QToolButton::clicked, this, [&]() {
-        slider_zoom->setValue(qMin(slider_zoom->value() + 1, slider_zoom->maximum())); });
-    connect(button_zoomout, &QToolButton::clicked, this, [&]() { 
-        slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
+    connect(button_zoomin, &QToolButton::clicked, this, [&]() { slider_zoom->setValue(qMin(slider_zoom->value() + 1, slider_zoom->maximum())); });
+    connect(button_zoomout, &QToolButton::clicked, this, [&]() { slider_zoom->setValue(qMax(slider_zoom->value() - 1, slider_zoom->minimum())); });
 
     message_line->hide();
 
     for (const QPair<QString, QString> &provider : ProvidersRepository::get()->getAllProviers()) {
         QIcon icon;
-        switch(ProvidersRepository::get()->getProvider(provider.second)->type()){
+        switch (ProvidersRepository::get()->getProvider(provider.second)->type()) {
         case ProviderModel::AUDIO:
             icon = QIcon::fromTheme(QStringLiteral("player-volume"));
             break;
@@ -72,23 +70,23 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
 #endif
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
-    connect(button_preview, &QAbstractButton::clicked, this, [&](){
-            if (!m_currentProvider) {
-                return;
-            }
+    connect(button_preview, &QAbstractButton::clicked, this, [&]() {
+        if (!m_currentProvider) {
+            return;
+        }
 
-            slotPreviewItem();
-        });
+        slotPreviewItem();
+    });
 
-    connect(button_import, &QAbstractButton::clicked, this, [&](){
-        if(m_currentProvider->get()->downloadOAuth2()) {
-            if(m_currentProvider->get()->requiresLogin()) {
+    connect(button_import, &QAbstractButton::clicked, this, [&]() {
+        if (m_currentProvider->get()->downloadOAuth2()) {
+            if (m_currentProvider->get()->requiresLogin()) {
                 KMessageBox::information(this, i18n("Login is required to download this item.\nYou will be redirected to the login page now."));
             }
             m_currentProvider->get()->authorize();
         } else {
-            if(m_currentItem->data(singleDownloadRole).toBool()) {
-                if(m_currentItem->data(downloadRole).toString().isEmpty()) {
+            if (m_currentItem->data(singleDownloadRole).toBool()) {
+                if (m_currentItem->data(downloadRole).toString().isEmpty()) {
                     m_currentProvider->get()->slotFetchFiles(m_currentItem->data(idRole).toString());
                     return;
                 } else {
@@ -98,7 +96,6 @@ ResourceWidget::ResourceWidget(QWidget *parent)
                 slotChooseVersion(m_currentItem->data(downloadRole).toStringList(), m_currentItem->data(downloadLabelRole).toStringList());
             }
         }
-
     });
 
     page_number->setEnabled(false);
@@ -122,7 +119,7 @@ void ResourceWidget::loadConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup resourceConfig(config, "OnlineResources");
     slider_zoom->setValue(resourceConfig.readEntry("zoom", 7));
-    if(resourceConfig.readEntry("provider", service_list->itemText(0)).isEmpty()) {
+    if (resourceConfig.readEntry("provider", service_list->itemText(0)).isEmpty()) {
         service_list->setCurrentIndex(0);
     } else {
         service_list->setCurrentItem(resourceConfig.readEntry("provider", service_list->itemText(0)));
@@ -162,7 +159,7 @@ void ResourceWidget::blockUI(bool block)
  */
 void ResourceWidget::slotChangeProvider()
 {
-    if(m_currentProvider != nullptr) {
+    if (m_currentProvider != nullptr) {
         m_currentProvider->get()->disconnect(this);
     }
 
@@ -176,7 +173,7 @@ void ResourceWidget::slotChangeProvider()
     page_number->setMaximum(1);
     page_number->blockSignals(false);
 
-    if(service_list->currentData().toString().isEmpty()) {
+    if (service_list->currentData().toString().isEmpty()) {
         provider_info->clear();
         buildin_box->setEnabled(false);
         return;
@@ -190,7 +187,7 @@ void ResourceWidget::slotChangeProvider()
     provider_info->setText(i18n("Media provided by %1", m_currentProvider->get()->name()));
     provider_info->setUrl(m_currentProvider->get()->homepage());
     connect(m_currentProvider->get(), &ProviderModel::searchDone, this, &ResourceWidget::slotSearchFinished);
-    connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg){
+    connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg) {
         message_line->setText(i18n("Search failed! %1", msg));
         message_line->setMessageType(KMessageWidget::Error);
         message_line->show();
@@ -243,9 +240,10 @@ void ResourceWidget::slotStartSearch()
  * @param pageCount number of found pages
  * Displays the items of list in the search_results ListView
  */
-void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount) {
+void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount)
+{
 
-    if(list.isEmpty()) {
+    if (list.isEmpty()) {
         message_line->setText(i18nc("@info", "No items found."));
         message_line->setMessageType(KMessageWidget::Error);
         message_line->show();
@@ -256,27 +254,28 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
     int count = 0;
-    for (const ResourceItemInfo &item: qAsConst(list)) {
+    for (const ResourceItemInfo &item : qAsConst(list)) {
         message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2…", count, list.count()));
         // if item has no name use "Created by Author", if item even has no author use "Unnamed"
-        QListWidgetItem *listItem = new QListWidgetItem(item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
-        if(!item.imageUrl.isEmpty()) {
+        QListWidgetItem *listItem = new QListWidgetItem(
+            item.name.isEmpty() ? (item.author.isEmpty() ? i18n("Unnamed") : i18nc("Created by author name", "Created by %1", item.author)) : item.name);
+        if (!item.imageUrl.isEmpty()) {
             QUrl img(item.imageUrl);
             m_tmpThumbFile->close();
             if (m_tmpThumbFile->open()) {
                 KIO::FileCopyJob *copyjob = KIO::file_copy(img, QUrl::fromLocalFile(m_tmpThumbFile->fileName()), -1, KIO::HideProgressInfo | KIO::Overwrite);
-                if(copyjob->exec()) {
+                if (copyjob->exec()) {
                     QPixmap pic(m_tmpThumbFile->fileName());
                     listItem->setIcon(pic);
                 }
             }
         }
 
-        listItem->setData(idRole,item.id);
+        listItem->setData(idRole, item.id);
         listItem->setData(nameRole, item.name);
         listItem->setData(filetypeRole, item.filetype);
-        listItem->setData(descriptionRole,item.description);
-        listItem->setData(imageRole,item.imageUrl);
+        listItem->setData(descriptionRole, item.description);
+        listItem->setData(imageRole, item.imageUrl);
         listItem->setData(previewRole, item.previewUrl);
         listItem->setData(authorUrl, item.authorUrl);
         listItem->setData(authorRole, item.author);
@@ -285,7 +284,7 @@ void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int
         listItem->setData(durationRole, item.duration);
         listItem->setData(urlRole, item.infoUrl);
         listItem->setData(licenseRole, item.license);
-        if(item.downloadUrl.isEmpty() && item.downloadUrls.length() > 0) {
+        if (item.downloadUrl.isEmpty() && item.downloadUrls.length() > 0) {
             listItem->setData(singleDownloadRole, false);
             listItem->setData(downloadRole, item.downloadUrls);
             listItem->setData(downloadLabelRole, item.downloadLabels);
@@ -319,7 +318,7 @@ void ResourceWidget::slotUpdateCurrentItem()
         return;
     }
 
-    if(m_currentProvider->get()->type() != ProviderModel::IMAGE && !m_currentItem->data(previewRole).toString().isEmpty()) {
+    if (m_currentProvider->get()->type() != ProviderModel::IMAGE && !m_currentItem->data(previewRole).toString().isEmpty()) {
         button_preview->show();
     } else {
         button_preview->hide();
@@ -377,7 +376,7 @@ QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool
     QString licenseName;
     QString licenseShortName;
 
-    if(licenseUrl.contains("creativecommons.org")) {
+    if (licenseUrl.contains("creativecommons.org")) {
         if (licenseUrl.contains(QStringLiteral("/sampling+/"))) {
             licenseName = i18nc("Creative Commons License", "CC Sampling+");
         } else if (licenseUrl.contains(QStringLiteral("/by/"))) {
@@ -424,15 +423,16 @@ QString ResourceWidget::licenseNameFromUrl(const QString &licenseUrl, const bool
             licenseName.append(QStringLiteral(" 4.0"));
             licenseShortName.append(QStringLiteral(" 4.0"));
         }
-    } else if (licenseUrl.contains("pexels.com/license/")){
+    } else if (licenseUrl.contains("pexels.com/license/")) {
         licenseName = i18n("Pexels License");
     } else if (licenseUrl.contains("pixabay.com/service/license/")) {
-        licenseName = i18n("Pixabay License");;
+        licenseName = i18n("Pixabay License");
+        ;
     } else {
         licenseName = i18n("Unknown License");
     }
 
-    if(shortName && !licenseShortName.isEmpty()) {
+    if (shortName && !licenseShortName.isEmpty()) {
         return licenseShortName;
     } else {
         return licenseName;
@@ -477,17 +477,19 @@ void ResourceWidget::slotPreviewItem()
  * Displays a dialog to let the user choose a file version (e.g. filetype, quality) if there are multiple versions
  * available
  */
-void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken) {
-    if(urls.isEmpty() || labels.isEmpty()) {
+void ResourceWidget::slotChooseVersion(const QStringList &urls, const QStringList &labels, const QString &accessToken)
+{
+    if (urls.isEmpty() || labels.isEmpty()) {
         return;
     }
-    if(urls.length() == 1) {
+    if (urls.length() == 1) {
         slotSaveItem(urls.first(), accessToken);
         return;
     }
     bool ok;
-    QString name = QInputDialog::getItem(this, i18nc("@title:window", "Choose File Version"), i18n("Please choose the version you want to download"), labels, 0, false, &ok);
-    if(!ok || name.isEmpty()) {
+    QString name = QInputDialog::getItem(this, i18nc("@title:window", "Choose File Version"), i18n("Please choose the version you want to download"), labels, 0,
+                                         false, &ok);
+    if (!ok || name.isEmpty()) {
         return;
     }
     slotSaveItem(urls.at(labels.indexOf(name)), accessToken);
@@ -524,20 +526,20 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
     if (!srcUrl.fileName().isEmpty()) {
         path.append(srcUrl.fileName());
         ext = "*." + srcUrl.fileName().section(QLatin1Char('.'), -1);
-    } else if(!m_currentItem->data(filetypeRole).toString().isEmpty()) {
+    } else if (!m_currentItem->data(filetypeRole).toString().isEmpty()) {
         ext = "*." + m_currentItem->data(filetypeRole).toString();
     } else {
         if (m_currentProvider->get()->type() == ProviderModel::AUDIO) {
             ext = i18n("Audio") + QStringLiteral(" (*.wav *.mp3 *.ogg *.aif *.aiff *.m4a *.flac)") + QStringLiteral(";;");
         } else if (m_currentProvider->get()->type() == ProviderModel::VIDEO) {
             ext = i18n("Video") + QStringLiteral(" (*.mp4 *.webm *.mpg *.mov *.avi *.mkv)") + QStringLiteral(";;");
-        } else if (m_currentProvider->get()->type() == ProviderModel:: ProviderModel::IMAGE) {
+        } else if (m_currentProvider->get()->type() == ProviderModel::ProviderModel::IMAGE) {
             ext = i18n("Images") + QStringLiteral(" (*.png *.jpg *.jpeg *.svg") + QStringLiteral(";;");
         }
         ext.append(i18n("All Files") + QStringLiteral(" (*.*)"));
     }
     if (path.endsWith(QLatin1Char('/'))) {
-        if(m_currentItem->data(nameRole).toString().isEmpty()) {
+        if (m_currentItem->data(nameRole).toString().isEmpty()) {
             path.append(i18n("Unnamed"));
         } else {
             path.append(m_currentItem->data(nameRole).toString());
@@ -546,21 +548,20 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
     }
 
     QString attribution;
-    if(KMessageBox::questionYesNo(this,
-                                  i18n("Be aware that the usage of the resource is maybe restricted by license terms or law!\n"
-                                       "Do you want to add license attribution to your Project Notes?"),
-                                  QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("Remember this decision")) == KMessageBox::Yes) {
-        attribution = i18nc("item name, item url, author name, license name, license url", "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5",
-            m_currentItem->data(nameRole).toString().isEmpty() ? i18n("Unnamed") : m_currentItem->data(nameRole).toString(),
-            m_currentItem->data(urlRole).toString(),
-            m_currentItem->data(authorRole).toString(),
-            ResourceWidget::licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), true),
-            m_currentItem->data(licenseRole).toString());
+    if (KMessageBox::questionYesNo(this,
+                                   i18n("Be aware that the usage of the resource is maybe restricted by license terms or law!\n"
+                                        "Do you want to add license attribution to your Project Notes?"),
+                                   QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("Remember this decision")) == KMessageBox::Yes) {
+        attribution = i18nc("item name, item url, author name, license name, license url",
+                            "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5",
+                            m_currentItem->data(nameRole).toString().isEmpty() ? i18n("Unnamed") : m_currentItem->data(nameRole).toString(),
+                            m_currentItem->data(urlRole).toString(), m_currentItem->data(authorRole).toString(),
+                            ResourceWidget::licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), true), m_currentItem->data(licenseRole).toString());
     }
 
     QString saveUrlstring = QFileDialog::getSaveFileName(this, QString(), path, ext);
 
-    //if user cancels save
+    // if user cancels save
     if (saveUrlstring.isEmpty()) {
         return;
     }
@@ -568,7 +569,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
     saveUrl = QUrl::fromLocalFile(saveUrlstring);
 
     KIO::FileCopyJob *getJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
-    if(!accessToken.isEmpty()) {
+    if (!accessToken.isEmpty()) {
         getJob->addMetaData("customHTTPHeader", QStringLiteral("Authorization: Bearer %1").arg(accessToken));
     }
     KFileItem info(srcUrl);
@@ -591,8 +592,8 @@ void ResourceWidget::slotGotFile(KJob *job)
 {
     if (job->error() != 0) {
         const QString errTxt = job->errorString();
-        if(job->property("usedOAuth2").toBool()) {
-            KMessageBox::sorry(this,  i18n("%1 Try again.", errTxt), i18n("Error Loading Data"));
+        if (job->property("usedOAuth2").toBool()) {
+            KMessageBox::sorry(this, i18n("%1 Try again.", errTxt), i18n("Error Loading Data"));
         } else {
             KMessageBox::sorry(this, errTxt, i18n("Error Loading Data"));
         }
@@ -606,7 +607,7 @@ void ResourceWidget::slotGotFile(KJob *job)
     KMessageBox::information(this, i18n("Resource saved to %1", filePath.toLocalFile()), i18n("Data Imported"));
     emit addClip(filePath, QString());
 
-    if(!copyJob->property("attribution").toString().isEmpty()) {
+    if (!copyJob->property("attribution").toString().isEmpty()) {
         emit addLicenseInfo(copyJob->property("attribution").toString());
     }
 }
@@ -619,8 +620,8 @@ void ResourceWidget::slotGotFile(KJob *job)
 void ResourceWidget::slotAccessTokenReceived(const QString &accessToken)
 {
     if (!accessToken.isEmpty()) {
-        if(m_currentItem->data(singleDownloadRole).toBool()) {
-            if(m_currentItem->data(downloadRole).toString().isEmpty()) {
+        if (m_currentItem->data(singleDownloadRole).toBool()) {
+            if (m_currentItem->data(downloadRole).toString().isEmpty()) {
                 m_currentProvider->get()->slotFetchFiles(m_currentItem->data(idRole).toString());
                 return;
             } else {
@@ -631,6 +632,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &accessToken)
         }
 
     } else {
-        KMessageBox::error(this, i18n("Try importing again to obtain a new connection"), i18n("Error Getting Access Token from %1.", m_currentProvider->get()->name()));
+        KMessageBox::error(this, i18n("Try importing again to obtain a new connection"),
+                           i18n("Error Getting Access Token from %1.", m_currentProvider->get()->name()));
     }
 }

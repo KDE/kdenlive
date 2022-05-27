@@ -67,7 +67,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     case MonitorSceneRoto:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorrotoscene.qml")));
         root = m_view->rootObject();
-        QObject::connect(root, SIGNAL(effectPolygonChanged(QVariant,QVariant)), this, SLOT(effectRotoChanged(QVariant,QVariant)), Qt::UniqueConnection);
+        QObject::connect(root, SIGNAL(effectPolygonChanged(QVariant, QVariant)), this, SLOT(effectRotoChanged(QVariant, QVariant)), Qt::UniqueConnection);
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
         root->setProperty("scalex", scalex);
@@ -97,7 +97,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitortrimming.qml")));
         root = m_view->rootObject();
         break;
-    default:         
+    default:
         m_view->setSource(
             QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
         root = m_view->rootObject();

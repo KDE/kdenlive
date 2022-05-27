@@ -9,8 +9,8 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
-#include "widgets/timecodedisplay.h"
 #include "widgets/geometrywidget.h"
+#include "widgets/timecodedisplay.h"
 #include <QVBoxLayout>
 #include <framework/mlt_types.h>
 #include <mlt++/MltProperties.h>
@@ -30,7 +30,8 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
         m_model->passProperties(mlt_prop);
         mlt_prop.set("rect", value.toUtf8().data());
         mlt_rect r = mlt_prop.get_rect("rect");
-        rect = QRect(int(profileSize.width() * r.x), int(profileSize.height() * r.y), int(profileSize.width()* r.w), int(profileSize.height() * r.h));;
+        rect = QRect(int(profileSize.width() * r.x), int(profileSize.height() * r.y), int(profileSize.width() * r.w), int(profileSize.height() * r.h));
+        ;
     } else {
         QStringList vals = value.split(QLatin1Char(' '));
         if (vals.count() >= 4) {

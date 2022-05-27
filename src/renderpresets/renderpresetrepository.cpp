@@ -14,13 +14,16 @@
 #include <QInputDialog>
 #include <QStandardPaths>
 #include <algorithm>
-#include <mlt++/MltProfile.h>
 #include <mlt++/MltConsumer.h>
+#include <mlt++/MltProfile.h>
 
 std::unique_ptr<RenderPresetRepository> RenderPresetRepository::instance;
 std::once_flag RenderPresetRepository::m_onceFlag;
-std::vector<std::pair<int, QString>> RenderPresetRepository::colorProfiles{
-    {601, QStringLiteral("ITU-R BT.601")}, {709, QStringLiteral("ITU-R BT.709")}, {240, QStringLiteral("SMPTE ST240")}, {9, QStringLiteral("ITU-R BT.2020")}, {10, QStringLiteral("ITU-R BT.2020")}};
+std::vector<std::pair<int, QString>> RenderPresetRepository::colorProfiles{{601, QStringLiteral("ITU-R BT.601")},
+                                                                           {709, QStringLiteral("ITU-R BT.709")},
+                                                                           {240, QStringLiteral("SMPTE ST240")},
+                                                                           {9, QStringLiteral("ITU-R BT.2020")},
+                                                                           {10, QStringLiteral("ITU-R BT.2020")}};
 QStringList RenderPresetRepository::m_acodecsList;
 QStringList RenderPresetRepository::m_vcodecsList;
 QStringList RenderPresetRepository::m_supportedFormats;
@@ -106,7 +109,7 @@ void RenderPresetRepository::refresh(bool fullRefresh)
     QString exportFile = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("export/profiles.xml"));
     parseFile(exportFile, false);
 
-    //focusFirstVisibleItem(selectedProfile);
+    // focusFirstVisibleItem(selectedProfile);
 }
 
 void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
@@ -223,7 +226,8 @@ void RenderPresetRepository::parseMltPresets()
         QString groupName = i18n("Lossless/HQ");
         const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : profiles) {
-            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=lossless/" + prof), true));
+            std::unique_ptr<RenderPresetModel> model(
+                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=lossless/" + prof), true));
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
                 m_groups.removeDuplicates();
@@ -235,14 +239,16 @@ void RenderPresetRepository::parseMltPresets()
         QString groupName = i18nc("Category Name", "Images sequence");
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : qAsConst(profiles)) {
-            std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=stills/" + prof), false));
+            std::unique_ptr<RenderPresetModel> model(
+                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=stills/" + prof), false));
             m_groups.append(model->groupName());
             m_groups.removeDuplicates();
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));
         }
         // Add GIF as image sequence
         root.cdUp();
-        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
+        std::unique_ptr<RenderPresetModel> model(
+            new RenderPresetModel(groupName, root.absoluteFilePath(QStringLiteral("GIF")), QStringLiteral("GIF"), QStringLiteral("properties=GIF"), false));
         if (m_profiles.count(model->name()) == 0) {
             m_groups.append(model->groupName());
             m_groups.removeDuplicates();
@@ -334,8 +340,8 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool
         if (!editMode) {
             bool ok;
             updatedPresetName = QInputDialog::getText(nullptr, i18n("Preset already exists"),
-                                                               i18n("This preset name already exists. Change the name if you do not want to overwrite it."),
-                                                               QLineEdit::Normal, newPresetName, &ok);
+                                                      i18n("This preset name already exists. Change the name if you do not want to overwrite it."),
+                                                      QLineEdit::Normal, newPresetName, &ok);
             if (!ok) {
                 return {};
             }

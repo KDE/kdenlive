@@ -31,7 +31,8 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
         if (state == 2) {
             state = 1;
         }
-        emit valueChanged(m_index, QString::number(state), true); });
+        emit valueChanged(m_index, QString::number(state), true);
+    });
 }
 
 void BoolParamWidget::slotShowComment(bool show)

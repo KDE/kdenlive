@@ -62,7 +62,7 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     connect(arrowUp, &QAbstractButton::clicked, this, &UnicodeWidget::slotPrevUnicode);
     connect(arrowDown, &QAbstractButton::clicked, this, &UnicodeWidget::slotNextUnicode);
 
-    if(m_inputMethod == UnicodeDialog::InputHex) {
+    if (m_inputMethod == UnicodeDialog::InputHex) {
         unicodeNumber->setMaxLength(MAX_LENGTH_HEX);
         QRegularExpression rx("([0-9]|[a-f])*", QRegularExpression::CaseInsensitiveOption);
         QValidator *validator = new QRegularExpressionValidator(rx, this);

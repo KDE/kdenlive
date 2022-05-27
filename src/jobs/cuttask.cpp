@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QThread>
 #include <klocalizedstring.h>
 
-CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList &encodingParams, int in, int out, bool addToProject, QObject* object)
+CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList &encodingParams, int in, int out, bool addToProject, QObject *object)
     : AbstractTask(owner, AbstractTask::CUTJOB, object)
     , m_inPoint(GenTime(in, pCore->getCurrentFps()))
     , m_outPoint(GenTime(out, pCore->getCurrentFps()))
@@ -38,12 +38,12 @@ CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStrin
 {
 }
 
-void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bool force)
+void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, bool force)
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(owner.second));
     ClipType::ProducerType type = binClip->clipType();
     if (type != ClipType::AV && type != ClipType::Audio && type != ClipType::Video) {
-        //m_errorMessage.prepend(i18n("Cannot extract zone for this clip type."));
+        // m_errorMessage.prepend(i18n("Cannot extract zone for this clip type."));
         return;
     }
     const QString source = binClip->url();
@@ -143,13 +143,9 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
         ui.file_url->setUrl(QUrl::fromLocalFile(fileName));
     };
 
-    QObject::connect(ui.acodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() {
-        callBack();
-    });
+    QObject::connect(ui.acodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() { callBack(); });
 
-    QObject::connect(ui.vcodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() {
-        callBack();
-    });
+    QObject::connect(ui.vcodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() { callBack(); });
     QFontMetrics fm = ui.file_url->lineEdit()->fontMetrics();
     ui.file_url->setMinimumWidth(int(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4));
     ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
@@ -176,7 +172,8 @@ void CutTask::start(const ObjectId &owner, int in , int out, QObject* object, bo
     delete d;
 
     if (QFile::exists(path)) {
-        KIO::RenameDialog renameDialog(qApp->activeWindow(), i18n("File already exists"), QUrl::fromLocalFile(path), QUrl::fromLocalFile(path), KIO::RenameDialog_Option::RenameDialog_Overwrite );
+        KIO::RenameDialog renameDialog(qApp->activeWindow(), i18n("File already exists"), QUrl::fromLocalFile(path), QUrl::fromLocalFile(path),
+                                       KIO::RenameDialog_Option::RenameDialog_Overwrite);
         if (renameDialog.exec() != QDialog::Rejected) {
             QUrl final = renameDialog.newDestUrl();
             if (final.isValid()) {
@@ -201,8 +198,8 @@ void CutTask::run()
         return;
     }
     m_running = true;
-    qDebug()<<" + + + + + + + + STARTING STAB TASK";
-    
+    qDebug() << " + + + + + + + + STARTING STAB TASK";
+
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     if (binClip) {
@@ -215,24 +212,40 @@ void CutTask::run()
         }
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             m_errorMessage.append(i18n("No producer for this clip."));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         if (QFileInfo(m_destination).absoluteFilePath() == QFileInfo(url).absoluteFilePath()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("You cannot overwrite original clip.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             m_errorMessage.append(i18n("You cannot overwrite original clip."));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
-        QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-noaccurate_seek"),QStringLiteral("-ss"),QString::number(m_inPoint.seconds()),QStringLiteral("-i"),url, QStringLiteral("-t"), QString::number((m_outPoint-m_inPoint).seconds()),QStringLiteral("-avoid_negative_ts"),QStringLiteral("make_zero"),QStringLiteral("-sn"),QStringLiteral("-dn"),QStringLiteral("-map"),QStringLiteral("0")};
+        QStringList params = {QStringLiteral("-y"),
+                              QStringLiteral("-stats"),
+                              QStringLiteral("-v"),
+                              QStringLiteral("error"),
+                              QStringLiteral("-noaccurate_seek"),
+                              QStringLiteral("-ss"),
+                              QString::number(m_inPoint.seconds()),
+                              QStringLiteral("-i"),
+                              url,
+                              QStringLiteral("-t"),
+                              QString::number((m_outPoint - m_inPoint).seconds()),
+                              QStringLiteral("-avoid_negative_ts"),
+                              QStringLiteral("make_zero"),
+                              QStringLiteral("-sn"),
+                              QStringLiteral("-dn"),
+                              QStringLiteral("-map"),
+                              QStringLiteral("0")};
         params << m_encodingParams << m_destination;
         m_jobProcess = std::make_unique<QProcess>(new QProcess);
         connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CutTask::processLogInfo);
         connect(this, &CutTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-        qDebug()<<"=== STARTING CUT JOB: "<<params;
+        qDebug() << "=== STARTING CUT JOB: " << params;
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), params, QIODevice::ReadOnly);
         m_jobProcess->waitForFinished(-1);
         bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
@@ -242,18 +255,18 @@ void CutTask::run()
                 QFile::remove(m_destination);
                 // File was not created
                 QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create file.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+                                          Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
             } else {
                 // all ok, add clip
                 if (m_addToProject) {
-                    QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(QString,m_destination), Q_ARG(QString,folder));
+                    QMetaObject::invokeMethod(pCore->window(), "addProjectClip", Qt::QueuedConnection, Q_ARG(QString, m_destination), Q_ARG(QString, folder));
                 }
             }
         } else {
             // transcode task crashed
             QFile::remove(m_destination);
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cut job failed.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+                                      Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
     }
     pCore->taskManager.taskDone(m_owner.second, this);

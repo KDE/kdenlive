@@ -7,7 +7,6 @@
 #include <climits>
 #include <cstdlib>
 
-
 SnapInterface::SnapInterface() = default;
 SnapInterface::~SnapInterface() = default;
 

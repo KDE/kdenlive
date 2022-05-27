@@ -4,11 +4,11 @@
 */
 
 #include "keyframemodel.hpp"
+#include "../../bpoint.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
-#include "../../bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
 #include <QDebug>
@@ -141,7 +141,6 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
                     setSelectedKeyframes(prevSelection);
                     return true;
                 };
-
             }
         }
     }
@@ -318,7 +317,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     }
     if (oldPos != pos && hasKeyframe(pos)) {
         // Move rejected, another keyframe is here
-        qDebug()<<"==== MOVE REJECTED!!";
+        qDebug() << "==== MOVE REJECTED!!";
         return false;
     }
     KeyframeType oldType = m_keyframeList[oldPos].first;
@@ -553,7 +552,7 @@ Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
         qDebug() << "delete lambda" << pos.frames(pCore->getCurrentFps()) << notify;
         qDebug() << "before" << getAnimProperty();
         Q_ASSERT(m_keyframeList.count(pos) > 0);
-        //Q_ASSERT(pos != GenTime()); // cannot delete initial point
+        // Q_ASSERT(pos != GenTime()); // cannot delete initial point
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         if (notify) beginRemoveRows(QModelIndex(), row, row);
         m_keyframeList.erase(pos);
@@ -894,8 +893,8 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         ptr->passProperties(mlt_prop);
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-    } else  {
-        qDebug()<<"###################\n\n/// ERROR LOCKING MODEL!!! ";
+    } else {
+        qDebug() << "###################\n\n/// ERROR LOCKING MODEL!!! ";
     }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
@@ -1138,8 +1137,8 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         // - equal to 1 on next keyframe
         qreal relPos = 0;
         if (next->first != prev->first) {
-            relPos = (pos.frames(pCore->getCurrentFps()) - prev->first.frames(pCore->getCurrentFps())) / qreal
-                    (((next->first - prev->first).frames(pCore->getCurrentFps())));
+            relPos = (pos.frames(pCore->getCurrentFps()) - prev->first.frames(pCore->getCurrentFps())) /
+                     qreal(((next->first - prev->first).frames(pCore->getCurrentFps())));
         }
         int count = qMin(p1.count(), p2.count());
         QList<QVariant> vlist;
@@ -1166,7 +1165,8 @@ void KeyframeModel::sendModification()
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline || m_paramType == ParamType::ColorWheel) {
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline ||
+            m_paramType == ParamType::ColorWheel) {
             m_lastData = getAnimProperty();
             ptr->setParameter(name, m_lastData, false, m_index);
         } else {
@@ -1374,7 +1374,7 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
     int kfrCount = int(all_pos.size());
     // Remove deleted keyframes from selection
     if (auto ptr = m_model.lock()) {
-        QVector <int> selection;
+        QVector<int> selection;
         for (auto &ix : ptr->m_selectedKeyframes) {
             if (ix < kfrCount) {
                 selection << ix;

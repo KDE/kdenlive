@@ -24,7 +24,6 @@ public:
     virtual void removePoint(int position) = 0;
 };
 
-
 /** @class SnapModel
     @brief This class represents the snap points of the timeline.
     Basically, one can add or remove snap points, and query the closest snap point to a given location

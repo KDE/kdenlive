@@ -175,7 +175,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
             while (ix.column() != 0 && !newlySelected.isEmpty()) {
                 ix = newlySelected.takeLast();
             }
-            if (ix .column() == 0) {
+            if (ix.column() == 0) {
                 emit selectModel(ix);
                 return;
             }
@@ -185,7 +185,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
                 while (ix.column() != 0 && !indexes.isEmpty()) {
                     ix = indexes.takeLast();
                 }
-                if (ix .column() == 0) {
+                if (ix.column() == 0) {
                     emit selectModel(ix);
                     return;
                 }
@@ -199,12 +199,10 @@ void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModel
     emit dataChanged(ix1, ix2, roles);
 }
 
-
 void ProjectSortProxyModel::selectAll(const QModelIndex &rootIndex)
 {
     QModelIndex topLeft = index(0, 0, rootIndex);
-    QModelIndex bottomRight = index(rowCount(rootIndex) - 1,
-        columnCount(rootIndex) - 1, rootIndex);
+    QModelIndex bottomRight = index(rowCount(rootIndex) - 1, columnCount(rootIndex) - 1, rootIndex);
     QItemSelection selection(topLeft, bottomRight);
     m_selection->select(selection, QItemSelectionModel::Select);
 }

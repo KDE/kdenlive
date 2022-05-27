@@ -12,15 +12,14 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-
-PatternsModel::PatternsModel(QObject *parent) : QAbstractListModel(parent)
+PatternsModel::PatternsModel(QObject *parent)
+    : QAbstractListModel(parent)
 {
 }
 
-QVariant PatternsModel::data(const QModelIndex& index, int role) const
+QVariant PatternsModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
+    if (!index.isValid()) return QVariant();
 
     if (role == Qt::DecorationRole)
         return pixmaps[index.row()].scaled(m_tileSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -32,12 +31,12 @@ QVariant PatternsModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-int PatternsModel::rowCount(const QModelIndex& parent) const
+int PatternsModel::rowCount(const QModelIndex &parent) const
 {
     return parent.isValid() ? 0 : patterns.size();
 }
 
-void PatternsModel::addScene(const QString & pattern)
+void PatternsModel::addScene(const QString &pattern)
 {
     int row = patterns.size();
     beginInsertRows(QModelIndex(), row, row);
@@ -49,7 +48,7 @@ void PatternsModel::addScene(const QString & pattern)
     endInsertRows();
 }
 
-QPixmap PatternsModel::paintScene(const QString & pattern)
+QPixmap PatternsModel::paintScene(const QString &pattern)
 {
     QDomDocument doc;
     doc.setContent(pattern);
@@ -61,7 +60,7 @@ QPixmap PatternsModel::paintScene(const QString & pattern)
     QGraphicsScene scene(0, 0, width, height);
 
     if (bkg) {
-        auto * bkg_frame = new QGraphicsPixmapItem();
+        auto *bkg_frame = new QGraphicsPixmapItem();
         bkg_frame->setTransform(bkg->transform());
         bkg_frame->setZValue(bkg->zValue());
         bkg_frame->setPixmap(bkg->pixmap());
@@ -85,10 +84,10 @@ void PatternsModel::repaintScenes()
         pixmaps[i] = paintScene(patterns[i]);
     }
 
-    emit dataChanged(index(0), index(patterns.size()-1));
+    emit dataChanged(index(0), index(patterns.size() - 1));
 }
 
-void PatternsModel::removeScene(const QModelIndex & index)
+void PatternsModel::removeScene(const QModelIndex &index)
 {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
 
@@ -102,7 +101,7 @@ void PatternsModel::removeScene(const QModelIndex & index)
 
 void PatternsModel::removeAll()
 {
-    beginRemoveRows(QModelIndex(), 0, patterns.size()-1);
+    beginRemoveRows(QModelIndex(), 0, patterns.size() - 1);
 
     patterns.clear();
     pixmaps.clear();
@@ -125,7 +124,7 @@ QByteArray PatternsModel::serialize()
     return encodedData;
 }
 
-void PatternsModel::deserialize(const QByteArray& data)
+void PatternsModel::deserialize(const QByteArray &data)
 {
     removeAll();
 

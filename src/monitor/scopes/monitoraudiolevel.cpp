@@ -6,9 +6,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "monitoraudiolevel.h"
+#include "audiomixer/iecscale.h"
 #include "core.h"
 #include "profiles/profilemodel.hpp"
-#include "audiomixer/iecscale.h"
 
 #include "mlt++/Mlt.h"
 
@@ -32,8 +32,7 @@ MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     connect(this, &MonitorAudioLevel::audioLevelsAvailable, this, &MonitorAudioLevel::setAudioValues);
 }
 
-MonitorAudioLevel::~MonitorAudioLevel()
-= default;
+MonitorAudioLevel::~MonitorAudioLevel() = default;
 
 void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
 {
@@ -47,12 +46,12 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
             }
             int channels = sFrame.get_audio_channels();
             QVector<double> levels;
-            const int16_t* audio = sFrame.get_audio();
-            for ( int c = 0; c < channels; c++ ) {
+            const int16_t *audio = sFrame.get_audio();
+            for (int c = 0; c < channels; c++) {
                 int16_t peak = 0;
-                const int16_t* p = audio + c;
-                for ( int s = 0; s < samples; s++ ) {
-                    int16_t sample = abs( *p );
+                const int16_t *p = audio + c;
+                for (int s = 0; s < samples; s++) {
+                    int16_t sample = abs(*p);
                     if (sample > peak) peak = sample;
                     p += channels;
                 }

@@ -32,7 +32,7 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     // setSource(QUrl(QStringLiteral("qrc:/qml/BuiltStack.qml")));
     setFocusPolicy(Qt::StrongFocus);
     QQuickItem *root = rootObject();
-    QObject::connect(root, SIGNAL(valueChanged(QString,int)), parent, SLOT(parameterChanged(QString,int)));
+    QObject::connect(root, SIGNAL(valueChanged(QString, int)), parent, SLOT(parameterChanged(QString, int)));
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
 

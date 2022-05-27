@@ -357,7 +357,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     for (const QString &file : items) {
         fileName = QUrl::fromLocalFile(file).fileName();
-        if(file.isEmpty() || fileName.isEmpty()) {
+        if (file.isEmpty() || fileName.isEmpty()) {
             continue;
         }
         auto *item = new QTreeWidgetItem(parentItem, QStringList() << file);
@@ -446,9 +446,9 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
     while (it != items.constEnd()) {
         QString file = it.value();
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
-        item->setData(0, IsInTimelineRole,0);
-        for(int id : timelineBinId) {
-            if(id == it.key().toInt()) {
+        item->setData(0, IsInTimelineRole, 0);
+        for (int id : timelineBinId) {
+            if (id == it.key().toInt()) {
                 m_timelineSize = static_cast<KIO::filesize_t>(QFileInfo(it.value()).size());
                 item->setData(0, IsInTimelineRole, 1);
             }
@@ -559,7 +559,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     proxy_only->setEnabled(false);
     timeline_archive->setEnabled(false);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    
+
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
         m_copyJob = nullptr;
@@ -707,9 +707,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             m_duplicateFiles.remove(startJobSrc);
             m_infoMessage->setText(i18n("Copying %1", startJobSrc.fileName()));
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, &KJob::result, this, [this] (KJob *jb) {
-                slotArchivingFinished(jb, false);
-            });
+            connect(job, &KJob::result, this, [this](KJob *jb) { slotArchivingFinished(jb, false); });
             connect(job, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
         }
         return true;
@@ -729,9 +727,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, &KJob::result, this, [this] (KJob *jb) {
-            slotArchivingFinished(jb, false);
-        });
+        connect(m_copyJob, &KJob::result, this, [this](KJob *jb) { slotArchivingFinished(jb, false); });
         connect(m_copyJob, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
     }
     if (firstPass) {
@@ -808,10 +804,9 @@ bool ArchiveWidget::processProjectFile()
             m_archiveName.append(QStringLiteral(".zip"));
         } else {
             m_archiveName.append(QStringLiteral(".tar.gz"));
-        }
-        ;
-        if (QFile::exists(m_archiveName)
-                && KMessageBox::questionYesNo(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
+        };
+        if (QFile::exists(m_archiveName) &&
+            KMessageBox::questionYesNo(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
             return false;
         }
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
@@ -890,15 +885,16 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
-            //QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
+            // QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
                 QUrl src = QUrl::fromLocalFile(item->text(0));
-                QUrl dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
+                QUrl dest =
+                    QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString());
                 if (isSlideshow) {
-                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString() +
-                                               QLatin1Char('/') + src.fileName());
+                    dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') +
+                                               item->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
                 } else if (item->data(0, Qt::UserRole).isNull()) {
                     dest = QUrl::fromLocalFile(destPrefix + parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/') + src.fileName());
                 }
@@ -945,7 +941,8 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
             if (!dest.isEmpty()) {
                 if (isTimewarp) {
                     Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
+                    Xml::setXmlProperty(e, QStringLiteral("resource"),
+                                        QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
                 } else {
                     Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
                 }
@@ -1067,7 +1064,7 @@ void ArchiveWidget::createArchive()
 
     // Add files
     int ix = 0;
-    bool success = true; 
+    bool success = true;
     QMapIterator<QString, QString> i(m_filesList);
     while (i.hasNext()) {
         i.next();
@@ -1089,7 +1086,7 @@ void ArchiveWidget::createArchive()
         delete m_temp;
         m_temp = nullptr;
     }
-    if(success) {
+    if (success) {
         // Add subtitle files if any
         QString sub = pCore->currentDoc()->subTitlePath(false);
         if (QFileInfo::exists(sub)) {
@@ -1108,7 +1105,7 @@ void ArchiveWidget::slotArchivingBoolFinished(bool result)
 {
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived.\n%1", m_archiveName));
-        //buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        // buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
         slotJobResult(false, i18n("There was an error processing project file"));
     }
@@ -1290,23 +1287,22 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
 {
     int count = files_list->topLevelItemCount();
-    for(int idx = 0 ; idx < count ; ++idx) {
+    for (int idx = 0; idx < count; ++idx) {
         QTreeWidgetItem *parent = files_list->topLevelItem(idx);
         int childCount = parent->childCount();
-        for(int cidx = 0 ; cidx < childCount; ++cidx) {
+        for (int cidx = 0; cidx < childCount; ++cidx) {
             parent->child(cidx)->setHidden(true);
-            if(onlyTimeline == Qt::Checked) {
-                if(parent->child(cidx)->data(0, IsInTimelineRole).toInt() > 0) {
+            if (onlyTimeline == Qt::Checked) {
+                if (parent->child(cidx)->data(0, IsInTimelineRole).toInt() > 0) {
                     parent->child(cidx)->setHidden(false);
                 }
-            }
-            else {
+            } else {
                 parent->child(cidx)->setHidden(false);
             }
         }
     }
 
-    //calculating total number of files
+    // calculating total number of files
     int total = 0;
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
@@ -1326,6 +1322,7 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         }
         parentItem->setText(0, parentItem->text(0).section(QLatin1Char('('), 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
     }
-    project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize((onlyTimeline == Qt::Checked) ? m_timelineSize : m_requestedSize)));
+    project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total,
+                                 KIO::convertSize((onlyTimeline == Qt::Checked) ? m_timelineSize : m_requestedSize)));
     slotCheckSpace();
 }

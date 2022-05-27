@@ -8,10 +8,10 @@
 #include "definitions.h"
 #include "mlt++/MltService.h"
 
+#include <QMutex>
+#include <QWidget>
 #include <memory>
 #include <unordered_map>
-#include <QWidget>
-#include <QMutex>
 
 class KDualAction;
 class AudioLevelWidget;
@@ -25,9 +25,9 @@ class MixerManager;
 class KSqueezedTextLabel;
 
 namespace Mlt {
-    class Tractor;
-    class Event;
-}
+class Tractor;
+class Event;
+} // namespace Mlt
 
 class MixerWidget : public QWidget
 {
@@ -42,8 +42,8 @@ public:
     void reset();
     /** @brief discard stored audio values */
     void clear();
-    static void property_changed( mlt_service , MixerWidget *self, mlt_event_data data );
-    static void property_changedV2( mlt_service , MixerWidget *widget, mlt_event_data data );
+    static void property_changed(mlt_service, MixerWidget *self, mlt_event_data data);
+    static void property_changedV2(mlt_service, MixerWidget *widget, mlt_event_data data);
     void setTrackName(const QString &name);
     void setMute(bool mute);
     /** @brief Returns true if track is muted
@@ -69,7 +69,7 @@ public slots:
     void setRecordState(bool recording);
 
 private slots:
-    void gotRecLevels(QVector<qreal>levels);
+    void gotRecLevels(QVector<qreal> levels);
 
 protected:
     MixerManager *m_manager;
@@ -95,7 +95,7 @@ private:
     KSqueezedTextLabel *m_trackLabel;
     QMutex m_storeMutex;
     double m_lastVolume;
-    QVector <double>m_audioData;
+    QVector<double> m_audioData;
     Mlt::Event *m_listener;
     bool m_recording;
     const QString m_trackTag;
@@ -103,7 +103,7 @@ private:
     void updateLabel();
 
 signals:
-    void gotLevels(QPair <double, double>);
+    void gotLevels(QPair<double, double>);
     void muteTrack(int tid, bool mute);
     void toggleSolo(int tid, bool toggled);
 };

@@ -22,7 +22,7 @@ namespace Xml {
 */
 QString getSubTagContent(const QDomElement &element, const QString &tagName);
 
-/** @brief Returns the direct children of given \@element whose tag name matches given \@param tagName. 
+/** @brief Returns the direct children of given \@element whose tag name matches given \@param tagName.
    This is an alternative to QDomElement::elementsByTagName which returns also non-direct children
 */
 QVector<QDomNode> getDirectChildrenByTagName(const QDomElement &element, const QString &tagName);
@@ -45,7 +45,7 @@ QString getXmlProperty(const QDomElement &element, const QString &propertyName, 
 QString getXmlParameter(const QDomElement &element, const QString &propertyName, const QString &defaultReturn = QString());
 
 /** @brief Returns true if the element contains a named property
-*/
+ */
 bool hasXmlProperty(const QDomElement &element, const QString &propertyName);
 bool hasXmlParameter(const QDomElement &element, const QString &propertyName);
 

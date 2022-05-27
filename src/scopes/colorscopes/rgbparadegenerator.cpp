@@ -119,7 +119,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     case PaintMode_RGB:
         for (int i = 0; i < int(partW); ++i) {
             for (int j = 0; j < 256; ++j) {
-                unscaled.setPixel(i,           j, qRgba(255, 10, 10, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].r))));
+                unscaled.setPixel(i, j, qRgba(255, 10, 10, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].r))));
                 unscaled.setPixel(i + offset1, j, qRgba(10, 255, 10, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].g))));
                 unscaled.setPixel(i + offset2, j, qRgba(10, 10, 255, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].b))));
             }
@@ -128,7 +128,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
     default:
         for (int i = 0; i < int(partW); ++i) {
             for (int j = 0; j < 256; ++j) {
-                unscaled.setPixel(i,           j, qRgba(255, 255, 255, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].r))));
+                unscaled.setPixel(i, j, qRgba(255, 255, 255, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].r))));
                 unscaled.setPixel(i + offset1, j, qRgba(255, 255, 255, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].g))));
                 unscaled.setPixel(i + offset2, j, qRgba(255, 255, 255, CHOP255(gain * float(paradeVals[size_t(i)][size_t(j)].b))));
             }

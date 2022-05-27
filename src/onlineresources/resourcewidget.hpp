@@ -6,16 +6,16 @@
 
 #pragma once
 
-#include "ui_resourcewidget_ui.h"
 #include "providersrepository.hpp"
+#include "ui_resourcewidget_ui.h"
 
-#include <QWidget>
-#include <QUrl>
-#include <QNetworkReply>
-#include <QTemporaryFile>
-#include <QSlider>
 #include <QListWidgetItem>
+#include <QNetworkReply>
 #include <QProcess>
+#include <QSlider>
+#include <QTemporaryFile>
+#include <QUrl>
+#include <QWidget>
 #include <QtNetworkAuth>
 
 const int imageRole = Qt::UserRole;

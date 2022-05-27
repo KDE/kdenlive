@@ -77,17 +77,18 @@ void NotesPlugin::slotInsertTimecode()
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
-        QPair <int,QString>currentTrackInfo = pCore->currentTrackInfo();
+        QPair<int, QString> currentTrackInfo = pCore->currentTrackInfo();
         if (currentTrackInfo.first != -1) {
             // Insert timeline position with track reference
-            m_widget->insertHtml(QString("<a href=\"%1?%2\">%3 %4</a> ").arg(QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
+            m_widget->insertHtml(QString("<a href=\"%1?%2\">%3 %4</a> ")
+                                     .arg(QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
         } else {
             m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
         }
     }
 }
 
-void NotesPlugin::slotReAssign(const QStringList &anchors, const QList <QPoint> &points)
+void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &points)
 {
     const QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
     int ix = 0;
@@ -96,7 +97,7 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList <QPoint> 
         pCore->displayMessage(i18n("Cannot perform assign"), ErrorMessage);
         return;
     }
-    for (const QString & a : anchors) {
+    for (const QString &a : anchors) {
         QPoint pt = points.at(ix);
         QString updatedLink = a;
         int position = 0;

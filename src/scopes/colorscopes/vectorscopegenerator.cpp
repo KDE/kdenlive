@@ -243,18 +243,13 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 break;
             case PaintMode_Green:
                 px = scope.pixel(pt);
-                scope.setPixel(pt, qRgba(qRed(px) + int((255 - qRed(px)) / (3 * avgPxPerPx)),
-                                         qGreen(px) + int(20 * (255 - qGreen(px)) / (avgPxPerPx)),
-                                         qBlue(px) + int((255 - qBlue(px)) / (avgPxPerPx)),
-                                         qAlpha(px) + int((255 - qAlpha(px)) / (avgPxPerPx))));
+                scope.setPixel(pt, qRgba(qRed(px) + int((255 - qRed(px)) / (3 * avgPxPerPx)), qGreen(px) + int(20 * (255 - qGreen(px)) / (avgPxPerPx)),
+                                         qBlue(px) + int((255 - qBlue(px)) / (avgPxPerPx)), qAlpha(px) + int((255 - qAlpha(px)) / (avgPxPerPx))));
                 break;
             case PaintMode_Green2:
                 px = scope.pixel(pt);
-                scope.setPixel(pt,
-                               qRgba(qRed(px) + int(ceil((255 - qRed(px)) / (4 * avgPxPerPx))),
-                                     255,
-                                     qBlue(px) + int(ceil((255 - qBlue(px)) / (avgPxPerPx))),
-                                     qAlpha(px) + int(ceil((255 - qAlpha(px)) / (avgPxPerPx)))));
+                scope.setPixel(pt, qRgba(qRed(px) + int(ceil((255 - qRed(px)) / (4 * avgPxPerPx))), 255,
+                                         qBlue(px) + int(ceil((255 - qBlue(px)) / (avgPxPerPx))), qAlpha(px) + int(ceil((255 - qAlpha(px)) / (avgPxPerPx)))));
                 break;
             case PaintMode_Black:
             default:

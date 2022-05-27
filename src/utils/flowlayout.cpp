@@ -136,7 +136,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
         // We consider all items have the same dimensions
         item->setGeometry(QRect(QPoint(x, y), hint));
         itemCount++;
-        //qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
+        // qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
         x = effectiveRect.x() + (itemCount % columns) * (realWidth + horizontalSpacing());
         y = effectiveRect.y() + qFloor(double(itemCount) / columns) * (realWidth + verticalSpacing());
     }
@@ -159,4 +159,3 @@ int FlowLayout::miniHeight() const
 {
     return m_minimumSize.height();
 }
-

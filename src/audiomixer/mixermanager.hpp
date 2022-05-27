@@ -12,7 +12,7 @@
 #include <QWidget>
 
 namespace Mlt {
-    class Tractor;
+class Tractor;
 }
 
 class MixerWidget;
@@ -72,9 +72,8 @@ private:
     QScrollArea *m_channelsBox;
     bool m_visibleMixerManager;
     int m_expandedWidth;
-    QVector <int> m_soloMuted;
+    QVector<int> m_soloMuted;
     int m_recommendedWidth;
     int m_monitorTrack;
     bool m_filterIsV2;
-
 };

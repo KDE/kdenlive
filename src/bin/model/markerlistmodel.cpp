@@ -7,8 +7,8 @@
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "core.h"
-#include "dialogs/markerdialog.h"
 #include "dialogs/exportguidesdialog.h"
+#include "dialogs/markerdialog.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -21,7 +21,9 @@
 #include <QJsonObject>
 #include <utility>
 
-std::array<QColor, 9> MarkerListModel::markerTypes{{QColor(QLatin1String("#9b59b6")), QColor(QLatin1String("#3daee9")),QColor(QLatin1String("#1abc9c")),QColor(QLatin1String("#1cdc9a")),QColor(QLatin1String("#c9ce3b")),QColor(QLatin1String("#fdbc4b")),QColor(QLatin1String("#f39c1f")),QColor(QLatin1String("#f47750")),QColor(QLatin1String("#da4453"))}};
+std::array<QColor, 9> MarkerListModel::markerTypes{{QColor(QLatin1String("#9b59b6")), QColor(QLatin1String("#3daee9")), QColor(QLatin1String("#1abc9c")),
+                                                    QColor(QLatin1String("#1cdc9a")), QColor(QLatin1String("#c9ce3b")), QColor(QLatin1String("#fdbc4b")),
+                                                    QColor(QLatin1String("#f39c1f")), QColor(QLatin1String("#f47750")), QColor(QLatin1String("#da4453"))}};
 
 MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
@@ -100,7 +102,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
     Q_ASSERT(type >= 0 && type < int(markerTypes.size()));
-    
+
     if (hasMarker(pos)) {
         // In this case we simply change the comment and type
         CommentedTime current = marker(pos);
@@ -118,7 +120,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     return false;
 }
 
-bool MarkerListModel::addMarkers(const QMap <GenTime, QString> &markers, int type)
+bool MarkerListModel::addMarkers(const QMap<GenTime, QString> &markers, int type)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -259,7 +261,7 @@ bool MarkerListModel::moveMarker(int mid, GenTime pos)
 void MarkerListModel::moveMarkersWithoutUndo(const QVector<int> &markersId, int offset, bool updateView)
 {
     QWriteLocker locker(&m_lock);
-    if(markersId.length() <= 0) {
+    if (markersId.length() <= 0) {
         return;
     }
     int firstRow = -1;
@@ -295,7 +297,7 @@ bool MarkerListModel::moveMarkers(const QList<CommentedTime> &markers, GenTime f
 {
     QWriteLocker locker(&m_lock);
 
-    if(markers.length() <= 0) {
+    if (markers.length() <= 0) {
         return false;
     }
 
@@ -329,7 +331,7 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
         int row = model->getRowfromId(mid);
         model->m_markerList[mid].setComment(comment);
         model->m_markerList[mid].setMarkerType(type);
-        emit model->dataChanged(model->index(row), model->index(row), {CommentRole,ColorRole});
+        emit model->dataChanged(model->index(row), model->index(row), {CommentRole, ColorRole});
         return true;
     };
 }
@@ -497,7 +499,7 @@ QList<CommentedTime> MarkerListModel::getAllMarkers(int type) const
 QList<CommentedTime> MarkerListModel::getMarkersInRange(int start, int end) const
 {
     QList<CommentedTime> markers;
-    QVector <int> mids = getMarkersIdInRange(start, end);
+    QVector<int> mids = getMarkersIdInRange(start, end);
     // Now extract markers
     READ_LOCK();
     for (const auto &marker : mids) {
@@ -512,7 +514,6 @@ int MarkerListModel::getMarkerPos(int mid) const
     READ_LOCK();
     Q_ASSERT(m_markerList.count(mid) > 0);
     return m_markerPositions.key(mid);
-
 }
 
 QVector<int> MarkerListModel::getMarkersIdInRange(int start, int end) const
@@ -663,7 +664,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
 {
     bool exists;
     auto marker = getMarker(pos, &exists);
-    if(!exists && !createIfNotFound) {
+    if (!exists && !createIfNotFound) {
         pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
     }
 

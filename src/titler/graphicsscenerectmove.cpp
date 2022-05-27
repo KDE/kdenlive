@@ -6,9 +6,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "graphicsscenerectmove.h"
+#include "kdenlivesettings.h"
 #include "titler/gradientwidget.h"
 #include "titler/titledocument.h"
-#include "kdenlivesettings.h"
 
 #include "kdenlive_debug.h"
 #include <QApplication>
@@ -55,8 +55,8 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     : QGraphicsTextItem(txt, parent)
     , m_alignment(QFlags<Qt::AlignmentFlag>())
 {
-    //Disabled because cache makes text cursor invisible and borders ugly
-    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    // Disabled because cache makes text cursor invisible and borders ugly
+    // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     document()->setDocumentMargin(0);
     m_shadowEffect = new MyQGraphicsEffect(this);
@@ -245,16 +245,14 @@ void MyTextItem::loadTW(const QStringList &info)
     if (info.count() < 5) {
         return;
     }
-    updateTW((static_cast<bool>(info.at(0).toInt())), info.at(1).toInt(),
-             info.at(2).toInt(), info.at(3).toInt(), info.at(4).toInt());
+    updateTW((static_cast<bool>(info.at(0).toInt())), info.at(1).toInt(), info.at(2).toInt(), info.at(3).toInt(), info.at(4).toInt());
 }
 
 QStringList MyTextItem::twInfo() const
 {
     QStringList info;
-    info << QString::number(int(m_tw_enabled)) << QString::number(m_tw_step)
-         << QString::number(m_tw_mode)
-         << QString::number(m_tw_sigma) << QString::number(m_tw_seed);
+    info << QString::number(int(m_tw_enabled)) << QString::number(m_tw_step) << QString::number(m_tw_mode) << QString::number(m_tw_sigma)
+         << QString::number(m_tw_seed);
     return info;
 }
 
@@ -453,8 +451,8 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
 MyRectItem::MyRectItem(QGraphicsItem *parent)
     : QGraphicsRectItem(parent)
 {
-    //Disabled because cache makes text cursor invisible and borders ugly
-    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    // Disabled because cache makes text cursor invisible and borders ugly
+    // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -493,8 +491,8 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
 MyEllipseItem::MyEllipseItem(QGraphicsItem *parent)
     : QGraphicsEllipseItem(parent)
 {
-    //Disabled because cache makes text cursor invisible and borders ugly
-    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    // Disabled because cache makes text cursor invisible and borders ugly
+    // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -533,8 +531,8 @@ QVariant MyEllipseItem::itemChange(GraphicsItemChange change, const QVariant &va
 MyPixmapItem::MyPixmapItem(const QPixmap &pixmap, QGraphicsItem *parent)
     : QGraphicsPixmapItem(pixmap, parent)
 {
-    //Disabled because cache makes text cursor invisible and borders ugly
-    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    // Disabled because cache makes text cursor invisible and borders ugly
+    // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -563,8 +561,8 @@ QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &val
 MySvgItem::MySvgItem(const QString &fileName, QGraphicsItem *parent)
     : QGraphicsSvgItem(fileName, parent)
 {
-    //Disabled because cache makes text cursor invisible and borders ugly
-    //setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    // Disabled because cache makes text cursor invisible and borders ugly
+    // setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
@@ -815,7 +813,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
                 t->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
                 setCursor(Qt::ClosedHandCursor);
-            } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsEllipseItem::Type || item->type() == QGraphicsSvgItem::Type || item->type() == QGraphicsPixmapItem::Type) {
+            } else if (item->type() == QGraphicsRectItem::Type || item->type() == QGraphicsEllipseItem::Type || item->type() == QGraphicsSvgItem::Type ||
+                       item->type() == QGraphicsPixmapItem::Type) {
                 QRectF r1;
                 if (m_selectedItem->type() == QGraphicsRectItem::Type) {
                     r1 = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect().normalized();
@@ -919,8 +918,8 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_moveStarted = true;
     }
     if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
-        if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsEllipseItem::Type || m_selectedItem->type() == QGraphicsSvgItem::Type ||
-                m_selectedItem->type() == QGraphicsPixmapItem::Type) {
+        if (m_selectedItem->type() == QGraphicsRectItem::Type || m_selectedItem->type() == QGraphicsEllipseItem::Type ||
+            m_selectedItem->type() == QGraphicsSvgItem::Type || m_selectedItem->type() == QGraphicsPixmapItem::Type) {
             QRectF newrect;
             if (m_selectedItem->type() == QGraphicsRectItem::Type) {
                 newrect = static_cast<QGraphicsRectItem *>(m_selectedItem)->rect();
@@ -1018,7 +1017,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
                     continue;
                 }
                 QRectF r1;
-                if(g->type() == QGraphicsRectItem::Type) {
+                if (g->type() == QGraphicsRectItem::Type) {
                     r1 = static_cast<const QGraphicsRectItem *>(g)->rect().normalized();
                 } else {
                     r1 = static_cast<const QGraphicsEllipseItem *>(g)->rect().normalized();

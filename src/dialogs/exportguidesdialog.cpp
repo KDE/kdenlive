@@ -11,10 +11,10 @@
 
 #include "kdenlive_debug.h"
 #include <KMessageWidget>
+#include <QClipboard>
 #include <QDateTimeEdit>
 #include <QFontDatabase>
 #include <QPushButton>
-#include <QClipboard>
 #include <QTime>
 
 #include "klocalizedstring.h"
@@ -26,7 +26,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     , m_markerListModel(model)
     , m_projectDuration(duration)
 {
-//    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    //    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Export guides as chapters description"));
 
@@ -37,54 +37,44 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     formatEdit->setText(defaultFormat);
 
     static std::array<QColor, 9> markerTypes = model->markerTypes;
-    QPixmap pixmap(32,32);
+    QPixmap pixmap(32, 32);
     for (uint i = 1; i <= markerTypes.size(); ++i) {
         pixmap.fill(markerTypes[size_t(i - 1)]);
         QIcon colorIcon(pixmap);
         markerTypeComboBox->addItem(colorIcon, i18n("Category %1", i - 1));
     }
     markerTypeComboBox->setCurrentIndex(0);
-    messageWidget->setText(i18n(
-        "If you are using the exported text for YouTube, you might want to check:\n"
-        "1. The start time of 00:00 must have a chapter.\n"
-        "2. There must be at least three timestamps in ascending order.\n"
-        "3. The minimum length for video chapters is 10 seconds."
-    ));
+    messageWidget->setText(i18n("If you are using the exported text for YouTube, you might want to check:\n"
+                                "1. The start time of 00:00 must have a chapter.\n"
+                                "2. There must be at least three timestamps in ascending order.\n"
+                                "3. The minimum length for video chapters is 10 seconds."));
     messageWidget->setVisible(false);
 
     updateContentByModel();
 
-    QPushButton * btn = buttonBox->addButton(i18n("Copy to Clipboard"), QDialogButtonBox::ActionRole);
+    QPushButton *btn = buttonBox->addButton(i18n("Copy to Clipboard"), QDialogButtonBox::ActionRole);
     btn->setIcon(QIcon::fromTheme("edit-copy"));
 
-    connect(markerTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() {
-        updateContentByModel();
-    });
+    connect(markerTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() { updateContentByModel(); });
 
     connect(offsetTimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int newIndex) {
         offsetTime->setEnabled(newIndex != 0);
         updateContentByModel();
     });
 
-    connect(offsetTime, &TimecodeDisplay::timeCodeUpdated, this, [this]() {
-        updateContentByModel();
-    });
+    connect(offsetTime, &TimecodeDisplay::timeCodeUpdated, this, [this]() { updateContentByModel(); });
 
-    connect(formatEdit, &QLineEdit::textEdited, this, [this]() {
-        updateContentByModel();
-    });
+    connect(formatEdit, &QLineEdit::textEdited, this, [this]() { updateContentByModel(); });
 
     connect(btn, &QAbstractButton::clicked, this, [this]() {
-         QClipboard *clipboard = QGuiApplication::clipboard();
-         clipboard->setText(this->generatedContent->toPlainText());
+        QClipboard *clipboard = QGuiApplication::clipboard();
+        clipboard->setText(this->generatedContent->toPlainText());
     });
 
     adjustSize();
 }
 
-ExportGuidesDialog::~ExportGuidesDialog()
-{
-}
+ExportGuidesDialog::~ExportGuidesDialog() {}
 
 double ExportGuidesDialog::offsetTimeMs() const
 {
@@ -92,7 +82,7 @@ double ExportGuidesDialog::offsetTimeMs() const
     case 1: // Add
         return offsetTime->gentime().ms();
     case 2: // Subtract
-        return - offsetTime->gentime().ms();
+        return -offsetTime->gentime().ms();
     case 0: // Disabled
     default:
         return 0;
@@ -104,7 +94,8 @@ void ExportGuidesDialog::updateContentByModel() const
     updateContentByModel(formatEdit->text(), markerTypeComboBox->currentIndex() - 1, offsetTimeMs());
 }
 
-QString chapterTimeStringFromMs(double timeMs) {
+QString chapterTimeStringFromMs(double timeMs)
+{
     bool negative = timeMs < 0;
     int totalSec = qAbs(timeMs / 1000);
     int hour = totalSec / 3600;
@@ -117,7 +108,7 @@ QString chapterTimeStringFromMs(double timeMs) {
     }
 }
 
-void ExportGuidesDialog::updateContentByModel(const QString & format, int markerIndex, double offset) const
+void ExportGuidesDialog::updateContentByModel(const QString &format, int markerIndex, double offset) const
 {
     QStringList chapterTexts;
     QList<CommentedTime> markers(m_markerListModel->getAllMarkers(markerIndex));

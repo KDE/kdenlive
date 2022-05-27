@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "filtertask.h"
-#include "assets/model/assetparametermodel.hpp" 
+#include "assets/model/assetparametermodel.hpp"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
@@ -22,8 +22,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <klocalizedstring.h>
 
-FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName,
-                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object)
+FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
+                       const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams,
+                       const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject *object)
     : AbstractTask(owner, AbstractTask::FILTERCLIPJOB, object)
     , length(0)
     , m_binId(binId)
@@ -38,10 +39,11 @@ FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::w
 {
 }
 
-void FilterTask::start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName,
-                       const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object, bool force)
+void FilterTask::start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
+                       const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams,
+                       const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject *object, bool force)
 {
-    FilterTask* task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
+    FilterTask *task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
     if (task) {
         // Otherwise, start a filter thread.
         task->m_isForce = force;
@@ -56,7 +58,7 @@ void FilterTask::run()
         return;
     }
     m_running = true;
-    
+
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
     std::unique_ptr<Mlt::Producer> producer = nullptr;
@@ -66,7 +68,7 @@ void FilterTask::run()
         url = binClip->url();
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -75,13 +77,13 @@ void FilterTask::run()
             Mlt::Filter converter(profile, "avcolor_space");
             producer->attach(converter);
         } else {
-            qDebug()<<"==== BUILDING PRODUCER: "<<url;
+            qDebug() << "==== BUILDING PRODUCER: " << url;
             producer = std::make_unique<Mlt::Producer>(profile, url.toUtf8().constData());
         }
         if ((producer == nullptr) || !producer->is_valid()) {
             // Clip was removed or something went wrong
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", binClip->url())),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
@@ -103,7 +105,7 @@ void FilterTask::run()
             producer = pCore->getTrackProducerInstance(m_owner.second);
         }
     }
-    
+
     if (producer == nullptr || !producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open source.")),
@@ -129,7 +131,7 @@ void FilterTask::run()
         return;
     }
     destFile.close();
-    std::unique_ptr<Mlt::Consumer>consumer(new Mlt::Consumer(profile, "xml", sourceFile.fileName().toUtf8().constData()));
+    std::unique_ptr<Mlt::Consumer> consumer(new Mlt::Consumer(profile, "xml", sourceFile.fileName().toUtf8().constData()));
     if (!consumer->is_valid()) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create consumer.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
@@ -145,15 +147,15 @@ void FilterTask::run()
         Mlt::Filter filter(profile, m_filterName.toUtf8().data());
         if (!filter.is_valid()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create filter %1", m_filterName)),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
 
         // Process filter params
-        qDebug()<<" = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
+        qDebug() << " = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
         for (const auto &it : m_filterParams) {
-            qDebug()<<". . ."<<it.first<<" = "<<it.second;
+            qDebug() << ". . ." << it.first << " = " << it.second;
             if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
                 continue;
             }
@@ -172,11 +174,11 @@ void FilterTask::run()
         filter.set("id", "kdenlive-analysis");
     }
 
-    qDebug()<<"=== FILTER READY TO PROCESS; LENGTH: "<<length;
+    qDebug() << "=== FILTER READY TO PROCESS; LENGTH: " << length;
     consumer->run();
     consumer.reset();
     producer.reset();
-    //wholeProducer.reset();
+    // wholeProducer.reset();
 
     QFile f1(sourceFile.fileName());
     f1.open(QIODevice::ReadOnly);
@@ -222,11 +224,11 @@ void FilterTask::run()
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to filter source.")),
-                                  Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
+                                      Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
         return;
     }
-    
+
     paramVector params;
     QString key("results");
     if (m_filterData.find(QStringLiteral("key")) != m_filterData.end()) {
@@ -251,31 +253,32 @@ void FilterTask::run()
         params.append({QStringLiteral("in"), m_inPoint});
         params.append({QStringLiteral("out"), m_outPoint});
     }
-    params.append({key,QVariant(resultData)});
+    params.append({key, QVariant(resultData)});
     if (m_filterData.find(QStringLiteral("storedata")) != m_filterData.end()) {
         // Store a copy of the data in clip analysis
-        QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname")) : QStringLiteral("data");
+        QString dataName = (m_filterData.find(QStringLiteral("displaydataname")) != m_filterData.end()) ? m_filterData.at(QStringLiteral("displaydataname"))
+                                                                                                        : QStringLiteral("data");
         auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "updatedAnalysisData", Q_ARG(QString, dataName), Q_ARG(QString, resultData), Q_ARG(int, m_inPoint));
         }
-        //binClip->updatedAnalysisData(dataName, resultData, m_inPoint);
+        // binClip->updatedAnalysisData(dataName, resultData, m_inPoint);
     }
     auto operation = [assetModel = m_model, filterParams = std::move(params)]() {
         if (auto ptr = assetModel.lock()) {
-            qDebug()<<"===== SETTING FILTER PARAM: "<<filterParams;
+            qDebug() << "===== SETTING FILTER PARAM: " << filterParams;
             QMetaObject::invokeMethod(ptr.get(), "setParameters", Q_ARG(paramVector, filterParams));
-            //ptr->setParameters(filterParams);
+            // ptr->setParameters(filterParams);
         }
         QMetaObject::invokeMethod(pCore.get(), "setDocumentModified");
         return true;
     };
     auto reverse = [assetModel = m_model, keyName = key]() {
         paramVector fParams;
-        fParams.append({keyName,QVariant()});
+        fParams.append({keyName, QVariant()});
         if (auto ptr = assetModel.lock()) {
             QMetaObject::invokeMethod(ptr.get(), "setParameters", Q_ARG(paramVector, fParams));
-            //ptr->setParameters(fParams);
+            // ptr->setParameters(fParams);
         }
         QMetaObject::invokeMethod(pCore.get(), "setDocumentModified");
         return true;

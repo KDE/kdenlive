@@ -2,14 +2,13 @@
 #define private public
 #define protected public
 
+#include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
-#include "bin/binplaylist.hpp"
 #include "xml/xml.hpp"
 
 using namespace fakeit;
 Mlt::Profile profile_file;
-
 
 TEST_CASE("Save File", "[SF]")
 {
@@ -53,9 +52,8 @@ TEST_CASE("Save File", "[SF]")
         QDir dir = QDir::temp();
         std::unordered_map<QString, QString> binIdCorresp;
         QStringList expandedFolders;
-        QDomDocument doc = mockedDoc.createEmptyDocument(2,2);
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string",
-                                                            doc.toString().toUtf8()));
+        QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
+        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", doc.toString().toUtf8()));
 
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
@@ -66,14 +64,14 @@ TEST_CASE("Save File", "[SF]")
         QString binId = createProducerWithSound(profile_file, binModel);
         QString binId2 = createProducer(profile_file, "red", binModel, 20, false);
 
-        /*int tid2b =*/ TrackModel::construct(timeline, -1, -1, QString(), true);
-        /*int tid2 =*/ TrackModel::construct(timeline, -1, -1, QString(), true);
+        /*int tid2b =*/TrackModel::construct(timeline, -1, -1, QString(), true);
+        /*int tid2 =*/TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid1 = TrackModel::construct(timeline);
-        /*int tid1b =*/ TrackModel::construct(timeline);
-    
+        /*int tid1b =*/TrackModel::construct(timeline);
+
         // Setup timeline audio drop info
-        QMap <int, QString>audioInfo;
-        audioInfo.insert(1,QStringLiteral("stream1"));
+        QMap<int, QString> audioInfo;
+        audioInfo.insert(1, QStringLiteral("stream1"));
         timeline->m_binAudioTargets = audioInfo;
         timeline->m_videoTarget = tid1;
         // Insert 2 clips (length=20, pos = 80 / 100)
@@ -102,7 +100,7 @@ TEST_CASE("Save File", "[SF]")
         undoStack->undo();
         // Undo first insert
         undoStack->undo();
-        // Undo second insert 
+        // Undo second insert
         undoStack->undo();
     }
     binModel->clean();
@@ -137,8 +135,7 @@ TEST_CASE("Save File", "[SF]")
         REQUIRE(file.open(QIODevice::ReadOnly | QIODevice::Text) == true);
         QByteArray playlist = file.readAll();
         file.close();
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string",
-                                                            playlist));
+        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", playlist));
         QDomDocument doc;
         doc.setContent(playlist);
         QDomNodeList list = doc.elementsByTagName(QStringLiteral("playlist"));

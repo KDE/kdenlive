@@ -249,7 +249,7 @@ void TimecodeDisplay::selectAll()
 
 void TimecodeDisplay::setOffset(int offset)
 {
-    m_offset = GenTime(offset/1000.).frames(m_timecode.fps());
+    m_offset = GenTime(offset / 1000.).frames(m_timecode.fps());
     // Update timecode display
     if (!m_frametimecode) {
         lineEdit()->setText(m_timecode.getTimecodeFromFrames(m_offset + m_value - m_minimum));

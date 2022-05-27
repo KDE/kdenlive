@@ -22,10 +22,10 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     // setup the comment
     m_buttonName = m_model->data(m_index, Qt::DisplayRole).toString();
     m_alternatebuttonName = m_model->data(m_index, AssetParameterModel::AlternateNameRole).toString();
-    //QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
+    // QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
-    //setEnabled(m_model->getOwnerId().first != ObjectType::TimelineTrack);
+    // setEnabled(m_model->getOwnerId().first != ObjectType::TimelineTrack);
     auto *layout = new QVBoxLayout(this);
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -34,7 +34,8 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #endif
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
+    QStringList consumerParams =
+        m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
 #else
     QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #endif
@@ -54,7 +55,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         }
     }
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    auto has_analyse_data = [&](const QPair<QString, QVariant>& param) {
+    auto has_analyse_data = [&](const QPair<QString, QVariant> &param) {
         return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
     };
     m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
@@ -95,11 +96,11 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                         QSize pSize = pCore->getCurrentFrameDisplaySize();
                         QStringList numbers = defaultValue.split(QLatin1Char(' '));
                         int ix = 0;
-                        for ( QString &val : numbers) {
+                        for (QString &val : numbers) {
                             if (val.endsWith(QLatin1Char('%'))) {
                                 val.chop(1);
-                                double n = val.toDouble()/100.;
-                                if (ix %2 == 0) {
+                                double n = val.toDouble() / 100.;
+                                if (ix % 2 == 0) {
                                     n *= pSize.width();
                                 } else {
                                     n *= pSize.height();
@@ -114,11 +115,11 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                         current = defaultValue;
                     }
                 }
-                //values << QPair<QString, QVariant>(QString("rect"),current);
-                //values << QPair<QString, QVariant>(QString("_reset"),1);
-                values << QPair<QString, QVariant>(m_keyParam,current);
+                // values << QPair<QString, QVariant>(QString("rect"),current);
+                // values << QPair<QString, QVariant>(QString("_reset"),1);
+                values << QPair<QString, QVariant>(m_keyParam, current);
             } else {
-                values << QPair<QString, QVariant>(m_keyParam,defaultValue);
+                values << QPair<QString, QVariant>(m_keyParam, defaultValue);
             }
             auto *command = new AssetUpdateCommand(m_model, values);
             pCore->pushUndo(command);
@@ -147,8 +148,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         std::unordered_map<QString, QString> fData;
         for (const QVariant &jobElement : filterData) {
             QStringList d = jobElement.toStringList();
-            if (d.size() == 2)
-            fData.insert({d.at(0), d.at(1)});
+            if (d.size() == 2) fData.insert({d.at(0), d.at(1)});
         }
         for (const auto &param : qAsConst(filterLastParams)) {
             if (param.first != m_keyParam) {
@@ -187,7 +187,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
 void ButtonParamWidget::slotShowComment(bool show)
 {
     Q_UNUSED(show);
-    //if (!m_labelComment->text().isEmpty()) {
+    // if (!m_labelComment->text().isEmpty()) {
     //    m_widgetComment->setVisible(show);
     //}
 }
@@ -195,7 +195,7 @@ void ButtonParamWidget::slotShowComment(bool show)
 void ButtonParamWidget::slotRefresh()
 {
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
-    auto has_analyse_data = [&](const QPair<QString, QVariant>& param) {
+    auto has_analyse_data = [&](const QPair<QString, QVariant> &param) {
         return param.first == m_keyParam && !param.second.isNull() && param.second.toString().contains(QLatin1Char(';'));
     };
     m_displayConditional = std::none_of(filterParams.begin(), filterParams.end(), has_analyse_data);
@@ -212,7 +212,7 @@ void ButtonParamWidget::slotRefresh()
             m_button->setText(i18n("Abort processing"));
             m_progress->setVisible(true);
         }
-        
+
     } else {
         m_button->setText(m_displayConditional ? m_buttonName : m_alternatebuttonName);
         m_progress->setValue(0);
@@ -225,4 +225,3 @@ bool ButtonParamWidget::getValue()
 {
     return true;
 }
-

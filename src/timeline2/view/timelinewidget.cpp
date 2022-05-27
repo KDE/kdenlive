@@ -104,7 +104,8 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
     return sortedItems;
 }
 
-void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu,
+                                     QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
 {
     m_timelineClipMenu = clipMenu;
     m_timelineCompositionMenu = compositionMenu;
@@ -118,18 +119,11 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
-    connect(m_favEffects, &QMenu::triggered, this, [&] (QAction *ac) {
-        m_proxy->addEffectToClip(ac->data().toString());
-    });
-    connect(m_favCompositions, &QMenu::triggered, this, [&] (QAction *ac) {
-        m_proxy->addCompositionToClip(ac->data().toString());
-    });
-    connect(m_guideMenu, &QMenu::triggered, this, [&] (QAction *ac) {
-        m_proxy->setPosition(ac->data().toInt());
-    });
-    connect(m_thumbsMenu, &QMenu::triggered, this, [&] (QAction *ac) {
-        m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
-    });
+    connect(m_favEffects, &QMenu::triggered, this, [&](QAction *ac) { m_proxy->addEffectToClip(ac->data().toString()); });
+    connect(m_favCompositions, &QMenu::triggered, this, [&](QAction *ac) { m_proxy->addCompositionToClip(ac->data().toString()); });
+    connect(m_guideMenu, &QMenu::triggered, this, [&](QAction *ac) { m_proxy->setPosition(ac->data().toInt()); });
+    connect(m_thumbsMenu, &QMenu::triggered, this,
+            [&](QAction *ac) { m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString()); });
     // Fix qml focus issue
     connect(m_headerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
@@ -161,7 +155,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("proxy", proxy);
-    // Create a unique id for this timeline to prevent thumbnails 
+    // Create a unique id for this timeline to prevent thumbnails
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
@@ -202,7 +196,7 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 void TimelineWidget::showClipMenu(int cid)
 {
     // Hide not applicable effects
-    QList <QAction *> effects = m_favEffects->actions();
+    QList<QAction *> effects = m_favEffects->actions();
     int tid = model()->getClipTrackId(cid);
     bool isAudioTrack = false;
     if (tid > -1) {
@@ -228,17 +222,18 @@ void TimelineWidget::showCompositionMenu()
 void TimelineWidget::showHeaderMenu()
 {
     bool isAudio = m_proxy->isActiveTrackAudio();
-    QList <QAction *> menuActions = m_headerMenu->actions();
-    QList <QAction *> audioActions;
+    QList<QAction *> menuActions = m_headerMenu->actions();
+    QList<QAction *> audioActions;
     for (QAction *ac : qAsConst(menuActions)) {
-        if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels") || ac->data().toString() == QLatin1String("normalize_channels")) {
+        if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels") ||
+            ac->data().toString() == QLatin1String("normalize_channels")) {
             audioActions << ac;
         }
     }
     if (!isAudio) {
         // Video track
         int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
-        QList <QAction *> actions = m_thumbsMenu->actions();
+        QList<QAction *> actions = m_thumbsMenu->actions();
         for (QAction *ac : qAsConst(actions)) {
             if (ac->data().toInt() == currentThumbs) {
                 ac->setChecked(true);
@@ -296,7 +291,7 @@ void TimelineWidget::showTargetMenu(int tid)
             ac->setChecked(true);
         }
     }
-    connect(m_targetsGroup, &QActionGroup::triggered, this, [this, tid] (QAction *action) {
+    connect(m_targetsGroup, &QActionGroup::triggered, this, [this, tid](QAction *action) {
         int targetStream = action->data().toInt();
         m_proxy->assignAudioTarget(tid, targetStream);
     });
@@ -325,7 +320,6 @@ void TimelineWidget::showRulerMenu()
     }
     m_timelineRulerMenu->popup(m_clickPos);
 }
-
 
 void TimelineWidget::showTimelineMenu()
 {
@@ -414,7 +408,8 @@ void TimelineWidget::setTool(ToolType::ProjectTool tool)
     rootObject()->setProperty("activeTool", int(tool));
 }
 
-ToolType::ProjectTool TimelineWidget::activeTool() {
+ToolType::ProjectTool TimelineWidget::activeTool()
+{
     return ToolType::ProjectTool(rootObject()->property("activeTool").toInt());
 }
 
@@ -489,25 +484,25 @@ void TimelineWidget::stopAudioRecord()
 
 bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
 {
-    switch(event->type()) {
-        case QEvent::Enter:
-            if (!hasFocus()) {
-                emit pCore->window()->focusTimeline(true, true);
-            }
-            break;
-        case QEvent::Leave:
-            if (!hasFocus()) {
-                emit pCore->window()->focusTimeline(false, true);
-            }
-            break;
-        case QEvent::FocusOut:
-            emit pCore->window()->focusTimeline(false, false);
-            break;
-        case QEvent::FocusIn:
-            emit pCore->window()->focusTimeline(true, false);
-            break;
-        default:
-            break;
+    switch (event->type()) {
+    case QEvent::Enter:
+        if (!hasFocus()) {
+            emit pCore->window()->focusTimeline(true, true);
+        }
+        break;
+    case QEvent::Leave:
+        if (!hasFocus()) {
+            emit pCore->window()->focusTimeline(false, true);
+        }
+        break;
+    case QEvent::FocusOut:
+        emit pCore->window()->focusTimeline(false, false);
+        break;
+    case QEvent::FocusIn:
+        emit pCore->window()->focusTimeline(true, false);
+        break;
+    default:
+        break;
     }
 
     return QQuickWidget::eventFilter(object, event);
@@ -523,14 +518,12 @@ void TimelineWidget::regainFocus()
 
 void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
-    qDebug()<<"root context get sub model new function";
+    qDebug() << "root context get sub model new function";
     if (pCore->getSubtitleModel().get() == nullptr) {
-        //qDebug()<<"null ptr here at root context";
+        // qDebug()<<"null ptr here at root context";
         return;
-    }
-    else
-    {
-        //qDebug()<<"null ptr NOT here at root context";
+    } else {
+        // qDebug()<<"null ptr NOT here at root context";
         rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
         if (firstConnect) {
             rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());

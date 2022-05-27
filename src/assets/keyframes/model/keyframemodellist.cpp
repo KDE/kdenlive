@@ -219,7 +219,9 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, 
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
-    auto op = [oldPos, pos, updateView](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) { return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo, updateView); };
+    auto op = [oldPos, pos, updateView](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
+        return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo, updateView);
+    };
     return applyOperation(op, logUndo ? i18nc("@action", "Move keyframe") : QString());
 }
 
@@ -341,8 +343,7 @@ bool KeyframeModelList::isEmpty() const
 int KeyframeModelList::count() const
 {
     READ_LOCK();
-    if (m_parameters.size() > 0)
-        return m_parameters.begin()->second->rowCount();
+    if (m_parameters.size() > 0) return m_parameters.begin()->second->rowCount();
     return 0;
 }
 
@@ -454,7 +455,6 @@ void KeyframeModelList::moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo)
     }
 }
 
-
 void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo)
 {
     bool ok = false, ok2 = false;
@@ -538,7 +538,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             kf = getPrevKeyframe(old_out, &ok4);
             if (ok4) {
                 GenTime current_in(oldIn, pCore->getCurrentFps());
-                qDebug()<<" = = = = = = = \n\nGOT 2 KF SITUATION: "<<current_in.frames(25)<<" = "<<kf.first.frames(25);
+                qDebug() << " = = = = = = = \n\nGOT 2 KF SITUATION: " << current_in.frames(25) << " = " << kf.first.frames(25);
                 if (kf.first == current_in) {
                     // We have a 2 keyframes situation, move last one to new out
                     for (const auto &param : m_parameters) {
@@ -547,7 +547,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     return;
                 }
             }
-            
+
             positions << old_out;
         }
         if (toDel.first == GenTime()) {
@@ -593,7 +593,7 @@ void KeyframeModelList::checkConsistency()
         QList<GenTime> list = param.second->getKeyframePos();
         for (auto &time : fullList) {
             if (!list.contains(time)) {
-                qDebug()<<" = = = \n\n = = = = \n\nWARNING; MISSING KF DETECTED AT: "<<time.seconds()<<"\n\n= = = \n\n= = =";
+                qDebug() << " = = = \n\n = = = = \n\nWARNING; MISSING KF DETECTED AT: " << time.seconds() << "\n\n= = = \n\n= = =";
                 pCore->displayMessage(i18n("Missing keyframe detected at %1, automatically re-added", time.seconds()), ErrorMessage);
                 QVariant missingVal = param.second->getInterpolatedValue(time);
                 local_update = param.second->addKeyframe_lambda(time, type, missingVal, false);

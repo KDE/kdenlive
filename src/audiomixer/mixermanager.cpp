@@ -4,14 +4,13 @@
 */
 
 #include "mixermanager.hpp"
+#include "capture/mediacapture.h"
 #include "core.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
-#include "effects/effectsrepository.hpp"
-#include "capture/mediacapture.h"
-
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
@@ -49,7 +48,7 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsLayout = new QHBoxLayout;
     m_channelsLayout->setContentsMargins(0, 0, 0, 0);
     m_masterBox->setContentsMargins(0, 0, 0, 0);
-    //m_channelsLayout->setSpacing(4);
+    // m_channelsLayout->setSpacing(4);
     m_channelsLayout->setSpacing(1);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
@@ -106,9 +105,8 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         return;
     }
     std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, trackName, this));
-    connect(mixer.get(), &MixerWidget::muteTrack, this, [&](int id, bool mute) {
-        m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
-    });
+    connect(mixer.get(), &MixerWidget::muteTrack, this,
+            [&](int id, bool mute) { m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3")); });
     if (m_visibleMixerManager) {
         mixer->connectMixer(!KdenliveSettings::mixerCollapse(), m_filterIsV2);
     }
@@ -158,8 +156,8 @@ void MixerManager::deregisterTrack(int tid)
 
 void MixerManager::cleanup()
 {
-    while (QLayoutItem* item = m_channelsLayout->takeAt(0)) {
-        if (QWidget* widget = item->widget()) {
+    while (QLayoutItem *item = m_channelsLayout->takeAt(0)) {
+        if (QWidget *widget = item->widget()) {
             widget->deleteLater();
         }
         delete item;
@@ -186,15 +184,15 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
             if (m_mixers.count(id) > 0) {
                 m_mixers[id]->setMute(m_model->data(topLeft, TimelineModel::IsDisabledRole).toBool());
             } else {
-                qDebug()<<"=== MODEL DATA CHANGED: MUTE DONE TRACK NOT FOUND!!!";
+                qDebug() << "=== MODEL DATA CHANGED: MUTE DONE TRACK NOT FOUND!!!";
             }
         } else if (roles.contains(TimelineModel::NameRole)) {
             int id = int(topLeft.internalId());
             if (m_mixers.count(id) > 0) {
-                qDebug()<<"=== MODEL DATA CHANGED: CHANGED";
+                qDebug() << "=== MODEL DATA CHANGED: CHANGED";
                 m_mixers[id]->setTrackName(m_model->data(topLeft, TimelineModel::NameRole).toString());
             } else {
-                qDebug()<<"=== MODEL DATA CHANGED: CHANGE NAME DONE TRACK NOT FOUND!!!";
+                qDebug() << "=== MODEL DATA CHANGED: CHANGE NAME DONE TRACK NOT FOUND!!!";
             }
         }
     });
@@ -205,9 +203,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         m_masterBox->removeWidget(m_masterMixer.get());
     }
     m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
-    connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) {
-        m_model->tractor()->set("hide", mute ? 3 : 1);
-    });
+    connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) { m_model->tractor()->set("hide", mute ? 3 : 1); });
     if (m_visibleMixerManager) {
         m_masterMixer->connectMixer(true, m_filterIsV2);
     }
@@ -243,12 +239,12 @@ void MixerManager::collapseMixers()
     if (KdenliveSettings::mixerCollapse()) {
         m_expandedWidth = width();
         m_channelsBox->setFixedWidth(0);
-        //m_line->setMaximumWidth(0);
+        // m_line->setMaximumWidth(0);
         if (!pCore->window()->isMixedTabbed()) {
             setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
         }
     } else {
-        //m_line->setMaximumWidth(QWIDGETSIZE_MAX);
+        // m_line->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMinimumWidth(m_recommendedWidth);
         setFixedWidth(m_expandedWidth);

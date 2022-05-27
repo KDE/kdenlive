@@ -17,8 +17,9 @@ bool ProfileInfo::operator==(const ProfileInfo &other) const
     int sar = sample_aspect_num() * 100 / sample_aspect_den();
     int dar = display_aspect_num() * 100 / display_aspect_den();
     return other.frame_rate_num() * 100 / other.frame_rate_den() == fps && other.width() == width() && other.height() == height() &&
-           other.progressive() == progressive() && (progressive() ? true : other.bottom_field_first() == bottom_field_first()) && other.sample_aspect_num() * 100 / other.sample_aspect_den() == sar &&
-           other.display_aspect_num() * 100 / other.display_aspect_den() == dar && other.colorspace() == colorspace();
+           other.progressive() == progressive() && (progressive() ? true : other.bottom_field_first() == bottom_field_first()) &&
+           other.sample_aspect_num() * 100 / other.sample_aspect_den() == sar && other.display_aspect_num() * 100 / other.display_aspect_den() == dar &&
+           other.colorspace() == colorspace();
 }
 
 bool ProfileInfo::isCompatible(std::unique_ptr<ProfileInfo> &other) const

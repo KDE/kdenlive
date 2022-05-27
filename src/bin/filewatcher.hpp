@@ -56,7 +56,7 @@ private:
 
     /// List of files for which we received an update since the last send
     std::unordered_set<QString> m_modifiedUrls;
-    
+
     /// When loading a project or adding many clips, adding many files to the watcher causes a freeze, so queue them
     std::unordered_map<QString, QString> m_pendingUrls;
 

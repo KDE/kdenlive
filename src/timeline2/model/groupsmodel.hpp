@@ -204,7 +204,7 @@ protected:
        @param type: new type of the group
     */
     void setType(int gid, GroupType type);
-    
+
     void adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap);
 
 private:

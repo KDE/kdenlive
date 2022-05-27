@@ -24,11 +24,10 @@ public:
     static std::unique_ptr<ProvidersRepository> &get();
 
     /** @brief Reloads all the providers from the disk */
-    void refresh(bool fullRefresh = true); //TODO: change to false
+    void refresh(bool fullRefresh = true); // TODO: change to false
 
-    QVector<QPair<QString,QString>> getAllProviers() const;
+    QVector<QPair<QString, QString>> getAllProviers() const;
     std::unique_ptr<ProviderModel> &getProvider(const QString &path);
-
 
 protected:
     ProvidersRepository();
@@ -40,5 +39,4 @@ protected:
     mutable QReadWriteLock m_mutex;
 
     std::unordered_map<QString, std::unique_ptr<ProviderModel>> m_providers;
-
 };

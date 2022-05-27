@@ -7,9 +7,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QToolButton>
 #include <QScrollArea>
-
+#include <QToolButton>
 
 /** @class DragButton
     @brief A draggable QToolButton subclass
@@ -41,7 +40,6 @@ signals:
     void switchTag(const QString &tag, bool add);
 };
 
-
 /** @class TagWidget
     @brief The tag widget takes care context menu tagging
  */
@@ -52,13 +50,13 @@ class TagWidget : public QWidget
 public:
     explicit TagWidget(QWidget *parent = nullptr);
     void setTagData(const QString &tagData = QString());
-    void rebuildTags(const QMap <int, QStringList> &newTags);
+    void rebuildTags(const QMap<int, QStringList> &newTags);
 
 private:
-    QList <DragButton *> tags;
+    QList<DragButton *> tags;
     void showTagsConfig();
 
 signals:
     void switchTag(const QString &tag, bool add);
-    void updateProjectTags(const QMap <int, QStringList> &oldTags, const QMap <int, QStringList> &newTags);
+    void updateProjectTags(const QMap<int, QStringList> &oldTags, const QMap<int, QStringList> &newTags);
 };

@@ -7,9 +7,9 @@
 #include "sharedframe.h"
 #include <mutex>
 
-void destroyFrame(void* p)
+void destroyFrame(void *p)
 {
-    delete static_cast<Mlt::Frame*>(p);
+    delete static_cast<Mlt::Frame *>(p);
 }
 
 class FrameData : public QSharedData
@@ -162,10 +162,10 @@ int SharedFrame::get_image_height() const
 
 const uint8_t *SharedFrame::get_image(mlt_image_format format) const
 {
-mlt_image_format native_format = get_image_format();
+    mlt_image_format native_format = get_image_format();
     int width = get_image_width();
     int height = get_image_height();
-    uint8_t* image = nullptr;
+    uint8_t *image = nullptr;
 
     if (format == mlt_image_none) {
         format = native_format;
@@ -173,17 +173,17 @@ mlt_image_format native_format = get_image_format();
 
     if (format == native_format) {
         // Native format is requested. Return frame image.
-        image = static_cast<uint8_t*>(d->f.get_image(format, width, height, 0));
+        image = static_cast<uint8_t *>(d->f.get_image(format, width, height, 0));
     } else {
         // Non-native format is requested. Return a cached converted image.
-        const char* formatName = mlt_image_format_name( format );
+        const char *formatName = mlt_image_format_name(format);
         // Convert to non-const so that the cache can be accessed/modified while
         // under lock.
-        auto* nonConstData = const_cast<FrameData*>(d.data());
+        auto *nonConstData = const_cast<FrameData *>(d.data());
 
         nonConstData->m.lock();
 
-        auto* cacheFrame = static_cast<Mlt::Frame*>(nonConstData->f.get_data(formatName));
+        auto *cacheFrame = static_cast<Mlt::Frame *>(nonConstData->f.get_data(formatName));
         if (cacheFrame == nullptr) {
             // A cached image does not exist, create one.
             // Make a non-deep clone of the frame (including convert function)
@@ -193,17 +193,17 @@ mlt_image_format native_format = get_image_format();
             cacheFrame = new Mlt::Frame(cloneFrame);
             // Release the reference on the clone
             // (now it is owned by the cache frame)
-            mlt_frame_close( cloneFrame );
+            mlt_frame_close(cloneFrame);
             // Save the cache frame as a property under the name of the image
             // format for later use.
-            nonConstData->f.set(formatName, static_cast<void*>(cacheFrame), 0, destroyFrame);
+            nonConstData->f.set(formatName, static_cast<void *>(cacheFrame), 0, destroyFrame);
             // Break a circular reference
             cacheFrame->clear("_cloned_frame");
         }
 
         // Get the image from the cache frame.
         // This will cause a conversion if it was just created.
-        image = static_cast<uint8_t*>(cacheFrame->get_image(format, width, height, 0));
+        image = static_cast<uint8_t *>(cacheFrame->get_image(format, width, height, 0));
 
         nonConstData->m.unlock();
     }
@@ -238,4 +238,3 @@ const int16_t *SharedFrame::get_audio() const
     int samples = get_audio_samples();
     return static_cast<int16_t *>(d->f.get_audio(format, frequency, channels, samples));
 }
-

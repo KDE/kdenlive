@@ -6,10 +6,10 @@
 
 #pragma once
 
+#include <KLocalizedString>
 #include <QDomElement>
 #include <QString>
 #include <memory>
-#include <KLocalizedString>
 
 #include <mlt++/MltProfile.h>
 
@@ -22,24 +22,14 @@ public:
     RenderPresetModel() = delete;
 
     RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName = QString(),
-                       const QString &renderer = QStringLiteral("avformat"));
+                      const QString &renderer = QStringLiteral("avformat"));
     RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName);
-    RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate,
-                       const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality, const QString &speeds);
+    RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate, const QString &defaultVQuality,
+                      const QString &defaultABitrate, const QString &defaultAQuality, const QString &speeds);
 
-    enum InstallType {
-        BuildIn,
-        Custom,
-        Download
-    };
+    enum InstallType { BuildIn, Custom, Download };
 
-    enum RateControl {
-        Unknown = -1,
-        Average = 0,
-        Constant,
-        Quality,
-        Constrained
-    };
+    enum RateControl { Unknown = -1, Average = 0, Constant, Quality, Constrained };
 
     QDomElement toXml();
 
@@ -76,7 +66,6 @@ public:
     int estimateFileSize(int length);
 
 private:
-
     void checkPreset();
 
     QString m_presetFile;

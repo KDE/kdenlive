@@ -22,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/transcodetask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
+#include "macros.hpp"
 #include "mainwindow.h"
 #include "mlt++/Mlt.h"
 #include "mltcontroller/clipcontroller.h"
@@ -41,7 +42,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "tagwidget.hpp"
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
-#include "macros.hpp"
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
 #include <dialogs/textbasededit.h>
@@ -125,7 +125,7 @@ public:
                     }
                     if (rate > -1) {
                         // Full star rating only
-                        if (rate %2 == 1) {
+                        if (rate % 2 == 1) {
                             rate++;
                         }
                         emit static_cast<ProjectSortProxyModel *>(model)->updateRating(index, uint(rate));
@@ -457,10 +457,10 @@ public:
         if (!index.data().isNull()) {
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
-            //QStyledItemDelegate::paint(painter, opt, index);
+            // QStyledItemDelegate::paint(painter, opt, index);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-            //style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, opt.widget);
+            // style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, opt.widget);
             QRect r = opt.rect;
             r.setHeight(r.width() / pCore->getCurrentDar());
             int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
@@ -496,7 +496,7 @@ public:
                 return;
             }
 
-            //Tags
+            // Tags
             QString tags = index.data(AbstractProjectItem::DataTag).toString();
             if (!tags.isEmpty()) {
                 QStringList t = tags.split(QLatin1Char(';'));
@@ -582,7 +582,7 @@ public:
                 if (status == TaskManagerStatus::Running) {
                     painter->drawRoundedRect(progress, 2, 2);
                     painter->setBrush((option.state & static_cast<int>((QStyle::State_Selected) != 0)) != 0 ? option.palette.text()
-                                                                                                                    : option.palette.highlight());
+                                                                                                            : option.palette.highlight());
                     progress.setWidth((thumbRect.width() - 2) * jobProgress / 100);
                     painter->drawRoundedRect(progress, 2, 2);
                 } else {
@@ -611,7 +611,7 @@ public:
         return 100 * (pos.x() - m_thumbRect.x()) / m_thumbRect.width();
     }
 
-    QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& ) const override
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const override
     {
         int textHeight = int(option.fontMetrics.height() * 1.5);
         return (QSize(m_iconSize.width(), m_iconSize.height() + textHeight));
@@ -627,7 +627,6 @@ public:
     PlaylistState::ClipState dragType{PlaylistState::Disabled};
 };
 
-
 MyListView::MyListView(QWidget *parent)
     : QListView(parent)
 {
@@ -639,7 +638,7 @@ MyListView::MyListView(QWidget *parent)
     setUniformItemSizes(true);
     setDragEnabled(true);
     setAcceptDrops(true);
-    //setDropIndicatorShown(true);
+    // setDropIndicatorShown(true);
     viewport()->setAcceptDrops(true);
 }
 
@@ -728,7 +727,8 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
                     p.setBrush(palette.highlight());
                     p.setPen(palette.highlightedText().color());
                     p.drawEllipse(QPoint(size.width() / 2, size.height() / 2), radius, radius);
-                    p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter, QString::number(indexes.count()));
+                    p.drawText(size.width() / 2 - radius, size.height() / 2 - radius, 2 * radius, 2 * radius, Qt::AlignCenter,
+                               QString::number(indexes.count()));
                 }
                 p.end();
                 drag->setPixmap(QPixmap::fromImage(image));
@@ -1070,7 +1070,7 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-void ClipWidget::init(QDockWidget* m_DockClipWidget)
+void ClipWidget::init(QDockWidget *m_DockClipWidget)
 {
     ClipCreationDialog::clipWidget(m_DockClipWidget);
 }
@@ -1138,7 +1138,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search…"));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
-    connect(m_searchLine, &QLineEdit::textChanged, this, [this] (const QString &str) {
+    connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) {
         m_proxyModel->slotSetSearchString(str);
         if (str.isEmpty()) {
             // focus last selected item when clearing search line
@@ -1204,7 +1204,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_sortDescend = new QAction(i18n("Descending"), this);
     m_sortDescend->setCheckable(true);
     m_sortDescend->setChecked(KdenliveSettings::binSorting() > 99);
-    connect(m_sortDescend, &QAction::triggered, this, [&] () {
+    connect(m_sortDescend, &QAction::triggered, this, [&]() {
         if (m_sortGroup->checkedAction()) {
             int actionData = m_sortGroup->checkedAction()->data().toInt();
             if ((m_itemView != nullptr) && m_listType == BinTreeView) {
@@ -1257,7 +1257,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     sortAction->addAction(sortByDesc);
     sortAction->addSeparator();
     sortAction->addAction(m_sortDescend);
-    connect(m_sortGroup, &QActionGroup::triggered, this, [&] (QAction *ac) {
+    connect(m_sortGroup, &QActionGroup::triggered, this, [&](QAction *ac) {
         int actionData = ac->data().toInt();
         if ((m_itemView != nullptr) && m_listType == BinTreeView) {
             auto *view = static_cast<QTreeView *>(m_itemView);
@@ -1275,20 +1275,18 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     disableEffects->setChecked(false);
     connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
-    
+
     QAction *hoverPreview = new QAction(i18n("Show Video Preview in Thumbnails"), this);
     hoverPreview->setCheckable(true);
     hoverPreview->setChecked(KdenliveSettings::hoverPreview());
-    connect(hoverPreview, &QAction::triggered, [] (bool checked) {
-        KdenliveSettings::setHoverPreview(checked);
-    });
+    connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
-#if KWIDGETSADDONS_VERSION <  QT_VERSION_CHECK(5, 77, 0)
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 77, 0)
     settingsAction->setDelayed(false);
 #else
     settingsAction->setPopupMode(QToolButton::InstantPopup);
@@ -1327,12 +1325,12 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
     m_tagAction->setCheckable(true);
     m_toolbar->addAction(m_tagAction);
-    connect(m_tagAction, &QAction::triggered, this, [&] (bool triggered) {
-       if (triggered) {
-           m_tagsWidget->setVisible(true);
-       } else {
-           m_tagsWidget->setVisible(false);
-       }
+    connect(m_tagAction, &QAction::triggered, this, [&](bool triggered) {
+        if (triggered) {
+            m_tagsWidget->setVisible(true);
+        } else {
+            m_tagsWidget->setVisible(false);
+        }
     });
 
     // Filter menu
@@ -1346,7 +1344,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
 
-    connect(m_filterButton, &QToolButton::toggled, this, [this] (bool toggle) {
+    connect(m_filterButton, &QToolButton::toggled, this, [this](bool toggle) {
         if (!toggle) {
             m_proxyModel->slotClearSearchFilters();
             return;
@@ -1379,7 +1377,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             }
         }
         QSignalBlocker bkt(m_filterButton);
-        if (rateFilters > 0 || !tagFilters.isEmpty() ||typeFilters > 0) {
+        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0) {
             m_filterButton->setChecked(true);
         } else {
             m_filterButton->setChecked(false);
@@ -1428,7 +1426,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             }
         }
         QSignalBlocker bkt(m_filterButton);
-        if (rateFilters > 0 || !tagFilters.isEmpty() ||typeFilters > 0) {
+        if (rateFilters > 0 || !tagFilters.isEmpty() || typeFilters > 0) {
             m_filterButton->setChecked(true);
         } else {
             m_filterButton->setChecked(false);
@@ -1463,12 +1461,10 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
         connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
             const QString currentId = m_monitor->activeClipId();
             if (!currentId.isEmpty()) {
-                pCore->taskManager.discardJobs({ObjectType::BinClip,currentId.toInt()}, AbstractTask::NOJOBTYPE, true);
+                pCore->taskManager.discardJobs({ObjectType::BinClip, currentId.toInt()}, AbstractTask::NOJOBTYPE, true);
             }
         });
-        connect(m_cancelJobs, &QAction::triggered, [&]() {
-            pCore->taskManager.slotCancelJobs();
-        });
+        connect(m_cancelJobs, &QAction::triggered, [&]() { pCore->taskManager.slotCancelJobs(); });
         connect(m_discardPendingJobs, &QAction::triggered, [&]() {
             // TODO: implement pending only deletion
             pCore->taskManager.slotCancelJobs();
@@ -1503,7 +1499,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(pCore.get(), &Core::updatePalette, this, &Bin::slotUpdatePalette);
     connect(m_itemModel.get(), &QAbstractItemModel::rowsInserted, this, &Bin::updateClipsCount);
     connect(m_itemModel.get(), &QAbstractItemModel::rowsRemoved, this, &Bin::updateClipsCount);
-    connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
+    connect(this, SIGNAL(displayBinMessage(QString, KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString, KMessageWidget::MessageType)));
     wheelAccumulatedDelta = 0;
 }
 
@@ -1772,7 +1768,8 @@ void Bin::slotDeleteClip()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Ensure we don't delete a parent before a child
-    // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth(); });
+    // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth();
+    // });
     for (const auto &item : items) {
         m_itemModel->requestBinClipDeletion(item, undo, redo);
     }
@@ -1781,7 +1778,7 @@ void Bin::slotDeleteClip()
 
 void Bin::slotReloadClip()
 {
-    qDebug()<<"---------\nRELOADING CLIP\n----------------";
+    qDebug() << "---------\nRELOADING CLIP\n----------------";
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
@@ -1853,12 +1850,11 @@ void Bin::slotReplaceClip()
         }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
-            QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement File"),
-                                                QFileInfo(currentItem->url()).absolutePath(),
-                                                ClipCreationDialog::getExtensionsFilter());
+            QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement File"), QFileInfo(currentItem->url()).absolutePath(),
+                                                            ClipCreationDialog::getExtensionsFilter());
             if (!fileName.isEmpty()) {
-                QMap <QString, QString> sourceProps;
-                QMap <QString, QString> newProps;
+                QMap<QString, QString> sourceProps;
+                QMap<QString, QString> newProps;
                 sourceProps.insert(QStringLiteral("resource"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:clipname"), currentItem->clipName());
@@ -1877,7 +1873,10 @@ void Bin::slotReplaceClip()
                     if (replacementProd->is_valid()) {
                         int replacementDuration = replacementProd->get_length();
                         if (replacementDuration < currentDuration) {
-                            if (KMessageBox::warningContinueCancel(this, i18n("You are replacing a clip with a shorter one, this might cause issues in timeline.\nReplacement is %1 frames shorter.", (currentDuration - replacementDuration))) != KMessageBox::Continue) {
+                            if (KMessageBox::warningContinueCancel(
+                                    this,
+                                    i18n("You are replacing a clip with a shorter one, this might cause issues in timeline.\nReplacement is %1 frames shorter.",
+                                         (currentDuration - replacementDuration))) != KMessageBox::Continue) {
                                 continue;
                             }
                         }
@@ -1891,7 +1890,6 @@ void Bin::slotReplaceClip()
         }
     }
 }
-
 
 void Bin::slotLocateClip()
 {
@@ -1926,7 +1924,7 @@ void Bin::slotLocateClip()
 void Bin::slotDuplicateClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    QList < std::shared_ptr<AbstractProjectItem> > items;
+    QList<std::shared_ptr<AbstractProjectItem>> items;
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -2049,8 +2047,8 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
         m_upAction->setVisible(true);
     }
 
-    //setBinEffectsEnabled(!binEffectsDisabled, false);
-    QMap <int, QStringList> projectTags = m_doc->getProjectTags();
+    // setBinEffectsEnabled(!binEffectsDisabled, false);
+    QMap<int, QStringList> projectTags = m_doc->getProjectTags();
     m_tagsWidget->rebuildTags(projectTags);
     rebuildFilters(projectTags.size());
     return folderName;
@@ -2245,7 +2243,7 @@ void Bin::selectAll()
     if (currentSelection.isValid()) {
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
         if (currentItem) {
-            std::shared_ptr<ProjectFolder>parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
+            std::shared_ptr<ProjectFolder> parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
             if (parentFolder) {
                 rootIndex = m_proxyModel->mapFromSource(getIndexForId(parentFolder->clipId(), true));
             }
@@ -2264,7 +2262,8 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
             const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
             if (id.isValid() && id2.isValid()) {
-                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
+                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
+                                                       QItemSelectionModel::SelectCurrent);
             }
             m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::EnsureVisible);
         }
@@ -2363,12 +2362,13 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_reloadAction->setVisible(!isFolder);
             m_replaceAction->setEnabled(isClip);
             m_replaceAction->setVisible(!isFolder);
-            m_clipsActionsMenu->menuAction()->setVisible(
-                !isFolder &&
-                (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
+            m_clipsActionsMenu->menuAction()->setVisible(!isFolder &&
+                                                         (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) ||
+                                                          clipService.contains(QStringLiteral("consumer"))));
 
             m_transcodeAction->setEnabled(!isFolder);
-            m_transcodeAction->setVisible(!isFolder && (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
+            m_transcodeAction->setVisible(!isFolder &&
+                                          (type == ClipType::Playlist || type == ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
 
             m_deleteAction->setEnabled(true);
             m_renameAction->setEnabled(true);
@@ -2458,7 +2458,7 @@ void Bin::slotInitView(QAction *action)
                 std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
                 if (currentItem) {
                     selectedItem = currentItem->clipId();
-                    std::shared_ptr<ProjectFolder>parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
+                    std::shared_ptr<ProjectFolder> parentFolder = std::static_pointer_cast<ProjectFolder>(currentItem->getEnclosingFolder());
                     if (parentFolder) {
                         rootFolder = parentFolder->clipId();
                     }
@@ -2523,7 +2523,7 @@ void Bin::slotInitView(QAction *action)
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotDataChanged);
-    connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, this, [&] (const QModelIndex &ix, uint rating) {
+    connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, this, [&](const QModelIndex &ix, uint rating) {
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
         if (item) {
@@ -2531,12 +2531,12 @@ void Bin::slotInitView(QAction *action)
             Fun undo = [this, item, index, previousRating]() {
                 item->setRating(previousRating);
                 emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
-                return true; 
+                return true;
             };
             Fun redo = [this, item, index, rating]() {
                 item->setRating(rating);
                 emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
-                return true; 
+                return true;
             };
             redo();
             pCore->pushUndo(undo, redo, i18n("Edit rating"));
@@ -2589,22 +2589,22 @@ void Bin::slotInitView(QAction *action)
         m_showDesc->setChecked(!view->isColumnHidden(2));
         m_showRating->setChecked(!view->isColumnHidden(7));
         if (m_sortGroup->checkedAction()) {
-            view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+            view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(),
+                                             m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
         }
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
-        connect(view->header(), &QHeaderView::sortIndicatorChanged, this, [this] (int ix, Qt::SortOrder order) {
+        connect(view->header(), &QHeaderView::sortIndicatorChanged, this, [this](int ix, Qt::SortOrder order) {
             QSignalBlocker bk(m_sortDescend);
             QSignalBlocker bk2(m_sortGroup);
             m_sortDescend->setChecked(order == Qt::DescendingOrder);
-            QList <QAction*> actions = m_sortGroup->actions();
+            QList<QAction *> actions = m_sortGroup->actions();
             for (auto ac : qAsConst(actions)) {
                 if (ac->data().toInt() == ix) {
                     ac->setChecked(true);
                     break;
                 }
             }
-            
         });
         connect(view, &MyTreeView::focusView, this, &Bin::slotGotFocus);
     } else if (m_listType == BinIconView) {
@@ -2632,7 +2632,8 @@ void Bin::slotInitView(QAction *action)
             const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
             if (id.isValid() && id2.isValid()) {
-                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
+                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
+                                                       QItemSelectionModel::Select);
             }
         }
     }
@@ -2649,7 +2650,7 @@ void Bin::slotSetIconSize(int size)
         return;
     }
     KdenliveSettings::setBin_zoom(size);
-    m_iconSize = m_baseIconSize * ((m_listType == BinIconView ? qMax(1,size) : size) / 4.0);
+    m_iconSize = m_baseIconSize * ((m_listType == BinIconView ? qMax(1, size) : size) / 4.0);
     m_itemView->setIconSize(m_iconSize);
     if (m_listType == BinIconView) {
         auto *view = static_cast<MyListView *>(m_itemView);
@@ -2676,7 +2677,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     QString clipService;
     bool clickInView = false;
     if (m_itemView) {
-        QRect viewRect(m_itemView->mapToGlobal(QPoint(0,0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
+        QRect viewRect(m_itemView->mapToGlobal(QPoint(0, 0)), m_itemView->mapToGlobal(QPoint(m_itemView->width(), m_itemView->height())));
         if (viewRect.contains(event->globalPos())) {
             clickInView = true;
             QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
@@ -2711,7 +2712,8 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         m_menu->exec(event->globalPos());
     } else {
         // Clicked in empty area, will show main menu.
-        // Before that `createFolderAction` is inserted - it allows to distinguish between showing that item by clicking on empty area and by clicking on "Add Clip" menu.
+        // Before that `createFolderAction` is inserted - it allows to distinguish between showing that item by clicking on empty area and by clicking on "Add
+        // Clip" menu.
         m_addButton->menu()->insertAction(m_addClip, m_createFolderAction);
 
         m_addButton->menu()->exec(event->globalPos());
@@ -2731,8 +2733,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             m_upAction->setEnabled(true);
             return;
         }
-    }
-    else {
+    } else {
         if (!m_isMainBin && item->itemType() == AbstractProjectItem::FolderItem) {
             // Double click a folder in secondary bin will set it as bin root
             m_itemView->setRootIndex(ix);
@@ -3037,7 +3038,8 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
         view->expand(m_proxyModel->mapFromSource(ix.parent()));
         const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
         if (id.isValid() && id2.isValid()) {
-            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
+            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
+                                                   QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
         }
     } else {
         // Ensure parent folder is currently opened
@@ -3150,28 +3152,30 @@ void Bin::setupMenu()
     auto *addClipMenu = new QMenu(this);
 
     m_addClip =
-            addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
+        addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), QStringLiteral("addclip"));
     addClipMenu->addAction(m_addClip);
     connect(m_addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
-    setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
-    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
-    setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-    setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title…"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+    setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip…"),
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
+    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence…"),
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
+    setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip…"),
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+    setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title…"),
+                       QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
 
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
     addClipMenu->addAction(downloadResourceAction);
     connect(downloadResourceAction, &QAction::triggered, pCore->window(), &MainWindow::slotDownloadResources);
 
-    m_locateAction =
-        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip…"), QIcon::fromTheme(QStringLiteral("find-location")));
+    m_locateAction = addAction(QStringLiteral("locate_clip"), i18n("Locate Clip…"), QIcon::fromTheme(QStringLiteral("find-location")));
     m_locateAction->setData("locate_clip");
     m_locateAction->setEnabled(false);
     connect(m_locateAction, &QAction::triggered, this, &Bin::slotLocateClip);
 
-    m_reloadAction =
-        addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), QIcon::fromTheme(QStringLiteral("view-refresh")));
+    m_reloadAction = addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_reloadAction->setData("reload_clip");
     m_reloadAction->setEnabled(false);
     connect(m_reloadAction, &QAction::triggered, this, &Bin::slotReloadClip);
@@ -3182,14 +3186,12 @@ void Bin::setupMenu()
     m_transcodeAction->setEnabled(false);
     connect(m_transcodeAction, &QAction::triggered, this, &Bin::requestSelectionTranscoding);
 
-    m_replaceAction =
-        addAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
+    m_replaceAction = addAction(QStringLiteral("replace_clip"), i18n("Replace Clip…"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
     m_replaceAction->setData("replace_clip");
     m_replaceAction->setEnabled(false);
     connect(m_replaceAction, &QAction::triggered, this, &Bin::slotReplaceClip);
 
-    m_duplicateAction =
-        addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_duplicateAction = addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_duplicateAction->setData("duplicate_clip");
     m_duplicateAction->setEnabled(false);
     connect(m_duplicateAction, &QAction::triggered, this, &Bin::slotDuplicateClip);
@@ -3201,14 +3203,12 @@ void Bin::setupMenu()
     m_proxyAction->setChecked(false);
     m_proxyAction->setEnabled(false);
 
-    m_editAction =
-        addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editAction = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
     m_editAction->setData("clip_properties");
     m_editAction->setEnabled(false);
     connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));
 
-    m_openAction =
-        addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openAction = addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), QIcon::fromTheme(QStringLiteral("document-open")));
     m_openAction->setData("edit_clip");
     m_openAction->setEnabled(false);
     connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClipExtern);
@@ -3216,8 +3216,7 @@ void Bin::setupMenu()
     m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), pCore->window()->actionCollection());
     m_renameAction->setEnabled(false);
 
-    m_deleteAction =
-        addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
+    m_deleteAction = addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
     m_deleteAction->setData("delete_clip");
     m_deleteAction->setEnabled(false);
     connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
@@ -3233,8 +3232,7 @@ void Bin::setupMenu()
         pCore.get()->addBin(id);
     });
 
-    m_createFolderAction =
-        addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
+    m_createFolderAction = addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     connect(m_createFolderAction, &QAction::triggered, this, &Bin::slotAddFolder);
 
     m_upAction = KStandardAction::up(this, SLOT(slotBack()), pCore->window()->actionCollection());
@@ -3264,7 +3262,8 @@ const QString Bin::getDocumentProperty(const QString &key)
     return m_doc->getDocumentProperty(key);
 }
 
-void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions, bool showCloseButton, BinMessage::BinCategory messageCategory)
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions, bool showCloseButton,
+                           BinMessage::BinCategory messageCategory)
 {
     // Remove existing actions if any
     QList<QAction *> acts = m_infoMessage->actions();
@@ -3461,7 +3460,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, parentIndex);
             if (id.isValid() && id2.isValid()) {
                 m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
-                                                   QItemSelectionModel::Select);
+                                                       QItemSelectionModel::Select);
             }
             setCurrent(parentItem);
         }
@@ -3474,13 +3473,13 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
         if (parentItem->itemType() == AbstractProjectItem::ClipItem || parentItem->itemType() == AbstractProjectItem::SubClipItem) {
             if (parentItem->itemType() == AbstractProjectItem::SubClipItem) {
-                qDebug()<<"TAG DROPPED ON CLIPZOINE\n\n!!!!!!!!!!!!!!!";
+                qDebug() << "TAG DROPPED ON CLIPZOINE\n\n!!!!!!!!!!!!!!!";
             }
             // effect only supported on clip/subclip items
             QString currentTag = parentItem->tags();
-            QMap <QString, QString> oldProps;
+            QMap<QString, QString> oldProps;
             oldProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
-            QMap <QString, QString> newProps;
+            QMap<QString, QString> newProps;
             if (currentTag.isEmpty()) {
                 currentTag = tag;
             } else if (!currentTag.contains(tag)) {
@@ -3491,10 +3490,10 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
             return;
         }
         if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
-            QList <QString> allClips;
+            QList<QString> allClips;
             QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(parentItem)->childClips();
             for (auto &clp : children) {
-                allClips <<clp->clipId();
+                allClips << clp->clipId();
             }
             editTags(allClips, tag, true);
             return;
@@ -3510,7 +3509,7 @@ void Bin::switchTag(const QString &tag, bool add)
         pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::ErrorMessage);
     }
     // Check for folders
-    QList <QString> allClips;
+    QList<QString> allClips;
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
@@ -3519,16 +3518,16 @@ void Bin::switchTag(const QString &tag, bool add)
         if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
             QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(parentItem)->childClips();
             for (auto &clp : children) {
-                allClips <<clp->clipId();
+                allClips << clp->clipId();
             }
         } else {
-            allClips <<parentItem->clipId();
+            allClips << parentItem->clipId();
         }
     }
     editTags(allClips, tag, add);
 }
 
-void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <int, QStringList> &tags)
+void Bin::updateTags(const QMap<int, QStringList> &previousTags, const QMap<int, QStringList> &tags)
 {
     Fun undo = [this, previousTags, tags]() {
         m_tagsWidget->rebuildTags(previousTags);
@@ -3546,7 +3545,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
     QList<QStringList> previous = previousTags.values();
     QList<QStringList> updated = tags.values();
     QStringList deletedTags;
-    QMap <QString, QString> modifiedTags;
+    QMap<QString, QString> modifiedTags;
     for (auto p : previous) {
         bool tagExists = false;
         for (auto n : updated) {
@@ -3569,7 +3568,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
         // Remove tag from clips
         for (auto &t : deletedTags) {
             // Find clips with the tag
-            const QList <QString> clips = getAllClipsWithTag(t);
+            const QList<QString> clips = getAllClipsWithTag(t);
             Fun update_tags_redo = [this, clips, t]() {
                 for (auto &cid : clips) {
                     std::shared_ptr<ProjectClip> clip = getBinClip(cid);
@@ -3577,7 +3576,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
                         QString tags = clip->tags();
                         QStringList tagsList = tags.split(QLatin1Char(';'));
                         tagsList.removeAll(t);
-                        QMap <QString, QString> props;
+                        QMap<QString, QString> props;
                         props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
                         slotUpdateClipProperties(cid, props, false);
                     }
@@ -3593,7 +3592,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
                         if (!tagsList.contains(t)) {
                             tagsList << t;
                         }
-                        QMap <QString, QString> props;
+                        QMap<QString, QString> props;
                         props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
                         slotUpdateClipProperties(cid, props, false);
                     }
@@ -3609,7 +3608,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
         while (i.hasNext()) {
             // Find clips with the tag
             i.next();
-            const QList <QString> clips = getAllClipsWithTag(i.key());
+            const QList<QString> clips = getAllClipsWithTag(i.key());
             Fun update_tags_redo = [this, clips, previous = i.key(), updated = i.value()]() {
                 for (auto &cid : clips) {
                     std::shared_ptr<ProjectClip> clip = getBinClip(cid);
@@ -3618,7 +3617,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
                         QStringList tagsList = tags.split(QLatin1Char(';'));
                         tagsList.removeAll(previous);
                         tagsList << updated;
-                        QMap <QString, QString> props;
+                        QMap<QString, QString> props;
                         props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
                         slotUpdateClipProperties(cid, props, false);
                     }
@@ -3635,7 +3634,7 @@ void Bin::updateTags(const QMap <int, QStringList> &previousTags, const QMap <in
                         if (!tagsList.contains(previous)) {
                             tagsList << previous;
                         }
-                        QMap <QString, QString> props;
+                        QMap<QString, QString> props;
                         props.insert(QStringLiteral("kdenlive:tags"), tagsList.join(QLatin1Char(';')));
                         slotUpdateClipProperties(cid, props, false);
                     }
@@ -3653,7 +3652,7 @@ const QList<QString> Bin::getAllClipsWithTag(const QString &tag)
 {
     QList<QString> list;
     QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
-    for(const auto &clip : qAsConst(allClipIds)) {
+    for (const auto &clip : qAsConst(allClipIds)) {
         if (clip->tags().contains(tag)) {
             list << clip->clipId();
         }
@@ -3661,16 +3660,16 @@ const QList<QString> Bin::getAllClipsWithTag(const QString &tag)
     return list;
 }
 
-void Bin::editTags(const QList <QString> &allClips, const QString &tag, bool add)
+void Bin::editTags(const QList<QString> &allClips, const QString &tag, bool add)
 {
     for (const QString &id : allClips) {
         std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(id);
         if (clip) {
             // effect only supported on clip/subclip items
             QString currentTag = clip->tags();
-            QMap <QString, QString> oldProps;
+            QMap<QString, QString> oldProps;
             oldProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
-            QMap <QString, QString> newProps;
+            QMap<QString, QString> newProps;
             if (add) {
                 if (currentTag.isEmpty()) {
                     currentTag = tag;
@@ -4222,13 +4221,13 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         pCore->requestMonitorRefresh();
     } else {
         pCore->temporaryUnplug(clips, false);
-        if(res == QDialog::Accepted + 1) {
+        if (res == QDialog::Accepted + 1) {
             // Ready, create clip xml
             std::unordered_map<QString, QString> properties;
             properties[QStringLiteral("xmldata")] = dia_ui.xml().toString();
             QString titleSuggestion = dia_ui.titleSuggest();
-            ClipCreator::createTitleClip(properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, clip->parent()->clipId(),
-                                         m_itemModel);
+            ClipCreator::createTitleClip(properties, dia_ui.duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion,
+                                         clip->parent()->clipId(), m_itemModel);
         }
     }
 }
@@ -4243,7 +4242,6 @@ void Bin::slotResetInfoMessage()
         m_infoMessage->removeAction(actions.at(i));
     }*/
 }
-
 
 void Bin::slotSetSorting()
 {
@@ -4304,7 +4302,7 @@ void Bin::slotRefreshClipThumbnail(const QString &id)
     if (!clip) {
         return;
     }
-    ClipLoadTask::start({ObjectType::BinClip,id.toInt()}, QDomElement(), true, -1, -1, this);
+    ClipLoadTask::start({ObjectType::BinClip, id.toInt()}, QDomElement(), true, -1, -1, this);
 }
 
 void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData)
@@ -4511,8 +4509,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
             clip->setClipStatus(FileStatus::StatusWaiting);
-            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true, {AbstractTask::TRANSCODEJOB,AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB});
-            ClipLoadTask::start({ObjectType::BinClip,clip->clipId().toInt()}, xml, false, -1, -1, this);
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clip->clipId().toInt()}, AbstractTask::NOJOBTYPE, true,
+                                           {AbstractTask::TRANSCODEJOB, AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB});
+            ClipLoadTask::start({ObjectType::BinClip, clip->clipId().toInt()}, xml, false, -1, -1, this);
         }
     }
 }
@@ -4571,7 +4570,7 @@ void Bin::rebuildProxies()
         if (clp->hasProxy()) {
             toProxy << clp;
             // Abort all pending jobs
-            pCore->taskManager.discardJobs({ObjectType::BinClip,clp->clipId().toInt()}, AbstractTask::PROXYJOB);
+            pCore->taskManager.discardJobs({ObjectType::BinClip, clp->clipId().toInt()}, AbstractTask::PROXYJOB);
             clp->deleteProxy();
         }
     }
@@ -4730,7 +4729,8 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
             projectProfile->m_display_aspect_num = width;
             projectProfile->m_display_aspect_den = height;
             projectProfile->m_description.clear();
-            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(projectProfile.get())), Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam *, new ProfileParam(projectProfile.get())),
+                                      Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
         } else {
             // Very small image, we probably don't want to use this as profile
         }
@@ -4748,7 +4748,8 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
             }
         } else {
             // Profiles do not match, propose profile adjustment
-            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam*,new ProfileParam(clipProfile.get())), Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
+            QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam *, new ProfileParam(clipProfile.get())),
+                                      Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
         }
     }
 }
@@ -4758,7 +4759,7 @@ void Bin::showBinFrame(const QModelIndex &ix, int frame, bool storeFrame)
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (item) {
         ClipType::ProducerType type = item->clipType();
-            if (type != ClipType::AV && type != ClipType::Video && type != ClipType::Playlist && type != ClipType::SlideShow) {
+        if (type != ClipType::AV && type != ClipType::Video && type != ClipType::Playlist && type != ClipType::SlideShow) {
             return;
         }
         if (item->itemType() == AbstractProjectItem::ClipItem) {
@@ -4781,7 +4782,7 @@ void Bin::invalidateClip(const QString &binId)
     if (clip && clip->clipType() != ClipType::Audio) {
         QList<int> ids = clip->timelineInstances();
         for (int i : qAsConst(ids)) {
-            pCore->invalidateItem({ObjectType::TimelineClip,i});
+            pCore->invalidateItem({ObjectType::TimelineClip, i});
         }
     }
 }
@@ -4799,12 +4800,12 @@ void Bin::slotBack()
     }
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentRootIx));
     if (!item) {
-        qDebug()<<"=== ERROR CANNOT FIND ROOT FOR CURRENT VIEW";
+        qDebug() << "=== ERROR CANNOT FIND ROOT FOR CURRENT VIEW";
         return;
     }
     std::shared_ptr<AbstractProjectItem> parentItem = item->parent();
     if (!parentItem) {
-        qDebug()<<"=== ERROR CANNOT FIND PARENT FOR CURRENT VIEW";
+        qDebug() << "=== ERROR CANNOT FIND PARENT FOR CURRENT VIEW";
         return;
     }
     if (parentItem != m_itemModel->getRootFolder()) {
@@ -4834,9 +4835,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         }
         QList<QAction *> list;
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Add Tracks"), this);
-        connect(ac, &QAction::triggered, [requestedTracks]() {
-            pCore->projectManager()->addAudioTracks(requestedTracks);
-        });
+        connect(ac, &QAction::triggered, [requestedTracks]() { pCore->projectManager()->addAudioTracks(requestedTracks); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
         connect(ac2, &QAction::triggered, this, [this, clipId]() {
             selectClipById(clipId);
@@ -4853,12 +4852,11 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
             }
         });
         QAction *ac3 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Don't ask again"), this);
-        connect(ac3, &QAction::triggered, [&]() {
-            KdenliveSettings::setMultistream_checktrack(false);
-        });
-        //QAction *ac4 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
+        connect(ac3, &QAction::triggered, [&]() { KdenliveSettings::setMultistream_checktrack(false); });
+        // QAction *ac4 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2 << ac3; // << ac4;
-        doDisplayMessage(i18n("Your project needs more audio tracks to handle all streams. Add %1 audio tracks ?", requestedTracks), KMessageWidget::Information, list, true, BinMessage::BinCategory::StreamsMessage);
+        doDisplayMessage(i18n("Your project needs more audio tracks to handle all streams. Add %1 audio tracks ?", requestedTracks),
+                         KMessageWidget::Information, list, true, BinMessage::BinCategory::StreamsMessage);
     } else if (m_currentMessage == BinMessage::BinCategory::StreamsMessage) {
         // Clip streams number ok for the project, hide message
         m_infoMessage->animatedHide();
@@ -4872,7 +4870,7 @@ void Bin::addClipMarker(const QString &binId, const QList<int> &positions, const
         pCore->displayMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
         return;
     }
-    QMap <GenTime, QString> markers;
+    QMap<GenTime, QString> markers;
     int ix = 0;
     for (int pos : positions) {
         GenTime p(pos, pCore->getCurrentFps());
@@ -4912,7 +4910,7 @@ void Bin::saveFolderState()
         return;
     }
     auto *view = static_cast<QTreeView *>(m_itemView);
-    QList <std::shared_ptr<ProjectFolder> > folders = m_itemModel->getFolders();
+    QList<std::shared_ptr<ProjectFolder>> folders = m_itemModel->getFolders();
     QStringList expandedFolders;
     for (const auto &folder : qAsConst(folders)) {
         QModelIndex ix = m_itemModel->getIndexFromItem(folder);
@@ -4945,19 +4943,21 @@ QList<int> Bin::getUsedClipIds()
 {
     QList<int> timelineClipIds;
     QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
-    for(const auto &clip : qAsConst(allClipIds)) {
-        if(clip->isIncludedInTimeline()) {
+    for (const auto &clip : qAsConst(allClipIds)) {
+        if (clip->isIncludedInTimeline()) {
             timelineClipIds.push_back(clip->binId().toInt());
         }
     }
     return timelineClipIds;
 }
 
-ClipWidget* Bin::getWidget(){
+ClipWidget *Bin::getWidget()
+{
     return m_clipWidget;
 }
 
-void Bin::dockWidgetInit(QDockWidget* m_DockClipWidget){
+void Bin::dockWidgetInit(QDockWidget *m_DockClipWidget)
+{
     m_clipWidget->init(m_DockClipWidget);
 }
 
@@ -5008,19 +5008,20 @@ void Bin::requestSelectionTranscoding()
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
-        connect(m_transcodingDialog, &QDialog::accepted, this, [&] () {
-            QMap<QString,QStringList> ids = m_transcodingDialog->ids();
+        connect(m_transcodingDialog, &QDialog::accepted, this, [&]() {
+            QMap<QString, QStringList> ids = m_transcodingDialog->ids();
             QString firstId = ids.firstKey();
             QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
                 i.next();
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
-                TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, false);
+                TranscodeTask::start({ObjectType::BinClip, i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(),
+                                     m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, false);
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });
-        connect(m_transcodingDialog, &QDialog::rejected, this, [&] () {
+        connect(m_transcodingDialog, &QDialog::rejected, this, [&]() {
             QString firstId = m_transcodingDialog->ids().firstKey();
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
@@ -5047,22 +5048,24 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
 {
     if (m_transcodingDialog == nullptr) {
         m_transcodingDialog = new TranscodeSeek(this);
-        connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile] () {
-            QMap<QString,QStringList> ids = m_transcodingDialog->ids();
+        connect(m_transcodingDialog, &QDialog::accepted, this, [&, checkProfile]() {
+            QMap<QString, QStringList> ids = m_transcodingDialog->ids();
             if (!ids.isEmpty()) {
                 QString firstId = ids.firstKey();
                 QMapIterator<QString, QStringList> i(ids);
                 while (i.hasNext()) {
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
-                    TranscodeTask::start({ObjectType::BinClip,i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false, i.key() == firstId ? checkProfile : false);
+                    TranscodeTask::start({ObjectType::BinClip, i.key().toInt()}, i.value().first(), m_transcodingDialog->preParams(),
+                                         m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false,
+                                         i.key() == firstId ? checkProfile : false);
                 }
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });
-        connect(m_transcodingDialog, &QDialog::rejected, this, [&, checkProfile] () {
-            QMap<QString,QStringList> ids = m_transcodingDialog->ids();
+        connect(m_transcodingDialog, &QDialog::rejected, this, [&, checkProfile]() {
+            QMap<QString, QStringList> ids = m_transcodingDialog->ids();
             QString firstId;
             if (!ids.isEmpty()) {
                 firstId = ids.firstKey();
@@ -5082,7 +5085,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
         }
         if (url.isEmpty()) {
             QString resource = clip->clipUrl();
-            m_transcodingDialog->addUrl(resource, id, suffix,  cType, message);
+            m_transcodingDialog->addUrl(resource, id, suffix, cType, message);
         } else {
             m_transcodingDialog->addUrl(url, id, suffix, cType, message);
         }
@@ -5095,14 +5098,14 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     // Check if the clip is already inserted in the project, if yes exit
     QStringList existingIds = m_itemModel->getClipByUrl(QFileInfo(path));
     if (!existingIds.isEmpty()) {
-        //selectClipById(existingIds.first());
+        // selectClipById(existingIds.first());
         return true;
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Check if folder exists
 
-    QString folderId = QStringLiteral("-1"); 
+    QString folderId = QStringLiteral("-1");
     // We first try to see if it exists
     std::shared_ptr<ProjectFolder> baseFolder = m_itemModel->getFolderByBinId(parentFolder);
     if (!baseFolder) {

@@ -21,7 +21,8 @@ std::unique_ptr<ProvidersRepository> &ProvidersRepository::get()
     return instance;
 }
 
-void ProvidersRepository::refresh(bool fullRefresh) {
+void ProvidersRepository::refresh(bool fullRefresh)
+{
 
     // Lock to avoid changes to config files while reading them
     QWriteLocker locker(&m_mutex);
@@ -45,7 +46,8 @@ void ProvidersRepository::refresh(bool fullRefresh) {
 
     QStringList profilesFiles;
     // list providers
-    QStringList customProfilesDir = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("resourceproviders"), QStandardPaths::LocateDirectory);
+    QStringList customProfilesDir =
+        QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("resourceproviders"), QStandardPaths::LocateDirectory);
     for (const auto &dir : qAsConst(customProfilesDir)) {
         QStringList files = QDir(dir).entryList(QDir::Files);
         for (const auto &file : qAsConst(files)) {

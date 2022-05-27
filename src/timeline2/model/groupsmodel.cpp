@@ -326,7 +326,8 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
     }
 }
 
-QString GroupsModel::debugString() {
+QString GroupsModel::debugString()
+{
     QString string;
     for (const auto &item : m_downLink) {
         QStringList leafs;
@@ -717,7 +718,8 @@ QJsonObject GroupsModel::toJson(int gid) const
         // in that case we have a clip or composition
         if (auto ptr = m_parent.lock()) {
             Q_ASSERT(ptr->isClip(gid) || ptr->isComposition(gid) || ptr->isSubTitle(gid));
-            currentGroup.insert(QLatin1String("leaf"), QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : ptr->isComposition(gid) ? "composition" : "subtitle")));
+            currentGroup.insert(QLatin1String("leaf"),
+                                QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : ptr->isComposition(gid) ? "composition" : "subtitle")));
             int track = ptr->isSubTitle(gid) ? -2 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
             int pos = ptr->getItemPosition(gid);
             currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
@@ -732,8 +734,7 @@ QJsonObject GroupsModel::toJson(int gid) const
 const QString GroupsModel::toJson() const
 {
     std::unordered_set<int> roots;
-    std::transform(m_groupIds.begin(), m_groupIds.end(), std::inserter(roots, roots.begin()),
-                   [&](decltype(*m_groupIds.begin()) g) { 
+    std::transform(m_groupIds.begin(), m_groupIds.end(), std::inserter(roots, roots.begin()), [&](decltype(*m_groupIds.begin()) g) {
         const int parentId = getRootId(g.first);
         if (getType(parentId) == GroupType::Selection) {
             // Don't insert selection group, only its child groups

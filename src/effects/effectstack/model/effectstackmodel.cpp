@@ -94,7 +94,7 @@ void EffectStackModel::removeCurrentEffect()
     }
 }
 
-void EffectStackModel::removeAllEffects(Fun &undo, Fun & redo)
+void EffectStackModel::removeAllEffects(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     int current = getActiveEffect();
@@ -250,7 +250,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
             sub.setAttribute(QStringLiteral("in"), filterIn);
             sub.setAttribute(QStringLiteral("out"), filterOut);
         }
-        QStringList passProps {QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
+        QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
         for (const QString &param : passProps) {
             int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
             if (paramVal > 0) {
@@ -283,7 +283,7 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
         sub.setAttribute(QStringLiteral("in"), filterIn);
         sub.setAttribute(QStringLiteral("out"), filterOut);
     }
-    QStringList passProps {QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
+    QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
     for (const QString &param : passProps) {
         int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
         if (paramVal > 0) {
@@ -302,7 +302,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
 {
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
     int parentIn = effectsXml.attribute(QStringLiteral("parentIn")).toInt();
-    qDebug()<<"// GOT PREVIOUS PARENTIN: "<<parentIn<<"\n\n=======\n=======\n\n";
+    qDebug() << "// GOT PREVIOUS PARENTIN: " << parentIn << "\n\n=======\n=======\n\n";
     int currentIn = pCore->getItemIn(m_ownerId);
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
     bool effectAdded = false;
@@ -317,7 +317,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         } else if (state != PlaylistState::VideoOnly) {
             continue;
         }
-        if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+        if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
             pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
             return false;
         }
@@ -419,7 +419,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
-    if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+    if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
@@ -473,7 +473,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
-    if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+    if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
@@ -839,7 +839,7 @@ bool EffectStackModel::removeFade(bool fromStart)
         }
     }
     // Let's put index in reverse order so we don't mess when deleting
-    std::reverse( toRemove.begin(), toRemove.end() );
+    std::reverse(toRemove.begin(), toRemove.end());
     for (int i : toRemove) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         removeEffect(effect);
@@ -975,7 +975,8 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     return found;
 }
 
-void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, const QString &originalDecimalPoint)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist,
+                                     const QString &originalDecimalPoint)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -990,7 +991,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 if (m_ownerId.first == ObjectType::Master && filter->get("mlt_service") == QLatin1String("avfilter.subtitles")) {
                     // A subtitle filter, update project
                     QMap<QString, QString> subProperties;
-                    //subProperties.insert(QStringLiteral("av.filename"), filter->get("av.filename"));
+                    // subProperties.insert(QStringLiteral("av.filename"), filter->get("av.filename"));
                     subProperties.insert(QStringLiteral("disable"), filter->get("disable"));
                     subProperties.insert(QStringLiteral("kdenlive:locked"), filter->get("kdenlive:locked"));
                     pCore->window()->slotEditSubtitle(subProperties);
@@ -1004,7 +1005,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             const QString effectId = qstrdup(filter->get("kdenlive_id"));
-            if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+            if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
                 pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
                 continue;
             }
@@ -1224,7 +1225,6 @@ std::shared_ptr<AssetParameterModel> EffectStackModel::getAssetModelById(const Q
     return nullptr;
 }
 
-
 bool EffectStackModel::hasFilter(const QString &effectId) const
 {
     READ_LOCK();
@@ -1338,10 +1338,10 @@ QStringList EffectStackModel::externalFiles() const
     for (int i = 0; i < rootItem->childCount(); ++i) {
         auto filter = std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->filter();
         QString url = filter.get("av.file");
-        if(url.isEmpty()) {
+        if (url.isEmpty()) {
             url = filter.get("luma.resource");
         }
-        if(!url.isEmpty()) {
+        if (!url.isEmpty()) {
             urls << url;
         }
         urls << url;

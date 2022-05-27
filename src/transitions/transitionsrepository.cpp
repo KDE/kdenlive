@@ -74,7 +74,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
             continue;
         }
         if (customAssets.count(result.id) > 0) {
-            //qDebug() << "duplicate transition" << result.id;
+            // qDebug() << "duplicate transition" << result.id;
         }
         result.xml = currentNode.toElement();
         QString type = result.xml.attribute(QStringLiteral("type"), QString());
@@ -162,7 +162,8 @@ bool TransitionsRepository::isAudio(const QString &transitionId) const
 bool TransitionsRepository::isComposition(const QString &transitionId) const
 {
     auto type = getType(transitionId);
-    return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::VideoComposition || type == AssetListType::AssetType::VideoShortComposition;
+    return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::VideoComposition ||
+           type == AssetListType::AssetType::VideoShortComposition;
 }
 
 const QString TransitionsRepository::getCompositingTransition()

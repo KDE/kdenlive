@@ -7,8 +7,8 @@
 
 #include "bin/bin.h"
 #include "definitions.h"
-#include "utils/gentime.h"
 #include "undohelper.hpp"
+#include "utils/gentime.h"
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
@@ -16,9 +16,9 @@
 #include <array>
 #include <map>
 #include <memory>
-#include <unordered_set>
-#include <mlt++/MltProperties.h>
 #include <mlt++/Mlt.h>
+#include <mlt++/MltProperties.h>
+#include <unordered_set>
 
 class DocUndoStack;
 class SnapInterface;
@@ -28,7 +28,7 @@ class TimelineItemModel;
 /** @class SubtitleModel
     @brief This class is the model for a list of subtitles.
 */
-class SubtitleModel:public QAbstractListModel
+class SubtitleModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -37,19 +37,19 @@ public:
     explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
-    /** @brief Function that parses through a subtitle file */ 
-    bool addSubtitle(int id, GenTime start,GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
+    /** @brief Function that parses through a subtitle file */
+    bool addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
     bool addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter = true);
-    /** @brief Converts string of time to GenTime */ 
+    /** @brief Converts string of time to GenTime */
     GenTime stringtoTime(QString &str);
-    /** @brief Return model data item according to the role passed */ 
+    /** @brief Return model data item according to the role passed */
     QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;// override the same function of QAbstractListModel
+    QHash<int, QByteArray> roleNames() const override; // override the same function of QAbstractListModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /** @brief Returns all subtitles in the model */
     QList<SubtitledTime> getAllSubtitles() const;
-    
+
     /** @brief Get subtitle at position */
     SubtitledTime getSubtitle(GenTime startFrame) const;
     /** @brief Returns all subtitle ids in a range */
@@ -57,7 +57,7 @@ public:
 
     /** @brief Registers a snap model to the subtitle model */
     void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
-    
+
     /** @brief Edit subtitle end timing
         @param startPos is start timing position of subtitles
         @param oldPos is the old position of the end time
@@ -78,9 +78,9 @@ public:
 
     /** @brief Remove all subtitles from subtitle model */
     void removeAllSubtitles();
-    
+
     /** @brief Update some properties in the view */
-    void updateSub(int id, const QVector <int> &roles);
+    void updateSub(int id, const QVector<int> &roles);
 
     /** @brief Move an existing subtitle
         @param subId is the subtitle's ID
@@ -88,7 +88,7 @@ public:
     */
     bool moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView);
     void requestSubtitleMove(int clipId, GenTime position);
-    
+
     /** @brief Function that imports a subtitle file */
     void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false);
 
@@ -142,7 +142,7 @@ public:
 public slots:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle(const QString &subPath = QString());
-    
+
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
     void jsontoSubtitle(const QString &data);
     /** @brief Update a subtitle text*/
@@ -154,24 +154,24 @@ private:
     /** @brief A list of subtitles as: start time, text, end time */
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
 
-    QString scriptInfoSection, styleSection,eventSection;
+    QString scriptInfoSection, styleSection, eventSection;
     QString styleName;
     QString m_subFilePath;
 
-    //To get subtitle file from effects parameter:
-    //std::unique_ptr<Mlt::Properties> m_asset;
-    //std::shared_ptr<AssetParameterModel> m_model;
-    
+    // To get subtitle file from effects parameter:
+    // std::unique_ptr<Mlt::Properties> m_asset;
+    // std::shared_ptr<AssetParameterModel> m_model;
+
     std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
     mutable QReadWriteLock m_lock;
     std::unique_ptr<Mlt::Filter> m_subtitleFilter;
     Mlt::Tractor *m_tractor;
-    QVector <int> m_selected;
-    QVector <int> m_grabbedIds;
+    QVector<int> m_selected;
+    QVector<int> m_grabbedIds;
 
 signals:
     void modelChanged();
-    
+
 protected:
     /** @brief Add time as snap in the registered snap model */
     void addSnapPoint(GenTime startpos);
@@ -179,6 +179,5 @@ protected:
     void removeSnapPoint(GenTime startpos);
     /** @brief Connect changes in model with signal */
     void setup();
-
 };
 Q_DECLARE_METATYPE(SubtitleModel *)

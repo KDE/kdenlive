@@ -62,7 +62,8 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     });
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream, double speed, bool warp_pitch)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream,
+                         double speed, bool warp_pitch)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
@@ -72,13 +73,13 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.first = videoAudio.first && binClip->hasVideo();
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
-    qDebug()<<"// GET TIMELINE PROD FOR STREAM: "<<audioStream;
+    qDebug() << "// GET TIMELINE PROD FOR STREAM: " << audioStream;
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, audioStream, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     if (!qFuzzyCompare(speed, 1.)) {
         cutProducer->parent().set("warp_pitch", warp_pitch ? 1 : 0);
     }
-    qDebug()<<"==== BUILT CLIP STREAM: "<<clip->audioStream();
+    qDebug() << "==== BUILT CLIP STREAM: " << clip->audioStream();
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -156,7 +157,8 @@ ClipModel::~ClipModel() = default;
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
-    //qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" << m_producer->get_length();
+    // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
+    // m_producer->get_length();
     if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !isChain()) {
         return false;
     }
@@ -240,7 +242,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->notifyChange(ix, ix, roles);
                 // invalidate timeline preview
-                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {                        
+                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
                     if (right) {
                         int newOut = m_position + getOut() - getIn();
                         if (oldOut < newOut) {
@@ -273,7 +275,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     }
                 }
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
-                }
+            }
         }
         Fun reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
             if (track_reverse()) {
@@ -283,37 +285,37 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 }
                 return true;
             }
-            qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
+            qDebug() << "============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
             return false;
         };
         Fun preProcess = [this, roles, oldIn, oldOut, newIn = m_position, newOut = m_position + getOut() - getIn(), right, logUndo]() {
             if (m_currentTrackId > -1) {
-            if (auto ptr = m_parent.lock()) {
-                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->notifyChange(ix, ix, roles);
-                // invalidate timeline preview
-                if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {                        
-                    if (right) {
-                        if (oldOut < newOut) {
-                            emit ptr->invalidateZone(oldOut, newOut);
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                    ptr->notifyChange(ix, ix, roles);
+                    // invalidate timeline preview
+                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
+                        if (right) {
+                            if (oldOut < newOut) {
+                                emit ptr->invalidateZone(oldOut, newOut);
+                            } else {
+                                emit ptr->invalidateZone(newOut, oldOut);
+                            }
                         } else {
-                            emit ptr->invalidateZone(newOut, oldOut);
-                        }
-                    } else {
-                        if (oldIn < newIn) {
-                            emit ptr->invalidateZone(oldIn, newIn);
-                        } else {
-                            emit ptr->invalidateZone(newIn, oldIn);
+                            if (oldIn < newIn) {
+                                emit ptr->invalidateZone(oldIn, newIn);
+                            } else {
+                                emit ptr->invalidateZone(newIn, oldIn);
+                            }
                         }
                     }
                 }
             }
-        }
-        return true;
-    };
+            return true;
+        };
         if (logUndo) {
-        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << "-"
-                <<outPoint<<", "<< m_producer->get_playtime();
+            qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << "-" << outPoint
+                     << ", " << m_producer->get_playtime();
         }
 
         if (!closing && logUndo) {
@@ -379,7 +381,10 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
         return true;
     };
 
-    qDebug() << "=== SLIP CLIP" << "pos" << m_position << "offset" << offset << "old_in" << old_in << "old_out" << old_out << "inPoint" << inPoint << "outPoint" << outPoint << "endless" << m_endlessResize << "playtime" << getPlaytime() << "fulllength" << m_producer->get_length();;
+    qDebug() << "=== SLIP CLIP"
+             << "pos" << m_position << "offset" << offset << "old_in" << old_in << "old_out" << old_out << "inPoint" << inPoint << "outPoint" << outPoint
+             << "endless" << m_endlessResize << "playtime" << getPlaytime() << "fulllength" << m_producer->get_length();
+    ;
 
     if (operation()) {
         Fun reverse = []() { return true; };
@@ -399,7 +404,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
             return true;
         };
         qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
-                << m_producer->get_playtime();
+                 << m_producer->get_playtime();
 
         adjustEffectLength(true, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -470,7 +475,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                 Mlt::Animation anim = link->get_animation("map");
                 QString oldKfrData = anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length());
                 QStringList str = oldKfrData.split(QLatin1Char(';'));
-                QMap<int,int>keyframes;
+                QMap<int, int> keyframes;
                 for (auto &s : str) {
                     int pos = m_producer->time_to_frames(s.section(QLatin1Char('='), 0, 0).toUtf8().constData());
                     int val = GenTime(s.section(QLatin1Char('='), 1).toDouble()).frames(pCore->getCurrentFps());
@@ -486,7 +491,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                 }
                 // Adjust start keyframes
                 QList<int> toDelete;
-                QMap<int,int> toAdd;
+                QMap<int, int> toAdd;
                 if (inPoint != oldIn && !keyframes.contains(inPoint)) {
                     if (inPoint < oldIn) {
                         // Move oldIn keyframe to new in
@@ -497,7 +502,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                         } else {
                             // Move first keyframe available
                             bool found = false;
-                            QMapIterator<int,int> i(keyframes);
+                            QMapIterator<int, int> i(keyframes);
                             while (i.hasNext()) {
                                 i.next();
                                 if (i.key() > oldIn) {
@@ -516,20 +521,20 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                     } else if (outPoint != oldOut && !keyframes.contains(outPoint)) {
                         // inpoint moved forwards, delete previous
                         if (keyframes.contains(oldIn)) {
-                            int delta =  inPoint - oldIn;
+                            int delta = inPoint - oldIn;
                             toAdd.insert(inPoint, qMax(0, keyframes.value(oldIn) + delta));
                         } else {
                             toAdd.insert(inPoint, inPoint);
                         }
                         // Remove all keyframes before
-                        QMapIterator<int,int> i(keyframes);
+                        QMapIterator<int, int> i(keyframes);
                         while (i.hasNext()) {
                             i.next();
                             if (i.key() == 0) {
                                 // Don't remove 0 keyframe
                                 continue;
                             }
-                            if (i.key() < inPoint ) {
+                            if (i.key() < inPoint) {
                                 toDelete << i.key();
                             } else {
                                 break;
@@ -557,7 +562,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                             toAdd.insert(outPoint, outPoint);
                         }
                         // Delete all keyframes after outpoint
-                        QMapIterator<int,int> i(keyframes);
+                        QMapIterator<int, int> i(keyframes);
                         while (i.hasNext()) {
                             i.next();
                             if (i.key() > outPoint) {
@@ -571,7 +576,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                     keyframes.remove(d);
                 }
                 // Add replacement keyframes
-                QMapIterator<int,int> i(toAdd);
+                QMapIterator<int, int> i(toAdd);
                 while (i.hasNext()) {
                     i.next();
                     keyframes.insert(i.key(), i.value());
@@ -585,7 +590,9 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                         // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
                         offset = 1;
                     }
-                    result << QString("%1=%2").arg(m_producer->frames_to_time(j.key() + offset, mlt_time_clock)).arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
+                    result << QString("%1=%2")
+                                  .arg(m_producer->frames_to_time(j.key() + offset, mlt_time_clock))
+                                  .arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
                 }
                 Fun operation = [this, kfrData = result.join(QLatin1Char(';'))]() {
                     setRemapValue("map", kfrData.toUtf8().constData());
@@ -658,9 +665,9 @@ void ClipModel::setRemapValue(const QString &name, const QString &value)
     }
 }
 
-QMap<QString,QString> ClipModel::getRemapValues() const
+QMap<QString, QString> ClipModel::getRemapValues() const
 {
-    QMap<QString,QString> result;
+    QMap<QString, QString> result;
     if (m_producer->parent().type() != mlt_service_chain_type) {
         return result;
     }
@@ -676,7 +683,7 @@ QMap<QString,QString> ClipModel::getRemapValues() const
                 (void)link->anim_get_rect("map", 0);
                 Mlt::Animation anim = link->get_animation("map");
                 result.insert(QStringLiteral("map"), anim.serialize_cut(mlt_time_clock, 0, m_producer->get_length()));
-                //result.insert(QStringLiteral("map"), link->get("map"));
+                // result.insert(QStringLiteral("map"), link->get("map"));
                 result.insert(QStringLiteral("pitch"), link->get("pitch"));
                 result.insert(QStringLiteral("image_mode"), link->get("image_mode"));
                 break;
@@ -760,12 +767,13 @@ bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int 
 {
     QWriteLocker locker(&m_lock);
     Fun operation = [this, duration, effectName, originalDuration]() {
-        return m_effectStack->adjustFadeLength(duration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")), audioEnabled(),
-                                               !isAudioOnly(), originalDuration > 0);
+        return m_effectStack->adjustFadeLength(duration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")),
+                                               audioEnabled(), !isAudioOnly(), originalDuration > 0);
     };
     if (operation() && originalDuration > 0) {
         Fun reverse = [this, originalDuration, effectName]() {
-            return m_effectStack->adjustFadeLength(originalDuration, effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")),
+            return m_effectStack->adjustFadeLength(originalDuration,
+                                                   effectName.startsWith(QLatin1String("fadein")) || effectName.startsWith(QLatin1String("fade_to_")),
                                                    audioEnabled(), !isAudioOnly(), true);
         };
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -785,7 +793,8 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist, bool timeremap)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist,
+                                       bool timeremap)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -820,7 +829,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
                 }
             }
         } else {
-            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+            qDebug() << "=== NON CHAIN ON REFRESH!!!";
         }
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
@@ -889,7 +898,7 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     int audioStream = getIntProperty(QStringLiteral("audio_index"));
-    QMap<QString,QString> remapProperties;
+    QMap<QString, QString> remapProperties;
     remapProperties.insert(QStringLiteral("image_mode"), QStringLiteral("nearest"));
     if (!enable) {
         // Store the remap properties
@@ -909,7 +918,7 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
                 }
             }
         } else {
-            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+            qDebug() << "=== NON CHAIN ON REFRESH!!!";
         }
     }
     auto operation = useTimeRemapProducer_lambda(enable, audioStream, remapProperties);
@@ -922,13 +931,13 @@ bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)
     return false;
 }
 
-Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString,QString> &remapProperties)
+Fun ClipModel::useTimeRemapProducer_lambda(bool enable, int audioStream, const QMap<QString, QString> &remapProperties)
 {
     QWriteLocker locker(&m_lock);
-    return [enable, audioStream, remapProperties,this]() {
+    return [enable, audioStream, remapProperties, this]() {
         refreshProducerFromBin(m_currentTrackId, m_currentState, audioStream, 0, false, false, enable);
         if (enable) {
-            QMapIterator<QString,QString> j(remapProperties);
+            QMapIterator<QString, QString> j(remapProperties);
             if (m_producer->parent().type() == mlt_service_chain_type) {
                 Mlt::Chain fromChain(m_producer->parent());
                 int count = fromChain.link_count();
@@ -987,7 +996,7 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
     }
     if (revertSpeed) {
         int out = getOut() + 1;
-        int in = qMax(0, qRound((m_producer->get_length() - 1 - out)* std::fabs(m_speed/speed)));
+        int in = qMax(0, qRound((m_producer->get_length() - 1 - out) * std::fabs(m_speed / speed)));
         out = in + newDuration;
         operation = [operation, in, out, this]() {
             bool res = operation();
@@ -997,7 +1006,6 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
             }
             return res;
         };
-
     }
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
@@ -1007,7 +1015,7 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
             if (requestedDuration != getPlaytime()) {
                 bool res = requestResize(requestedDuration, true, local_undo, local_redo, true);
                 if (!res) {
-                    qDebug()<<"==== CLIP WARP UPDATE DURATION FAILED!!!!";
+                    qDebug() << "==== CLIP WARP UPDATE DURATION FAILED!!!!";
                     local_undo();
                     return false;
                 }
@@ -1062,7 +1070,7 @@ int ClipModel::audioStream() const
 int ClipModel::audioStreamIndex() const
 {
     READ_LOCK();
-    QList <int> streams = pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreams().keys();
+    QList<int> streams = pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreams().keys();
     return streams.indexOf(m_producer->parent().get_int("audio_index")) + 1;
 }
 
@@ -1321,7 +1329,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
                 }
             }
         } else {
-            qDebug()<<"=== NON CHAIN ON REFRESH!!!";
+            qDebug() << "=== NON CHAIN ON REFRESH!!!";
         }
     }
     container.appendChild(m_effectStack->toXml(document));

@@ -17,7 +17,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QToolButton>
 #include <klocalizedstring.h>
 
-
 #ifdef Q_WS_X11
 #include <X11/Xutil.h>
 #include <fixx11h.h>
@@ -81,7 +80,7 @@ void ColorPickerWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QStylePainter painter(this);
-    
+
     QStyleOptionComplex option;
     option.initFrom(this);
     if (m_filterActive) {
@@ -115,7 +114,8 @@ void ColorPickerWidget::slotGetAverageColor()
     foreach (QScreen *screen, QGuiApplication::screens()) {
         QRect screenRect = screen->geometry();
         if (screenRect.contains(m_grabRect.topLeft())) {
-            m_image = screen->grabWindow(0, m_grabRect.x() - screenRect.x(), m_grabRect.y() - screenRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
+            m_image =
+                screen->grabWindow(0, m_grabRect.x() - screenRect.x(), m_grabRect.y() - screenRect.y(), m_grabRect.width(), m_grabRect.height()).toImage();
             break;
         }
     }

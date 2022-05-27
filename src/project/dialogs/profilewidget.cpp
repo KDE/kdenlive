@@ -189,9 +189,9 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(profile_path);
 
         description += QStringLiteral("<h5>%1</h5>").arg(i18n("Video Settings"));
-        description += QStringLiteral("<p style='font-size:small'>%1<br/>")
-                .arg(i18n("Frame size: %1 x %2 (%3:%4)", profile->width(), profile->height(), profile->display_aspect_num(),
-                            profile->display_aspect_den()));
+        description +=
+            QStringLiteral("<p style='font-size:small'>%1<br/>")
+                .arg(i18n("Frame size: %1 x %2 (%3:%4)", profile->width(), profile->height(), profile->display_aspect_num(), profile->display_aspect_den()));
         description += i18n("Frame rate: %1 fps", profile->fps());
         description += QStringLiteral("<br/>");
         description += i18n("Pixel aspect ratio: %1", profile->sar());

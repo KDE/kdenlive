@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         }
         int in = -1;
         int out = -1;
-        
+
         if (args.count() > 1 && args.at(0) == QLatin1String("-out")) {
             args.removeFirst();
             out = args.at(0).toInt();
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
                     chunks.removeFirst();
                 }
                 fprintf(stderr, "START:%d \n", frame.toInt());
-                QString fileName = QStringLiteral("%1.%2").arg(frame,extension);
+                QString fileName = QStringLiteral("%1.%2").arg(frame, extension);
                 if (baseFolder.exists(fileName)) {
                     // Don't overwrite an existing file
                     fprintf(stderr, "DONE:%d \n", frame.toInt());
@@ -146,8 +146,8 @@ int main(int argc, char **argv)
             fprintf(stderr, "+ + + RENDERING FINISHED + + + \n");
             return 0;
         }
-        
-        // older MLT version, does not support embedded consumer in/out in xml, and current 
+
+        // older MLT version, does not support embedded consumer in/out in xml, and current
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
         LocaleHandling::resetAllLocale();
         QFile f(playlist);

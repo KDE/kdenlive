@@ -82,16 +82,16 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     QMapIterator<QString, QVariant> i(m_tempProps);
     while (i.hasNext()) {
         i.next();
-        switch(i.value().type()) {
-            case QVariant::Int:
-                setProducerProperty(i.key(), i.value().toInt());
-                break;
-            case QVariant::Double:
-                setProducerProperty(i.key(), i.value().toDouble());
-                break;
-            default:
-                setProducerProperty(i.key(), i.value().toString());
-                break;
+        switch (i.value().type()) {
+        case QVariant::Int:
+            setProducerProperty(i.key(), i.value().toInt());
+            break;
+        case QVariant::Double:
+            setProducerProperty(i.key(), i.value().toDouble());
+            break;
+        default:
+            setProducerProperty(i.key(), i.value().toString());
+            break;
         }
     }
     m_tempProps.clear();
@@ -187,7 +187,7 @@ void ClipController::getInfoForProducer()
             m_usesProxy = true;
         }
     } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
-                   path != QLatin1String("<producer>")) {
+               path != QLatin1String("<producer>")) {
         path.prepend(pCore->currentDoc()->documentRoot());
         m_properties->set("resource", path.toUtf8().constData());
     }
@@ -308,10 +308,12 @@ bool ClipController::isValid()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-        return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+        return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,"
+               "force_"
                "colorspace,set.force_full_luma,file_hash,autorotate,disable_exif,xmldata,video_index,audio_index,set.test_image,set.test_audio";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+    return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,"
+           "force_"
            "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,length,video_index,audio_index,set.test_image,set.test_audio";
 }
 
@@ -552,7 +554,7 @@ bool ClipController::sourceExists() const
         return true;
     }
     if (m_clipType == ClipType::SlideShow) {
-        //TODO
+        // TODO
         return true;
     }
     return QFile::exists(m_path);
@@ -694,18 +696,18 @@ void ClipController::checkAudioVideo()
     if (m_masterProducer->property_exists("kdenlive:clip_type")) {
         int clipType = m_masterProducer->get_int("kdenlive:clip_type");
         switch (clipType) {
-            case 1:
-                m_hasAudio = true;
-                m_hasVideo = false;
-                break;
-            case 2:
-                m_hasAudio = false;
-                m_hasVideo = true;
-                break;
-            default:
-                m_hasAudio = true;
-                m_hasVideo = true;
-                break;
+        case 1:
+            m_hasAudio = true;
+            m_hasVideo = false;
+            break;
+        case 2:
+            m_hasAudio = false;
+            m_hasVideo = true;
+            break;
+        default:
+            m_hasAudio = true;
+            m_hasVideo = true;
+            break;
         }
     } else {
         QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
@@ -724,7 +726,7 @@ void ClipController::checkAudioVideo()
             }
             m_masterProducer->seek(0);
         } else {
-            qDebug()<<"* * * *ERROR INVALID FRAME On test";
+            qDebug() << "* * * *ERROR INVALID FRAME On test";
         }
     }
 }
@@ -767,7 +769,7 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
     frame->set("consumer.rescale", "nearest");
 #endif
     QImage img = KThumb::getFrame(frame.data());
-    return QPixmap::fromImage(img/*.scaled(height, width, Qt::KeepAspectRatio)*/);
+    return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }
 
 void ClipController::setZone(const QPoint &zone)
@@ -799,7 +801,6 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
-
 void ClipController::backupOriginalProperties()
 {
     QReadLocker lock(&m_producerLock);
@@ -808,12 +809,12 @@ void ClipController::backupOriginalProperties()
     }
     int propsCount = m_properties->count();
     // store original props
-    QStringList doNotPass {QStringLiteral("kdenlive:proxy"),QStringLiteral("kdenlive:originalurl"),QStringLiteral("kdenlive:clipname")};
+    QStringList doNotPass{QStringLiteral("kdenlive:proxy"), QStringLiteral("kdenlive:originalurl"), QStringLiteral("kdenlive:clipname")};
     for (int j = 0; j < propsCount; j++) {
         QString propName = m_properties->get_name(j);
         if (doNotPass.contains(propName)) {
             continue;
-        } 
+        }
         if (!propName.startsWith(QLatin1Char('_'))) {
             propName.prepend(QStringLiteral("kdenlive:original."));
             m_properties->set(propName.toUtf8().constData(), m_properties->get(j));
@@ -864,7 +865,7 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
             props.inherit(sourceProps);
             int propsCount = sourceProps.count();
             // store original props
-            QStringList doNotPass {QStringLiteral("kdenlive:proxy"),QStringLiteral("kdenlive:originalurl"),QStringLiteral("kdenlive:clipname")};
+            QStringList doNotPass{QStringLiteral("kdenlive:proxy"), QStringLiteral("kdenlive:originalurl"), QStringLiteral("kdenlive:clipname")};
             for (int i = 0; i < propsCount; i++) {
                 QString propName = sourceProps.get_name(i);
                 if (doNotPass.contains(propName)) {
@@ -981,7 +982,7 @@ void ClipController::refreshAudioInfo()
     }
 }
 
-QMap <int, QString> ClipController::audioStreams() const
+QMap<int, QString> ClipController::audioStreams() const
 {
     if (m_audioInfo) {
         return m_audioInfo->streams();
@@ -989,15 +990,15 @@ QMap <int, QString> ClipController::audioStreams() const
     return {};
 }
 
-QList <int> ClipController::activeStreamChannels() const
+QList<int> ClipController::activeStreamChannels() const
 {
     if (!audioInfo()) {
-        return QList <int>();
+        return QList<int>();
     }
     return audioInfo()->activeStreamChannels();
 }
 
-QMap <int, QString> ClipController::activeStreams() const
+QMap<int, QString> ClipController::activeStreams() const
 {
     if (m_audioInfo) {
         return m_audioInfo->activeStreams();
@@ -1028,6 +1029,6 @@ const QString ClipController::getOriginalUrl()
 bool ClipController::hasProxy() const
 {
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    //qDebug()<<"::: PROXY: "<<proxy<<" = "<<getProducerProperty(QStringLiteral("resource"));
+    // qDebug()<<"::: PROXY: "<<proxy<<" = "<<getProducerProperty(QStringLiteral("resource"));
     return proxy.size() > 2 && proxy == getProducerProperty(QStringLiteral("resource"));
 }

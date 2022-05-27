@@ -8,8 +8,8 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
-#include "widgets/timecodedisplay.h"
 #include "widgets/positionwidget.h"
+#include "widgets/timecodedisplay.h"
 
 #include <QComboBox>
 #include <QDebug>
@@ -99,18 +99,18 @@ void MixStackView::checkAlignment()
     m_alignRight->setChecked(false);
     m_alignCenter->setChecked(false);
     switch (align) {
-        case MixAlignment::AlignLeft:
-            m_alignLeft->setChecked(true);
-            break;
-        case MixAlignment::AlignRight:
-            m_alignRight->setChecked(true);
-            break;
-        case MixAlignment::AlignCenter:
-            m_alignCenter->setChecked(true);
-            break;
-        default:
-            // No alignment
-            break;
+    case MixAlignment::AlignLeft:
+        m_alignLeft->setChecked(true);
+        break;
+    case MixAlignment::AlignRight:
+        m_alignRight->setChecked(true);
+        break;
+    case MixAlignment::AlignCenter:
+        m_alignCenter->setChecked(true);
+        break;
+    default:
+        // No alignment
+        break;
     }
 }
 

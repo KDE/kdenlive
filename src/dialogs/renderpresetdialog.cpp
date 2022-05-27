@@ -6,11 +6,11 @@
 
 #include "renderpresetdialog.h"
 
+#include "core.h"
+#include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
-#include "monitor/monitormanager.h"
-#include "core.h"
 
 #include <KMessageBox>
 #include <QPushButton>
@@ -18,8 +18,7 @@
 // TODO replace this by std::gcd ones why require C++17 or greater
 static int gcd(int a, int b)
 {
-    for (;;)
-    {
+    for (;;) {
         if (a == 0) return b;
         b %= a;
         if (b == 0) return a;
@@ -35,48 +34,46 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 {
     setupUi(this);
 
-    m_uiParams.append({
-                          QStringLiteral("f"),
-                          QStringLiteral("acodec"),
-                          QStringLiteral("vcodec"),
-                          QStringLiteral("width"),
-                          QStringLiteral("height"),
-                          QStringLiteral("s"),
-                          QStringLiteral("r"),
-                          QStringLiteral("frame_rate_num"),
-                          QStringLiteral("frame_rate_den"),
-                          QStringLiteral("crf"),
-                          QStringLiteral("vb"),
-                          QStringLiteral("vminrate"),
-                          QStringLiteral("vmaxrate"),
-                          QStringLiteral("vglobal_quality"),
-                          QStringLiteral("vq"),
-                          QStringLiteral("rc"),
-                          QStringLiteral("g"),
-                          QStringLiteral("bf"),
-                          QStringLiteral("progressive"),
-                          QStringLiteral("top_field_first"),
-                          QStringLiteral("qscale"),
-                          QStringLiteral("vbufsize"),
-                          QStringLiteral("qmin"),
-                          QStringLiteral("qp_i"),
-                          QStringLiteral("qp_p"),
-                          QStringLiteral("qp_b"),
-                          QStringLiteral("ab"),
-                          QStringLiteral("aq"),
-                          QStringLiteral("compression_level"),
-                          QStringLiteral("vbr"),
-                          QStringLiteral("ar"),
-                          QStringLiteral("display_aspect_num"),
-                          QStringLiteral("display_aspect_den"),
-                          QStringLiteral("sample_aspect_num"),
-                          QStringLiteral("sample_aspect_den"),
-                          QStringLiteral("aspect"),
-                          QStringLiteral("sc_threshold"),
-                          QStringLiteral("strict_gop"),
-                          QStringLiteral("keyint_min"),
-                          QStringLiteral("channels")
-                      });
+    m_uiParams.append({QStringLiteral("f"),
+                       QStringLiteral("acodec"),
+                       QStringLiteral("vcodec"),
+                       QStringLiteral("width"),
+                       QStringLiteral("height"),
+                       QStringLiteral("s"),
+                       QStringLiteral("r"),
+                       QStringLiteral("frame_rate_num"),
+                       QStringLiteral("frame_rate_den"),
+                       QStringLiteral("crf"),
+                       QStringLiteral("vb"),
+                       QStringLiteral("vminrate"),
+                       QStringLiteral("vmaxrate"),
+                       QStringLiteral("vglobal_quality"),
+                       QStringLiteral("vq"),
+                       QStringLiteral("rc"),
+                       QStringLiteral("g"),
+                       QStringLiteral("bf"),
+                       QStringLiteral("progressive"),
+                       QStringLiteral("top_field_first"),
+                       QStringLiteral("qscale"),
+                       QStringLiteral("vbufsize"),
+                       QStringLiteral("qmin"),
+                       QStringLiteral("qp_i"),
+                       QStringLiteral("qp_p"),
+                       QStringLiteral("qp_b"),
+                       QStringLiteral("ab"),
+                       QStringLiteral("aq"),
+                       QStringLiteral("compression_level"),
+                       QStringLiteral("vbr"),
+                       QStringLiteral("ar"),
+                       QStringLiteral("display_aspect_num"),
+                       QStringLiteral("display_aspect_den"),
+                       QStringLiteral("sample_aspect_num"),
+                       QStringLiteral("sample_aspect_den"),
+                       QStringLiteral("aspect"),
+                       QStringLiteral("sc_threshold"),
+                       QStringLiteral("strict_gop"),
+                       QStringLiteral("keyint_min"),
+                       QStringLiteral("channels")});
 
     // TODO: implement colorspace
     colorspaceCombo->hide();
@@ -112,38 +109,38 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     connect(vRateControlCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index) {
         switch (index) {
-            case RenderPresetModel::RateControl::Average:
-                default_vbitrate->setEnabled(true);
-                default_vbitrate_label->setEnabled(true);
-                default_vquality->setEnabled(false);
-                vquality_label->setEnabled(false);
-                vBuffer->setEnabled(false);
-                vBuffer_label->setEnabled(false);
-                break;
-            case RenderPresetModel::RateControl::Constant:
-                default_vbitrate->setEnabled(true);
-                default_vbitrate_label->setEnabled(true);
-                default_vquality->setEnabled(false);
-                vquality_label->setEnabled(false);
-                vBuffer->setEnabled(true);
-                vBuffer_label->setEnabled(true);
-                break;
-            case RenderPresetModel::RateControl::Constrained:
-                default_vbitrate->setEnabled(true);
-                default_vbitrate_label->setEnabled(true);
-                default_vquality->setEnabled(true);
-                vquality_label->setEnabled(true);
-                vBuffer->setEnabled(true);
-                vBuffer_label->setEnabled(true);
-                break;
-            case RenderPresetModel::RateControl::Quality:
-                default_vbitrate->setEnabled(false);
-                default_vbitrate_label->setEnabled(false);
-                default_vquality->setEnabled(true);
-                vquality_label->setEnabled(true);
-                vBuffer->setEnabled(false);
-                vBuffer_label->setEnabled(false);
-                break;
+        case RenderPresetModel::RateControl::Average:
+            default_vbitrate->setEnabled(true);
+            default_vbitrate_label->setEnabled(true);
+            default_vquality->setEnabled(false);
+            vquality_label->setEnabled(false);
+            vBuffer->setEnabled(false);
+            vBuffer_label->setEnabled(false);
+            break;
+        case RenderPresetModel::RateControl::Constant:
+            default_vbitrate->setEnabled(true);
+            default_vbitrate_label->setEnabled(true);
+            default_vquality->setEnabled(false);
+            vquality_label->setEnabled(false);
+            vBuffer->setEnabled(true);
+            vBuffer_label->setEnabled(true);
+            break;
+        case RenderPresetModel::RateControl::Constrained:
+            default_vbitrate->setEnabled(true);
+            default_vbitrate_label->setEnabled(true);
+            default_vquality->setEnabled(true);
+            vquality_label->setEnabled(true);
+            vBuffer->setEnabled(true);
+            vBuffer_label->setEnabled(true);
+            break;
+        case RenderPresetModel::RateControl::Quality:
+            default_vbitrate->setEnabled(false);
+            default_vbitrate_label->setEnabled(false);
+            default_vquality->setEnabled(true);
+            vquality_label->setEnabled(true);
+            vBuffer->setEnabled(false);
+            vBuffer_label->setEnabled(false);
+            break;
         };
         slotUpdateParams();
     });
@@ -153,12 +150,12 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     vRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
     vRateControlCombo->addItem(i18n("Contrained VBR"));
 
-    connect(scanningCombo, &QComboBox::currentTextChanged, this, [&](){
+    connect(scanningCombo, &QComboBox::currentTextChanged, this, [&]() {
         fieldOrderCombo->setEnabled(scanningCombo->currentIndex() != 1);
         fieldOrderLabel->setEnabled(scanningCombo->currentIndex() != 1);
         slotUpdateParams();
     });
-    connect(gopSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&] (int value) {
+    connect(gopSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         fixedGop->setEnabled(value > 1);
         bFramesSpinner->setEnabled(value > 1);
         bFramesLabel->setEnabled(value > 1);
@@ -194,7 +191,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         if (!(width.isEmpty() && height.isEmpty())) {
             resWidth->setValue(width.toInt());
             resHeight->setValue(height.toInt());
-        } else if (!size.isEmpty()){
+        } else if (!size.isEmpty()) {
             QStringList list = size.split(QStringLiteral("x"));
             if (list.count() == 2) {
                 resWidth->setValue(list.at(0).toInt());
@@ -250,8 +247,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             }
         }
 
-        if (preset->hasParam(QStringLiteral("display_aspect_num"))
-                && preset->hasParam(QStringLiteral("display_aspect_den"))) {
+        if (preset->hasParam(QStringLiteral("display_aspect_num")) && preset->hasParam(QStringLiteral("display_aspect_den"))) {
             displayAspectNum->setValue(preset->getParam(QStringLiteral("display_aspect_num")).toInt());
             displayAspectDen->setValue(preset->getParam(QStringLiteral("display_aspect_den")).toInt());
         } else {
@@ -262,24 +258,23 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         vCodecCombo->setCurrentText(preset->getParam(QStringLiteral("vcodec")));
         if (!preset->getParam(QStringLiteral("r")).isEmpty()) {
             double val = preset->getParam(QStringLiteral("r")).toDouble();
-            if (val == 23.98 || val == 23.976 || val == (24000/1001)) {
+            if (val == 23.98 || val == 23.976 || val == (24000 / 1001)) {
                 framerateNum->setValue(24000);
                 framerateDen->setValue(1001);
-            } else if (val == 29.97 || val == (30000/1001)) {
+            } else if (val == 29.97 || val == (30000 / 1001)) {
                 framerateNum->setValue(30000);
                 framerateDen->setValue(1001);
-            } else if (val == 47.95 || val == (48000/1001)) {
+            } else if (val == 47.95 || val == (48000 / 1001)) {
                 framerateNum->setValue(48000);
                 framerateDen->setValue(1001);
-            } else if (val == 59.94 || val == (60000/1001)) {
+            } else if (val == 59.94 || val == (60000 / 1001)) {
                 framerateNum->setValue(60000);
                 framerateDen->setValue(1001);
             } else {
                 framerateNum->setValue(qRound(val * 1000));
                 framerateDen->setValue(1000);
             }
-        } else if (preset->hasParam(QStringLiteral("frame_rate_num"))
-                   && preset->hasParam(QStringLiteral("frame_rate_den"))) {
+        } else if (preset->hasParam(QStringLiteral("frame_rate_num")) && preset->hasParam(QStringLiteral("frame_rate_den"))) {
             framerateNum->setValue(preset->getParam(QStringLiteral("frame_rate_num")).toInt());
             framerateDen->setValue(preset->getParam(QStringLiteral("frame_rate_den")).toInt());
         } else {
@@ -350,11 +345,9 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         setWindowTitle(i18n("Edit Render Preset"));
     }
 
-    connect(preset_name, &QLineEdit::textChanged, this, [&](const QString &text){
-            buttonBox->button(QDialogButtonBox::Ok)->setDisabled(text.isEmpty());
-    });
+    connect(preset_name, &QLineEdit::textChanged, this, [&](const QString &text) { buttonBox->button(QDialogButtonBox::Ok)->setDisabled(text.isEmpty()); });
 
-    connect(buttonBox, &QDialogButtonBox::accepted, this, [&, preset, mode](){
+    connect(buttonBox, &QDialogButtonBox::accepted, this, [&, preset, mode]() {
         QString oldName;
         if (preset) {
             oldName = preset->name();
@@ -370,14 +363,9 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         QString speeds_list_str = speeds_list->toPlainText().replace('\n', ';').simplified();
 
-        std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(newPresetName,
-                                                                           newGroupName,
-                                                                           parameters->toPlainText().simplified(),
-                                                                           QString::number(default_vbitrate->value()),
-                                                                           QString::number(default_vquality->value()),
-                                                                           QString::number(aBitrate->value()),
-                                                                           QString::number(aQuality->value()),
-                                                                           speeds_list_str));
+        std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(
+            newPresetName, newGroupName, parameters->toPlainText().simplified(), QString::number(default_vbitrate->value()),
+            QString::number(default_vquality->value()), QString::number(aBitrate->value()), QString::number(aQuality->value()), speeds_list_str));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
         if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
@@ -391,10 +379,8 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     connect(fieldOrderCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(aCodecCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
-    connect(linkResoultion, &QToolButton::clicked, this, [&](){
-        m_fixedResRatio = double(resWidth->value()) / double(resHeight->value());
-    });
-    connect(resWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
+    connect(linkResoultion, &QToolButton::clicked, this, [&]() { m_fixedResRatio = double(resWidth->value()) / double(resHeight->value()); });
+    connect(resWidth, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         if (linkResoultion->isChecked()) {
             resHeight->blockSignals(true);
             resHeight->setValue(qRound(value / m_fixedResRatio));
@@ -402,7 +388,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         updateDisplayAspectRatio();
     });
-    connect(resHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
+    connect(resHeight, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         if (linkResoultion->isChecked()) {
             resWidth->blockSignals(true);
             resWidth->setValue(qRound(value * m_fixedResRatio));
@@ -419,7 +405,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     };
     connect(displayAspectNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, update_par);
     connect(displayAspectDen, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, update_par);
-    connect(framerateNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
+    connect(framerateNum, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         if (value == 0) {
             framerateDen->blockSignals(true);
             framerateDen->setValue(0);
@@ -427,7 +413,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         slotUpdateParams();
     });
-    connect(framerateDen, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value){
+    connect(framerateDen, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         if (value == 0) {
             framerateNum->blockSignals(true);
             framerateNum->setValue(0);
@@ -449,12 +435,12 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     slotUpdateParams();
     // TODO
     if (false && m_monitor == nullptr) {
-        //QString profile = DvdWizardVob::getDvdProfile(format);
+        // QString profile = DvdWizardVob::getDvdProfile(format);
         m_monitor = new Monitor(Kdenlive::RenderMonitor, pCore->monitorManager(), this);
         m_monitor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         mainBox->addWidget(m_monitor);
         pCore->monitorManager()->appendMonitor(m_monitor);
-        //m_monitor->setCustomProfile(profile, m_tc);
+        // m_monitor->setCustomProfile(profile, m_tc);
         pCore->monitorManager()->activateMonitor(Kdenlive::RenderMonitor);
         m_monitor->start();
     }
@@ -469,7 +455,8 @@ RenderPresetDialog::~RenderPresetDialog()
     }
 }
 
-void RenderPresetDialog::slotUpdateParams() {
+void RenderPresetDialog::slotUpdateParams()
+{
     QStringList params;
 
     QString vcodec = vCodecCombo->currentText();
@@ -484,14 +471,10 @@ void RenderPresetDialog::slotUpdateParams() {
     }
     QStringList par = parCombo->currentData().toString().split(QStringLiteral(":"));
     if (par.length() >= 2 && par.at(0).toInt() > 0 && par.at(1).toInt() > 0) {
-        params.append(QStringLiteral("sample_aspect_num=%1 sample_aspect_den=%2")
-                      .arg(par.at(0).toInt())
-                      .arg(par.at(1).toInt()));
+        params.append(QStringLiteral("sample_aspect_num=%1 sample_aspect_den=%2").arg(par.at(0).toInt()).arg(par.at(1).toInt()));
     }
-    if (displayAspectNum->value() > 0 && displayAspectDen->value() > 0 ) {
-        params.append(QStringLiteral("display_aspect_num=%1 display_aspect_den=%2")
-                      .arg(displayAspectNum->value())
-                      .arg(displayAspectDen->value()));
+    if (displayAspectNum->value() > 0 && displayAspectDen->value() > 0) {
+        params.append(QStringLiteral("display_aspect_num=%1 display_aspect_den=%2").arg(displayAspectNum->value()).arg(displayAspectDen->value()));
     }
 
     if (framerateNum->value() > 0 && framerateDen->value() > 0) {
@@ -518,17 +501,17 @@ void RenderPresetDialog::slotUpdateParams() {
             params.append(QStringLiteral("vb=%bitrate"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Quality: {
             params.append(QStringLiteral("crf=%quality"));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Constrained: {
             params.append(QStringLiteral("crf=%quality"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             break;
-            }
+        }
         }
         if (fixedGop->isEnabled() && fixedGop->isChecked()) {
             params.append(QStringLiteral("sc_threshold=0"));
@@ -545,20 +528,20 @@ void RenderPresetDialog::slotUpdateParams() {
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Quality: {
             params.append(QStringLiteral("rc=constqp"));
             params.append(QStringLiteral("vglobal_quality=%quality"));
             params.append(QStringLiteral("vq=%quality"));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Constrained: {
             params.append(QStringLiteral("qmin=%quality"));
-            params.append(QStringLiteral("vb=%cvbr")); //setIfNotSet(p, "vb", qRound(cvbr));
+            params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         }
         /*if (ui->dualPassCheckbox->isChecked())
             setIfNotSet(p, "v2pass", 1);
@@ -578,7 +561,7 @@ void RenderPresetDialog::slotUpdateParams() {
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             params.append(QStringLiteral("vbufsize=%1 ").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Quality: {
             params.append(QStringLiteral("rc=cqp"));
             params.append(QStringLiteral("qp_i=%quality"));
@@ -586,15 +569,15 @@ void RenderPresetDialog::slotUpdateParams() {
             params.append(QStringLiteral("qp_b=%quality"));
             params.append(QStringLiteral("vq=%quality"));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Constrained: {
             params.append(QStringLiteral("rc=vbr_peak"));
             params.append(QStringLiteral("qmin=%quality"));
-            params.append(QStringLiteral("vb=%cvbr")); //setIfNotSet(p, "vb", qRound(cvbr));
+            params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         }
         /*if (ui->dualPassCheckbox->isChecked())
             setIfNotSet(p, "v2pass", 1);
@@ -608,13 +591,13 @@ void RenderPresetDialog::slotUpdateParams() {
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             break;
         case RenderPresetModel::RateControl::Constant: {
-            //const QString& b = ui->videoBitrateCombo->currentText();
+            // const QString& b = ui->videoBitrateCombo->currentText();
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Quality: {
             if (vcodec.startsWith("libx264")) {
                 params.append(QStringLiteral("crf=%quality"));
@@ -628,12 +611,12 @@ void RenderPresetDialog::slotUpdateParams() {
                 params.append(QStringLiteral("qscale=%quality"));
             }
             break;
-            }
+        }
         case RenderPresetModel::RateControl::Constrained: {
             if (vcodec.startsWith("libx264") || vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
                 params.append(QStringLiteral("crf=%quality"));
             } else if (vcodec.endsWith("_qsv") || vcodec.endsWith("_videotoolbox")) {
-                params.append(QStringLiteral("vb=%cvbr")); //setIfNotSet(p, "vb", qRound(cvbr));
+                params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
             } else if (vcodec.endsWith("_vaapi")) {
                 params.append(QStringLiteral("vb=%bitrate+'k'"));
                 params.append(QStringLiteral("vglobal_quality=%quality"));
@@ -644,7 +627,7 @@ void RenderPresetDialog::slotUpdateParams() {
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
-            }
+        }
         }
         if (fixedGop->isEnabled() && fixedGop->isChecked()) {
             if (vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
@@ -685,19 +668,19 @@ void RenderPresetDialog::slotUpdateParams() {
     } else {
         aRateControlCombo->setEnabled(true);
         switch (aRateControlCombo->currentIndex()) {
-            case RenderPresetModel::RateControl::Average:
-            case RenderPresetModel::RateControl::Constant:
-                aBitrate->setEnabled(true);
-                aQuality->setEnabled(false);
-                break;
-            case RenderPresetModel::RateControl::Quality:
-            default:
-                aBitrate->setEnabled(false);
-                aQuality->setEnabled(true);
-                break;
+        case RenderPresetModel::RateControl::Average:
+        case RenderPresetModel::RateControl::Constant:
+            aBitrate->setEnabled(true);
+            aQuality->setEnabled(false);
+            break;
+        case RenderPresetModel::RateControl::Quality:
+        default:
+            aBitrate->setEnabled(false);
+            aQuality->setEnabled(true);
+            break;
         };
-        if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Average
-                || aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
+        if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Average ||
+            aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
             params.append(QStringLiteral("ab=%audiobitrate+'k'"));
             if (acodec == "libopus") {
                 if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
@@ -720,11 +703,14 @@ void RenderPresetDialog::slotUpdateParams() {
     for (const auto &p : qAsConst(m_uiParams)) {
         QString store = addionalParams;
         if (store != addionalParams.remove(QRegularExpression(QStringLiteral("((^|\\s)%1=\\S*)").arg(p)))) {
-              removed.append(p);
+            removed.append(p);
         }
     }
     if (!removed.isEmpty()) {
-        overrideParamsWarning->setText(xi18nc("@info", "The following parameters will not have an effect, because they get overwritten by the equivalent user interface options: <icode>%1</icode>", removed.join(", ")));
+        overrideParamsWarning->setText(
+            xi18nc("@info",
+                   "The following parameters will not have an effect, because they get overwritten by the equivalent user interface options: <icode>%1</icode>",
+                   removed.join(", ")));
         overrideParamsWarning->show();
     } else {
         overrideParamsWarning->hide();
@@ -734,7 +720,8 @@ void RenderPresetDialog::slotUpdateParams() {
     parameters->setText(addionalParams.simplified());
 }
 
-void RenderPresetDialog::setPixelAspectRatio(int num, int den) {
+void RenderPresetDialog::setPixelAspectRatio(int num, int den)
+{
     parCombo->blockSignals(true);
     if (num < 1) num = 1;
     if (den < 1) den = 1;
@@ -742,17 +729,15 @@ void RenderPresetDialog::setPixelAspectRatio(int num, int den) {
     QString data = QStringLiteral("%1:%2").arg(num / gcdV).arg(den / gcdV);
     int ix = parCombo->findData(data);
     if (ix < 0) {
-        parCombo->addItem(QStringLiteral("%L1 (%2:%3)")
-                          .arg(double(num) / double(den), 0, 'g', 8)
-                          .arg(num / gcdV).arg(den / gcdV),
-                          data);
-        ix = parCombo->count() -1;
+        parCombo->addItem(QStringLiteral("%L1 (%2:%3)").arg(double(num) / double(den), 0, 'g', 8).arg(num / gcdV).arg(den / gcdV), data);
+        ix = parCombo->count() - 1;
     }
     parCombo->setCurrentIndex(ix);
     parCombo->blockSignals(false);
 }
 
-void RenderPresetDialog::updateDisplayAspectRatio() {
+void RenderPresetDialog::updateDisplayAspectRatio()
+{
     displayAspectNum->blockSignals(true);
     displayAspectDen->blockSignals(true);
     QStringList par = parCombo->currentData().toString().split(QStringLiteral(":"));

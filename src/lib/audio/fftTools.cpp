@@ -188,7 +188,8 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
         // Logarithmic scale: 20 * log ( 2 * magnitude / N ) with magnitude = sqrt(r² + i²)
         // with N = FFT size (after FFT, 1/2 window size)
         freqSpectrum[i] =
-            20 * logf(powf(powf(fabs(freqData[i].r * windowScaleFactor), 2) + powf(fabs(freqData[i].i * windowScaleFactor), 2), .5) / (float(windowSize) / 2.0f)) /
+            20 *
+            logf(powf(powf(fabs(freqData[i].r * windowScaleFactor), 2) + powf(fabs(freqData[i].i * windowScaleFactor), 2), .5) / (float(windowSize) / 2.0f)) /
             logf(10);
         ;
     }

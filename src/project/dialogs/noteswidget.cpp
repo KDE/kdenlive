@@ -29,9 +29,9 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
         QAction *a = new QAction(i18n("Insert current timecode"), menu);
         connect(a, &QAction::triggered, this, &NotesWidget::insertNotesTimecode);
         menu->insertAction(menu->actions().at(0), a);
-        QPair <QStringList, QList <QPoint> > result = getSelectedAnchors();
+        QPair<QStringList, QList<QPoint>> result = getSelectedAnchors();
         QStringList anchors = result.first;
-        QList <QPoint> anchorPoints = result.second;
+        QList<QPoint> anchorPoints = result.second;
         if (anchors.isEmpty()) {
             const QString anchor = anchorAt(event->pos());
             if (!anchor.isEmpty()) {
@@ -40,15 +40,11 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
         }
         if (!anchors.isEmpty()) {
             a = new QAction(i18np("Create marker", "create markers", anchors.count()), menu);
-            connect(a, &QAction::triggered, this, [this, anchors] () {
-                createMarker(anchors);
-            });
+            connect(a, &QAction::triggered, this, [this, anchors]() { createMarker(anchors); });
             menu->insertAction(menu->actions().at(1), a);
             if (!anchorPoints.isEmpty()) {
                 a = new QAction(i18n("Assign timestamps to current Bin Clip"), menu);
-                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints] () {
-                    emit reAssign(anchors, anchorPoints);
-                });
+                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints]() { emit reAssign(anchors, anchorPoints); });
                 menu->insertAction(menu->actions().at(2), a);
             }
         }
@@ -59,13 +55,13 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void NotesWidget::createMarker(const QStringList &anchors)
 {
-    QMap <QString, QList<int>> clipMarkers;
+    QMap<QString, QList<int>> clipMarkers;
     QList<int> guides;
     for (const QString &anchor : anchors) {
         if (anchor.contains(QLatin1Char('#'))) {
             // That's a Bin Clip reference.
             const QString binId = anchor.section(QLatin1Char('#'), 0, 0);
-            QList <int> timecodes;
+            QList<int> timecodes;
             if (clipMarkers.contains(binId)) {
                 timecodes = clipMarkers.value(binId);
                 timecodes << anchor.section(QLatin1Char('#'), 1).toInt();
@@ -124,12 +120,12 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
     e->setAccepted(true);
 }
 
-QPair <QStringList, QList <QPoint> > NotesWidget::getSelectedAnchors()
+QPair<QStringList, QList<QPoint>> NotesWidget::getSelectedAnchors()
 {
     int startPos = textCursor().selectionStart();
     int endPos = textCursor().selectionEnd();
     QStringList anchors;
-    QList <QPoint> anchorPoints;
+    QList<QPoint> anchorPoints;
     if (endPos > startPos) {
         textCursor().clearSelection();
         QTextCursor cur(textCursor());
@@ -176,9 +172,9 @@ QPair <QStringList, QList <QPoint> > NotesWidget::getSelectedAnchors()
 
 void NotesWidget::assignProjectNote()
 {
-    QPair <QStringList, QList <QPoint> > result = getSelectedAnchors();
+    QPair<QStringList, QList<QPoint>> result = getSelectedAnchors();
     QStringList anchors = result.first;
-    QList <QPoint> anchorPoints = result.second;
+    QList<QPoint> anchorPoints = result.second;
     if (!anchors.isEmpty()) {
         emit reAssign(anchors, anchorPoints);
     } else {
@@ -188,7 +184,7 @@ void NotesWidget::assignProjectNote()
 
 void NotesWidget::createMarkers()
 {
-    QPair <QStringList, QList <QPoint> > result = getSelectedAnchors();
+    QPair<QStringList, QList<QPoint>> result = getSelectedAnchors();
     QStringList anchors = result.first;
     if (!anchors.isEmpty()) {
         createMarker(anchors);

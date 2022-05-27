@@ -34,19 +34,19 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-        // Create a request
+    // Create a request
     int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid2 = TrackModel::construct(timeline);
     int tid4 = TrackModel::construct(timeline);
 
     // Create clip with audio (40 frames long)
-    //QString binId = createAVProducer(profile_move, binModel);
+    // QString binId = createAVProducer(profile_move, binModel);
     QString binId = createProducerWithSound(profile_move, binModel, 100);
 
     // Setup insert stream data
-    QMap <int, QString>audioInfo;
-    audioInfo.insert(1,QStringLiteral("stream1"));
+    QMap<int, QString> audioInfo;
+    audioInfo.insert(1, QStringLiteral("stream1"));
     timeline->m_binAudioTargets = audioInfo;
 
     // Create AV clip 1
@@ -96,5 +96,4 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
-
 }

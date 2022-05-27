@@ -28,7 +28,7 @@ SwitchParamWidget::SwitchParamWidget(std::shared_ptr<AssetParameterModel> model,
     connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
         emit valueChanged(m_index,
                           (state == Qt::Checked ? m_model->data(m_index, AssetParameterModel::MaxRole).toString()
-                                                   : m_model->data(m_index, AssetParameterModel::MinRole).toString()),
+                                                : m_model->data(m_index, AssetParameterModel::MinRole).toString()),
                           true);
     });
 }

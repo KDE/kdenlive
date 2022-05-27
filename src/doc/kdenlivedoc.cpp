@@ -76,7 +76,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
-    
+
     // init default document properties
     m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
@@ -294,7 +294,6 @@ int KdenliveDoc::clipsCount() const
     return m_clipsCount;
 }
 
-
 const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     const QByteArray result = m_document.toString().toUtf8();
@@ -502,7 +501,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     QDomNodeList tracks = mlt.elementsByTagName(QStringLiteral("track"));
     if (tracks.isEmpty()) {
         // Something is very wrong, inform user.
-        qDebug()<<" = = = =  = =  CORRUPTED DOC\n"<<scene;
+        qDebug() << " = = = =  = =  CORRUPTED DOC\n" << scene;
         return QDomDocument();
     }
 
@@ -831,7 +830,6 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-
 QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
 {
     return pCore->bin()->getBinFolderClipIds(folderId);
@@ -1040,7 +1038,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         // backup subitle file in case we have one
         QString subpath(path + QStringLiteral(".srt"));
         QString subbackupFile(backupFile + QStringLiteral(".srt"));
-        if(QFile(subpath).exists()) {
+        if (QFile(subpath).exists()) {
             QFile::remove(subbackupFile);
             if (!QFile::copy(subpath, subbackupFile)) {
                 KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", subbackupFile));
@@ -1341,7 +1339,7 @@ void KdenliveDoc::loadDocumentProperties()
         if (pl.isNull()) {
             return;
         }
-        //QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
+        // QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
         QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
         QString name;
         QDomElement e;
@@ -1384,7 +1382,7 @@ void KdenliveDoc::loadDocumentProperties()
             }
         } else {
             // Something is wrong, documentid not readable
-            qDebug()<<"=========\n\nCannot read document id: "<<documentId<<"\n\n==========";
+            qDebug() << "=========\n\nCannot read document id: " << documentId << "\n\n==========";
         }
     }
 
@@ -1411,7 +1409,7 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
-    pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
+    pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
@@ -1431,14 +1429,14 @@ void KdenliveDoc::resetProfile(bool reloadThumbs)
 void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThumbs)
 {
     // Discard all current jobs except proxy and audio thumbs
-    pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
+    pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true, reloadThumbs);
-    // In case we only have one clip in timeline, 
+    // In case we only have one clip in timeline,
     emit docModified(true);
 }
 
-void KdenliveDoc::switchProfile(ProfileParam* pf, const QString clipName)
+void KdenliveDoc::switchProfile(ProfileParam *pf, const QString clipName)
 {
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
@@ -1496,7 +1494,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf, const QString clipName)
             switch (answer) {
             case KMessageBox::Yes:
                 // Discard all current jobs
-                pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
+                pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true, true);
@@ -1514,24 +1512,25 @@ void KdenliveDoc::switchProfile(ProfileParam* pf, const QString clipName)
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
         connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
-        QList<QAction *> list = {ac,ac2};
-        pCore->displayBinMessage(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
+        QList<QAction *> list = {ac, ac2};
+        pCore->displayBinMessage(i18n("Switch to clip (%1) profile %2?", clipName, profile->descriptiveString()), KMessageWidget::Information, list, false,
+                                 BinMessage::BinCategory::ProfileMessage);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
         if (qFuzzyCompare(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, fps)) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
-        if (KMessageBox::warningContinueCancel(pCore->window(),
-                                               i18n("No profile found for your clip %1.\nCreate and switch to new profile (%2x%3, %4fps)?%5", clipName, profile->m_width,
-                                                    profile->m_height, QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2),
-                                                    adjustMessage)) == KMessageBox::Continue) {
+        if (KMessageBox::warningContinueCancel(pCore->window(), i18n("No profile found for your clip %1.\nCreate and switch to new profile (%2x%3, %4fps)?%5",
+                                                                     clipName, profile->m_width, profile->m_height,
+                                                                     QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2),
+                                                                     adjustMessage)) == KMessageBox::Continue) {
             profile->m_description = QStringLiteral("%1x%2 %3fps")
                                          .arg(profile->m_width)
                                          .arg(profile->m_height)
                                          .arg(QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2));
             QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
             // Discard all current jobs
-            pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
+            pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
             pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true, true);
             emit docModified(true);
@@ -1783,11 +1782,11 @@ bool KdenliveDoc::updatePreviewSettings(const QString &profile)
     return false;
 }
 
-QMap <int, QStringList> KdenliveDoc::getProjectTags() const
+QMap<int, QStringList> KdenliveDoc::getProjectTags() const
 {
-    QMap <int, QStringList> tags;
+    QMap<int, QStringList> tags;
     int ix = 1;
-    for (int i = 1 ; i< 50; i++) {
+    for (int i = 1; i < 50; i++) {
         QString current = getDocumentProperty(QString("tag%1").arg(i));
         if (current.isEmpty()) {
             break;
@@ -1796,11 +1795,11 @@ QMap <int, QStringList> KdenliveDoc::getProjectTags() const
         ix++;
     }
     if (tags.isEmpty()) {
-        tags.insert(1, {QStringLiteral("1"),QStringLiteral("#ff0000"), i18n("Red")});
-        tags.insert(2, {QStringLiteral("2"),QStringLiteral("#00ff00"), i18n("Green")});
-        tags.insert(3, {QStringLiteral("3"),QStringLiteral("#0000ff"), i18n("Blue")});
-        tags.insert(4, {QStringLiteral("4"),QStringLiteral("#ffff00"), i18n("Yellow")});
-        tags.insert(5, {QStringLiteral("5"),QStringLiteral("#00ffff"), i18n("Cyan")});
+        tags.insert(1, {QStringLiteral("1"), QStringLiteral("#ff0000"), i18n("Red")});
+        tags.insert(2, {QStringLiteral("2"), QStringLiteral("#00ff00"), i18n("Green")});
+        tags.insert(3, {QStringLiteral("3"), QStringLiteral("#0000ff"), i18n("Blue")});
+        tags.insert(4, {QStringLiteral("4"), QStringLiteral("#ffff00"), i18n("Yellow")});
+        tags.insert(5, {QStringLiteral("5"), QStringLiteral("#00ffff"), i18n("Cyan")});
     }
     return tags;
 }
@@ -1810,7 +1809,8 @@ int KdenliveDoc::audioChannels() const
     return getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
 }
 
-QString& KdenliveDoc::modifiedDecimalPoint() {
+QString &KdenliveDoc::modifiedDecimalPoint()
+{
     return m_modifiedDecimalPoint;
 }
 
@@ -1874,7 +1874,7 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
                 producerResource.prepend(root);
             }
             if (proxies.contains(producerResource)) {
-                if (!originalProducerService.isEmpty() && originalProducerService!= producerService) {
+                if (!originalProducerService.isEmpty() && originalProducerService != producerService) {
                     // Proxy clips can sometimes use a different mlt service, for example playlists (xml) will use avformat. Fix
                     Xml::setXmlProperty(e, QStringLiteral("mlt_service"), originalProducerService);
                 }

@@ -28,7 +28,7 @@ EffectTreeModel::EffectTreeModel(QObject *parent)
 std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categoryFile, QObject *parent)
 {
     std::shared_ptr<EffectTreeModel> self(new EffectTreeModel(parent));
-    QList<QVariant> rootData {"Name", "ID", "Type", "isFav"};
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     QHash<QString, std::shared_ptr<TreeItem>> effectCategory; // category in which each effect should land.
@@ -99,7 +99,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             QString updatedName = effect.second + i18n(" - deprecated");
             data = {updatedName, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred};
         } else {
-            //qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
+            // qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
             data = {effect.second, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred};
         }
         if (KdenliveSettings::favorite_effects().contains(effect.first) && effectCategory.contains(favCategory)) {
@@ -136,7 +136,7 @@ void EffectTreeModel::reloadEffect(const QString &path)
     }
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
     QString effectName = EffectsRepository::get()->getName(asset.first);
-    QList<QVariant> data {effectName, asset.first, QVariant::fromValue(AssetListType::AssetType::Custom), isFav};
+    QList<QVariant> data{effectName, asset.first, QVariant::fromValue(AssetListType::AssetType::Custom), isFav};
     m_customCategory->appendChild(data);
 }
 
@@ -182,7 +182,7 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     item->setData(AssetTreeModel::FavCol, favorite);
     auto id = item->dataColumn(AssetTreeModel::IdCol).toString();
     if (!EffectsRepository::get()->exists(id)) {
-        qDebug()<<"Trying to reparent unknown asset: "<<id;
+        qDebug() << "Trying to reparent unknown asset: " << id;
         return;
     }
     QStringList favs = KdenliveSettings::favorite_effects();
@@ -194,7 +194,7 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     KdenliveSettings::setFavorite_effects(favs);
 }
 
-void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newDescription, const QModelIndex &index)
+void EffectTreeModel::editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index)
 {
 
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
@@ -208,7 +208,7 @@ void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newD
 
     doc.appendChild(doc.importNode(effect, true));
 
-    if(!newDescription.trimmed().isEmpty()){
+    if (!newDescription.trimmed().isEmpty()) {
         QDomElement root = doc.documentElement();
         QDomElement nodelist = root.firstChildElement("description");
         QDomElement newNodeTag = doc.createElement(QString("description"));
@@ -221,13 +221,12 @@ void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newD
         }
     }
 
-    if(!newName.trimmed().isEmpty() && newName != currentName)
-    {
+    if (!newName.trimmed().isEmpty() && newName != currentName) {
         if (!dir.exists()) {
             dir.mkpath(QStringLiteral("."));
         }
 
-        if (dir.exists(newName + QStringLiteral(".xml"))){
+        if (dir.exists(newName + QStringLiteral(".xml"))) {
             QMessageBox message;
             message.critical(nullptr, i18n("Error"), i18n("Effect name %1 already exists.\n Try another name?", newName));
             message.setFixedSize(400, 200);
@@ -255,9 +254,7 @@ void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newD
         deleteEffect(index);
         reloadEffect(dir.absoluteFilePath(newName + QStringLiteral(".xml")));
 
-    }
-    else
-    {
+    } else {
         QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
@@ -267,5 +264,4 @@ void EffectTreeModel::editCustomAsset(const QString &newName,const QString &newD
         file.close();
         reloadEffect(oldpath);
     }
-
 }

@@ -12,10 +12,10 @@
 #include "effects/effectstack/view/effectstackview.hpp"
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
+#include "monitor/monitor.h"
 #include "transitions/transitionsrepository.hpp"
 #include "transitions/view/mixstackview.hpp"
 #include "transitions/view/transitionstackview.hpp"
-#include "monitor/monitor.h"
 
 #include "view/assetparameterview.hpp"
 
@@ -145,7 +145,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
-    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
+    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this,
+            [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 
     connect(this, &AssetPanel::slotSaveStack, m_effectStackWidget, &EffectStackView::slotSaveStack);
 }
@@ -199,7 +200,6 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
 }
-
 
 void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
@@ -332,7 +332,7 @@ const QString AssetPanel::getStyleSheet()
     QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
     QColor light_bg = scheme.shade(KColorScheme::LightShade);
     QColor alt_bg = scheme.background(KColorScheme::NormalBackground).color();
-    //QColor normal_bg = QApplication::palette().window().color();
+    // QColor normal_bg = QApplication::palette().window().color();
 
     QString stylesheet;
 
@@ -379,11 +379,10 @@ const QString AssetPanel::getStyleSheet()
             .arg(hover_bg.name(), selected_bg.name()));
 
     // minimal double edit
-    stylesheet.append(
-        QStringLiteral("QAbstractSpinBox#dragMinimal {border: 0px "
-                       ";padding-right:0px; background-color:transparent} QAbstractSpinBox::down-button#dragMinimal {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragMinimal {border: 0px;; background-color:transparent "
-                       ";} QAbstractSpinBox::up-button#dragMinimal {width:0px;padding:0px;}")
-            );
+    stylesheet.append(QStringLiteral("QAbstractSpinBox#dragMinimal {border: 0px "
+                                     ";padding-right:0px; background-color:transparent} QAbstractSpinBox::down-button#dragMinimal {width:0px;padding:0px;} "
+                                     "QAbstractSpinBox:disabled#dragMinimal {border: 0px;; background-color:transparent "
+                                     ";} QAbstractSpinBox::up-button#dragMinimal {width:0px;padding:0px;}"));
     // group editable labels
     stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid "
                                      "transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));
@@ -431,7 +430,6 @@ bool AssetPanel::addEffect(const QString &effectId)
     return m_effectStackWidget->addEffect(effectId);
 }
 
-
 void AssetPanel::enableStack(bool enable)
 {
     if (!m_effectStackWidget->isVisible()) {
@@ -477,7 +475,7 @@ void AssetPanel::slotCheckWheelEventFilter()
     emit m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString &service, const QString &/*id*/, const QString &message)
+void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*/, const QString &message)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {

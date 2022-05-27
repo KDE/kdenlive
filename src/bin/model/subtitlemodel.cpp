@@ -33,24 +33,30 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
     , m_subtitleFilter(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"))
     , m_tractor(tractor)
 {
-    qDebug()<< "subtitle constructor";
-    qDebug()<<"Filter!";
+    qDebug() << "subtitle constructor";
+    qDebug() << "Filter!";
     if (tractor != nullptr) {
-        qDebug()<<"Tractor!";
+        qDebug() << "Tractor!";
         m_subtitleFilter->set("internal_added", 237);
     }
     setup();
     QSize frameSize = pCore->getCurrentFrameDisplaySize();
     int fontSize = frameSize.height() / 15;
-    int fontMargin = frameSize.height() - (2 *fontSize);
-    scriptInfoSection = QString("[Script Info]\n; This is a Sub Station Alpha v4 script.\n;\nScriptType: v4.00\nCollisions: Normal\nPlayResX: %1\nPlayResY: %2\nTimer: 100.0000\n").arg(frameSize.width()).arg(frameSize.height());
-    styleSection = QString("[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding\nStyle: Default,Consolas,%1,16777215,65535,255,0,-1,0,1,2,2,6,40,40,%2,0,1\n").arg(fontSize).arg(fontMargin);
+    int fontMargin = frameSize.height() - (2 * fontSize);
+    scriptInfoSection =
+        QString(
+            "[Script Info]\n; This is a Sub Station Alpha v4 script.\n;\nScriptType: v4.00\nCollisions: Normal\nPlayResX: %1\nPlayResY: %2\nTimer: 100.0000\n")
+            .arg(frameSize.width())
+            .arg(frameSize.height());
+    styleSection =
+        QString(
+            "[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, BorderStyle, Outline, "
+            "Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding\nStyle: Default,Consolas,%1,16777215,65535,255,0,-1,0,1,2,2,6,40,40,%2,0,1\n")
+            .arg(fontSize)
+            .arg(fontMargin);
     eventSection = QStringLiteral("[Events]\n");
     styleName = QStringLiteral("Default");
-    connect(this, &SubtitleModel::modelChanged, [this]() {
-        jsontoSubtitle(toJson()); 
-    });
-    
+    connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
 }
 
 void SubtitleModel::setup()
@@ -70,17 +76,16 @@ void SubtitleModel::unsetModel()
 
 void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport)
 {
-    QString start,end,comment;
+    QString start, end, comment;
     QString timeLine;
     GenTime startPos, endPos;
-    int turn = 0,r = 0;
+    int turn = 0, r = 0;
     /*
      * turn = 0 -> Parse next subtitle line [srt] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
      * turn > 1 -> Add string to completeLine
      */
-    if (filePath.isEmpty() || isLocked())
-        return;
+    if (filePath.isEmpty() || isLocked()) return;
     Fun redo = []() { return true; };
     Fun undo = [this]() {
         emit modelChanged();
@@ -93,8 +98,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             qDebug() << " File not found " << filePath;
             return;
         }
-        qDebug()<< "srt File";
-        //parsing srt file
+        qDebug() << "srt File";
+        // parsing srt file
         QTextStream stream(&srtFile);
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
         QString line;
@@ -114,38 +119,38 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         continue;
                     }
                     start = srtTime.at(0);
-                    startPos= stringtoTime(start);
+                    startPos = stringtoTime(start);
                     end = srtTime.at(2);
                     endPos = stringtoTime(end);
                 } else {
                     r++;
-                    if (!comment.isEmpty())
-                        comment += " ";
+                    if (!comment.isEmpty()) comment += " ";
                     if (r == 1)
                         comment += line;
                     else
-                        comment = comment + "\n" +line; //changed from \r
+                        comment = comment + "\n" + line; // changed from \r
                 }
                 turn++;
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
                 } else {
-                    qDebug()<<"===== INVALID SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
+                    qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
                 }
-                //reinitialize
+                // reinitialize
                 comment.clear();
                 timeLine.clear();
-                turn = 0; r = 0;
-            }            
-        }  
+                turn = 0;
+                r = 0;
+            }
+        }
         srtFile.close();
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
-        qDebug()<< "ass File";
-        QString startTime,endTime;
+        qDebug() << "ass File";
+        QString startTime, endTime;
         QString EventFormat, section;
         turn = 0;
-        int maxSplit =0;
+        int maxSplit = 0;
         QFile assFile(filePath);
         if (!assFile.exists() || !assFile.open(QIODevice::ReadOnly)) {
             qDebug() << " Failed attempt on opening " << filePath;
@@ -163,32 +168,31 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             line = line.simplified();
             if (!line.isEmpty()) {
                 if (!turn) {
-                    //qDebug() << " turn = 0  " << line;
-                    //check if it is script info, event,or v4+ style
+                    // qDebug() << " turn = 0  " << line;
+                    // check if it is script info, event,or v4+ style
                     QString linespace = line;
-                    if (linespace.replace(" ","").contains("ScriptInfo")) {
-                        //qDebug()<< "Script Info";
+                    if (linespace.replace(" ", "").contains("ScriptInfo")) {
+                        // qDebug()<< "Script Info";
                         section = "Script Info";
-                        scriptInfoSection += line+"\n";
+                        scriptInfoSection += line + "\n";
                         turn++;
-                        //qDebug()<< "turn" << turn;
+                        // qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Styles")) {
-                        //qDebug()<< "V4 Styles";
+                        // qDebug()<< "V4 Styles";
                         section = "V4 Styles";
                         styleSection += line + "\n";
                         turn++;
-                        //qDebug()<< "turn" << turn;
+                        // qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Events")) {
                         turn++;
                         section = "Events";
-                        eventSection += line +"\n";
-                        //qDebug()<< "turn" << turn;
+                        eventSection += line + "\n";
+                        // qDebug()<< "turn" << turn;
                         continue;
                     } else {
-                        //unknown section
-                        
+                        // unknown section
                     }
                 }
                 if (section.contains("Script Info")) {
@@ -196,29 +200,27 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 }
                 if (section.contains("V4 Styles")) {
                     QStringList styleFormat;
-                    styleSection +=line + "\n";
-                    //Style: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
-                    styleFormat = (line.split(": ")[1].replace(" ","")).split(',');
+                    styleSection += line + "\n";
+                    // Style:
+                    // Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+                    styleFormat = (line.split(": ")[1].replace(" ", "")).split(',');
                     if (!styleFormat.isEmpty()) {
                         styleName = styleFormat.first();
                     }
-
                 }
-                //qDebug() << "\n turn != 0  " << turn<< line;
+                // qDebug() << "\n turn != 0  " << turn<< line;
                 if (section.contains("Events")) {
-                    //if it is event
+                    // if it is event
                     QStringList format;
                     if (line.contains("Format:")) {
-                    	eventSection += line +"\n";
+                        eventSection += line + "\n";
                         EventFormat += line.toLower().simplified().remove(QLatin1Char(' '));
                         format = EventFormat.split(":")[1].split(QLatin1Char(','));
-                        //qDebug() << format << format.count();
+                        // qDebug() << format << format.count();
                         maxSplit = format.count();
-                        //TIME
-                        if (maxSplit > 2)
-                            startTime = format.at(1);
-                        if (maxSplit > 3)
-                            endTime = format.at(2);
+                        // TIME
+                        if (maxSplit > 2) startTime = format.at(1);
+                        if (maxSplit > 3) endTime = format.at(2);
                         // Text
                         if (format.contains(QStringLiteral("text"))) {
                             textIndex = format.indexOf(QStringLiteral("text"));
@@ -229,18 +231,18 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         comment.clear();
                         QStringList dialogue = line.section(":", 1).split(QLatin1Char(','));
                         if (dialogue.count() > textIndex) {
-                            //TIME
+                            // TIME
                             start = dialogue.at(1);
-                            startPos= stringtoTime(start);
+                            startPos = stringtoTime(start);
                             end = dialogue.at(2);
-                            endPos= stringtoTime(end);
+                            endPos = stringtoTime(end);
                             // Text
                             comment = dialogue.at(textIndex);
                             // qDebug()<<"Start: "<< start << "End: "<<end << comment;
                             if (endPos > startPos) {
                                 addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
                             } else {
-                                qDebug()<<"==== FOUND INVALID SUBTITLE ITEM: "<<start<<"-"<<end<<", "<<comment;
+                                qDebug() << "==== FOUND INVALID SUBTITLE ITEM: " << start << "-" << end << ", " << comment;
                             }
                         }
                     }
@@ -253,7 +255,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         }
         assFile.close();
     }
-    Fun update_model= [this]() {
+    Fun update_model = [this]() {
         emit modelChanged();
         return true;
     };
@@ -265,15 +267,15 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 }
 
 void SubtitleModel::parseSubtitle(const QString &subPath)
-{   
-	qDebug()<<"Parsing started";
+{
+    qDebug() << "Parsing started";
     if (!subPath.isEmpty()) {
         m_subtitleFilter->set("av.filename", subPath.toUtf8().constData());
     }
     QString filePath = m_subtitleFilter->get("av.filename");
     m_subFilePath = filePath;
     importSubtitle(filePath, 0, false);
-    //jsontoSubtitle(toJson());
+    // jsontoSubtitle(toJson());
 }
 
 const QString SubtitleModel::getUrl()
@@ -283,22 +285,22 @@ const QString SubtitleModel::getUrl()
 
 GenTime SubtitleModel::stringtoTime(QString &str)
 {
-    QStringList total,secs;
+    QStringList total, secs;
     double hours = 0, mins = 0, seconds = 0, ms = 0;
     double total_sec = 0;
     GenTime pos;
     total = str.split(QLatin1Char(':'));
     if (total.count() == 3) {
-        //There is an hour timestamp
+        // There is an hour timestamp
         hours = atoi(total.takeFirst().toStdString().c_str());
     }
     if (total.count() == 2) {
         mins = atoi(total.at(0).toStdString().c_str());
         if (total.at(1).contains(QLatin1Char('.'))) {
-            secs = total.at(1).split(QLatin1Char('.')); //ssa file
-	} else {
-            secs = total.at(1).split(QLatin1Char(',')); //srt file
-	}
+            secs = total.at(1).split(QLatin1Char('.')); // ssa file
+        } else {
+            secs = total.at(1).split(QLatin1Char(',')); // srt file
+        }
         if (secs.count() < 2) {
             seconds = atoi(total.at(1).toStdString().c_str());
         } else {
@@ -310,8 +312,8 @@ GenTime SubtitleModel::stringtoTime(QString &str)
         return GenTime();
     }
 
-    total_sec = hours *3600 + mins *60 + seconds + ms * 0.001 ;
-    pos= GenTime(total_sec);
+    total_sec = hours * 3600 + mins * 60 + seconds + ms * 0.001;
+    pos = GenTime(total_sec);
     return pos;
 }
 
@@ -342,17 +344,19 @@ bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString &str, 
 
 bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary, bool updateFilter)
 {
-	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0 || isLocked()) {
-        qDebug()<<"Time error: is negative";
+    if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0 || isLocked()) {
+        qDebug() << "Time error: is negative";
         return false;
     }
     if (start.frames(pCore->getCurrentFps()) > end.frames(pCore->getCurrentFps())) {
-        qDebug()<<"Time error: start should be less than end";
+        qDebug() << "Time error: start should be less than end";
         return false;
     }
     // Don't allow 2 subtitles at same start pos
     if (m_subtitleList.count(start) > 0) {
-        qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
+        qDebug() << "already present in model"
+                 << "string :" << m_subtitleList[start].first << " start time " << start.frames(pCore->getCurrentFps())
+                 << "end time : " << m_subtitleList[start].second.frames(pCore->getCurrentFps());
         return false;
     }
     m_timeline->registerSubtitle(id, start, temporary);
@@ -365,14 +369,14 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
     if (!temporary && end.frames(pCore->getCurrentFps()) > m_timeline->duration()) {
         m_timeline->updateDuration();
     }
-    qDebug()<<"Added to model";
+    qDebug() << "Added to model";
     if (updateFilter) {
         emit modelChanged();
     }
     return true;
 }
 
-QHash<int, QByteArray> SubtitleModel::roleNames() const 
+QHash<int, QByteArray> SubtitleModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[SubtitleRole] = "subtitle";
@@ -386,39 +390,38 @@ QHash<int, QByteArray> SubtitleModel::roleNames() const
     return roles;
 }
 
-QVariant SubtitleModel::data(const QModelIndex& index, int role) const
-{   
+QVariant SubtitleModel::data(const QModelIndex &index, int role) const
+{
     if (index.row() < 0 || index.row() >= static_cast<int>(m_subtitleList.size()) || !index.isValid()) {
         return QVariant();
     }
     auto subInfo = m_timeline->getSubtitleIdFromIndex(index.row());
     switch (role) {
-        case Qt::DisplayRole:
-        case Qt::EditRole:
-        case SubtitleRole:
-            return m_subtitleList.at(subInfo.second).first;
-        case IdRole:
-            return subInfo.first;
-        case StartPosRole:
-            return subInfo.second.seconds();
-        case EndPosRole:
-            return m_subtitleList.at(subInfo.second).second.seconds();
-        case StartFrameRole:
-            return subInfo.second.frames(pCore->getCurrentFps());
-        case EndFrameRole:
-            return m_subtitleList.at(subInfo.second).second.frames(pCore->getCurrentFps());
-        case SelectedRole:
-            return m_selected.contains(subInfo.first);
-        case GrabRole:
-            return m_grabbedIds.contains(subInfo.first);
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+    case SubtitleRole:
+        return m_subtitleList.at(subInfo.second).first;
+    case IdRole:
+        return subInfo.first;
+    case StartPosRole:
+        return subInfo.second.seconds();
+    case EndPosRole:
+        return m_subtitleList.at(subInfo.second).second.seconds();
+    case StartFrameRole:
+        return subInfo.second.frames(pCore->getCurrentFps());
+    case EndFrameRole:
+        return m_subtitleList.at(subInfo.second).second.frames(pCore->getCurrentFps());
+    case SelectedRole:
+        return m_selected.contains(subInfo.first);
+    case GrabRole:
+        return m_grabbedIds.contains(subInfo.first);
     }
     return QVariant();
 }
 
 int SubtitleModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
-        return 0;
+    if (parent.isValid()) return 0;
     return static_cast<int>(m_subtitleList.size());
 }
 
@@ -444,7 +447,7 @@ SubtitledTime SubtitleModel::getSubtitle(GenTime startFrame) const
 
 QString SubtitleModel::getText(int id) const
 {
-    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
+    if (m_timeline->m_allSubtitles.find(id) == m_timeline->m_allSubtitles.end()) {
         return QString();
     }
     GenTime start = m_timeline->m_allSubtitles.at(id);
@@ -453,7 +456,7 @@ QString SubtitleModel::getText(int id) const
 
 bool SubtitleModel::setText(int id, const QString &text)
 {
-    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end() || isLocked()) {
+    if (m_timeline->m_allSubtitles.find(id) == m_timeline->m_allSubtitles.end() || isLocked()) {
         return false;
     }
     GenTime start = m_timeline->m_allSubtitles.at(id);
@@ -497,7 +500,7 @@ std::unordered_set<int> SubtitleModel::getItemsInRange(int startFrame, int endFr
             if (sid > -1) {
                 matching.emplace(sid);
             } else {
-                qDebug()<<"==== FOUND INVALID SUBTILE AT: "<<subtitles.first.frames(pCore->getCurrentFps());
+                qDebug() << "==== FOUND INVALID SUBTILE AT: " << subtitles.first.frames(pCore->getCurrentFps());
             }
         }
     }
@@ -531,15 +534,13 @@ int SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
     if (start >= GenTime()) {
         GenTime end = m_subtitleList.at(start).second;
         QString text = m_subtitleList.at(start).first;
-        
+
         int subId = getIdForStartPos(start);
         int duration = position - start.frames(pCore->getCurrentFps());
         bool res = requestResize(subId, duration, true, undo, redo, false);
         if (res) {
             int id = TimelineModel::getNextId();
-            Fun local_redo = [this, id, pos, end, text]() {
-                return addSubtitle(id, pos, end, text);
-            };
+            Fun local_redo = [this, id, pos, end, text]() { return addSubtitle(id, pos, end, text); };
             Fun local_undo = [this, id]() {
                 removeSubtitle(id);
                 return true;
@@ -598,9 +599,9 @@ void SubtitleModel::removeSnapPoint(GenTime startpos)
 
 void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refreshModel)
 {
-    qDebug()<<"Changing the sub end timings in model";
+    qDebug() << "Changing the sub end timings in model";
     if (m_subtitleList.count(startPos) <= 0) {
-        //is not present in model only
+        // is not present in model only
         return;
     }
     m_subtitleList[startPos].second = newEndPos;
@@ -611,7 +612,7 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refresh
     if (refreshModel) {
         emit modelChanged();
     }
-    qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+    qDebug() << startPos.frames(pCore->getCurrentFps()) << m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
 }
 
 void SubtitleModel::switchGrab(int sid)
@@ -654,7 +655,7 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
     if (isLocked()) {
         return false;
     }
-    Q_ASSERT(m_timeline->m_allSubtitles.find( id ) != m_timeline->m_allSubtitles.end());
+    Q_ASSERT(m_timeline->m_allSubtitles.find(id) != m_timeline->m_allSubtitles.end());
     GenTime startPos = m_timeline->m_allSubtitles.at(id);
     GenTime endPos = m_subtitleList.at(startPos).second;
     Fun operation = []() { return true; };
@@ -763,18 +764,18 @@ bool SubtitleModel::editSubtitle(int id, const QString &newSubtitleText)
     if (isLocked()) {
         return false;
     }
-    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
-        qDebug()<<"No Subtitle at pos in model";
+    if (m_timeline->m_allSubtitles.find(id) == m_timeline->m_allSubtitles.end()) {
+        qDebug() << "No Subtitle at pos in model";
         return false;
     }
     GenTime start = m_timeline->m_allSubtitles.at(id);
     if (m_subtitleList.count(start) <= 0) {
-        qDebug()<<"No Subtitle at pos in model";
+        qDebug() << "No Subtitle at pos in model";
         return false;
     }
 
-    qDebug()<<"Editing existing subtitle in model";
-    m_subtitleList[start].first = newSubtitleText ;
+    qDebug() << "Editing existing subtitle in model";
+    m_subtitleList[start].first = newSubtitleText;
     int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), QVector<int>() << SubtitleRole);
     emit modelChanged();
@@ -783,17 +784,17 @@ bool SubtitleModel::editSubtitle(int id, const QString &newSubtitleText)
 
 bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
 {
-    qDebug()<<"Deleting subtitle in model";
+    qDebug() << "Deleting subtitle in model";
     if (isLocked()) {
         return false;
     }
-    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
-        qDebug()<<"No Subtitle at pos in model";
+    if (m_timeline->m_allSubtitles.find(id) == m_timeline->m_allSubtitles.end()) {
+        qDebug() << "No Subtitle at pos in model";
         return false;
     }
     GenTime start = m_timeline->m_allSubtitles.at(id);
     if (m_subtitleList.count(start) <= 0) {
-        qDebug()<<"No Subtitle at pos in model";
+        qDebug() << "No Subtitle at pos in model";
         return false;
     }
     GenTime end = m_subtitleList.at(start).second;
@@ -831,14 +832,10 @@ void SubtitleModel::removeAllSubtitles()
 
 void SubtitleModel::requestSubtitleMove(int clipId, GenTime position)
 {
-    
+
     GenTime oldPos = getStartPosForId(clipId);
-    Fun local_redo = [this, clipId, position]() {
-        return moveSubtitle(clipId, position, true, true);
-    };
-    Fun local_undo = [this, clipId, oldPos]() {
-        return moveSubtitle(clipId, oldPos, true, true);
-    };
+    Fun local_redo = [this, clipId, position]() { return moveSubtitle(clipId, position, true, true); };
+    Fun local_undo = [this, clipId, oldPos]() { return moveSubtitle(clipId, oldPos, true, true); };
     bool res = local_redo();
     if (res) {
         pCore->pushUndo(local_undo, local_redo, i18n("Move subtitle"));
@@ -847,17 +844,17 @@ void SubtitleModel::requestSubtitleMove(int clipId, GenTime position)
 
 bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView)
 {
-    qDebug()<<"Moving Subtitle";
+    qDebug() << "Moving Subtitle";
     if (m_timeline->m_allSubtitles.count(subId) == 0 || isLocked()) {
         return false;
     }
     GenTime oldPos = m_timeline->m_allSubtitles.at(subId);
     if (m_subtitleList.count(oldPos) <= 0 || m_subtitleList.count(newPos) > 0) {
-        //is not present in model, or already another one at new position
-        qDebug()<<"==== MOVE FAILED";
+        // is not present in model, or already another one at new position
+        qDebug() << "==== MOVE FAILED";
         return false;
     }
-    QString subtitleText = m_subtitleList[oldPos].first ;
+    QString subtitleText = m_subtitleList[oldPos].first;
     removeSnapPoint(oldPos);
     removeSnapPoint(m_subtitleList[oldPos].second);
     GenTime duration = m_subtitleList[oldPos].second - oldPos;
@@ -892,9 +889,8 @@ bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bo
 
 int SubtitleModel::getIdForStartPos(GenTime startTime) const
 {
-    auto findResult = std::find_if(std::begin(m_timeline->m_allSubtitles), std::end(m_timeline->m_allSubtitles), [&](const std::pair<int, GenTime> &pair) {
-        return pair.second == startTime;
-    });
+    auto findResult = std::find_if(std::begin(m_timeline->m_allSubtitles), std::end(m_timeline->m_allSubtitles),
+                                   [&](const std::pair<int, GenTime> &pair) { return pair.second == startTime; });
     if (findResult != std::end(m_timeline->m_allSubtitles)) {
         return findResult->first;
     }
@@ -939,7 +935,7 @@ int SubtitleModel::getNextSub(int id) const
 
 QString SubtitleModel::toJson()
 {
-    //qDebug()<< "to JSON";
+    // qDebug()<< "to JSON";
     QJsonArray list;
     for (const auto &subtitle : m_subtitleList) {
         QJsonObject currentSubtitle;
@@ -947,10 +943,10 @@ QString SubtitleModel::toJson()
         currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.first));
         currentSubtitle.insert(QLatin1String("endPos"), QJsonValue(subtitle.second.second.seconds()));
         list.push_back(currentSubtitle);
-        //qDebug()<<subtitle.first.seconds();
+        // qDebug()<<subtitle.first.seconds();
     }
     QJsonDocument jsonDoc(list);
-    //qDebug()<<QString(jsonDoc.toJson());
+    // qDebug()<<QString(jsonDoc.toJson());
     return QString(jsonDoc.toJson());
 }
 
@@ -961,7 +957,8 @@ void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
         QFile prev(path);
         if (prev.exists()) {
             if (checkOverwrite || !path.endsWith(QStringLiteral(".srt"))) {
-                if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) {
+                if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", path)) ==
+                    KMessageBox::No) {
                     return;
                 }
             }
@@ -970,7 +967,6 @@ void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
         srcFile.copy(path);
     }
 }
-
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
@@ -981,26 +977,26 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     }
     bool assFormat = outFile.endsWith(".ass");
     if (!assFormat) {
-        qDebug()<< "srt file import"; // if imported file isn't .ass, it is .srt format
+        qDebug() << "srt file import"; // if imported file isn't .ass, it is .srt format
     }
     QFile outF(outFile);
 
-    //qDebug()<< "Import from JSON";
+    // qDebug()<< "Import from JSON";
     QWriteLocker locker(&m_lock);
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
         return;
     }
-    int line=0;
+    int line = 0;
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
         out.setCodec("UTF-8");
         if (assFormat) {
-            out<<scriptInfoSection<<'\n';
-            out<<styleSection<<'\n';
-            out<<eventSection;
+            out << scriptInfoSection << '\n';
+            out << styleSection << '\n';
+            out << eventSection;
         }
         for (const auto &entry : qAsConst(list)) {
             if (!entry.isObject()) {
@@ -1013,60 +1009,60 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
                 continue;
             }
             double startPos = entryObj[QLatin1String("startPos")].toDouble();
-            //convert seconds to FORMAT= hh:mm:ss.SS (in .ass) and hh:mm:ss,SSS (in .srt)
+            // convert seconds to FORMAT= hh:mm:ss.SS (in .ass) and hh:mm:ss,SSS (in .srt)
             int millisec = int(startPos * 1000);
             int seconds = millisec / 1000;
-            millisec %=1000;
+            millisec %= 1000;
             int minutes = seconds / 60;
             seconds %= 60;
-            int hours = minutes /60;
+            int hours = minutes / 60;
             minutes %= 60;
             int milli_2 = millisec / 10;
             QString startTimeString = QString("%1:%2:%3.%4")
-              .arg(hours, 2, 10, QChar('0'))
-              .arg(minutes, 2, 10, QChar('0'))
-              .arg(seconds, 2, 10, QChar('0'))
-              .arg(milli_2,2,10,QChar('0'));
+                                          .arg(hours, 2, 10, QChar('0'))
+                                          .arg(minutes, 2, 10, QChar('0'))
+                                          .arg(seconds, 2, 10, QChar('0'))
+                                          .arg(milli_2, 2, 10, QChar('0'));
             QString startTimeStringSRT = QString("%1:%2:%3,%4")
-              .arg(hours, 2, 10, QChar('0'))
-              .arg(minutes, 2, 10, QChar('0'))
-              .arg(seconds, 2, 10, QChar('0'))
-              .arg(millisec,3,10,QChar('0'));
+                                             .arg(hours, 2, 10, QChar('0'))
+                                             .arg(minutes, 2, 10, QChar('0'))
+                                             .arg(seconds, 2, 10, QChar('0'))
+                                             .arg(millisec, 3, 10, QChar('0'));
             QString dialogue = entryObj[QLatin1String("dialogue")].toString();
             double endPos = entryObj[QLatin1String("endPos")].toDouble();
             millisec = int(endPos * 1000);
             seconds = millisec / 1000;
-            millisec %=1000;
+            millisec %= 1000;
             minutes = seconds / 60;
             seconds %= 60;
-            hours = minutes /60;
+            hours = minutes / 60;
             minutes %= 60;
 
             milli_2 = millisec / 10; // to limit ms to 2 digits (for .ass)
             QString endTimeString = QString("%1:%2:%3.%4")
-              .arg(hours, 2, 10, QChar('0'))
-              .arg(minutes, 2, 10, QChar('0'))
-              .arg(seconds, 2, 10, QChar('0'))
-              .arg(milli_2,2,10,QChar('0'));
+                                        .arg(hours, 2, 10, QChar('0'))
+                                        .arg(minutes, 2, 10, QChar('0'))
+                                        .arg(seconds, 2, 10, QChar('0'))
+                                        .arg(milli_2, 2, 10, QChar('0'));
 
             QString endTimeStringSRT = QString("%1:%2:%3,%4")
-              .arg(hours, 2, 10, QChar('0'))
-              .arg(minutes, 2, 10, QChar('0'))
-              .arg(seconds, 2, 10, QChar('0'))
-              .arg(millisec,3,10,QChar('0'));
+                                           .arg(hours, 2, 10, QChar('0'))
+                                           .arg(minutes, 2, 10, QChar('0'))
+                                           .arg(seconds, 2, 10, QChar('0'))
+                                           .arg(millisec, 3, 10, QChar('0'));
             line++;
             if (assFormat) {
-                //Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
-                out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<'\n';
+                // Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+                out << "Dialogue: 0," << startTimeString << "," << endTimeString << "," << styleName << ",,0000,0000,0000,," << dialogue << '\n';
             } else {
-                out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<'\n';
+                out << line << "\n" << startTimeStringSRT << " --> " << endTimeStringSRT << "\n" << dialogue << "\n" << '\n';
             }
-            
-            //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
+
+            // qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
         }
         outF.close();
     }
-    qDebug()<<"Saving subtitle filter: "<<outFile;
+    qDebug() << "Saving subtitle filter: " << outFile;
     if (line > 0) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
         m_tractor->attach(*m_subtitleFilter.get());
@@ -1075,7 +1071,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     }
 }
 
-void SubtitleModel::updateSub(int id, const QVector <int> &roles)
+void SubtitleModel::updateSub(int id, const QVector<int> &roles)
 {
     int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), roles);
@@ -1139,7 +1135,7 @@ void SubtitleModel::switchLocked()
 {
     bool isLocked = m_subtitleFilter->get_int("kdenlive:locked") == 1;
     m_subtitleFilter->set("kdenlive:locked", isLocked ? 0 : 1);
-    
+
     // En/disable snapping on lock
     /*std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
     for (const auto &snapModel : m_regSnaps) {
@@ -1168,7 +1164,6 @@ void SubtitleModel::switchLocked()
         }
     }*/
 }
-
 
 bool SubtitleModel::isDisabled() const
 {
@@ -1221,7 +1216,8 @@ bool SubtitleModel::isBlankAt(int pos) const
             return false;
         }
     }
-    return true;;
+    return true;
+    ;
 }
 
 int SubtitleModel::getBlankStart(int pos) const
@@ -1230,7 +1226,7 @@ int SubtitleModel::getBlankStart(int pos) const
     bool found = false;
     GenTime min;
     for (const auto &subtitles : m_subtitleList) {
-        if (subtitles.second.second <= matchPos && (min == GenTime() ||  subtitles.second.second > min)) {
+        if (subtitles.second.second <= matchPos && (min == GenTime() || subtitles.second.second > min)) {
             min = subtitles.second.second;
             found = true;
         }

@@ -34,7 +34,7 @@ public:
     bool isPreferred(const QString &effectId) const;
 
     /** @brief Check custom effects (older custom effects need an update to default and current values
-    *  returns a list of effects that were incorrectly converted */
+     *  returns a list of effects that were incorrectly converted */
     QPair<QStringList, QStringList> fixDeprecatedEffects();
     /** @brief Returns true if this is an effect group */
     bool isGroup(const QString &assetId) const;
@@ -69,7 +69,7 @@ protected:
     /** @brief Returns the metadata associated with the given asset*/
     Mlt::Properties *getMetadata(const QString &assetId) const override;
 
-    QPair <QString, QString> fixCustomAssetFile(const QString &path);
+    QPair<QString, QString> fixCustomAssetFile(const QString &path);
 
     static std::unique_ptr<EffectsRepository> instance;
 

@@ -27,13 +27,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 LayoutManagement::LayoutManagement(QObject *parent)
     : QObject(parent)
 {
-    m_translatedNames = {
-        { QStringLiteral("kdenlive_logging"), i18n("Logging") },
-        { QStringLiteral("kdenlive_editing"), i18n("Editing") },
-        { QStringLiteral("kdenlive_audio"), i18n("Audio")},
-        { QStringLiteral("kdenlive_effects"), i18n("Effects") },
-        { QStringLiteral("kdenlive_color"), i18n("Color") }
-    };
+    m_translatedNames = {{QStringLiteral("kdenlive_logging"), i18n("Logging")},
+                         {QStringLiteral("kdenlive_editing"), i18n("Editing")},
+                         {QStringLiteral("kdenlive_audio"), i18n("Audio")},
+                         {QStringLiteral("kdenlive_effects"), i18n("Effects")},
+                         {QStringLiteral("kdenlive_color"), i18n("Color")}};
 
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
@@ -47,14 +45,14 @@ LayoutManagement::LayoutManagement(QObject *parent)
     QAction *saveLayout = new QAction(i18n("Save Layout…"), pCore->window()->actionCollection());
     layoutActions->addAction(QStringLiteral("save_layout"), saveLayout);
     connect(saveLayout, &QAction::triggered, this, &LayoutManagement::slotSaveLayout);
-    
+
     QAction *manageLayout = new QAction(i18n("Manage Layouts…"), pCore->window()->actionCollection());
     layoutActions->addAction(QStringLiteral("manage_layout"), manageLayout);
     connect(manageLayout, &QAction::triggered, this, &LayoutManagement::slotManageLayouts);
     // Create 9 layout actions
     for (int i = 1; i < 10; i++) {
         QAction *load = new QAction(QIcon(), QString(), this);
-        m_layoutActions <<layoutActions->addAction("load_layout" + QString::number(i), load);
+        m_layoutActions << layoutActions->addAction("load_layout" + QString::number(i), load);
     }
 
     // Dock Area Oriantation
@@ -62,7 +60,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     layoutActions->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
     connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
 
-    QAction * colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
+    QAction *colDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
     layoutActions->addAction(QStringLiteral("vertical_dockareaorientation"), colDockAreaAction);
     connect(colDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaColumns);
 
@@ -80,7 +78,11 @@ LayoutManagement::LayoutManagement(QObject *parent)
     m_container->setLayout(l1);
     KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
     QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
-    QString style = QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(main->fontInfo().pixelSize()/2);
+    QString style = QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);")
+                        .arg(bg.red())
+                        .arg(bg.green())
+                        .arg(bg.blue())
+                        .arg(main->fontInfo().pixelSize() / 2);
     m_container->setStyleSheet(style);
     main->menuBar()->setCornerWidget(m_container, Qt::TopRightCorner);
     initializeLayouts();
@@ -98,15 +100,15 @@ void LayoutManagement::initializeLayouts()
     MainWindow *main = pCore->window();
     // Delete existing buttons
     while (auto item = m_containerLayout->takeAt(0)) {
-      delete item->widget();
+        delete item->widget();
     }
-    
+
     // Load default base layouts
     KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup defaultOrder(&defaultConfig, "Order");
     KConfigGroup defaultLayout(&defaultConfig, "Layouts");
     QStringList defaultLayouts;
-    
+
     // Load User defined layouts
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"), KConfig::NoCascade);
     KConfigGroup layoutGroup(config, "Layouts");
@@ -132,10 +134,9 @@ void LayoutManagement::initializeLayouts()
         // User sorted list
         entries = layoutOrder.entryMap().values();
     }
-    
+
     // Add default layouts to user config in they don't exist
-    for (const QString &lay : qAsConst(defaultLayouts))
-    {
+    for (const QString &lay : qAsConst(defaultLayouts)) {
         if (!entries.contains(lay)) {
             entries.insert(defaultLayouts.indexOf(lay), lay);
             layoutGroup.writeEntry(lay, defaultLayout.readEntry(lay));
@@ -234,7 +235,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
     emit connectDocks(true);
     if (selectButton) {
         // Activate layout button
-        QList<QAbstractButton *>buttons = m_containerGrp->buttons();
+        QList<QAbstractButton *> buttons = m_containerGrp->buttons();
         bool buttonFound = false;
         for (auto *button : qAsConst(buttons)) {
             if (button->property("layoutid").toString() == layoutId) {
@@ -253,7 +254,8 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
     return true;
 }
 
-std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, const QString &suggestedName) {
+std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, const QString &suggestedName)
+{
 
     QString visibleName = translatedName(suggestedName);
 
@@ -276,7 +278,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
     if (layouts.hasKey(saveName)) {
         // Layout already exists
         int res = KMessageBox::questionYesNo(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
-        if(res != KMessageBox::ButtonCode::Yes) {
+        if (res != KMessageBox::ButtonCode::Yes) {
             return {nullptr, nullptr};
         }
     }
@@ -304,8 +306,8 @@ void LayoutManagement::slotSaveLayout()
     std::pair<QString, QString> names = saveLayout(st.toBase64(), saveName);
 
     // Activate layout button
-    if(names.first != nullptr) {
-        QList<QAbstractButton *>buttons = m_containerGrp->buttons();
+    if (names.first != nullptr) {
+        QList<QAbstractButton *> buttons = m_containerGrp->buttons();
         for (auto *button : qAsConst(buttons)) {
             if (button->text() == names.first) {
                 QSignalBlocker bk(m_containerGrp);
@@ -313,7 +315,6 @@ void LayoutManagement::slotSaveLayout()
             }
         }
     }
-
 }
 
 void LayoutManagement::slotManageLayouts()
@@ -333,12 +334,12 @@ void LayoutManagement::slotManageLayouts()
     l->addWidget(new QLabel(i18n("Current Layouts"), &d));
     QListWidget list(&d);
     list.setAlternatingRowColors(true);
-    l->addWidget(&list); 
+    l->addWidget(&list);
     // Delete button
     QToolButton tb(&d);
     tb.setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     tb.setAutoRaise(true);
-    connect(&tb, &QToolButton::clicked, this, [ &layouts, &list]() {
+    connect(&tb, &QToolButton::clicked, this, [&layouts, &list]() {
         if (list.currentItem()) {
             layouts.deleteEntry(list.currentItem()->data(Qt::UserRole).toString());
             delete list.currentItem();
@@ -375,7 +376,7 @@ void LayoutManagement::slotManageLayouts()
         }
     });
     l2->addWidget(&tb3);
-    
+
     // Reset button
     QToolButton tb4(&d);
     tb4.setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
@@ -426,7 +427,7 @@ void LayoutManagement::slotManageLayouts()
     tb5.setIcon(QIcon::fromTheme(QStringLiteral("document-import")));
     tb5.setAutoRaise(true);
     tb5.setToolTip(i18n("Import"));
-    connect(&tb5, &QToolButton::clicked, this, [this, &d, &list](){
+    connect(&tb5, &QToolButton::clicked, this, [this, &d, &list]() {
         QScopedPointer<QFileDialog> fd(new QFileDialog(&d, i18nc("@title:window", "Load Layout")));
         fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/kdenlivelayout"));
         fd->setFileMode(QFileDialog::ExistingFile);
@@ -454,11 +455,11 @@ void LayoutManagement::slotManageLayouts()
 
         std::pair<QString, QString> names = saveLayout(state, suggestedName);
 
-        if(names.first != nullptr && names.second != nullptr && list.findItems(names.first, Qt::MatchFlag::MatchExactly).length() == 0) {
-                auto *item = new QListWidgetItem(names.first, &list);
-                item->setData(Qt::UserRole, names.second);
-                item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-            }
+        if (names.first != nullptr && names.second != nullptr && list.findItems(names.first, Qt::MatchFlag::MatchExactly).length() == 0) {
+            auto *item = new QListWidgetItem(names.first, &list);
+            item->setData(Qt::UserRole, names.second);
+            item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+        }
     });
     l2->addWidget(&tb5);
 
@@ -467,8 +468,7 @@ void LayoutManagement::slotManageLayouts()
     tb6.setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     tb6.setAutoRaise(true);
     tb6.setToolTip(i18n("Export selected"));
-    connect(&tb6, &QToolButton::clicked, this, [ &d, &list](){
-
+    connect(&tb6, &QToolButton::clicked, this, [&d, &list]() {
         if (!list.currentItem()) {
             // Error, no layout selected
             KMessageBox::error(&d, i18n("No layout selected"));
@@ -513,13 +513,13 @@ void LayoutManagement::slotManageLayouts()
     });
     l2->addWidget(&tb6);
 
-    connect(&list, &QListWidget::currentRowChanged, this, [&list, &tb2, &tb3] (int row) {
+    connect(&list, &QListWidget::currentRowChanged, this, [&list, &tb2, &tb3](int row) {
         tb2.setEnabled(row > 0);
         tb3.setEnabled(row < list.count() - 1);
     });
 
     l2->addStretch();
-    
+
     // Add layouts to list
     for (const QString &name : qAsConst(names)) {
         auto *item = new QListWidgetItem(translatedName(name), &list);
@@ -568,7 +568,8 @@ void LayoutManagement::slotManageLayouts()
     initializeLayouts();
 }
 
-const QString LayoutManagement::translatedName(const QString &name) {
+const QString LayoutManagement::translatedName(const QString &name)
+{
     return m_translatedNames.contains(name) ? m_translatedNames.constFind(name).value() : name;
 }
 
