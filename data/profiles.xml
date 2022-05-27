@@ -65,11 +65,11 @@
   <profile name="NVENC H264 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=mp4 vcodec=nvenc_h264 vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
+   args="f=mp4 vcodec=h264_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 VBR" extension="mp4"
    qualities="15,45" defaultquality="25"
    audiobitrates="256,64" defaultaudiobitrate="160"
-   args="f=mp4 vcodec=nvenc_h264 rc=constqp vglobal_quality=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
+   args="f=mp4 vcodec=h264_nvenc rc=constqp vglobal_quality=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H265 ABR" extension="mp4"
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
