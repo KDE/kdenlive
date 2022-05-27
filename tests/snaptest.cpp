@@ -1,7 +1,6 @@
-#include "catch.hpp"
+#include "test_utils.hpp"
 #include "timeline2/model/snapmodel.hpp"
-#include <iostream>
-#include <unordered_set>
+
 
 TEST_CASE("Snap points model test", "[SnapModel]")
 {
