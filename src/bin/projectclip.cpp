@@ -991,6 +991,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 if (secondPlaylist) {
                     tid = -tid;
                 }
+                if (m_audioProducers.find(tid) != m_audioProducers.end()) {
+                    // Buggy project, all clips in a track should use the same track producer, fix
+                    qDebug()<<"/// FOUND INCORRECT PRODUCER ON AUDIO TRACK; FIXING";
+                    std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
+                    return {prod, false};
+                }
                 m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                 m_effectStack->loadService(m_audioProducers[tid]);
                 return {master, true};
@@ -1001,6 +1007,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     // Color, image and text clips always use master producer in timeline
                     if (secondPlaylist) {
                         tid = -tid;
+                    }
+                    if (m_videoProducers.find(tid) != m_videoProducers.end()) {
+                        qDebug()<<"/// FOUND INCORRECT PRODUCER ON VIDEO TRACK; FIXING";
+                        // Buggy project, all clips in a track should use the same track producer, fix
+                        std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
+                        return {prod, false};
                     }
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                     m_effectStack->loadService(m_videoProducers[tid]);
