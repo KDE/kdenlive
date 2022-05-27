@@ -287,6 +287,16 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             emit toggleSolo(m_tid, toggled);
             updateLabel();
         });
+        
+        m_record = new QToolButton(this);
+        m_record->setIcon(QIcon::fromTheme("media-record"));
+        m_record->setToolTip(i18n("Record audio"));
+        m_record->setCheckable(true);
+        m_record->setAutoRaise(true);
+        m_record->setVisible(false);
+        connect(m_record, &QToolButton::toggled, this, [&](bool toggled) {
+            emit pCore->recordAudio(m_tid, toggled);
+        });
 
         m_monitor = new QToolButton(this);
         m_monitor->setIcon(QIcon::fromTheme("audio-input-microphone"));
@@ -294,6 +304,10 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_monitor->setCheckable(true);
         m_monitor->setAutoRaise(true);
         connect(m_monitor, &QToolButton::toggled, this, [&](bool toggled) {
+            if (!toggled && (m_recording || pCore->isMediaCapturing())) {
+                // Abort recording if in progress
+                emit pCore->recordAudio(m_tid, false);
+            }
             m_manager->monitorAudio(m_tid, toggled);
         });
     } else {
@@ -366,6 +380,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     buttonslay->addWidget(mute);
     if (m_solo) {
         buttonslay->addWidget(m_solo);
+    }
+    if (m_record) {
+        buttonslay->addWidget(m_record);
     }
     if (m_monitor) {
         buttonslay->addWidget(m_monitor);
@@ -540,11 +557,16 @@ void MixerWidget::updateMonitorState()
 void MixerWidget::monitorAudio(bool monitor)
 {
     QSignalBlocker bk(m_monitor);
+    qDebug()<<":::: MONIOTORING AUDIO: "<<monitor;
     if (monitor) {
         m_monitor->setChecked(true);
+        m_solo->setVisible(false);
+        m_record->setVisible(true);
         updateMonitorState();
     } else {
         m_monitor->setChecked(false);
+        m_solo->setVisible(true);
+        m_record->setVisible(false);
         updateMonitorState();
         reset();
     }

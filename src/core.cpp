@@ -1043,7 +1043,7 @@ bool Core::isMediaCapturing() const
 
 void Core::switchCapture()
 {
-    emit recordAudio(-1);
+    emit recordAudio(-1, !isMediaCapturing());
 }
 
 MediaCapture *Core::getAudioDevice()

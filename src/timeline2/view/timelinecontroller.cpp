@@ -4495,12 +4495,16 @@ QColor TimelineController::selectionColor() const
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
-void TimelineController::switchRecording(int trackId)
+void TimelineController::switchRecording(int trackId, bool record)
 {
     if (trackId == -1) {
         trackId = pCore->mixer()->recordTrack();
     }
-    if (!pCore->isMediaCapturing()) {
+    if (record) {
+        if (pCore->isMediaCapturing()) {
+            // Already recording, abort
+            return;
+        }
         qDebug() << "start recording" << trackId;
         if (!m_model->isTrack(trackId)) {
             qDebug() << "ERROR: Starting to capture on invalid track " << trackId;
@@ -4527,6 +4531,7 @@ void TimelineController::switchRecording(int trackId)
         pCore->startMediaCapture(trackId, true, false);
         pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
     } else {
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->stopCountDown();
         pCore->stopMediaCapture(trackId, true, false);
         emit stopAudioRecord();
         pCore->monitorManager()->slotPause();

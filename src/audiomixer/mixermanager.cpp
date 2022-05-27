@@ -49,9 +49,15 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsLayout = new QHBoxLayout;
     m_channelsLayout->setContentsMargins(0, 0, 0, 0);
     m_masterBox->setContentsMargins(0, 0, 0, 0);
-    m_channelsLayout->setSpacing(4);
+    //m_channelsLayout->setSpacing(4);
+    m_channelsLayout->setSpacing(1);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
+    QFrame *line = new QFrame(this);
+    line->setFrameShape(QFrame::VLine);
+    line->setFrameShadow(QFrame::Sunken);
+    line->setFixedWidth(3);
+    m_box->addWidget(line);
     m_box->addLayout(m_masterBox);
     setLayout(m_box);
 }
@@ -137,12 +143,8 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         }
     });
     m_mixers[tid] = mixer;
-    QFrame *line = new QFrame(this);
-    line->setFrameShape(QFrame::VLine);
-    line->setFrameShadow(QFrame::Sunken);
-    m_channelsLayout->insertWidget(0, line);
     m_channelsLayout->insertWidget(0, mixer.get());
-    m_recommendedWidth = (mixer->minimumWidth() + 12 + line->minimumWidth()) * (qMin(2, int(m_mixers.size())));
+    m_recommendedWidth = (mixer->minimumWidth() + 1) * (qMin(2, int(m_mixers.size()))) + 3;
     if (!KdenliveSettings::mixerCollapse()) {
         m_channelsBox->setMinimumWidth(m_recommendedWidth);
     }

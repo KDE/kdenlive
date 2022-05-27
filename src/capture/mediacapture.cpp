@@ -149,6 +149,7 @@ MediaCapture::MediaCapture(QObject *parent)
     , m_path(QUrl())
     , m_recordState(0)
     , m_tid(-1)
+    , m_readyForRecord(false)
 {
     m_resetTimer.setInterval(5000);
     m_resetTimer.setSingleShot(true);
@@ -268,7 +269,11 @@ void MediaCapture::recordAudio(int tid, bool record)
                 m_recLevels.clear();
                 m_lastPos = -1;
                 emit audioLevels(QVector <qreal>());
-                emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
+                if (!m_readyForRecord) {
+                    emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                }
+                m_readyForRecord = false;
             }
             emit recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
         });
@@ -277,6 +282,7 @@ void MediaCapture::recordAudio(int tid, bool record)
     if (record && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
         m_recTimer.invalidate();
         m_resetTimer.stop();
+        m_readyForRecord = true;
         setAudioCaptureDevice();
         m_audioRecorder->setAudioInput(m_audioDevice);
         setCaptureOutputLocation();
@@ -311,6 +317,7 @@ int MediaCapture::startCapture()
     m_lastPos = -1;
     m_recTimer.start();
     m_audioRecorder->record();
+    m_readyForRecord = false;
     return m_tid;
 }
 
@@ -430,7 +437,7 @@ int MediaCapture::recordState() const
 
 bool MediaCapture::isRecording() const
 {
-    if (m_audioRecorder && m_audioRecorder->state() != QMediaRecorder::StoppedState) {
+    if (m_readyForRecord || (m_audioRecorder && m_audioRecorder->state() != QMediaRecorder::StoppedState)) {
         return true;
     }
     if (m_videoRecorder && m_videoRecorder->state() != QMediaRecorder::StoppedState) {

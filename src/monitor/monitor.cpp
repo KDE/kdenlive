@@ -1552,7 +1552,7 @@ void Monitor::slotSwitchPlay()
             pCore->getAudioDevice()->resumeRecording();
         }
     } else if (pCore->getAudioDevice()->isMonitoring()) {
-        pCore->recordAudio(-1);
+        pCore->recordAudio(-1, true);
     }
     m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;
@@ -2675,5 +2675,13 @@ void Monitor::startCountDown()
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
         QMetaObject::invokeMethod(root, "startCountdown");
+    }
+}
+
+void Monitor::stopCountDown()
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (root) {
+        QMetaObject::invokeMethod(root, "stopCountdown");
     }
 }

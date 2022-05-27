@@ -98,6 +98,8 @@ private:
     int m_recordState;
     int m_lastPos;
     int m_tid;
+    /** @brief true if we started the record countdown */
+    bool m_readyForRecord;
     QTimer m_resetTimer;
     QMutex m_recMutex;
 
