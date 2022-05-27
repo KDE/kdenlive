@@ -1,4 +1,11 @@
+#include "catch.hpp"
+#include "doc/docundostack.hpp"
 #include "test_utils.hpp"
+
+#include "definitions.h"
+#define private public
+#define protected public
+#include "core.h"
 
 using namespace fakeit;
 Mlt::Profile profile_move;
@@ -46,7 +53,7 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     int cid2;
     int cid3;
     int cid4;
-    int cid5;
+
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 100, cid1));
     cid2 = timeline->getClipSplitPartner(cid1);
 
