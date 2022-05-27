@@ -689,6 +689,9 @@ void Monitor::slotForceSize(QAction *a)
 
 void Monitor::buildBackgroundedProducer(int pos)
 {
+    if (m_controller == nullptr) {
+        return;
+    }
     if (KdenliveSettings::monitor_background() != "black") {
         Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
         QString color = QString("color:%1").arg(KdenliveSettings::monitor_background());
