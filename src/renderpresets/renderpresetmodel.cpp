@@ -279,7 +279,7 @@ QStringList RenderPresetModel::audioQualities() const
         QString acodec = getParam(QStringLiteral("acodec")).toLower();
         if (acodec == "libmp3lame") {
             return {"0", "9"};
-        } else if (acodec == "libvorbis" || acodec == "vorbis") {
+        } else if (acodec == "libvorbis" || acodec == "vorbis" || acodec == "libopus") {
             return {"10", "0"};
         } else {
             return {"500", "0"};

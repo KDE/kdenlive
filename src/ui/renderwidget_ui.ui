@@ -44,10 +44,10 @@
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="8" column="0">
            <widget class="KMessageWidget" name="infoMessage">
-            <property name="wordWrap" stdset="0">
+            <property name="wordWrap">
              <bool>true</bool>
             </property>
-            <property name="closeButtonVisible" stdset="0">
+            <property name="closeButtonVisible">
              <bool>false</bool>
             </property>
            </widget>
@@ -105,12 +105,18 @@
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file" native="true">
+             <widget class="KUrlRequester" name="out_file">
               <property name="focusPolicy">
                <enum>Qt::ClickFocus</enum>
               </property>
               <property name="toolTip">
                <string>Select output destination</string>
+              </property>
+              <property name="mode">
+               <set>KFile::File</set>
+              </property>
+              <property name="acceptMode">
+               <enum>QFileDialog::AcceptSave</enum>
               </property>
              </widget>
             </item>
@@ -438,8 +444,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>354</width>
-            <height>853</height>
+            <width>334</width>
+            <height>855</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -936,7 +942,7 @@
        </item>
        <item row="2" column="0" colspan="6">
         <widget class="KMessageWidget" name="jobInfo">
-         <property name="closeButtonVisible" stdset="0">
+         <property name="closeButtonVisible">
           <bool>false</bool>
          </property>
         </widget>
