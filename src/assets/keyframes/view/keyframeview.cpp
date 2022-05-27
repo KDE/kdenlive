@@ -53,6 +53,15 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     connect(m_model.get(), &KeyframeModelList::modelChanged, this, &KeyframeView::slotModelChanged);
     connect(m_model.get(), &KeyframeModelList::modelDisplayChanged, this, &KeyframeView::slotModelDisplayChanged);
+    m_centerConnection = connect(this, &KeyframeView::updateKeyframeOriginal, this, [&](int pos) {
+        m_currentKeyframeOriginal = pos;
+        update();
+    });
+}
+
+KeyframeView::~KeyframeView()
+{
+    QObject::disconnect( m_centerConnection );
 }
 
 void KeyframeView::slotModelChanged()
@@ -268,13 +277,11 @@ void KeyframeView::slotCenterKeyframe()
         break;
     }
     Fun local_redo = [this, position = m_position]() {
-        m_currentKeyframeOriginal = position;
-        update();
+        emit updateKeyframeOriginal(position);
         return true;
     };
     Fun local_undo = [this, sourcePosition]() {
-        m_currentKeyframeOriginal = sourcePosition;
-        update();
+        emit updateKeyframeOriginal(sourcePosition);
         return true;
     };
     local_redo();
