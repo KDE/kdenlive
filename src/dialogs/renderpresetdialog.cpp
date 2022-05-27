@@ -64,6 +64,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                           QStringLiteral("qp_b"),
                           QStringLiteral("ab"),
                           QStringLiteral("aq"),
+                          QStringLiteral("compression_level"),
                           QStringLiteral("vbr"),
                           QStringLiteral("ar"),
                           QStringLiteral("display_aspect_num"),
@@ -307,6 +308,9 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         audioSampleRate->setCurrentText(preset->getParam(QStringLiteral("ar")));
 
         QString aqParam = preset->getParam(QStringLiteral("aq"));
+        if (aqParam.isEmpty()) {
+            aqParam = preset->getParam(QStringLiteral("compression_level"));
+        }
         if (aqParam.contains(QStringLiteral("%audioquality"))) {
             aQuality->setValue(preset->defaultAQuality().toInt());
         } else {
@@ -704,9 +708,7 @@ void RenderPresetDialog::slotUpdateParams() {
             }
         } else if (acodec == "libopus") {
             params.append(QStringLiteral("vbr=on"));
-            // TODO
-            //params.append(QStringLiteral("compression_level= "));
-            //setIfNotSet(p, "compression_level", TO_ABSOLUTE(0, 10, ui->audioQualitySpinner->value()));
+            params.append(QStringLiteral("compression_level=%audioquality"));
         } else {
             params.append(QStringLiteral("aq=%audioquality"));
         }
