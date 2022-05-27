@@ -383,16 +383,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         state0b();
 
-        // Resize clip, should resize the mix
+        // CID 1 length=10, pos=100, CID2 length=20, pos=130, CID5 length=20, pos=130
+        
+        // Create mix between cid1 and cid2
         REQUIRE(timeline->mixClip(cid2));
         state1b();
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         int audio2 = timeline->getClipSplitPartner(cid2);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
 
+        // Create mix between cid2 and cid5
         REQUIRE(timeline->mixClip(cid5));
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
         REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
         int audio5 = timeline->getClipSplitPartner(cid5);
         REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio5) == true);
         // Undo cid5 mix

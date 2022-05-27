@@ -1971,6 +1971,9 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("start", -1);
                 t->set("accepts_blanks", 1);
+                if (dest_track == 0) {
+                    t->set("reverse", 1);
+                }
                 m_track->plant_transition(*t.get(), 0, 1);
                 assetName = QStringLiteral("mix");
                 xml = TransitionsRepository::get()->getXml(assetName);
@@ -1981,6 +1984,9 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 xml = TransitionsRepository::get()->getXml(assetName);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", "luma");
+                if (dest_track == 0) {
+                    t->set("reverse", 1);
+                }
                 m_track->plant_transition(*t.get(), 0, 1);
             }
             if (dest_track == 0) {
