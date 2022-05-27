@@ -1168,8 +1168,10 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
         }
     }
 
-    if (finalMove && tid != -1 && m_lastTrackId != m_currentTrackId) {
-        refreshProducerFromBin(m_currentTrackId);
+    if (finalMove && m_lastTrackId != m_currentTrackId) {
+        if (tid != -1) {
+            refreshProducerFromBin(m_currentTrackId);
+        }
         m_lastTrackId = m_currentTrackId;
     }
 }
