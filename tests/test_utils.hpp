@@ -2,6 +2,7 @@
 #include "abortutil.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
+#include "tests_definitions.h"
 #include "doc/docundostack.hpp"
 #include <iostream>
 #include <memory>

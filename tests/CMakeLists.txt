@@ -1,4 +1,6 @@
 include_directories(${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR} ..)
+set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR})
+configure_file(tests_definitions.h.in tests_definitions.h)
 kde_enable_exceptions()
 add_executable(runTests
     TestMain.cpp
