@@ -19,6 +19,7 @@ class KeyframeView : public QWidget
 
 public:
     explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
+    ~KeyframeView() override;
     void setDuration(int duration);
     const QString getAssetId();
     /** @brief Copy a keyframe parameter to selected keyframes. */
@@ -93,10 +94,12 @@ private:
     QColor m_colSelected;
     QColor m_colKeyframe;
     QColor m_colKeyframeBg;
+    QMetaObject::Connection m_centerConnection;
 
 signals:
     void seekToPos(int pos);
     void atKeyframe(bool isKeyframe, bool singleKeyframe);
     void modified();
     void activateEffect();
+    void updateKeyframeOriginal(int pos);
 };
