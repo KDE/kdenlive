@@ -120,6 +120,10 @@ Item {
                         top: parent.top
                         left: parent.left
                     }
+                    ToolTip.visible: guideArea.containsMouse
+                    ToolTip.text: model.comment
+                    ToolTip.delay: 1000
+                    ToolTip.timeout: 5000
                     Rectangle {
                         // Shadow delimiting marker start
                         width: 1

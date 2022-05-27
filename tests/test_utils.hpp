@@ -2,6 +2,7 @@
 #include "abortutil.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
+#include "tests_definitions.h"
 #include "doc/docundostack.hpp"
 #include <iostream>
 #include <memory>
@@ -85,3 +86,7 @@ using namespace fakeit;
 QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<ProjectItemModel> binModel, int length = 20, bool limited = true);
 
 QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 10);
+
+QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 10);
+
+QString createAVProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel);

@@ -408,7 +408,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         if (!xml.isNull()) {
             bool hashChanged = false;
             m_thumbsProducer.reset();
-            m_clipStatus = FileStatus::StatusWaiting;
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
@@ -430,6 +429,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 discardAudioThumb();
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            m_clipStatus = FileStatus::StatusWaiting;
             m_thumbsProducer.reset();
             ClipLoadTask::start({ObjectType::BinClip,m_binId.toInt()}, xml, false, -1, -1, this);
         }
@@ -991,6 +991,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 if (secondPlaylist) {
                     tid = -tid;
                 }
+                if (m_audioProducers.find(tid) != m_audioProducers.end()) {
+                    // Buggy project, all clips in a track should use the same track producer, fix
+                    qDebug()<<"/// FOUND INCORRECT PRODUCER ON AUDIO TRACK; FIXING";
+                    std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
+                    return {prod, false};
+                }
                 m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                 m_effectStack->loadService(m_audioProducers[tid]);
                 return {master, true};
@@ -1001,6 +1007,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     // Color, image and text clips always use master producer in timeline
                     if (secondPlaylist) {
                         tid = -tid;
+                    }
+                    if (m_videoProducers.find(tid) != m_videoProducers.end()) {
+                        qDebug()<<"/// FOUND INCORRECT PRODUCER ON VIDEO TRACK; FIXING";
+                        // Buggy project, all clips in a track should use the same track producer, fix
+                        std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
+                        return {prod, false};
                     }
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                     m_effectStack->loadService(m_videoProducers[tid]);
@@ -1157,6 +1169,7 @@ QPoint ProjectClip::zone() const
 const QString ProjectClip::hash(bool createIfEmpty)
 {
     if (m_clipStatus == FileStatus::StatusWaiting) {
+        // Clip is not ready
         return QString();
     }
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
@@ -1255,12 +1268,6 @@ const QPair<QByteArray, qint64> ProjectClip::calculateHash(const QString &path)
 double ProjectClip::getOriginalFps() const
 {
     return originalFps();
-}
-
-bool ProjectClip::hasProxy() const
-{
-    QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
-    return proxy.size() > 2;
 }
 
 void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool refreshPanel)
@@ -1623,7 +1630,7 @@ const QString ProjectClip::getAudioThumbPath(int stream)
         return QString();
     }
     bool ok = false;
-    QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheAudio, &ok);
+    QDir thumbFolder = pCore->projectManager()->cacheDir(true, &ok);
     if (!ok) {
         return QString();
     }
@@ -1910,7 +1917,7 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     if (percent < 0) {
         if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
             int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-            QImage thumb = ThumbnailCache::get()->getThumbnail(hash(false), m_binId, framePos);
+            QImage thumb = ThumbnailCache::get()->getThumbnail(hash(), m_binId, framePos);
             if (!thumb.isNull()) {
                 setThumbnail(thumb, -1, -1);
             }
@@ -1921,7 +1928,7 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
     framePos -= framePos%steps;
-    QImage thumb = ThumbnailCache::get()->getThumbnail(hash(false), m_binId, framePos);
+    QImage thumb = ThumbnailCache::get()->getThumbnail(hash(), m_binId, framePos);
     if (!thumb.isNull()) {
         setThumbnail(thumb, -1, -1);
     } else {

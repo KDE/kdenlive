@@ -1905,7 +1905,7 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     }
 }
 
-void TimeRemap::updateKeyframes(bool resize)
+void TimeRemap::updateKeyframes()
 {
     QString kfData = m_view->getKeyframesData();
     if (m_view->m_remapLink) {

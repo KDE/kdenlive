@@ -218,7 +218,8 @@ public:
     void stopMediaCapture(int tid, bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
-    bool isMediaCapturing();
+    bool isMediaMonitoring() const;
+    bool isMediaCapturing() const;
     MediaCapture *getAudioDevice();
     /** @brief Returns Project Folder name for capture output location */
     QString getProjectFolderName();
@@ -280,6 +281,8 @@ public:
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
     QString packageType() { return m_packageType; };
+    /** @brief Start / stop audio capture */
+    void switchCapture();
 
 private:
     explicit Core(const QString &packageType);
@@ -345,6 +348,12 @@ public slots:
     void addBin(const QString &id = QString());
     /** @brief Transcode a bin clip video. */
     void transcodeFriendlyFile(const QString &binId, bool checkProfile);
+    /** @brief Reset audio  monitoring volume and channels. */
+    void resetAudioMonitoring();
+    /** @brief Start audio recording (after countdown). */
+    void startRecording();
+    /** @brief Show or hide track head audio rec controls. */
+    void monitorAudio(int tid, bool monitor);
 
 signals:
     void coreIsReady();
@@ -376,4 +385,8 @@ signals:
     void audioLevelsAvailable(const QVector<double>& levels);
     /** @brief A frame was displayed in monitor, update audio mixer */
     void updateMixerLevels(int pos);
+    /** @brief Audio recording was started or stopped*/
+    void switchTimelineRecord(bool on);
+    /** @brief Launch audio recording on track tid*/
+    void recordAudio(int tid, bool record);
 };

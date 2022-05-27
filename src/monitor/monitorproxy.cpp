@@ -476,7 +476,7 @@ void MonitorProxy::addEffect(const QString &effectData, const QString &effectSou
     QStringList effectInfo = effectSource.split(QLatin1Char('-'));
     effectInfo.prepend(effectData);
     if (m_clipId > -1) {
-        pCore->bin()->slotAddEffect(QString::number(m_clipId), effectInfo);
+        QMetaObject::invokeMethod(pCore->bin(), "slotAddEffect", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_clipId)), Q_ARG(QStringList, effectInfo));
     } else {
         // Dropped in project monitor
         emit addTimelineEffect(effectInfo);

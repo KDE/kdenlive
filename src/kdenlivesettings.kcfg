@@ -607,6 +607,11 @@
       <default></default>
     </entry>
 
+    <entry name="nice_tasks" type="Bool">
+      <label>Use lower CPU priority for proxy and transcode tasks</label>
+      <default>true</default>
+    </entry>
+
   </group>
 
 

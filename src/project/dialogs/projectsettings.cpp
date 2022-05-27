@@ -82,6 +82,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
+    qDebug()<<"::::: GOT PROJECT AUDIO CHANNELS: "<<audiochannels<<"\nBBBBBBBBBBBBBBBBBBB";
     if (audiochannels == 4) {
         audio_channels->setCurrentIndex(1);
     } else if (audiochannels == 6) {

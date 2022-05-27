@@ -18,6 +18,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "lib/localeHandling.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
+#include "capture/mediacapture.h"
+
 #include "monitormanager.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
@@ -953,9 +955,13 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                         m_glWidget->setParent(nullptr);
                         m_glWidget->move(screenRect.topLeft());
                         m_glWidget->resize(screenRect.size());
+                        screenFound = true;
                         break;
                     }
                 }
+            }
+            if (!screenFound) {
+                m_glWidget->setParent(nullptr);
             }
         } else {
             m_glWidget->setParent(nullptr);
@@ -1294,9 +1300,9 @@ void Monitor::checkOverlay(int pos)
     }
 
     if (model) {
-        bool found = false;
-        CommentedTime marker = model->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
-        if (found) {
+        int mid = model->markerIdAtFrame(pos);
+        if (mid > -1) {
+            CommentedTime marker = model->markerById(mid);
             overlayText = marker.comment();
             color = model->markerTypes.at(marker.markerType());
         }
@@ -1535,7 +1541,20 @@ void Monitor::slotSwitchPlay()
         emit pCore->autoScrollChanged();
     }
     m_speedIndex = 0;
-    m_glMonitor->switchPlay(m_playAction->isActive(), m_offset);
+    bool play = m_playAction->isActive();
+    if (pCore->getAudioDevice()->isRecording()) {
+        int recState = pCore->getAudioDevice()->recordState();
+        if (recState == QMediaRecorder::RecordingState) {
+            if (!play) {
+                pCore->getAudioDevice()->pauseRecording();
+            }
+        } else if (recState == QMediaRecorder::PausedState && play) {
+            pCore->getAudioDevice()->resumeRecording();
+        }
+    } else if (pCore->getAudioDevice()->isMonitoring()) {
+        pCore->recordAudio(-1, true);
+    }
+    m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
         showDropped =  KdenliveSettings::displayClipMonitorInfo() & 0x20;
@@ -1789,7 +1808,6 @@ void Monitor::reloadActiveStream()
         }
     }
 }
-
 
 const QString Monitor::activeClipId()
 {
@@ -2264,14 +2282,13 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         break;
     case MonitorSceneDefault:
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
-        if (m_id == Kdenlive::ClipMonitor) {
-            QObject::connect(root, SIGNAL(endDrag()), pCore->bin(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
-        }
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
+            QObject::connect(root, SIGNAL(endDrag()), pCore->bin(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
+            QObject::connect(root, SIGNAL(startRecording()), pCore.get(), SLOT(startRecording()), Qt::UniqueConnection);
         }
         break;
     case MonitorSplitTrack:
@@ -2366,7 +2383,7 @@ void Monitor::slotEditInlineMarker()
         }
         QString newComment = root->property("markerText").toString();
         bool found = false;
-        CommentedTime oldMarker = model->getMarker(m_timePos->gentime(), &found);
+        CommentedTime oldMarker = model->getMarker(m_timePos->getValue(), &found);
         if (!found || newComment == oldMarker.comment()) {
             // No change
             return;
@@ -2651,4 +2668,20 @@ void Monitor::seekTimeline(const QString &frameAndTrack)
         frame = frameAndTrack.toInt();
     }
     requestSeek(frame);
+}
+
+void Monitor::startCountDown()
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (root) {
+        QMetaObject::invokeMethod(root, "startCountdown");
+    }
+}
+
+void Monitor::stopCountDown()
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (root) {
+        QMetaObject::invokeMethod(root, "stopCountdown");
+    }
 }

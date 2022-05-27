@@ -125,7 +125,7 @@ public:
 
     /** @brief Show/hide audio record controls on a track
      */
-    Q_INVOKABLE void switchRecording(int trackId);
+    Q_INVOKABLE void switchRecording(int trackId, bool record);
     /** @brief Add recorded file to timeline
      */
     void finishRecording(const QString &recordedFile);
@@ -272,15 +272,15 @@ public:
     /** @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
-    /** @brief Insert a timeline track
+    /** @brief Invoke the GUI to add new timeline tracks
      */
-    Q_INVOKABLE void addTrack(int tid);
+    Q_INVOKABLE void beginAddTrack(int tid);
     /** @brief Remove multiple(or single) timeline tracks
      */
     Q_INVOKABLE void deleteMultipleTracks(int tid);
     /** @brief Show / hide audio rec controls in active track
      */
-    void switchTrackRecord(int tid = -1);
+    void switchTrackRecord(int tid = -1, bool monitor = false);
     /** @brief Group selected items in timeline
      */
     Q_INVOKABLE void groupSelection();
@@ -337,6 +337,7 @@ public:
     Q_INVOKABLE void showTrackAsset(int trackId);
     /** @brief Adjust height of all similar (audio or video) tracks
     */
+    Q_INVOKABLE void adjustTrackHeight(int trackId, int height);
     Q_INVOKABLE void adjustAllTrackHeight(int trackId, int height);
     Q_INVOKABLE void collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight);
 
@@ -811,4 +812,5 @@ signals:
     Q_INVOKABLE void ungrabHack();
     void regainFocus();
     void updateAssetPosition(int itemId);
+    void stopAudioRecord();
 };

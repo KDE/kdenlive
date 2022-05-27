@@ -4,6 +4,7 @@
     </qresource>
     <qresource prefix="/qml">
         <file alias="kdenlivemonitor.qml">monitor/view/kdenlivemonitor.qml</file>
+        <file alias="Countdown.qml">monitor/view/Countdown.qml</file>
         <file alias="kdenliveclipmonitor.qml">monitor/view/kdenliveclipmonitor.qml</file>
         <file alias="kdenlivemonitoreffectscene.qml">monitor/view/kdenlivemonitoreffectscene.qml</file>
         <file alias="kdenlivemonitorcornerscene.qml">monitor/view/kdenlivemonitorcornerscene.qml</file>

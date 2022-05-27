@@ -82,14 +82,18 @@ The rest:
 
 For double values these placeholders are available:
 
-| placeholder    | Header Two     |
-| :------------- | :------------- |
-| `%maxWidth `   | width of the current profile  |
-| `%maxHeight`   | height of the current profile |
-| `%width`       | synonym for `%maxWidth`       |
-| `%height`      | synonym for `%maxHeight`      |
-| `%out`         | the out position of the current item |
-| `%fade"`       | the default fade duration (can be configured by the user) |
+| placeholder            | description |
+| :--------------------- | :---------- |
+| `%maxWidth `           | width of the current profile  |
+| `%maxHeight`           | height of the current profile |
+| `%width`               | synonym for `%maxWidth` |
+| `%height`              | synonym for `%maxHeight` |
+| `%contentWidth`        | width of the target clip |
+| `%contentHeight`       | height of the target clip |
+| `%fittedContentWidth`  | width of the target clip scaled to fit current profile |
+| `%fittedContentHeight` | height of the target clip scaled to fit current profile |
+| `%out`                 | the out position of the current item |
+| `%fade"`               | the default fade duration (can be configured by the user) |
 
 
 

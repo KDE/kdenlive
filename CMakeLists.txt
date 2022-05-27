@@ -27,9 +27,6 @@ option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(NODBUS "Build without DBus IPC" OFF)
 option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
 
-# TODO we should completely remove this if there are no complains in the next time or otherwise update the icons from breeze
-option(OLD_FALLBACK_ICONS "Install old looking fallback icons (deprecated, better use breeze)" OFF)
-
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
 set(MLT_MIN_MINOR_VERSION 4)
@@ -72,7 +69,7 @@ if(NOT NODBUS)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
 endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT
 find_package(MLT ${MLT_MIN_VERSION} REQUIRED)

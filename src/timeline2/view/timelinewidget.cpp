@@ -54,6 +54,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
     connect(m_proxy, &TimelineController::regainFocus, this, &TimelineWidget::regainFocus, Qt::DirectConnection);
+    connect(m_proxy, &TimelineController::stopAudioRecord, this, &TimelineWidget::stopAudioRecord, Qt::DirectConnection);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     setVisible(false);
@@ -472,6 +473,19 @@ void TimelineWidget::endDrag()
     }
 }
 
+void TimelineWidget::startAudioRecord(int tid)
+{
+    if (rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "startAudioRecord", Qt::DirectConnection, Q_ARG(QVariant, tid));
+    }
+}
+
+void TimelineWidget::stopAudioRecord()
+{
+    if (rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "stopAudioRecord", Qt::DirectConnection);
+    }
+}
 
 bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
 {

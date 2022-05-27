@@ -55,6 +55,20 @@ Rectangle {
         clipDropArea.processDrop()
     }
 
+    function startAudioRecord(tid) {
+        var tk = Logic.getTrackById(tid)
+        recordPlaceHolder.y = tk.y
+        recordPlaceHolder.height = tk.height
+        recordStartPlaceHolder.x = root.consumerPosition * root.timeScale
+        recordPlaceHolder.anchors.right = cursor.left
+        recordPlaceHolder.visible = true
+    }
+
+    function stopAudioRecord() {
+        recordPlaceHolder.visible = false
+        recordPlaceHolder.anchors.right = undefined
+    }
+
     function fitZoom() {
         return scrollView.width / (timeline.duration * 1.1)
     }
@@ -1929,7 +1943,68 @@ Rectangle {
                             border.width: 1
                             visible: false
                         }
-                        Repeater { id: guidesRepeater;
+                        Item {
+                            id: recordStartPlaceHolder
+                            x: 0
+                            width: 0
+                        }
+                        
+                        Item {
+                            id: recordPlaceHolder
+                            // Used to determine if drag start should trigger an event
+                            property var startTime: 0
+                            property double currentLevel
+                            property var recModel: []
+                            property int channels: 1
+                            property int maxWidth: 2048
+                            property int totalChunks: 0
+                            visible: false
+                            clip: true
+                            anchors.left: recordStartPlaceHolder.left
+                            width: 0
+                            Repeater {
+                                id: recWaveformRepeater
+                                model: Math.ceil(recordPlaceHolder.width / recordPlaceHolder.maxWidth)
+                                property bool repaintNodes: false
+                                anchors.fill: parent
+                                TimelineRecWaveform {
+                                    id: recWave
+                                    width: recordPlaceHolder.maxWidth < recordPlaceHolder.width ? index == recordPlaceHolder.totalChunks - 1 ? recordPlaceHolder.width % recordPlaceHolder.maxWidth : recordPlaceHolder.maxWidth : Math.round(recordPlaceHolder.width)
+                                    height: recordPlaceHolder.height
+                                    ix: index
+                                    channels: recordPlaceHolder.channels
+                                    isFirstChunk: index == 0
+                                    isOpaque: true
+                                    scaleFactor: root.timeScale
+                                    format: timeline.audioThumbFormat
+                                    waveInPoint: Math.round((index * recordPlaceHolder.maxWidth / root.timeScale) * recordPlaceHolder.channels)
+                                    waveOutPoint: waveInPoint + Math.round(width / root.timeScale) * recordPlaceHolder.channels
+                                    fillColor0: Qt.rgba(1, 0, 0, 0.3)
+                                    fillColor1: Qt.rgba(1, 0, 0)
+                                    fillColor2: Qt.rgba(1, .5, 0)
+                                    enforceRepaint: false
+                                }
+                            }
+                            Text {
+                                property int recState: audiorec.recordState
+                                text: i18n("Recording")
+                                anchors.right: parent.right
+                                anchors.rightMargin: 2
+                                anchors.top: parent.top
+                                font: miniFont
+                                color: '#FFF'
+                                onRecStateChanged: {
+                                    if (recState == 1) {
+                                        // Recording
+                                        text = i18n("Recording")
+                                    } else if (recState == 2) {
+                                        text = i18n("Paused")
+                                    }
+                                }
+                            }
+                        }
+                        Repeater { 
+                            id: guidesRepeater
                             model: guidesDelegateModel
                         }
                         Rectangle {

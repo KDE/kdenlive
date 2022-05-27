@@ -777,11 +777,17 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
+        double fitScale = qMin(double(width) / double(frameSize.width()),
+                               double(height) / double(frameSize.height()));
         // replace symbols in the double parameter
         content.replace(QLatin1String("%maxWidth"), QString::number(width))
             .replace(QLatin1String("%maxHeight"), QString::number(height))
             .replace(QLatin1String("%width"), QString::number(width))
             .replace(QLatin1String("%height"), QString::number(height))
+            .replace(QLatin1String("%contentWidth"), QString::number(frameSize.width()))
+            .replace(QLatin1String("%contentHeight"), QString::number(frameSize.height()))
+            .replace(QLatin1String("%fittedContentWidth"), QString::number(frameSize.width() * fitScale))
+            .replace(QLatin1String("%fittedContentHeight"), QString::number(frameSize.height() * fitScale))
             .replace(QLatin1String("%out"), QString::number(out))
             .replace(QLatin1String("%fade"), QString::number(frame_duration));
         if ((type == ParamType::AnimatedRect || type == ParamType::Geometry) && attribute == QLatin1String("default")) {

@@ -10,6 +10,8 @@
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
+#include "capture/mediacapture.h"
+
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
@@ -30,6 +32,7 @@ MixerManager::MixerManager(QWidget *parent)
     , m_visibleMixerManager(false)
     , m_expandedWidth(-1)
     , m_recommendedWidth(300)
+    , m_monitorTrack(-1)
     , m_filterIsV2(false)
 {
     m_masterBox = new QHBoxLayout;
@@ -46,9 +49,15 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsLayout = new QHBoxLayout;
     m_channelsLayout->setContentsMargins(0, 0, 0, 0);
     m_masterBox->setContentsMargins(0, 0, 0, 0);
-    m_channelsLayout->setSpacing(4);
+    //m_channelsLayout->setSpacing(4);
+    m_channelsLayout->setSpacing(1);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
+    QFrame *line = new QFrame(this);
+    line->setFrameShape(QFrame::VLine);
+    line->setFrameShadow(QFrame::Sunken);
+    line->setFixedWidth(3);
+    m_box->addWidget(line);
     m_box->addLayout(m_masterBox);
     setLayout(m_box);
 }
@@ -56,6 +65,38 @@ MixerManager::MixerManager(QWidget *parent)
 void MixerManager::checkAudioLevelVersion()
 {
     m_filterIsV2 = EffectsRepository::get()->exists(QStringLiteral("audiolevel")) && EffectsRepository::get()->getVersion(QStringLiteral("audiolevel")) > 100;
+}
+
+void MixerManager::monitorAudio(int tid, bool monitor)
+{
+    if (!monitor) {
+        if (m_mixers.count(tid) > 0) {
+            m_mixers[tid]->monitorAudio(false);
+        }
+        m_monitorTrack = -1;
+        pCore->getAudioDevice()->switchMonitorState(false);
+        pCore->monitorAudio(tid, false);
+        return;
+    }
+    // We want to monitor audio
+    if (m_monitorTrack > -1) {
+        // Another track is monitoring
+        if (m_mixers.count(m_monitorTrack) > 0) {
+            m_mixers[m_monitorTrack]->monitorAudio(false);
+            pCore->monitorAudio(m_monitorTrack, false);
+        }
+        m_monitorTrack = -1;
+    } else {
+        pCore->displayMessage(i18n("Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to end."), InformationMessage, 8000);
+        pCore->getAudioDevice()->switchMonitorState(true);
+    }
+    if (m_mixers.count(tid) > 0) {
+        m_mixers[tid]->monitorAudio(true);
+        pCore->monitorAudio(tid, true);
+    } else {
+        return;
+    }
+    m_monitorTrack = tid;
 }
 
 void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, const QString &trackName)
@@ -102,13 +143,11 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         }
     });
     m_mixers[tid] = mixer;
-    QFrame *line = new QFrame(this);
-    line->setFrameShape(QFrame::VLine);
-    line->setFrameShadow(QFrame::Sunken);
-    m_channelsLayout->insertWidget(0, line);
     m_channelsLayout->insertWidget(0, mixer.get());
-    m_recommendedWidth = (mixer->minimumWidth() + 12 + line->minimumWidth()) * (qMin(2, int(m_mixers.size())));
-    m_channelsBox->setMinimumWidth(m_recommendedWidth);
+    m_recommendedWidth = (mixer->minimumWidth() + 1) * (qMin(2, int(m_mixers.size()))) + 3;
+    if (!KdenliveSettings::mixerCollapse()) {
+        m_channelsBox->setMinimumWidth(m_recommendedWidth);
+    }
 }
 
 void MixerManager::deregisterTrack(int tid)
@@ -184,6 +223,7 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     if (m_mixers.count(tid) > 0) {
         m_mixers[tid]->setRecordState(recording);
     }
+    emit pCore->switchTimelineRecord(recording);
 }
 
 void MixerManager::connectMixer(bool doConnect)
@@ -235,4 +275,9 @@ void MixerManager::pauseMonitoring(bool pause)
     if (m_masterMixer != nullptr) {
         m_masterMixer->pauseMonitoring(pause);
     }
+}
+
+int MixerManager::recordTrack() const
+{
+    return m_monitorTrack;
 }

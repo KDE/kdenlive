@@ -28,11 +28,11 @@ int main(int argc, char *argv[])
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());
 
     int result = Catch::Session().run(argc, argv);
+    pCore->cleanup();
     ClipController::mediaUnavailable.reset();
 
     // global clean-up...
     // delete repo;
-
     Core::m_self.reset();
     Mlt::Factory::close();
     return (result < 0xff ? result : 0xff);

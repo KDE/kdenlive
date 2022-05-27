@@ -39,11 +39,10 @@ CacheTask::~CacheTask()
 
 void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, QObject* object, bool force)
 {
-    CacheTask* task = new CacheTask(owner, thumbsCount, in, out, object);
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::CACHEJOB)) {
-        delete task;
-        task = nullptr;
+        return;
     }
+    CacheTask* task = new CacheTask(owner, thumbsCount, in, out, object);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
@@ -97,7 +96,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip>binClip)
                 frame->set("consumer.rescale", "nearest");
 #endif
                 QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
-                if (!result.isNull()) {
+                if (!result.isNull() && !m_isCanceled) {
                     qDebug()<<"==== CACHING FRAME: "<<i;
                     ThumbnailCache::get()->storeThumbnail(clipId, i, result, true);
                 }

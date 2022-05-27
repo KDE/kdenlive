@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 #endif
 #if defined(Q_OS_WIN) || defined (Q_OS_MACOS)
     const QStringList themes {"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
-    for(const QString theme : themes ) {
+    for(const QString &theme : themes ) {
         const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
         if (!themePath.isEmpty()) {
             const QString iconSubdir = theme.left(theme.lastIndexOf('/'));

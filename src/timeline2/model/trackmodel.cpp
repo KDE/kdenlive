@@ -1808,11 +1808,14 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
     if (remixPlaylists && source_track != dest_track) {
         // A list of clip ids x playlists
         QMap<int, int> rearrangedPlaylists;
+        QMap<int, QVector<QPair<QString, QVariant>>> mixParameters;
         int ix = 0;
         int moveId = m_mixList.value(clipIds.second, -1);
         while (moveId > -1) {
             int current = m_allClips[moveId]->getSubPlaylistIndex();
             rearrangedPlaylists.insert(moveId, current);
+            QVector<QPair<QString, QVariant>> params = m_sameCompositions.at(moveId)->getAllParameters();
+            mixParameters.insert(moveId, params);
             if (hasEndMix(moveId)) {
                 moveId = m_mixList.value(moveId, -1);
             } else {
@@ -1820,7 +1823,6 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             }
             ix++;
         }
-        
         rearrange_playlists = [this, rearrangedPlaylists]() {
             // First, remove all clips on playlist 0
             QMapIterator<int, int> i(rearrangedPlaylists);
@@ -1876,7 +1878,8 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
                         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[i.key()]->getAsset());
-                        transition.set("reverse", i.value());
+                        bool reverse = i.value() == 1;
+                        updateCompositionDirection(transition, reverse);
                     }
                 }
                 return true;
@@ -1884,7 +1887,7 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 return false;
             }
         };
-        rearrange_playlists_undo = [this, rearrangedPlaylists]() {
+        rearrange_playlists_undo = [this, rearrangedPlaylists, mixParameters]() {
             // First, remove all clips on playlist 1
             QMapIterator<int, int> i(rearrangedPlaylists);
             while (i.hasNext()) {
@@ -1939,7 +1942,13 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
                         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[i.key()]->getAsset());
-                        transition.set("reverse", 1 - i.value());
+                        if (mixParameters.contains(i.key())) {
+                            // Restore all original params
+                            QVector<QPair<QString, QVariant>> params = mixParameters.value(i.key());
+                            for (const auto &p : qAsConst(params)) {
+                                transition.set(p.first.toUtf8().constData(), p.second.toString().toUtf8().constData());
+                            }
+                        }
                     }
                 }
                 return true;
@@ -1962,6 +1971,9 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("start", -1);
                 t->set("accepts_blanks", 1);
+                if (dest_track == 0) {
+                    t->set("reverse", 1);
+                }
                 m_track->plant_transition(*t.get(), 0, 1);
                 assetName = QStringLiteral("mix");
                 xml = TransitionsRepository::get()->getXml(assetName);
@@ -1972,13 +1984,14 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
                 xml = TransitionsRepository::get()->getXml(assetName);
                 t->set("kdenlive:mixcut", secondClipCut);
                 t->set("kdenlive_id", "luma");
-                m_track->plant_transition(*t.get(), 0, 1);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
+                m_track->plant_transition(*t.get(), 0, 1);
             }
-            if (dest_track == 0 && Xml::hasXmlParameter(xml, QStringLiteral("reverse"))) {
-                Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
+            if (dest_track == 0) {
+                // Mix should be reversed
+                reverseCompositionXml(mixId, xml);
             }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
             m_sameCompositions[clipIds.second] = asset;
@@ -2544,7 +2557,12 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
     // First remove existing mix
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     const QString currentAsset = m_sameCompositions[cid]->getAssetId();
-    Fun local_redo = [this, cid, composition]() {
+    QVector<QPair<QString, QVariant>> allParams = m_sameCompositions[cid]->getAllParameters();
+    // Check if mix should be reversed
+
+    bool reverse = m_allClips[cid]->getSubPlaylistIndex() == 0;
+    // TODO: handle revert mixes
+    Fun local_redo = [this, cid, composition, reverse]() {
         m_playlists[0].lock();
         m_playlists[1].lock();
         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
@@ -2562,6 +2580,10 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
             m_track->plant_transition(*t.get(), 0, 1);
             t->set("kdenlive:mixcut", mixCutPos);
             QDomElement xml = TransitionsRepository::get()->getXml(composition);
+            if (reverse) {
+                // Mix should be reversed
+                reverseCompositionXml(composition, xml);
+            }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
         }
@@ -2569,7 +2591,7 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
         m_playlists[1].unlock();
         return true;
     };
-    Fun local_undo = [this, cid, currentAsset]() {
+    Fun local_undo = [this, cid, currentAsset, allParams]() {
         m_playlists[0].lock();
         m_playlists[1].lock();
         Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
@@ -2585,6 +2607,17 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
             t->set_in_and_out(in, out);
             m_track->plant_transition(*t.get(), 0, 1);
             QDomElement xml = TransitionsRepository::get()->getXml(currentAsset);
+            QDomNodeList xmlParams = xml.elementsByTagName(QStringLiteral("parameter"));
+                for (int i = 0; i < xmlParams.count(); ++i) {
+                    QDomElement currentParameter = xmlParams.item(i).toElement();
+                    QString paramName = currentParameter.attribute(QStringLiteral("name"));
+                    for (const auto &p : qAsConst(allParams)) {
+                        if (p.first == paramName) {
+                            currentParameter.setAttribute(QStringLiteral("value"), p.second.toString());
+                            break;
+                        }
+                    }
+                }
             std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, currentAsset, {ObjectType::TimelineMix, cid}, QString()));
             m_sameCompositions[cid] = asset;
         }
@@ -2593,6 +2626,116 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
         return true;
     };
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+}
+
+void TrackModel::reverseCompositionXml(const QString &composition, QDomElement xml)
+{
+    if (composition == QLatin1String("luma") || composition == QLatin1String("dissolve") || composition == QLatin1String("mix")) {
+        Xml::setXmlParameter(xml, QStringLiteral("reverse"), QStringLiteral("1"));
+    } else if (composition == QLatin1String("composite")) {
+        Xml::setXmlParameter(xml, QStringLiteral("invert"), QStringLiteral("1"));
+    } else if (composition == QLatin1String("wipe")) {
+        Xml::setXmlParameter(xml, QStringLiteral("geometry"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%"));
+    } else if (composition == QLatin1String("slide")) {
+        Xml::setXmlParameter(xml, QStringLiteral("rect"), QStringLiteral("0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%"));
+    }
+}
+
+void TrackModel::updateCompositionDirection(Mlt::Transition &transition, bool reverse)
+{
+    QString composition(transition.get("kdenlive_id"));
+    if (composition.isEmpty()) {
+        composition = transition.get("mlt_service");
+    }
+    if (composition == QLatin1String("luma") || composition == QLatin1String("dissolve") || composition == QLatin1String("mix")) {
+        transition.set("reverse", reverse ? 1 : 0);
+    } else if (composition == QLatin1String("composite")) {
+        transition.set("invert", reverse ? 1 : 0);
+    } else if (composition == QLatin1String("wipe")) {
+        if (reverse) {
+            transition.set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
+        } else {
+            transition.set("geometry", "0=0% 0% 100% 100% 0%;-1=0% 0% 100% 100% 100%");
+        }
+    } else if (composition == QLatin1String("slide")) {
+        QString currentSlide(transition.get("rect"));
+        currentSlide.replace(QLatin1Char('%'), QString());
+        currentSlide = currentSlide.section(QLatin1Char('='), 1);
+        // Check if we start centered
+        if (!reverse && currentSlide.startsWith(QLatin1String("0 0 "))) {
+            currentSlide = currentSlide.section(QLatin1Char('='), 1);
+            QStringList sizes = currentSlide.split(QLatin1Char(' '));
+            double x = sizes.at(0).toDouble();
+            double y = sizes.at(1).toDouble();
+            QString result = QStringLiteral("0=");
+            if (x > 0) {
+                result.append(QStringLiteral("-100% "));
+            } else if (x < 0) {
+                result.append(QStringLiteral("100% "));
+            } else {
+                result.append(QStringLiteral("0% "));
+            }
+            if (y > 0) {
+                result.append(QStringLiteral("-100% "));
+            } else if (y < 0) {
+                result.append(QStringLiteral("100% "));
+            } else {
+                result.append(QStringLiteral("0% "));
+            }
+            result.append(QStringLiteral("100% 100% 100%;-1=0% 0% 100% 100% 100%"));
+            transition.set("rect", result.toUtf8().constData());
+        } else if (reverse) {
+            QString secondPart = currentSlide.section(QLatin1Char('='), 1);
+            if (secondPart.startsWith(QLatin1String("0 0 "))) {
+                QStringList sizes = currentSlide.split(QLatin1Char(' '));
+                double x = sizes.at(0).toDouble();
+                double y = sizes.at(1).toDouble();
+                QString result = QStringLiteral("0=0% 0% 100% 100% 100%;-1=");
+                if (x > 0) {
+                    result.append(QStringLiteral("-100% "));
+                } else if (x < 0) {
+                    result.append(QStringLiteral("100% "));
+                } else {
+                    result.append(QStringLiteral("0% "));
+                }
+                if (y > 0) {
+                    result.append(QStringLiteral("-100% "));
+                } else if (y < 0) {
+                    result.append(QStringLiteral("100% "));
+                } else {
+                    result.append(QStringLiteral("0% "));
+                }
+                result.append(QStringLiteral("100% 100% 100%"));
+                transition.set("rect", result.toUtf8().constData());
+            }
+        }
+    }
+}
+
+bool TrackModel::mixIsReversed(int cid) const
+{
+    if (m_sameCompositions.count(cid) > 0) {
+        // There is a mix at clip start, adjust direction
+        Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions.at(cid)->getAsset());
+        QString composition(transition.get("kdenlive_id"));
+        if (composition.isEmpty()) {
+            composition = transition.get("mlt_service");
+        }
+        if (composition == QLatin1String("luma") || composition == QLatin1String("dissolve") || composition == QLatin1String("mix")) {
+            return transition.get_int("reverse") == 1;
+        } else if (composition == QLatin1String("composite")) {
+            return transition.get_int("invert") == 1;
+        } else if (composition == QLatin1String("wipe")) {
+            QString geom = transition.get("geometry");
+            geom.replace(QLatin1Char('%'), QString());
+            return geom.contains(QStringLiteral(" 100;"));
+        } else if (composition == QLatin1String("slide")) {
+            QString geom(transition.get("rect"));
+            geom.replace(QLatin1Char('%'), QString());
+            return geom.startsWith(QStringLiteral("0=0 0 "));
+        }
+    }
+    return false;
 }
 
 QVariantList TrackModel::stackZones() const

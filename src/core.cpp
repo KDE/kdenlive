@@ -1009,6 +1009,18 @@ void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
     }
 }
 
+void Core::monitorAudio(int tid, bool monitor)
+{
+    m_mainWindow->getCurrentTimeline()->controller()->switchTrackRecord(tid, monitor);
+}
+
+void Core::startRecording()
+{
+    int trackId = m_capture->startCapture();
+    m_mainWindow->getCurrentTimeline()->startAudioRecord(trackId);
+    pCore->monitorManager()->slotPlay();
+}
+
 QStringList Core::getAudioCaptureDevices()
 {
     return m_capture->getAudioCaptureDevices();
@@ -1019,14 +1031,32 @@ int Core::getMediaCaptureState()
     return m_capture->getState();
 }
 
-bool Core::isMediaCapturing()
+bool Core::isMediaMonitoring() const
+{
+    return m_capture->isMonitoring();
+}
+
+bool Core::isMediaCapturing() const
 {
     return m_capture->isRecording();
+}
+
+void Core::switchCapture()
+{
+    emit recordAudio(-1, !isMediaCapturing());
 }
 
 MediaCapture *Core::getAudioDevice()
 {
     return m_capture.get();
+}
+
+void Core::resetAudioMonitoring()
+{
+    if (m_capture && m_capture->isMonitoring()) {
+        m_capture->switchMonitorState(false);
+        m_capture->switchMonitorState(true);
+    }
 }
 
 QString Core::getProjectFolderName()
@@ -1197,9 +1227,13 @@ void Core::cleanup()
 {
     audioThumbCache.clear();
     taskManager.slotCancelJobs();
-    timeRemapWidget()->selectedClip(-1);
-    disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
-    m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+    if (timeRemapWidget()) {
+        timeRemapWidget()->selectedClip(-1);
+    }
+    if (m_mainWindow && m_mainWindow->getMainTimeline()) {
+        disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager, &ProjectManager::adjustProjectDuration);
+        m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+    }
 }
 
 int Core::getNewStuff(const QString &config)

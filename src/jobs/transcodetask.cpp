@@ -40,12 +40,11 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const
 
 void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer, QObject* object, bool force, bool checkProfile)
 {
-    TranscodeTask* task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     // See if there is already a task for this MLT service and resource.
     if (pCore->taskManager.hasPendingJob(owner, AbstractTask::TRANSCODEJOB)) {
-        delete task;
-        task = 0;
+        return;
     }
+    TranscodeTask* task = new TranscodeTask(owner, suffix, preParams, params, in, out, replaceProducer, object, checkProfile);
     if (task) {
         // Otherwise, start a new audio levels generation thread.
         task->m_isForce = force;
@@ -170,6 +169,7 @@ void TranscodeTask::run()
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     } else {
@@ -214,6 +214,7 @@ void TranscodeTask::run()
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
         result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     }

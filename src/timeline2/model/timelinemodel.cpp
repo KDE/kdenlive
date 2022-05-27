@@ -937,12 +937,10 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                 continue;
             }
             // Make sure we have enough space in clip to resize
-            int maxLengthLeft = m_allClips[previousClip]->getMaxDuration();
-            int maxLengthRight = m_allClips[s]->getMaxDuration();
             // leftMax is the maximum frames we have to expand first clip on the right
-            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[previousClip]->getOut()) : m_allClips[s]->getPlaytime();
+            leftMax = m_allClips[s]->getPlaytime();
             // rightMax is the maximum frames we have to expand second clip on the left
-            rightMax = maxLengthRight > -1 ? (m_allClips[s]->getIn()) : m_allClips[previousClip]->getPlaytime();
+            rightMax = m_allClips[previousClip]->getPlaytime();
             if (getTrackById_const(selectedTrack)->hasStartMix(previousClip)) {
                 int spaceBeforeMix = m_allClips[s]->getPosition() - (m_allClips[previousClip]->getPosition() + m_allClips[previousClip]->getMixDuration());
                 rightMax = rightMax == -1 ? spaceBeforeMix : qMin(rightMax, spaceBeforeMix);
@@ -966,12 +964,10 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         } else {
             // Mix at end of selected clip
             // Make sure we have enough space in clip to resize
-            int maxLengthLeft = m_allClips[s]->getMaxDuration();
-            int maxLengthRight = m_allClips[nextClip]->getMaxDuration();
             // leftMax is the maximum frames we have to expand first clip on the right
-            leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips[s]->getOut()) : m_allClips[nextClip]->getPlaytime();
+            leftMax = m_allClips[nextClip]->getPlaytime();
             // rightMax is the maximum frames we have to expand second clip on the left
-            rightMax = maxLengthRight > -1 ? (m_allClips[nextClip]->getIn()) : m_allClips[s]->getPlaytime();
+            rightMax = m_allClips[s]->getPlaytime();
             if (getTrackById_const(selectedTrack)->hasStartMix(s)) {
                 int spaceBeforeMix = m_allClips[nextClip]->getPosition() - (m_allClips[s]->getPosition() + m_allClips[s]->getMixDuration());
                 rightMax = rightMax == -1 ? spaceBeforeMix : qMin(rightMax, spaceBeforeMix);
@@ -1010,6 +1006,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         if (rightMax > -1) {
             // Both clips have limited durations
             mixDurations.first = qMin(mixDuration / 2, leftMax);
+            mixDurations.first = qMin(mixDurations.first, leftMax);
             mixDurations.second = qMin(mixDuration - mixDuration / 2, rightMax);
             int offset = mixDuration - (mixDurations.first + mixDurations.second);
             if (offset > 0) {
@@ -2207,6 +2204,46 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         }
     }
     bool trackChanged = false;
+    if (delta_track != 0) {
+        //Ensure the track move is possible (not outside our current tracks)
+        for (int item : all_items) {
+            int current_track_id = old_track_ids[item];
+            int current_track_position = getTrackPosition(current_track_id);
+            bool audioTrack = getTrackById_const(current_track_id)->isAudioTrack();
+            int d = audioTrack ? audio_delta : video_delta;
+            int target_track_position = current_track_position + d;
+            bool brokenMove = target_track_position < 0 || target_track_position >= getTracksCount();
+            if (!brokenMove) {
+                int target_id = getTrackIndexFromPosition(target_track_position);
+                brokenMove = audioTrack != getTrackById_const(target_id)->isAudioTrack();
+            }
+            if (brokenMove) {
+                if (isClip(item)) {
+                    int lastTid = m_allClips[item]->getFakeTrackId();
+                    int originalTid = m_allClips[item]->getCurrentTrackId();
+                    int last_position = getTrackPosition(lastTid);
+                    int original_position = getTrackPosition(originalTid);
+                    int lastDelta = last_position - original_position;
+                    if (audioTrack) {
+                        if (qAbs(audio_delta) > qAbs(lastDelta)) {
+                            audio_delta = lastDelta;
+                        }
+                        if (video_delta != 0) {
+                            video_delta = - lastDelta;
+                        }
+                    } else {
+                        if (qAbs(video_delta) > qAbs(lastDelta)) {
+                            video_delta = lastDelta;
+                        }
+                        if (audio_delta != 0) {
+                            audio_delta = - lastDelta;
+                        }
+                    }
+                };
+            }
+        }
+    }
+
 
     // Reverse sort. We need to insert from left to right to avoid confusing the view
     for (int item : all_items) {
@@ -6009,7 +6046,33 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
 
     bool res = requestCompositionDeletion(cid, undo, redo);
     int newId = -1;
-    res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, nullptr, newId, undo, redo);
+    // Check if composition should be reversed (top clip at beginning, bottom at end)
+    int topClip = getTrackById_const(currentTrack)->getClipByPosition(currentPos);
+    int bottomTid = getTrackIndexFromPosition(a_track - 1);
+    int bottomClip = -1;
+    if (bottomTid > -1) {
+        bottomClip = getTrackById_const(bottomTid)->getClipByPosition(currentPos);
+    }
+    bool reverse = false;
+    if (topClip > -1 && bottomClip > -1) {
+        if (getClipPosition(topClip) + getClipPlaytime(topClip) < getClipPosition(bottomClip) + getClipPlaytime(bottomClip)) {
+            reverse = true;
+        }
+    }
+    std::unique_ptr<Mlt::Properties> props(nullptr);
+    if (reverse) {
+        props = std::make_unique<Mlt::Properties>();
+        if (compoId == QLatin1String("dissolve")) {
+            props->set("reverse", 1);
+        } else if (compoId == QLatin1String("composite")) {
+            props->set("invert", 1);
+        } else if (compoId == QLatin1String("wipe")) {
+            props->set("geometry", "0=0% 0% 100% 100% 100%;-1=0% 0% 100% 100% 0%");
+        } else if (compoId == QLatin1String("slide")) {
+            props->set("rect", "0=0% 0% 100% 100% 100%;-1=100% 0% 100% 100% 100%");
+        }
+    }
+    res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, std::move(props), newId, undo, redo);
     if (res) {
         if (forcedTrack > -1 && isComposition(newId)) {
             m_allCompositions[newId]->setForceTrack(true);

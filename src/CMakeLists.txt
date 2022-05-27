@@ -78,7 +78,7 @@ list(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 list(APPEND kdenlive_SRCS ${top_SRCS})
 ## Others special cases
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
-install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
 if(NOT NODBUS)
     if(USE_VERSIONLESS_TARGETS)
@@ -170,13 +170,13 @@ if(USE_VERSIONLESS_TARGETS)
         Qt::NetworkAuth)
 else()
     target_link_libraries(kdenliveLib
-        Qt5::Svg
-        Qt5::Quick
-        Qt5::QuickControls2
-        Qt5::QuickWidgets
-        Qt5::Concurrent
-        Qt5::Multimedia
-        Qt5::NetworkAuth)
+        Qt${QT_MAJOR_VERSION}::Svg
+        Qt${QT_MAJOR_VERSION}::Quick
+        Qt${QT_MAJOR_VERSION}::QuickControls2
+        Qt${QT_MAJOR_VERSION}::QuickWidgets
+        Qt${QT_MAJOR_VERSION}::Concurrent
+        Qt${QT_MAJOR_VERSION}::Multimedia
+        Qt${QT_MAJOR_VERSION}::NetworkAuth)
 endif()
 
 if(NOT NODBUS)
@@ -186,7 +186,7 @@ if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)
 endif()
 set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
-add_definitions(${qt5gui_definitions} -DQT_STRICT_ITERATORS -DQT_NO_CAST_FROM_BYTEARRAY)
+add_definitions(${qt${QT_MAJOR_VERSION}gui_definitions} -DQT_STRICT_ITERATORS -DQT_NO_CAST_FROM_BYTEARRAY)
 
 # Optional deps
 if(CRASH_AUTO_TEST)

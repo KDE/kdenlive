@@ -1,0 +1,5 @@
+
+
+static const QString sourcesPath("@TEST_SOURCES@");
+
+

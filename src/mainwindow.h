@@ -434,10 +434,10 @@ private slots:
     void slotRemoveAllSpace();
     void slotAddGuide();
     void slotEditGuide();
+    void slotExportGuides();
     void slotLockGuides(bool lock);
     void slotDeleteGuide();
     void slotDeleteAllGuides();
-    void slotGuidesUpdated();
 
     void slotCopy();
     void slotPaste();
@@ -452,7 +452,7 @@ private slots:
     void slotDeleteTrack();
     /** @brief Show context menu to switch current track target audio stream. */
     void slotSwitchTrackAudioStream();
-    void slotShowTrackRec();
+    void slotShowTrackRec(bool checked);
     /** @brief Select all clips in active track. */
     void slotSelectTrack();
     /** @brief Select all clips in timeline. */

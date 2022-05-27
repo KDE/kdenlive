@@ -56,6 +56,10 @@ public:
     void connectMixer(bool doConnect, bool filterV2);
     /** @brief Disable/enable monitoring by disabling/enabling filter */
     void pauseMonitoring(bool pause);
+    /** @brief Update widget to reflect state (monitor/record/none) */
+    void updateMonitorState();
+    /** @brief Enable/disable audio monitoring on this mixer */
+    void monitorAudio(bool monitor);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -85,8 +89,9 @@ private:
     std::shared_ptr<AudioLevelWidget> m_audioMeterWidget;
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
-    QToolButton *m_record;
     QToolButton *m_collapse;
+    QToolButton *m_record;
+    QToolButton *m_monitor;
     KSqueezedTextLabel *m_trackLabel;
     QMutex m_storeMutex;
     double m_lastVolume;

@@ -1411,7 +1411,7 @@ void KdenliveDoc::loadDocumentProperties()
 
 void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
-    pCore->taskManager.slotCancelJobs();
+    pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
@@ -1430,8 +1430,8 @@ void KdenliveDoc::resetProfile(bool reloadThumbs)
 
 void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThumbs)
 {
-    // Discard all current jobs
-    pCore->taskManager.slotCancelJobs();
+    // Discard all current jobs except proxy and audio thumbs
+    pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true, reloadThumbs);
     // In case we only have one clip in timeline, 
@@ -1496,7 +1496,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf, const QString clipName)
             switch (answer) {
             case KMessageBox::Yes:
                 // Discard all current jobs
-                pCore->taskManager.slotCancelJobs();
+                pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true, true);
@@ -1531,7 +1531,7 @@ void KdenliveDoc::switchProfile(ProfileParam* pf, const QString clipName)
                                          .arg(QString::number(double(profile->m_frame_rate_num) / profile->m_frame_rate_den, 'f', 2));
             QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
             // Discard all current jobs
-            pCore->taskManager.slotCancelJobs();
+            pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB,AbstractTask::AUDIOTHUMBJOB,AbstractTask::TRANSCODEJOB});
             pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true, true);
             emit docModified(true);

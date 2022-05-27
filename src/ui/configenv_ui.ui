@@ -43,6 +43,13 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="kcfg_nice_tasks">
+        <property name="text">
+         <string>Use lower CPU priority for proxy and transcode tasks</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

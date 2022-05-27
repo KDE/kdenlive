@@ -88,6 +88,7 @@ public:
 
     /** @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos, bool *ok) const;
+    CommentedTime getMarker(int frame, bool *ok) const;
 
     /** @brief Returns all markers in model or – if a type is given – all markers of the given type */
     QList<CommentedTime> getAllMarkers(int type = -1) const;
@@ -109,8 +110,13 @@ public:
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
     Q_INVOKABLE bool hasMarker(int frame) const;
+    /** @brief Returns a marker id at frame pos. Returns -1 if no marker exists at that position
+     */
+    int markerIdAtFrame(int pos) const;
     bool hasMarker(GenTime pos) const;
     CommentedTime marker(GenTime pos) const;
+    CommentedTime marker(int frame) const;
+    CommentedTime markerById(int mid) const;
 
     /** @brief Registers a snapModel to the marker model.
        This is intended to be used for a guide model, so that the timelines can register their snapmodel to be updated when the guide moves. This is also used
@@ -131,6 +137,7 @@ public:
        @return true if dialog was accepted and modification successful
      */
     bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
+    void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -184,9 +191,12 @@ private:
     mutable QReadWriteLock m_lock;
 
     std::map<int, CommentedTime> m_markerList;
+    /** @brief A list of {marker frame,marker id}, useful to quickly find a marker */
+    QMap<int, int> m_markerPositions;
     std::vector<std::weak_ptr<SnapInterface>> m_registeredSnaps;
     int getRowfromId(int mid) const;
     int getIdFromPos(const GenTime &pos) const;
+    int getIdFromPos(int frame) const;
 
 signals:
     void modelChanged();

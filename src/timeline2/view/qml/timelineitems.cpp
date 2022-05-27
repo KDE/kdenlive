@@ -8,6 +8,7 @@
 #include "kdenlivesettings.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
+#include "capture/mediacapture.h"
 #include "kdenlivesettings.h"
 #include <QElapsedTimer>
 #include <QPainter>
@@ -303,11 +304,134 @@ private:
     int m_index;
 };
 
+class TimelineRecWaveform : public QQuickPaintedItem
+{
+    Q_OBJECT
+    Q_PROPERTY(QColor fillColor0 MEMBER m_bgColor NOTIFY propertyChanged)
+    Q_PROPERTY(QColor fillColor1 MEMBER m_color NOTIFY propertyChanged)
+    Q_PROPERTY(QColor fillColor2 MEMBER m_color2 NOTIFY propertyChanged)
+    Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
+    Q_PROPERTY(int channels MEMBER m_channels NOTIFY propertyChanged)
+    Q_PROPERTY(int ix MEMBER m_index)
+    Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
+    Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
+    Q_PROPERTY(double scaleFactor MEMBER m_scale)
+    Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
+    Q_PROPERTY(bool enforceRepaint MEMBER m_repaint NOTIFY propertyChanged)
+    Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
+    Q_PROPERTY(bool isOpaque MEMBER m_opaquePaint)
+
+public:
+    TimelineRecWaveform(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem(parent)
+        , m_repaint(false)
+        , m_opaquePaint(false)
+    {
+        setAntialiasing(false);
+        setOpaquePainting(m_opaquePaint);
+        setEnabled(false);
+        m_precisionFactor = 1;
+        //setRenderTarget(QQuickPaintedItem::FramebufferObject);
+        //setMipmap(true);
+        //setTextureSize(QSize(1, 1));
+        connect(this, &TimelineRecWaveform::propertyChanged, this, static_cast<void (QQuickItem::*)()>(&QQuickItem::update));
+    }
+
+    void paint(QPainter *painter) override
+    {
+        const QVector<double> &audioLevels = pCore->getAudioDevice()->recLevels();
+        if (audioLevels.isEmpty()) {
+            return;
+        }
+
+        if (m_outPoint == m_inPoint) {
+            return;
+        }
+        QRectF bgRect(0, 0, width(), height());
+        if (m_opaquePaint) {
+            painter->fillRect(bgRect, m_bgColor);
+        }
+        QPen pen(painter->pen());
+        int maxLength = audioLevels.length();
+        double increment = 1 / m_scale;
+        qreal indicesPrPixel = m_channels / m_scale; //qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        int h = int(height());
+        double offset = 0;
+        bool pathDraw = increment > 1.2;
+        if (increment > 1. && !pathDraw) {
+            pen.setWidth(int(ceil(increment)));
+            offset = pen.width() / 2.;
+            pen.setColor(m_color);
+            pen.setCapStyle(Qt::FlatCap);
+        } else if (pathDraw) {
+            pen.setWidth(0);
+            painter->setBrush(m_color);
+            pen.setColor(m_bgColor.darker(200));
+        } else {
+            pen.setColor(m_color);
+        }
+        painter->setPen(pen);
+        int startPos = int(m_inPoint / indicesPrPixel);
+        // Draw merged channels
+        double i = 0;
+        int j = 0;
+        int idx = 0;
+        QPainterPath path;
+        if (pathDraw) {
+            path.moveTo(j - 1, height());
+        }
+        for (; i <= width(); j++) {
+            double level;
+            i = j * increment;
+            idx = qCeil((startPos + i) * indicesPrPixel);
+            idx += idx % m_channels;
+            i -= offset;
+            if (idx + m_channels >= maxLength || idx < 0) {
+                break;
+            }
+            level = audioLevels.at(idx);
+            if (pathDraw) {
+                double val = height() - level * height();
+                path.lineTo(i, val);
+                path.lineTo(( j + 1) * increment - offset, val);
+            } else {
+                painter->drawLine(int(i), h, int(i), int(h - (h * level)));
+            }
+        }
+        if (pathDraw) {
+            path.lineTo(i, height());
+            painter->drawPath(path);
+        }
+    }
+
+signals:
+    void levelsChanged();
+    void propertyChanged();
+    void inPointChanged();
+    void audioChannelsChanged();
+
+private:
+    int m_inPoint;
+    int m_outPoint;
+    QColor m_bgColor;
+    QColor m_color;
+    QColor m_color2;
+    bool m_format;
+    bool m_repaint;
+    int m_channels;
+    int m_precisionFactor;
+    double m_scale;
+    bool m_firstChunk;
+    bool m_opaquePaint;
+    int m_index;
+};
+
 void registerTimelineItems()
 {
     qmlRegisterType<TimelineTriangle>("Kdenlive.Controls", 1, 0, "TimelineTriangle");
     qmlRegisterType<TimelinePlayhead>("Kdenlive.Controls", 1, 0, "TimelinePlayhead");
     qmlRegisterType<TimelineWaveform>("Kdenlive.Controls", 1, 0, "TimelineWaveform");
+    qmlRegisterType<TimelineRecWaveform>("Kdenlive.Controls", 1, 0, "TimelineRecWaveform");
 }
 
 #include "timelineitems.moc"

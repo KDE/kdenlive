@@ -41,7 +41,7 @@ public:
      *  @param owner the owner item for this task
      *  @param type The type of job that you want to abort, leave to NOJOBTYPE to abort all jobs
      */
-    void discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, bool softDelete = false);
+    void discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, bool softDelete = false, const QVector<AbstractTask::JOBTYPE> exceptions = {});
 
     /** @brief Check if there is a pending / running job a clip.
      *  @param owner the owner item for this task
@@ -68,7 +68,7 @@ public:
 
 public slots:
     /** @brief Discard all running jobs. */
-    void slotCancelJobs();
+    void slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions = {});
 
 private slots:
     /** @brief Update number of running jobs. */

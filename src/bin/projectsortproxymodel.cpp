@@ -158,15 +158,38 @@ void ProjectSortProxyModel::slotClearSearchFilters()
 void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, const QItemSelection &previous)
 {
     Q_UNUSED(previous)
-    QModelIndexList indexes = current.indexes();
+    // Warning: the "current" parameter only represents the item that was newly selected, but not all selected items
+    QModelIndexList indexes = m_selection->selectedIndexes();
     if (indexes.isEmpty()) {
+        // No item selected
         emit selectModel(QModelIndex());
         return;
     }
-    for (int ix = 0; ix < indexes.count(); ix++) {
-        if (indexes.at(ix).column() == 0 || indexes.at(ix).column() == 7) {
-            emit selectModel(indexes.at(ix));
-            break;
+    if (indexes.contains(m_selection->currentIndex())) {
+        // Select current item
+        emit selectModel(m_selection->currentIndex());
+    } else {
+        QModelIndexList newlySelected = current.indexes();
+        if (!newlySelected.isEmpty()) {
+            QModelIndex ix = newlySelected.takeLast();
+            while (ix.column() != 0 && !newlySelected.isEmpty()) {
+                ix = newlySelected.takeLast();
+            }
+            if (ix .column() == 0) {
+                emit selectModel(ix);
+                return;
+            }
+        } else {
+            if (!indexes.isEmpty()) {
+                QModelIndex ix = indexes.takeLast();
+                while (ix.column() != 0 && !indexes.isEmpty()) {
+                    ix = indexes.takeLast();
+                }
+                if (ix .column() == 0) {
+                    emit selectModel(ix);
+                    return;
+                }
+            }
         }
     }
 }

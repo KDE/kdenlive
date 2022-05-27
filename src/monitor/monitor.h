@@ -143,6 +143,9 @@ public:
     void focusTimecode();
     /** @brief Ensure the video widget has focus to make keyboard shortcuts work */
     void fixFocus();
+    /** @brief Show a rec countdown over the monitor **/
+    void startCountDown();
+    void stopCountDown();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

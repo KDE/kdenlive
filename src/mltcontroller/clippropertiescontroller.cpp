@@ -440,7 +440,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Proxy codec label
         QLabel *lab = new QLabel(this);
         pbox->setObjectName(QStringLiteral("kdenlive:proxy"));
-        bool hasProxy = proxy.length() > 2;
+        bool hasProxy = m_controller->hasProxy();
         if (hasProxy) {
             bg->setToolTip(proxy);
             bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties->get("resource")).fileName());

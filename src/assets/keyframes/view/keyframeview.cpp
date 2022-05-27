@@ -182,9 +182,9 @@ void KeyframeView::slotRemoveKeyframe(const QVector<int> &positions)
     pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
 }
 
-void KeyframeView::setDuration(int dur, int inPoint)
+void KeyframeView::setDuration(int duration)
 {
-    m_duration = dur;
+    m_duration = duration;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     emit atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
     // Unselect keyframes that are outside range if any

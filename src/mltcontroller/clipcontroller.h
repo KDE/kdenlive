@@ -207,6 +207,8 @@ public:
     int audioStreamsCount() const;
     /** @brief Get the path to the original clip url (in case it is proxied) */
     const QString getOriginalUrl();
+    /** @brief Returns true if we are using a proxy for this clip. */
+    bool hasProxy() const;
 
 protected:
     /** @brief Mutex to protect the producer properties on read/write */

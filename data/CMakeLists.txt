@@ -31,14 +31,18 @@ install(FILES
   kdenlivedefaultlayouts.rc
   slideanimations.rc
 
-  DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX})
-install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+  DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX})
 
-install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/export)
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
+    install(FILES  kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
+else()
+    install(FILES  kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFY5RCDIR})
+endif()
+install(FILES profiles.xml DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/export)
 install(FILES org.kde.kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES org.kde.kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES org.kde.kdenlive.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 
 find_package(SharedMimeInfo REQUIRED)
-install(FILES org.kde.kdenlive.xml westley.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
-update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+install(FILES org.kde.kdenlive.xml westley.xml DESTINATION ${KDE_INSTALL_MIMEDIR})
+update_xdg_mimetypes(${KDE_INSTALL_MIMEDIR})
 

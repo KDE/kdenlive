@@ -167,7 +167,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             qCDebug(KDENLIVE_LOG) << item.text;
 
             // Put the new error message at first place and immediately show it
-            item.timeoutMillis = qMax(item.timeoutMillis, 3000);
+            item.timeoutMillis = qMax(item.timeoutMillis, 4000);
 
             if (item.type == ProcessingJobMessage) {
                 // This is a job progress info, discard previous ones
@@ -190,7 +190,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             m_queueTimer.start(delay);
         } else {
             // Message with normal priority
-            item.timeoutMillis = qMax(item.timeoutMillis, 2000);
+            item.timeoutMillis = qMax(item.timeoutMillis, 4000);
             m_messageQueue.push_back(item);
             if (!m_queueTimer.isValid() || m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
                 m_queueTimer.start(0);

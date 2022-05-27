@@ -98,6 +98,48 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
     return index(clipIndex, 0, index(trackIndex));
 }*/
 
+bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QString &trackName, bool addAudioTrack, bool addAVTrack, bool addRecTrack)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = true;
+
+    int insertionIndex = position;
+
+    for (int ix = 0; ix < tracksCount; ++ix) {
+        int newTid;
+        result = requestTrackInsertion(insertionIndex, newTid, trackName, addAudioTrack, undo, redo);
+        // bump up insertion index so that the next new track goes after this one
+        insertionIndex++;
+        if (result) {
+            if (addAVTrack) {
+                int newTid2;
+                int mirrorPos = 0;
+                int mirrorId = getMirrorAudioTrackId(newTid);
+                if (mirrorId > -1) {
+                    mirrorPos = getTrackMltIndex(mirrorId);
+                }
+                result = requestTrackInsertion(mirrorPos, newTid2, trackName, true, undo, redo);
+                // because we also added an audio track, we need to put the next
+                // new track's index is 1 further
+                insertionIndex++;
+            }
+            if (addRecTrack) {
+                setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+            }
+        } else {
+            break;
+        }
+    }
+    if (result) {
+        pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18nc("@action", "Insert Tracks") : i18nc("@action", "Insert Track"));
+        return true;
+    } else {
+        undo();
+        return false;
+    }
+}
+
 QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
 {
     Q_ASSERT(m_allClips.count(clipId) > 0);

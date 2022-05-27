@@ -36,6 +36,7 @@ public:
     AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object);
     virtual ~AbstractTask();
     static void closeAll();
+    static void setPreferredPriority(qint64 pid);
     const ObjectId ownerId() const;
     bool operator==(const AbstractTask& b);
 

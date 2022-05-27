@@ -1,0 +1,11 @@
+<kdenlivetitle duration="125" LC_NUMERIC="C" width="1920" height="1080" out="125">
+ <item type="QGraphicsTextItem" z-index="0">
+  <position x="548" y="376">
+   <transform>1,0,0,0,1,0,0,0,1</transform>
+  </position>
+  <content shadow="0;#64000000;3;3;3" font-underline="0" box-height="197" font-outline-color="0,0,0,255" font="Noto Sans" letter-spacing="0" font-pixel-size="144" font-italic="0" typewriter="0;2;1;0;0" alignment="0" font-weight="75" font-outline="2" box-width="835.516" font-color="95,255,67,255">Hello World</content>
+ </item>
+ <startviewport rect="0,0,1920,1080"/>
+ <endviewport rect="0,0,1920,1080"/>
+ <background color="0,0,0,0"/>
+</kdenlivetitle>

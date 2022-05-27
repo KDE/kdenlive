@@ -643,6 +643,7 @@ void MainWindow::init(const QString &mltPath)
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("lock_guides")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("export_guides")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_in")));
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("mark_out")));
@@ -1816,6 +1817,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
 
     QAction *lockGuides = addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     lockGuides->setCheckable(true);
@@ -2007,7 +2009,7 @@ void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->currentDoc();
     QPair <int, int> p = getMainTimeline()->getTracksCount();
-    int channels = qMin(project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt(), 2);
+    int channels = project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
     ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.first, p.second, channels,
                                              project->projectTempFolder(), true, !project->isModified(), this);
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
@@ -2367,13 +2369,6 @@ void MainWindow::connectDocument()
     getMainTimeline()->focusTimeline();
 }
 
-void MainWindow::slotGuidesUpdated()
-{
-    if (m_renderWidget) {
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
-    }
-}
-
 void MainWindow::slotEditKeys()
 {
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
@@ -2446,6 +2441,7 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, [&]() {
         pCore->monitorManager()->updateBgColor();
     });
+    connect(dialog, &KdenliveSettingsDialog::resetAudioMonitoring, pCore.get(), &Core::resetAudioMonitoring);
 
     dialog->show();
     if (page != -1) {
@@ -2723,7 +2719,7 @@ void MainWindow::slotNormalizeAudioChannel()
 void MainWindow::slotInsertTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    getCurrentTimeline()->controller()->addTrack(-1);
+    getCurrentTimeline()->controller()->beginAddTrack(-1);
 }
 
 void MainWindow::slotDeleteTrack()
@@ -2737,9 +2733,13 @@ void MainWindow::slotSwitchTrackAudioStream()
     getCurrentTimeline()->showTargetMenu();
 }
 
-void MainWindow::slotShowTrackRec()
+void MainWindow::slotShowTrackRec(bool checked)
 {
-    getCurrentTimeline()->controller()->switchTrackRecord();
+    if (checked) {
+        pCore->mixer()->monitorAudio(getCurrentTimeline()->controller()->activeTrack(), checked);
+    } else {
+        pCore->mixer()->monitorAudio(pCore->mixer()->recordTrack(), false);
+    }
 }
 
 void MainWindow::slotSelectTrack()
@@ -2774,6 +2774,13 @@ void MainWindow::slotUnselectAllTracks()
 void MainWindow::slotEditGuide()
 {
     getCurrentTimeline()->controller()->editGuide();
+}
+
+void MainWindow::slotExportGuides()
+{
+    pCore->currentDoc()->getGuideModel()->exportGuidesGui(
+        this, GenTime(getMainTimeline()->controller()->duration() - 1, pCore->getCurrentFps())
+    );
 }
 
 void MainWindow::slotLockGuides(bool lock)
@@ -4391,6 +4398,14 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
         case QEvent::ShortcutOverride:
             if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+                if (pCore->isMediaMonitoring()) {
+                    slotShowTrackRec(false);
+                    return true;
+                }
+                if (pCore->isMediaCapturing()) {
+                    pCore->switchCapture();
+                    return true;
+                }
                 if (m_activeTool != ToolType::SelectTool) {
                     m_buttonSelectTool->trigger();
                     return true;

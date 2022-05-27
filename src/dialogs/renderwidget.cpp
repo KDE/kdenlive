@@ -171,6 +171,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         }
     });
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
+    m_view.optionsGroup->setMinimumWidth(m_view.optionsGroup->width() + m_view.optionsGroup->verticalScrollBar()->width());
     connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);
 
     connect(m_view.out_file, &KUrlRequester::textChanged, this, static_cast<void (RenderWidget::*)()>(&RenderWidget::slotUpdateButtons));
@@ -335,7 +336,11 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
 QSize RenderWidget::sizeHint() const
 {
     // Make sure the widget has minimum size on opening
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     return {200, 200};
+#else
+    return {200, qMax(200, screen()->availableGeometry().height())};
+#endif
 }
 
 RenderWidget::~RenderWidget()
@@ -1333,19 +1338,25 @@ void RenderWidget::refreshParams()
         m_view.qualityGroup->setEnabled(false);
     }
 
+    // historically qualities are sorted from best to worse for some reason
+    int vmin = preset->videoQualities().last().toInt();
+    int vmax = preset->videoQualities().first().toInt();
+    int vrange = abs(vmax - vmin);
+    int amin = preset->audioQualities().last().toInt();
+    int amax = preset->audioQualities().first().toInt();
+    int arange = abs(amax - amin);
+
+    m_view.quality->setMaximum(qMin(100, qMax(vrange, arange)));
     double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
-    // historically qualities are sorted from best to worse for some reason
-    int min = preset->videoQualities().last().toInt();
-    int max = preset->videoQualities().first().toInt();
+
     int val = preset->defaultVQuality().toInt();
+
     if (m_view.qualityGroup->isChecked()) {
-        if (min < max) {
-            int range = max - min;
-            val = min + int(range * percent);
+        if (vmin < vmax) {
+            val = vmin + int(vrange * percent);
         } else {
-            int range = min - max;
-            val = min - int(range * percent);
+            val = vmin - int(vrange * percent);
         }
     }
     params.replace(QStringLiteral("%quality"), QString::number(val));
@@ -1360,17 +1371,12 @@ void RenderWidget::refreshParams()
     // cvbr = Constrained Variable Bit Rate
     params.replace(QStringLiteral("%cvbr"), QString::number(val));
 
-    // historically qualities are sorted from best to worse for some reason
-    min = preset->audioQualities().last().toInt();
-    max = preset->audioQualities().first().toInt();
     val = preset->defaultAQuality().toInt();
     if (m_view.qualityGroup->isChecked()) {
-        if (min < max) {
-            int range = max - min;
-            val = min + int(range * percent);
+        if (amin < amax) {
+            val = amin + int(arange * percent);
         } else {
-            int range = min - max;
-            val = min - int(range * percent);
+            val = amin - int(arange * percent);
         }
     }
     params.replace(QStringLiteral("%audioquality"), QString::number(val));
