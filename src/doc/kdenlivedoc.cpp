@@ -1840,8 +1840,15 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
 
     // replace proxy clips with originals
     QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(root);
-
     QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
+    QDomNodeList chains = doc.elementsByTagName(QStringLiteral("chain"));
+    processProxyNodes(producers, root, proxies);
+    processProxyNodes(chains, root, proxies);
+}
+
+void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies)
+{
+
     QString producerResource;
     QString producerService;
     QString originalProducerService;
