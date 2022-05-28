@@ -173,6 +173,7 @@ public:
     double getDocumentVersion() const;
     /** @brief Replace proxy clips with originals for rendering. */
     void useOriginals(QDomDocument &doc);
+    void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
 
 private:
     QUrl m_url;
