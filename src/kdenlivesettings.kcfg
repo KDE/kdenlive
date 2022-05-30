@@ -603,7 +603,17 @@
     </entry>
 
     <entry name="defaultaudioapp" type="String">
-      <label>Default audio editing application.</label>
+      <label>Default audio editing application name.</label>
+      <default></default>
+    </entry>
+
+    <entry name="defaultaudioappId" type="String">
+      <label>Default audio editing application service id.</label>
+      <default></default>
+    </entry>
+
+    <entry name="defaultimageappId" type="String">
+      <label>Default image editing application service id.</label>
       <default></default>
     </entry>
 

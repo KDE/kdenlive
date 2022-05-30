@@ -624,31 +624,31 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
     // set up some default applications
     QString program;
     if (KdenliveSettings::defaultimageapp().isEmpty()) {
-        program = QStandardPaths::findExecutable(QStringLiteral("gimp"));
-        if (program.isEmpty()) {
-            program = QStandardPaths::findExecutable(QStringLiteral("krita"));
+        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("gimp"));
+        if (service == nullptr) {
+            service = KService::serviceByDesktopName(QStringLiteral("krita"));
         }
-        if (!program.isEmpty()) {
-            KdenliveSettings::setDefaultimageapp(program);
+        if (service != nullptr) {
+            QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            KdenliveSettings::setDefaultimageapp(appName);
+            KdenliveSettings::setDefaultimageappId(service->storageId());
         }
     }
     if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-        program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
-        if (program.isEmpty()) {
-            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
+        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("audacity"));
+        if (service == nullptr) {
+            service = KService::serviceByDesktopName(QStringLiteral("traverso"));
         }
-        if (!program.isEmpty()) {
-            KdenliveSettings::setDefaultaudioapp(program);
-        }
-    }
-
-    if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-        program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
-        if (program.isEmpty()) {
-            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
-        }
-        if (!program.isEmpty()) {
-            KdenliveSettings::setDefaultaudioapp(program);
+        if (service != nullptr) {
+            QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            KdenliveSettings::setDefaultaudioapp(appName);
+            KdenliveSettings::setDefaultaudioappId(service->storageId());
         }
     }
 

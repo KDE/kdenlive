@@ -134,6 +134,8 @@ private:
     EncodingProfilesChooser *m_decklinkProfiles;
     EncodingProfilesChooser *m_v4lProfiles;
     EncodingProfilesChooser *m_grabProfiles;
+    QString m_audioAppId;
+    QString m_imageAppId;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();

@@ -58,6 +58,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KRatingPainter>
 #include <KXMLGUIFactory>
 #include <kwidgetsaddons_version.h>
+#include <KService>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegate>
+#include <KOpenWithDialog>
 
 #include <QActionGroup>
 #include <QCryptographicHash>
@@ -3991,19 +3995,71 @@ void Bin::slotOpenClipExtern()
         showTitleWidget(clip);
         break;
     case ClipType::Image:
-        if (KdenliveSettings::defaultimageapp().isEmpty()) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
-        } else {
+    {
+        if (KdenliveSettings::defaultimageappId().isEmpty() && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            // Keep for compatibility
             QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
+            break;
         }
-        break;
-    case ClipType::Audio:
-        if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
+        if (service == nullptr) {
+            QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), QString(), this);
+            if (dlg->exec() == QDialog::Accepted) {
+                service = dlg->service();
+                if (service) {
+                    QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+                    if (appName.isEmpty()) {
+                        appName = service->desktopEntryName();
+                    }
+                    KdenliveSettings::setDefaultimageapp(appName);
+                    KdenliveSettings::setDefaultimageappId(service->storageId());
+                }
+            }
+            delete dlg;
+        }
+        if (service) {
+            auto *job = new KIO::ApplicationLauncherJob(service);
+            job->setUrls({QUrl::fromLocalFile(clip->url())});
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+            job->start();
         } else {
-            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files in the Settings dialog"));
         }
-        break;
+    }
+    break;
+    case ClipType::Audio:
+    {
+        if (KdenliveSettings::defaultaudioappId().isEmpty() && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            // Keep for compatibility
+            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
+            break;
+        }
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
+        if (service == nullptr) {
+            QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), QString(), this);
+            if (dlg->exec() == QDialog::Accepted) {
+                service = dlg->service();
+                if (service) {
+                    QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+                    if (appName.isEmpty()) {
+                        appName = service->desktopEntryName();
+                    }
+                    KdenliveSettings::setDefaultaudioapp(appName);
+                    KdenliveSettings::setDefaultaudioappId(service->storageId());
+                }
+            }
+            delete dlg;
+        }
+        if (service) {
+            auto *job = new KIO::ApplicationLauncherJob(service);
+            job->setUrls({QUrl::fromLocalFile(clip->url())});
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+            job->start();
+        } else {
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+        }
+    }
+    break;
     default:
         break;
     }

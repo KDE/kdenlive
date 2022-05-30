@@ -330,6 +330,20 @@ void KdenliveSettingsDialog::initEnviromentPage()
 
     m_configEnv.kcfg_proxythreads->setMaximum(qMax(1, QThread::idealThreadCount() - 1));
 
+    // Default apps
+    if (!KdenliveSettings::defaultaudioappId().isEmpty()) {
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
+        if (service) {
+            m_configEnv.kp_audio->setIcon(QIcon::fromTheme(service->icon()));
+        }
+    }
+    if (!KdenliveSettings::defaultimageappId().isEmpty()) {
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
+        if (service) {
+            m_configEnv.kp_image->setIcon(QIcon::fromTheme(service->icon()));
+        }
+    }
+
     // Script rendering folder
     m_configEnv.videofolderurl->setMode(KFile::Directory);
     m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
@@ -836,22 +850,64 @@ void KdenliveSettingsDialog::showPage(int page, int option)
 
 void KdenliveSettingsDialog::slotEditAudioApplication()
 {
-    KService::Ptr service;
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
-    if (dlg->exec() == QDialog::Accepted) {
-        service = dlg->service();
-        m_configEnv.kcfg_defaultaudioapp->setText(KIO::DesktopExecParser::executablePath(service->exec()));
+    QString appName;
+    if (!KdenliveSettings::defaultaudioappId().isEmpty()) {
+        // Find app name from service
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+        }
     }
-
+    if (appName.isEmpty()) {
+        appName = m_configEnv.kcfg_defaultaudioapp->text();
+    }
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), appName, this);
+    if (dlg->exec() == QDialog::Accepted) {
+        KService::Ptr service = dlg->service();
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            m_configEnv.kcfg_defaultaudioapp->setText(appName);
+            m_configEnv.kp_audio->setIcon(QIcon::fromTheme(service->icon()));
+            m_audioAppId = service->storageId();
+        }
+    }
     delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditImageApplication()
 {
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
+    QString appName;
+    if (!KdenliveSettings::defaultimageappId().isEmpty()) {
+        // Find app name from service
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+        }
+    }
+    if (appName.isEmpty()) {
+        appName = m_configEnv.kcfg_defaultimageapp->text();
+    }
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), appName, this);
     if (dlg->exec() == QDialog::Accepted) {
         KService::Ptr service = dlg->service();
-        m_configEnv.kcfg_defaultimageapp->setText(KIO::DesktopExecParser::executablePath(service->exec()));
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            m_configEnv.kcfg_defaultimageapp->setText(appName);
+            m_configEnv.kp_image->setIcon(QIcon::fromTheme(service->icon()));
+            m_imageAppId = service->storageId();
+        }
     }
     delete dlg;
 }
@@ -1016,6 +1072,14 @@ void KdenliveSettingsDialog::updateSettings()
         if (!KdenliveSettings::librarytodefaultfolder()) {
             updateLibrary = true;
         }
+    }
+
+    // Default apps
+    if (m_configEnv.kcfg_defaultaudioapp->text() != KdenliveSettings::defaultaudioapp()) {
+        KdenliveSettings::setDefaultaudioappId(m_audioAppId);
+    }
+    if (m_configEnv.kcfg_defaultimageapp->text() != KdenliveSettings::defaultimageapp()) {
+        KdenliveSettings::setDefaultimageappId(m_imageAppId);
     }
 
     if (m_configCapture.kcfg_v4l_format->currentIndex() != int(KdenliveSettings::v4l_format())) {
