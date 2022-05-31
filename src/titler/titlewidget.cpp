@@ -373,7 +373,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
-    m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
+    m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
