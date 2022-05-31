@@ -171,19 +171,20 @@ public:
         if (decode) {
             KFileMetaData::PropertyInfo info(property);
             if (info.valueType() == QVariant::DateTime) {
-                new QTreeWidgetItem(m_tree, {info.displayName(), value.toDateTime().toString(Qt::DefaultLocaleShortDate)});
+                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), value.toDateTime().toString(Qt::DefaultLocaleShortDate)});
             } else if (info.valueType() == QVariant::Int) {
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                    new QTreeWidgetItem(
+                        m_tree, QStringList{info.displayName(), QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
                 } else {
-                    new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(val)});
+                    new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(val)});
                 }
             } else if (info.valueType() == QVariant::Double) {
-                new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(value.toDouble())});
+                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(value.toDouble())});
             } else {
-                new QTreeWidgetItem(m_tree, {info.displayName(), value.toString()});
+                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), value.toString()});
             }
         }
     }
