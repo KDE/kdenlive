@@ -5078,7 +5078,6 @@ void Bin::requestSelectionTranscoding()
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&]() {
             QMap<QString, QStringList> ids = m_transcodingDialog->ids();
-            QString firstId = ids.firstKey();
             QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
                 i.next();
@@ -5090,7 +5089,6 @@ void Bin::requestSelectionTranscoding()
             m_transcodingDialog = nullptr;
         });
         connect(m_transcodingDialog, &QDialog::rejected, this, [&]() {
-            QString firstId = m_transcodingDialog->ids().firstKey();
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });
