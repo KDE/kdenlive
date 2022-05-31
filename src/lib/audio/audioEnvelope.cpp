@@ -59,7 +59,11 @@ AudioEnvelope::~AudioEnvelope()
 
 void AudioEnvelope::startComputeEnvelope()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_audioSummary = QtConcurrent::run(this, &AudioEnvelope::loadAndNormalizeEnvelope);
+#else
+    m_audioSummary = QtConcurrent::run(&AudioEnvelope::loadAndNormalizeEnvelope, this);
+#endif
     m_watcher.setFuture(m_audioSummary);
 }
 
