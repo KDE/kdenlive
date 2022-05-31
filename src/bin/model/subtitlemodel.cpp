@@ -1013,7 +1013,9 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         out.setCodec("UTF-8");
+#endif
         if (assFormat) {
             out << scriptInfoSection << '\n';
             out << styleSection << '\n';

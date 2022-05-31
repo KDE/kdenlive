@@ -2162,7 +2162,9 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     out.setCodec("UTF-8");
+#endif
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(
