@@ -106,7 +106,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         qDebug() << "srt/vtt/sbv File";
         //parsing srt file
         QTextStream stream(&srtFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
+#endif
         QString line;
 	QStringList srtTime;
 	QRegExp rx("([0-9]{1,2}):([0-9]{2})");
@@ -168,7 +170,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             return;
         }
         QTextStream stream(&assFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
+#endif
         QString line;
         qDebug() << " correct ass file  " << filePath;
         scriptInfoSection.clear();

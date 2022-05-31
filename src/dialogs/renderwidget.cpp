@@ -1868,7 +1868,9 @@ bool RenderWidget::startWaitingRenderJobs()
     }
 
     QTextStream outStream(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     outStream.setCodec("UTF-8");
+#endif
 #ifndef Q_OS_WIN
     outStream << "#!/bin/sh\n\n";
 #endif
