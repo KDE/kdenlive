@@ -20,7 +20,6 @@ public:
     using Point_t = QPointF;
     KisCubicCurve();
     explicit KisCubicCurve(const QList<QPointF> &points);
-    explicit KisCubicCurve(const QVector<QPointF> &points);
     KisCubicCurve(const KisCubicCurve &curve);
     ~KisCubicCurve();
     KisCubicCurve &operator=(const KisCubicCurve &curve);

@@ -250,7 +250,11 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartExtracting);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     adjustSize();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::openArchiveForExtraction);
+#else
+    m_archiveThread = QtConcurrent::run(&ArchiveWidget::openArchiveForExtraction, this);
+#endif
 }
 
 ArchiveWidget::~ArchiveWidget()
@@ -809,7 +813,11 @@ bool ArchiveWidget::processProjectFile()
             KMessageBox::questionYesNo(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
             return false;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
+#else
+        m_archiveThread = QtConcurrent::run(&ArchiveWidget::createArchive, this);
+#endif
         return true;
     }
 
@@ -1138,7 +1146,11 @@ void ArchiveWidget::slotStartExtracting()
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting…"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
+#else
+    m_archiveThread = QtConcurrent::run(&ArchiveWidget::doExtracting, this);
+#endif
     m_progressTimer->start();
 }
 

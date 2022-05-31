@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <QAction>
+#include <QActionGroup>
 #include <QElapsedTimer>
 #include <QPainter>
 #include <cmath>

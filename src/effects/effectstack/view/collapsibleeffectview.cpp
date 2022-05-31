@@ -562,7 +562,9 @@ void CollapsibleEffectView::slotSaveEffect()
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             out.setCodec("UTF-8");
+#endif
             out << doc.toString();
         }
         file.close();

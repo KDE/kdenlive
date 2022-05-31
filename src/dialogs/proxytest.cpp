@@ -50,7 +50,11 @@ ProxyTest::ProxyTest(QWidget *parent)
         infoWidget->setText(i18n("Starting process"));
         infoWidget->animatedShow();
         resultList->setCursor(Qt::BusyCursor);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &ProxyTest::startTest);
+#else
+        QtConcurrent::run(&ProxyTest::startTest, this);
+#endif
     });
 }
 

@@ -10,6 +10,7 @@
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QIODevice>
 #include <QPainter>
 
 PatternsModel::PatternsModel(QObject *parent)

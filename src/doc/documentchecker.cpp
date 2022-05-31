@@ -178,7 +178,11 @@ bool DocumentChecker::hasErrorInClips()
             // MLT 7 now generates lumas on the fly for files named luma01.pgm to luma22.pgm, so don't detect these as missing
             if (lumaName.length() == 10 && lumaName.startsWith(QLatin1String("luma")) && lumaName.endsWith(QLatin1String(".pgm"))) {
                 bool ok;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 int lumaNumber = lumaName.midRef(4, 2).toInt(&ok);
+#else
+                int lumaNumber = QStringView(lumaName).mid(4, 2).toInt(&ok);
+#endif
                 if (ok && lumaNumber > 0 && lumaNumber < 23) {
                     continue;
                 }

@@ -12,7 +12,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <QtWidgets/QButtonGroup>
+#include <QActionGroup>
+#include <QButtonGroup>
 
 Histogram::Histogram(QWidget *parent)
     : AbstractGfxScopeWidget(false, parent)

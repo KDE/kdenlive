@@ -108,7 +108,11 @@ AnalysisTree::AnalysisTree(QWidget *parent)
 }
 
 // virtual
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> &list) const
+#else
 QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
+#endif
 {
     QString mimeData;
     for (QTreeWidgetItem *item : list) {

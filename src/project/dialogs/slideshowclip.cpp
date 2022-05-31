@@ -418,8 +418,11 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         int firstFrame = firstFrameData.rightRef(precision).toInt();
-
+#else
+        int firstFrame = QStringView(firstFrameData).right(precision).toInt();
+#endif
         // Check how many files we have
         QDir dir(folder);
         QString path;

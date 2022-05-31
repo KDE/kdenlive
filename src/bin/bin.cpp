@@ -673,7 +673,11 @@ void MyListView::dropEvent(QDropEvent *event)
     QListView::dropEvent(event);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void MyListView::enterEvent(QEnterEvent *event)
+#else
 void MyListView::enterEvent(QEvent *event)
+#endif
 {
     QListView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -816,7 +820,11 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
     }
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void MyTreeView::enterEvent(QEnterEvent *event)
+#else
 void MyTreeView::enterEvent(QEvent *event)
+#endif
 {
     QTreeView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -1822,7 +1830,9 @@ void Bin::slotReloadClip()
                             KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                         } else {
                             QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                             out.setCodec("UTF-8");
+#endif
                             out << doc.toString();
                             f.close();
                             KMessageBox::information(
@@ -2154,7 +2164,9 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     out.setCodec("UTF-8");
+#endif
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(

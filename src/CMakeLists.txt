@@ -178,6 +178,9 @@ else()
         Qt${QT_MAJOR_VERSION}::Multimedia
         Qt${QT_MAJOR_VERSION}::NetworkAuth)
 endif()
+if (QT_MAJOR_VERSION STREQUAL "6")
+    target_link_libraries(kdenliveLib Qt${QT_MAJOR_VERSION}::SvgWidgets)
+endif()
 
 if(NOT NODBUS)
   target_link_libraries(kdenliveLib KF5::DBusAddons)
