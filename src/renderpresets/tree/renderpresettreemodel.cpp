@@ -76,8 +76,11 @@ QVariant RenderPresetTreeModel::data(const QModelIndex &index, int role) const
                 return scheme.foreground(KColorScheme::InactiveText).color();
             }
         }
-
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
         if (role == Qt::BackgroundColorRole) {
+#else
+        if (role == Qt::BackgroundRole) {
+#endif
             if (!preset->error().isEmpty()) {
                 return scheme.background(KColorScheme::NegativeBackground).color();
             }
