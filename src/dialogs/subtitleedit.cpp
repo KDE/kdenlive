@@ -51,6 +51,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     buttonIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
     buttonOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
     buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+    buttonStyle->setIcon(QIcon::fromTheme(QStringLiteral("format-text-color")));
     buttonLock->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
@@ -65,6 +66,8 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             buttonCut->setEnabled(true);
         }
     });
+
+    connect(buttonStyle, &QToolButton::toggled, this, [this](bool toggle) { stackedWidget->setCurrentIndex(toggle ? 1 : 0); });
 
     m_position = new TimecodeDisplay(pCore->timecode(), this);
     m_endPosition = new TimecodeDisplay(pCore->timecode(), this);
@@ -124,7 +127,66 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     buttonAdd->setToolTip(i18n("Add subtitle"));
     buttonCut->setToolTip(i18n("Split subtitle at cursor position"));
     buttonApply->setToolTip(i18n("Update subtitle text"));
+    buttonStyle->setToolTip(i18n("Show style options"));
     buttonDelete->setToolTip(i18n("Delete subtitle"));
+
+    // Styling dialog
+    connect(fontSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &SubtitleEdit::updateStyle);
+    connect(outlineSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &SubtitleEdit::updateStyle);
+    connect(fontFamily, &QFontComboBox::currentFontChanged, this, &SubtitleEdit::updateStyle);
+    connect(fontColor, &KColorButton::changed, this, &SubtitleEdit::updateStyle);
+    connect(outlineColor, &KColorButton::changed, this, &SubtitleEdit::updateStyle);
+    connect(checkFont, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkFontSize, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkFontColor, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkOutlineColor, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkOutlineSize, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkPosition, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    alignment->addItem(i18n("Bottom Center"), 2);
+    alignment->addItem(i18n("Bottom Left"), 1);
+    alignment->addItem(i18n("Bottom Right"), 3);
+    alignment->addItem(i18n("Center Left"), 9);
+    alignment->addItem(i18n("Center"), 10);
+    alignment->addItem(i18n("Center Right"), 11);
+    alignment->addItem(i18n("Top Left"), 4);
+    alignment->addItem(i18n("Top Center"), 6);
+    alignment->addItem(i18n("Top Right"), 7);
+    connect(alignment, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SubtitleEdit::updateStyle);
+}
+
+void SubtitleEdit::updateStyle()
+{
+    QString styleString;
+    if (fontFamily->isEnabled()) {
+        styleString.append(QStringLiteral("Fontname=%1,").arg(fontFamily->currentFont().family()));
+    }
+    if (fontSize->isEnabled()) {
+        styleString.append(QStringLiteral("Fontsize=%1,").arg(fontSize->value()));
+    }
+    if (fontColor->isEnabled()) {
+        QColor color = fontColor->color();
+        QColor destColor(color.blue(), color.green(), color.red(), 255 - color.alpha());
+        // Strip # character
+        QString colorName = destColor.name(QColor::HexArgb);
+        colorName.remove(0, 1);
+        styleString.append(QStringLiteral("PrimaryColour=&H%1,").arg(colorName));
+    }
+    if (outlineSize->isEnabled()) {
+        styleString.append(QStringLiteral("Outline=%1,").arg(outlineSize->value()));
+    }
+    if (outlineColor->isEnabled()) {
+        // Qt AARRGGBB must be converted to AABBGGRR where AA is 255-AA
+        QColor color = outlineColor->color();
+        QColor destColor(color.blue(), color.green(), color.red(), 255 - color.alpha());
+        // Strip # character
+        QString colorName = destColor.name(QColor::HexArgb);
+        colorName.remove(0, 1);
+        styleString.append(QStringLiteral("OutlineColour=&H%1,").arg(colorName));
+    }
+    if (alignment->isEnabled()) {
+        styleString.append(QStringLiteral("Alignment=%1,").arg(alignment->currentData().toInt()));
+    }
+    m_model->setStyle(styleString);
 }
 
 void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
@@ -136,7 +198,9 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
     if (m_model == nullptr) {
         QSignalBlocker bk(subText);
         subText->clear();
+        loadStyle(QString());
     } else {
+        connect(m_model.get(), &SubtitleModel::updateSubtitleStyle, this, &SubtitleEdit::loadStyle);
         connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector<int> &roles) {
             if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub)) {
                 if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) ||
@@ -145,6 +209,78 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
                 }
             }
         });
+    }
+}
+
+void SubtitleEdit::loadStyle(const QString &style)
+{
+    QStringList params = style.split(QLatin1Char(','));
+    // Read style params
+    QSignalBlocker bk1(checkFont);
+    QSignalBlocker bk2(checkFontSize);
+    QSignalBlocker bk3(checkFontColor);
+    QSignalBlocker bk4(checkOutlineColor);
+    QSignalBlocker bk5(checkOutlineSize);
+    QSignalBlocker bk6(checkPosition);
+
+    checkFont->setChecked(false);
+    checkFontSize->setChecked(false);
+    checkFontColor->setChecked(false);
+    checkOutlineColor->setChecked(false);
+    checkOutlineSize->setChecked(false);
+    checkPosition->setChecked(false);
+
+    fontFamily->setEnabled(false);
+    fontSize->setEnabled(false);
+    fontColor->setEnabled(false);
+    outlineColor->setEnabled(false);
+    outlineSize->setEnabled(false);
+    alignment->setEnabled(false);
+
+    for (const QString &p : params) {
+        const QString pName = p.section(QLatin1Char('='), 0, 0);
+        QString pValue = p.section(QLatin1Char('='), 1);
+        if (pName == QLatin1String("Fontname")) {
+            checkFont->setChecked(true);
+            QFont font(pValue);
+            QSignalBlocker bk(fontFamily);
+            fontFamily->setEnabled(true);
+            fontFamily->setCurrentFont(font);
+        } else if (pName == QLatin1String("Fontsize")) {
+            checkFontSize->setChecked(true);
+            QSignalBlocker bk(fontSize);
+            fontSize->setEnabled(true);
+            fontSize->setValue(pValue.toInt());
+        } else if (pName == QLatin1String("OutlineColour")) {
+            checkOutlineColor->setChecked(true);
+            pValue.replace(QLatin1String("&H"), QLatin1String("#"));
+            QColor col(pValue);
+            QColor result(col.blue(), col.green(), col.red(), 255 - col.alpha());
+            QSignalBlocker bk(outlineColor);
+            outlineColor->setEnabled(true);
+            outlineColor->setColor(result);
+        } else if (pName == QLatin1String("Outline")) {
+            checkOutlineSize->setChecked(true);
+            QSignalBlocker bk(fontSize);
+            outlineSize->setEnabled(true);
+            outlineSize->setValue(pValue.toInt());
+        } else if (pName == QLatin1String("Alignment")) {
+            checkPosition->setChecked(true);
+            QSignalBlocker bk(alignment);
+            alignment->setEnabled(true);
+            int ix = alignment->findData(pValue.toInt());
+            if (ix > -1) {
+                alignment->setCurrentIndex(ix);
+            }
+        } else if (pName == QLatin1String("PrimaryColour")) {
+            checkFontColor->setChecked(true);
+            pValue.replace(QLatin1String("&H"), QLatin1String("#"));
+            QColor col(pValue);
+            QColor result(col.blue(), col.green(), col.red(), 255 - col.alpha());
+            QSignalBlocker bk(fontColor);
+            fontColor->setEnabled(true);
+            fontColor->setColor(result);
+        }
     }
 }
 

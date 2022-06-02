@@ -1012,6 +1012,10 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                     // subProperties.insert(QStringLiteral("av.filename"), filter->get("av.filename"));
                     subProperties.insert(QStringLiteral("disable"), filter->get("disable"));
                     subProperties.insert(QStringLiteral("kdenlive:locked"), filter->get("kdenlive:locked"));
+                    const QString style = filter->get("av.force_style");
+                    if (!style.isEmpty()) {
+                        subProperties.insert(QStringLiteral("av.force_style"), style);
+                    }
                     pCore->window()->slotEditSubtitle(subProperties);
                 } else if (auto ms = m_masterService.lock()) {
                     ms->attach(*filter.get());

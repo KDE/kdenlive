@@ -60,6 +60,20 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
     connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
 }
 
+void SubtitleModel::setStyle(const QString &style)
+{
+    m_subtitleFilter->set("av.force_style", style.toUtf8().constData());
+    // Force refresh to show the new style
+    pCore->requestMonitorRefresh();
+    pCore->setDocumentModified();
+}
+
+const QString SubtitleModel::getStyle() const
+{
+    const QString style = m_subtitleFilter->get("av.force_style");
+    return style;
+}
+
 void SubtitleModel::setup()
 {
     // We connect the signals of the abstractitemmodel to a more generic one.
@@ -1211,6 +1225,12 @@ void SubtitleModel::loadProperties(const QMap<QString, QString> &subProperties)
         }
         ++i;
     }
+    if (subProperties.contains(QLatin1String("av.force_style"))) {
+        emit updateSubtitleStyle(subProperties.value(QLatin1String("av.force_style")));
+    } else {
+        emit updateSubtitleStyle(QString());
+    }
+    qDebug() << "::::: LOADED SUB PROPS " << subProperties;
 }
 
 void SubtitleModel::allSnaps(std::vector<int> &snaps)

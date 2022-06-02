@@ -45,6 +45,8 @@ private slots:
     void updateSubtitle();
     void goToPrevious();
     void goToNext();
+    void updateStyle();
+    void loadStyle(const QString &style);
 
 private:
     std::shared_ptr<SubtitleModel> m_model;

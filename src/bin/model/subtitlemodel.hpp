@@ -138,6 +138,9 @@ public:
     void unsetModel();
     /** @brief Get in/out of a subtitle item */
     QPair<int, int> getInOut(int sid) const;
+    /** @brief Set subtitle style (font, color, etc) */
+    void setStyle(const QString &style);
+    const QString getStyle() const;
 
 public slots:
     /** @brief Function that parses through a subtitle file */
@@ -171,6 +174,7 @@ private:
 
 signals:
     void modelChanged();
+    void updateSubtitleStyle(const QString);
 
 protected:
     /** @brief Add time as snap in the registered snap model */
