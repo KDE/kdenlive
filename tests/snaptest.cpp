@@ -1,7 +1,6 @@
 #include "test_utils.hpp"
 #include "timeline2/model/snapmodel.hpp"
 
-
 TEST_CASE("Snap points model test", "[SnapModel]")
 {
     SnapModel snap;

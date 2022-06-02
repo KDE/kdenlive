@@ -717,7 +717,6 @@ void Monitor::buildBackgroundedProducer(int pos)
     }
 }
 
-
 void Monitor::updateMarkers()
 {
     if (m_markerMenu) {
