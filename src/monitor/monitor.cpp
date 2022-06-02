@@ -1649,6 +1649,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             disconnect(m_controller.get(), &ProjectClip::boundsChanged, m_glMonitor->getControllerProxy(), &MonitorProxy::updateClipBounds);
             disconnect(m_controller.get(), &ProjectClip::registeredClipChanged, m_controller.get(), &ProjectClip::checkClipBounds);
         }
+    } else if (controller == nullptr) {
+        // Nothing to do
+        return;
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
@@ -1821,11 +1824,13 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotPreviewResource(const QString &path, const QString &title)
 {
-    if (!QUrl::fromUserInput(path).isLocalFile()) {
-        warningMessage(i18n("It maybe takes a while until the preview is loaded"), 15000);
+    if (isPlaying()) {
+        stop();
     }
+    QApplication::processEvents();
     slotOpenClip(nullptr);
     m_streamAction->setVisible(false);
+    // TODO: direct loading of the producer blocks UI, we should use a task to load the producer
     m_glMonitor->setProducer(path);
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
     m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title);
