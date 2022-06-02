@@ -28,6 +28,7 @@
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
+    , m_showloadingWarning(true)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -463,9 +464,18 @@ void ResourceWidget::slotPreviewItem()
     if (!m_currentItem) {
         return;
     }
-
     blockUI(true);
-    emit previewClip(m_currentItem->data(previewRole).toString(), i18n("Online Resources Preview"));
+    const QString path = m_currentItem->data(previewRole).toString();
+    if (m_showloadingWarning && !QUrl::fromUserInput(path).isLocalFile()) {
+        message_line->setText(i18n("It maybe takes a while until the preview is loaded"));
+        message_line->setMessageType(KMessageWidget::Warning);
+        message_line->show();
+        QTimer::singleShot(6000, message_line, &KMessageWidget::animatedHide);
+        repaint();
+        // Only show this warning once
+        m_showloadingWarning = false;
+    }
+    emit previewClip(path, i18n("Online Resources Preview"));
     blockUI(false);
 }
 

@@ -6,11 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>457</height>
+    <width>313</width>
+    <height>335</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="4">
+    <spacer name="spacer_horiz">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>81</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="2" column="0" colspan="7">
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
@@ -191,23 +204,55 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="0" colspan="7">
-    <widget class="KMessageWidget" name="message_line">
+   <item row="4" column="3">
+    <widget class="QToolButton" name="button_zoomin">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="zoom-in">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6">
+    <widget class="QPushButton" name="button_import">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="wordWrap">
-      <bool>false</bool>
+     <property name="text">
+      <string>Import</string>
      </property>
-     <property name="closeButtonVisible">
-      <bool>false</bool>
+     <property name="icon">
+      <iconset theme="document-import">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
+   <item row="4" column="5">
+    <widget class="QPushButton" name="button_preview">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Preview</string>
+     </property>
+     <property name="icon">
+      <iconset theme="media-playback-start">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
     <widget class="QSlider" name="slider_zoom">
      <property name="minimumSize">
       <size>
@@ -226,68 +271,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="5">
-    <widget class="QPushButton" name="button_preview">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Preview</string>
-     </property>
-     <property name="icon">
-      <iconset theme="media-playback-start">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QToolButton" name="button_zoomin">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="zoom-in">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="4">
-    <spacer name="spacer_horiz">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>81</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="6">
-    <widget class="QPushButton" name="button_import">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Import</string>
-     </property>
-     <property name="icon">
-      <iconset theme="document-import">
-       <normaloff>.</normaloff>.</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
+   <item row="4" column="1">
     <widget class="QToolButton" name="button_zoomout">
      <property name="text">
       <string>...</string>
@@ -345,15 +329,31 @@
      </layout>
     </widget>
    </item>
+   <item row="3" column="1" colspan="6">
+    <widget class="KMessageWidget" name="message_line">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
   <zorder>splitter</zorder>
   <zorder>service_box_2</zorder>
-  <zorder>message_line</zorder>
   <zorder>button_preview</zorder>
   <zorder>button_import</zorder>
   <zorder>button_zoomin</zorder>
   <zorder>button_zoomout</zorder>
   <zorder>slider_zoom</zorder>
+  <zorder>message_line</zorder>
  </widget>
  <customwidgets>
   <customwidget>

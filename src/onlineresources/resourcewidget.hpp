@@ -66,6 +66,7 @@ private:
     /** @brief Default icon size for the views. */
     QSize m_iconSize;
     int wheelAccumulatedDelta;
+    bool m_showloadingWarning;
     ResourceItemInfo getItemById(const QString &id);
     void loadConfig();
     void saveConfig();
