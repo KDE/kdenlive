@@ -60,7 +60,7 @@ Item {
                     parent.border.width = 1
                 }
                 onClicked: {
-                    timeline.switchRecording(trackId)
+                    timeline.switchRecording(trackId, recState == 1 ? 0 : 1)
                 }
             }
         }

@@ -57,7 +57,7 @@ Rectangle {
 
     function startAudioRecord(tid) {
         var tk = Logic.getTrackById(tid)
-        recordPlaceHolder.y = tk.y
+        recordPlaceHolder.y = tk.y + subtitleTrack.height
         recordPlaceHolder.height = tk.height
         recordStartPlaceHolder.x = root.consumerPosition * root.timeScale
         recordPlaceHolder.anchors.right = cursor.left

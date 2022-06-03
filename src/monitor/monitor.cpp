@@ -2696,3 +2696,11 @@ void Monitor::stopCountDown()
         QMetaObject::invokeMethod(root, "stopCountdown");
     }
 }
+
+void Monitor::switchRecordButton(bool record)
+{
+    if (record && isPlaying()) {
+        stop();
+    }
+    m_playAction->setInactiveIcon(QIcon::fromTheme(record ? QStringLiteral("media-record") : QStringLiteral("media-playback-start")));
+}
