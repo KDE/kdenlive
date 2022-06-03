@@ -62,10 +62,21 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
 
 void SubtitleModel::setStyle(const QString &style)
 {
-    m_subtitleFilter->set("av.force_style", style.toUtf8().constData());
-    // Force refresh to show the new style
-    pCore->requestMonitorRefresh();
-    pCore->setDocumentModified();
+    QString oldStyle = m_subtitleFilter->get("av.force_style");
+    Fun redo = [this, style]() {
+        m_subtitleFilter->set("av.force_style", style.toUtf8().constData());
+        // Force refresh to show the new style
+        pCore->requestMonitorRefresh();
+        return true;
+    };
+    Fun undo = [this, oldStyle]() {
+        m_subtitleFilter->set("av.force_style", oldStyle.toUtf8().constData());
+        // Force refresh to show the new style
+        pCore->requestMonitorRefresh();
+        return true;
+    };
+    redo();
+    pCore->pushUndo(undo, redo, i18n("Edit subtitle style"));
 }
 
 const QString SubtitleModel::getStyle() const

@@ -199,6 +199,7 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
         QSignalBlocker bk(subText);
         subText->clear();
         loadStyle(QString());
+        frame_position->setEnabled(false);
     } else {
         connect(m_model.get(), &SubtitleModel::updateSubtitleStyle, this, &SubtitleEdit::loadStyle);
         connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector<int> &roles) {
@@ -209,6 +210,8 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
                 }
             }
         });
+        frame_position->setEnabled(true);
+        stackedWidget->widget(0)->setEnabled(false);
     }
 }
 
@@ -305,7 +308,7 @@ void SubtitleEdit::setActiveSubtitle(int id)
     if (m_model && id > -1) {
         subText->setEnabled(true);
         QSignalBlocker bk(subText);
-        frame_position->setEnabled(true);
+        stackedWidget->widget(0)->setEnabled(true);
         buttonDelete->setEnabled(true);
         QSignalBlocker bk2(m_position);
         QSignalBlocker bk3(m_endPosition);
@@ -324,7 +327,7 @@ void SubtitleEdit::setActiveSubtitle(int id)
         m_position->setEnabled(false);
         m_endPosition->setEnabled(false);
         m_duration->setEnabled(false);
-        frame_position->setEnabled(false);
+        stackedWidget->widget(0)->setEnabled(false);
         buttonDelete->setEnabled(false);
         QSignalBlocker bk(subText);
         subText->clear();
