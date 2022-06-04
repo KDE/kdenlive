@@ -102,6 +102,22 @@ int main(int argc, char *argv[])
     splash.show();
     qApp->processEvents(QEventLoop::AllEvents);
 
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    } else {
+        // no package type defined, try to detected it
+        QString appPath = qApp->applicationDirPath();
+        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+            packageType = QStringLiteral("appimage");
+        }
+        if (appPath.contains(QStringLiteral("/snap"))) {
+            packageType = QStringLiteral("snap");
+        } else {
+            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+        }
+    }
+
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
@@ -125,21 +141,33 @@ int main(int argc, char *argv[])
             }
         }
     }
-#endif
-    QString packageType;
-    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
-        packageType = qgetenv("PACKAGE_TYPE").toLower();
-    } else {
-        // no package type defined, try to detected it
-        QString appPath = qApp->applicationDirPath();
-        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
-            packageType = QStringLiteral("appimage");
-        } if (appPath.contains(QStringLiteral("/snap"))) {
-            packageType = QStringLiteral("snap");
-        } else {
-            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+#else
+    // AppImage
+    if (packageType == QStringLiteral("appimage")) {
+        QMap<QString, QString> themeMap;
+        themeMap.insert("breeze", "/../icons/breeze/breeze-icons.rcc");
+        themeMap.insert("breeze-dark", "/../icons/breeze-dark/breeze-icons-dark.rcc");
+
+        QMapIterator<QString, QString> i(themeMap);
+        while (i.hasNext()) {
+            i.next();
+            QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, i.value());
+            if (!themePath.isEmpty()) {
+                const QString iconSubdir = "/icons/" + i.key();
+                if (QResource::registerResource(themePath, iconSubdir)) {
+                    if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
+                        qDebug() << "Loaded icon theme:" << i.key();
+                    } else {
+                        qWarning() << "No index.theme found for" << i.key();
+                        QResource::unregisterResource(themePath, iconSubdir);
+                    }
+                } else {
+                    qWarning() << "Invalid rcc file" << i.key();
+                }
+            }
         }
     }
+#endif
 
     bool inSandbox = false;
     if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
