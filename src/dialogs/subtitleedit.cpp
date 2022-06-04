@@ -264,7 +264,7 @@ void SubtitleEdit::loadStyle(const QString &style)
             outlineColor->setColor(result);
         } else if (pName == QLatin1String("Outline")) {
             checkOutlineSize->setChecked(true);
-            QSignalBlocker bk(fontSize);
+            QSignalBlocker bk(outlineSize);
             outlineSize->setEnabled(true);
             outlineSize->setValue(pValue.toInt());
         } else if (pName == QLatin1String("Alignment")) {
