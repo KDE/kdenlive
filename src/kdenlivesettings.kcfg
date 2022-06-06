@@ -532,9 +532,9 @@
       <default></default>
     </entry>
 
-    <entry name="mltthreads" type="Int">
-      <label>Mlt processing thread count.</label>
-      <default>1</default>
+    <entry name="processingthreads" type="Int">
+      <label>Processing thread count.</label>
+      <default>4</default>
     </entry>
 
     <entry name="proxythreads" type="Int">

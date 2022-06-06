@@ -216,14 +216,19 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
     connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
-    m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
-    connect(m_view.parallel_process, &QCheckBox::stateChanged, [&](int state) {
+    m_view.processing_threads->setMaximum(QThread::idealThreadCount() - 1);
+    m_view.processing_threads->setValue(KdenliveSettings::processingthreads());
+    connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setProcessingthreads);
+    connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::refreshParams);
+    m_view.processing_box->setChecked(KdenliveSettings::parallelrender());
+    connect(m_view.processing_box, &QGroupBox::toggled, [&](int state) {
         KdenliveSettings::setParallelrender(state == Qt::Checked);
         refreshParams();
     });
     if (KdenliveSettings::gpu_accel()) {
         // Disable parallel rendering for movit
-        m_view.parallel_process->setEnabled(false);
+        m_view.processing_box->setChecked(false);
+        m_view.processing_box->setEnabled(false);
     }
     connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.checkTwoPass, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
@@ -1295,11 +1300,9 @@ void RenderWidget::refreshParams()
     }
 
     // Parallel Processing
-    int threadCount = QThread::idealThreadCount();
-    if (threadCount < 2 || !m_view.parallel_process->isChecked() || !m_view.parallel_process->isEnabled()) {
+    int threadCount = KdenliveSettings::processingthreads();
+    if (!m_view.processing_box->isChecked() || !m_view.processing_box->isEnabled()) {
         threadCount = 1;
-    } else {
-        threadCount = qMin(4, threadCount - 1);
     }
     newParams.append(QStringLiteral("real_time=%1").arg(-threadCount));
 
