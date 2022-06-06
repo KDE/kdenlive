@@ -120,8 +120,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
-      if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
-      endIndex = filePath.endsWith(".sbv") ? 1 : 2;
+	//if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
+	if (filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {defaultTurn = -10; turn = defaultTurn;}
+	endIndex = filePath.endsWith(".sbv") ? 1 : 2;
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
@@ -419,7 +420,7 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
     if (!temporary && end.frames(pCore->getCurrentFps()) > m_timeline->duration()) {
         m_timeline->updateDuration();
     }
-    qDebug() << "Added to model";
+    //qDebug() << "Added to model";
     if (updateFilter) {
         emit modelChanged();
     }
@@ -1027,7 +1028,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     }
     bool assFormat = outFile.endsWith(".ass");
     if (!assFormat) {
-        qDebug() << "srt file import"; // if imported file isn't .ass, it is .srt format
+        qDebug() << "srt/vtt/sbv file import"; // if imported file isn't .ass, it is .srt format
     }
     QFile outF(outFile);
 
