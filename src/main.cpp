@@ -181,16 +181,16 @@ int main(int argc, char *argv[])
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP")) && env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde")) {
-            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
+        if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde") && packageType != QStringLiteral("appimage")) {
+            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected and not Appimage, using system icons";
         } else {
-            // We are not on a KDE desktop, force breeze icon theme
+            // We are not on a KDE desktop or in an Appimage, force breeze icon theme
             // Check if breeze theme is available
             QStringList iconThemes = KIconTheme::list();
             if (iconThemes.contains(QStringLiteral("breeze"))) {
                 grp.writeEntry("force_breeze", true);
                 grp.writeEntry("use_dark_breeze", true);
-                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop or Appimage detected, forcing Breeze icon theme";
             }
         }
     }

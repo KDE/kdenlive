@@ -893,8 +893,14 @@ void MainWindow::slotThemeChanged(const QString &name)
 
     KSharedConfigPtr kconfig = KSharedConfig::openConfig();
     KConfigGroup initialGroup(kconfig, "version");
-    if (initialGroup.exists() && KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
-        // We need to reload icon theme
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    bool isAppimage = pCore->packageType() == QStringLiteral("appimage");
+    bool isKDE = env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde");
+    bool forceBreeze = initialGroup.exists() && KdenliveSettings::force_breeze();
+    if ((!isKDE || isAppimage || forceBreeze) &&
+        ((useDarkIcons && QIcon::themeName() == QStringLiteral("breeze")) || (!useDarkIcons && QIcon::themeName() == QStringLiteral("breeze-dark")))) {
+        // We need to reload icon theme, on KDE desktops this is not necessary, however for the Appimage it is even on KDE Desktop
+        // See also https://kate-editor.org/post/2021/2021-03-07-cross-platform-light-dark-themes-and-icons/
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
