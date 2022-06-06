@@ -798,6 +798,157 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         state0();
     }
+
+    SECTION("Test chained mixes and check mix direction")
+    {
+        // Add 2 more color clips
+        cid5 = -1;
+        int cid6;
+        int cid7;
+        state0();
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid6));
+        REQUIRE(timeline->requestItemResize(cid6, 40, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid7));
+        REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
+
+        // Cid3 pos=500, duration=20
+        // Cid4 pos=520, duration=20
+        // Cid5 pos=540, duration=20
+        // Cid6 pos=560, duration=40
+        // Cid7 pos=600, duration=20
+
+        auto mix0 = [&]() {
+            REQUIRE(timeline->getClipsCount() == 9);
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
+        };
+
+        auto mix1 = [&]() {
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == true);
+        };
+
+        auto mix2 = [&]() {
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == true);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == false);
+        };
+
+        auto mix3 = [&]() {
+            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
+            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 4);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid4) == false);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == false);
+            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == true);
+        };
+
+        // Mix 4 and 5
+        REQUIRE(timeline->mixClip(cid5));
+        mix0();
+
+        // Mix 5 and 6
+        REQUIRE(timeline->mixClip(cid6));
+        mix1();
+
+        // Mix 6 and 7
+        REQUIRE(timeline->mixClip(cid7));
+        mix2();
+
+        // Mix 3 and 4, this will revert all subsequent mixes
+        REQUIRE(timeline->mixClip(cid4));
+        mix3();
+
+        // Undo mix 3 and 4
+        undoStack->undo();
+        mix2();
+
+        // Now switch mixes to Slide type
+        timeline->switchComposition(cid7, QString("slide"));
+        timeline->switchComposition(cid6, QString("slide"));
+        timeline->switchComposition(cid5, QString("slide"));
+        mix2();
+
+        // Mix 3 and 4, this will revert all subsequent mixes
+        REQUIRE(timeline->mixClip(cid4));
+        mix3();
+
+        // Undo mix 3 and 4
+        undoStack->undo();
+        mix2();
+
+        // Now switch mixes to Wipe type
+        timeline->switchComposition(cid7, QString("wipe"));
+        timeline->switchComposition(cid6, QString("wipe"));
+        timeline->switchComposition(cid5, QString("wipe"));
+        mix2();
+
+        // Mix 3 and 4, this will revert all subsequent mixes
+        REQUIRE(timeline->mixClip(cid4));
+        mix3();
+
+        // Undo mix 3 and 4
+        undoStack->undo();
+        mix2();
+
+        // Undo Wipe mix switch on cid5
+        undoStack->undo();
+        // Undo mix switch on cid6
+        undoStack->undo();
+        // Undo mix switch on cid7
+        undoStack->undo();
+        mix2();
+
+        // Undo Slide mix switch on cid5
+        undoStack->undo();
+        // Undo mix switch on cid6
+        undoStack->undo();
+        // Undo mix switch on cid7
+        undoStack->undo();
+        mix2();
+
+        // Undo mix 6 and 7
+        undoStack->undo();
+        mix1();
+        // Undo mix 5 and 6
+        undoStack->undo();
+        mix0();
+        // Undo mix 4 and 5
+        undoStack->undo();
+
+        // Undo insert/resize ops
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+
+        state0();
+    }
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
