@@ -31,10 +31,10 @@
 static QStringList m_errorMessage;
 static QStringList m_notesLog;
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Tractor &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
                             const QString &originalDecimalPoint, QProgressDialog *progressDialog = nullptr);
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
                             const QString &originalDecimalPoint, int playlist, const QList<Mlt::Transition *> &compositions,
                             QProgressDialog *progressDialog = nullptr);
@@ -75,6 +75,36 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     QList<int> lockedTracksIndexes;
     // Black track index
     videoTracksIndexes << 0;
+    // Check how many audio/video tracks we have
+    int vTracks = 0;
+    int aTracks = 0;
+    int aTracksCount = 1;
+    for (int i = 0; i < tractor.count() && ok; i++) {
+        std::unique_ptr<Mlt::Producer> track(tractor.track(i));
+        QString playlist_name = track->get("id");
+        if (reserved_names.contains(playlist_name)) {
+            continue;
+        }
+        switch (track->type()) {
+        case mlt_service_tractor_type: {
+            // that is a double track
+            if (track->get_int("kdenlive:audio_track") == 1) {
+                aTracksCount++;
+            }
+            break;
+        }
+        case mlt_service_playlist_type: {
+            // that is a single track
+            Mlt::Playlist local_playlist(*track);
+            if (local_playlist.get_int("kdenlive:audio_track") == 1) {
+                aTracksCount++;
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    }
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
@@ -95,13 +125,18 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
             if (!audioTrack) {
                 videoTracksIndexes << i;
+                vTracks++;
+            } else {
+                aTracks++;
             }
             ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
             if (track->get_int("kdenlive:locked_track") > 0) {
                 lockedTracksIndexes << tid;
             }
             Mlt::Tractor local_tractor(*track);
-            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
+            const QString trackTag = audioTrack ? QStringLiteral("A%1").arg(aTracksCount - aTracks) : QStringLiteral("V%1").arg(vTracks);
+            ok = ok &&
+                 constructTrackFromMelt(timeline, tid, trackTag, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
@@ -115,14 +150,17 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             bool audioTrack = local_playlist.get_int("kdenlive:audio_track") == 1;
             if (!audioTrack) {
                 videoTracksIndexes << i;
+                vTracks++;
+            } else {
+                aTracks++;
             }
             ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack, undo, redo, false);
             int muteState = track->get_int("hide");
             if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
                 timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
             }
-
-            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, 0,
+            const QString trackTag = audioTrack ? QStringLiteral("A%1").arg(aTracksCount - aTracks) : QStringLiteral("V%1").arg(vTracks);
+            ok = ok && constructTrackFromMelt(timeline, tid, trackTag, local_playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, 0,
                                               QList<Mlt::Transition *>(), progressDialog);
             if (local_playlist.get_int("kdenlive:locked_track") > 0) {
                 lockedTracksIndexes << tid;
@@ -245,7 +283,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     return true;
 }
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Tractor &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
                             const QString &originalDecimalPoint, QProgressDialog *progressDialog)
 {
@@ -276,7 +314,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             return false;
         }
         Mlt::Playlist playlist(*sub_track);
-        constructTrackFromMelt(timeline, tid, playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, i, compositions, progressDialog);
+        constructTrackFromMelt(timeline, tid, trackTag, playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, i, compositions, progressDialog);
         if (i == 0) {
             // Pass track properties
             int height = track.get_int("kdenlive:trackheight");
@@ -340,7 +378,7 @@ PlaylistState::ClipState inferState(const std::shared_ptr<Mlt::Producer> &prod, 
 }
 } // namespace
 
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
                             const QString &originalDecimalPoint, int playlist, const QList<Mlt::Transition *> &compositions, QProgressDialog *progressDialog)
 {
@@ -380,7 +418,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
                     QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                         .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
+                                         .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
                                               pCore->timecode().getTimecodeFromFrames(position));
                     if (!fixedId.isEmpty()) {
                         binId = fixedId.first();
@@ -428,8 +466,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         if (startMixToFind || endMixToFind) {
                             // A mix for this clip is missing
                             QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1),
-                                                      timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                                      pCore->timecode().getTimecodeFromFrames(position));
                             // Try to resize clip and put it on playlist 0
                             if (hasEndMix && endMixToFind) {
                                 // Find last empty frame on playlist 0
@@ -445,13 +483,13 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                                         cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, hasStartMix ? playlist : 0);
                                         timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
                                         m_notesLog << i18n("%1 Clip (%2) with missing mix found and resized", tcInfo, clip->parent().get("id"));
-                                        m_errorMessage << i18n("Clip without mix %1 found and resized on track %2 at %3.", clip->parent().get("id"),
-                                                               timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                                        m_errorMessage << i18n("Clip without mix %1 found and resized on track %2 at %3.", clip->parent().get("id"), trackTag,
+                                                               pCore->timecode().getTimecodeFromFrames(position));
                                         continue;
                                     }
                                 } else {
                                     m_errorMessage << i18n("Invalid clip without mix %1 found and removed on track %2 at %3.", clip->parent().get("id"),
-                                                           timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                                                           trackTag, pCore->timecode().getTimecodeFromFrames(position));
                                     m_notesLog << i18n("%1 Clip (%2) with missing mix found and removed", tcInfo, clip->parent().get("id"));
                                     continue;
                                 }
@@ -475,14 +513,14 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                                         m_notesLog << i18n("%1 Invalid clip (%2) found and removed", tcInfo, clip->parent().get("id"));
                                         continue;
                                     }
-                                    m_errorMessage << i18n("Clip without mix %1 found and resized on track %2 at %3.", clip->parent().get("id"),
-                                                           timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                                    m_errorMessage << i18n("Clip without mix %1 found and resized on track %2 at %3.", clip->parent().get("id"), trackTag,
+                                                           pCore->timecode().getTimecodeFromFrames(position));
                                     m_notesLog << i18n("%1 Clip (%2) with missing mix found and resized", tcInfo, clip->parent().get("id"));
                                     continue;
                                 }
                             }
-                            m_errorMessage << i18n("Invalid clip without mix %1 found and removed on track %2 at %3.", clip->parent().get("id"),
-                                                   timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                            m_errorMessage << i18n("Invalid clip without mix %1 found and removed on track %2 at %3.", clip->parent().get("id"), trackTag,
+                                                   pCore->timecode().getTimecodeFromFrames(position));
                             m_notesLog << i18n("%1 Clip (%2) with missing mix found and removed", tcInfo, clip->parent().get("id"));
                             continue;
                         }
@@ -490,14 +528,19 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         // Check if playlist 0 is available
                         enforceTopPlaylist = timeline->trackIsAvailable(tid, position, duration, 0);
                         if (enforceTopPlaylist) {
-                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found and fixed on track %2 at %3.", clip->parent().get("id"),
-                                                   timeline->getTrackTagById(tid), position);
-                        } else {
-                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found on track %2 at %3.", clip->parent().get("id"),
-                                                   timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found and fixed on track %2 at %3.", clip->parent().get("id"), trackTag,
+                                                   pCore->timecode().getTimecodeFromFrames(position));
                             QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1),
-                                                      timeline->getTrackTagById(tid), pCore->timecode().getTimecodeFromFrames(position));
+                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                                      pCore->timecode().getTimecodeFromFrames(position));
+                            m_notesLog << i18n("%1 Clip (%2) on incorrect subtrack found and fixed / %3", tcInfo, clip->parent().get("id"),
+                                               QString::number(tid));
+                        } else {
+                            m_errorMessage << i18n("Clip %1 on incorrect subtrack found on track %2 at %3.", clip->parent().get("id"), trackTag,
+                                                   pCore->timecode().getTimecodeFromFrames(position));
+                            QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
+                                                 .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                                      pCore->timecode().getTimecodeFromFrames(position));
                             m_notesLog << i18n("%1 Clip (%2) with incorrect subplaylist found", tcInfo, clip->parent().get("id"));
                         }
                     }
@@ -512,7 +555,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"),
                                        pCore->timecode().getTimecodeFromFrames(position));
                 QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
-                                     .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
+                                     .arg(QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
                                           pCore->timecode().getTimecodeFromFrames(position));
                 m_notesLog << i18n("%1 Invalid clip (%2) found and removed", tcInfo, clip->parent().get("id"));
                 continue;
