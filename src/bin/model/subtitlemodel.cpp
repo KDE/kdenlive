@@ -295,16 +295,17 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             }
         }
         assFile.close();
-	} else {
-	  if (endPos > startPos) {
-	    addSubtitle(startPos+subtitleOffset, endPos+subtitleOffset, comment, undo, redo, false);
-	  } else {
-	    qDebug()<<"===== INVALID VTT SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
-	  }
-	//   reinitialize for next comment:
-	  comment.clear();
-	  timeLine.clear();
-	  turn = 0; r = 0;	      
+    } else {
+        if (endPos > startPos) {
+            addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+        } else {
+            qDebug() << "===== INVALID VTT SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
+        }
+        //   reinitialize for next comment:
+        comment.clear();
+        timeLine.clear();
+        turn = 0;
+        r = 0;
     }
     Fun update_model = [this]() {
         emit modelChanged();
