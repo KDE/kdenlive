@@ -116,7 +116,7 @@
       </widget>
      </item>
      <item>
-      <widget class="TimecodeDisplay" name="offsetTime" native="true">
+      <widget class="TimecodeDisplay" name="offsetTimeSpinbox" native="true">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -134,7 +134,7 @@
   </customwidget>
   <customwidget>
    <class>TimecodeDisplay</class>
-   <extends>QAbstractSpinBox</extends>
+   <extends>QWidget</extends>
    <header>widgets/timecodedisplay.h</header>
   </customwidget>
  </customwidgets>
