@@ -4906,16 +4906,15 @@ void TimelineController::exportSubtitle()
         pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
-    const QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(),
+    QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(),
                                                      i18n("Subtitle File (*.srt)"));
     if (url.isEmpty()) {
         return;
     }
-    QFile srcFile(url);
     if (!url.endsWith(QStringLiteral(".srt"))) {
-        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", url));
-        return;
+	url.append(QStringLiteral(".srt"));
     }
+    QFile srcFile(url);
     if (srcFile.exists()) {
         srcFile.remove();
     }
