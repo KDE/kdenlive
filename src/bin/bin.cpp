@@ -4492,6 +4492,20 @@ void Bin::refreshProxySettings()
             emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
         }
     }
+    bool isFolder = false;
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        if (currentItem) {
+            AbstractProjectItem::PROJECTITEMTYPE itemType = currentItem->itemType();
+            isFolder = itemType == AbstractProjectItem::FolderItem;
+        }
+        break;
+    }
+    m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
     if (!m_doc->useProxy()) {
         // Disable all proxies
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
