@@ -478,7 +478,10 @@ Rectangle {
     //onCurrentTrackChanged: timeline.selection = []
 
     onTimeScaleChanged: {
-        if (root.zoomOnMouse >= 0) {
+        if (scrollView.visibleArea.widthRatio >= 1) {
+            scrollView.contentX = 0
+            root.zoomOnMouse = -1
+        } else if (root.zoomOnMouse >= 0) {
             scrollView.contentX = Math.max(0, root.zoomOnMouse * root.timeScale - getMouseX())
             root.zoomOnMouse = -1
         } else if (root.zoomOnBar) {
