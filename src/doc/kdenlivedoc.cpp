@@ -695,11 +695,18 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
         QDir proxyDir(dest + QStringLiteral("/proxy/"));
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
-            KJobWidgets::setWindow(job, QApplication::activeWindow());
-            if (!job->exec()) {
-                KMessageBox::sorry(QApplication::activeWindow(), i18n("Moving proxy clips failed: %1", job->errorText()));
+            connect(job, &KJob::result, this, &KdenliveDoc::slotMoveFinished);
+            if (job->uiDelegate()) {
+                KJobWidgets::setWindow(job, pCore->window());
             }
         }
+    }
+}
+
+void KdenliveDoc::slotMoveFinished(KJob *job)
+{
+    if (job->error() != 0) {
+        KMessageBox::sorry(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
 }
 
@@ -1815,14 +1822,12 @@ QString& KdenliveDoc::modifiedDecimalPoint() {
 
 const QString KdenliveDoc::subTitlePath(bool final)
 {
-    QString path;
     QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(m_url.fileName()));
     } else {
-        path = QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
+        return QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
     }
-    return path;
 }
 
 void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
