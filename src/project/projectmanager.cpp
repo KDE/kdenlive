@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KActionCollection>
 #include <KJob>
+#include <KJobWidgets>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <kcoreaddons_version.h>
@@ -418,13 +419,12 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
                                            i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
-                        pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                        moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }
             }
         }
     }
-
     return true;
 }
 
@@ -945,7 +945,10 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move tmp folder (thumbnails, timeline preview)
     m_project->moveProjectData(src, dest);
-    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
+    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest), KIO::DefaultFlags);
+    if (copyJob->uiDelegate()) {
+        KJobWidgets::setWindow(copyJob, pCore->window());
+    }
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
 #if KCOREADDONS_VERSION < QT_VERSION_CHECK(5, 80, 0)
     connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotMoveProgress(KJob *, ulong)));

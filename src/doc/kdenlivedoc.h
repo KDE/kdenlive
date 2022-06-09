@@ -252,6 +252,8 @@ private slots:
     void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
     void guidesChanged();
+    /** @brief Display error message on failed move. */
+    void slotMoveFinished(KJob *job);
 
 signals:
     void resetProjectList();
