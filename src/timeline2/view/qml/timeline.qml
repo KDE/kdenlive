@@ -1581,24 +1581,23 @@ Rectangle {
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: ruler.zoneHeight - 1
-                            x: cursor.x - (width / 2)
+                            anchors.horizontalCenter: rulerCursor.horizontalCenter
                             // bottom line on zoom
-                            Rectangle {
-                                color: ruler.dimmedColor
-                                width: Math.max(1, root.timeScale)
-                                height: 1
-                                visible: width > playhead.width
-                                x: playhead.width / 2
-                                y: playhead.height - 1
-                            }
                         }
                         Rectangle {
                             // Vertical line over ruler zone
+                            id: rulerCursor
                             color: root.textColor
                             width: 1
                             height: ruler.zoneHeight - 1
                             x: cursor.x
                             anchors.bottom: parent.bottom
+                            Rectangle {
+                                color: ruler.dimmedColor
+                                width: Math.max(1, root.timeScale)
+                                height: 1
+                                visible: width > playhead.width
+                            }
                         }
                     }
                 }
@@ -2014,7 +2013,7 @@ Rectangle {
                             width: 1
                             opacity: 1
                             height: tracksContainerArea.height
-                            x: root.consumerPosition * root.timeScale
+                            x: Math.round(root.consumerPosition * root.timeScale)
                         }
                     }
                     Kdenlive.ZoomBar {
