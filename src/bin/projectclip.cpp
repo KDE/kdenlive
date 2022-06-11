@@ -515,6 +515,41 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     qDebug() << "################### ProjectClip::setproducer #################";
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
+    bool skipProducer = false;
+    if (pCore->currentDoc()->useExternalProxy()) {
+        QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
+        // We have a camcorder profile, check if we have opened a proxy clip
+        QString path = producer->get("resource");
+        if (QFileInfo(path).isRelative()) {
+            path.prepend(pCore->currentDoc()->documentRoot());
+            producer->set("resource", path.toUtf8().constData());
+        }
+        if (externalParams.count() >= 6) {
+            QFileInfo info(path);
+            QDir dir = info.absoluteDir();
+            dir.cd(externalParams.at(3));
+            QString fileName = info.fileName();
+            if (fileName.startsWith(externalParams.at(1))) {
+                fileName.remove(0, externalParams.at(1).size());
+                fileName.prepend(externalParams.at(4));
+            }
+            if (!externalParams.at(2).isEmpty()) {
+                fileName.chop(externalParams.at(2).size());
+            }
+            fileName.append(externalParams.at(5));
+            if (dir.exists(fileName)) {
+                // Match, we opened a proxy clip
+                setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
+                m_path = dir.absoluteFilePath(fileName);
+                setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
+                if (m_name == QFileInfo(path).fileName()) {
+                    m_name = QFileInfo(m_path).fileName();
+                }
+                getFileHash();
+                skipProducer = true;
+            }
+        }
+    }
     // Make sure we have a hash for this clip
     updateProducer(producer);
     getFileHash();
@@ -585,7 +620,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     updateTimelineClips({TimelineModel::IsProxyRole});
     bool generateProxy = false;
     QList<std::shared_ptr<ProjectClip>> clipList;
-    if (pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) {
+    if (!m_usesProxy && pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) {
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
             if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() &&
