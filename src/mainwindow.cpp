@@ -4293,16 +4293,26 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel == nullptr) {
         // Starting a new subtitle for this project
+        // Modify to check for multiple subtitles
         subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->model(), this));
         getMainTimeline()->model()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel);
         pCore->subtitleWidget()->setModel(subtitleModel);
-        const QString subPath = pCore->currentDoc()->subTitlePath(true);
+	QString subPath = pCore->currentDoc()->subTitlePath(true);
         const QString workPath = pCore->currentDoc()->subTitlePath(false);
         QFile subFile(subPath);
         if (subFile.exists()) {
             subFile.copy(workPath);
+	    qDebug() << "loading subtitles from: " << workPath;
             subtitleModel->parseSubtitle(workPath);
+	    qDebug() << "Checking for more subtitles...";
+	    int i = 0;
+	    //while (subFile.exists()) {
+	    //qDebug() << "Trying to check from: " << subPath.append(std::to_string(i));
+	    //QFile subFile(subPath.append(i));
+	    //ubtitleModel->parseSubtitle(subPath.append(i));
+	    // ++;
+	    //}
         }
         if (!subProperties.isEmpty()) {
             subtitleModel->loadProperties(subProperties);
