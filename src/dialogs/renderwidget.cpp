@@ -2026,7 +2026,8 @@ void RenderWidget::resetRenderPath(const QString &path)
     } else {
         extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
     }
-    QString fileName = QDir(pCore->currentDoc()->projectDataFolder()).absoluteFilePath(path + extension);
+    QFileInfo updatedPath(path);
+    QString fileName = QDir(pCore->currentDoc()->projectDataFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
     QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());

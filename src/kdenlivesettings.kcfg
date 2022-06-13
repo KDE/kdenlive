@@ -582,9 +582,9 @@
       <default>true</default>
     </entry>
 
-    <entry name="videotodefaultfolder" type="Bool">
+    <entry name="videotodefaultfolder" type="Int">
       <label>Save titles, scripted renderings in default system folder.</label>
-      <default>true</default>
+      <default>0</default>
     </entry>
 
     <entry name="libraryfolder" type="Path">

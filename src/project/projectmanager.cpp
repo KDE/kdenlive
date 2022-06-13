@@ -389,6 +389,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
         pCore->window()->setWindowTitle(m_project->description());
         m_project->setModified(false);
     }
+
     m_recentFilesAction->addUrl(url);
     // remember folder for next project opening
     KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), saveFolder);

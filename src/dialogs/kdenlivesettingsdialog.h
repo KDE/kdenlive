@@ -81,7 +81,7 @@ private slots:
     void slotDialogModified();
     void slotEnableCaptureFolder();
     void slotEnableLibraryFolder();
-    void slotEnableVideoFolder();
+    void slotEnableVideoFolder(int ix);
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
     void slotEditVideo4LinuxProfile();

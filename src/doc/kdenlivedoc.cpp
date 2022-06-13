@@ -630,18 +630,27 @@ QString KdenliveDoc::projectTempFolder() const
     return m_projectFolder;
 }
 
-QString KdenliveDoc::projectDataFolder() const
+QString KdenliveDoc::projectDataFolder(const QString &newPath) const
 {
+    if (KdenliveSettings::videotodefaultfolder() == 2 && !KdenliveSettings::videofolder().isEmpty()) {
+        return KdenliveSettings::videofolder();
+    }
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder)) {
+        // Always render to project folder
+        return newPath;
+    }
     if (m_projectFolder.isEmpty()) {
+        // Project has not been saved yet
         if (KdenliveSettings::customprojectfolder()) {
             return KdenliveSettings::defaultprojectfolder();
         }
-        if (KdenliveSettings::videotodefaultfolder() || KdenliveSettings::videofolder().isEmpty()) {
-            return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-        }
-        return KdenliveSettings::videofolder();
+        return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
-    return m_projectFolder;
+    if (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder) {
+        // Always render to project folder
+        return QFileInfo(m_url.toLocalFile()).absolutePath();
+    }
+    return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 }
 
 void KdenliveDoc::setProjectFolder(const QUrl &url)
