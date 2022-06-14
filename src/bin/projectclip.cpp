@@ -516,38 +516,25 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     QMutexLocker locker(&m_producerMutex);
     FileStatus::ClipStatus currentStatus = m_clipStatus;
     bool skipProducer = false;
-    if (pCore->currentDoc()->useExternalProxy()) {
-        QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
+    if (pCore->currentDoc()->useExternalProxy() && producer->get("kdenlive:proxy") != QLatin1String("-")) {
         // We have a camcorder profile, check if we have opened a proxy clip
         QString path = producer->get("resource");
         if (QFileInfo(path).isRelative()) {
             path.prepend(pCore->currentDoc()->documentRoot());
             producer->set("resource", path.toUtf8().constData());
         }
-        if (externalParams.count() >= 6) {
-            QFileInfo info(path);
-            QDir dir = info.absoluteDir();
-            dir.cd(externalParams.at(3));
-            QString fileName = info.fileName();
-            if (fileName.startsWith(externalParams.at(1))) {
-                fileName.remove(0, externalParams.at(1).size());
-                fileName.prepend(externalParams.at(4));
+        QString original = getOriginalFromProxy(path);
+        if (!original.isEmpty()) {
+            // Match, we opened a proxy clip
+            setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
+            m_path = original;
+            setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
+            // Use original clip name
+            if (m_name == QFileInfo(path).fileName()) {
+                m_name = QFileInfo(m_path).fileName();
             }
-            if (!externalParams.at(2).isEmpty()) {
-                fileName.chop(externalParams.at(2).size());
-            }
-            fileName.append(externalParams.at(5));
-            if (dir.exists(fileName)) {
-                // Match, we opened a proxy clip
-                setProducerProperty(QStringLiteral("kdenlive:proxy"), path);
-                m_path = dir.absoluteFilePath(fileName);
-                setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
-                if (m_name == QFileInfo(path).fileName()) {
-                    m_name = QFileInfo(m_path).fileName();
-                }
-                getFileHash();
-                skipProducer = true;
-            }
+            getFileHash();
+            skipProducer = true;
         }
     }
     // Make sure we have a hash for this clip
@@ -677,7 +664,77 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     return true;
 }
 
-void ProjectClip::setThumbProducer(std::shared_ptr<Mlt::Producer>prod)
+const QString ProjectClip::getOriginalFromProxy(QString proxyPath) const
+{
+    QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
+    if (externalParams.count() >= 6) {
+        QFileInfo info(proxyPath);
+        QDir dir = info.absoluteDir();
+        dir.cd(externalParams.at(3));
+        QString fileName = info.fileName();
+        bool matchFound = false;
+        while (externalParams.count() >= 6) {
+            if (fileName.startsWith(externalParams.at(1))) {
+                matchFound = true;
+                break;
+            }
+            externalParams = externalParams.mid(6);
+        }
+        if (matchFound) {
+            fileName.remove(0, externalParams.at(1).size());
+            fileName.prepend(externalParams.at(4));
+            if (!externalParams.at(2).isEmpty()) {
+                if (!fileName.endsWith(externalParams.at(2))) {
+                    // File does not match, abort
+                    return QString();
+                }
+                fileName.chop(externalParams.at(2).size());
+            }
+            fileName.append(externalParams.at(5));
+            if (fileName != proxyPath && dir.exists(fileName)) {
+                return dir.absoluteFilePath(fileName);
+            }
+        }
+    }
+    return QString();
+}
+
+const QString ProjectClip::getProxyFromOriginal(QString originalPath) const
+{
+    QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
+    if (externalParams.count() >= 6) {
+        QFileInfo info(originalPath);
+        QDir dir = info.absoluteDir();
+        dir.cd(externalParams.at(0));
+        QString fileName = info.fileName();
+        bool matchFound = false;
+        while (externalParams.count() >= 6) {
+            if (fileName.startsWith(externalParams.at(4))) {
+                matchFound = true;
+                break;
+            }
+            externalParams = externalParams.mid(6);
+        }
+        if (matchFound) {
+            fileName.remove(0, externalParams.at(4).size());
+            fileName.prepend(externalParams.at(1));
+            if (!externalParams.at(5).isEmpty()) {
+                if (!fileName.endsWith(externalParams.at(5))) {
+                    // File does not match, abort
+                    return QString();
+                }
+                fileName.chop(externalParams.at(5).size());
+            }
+            fileName.append(externalParams.at(2));
+            if (fileName != originalPath && dir.exists(fileName)) {
+                return dir.absoluteFilePath(fileName);
+            }
+        }
+    }
+    return QString();
+}
+
+void ProjectClip::setThumbProducer(std::shared_ptr<Mlt::Producer> prod)
 {
     m_thumbsProducer = std::move(prod);
 }

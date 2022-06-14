@@ -295,13 +295,32 @@ void ProjectSettings::slotExternalProxyChanged(bool enabled)
 void ProjectSettings::setExternalProxyProfileData(const QString &profileData)
 {
     auto params = profileData.split(";");
-    if (params.count() < 6) return;
-    le_relPathOrigToProxy->setText(params.at(0));
-    le_prefix_proxy->setText(params.at(1));
-    le_suffix_proxy->setText(params.at(2));
-    le_relPathProxyToOrig->setText(params.at(3));
-    le_prefix_clip->setText(params.at(4));
-    le_suffix_clip->setText(params.at(5));
+    QString val1, val2, val3, val4, val5, val6;
+    int count = 0;
+    while (params.count() >= 6) {
+        if (count > 0) {
+            val1.append(QLatin1Char(';'));
+            val2.append(QLatin1Char(';'));
+            val3.append(QLatin1Char(';'));
+            val4.append(QLatin1Char(';'));
+            val5.append(QLatin1Char(';'));
+            val6.append(QLatin1Char(';'));
+        }
+        val1.append(params.at(0));
+        val2.append(params.at(1));
+        val3.append(params.at(2));
+        val4.append(params.at(3));
+        val5.append(params.at(4));
+        val6.append(params.at(5));
+        params = params.mid(6);
+        count++;
+    }
+    le_relPathOrigToProxy->setText(val1);
+    le_prefix_proxy->setText(val2);
+    le_suffix_proxy->setText(val3);
+    le_relPathProxyToOrig->setText(val4);
+    le_prefix_clip->setText(val5);
+    le_suffix_clip->setText(val6);
 }
 
 void ProjectSettings::slotExternalProxyProfileChanged(const QString &)
