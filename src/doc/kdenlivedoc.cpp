@@ -1237,7 +1237,6 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     }
 
     // Parse clips
-    QStringList externalProxyParams = m_documentProperties.value(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
     for (int i = 0; i < clipList.count(); ++i) {
         const std::shared_ptr<ProjectClip> &item = clipList.at(i);
         ClipType::ProducerType t = item->clipType();
@@ -1265,24 +1264,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                 newProps.clear();
                 QString path;
                 if (useExternalProxy() && item->hasLimitedDuration()) {
-                    if (externalProxyParams.count() >= 3) {
-                        QFileInfo info(item->url());
-                        QDir clipDir = info.absoluteDir();
-                        if (clipDir.cd(externalProxyParams.at(0))) {
-                            // Find correct file
-                            QString fileName = info.fileName();
-                            if (!externalProxyParams.at(1).isEmpty()) {
-                                fileName.prepend(externalProxyParams.at(1));
-                            }
-                            if (!externalProxyParams.at(2).isEmpty()) {
-                                fileName = fileName.section(QLatin1Char('.'), 0, -2);
-                                fileName.append(externalProxyParams.at(2));
-                            }
-                            if (clipDir.exists(fileName)) {
-                                path = clipDir.absoluteFilePath(fileName);
-                            }
-                        }
-                    }
+                    path = item->getProxyFromOriginal(item->url());
                 }
                 if (path.isEmpty()) {
                     path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));
