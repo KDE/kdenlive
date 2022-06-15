@@ -532,10 +532,13 @@ void Wizard::checkMltComponents()
         if (!producersItemList.contains(QStringLiteral("kdenlivetitle"))) {
             qDebug() << "Missing TITLER MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</li>"));
-            KdenliveSettings::setHastitleproducer(false);
             m_brokenModule = true;
-        } else {
-            KdenliveSettings::setHastitleproducer(true);
+        }
+        // Animation module
+        if (!producersItemList.contains(QStringLiteral("glaxnimate"))) {
+            qDebug() << "Missing Glaxnimate MLT module";
+            m_warnings.append(i18n("<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie animations</li>"));
+            m_brokenModule = true;
         }
     }
     if (m_systemCheckIsOk && !m_brokenModule) {

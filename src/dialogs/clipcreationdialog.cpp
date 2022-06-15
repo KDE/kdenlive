@@ -72,6 +72,11 @@ QStringList ClipCreationDialog::getExtensions()
               << QStringLiteral("image/webp") << QStringLiteral("image/jp2") << QStringLiteral("image/avif") << QStringLiteral("image/heif")
               << QStringLiteral("image/jxl");
 
+    // Lottie animations
+    if (KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"))) {
+        mimeTypes << QStringLiteral("application/json");
+    }
+
     QMimeDatabase db;
     QStringList allExtensions;
     for (const QString &mimeType : qAsConst(mimeTypes)) {
@@ -211,7 +216,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     file.close();
     QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
     if (glaxBinary.isEmpty()) {
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot find Glaxnimate, please install it on your computer to allow editing animations."));
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
         return;
     }
     QProcess::startDetached(glaxBinary, {fileName});

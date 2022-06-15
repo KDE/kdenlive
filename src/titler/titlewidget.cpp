@@ -531,7 +531,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(anim_end, &QAbstractButton::toggled, this, &TitleWidget::slotAnimEnd);
     connect(templateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(templateIndexChanged(int)));
 
-    createButton->setEnabled(KdenliveSettings::hastitleproducer());
+    createButton->setEnabled(KdenliveSettings::producerslist().contains(QStringLiteral("kdenlivetitle")));
     auto *addMenu = new QMenu(this);
     addMenu->addAction(i18n("Save and add to project"));
     m_createTitleAction = new QAction(i18n("Create Title"), this);

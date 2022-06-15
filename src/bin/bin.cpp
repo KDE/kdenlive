@@ -2365,7 +2365,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_editAction->setEnabled(true);
             m_extractAudioAction->menuAction()->setVisible(hasAudio);
             m_extractAudioAction->setEnabled(hasAudio);
-            m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
+            m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text ||
+                                     type == ClipType::Animation);
             m_openAction->setVisible(!isFolder);
             m_duplicateAction->setEnabled(isClip);
             m_duplicateAction->setVisible(!isFolder);
@@ -2900,6 +2901,11 @@ void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, co
     action->setData(static_cast<QVariant>(type));
     addClipMenu->addAction(action);
     connect(action, &QAction::triggered, this, &Bin::slotCreateProjectClip);
+    if (name == QLatin1String("add_animation_clip") && !KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"))) {
+        action->setEnabled(false);
+    } else if (name == QLatin1String("add_text_clip") && !KdenliveSettings::producerslist().contains(QLatin1String("kdenlivetitle"))) {
+        action->setEnabled(false);
+    }
 }
 
 void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
@@ -4076,6 +4082,14 @@ void Bin::slotOpenClipExtern()
         }
     }
     break;
+    case ClipType::Animation: {
+        QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
+        if (glaxBinary.isEmpty()) {
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations"));
+        } else {
+            QProcess::startDetached(glaxBinary, {clip->url()});
+        }
+    } break;
     default:
         break;
     }

@@ -989,11 +989,6 @@
       <default></default>
     </entry>
 
-    <entry name="hastitleproducer" type="Bool">
-      <label>Is MLT compiled with Qt4 Kdenlive title support.</label>
-      <default>true</default>
-    </entry>
-
     <entry name="mixerCollapse" type="Bool">
       <label>Collapse audio mixer (only show master channel).</label>
       <default>false</default>
