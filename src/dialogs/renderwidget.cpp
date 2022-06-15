@@ -1348,7 +1348,9 @@ void RenderWidget::refreshParams()
     int amax = preset->audioQualities().first().toInt();
     int arange = abs(amax - amin);
 
+    double factor = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.quality->setMaximum(qMin(100, qMax(vrange, arange)));
+    m_view.quality->setValue(m_view.quality->maximum() * factor);
     double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
 
@@ -1762,6 +1764,12 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (props.contains(QStringLiteral("renderratio"))) {
         m_view.rescale_keep->setChecked(props.value(QStringLiteral("renderratio")).toInt() != 0);
     }
+    if (props.contains(QStringLiteral("rendercustomquality")) && props.value(QStringLiteral("rendercustomquality")).toInt() >= 0) {
+        m_view.qualityGroup->setChecked(true);
+        m_view.quality->setValue(props.value(QStringLiteral("rendercustomquality")).toInt());
+    } else {
+        m_view.qualityGroup->setChecked(false);
+    }
     if (props.contains(QStringLiteral("renderplay"))) {
         m_view.play_after->setChecked(props.value(QStringLiteral("renderplay")).toInt() != 0);
     }
@@ -1842,6 +1850,7 @@ void RenderWidget::saveRenderProfile()
     renderProps.insert(QStringLiteral("renderratio"), QString::number(static_cast<int>(m_view.rescale_keep->isChecked())));
     renderProps.insert(QStringLiteral("renderplay"), QString::number(static_cast<int>(m_view.play_after->isChecked())));
     renderProps.insert(QStringLiteral("rendertwopass"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked())));
+    renderProps.insert(QStringLiteral("rendercustomquality"), QString::number(m_view.qualityGroup->isChecked() ? m_view.quality->value() : -1));
     renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
     renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
 
