@@ -31,6 +31,7 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
     , m_renderer(renderer)
     , m_url(preset.attribute(QStringLiteral("url")))
     , m_speeds(preset.attribute(QStringLiteral("speeds")))
+    , m_defaultSpeedIndex(preset.attribute(QStringLiteral("defaultspeedindex"), QStringLiteral("-1")).toInt())
     , m_topFieldFirst(preset.attribute(QStringLiteral("top_field_first")))
 {
     if (m_groupName.isEmpty()) {
@@ -45,6 +46,10 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
 
     if (getParam(QStringLiteral("f")).isEmpty() && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
         m_params.append(QStringLiteral(" f=%1").arg(m_extension));
+    }
+
+    if (m_defaultSpeedIndex < 0) {
+        m_defaultSpeedIndex = (speeds().count() - 1) * 0.75;
     }
 
     m_vQualities = preset.attribute(QStringLiteral("qualities"));
@@ -65,6 +70,7 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     , m_params(params)
     , m_groupName(groupName)
     , m_renderer(QStringLiteral("avformat"))
+    , m_defaultSpeedIndex(-1)
 {
     KConfig config(path, KConfig::SimpleConfig);
     KConfigGroup group = config.group(QByteArray());
@@ -93,7 +99,8 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
 }
 
 RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate,
-                                     const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality, const QString &speeds)
+                                     const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality,
+                                     const QString &speedsString)
     : m_presetFile()
     , m_editable()
     , m_name(name)
@@ -104,7 +111,7 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_groupName(groupName)
     , m_renderer(QStringLiteral("avformat"))
     , m_url()
-    , m_speeds(speeds)
+    , m_speeds(speedsString)
     , m_topFieldFirst()
     , m_vBitrates()
     , m_defaultVBitrate(defaultVBitrate)
@@ -118,6 +125,8 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     if (m_groupName.isEmpty()) {
         m_groupName = i18nc("Category Name", "Custom");
     }
+
+    m_defaultSpeedIndex = (speeds().count() - 1) * 0.75;
 
     checkPreset();
 }
@@ -232,6 +241,9 @@ QDomElement RenderPresetModel::toXml()
     if (!m_speeds.isEmpty()) {
         // profile has a variable speed
         profileElement.setAttribute(QStringLiteral("speeds"), m_speeds);
+        if (m_defaultSpeedIndex > 0) {
+            profileElement.setAttribute(QStringLiteral("defaultspeedindex"), m_defaultSpeedIndex);
+        }
     }
     return doc.documentElement();
 }

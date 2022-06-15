@@ -1204,10 +1204,9 @@ void RenderWidget::loadProfile()
     m_view.buttonEdit->setEnabled(profile->editable());
 
     if (!profile->speeds().isEmpty()) {
-        int speed = profile->speeds().count() - 1;
         m_view.speed->setEnabled(true);
-        m_view.speed->setMaximum(speed);
-        m_view.speed->setValue(speed * 3 / 4); // default to intermediate speed
+        m_view.speed->setMaximum(profile->speeds().count() - 1);
+        m_view.speed->setValue(profile->defaultSpeedIndex());
     } else {
         m_view.speed->setEnabled(false);
     }
@@ -1350,7 +1349,7 @@ void RenderWidget::refreshParams()
 
     double factor = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.quality->setMaximum(qMin(100, qMax(vrange, arange)));
-    m_view.quality->setValue(m_view.quality->maximum() * factor);
+    m_view.quality->setValue(qRound(m_view.quality->maximum() * factor));
     double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
 
