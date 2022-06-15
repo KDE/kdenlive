@@ -3180,7 +3180,8 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title…"),
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-
+    setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Add Animation…"),
+                       QIcon::fromTheme(QStringLiteral("motion_path_animations")));
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
     addClipMenu->addAction(downloadResourceAction);
@@ -3357,6 +3358,9 @@ void Bin::slotCreateProjectClip()
         break;
     case ClipType::QText:
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this);
+        break;
+    case ClipType::Animation:
+        ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
         break;
     default:
         break;

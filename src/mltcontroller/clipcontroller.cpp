@@ -251,6 +251,10 @@ void ClipController::getInfoForProducer()
         // Mostly used for testing
         m_clipType = ClipType::AV;
         m_hasLimitedDuration = true;
+    } else if (m_service == QLatin1String("glaxnimate")) {
+        // Mostly used for testing
+        m_clipType = ClipType::Animation;
+        m_hasLimitedDuration = true;
     } else {
         m_clipType = ClipType::Unknown;
     }
@@ -696,16 +700,21 @@ void ClipController::checkAudioVideo()
     if (m_masterProducer->property_exists("kdenlive:clip_type")) {
         int clipType = m_masterProducer->get_int("kdenlive:clip_type");
         switch (clipType) {
-        case 1:
+        case ClipType::Audio:
             m_hasAudio = true;
             m_hasVideo = false;
             break;
-        case 2:
+        case ClipType::Video:
             m_hasAudio = false;
             m_hasVideo = true;
             break;
-        default:
+        case ClipType::AV:
+        case ClipType::Playlist:
             m_hasAudio = true;
+            m_hasVideo = true;
+            break;
+        default:
+            m_hasAudio = false;
             m_hasVideo = true;
             break;
         }
