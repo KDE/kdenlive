@@ -1347,7 +1347,7 @@ void RenderWidget::refreshParams()
 
     double factor = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.quality->setMaximum(qMin(100, qMax(vrange, arange)));
-    m_view.quality->setValue(m_view.quality->maximum() * factor);
+    m_view.quality->setValue(qRound(m_view.quality->maximum() * factor));
     double percent = double(m_view.quality->value()) / double(m_view.quality->maximum());
     m_view.qualityPercent->setText(QStringLiteral("%1%").arg(qRound(percent * 100)));
 
