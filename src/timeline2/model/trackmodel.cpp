@@ -301,7 +301,7 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
                 // A clip move changed the track duration, update track effects
                 m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
             }
-            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, newInsertion);
+            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, newInsertion && finalMove);
             UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
