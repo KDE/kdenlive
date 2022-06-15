@@ -1196,10 +1196,9 @@ void RenderWidget::loadProfile()
     m_view.buttonEdit->setEnabled(profile->editable());
 
     if (!profile->speeds().isEmpty()) {
-        int speed = profile->speeds().count() - 1;
         m_view.speed->setEnabled(true);
-        m_view.speed->setMaximum(speed);
-        m_view.speed->setValue(speed * 3 / 4); // default to intermediate speed
+        m_view.speed->setMaximum(profile->speeds().count() - 1);
+        m_view.speed->setValue(profile->defaultSpeedIndex());
     } else {
         m_view.speed->setEnabled(false);
     }
