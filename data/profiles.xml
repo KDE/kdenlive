@@ -5,7 +5,7 @@
    audioqualities="7,3" defaultaudioquality="5"
    args="f=webm vcodec=libvpx crf=%quality vb=8M qcomp=1 g=15 acodec=vorbis aq=%audioquality"/>
   <profile name="MP4-H264/AAC" extension="mp4"
-   qualities="15,45" defaultquality="25"
+   qualities="15,45" defaultquality="23"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 movflags=+faststart vcodec=libx264 crf=%quality g=15 acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
@@ -26,7 +26,7 @@
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=webm vcodec=libaom-av1 crf=%quality vb=15M qcomp=1 g=15 row-mt=1 tiles=2x2 frame-parallel=1 strict=experimental acodec=libopus ab=%audiobitrate+'k'"/>
   <profile name="MP4-H265 (HEVC)" extension="mp4"
-   qualities="15,45" defaultquality="25"
+   qualities="15,45" defaultquality="28"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="properties=x265-medium f=mp4 vcodec=libx265 crf=%quality acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
@@ -67,7 +67,7 @@
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 vcodec=h264_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 VBR" extension="mp4"
-   qualities="15,45" defaultquality="25"
+   qualities="15,45" defaultquality="23"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 vcodec=h264_nvenc rc=constqp vglobal_quality=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H265 ABR" extension="mp4"
