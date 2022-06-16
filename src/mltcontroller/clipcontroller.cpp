@@ -700,21 +700,16 @@ void ClipController::checkAudioVideo()
     if (m_masterProducer->property_exists("kdenlive:clip_type")) {
         int clipType = m_masterProducer->get_int("kdenlive:clip_type");
         switch (clipType) {
-        case ClipType::Audio:
+        case PlaylistState::AudioOnly:
             m_hasAudio = true;
             m_hasVideo = false;
             break;
-        case ClipType::Video:
+        case PlaylistState::VideoOnly:
             m_hasAudio = false;
-            m_hasVideo = true;
-            break;
-        case ClipType::AV:
-        case ClipType::Playlist:
-            m_hasAudio = true;
             m_hasVideo = true;
             break;
         default:
-            m_hasAudio = false;
+            m_hasAudio = true;
             m_hasVideo = true;
             break;
         }
@@ -728,10 +723,10 @@ void ClipController::checkAudioVideo()
                 if (m_hasVideo) {
                     m_masterProducer->set("kdenlive:clip_type", 0);
                 } else {
-                    m_masterProducer->set("kdenlive:clip_type", 1);
+                    m_masterProducer->set("kdenlive:clip_type", PlaylistState::AudioOnly);
                 }
             } else if (m_hasVideo) {
-                m_masterProducer->set("kdenlive:clip_type", 2);
+                m_masterProducer->set("kdenlive:clip_type", PlaylistState::VideoOnly);
             }
             m_masterProducer->seek(0);
         } else {
