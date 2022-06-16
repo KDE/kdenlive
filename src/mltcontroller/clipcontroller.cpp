@@ -700,11 +700,11 @@ void ClipController::checkAudioVideo()
     if (m_masterProducer->property_exists("kdenlive:clip_type")) {
         int clipType = m_masterProducer->get_int("kdenlive:clip_type");
         switch (clipType) {
-        case PlaylistState::AudioOnly:
+        case 1:
             m_hasAudio = true;
             m_hasVideo = false;
             break;
-        case PlaylistState::VideoOnly:
+        case 2:
             m_hasAudio = false;
             m_hasVideo = true;
             break;
@@ -714,23 +714,35 @@ void ClipController::checkAudioVideo()
             break;
         }
     } else {
-        QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
-        if (frame->is_valid()) {
-            // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
-            m_hasAudio = frame->get_int("test_audio") == 0;
-            m_hasVideo = frame->get_int("test_image") == 0;
-            if (m_hasAudio) {
-                if (m_hasVideo) {
-                    m_masterProducer->set("kdenlive:clip_type", 0);
-                } else {
-                    m_masterProducer->set("kdenlive:clip_type", PlaylistState::AudioOnly);
+        QString service = m_masterProducer->get("kdenlive:orig_service");
+        if (service.isEmpty()) {
+            service = m_masterProducer->get("mlt_service");
+        }
+        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
+        if (avTypes.contains(m_clipType)) {
+            QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
+            if (frame->is_valid()) {
+                // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
+                m_hasAudio = frame->get_int("test_audio") == 0;
+                m_hasVideo = frame->get_int("test_image") == 0;
+                if (m_hasAudio) {
+                    if (m_hasVideo) {
+                        m_masterProducer->set("kdenlive:clip_type", 0);
+                    } else {
+                        m_masterProducer->set("kdenlive:clip_type", 1);
+                    }
+                } else if (m_hasVideo) {
+                    m_masterProducer->set("kdenlive:clip_type", 2);
                 }
-            } else if (m_hasVideo) {
-                m_masterProducer->set("kdenlive:clip_type", PlaylistState::VideoOnly);
+                m_masterProducer->seek(0);
+            } else {
+                qDebug() << "* * * *ERROR INVALID FRAME On test";
             }
-            m_masterProducer->seek(0);
         } else {
-            qDebug() << "* * * *ERROR INVALID FRAME On test";
+            // Assume video only producer
+            m_hasAudio = false;
+            m_hasVideo = true;
+            m_masterProducer->set("kdenlive:clip_type", 2);
         }
     }
 }
