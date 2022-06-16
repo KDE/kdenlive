@@ -502,7 +502,7 @@ void MonitorManager::setupActions()
 
     QAction *monitorSeekBackwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Second"), this);
     connect(monitorSeekBackwardOneSecond, &QAction::triggered, this, &MonitorManager::slotRewindOneSecond);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-second"), monitorSeekBackwardOneSecond, Qt::SHIFT + Qt::Key_Left,
+    pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-second"), monitorSeekBackwardOneSecond, Qt::SHIFT | Qt::Key_Left,
                                QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
@@ -511,11 +511,11 @@ void MonitorManager::setupActions()
 
     QAction *projectStart = new QAction(QIcon::fromTheme(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
-    pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL + Qt::Key_Home, QStringLiteral("navandplayback"));
+    pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL | Qt::Key_Home, QStringLiteral("navandplayback"));
 
     QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
-    pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd, Qt::CTRL + Qt::Key_End, QStringLiteral("navandplayback"));
+    pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd, Qt::CTRL | Qt::Key_End, QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Frame"), this);
     connect(monitorSeekForwardOneFrame, &QAction::triggered, this, &MonitorManager::slotForwardOneFrame);
@@ -523,7 +523,7 @@ void MonitorManager::setupActions()
 
     QAction *monitorSeekForwardOneSecond = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-forward")), i18n("Forward 1 Second"), this);
     connect(monitorSeekForwardOneSecond, &QAction::triggered, this, &MonitorManager::slotForwardOneSecond);
-    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-second"), monitorSeekForwardOneSecond, Qt::SHIFT + Qt::Key_Right,
+    pCore->window()->addAction(QStringLiteral("monitor_seek_forward-one-second"), monitorSeekForwardOneSecond, Qt::SHIFT | Qt::Key_Right,
                                QStringLiteral("navandplayback"));
 
     m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack View"), this);
@@ -609,11 +609,11 @@ void MonitorManager::setupActions()
 
     QAction *zoneStart = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Go to Zone Start"), this);
     connect(zoneStart, &QAction::triggered, this, &MonitorManager::slotZoneStart);
-    pCore->window()->addAction(QStringLiteral("seek_zone_start"), zoneStart, Qt::SHIFT + Qt::Key_I, QStringLiteral("navandplayback"));
+    pCore->window()->addAction(QStringLiteral("seek_zone_start"), zoneStart, Qt::SHIFT | Qt::Key_I, QStringLiteral("navandplayback"));
 
     QAction *zoneEnd = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Go to Zone End"), this);
     connect(zoneEnd, &QAction::triggered, this, &MonitorManager::slotZoneEnd);
-    pCore->window()->addAction(QStringLiteral("seek_zone_end"), zoneEnd, Qt::SHIFT + Qt::Key_O, QStringLiteral("navandplayback"));
+    pCore->window()->addAction(QStringLiteral("seek_zone_end"), zoneEnd, Qt::SHIFT | Qt::Key_O, QStringLiteral("navandplayback"));
 
     QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
     connect(markIn, &QAction::triggered, this, &MonitorManager::slotSetInPoint);
