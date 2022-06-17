@@ -133,6 +133,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     // Styling dialog
     connect(fontSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &SubtitleEdit::updateStyle);
     connect(outlineSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &SubtitleEdit::updateStyle);
+    connect(shadowSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &SubtitleEdit::updateStyle);
     connect(fontFamily, &QFontComboBox::currentFontChanged, this, &SubtitleEdit::updateStyle);
     connect(fontColor, &KColorButton::changed, this, &SubtitleEdit::updateStyle);
     connect(outlineColor, &KColorButton::changed, this, &SubtitleEdit::updateStyle);
@@ -142,6 +143,8 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(checkOutlineColor, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
     connect(checkOutlineSize, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
     connect(checkPosition, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkShadowSize, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
+    connect(checkOpaque, &QCheckBox::toggled, this, &SubtitleEdit::updateStyle);
     alignment->addItem(i18n("Bottom Center"), 2);
     alignment->addItem(i18n("Bottom Left"), 1);
     alignment->addItem(i18n("Bottom Right"), 3);
@@ -174,6 +177,9 @@ void SubtitleEdit::updateStyle()
     if (outlineSize->isEnabled()) {
         styleString.append(QStringLiteral("Outline=%1,").arg(outlineSize->value()));
     }
+    if (shadowSize->isEnabled()) {
+        styleString.append(QStringLiteral("Shadow=%1,").arg(shadowSize->value()));
+    }
     if (outlineColor->isEnabled()) {
         // Qt AARRGGBB must be converted to AABBGGRR where AA is 255-AA
         QColor color = outlineColor->color();
@@ -182,6 +188,9 @@ void SubtitleEdit::updateStyle()
         QString colorName = destColor.name(QColor::HexArgb);
         colorName.remove(0, 1);
         styleString.append(QStringLiteral("OutlineColour=&H%1,").arg(colorName));
+    }
+    if (checkOpaque->isChecked()) {
+        styleString.append(QStringLiteral("BorderStyle=3,"));
     }
     if (alignment->isEnabled()) {
         styleString.append(QStringLiteral("Alignment=%1,").arg(alignment->currentData().toInt()));
@@ -224,20 +233,25 @@ void SubtitleEdit::loadStyle(const QString &style)
     QSignalBlocker bk3(checkFontColor);
     QSignalBlocker bk4(checkOutlineColor);
     QSignalBlocker bk5(checkOutlineSize);
-    QSignalBlocker bk6(checkPosition);
+    QSignalBlocker bk6(checkShadowSize);
+    QSignalBlocker bk7(checkPosition);
+    QSignalBlocker bk8(checkOpaque);
 
     checkFont->setChecked(false);
     checkFontSize->setChecked(false);
     checkFontColor->setChecked(false);
     checkOutlineColor->setChecked(false);
     checkOutlineSize->setChecked(false);
+    checkShadowSize->setChecked(false);
     checkPosition->setChecked(false);
+    checkOpaque->setChecked(false);
 
     fontFamily->setEnabled(false);
     fontSize->setEnabled(false);
     fontColor->setEnabled(false);
     outlineColor->setEnabled(false);
     outlineSize->setEnabled(false);
+    shadowSize->setEnabled(false);
     alignment->setEnabled(false);
 
     for (const QString &p : params) {
@@ -267,6 +281,13 @@ void SubtitleEdit::loadStyle(const QString &style)
             QSignalBlocker bk(outlineSize);
             outlineSize->setEnabled(true);
             outlineSize->setValue(pValue.toInt());
+        } else if (pName == QLatin1String("Shadow")) {
+            checkShadowSize->setChecked(true);
+            QSignalBlocker bk(shadowSize);
+            shadowSize->setEnabled(true);
+            shadowSize->setValue(pValue.toInt());
+        } else if (pName == QLatin1String("BorderStyle")) {
+            checkOpaque->setChecked(true);
         } else if (pName == QLatin1String("Alignment")) {
             checkPosition->setChecked(true);
             QSignalBlocker bk(alignment);

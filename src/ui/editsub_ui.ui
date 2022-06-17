@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
-    <height>322</height>
+    <width>285</width>
+    <height>332</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -174,24 +174,57 @@
         </widget>
         <widget class="QWidget" name="page_2">
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="checkFont">
-            <property name="text">
-             <string>Custom Font</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="3">
-           <widget class="QFontComboBox" name="fontFamily">
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="7" column="2">
+           <widget class="QComboBox" name="alignment">
             <property name="enabled">
              <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QCheckBox" name="checkFontSize">
+          <item row="4" column="2">
+           <widget class="KColorButton" name="outlineColor">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="defaultColor">
+             <color>
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </property>
+            <property name="alphaChannelEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QSpinBox" name="outlineSize">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="suffix">
+             <string>px</string>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="checkShadowSize">
             <property name="text">
-             <string>Custom Font Size</string>
+             <string>Custom Shadow</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkFont">
+            <property name="text">
+             <string>Custom Font</string>
             </property>
            </widget>
           </item>
@@ -211,55 +244,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="checkFontColor">
-            <property name="text">
-             <string>Custom Font Color</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QCheckBox" name="checkOutlineColor">
-            <property name="text">
-             <string>Custom Outline Color</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QCheckBox" name="checkOutlineSize">
-            <property name="text">
-             <string>Custom Outline Size</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <widget class="QSpinBox" name="outlineSize">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="suffix">
-             <string>px</string>
-            </property>
-            <property name="value">
-             <number>4</number>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QCheckBox" name="checkPosition">
-            <property name="text">
-             <string>Custom Position</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2">
-           <widget class="QComboBox" name="alignment">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="2">
+          <item row="9" column="2">
            <spacer name="verticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -271,6 +256,27 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkFontColor">
+            <property name="text">
+             <string>Custom Font Color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QCheckBox" name="checkPosition">
+            <property name="text">
+             <string>Custom Position</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkFontSize">
+            <property name="text">
+             <string>Custom Font Size</string>
+            </property>
+           </widget>
           </item>
           <item row="3" column="2">
            <widget class="KColorButton" name="fontColor">
@@ -296,20 +302,41 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
-           <widget class="KColorButton" name="outlineColor">
+          <item row="6" column="2">
+           <widget class="QSpinBox" name="shadowSize">
             <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="defaultColor">
-             <color>
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
+            <property name="suffix">
+             <string>px</string>
             </property>
-            <property name="alphaChannelEnabled">
-             <bool>true</bool>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QFontComboBox" name="fontFamily">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="checkOutlineColor">
+            <property name="text">
+             <string>Custom Outline Color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="checkOutlineSize">
+            <property name="text">
+             <string>Custom Outline Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0" colspan="3">
+           <widget class="QCheckBox" name="checkOpaque">
+            <property name="text">
+             <string>Opaque background</string>
             </property>
            </widget>
           </item>
@@ -449,6 +476,22 @@
     <hint type="destinationlabel">
      <x>248</x>
      <y>243</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkShadowSize</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>shadowSize</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>207</y>
     </hint>
    </hints>
   </connection>
