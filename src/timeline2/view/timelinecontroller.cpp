@@ -4926,7 +4926,7 @@ void TimelineController::exportSubtitle()
 
 void TimelineController::subtitleSpeechRecognition()
 {
-    SpeechDialog d(m_model, m_zone, false, false, qApp->activeWindow());
+    SpeechDialog d(m_model, m_zone, m_activeTrack, false, false, qApp->activeWindow());
     d.exec();
 }
 

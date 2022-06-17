@@ -1025,6 +1025,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
         qDebug() << "// Project failed to load!!";
     }
     // Free memory used by original playlist
+    xmlProd->clear();
     xmlProd.reset(nullptr);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing

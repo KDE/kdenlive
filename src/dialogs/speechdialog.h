@@ -27,12 +27,15 @@ class SpeechDialog : public QDialog, public Ui::SpeechDialog_UI
     Q_OBJECT
 
 public:
-    explicit SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, bool activeTrackOnly = false, bool selectionOnly = false, QWidget *parent = nullptr);
+    explicit SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint zone, int tid, bool activeTrackOnly = false, bool selectionOnly = false,
+                          QWidget *parent = nullptr);
     ~SpeechDialog() override;
 
 private:
     std::unique_ptr<QProcess> m_speechJob;
     const std::shared_ptr<TimelineItemModel> m_timeline;
+    QPoint m_zone;
+    int m_tid;
     int m_duration;
     std::unique_ptr<QTemporaryFile> m_tmpAudio;
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
@@ -41,7 +44,7 @@ private:
     SpeechToText *m_stt;
 
 private slots:
-    void slotProcessSpeech(QPoint zone);
-    void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile, const QPoint zone);
+    void slotProcessSpeech();
+    void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile);
     void slotProcessProgress();
 };
