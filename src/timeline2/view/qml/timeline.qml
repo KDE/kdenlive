@@ -333,6 +333,7 @@ Rectangle {
         dragProxy.width = 0
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
+        root.autoScrolling = timeline.autoScroll
     }
 
     function regainFocus(mousePos) {
@@ -376,6 +377,7 @@ Rectangle {
                 endDrag()
             }
         }
+        root.autoScrolling = timeline.autoScroll
     }
 
     function getAudioTracksCount(){
