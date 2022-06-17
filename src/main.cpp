@@ -69,9 +69,17 @@ int main(int argc, char *argv[])
 #ifdef CRASH_AUTO_TEST
     Logger::init();
 #endif
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    //TODO: is it a good option ?
+#endif
+
+#if defined(Q_OS_WIN)
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
+#endif
+
+    // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
     
 #if defined(Q_OS_WIN)
