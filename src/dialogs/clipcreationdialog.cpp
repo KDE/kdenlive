@@ -73,7 +73,8 @@ QStringList ClipCreationDialog::getExtensions()
               << QStringLiteral("image/jxl");
 
     // Lottie animations
-    if (KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"))) {
+    bool allowLottie = KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"));
+    if (allowLottie) {
         mimeTypes << QStringLiteral("application/json");
     }
 
@@ -84,6 +85,9 @@ QStringList ClipCreationDialog::getExtensions()
         if (mime.isValid()) {
             allExtensions.append(mime.globPatterns());
         }
+    }
+    if (allowLottie) {
+        allExtensions.append(QStringLiteral("*.rawr"));
     }
     // process custom user extensions
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
