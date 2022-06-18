@@ -169,6 +169,13 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     int col;
     QString domErrorMessage;
 
+
+    if (recoverCorruption) {
+        // this seems to also drop valid non-BMP Unicode characters, so only do
+        // it if the file is unreadable otherwise
+        QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
+        result.setModified(true);
+    }
     bool success = domDoc.setContent(&file, false, &domErrorMessage, &line, &col);
 
     if (!success) {
@@ -263,11 +270,13 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         doc->setModified(true);
     }
 
+    if (result.wasModified() || result.wasUpgraded()) {
+        doc->requestBackup();
+    }
     result.setDocument(doc);
 
     doc->updateClipsCount();
 
-    // https://stackoverflow.com/questions/4989807/how-to-handle-failure-in-constructor-in-c
     return result;
 }
 
