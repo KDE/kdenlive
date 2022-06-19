@@ -236,3 +236,136 @@ TEST_CASE("Save File", "[SF]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+
+TEST_CASE("Non-BMP Unicode", "[NONBMP]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+
+    // A Kdenlive bug (bugzilla bug 435768) caused characters outside the Basic
+    // Multilingual Plane to be lost when the file is loaded. This string
+    // contains the onigiri emoji which should survive a save+open round trip.
+    // If Kdenlive drops the emoji, then the result is just "testtest" which can
+    // be checked for.
+
+    const QString emojiTestString = QString::fromUtf8("test\xF0\x9F\x8D\x99test");
+
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    QTemporaryFile saveFile(QDir::temp().filePath("kdenlive_test_XXXXXX.kdenlive"));
+    qDebug() << "Choosing temp file with template" << (QDir::temp().filePath("kdenlive_test_XXXXXX.kdenlive"));
+    REQUIRE(saveFile.open());
+    saveFile.close();
+    qDebug() << "New temporary file:" << saveFile.fileName();
+
+    SECTION("Save title with special chars")
+    {
+
+        // Create document
+        Mock<KdenliveDoc> docMock;
+        // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
+        //     Q_UNUSED(name) Q_UNUSED(defaultValue)
+        //     qDebug() << "Intercepted call";
+        //     return QStringLiteral("dummyId");
+        // });
+        KdenliveDoc &mockedDoc = docMock.get();
+
+        // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
+        ProjectManager &mocked = pmMock.get();
+        pCore->m_projectManager = &mocked;
+        pCore->m_projectManager->m_project = &mockedDoc;
+        pCore->m_projectManager->m_project->m_guideModel = guideModel;
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(&profile_file, undoStack);
+        Mock<TimelineItemModel> timMock(tim);
+        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+        TimelineItemModel::finishConstruct(timeline, guideModel);
+        mocked.testSetActiveDocument(&mockedDoc, timeline);
+        QDir dir = QDir::temp();
+        std::unordered_map<QString, QString> binIdCorresp;
+        QStringList expandedFolders;
+        QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
+        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", doc.toString().toUtf8()));
+
+        Mlt::Service s(*xmlProd);
+        Mlt::Tractor tractor(s);
+        binModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, nullptr);
+
+        RESET(timMock)
+
+        // create a simple title with the non-BMP test string
+        auto titleXml = ("<kdenlivetitle duration=\"150\" LC_NUMERIC=\"C\" width=\"1920\" height=\"1080\" out=\"149\">\n <item type=\"QGraphicsTextItem\" z-index=\"0\">\n  <position x=\"777\" y=\"482\">\n   <transform>1,0,0,0,1,0,0,0,1</transform>\n  </position>\n  <content shadow=\"0;#64000000;3;3;3\" font-underline=\"0\" box-height=\"138\" font-outline-color=\"0,0,0,255\" font=\"Liberation Sans\" letter-spacing=\"0\" font-pixel-size=\"120\" font-italic=\"0\" typewriter=\"0;2;1;0;0\" alignment=\"0\" font-weight=\"63\" font-outline=\"3\" box-width=\"573.25\" font-color=\"252,233,79,255\">"+
+            emojiTestString+
+            "</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
+
+        QString binId2 = createTextProducer(profile_file, binModel, titleXml, emojiTestString, 150);
+
+        TrackModel::construct(timeline, -1, -1, QString(), true);
+        TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid1 = TrackModel::construct(timeline);
+        /*int tid1b =*/ TrackModel::construct(timeline);
+
+        // Setup timeline audio drop info
+        QMap<int, QString> audioInfo;
+        audioInfo.insert(1, QStringLiteral("stream1"));
+        timeline->m_binAudioTargets = audioInfo;
+        timeline->m_videoTarget = tid1;
+
+        mocked.testSaveFileAs(saveFile.fileName());
+        // Undo resize
+        undoStack->undo();
+        // Undo first insert
+        undoStack->undo();
+        // Undo second insert
+        undoStack->undo();
+
+        // open the file and check that it contains emojiTestString
+        QFile file(saveFile.fileName());
+        REQUIRE(file.open(QIODevice::ReadOnly));
+        QByteArray contents = file.readAll();
+        if (contents.contains(emojiTestString.toUtf8())) {
+            qDebug() << "File contains test string";
+        } else {
+            qDebug() << "File does not contain test string:" << contents;
+        }
+        REQUIRE(contents.contains(emojiTestString.toUtf8()));
+
+        // try opening the file as a Kdenlivedoc and check that the title hasn't
+        // lost the emoji
+
+        // convert qtemporaryfile saveFile to QUrl
+        QUrl openURL = QUrl::fromLocalFile(saveFile.fileName());
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        auto openResults = KdenliveDoc::Open(openURL, QDir::temp().path(),
+            undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+
+        KdenliveDoc *openedDoc = openResults.getDocument();
+        QDomDocument *newDoc = &openedDoc->m_document;
+        auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
+        QDomElement textTitle;
+        for (int i = 0; i < producers.size(); i++) {
+            auto kdenliveid = getProperty(producers.at(i).toElement(), QStringLiteral("kdenlive:id"));
+            if (kdenliveid != nullptr && kdenliveid->text() == binId2) {
+                textTitle = producers.at(i).toElement();
+                break;
+            }
+        }
+        auto clipname = getProperty(textTitle, QStringLiteral("kdenlive:clipname"));
+        REQUIRE(clipname != nullptr);
+        CHECK(clipname->text() == emojiTestString);
+        auto xmldata = getProperty(textTitle, QStringLiteral("xmldata"));
+        REQUIRE(xmldata != nullptr);
+        CHECK(clipname->text().contains(emojiTestString));
+    }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}

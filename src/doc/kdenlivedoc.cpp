@@ -143,6 +143,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
 
     initializeProperties();
+
+    updateClipsCount();
 }
 
 DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
@@ -274,8 +276,6 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         doc->requestBackup();
     }
     result.setDocument(doc);
-
-    doc->updateClipsCount();
 
     return result;
 }

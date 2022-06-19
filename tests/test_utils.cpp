@@ -69,17 +69,18 @@ QString createAVProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> b
     return binId;
 }
 
-QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length)
+QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, QString xmldata, QString clipname, int length)
 {
     std::shared_ptr<Mlt::Producer> producer =
-        std::make_shared<Mlt::Producer>(prof, QFileInfo(sourcesPath + "/dataset/title.kdenlivetitle").absoluteFilePath().toStdString().c_str());
+        std::make_shared<Mlt::Producer>(prof, "kdenlivetitle");
 
     REQUIRE(producer->is_valid());
 
     producer->set("length", length);
     producer->set_in_and_out(0, length - 1);
     producer->set("kdenlive:duration", length);
-    producer->set("length", length);
+    producer->set_string("kdenlive:clipname", clipname.toUtf8());
+    producer->set_string("xmldata", xmldata.toUtf8());
 
     QString binId = QString::number(binModel->getFreeClipId());
     auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);
@@ -87,6 +88,18 @@ QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel>
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     REQUIRE(binModel->addItem(binClip, binModel->getRootFolder()->clipId(), undo, redo));
-    REQUIRE(binClip->clipType() == ClipType::TextTemplate);
+
+    REQUIRE(binClip->clipType() == ClipType::Text);
     return binId;
+}
+
+std::unique_ptr<QDomElement> getProperty(const QDomElement &doc, QString name) {
+    QDomNodeList list = doc.elementsByTagName("property");
+    for (int i = 0; i < list.count(); i++) {
+        QDomElement e = list.at(i).toElement();
+        if (e.attribute("name") == name) {
+            return std::make_unique<QDomElement>(e);
+        }
+    }
+    return nullptr;
 }
