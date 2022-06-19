@@ -319,7 +319,7 @@ Rectangle {
         dragProxy.width = 0
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
-        root.autoScrolling = timeline.autoScroll
+        root.blockAutoScroll = false
     }
 
     function regainFocus(mousePos) {
@@ -363,7 +363,7 @@ Rectangle {
                 endDrag()
             }
         }
-        root.autoScrolling = timeline.autoScroll
+        root.blockAutoScroll = false
     }
 
     function getAudioTracksCount(){
@@ -418,6 +418,7 @@ Rectangle {
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
     property bool autoScrolling: timeline.autoScroll
+    property bool blockAutoScroll: false
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
     property color videoColor: timeline.videoColor
@@ -500,7 +501,7 @@ Rectangle {
     }
 
     onConsumerPositionChanged: {
-        if (root.autoScrolling) Logic.scrollIfNeeded()
+        if (root.autoScrolling && !root.blockAutoScroll) Logic.scrollIfNeeded()
     }
 
     onViewActiveTrackChanged: {
@@ -1195,10 +1196,10 @@ Rectangle {
                             drag.smoothed: false
 
                             onPressed: {
-                                root.autoScrolling = false
+                                root.blockAutoScroll = true
                             }
                             onReleased: {
-                                root.autoScrolling = timeline.autoScroll
+                                root.blockAutoScroll = false
                                 parent.opacity = 0
                             }
                             onEntered: parent.opacity = 0.5
@@ -1734,7 +1735,7 @@ Rectangle {
                                             controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                         }
                                         timeline.showAsset(dragProxy.draggedItem)
-                                        root.autoScrolling = false
+                                        root.blockAutoScroll = true
                                         clipBeingMovedId = dragProxy.draggedItem
                                         if (dragProxy.draggedItem > -1) {
                                             var tk = controller.getItemTrackId(dragProxy.draggedItem)
@@ -1845,7 +1846,7 @@ Rectangle {
                                     }
                                     onReleased: {
                                         clipBeingMovedId = -1
-                                        root.autoScrolling = timeline.autoScroll
+                                        root.blockAutoScroll = false
                                         if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                             var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                             if (dragProxy.isComposition) {
