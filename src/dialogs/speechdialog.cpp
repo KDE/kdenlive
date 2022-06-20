@@ -172,30 +172,41 @@ void SpeechDialog::slotProcessSpeech()
     // TODO: do the rendering in another thread to not block the UI
 
     Mlt::Producer producer(*m_timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
-    Mlt::Service s(producer);
+    int tracksCount = m_timeline->tractor()->count();
+    std::shared_ptr<Mlt::Service> s(new Mlt::Service(producer));
+    std::shared_ptr<Mlt::Multitrack> multi = nullptr;
+    bool multitrackFound = false;
     for (int i = 0; i < 10; i++) {
-        s = s.producer();
-        qDebug() << ":::: GOT SERVIE TYPE: " << i << " = " << s.type();
-        if (s.type() == mlt_service_multitrack_type) {
+        s.reset(s->producer());
+        if (s == nullptr || !s->is_valid()) {
             break;
         }
-    }
-    Mlt::Multitrack tractor(s);
-    int trackPos = -1;
-    if (m_tid > -1) {
-        trackPos = m_timeline->getTrackMltIndex(m_tid);
-    }
-    int tid = 0;
-    for (int i = 0; i < tractor.count(); i++) {
-        std::shared_ptr<Mlt::Producer> tk(tractor.track(i));
-        if (tk->get_int("hide") == 1) {
-            // Video track, hide it
-            tk->set("hide", 3);
-        } else if (tid == 0 || (trackPos > -1 && trackPos != tid)) {
-            // We only want a specific audio track
-            tk->set("hide", 3);
+        if (s->type() == mlt_service_multitrack_type) {
+            multi.reset(new Mlt::Multitrack(*s.get()));
+            if (multi->count() == tracksCount) {
+                // Match
+                multitrackFound = true;
+                break;
+            }
         }
-        tid++;
+    }
+    if (multitrackFound) {
+        int trackPos = -1;
+        if (m_tid > -1) {
+            trackPos = m_timeline->getTrackMltIndex(m_tid);
+        }
+        int tid = 0;
+        for (int i = 0; i < multi->count(); i++) {
+            std::shared_ptr<Mlt::Producer> tk(multi->track(i));
+            if (tk->get_int("hide") == 1) {
+                // Video track, hide it
+                tk->set("hide", 3);
+            } else if (tid == 0 || (trackPos > -1 && trackPos != tid)) {
+                // We only want a specific audio track
+                tk->set("hide", 3);
+            }
+            tid++;
+        }
     }
     Mlt::Consumer xmlConsumer(*m_timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());
     if (!xmlConsumer.is_valid() || !producer.is_valid()) {
