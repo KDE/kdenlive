@@ -14,6 +14,7 @@
 
 #include <KMessageBox>
 #include <QPushButton>
+#include <QScrollBar>
 
 // TODO replace this by std::gcd ones why require C++17 or greater
 static int gcd(int a, int b)
@@ -433,6 +434,16 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     linkResoultion->setChecked(true);
     slotUpdateParams();
+
+    Q_FOREACH (QSpinBox *sp, findChildren<QSpinBox *>()) {
+        sp->installEventFilter(this);
+        sp->setFocusPolicy(Qt::StrongFocus);
+    }
+    Q_FOREACH (QComboBox *sp, findChildren<QComboBox *>()) {
+        sp->installEventFilter(this);
+        sp->setFocusPolicy(Qt::StrongFocus);
+    }
+
     // TODO
     if (false && m_monitor == nullptr) {
         // QString profile = DvdWizardVob::getDvdProfile(format);
@@ -453,6 +464,20 @@ RenderPresetDialog::~RenderPresetDialog()
         pCore->monitorManager()->removeMonitor(m_monitor);
         delete m_monitor;
     }
+}
+
+bool RenderPresetDialog::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::Wheel && (qobject_cast<QComboBox *>(o) || qobject_cast<QAbstractSpinBox *>(o))) {
+        if (scrollArea->verticalScrollBar()->isVisible() && !qobject_cast<QWidget *>(o)->hasFocus()) {
+            e->ignore();
+            return true;
+        } else {
+            e->accept();
+            return false;
+        }
+    }
+    return QWidget::eventFilter(o, e);
 }
 
 void RenderPresetDialog::slotUpdateParams()

@@ -25,6 +25,9 @@ public:
     ~RenderPresetDialog();
     QString saveName();
 
+protected:
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private:
     QString m_saveName;
     QStringList m_uiParams;
