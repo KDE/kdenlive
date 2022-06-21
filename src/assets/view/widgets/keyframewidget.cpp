@@ -206,18 +206,19 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
     connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int pos) {
+        int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+        bool canHaveZone = m_model->getOwnerId().first == ObjectType::Master || m_model->getOwnerId().first == ObjectType::TimelineTrack;
         if (pos < 0) {
             m_time->setValue(0);
             m_keyframeview->slotSetPosition(0, true);
         } else {
-            int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
-            int p = qMax(0, pos - in);
-            m_time->setValue(p);
-            m_keyframeview->slotSetPosition(p, true);
+            m_time->setValue(qMax(0, pos - in));
+            m_keyframeview->slotSetPosition(pos, true);
         }
         m_addDeleteAction->setEnabled(pos > 0);
         slotRefreshParams();
-        emit seekToPos(pos);
+
+        emit seekToPos(pos + (canHaveZone ? in : 0));
     });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
@@ -416,7 +417,12 @@ void KeyframeWidget::slotRefreshParams()
 }
 void KeyframeWidget::slotSetPosition(int pos, bool update)
 {
+    bool canHaveZone = m_model->getOwnerId().first == ObjectType::Master || m_model->getOwnerId().first == ObjectType::TimelineTrack;
+    int offset = 0;
     if (pos < 0) {
+        if (canHaveZone) {
+            offset = m_model->data(m_index, AssetParameterModel::InRole).toInt();
+        }
         pos = m_time->getValue();
     } else {
         m_time->setValue(pos);
@@ -426,8 +432,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     slotRefreshParams();
 
     if (update) {
-        // int in = m_model->data(m_index, AssetParameterModel::InRole).toInt();
-        emit seekToPos(pos);
+        emit seekToPos(pos + offset);
     }
 }
 
@@ -460,6 +465,7 @@ void KeyframeWidget::slotRefresh()
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
+    Q_ASSERT(ok);
     int out = in + duration;
 
     m_keyframeview->setDuration(duration);
@@ -487,6 +493,7 @@ void KeyframeWidget::resetKeyframes()
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
+    Q_ASSERT(ok);
     // reset keyframes
     m_keyframes->refresh();
     // m_model->dataChanged(QModelIndex(), QModelIndex());
