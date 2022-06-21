@@ -18,6 +18,10 @@ Mlt::Profile profile_mix;
 
 TEST_CASE("Simple Mix", "[SameTrackMix]")
 {
+    // Ensure our core profile is correct
+    REQUIRE(pCore->timecode().fps() == 25.);
+    REQUIRE(pCore->getDurationFromString(KdenliveSettings::mix_duration()) == 25);
+
     // Create timeline
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
