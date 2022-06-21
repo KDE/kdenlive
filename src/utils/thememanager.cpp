@@ -10,14 +10,12 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
-#include <QAction>
 #include <QFileInfo>
 #include <QMenu>
 #include <QModelIndex>
 #include <QStringList>
 
 #include <KActionMenu>
-#include <KColorSchemeManager>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>

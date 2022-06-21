@@ -10,7 +10,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 
 #include <QColor>
-#include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QtConcurrent>

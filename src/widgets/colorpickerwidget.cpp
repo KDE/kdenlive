@@ -7,7 +7,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "colorpickerwidget.h"
 
 #include <QApplication>
-#include <QFrame>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QScreen>

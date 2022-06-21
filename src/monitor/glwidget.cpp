@@ -27,7 +27,6 @@
 
 #include "core.h"
 #include "glwidget.h"
-#include "kdenlivesettings.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/qml/timelineitems.h"

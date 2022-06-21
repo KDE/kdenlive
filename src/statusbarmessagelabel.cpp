@@ -26,7 +26,6 @@
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QIcon>
-#include <QLabel>
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QProgressBar>

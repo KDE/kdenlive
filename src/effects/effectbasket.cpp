@@ -9,7 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include <klocalizedstring.h>
 
-#include <QListWidget>
 #include <QMimeData>
 
 EffectBasket::EffectBasket(QWidget *parent)

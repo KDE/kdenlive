@@ -54,7 +54,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/temporarydata.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
-#include "pythoninterfaces/otioconvertions.h"
 #include "scopes/scopemanager.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinetabs.hpp"
@@ -71,11 +70,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 #include <KAboutData>
-#include <KActionCategory>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KColorScheme>
-#include <KColorSchemeManager>
 #include <KConfigDialog>
 #include <KCoreAddons>
 #include <KDualAction>
@@ -100,7 +97,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <ktogglefullscreenaction.h>
 #include <kwidgetsaddons_version.h>
 
-#include "kdenlive_debug.h"
 #include <KConfigGroup>
 #include <QAction>
 #include <QDialogButtonBox>

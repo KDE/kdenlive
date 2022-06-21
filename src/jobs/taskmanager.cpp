@@ -16,7 +16,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KMessageWidget>
 #include <QFuture>
-#include <QFutureWatcher>
 #include <QThread>
 
 TaskManager::TaskManager(QObject *parent)

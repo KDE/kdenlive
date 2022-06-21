@@ -17,7 +17,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent>
 #include <algorithm>
 #include <cmath>
-#include <memory>
 
 AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, size_t length, size_t startPos)
     : m_offset(offset)

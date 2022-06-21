@@ -21,7 +21,6 @@
 
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
-#include "renderpresets/tree/renderpresettreemodel.hpp"
 
 #include "klocalizedstring.h"
 #include <KColorScheme>

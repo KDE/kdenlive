@@ -6,7 +6,6 @@
 
 #include "renderjob.h"
 
-#include <QFile>
 #include <QStringList>
 #include <QThread>
 #ifndef NODBUS

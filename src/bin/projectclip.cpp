@@ -21,7 +21,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "macros.hpp"
-#include "mltcontroller/clipcontroller.h"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
 #include "profiles/profilemodel.hpp"
@@ -46,7 +45,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDir>
 #include <QDomElement>
 #include <QFile>
-#include <memory>
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"

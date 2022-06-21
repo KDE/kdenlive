@@ -44,7 +44,6 @@
 #include <QImageReader>
 #include <QKeyEvent>
 #include <QMenu>
-#include <QSignalMapper>
 #include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>

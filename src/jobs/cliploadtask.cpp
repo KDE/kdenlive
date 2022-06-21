@@ -22,7 +22,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QElapsedTimer>
 #include <QFile>
 #include <QImage>
-#include <QList>
 #include <QMimeDatabase>
 #include <QPainter>
 #include <QString>

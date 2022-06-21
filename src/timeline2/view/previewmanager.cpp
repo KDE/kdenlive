@@ -19,7 +19,6 @@
 #include <KMessageBox>
 #include <QCollator>
 #include <QMutexLocker>
-#include <QProcess>
 #include <QStandardPaths>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)

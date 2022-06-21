@@ -54,10 +54,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QScreen>
 #include <QScrollBar>
 #include <QSlider>
-#include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <QWidgetAction>
 #include <utility>
 #define SEEK_INACTIVE (-1)
 

@@ -42,7 +42,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QListWidgetItem>
 #include <QMenu>
 #include <QMimeData>

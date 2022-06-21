@@ -4,7 +4,6 @@
 */
 
 #include "beziersplineeditor.h"
-#include "cubicbezierspline.h"
 #include "kdenlivesettings.h"
 
 #include "complex"

@@ -14,9 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QAudioProbe>
 #include <QCameraInfo>
 #include <QDir>
-#include <QIODevice>
 #include <QtEndian>
-#include <memory>
 #include <utility>
 
 AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
