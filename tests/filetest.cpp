@@ -301,7 +301,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         RESET(timMock)
 
         // create a simple title with the non-BMP test string
-        auto titleXml = ("<kdenlivetitle duration=\"150\" LC_NUMERIC=\"C\" width=\"1920\" height=\"1080\" out=\"149\">\n <item type=\"QGraphicsTextItem\" z-index=\"0\">\n  <position x=\"777\" y=\"482\">\n   <transform>1,0,0,0,1,0,0,0,1</transform>\n  </position>\n  <content shadow=\"0;#64000000;3;3;3\" font-underline=\"0\" box-height=\"138\" font-outline-color=\"0,0,0,255\" font=\"Noto Sans\" letter-spacing=\"0\" font-pixel-size=\"120\" font-italic=\"0\" typewriter=\"0;2;1;0;0\" alignment=\"0\" font-weight=\"63\" font-outline=\"3\" box-width=\"573.25\" font-color=\"252,233,79,255\">"+
+        auto titleXml = ("<kdenlivetitle duration=\"150\" LC_NUMERIC=\"C\" width=\"1920\" height=\"1080\" out=\"149\">\n <item type=\"QGraphicsTextItem\" z-index=\"0\">\n  <position x=\"777\" y=\"482\">\n   <transform>1,0,0,0,1,0,0,0,1</transform>\n  </position>\n  <content shadow=\"0;#64000000;3;3;3\" font-underline=\"0\" box-height=\"138\" font-outline-color=\"0,0,0,255\" font=\"DejaVu Sans\" letter-spacing=\"0\" font-pixel-size=\"120\" font-italic=\"0\" typewriter=\"0;2;1;0;0\" alignment=\"0\" font-weight=\"63\" font-outline=\"3\" box-width=\"573.25\" font-color=\"252,233,79,255\">"+
             emojiTestString+
             "</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
 
