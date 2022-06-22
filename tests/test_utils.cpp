@@ -69,7 +69,7 @@ QString createAVProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> b
     return binId;
 }
 
-QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, QString xmldata, QString clipname, int length)
+QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, const QString &xmldata, const QString &clipname, int length)
 {
     std::shared_ptr<Mlt::Producer> producer =
         std::make_shared<Mlt::Producer>(prof, "kdenlivetitle");
@@ -93,7 +93,7 @@ QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel>
     return binId;
 }
 
-std::unique_ptr<QDomElement> getProperty(const QDomElement &doc, QString name) {
+std::unique_ptr<QDomElement> getProperty(const QDomElement &doc, const QString &name) {
     QDomNodeList list = doc.elementsByTagName("property");
     for (int i = 0; i < list.count(); i++) {
         QDomElement e = list.at(i).toElement();
