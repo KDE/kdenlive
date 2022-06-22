@@ -120,9 +120,12 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
-	//if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
-	if (filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {defaultTurn = -10; turn = defaultTurn;}
-	endIndex = filePath.endsWith(".sbv") ? 1 : 2;
+        // if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
+        if (filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
+            defaultTurn = -10;
+            turn = defaultTurn;
+        }
+        endIndex = filePath.endsWith(".sbv") ? 1 : 2;
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
@@ -136,13 +139,13 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
 #endif
         QString line;
-	QStringList srtTime;
-	QRegExp rx("([0-9]{1,2}):([0-9]{2})");
-	QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
+        QStringList srtTime;
+        QRegExp rx("([0-9]{1,2}):([0-9]{2})");
+        QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.simplified();
-	    //qDebug()<<"Turn: "<<turn;
-	    //qDebug()<<"Line: "<<line<<"\n";
+            // qDebug()<<"Turn: "<<turn;
+            // qDebug()<<"Line: "<<line<<"\n";
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
@@ -154,7 +157,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     srtTime = timeLine.split(separator);
                     if (srtTime.count() > endIndex) {
                         start = srtTime.at(0);
-                        startPos= stringtoTime(start);
+                        startPos = stringtoTime(start);
                         end = srtTime.at(endIndex);
                         endPos = stringtoTime(end);
                     } else {
@@ -172,7 +175,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
-		    //qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
+                    // qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
                 } else {
                     qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
                 }
@@ -315,7 +318,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     update_model();
     if (externalImport) {
         pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
-    } 
+    }
 }
 
 void SubtitleModel::parseSubtitle(const QString &subPath)
@@ -421,7 +424,7 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
     if (!temporary && end.frames(pCore->getCurrentFps()) > m_timeline->duration()) {
         m_timeline->updateDuration();
     }
-    //qDebug() << "Added to model";
+    // qDebug() << "Added to model";
     if (updateFilter) {
         emit modelChanged();
     }

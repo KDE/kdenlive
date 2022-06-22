@@ -61,7 +61,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
 
 KeyframeView::~KeyframeView()
 {
-    QObject::disconnect( m_centerConnection );
+    QObject::disconnect(m_centerConnection);
 }
 
 void KeyframeView::slotModelChanged()

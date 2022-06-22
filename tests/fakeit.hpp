@@ -8065,30 +8065,23 @@ namespace fakeit {
             virtual ~MethodMockingContextBase() = default;
 
             void addMethodInvocationHandler(typename ActualInvocation<arglist...>::Matcher *matcher,
-                ActualInvocationHandler<R, arglist...> *invocationHandler) override {
+                                            ActualInvocationHandler<R, arglist...> *invocationHandler) override
+            {
                 getRecordedMethodBody().addMethodInvocationHandler(matcher, invocationHandler);
             }
 
-            void scanActualInvocations(const std::function<void(ActualInvocation<arglist...> &)> &scanner) override {
+            void scanActualInvocations(const std::function<void(ActualInvocation<arglist...> &)> &scanner) override
+            {
                 getRecordedMethodBody().scanActualInvocations(scanner);
             }
 
-            void setMethodDetails(std::string mockName, std::string methodName) override {
-                getRecordedMethodBody().setMethodDetails(mockName, methodName);
-            }
+            void setMethodDetails(std::string mockName, std::string methodName) override { getRecordedMethodBody().setMethodDetails(mockName, methodName); }
 
-            bool isOfMethod(MethodInfo &method) override {
-                return getRecordedMethodBody().isOfMethod(method);
-            }
+            bool isOfMethod(MethodInfo &method) override { return getRecordedMethodBody().isOfMethod(method); }
 
-            ActualInvocationsSource &getInvolvedMock() override {
-                return _mock;
-            }
+            ActualInvocationsSource &getInvolvedMock() override { return _mock; }
 
-            std::string getMethodName() override {
-                return getRecordedMethodBody().getMethod().name();
-            }
-
+            std::string getMethodName() override { return getRecordedMethodBody().getMethod().name(); }
         };
 
         template<typename R, typename ... arglist>

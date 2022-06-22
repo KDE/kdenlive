@@ -267,11 +267,7 @@ QString RenderPresetModel::extension() const
 
 QStringList RenderPresetModel::audioBitrates() const
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    return m_aBitrates.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     return m_aBitrates.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
 }
 
 QString RenderPresetModel::defaultABitrate() const
@@ -282,11 +278,7 @@ QString RenderPresetModel::defaultABitrate() const
 QStringList RenderPresetModel::audioQualities() const
 {
     if (!m_aQualities.isEmpty()) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        return m_aQualities.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
         return m_aQualities.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
     } else {
         // ATTENTION: historically qualities are sorted from best to worse for some reason
         QString acodec = getParam(QStringLiteral("acodec")).toLower();
@@ -307,11 +299,7 @@ QString RenderPresetModel::defaultAQuality() const
 
 QStringList RenderPresetModel::videoBitrates() const
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    return m_vBitrates.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     return m_vBitrates.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
 }
 
 QString RenderPresetModel::defaultVBitrate() const
@@ -322,11 +310,7 @@ QString RenderPresetModel::defaultVBitrate() const
 QStringList RenderPresetModel::videoQualities() const
 {
     if (!m_vQualities.isEmpty()) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        return m_vQualities.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
         return m_vQualities.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
     } else {
         // ATTENTION: historically qualities are sorted from best to worse for some reason
         QString vcodec = getParam(QStringLiteral("vcodec")).toLower();
@@ -355,11 +339,7 @@ bool RenderPresetModel::editable() const
 
 QStringList RenderPresetModel::speeds() const
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    return m_speeds.split(QLatin1Char(';'), QString::SkipEmptyParts);
-#else
     return m_speeds.split(QLatin1Char(';'), Qt::SkipEmptyParts);
-#endif
 }
 
 QString RenderPresetModel::getParam(const QString &name) const

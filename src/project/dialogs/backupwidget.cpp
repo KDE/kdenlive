@@ -49,6 +49,7 @@ BackupWidget::~BackupWidget() = default;
 
 void BackupWidget::slotParseBackupFiles()
 {
+    QLocale locale;
     QStringList filter;
     filter << m_projectWildcard;
     backup_list->clear();
@@ -58,7 +59,7 @@ void BackupWidget::slotParseBackupFiles()
     backupFolder.setNameFilters(filter);
     QFileInfoList resultList = backupFolder.entryInfoList(QDir::Files, QDir::Time);
     for (int i = 0; i < resultList.count(); ++i) {
-        QString label = resultList.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
+        QString label = locale.toString(resultList.at(i).lastModified(), QLocale::ShortFormat);
         if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
             // Displaying all backup files, so add project name in the entries
             label.prepend(resultList.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
@@ -74,7 +75,7 @@ void BackupWidget::slotParseBackupFiles()
         dir.setNameFilters(filter);
         QFileInfoList resultList2 = dir.entryInfoList(QDir::Files, QDir::Time);
         for (int i = 0; i < resultList2.count(); ++i) {
-            QString label = resultList2.at(i).lastModified().toString(Qt::SystemLocaleLongDate);
+            QString label = locale.toString(resultList2.at(i).lastModified(), QLocale::ShortFormat);
             if (m_projectWildcard.startsWith(QLatin1Char('*'))) {
                 // Displaying all backup files, so add project name in the entries
                 label.prepend(resultList2.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));

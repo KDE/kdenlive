@@ -2205,12 +2205,11 @@ Rectangle {
 
     Connections {
         target: timeline
-        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once
-        // we require Qt >= 5.15
-        onFrameFormatChanged: {
+        function onFrameFormatChanged() {
             ruler.adjustFormat()
         }
-        onSelectionChanged: {
+
+        function onSelectionChanged() {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }

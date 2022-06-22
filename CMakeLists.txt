@@ -58,7 +58,7 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
 # Qt
-set(QT_MIN_VERSION 5.11.0)
+set(QT_MIN_VERSION 5.15.2)
 if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 5)
 endif()
@@ -72,6 +72,7 @@ if(NOT NODBUS)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
 endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
+#add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F02)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT

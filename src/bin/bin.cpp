@@ -51,17 +51,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KActionMenu>
 #include <KColorScheme>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIconEffect>
 #include <KIconTheme>
 #include <KMessageBox>
+#include <KOpenWithDialog>
 #include <KRatingPainter>
+#include <KService>
 #include <KXMLGUIFactory>
 #include <kwidgetsaddons_version.h>
-#include <KService>
-#include <KIO/ApplicationLauncherJob>
-#include <KIO/JobUiDelegate>
-#include <KOpenWithDialog>
 
 #include <QCryptographicHash>
 #include <QDrag>
@@ -4015,8 +4015,7 @@ void Bin::slotOpenClipExtern()
     case ClipType::TextTemplate:
         showTitleWidget(clip);
         break;
-    case ClipType::Image:
-    {
+    case ClipType::Image: {
         if (KdenliveSettings::defaultimageappId().isEmpty() && !KdenliveSettings::defaultimageapp().isEmpty()) {
             // Keep for compatibility
             QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
@@ -4046,10 +4045,8 @@ void Bin::slotOpenClipExtern()
         } else {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files in the Settings dialog"));
         }
-    }
-    break;
-    case ClipType::Audio:
-    {
+    } break;
+    case ClipType::Audio: {
         if (KdenliveSettings::defaultaudioappId().isEmpty() && !KdenliveSettings::defaultaudioapp().isEmpty()) {
             // Keep for compatibility
             QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
@@ -4079,8 +4076,7 @@ void Bin::slotOpenClipExtern()
         } else {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
         }
-    }
-    break;
+    } break;
     case ClipType::Animation: {
         QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
         if (glaxBinary.isEmpty()) {
@@ -4167,11 +4163,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     QString label = filterInfo.value(QStringLiteral("label"));
     QString key = filterInfo.value(QStringLiteral("key"));
     int offset = filterInfo.value(QStringLiteral("offset")).toInt();
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList value = results.value(key).split(QLatin1Char(';'), QString::SkipEmptyParts);
-#else
     QStringList value = results.value(key).split(QLatin1Char(';'), Qt::SkipEmptyParts);
-#endif
     // qCDebug(KDENLIVE_LOG)<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains(QStringLiteral("resultmessage"))) {
         QString mess = filterInfo.value(QStringLiteral("resultmessage"));

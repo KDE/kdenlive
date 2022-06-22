@@ -170,7 +170,8 @@ public:
         if (decode) {
             KFileMetaData::PropertyInfo info(property);
             if (info.valueType() == QVariant::DateTime) {
-                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), value.toDateTime().toString(Qt::DefaultLocaleShortDate)});
+                QLocale locale;
+                new QTreeWidgetItem(m_tree, {info.displayName(), locale.toDateTime(value.toString(), QLocale::ShortFormat).toString()});
             } else if (info.valueType() == QVariant::Int) {
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {

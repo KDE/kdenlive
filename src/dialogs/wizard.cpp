@@ -317,29 +317,17 @@ void Wizard::slotUpdateCaptureParameters()
                                                      << QString::number(profileInfo->height()) << QString::number(profileInfo->frame_rate_num())
                                                      << QString::number(profileInfo->frame_rate_den()));
     }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
-#else
     QStringList pixelformats = formats.split('>', Qt::SkipEmptyParts);
-#endif
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
-#else
         QStringList sizes = pixelformats.at(i).split(':', Qt::SkipEmptyParts);
-#endif
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             for (int k = 0; k < itemRates.count(); ++k) {
                 QString formatDescription =
                     QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');

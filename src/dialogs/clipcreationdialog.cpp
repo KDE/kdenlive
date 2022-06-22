@@ -89,11 +89,7 @@ QStringList ClipCreationDialog::getExtensions()
         allExtensions.append(QStringLiteral("*.rawr"));
     }
     // process custom user extensions
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
-#else
     const QStringList customs = KdenliveSettings::addedExtensions().split(' ', Qt::SkipEmptyParts);
-#endif
     if (!customs.isEmpty()) {
         for (const QString &ext : customs) {
             if (ext.startsWith(QLatin1String("*."))) {
