@@ -349,6 +349,9 @@ public:
 
     Q_INVOKABLE int headerWidth() const;
     Q_INVOKABLE void setHeaderWidth(int width);
+    /** @brief Hide / show a timeline track
+     */
+    Q_INVOKABLE void hideTrack(int trackId, bool hide);
 
     /** @brief Seek to next snap point
      */

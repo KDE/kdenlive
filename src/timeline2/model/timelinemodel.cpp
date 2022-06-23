@@ -4576,7 +4576,16 @@ void TimelineModel::updateDuration()
 
 int TimelineModel::duration() const
 {
-    return m_tractor->get_playtime() - TimelineModel::seekDuration;
+    int duration = 0;
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if (!(*it)->isHidden()) {
+            int trackDuration = (*it)->getTrackService()->get_playtime();
+            duration = qMax(duration, trackDuration);
+        }
+        ++it;
+    }
+    return duration;
 }
 
 std::unordered_set<int> TimelineModel::getGroupElements(int clipId)

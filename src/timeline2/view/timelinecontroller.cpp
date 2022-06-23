@@ -277,6 +277,25 @@ void TimelineController::checkDuration()
     }
 }
 
+void TimelineController::hideTrack(int trackId, bool hide)
+{
+    bool isAudio = m_model->isAudioTrack(trackId);
+    QString state = hide ? (isAudio ? "1" : "2") : "3";
+    QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
+    Fun undo_lambda = [this, trackId, previousState]() {
+        m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
+        checkDuration();
+        return true;
+    };
+    Fun redo_lambda = [this, trackId, state]() {
+        m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
+        checkDuration();
+        return true;
+    };
+    redo_lambda();
+    pCore->pushUndo(undo_lambda, redo_lambda, state == QLatin1String("3") ? i18n("Hide Track") : i18n("Enable Track"));
+}
+
 int TimelineController::selectedTrack() const
 {
     std::unordered_set<int> sel = m_model->getCurrentSelection();
@@ -3314,7 +3333,7 @@ void TimelineController::switchTrackDisabled()
     } else {
         bool isAudio = m_model->getTrackById_const(m_activeTrack)->isAudioTrack();
         bool enabled = isAudio ? m_model->getTrackById_const(m_activeTrack)->isMute() : m_model->getTrackById_const(m_activeTrack)->isHidden();
-        m_model->hideTrack(m_activeTrack, enabled);
+        hideTrack(m_activeTrack, enabled);
     }
 }
 

@@ -452,7 +452,7 @@ Rectangle {
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: controller.hideTrack(trackId, isDisabled)
+                onClicked: timeline.hideTrack(trackId, isDisabled)
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
