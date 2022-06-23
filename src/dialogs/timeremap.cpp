@@ -992,11 +992,7 @@ void RemapView::wheelEvent(QWheelEvent *event)
         update();
         return;
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     if (event->position().y() < m_bottomView) {
-#else
-    if (event->y() < m_bottomView) {
-#endif
         int change = event->angleDelta().y() > 0 ? -1 : 1;
         int pos = qBound(0, m_position + change, m_duration - 1);
         emit seekToPos(pos + m_inFrame, -1);

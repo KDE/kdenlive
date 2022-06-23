@@ -159,11 +159,7 @@ void ProxyTest::startTest()
             } else {
                 parameters << QStringLiteral("-i") << src.fileName();
             }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList paramList = params.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
             QStringList paramList = params.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
             for (const QString &s : qAsConst(paramList)) {
                 QString t = s.simplified();
                 if (t != QLatin1String("-noautorotate")) {

@@ -47,11 +47,7 @@ int main(int argc, char **argv)
         if (args.count() > 5 && args.at(0) == QLatin1String("-split")) {
             args.removeFirst();
             // chunks to render
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList chunks = args.at(0).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             QStringList chunks = args.at(0).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             args.removeFirst();
             // chunk size in frames
             int chunkSize = args.at(0).toInt();
@@ -63,11 +59,7 @@ int main(int argc, char **argv)
             QString extension = args.at(0);
             args.removeFirst();
             // avformat consumer params
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList consumerParams = args.at(0).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
             QStringList consumerParams = args.at(0).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
             args.removeFirst();
             QDir baseFolder(target);
 

@@ -881,7 +881,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 // check for subtitle effect
                 auto ms = m_masterService.lock();
                 int ct = ms->filter_count();
-                QVector <int> ixToMove;
+                QVector<int> ixToMove;
                 for (int i = 0; i < ct; i++) {
                     if (ms->filter(i)->get_int("internal_added") > 0) {
                         ixToMove << i;

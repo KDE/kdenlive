@@ -761,11 +761,7 @@ void CollapsibleEffectView::importKeyframes(const QString &kf)
 {
     QMap<QString, QString> keyframes;
     if (kf.contains(QLatin1Char('\n'))) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        const QStringList params = kf.split(QLatin1Char('\n'), QString::SkipEmptyParts);
-#else
         const QStringList params = kf.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
-#endif
         for (const QString &param : params) {
             keyframes.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
         }

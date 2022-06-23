@@ -2529,16 +2529,8 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     }
     QVariantList renderedChunks;
     QVariantList dirtyChunks;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList chunksList = chunks.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList dirtyList = dirty.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
     for (const QString &frame : qAsConst(chunksList)) {
         if (frame.contains(QLatin1Char('-'))) {
             // Range, process
@@ -4925,12 +4917,12 @@ void TimelineController::exportSubtitle()
         return;
     }
     QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(),
-                                                     i18n("Subtitle File (*.srt)"));
+                                               i18n("Subtitle File (*.srt)"));
     if (url.isEmpty()) {
         return;
     }
     if (!url.endsWith(QStringLiteral(".srt"))) {
-	url.append(QStringLiteral(".srt"));
+        url.append(QStringLiteral(".srt"));
     }
     QFile srcFile(url);
     if (srcFile.exists()) {

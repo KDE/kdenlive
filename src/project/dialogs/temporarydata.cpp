@@ -600,7 +600,8 @@ void TemporaryData::gotFolderSize(KJob *job)
     item->setData(0, Qt::UserRole, m_processingDirectory);
     item->setText(1, KIO::convertSize(total));
     QDateTime date = QFileInfo(dir.absolutePath()).lastModified();
-    item->setText(2, date.toString(Qt::SystemLocaleShortDate));
+    QLocale locale;
+    item->setText(2, locale.toString(date, QLocale::ShortFormat));
     item->setData(1, Qt::UserRole, total);
     item->setData(2, Qt::UserRole, date);
     listWidget->addTopLevelItem(item);

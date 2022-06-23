@@ -844,7 +844,8 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         } else {
         }
     }
-    ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1, allowedClipMixes);
+    ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1,
+                                                           allowedClipMixes);
 
     if (!ok) {
         qWarning() << "clip insertion failed";

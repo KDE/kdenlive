@@ -30,12 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIO/DesktopExecParser>
 #include <kio_version.h>
 
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
 #include <KIO/OpenUrlJob>
-#else
-#include <KRun>
-#endif
-
 #include <KArchive>
 #include <KArchiveDirectory>
 #include <KIO/FileCopyJob>
@@ -1519,28 +1514,16 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
         m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList pixelformats = info.split('>', QString::SkipEmptyParts);
-#else
     QStringList pixelformats = info.split('>', Qt::SkipEmptyParts);
-#endif
     QString itemSize;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
-#else
         QStringList sizes = pixelformats.at(i).split(':', Qt::SkipEmptyParts);
-#endif
         sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             for (int k = 0; k < itemRates.count(); ++k) {
                 m_configCapture.kcfg_v4l_format->addItem(
                     QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'),
@@ -1751,15 +1734,11 @@ void KdenliveSettingsDialog::initSpeechPage()
         i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
     connect(m_configSpeech.models_url, &QLabel::linkActivated, this, [&](const QString &contents) {
         qDebug() << "=== LINK CLICKED: " << contents;
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
-#else
-        new KRun(QUrl(contents), this);
-#endif
     });
     connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this]() { this->getDictionary(); });
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);

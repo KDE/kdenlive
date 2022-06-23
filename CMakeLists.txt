@@ -34,7 +34,9 @@ set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # KDE Frameworks
-find_package(ECM 5.45.0 REQUIRED CONFIG)
+set(KF_DEP_VERSION "5.86.0")
+find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
+set(KDE_COMPILERSETTINGS_LEVEL 5.80)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
@@ -53,12 +55,12 @@ if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
 endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
-find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
+find_package(KF5 ${KF_DEP_VERSION} REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
                             KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
 # Qt
-set(QT_MIN_VERSION 5.11.0)
+set(QT_MIN_VERSION 5.15.2)
 if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 5)
 endif()
@@ -68,10 +70,11 @@ if (QT_MAJOR_VERSION STREQUAL "6")
     find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS SvgWidgets)
 endif()
 if(NOT NODBUS)
-    find_package(KF5 REQUIRED COMPONENTS DBusAddons)
+    find_package(KF5 ${KF_DEP_VERSION} REQUIRED COMPONENTS DBusAddons)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
 endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
+#add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F02)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT
@@ -174,11 +177,7 @@ include(GNUInstallDirs)
 install(FILES AUTHORS README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
 install(DIRECTORY LICENSES DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
-if (ECM_VERSION VERSION_LESS "5.59.0")
-    install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR})
-else()
-    install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-endif()
+install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
 # Tests
 if(BUILD_TESTING)
@@ -191,8 +190,6 @@ elseif(BUILD_FUZZING)
 endif()
 
 # pre-commit hook
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.79.0")
-    include(KDEGitCommitHooks)
-    kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
-endif()
+include(KDEGitCommitHooks)
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 

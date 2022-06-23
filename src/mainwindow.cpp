@@ -87,11 +87,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 #include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 78, 0)
-#include <kns3/downloaddialog.h>
-#else
 #include <kns3/qtquickdialogwrapper.h>
-#endif
 #include <kcoreaddons_version.h>
 #include <kns3/knewstuffaction.h>
 #include <ktogglefullscreenaction.h>
@@ -1164,11 +1160,7 @@ void MainWindow::setupActions()
     } else {
         m_timeFormatButton->setCurrentItem(0);
     }
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(m_timeFormatButton, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateTimecodeFormat);
-#else
     connect(m_timeFormatButton, &KSelectAction::indexTriggered, this, &MainWindow::slotUpdateTimecodeFormat);
-#endif
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
@@ -1196,11 +1188,7 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 86, 0)
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple Tool"), this);
-#else
-    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("resizecol")), i18n("Ripple Tool"), this);
-#endif
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
@@ -1211,11 +1199,7 @@ void MainWindow::setupActions()
     m_buttonRollTool->setCheckable(true);
     m_buttonRollTool->setChecked(false);*/
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 86, 0)
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip Tool"), this);
-#else
-    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip Tool"), this);
-#endif
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
@@ -1529,11 +1513,7 @@ void MainWindow::setupActions()
     monitorGamma->addAction(i18n("Rec. 709 (TV)"));
     addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(monitorGamma, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
-#else
     connect(monitorGamma, &KSelectAction::indexTriggered, this, &MainWindow::slotSetMonitorGamma);
-#endif
     actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
@@ -3376,17 +3356,8 @@ void MainWindow::slotResizeItemEnd()
 int MainWindow::getNewStuff(const QString &configFile)
 {
 
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    delete dialog;
-#else
     KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
-#endif
     for (const auto &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();

@@ -183,11 +183,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // Menu toolbutton
     auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 77, 0)
-    menuAction->setDelayed(false);
-#else
     menuAction->setPopupMode(QToolButton::InstantPopup);
-#endif
     menuAction->addAction(seekKeyframe);
     menuAction->addAction(copy);
     menuAction->addAction(copyValue);

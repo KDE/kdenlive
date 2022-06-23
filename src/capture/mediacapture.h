@@ -8,16 +8,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QAudioBuffer>
-#include <QAudioRecorder>
 #include <QAudioInput>
+#include <QAudioRecorder>
 #include <QCamera>
-#include <QMediaRecorder>
-#include <QIODevice>
-#include <QStringList>
 #include <QElapsedTimer>
-#include <QUrl>
-#include <QTimer>
+#include <QIODevice>
+#include <QMediaRecorder>
 #include <QMutex>
+#include <QStringList>
+#include <QTimer>
+#include <QUrl>
 #include <memory>
 
 class QAudioRecorder;

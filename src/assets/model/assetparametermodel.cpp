@@ -297,11 +297,7 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
     if (m_params.count(name) > 0) {
         ParamType type = m_params.at(name).type;
         if (type == ParamType::Curve) {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
-#else
             QStringList vals = paramValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
-#endif
             int points = vals.size();
             m_asset->set("3", points / 10.);
             m_params[QStringLiteral("3")].value = points / 10.;

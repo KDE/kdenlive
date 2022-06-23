@@ -83,11 +83,7 @@ ProviderModel::ProviderModel(const QString &path)
             m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
             m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
             m_oauth2.setClientIdentifierSharedKey(m_clientkey);
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken) {
-#else
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::tokenChanged, this, [&](const QString &refreshToken) {
-#endif
+            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken){
                 KSharedConfigPtr config = KSharedConfig::openConfig();
                 KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
                 authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
