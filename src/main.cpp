@@ -201,10 +201,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(5, 60, 0)
-    // work around bug in Kirigami2 resetting icon theme path
-    qputenv("XDG_CURRENT_DESKTOP", "KDE");
-#endif
 
 #ifndef NODBUS
     // Init DBus services
@@ -251,12 +247,10 @@ int main(int argc, char *argv[])
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
 #endif
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 84, 0)
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
                            QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
     aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
                            QStringLiteral("https://ffmpeg.org"));
-#endif
 
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 

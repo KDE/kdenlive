@@ -30,12 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIO/DesktopExecParser>
 #include <kio_version.h>
 
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
 #include <KIO/OpenUrlJob>
-#else
-#include <KRun>
-#endif
-
 #include <KArchive>
 #include <KArchiveDirectory>
 #include <KIO/FileCopyJob>
@@ -1739,15 +1734,11 @@ void KdenliveSettingsDialog::initSpeechPage()
         i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
     connect(m_configSpeech.models_url, &QLabel::linkActivated, this, [&](const QString &contents) {
         qDebug() << "=== LINK CLICKED: " << contents;
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
-#else
-        new KRun(QUrl(contents), this);
-#endif
     });
     connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this]() { this->getDictionary(); });
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);

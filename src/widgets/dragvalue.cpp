@@ -134,11 +134,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_menu->addAction(timeline);
     }
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(m_scale, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &DragValue::slotSetScaleMode);
-#else
     connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);
-#endif
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
 }
 

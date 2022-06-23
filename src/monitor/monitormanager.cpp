@@ -559,11 +559,7 @@ void MonitorManager::setupActions()
     } else {
         interlace->setCurrentItem(0);
     }
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(interlace, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetDeinterlacer);
-#else
     connect(interlace, &KSelectAction::indexTriggered, this, &MonitorManager::slotSetDeinterlacer);
-#endif
     pCore->window()->addAction(QStringLiteral("mlt_interlace"), interlace);
     pCore->window()->actionCollection()->setShortcutsConfigurable(interlace, false);
 
@@ -581,11 +577,7 @@ void MonitorManager::setupActions()
     } else {
         interpol->setCurrentItem(0);
     }
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(interpol, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MonitorManager::slotSetInterpolation);
-#else
     connect(interpol, &KSelectAction::indexTriggered, this, &MonitorManager::slotSetInterpolation);
-#endif
     pCore->window()->addAction(QStringLiteral("mlt_interpolation"), interpol);
     pCore->window()->actionCollection()->setShortcutsConfigurable(interpol, false);
 

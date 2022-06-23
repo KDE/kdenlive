@@ -14,12 +14,8 @@
 #include <QStandardPaths>
 
 #include <kio_version.h>
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenUrlJob>
-#else
-#include <KRun>
-#endif
 
 ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
@@ -33,15 +29,11 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     setToolTip(comment);
     m_infoMessage->hide();
     connect(m_infoMessage, &KMessageWidget::linkActivated, this, [this](const QString &contents) {
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
-#else
-        new KRun(QUrl(contents), this);
-#endif
     });
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));

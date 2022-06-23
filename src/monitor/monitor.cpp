@@ -335,11 +335,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(forward, &QAction::triggered, this, [this]() { Monitor::slotForward(); });
 
     m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("More Options…"), m_toolbar);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 77, 0)
-    m_configMenuAction->setDelayed(false);
-#else
     m_configMenuAction->setPopupMode(QToolButton::InstantPopup);
-#endif
     connect(m_configMenuAction->menu(), &QMenu::aboutToShow, this, &Monitor::updateMarkers);
 
     playButton->setDefaultAction(m_playAction);

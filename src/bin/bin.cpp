@@ -1297,11 +1297,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 77, 0)
-    settingsAction->setDelayed(false);
-#else
     settingsAction->setPopupMode(QToolButton::InstantPopup);
-#endif
     settingsAction->addAction(zoomWidget);
     settingsAction->addAction(listType);
     settingsAction->addAction(sortAction);

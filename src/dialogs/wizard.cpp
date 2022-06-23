@@ -40,10 +40,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QXmlStreamWriter>
 #include <kio_version.h>
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 71, 0)
-#include <KIO/JobUiDelegate>
 #include <KIO/OpenUrlJob>
-#endif
+#include <KIO/JobUiDelegate>
 
 // Recommended MLT version
 MyWizardPage::MyWizardPage(QWidget *parent)
@@ -853,17 +851,12 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 71, 0)
     auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
     job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
-    // KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
-#else
-    KRun::runUrl(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"), this,
-                 KRun::RunFlags());
-#endif
+    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
 }
 
 void Wizard::slotSaveCaptureFormat()

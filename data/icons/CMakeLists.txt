@@ -1,5 +1,3 @@
-add_subdirectory(breeze-dark)
-
 ecm_install_icons(ICONS
   16-actions-keyframe.svg
   16-actions-keyframe-add.svg

@@ -65,11 +65,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     loadConfig();
     connect(provider_info, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(label_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-#if KCOMPLETION_VERSION < QT_VERSION_CHECK(5, 81, 0)
-    connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
-#else
     connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
-#endif
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&]() {
         if (!m_currentProvider) {
