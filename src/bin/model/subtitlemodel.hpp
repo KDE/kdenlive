@@ -141,6 +141,7 @@ public:
     /** @brief Set subtitle style (font, color, etc) */
     void setStyle(const QString &style);
     const QString getStyle() const;
+    void subtitleFileFromZone(int in, int out, const QString &outFile);
 
 public slots:
     /** @brief Function that parses through a subtitle file */
@@ -171,6 +172,7 @@ private:
     Mlt::Tractor *m_tractor;
     QVector<int> m_selected;
     QVector<int> m_grabbedIds;
+    int saveSubtitleData(const QString &data, const QString &outFile);
 
 signals:
     void modelChanged();
