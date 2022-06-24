@@ -2748,10 +2748,10 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     }
 }
 
-void TimelineController::switchCompositing(int mode)
+void TimelineController::switchCompositing(bool enable)
 {
     // m_model->m_tractor->lock();
-    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(mode));
+    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(enable));
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
     QScopedPointer<Mlt::Field> field(m_model->m_tractor->field());
     field->lock();
@@ -2769,13 +2769,12 @@ void TimelineController::switchCompositing(int mode)
             service.reset(service->producer());
         }
     }
-    if (mode > 0) {
+    if (enable) {
         // Loop through tracks
         for (int track = 0; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
                 // This is a video track
-                Mlt::Transition t(*m_model->m_tractor->profile(),
-                                  mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
+                Mlt::Transition t(*m_model->m_tractor->profile(), TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
                 t.set("always_active", 1);
                 t.set_tracks(0, track + 1);
                 t.set("internal_added", 237);

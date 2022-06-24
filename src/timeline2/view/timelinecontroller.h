@@ -573,7 +573,7 @@ public:
     QMap<QString, QString> documentProperties();
 
     /** @brief Change track compsiting mode */
-    void switchCompositing(int mode);
+    void switchCompositing(bool enable);
 
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, double speed);

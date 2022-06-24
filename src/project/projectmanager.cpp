@@ -1056,15 +1056,9 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     xmlProd.reset(nullptr);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
-    int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
-    if (compositing == 1) {
-        // Composite transition is deprecated, switch to hq by default
-        compositing = 2;
-    }
+    bool compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
     emit pCore->currentDoc()->updateCompositionMode(compositing);
-    if (compositing < 2) {
-        pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
-    }
+    pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }

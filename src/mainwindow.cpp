@@ -1092,22 +1092,9 @@ void MainWindow::setupActions()
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
-    m_compositeAction = new KSelectAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("Track Compositing"), this);
-    m_compositeAction->setToolTip(i18n("Track compositing"));
-    QAction *noComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("None"), this);
-    noComposite->setCheckable(true);
-    noComposite->setData(0);
-    m_compositeAction->addAction(noComposite);
-    QString compose = TransitionsRepository::get()->getCompositingTransition();
-    if (compose == QStringLiteral("movit.overlay") || compose != QStringLiteral("composite")) {
-        // Movit, do not show "preview" option since movit is faster
-        QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
-        hqComposite->setCheckable(true);
-        hqComposite->setData(2);
-        m_compositeAction->addAction(hqComposite);
-        m_compositeAction->setCurrentAction(hqComposite);
-    }
-    connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
+    m_compositeAction = new QAction(i18n("Enable Track Compositing"), this);
+    m_compositeAction->setCheckable(true);
+    connect(m_compositeAction, &QAction::triggered, this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
     actionCollection()->setShortcutsConfigurable(m_compositeAction, false);
 
@@ -2165,9 +2152,6 @@ void MainWindow::slotRenderProject()
         m_renderWidget->setGuides(project->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
-    }
-    if (m_renderWidget && m_compositeAction && m_compositeAction->currentAction()) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, QString());
     }
 
     slotCheckRenderStatus();
@@ -4085,28 +4069,15 @@ void MainWindow::slotManageCache()
     d->exec();
 }
 
-void MainWindow::slotUpdateCompositing(QAction *compose)
+void MainWindow::slotUpdateCompositing(bool checked)
 {
-    int mode = compose->data().toInt();
-    getMainTimeline()->controller()->switchCompositing(mode);
-    if (m_renderWidget) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
-    }
+    getMainTimeline()->controller()->switchCompositing(checked);
     pCore->currentDoc()->setModified();
 }
 
-void MainWindow::slotUpdateCompositeAction(int mode)
+void MainWindow::slotUpdateCompositeAction(bool enable)
 {
-    QList<QAction *> actions = m_compositeAction->actions();
-    for (int i = 0; i < actions.count(); i++) {
-        if (actions.at(i)->data().toInt() == mode) {
-            m_compositeAction->setCurrentAction(actions.at(i));
-            break;
-        }
-    }
-    if (m_renderWidget) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
-    }
+    m_compositeAction->setChecked(enable);
 }
 
 void MainWindow::showMenuBar(bool show)
