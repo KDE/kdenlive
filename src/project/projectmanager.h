@@ -51,10 +51,10 @@ public:
     /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);
 
-    void doOpenFile(const QUrl &url, KAutoSaveFile *stale);
+    void doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup = false);
     KRecentFilesAction *recentFilesAction();
     void prepareSave();
-    /** @brief Disable all bin effects in current project 
+    /** @brief Disable all bin effects in current project
      *  @param disable if true, all project bin effects will be disabled
      *  @param refreshMonitor if false, monitors will not be refreshed
      */

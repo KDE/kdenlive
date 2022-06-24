@@ -226,11 +226,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentMetadata = w->metadata();
         delete w;
     }
-    bool openBackup;
     m_notesPlugin->clear();
     pCore->bin()->cleanDocument();
-    KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
-                                       audioChannels, &openBackup, pCore->window());
+    // TODO: KdenliveDoc constructor
+    KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
@@ -598,7 +597,7 @@ void ProjectManager::openFile(const QUrl &url)
     doOpenFile(url, nullptr);
 }
 
-void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
+void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup)
 {
     Q_ASSERT(m_project == nullptr);
     m_fileRevert->setEnabled(true);
@@ -616,19 +615,54 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         m_progressDialog->setMaximum(0);
         m_progressDialog->show();
     }
-    bool openBackup;
     m_notesPlugin->clear();
-    int audioChannels = 2;
-    if (KdenliveSettings::audio_channels() == 1) {
-        audioChannels = 4;
-    } else if (KdenliveSettings::audio_channels() == 2) {
-        audioChannels = 6;
+
+    DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
+        QString(), pCore->window()->m_commandStack, false, pCore->window());
+
+    KdenliveDoc *doc;
+    if (!openResult.isSuccessful()) {
+        if (!isBackup) {
+            int answer = KMessageBox::warningYesNoCancel(
+                        pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
+                        i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
+            if (answer == KMessageBox::ButtonCode::Yes) { // Open Backup
+                slotOpenBackup(url);
+            } else if (answer == KMessageBox::ButtonCode::No) { // Recover
+                // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
+                openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
+                    QString(), pCore->window()->m_commandStack, true, pCore->window());
+                if (openResult.isSuccessful()) {
+                    doc = openResult.getDocument();
+                    doc->requestBackup();
+                } else {
+                    KMessageBox::error(pCore->window(), "Could not recover corrupted file.");
+                }
+            }
+        } else {
+            KMessageBox::detailedSorry(pCore->window(), "Could not open the backup project file.", openResult.getError());
+        }
+    } else {
+         doc = openResult.getDocument();
     }
 
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
-                                       KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile(),
-                                       QMap<QString, QString>(), QMap<QString, QString>(), {KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()},
-                                       audioChannels, &openBackup, pCore->window());
+    // if we could not open the file, and could not recover (or user declined), stop now
+    if (!openResult.isSuccessful()) {
+        delete m_progressDialog;
+        m_progressDialog = nullptr;
+        return;
+    }
+
+    if (openResult.wasUpgraded()) {
+        pCore->displayMessage(i18n("Your project was upgraded, a backup will be created on next save"),
+            ErrorMessage);
+    } else if (openResult.wasModified()) {
+        pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"),
+            ErrorMessage);
+    }
+    pCore->displayMessage(QString(), OperationCompletedMessage);
+
+
     if (stale == nullptr) {
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
         QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
@@ -673,9 +707,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_mainTimelineModel->updateFieldOrderFilter(pCore->getCurrentProfile());
     emit docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
-    if (openBackup) {
-        slotOpenBackup(url);
-    }
     m_lastSave.start();
     delete m_progressDialog;
     m_progressDialog = nullptr;
@@ -710,7 +741,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
-        projectFolder = QUrl::fromLocalFile(m_project->projectTempFolder());
+        projectFolder = QUrl::fromLocalFile(m_project ? m_project->projectTempFolder() : QString());
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
@@ -720,7 +751,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         QString requestedBackup = dia->selectedFile();
         m_project->backupLastSavedVersion(projectFile.toLocalFile());
         closeCurrentDocument(false);
-        doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr);
+        doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr, true);
         if (m_project) {
             if (!m_project->url().isEmpty()) {
                 // Only update if restore succeeded

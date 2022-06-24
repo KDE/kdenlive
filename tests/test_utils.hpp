@@ -87,6 +87,8 @@ QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<Pr
 
 QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 10);
 
-QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length = 10);
+QString createTextProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, const QString &xmldata, const QString &clipname, int length = 10);
 
 QString createAVProducer(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel);
+
+std::unique_ptr<QDomElement> getProperty(const QDomElement& element, const QString& name);
