@@ -1013,7 +1013,9 @@ void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
 void Core::monitorAudio(int tid, bool monitor)
 {
     m_mainWindow->getCurrentTimeline()->controller()->switchTrackRecord(tid, monitor);
-    m_monitorManager->projectMonitor()->switchRecordButton(monitor);
+    if (monitor && pCore->monitorManager()->projectMonitor()->isPlaying()) {
+        pCore->monitorManager()->projectMonitor()->stop();
+    }
 }
 
 void Core::startRecording()

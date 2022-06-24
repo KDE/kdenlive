@@ -207,6 +207,7 @@ void MediaCapture::switchMonitorState(bool run)
                         break;
                     }
                     m_lastPos = currentPos;
+                    emit recDurationChanged();
                 }
             }
             emit levelsChanged();

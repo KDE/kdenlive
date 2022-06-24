@@ -988,6 +988,44 @@ int SubtitleModel::getNextSub(int id) const
     return -1;
 }
 
+void SubtitleModel::subtitleFileFromZone(int in, int out, const QString &outFile)
+{
+    QJsonArray list;
+    double fps = pCore->getCurrentFps();
+    GenTime zoneIn(in, fps);
+    GenTime zoneOut(out, fps);
+    for (auto subtitle : m_subtitleList) {
+        GenTime inTime = subtitle.first;
+        GenTime outTime = subtitle.second.second;
+        if (outTime < zoneIn) {
+            // Outside zone
+            continue;
+        }
+        if (zoneOut > GenTime() && inTime > zoneOut) {
+            // Outside zone
+            continue;
+        }
+        if (inTime < zoneIn) {
+            inTime = zoneIn;
+        }
+        if (zoneOut > GenTime() && outTime > zoneOut) {
+            outTime = zoneOut;
+        }
+        inTime -= zoneIn;
+        outTime -= zoneIn;
+
+        QJsonObject currentSubtitle;
+        currentSubtitle.insert(QLatin1String("startPos"), QJsonValue(inTime.seconds()));
+        currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.first));
+        currentSubtitle.insert(QLatin1String("endPos"), QJsonValue(outTime.seconds()));
+        list.push_back(currentSubtitle);
+        // qDebug()<<subtitle.first.seconds();
+    }
+    QJsonDocument jsonDoc(list);
+    QString subData = QString(jsonDoc.toJson());
+    saveSubtitleData(subData, outFile);
+}
+
 QString SubtitleModel::toJson()
 {
     // qDebug()<< "to JSON";
@@ -1030,6 +1068,18 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     if (masterFile.isEmpty()) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
     }
+    int line = saveSubtitleData(data, outFile);
+    qDebug() << "Saving subtitle filter: " << outFile;
+    if (line > 0) {
+        m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
+        m_tractor->attach(*m_subtitleFilter.get());
+    } else {
+        m_tractor->detach(*m_subtitleFilter.get());
+    }
+}
+
+int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
+{
     bool assFormat = outFile.endsWith(".ass");
     if (!assFormat) {
         qDebug() << "srt/vtt/sbv file import"; // if imported file isn't .ass, it is .srt format
@@ -1041,7 +1091,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
-        return;
+        return 0;
     }
     int line = 0;
     auto list = json.array();
@@ -1119,13 +1169,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
         }
         outF.close();
     }
-    qDebug() << "Saving subtitle filter: " << outFile;
-    if (line > 0) {
-        m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
-        m_tractor->attach(*m_subtitleFilter.get());
-    } else {
-        m_tractor->detach(*m_subtitleFilter.get());
-    }
+    return line;
 }
 
 void SubtitleModel::updateSub(int id, const QVector<int> &roles)

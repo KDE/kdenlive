@@ -24,11 +24,9 @@ Item {
             // Paused
             recbutton.color = 'white'
             recbutton.ToolTip.text = i18n("Paused")
-            recordInfo.text = i18n("Paused")
         } else {
             recbutton.color = 'darkred'
             recbutton.ToolTip.text = i18n("Record")
-            recordInfo.text = i18n("Record")
         }
     }
     RowLayout {

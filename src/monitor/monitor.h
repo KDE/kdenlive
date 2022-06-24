@@ -146,8 +146,6 @@ public:
     /** @brief Show a rec countdown over the monitor **/
     void startCountDown();
     void stopCountDown();
-    /** @brief When we are in audio monitoring mode, play button turns to rec **/
-    void switchRecordButton(bool record);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -215,6 +213,7 @@ private:
     int m_forceSizeFactor;
     int m_offset;
     MonitorSceneType m_lastMonitorSceneType;
+    bool m_displayingCountdown;
     MonitorAudioLevel *m_audioMeterWidget;
     QTimer m_droppedTimer;
     double m_displayedFps;

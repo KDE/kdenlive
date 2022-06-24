@@ -57,16 +57,20 @@ Rectangle {
 
     function startAudioRecord(tid) {
         var tk = Logic.getTrackById(tid)
-        recordPlaceHolder.y = tk.y + subtitleTrack.height
-        recordPlaceHolder.height = tk.height
-        recordStartPlaceHolder.x = root.consumerPosition * root.timeScale
-        recordPlaceHolder.anchors.right = cursor.left
+        recordPlaceHolder.y = Qt.binding(function() { return tk.y + subtitleTrack.height })
+        recordPlaceHolder.height = Qt.binding(function() { return tk.height })
+        var startFrame = root.consumerPosition
+        recordStartPlaceHolder.x = Qt.binding(function() { return startFrame * root.timeScale })
         recordPlaceHolder.visible = true
+        recordPlaceHolder.width = Qt.binding(function() { return audiorec.recDuration * root.timeScale })
     }
 
     function stopAudioRecord() {
         recordPlaceHolder.visible = false
-        recordPlaceHolder.anchors.right = undefined
+        recordStartPlaceHolder.x = 0
+        recordStartPlaceHolder.y = 0
+        recordPlaceHolder.width = 0
+        recordPlaceHolder.height = 0
     }
 
     function fitZoom() {

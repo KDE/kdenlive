@@ -113,6 +113,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_forceSizeFactor(0)
     , m_offset(id == Kdenlive::ProjectMonitor ? TimelineModel::seekDuration : 0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
+    , m_displayingCountdown(true)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -1546,8 +1547,14 @@ void Monitor::slotSwitchPlay()
         } else if (recState == QMediaRecorder::PausedState && play) {
             pCore->getAudioDevice()->resumeRecording();
         }
+        m_displayingCountdown = true;
     } else if (pCore->getAudioDevice()->isMonitoring()) {
         pCore->recordAudio(-1, true);
+        if (m_displayingCountdown) {
+            m_displayingCountdown = false;
+            m_playAction->setActive(false);
+            return;
+        }
     }
     m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;
@@ -2691,10 +2698,3 @@ void Monitor::stopCountDown()
     }
 }
 
-void Monitor::switchRecordButton(bool record)
-{
-    if (record && isPlaying()) {
-        stop();
-    }
-    m_playAction->setInactiveIcon(QIcon::fromTheme(record ? QStringLiteral("media-record") : QStringLiteral("media-playback-start")));
-}
