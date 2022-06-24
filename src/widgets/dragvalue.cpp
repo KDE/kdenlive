@@ -175,7 +175,8 @@ bool DragValue::eventFilter(QObject *watched, QEvent *event)
             m_label->slotValueDec();
         }
         // Stop processing, event accepted
-        return false;
+        event->accept();
+        return true;
     }
     return QObject::eventFilter(watched, event);
 }
