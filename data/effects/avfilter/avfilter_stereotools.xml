@@ -47,12 +47,12 @@ Allowed range is from 0.015625 to 64.</comment>
         </parameter>
          <parameter type="constant" name="av.mpan" default="0" min="-1" max="1" decimals="3">
         <name>Mid Pan</name><comment>Set middle signal pan. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>        
+        </parameter>
         <parameter type="constant" name="av.base" default="0" min="-1" max="1" decimals="3">
-                <name>Stereo base</name><comment>Set stereo base between mono and inversed channels. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>        
+                <name>Stereo base</name><comment>Set stereo base between mono and inverted channels. Default is 0. Allowed range is from -1 to 1.</comment>
+        </parameter>
         <parameter type="constant" name="av.delay" default="0" min="-20" max="20" suffix=" ms">
-                <name>Dealy</name><comment>Set delay in milliseconds how much to delay left from right channel and vice versa. Default is 0. Allowed range is from -20 to 20.</comment>
+                <name>Delay</name><comment>Set delay in milliseconds how much to delay left from right channel and vice versa. Default is 0. Allowed range is from -20 to 20.</comment>
         </parameter>
         <parameter type="constant" name="av.sclevel" default="1" min="1" max="100">
                 <name>S/C level</name>
@@ -62,19 +62,19 @@ Allowed range is from 0.015625 to 64.</comment>
         </parameter>
         <parameter type="list" name="av.bmode_in" default="balance" paramlist="balance;amplitude;power">
             <paramlistdisplay>balance,amplitude,power</paramlistdisplay><comment>‘balance’
-Classic balance mode. Attenuate one channel at time. Gain is raised up to 1.
+Classic balance mode. Attenuate one channel at a time. Gain is raised up to 1.
 ‘amplitude’
-Similar as classic mode above but gain is raised up to 2.
+Similar to classic mode above but gain is raised up to 2.
 ‘power’
 Equal power distribution, from -6dB to +6dB range.</comment>
 <name>Balance IN</name>
         </parameter>
-        
+
         <parameter type="list" name="av.bmode_out" default="balance" paramlist="balance;amplitude;power">
             <paramlistdisplay>balance,amplitude,power</paramlistdisplay><comment>‘balance’
-Classic balance mode. Attenuate one channel at time. Gain is raised up to 1.
+Classic balance mode. Attenuate one channel at a time. Gain is raised up to 1.
 ‘amplitude’
-Similar as classic mode above but gain is raised up to 2.
+Similar to classic mode above but gain is raised up to 2.
 ‘power’
 Equal power distribution, from -6dB to +6dB range.</comment>
 <name>Balance OUT</name>
