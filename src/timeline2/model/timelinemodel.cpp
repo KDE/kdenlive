@@ -28,10 +28,11 @@
 
 #include "monitor/monitormanager.h"
 
+#include <KLocalizedString>
+#include <QCryptographicHash>
 #include <QDebug>
 #include <QModelIndex>
 #include <QThread>
-#include <klocalizedstring.h>
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltField.h>
 #include <mlt++/MltProfile.h>

@@ -27,8 +27,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <QIcon>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMimeData>
 #include <QProgressDialog>
+
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>

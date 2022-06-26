@@ -78,23 +78,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KDualAction>
 #include <KEditToolBar>
 #include <KIconTheme>
+#include <KLocalizedString>
 #include <KMessageBox>
+#include <KNS3/QtQuickDialogWrapper>
 #include <KNotifyConfigWidget>
 #include <KRecentDirs>
 #include <KShortcutsDialog>
 #include <KStandardAction>
+#include <KToggleFullScreenAction>
 #include <KToolBar>
 #include <KXMLGUIFactory>
-#include <klocalizedstring.h>
-#include <knewstuff_version.h>
-#include <kns3/qtquickdialogwrapper.h>
-#include <kcoreaddons_version.h>
-#include <kns3/knewstuffaction.h>
-#include <ktogglefullscreenaction.h>
-#include <kwidgetsaddons_version.h>
 
 #include <KConfigGroup>
 #include <QAction>
+#include <QClipboard>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QMenu>

@@ -19,6 +19,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "ui_scenecutdialog_ui.h"
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QPointer>
 #include <QProcess>
 #include <QTemporaryFile>
 #include <QThread>
@@ -34,6 +38,7 @@ SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int mark
     , m_minInterval(minDuration)
     , m_jobProcess(nullptr)
 {
+    qDebug() << "Threshold is" << threshold << QString::number(threshold);
 }
 
 void SceneSplitTask::start(QObject *object, bool force)

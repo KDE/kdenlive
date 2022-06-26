@@ -53,6 +53,9 @@ include(ECMAddQch)
 if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
     include(QtVersionOption)
 endif()
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
+    include(ECMDeprecationSettings)
+endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 ${KF_DEP_VERSION} REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
@@ -65,6 +68,14 @@ if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 5)
 endif()
 
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
+    ecm_set_disabled_deprecation_versions(SHOW_DEPRECATIONS
+        #QT ${QT_MIN_VERSION} // causes problems with QVariant, disable for know
+        KF ${KF_DEP_VERSION}
+    )
+endif()
+
+
 find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
 if (QT_MAJOR_VERSION STREQUAL "6")
     find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS SvgWidgets)
@@ -74,7 +85,6 @@ if(NOT NODBUS)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
 endif()
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
-#add_compile_definitions(QT_DISABLE_DEPRECATED_BEFORE=0x050F02)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt${QT_MAJOR_VERSION}Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 # MLT

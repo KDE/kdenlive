@@ -9,9 +9,9 @@
 #include "kdenlivesettings.h"
 
 #include <KFileItem>
+#include <KIO/OpenUrlJob>
 #include <KMessageBox>
 #include <KRecentDirs>
-#include <KRun>
 #include <KSelectAction>
 #include <KSqueezedTextLabel>
 #include <QComboBox>
@@ -209,7 +209,7 @@ void ResourceWidget::slotChangeProvider()
  */
 void ResourceWidget::slotOpenUrl(const QString &url)
 {
-    new KRun(QUrl(url), this);
+    KIO::OpenUrlJob(QUrl(url));
 }
 
 /**

@@ -25,7 +25,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUrl>
 #include <QWidget>
 #include <QActionGroup>
-#include <QtWidgets>
 
 #include "KFileWidget"
 #include "KRecentDirs"

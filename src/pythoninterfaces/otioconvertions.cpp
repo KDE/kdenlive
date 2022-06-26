@@ -4,15 +4,17 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "otioconvertions.h"
-#include <KLocalizedString>
 
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
 
+#include <KLocalizedString>
 #include <KMessageBox>
+#include <QFileDialog>
 #include <QStandardPaths>
+#include <QVBoxLayout>
 
 OtioConvertions::OtioConvertions()
     : AbstractPythonInterface()

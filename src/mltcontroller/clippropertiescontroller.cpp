@@ -54,6 +54,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QToolBar>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QtMath>
 
 ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
     : QLabel(parent)
@@ -142,8 +143,8 @@ public:
     {
         bool decode = false;
         switch (property) {
-        case KFileMetaData::Property::ImageMake:
-        case KFileMetaData::Property::ImageModel:
+        case KFileMetaData::Property::Manufacturer:
+        case KFileMetaData::Property::Model:
         case KFileMetaData::Property::ImageDateTime:
         case KFileMetaData::Property::BitRate:
         case KFileMetaData::Property::TrackNumber:

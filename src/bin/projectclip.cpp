@@ -31,13 +31,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectsubclip.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "utils/timecode.h"
-
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
-#include <QPainter>
-#include <kimagecache.h>
 
 #include "kdenlive_debug.h"
+#include <KImageCache>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -45,6 +43,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDir>
 #include <QDomElement>
 #include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QPainter>
+#include <QProcess>
+#include <QtMath>
 
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"

@@ -11,13 +11,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 
 #include <KFileItem>
+#include <KLocalizedString>
 #include <KRecentDirs>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QDir>
 #include <QFontDatabase>
 #include <QStandardPaths>
+#include <QtMath>
 
 SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip, QWidget *parent)
     : QDialog(parent)
