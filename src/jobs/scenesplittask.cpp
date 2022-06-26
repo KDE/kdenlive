@@ -27,8 +27,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <klocalizedstring.h>
 #include <project/projectmanager.h>
 
-SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject* object)
+SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject *object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
+    , m_threshold(threshold)
     , m_jobDuration(0)
     , m_markersType(markersCategory)
     , m_subClips(addSubclips)
@@ -129,8 +130,20 @@ void SceneSplitTask::run()
     }
     m_jobDuration = int(binClip->duration().seconds());
     int producerDuration = binClip->frameDuration();
-    //QStringList parameters = {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
-    QStringList parameters = {QStringLiteral("-y"),QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("select='gt(scene,0.1)',showinfo"),QStringLiteral("-vsync"),QStringLiteral("vfr"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
+    // QStringList parameters =
+    // {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
+    QStringList parameters = {QStringLiteral("-y"),
+                              QStringLiteral("-loglevel"),
+                              QStringLiteral("info"),
+                              QStringLiteral("-i"),
+                              source,
+                              QStringLiteral("-filter:v"),
+                              QString("select='gt(scene,%1)',showinfo").arg(m_threshold),
+                              QStringLiteral("-vsync"),
+                              QStringLiteral("vfr"),
+                              QStringLiteral("-f"),
+                              QStringLiteral("null"),
+                              QStringLiteral("-")};
 
     m_jobProcess.reset(new QProcess);
     //m_jobProcess->setStandardErrorFile("/tmp/test_settings.txt");

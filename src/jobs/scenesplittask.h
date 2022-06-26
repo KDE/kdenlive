@@ -25,6 +25,7 @@ private slots:
     void processLogErr();
 
 private:
+    double m_threshold;
     int m_jobDuration;
     int m_markersType;
     bool m_subClips;
