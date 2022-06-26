@@ -4580,11 +4580,23 @@ int TimelineModel::duration() const
     int duration = 0;
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
-        if (!(*it)->isHidden()) {
-            int trackDuration = (*it)->getTrackService()->get_playtime();
-            duration = qMax(duration, trackDuration);
+        if ((*it)->isAudioTrack()) {
+            if ((*it)->isMute()) {
+                // Muted audio track
+                ++it;
+                continue;
+            }
+        } else if ((*it)->isHidden()) {
+            // Hidden video track
+            ++it;
+            continue;
         }
+        int trackDuration = (*it)->getTrackService()->get_playtime();
+        duration = qMax(duration, trackDuration);
         ++it;
+    }
+    if (m_subtitleModel && !m_subtitleModel->isDisabled()) {
+        duration = qMax(duration, m_subtitleModel->trackDuration());
     }
     return duration;
 }
