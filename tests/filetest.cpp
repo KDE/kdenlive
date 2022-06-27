@@ -7,6 +7,9 @@
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "xml/xml.hpp"
 
+#include <QTemporaryFile>
+#include <QUndoGroup>
+
 using namespace fakeit;
 Mlt::Profile profile_file;
 

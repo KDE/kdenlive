@@ -18,6 +18,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/projectsettings.h"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
+#include <audiomixer/mixermanager.hpp>
+#include <lib/localeHandling.h>
 
 // Temporary for testing
 #include "bin/model/markerlistmodel.hpp"
@@ -29,25 +31,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinewidget.h"
 
 #include <KActionCollection>
+#include <KConfigGroup>
 #include <KJob>
 #include <KJobWidgets>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <kcoreaddons_version.h>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
-#include <KConfigGroup>
 #include <QAction>
 #include <QCryptographicHash>
 #include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QLocale>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QProgressDialog>
+#include <QSaveFile>
 #include <QTimeZone>
-#include <audiomixer/mixermanager.hpp>
-#include <lib/localeHandling.h>
 
 static QString getProjectNameFilters(bool ark = true)
 {

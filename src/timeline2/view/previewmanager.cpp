@@ -19,6 +19,7 @@
 #include <KMessageBox>
 #include <QCollator>
 #include <QMutexLocker>
+#include <QSaveFile>
 #include <QStandardPaths>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
@@ -606,7 +607,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
 }
 
-void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
+void PreviewManager::processEnded(int, QProcess::ExitStatus status)
 {
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);

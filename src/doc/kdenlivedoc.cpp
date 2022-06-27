@@ -35,19 +35,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIO/CopyJob>
 #include <KIO/FileCopyJob>
 #include <KIO/JobUiDelegate>
+#include <KJobWidgets/KJobWidgets>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
 #include <QDomImplementation>
 #include <QFile>
 #include <QFileDialog>
+#include <QSaveFile>
+#include <QStandardPaths>
 #include <QUndoGroup>
 #include <QUndoStack>
 
-#include <KJobWidgets/KJobWidgets>
-#include <QStandardPaths>
 #include <mlt++/Mlt.h>
 
 #include <locale>

@@ -44,7 +44,10 @@
 #include <KUrlRequesterDialog>
 #include <QApplication>
 #include <QClipboard>
+#include <QFontDatabase>
 #include <QQuickItem>
+#include <QtMath>
+
 #include <memory>
 #include <unistd.h>
 

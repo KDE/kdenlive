@@ -45,7 +45,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
 #include <dialogs/textbasededit.h>
-#include <memory>
+#include <jobs/audiolevelstask.h>
 #include <profiles/profilemodel.hpp>
 #include <utils/thumbnailcache.hpp>
 
@@ -67,13 +67,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
+#include <QMimeData>
 #include <QSlider>
+#include <QStyledItemDelegate>
 #include <QTimeLine>
 #include <QToolBar>
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
-#include <jobs/audiolevelstask.h>
+
+#include <memory>
 #include <utility>
 
 static QImage m_videoIcon;

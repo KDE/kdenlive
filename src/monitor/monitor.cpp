@@ -33,7 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transitions/transitionsrepository.hpp"
 #include "utils/thumbnailcache.hpp"
 
-#include "klocalizedstring.h"
+#include "KLocalizedString"
 #include <KActionMenu>
 #include <KDualAction>
 #include <KFileWidget>
@@ -46,7 +46,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
+#include <QCheckBox>
 #include <QDrag>
+#include <QFontDatabase>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
@@ -56,7 +58,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSlider>
 #include <QToolButton>
 #include <QVBoxLayout>
+
 #include <utility>
+
 #define SEEK_INACTIVE (-1)
 
 VolumeAction::VolumeAction(QObject *parent)

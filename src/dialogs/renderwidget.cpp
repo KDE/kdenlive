@@ -22,13 +22,13 @@
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/renderpresetrepository.hpp"
 
-#include "klocalizedstring.h"
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
 #include <KIO/OpenFileManagerWindowJob>
+#include <KIO/OpenUrlJob>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
-#include <KRun>
 #include <kio_version.h>
 #include <knotifications_version.h>
 
@@ -45,12 +45,14 @@
 #include <QMenu>
 #include <QMimeDatabase>
 #include <QProcess>
+#include <QScreen>
+#include <QScrollBar>
 #include <QStandardPaths>
+#include <QString>
 #include <QTemporaryFile>
 #include <QThread>
 #include <QTreeWidgetItem>
-#include <qglobal.h>
-#include <qstring.h>
+#include <QtGlobal>
 
 #ifdef KF5_USE_PURPOSE
 #include <Purpose/AlternativesModel>
@@ -1951,7 +1953,7 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     if (renderItem->status() != FINISHEDJOB) {
         return;
     }
-    new KRun(QUrl::fromLocalFile(item->text(1)), this);
+    KIO::OpenUrlJob(QUrl::fromLocalFile(item->text(1)));
 }
 
 void RenderWidget::errorMessage(RenderError type, const QString &message)

@@ -19,9 +19,11 @@
 
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <QButtonGroup>
 #include <QDir>
 #include <QFontDatabase>
 #include <QProcess>
+
 #include <memory>
 #include <utility>
 

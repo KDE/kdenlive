@@ -25,16 +25,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "capture/v4lcapture.h"
 #endif
 
+#include "KLocalizedString"
 #include "kdenlive_debug.h"
-#include "klocalizedstring.h"
-#include <KIO/DesktopExecParser>
-#include <kio_version.h>
-
-#include <KIO/OpenUrlJob>
 #include <KArchive>
 #include <KArchiveDirectory>
+#include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <KOpenWithDialog>
@@ -42,15 +40,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KTar>
 #include <KUrlRequesterDialog>
 #include <KZip>
+#include <kio_version.h>
+
 #include <QAction>
 #include <QDir>
 #include <QGuiApplication>
+#include <QInputDialog>
 #include <QRegularExpression>
 #include <QScreen>
 #include <QSize>
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent>
+
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
