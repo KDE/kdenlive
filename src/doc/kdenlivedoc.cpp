@@ -1882,6 +1882,18 @@ void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
     m_subtitleModel = m_subtitle;
 }
 
+bool KdenliveDoc::hasSubtitles() const
+{
+    return (m_subtitleModel.lock() != nullptr);
+}
+
+void KdenliveDoc::generateRenderSubtitleFile(int in, int out, const QString &subtitleFile)
+{
+    if (auto ptr = m_subtitleModel.lock()) {
+        ptr->subtitleFileFromZone(in, out, subtitleFile);
+    }
+}
+
 void KdenliveDoc::useOriginals(QDomDocument &doc)
 {
     QString root = doc.documentElement().attribute(QStringLiteral("root"));

@@ -277,7 +277,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     header->setSectionResizeMode(0, QHeaderView::Fixed);
     header->resizeSection(0, size + 4);
 
-// Find path for Kdenlive renderer
+    // Find path for Kdenlive renderer
 #ifdef Q_OS_WIN
     m_renderer = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_render.exe");
 #else
@@ -310,6 +310,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     refreshView();
     focusItem();
     adjustSize();
+    m_view.embed_subtitles->setToolTip(i18n("Only works for the matroska (mkv) format"));
 }
 
 void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error, const QString &message)
@@ -643,16 +644,6 @@ void RenderWidget::prepareRendering(bool delayedRendering)
     // Set playlist audio volume to 100%
     QDomDocument doc;
     doc.setContent(playlistContent);
-    QDomElement tractor = doc.documentElement().firstChildElement(QStringLiteral("tractor"));
-    if (!tractor.isNull()) {
-        QDomNodeList props = tractor.elementsByTagName(QStringLiteral("property"));
-        for (int i = 0; i < props.count(); ++i) {
-            if (props.at(i).toElement().attribute(QStringLiteral("name")) == QLatin1String("meta.volume")) {
-                props.at(i).firstChild().setNodeValue(QStringLiteral("1"));
-                break;
-            }
-        }
-    }
 
     // Add autoclose to playlists.
     QDomNodeList playlists = doc.elementsByTagName(QStringLiteral("playlist"));
@@ -672,17 +663,41 @@ void RenderWidget::prepareRendering(bool delayedRendering)
     int out = pCore->projectDuration() - 2;
     Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     double fps = pCore->getCurrentProfile()->fps();
+    QString subtitleFile;
+    if (m_view.embed_subtitles->isEnabled() && m_view.embed_subtitles->isChecked() && project->hasSubtitles()) {
+        QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
+        if (!src.open()) {
+            // Something went wrong
+            KMessageBox::sorry(this, i18n("Could not create temporary subtitle file"));
+            return;
+        }
+        subtitleFile = src.fileName();
+        src.setAutoRemove(false);
+        // disable subtitle filter(s) as they will be embeded in a second step of rendering
+        QDomNodeList filters = doc.elementsByTagName(QStringLiteral("filter"));
+        for (int i = 0; i < filters.length(); ++i) {
+            if (Xml::getXmlProperty(filters.item(i).toElement(), QStringLiteral("mlt_service")) == QLatin1String("avfilter.subtitles")) {
+                Xml::setXmlProperty(filters.item(i).toElement(), QStringLiteral("disable"), QStringLiteral("1"));
+            }
+        }
+    }
     if (m_view.render_zone->isChecked()) {
         in = pMon->getZoneStart();
         out = pMon->getZoneEnd() - 1;
-        generateRenderFiles(doc, in, out, outputFile, delayedRendering);
+        if (!subtitleFile.isEmpty()) {
+            project->generateRenderSubtitleFile(in, out, subtitleFile);
+        }
+        generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_guide->isChecked()) {
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
         in = int(GenTime(guideStart).frames(fps));
         // End rendering at frame before last guide
         out = int(GenTime(guideEnd).frames(fps)) - 1;
-        generateRenderFiles(doc, in, out, outputFile, delayedRendering);
+        if (!subtitleFile.isEmpty()) {
+            project->generateRenderSubtitleFile(in, out, subtitleFile);
+        }
+        generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_multi->isChecked()) {
         if (auto ptr = m_guidesModel.lock()) {
             int category = m_view.guideCategoryCombo->currentData().toInt();
@@ -720,13 +735,29 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                         QString filename =
                             outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
                         QDomDocument docCopy = doc.cloneNode(true).toDocument();
-                        generateRenderFiles(docCopy, in, out, filename, false);
+                        if (!subtitleFile.isEmpty()) {
+                            project->generateRenderSubtitleFile(in, out, subtitleFile);
+                        }
+                        generateRenderFiles(docCopy, in, out, filename, false, subtitleFile);
+                        if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
+                            QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
+                            if (!src.open()) {
+                                // Something went wrong
+                                KMessageBox::sorry(this, i18n("Could not create temporary subtitle file"));
+                                return;
+                            }
+                            subtitleFile = src.fileName();
+                            src.setAutoRemove(false);
+                        }
                     }
                 }
             }
         }
     } else {
-        generateRenderFiles(doc, in, out, outputFile, delayedRendering);
+        if (!subtitleFile.isEmpty()) {
+            project->generateRenderSubtitleFile(in, out, subtitleFile);
+        }
+        generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     }
 }
 
@@ -777,7 +808,7 @@ QString RenderWidget::generatePlaylistFile(bool delayedRendering)
     return tmp.fileName();
 }
 
-void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering)
+void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering, const QString &subtitleFile)
 {
     QString playlistPath = generatePlaylistFile(delayedRendering);
     QString extension = outputFile.section(QLatin1Char('.'), -1);
@@ -785,7 +816,6 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     if (playlistPath.isEmpty()) {
         return;
     }
-
     QString renderArgs = m_view.advanced_params->toPlainText().simplified();
     QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
     consumer.setAttribute(QStringLiteral("in"), in);
@@ -954,7 +984,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     QList<RenderJobItem *> jobList;
     QMap<QString, QString>::const_iterator i = renderFiles.constBegin();
     while (i != renderFiles.constEnd()) {
-        RenderJobItem *renderItem = createRenderJob(i.key(), i.value(), in, out);
+        RenderJobItem *renderItem = createRenderJob(i.key(), i.value(), in, out, subtitleFile);
         if (renderItem != nullptr) {
             jobList << renderItem;
         }
@@ -968,7 +998,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     checkRenderStatus();
 }
 
-RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, int in, int out)
+RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, int in, int out, const QString &subtitleFile)
 {
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(outputFile, Qt::MatchExactly, 1);
     RenderJobItem *renderItem = nullptr;
@@ -999,6 +1029,9 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
                            QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),
                            QStringLiteral("-out"),
                            QString::number(out)};
+    if (!subtitleFile.isEmpty()) {
+        argsJob << QStringLiteral("-subtitle") << subtitleFile;
+    }
     renderItem->setData(1, ParametersRole, argsJob);
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
@@ -1215,6 +1248,7 @@ void RenderWidget::loadProfile()
     m_view.checkTwoPass->setChecked(passes && params.contains(QStringLiteral("passes=2")));
 
     m_view.encoder_threads->setEnabled(!profile->hasParam(QStringLiteral("threads")));
+    m_view.embed_subtitles->setEnabled(profile->extension() == QLatin1String("mkv") || profile->extension() == QLatin1String("matroska"));
 
     m_view.video_box->setChecked(profile->getParam(QStringLiteral("vn")) != QStringLiteral("1"));
     m_view.audio_box->setChecked(profile->getParam(QStringLiteral("an")) != QStringLiteral("1"));

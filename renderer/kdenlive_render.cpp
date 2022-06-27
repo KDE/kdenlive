@@ -16,6 +16,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QStringList args = app.arguments();
     QStringList preargs;
+    QString subtitleFile;
     if (args.count() >= 4) {
         // Remove program name
         args.removeFirst();
@@ -137,6 +138,9 @@ int main(int argc, char **argv)
             // Mlt::Factory::close();
             fprintf(stderr, "+ + + RENDERING FINISHED + + + \n");
             return 0;
+        } else if (args.count() > 1 && args.at(0) == QLatin1String("-subtitle")) {
+            args.removeFirst();
+            subtitleFile = args.takeFirst();
         }
 
         // older MLT version, does not support embedded consumer in/out in xml, and current
@@ -154,7 +158,7 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, qApp);
         rJob->start();
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();

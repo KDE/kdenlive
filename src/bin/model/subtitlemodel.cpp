@@ -7,6 +7,7 @@
 #include "bin/bin.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"

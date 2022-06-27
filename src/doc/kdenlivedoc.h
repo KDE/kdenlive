@@ -214,6 +214,10 @@ public:
     /** @brief Replace proxy clips with originals for rendering. */
     void useOriginals(QDomDocument &doc);
     void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
+    /** @brief Returns true if this project has subtitles. */
+    bool hasSubtitles() const;
+    /** @brief Generate a temporary subtitle file for a zone. */
+    void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an

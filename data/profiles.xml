@@ -9,6 +9,11 @@
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 movflags=+faststart vcodec=libx264 crf=%quality g=15 acodec=aac ab=%audiobitrate+'k'"
    defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
+  <profile name="Matroska-H264/AAC" extension="mkv"
+   qualities="15,45" defaultquality="23"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=matroska movflags=+faststart vcodec=libx264 crf=%quality g=15 acodec=aac ab=%audiobitrate+'k'"
+   defaultspeedindex="6" speeds="preset=veryslow;preset=slower;preset=slow;preset=medium;preset=fast;preset=faster;preset=veryfast;preset=superfast;preset=ultrafast"/>
   <profile name="MPEG-2" extension="mpg"
    qualities="3,15" defaultquality="5"
    audioqualities="3,7" defaultaudioquality="3"

@@ -23,7 +23,8 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1, QObject *parent = nullptr);
+    RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1,
+              const QString &subtitleFile = QString(), QObject *parent = nullptr);
     ~RenderJob() override;
 
 public slots:
@@ -35,6 +36,8 @@ private slots:
     void slotAbort();
     void slotAbort(const QString &url);
     void slotCheckProcess(QProcess::ProcessState state);
+    void slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exitStatus);
+    void receivedSubtitleProgress();
 
 private:
     QString m_scenelist;
@@ -59,6 +62,8 @@ private:
     /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
     int m_pid;
     bool m_dualpass;
+    QString m_subtitleFile;
+    QString m_temporaryRenderFile;
     QProcess *m_renderProcess;
     QString m_errorMessage;
     QList<QVariant> m_dbusargs;
@@ -72,6 +77,7 @@ private:
     void initKdenliveDbusInterface();
 #endif
     void sendFinish(int status, const QString &error);
+    void updateProgress(int speed = -1);
     void sendProgress();
 
 signals:
