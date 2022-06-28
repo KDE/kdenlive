@@ -69,8 +69,8 @@ if (NOT DEFINED QT_MAJOR_VERSION)
 endif()
 
 if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
-    ecm_set_disabled_deprecation_versions(SHOW_DEPRECATIONS
-        #QT ${QT_MIN_VERSION} // causes problems with QVariant, disable for know
+    ecm_set_disabled_deprecation_versions(
+        QT ${QT_MIN_VERSION}
         KF ${KF_DEP_VERSION}
     )
 endif()
