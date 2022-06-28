@@ -11,10 +11,11 @@
 #else
 #include <QDBusInterface>
 #endif
+#include <QDateTime>
+#include <QEventLoop>
+#include <QFile>
 #include <QObject>
 #include <QProcess>
-#include <QDateTime>
-#include <QFile>
 // Testing
 #include <QTextStream>
 
@@ -65,6 +66,8 @@ private:
     QString m_subtitleFile;
     QString m_temporaryRenderFile;
     QProcess *m_renderProcess;
+    QProcess *m_subsProcess;
+    QEventLoop m_looper;
     QString m_errorMessage;
     QList<QVariant> m_dbusargs;
     QDateTime m_startTime;

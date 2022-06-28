@@ -24,6 +24,7 @@
 
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
+#include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
@@ -72,7 +73,8 @@ enum {
     ExtraInfoRole = ProgressRole + 2, // vpinon: don't understand why, else spurious message displayed
     LastTimeRole,
     LastFrameRole,
-    OpenBrowserRole
+    OpenBrowserRole,
+    PlayAfterRole
 };
 
 // Running job status
@@ -1037,6 +1039,7 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
     renderItem->setData(1, ParametersRole, argsJob);
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
     renderItem->setData(1, OpenBrowserRole, m_view.open_browser->isChecked());
+    renderItem->setData(1, PlayAfterRole, m_view.play_after->isChecked());
     if (!m_view.audio_box->isChecked()) {
         renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
     } else if (!m_view.video_box->isChecked()) {
@@ -1545,10 +1548,17 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         notify->setText(notif);
         notify->setUrls({QUrl::fromLocalFile(dest)});
         notify->sendEvent();
-        QUrl url = QUrl::fromLocalFile(item->text(1));
+        const QUrl url = QUrl::fromLocalFile(item->text(1));
         bool exists = QFile(url.toLocalFile()).exists();
-        if (exists && item->data(1, OpenBrowserRole).toBool()) {
-            KIO::highlightInFileManager({url});
+        if (exists) {
+            if (item->data(1, OpenBrowserRole).toBool()) {
+                KIO::highlightInFileManager({url});
+            }
+            if (item->data(1, PlayAfterRole).toBool()) {
+                auto *job = new KIO::OpenUrlJob(url);
+                job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+                job->start();
+            }
         }
     } else if (status == -2) {
         // Rendering crashed
@@ -1953,7 +1963,9 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
     if (renderItem->status() != FINISHEDJOB) {
         return;
     }
-    KIO::OpenUrlJob(QUrl::fromLocalFile(item->text(1)));
+    auto *job = new KIO::OpenUrlJob(QUrl::fromLocalFile(item->text(1)));
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    job->start();
 }
 
 void RenderWidget::errorMessage(RenderError type, const QString &message)

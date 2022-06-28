@@ -51,7 +51,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_dualpass(false)
     , m_subtitleFile(subtitleFile)
 {
-    m_renderProcess = new QProcess;
+    m_renderProcess = new QProcess(&m_looper);
     m_renderProcess->setReadChannel(QProcess::StandardError);
     connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
 
@@ -276,6 +276,7 @@ void RenderJob::start()
     m_renderProcess->start(m_prog, m_args);
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
     m_logstream.flush();
+    m_looper.exec();
 }
 
 #ifndef NODBUS
@@ -344,19 +345,19 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         QProcess::startDetached(QStringLiteral("kdialog"), args);
         emit renderingFinished();
     } else {
-        if (!m_dualpass) {
-            sendFinish(-1, QString());
-        }
         m_logstream << "Rendering of " << m_dest << " finished"
                     << "\n";
-        if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
+        /*
+            // Deprecated, we now play the rendering from Kdenlive's main application
+            if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();
             // Decode url
             QString url = QUrl::fromEncoded(args.takeLast().toUtf8()).toLocalFile();
             args << url;
             QProcess::startDetached(exec, args);
-        }
+            }*/
+
         m_logstream.flush();
         if (m_dualpass) {
             deleteLater();
@@ -372,25 +373,28 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
                         "-y", "-v", "quiet", "-stats", "-i", m_dest, "-i", m_subtitleFile, "-c", "copy", "-f", "matroska", m_temporaryRenderFile};
                     qDebug() << "::: JOB ARGS: " << args;
                     m_progress = 0;
-                    delete m_renderProcess;
-                    m_renderProcess = new QProcess;
-                    /*disconnect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
-                    disconnect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);*/
-                    connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedSubtitleProgress);
-                    connect(m_renderProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &RenderJob::slotCheckSubtitleProcess);
-                    m_renderProcess->start(ffmpegExe, args);
-                    m_renderProcess->waitForFinished();
+                    disconnect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+                    disconnect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
+                    m_subsProcess = new QProcess(&m_looper);
+                    m_subsProcess->setProcessChannelMode(QProcess::MergedChannels);
+                    connect(m_subsProcess, &QProcess::readyReadStandardOutput, this, &RenderJob::receivedSubtitleProgress);
+                    m_subsProcess->start(ffmpegExe, args);
+                    m_subsProcess->waitForStarted(-1);
+                    m_subsProcess->waitForFinished(-1);
+                    slotCheckSubtitleProcess(m_subsProcess->exitCode(), m_subsProcess->exitStatus());
                     return;
                 }
             }
+            sendFinish(-1, QString());
         }
     }
     emit renderingFinished();
+    m_looper.quit();
 }
 
 void RenderJob::receivedSubtitleProgress()
 {
-    QString outputData = QString::fromLocal8Bit(m_renderProcess->readAllStandardError()).simplified();
+    QString outputData = QString::fromLocal8Bit(m_subsProcess->readAllStandardOutput()).simplified();
     if (outputData.isEmpty()) {
         return;
     }
@@ -399,7 +403,7 @@ void RenderJob::receivedSubtitleProgress()
     QString result = output.takeFirst();
     bool ok = false;
     int frame = -1;
-    if (result == (QLatin1String("frame="))) {
+    if (result == (QLatin1String("frame=")) && !output.isEmpty()) {
         // Frame number is the second parameter
         result = output.takeFirst();
         frame = result.toInt(&ok);
@@ -409,7 +413,9 @@ void RenderJob::receivedSubtitleProgress()
     if (ok && frame > 0) {
         m_frame = frame;
         m_progress = 100 * frame / (m_frameout - m_framein);
-        updateProgress();
+        if (m_progress > 0) {
+            updateProgress();
+        }
     }
 }
 
@@ -417,8 +423,7 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
 {
     if (exitStatus == QProcess::CrashExit || !QFile::exists(m_temporaryRenderFile)) {
         // rendering crashed
-        qDebug() << ":::: FOUND ERROR IN SUBS: " << m_renderProcess->exitStatus() << " / " << exitCode
-                 << ", FILE ESISTS: " << QFile::exists(m_temporaryRenderFile);
+        qDebug() << ":::: FOUND ERROR IN SUBS: " << exitStatus << " / " << exitCode << ", FILE ESISTS: " << QFile::exists(m_temporaryRenderFile);
         QString error = tr("Rendering of %1 aborted when adding subtitles.").arg(m_dest);
         m_errorMessage.append(error);
         sendFinish(-2, m_errorMessage);
@@ -432,6 +437,9 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
     } else {
         QFile::remove(m_dest);
         QFile::rename(m_temporaryRenderFile, m_dest);
+        sendFinish(-1, QString());
     }
+    QFile::remove(m_subtitleFile);
     emit renderingFinished();
+    m_looper.quit();
 }

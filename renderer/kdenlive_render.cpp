@@ -8,6 +8,7 @@
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
 #include <QApplication>
+#include <QDebug>
 #include <QDir>
 #include <QDomDocument>
 
@@ -138,7 +139,8 @@ int main(int argc, char **argv)
             // Mlt::Factory::close();
             fprintf(stderr, "+ + + RENDERING FINISHED + + + \n");
             return 0;
-        } else if (args.count() > 1 && args.at(0) == QLatin1String("-subtitle")) {
+        }
+        if (args.count() > 1 && args.at(0) == QLatin1String("-subtitle")) {
             args.removeFirst();
             subtitleFile = args.takeFirst();
         }
@@ -158,12 +160,13 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, qApp);
-        rJob->start();
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
             app.quit();
         });
+        app.setQuitOnLastWindowClosed(false);
+        QMetaObject::invokeMethod(rJob, "start", Qt::QueuedConnection);
         return app.exec();
     } else {
         fprintf(stderr,
