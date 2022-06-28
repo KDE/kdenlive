@@ -647,7 +647,7 @@ const QSize ClipController::getFrameSize() const
             width = m_masterProducer->get_int("kdenlive:original.width");
         }
         if (height == 0) {
-            width = m_masterProducer->get_int("kdenlive:original.height");
+            height = m_masterProducer->get_int("kdenlive:original.height");
         }
         if (width > 0 && height > 0) {
             return QSize(width, height);
