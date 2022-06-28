@@ -22,7 +22,7 @@ public:
     };
     explicit RenderPresetDialog(QWidget *parent, RenderPresetModel *preset = nullptr, Mode mode = Mode::New);
     /** @returns the name that was finally under which the preset has been saved */
-    ~RenderPresetDialog();
+    ~RenderPresetDialog() override;
     QString saveName();
 
 protected:
