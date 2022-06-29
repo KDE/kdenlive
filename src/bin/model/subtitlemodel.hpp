@@ -90,7 +90,7 @@ public:
     void requestSubtitleMove(int clipId, GenTime position);
 
     /** @brief Function that imports a subtitle file */
-    void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false);
+    void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false, float startFramerate = 30.00, float targetFramerate = 30.00);
 
     /** @brief Exports the subtitle model to json */
     QString toJson();

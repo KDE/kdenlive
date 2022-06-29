@@ -4880,17 +4880,23 @@ void TimelineController::importSubtitle(const QString &path)
     QPointer<QDialog> d = new QDialog;
     Ui::ImportSub_UI view;
     view.setupUi(d);
+    view.caption_original_framerate->setValue(pCore->getCurrentFps());
+    view.caption_target_framerate->setValue(pCore->getCurrentFps());
     if (!path.isEmpty()) {
         view.subtitle_url->setText(path);
     }
     d->setWindowTitle(i18n("Import Subtitle"));
     if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
         auto subtitleModel = pCore->getSubtitleModel(true);
-        int offset = 0;
+        int offset = 0, startFramerate = 30.00, targetFramerate = 30.00;
         if (view.cursor_pos->isChecked()) {
             offset = pCore->getTimelinePosition();
         }
-        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset, true);
+	if (view.transform_framerate_check_box->isChecked()) {
+	  startFramerate = view.caption_original_framerate->value();
+	  targetFramerate = view.caption_target_framerate->value();
+	}
+	subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate);
     }
     emit regainFocus();
 }
