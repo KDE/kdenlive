@@ -30,9 +30,8 @@ public:
     ~ExportGuidesDialog() override;
 
 private:
-    double offsetTimeMs() const;
+    GenTime offsetTime() const;
     void updateContentByModel() const;
-    void updateContentByModel(const QString &format, int markerIndex, double offset) const;
 
     const MarkerListModel * m_markerListModel;
     const GenTime m_projectDuration;

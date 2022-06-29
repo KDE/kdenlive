@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QImage>
+#include <QObject>
 
 /** @class ColorTools
     @brief \@todo Describe class ColorTools

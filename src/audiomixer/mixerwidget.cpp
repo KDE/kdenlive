@@ -288,14 +288,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             updateLabel();
         });
 
-        m_record = new QToolButton(this);
-        m_record->setIcon(QIcon::fromTheme("media-record"));
-        m_record->setToolTip(i18n("Record audio"));
-        m_record->setCheckable(true);
-        m_record->setAutoRaise(true);
-        m_record->setVisible(false);
-        connect(m_record, &QToolButton::toggled, this, [&](bool toggled) { emit pCore->recordAudio(m_tid, toggled); });
-
         m_monitor = new QToolButton(this);
         m_monitor->setIcon(QIcon::fromTheme("audio-input-microphone"));
         m_monitor->setToolTip(i18n("Monitor audio input"));
@@ -376,9 +368,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     buttonslay->addWidget(mute);
     if (m_solo) {
         buttonslay->addWidget(m_solo);
-    }
-    if (m_record) {
-        buttonslay->addWidget(m_record);
     }
     if (m_monitor) {
         buttonslay->addWidget(m_monitor);
@@ -555,13 +544,9 @@ void MixerWidget::monitorAudio(bool monitor)
     qDebug() << ":::: MONIOTORING AUDIO: " << monitor;
     if (monitor) {
         m_monitor->setChecked(true);
-        m_solo->setVisible(false);
-        m_record->setVisible(true);
         updateMonitorState();
     } else {
         m_monitor->setChecked(false);
-        m_solo->setVisible(true);
-        m_record->setVisible(false);
         updateMonitorState();
         reset();
     }

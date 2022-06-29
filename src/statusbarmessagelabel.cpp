@@ -13,20 +13,20 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
+#include <KColorScheme>
 #include <KNotification>
-#include <kcolorscheme.h>
 #include <kconfigwidgets_version.h>
 #if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 93, 0)
-#include <kstatefulbrush.h>
+#include <KStatefulBrush>
 #endif
-#include <kiconloader.h>
-#include <klocalizedstring.h>
+#include <KIconLoader>
+#include <KLocalizedString>
 
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QIcon>
-#include <QLabel>
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QProgressBar>

@@ -444,8 +444,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>334</width>
-            <height>855</height>
+            <width>313</width>
+            <height>952</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -603,6 +603,9 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
                <layout class="QHBoxLayout" name="sliderGroup">
@@ -658,7 +661,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox">
+            <widget class="QGroupBox" name="encoder_box">
              <property name="title">
               <string>Encoder</string>
              </property>
@@ -698,6 +701,13 @@
                 </property>
                </widget>
               </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="threadsLabel">
+                <property name="text">
+                 <string>Threads:</string>
+                </property>
+               </widget>
+              </item>
               <item row="2" column="1">
                <widget class="QSpinBox" name="encoder_threads">
                 <property name="sizePolicy">
@@ -714,17 +724,45 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="threadsLabel">
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="processing_box">
+             <property name="title">
+              <string>Parallel Processing</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <layout class="QFormLayout" name="formLayout_3">
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_3">
                 <property name="text">
                  <string>Threads:</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="1">
-               <widget class="QCheckBox" name="parallel_process">
+              <item row="1" column="1">
+               <widget class="QSpinBox" name="processing_threads">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="2">
+               <widget class="KMessageWidget" name="processing_warning">
                 <property name="text">
-                 <string>Parallel Processing (experimental!)</string>
+                 <string>Parallel processing may cause render artifacts</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="closeButtonVisible">
+                 <bool>false</bool>
+                </property>
+                <property name="messageType">
+                 <enum>KMessageWidget::Information</enum>
                 </property>
                </widget>
               </item>
@@ -746,9 +784,19 @@
             </widget>
            </item>
            <item>
+            <widget class="QCheckBox" name="embed_subtitles">
+             <property name="toolTip">
+              <string extracomment="Only works for the matroska (mkv) format"/>
+             </property>
+             <property name="text">
+              <string>Embed subtitles instead of burning them</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QCheckBox" name="open_browser">
              <property name="text">
-              <string>Open browser window after export</string>
+              <string>Open folder after export</string>
              </property>
             </widget>
            </item>
@@ -761,12 +809,6 @@
            </item>
            <item>
             <widget class="QTextEdit" name="advanced_params">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -774,19 +816,6 @@
               <bool>false</bool>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>

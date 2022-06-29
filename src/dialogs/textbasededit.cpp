@@ -15,16 +15,25 @@
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include "widgets/timecodedisplay.h"
-#include <memory>
 #include <profiles/profilemodel.hpp>
 
-#include "klocalizedstring.h"
-
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequesterDialog>
+#include <QAbstractTextDocumentLayout>
 #include <QEvent>
+#include <QFontDatabase>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonParseError>
 #include <QKeyEvent>
+#include <QMenu>
+#include <QPainter>
+#include <QScrollBar>
+#include <QTextBlock>
 #include <QToolButton>
+
+#include <memory>
 
 VideoTextEdit::VideoTextEdit(QWidget *parent)
     : QTextEdit(parent)

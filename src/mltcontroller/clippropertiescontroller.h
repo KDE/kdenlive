@@ -53,7 +53,11 @@ public:
     explicit AnalysisTree(QWidget *parent = nullptr);
 
 protected:
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> &list) const override;
+#else
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const override;
+#endif
 };
 
 /** @class ClipPropertiesController

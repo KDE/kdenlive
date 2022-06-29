@@ -55,7 +55,7 @@ Rectangle {
             when: trackHeadRoot.current
             PropertyChanges {
                 target: trackHeadRoot
-                color: selectedTrackColor
+                color: showAudioRecord ? Qt.tint(selectedTrackColor, Qt.rgba(1, 0, 0, 0.5)) : selectedTrackColor
             }
         },
         State {
@@ -63,7 +63,7 @@ Rectangle {
             name: 'normal'
             PropertyChanges {
                 target: trackHeadRoot
-                color: getTrackColor(isAudio, true)
+                color: showAudioRecord ? Qt.tint(getTrackColor(isAudio, true), Qt.rgba(1, 0, 0, 0.16)) : getTrackColor(isAudio, true)
             }
         }
     ]
@@ -452,7 +452,7 @@ Rectangle {
                 }
                 width: root.collapsedHeight
                 height: root.collapsedHeight
-                onClicked: controller.hideTrack(trackId, isDisabled)
+                onClicked: timeline.hideTrack(trackId, isDisabled)
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont

@@ -18,6 +18,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/projectsettings.h"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
+#include <audiomixer/mixermanager.hpp>
+#include <lib/localeHandling.h>
 
 // Temporary for testing
 #include "bin/model/markerlistmodel.hpp"
@@ -29,24 +31,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinewidget.h"
 
 #include <KActionCollection>
+#include <KConfigGroup>
 #include <KJob>
+#include <KJobWidgets>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <kcoreaddons_version.h>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
-#include <KConfigGroup>
 #include <QAction>
 #include <QCryptographicHash>
 #include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QLocale>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QProgressDialog>
+#include <QSaveFile>
 #include <QTimeZone>
-#include <audiomixer/mixermanager.hpp>
-#include <lib/localeHandling.h>
 
 static QString getProjectNameFilters(bool ark = true)
 {
@@ -225,11 +230,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentMetadata = w->metadata();
         delete w;
     }
-    bool openBackup;
     m_notesPlugin->clear();
     pCore->bin()->cleanDocument();
-    KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
-                                       audioChannels, &openBackup, pCore->window());
+    // TODO: KdenliveDoc constructor
+    KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
@@ -388,6 +392,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
         pCore->window()->setWindowTitle(m_project->description());
         m_project->setModified(false);
     }
+
     m_recentFilesAction->addUrl(url);
     // remember folder for next project opening
     KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), saveFolder);
@@ -418,13 +423,12 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
                                            i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
-                        pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                        moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }
             }
         }
     }
-
     return true;
 }
 
@@ -597,7 +601,7 @@ void ProjectManager::openFile(const QUrl &url)
     doOpenFile(url, nullptr);
 }
 
-void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
+void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBackup)
 {
     Q_ASSERT(m_project == nullptr);
     m_fileRevert->setEnabled(true);
@@ -615,19 +619,54 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         m_progressDialog->setMaximum(0);
         m_progressDialog->show();
     }
-    bool openBackup;
     m_notesPlugin->clear();
-    int audioChannels = 2;
-    if (KdenliveSettings::audio_channels() == 1) {
-        audioChannels = 4;
-    } else if (KdenliveSettings::audio_channels() == 2) {
-        audioChannels = 6;
+
+    DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
+        QString(), pCore->window()->m_commandStack, false, pCore->window());
+
+    KdenliveDoc *doc;
+    if (!openResult.isSuccessful()) {
+        if (!isBackup) {
+            int answer = KMessageBox::warningYesNoCancel(
+                        pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
+                        i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
+            if (answer == KMessageBox::ButtonCode::Yes) { // Open Backup
+                slotOpenBackup(url);
+            } else if (answer == KMessageBox::ButtonCode::No) { // Recover
+                // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
+                openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
+                    QString(), pCore->window()->m_commandStack, true, pCore->window());
+                if (openResult.isSuccessful()) {
+                    doc = openResult.getDocument();
+                    doc->requestBackup();
+                } else {
+                    KMessageBox::error(pCore->window(), "Could not recover corrupted file.");
+                }
+            }
+        } else {
+            KMessageBox::detailedSorry(pCore->window(), "Could not open the backup project file.", openResult.getError());
+        }
+    } else {
+         doc = openResult.getDocument();
     }
 
-    KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
-                                       KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile(),
-                                       QMap<QString, QString>(), QMap<QString, QString>(), {KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()},
-                                       audioChannels, &openBackup, pCore->window());
+    // if we could not open the file, and could not recover (or user declined), stop now
+    if (!openResult.isSuccessful()) {
+        delete m_progressDialog;
+        m_progressDialog = nullptr;
+        return;
+    }
+
+    if (openResult.wasUpgraded()) {
+        pCore->displayMessage(i18n("Your project was upgraded, a backup will be created on next save"),
+            ErrorMessage);
+    } else if (openResult.wasModified()) {
+        pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"),
+            ErrorMessage);
+    }
+    pCore->displayMessage(QString(), OperationCompletedMessage);
+
+
     if (stale == nullptr) {
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
         QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
@@ -672,9 +711,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_mainTimelineModel->updateFieldOrderFilter(pCore->getCurrentProfile());
     emit docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
-    if (openBackup) {
-        slotOpenBackup(url);
-    }
     m_lastSave.start();
     delete m_progressDialog;
     m_progressDialog = nullptr;
@@ -709,7 +745,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
-        projectFolder = QUrl::fromLocalFile(m_project->projectTempFolder());
+        projectFolder = QUrl::fromLocalFile(m_project ? m_project->projectTempFolder() : QString());
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
@@ -719,7 +755,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         QString requestedBackup = dia->selectedFile();
         m_project->backupLastSavedVersion(projectFile.toLocalFile());
         closeCurrentDocument(false);
-        doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr);
+        doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr, true);
         if (m_project) {
             if (!m_project->url().isEmpty()) {
                 // Only update if restore succeeded
@@ -945,13 +981,12 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move tmp folder (thumbnails, timeline preview)
     m_project->moveProjectData(src, dest);
-    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
+    KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest), KIO::DefaultFlags);
+    if (copyJob->uiDelegate()) {
+        KJobWidgets::setWindow(copyJob, pCore->window());
+    }
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
-#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5, 80, 0)
-    connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotMoveProgress(KJob *, ulong)));
-#else
     connect(copyJob, &KJob::percentChanged, this, &ProjectManager::slotMoveProgress);
-#endif
 }
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
@@ -1021,18 +1056,13 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
         qDebug() << "// Project failed to load!!";
     }
     // Free memory used by original playlist
+    xmlProd->clear();
     xmlProd.reset(nullptr);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
-    int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
-    if (compositing == 1) {
-        // Composite transition is deprecated, switch to hq by default
-        compositing = 2;
-    }
+    bool compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
     emit pCore->currentDoc()->updateCompositionMode(compositing);
-    if (compositing < 2) {
-        pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
-    }
+    pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
@@ -1241,7 +1271,9 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         return;
     }
     QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     out.setCodec("UTF-8");
+#endif
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", convertedFile));

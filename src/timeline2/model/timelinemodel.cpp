@@ -28,10 +28,11 @@
 
 #include "monitor/monitormanager.h"
 
+#include <KLocalizedString>
+#include <QCryptographicHash>
 #include <QDebug>
 #include <QModelIndex>
 #include <QThread>
-#include <klocalizedstring.h>
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltField.h>
 #include <mlt++/MltProfile.h>
@@ -844,7 +845,8 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         } else {
         }
     }
-    ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1, allowedClipMixes);
+    ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1,
+                                                           allowedClipMixes);
 
     if (!ok) {
         qWarning() << "clip insertion failed";
@@ -941,9 +943,12 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
             }
             // Make sure we have enough space in clip to resize
             // leftMax is the maximum frames we have to expand first clip on the right
-            leftMax = m_allClips[s]->getPlaytime();
+            leftMax = m_allClips[previousClip]->m_endlessResize
+                          ? m_allClips[s]->getPlaytime()
+                          : qMin(m_allClips[s]->getPlaytime(), m_allClips[previousClip]->getMaxDuration() - m_allClips[previousClip]->getOut() - 1);
             // rightMax is the maximum frames we have to expand second clip on the left
-            rightMax = m_allClips[previousClip]->getPlaytime();
+            rightMax = m_allClips[s]->m_endlessResize ? m_allClips[previousClip]->getPlaytime()
+                                                      : qMin(m_allClips[previousClip]->getPlaytime(), m_allClips[s]->getIn());
             if (getTrackById_const(selectedTrack)->hasStartMix(previousClip)) {
                 int spaceBeforeMix = m_allClips[s]->getPosition() - (m_allClips[previousClip]->getPosition() + m_allClips[previousClip]->getMixDuration());
                 rightMax = rightMax == -1 ? spaceBeforeMix : qMin(rightMax, spaceBeforeMix);
@@ -968,9 +973,10 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
             // Mix at end of selected clip
             // Make sure we have enough space in clip to resize
             // leftMax is the maximum frames we have to expand first clip on the right
-            leftMax = m_allClips[nextClip]->getPlaytime();
+            leftMax = m_allClips[s]->m_endlessResize ? m_allClips[nextClip]->getPlaytime()
+                                                     : qMin(m_allClips[nextClip]->getPlaytime(), m_allClips[s]->getMaxDuration() - m_allClips[s]->getOut() - 1);
             // rightMax is the maximum frames we have to expand second clip on the left
-            rightMax = m_allClips[s]->getPlaytime();
+            rightMax = m_allClips[nextClip]->m_endlessResize ? m_allClips[s]->getPlaytime() : qMin(m_allClips[s]->getPlaytime(), m_allClips[nextClip]->getIn());
             if (getTrackById_const(selectedTrack)->hasStartMix(s)) {
                 int spaceBeforeMix = m_allClips[nextClip]->getPosition() - (m_allClips[s]->getPosition() + m_allClips[s]->getMixDuration());
                 rightMax = rightMax == -1 ? spaceBeforeMix : qMin(rightMax, spaceBeforeMix);
@@ -4572,7 +4578,28 @@ void TimelineModel::updateDuration()
 
 int TimelineModel::duration() const
 {
-    return m_tractor->get_playtime() - TimelineModel::seekDuration;
+    int duration = 0;
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->isAudioTrack()) {
+            if ((*it)->isMute()) {
+                // Muted audio track
+                ++it;
+                continue;
+            }
+        } else if ((*it)->isHidden()) {
+            // Hidden video track
+            ++it;
+            continue;
+        }
+        int trackDuration = (*it)->getTrackService()->get_playtime();
+        duration = qMax(duration, trackDuration);
+        ++it;
+    }
+    if (m_subtitleModel && !m_subtitleModel->isDisabled()) {
+        duration = qMax(duration, m_subtitleModel->trackDuration());
+    }
+    return duration;
 }
 
 std::unordered_set<int> TimelineModel::getGroupElements(int clipId)

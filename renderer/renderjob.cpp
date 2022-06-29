@@ -6,7 +6,6 @@
 
 #include "renderjob.h"
 
-#include <QFile>
 #include <QStringList>
 #include <QThread>
 #ifndef NODBUS
@@ -27,7 +26,8 @@ public:
     static void msleep(unsigned long msecs) { QThread::msleep(msecs); }
 };
 
-RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, QObject *parent)
+RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, const QString &subtitleFile,
+                     QObject *parent)
     : QObject(parent)
     , m_scenelist(scenelist)
     , m_dest(target)
@@ -49,8 +49,9 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_frameout(out)
     , m_pid(pid)
     , m_dualpass(false)
+    , m_subtitleFile(subtitleFile)
 {
-    m_renderProcess = new QProcess;
+    m_renderProcess = new QProcess(&m_looper);
     m_renderProcess->setReadChannel(QProcess::StandardError);
     connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
 
@@ -158,38 +159,44 @@ void RenderJob::receivedStderr()
         }
         int speed = (frame - m_frame) / (elapsedTime - m_seconds);
         m_seconds = elapsedTime;
-#ifndef NODBUS
-        if ((m_kdenliveinterface != nullptr) && m_kdenliveinterface->isValid()) {
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, m_progress, frame});
-        }
-        if (m_jobUiserver) {
-            qint64 remaining = elapsedTime * (100 - progress) / progress;
-            int days = int(remaining / 86400);
-            int remainingSecs = int(remaining % 86400);
-            QTime when = QTime(0, 0, 0, 0).addSecs(remainingSecs);
-            QString est = tr("Remaining time ");
-            if (days > 0) {
-                est.append(tr("%n day(s) ", "", days));
-            }
-            est.append(when.toString(QStringLiteral("hh:mm:ss")));
-
-            m_jobUiserver->call(QStringLiteral("setPercent"), uint(m_progress));
-            m_jobUiserver->call(QStringLiteral("setProcessedAmount"), qulonglong(frame - m_framein), tr("frames"));
-            m_jobUiserver->call(QStringLiteral("setSpeed"), qulonglong(speed));
-            m_jobUiserver->call(QStringLiteral("setDescriptionField"), 0, QString(), est);
-        }
-#else
-        QJsonObject method, args;
-        args["url"] = m_dest;
-        args["progress"] = m_progress;
-        args["frame"] = frame;
-        method["setRenderingProgress"] = args;
-        m_kdenlivesocket->write(QJsonDocument(method).toJson());
-        m_kdenlivesocket->flush();
-#endif
         m_frame = frame;
-        m_logstream << QStringLiteral("%1\t%2\t%3\n").arg(m_seconds).arg(m_frame).arg(m_progress);
+        updateProgress(speed);
     }
+}
+
+void RenderJob::updateProgress(int speed)
+{
+#ifndef NODBUS
+    if ((m_kdenliveinterface != nullptr) && m_kdenliveinterface->isValid()) {
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, m_progress, m_frame});
+    }
+    if (m_jobUiserver) {
+        qint64 remaining = m_seconds * (100 - m_progress) / m_progress;
+        int days = int(remaining / 86400);
+        int remainingSecs = int(remaining % 86400);
+        QTime when = QTime(0, 0, 0, 0).addSecs(remainingSecs);
+        QString est = tr("Remaining time ");
+        if (days > 0) {
+            est.append(tr("%n day(s) ", "", days));
+        }
+        est.append(when.toString(QStringLiteral("hh:mm:ss")));
+        m_jobUiserver->call(QStringLiteral("setPercent"), uint(m_progress));
+        m_jobUiserver->call(QStringLiteral("setProcessedAmount"), qulonglong(m_frame - m_framein), tr("frames"));
+        if (speed > -1) {
+            m_jobUiserver->call(QStringLiteral("setSpeed"), qulonglong(speed));
+        }
+        m_jobUiserver->call(QStringLiteral("setDescriptionField"), 0, QString(), est);
+    }
+#else
+    QJsonObject method, args;
+    args["url"] = m_dest;
+    args["progress"] = m_progress;
+    args["frame"] = m_frame;
+    method["setRenderingProgress"] = args;
+    m_kdenlivesocket->write(QJsonDocument(method).toJson());
+    m_kdenlivesocket->flush();
+#endif
+    m_logstream << QStringLiteral("%1\t%2\t%3\n").arg(m_seconds).arg(m_frame).arg(m_progress);
 }
 
 void RenderJob::start()
@@ -269,6 +276,7 @@ void RenderJob::start()
     m_renderProcess->start(m_prog, m_args);
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
     m_logstream.flush();
+    m_looper.exec();
 }
 
 #ifndef NODBUS
@@ -337,25 +345,101 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         QProcess::startDetached(QStringLiteral("kdialog"), args);
         emit renderingFinished();
     } else {
-        if (!m_dualpass) {
-            sendFinish(-1, QString());
-        }
         m_logstream << "Rendering of " << m_dest << " finished"
                     << "\n";
-        if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
+        /*
+            // Deprecated, we now play the rendering from Kdenlive's main application
+            if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();
             // Decode url
             QString url = QUrl::fromEncoded(args.takeLast().toUtf8()).toLocalFile();
             args << url;
             QProcess::startDetached(exec, args);
-        }
+            }*/
+
         m_logstream.flush();
         if (m_dualpass) {
             deleteLater();
         } else {
             m_logfile.remove();
+            if (!m_subtitleFile.isEmpty()) {
+                // Embed subtitles
+                QString ffmpegExe = QStandardPaths::findExecutable(QStringLiteral("ffmpeg"));
+                if (!ffmpegExe.isEmpty()) {
+                    QFileInfo videoRender(m_dest);
+                    m_temporaryRenderFile = QDir::temp().absoluteFilePath(videoRender.fileName());
+                    QStringList args = {
+                        "-y", "-v", "quiet", "-stats", "-i", m_dest, "-i", m_subtitleFile, "-c", "copy", "-f", "matroska", m_temporaryRenderFile};
+                    qDebug() << "::: JOB ARGS: " << args;
+                    m_progress = 0;
+                    disconnect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+                    disconnect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
+                    m_subsProcess = new QProcess(&m_looper);
+                    m_subsProcess->setProcessChannelMode(QProcess::MergedChannels);
+                    connect(m_subsProcess, &QProcess::readyReadStandardOutput, this, &RenderJob::receivedSubtitleProgress);
+                    m_subsProcess->start(ffmpegExe, args);
+                    m_subsProcess->waitForStarted(-1);
+                    m_subsProcess->waitForFinished(-1);
+                    slotCheckSubtitleProcess(m_subsProcess->exitCode(), m_subsProcess->exitStatus());
+                    return;
+                }
+            }
+            sendFinish(-1, QString());
         }
     }
     emit renderingFinished();
+    m_looper.quit();
+}
+
+void RenderJob::receivedSubtitleProgress()
+{
+    QString outputData = QString::fromLocal8Bit(m_subsProcess->readAllStandardOutput()).simplified();
+    if (outputData.isEmpty()) {
+        return;
+    }
+    QStringList output = outputData.split(QLatin1Char(' '));
+    m_errorMessage.append(outputData + QStringLiteral("<br>"));
+    QString result = output.takeFirst();
+    bool ok = false;
+    int frame = -1;
+    if (result == (QLatin1String("frame=")) && !output.isEmpty()) {
+        // Frame number is the second parameter
+        result = output.takeFirst();
+        frame = result.toInt(&ok);
+    } else if (result.startsWith(QLatin1String("frame="))) {
+        frame = result.section(QLatin1Char('='), 1).toInt(&ok);
+    }
+    if (ok && frame > 0) {
+        m_frame = frame;
+        m_progress = 100 * frame / (m_frameout - m_framein);
+        if (m_progress > 0) {
+            updateProgress();
+        }
+    }
+}
+
+void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    if (exitStatus == QProcess::CrashExit || !QFile::exists(m_temporaryRenderFile)) {
+        // rendering crashed
+        qDebug() << ":::: FOUND ERROR IN SUBS: " << exitStatus << " / " << exitCode << ", FILE ESISTS: " << QFile::exists(m_temporaryRenderFile);
+        QString error = tr("Rendering of %1 aborted when adding subtitles.").arg(m_dest);
+        m_errorMessage.append(error);
+        sendFinish(-2, m_errorMessage);
+        QStringList args;
+        if (m_frame > 0) {
+            error += QLatin1Char('\n') + tr("Frame: %1").arg(m_frame);
+        }
+        args << QStringLiteral("--error") << error;
+        m_logstream << error << "\n";
+        QProcess::startDetached(QStringLiteral("kdialog"), args);
+    } else {
+        QFile::remove(m_dest);
+        QFile::rename(m_temporaryRenderFile, m_dest);
+        sendFinish(-1, QString());
+    }
+    QFile::remove(m_subtitleFile);
+    emit renderingFinished();
+    m_looper.quit();
 }

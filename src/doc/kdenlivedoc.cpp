@@ -35,19 +35,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIO/CopyJob>
 #include <KIO/FileCopyJob>
 #include <KIO/JobUiDelegate>
+#include <KJobWidgets/KJobWidgets>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
 #include <QDomImplementation>
 #include <QFile>
 #include <QFileDialog>
+#include <QSaveFile>
+#include <QStandardPaths>
 #include <QUndoGroup>
 #include <QUndoStack>
 
-#include <KJobWidgets/KJobWidgets>
-#include <QStandardPaths>
 #include <mlt++/Mlt.h>
 
 #include <locale>
@@ -57,52 +58,31 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 const double DOCUMENTVERSION = 1.04;
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                         const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
+// create a new blank document
+KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+                         const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent)
     : QObject(parent)
     , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
-    , m_url(url)
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
+    , m_url(QUrl())
     , m_projectFolder(std::move(projectFolder))
     , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
-    bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
-    // init default document properties
-    m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
-    m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
-    m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
-    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("-1");
-    m_documentProperties[QStringLiteral("enableproxy")] = QString::number(int(KdenliveSettings::enableproxy()));
-    m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
-    m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
-    m_documentProperties[QStringLiteral("previewparameters")] = KdenliveSettings::previewparams();
-    m_documentProperties[QStringLiteral("previewextension")] = KdenliveSettings::previewextension();
-    m_documentProperties[QStringLiteral("externalproxyparams")] = KdenliveSettings::externalProxyProfile();
-    m_documentProperties[QStringLiteral("enableexternalproxy")] = QString::number(int(KdenliveSettings::externalproxy()));
-    m_documentProperties[QStringLiteral("generateproxy")] = QString::number(int(KdenliveSettings::generateproxy()));
-    m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
-    m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number(int(KdenliveSettings::generateimageproxy()));
-    m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
-    m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
-    m_documentProperties[QStringLiteral("proxyresize")] = QString::number(KdenliveSettings::proxyscale());
+    initializeProperties();
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
     m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
     m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.second);
     m_documentProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
-    m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
-    m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
-    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
-    m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -117,128 +97,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
         j.next();
         m_documentMetadata[j.key()] = j.value();
     }
-    *openBackup = false;
-    if (url.isValid()) {
-        QFile file(url.toLocalFile());
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            // The file cannot be opened
-            if (KMessageBox::warningContinueCancel(parent, i18n("Cannot open the project file %1,\nDo you want to open a backup file?", file.fileName()),
-                                                   i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
-                *openBackup = true;
-            }
-            // KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
-        } else {
-            qCDebug(KDENLIVE_LOG) << " // / processing file open";
-            QString errorMsg;
-            int line;
-            int col;
-            QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
-            success = m_document.setContent(&file, false, &errorMsg, &line, &col);
-            file.close();
 
-            if (!success) {
-                // It is corrupted
-                int answer = KMessageBox::warningYesNoCancel(
-                    parent, i18n("Cannot open the project file, error is:\n%1 (line %2, col %3)\nDo you want to open a backup file?", errorMsg, line, col),
-                    i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
-                if (answer == KMessageBox::Yes) {
-                    *openBackup = true;
-                } else if (answer == KMessageBox::No) {
-                    // Try to recover broken file produced by Kdenlive 0.9.4
-                    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                        int correction = 0;
-                        QString playlist = QString::fromUtf8(file.readAll());
-                        while (!success && correction < 2) {
-                            int errorPos = 0;
-                            line--;
-                            col = col - 2;
-                            for (int k = 0; k < line && errorPos < playlist.length(); ++k) {
-                                errorPos = playlist.indexOf(QLatin1Char('\n'), errorPos);
-                                errorPos++;
-                            }
-                            errorPos += col;
-                            if (errorPos >= playlist.length()) {
-                                break;
-                            }
-                            playlist.remove(errorPos, 1);
-                            line = 0;
-                            col = 0;
-                            success = m_document.setContent(playlist, false, &errorMsg, &line, &col);
-                            correction++;
-                        }
-                        if (!success) {
-                            KMessageBox::sorry(parent, i18n("Cannot recover this project file"));
-                        } else {
-                            // Document was modified, ask for backup
-                            QDomElement mlt = m_document.documentElement();
-                            mlt.setAttribute(QStringLiteral("modified"), 1);
-                        }
-                    }
-                }
-            } else {
-                qCDebug(KDENLIVE_LOG) << " // / processing file open: validate";
-                pCore->displayMessage(i18n("Validating"), OperationCompletedMessage, 100);
-                qApp->processEvents();
-                DocumentValidator validator(m_document, url);
-                success = validator.isProject();
-                if (!success) {
-                    // It is not a project file
-                    pCore->displayMessage(i18n("File %1 is not a Kdenlive project file", m_url.toLocalFile()), OperationCompletedMessage, 100);
-                    if (KMessageBox::warningContinueCancel(
-                            parent, i18n("File %1 is not a valid project file.\nDo you want to open a backup file?", m_url.toLocalFile()),
-                            i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {
-                        *openBackup = true;
-                    }
-                } else {
-                    /*
-                     * Validate the file against the current version (upgrade
-                     * and recover it if needed). It is NOT a passive operation
-                     */
-                    // TODO: backup the document or alert the user?
-                    auto validationResult = validator.validate(DOCUMENTVERSION);
-                    success = validationResult.first;
-
-                    if (!validationResult.second.isEmpty()) {
-                        qDebug() << "DECIMAL POINT has changed to ., was " << validationResult.second;
-                        m_modifiedDecimalPoint = validationResult.second;
-                    }
-
-                    if (success && !KdenliveSettings::gpu_accel()) {
-                        success = validator.checkMovit();
-                    }
-                    if (success) { // Let the validator handle error messages
-                        qCDebug(KDENLIVE_LOG) << " // / processing file validate ok";
-                        pCore->displayMessage(i18n("Check missing clips"), InformationMessage, 300);
-                        qApp->processEvents();
-                        DocumentChecker d(m_url, m_document);
-                        success = !d.hasErrorInClips();
-                        if (success) {
-                            loadDocumentProperties();
-                            if (m_document.documentElement().hasAttribute(QStringLiteral("upgraded"))) {
-                                m_documentOpenStatus = UpgradedProject;
-                                pCore->displayMessage(i18n("Your project was upgraded, a backup will be created on next save"), ErrorMessage);
-                            } else if (m_document.documentElement().hasAttribute(QStringLiteral("modified")) || validator.isModified()) {
-                                m_documentOpenStatus = ModifiedProject;
-                                pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"), ErrorMessage);
-                                setModified(true);
-                            }
-                            pCore->displayMessage(QString(), OperationCompletedMessage);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Something went wrong, or a new file was requested: create a new project
-    if (!success) {
-        m_url.clear();
-        pCore->setCurrentProfile(profileName);
-        m_document = createEmptyDocument(tracks.first, tracks.second);
-        updateProjectProfile(false);
-    } else {
-        m_clipsCount = m_document.elementsByTagName(QLatin1String("entry")).size();
-    }
+    pCore->setCurrentProfile(profileName);
+    m_document = createEmptyDocument(tracks.first, tracks.second);
+    updateProjectProfile(false);
 
     if (!m_projectFolder.isEmpty()) {
         // Ask to create the project directory if it does not exist
@@ -261,6 +123,162 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     initCacheDirs();
 
     updateProjectFolderPlacesEntry();
+}
+
+KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
+    : QObject(parent)
+    , uuid(QUuid::createUuid())
+    , m_autosave(nullptr)
+    , m_document(newDom)
+    , m_clipsCount(0)
+    , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
+    , m_modified(false)
+    , m_documentOpenStatus(CleanProject)
+    , m_url(url)
+    , m_projectFolder(std::move(projectFolder))
+    , m_guideModel(new MarkerListModel(m_commandStack, this))
+{
+    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+    connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
+    connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
+    connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
+
+    initializeProperties();
+
+    updateClipsCount();
+}
+
+DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
+    bool recoverCorruption, MainWindow *parent)
+{
+
+    DocOpenResult result = DocOpenResult{};
+
+    if (url.isEmpty() || !url.isValid()) {
+        result.setError(i18n("Invalid file path"));
+        return result;
+    }
+
+    qCDebug(KDENLIVE_LOG) << "// opening file " << url.toLocalFile();
+
+    QFile file(url.toLocalFile());
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        result.setError(i18n("Cannot open file %1", url.toLocalFile()));
+        return result;
+    }
+
+    QDomDocument domDoc {};
+    int line;
+    int col;
+    QString domErrorMessage;
+
+
+    if (recoverCorruption) {
+        // this seems to also drop valid non-BMP Unicode characters, so only do
+        // it if the file is unreadable otherwise
+        QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
+        result.setModified(true);
+    }
+    bool success = domDoc.setContent(&file, false, &domErrorMessage, &line, &col);
+
+    if (!success) {
+        if (recoverCorruption) {
+            // Try to recover broken file produced by Kdenlive 0.9.4
+            int correction = 0;
+            QString playlist = QString::fromUtf8(file.readAll());
+            while (!success && correction < 2) {
+                int errorPos = 0;
+                line--;
+                col = col - 2;
+                for (int k = 0; k < line && errorPos < playlist.length(); ++k) {
+                    errorPos = playlist.indexOf(QLatin1Char('\n'), errorPos);
+                    errorPos++;
+                }
+                errorPos += col;
+                if (errorPos >= playlist.length()) {
+                    break;
+                }
+                playlist.remove(errorPos, 1);
+                line = 0;
+                col = 0;
+                success = domDoc.setContent(playlist, false, &domErrorMessage, &line, &col);
+                correction++;
+            }
+            if (!success) {
+                result.setError(i18n("Could not recover corrupted file."));
+                return result;
+            } else {
+                qCDebug(KDENLIVE_LOG) << "Corrupted document read successfully.";
+                result.setModified(true);
+            }
+        } else {
+            result.setError(i18n("Cannot open file %1:\n%2 (line %3, col %4)",
+                url.toLocalFile(), domErrorMessage, line, col));
+            return result;
+        }
+    }
+    file.close();
+
+
+    qCDebug(KDENLIVE_LOG) << "// validating project file";
+    DocumentValidator validator(domDoc, url);
+    success = validator.isProject();
+    if (!success) {
+        // It is not a project file
+        result.setError(i18n("File %1 is not a Kdenlive project file", url.toLocalFile()));
+        return result;
+    }
+
+    auto validationResult = validator.validate(DOCUMENTVERSION);
+    success = validationResult.first;
+    if (!success) {
+        result.setError(i18n("File %1 is not a valid Kdenlive project file.", url.toLocalFile()));
+        return result;
+    }
+
+    if (!validationResult.second.isEmpty()) {
+        qDebug() << "DECIMAL POINT has changed to . (was " << validationResult.second << "previously)";
+        result.setModified(true);
+    }
+
+    if (!KdenliveSettings::gpu_accel()) {
+        success = validator.checkMovit();
+    }
+    if (!success) {
+        result.setError(i18n("GPU acceleration is turned off in Kdenlive settings, but is required for this project's Movit filters."));
+        return result;
+    }
+
+    // TODO: DocumentChecker is still tightly coupled to the GUI
+    DocumentChecker d(url, domDoc);
+    success = !d.hasErrorInClips();
+    if (!success) {
+        result.setError(i18n("Errors were detected in the project file."));
+        return result;
+    }
+
+    // create KdenliveDoc object
+    KdenliveDoc *doc = new KdenliveDoc(url, domDoc, projectFolder, undoGroup, parent);
+    if (!validationResult.second.isEmpty()) {
+        doc->m_modifiedDecimalPoint = validationResult.second;
+        //doc->setModifiedDecimalPoint(validationResult.second);
+    }
+    doc->loadDocumentProperties();
+    if (doc->m_document.documentElement().hasAttribute(QStringLiteral("upgraded"))) {
+        doc->m_documentOpenStatus = UpgradedProject;
+        result.setUpgraded(true);
+    } else if (doc->m_document.documentElement().hasAttribute(QStringLiteral("modified")) || validator.isModified()) {
+        doc->m_documentOpenStatus = ModifiedProject;
+        result.setModified(true);
+        doc->setModified(true);
+    }
+
+    if (result.wasModified() || result.wasUpgraded()) {
+        doc->requestBackup();
+    }
+    result.setDocument(doc);
+
+    return result;
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -287,6 +305,37 @@ KdenliveDoc::~KdenliveDoc()
         }
         delete m_autosave;
     }
+}
+
+void KdenliveDoc::initializeProperties() {
+    // init default document properties
+    m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
+    m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
+    m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
+    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("-1");
+    m_documentProperties[QStringLiteral("enableproxy")] = QString::number(int(KdenliveSettings::enableproxy()));
+    m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
+    m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
+    m_documentProperties[QStringLiteral("previewparameters")] = KdenliveSettings::previewparams();
+    m_documentProperties[QStringLiteral("previewextension")] = KdenliveSettings::previewextension();
+    m_documentProperties[QStringLiteral("externalproxyparams")] = KdenliveSettings::externalProxyProfile();
+    m_documentProperties[QStringLiteral("enableexternalproxy")] = QString::number(int(KdenliveSettings::externalproxy()));
+    m_documentProperties[QStringLiteral("generateproxy")] = QString::number(int(KdenliveSettings::generateproxy()));
+    m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
+    m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number(int(KdenliveSettings::generateimageproxy()));
+    m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
+    m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
+    m_documentProperties[QStringLiteral("proxyresize")] = QString::number(KdenliveSettings::proxyscale());
+    m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
+    m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
+    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
+    m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
+}
+
+int KdenliveDoc::updateClipsCount()
+{
+    m_clipsCount = m_document.elementsByTagName(QLatin1String("entry")).size();
+    return m_clipsCount;
 }
 
 int KdenliveDoc::clipsCount() const
@@ -630,18 +679,27 @@ QString KdenliveDoc::projectTempFolder() const
     return m_projectFolder;
 }
 
-QString KdenliveDoc::projectDataFolder() const
+QString KdenliveDoc::projectDataFolder(const QString &newPath) const
 {
+    if (KdenliveSettings::videotodefaultfolder() == 2 && !KdenliveSettings::videofolder().isEmpty()) {
+        return KdenliveSettings::videofolder();
+    }
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder)) {
+        // Always render to project folder
+        return newPath;
+    }
     if (m_projectFolder.isEmpty()) {
+        // Project has not been saved yet
         if (KdenliveSettings::customprojectfolder()) {
             return KdenliveSettings::defaultprojectfolder();
         }
-        if (KdenliveSettings::videotodefaultfolder() || KdenliveSettings::videofolder().isEmpty()) {
-            return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-        }
-        return KdenliveSettings::videofolder();
+        return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
-    return m_projectFolder;
+    if (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder) {
+        // Always render to project folder
+        return QFileInfo(m_url.toLocalFile()).absolutePath();
+    }
+    return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 }
 
 void KdenliveDoc::setProjectFolder(const QUrl &url)
@@ -694,11 +752,18 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
         QDir proxyDir(dest + QStringLiteral("/proxy/"));
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
-            KJobWidgets::setWindow(job, QApplication::activeWindow());
-            if (!job->exec()) {
-                KMessageBox::sorry(QApplication::activeWindow(), i18n("Moving proxy clips failed: %1", job->errorText()));
+            connect(job, &KJob::result, this, &KdenliveDoc::slotMoveFinished);
+            if (job->uiDelegate()) {
+                KJobWidgets::setWindow(job, pCore->window());
             }
         }
+    }
+}
+
+void KdenliveDoc::slotMoveFinished(KJob *job)
+{
+    if (job->error() != 0) {
+        KMessageBox::sorry(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
 }
 
@@ -778,6 +843,11 @@ void KdenliveDoc::setModified(bool mod)
 bool KdenliveDoc::isModified() const
 {
     return m_modified;
+}
+
+void KdenliveDoc::requestBackup()
+{
+    m_document.documentElement().setAttribute(QStringLiteral("modified"), 1);
 }
 
 const QString KdenliveDoc::description() const
@@ -926,7 +996,9 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
                     QFile file(path);
                     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                         QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                         out.setCodec("UTF-8");
+#endif
                         out << doc.toString();
                     }
                 }
@@ -1219,7 +1291,6 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     }
 
     // Parse clips
-    QStringList externalProxyParams = m_documentProperties.value(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
     for (int i = 0; i < clipList.count(); ++i) {
         const std::shared_ptr<ProjectClip> &item = clipList.at(i);
         ClipType::ProducerType t = item->clipType();
@@ -1247,24 +1318,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                 newProps.clear();
                 QString path;
                 if (useExternalProxy() && item->hasLimitedDuration()) {
-                    if (externalProxyParams.count() >= 3) {
-                        QFileInfo info(item->url());
-                        QDir clipDir = info.absoluteDir();
-                        if (clipDir.cd(externalProxyParams.at(0))) {
-                            // Find correct file
-                            QString fileName = info.fileName();
-                            if (!externalProxyParams.at(1).isEmpty()) {
-                                fileName.prepend(externalProxyParams.at(1));
-                            }
-                            if (!externalProxyParams.at(2).isEmpty()) {
-                                fileName = fileName.section(QLatin1Char('.'), 0, -2);
-                                fileName.append(externalProxyParams.at(2));
-                            }
-                            if (clipDir.exists(fileName)) {
-                                path = clipDir.absoluteFilePath(fileName);
-                            }
-                        }
-                    }
+                    path = item->getProxyFromOriginal(item->url());
                 }
                 if (path.isEmpty()) {
                     path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));
@@ -1436,7 +1490,7 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
     emit docModified(true);
 }
 
-void KdenliveDoc::switchProfile(ProfileParam *pf, const QString clipName)
+void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
 {
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
@@ -1816,19 +1870,29 @@ QString &KdenliveDoc::modifiedDecimalPoint()
 
 const QString KdenliveDoc::subTitlePath(bool final)
 {
-    QString path;
     QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(m_url.fileName()));
     } else {
-        path = QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
+        return QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
     }
-    return path;
 }
 
 void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
 {
     m_subtitleModel = m_subtitle;
+}
+
+bool KdenliveDoc::hasSubtitles() const
+{
+    return (m_subtitleModel.lock() != nullptr);
+}
+
+void KdenliveDoc::generateRenderSubtitleFile(int in, int out, const QString &subtitleFile)
+{
+    if (auto ptr = m_subtitleModel.lock()) {
+        ptr->subtitleFileFromZone(in, out, subtitleFile);
+    }
 }
 
 void KdenliveDoc::useOriginals(QDomDocument &doc)
@@ -1840,8 +1904,15 @@ void KdenliveDoc::useOriginals(QDomDocument &doc)
 
     // replace proxy clips with originals
     QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(root);
-
     QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
+    QDomNodeList chains = doc.elementsByTagName(QStringLiteral("chain"));
+    processProxyNodes(producers, root, proxies);
+    processProxyNodes(chains, root, proxies);
+}
+
+void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies)
+{
+
     QString producerResource;
     QString producerService;
     QString originalProducerService;

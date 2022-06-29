@@ -19,6 +19,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "ui_scenecutdialog_ui.h"
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QPointer>
 #include <QProcess>
 #include <QTemporaryFile>
 #include <QThread>
@@ -28,12 +32,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject *object)
     : AbstractTask(owner, AbstractTask::ANALYSECLIPJOB, object)
+    , m_threshold(threshold)
     , m_jobDuration(0)
     , m_markersType(markersCategory)
     , m_subClips(addSubclips)
     , m_minInterval(minDuration)
     , m_jobProcess(nullptr)
 {
+    qDebug() << "Threshold is" << threshold << QString::number(threshold);
 }
 
 void SceneSplitTask::start(QObject *object, bool force)
@@ -137,7 +143,7 @@ void SceneSplitTask::run()
                               QStringLiteral("-i"),
                               source,
                               QStringLiteral("-filter:v"),
-                              QString("select='gt(scene,0.1)',showinfo"),
+                              QString("select='gt(scene,%1)',showinfo").arg(m_threshold),
                               QStringLiteral("-vsync"),
                               QStringLiteral("vfr"),
                               QStringLiteral("-f"),

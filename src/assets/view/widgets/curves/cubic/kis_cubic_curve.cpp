@@ -8,7 +8,6 @@
 
 #include "kis_cubic_curve.h"
 
-#include <QList>
 #include <QPointF>
 #include <QSharedData>
 #include <QStringList>

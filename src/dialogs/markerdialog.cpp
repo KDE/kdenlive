@@ -107,11 +107,7 @@ void MarkerDialog::slotUpdateThumb()
 
 QImage MarkerDialog::markerImage() const
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    return clip_thumb->pixmap()->toImage();
-#else
     return clip_thumb->pixmap(Qt::ReturnByValue).toImage();
-#endif
 }
 
 CommentedTime MarkerDialog::newMarker()

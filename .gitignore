@@ -1,5 +1,5 @@
 *~
-build/
+build*/
 CMakeLists.txt.user*
 *.kdev4
 po

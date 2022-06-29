@@ -23,7 +23,7 @@ class CacheTask : public AbstractTask
 {
 public:
     CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject* object);
-    virtual ~CacheTask();
+    ~CacheTask() override;
     static void start(const ObjectId &owner, int thumbsCount = 30, int in = 0, int out = 0, QObject* object = nullptr, bool force = false);
 
 protected:

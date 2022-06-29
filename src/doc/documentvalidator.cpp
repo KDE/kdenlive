@@ -18,7 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-#include <QColor>
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -1811,7 +1811,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
                         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                             QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                             out.setCodec("UTF-8");
+#endif
                             out << doc.toString();
                         }
                         file.close();

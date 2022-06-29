@@ -27,8 +27,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <QIcon>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QMimeData>
 #include <QProgressDialog>
+
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>
@@ -1143,8 +1147,9 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
 void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipItem)
 {
     QWriteLocker locker(&m_lock);
-    if (clipItem->clipType() == ClipType::AV || clipItem->clipType() == ClipType::Audio || clipItem->clipType() == ClipType::Image ||
-        clipItem->clipType() == ClipType::Video || clipItem->clipType() == ClipType::Playlist || clipItem->clipType() == ClipType::TextTemplate) {
+    ClipType::ProducerType type = clipItem->clipType();
+    if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Image || type == ClipType::Video || type == ClipType::Playlist ||
+        type == ClipType::TextTemplate || type == ClipType::Animation) {
         m_fileWatcher->removeFile(clipItem->clipId());
         QFileInfo check_file(clipItem->clipUrl());
         // check if file exists and if yes: Is it really a file and no directory?

@@ -16,12 +16,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KMessageWidget>
 #include <QFuture>
-#include <QFutureWatcher>
 #include <QThread>
 
 TaskManager::TaskManager(QObject *parent)
     : QObject(parent)
     , m_tasksListLock(QReadWriteLock::Recursive)
+    , m_blockUpdates(false)
 {
     int maxThreads = qMin(4, QThread::idealThreadCount() - 1);
     m_taskPool.setMaxThreadCount(qMax(maxThreads, 1));
@@ -31,6 +31,11 @@ TaskManager::TaskManager(QObject *parent)
 TaskManager::~TaskManager()
 {
     slotCancelJobs();
+}
+
+bool TaskManager::isBlocked() const
+{
+    return m_blockUpdates;
 }
 
 void TaskManager::updateConcurrency()
@@ -128,6 +133,7 @@ void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions
 {
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
+    m_blockUpdates = true;
     for (const auto &task : m_taskList) {
         for (AbstractTask *t : task.second) {
             if (!exceptions.contains(t->m_type)) {
@@ -141,6 +147,7 @@ void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions
         m_taskPool.waitForDone();
         m_transcodePool.waitForDone();
     }
+    m_blockUpdates = false;
     updateJobCount();
 }
 

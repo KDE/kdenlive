@@ -51,7 +51,7 @@
    <item row="3" column="0" colspan="2">
     <widget class="QRadioButton" name="timeline_clips">
      <property name="text">
-      <string>Selected clips</string>
+      <string>Selected clip</string>
      </property>
     </widget>
    </item>

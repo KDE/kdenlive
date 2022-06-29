@@ -5,11 +5,13 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import Kdenlive.Controls 1.0
-import QtQml.Models 2.11
-import QtQuick.Window 2.2
+import QtQuick.Window 2.15
+import QtQml.Models 2.15
+import QtQml 2.15
+
 import 'Timeline.js' as Logic
 import com.enums 1.0
 
@@ -1075,64 +1077,56 @@ Rectangle {
                     property: "kfrModel"
                     value: clipRoot.hideClipViews ? undefined : clipRoot.keyframeModel
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "selected"
                     value: clipRoot.selected
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "inPoint"
                     value: clipRoot.inPoint
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "outPoint"
                     value: clipRoot.outPoint
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "modelStart"
                     value: clipRoot.modelStart
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "scrollStart"
                     value: clipRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "scrollStart"
                     value: clipRoot.scrollStart
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
                 Binding {
                     target: effectRow.item
                     property: "clipId"
                     value: clipRoot.clipId
                     when: effectRow.status == Loader.Ready && effectRow.item
-                    // TODO: use restoreMode for Qt >= 5.15
-                    // restoreMode: Binding.RestoreBindingOrValue
+                    restoreMode: Binding.RestoreBindingOrValue
                 }
             }
             Connections {

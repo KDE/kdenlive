@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <mlt++/Mlt.h>
 
-#include <QImage>
 #include <QPixmap>
 // static
 QPixmap KThumb::getImage(const QUrl &url, int width, int height)

@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDir>
 #include <QList>
 #include <QMap>
+#include <QObject>
 #include <QUuid>
 #include <memory>
 #include <qdom.h>
@@ -43,12 +44,45 @@ namespace Mlt {
 class Profile;
 }
 
+/** Object returned by KdenliveDoc::Open(), containing a pointer to a KdenliveDoc
+ * (if successful) and also additional information about whether the doc was
+ * modified or upgraded, and any error message. If the doc is nullptr, then
+ * errorMessage() will return an error string that can be shown to the user.
+ */
+class DocOpenResult {
+public:
+    bool isSuccessful() const { return m_doc != nullptr; }
+    KdenliveDoc * getDocument() const { return m_doc; }
+    /** @returns an error message if the doc could not be opened. */
+    QString getError() const { return m_errorMessage; }
+    /** @return true if the doc was upgraded from an older version */
+    bool wasUpgraded() const { return m_upgraded; }
+    /** @return true if the doc was modified by the validator */
+    bool wasModified() const { return m_modified; }
+
+    void setDocument(KdenliveDoc *doc) { m_doc = doc; }
+    void setError(const QString &error) { m_errorMessage = error; }
+    void setUpgraded(bool upgraded) { m_upgraded = upgraded; }
+    void setModified(bool modified) { m_modified = modified; }
+
+private:
+    KdenliveDoc *m_doc = nullptr;
+    QString m_errorMessage = QString();
+    QString m_notification = QString();
+    bool m_upgraded = false;
+    bool m_modified = false;
+};
+
 class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
-    KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent = nullptr);
+    /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks. */
+    KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+                const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent = nullptr);
+    /** @brief Open an existing Kdenlive project, returning nothing if the project cannot be opened. */
+    static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
+                bool recoverCorruption, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
     /** @brief Get current document's producer. */
@@ -75,11 +109,15 @@ public:
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
+    /** @brief Adds a "modified" attribute to the document root so that a backup
+     * will be created the next time the document is saved.
+     */
+    void requestBackup();
 
     /** @brief Returns the project folder, used to store project temporary files. */
     QString projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc). */
-    QString projectDataFolder() const;
+    QString projectDataFolder(const QString &newPath = QString()) const;
     void setZoom(int horizontal, int vertical = -1);
     QPoint zoom() const;
     double dar() const;
@@ -150,6 +188,7 @@ public:
     QString getAutoProxyProfile();
     /** @brief Returns the number of clips in this project (useful to show loading progress) */
     int clipsCount() const;
+    int updateClipsCount();
     /** @brief Returns a list of project tags (color / description) */
     QMap <int, QStringList> getProjectTags() const;
     /** @brief Returns the number of audio channels for this project */
@@ -163,6 +202,7 @@ public:
      * @return Original decimal point, or an empty string if it was “.” already
      */
     QString &modifiedDecimalPoint();
+    void setModifiedDecimalPoint(const QString &decimalPoint) { m_modifiedDecimalPoint = decimalPoint; }
     /** @brief Initialize subtitle model */
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
@@ -173,9 +213,19 @@ public:
     double getDocumentVersion() const;
     /** @brief Replace proxy clips with originals for rendering. */
     void useOriginals(QDomDocument &doc);
+    void processProxyNodes(QDomNodeList producers, const QString &root, const QMap<QString, QString> &proxies);
+    /** @brief Returns true if this project has subtitles. */
+    bool hasSubtitles() const;
+    /** @brief Generate a temporary subtitle file for a zone. */
+    void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
 
 private:
-    QUrl m_url;
+    /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
+     * existing project file), used by the Open() named constructor. */
+    KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup,
+        MainWindow *parent = nullptr);
+    /** @brief Set document default properties using hard-coded values and KdenliveSettings. */
+    void initializeProperties();
     QDomDocument m_document;
     int m_clipsCount;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */
@@ -196,6 +246,8 @@ private:
     /** @brief Tells whether the current document was modified by Kdenlive on opening, and a backup should be created on save. */
     enum DOCSTATUS { CleanProject, ModifiedProject, UpgradedProject };
     DOCSTATUS m_documentOpenStatus;
+
+    QUrl m_url;
 
     /** @brief The project folder, used to store project files (titles, effects...). */
     QString m_projectFolder;
@@ -227,22 +279,22 @@ public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
-     *  
+     *
      * If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
      * Emits docModified connected to MainWindow::slotUpdateDocumentState \n
-     * 
+     *
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
     QMap<QString, QString> proxyClipsById(const QStringList &ids, bool proxy, const QMap<QString, QString> &proxyPath = QMap<QString, QString>());
     void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
                               QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
-     * 
+     *
      * The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
-    void switchProfile(ProfileParam* pf, const QString clipName);
+    void switchProfile(ProfileParam* pf, const QString &clipName);
 
 private slots:
     void slotModified();
@@ -251,6 +303,8 @@ private slots:
     void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
     void guidesChanged();
+    /** @brief Display error message on failed move. */
+    void slotMoveFinished(KJob *job);
 
 signals:
     void resetProjectList();
@@ -271,5 +325,5 @@ signals:
     /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */
     void removeInvalidUndo(int ix);
     /** @brief Update compositing info */
-    void updateCompositionMode(int);
+    void updateCompositionMode(bool);
 };

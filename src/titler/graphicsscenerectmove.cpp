@@ -15,7 +15,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QCursor>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
-#include <QGraphicsSvgItem>
 #include <QGraphicsView>
 #include <QKeyEvent>
 #include <QList>

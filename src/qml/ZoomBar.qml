@@ -13,10 +13,9 @@ Rectangle {
     SystemPalette { id: barPalette; colorGroup: SystemPalette.Disabled }
     property bool hoveredBar: barArea.containsMouse || barArea.pressed || zoomStart.isActive || zoomEnd.isActive
     property int barMinWidth: 1
-    // TODO re-enable required keyword once we have Qt >=5.15 only
-    /*required*/ property real contentPos
-    /*required*/ property real zoomFactor
-    /*required*/ property bool fitsZoom
+    required property real contentPos
+    required property real zoomFactor
+    required property bool fitsZoom
     property string toolTipText
     signal proposeContentPos(real proposedValue)
     signal proposeZoomFactor(real proposedValue)

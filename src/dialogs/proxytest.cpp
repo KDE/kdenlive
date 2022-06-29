@@ -13,7 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include <QDialogButtonBox>
 #include <QFontDatabase>
-#include <QProcess>
 #include <QPushButton>
 #include <QTreeWidget>
 #include <QWheelEvent>
@@ -50,7 +49,11 @@ ProxyTest::ProxyTest(QWidget *parent)
         infoWidget->setText(i18n("Starting process"));
         infoWidget->animatedShow();
         resultList->setCursor(Qt::BusyCursor);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &ProxyTest::startTest);
+#else
+        QtConcurrent::run(&ProxyTest::startTest, this);
+#endif
     });
 }
 
@@ -156,11 +159,7 @@ void ProxyTest::startTest()
             } else {
                 parameters << QStringLiteral("-i") << src.fileName();
             }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList paramList = params.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
             QStringList paramList = params.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
             for (const QString &s : qAsConst(paramList)) {
                 QString t = s.simplified();
                 if (t != QLatin1String("-noautorotate")) {

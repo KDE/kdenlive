@@ -532,9 +532,9 @@
       <default></default>
     </entry>
 
-    <entry name="mltthreads" type="Int">
-      <label>Mlt processing thread count.</label>
-      <default>1</default>
+    <entry name="processingthreads" type="Int">
+      <label>Processing thread count.</label>
+      <default>4</default>
     </entry>
 
     <entry name="proxythreads" type="Int">
@@ -582,9 +582,9 @@
       <default>true</default>
     </entry>
 
-    <entry name="videotodefaultfolder" type="Bool">
+    <entry name="videotodefaultfolder" type="Int">
       <label>Save titles, scripted renderings in default system folder.</label>
-      <default>true</default>
+      <default>0</default>
     </entry>
 
     <entry name="libraryfolder" type="Path">
@@ -603,7 +603,17 @@
     </entry>
 
     <entry name="defaultaudioapp" type="String">
-      <label>Default audio editing application.</label>
+      <label>Default audio editing application name.</label>
+      <default></default>
+    </entry>
+
+    <entry name="defaultaudioappId" type="String">
+      <label>Default audio editing application service id.</label>
+      <default></default>
+    </entry>
+
+    <entry name="defaultimageappId" type="String">
+      <label>Default image editing application service id.</label>
       <default></default>
     </entry>
 
@@ -977,11 +987,6 @@
     <entry name="autoaudiodrivername" type="String">
       <label>Audio driver selected automatically.</label>
       <default></default>
-    </entry>
-
-    <entry name="hastitleproducer" type="Bool">
-      <label>Is MLT compiled with Qt4 Kdenlive title support.</label>
-      <default>true</default>
     </entry>
 
     <entry name="mixerCollapse" type="Bool">

@@ -19,7 +19,7 @@
 #include <KMessageBox>
 #include <QCollator>
 #include <QMutexLocker>
-#include <QProcess>
+#include <QSaveFile>
 #include <QStandardPaths>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
@@ -166,7 +166,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     m_previewTrack->consolidate_blanks();
     m_tractor->unlock();
     if (!dirtyChunks.isEmpty()) {
-        std::sort(dirtyChunks.begin(), dirtyChunks.end());
+        std::sort(dirtyChunks.begin(), dirtyChunks.end(), chunkSort);
         QMutexLocker lock(&m_dirtyMutex);
         for (const auto &i : qAsConst(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
@@ -270,19 +270,11 @@ bool PreviewManager::loadParams()
 {
     KdenliveDoc *doc = pCore->currentDoc();
     m_extension = doc->getDocumentProperty(QStringLiteral("previewextension"));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
     m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
 
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         doc->selectPreviewProfile();
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
         m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
         m_extension = doc->getDocumentProperty(QStringLiteral("previewextension"));
     }
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
@@ -377,7 +369,7 @@ void PreviewManager::invalidatePreviews()
             }
         }
         if (!foundChunks.isEmpty()) {
-            std::sort(foundChunks.begin(), foundChunks.end());
+            std::sort(foundChunks.begin(), foundChunks.end(), chunkSort);
             m_dirtyMutex.lock();
             for (auto &ck : foundChunks) {
                 m_dirtyChunks.removeAll(ck);
@@ -592,7 +584,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
     QMutexLocker lock(&m_dirtyMutex);
     Q_ASSERT(m_previewProcess.state() == QProcess::NotRunning);
-    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end(), chunkSort);
     qDebug() << ":: got dirty chks: " << m_dirtyChunks;
     const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     m_chunksToRender = m_dirtyChunks.count();
@@ -615,7 +607,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
 }
 
-void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
+void PreviewManager::processEnded(int, QProcess::ExitStatus status)
 {
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
@@ -673,7 +665,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     int start = startFrame - startFrame % chunkSize;
     int end = endFrame - endFrame % chunkSize;
 
-    std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
+    std::sort(m_renderedChunks.begin(), m_renderedChunks.end(), chunkSort);
     m_previewGatherTimer.stop();
     bool stopPreview = m_previewProcess.state() == QProcess::Running;
     if (m_renderedChunks.isEmpty() || ((workingPreview < m_renderedChunks.first().toInt() || workingPreview > m_renderedChunks.last().toInt()) &&
@@ -796,7 +788,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
     if (!m_dirtyChunks.contains(frame)) {
         QMutexLocker lock(&m_dirtyMutex);
         m_dirtyChunks << frame;
-        std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+        std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end(), chunkSort);
     }
 }
 
@@ -818,9 +810,9 @@ void PreviewManager::removeOverlayTrack()
 QPair<QStringList, QStringList> PreviewManager::previewChunks()
 {
     QMutexLocker lock(&m_dirtyMutex);
-    std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
+    std::sort(m_renderedChunks.begin(), m_renderedChunks.end(), chunkSort);
     const QStringList renderedChunks = getCompressedList(m_renderedChunks);
-    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end(), chunkSort);
     const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     lock.unlock();
     return {renderedChunks, dirtyChunks};

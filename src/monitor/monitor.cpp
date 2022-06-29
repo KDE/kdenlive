@@ -33,7 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transitions/transitionsrepository.hpp"
 #include "utils/thumbnailcache.hpp"
 
-#include "klocalizedstring.h"
+#include "KLocalizedString"
 #include <KActionMenu>
 #include <KDualAction>
 #include <KFileWidget>
@@ -46,7 +46,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
+#include <QCheckBox>
 #include <QDrag>
+#include <QFontDatabase>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
@@ -54,11 +56,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QScreen>
 #include <QScrollBar>
 #include <QSlider>
-#include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <QWidgetAction>
+
 #include <utility>
+
 #define SEEK_INACTIVE (-1)
 
 VolumeAction::VolumeAction(QObject *parent)
@@ -115,6 +117,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_forceSizeFactor(0)
     , m_offset(id == Kdenlive::ProjectMonitor ? TimelineModel::seekDuration : 0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
+    , m_displayingCountdown(true)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -337,11 +340,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(forward, &QAction::triggered, this, [this]() { Monitor::slotForward(); });
 
     m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("More Options…"), m_toolbar);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 77, 0)
-    m_configMenuAction->setDelayed(false);
-#else
     m_configMenuAction->setPopupMode(QToolButton::InstantPopup);
-#endif
     connect(m_configMenuAction->menu(), &QMenu::aboutToShow, this, &Monitor::updateMarkers);
 
     playButton->setDefaultAction(m_playAction);
@@ -1552,8 +1551,14 @@ void Monitor::slotSwitchPlay()
         } else if (recState == QMediaRecorder::PausedState && play) {
             pCore->getAudioDevice()->resumeRecording();
         }
+        m_displayingCountdown = true;
     } else if (pCore->getAudioDevice()->isMonitoring()) {
         pCore->recordAudio(-1, true);
+        if (m_displayingCountdown) {
+            m_displayingCountdown = false;
+            m_playAction->setActive(false);
+            return;
+        }
     }
     m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;
@@ -1649,6 +1654,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             disconnect(m_controller.get(), &ProjectClip::boundsChanged, m_glMonitor->getControllerProxy(), &MonitorProxy::updateClipBounds);
             disconnect(m_controller.get(), &ProjectClip::registeredClipChanged, m_controller.get(), &ProjectClip::checkClipBounds);
         }
+    } else if (controller == nullptr) {
+        // Nothing to do
+        return;
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
@@ -1821,11 +1829,13 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotPreviewResource(const QString &path, const QString &title)
 {
-    if (!QUrl::fromUserInput(path).isLocalFile()) {
-        warningMessage(i18n("It maybe takes a while until the preview is loaded"), 15000);
+    if (isPlaying()) {
+        stop();
     }
+    QApplication::processEvents();
     slotOpenClip(nullptr);
     m_streamAction->setVisible(false);
+    // TODO: direct loading of the producer blocks UI, we should use a task to load the producer
     m_glMonitor->setProducer(path);
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
     m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title);
@@ -2691,3 +2701,4 @@ void Monitor::stopCountDown()
         QMetaObject::invokeMethod(root, "stopCountdown");
     }
 }
+

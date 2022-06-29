@@ -8,16 +8,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QAudioBuffer>
-#include <QAudioRecorder>
 #include <QAudioInput>
+#include <QAudioRecorder>
 #include <QCamera>
-#include <QMediaRecorder>
-#include <QIODevice>
-#include <QStringList>
 #include <QElapsedTimer>
-#include <QUrl>
-#include <QTimer>
+#include <QIODevice>
+#include <QMediaRecorder>
 #include <QMutex>
+#include <QStringList>
+#include <QTimer>
+#include <QUrl>
 #include <memory>
 
 class QAudioRecorder;
@@ -47,6 +47,7 @@ class MediaCapture : public QObject
     Q_OBJECT
     Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
     Q_PROPERTY(int recordState READ recordState NOTIFY recordStateChanged)
+    Q_PROPERTY(int recDuration MEMBER m_lastPos NOTIFY recDurationChanged)
 
 public:
     MediaCapture(QObject *parent);
@@ -96,6 +97,7 @@ private:
     QVector<qreal> m_levels;
     QVector<double> m_recLevels;
     int m_recordState;
+    /** @brief Duration of the recording */
     int m_lastPos;
     int m_tid;
     /** @brief true if we started the record countdown */
@@ -111,4 +113,5 @@ signals:
     void recordStateChanged(int tid, bool recording);
     void recordDone();
     void audioLevels(QVector<qreal> levels);
+    void recDurationChanged();
 };

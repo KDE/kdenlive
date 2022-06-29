@@ -81,7 +81,7 @@ private slots:
     void slotDialogModified();
     void slotEnableCaptureFolder();
     void slotEnableLibraryFolder();
-    void slotEnableVideoFolder();
+    void slotEnableVideoFolder(int ix);
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
     void slotEditVideo4LinuxProfile();
@@ -134,6 +134,8 @@ private:
     EncodingProfilesChooser *m_decklinkProfiles;
     EncodingProfilesChooser *m_v4lProfiles;
     EncodingProfilesChooser *m_grabProfiles;
+    QString m_audioAppId;
+    QString m_imageAppId;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();

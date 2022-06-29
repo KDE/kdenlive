@@ -25,7 +25,7 @@ public:
                       const QString &renderer = QStringLiteral("avformat"));
     RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName);
     RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate, const QString &defaultVQuality,
-                      const QString &defaultABitrate, const QString &defaultAQuality, const QString &speeds);
+                      const QString &defaultABitrate, const QString &defaultAQuality, const QString &speedsString);
 
     enum InstallType { BuildIn, Custom, Download };
 
@@ -42,6 +42,7 @@ public:
     QString renderer() const { return m_renderer; };
     QString url() const;
     QStringList speeds() const;
+    int defaultSpeedIndex() const { return m_defaultSpeedIndex; };
     QString topFieldFirst() const { return m_topFieldFirst; };
     QString presetFile() const { return m_presetFile; };
     QStringList audioBitrates() const;
@@ -79,6 +80,7 @@ private:
     QString m_renderer;
     QString m_url;
     QString m_speeds;
+    int m_defaultSpeedIndex;
     QString m_topFieldFirst;
     QString m_vBitrates;
     QString m_defaultVBitrate;

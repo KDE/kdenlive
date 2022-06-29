@@ -61,7 +61,6 @@ mRgb2YPbPr =                        r =
  */
 
 #include "vectorscopegenerator.h"
-#include <QImage>
 #include <cmath>
 
 // The maximum distance from the center for any RGB color is 0.63, so

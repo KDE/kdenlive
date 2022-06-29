@@ -14,7 +14,6 @@
 #include <QVBoxLayout>
 
 // KDE
-#include <QDialog>
 #include <QDialogButtonBox>
 #include <QPushButton>
 

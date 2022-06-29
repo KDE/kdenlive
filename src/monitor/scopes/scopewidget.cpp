@@ -32,7 +32,11 @@ void ScopeWidget::onNewFrame(const SharedFrame &frame)
 void ScopeWidget::requestRefresh()
 {
     if (m_future.isFinished()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_future = QtConcurrent::run(this, &ScopeWidget::refreshInThread);
+#else
+        m_future = QtConcurrent::run(&ScopeWidget::refreshInThread, this);
+#endif
     } else {
         m_refreshPending = true;
     }

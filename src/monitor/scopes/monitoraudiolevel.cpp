@@ -17,7 +17,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFont>
 #include <QPaintEvent>
 #include <QPainter>
-#include <memory>
 
 MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     : ScopeWidget(parent)

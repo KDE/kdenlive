@@ -17,10 +17,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KIO/RenameDialog>
 #include <KLineEdit>
+#include <KLocalizedString>
 #include <KUrlRequester>
+#include <QApplication>
+#include <QCheckBox>
+#include <QDialogButtonBox>
+#include <QDoubleSpinBox>
 #include <QProcess>
 #include <QThread>
-#include <klocalizedstring.h>
+#include <QVBoxLayout>
 
 SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out,
                      std::unordered_map<QString, QVariant> filterParams, QObject *object)

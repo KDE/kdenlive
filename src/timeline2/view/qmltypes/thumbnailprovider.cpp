@@ -14,7 +14,6 @@
 
 #include <QCryptographicHash>
 #include <QDebug>
-#include <QQuickImageProvider>
 #include <mlt++/MltFilter.h>
 #include <mlt++/MltProfile.h>
 

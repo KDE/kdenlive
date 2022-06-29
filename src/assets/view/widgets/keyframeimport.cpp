@@ -11,7 +11,6 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QLabel>
 #include <QPainter>
 #include <QSpinBox>
 #include <QVBoxLayout>
