@@ -101,13 +101,14 @@ void SubtitleModel::unsetModel()
     m_timeline.reset();
 }
 
-void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport)
+void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport, float startFramerate, float targetFramerate)
 {
     QString start, end, comment;
     QString timeLine;
     QStringList srtTime;
     GenTime startPos, endPos;
     int turn = 0, r = 0, endIndex = 1, defaultTurn = 0;
+    double transformMult = targetFramerate/startFramerate;
     /*
      * turn = 0 -> Parse next subtitle line [srt] (or) [vtt] (or) [sbv] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
@@ -158,9 +159,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     srtTime = timeLine.split(separator);
                     if (srtTime.count() > endIndex) {
                         start = srtTime.at(0);
-                        startPos = stringtoTime(start);
+                        startPos = stringtoTime(start)/transformMult;
                         end = srtTime.at(endIndex);
-                        endPos = stringtoTime(end);
+                        endPos = stringtoTime(end)/transformMult;
                     } else {
                         continue;
                     }
@@ -278,9 +279,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         if (dialogue.count() > textIndex) {
                             // TIME
                             start = dialogue.at(1);
-                            startPos = stringtoTime(start);
+                            startPos = stringtoTime(start)/transformMult;
                             end = dialogue.at(2);
-                            endPos = stringtoTime(end);
+                            endPos = stringtoTime(end)/transformMult;
                             // Text
                             comment = dialogue.at(textIndex);
                             // qDebug()<<"Start: "<< start << "End: "<<end << comment;
