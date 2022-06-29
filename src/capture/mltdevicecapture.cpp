@@ -5,7 +5,6 @@
 
 #include "mltdevicecapture.h"
 
-#include "definitions.h"
 #include "kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
@@ -14,7 +13,6 @@
 
 #include <QString>
 #include <QThread>
-#include <QTimer>
 
 #include <cstdarg>
 #include <cstdlib>

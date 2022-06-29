@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
+#include <QActionGroup>
 #include <QElapsedTimer>
 #include <QPainter>
 #include <QPoint>

@@ -72,7 +72,9 @@ void TranscodeTask::run()
             QDomDocument doc;
             binClip->getProducerXML(doc, false, true);
             QTextStream out(&src);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             out.setCodec("UTF-8");
+#endif
             out << doc.toString();
             src.close();
         }
@@ -124,11 +126,7 @@ void TranscodeTask::run()
         // insert transcoded filename
         m_transcodeParams.replace(QStringLiteral("%1"), QString("-consumer %1"));
         // Convert param style
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList params = m_transcodeParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
-#else
         QStringList params = m_transcodeParams.split(QLatin1Char('-'), Qt::SkipEmptyParts);
-#endif
         QStringList mltParameters;
         for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();

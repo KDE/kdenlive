@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>468</height>
+    <width>506</width>
+    <height>446</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -36,17 +42,17 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Concurrent threads:</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0" colspan="2">
        <widget class="QCheckBox" name="kcfg_nice_tasks">
         <property name="text">
          <string>Use lower CPU priority for proxy and transcode tasks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Concurrent threads:</string>
         </property>
        </widget>
       </item>
@@ -143,32 +149,15 @@
        <string>Default Folders</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_16">
          <property name="text">
-          <string>Temporary files:</string>
+          <string>Folder for rendering, titles, scripts:</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="KUrlRequester" name="tmppathurl"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Capture folder:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="kcfg_capturetoprojectfolder">
-         <property name="text">
-          <string>Use project folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="KUrlRequester" name="capturefolderurl"/>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_15">
@@ -176,33 +165,6 @@
           <string>Library folder:</string>
          </property>
         </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QCheckBox" name="kcfg_librarytodefaultfolder">
-         <property name="text">
-          <string>Use default folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="KUrlRequester" name="libraryfolderurl"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>Folder for titles, scripts:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="kcfg_videotodefaultfolder">
-         <property name="text">
-          <string>Use default folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="KUrlRequester" name="videofolderurl"/>
        </item>
        <item row="7" column="1">
         <spacer name="verticalSpacer_3">
@@ -216,6 +178,85 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="kcfg_videotodefaultfolder">
+         <item>
+          <property name="text">
+           <string>Use default folder</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Always use project folder</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Always use custom folder</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Temporary files:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Capture folder:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="KUrlRequester" name="videofolderurl">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" colspan="2">
+        <widget class="KUrlRequester" name="libraryfolderurl"/>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QCheckBox" name="kcfg_librarytodefaultfolder">
+         <property name="text">
+          <string>Use default folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="KUrlRequester" name="capturefolderurl"/>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QCheckBox" name="kcfg_capturetoprojectfolder">
+         <property name="text">
+          <string>Use project folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="KUrlRequester" name="tmppathurl"/>
        </item>
       </layout>
      </widget>

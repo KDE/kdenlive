@@ -220,7 +220,7 @@ private:
     QDockWidget *m_onlineResourcesDock;
 
     KSelectAction *m_timeFormatButton;
-    KSelectAction *m_compositeAction;
+    QAction *m_compositeAction;
 
     TimelineTabs *m_timelineTabs{nullptr};
     QVector <Bin*>m_binWidgets;
@@ -343,7 +343,7 @@ public slots:
     /** @brief The path of the current document changed (save as), update render settings */
     void updateProjectPath(const QString &path);
     /** @brief Update compositing action to display current project setting. */
-    void slotUpdateCompositeAction(int mode);
+    void slotUpdateCompositeAction(bool enable);
     /** @brief Update duration of projet in timeline toolbar. */
     void slotUpdateProjectDuration(int pos);
 
@@ -534,7 +534,7 @@ private slots:
     /** @brief Change forced icon theme setting (asks for app restart). */
     void forceIconSet(bool force);
     /** @brief Toggle current project's compositing mode. */
-    void slotUpdateCompositing(QAction *compose);
+    void slotUpdateCompositing(bool checked);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();

@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "definitions.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
@@ -26,9 +25,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
-#include "klocalizedstring.h"
 #include <KDirOperator>
 #include <KFileWidget>
+#include <KIO/RenameDialog>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KWindowConfig>
@@ -37,10 +37,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDir>
 #include <QMimeDatabase>
 #include <QPointer>
+#include <QProcess>
 #include <QPushButton>
 #include <QStandardPaths>
 #include <QUndoCommand>
 #include <QWindow>
+
 #include <unordered_map>
 #include <utility>
 
@@ -71,6 +73,12 @@ QStringList ClipCreationDialog::getExtensions()
               << QStringLiteral("image/webp") << QStringLiteral("image/jp2") << QStringLiteral("image/avif") << QStringLiteral("image/heif")
               << QStringLiteral("image/jxl");
 
+    // Lottie animations
+    bool allowLottie = KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"));
+    if (allowLottie) {
+        mimeTypes << QStringLiteral("application/json");
+    }
+
     QMimeDatabase db;
     QStringList allExtensions;
     for (const QString &mimeType : qAsConst(mimeTypes)) {
@@ -79,12 +87,11 @@ QStringList ClipCreationDialog::getExtensions()
             allExtensions.append(mime.globPatterns());
         }
     }
+    if (allowLottie) {
+        allExtensions.append(QStringLiteral("*.rawr"));
+    }
     // process custom user extensions
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const QStringList customs = KdenliveSettings::addedExtensions().split(' ', QString::SkipEmptyParts);
-#else
     const QStringList customs = KdenliveSettings::addedExtensions().split(' ', Qt::SkipEmptyParts);
-#endif
     if (!customs.isEmpty()) {
         for (const QString &ext : customs) {
             if (ext.startsWith(QLatin1String("*."))) {
@@ -137,6 +144,99 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 
         ClipCreator::createColorClip(color, duration, name, parentFolder, std::move(model));
     }
+}
+
+void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId)
+{
+    QDir dir(doc->projectDataFolder());
+    QString fileName("animation-0001.json");
+    if (dir.cd("animations")) {
+        int ix = 2;
+        while (dir.exists(fileName) && ix < 9999) {
+            QString number = QString::number(ix).rightJustified(4, '0');
+            number.prepend(QStringLiteral("animation-"));
+            number.append(QStringLiteral(".json"));
+            fileName = number;
+            ix++;
+        }
+    } else {
+        dir.mkpath("animations");
+        dir.cd("animations");
+    }
+    QDialog d(QApplication::activeWindow());
+    d.setWindowTitle(i18n("Create animation"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    KUrlRequester fileUrl(&d);
+    ;
+    fileUrl.setMode(KFile::File);
+    fileUrl.setUrl(QUrl::fromLocalFile(dir.absoluteFilePath(fileName)));
+    l->addWidget(new QLabel(i18n("Save animation as"), &d));
+    l->addWidget(&fileUrl);
+    QHBoxLayout *lay = new QHBoxLayout;
+    lay->addWidget(new QLabel(i18n("Animation duration"), &d));
+    TimecodeDisplay tCode(pCore->timecode(), &d);
+    tCode.setValue(QStringLiteral("00:00:05:00"));
+    lay->addWidget(&tCode);
+    l->addLayout(lay);
+    l->addWidget(buttonBox);
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    if (d.exec() != QDialog::Accepted) {
+        return;
+    }
+    fileName = fileUrl.url().toLocalFile();
+    if (QFile::exists(fileName)) {
+        KIO::RenameDialog renameDialog(QApplication::activeWindow(), i18n("File already exists"), fileUrl.url(), fileUrl.url(),
+                                       KIO::RenameDialog_Option::RenameDialog_Overwrite);
+        if (renameDialog.exec() != QDialog::Rejected) {
+            QUrl final = renameDialog.newDestUrl();
+            if (final.isValid()) {
+                fileName = final.toLocalFile();
+            }
+        } else {
+            return;
+        }
+    }
+    int frameLength = tCode.getValue() - 1;
+    // Params: duration, framerate, width, height
+    const QString templateJson =
+        QString("{\"v\":\"5.7.1\",\"ip\":0,\"op\":%1,\"nm\":\"Animation\",\"mn\":\"{c9eac49f-b1f0-482f-a8d8-302293bd1e46}\",\"fr\":%2,\"w\":%3,\"h\":%4,"
+                "\"assets\":[],\"layers\":[{\"ddd\":0,\"ty\":3,\"ind\":0,\"st\":0,\"ip\":0,\"op\":90,\"nm\":\"Layer\",\"mn\":\"{4d7c9721-b5ef-4075-a89c-"
+                "c4c5629423db}\",\"ks\":{\"a\":{\"a\":0,\"k\":[960,540]},\"p\":{\"a\":0,\"k\":[960,540]},\"s\":{\"a\":0,\"k\":[100,100]},\"r\":{\"a\":0,\"k\":"
+                "0},\"o\":{\"a\":0,\"k\":100}}}],\"meta\":{\"g\":\"Glaxnimate 0.5.0-52-g36d6269d\"}}")
+            .arg(frameLength)
+            .arg(QString::number(doc->timecode().fps()))
+            .arg(pCore->getCurrentFrameSize().width())
+            .arg(pCore->getCurrentFrameSize().height());
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    out << templateJson;
+    file.close();
+    QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
+    if (glaxBinary.isEmpty()) {
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
+        return;
+    }
+    QProcess::startDetached(glaxBinary, {fileName});
+    // Add clip to project
+    QDomDocument xml;
+    QDomElement prod = xml.createElement(QStringLiteral("producer"));
+    xml.appendChild(prod);
+    prod.setAttribute(QStringLiteral("type"), int(ClipType::Animation));
+    int id = pCore->projectItemModel()->getFreeClipId();
+    prod.setAttribute(QStringLiteral("id"), QString::number(id));
+    QMap<QString, QString> properties;
+    if (!parentId.isEmpty()) {
+        properties.insert(QStringLiteral("kdenlive:folderid"), parentId);
+    }
+    properties.insert(QStringLiteral("mlt_service"), QStringLiteral("glaxnimate"));
+    properties.insert(QStringLiteral("resource"), fileName);
+    Xml::addXmlProperties(prod, properties);
+    QString clipId = QString::number(id);
+    pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"));
 }
 
 void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, ProjectClip *clip)

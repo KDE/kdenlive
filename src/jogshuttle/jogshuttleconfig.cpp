@@ -36,7 +36,11 @@ QStringList JogShuttleConfig::actionMap(const QString &actionsConfig)
             continue;
         }
         // skip the 'button' prefix
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         int button_id = parts[0].midRef(BUTTON_PREFIX.size()).toInt();
+#else
+        int button_id = QStringView(parts[0]).mid(BUTTON_PREFIX.size()).toInt();
+#endif
         // fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
         while (actionMap.size() <= button_id) {
             actionMap << QString();

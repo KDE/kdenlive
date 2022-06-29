@@ -88,7 +88,9 @@ void ProxyTask::run()
             if (playlist->open()) {
                 source = playlist->fileName();
                 QTextStream out(playlist);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 out.setCodec("UTF-8");
+#endif
                 out << doc.toString();
                 playlist->close();
             }
@@ -111,11 +113,7 @@ void ProxyTask::run()
         int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
         parameter.replace(QStringLiteral("%width"), QString::number(proxyResize));
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
-#else
         QStringList params = parameter.split(QLatin1Char('-'), Qt::SkipEmptyParts);
-#endif
         double display_ratio;
         if (source.startsWith(QLatin1String("consumer:"))) {
             display_ratio = KdenliveDoc::getDisplayRatio(source.section(QLatin1Char(':'), 1));
@@ -325,11 +323,7 @@ void ProxyTask::run()
             parameters << QStringLiteral("-i") << source;
         }
         QString params = proxyParams;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        for (const QString &s : params.split(QLatin1Char(' '), QString::SkipEmptyParts)) {
-#else
         for (const QString &s : params.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
-#endif
             QString t = s.simplified();
             parameters << t;
             if (t == QLatin1String("-i")) {

@@ -213,6 +213,7 @@ private:
     int m_forceSizeFactor;
     int m_offset;
     MonitorSceneType m_lastMonitorSceneType;
+    bool m_displayingCountdown;
     MonitorAudioLevel *m_audioMeterWidget;
     QTimer m_droppedTimer;
     double m_displayedFps;
@@ -244,8 +245,6 @@ private slots:
     void slotForceSize(QAction *a);
     void buildBackgroundedProducer(int pos);
     void slotSeekToKeyFrame();
-    /** @brief Display a non blocking error message to user **/
-    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotLockMonitor(bool lock);
     void slotSwitchPlay();
     void slotEditInlineMarker();
@@ -290,6 +289,8 @@ public slots:
     void slotRewind(double speed = 0) override;
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
+    /** @brief Display a non blocking error message to user **/
+    void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotStart();
     /** @brief Set position and information for the trimming preview
     * @param pos Absolute position in frames

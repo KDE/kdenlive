@@ -45,32 +45,38 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
 #include <dialogs/textbasededit.h>
-#include <memory>
+#include <jobs/audiolevelstask.h>
 #include <profiles/profilemodel.hpp>
 #include <utils/thumbnailcache.hpp>
 
 #include <KActionMenu>
 #include <KColorScheme>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIconEffect>
 #include <KIconTheme>
 #include <KMessageBox>
+#include <KOpenWithDialog>
 #include <KRatingPainter>
+#include <KService>
 #include <KXMLGUIFactory>
 #include <kwidgetsaddons_version.h>
 
-#include <QActionGroup>
 #include <QCryptographicHash>
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
+#include <QMimeData>
 #include <QSlider>
+#include <QStyledItemDelegate>
 #include <QTimeLine>
 #include <QToolBar>
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
-#include <jobs/audiolevelstask.h>
+
+#include <memory>
 #include <utility>
 
 static QImage m_videoIcon;
@@ -669,7 +675,11 @@ void MyListView::dropEvent(QDropEvent *event)
     QListView::dropEvent(event);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void MyListView::enterEvent(QEnterEvent *event)
+#else
 void MyListView::enterEvent(QEvent *event)
+#endif
 {
     QListView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -812,7 +822,11 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
     }
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void MyTreeView::enterEvent(QEnterEvent *event)
+#else
 void MyTreeView::enterEvent(QEvent *event)
+#endif
 {
     QTreeView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -1286,11 +1300,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 77, 0)
-    settingsAction->setDelayed(false);
-#else
     settingsAction->setPopupMode(QToolButton::InstantPopup);
-#endif
     settingsAction->addAction(zoomWidget);
     settingsAction->addAction(listType);
     settingsAction->addAction(sortAction);
@@ -1818,7 +1828,9 @@ void Bin::slotReloadClip()
                             KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                         } else {
                             QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                             out.setCodec("UTF-8");
+#endif
                             out << doc.toString();
                             f.close();
                             KMessageBox::information(
@@ -2150,7 +2162,9 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     out.setCodec("UTF-8");
+#endif
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(
@@ -2349,7 +2363,8 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_editAction->setEnabled(true);
             m_extractAudioAction->menuAction()->setVisible(hasAudio);
             m_extractAudioAction->setEnabled(hasAudio);
-            m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
+            m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text ||
+                                     type == ClipType::Animation);
             m_openAction->setVisible(!isFolder);
             m_duplicateAction->setEnabled(isClip);
             m_duplicateAction->setVisible(!isFolder);
@@ -2884,6 +2899,11 @@ void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, co
     action->setData(static_cast<QVariant>(type));
     addClipMenu->addAction(action);
     connect(action, &QAction::triggered, this, &Bin::slotCreateProjectClip);
+    if (name == QLatin1String("add_animation_clip") && !KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"))) {
+        action->setEnabled(false);
+    } else if (name == QLatin1String("add_text_clip") && !KdenliveSettings::producerslist().contains(QLatin1String("kdenlivetitle"))) {
+        action->setEnabled(false);
+    }
 }
 
 void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
@@ -3164,7 +3184,8 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title…"),
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-
+    setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Add Animation…"),
+                       QIcon::fromTheme(QStringLiteral("motion_path_animations")));
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
     addClipMenu->addAction(downloadResourceAction);
@@ -3341,6 +3362,9 @@ void Bin::slotCreateProjectClip()
         break;
     case ClipType::QText:
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this);
+        break;
+    case ClipType::Animation:
+        ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
         break;
     default:
         break;
@@ -3990,20 +4014,76 @@ void Bin::slotOpenClipExtern()
     case ClipType::TextTemplate:
         showTitleWidget(clip);
         break;
-    case ClipType::Image:
-        if (KdenliveSettings::defaultimageapp().isEmpty()) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open images in the Settings dialog"));
-        } else {
+    case ClipType::Image: {
+        if (KdenliveSettings::defaultimageappId().isEmpty() && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            // Keep for compatibility
             QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
+            break;
         }
-        break;
-    case ClipType::Audio:
-        if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
+        if (service == nullptr) {
+            QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), QString(), this);
+            if (dlg->exec() == QDialog::Accepted) {
+                service = dlg->service();
+                if (service) {
+                    QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+                    if (appName.isEmpty()) {
+                        appName = service->desktopEntryName();
+                    }
+                    KdenliveSettings::setDefaultimageapp(appName);
+                    KdenliveSettings::setDefaultimageappId(service->storageId());
+                }
+            }
+            delete dlg;
+        }
+        if (service) {
+            auto *job = new KIO::ApplicationLauncherJob(service);
+            job->setUrls({QUrl::fromLocalFile(clip->url())});
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+            job->start();
         } else {
-            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files in the Settings dialog"));
         }
-        break;
+    } break;
+    case ClipType::Audio: {
+        if (KdenliveSettings::defaultaudioappId().isEmpty() && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            // Keep for compatibility
+            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
+            break;
+        }
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
+        if (service == nullptr) {
+            QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), QString(), this);
+            if (dlg->exec() == QDialog::Accepted) {
+                service = dlg->service();
+                if (service) {
+                    QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+                    if (appName.isEmpty()) {
+                        appName = service->desktopEntryName();
+                    }
+                    KdenliveSettings::setDefaultaudioapp(appName);
+                    KdenliveSettings::setDefaultaudioappId(service->storageId());
+                }
+            }
+            delete dlg;
+        }
+        if (service) {
+            auto *job = new KIO::ApplicationLauncherJob(service);
+            job->setUrls({QUrl::fromLocalFile(clip->url())});
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+            job->start();
+        } else {
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+        }
+    } break;
+    case ClipType::Animation: {
+        QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
+        if (glaxBinary.isEmpty()) {
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations"));
+        } else {
+            QProcess::startDetached(glaxBinary, {clip->url()});
+        }
+    } break;
     default:
         break;
     }
@@ -4082,11 +4162,7 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     QString label = filterInfo.value(QStringLiteral("label"));
     QString key = filterInfo.value(QStringLiteral("key"));
     int offset = filterInfo.value(QStringLiteral("offset")).toInt();
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList value = results.value(key).split(QLatin1Char(';'), QString::SkipEmptyParts);
-#else
     QStringList value = results.value(key).split(QLatin1Char(';'), Qt::SkipEmptyParts);
-#endif
     // qCDebug(KDENLIVE_LOG)<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains(QStringLiteral("resultmessage"))) {
         QString mess = filterInfo.value(QStringLiteral("resultmessage"));
@@ -4424,6 +4500,20 @@ void Bin::refreshProxySettings()
             emit static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
         }
     }
+    bool isFolder = false;
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        if (currentItem) {
+            AbstractProjectItem::PROJECTITEMTYPE itemType = currentItem->itemType();
+            isFolder = itemType == AbstractProjectItem::FolderItem;
+        }
+        break;
+    }
+    m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
     if (!m_doc->useProxy()) {
         // Disable all proxies
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
@@ -5010,7 +5100,6 @@ void Bin::requestSelectionTranscoding()
         m_transcodingDialog = new TranscodeSeek(this);
         connect(m_transcodingDialog, &QDialog::accepted, this, [&]() {
             QMap<QString, QStringList> ids = m_transcodingDialog->ids();
-            QString firstId = ids.firstKey();
             QMapIterator<QString, QStringList> i(ids);
             while (i.hasNext()) {
                 i.next();
@@ -5022,7 +5111,6 @@ void Bin::requestSelectionTranscoding()
             m_transcodingDialog = nullptr;
         });
         connect(m_transcodingDialog, &QDialog::rejected, this, [&]() {
-            QString firstId = m_transcodingDialog->ids().firstKey();
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;
         });

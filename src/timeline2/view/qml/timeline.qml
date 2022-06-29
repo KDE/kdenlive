@@ -57,16 +57,20 @@ Rectangle {
 
     function startAudioRecord(tid) {
         var tk = Logic.getTrackById(tid)
-        recordPlaceHolder.y = tk.y
-        recordPlaceHolder.height = tk.height
-        recordStartPlaceHolder.x = root.consumerPosition * root.timeScale
-        recordPlaceHolder.anchors.right = cursor.left
+        recordPlaceHolder.y = Qt.binding(function() { return tk.y + subtitleTrack.height })
+        recordPlaceHolder.height = Qt.binding(function() { return tk.height })
+        var startFrame = root.consumerPosition
+        recordStartPlaceHolder.x = Qt.binding(function() { return startFrame * root.timeScale })
         recordPlaceHolder.visible = true
+        recordPlaceHolder.width = Qt.binding(function() { return audiorec.recDuration * root.timeScale })
     }
 
     function stopAudioRecord() {
         recordPlaceHolder.visible = false
-        recordPlaceHolder.anchors.right = undefined
+        recordStartPlaceHolder.x = 0
+        recordStartPlaceHolder.y = 0
+        recordPlaceHolder.width = 0
+        recordPlaceHolder.height = 0
     }
 
     function fitZoom() {
@@ -333,6 +337,7 @@ Rectangle {
         dragProxy.width = 0
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
+        root.blockAutoScroll = false
     }
 
     function regainFocus(mousePos) {
@@ -376,6 +381,7 @@ Rectangle {
                 endDrag()
             }
         }
+        root.blockAutoScroll = false
     }
 
     function getAudioTracksCount(){
@@ -430,6 +436,7 @@ Rectangle {
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.5)
     property bool autoScrolling: timeline.autoScroll
+    property bool blockAutoScroll: false
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
     property color videoColor: timeline.videoColor
@@ -492,7 +499,10 @@ Rectangle {
     //onCurrentTrackChanged: timeline.selection = []
 
     onTimeScaleChanged: {
-        if (root.zoomOnMouse >= 0) {
+        if (scrollView.visibleArea.widthRatio >= 1) {
+            scrollView.contentX = 0
+            root.zoomOnMouse = -1
+        } else if (root.zoomOnMouse >= 0) {
             scrollView.contentX = Math.max(0, root.zoomOnMouse * root.timeScale - getMouseX())
             root.zoomOnMouse = -1
         } else if (root.zoomOnBar) {
@@ -509,7 +519,7 @@ Rectangle {
     }
 
     onConsumerPositionChanged: {
-        if (root.autoScrolling) Logic.scrollIfNeeded()
+        if (root.autoScrolling && !root.blockAutoScroll) Logic.scrollIfNeeded()
     }
 
     onViewActiveTrackChanged: {
@@ -1204,10 +1214,10 @@ Rectangle {
                             drag.smoothed: false
 
                             onPressed: {
-                                root.autoScrolling = false
+                                root.blockAutoScroll = true
                             }
                             onReleased: {
-                                root.autoScrolling = timeline.autoScroll
+                                root.blockAutoScroll = false
                                 parent.opacity = 0
                             }
                             onEntered: parent.opacity = 0.5
@@ -1581,24 +1591,23 @@ Rectangle {
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: ruler.zoneHeight - 1
-                            x: cursor.x - (width / 2)
+                            anchors.horizontalCenter: rulerCursor.horizontalCenter
                             // bottom line on zoom
-                            Rectangle {
-                                color: ruler.dimmedColor
-                                width: Math.max(1, root.timeScale)
-                                height: 1
-                                visible: width > playhead.width
-                                x: playhead.width / 2
-                                y: playhead.height - 1
-                            }
                         }
                         Rectangle {
                             // Vertical line over ruler zone
+                            id: rulerCursor
                             color: root.textColor
                             width: 1
                             height: ruler.zoneHeight - 1
                             x: cursor.x
                             anchors.bottom: parent.bottom
+                            Rectangle {
+                                color: ruler.dimmedColor
+                                width: Math.max(1, root.timeScale)
+                                height: 1
+                                visible: width > playhead.width
+                            }
                         }
                     }
                 }
@@ -1743,7 +1752,7 @@ Rectangle {
                                             controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                         }
                                         timeline.showAsset(dragProxy.draggedItem)
-                                        root.autoScrolling = false
+                                        root.blockAutoScroll = true
                                         clipBeingMovedId = dragProxy.draggedItem
                                         if (dragProxy.draggedItem > -1) {
                                             var tk = controller.getItemTrackId(dragProxy.draggedItem)
@@ -1854,7 +1863,7 @@ Rectangle {
                                     }
                                     onReleased: {
                                         clipBeingMovedId = -1
-                                        root.autoScrolling = timeline.autoScroll
+                                        root.blockAutoScroll = false
                                         if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                             var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                             if (dragProxy.isComposition) {
@@ -2014,7 +2023,7 @@ Rectangle {
                             width: 1
                             opacity: 1
                             height: tracksContainerArea.height
-                            x: root.consumerPosition * root.timeScale
+                            x: Math.round(root.consumerPosition * root.timeScale)
                         }
                     }
                     Kdenlive.ZoomBar {
@@ -2200,12 +2209,11 @@ Rectangle {
 
     Connections {
         target: timeline
-        // This connection type is deprecated in Qt >= 5.15, switch to function onFrameFormatChanged() {} once
-        // we require Qt >= 5.15
-        onFrameFormatChanged: {
+        function onFrameFormatChanged() {
             ruler.adjustFormat()
         }
-        onSelectionChanged: {
+
+        function onSelectionChanged() {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }

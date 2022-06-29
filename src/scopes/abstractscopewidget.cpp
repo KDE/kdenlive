@@ -10,7 +10,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 
 #include <QColor>
-#include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QtConcurrent>
@@ -141,7 +140,11 @@ void AbstractScopeWidget::prodHUDThread()
 
             m_newHUDFrames.fetchAndStoreRelaxed(0);
             m_newHUDUpdates.fetchAndStoreRelaxed(0);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             m_threadHUD = QtConcurrent::run(this, &AbstractScopeWidget::renderHUD, m_accelFactorHUD);
+#else
+            m_threadHUD = QtConcurrent::run(&AbstractScopeWidget::renderHUD, this, m_accelFactorHUD);
+#endif
 #ifdef DEBUG_ASW
             qCDebug(KDENLIVE_LOG) << "HUD thread started in " << m_widgetName;
 #endif
@@ -177,7 +180,11 @@ void AbstractScopeWidget::prodScopeThread()
 
             // See https://doc.qt.io/qt-5/qtconcurrentrun.html about
             // running member functions in a thread
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
+#else
+            m_threadScope = QtConcurrent::run(&AbstractScopeWidget::renderScope, this, m_accelFactorScope);
+#endif
             m_requestForcedUpdate = false;
 
 #ifdef DEBUG_ASW
@@ -203,7 +210,11 @@ void AbstractScopeWidget::prodBackgroundThread()
 
             m_newBackgroundFrames.fetchAndStoreRelaxed(0);
             m_newBackgroundUpdates.fetchAndStoreRelaxed(0);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             m_threadBackground = QtConcurrent::run(this, &AbstractScopeWidget::renderBackground, m_accelFactorBackground);
+#else
+            m_threadBackground = QtConcurrent::run(&AbstractScopeWidget::renderBackground, this, m_accelFactorBackground);
+#endif
 
 #ifdef DEBUG_ASW
             qCDebug(KDENLIVE_LOG) << "Background thread started in " << m_widgetName;

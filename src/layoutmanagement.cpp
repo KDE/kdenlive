@@ -17,12 +17,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QListWidget>
 #include <QMenu>
 #include <QMenuBar>
+#include <QVBoxLayout>
 
 #include <KColorScheme>
 #include <KConfigGroup>
+#include <KLocalizedString>
 #include <KSharedConfig>
 #include <KXMLGUIFactory>
-#include <klocalizedstring.h>
 
 LayoutManagement::LayoutManagement(QObject *parent)
     : QObject(parent)

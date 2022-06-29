@@ -516,9 +516,7 @@ namespace fakeit {
         }
 
     public:
-
-        virtual ~ConcatenatedSequence() {
-        }
+        ~ConcatenatedSequence() override {}
 
         unsigned int size() const override {
             return s1.size() + s2.size();
@@ -556,9 +554,7 @@ namespace fakeit {
         }
 
     public:
-
-        ~RepeatedSequence() {
-        }
+        ~RepeatedSequence() override {}
 
         unsigned int size() const override {
             return _s.size() * times;
@@ -653,7 +649,7 @@ namespace fakeit {
 
     struct NoMoreInvocationsVerificationEvent : public VerificationEvent {
 
-        ~NoMoreInvocationsVerificationEvent() = default;
+        ~NoMoreInvocationsVerificationEvent() override = default;
 
         NoMoreInvocationsVerificationEvent(
                 std::vector<Invocation *> &allTheIvocations,
@@ -678,7 +674,7 @@ namespace fakeit {
 
     struct SequenceVerificationEvent : public VerificationEvent {
 
-        ~SequenceVerificationEvent() = default;
+        ~SequenceVerificationEvent() override = default;
 
         SequenceVerificationEvent(VerificationType aVerificationType,
                                   std::vector<Sequence *> &anExpectedPattern,
@@ -1057,7 +1053,7 @@ namespace fakeit {
 
     class AbstractFakeit : public FakeitContext {
     public:
-        virtual ~AbstractFakeit() = default;
+        ~AbstractFakeit() override = default;
 
     protected:
 
@@ -1078,7 +1074,7 @@ namespace fakeit {
                           _testingFrameworkAdapter(nullptr) {
         }
 
-        virtual ~DefaultFakeit() = default;
+        ~DefaultFakeit() override = default;
 
         void setCustomEventFormatter(fakeit::EventFormatter &customEventFormatter) {
             _customFormatter = &customEventFormatter;
@@ -1134,7 +1130,7 @@ namespace fakeit {
 namespace fakeit {
 
     struct VerificationException : public std::exception {
-        virtual ~VerificationException() NO_THROWS{};
+        ~VerificationException() NO_THROWS{};
 
         VerificationException(std::string format) :
             _format(format) {
@@ -1226,7 +1222,7 @@ namespace fakeit {
     class StandaloneFakeit : public DefaultFakeit {
 
     public:
-        virtual ~StandaloneFakeit() = default;
+        ~StandaloneFakeit() override = default;
 
         StandaloneFakeit() : _standaloneAdapter(*this) {
         }
@@ -6408,7 +6404,7 @@ namespace fakeit {
 namespace fakeit {
 
     struct IMatcher : Destructible {
-        ~IMatcher() = default;
+        ~IMatcher() override = default;
         virtual std::string format() const = 0;
     };
 
@@ -6816,7 +6812,7 @@ namespace fakeit {
     template<typename ... arglist>
     struct DefaultInvocationMatcher : public ActualInvocation<arglist...>::Matcher {
 
-        virtual ~DefaultInvocationMatcher() = default;
+        ~DefaultInvocationMatcher() override = default;
 
         DefaultInvocationMatcher() {
         }
@@ -6846,7 +6842,7 @@ namespace fakeit {
 
         struct MatchedInvocationHandler : ActualInvocationHandler<R, arglist...> {
 
-            virtual ~MatchedInvocationHandler() = default;
+            ~MatchedInvocationHandler() override = default;
 
             MatchedInvocationHandler(typename ActualInvocation<arglist...>::Matcher *matcher,
                 ActualInvocationHandler<R, arglist...> *invocationHandler) :
@@ -6911,8 +6907,7 @@ namespace fakeit {
         RecordedMethodBody(FakeitContext &fakeit, std::string name) :
                 _fakeit(fakeit), _method{MethodInfo::nextMethodOrdinal(), name} { }
 
-        virtual ~RecordedMethodBody() NO_THROWS {
-        }
+        ~RecordedMethodBody() NO_THROWS override {}
 
         MethodInfo &getMethod() {
             return _method;
@@ -7084,7 +7079,7 @@ namespace fakeit {
 
     template<typename R, typename ... arglist>
     struct Repeat : Action<R, arglist...> {
-        virtual ~Repeat() = default;
+        ~Repeat() override = default;
 
         Repeat(std::function<R(typename fakeit::test_arg<arglist>::type...)> func) :
                 f(func), times(1) {
@@ -7111,7 +7106,7 @@ namespace fakeit {
     template<typename R, typename ... arglist>
     struct RepeatForever : public Action<R, arglist...> {
 
-        virtual ~RepeatForever() = default;
+        ~RepeatForever() override = default;
 
         RepeatForever(std::function<R(typename fakeit::test_arg<arglist>::type...)> func) :
                 f(func) {
@@ -7131,7 +7126,7 @@ namespace fakeit {
 
     template<typename R, typename ... arglist>
     struct ReturnDefaultValue : public Action<R, arglist...> {
-        virtual ~ReturnDefaultValue() = default;
+        ~ReturnDefaultValue() override = default;
 
         virtual R invoke(const ArgumentsTuple<arglist...> &) override {
             return DefaultValue<R>::value();
@@ -7147,7 +7142,7 @@ namespace fakeit {
 
         ReturnDelegateValue(std::function<R(const typename fakeit::test_arg<arglist>::type...)> delegate) : _delegate(delegate) { }
 
-        virtual ~ReturnDelegateValue() = default;
+        ~ReturnDelegateValue() override = default;
 
         virtual R invoke(const ArgumentsTuple<arglist...> & args) override {
             return TupleDispatcher::invoke<R, arglist...>(_delegate, args);
@@ -7722,7 +7717,7 @@ namespace fakeit {
                 : _impl(std::move(other._impl)) {
         }
 
-        virtual ~MethodMockingContext() NO_THROWS { }
+        ~MethodMockingContext() NO_THROWS override {}
 
         std::string format() const override {
             return _impl->format();
@@ -7963,10 +7958,7 @@ namespace fakeit {
             fake->getVirtualTable().setCookie(1, this);
         }
 
-        virtual ~MockImpl() NO_THROWS {
-            _proxy.detach();
-        }
-
+        ~MockImpl() NO_THROWS override { _proxy.detach(); }
 
         void getActualInvocations(std::unordered_set<Invocation *> &into) const override {
             std::vector<ActualInvocationsSource *> vec;
@@ -8062,33 +8054,26 @@ namespace fakeit {
         public:
             MethodMockingContextBase(MockImpl<C, baseclasses...> &mock) : _mock(mock) { }
 
-            virtual ~MethodMockingContextBase() = default;
+            ~MethodMockingContextBase() override = default;
 
             void addMethodInvocationHandler(typename ActualInvocation<arglist...>::Matcher *matcher,
-                ActualInvocationHandler<R, arglist...> *invocationHandler) override {
+                                            ActualInvocationHandler<R, arglist...> *invocationHandler) override
+            {
                 getRecordedMethodBody().addMethodInvocationHandler(matcher, invocationHandler);
             }
 
-            void scanActualInvocations(const std::function<void(ActualInvocation<arglist...> &)> &scanner) override {
+            void scanActualInvocations(const std::function<void(ActualInvocation<arglist...> &)> &scanner) override
+            {
                 getRecordedMethodBody().scanActualInvocations(scanner);
             }
 
-            void setMethodDetails(std::string mockName, std::string methodName) override {
-                getRecordedMethodBody().setMethodDetails(mockName, methodName);
-            }
+            void setMethodDetails(std::string mockName, std::string methodName) override { getRecordedMethodBody().setMethodDetails(mockName, methodName); }
 
-            bool isOfMethod(MethodInfo &method) override {
-                return getRecordedMethodBody().isOfMethod(method);
-            }
+            bool isOfMethod(MethodInfo &method) override { return getRecordedMethodBody().isOfMethod(method); }
 
-            ActualInvocationsSource &getInvolvedMock() override {
-                return _mock;
-            }
+            ActualInvocationsSource &getInvolvedMock() override { return _mock; }
 
-            std::string getMethodName() override {
-                return getRecordedMethodBody().getMethod().name();
-            }
-
+            std::string getMethodName() override { return getRecordedMethodBody().getMethod().name(); }
         };
 
         template<typename R, typename ... arglist>
@@ -8098,7 +8083,7 @@ namespace fakeit {
             R (C::*_vMethod)(arglist...);
 
         public:
-            virtual ~MethodMockingContextImpl() = default;
+            ~MethodMockingContextImpl() override = default;
 
             MethodMockingContextImpl(MockImpl<C, baseclasses...> &mock, R (C::*vMethod)(arglist...))
                     : MethodMockingContextBase<R, arglist...>(mock), _vMethod(vMethod) {
@@ -8292,7 +8277,7 @@ namespace fakeit {
     class Mock : public ActualInvocationsSource {
         MockImpl<C, baseclasses...> impl;
     public:
-        virtual ~Mock() = default;
+        ~Mock() override = default;
 
         static_assert(std::is_polymorphic<C>::value, "Can only mock a polymorphic type");
 

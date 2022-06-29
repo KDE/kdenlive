@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QPixmap>
 #include <QSplashScreen>
 #include <QStyleOptionProgressBar>
 
@@ -21,6 +22,7 @@ public slots:
 
 private:
     int m_progress;
+    QPixmap m_pixmap;
     QStyleOptionProgressBar m_pbStyle;
 
 protected:

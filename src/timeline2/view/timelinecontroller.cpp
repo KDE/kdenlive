@@ -31,7 +31,6 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
@@ -45,7 +44,10 @@
 #include <KUrlRequesterDialog>
 #include <QApplication>
 #include <QClipboard>
+#include <QFontDatabase>
 #include <QQuickItem>
+#include <QtMath>
+
 #include <memory>
 #include <unistd.h>
 
@@ -276,6 +278,25 @@ void TimelineController::checkDuration()
         m_duration = currentLength;
         emit durationChanged(m_duration);
     }
+}
+
+void TimelineController::hideTrack(int trackId, bool hide)
+{
+    bool isAudio = m_model->isAudioTrack(trackId);
+    QString state = hide ? (isAudio ? "1" : "2") : "3";
+    QString previousState = m_model->getTrackProperty(trackId, QStringLiteral("hide")).toString();
+    Fun undo_lambda = [this, trackId, previousState]() {
+        m_model->setTrackProperty(trackId, QStringLiteral("hide"), previousState);
+        checkDuration();
+        return true;
+    };
+    Fun redo_lambda = [this, trackId, state]() {
+        m_model->setTrackProperty(trackId, QStringLiteral("hide"), state);
+        checkDuration();
+        return true;
+    };
+    redo_lambda();
+    pCore->pushUndo(undo_lambda, redo_lambda, state == QLatin1String("3") ? i18n("Hide Track") : i18n("Enable Track"));
 }
 
 int TimelineController::selectedTrack() const
@@ -2511,16 +2532,8 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     }
     QVariantList renderedChunks;
     QVariantList dirtyChunks;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList chunksList = chunks.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList dirtyList = dirty.split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
     QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
     for (const QString &frame : qAsConst(chunksList)) {
         if (frame.contains(QLatin1Char('-'))) {
             // Range, process
@@ -2738,10 +2751,10 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     }
 }
 
-void TimelineController::switchCompositing(int mode)
+void TimelineController::switchCompositing(bool enable)
 {
     // m_model->m_tractor->lock();
-    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(mode));
+    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(enable));
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
     QScopedPointer<Mlt::Field> field(m_model->m_tractor->field());
     field->lock();
@@ -2759,13 +2772,12 @@ void TimelineController::switchCompositing(int mode)
             service.reset(service->producer());
         }
     }
-    if (mode > 0) {
+    if (enable) {
         // Loop through tracks
         for (int track = 0; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
                 // This is a video track
-                Mlt::Transition t(*m_model->m_tractor->profile(),
-                                  mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
+                Mlt::Transition t(*m_model->m_tractor->profile(), TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
                 t.set("always_active", 1);
                 t.set_tracks(0, track + 1);
                 t.set("internal_added", 237);
@@ -3315,7 +3327,7 @@ void TimelineController::switchTrackDisabled()
     } else {
         bool isAudio = m_model->getTrackById_const(m_activeTrack)->isAudioTrack();
         bool enabled = isAudio ? m_model->getTrackById_const(m_activeTrack)->isMute() : m_model->getTrackById_const(m_activeTrack)->isHidden();
-        m_model->hideTrack(m_activeTrack, enabled);
+        hideTrack(m_activeTrack, enabled);
     }
 }
 
@@ -4912,16 +4924,15 @@ void TimelineController::exportSubtitle()
         pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
-    const QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(),
-                                                     i18n("Subtitle File (*.srt)"));
+    QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(),
+                                               i18n("Subtitle File (*.srt)"));
     if (url.isEmpty()) {
         return;
     }
-    QFile srcFile(url);
     if (!url.endsWith(QStringLiteral(".srt"))) {
-        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", url));
-        return;
+        url.append(QStringLiteral(".srt"));
     }
+    QFile srcFile(url);
     if (srcFile.exists()) {
         srcFile.remove();
     }
@@ -4933,7 +4944,7 @@ void TimelineController::exportSubtitle()
 
 void TimelineController::subtitleSpeechRecognition()
 {
-    SpeechDialog d(m_model, m_zone, false, false, qApp->activeWindow());
+    SpeechDialog d(m_model, m_zone, m_activeTrack, false, false, qApp->activeWindow());
     d.exec();
 }
 

@@ -349,6 +349,9 @@ public:
 
     Q_INVOKABLE int headerWidth() const;
     Q_INVOKABLE void setHeaderWidth(int width);
+    /** @brief Hide / show a timeline track
+     */
+    Q_INVOKABLE void hideTrack(int trackId, bool hide);
 
     /** @brief Seek to next snap point
      */
@@ -570,7 +573,7 @@ public:
     QMap<QString, QString> documentProperties();
 
     /** @brief Change track compsiting mode */
-    void switchCompositing(int mode);
+    void switchCompositing(bool enable);
 
     /** @brief Change a clip item's speed in timeline */
     Q_INVOKABLE void changeItemSpeed(int clipId, double speed);

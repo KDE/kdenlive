@@ -10,14 +10,12 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
-#include <QAction>
 #include <QFileInfo>
 #include <QMenu>
 #include <QModelIndex>
 #include <QStringList>
 
 #include <KActionMenu>
-#include <KColorSchemeManager>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
@@ -56,15 +54,8 @@ ThemeManager::ThemeManager(QObject *parent)
     }
     qDeleteAll(duplicates);
 
-    // Since 5.67 KColorSchemeManager includes a system color scheme option that reacts to system
-    // scheme changes. This scheme will be activated if we pass an empty string to KColorSchemeManager
-    // So no need anymore to read the current global scheme ourselves if no custom one is configured.
-
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
-    if (scheme.isEmpty()) {
-        scheme = currentDesktopDefaultScheme();
-    }
-#endif
+    // KColorSchemeManager includes a system color scheme option that reacts to system scheme changes.
+    // This scheme will be activated if we pass an empty string to KColorSchemeManager (if "scheme" is empty)
 
     connect(themesMenu, &QMenu::triggered, this, [this, manager](QAction *action) {
         QModelIndex schemeIndex = manager->indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
@@ -93,15 +84,6 @@ void ThemeManager::saveCurrentScheme(const QString &path)
     cg.writeEntry("ColorSchemePath", path);
     cg.sync();
 }
-
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
-QString ThemeManager::currentDesktopDefaultScheme() const
-{
-    KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String("kdeglobals"));
-    KConfigGroup group(config, "General");
-    return group.readEntry("ColorScheme", QStringLiteral("Breeze"));
-}
-#endif
 
 void ThemeManager::slotSchemeChanged(const QString &path)
 {

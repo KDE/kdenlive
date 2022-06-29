@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/projectmanager.h"
 
 #include <QStyle>
+#include <QVBoxLayout>
 
 NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     : QObject(projectManager)

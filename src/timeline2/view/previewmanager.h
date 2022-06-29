@@ -117,6 +117,11 @@ private:
     /** @brief: Get a compressed list of chunks, like: "0-500,525,575". */
     const QStringList getCompressedList(const QVariantList items) const;
 
+    /** @brief Compare two chunks for usage by std::sort
+     * @returns true if @param c1 is less than @param c2
+     */
+    static bool chunkSort(const QVariant &c1, const QVariant &c2) { return c1.toString() < c2.toString(); };
+
 private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
     void doCleanupOldPreviews();

@@ -65,7 +65,7 @@ void EffectListWidget::setFilterType(const QString &type)
     } else if (type == "favorites") {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
     } else {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Preferred);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(false, AssetListType::AssetType::Preferred);
     }
 }
 

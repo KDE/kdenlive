@@ -6,7 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "waveformgenerator.h"
-#include "colorconstants.h"
 
 #include <cmath>
 

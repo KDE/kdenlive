@@ -54,7 +54,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/temporarydata.h"
 #include "project/projectcommands.h"
 #include "project/projectmanager.h"
-#include "pythoninterfaces/otioconvertions.h"
 #include "scopes/scopemanager.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinetabs.hpp"
@@ -71,38 +70,28 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 #include <KAboutData>
-#include <KActionCategory>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KColorScheme>
-#include <KColorSchemeManager>
 #include <KConfigDialog>
 #include <KCoreAddons>
 #include <KDualAction>
 #include <KEditToolBar>
 #include <KIconTheme>
+#include <KLocalizedString>
 #include <KMessageBox>
+#include <KNS3/QtQuickDialogWrapper>
 #include <KNotifyConfigWidget>
 #include <KRecentDirs>
 #include <KShortcutsDialog>
 #include <KStandardAction>
+#include <KToggleFullScreenAction>
 #include <KToolBar>
 #include <KXMLGUIFactory>
-#include <klocalizedstring.h>
-#include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 78, 0)
-#include <kns3/downloaddialog.h>
-#else
-#include <kns3/qtquickdialogwrapper.h>
-#endif
-#include <kcoreaddons_version.h>
-#include <kns3/knewstuffaction.h>
-#include <ktogglefullscreenaction.h>
-#include <kwidgetsaddons_version.h>
 
-#include "kdenlive_debug.h"
 #include <KConfigGroup>
 #include <QAction>
+#include <QClipboard>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QMenu>
@@ -882,8 +871,14 @@ void MainWindow::slotThemeChanged(const QString &name)
 
     KSharedConfigPtr kconfig = KSharedConfig::openConfig();
     KConfigGroup initialGroup(kconfig, "version");
-    if (initialGroup.exists() && KdenliveSettings::force_breeze() && useDarkIcons != KdenliveSettings::use_dark_breeze()) {
-        // We need to reload icon theme
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    bool isAppimage = pCore->packageType() == QStringLiteral("appimage");
+    bool isKDE = env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde");
+    bool forceBreeze = initialGroup.exists() && KdenliveSettings::force_breeze();
+    if ((!isKDE || isAppimage || forceBreeze) &&
+        ((useDarkIcons && QIcon::themeName() == QStringLiteral("breeze")) || (!useDarkIcons && QIcon::themeName() == QStringLiteral("breeze-dark")))) {
+        // We need to reload icon theme, on KDE desktops this is not necessary, however for the Appimage it is even on KDE Desktop
+        // See also https://kate-editor.org/post/2021/2021-03-07-cross-platform-light-dark-themes-and-icons/
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
@@ -1094,22 +1089,9 @@ void MainWindow::setupActions()
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
-    m_compositeAction = new KSelectAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("Track Compositing"), this);
-    m_compositeAction->setToolTip(i18n("Track compositing"));
-    QAction *noComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-off")), i18n("None"), this);
-    noComposite->setCheckable(true);
-    noComposite->setData(0);
-    m_compositeAction->addAction(noComposite);
-    QString compose = TransitionsRepository::get()->getCompositingTransition();
-    if (compose == QStringLiteral("movit.overlay") || compose != QStringLiteral("composite")) {
-        // Movit, do not show "preview" option since movit is faster
-        QAction *hqComposite = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("High Quality"), this);
-        hqComposite->setCheckable(true);
-        hqComposite->setData(2);
-        m_compositeAction->addAction(hqComposite);
-        m_compositeAction->setCurrentAction(hqComposite);
-    }
-    connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
+    m_compositeAction = new QAction(i18n("Enable Track Compositing"), this);
+    m_compositeAction->setCheckable(true);
+    connect(m_compositeAction, &QAction::triggered, this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
     actionCollection()->setShortcutsConfigurable(m_compositeAction, false);
 
@@ -1162,11 +1144,7 @@ void MainWindow::setupActions()
     } else {
         m_timeFormatButton->setCurrentItem(0);
     }
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(m_timeFormatButton, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateTimecodeFormat);
-#else
     connect(m_timeFormatButton, &KSelectAction::indexTriggered, this, &MainWindow::slotUpdateTimecodeFormat);
-#endif
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
@@ -1194,11 +1172,7 @@ void MainWindow::setupActions()
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 86, 0)
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple Tool"), this);
-#else
-    m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("resizecol")), i18n("Ripple Tool"), this);
-#endif
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
@@ -1209,11 +1183,7 @@ void MainWindow::setupActions()
     m_buttonRollTool->setCheckable(true);
     m_buttonRollTool->setChecked(false);*/
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 86, 0)
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip Tool"), this);
-#else
-    m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("transform-move-horizontal")), i18n("Slip Tool"), this);
-#endif
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
@@ -1399,7 +1369,7 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("configure")));
 
     addAction(QStringLiteral("project_render"), i18n("Render…"), this, SLOT(slotRenderProject()), QIcon::fromTheme(QStringLiteral("media-record")),
-              Qt::CTRL + Qt::Key_Return);
+              Qt::CTRL | Qt::Key_Return);
 
     addAction(QStringLiteral("stop_project_render"), i18n("Stop Render"), this, SLOT(slotStopRenderProject()),
               QIcon::fromTheme(QStringLiteral("media-record")));
@@ -1411,9 +1381,9 @@ void MainWindow::setupActions()
     connect(resetAction, &QAction::triggered, this, [&]() { slotRestart(true); });
 
     m_playZone = addAction(QStringLiteral("monitor_play_zone"), i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::Key_Space, QStringLiteral("navandplayback"));
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL | Qt::Key_Space, QStringLiteral("navandplayback"));
     m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL + Qt::SHIFT + Qt::Key_Space, QStringLiteral("navandplayback"));
+                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL | Qt::SHIFT | Qt::Key_Space, QStringLiteral("navandplayback"));
     m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop Selected Clip"), this);
     addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
     m_loopClip->setEnabled(false);
@@ -1527,33 +1497,29 @@ void MainWindow::setupActions()
     monitorGamma->addAction(i18n("Rec. 709 (TV)"));
     addAction(QStringLiteral("mlt_gamma"), monitorGamma, {}, QStringLiteral("monitor"));
     monitorGamma->setCurrentItem(KdenliveSettings::monitor_gamma());
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(monitorGamma, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &MainWindow::slotSetMonitorGamma);
-#else
     connect(monitorGamma, &KSelectAction::indexTriggered, this, &MainWindow::slotSetMonitorGamma);
-#endif
     actionCollection()->setShortcutsConfigurable(monitorGamma, false);
 
     addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
-              QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL + Qt::Key_I);
+              QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL | Qt::Key_I);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
-              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left, QStringLiteral("navandplayback"));
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT | Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
-              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT + Qt::Key_Right, QStringLiteral("navandplayback"));
+              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::ALT | Qt::Key_Right, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
               Qt::Key_Home, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
               Qt::Key_End, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_guide_backward"), i18n("Go to Previous Guide"), this, SLOT(slotGuideRewind()),
-              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::CTRL + Qt::Key_Left, QStringLiteral("navandplayback"));
+              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::CTRL | Qt::Key_Left, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("monitor_seek_guide_forward"), i18n("Go to Next Guide"), this, SLOT(slotGuideForward()),
-              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::CTRL + Qt::Key_Right, QStringLiteral("navandplayback"));
+              QIcon::fromTheme(QStringLiteral("media-seek-forward")), Qt::CTRL | Qt::Key_Right, QStringLiteral("navandplayback"));
     addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P,
               QStringLiteral("navandplayback"));
 
     addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()), QIcon::fromTheme(QStringLiteral("transform-move")),
-              Qt::SHIFT + Qt::Key_G);
+              Qt::SHIFT | Qt::Key_G);
 
     QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
     stickTransition->setData(QStringLiteral("auto"));
@@ -1567,7 +1533,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("insert_to_in_point"), i18n("Insert Clip Zone in Timeline"), this, SLOT(slotInsertClipInsert()),
               QIcon::fromTheme(QStringLiteral("timeline-insert")), Qt::Key_V);
     addAction(QStringLiteral("remove_extract"), i18n("Extract Timeline Zone"), this, SLOT(slotExtractZone()),
-              QIcon::fromTheme(QStringLiteral("timeline-extract")), Qt::SHIFT + Qt::Key_X);
+              QIcon::fromTheme(QStringLiteral("timeline-extract")), Qt::SHIFT | Qt::Key_X);
     addAction(QStringLiteral("remove_lift"), i18n("Lift Timeline Zone"), this, SLOT(slotLiftZone()), QIcon::fromTheme(QStringLiteral("timeline-lift")),
               Qt::Key_Z);
     addAction(QStringLiteral("set_render_timeline_zone"), i18n("Add Preview Zone"), this, SLOT(slotDefinePreviewRender()),
@@ -1577,7 +1543,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Remove All Preview Zones"), this, SLOT(slotClearPreviewRender()),
               QIcon::fromTheme(QStringLiteral("preview-remove-all")));
     addAction(QStringLiteral("prerender_timeline_zone"), i18n("Start Preview Render"), this, SLOT(slotPreviewRender()),
-              QIcon::fromTheme(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT + Qt::Key_Return));
+              QIcon::fromTheme(QStringLiteral("preview-render-on")), QKeySequence(Qt::SHIFT | Qt::Key_Return));
     addAction(QStringLiteral("stop_prerender_timeline"), i18n("Stop Preview Render"), this, SLOT(slotStopPreviewRender()),
               QIcon::fromTheme(QStringLiteral("preview-render-off")));
 
@@ -1586,13 +1552,13 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("deselect_timeline_clip"), i18n("Deselect Clip"), this, SLOT(slotDeselectTimelineClip()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::Key_Minus);
     addAction(QStringLiteral("select_add_timeline_clip"), i18n("Add Clip to Selection"), this, SLOT(slotSelectAddTimelineClip()),
-              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::Key_Plus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT | Qt::Key_Plus);
     addAction(QStringLiteral("select_timeline_transition"), i18n("Select Transition"), this, SLOT(slotSelectTimelineTransition()),
-              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Plus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT | Qt::Key_Plus);
     addAction(QStringLiteral("deselect_timeline_transition"), i18n("Deselect Transition"), this, SLOT(slotDeselectTimelineTransition()),
-              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT + Qt::Key_Minus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::SHIFT | Qt::Key_Minus);
     addAction(QStringLiteral("select_add_timeline_transition"), i18n("Add Transition to Selection"), this, SLOT(slotSelectAddTimelineTransition()),
-              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
+              QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT | Qt::SHIFT | Qt::Key_Plus);
 
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
@@ -1673,10 +1639,10 @@ void MainWindow::setupActions()
     act->setData('C');
 
     addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
-              Qt::SHIFT + Qt::Key_R);
+              Qt::SHIFT | Qt::Key_R);
 
     addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()),
-              QIcon::fromTheme(QStringLiteral("edit-cut")), Qt::CTRL + Qt::SHIFT + Qt::Key_R);
+              QIcon::fromTheme(QStringLiteral("edit-cut")), Qt::CTRL | Qt::SHIFT | Qt::Key_R);
 
     addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
               QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
@@ -1703,13 +1669,13 @@ void MainWindow::setupActions()
     connect(delEffects, &QAction::triggered, this, [this]() { getMainTimeline()->controller()->deleteEffects(); });
 
     QAction *groupClip = addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()),
-                                   QIcon::fromTheme(QStringLiteral("object-group")), Qt::CTRL + Qt::Key_G, clipActionCategory);
+                                   QIcon::fromTheme(QStringLiteral("object-group")), Qt::CTRL | Qt::Key_G, clipActionCategory);
     // "G" as data means this action should only be available for multiple items selection
     groupClip->setData('G');
     groupClip->setEnabled(false);
 
     QAction *ungroupClip = addAction(QStringLiteral("ungroup_clip"), i18n("Ungroup Clips"), this, SLOT(slotUnGroupClips()),
-                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G), clipActionCategory);
+                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_G), clipActionCategory);
     // "U" as data means this action should only be available if selection is a group
     ungroupClip->setData('U');
     ungroupClip->setEnabled(false);
@@ -1808,7 +1774,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")),
-              Qt::SHIFT + Qt::Key_S);
+              Qt::SHIFT | Qt::Key_S);
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
     addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
 
@@ -1867,19 +1833,19 @@ void MainWindow::setupActions()
     disableEffects->setChecked(false);
 
     addAction(QStringLiteral("switch_track_disabled"), i18n("Toggle Track Disabled"), pCore->projectManager(), SLOT(slotSwitchTrackDisabled()), QIcon(),
-              Qt::SHIFT + Qt::Key_H, timelineActions);
+              Qt::SHIFT | Qt::Key_H, timelineActions);
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
-              Qt::SHIFT + Qt::Key_L, timelineActions);
+              Qt::SHIFT | Qt::Key_L, timelineActions);
     addAction(QStringLiteral("switch_all_track_lock"), i18n("Toggle All Track Lock"), pCore->projectManager(), SLOT(slotSwitchAllTrackLock()), QIcon(),
-              Qt::CTRL + Qt::SHIFT + Qt::Key_L, timelineActions);
+              Qt::CTRL | Qt::SHIFT | Qt::Key_L, timelineActions);
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
-              Qt::SHIFT + Qt::Key_T, timelineActions);
+              Qt::SHIFT | Qt::Key_T, timelineActions);
     addAction(QStringLiteral("switch_active_target"), i18n("Toggle Track Active"), pCore->projectManager(), SLOT(slotSwitchTrackActive()), QIcon(), Qt::Key_A,
               timelineActions);
     addAction(QStringLiteral("switch_all_targets"), i18n("Toggle All Tracks Active"), pCore->projectManager(), SLOT(slotSwitchAllTrackActive()), QIcon(),
-              Qt::SHIFT + Qt::Key_A, timelineActions);
+              Qt::SHIFT | Qt::Key_A, timelineActions);
     addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
-              Qt::SHIFT + Qt::ALT + Qt::Key_A, timelineActions);
+              Qt::SHIFT | Qt::ALT | Qt::Key_A, timelineActions);
     addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()), {},
               {}, timelineActions);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
@@ -2184,9 +2150,6 @@ void MainWindow::slotRenderProject()
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
-    if (m_renderWidget && m_compositeAction && m_compositeAction->currentAction()) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, QString());
-    }
 
     slotCheckRenderStatus();
     if (m_renderWidget) {
@@ -2320,8 +2283,8 @@ void MainWindow::connectDocument()
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
     getMainTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
 
-    connect(m_projectMonitor, &Monitor::zoneUpdated, project, [&](const QPoint &) { project->setModified(); });
-    connect(m_clipMonitor, &Monitor::zoneUpdated, project, [&](const QPoint &) { project->setModified(); });
+    connect(m_projectMonitor, &Monitor::zoneUpdated, project, [project](const QPoint &) { project->setModified(); });
+    connect(m_clipMonitor, &Monitor::zoneUpdated, project, [project](const QPoint &) { project->setModified(); });
     connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
 
     if (m_renderWidget) {
@@ -3374,17 +3337,8 @@ void MainWindow::slotResizeItemEnd()
 int MainWindow::getNewStuff(const QString &configFile)
 {
 
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    KNS3::Entry::List entries;
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog(configFile);
-    if (dialog->exec() != 0) {
-        entries = dialog->changedEntries();
-    }
-    delete dialog;
-#else
     KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
-#endif
     for (const auto &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
@@ -4112,28 +4066,15 @@ void MainWindow::slotManageCache()
     d->exec();
 }
 
-void MainWindow::slotUpdateCompositing(QAction *compose)
+void MainWindow::slotUpdateCompositing(bool checked)
 {
-    int mode = compose->data().toInt();
-    getMainTimeline()->controller()->switchCompositing(mode);
-    if (m_renderWidget) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
-    }
+    getMainTimeline()->controller()->switchCompositing(checked);
     pCore->currentDoc()->setModified();
 }
 
-void MainWindow::slotUpdateCompositeAction(int mode)
+void MainWindow::slotUpdateCompositeAction(bool enable)
 {
-    QList<QAction *> actions = m_compositeAction->actions();
-    for (int i = 0; i < actions.count(); i++) {
-        if (actions.at(i)->data().toInt() == mode) {
-            m_compositeAction->setCurrentAction(actions.at(i));
-            break;
-        }
-    }
-    if (m_renderWidget) {
-        m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
-    }
+    m_compositeAction->setChecked(enable);
 }
 
 void MainWindow::showMenuBar(bool show)

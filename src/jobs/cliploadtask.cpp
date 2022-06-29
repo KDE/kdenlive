@@ -22,7 +22,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QElapsedTimer>
 #include <QFile>
 #include <QImage>
-#include <QList>
 #include <QMimeDatabase>
 #include <QPainter>
 #include <QString>
@@ -740,11 +739,13 @@ void ClipLoadTask::run()
 
 void ClipLoadTask::abort()
 {
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     m_progress = 100;
     pCore->taskManager.taskDone(m_owner.second, this);
-    qDebug() << pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second))->clipUrl();
+    if (pCore->taskManager.isBlocked()) {
+        return;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));

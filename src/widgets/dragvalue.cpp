@@ -134,11 +134,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_menu->addAction(timeline);
     }
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-    connect(m_scale, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &DragValue::slotSetScaleMode);
-#else
     connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);
-#endif
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);
 }
 
@@ -173,7 +169,8 @@ bool DragValue::eventFilter(QObject *watched, QEvent *event)
             m_label->slotValueDec();
         }
         // Stop processing, event accepted
-        return false;
+        event->accept();
+        return true;
     }
     return QObject::eventFilter(watched, event);
 }
@@ -526,12 +523,8 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
 
 void CustomLabel::wheelEvent(QWheelEvent *e)
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    if (e->delta() > 0) {
-#else
-    qDebug() << ":::: GOT WHEEL DELTA: " << e->angleDelta().y();
+    qDebug()<<":::: GOT WHEEL DELTA: "<<e->angleDelta().y();
     if (e->angleDelta().y() > 0) {
-#endif
         if (e->modifiers() == Qt::ControlModifier) {
             slotValueInc(10);
         } else if (e->modifiers() == Qt::AltModifier) {

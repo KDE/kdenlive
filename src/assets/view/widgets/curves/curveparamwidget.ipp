@@ -58,7 +58,7 @@ private:
             setPixmap(QPixmap());
         } else {
             auto color = CurveParamWidget<CurveWidget_t>::modeToColorsRGB(m_mode);
-            setPixmap(QPixmap::fromImage(ColorTools::rgbCurveLine(s, color, palette().background().color().rgb())).transformed(t));
+            setPixmap(QPixmap::fromImage(ColorTools::rgbCurveLine(s, color, palette().window().color().rgb())).transformed(t));
         }
     }
 

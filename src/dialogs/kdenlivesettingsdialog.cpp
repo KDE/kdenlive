@@ -9,7 +9,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
-#include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -18,7 +17,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
-#include "pythoninterfaces/speechtotext.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include "wizard.h"
@@ -27,21 +25,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "capture/v4lcapture.h"
 #endif
 
+#include "KLocalizedString"
 #include "kdenlive_debug.h"
-#include "klocalizedstring.h"
-#include <KIO/DesktopExecParser>
-#include <kio_version.h>
-
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
-#include <KIO/OpenUrlJob>
-#else
-#include <KRun>
-#endif
-
 #include <KArchive>
 #include <KArchiveDirectory>
+#include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <KOpenWithDialog>
@@ -49,15 +40,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KTar>
 #include <KUrlRequesterDialog>
 #include <KZip>
+#include <kio_version.h>
+
 #include <QAction>
 #include <QDir>
 #include <QGuiApplication>
+#include <QInputDialog>
 #include <QRegularExpression>
 #include <QScreen>
 #include <QSize>
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent>
+
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
@@ -330,13 +325,27 @@ void KdenliveSettingsDialog::initEnviromentPage()
 
     m_configEnv.kcfg_proxythreads->setMaximum(qMax(1, QThread::idealThreadCount() - 1));
 
-    // Script rendering folder
+    // Default apps
+    if (!KdenliveSettings::defaultaudioappId().isEmpty()) {
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
+        if (service) {
+            m_configEnv.kp_audio->setIcon(QIcon::fromTheme(service->icon()));
+        }
+    }
+    if (!KdenliveSettings::defaultimageappId().isEmpty()) {
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
+        if (service) {
+            m_configEnv.kp_image->setIcon(QIcon::fromTheme(service->icon()));
+        }
+    }
+
+    // Script rendering files folder
     m_configEnv.videofolderurl->setMode(KFile::Directory);
     m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
-    m_configEnv.videofolderurl->setEnabled(!KdenliveSettings::videotodefaultfolder());
+    m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == 2);
     m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
     m_configEnv.kcfg_videotodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    connect(m_configEnv.kcfg_videotodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableVideoFolder);
+    connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
     // Mime types
     QStringList mimes = ClipCreationDialog::getExtensions();
@@ -641,9 +650,9 @@ void KdenliveSettingsDialog::slotEnableLibraryFolder()
     m_configEnv.libraryfolderurl->setEnabled(!m_configEnv.kcfg_librarytodefaultfolder->isChecked());
 }
 
-void KdenliveSettingsDialog::slotEnableVideoFolder()
+void KdenliveSettingsDialog::slotEnableVideoFolder(int ix)
 {
-    m_configEnv.videofolderurl->setEnabled(!m_configEnv.kcfg_videotodefaultfolder->isChecked());
+    m_configEnv.videofolderurl->setEnabled(ix == 2);
 }
 
 void KdenliveSettingsDialog::initDevices()
@@ -836,22 +845,64 @@ void KdenliveSettingsDialog::showPage(int page, int option)
 
 void KdenliveSettingsDialog::slotEditAudioApplication()
 {
-    KService::Ptr service;
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
-    if (dlg->exec() == QDialog::Accepted) {
-        service = dlg->service();
-        m_configEnv.kcfg_defaultaudioapp->setText(KIO::DesktopExecParser::executablePath(service->exec()));
+    QString appName;
+    if (!KdenliveSettings::defaultaudioappId().isEmpty()) {
+        // Find app name from service
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+        }
     }
-
+    if (appName.isEmpty()) {
+        appName = m_configEnv.kcfg_defaultaudioapp->text();
+    }
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), appName, this);
+    if (dlg->exec() == QDialog::Accepted) {
+        KService::Ptr service = dlg->service();
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            m_configEnv.kcfg_defaultaudioapp->setText(appName);
+            m_configEnv.kp_audio->setIcon(QIcon::fromTheme(service->icon()));
+            m_audioAppId = service->storageId();
+        }
+    }
     delete dlg;
 }
 
 void KdenliveSettingsDialog::slotEditImageApplication()
 {
-    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
+    QString appName;
+    if (!KdenliveSettings::defaultimageappId().isEmpty()) {
+        // Find app name from service
+        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+        }
+    }
+    if (appName.isEmpty()) {
+        appName = m_configEnv.kcfg_defaultimageapp->text();
+    }
+    QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), appName, this);
     if (dlg->exec() == QDialog::Accepted) {
         KService::Ptr service = dlg->service();
-        m_configEnv.kcfg_defaultimageapp->setText(KIO::DesktopExecParser::executablePath(service->exec()));
+        if (service) {
+            appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            m_configEnv.kcfg_defaultimageapp->setText(appName);
+            m_configEnv.kp_image->setIcon(QIcon::fromTheme(service->icon()));
+            m_imageAppId = service->storageId();
+        }
     }
     delete dlg;
 }
@@ -1016,6 +1067,14 @@ void KdenliveSettingsDialog::updateSettings()
         if (!KdenliveSettings::librarytodefaultfolder()) {
             updateLibrary = true;
         }
+    }
+
+    // Default apps
+    if (m_configEnv.kcfg_defaultaudioapp->text() != KdenliveSettings::defaultaudioapp()) {
+        KdenliveSettings::setDefaultaudioappId(m_audioAppId);
+    }
+    if (m_configEnv.kcfg_defaultimageapp->text() != KdenliveSettings::defaultimageapp()) {
+        KdenliveSettings::setDefaultimageappId(m_imageAppId);
     }
 
     if (m_configCapture.kcfg_v4l_format->currentIndex() != int(KdenliveSettings::v4l_format())) {
@@ -1457,28 +1516,16 @@ void KdenliveSettingsDialog::slotUpdatev4lDevice()
         m_configCapture.kcfg_v4l_format->addItem(i18n("Current settings"));
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList pixelformats = info.split('>', QString::SkipEmptyParts);
-#else
     QStringList pixelformats = info.split('>', Qt::SkipEmptyParts);
-#endif
     QString itemSize;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
-#else
         QStringList sizes = pixelformats.at(i).split(':', Qt::SkipEmptyParts);
-#endif
         sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             for (int k = 0; k < itemRates.count(); ++k) {
                 m_configCapture.kcfg_v4l_format->addItem(
                     QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')'),
@@ -1689,15 +1736,11 @@ void KdenliveSettingsDialog::initSpeechPage()
         i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
     connect(m_configSpeech.models_url, &QLabel::linkActivated, this, [&](const QString &contents) {
         qDebug() << "=== LINK CLICKED: " << contents;
-#if KIO_VERSION > QT_VERSION_CHECK(5, 70, 0)
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
-#else
-        new KRun(QUrl(contents), this);
-#endif
     });
     connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this]() { this->getDictionary(); });
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);

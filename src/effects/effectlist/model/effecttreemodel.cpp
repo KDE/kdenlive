@@ -49,11 +49,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             if (!KdenliveSettings::gpu_accel() && groupName == i18n("GPU effects")) {
                 continue;
             }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
             for (const QString &effect : qAsConst(list)) {
                 effectCategory[effect] = groupItem;
@@ -246,7 +242,9 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             out.setCodec("UTF-8");
+#endif
             out << doc.toString();
         }
         file.close();
@@ -258,7 +256,9 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
         QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             out.setCodec("UTF-8");
+#endif
             out << doc.toString();
         }
         file.close();

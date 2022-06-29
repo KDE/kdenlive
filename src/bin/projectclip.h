@@ -60,6 +60,15 @@ public:
     static std::shared_ptr<ProjectClip> construct(const QString &id, const QDomElement &description, const QIcon &thumb,
                                                   std::shared_ptr<ProjectItemModel> model);
 
+    /**
+     * @brief Retreive original clip from proxy path when using external proxies
+     */
+    const QString getOriginalFromProxy(QString proxyPath) const;
+    /**
+     * @brief Retreive original clip from proxy path when using external proxies
+     */
+    const QString getProxyFromOriginal(QString originalPath) const;
+
 protected:
     ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer);
     ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);

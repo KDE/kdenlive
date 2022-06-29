@@ -11,13 +11,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 
 #include <KFileItem>
+#include <KLocalizedString>
 #include <KRecentDirs>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QDir>
 #include <QFontDatabase>
 #include <QStandardPaths>
+#include <QtMath>
 
 SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip, QWidget *parent)
     : QDialog(parent)
@@ -418,8 +419,11 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         int firstFrame = firstFrameData.rightRef(precision).toInt();
-
+#else
+        int firstFrame = QStringView(firstFrameData).right(precision).toInt();
+#endif
         // Check how many files we have
         QDir dir(folder);
         QString path;

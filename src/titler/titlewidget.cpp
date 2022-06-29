@@ -44,7 +44,6 @@
 #include <QImageReader>
 #include <QKeyEvent>
 #include <QMenu>
-#include <QSignalMapper>
 #include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>
@@ -277,7 +276,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     buttonAlignRight->setIconSize(iconSize);
 
     m_unicodeAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
-    m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
+    m_unicodeAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_U);
     m_unicodeAction->setToolTip(getTooltipWithShortcut(i18n("Insert Unicode character"), m_unicodeAction));
     connect(m_unicodeAction, &QAction::triggered, this, &TitleWidget::slotInsertUnicode);
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
@@ -310,20 +309,20 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     zBottom->setDefaultAction(m_zBottom);
 
     m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")), QString(), this);
-    m_selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
+    m_selectAll->setShortcut(Qt::CTRL | Qt::Key_A);
     m_selectAll->setToolTip(i18n("Select All"));
     connect(m_selectAll, &QAction::triggered, this, &TitleWidget::slotSelectAll);
     buttonSelectAll->setDefaultAction(m_selectAll);
 
     m_selectText = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-texts")), QString(), this);
-    m_selectText->setShortcut(Qt::CTRL + Qt::Key_T);
+    m_selectText->setShortcut(Qt::CTRL | Qt::Key_T);
     m_selectText->setToolTip(i18n("Keep only text items selected"));
     connect(m_selectText, &QAction::triggered, this, &TitleWidget::slotSelectText);
     buttonSelectText->setDefaultAction(m_selectText);
     buttonSelectText->setEnabled(false);
 
     m_selectRects = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-rects")), QString(), this);
-    m_selectRects->setShortcut(Qt::CTRL + Qt::Key_R);
+    m_selectRects->setShortcut(Qt::CTRL | Qt::Key_R);
     m_selectRects->setToolTip(i18n("Keep only rect items selected"));
     connect(m_selectRects, &QAction::triggered, this, &TitleWidget::slotSelectRects);
     buttonSelectRects->setDefaultAction(m_selectRects);
@@ -337,7 +336,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     buttonSelectImages->setEnabled(false);
 
     m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")), QString(), this);
-    m_unselectAll->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_A);
+    m_unselectAll->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_A);
     m_unselectAll->setToolTip(i18n("Deselect"));
     connect(m_unselectAll, &QAction::triggered, this, &TitleWidget::slotSelectNone);
     buttonUnselectAll->setDefaultAction(m_unselectAll);
@@ -373,31 +372,31 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
-    m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
+    m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString());
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
-    m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
+    m_buttonText->setShortcut(Qt::ALT | Qt::Key_T);
     m_buttonText->setToolTip(i18n("Add Text") + QLatin1Char(' ') + m_buttonText->shortcut().toString());
     connect(m_buttonText, &QAction::triggered, this, &TitleWidget::slotTextTool);
 
     m_buttonRect = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
-    m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
+    m_buttonRect->setShortcut(Qt::ALT | Qt::Key_R);
     m_buttonRect->setToolTip(i18n("Add Rectangle") + QLatin1Char(' ') + m_buttonRect->shortcut().toString());
     connect(m_buttonRect, &QAction::triggered, this, &TitleWidget::slotRectTool);
 
     m_buttonEllipse = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("draw-ellipse")), i18n("Add Ellipse"));
     m_buttonEllipse->setCheckable(true);
-    m_buttonEllipse->setShortcut(Qt::ALT + Qt::Key_E);
+    m_buttonEllipse->setShortcut(Qt::ALT | Qt::Key_E);
     m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString());
     connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
 
     m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
-    m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
+    m_buttonImage->setShortcut(Qt::ALT | Qt::Key_I);
     m_buttonImage->setToolTip(i18n("Add Image") + QLatin1Char(' ') + m_buttonImage->shortcut().toString());
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
@@ -405,19 +404,19 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
-    m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
+    m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
     m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString());
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);
-    m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
+    m_buttonSave->setShortcut(Qt::CTRL | Qt::Key_S);
     m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     m_buttonDownload = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("edit-download")), i18n("Download New Title Templates..."));
     m_buttonDownload->setCheckable(false);
-    m_buttonDownload->setShortcut(Qt::ALT + Qt::Key_D);
+    m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
     m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString());
     connect(m_buttonDownload, &QAction::triggered, this, &TitleWidget::downloadTitleTemplates);
 
@@ -531,7 +530,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(anim_end, &QAbstractButton::toggled, this, &TitleWidget::slotAnimEnd);
     connect(templateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(templateIndexChanged(int)));
 
-    createButton->setEnabled(KdenliveSettings::hastitleproducer());
+    createButton->setEnabled(KdenliveSettings::producerslist().contains(QStringLiteral("kdenlivetitle")));
     auto *addMenu = new QMenu(this);
     addMenu->addAction(i18n("Save and add to project"));
     m_createTitleAction = new QAction(i18n("Create Title"), this);

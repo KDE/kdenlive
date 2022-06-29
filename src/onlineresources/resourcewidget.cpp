@@ -9,9 +9,9 @@
 #include "kdenlivesettings.h"
 
 #include <KFileItem>
+#include <KIO/OpenUrlJob>
 #include <KMessageBox>
 #include <KRecentDirs>
-#include <KRun>
 #include <KSelectAction>
 #include <KSqueezedTextLabel>
 #include <QComboBox>
@@ -28,6 +28,7 @@
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
+    , m_showloadingWarning(true)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -64,11 +65,7 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     loadConfig();
     connect(provider_info, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(label_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-#if KCOMPLETION_VERSION < QT_VERSION_CHECK(5, 81, 0)
-    connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
-#else
     connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
-#endif
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&]() {
         if (!m_currentProvider) {
@@ -212,7 +209,7 @@ void ResourceWidget::slotChangeProvider()
  */
 void ResourceWidget::slotOpenUrl(const QString &url)
 {
-    new KRun(QUrl(url), this);
+    KIO::OpenUrlJob(QUrl(url));
 }
 
 /**
@@ -463,9 +460,18 @@ void ResourceWidget::slotPreviewItem()
     if (!m_currentItem) {
         return;
     }
-
     blockUI(true);
-    emit previewClip(m_currentItem->data(previewRole).toString(), i18n("Online Resources Preview"));
+    const QString path = m_currentItem->data(previewRole).toString();
+    if (m_showloadingWarning && !QUrl::fromUserInput(path).isLocalFile()) {
+        message_line->setText(i18n("It maybe takes a while until the preview is loaded"));
+        message_line->setMessageType(KMessageWidget::Warning);
+        message_line->show();
+        QTimer::singleShot(6000, message_line, &KMessageWidget::animatedHide);
+        repaint();
+        // Only show this warning once
+        m_showloadingWarning = false;
+    }
+    emit previewClip(path, i18n("Online Resources Preview"));
     blockUI(false);
 }
 

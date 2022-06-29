@@ -31,7 +31,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     setWindowTitle(i18n("Export guides as chapters description"));
 
     // We should setup TimecodeDisplay since it requires a proper Timecode
-    offsetTime->setTimecode(Timecode(Timecode::HH_MM_SS_FF, pCore->getCurrentFps()));
+    offsetTimeSpinbox->setTimecode(Timecode(Timecode::HH_MM_SS_FF, pCore->getCurrentFps()));
 
     const QString defaultFormat(YT_FORMAT);
     formatEdit->setText(defaultFormat);
@@ -58,11 +58,11 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     connect(markerTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() { updateContentByModel(); });
 
     connect(offsetTimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int newIndex) {
-        offsetTime->setEnabled(newIndex != 0);
+        offsetTimeSpinbox->setEnabled(newIndex != 0);
         updateContentByModel();
     });
 
-    connect(offsetTime, &TimecodeDisplay::timeCodeUpdated, this, [this]() { updateContentByModel(); });
+    connect(offsetTimeSpinbox, &TimecodeDisplay::timeCodeUpdated, this, [this]() { updateContentByModel(); });
 
     connect(formatEdit, &QLineEdit::textEdited, this, [this]() { updateContentByModel(); });
 
@@ -76,28 +76,23 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 
 ExportGuidesDialog::~ExportGuidesDialog() {}
 
-double ExportGuidesDialog::offsetTimeMs() const
+GenTime ExportGuidesDialog::offsetTime() const
 {
     switch (offsetTimeComboBox->currentIndex()) {
     case 1: // Add
-        return offsetTime->gentime().ms();
+        return offsetTimeSpinbox->gentime();
     case 2: // Subtract
-        return -offsetTime->gentime().ms();
+        return -offsetTimeSpinbox->gentime();
     case 0: // Disabled
     default:
-        return 0;
+        return GenTime(0);
     }
-}
-
-void ExportGuidesDialog::updateContentByModel() const
-{
-    updateContentByModel(formatEdit->text(), markerTypeComboBox->currentIndex() - 1, offsetTimeMs());
 }
 
 QString chapterTimeStringFromMs(double timeMs)
 {
-    bool negative = timeMs < 0;
     int totalSec = qAbs(timeMs / 1000);
+    bool negative = timeMs < 0 && totalSec > 0; // since our minimal unit is second.
     int hour = totalSec / 3600;
     int min = totalSec % 3600 / 60;
     int sec = totalSec % 3600 % 60;
@@ -108,8 +103,12 @@ QString chapterTimeStringFromMs(double timeMs)
     }
 }
 
-void ExportGuidesDialog::updateContentByModel(const QString &format, int markerIndex, double offset) const
+void ExportGuidesDialog::updateContentByModel() const
 {
+    const QString format(formatEdit->text());
+    const int markerIndex = markerTypeComboBox->currentIndex() - 1;
+    const GenTime offset(offsetTime());
+
     QStringList chapterTexts;
     QList<CommentedTime> markers(m_markerListModel->getAllMarkers(markerIndex));
     bool needCheck = format == YT_FORMAT;
@@ -122,21 +121,21 @@ void ExportGuidesDialog::updateContentByModel(const QString &format, int markerI
         const GenTime &nextGenTime = markerCount - 1 == i ? m_projectDuration : markers.at(i + 1).time();
 
         QString line(format);
-        double currentTimeMs = currentMarker.time().ms() + offset;
-        double nextTimeMs = nextGenTime.ms() + offset;
+        GenTime currentTime = currentMarker.time() + offset;
+        GenTime nextTime = nextGenTime + offset;
 
-        if (i == 0 && needCheck && !qFuzzyCompare(currentTimeMs, 0)) {
+        if (i == 0 && needCheck && !qFuzzyCompare(currentTime.seconds(), 0)) {
             needShowInfoMsg = true;
         }
 
-        if (needCheck && (nextTimeMs / 1000 - currentTimeMs / 1000) < 10) {
+        if (needCheck && (nextTime.seconds() - currentTime.seconds()) < 10) {
             needShowInfoMsg = true;
         }
 
         line.replace("{{index}}", QString::number(i + 1));
-        line.replace("{{timecode}}", chapterTimeStringFromMs(currentTimeMs));
-        line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTimeMs));
-        line.replace("{{frame}}", QString::number(currentMarker.time().frames(currentFps)));
+        line.replace("{{timecode}}", chapterTimeStringFromMs(currentTime.ms()));
+        line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
+        line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
         line.replace("{{comment}}", currentMarker.comment());
         chapterTexts.append(line);
     }

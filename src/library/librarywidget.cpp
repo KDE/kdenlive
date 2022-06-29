@@ -40,7 +40,11 @@ LibraryTree::LibraryTree(QWidget *parent)
 }
 
 // virtual
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
+#else
+QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> &list) const
+#endif
 {
     QList<QUrl> urls;
     urls.reserve(list.count());

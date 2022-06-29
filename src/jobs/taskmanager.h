@@ -63,6 +63,9 @@ public:
     /** @brief Update the number of concurrent jobs allowed */
     void updateConcurrency();
 
+    /** @brief We are aborting all tasks and don't want them to send any updates */
+    bool isBlocked() const;
+
     /** @brief return the message of a given job on a given clip (message, detailed log)*/
     //QPair<QString, QString> getJobMessageForClip(int jobId, const QString &binId) const;
 
@@ -79,6 +82,7 @@ private:
     QThreadPool m_transcodePool;
     std::unordered_map<int, std::vector<AbstractTask*> > m_taskList;
     mutable QReadWriteLock m_tasksListLock;
+    bool m_blockUpdates;
 
 signals:
     void jobCount(int);

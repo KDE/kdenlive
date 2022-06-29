@@ -7,6 +7,7 @@
 #include "bin/bin.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
@@ -60,6 +61,31 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
     connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
 }
 
+void SubtitleModel::setStyle(const QString &style)
+{
+    QString oldStyle = m_subtitleFilter->get("av.force_style");
+    Fun redo = [this, style]() {
+        m_subtitleFilter->set("av.force_style", style.toUtf8().constData());
+        // Force refresh to show the new style
+        pCore->requestMonitorRefresh();
+        return true;
+    };
+    Fun undo = [this, oldStyle]() {
+        m_subtitleFilter->set("av.force_style", oldStyle.toUtf8().constData());
+        // Force refresh to show the new style
+        pCore->requestMonitorRefresh();
+        return true;
+    };
+    redo();
+    pCore->pushUndo(undo, redo, i18n("Edit subtitle style"));
+}
+
+const QString SubtitleModel::getStyle() const
+{
+    const QString style = m_subtitleFilter->get("av.force_style");
+    return style;
+}
+
 void SubtitleModel::setup()
 {
     // We connect the signals of the abstractitemmodel to a more generic one.
@@ -96,8 +122,12 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.endsWith(".srt") || filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
-      if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
-      endIndex = filePath.endsWith(".sbv") ? 1 : 2;
+        // if (!filePath.endsWith(".vtt") || !filePath.endsWith(".sbv")) {defaultTurn = -10;}
+        if (filePath.endsWith(".vtt") || filePath.endsWith(".sbv")) {
+            defaultTurn = -10;
+            turn = defaultTurn;
+        }
+        endIndex = filePath.endsWith(".sbv") ? 1 : 2;
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
@@ -107,15 +137,17 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         qDebug() << "srt/vtt/sbv File";
         //parsing srt file
         QTextStream stream(&srtFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
+#endif
         QString line;
-	QStringList srtTime;
-	QRegExp rx("([0-9]{1,2}):([0-9]{2})");
-	QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
+        QStringList srtTime;
+        QRegExp rx("([0-9]{1,2}):([0-9]{2})");
+        QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.simplified();
-	    //qDebug()<<"Turn: "<<turn;
-	    //qDebug()<<"Line: "<<line<<"\n";
+            // qDebug()<<"Turn: "<<turn;
+            // qDebug()<<"Line: "<<line<<"\n";
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
@@ -127,7 +159,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     srtTime = timeLine.split(separator);
                     if (srtTime.count() > endIndex) {
                         start = srtTime.at(0);
+<<<<<<< HEAD
                         startPos = stringtoTime(start)/transformMult;
+=======
+                        startPos = stringtoTime(start);
+>>>>>>> master
                         end = srtTime.at(endIndex);
                         endPos = stringtoTime(end)/transformMult;
                     } else {
@@ -145,7 +181,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
-		    //qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
+                    // qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
                 } else {
                     qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
                 }
@@ -169,7 +205,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             return;
         }
         QTextStream stream(&assFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         stream.setCodec(QTextCodec::codecForName("UTF-8"));
+#endif
         QString line;
         qDebug() << " correct ass file  " << filePath;
         scriptInfoSection.clear();
@@ -266,16 +304,17 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             }
         }
         assFile.close();
-	} else {
-	  if (endPos > startPos) {
-	    addSubtitle(startPos+subtitleOffset, endPos+subtitleOffset, comment, undo, redo, false);
-	  } else {
-	    qDebug()<<"===== INVALID VTT SUBTITLE FOUND: "<<start<<"-"<<end<<", "<<comment;
-	  }
-	//   reinitialize for next comment:
-	  comment.clear();
-	  timeLine.clear();
-	  turn = 0; r = 0;	      
+    } else {
+        if (endPos > startPos) {
+            addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+        } else {
+            qDebug() << "===== INVALID VTT SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
+        }
+        //   reinitialize for next comment:
+        comment.clear();
+        timeLine.clear();
+        turn = 0;
+        r = 0;
     }
     Fun update_model = [this]() {
         emit modelChanged();
@@ -285,7 +324,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     update_model();
     if (externalImport) {
         pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
-    } 
+    }
 }
 
 void SubtitleModel::parseSubtitle(const QString &subPath)
@@ -391,7 +430,7 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
     if (!temporary && end.frames(pCore->getCurrentFps()) > m_timeline->duration()) {
         m_timeline->updateDuration();
     }
-    qDebug() << "Added to model";
+    // qDebug() << "Added to model";
     if (updateFilter) {
         emit modelChanged();
     }
@@ -955,6 +994,44 @@ int SubtitleModel::getNextSub(int id) const
     return -1;
 }
 
+void SubtitleModel::subtitleFileFromZone(int in, int out, const QString &outFile)
+{
+    QJsonArray list;
+    double fps = pCore->getCurrentFps();
+    GenTime zoneIn(in, fps);
+    GenTime zoneOut(out, fps);
+    for (auto subtitle : m_subtitleList) {
+        GenTime inTime = subtitle.first;
+        GenTime outTime = subtitle.second.second;
+        if (outTime < zoneIn) {
+            // Outside zone
+            continue;
+        }
+        if (zoneOut > GenTime() && inTime > zoneOut) {
+            // Outside zone
+            continue;
+        }
+        if (inTime < zoneIn) {
+            inTime = zoneIn;
+        }
+        if (zoneOut > GenTime() && outTime > zoneOut) {
+            outTime = zoneOut;
+        }
+        inTime -= zoneIn;
+        outTime -= zoneIn;
+
+        QJsonObject currentSubtitle;
+        currentSubtitle.insert(QLatin1String("startPos"), QJsonValue(inTime.seconds()));
+        currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.first));
+        currentSubtitle.insert(QLatin1String("endPos"), QJsonValue(outTime.seconds()));
+        list.push_back(currentSubtitle);
+        // qDebug()<<subtitle.first.seconds();
+    }
+    QJsonDocument jsonDoc(list);
+    QString subData = QString(jsonDoc.toJson());
+    saveSubtitleData(subData, outFile);
+}
+
 QString SubtitleModel::toJson()
 {
     // qDebug()<< "to JSON";
@@ -997,9 +1074,21 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     if (masterFile.isEmpty()) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
     }
+    int line = saveSubtitleData(data, outFile);
+    qDebug() << "Saving subtitle filter: " << outFile;
+    if (line > 0) {
+        m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
+        m_tractor->attach(*m_subtitleFilter.get());
+    } else {
+        m_tractor->detach(*m_subtitleFilter.get());
+    }
+}
+
+int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
+{
     bool assFormat = outFile.endsWith(".ass");
     if (!assFormat) {
-        qDebug() << "srt file import"; // if imported file isn't .ass, it is .srt format
+        qDebug() << "srt/vtt/sbv file import"; // if imported file isn't .ass, it is .srt format
     }
     QFile outF(outFile);
 
@@ -1008,13 +1097,15 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
-        return;
+        return 0;
     }
     int line = 0;
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         out.setCodec("UTF-8");
+#endif
         if (assFormat) {
             out << scriptInfoSection << '\n';
             out << styleSection << '\n';
@@ -1084,13 +1175,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
         }
         outF.close();
     }
-    qDebug() << "Saving subtitle filter: " << outFile;
-    if (line > 0) {
-        m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
-        m_tractor->attach(*m_subtitleFilter.get());
-    } else {
-        m_tractor->detach(*m_subtitleFilter.get());
-    }
+    return line;
 }
 
 void SubtitleModel::updateSub(int id, const QVector<int> &roles)
@@ -1206,6 +1291,12 @@ void SubtitleModel::loadProperties(const QMap<QString, QString> &subProperties)
         }
         ++i;
     }
+    if (subProperties.contains(QLatin1String("av.force_style"))) {
+        emit updateSubtitleStyle(subProperties.value(QLatin1String("av.force_style")));
+    } else {
+        emit updateSubtitleStyle(QString());
+    }
+    qDebug() << "::::: LOADED SUB PROPS " << subProperties;
 }
 
 void SubtitleModel::allSnaps(std::vector<int> &snaps)

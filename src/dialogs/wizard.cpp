@@ -40,10 +40,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QXmlStreamWriter>
 #include <kio_version.h>
 
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 71, 0)
-#include <KIO/JobUiDelegate>
 #include <KIO/OpenUrlJob>
-#endif
+#include <KIO/JobUiDelegate>
 
 // Recommended MLT version
 MyWizardPage::MyWizardPage(QWidget *parent)
@@ -317,29 +315,17 @@ void Wizard::slotUpdateCaptureParameters()
                                                      << QString::number(profileInfo->height()) << QString::number(profileInfo->frame_rate_num())
                                                      << QString::number(profileInfo->frame_rate_den()));
     }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList pixelformats = formats.split('>', QString::SkipEmptyParts);
-#else
     QStringList pixelformats = formats.split('>', Qt::SkipEmptyParts);
-#endif
     QString itemSize;
     QString pixelFormat;
     QStringList itemRates;
     for (int i = 0; i < pixelformats.count(); ++i) {
         QString format = pixelformats.at(i).section(QLatin1Char(':'), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList sizes = pixelformats.at(i).split(':', QString::SkipEmptyParts);
-#else
         QStringList sizes = pixelformats.at(i).split(':', Qt::SkipEmptyParts);
-#endif
         pixelFormat = sizes.takeFirst();
         for (int j = 0; j < sizes.count(); ++j) {
             itemSize = sizes.at(j).section(QLatin1Char('='), 0, 0);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             itemRates = sizes.at(j).section(QLatin1Char('='), 1, 1).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             for (int k = 0; k < itemRates.count(); ++k) {
                 QString formatDescription =
                     QLatin1Char('[') + format + QStringLiteral("] ") + itemSize + QStringLiteral(" (") + itemRates.at(k) + QLatin1Char(')');
@@ -532,10 +518,13 @@ void Wizard::checkMltComponents()
         if (!producersItemList.contains(QStringLiteral("kdenlivetitle"))) {
             qDebug() << "Missing TITLER MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</li>"));
-            KdenliveSettings::setHastitleproducer(false);
             m_brokenModule = true;
-        } else {
-            KdenliveSettings::setHastitleproducer(true);
+        }
+        // Animation module
+        if (!producersItemList.contains(QStringLiteral("glaxnimate"))) {
+            qDebug() << "Missing Glaxnimate MLT module";
+            m_warnings.append(i18n("<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie animations</li>"));
+            m_brokenModule = true;
         }
     }
     if (m_systemCheckIsOk && !m_brokenModule) {
@@ -624,31 +613,31 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
     // set up some default applications
     QString program;
     if (KdenliveSettings::defaultimageapp().isEmpty()) {
-        program = QStandardPaths::findExecutable(QStringLiteral("gimp"));
-        if (program.isEmpty()) {
-            program = QStandardPaths::findExecutable(QStringLiteral("krita"));
+        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("gimp"));
+        if (service == nullptr) {
+            service = KService::serviceByDesktopName(QStringLiteral("krita"));
         }
-        if (!program.isEmpty()) {
-            KdenliveSettings::setDefaultimageapp(program);
+        if (service != nullptr) {
+            QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            KdenliveSettings::setDefaultimageapp(appName);
+            KdenliveSettings::setDefaultimageappId(service->storageId());
         }
     }
     if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-        program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
-        if (program.isEmpty()) {
-            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
+        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("audacity"));
+        if (service == nullptr) {
+            service = KService::serviceByDesktopName(QStringLiteral("traverso"));
         }
-        if (!program.isEmpty()) {
-            KdenliveSettings::setDefaultaudioapp(program);
-        }
-    }
-
-    if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-        program = QStandardPaths::findExecutable(QStringLiteral("audacity"));
-        if (program.isEmpty()) {
-            program = QStandardPaths::findExecutable(QStringLiteral("traverso"));
-        }
-        if (!program.isEmpty()) {
-            KdenliveSettings::setDefaultaudioapp(program);
+        if (service != nullptr) {
+            QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
+            if (appName.isEmpty()) {
+                appName = service->desktopEntryName();
+            }
+            KdenliveSettings::setDefaultaudioapp(appName);
+            KdenliveSettings::setDefaultaudioappId(service->storageId());
         }
     }
 
@@ -862,17 +851,12 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 71, 0)
     auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
     job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
-    // KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
-#else
-    KRun::runUrl(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"), this,
-                 KRun::RunFlags());
-#endif
+    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
 }
 
 void Wizard::slotSaveCaptureFormat()

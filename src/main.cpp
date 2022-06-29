@@ -67,8 +67,16 @@ int main(int argc, char *argv[])
 #ifdef CRASH_AUTO_TEST
     Logger::init();
 #endif
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
+#if defined(Q_OS_WIN)
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
+#endif
+
     // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
@@ -100,11 +108,28 @@ int main(int argc, char *argv[])
     splash.show();
     qApp->processEvents(QEventLoop::AllEvents);
 
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    } else {
+        // no package type defined, try to detected it
+        QString appPath = qApp->applicationDirPath();
+        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+            packageType = QStringLiteral("appimage");
+        }
+        if (appPath.contains(QStringLiteral("/snap"))) {
+            packageType = QStringLiteral("snap");
+        } else {
+            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+        }
+    }
+
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
 #endif
+
 #if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
     const QStringList themes{"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
     for (const QString &theme : themes) {
@@ -123,22 +148,33 @@ int main(int argc, char *argv[])
             }
         }
     }
-#endif
-    QString packageType;
-    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
-        packageType = qgetenv("PACKAGE_TYPE").toLower();
-    } else {
-        // no package type defined, try to detected it
-        QString appPath = qApp->applicationDirPath();
-        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
-            packageType = QStringLiteral("appimage");
-        }
-        if (appPath.contains(QStringLiteral("/snap"))) {
-            packageType = QStringLiteral("snap");
-        } else {
-            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
+#else
+    // AppImage
+    if (packageType == QStringLiteral("appimage")) {
+        QMap<QString, QString> themeMap;
+        themeMap.insert("breeze", "/../icons/breeze/breeze-icons.rcc");
+        themeMap.insert("breeze-dark", "/../icons/breeze-dark/breeze-icons-dark.rcc");
+
+        QMapIterator<QString, QString> i(themeMap);
+        while (i.hasNext()) {
+            i.next();
+            QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, i.value());
+            if (!themePath.isEmpty()) {
+                const QString iconSubdir = "/icons/" + i.key();
+                if (QResource::registerResource(themePath, iconSubdir)) {
+                    if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
+                        qDebug() << "Loaded icon theme:" << i.key();
+                    } else {
+                        qWarning() << "No index.theme found for" << i.key();
+                        QResource::unregisterResource(themePath, iconSubdir);
+                    }
+                } else {
+                    qWarning() << "Invalid rcc file" << i.key();
+                }
+            }
         }
     }
+#endif
 
     bool inSandbox = false;
     if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
@@ -152,23 +188,19 @@ int main(int argc, char *argv[])
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP")) && env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde")) {
-            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
+        if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde") && packageType != QStringLiteral("appimage")) {
+            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected and not Appimage, using system icons";
         } else {
-            // We are not on a KDE desktop, force breeze icon theme
+            // We are not on a KDE desktop or in an Appimage, force breeze icon theme
             // Check if breeze theme is available
             QStringList iconThemes = KIconTheme::list();
             if (iconThemes.contains(QStringLiteral("breeze"))) {
                 grp.writeEntry("force_breeze", true);
                 grp.writeEntry("use_dark_breeze", true);
-                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop or Appimage detected, forcing Breeze icon theme";
             }
         }
     }
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(5, 60, 0)
-    // work around bug in Kirigami2 resetting icon theme path
-    qputenv("XDG_CURRENT_DESKTOP", "KDE");
-#endif
 
 #ifndef NODBUS
     // Init DBus services
@@ -215,12 +247,10 @@ int main(int argc, char *argv[])
         i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
 #endif
 
-#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(5, 84, 0)
     aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
                            QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
     aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
                            QStringLiteral("https://ffmpeg.org"));
-#endif
 
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 

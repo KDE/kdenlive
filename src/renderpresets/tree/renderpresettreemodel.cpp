@@ -77,7 +77,7 @@ QVariant RenderPresetTreeModel::data(const QModelIndex &index, int role) const
             }
         }
 
-        if (role == Qt::BackgroundColorRole) {
+        if (role == Qt::BackgroundRole) {
             if (!preset->error().isEmpty()) {
                 return scheme.background(KColorScheme::NegativeBackground).color();
             }

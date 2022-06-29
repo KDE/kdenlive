@@ -42,7 +42,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QListWidgetItem>
 #include <QMenu>
 #include <QMimeData>
@@ -55,6 +54,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QToolBar>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QtMath>
 
 ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
     : QLabel(parent)
@@ -108,7 +108,11 @@ AnalysisTree::AnalysisTree(QWidget *parent)
 }
 
 // virtual
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> &list) const
+#else
 QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
+#endif
 {
     QString mimeData;
     for (QTreeWidgetItem *item : list) {
@@ -139,8 +143,8 @@ public:
     {
         bool decode = false;
         switch (property) {
-        case KFileMetaData::Property::ImageMake:
-        case KFileMetaData::Property::ImageModel:
+        case KFileMetaData::Property::Manufacturer:
+        case KFileMetaData::Property::Model:
         case KFileMetaData::Property::ImageDateTime:
         case KFileMetaData::Property::BitRate:
         case KFileMetaData::Property::TrackNumber:
@@ -167,19 +171,21 @@ public:
         if (decode) {
             KFileMetaData::PropertyInfo info(property);
             if (info.valueType() == QVariant::DateTime) {
-                new QTreeWidgetItem(m_tree, {info.displayName(), value.toDateTime().toString(Qt::DefaultLocaleShortDate)});
+                QLocale locale;
+                new QTreeWidgetItem(m_tree, {info.displayName(), locale.toDateTime(value.toString(), QLocale::ShortFormat).toString()});
             } else if (info.valueType() == QVariant::Int) {
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
-                    new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                    new QTreeWidgetItem(
+                        m_tree, QStringList{info.displayName(), QString::number(val / 1000) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
                 } else {
-                    new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(val)});
+                    new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(val)});
                 }
             } else if (info.valueType() == QVariant::Double) {
-                new QTreeWidgetItem(m_tree, {info.displayName(), QString::number(value.toDouble())});
+                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(value.toDouble())});
             } else {
-                new QTreeWidgetItem(m_tree, {info.displayName(), value.toString()});
+                new QTreeWidgetItem(m_tree, QStringList{info.displayName(), value.toString()});
             }
         }
     }

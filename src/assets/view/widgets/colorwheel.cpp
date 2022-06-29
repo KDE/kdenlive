@@ -129,11 +129,7 @@ QSize WheelContainer::minimumSizeHint() const
 
 void WheelContainer::wheelEvent(QWheelEvent *event)
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    if (m_sliderRegion.contains(event->pos())) {
-#else
     if (m_sliderRegion.contains(event->position().toPoint())) {
-#endif
         double y = m_color.valueF();
         if (event->modifiers() & Qt::ShiftModifier) {
             y += event->angleDelta().y() > 0 ? 0.002 : -0.002;

@@ -90,7 +90,6 @@ private:
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
     QToolButton *m_collapse;
-    QToolButton *m_record;
     QToolButton *m_monitor;
     KSqueezedTextLabel *m_trackLabel;
     QMutex m_storeMutex;

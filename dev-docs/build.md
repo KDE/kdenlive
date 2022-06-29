@@ -9,7 +9,7 @@ Currently supported distributions are:
 * Ubuntu 20.04 LTS Focal Fossa and derivatives
 * Arch Linux
 
-But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.7, KF5 >= 5.50, MLT >= 7.4.0.
+But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.15.2, KF5 >= 5.86, MLT >= 7.4.0.
 
 ## Build on Linux
 
@@ -86,7 +86,7 @@ And if you want to build MLT manually:
 git clone https://github.com/mltframework/mlt.git
 
 # Install MLT dependencies
-sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libsdl1.2-dev librtaudio-dev
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev libsamplerate0-dev librubberband-dev libebur128-dev
 ```
 
 #### Build and install the projects
@@ -117,6 +117,9 @@ make install
 # Kdenlive
 cd ../../kdenlive
 mkdir build && cd build
+# Even if you specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
+# going be installed in non-user-writable system paths to make them work. If you really do not want
+# to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF
 ```
 
@@ -128,7 +131,7 @@ cmake .. -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFI
 ```bash
 make -j$JOBS
 make install
-# 'sudo make install' if INSTALL_PREFIX is not user-writable
+# 'sudo make install' if INSTALL_PREFIX is not user-writable or if KDE_INSTALL_USE_QT_SYS_PATHS=ON
 ```
 
 Note that `make install` is required for Kdenlive, otherwise the effects will not be installed and cannot be used.

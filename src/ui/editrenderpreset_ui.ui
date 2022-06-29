@@ -686,10 +686,10 @@
            </item>
            <item>
             <widget class="KMessageWidget" name="overrideParamsWarning">
-             <property name="wordWrap" stdset="0">
+             <property name="wordWrap">
               <bool>true</bool>
              </property>
-             <property name="closeButtonVisible" stdset="0">
+             <property name="closeButtonVisible">
               <bool>false</bool>
              </property>
             </widget>

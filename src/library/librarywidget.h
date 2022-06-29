@@ -131,7 +131,11 @@ public:
 
 protected:
     QStringList mimeTypes() const override;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const override;
+#else
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> &list) const override;
+#endif
     void dropEvent(QDropEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 

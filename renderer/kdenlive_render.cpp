@@ -8,6 +8,7 @@
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
 #include <QApplication>
+#include <QDebug>
 #include <QDir>
 #include <QDomDocument>
 
@@ -16,6 +17,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QStringList args = app.arguments();
     QStringList preargs;
+    QString subtitleFile;
     if (args.count() >= 4) {
         // Remove program name
         args.removeFirst();
@@ -47,11 +49,7 @@ int main(int argc, char **argv)
         if (args.count() > 5 && args.at(0) == QLatin1String("-split")) {
             args.removeFirst();
             // chunks to render
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList chunks = args.at(0).split(QLatin1Char(','), QString::SkipEmptyParts);
-#else
             QStringList chunks = args.at(0).split(QLatin1Char(','), Qt::SkipEmptyParts);
-#endif
             args.removeFirst();
             // chunk size in frames
             int chunkSize = args.at(0).toInt();
@@ -63,11 +61,7 @@ int main(int argc, char **argv)
             QString extension = args.at(0);
             args.removeFirst();
             // avformat consumer params
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            QStringList consumerParams = args.at(0).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
             QStringList consumerParams = args.at(0).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
             args.removeFirst();
             QDir baseFolder(target);
 
@@ -146,6 +140,10 @@ int main(int argc, char **argv)
             fprintf(stderr, "+ + + RENDERING FINISHED + + + \n");
             return 0;
         }
+        if (args.count() > 1 && args.at(0) == QLatin1String("-subtitle")) {
+            args.removeFirst();
+            subtitleFile = args.takeFirst();
+        }
 
         // older MLT version, does not support embedded consumer in/out in xml, and current
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
@@ -162,12 +160,13 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
-        rJob->start();
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
             app.quit();
         });
+        app.setQuitOnLastWindowClosed(false);
+        QMetaObject::invokeMethod(rJob, "start", Qt::QueuedConnection);
         return app.exec();
     } else {
         fprintf(stderr,

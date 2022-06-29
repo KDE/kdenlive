@@ -251,6 +251,10 @@ void ClipController::getInfoForProducer()
         // Mostly used for testing
         m_clipType = ClipType::AV;
         m_hasLimitedDuration = true;
+    } else if (m_service == QLatin1String("glaxnimate")) {
+        // Mostly used for testing
+        m_clipType = ClipType::Animation;
+        m_hasLimitedDuration = true;
     } else {
         m_clipType = ClipType::Unknown;
     }
@@ -651,7 +655,7 @@ const QSize ClipController::getFrameSize() const
             width = m_masterProducer->get_int("kdenlive:original.width");
         }
         if (height == 0) {
-            width = m_masterProducer->get_int("kdenlive:original.height");
+            height = m_masterProducer->get_int("kdenlive:original.height");
         }
         if (width > 0 && height > 0) {
             return QSize(width, height);
@@ -710,23 +714,35 @@ void ClipController::checkAudioVideo()
             break;
         }
     } else {
-        QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
-        if (frame->is_valid()) {
-            // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
-            m_hasAudio = frame->get_int("test_audio") == 0;
-            m_hasVideo = frame->get_int("test_image") == 0;
-            if (m_hasAudio) {
-                if (m_hasVideo) {
-                    m_masterProducer->set("kdenlive:clip_type", 0);
-                } else {
-                    m_masterProducer->set("kdenlive:clip_type", 1);
+        QString service = m_masterProducer->get("kdenlive:orig_service");
+        if (service.isEmpty()) {
+            service = m_masterProducer->get("mlt_service");
+        }
+        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
+        if (avTypes.contains(m_clipType)) {
+            QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
+            if (frame->is_valid()) {
+                // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
+                m_hasAudio = frame->get_int("test_audio") == 0;
+                m_hasVideo = frame->get_int("test_image") == 0;
+                if (m_hasAudio) {
+                    if (m_hasVideo) {
+                        m_masterProducer->set("kdenlive:clip_type", 0);
+                    } else {
+                        m_masterProducer->set("kdenlive:clip_type", 1);
+                    }
+                } else if (m_hasVideo) {
+                    m_masterProducer->set("kdenlive:clip_type", 2);
                 }
-            } else if (m_hasVideo) {
-                m_masterProducer->set("kdenlive:clip_type", 2);
+                m_masterProducer->seek(0);
+            } else {
+                qDebug() << "* * * *ERROR INVALID FRAME On test";
             }
-            m_masterProducer->seek(0);
         } else {
-            qDebug() << "* * * *ERROR INVALID FRAME On test";
+            // Assume video only producer
+            m_hasAudio = false;
+            m_hasVideo = true;
+            m_masterProducer->set("kdenlive:clip_type", 2);
         }
     }
 }

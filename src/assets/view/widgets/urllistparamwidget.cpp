@@ -10,6 +10,9 @@
 #include "mainwindow.h"
 #include "mltconnection.h"
 
+#include <QDirIterator>
+#include <QFileDialog>
+
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_isLumaList(false)

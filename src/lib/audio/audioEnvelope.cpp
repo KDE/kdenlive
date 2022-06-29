@@ -17,7 +17,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QtConcurrent>
 #include <algorithm>
 #include <cmath>
-#include <memory>
 
 AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, size_t length, size_t startPos)
     : m_offset(offset)
@@ -59,7 +58,11 @@ AudioEnvelope::~AudioEnvelope()
 
 void AudioEnvelope::startComputeEnvelope()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_audioSummary = QtConcurrent::run(this, &AudioEnvelope::loadAndNormalizeEnvelope);
+#else
+    m_audioSummary = QtConcurrent::run(&AudioEnvelope::loadAndNormalizeEnvelope, this);
+#endif
     m_watcher.setFuture(m_audioSummary);
 }
 

@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QImage>
 #include <QList>
-#include <QMutex>
 #include <QProcess>
 #include <QRgb>
 #include <QString>
