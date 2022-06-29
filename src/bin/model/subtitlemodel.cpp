@@ -159,11 +159,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     srtTime = timeLine.split(separator);
                     if (srtTime.count() > endIndex) {
                         start = srtTime.at(0);
-<<<<<<< HEAD
                         startPos = stringtoTime(start)/transformMult;
-=======
-                        startPos = stringtoTime(start);
->>>>>>> master
                         end = srtTime.at(endIndex);
                         endPos = stringtoTime(end)/transformMult;
                     } else {
