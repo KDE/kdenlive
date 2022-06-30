@@ -636,7 +636,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
                     QString(), pCore->window()->m_commandStack, true, pCore->window());
                 if (openResult.isSuccessful()) {
-                    doc = openResult.getDocument();
+                    doc = openResult.getDocument().release();
                     doc->requestBackup();
                 } else {
                     KMessageBox::error(pCore->window(), "Could not recover corrupted file.");
@@ -646,7 +646,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
             KMessageBox::detailedSorry(pCore->window(), "Could not open the backup project file.", openResult.getError());
         }
     } else {
-         doc = openResult.getDocument();
+         doc = openResult.getDocument().release();
     }
 
     // if we could not open the file, and could not recover (or user declined), stop now

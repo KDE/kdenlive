@@ -51,26 +51,30 @@ class Profile;
  */
 class DocOpenResult {
 public:
-    bool isSuccessful() const { return m_doc != nullptr; }
-    KdenliveDoc * getDocument() const { return m_doc; }
+    bool isSuccessful() const { return m_succeeded; }
+    /** @returns a unique_ptr to the KdenliveDoc, or an empty unique_ptr */
+    std::unique_ptr<KdenliveDoc> getDocument() { return std::move(m_doc); }
     /** @returns an error message if the doc could not be opened. */
     QString getError() const { return m_errorMessage; }
     /** @return true if the doc was upgraded from an older version */
     bool wasUpgraded() const { return m_upgraded; }
     /** @return true if the doc was modified by the validator */
     bool wasModified() const { return m_modified; }
-
-    void setDocument(KdenliveDoc *doc) { m_doc = doc; }
+    void setDocument(std::unique_ptr<KdenliveDoc> doc) {
+        m_doc = std::move(doc);
+        m_succeeded = true;
+    }
     void setError(const QString &error) { m_errorMessage = error; }
     void setUpgraded(bool upgraded) { m_upgraded = upgraded; }
     void setModified(bool modified) { m_modified = modified; }
 
 private:
-    KdenliveDoc *m_doc = nullptr;
+    std::unique_ptr<KdenliveDoc> m_doc;
     QString m_errorMessage = QString();
     QString m_notification = QString();
     bool m_upgraded = false;
     bool m_modified = false;
+    bool m_succeeded = false;
 };
 
 class KdenliveDoc : public QObject

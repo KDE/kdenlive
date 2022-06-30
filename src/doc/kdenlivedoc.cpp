@@ -258,7 +258,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     }
 
     // create KdenliveDoc object
-    KdenliveDoc *doc = new KdenliveDoc(url, domDoc, projectFolder, undoGroup, parent);
+    auto doc = std::unique_ptr<KdenliveDoc>(new KdenliveDoc(url, domDoc, projectFolder, undoGroup, parent));
     if (!validationResult.second.isEmpty()) {
         doc->m_modifiedDecimalPoint = validationResult.second;
         //doc->setModifiedDecimalPoint(validationResult.second);
@@ -276,7 +276,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     if (result.wasModified() || result.wasUpgraded()) {
         doc->requestBackup();
     }
-    result.setDocument(doc);
+    result.setDocument(std::move(doc));
 
     return result;
 }

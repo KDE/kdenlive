@@ -339,11 +339,11 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         QUrl openURL = QUrl::fromLocalFile(saveFile.fileName());
         QUndoGroup *undoGroup = new QUndoGroup();
         undoGroup->addStack(undoStack.get());
-        auto openResults = KdenliveDoc::Open(openURL, QDir::temp().path(),
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(),
             undoGroup, false, nullptr);
         REQUIRE(openResults.isSuccessful() == true);
 
-        KdenliveDoc *openedDoc = openResults.getDocument();
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
         QDomDocument *newDoc = &openedDoc->m_document;
         auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
         QDomElement textTitle;
@@ -360,7 +360,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         auto xmldata = getProperty(textTitle, QStringLiteral("xmldata"));
         REQUIRE(xmldata != nullptr);
         CHECK(clipname->text().contains(emojiTestString));
-        delete openedDoc;
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
