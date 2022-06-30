@@ -232,7 +232,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     m_notesPlugin->clear();
     pCore->bin()->cleanDocument();
-    // TODO: KdenliveDoc constructor
     KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;

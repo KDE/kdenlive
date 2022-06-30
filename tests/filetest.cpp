@@ -313,7 +313,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         TrackModel::construct(timeline, -1, -1, QString(), true);
         TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid1 = TrackModel::construct(timeline);
-        /*int tid1b =*/ TrackModel::construct(timeline);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
@@ -322,12 +321,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         timeline->m_videoTarget = tid1;
 
         mocked.testSaveFileAs(saveFile.fileName());
-        // Undo resize
-        undoStack->undo();
-        // Undo first insert
-        undoStack->undo();
-        // Undo second insert
-        undoStack->undo();
 
         // open the file and check that it contains emojiTestString
         QFile file(saveFile.fileName());
@@ -343,7 +336,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         // try opening the file as a Kdenlivedoc and check that the title hasn't
         // lost the emoji
 
-        // convert qtemporaryfile saveFile to QUrl
         QUrl openURL = QUrl::fromLocalFile(saveFile.fileName());
         QUndoGroup *undoGroup = new QUndoGroup();
         undoGroup->addStack(undoStack.get());
@@ -368,6 +360,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         auto xmldata = getProperty(textTitle, QStringLiteral("xmldata"));
         REQUIRE(xmldata != nullptr);
         CHECK(clipname->text().contains(emojiTestString));
+        delete openedDoc;
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
