@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
+#include <QStandardPaths>
 #include <utility>
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread
