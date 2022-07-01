@@ -46,6 +46,7 @@ public:
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {});
     QString pythonExec() { return m_pyExec; };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
+    bool installDisabled(){return m_disableInstall};
 
     friend class PythonDependencyMessage;
 
@@ -55,6 +56,7 @@ private:
     QMap<QString, QString> m_dependencies;
     QStringList m_missing;
     QMap<QString, QString> *m_versions;
+    bool m_disableInstall;
 
     void installMissingDependencies();
     QString locateScript(const QString &script);

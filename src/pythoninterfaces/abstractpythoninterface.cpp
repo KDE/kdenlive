@@ -42,23 +42,28 @@ PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPython
         }
     });
 
-    connect(m_interface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &messages){
-        m_installAction->setEnabled(true);
-        m_installAction->setText(i18n("Install missing dependencies"));
-        addAction(m_installAction);
+    connect(m_interface, &AbstractPythonInterface::dependenciesMissing, this, [&](const QStringList &messages) {
+        if (!m_interface->installDisabled()) {
+            m_installAction->setEnabled(true);
+            m_installAction->setText(i18n("Install missing dependencies"));
+            addAction(m_installAction);
+        }
+
         doShowMessage(messages.join(QStringLiteral("\n")), KMessageWidget::Warning);
     });
 
-    connect(m_interface, &AbstractPythonInterface::proposeUpdate, this, [&](const QString &message){
-        // only allow upgrading python modules once
-        m_installAction->setText(i18n("Check for update"));
-        m_installAction->setEnabled(true);
-        addAction(m_installAction);
-        doShowMessage(message, KMessageWidget::Warning);
-    });
+    if (!m_interface->installDisabled()) {
+        connect(m_interface, &AbstractPythonInterface::proposeUpdate, this, [&](const QString &message) {
+            // only allow upgrading python modules once
+            m_installAction->setText(i18n("Check for update"));
+            m_installAction->setEnabled(true);
+            addAction(m_installAction);
+            doShowMessage(message, KMessageWidget::Warning);
+        });
+    }
 
-    connect(m_interface, &AbstractPythonInterface::dependenciesAvailable, this, [&](){
-        if (!m_updated) {
+    connect(m_interface, &AbstractPythonInterface::dependenciesAvailable, this, [&]() {
+        if (!m_updated && !m_interface->installDisabled()) {
             // only allow upgrading python modules once
             m_installAction->setText(i18n("Check for update"));
             m_installAction->setEnabled(true);
@@ -109,6 +114,7 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     : QObject{parent}
     , m_dependencies()
     , m_versions(new QMap<QString, QString>())
+    , m_disableInstall(pCore->packageType() == QStringLiteral("flatpak"))
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
@@ -138,7 +144,7 @@ bool AbstractPythonInterface::checkSetup()
                                    "listed in PATH environment variable"));
         return false;
     }
-    if (m_pip3Exec.isEmpty()) {
+    if (m_pip3Exec.isEmpty() && !m_disableInstall) {
         emit setupError(i18n("Cannot find pip3, please install it on your system.\n"
                                    "If already installed, check it is installed in a directory "
                                    "listed in PATH environment variable"));
