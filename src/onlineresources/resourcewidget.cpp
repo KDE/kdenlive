@@ -542,7 +542,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
         } else if (m_currentProvider->get()->type() == ProviderModel::ProviderModel::IMAGE) {
             ext = i18n("Images") + QStringLiteral(" (*.png *.jpg *.jpeg *.svg") + QStringLiteral(";;");
         }
-        ext.append(i18n("All Files") + QStringLiteral(" (*.*)"));
+        ext.append(i18n("All Files") + QStringLiteral(" (*)"));
     }
     if (path.endsWith(QLatin1Char('/'))) {
         if (m_currentItem->data(nameRole).toString().isEmpty()) {
