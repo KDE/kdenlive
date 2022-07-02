@@ -255,6 +255,9 @@ int AbstractPythonInterface::versionToInt(const QString &version)
 
 void AbstractPythonInterface::checkVersions(bool signalOnResult)
 {
+    if (installDisabled()) {
+        return;
+    }
     QString output = runPackageScript(QStringLiteral("--details"));
     if (output.isEmpty()) {
         return;
