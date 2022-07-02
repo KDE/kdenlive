@@ -46,7 +46,7 @@ public:
     QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {});
     QString pythonExec() { return m_pyExec; };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
-    bool installDisabled(){return m_disableInstall};
+    bool installDisabled() { return m_disableInstall; };
 
     friend class PythonDependencyMessage;
 
