@@ -716,6 +716,7 @@
       "config-opts": [
         "-DMOD_OPENCV=ON",
         "-DMOD_MOVIT=ON",
+        "-DMOD_GLAXNIMATE=ON",
         "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
       ],
       "sources": [
