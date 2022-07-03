@@ -252,7 +252,7 @@ void RecManager::slotRecord(bool record)
         params.append(QStringLiteral(" ") + path);
         qDebug().noquote() << "== STARTING WIN CAPTURE: " << params << "\n___________";
         m_captureProcess->setNativeArguments(params);
-        m_captureProcess->start(KdenliveSettings::ffmpegpath());
+        m_captureProcess->start(KdenliveSettings::ffmpegpath(), {});
     } else if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
         captureArgs << path;
