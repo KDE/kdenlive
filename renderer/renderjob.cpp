@@ -229,7 +229,7 @@ void RenderJob::start()
             // Use of the KDE JobViewServer is an ugly hack, it is not reliable
             QString dbusView = QStringLiteral("org.kde.JobViewV2");
             m_jobUiserver = new QDBusInterface(QStringLiteral("org.kde.JobViewServer"), reply, dbusView);
-            if ((m_jobUiserver != nullptr) && m_jobUiserver->isValid()) {
+            if (m_jobUiserver->isValid()) {
                 if (!m_args.contains(QStringLiteral("pass=2"))) {
                     m_jobUiserver->call(QStringLiteral("setPercent"), 0);
                 }
@@ -303,12 +303,10 @@ void RenderJob::initKdenliveDbusInterface()
     m_kdenliveinterface =
         new QDBusInterface(kdenliveId, QStringLiteral("/kdenlive/MainWindow_1"), QStringLiteral("org.kde.kdenlive.rendering"), connection, this);
 
-    if (m_kdenliveinterface) {
-        if (!m_args.contains(QStringLiteral("pass=2"))) {
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, 0, 0});
-        }
-        connect(m_kdenliveinterface, SIGNAL(abortRenderJob(QString)), this, SLOT(slotAbort(QString)));
+    if (!m_args.contains(QStringLiteral("pass=2"))) {
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, 0, 0});
     }
+    connect(m_kdenliveinterface, SIGNAL(abortRenderJob(QString)), this, SLOT(slotAbort(QString)));
 }
 #endif
 

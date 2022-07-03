@@ -180,11 +180,9 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
         }
     }
     CutTask *task = new CutTask(owner, path, encodingParams, in, out, KdenliveSettings::add_new_clip(), object);
-    if (task) {
-        // Otherwise, start a filter thread.
-        task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
-    }
+    // Otherwise, start a filter thread.
+    task->m_isForce = force;
+    pCore->taskManager.startTask(owner.second, task);
 }
 
 void CutTask::run()

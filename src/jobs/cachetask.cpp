@@ -41,11 +41,9 @@ void CacheTask::start(const ObjectId &owner, int thumbsCount, int in, int out, Q
         return;
     }
     CacheTask *task = new CacheTask(owner, thumbsCount, in, out, object);
-    if (task) {
-        // Otherwise, start a new audio levels generation thread.
-        task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
-    }
+    // Otherwise, start a new audio levels generation thread.
+    task->m_isForce = force;
+    pCore->taskManager.startTask(owner.second, task);
 }
 
 void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)

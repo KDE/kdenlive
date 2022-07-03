@@ -35,11 +35,9 @@ void ProxyTask::start(const ObjectId &owner, QObject *object, bool force)
         return;
     }
     ProxyTask *task = new ProxyTask(owner, object);
-    if (task) {
-        // Otherwise, start a new proxy generation thread.
-        task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
-    }
+    // Otherwise, start a new proxy generation thread.
+    task->m_isForce = force;
+    pCore->taskManager.startTask(owner.second, task);
 }
 
 void ProxyTask::run()

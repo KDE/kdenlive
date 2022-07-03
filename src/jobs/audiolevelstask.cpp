@@ -45,11 +45,9 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject *object, bool force)
         return;
     }
     AudioLevelsTask *task = new AudioLevelsTask(owner, object);
-    if (task) {
-        // Otherwise, start a new audio levels generation thread.
-        task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
-    }
+    // Otherwise, start a new audio levels generation thread.
+    task->m_isForce = force;
+    pCore->taskManager.startTask(owner.second, task);
 }
 
 void AudioLevelsTask::run()

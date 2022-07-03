@@ -44,11 +44,9 @@ void FilterTask::start(const ObjectId &owner, const QString &binId, const std::w
                        const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject *object, bool force)
 {
     FilterTask *task = new FilterTask(owner, binId, model, assetId, in, out, filterName, filterParams, filterData, consumerArgs, object);
-    if (task) {
-        // Otherwise, start a filter thread.
-        task->m_isForce = force;
-        pCore->taskManager.startTask(owner.second, task);
-    }
+    // Otherwise, start a filter thread.
+    task->m_isForce = force;
+    pCore->taskManager.startTask(owner.second, task);
 }
 
 void FilterTask::run()

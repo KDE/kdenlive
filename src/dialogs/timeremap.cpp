@@ -1808,85 +1808,82 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
         return;
     }
     m_view->m_remapLink.reset();
-    if (clip != nullptr) {
-        bool keyframesLoaded = false;
-        int min = in == -1 ? 0 : in;
-        int max = out == -1 ? clip->getFramePlaytime() : out;
-        m_in->setRange(0, max - min);
-        m_out->setRange(min, INT_MAX);
-        m_view->m_startPos = 0;
-        m_view->setBinClipDuration(clip, max - min);
-        if (clip->clipType() == ClipType::Playlist) {
-            Mlt::Service service(clip->originalProducer()->producer()->get_service());
-            qDebug() << "==== producer type: " << service.type();
-            if (service.type() == mlt_service_multitrack_type) {
-                Mlt::Multitrack multi(service);
-                for (int i = 0; i < multi.count(); i++) {
-                    std::unique_ptr<Mlt::Producer> track(multi.track(i));
-                    qDebug() << "==== GOT TRACK TYPE: " << track->type();
-                    switch (track->type()) {
-                    case mlt_service_chain_type: {
-                        Mlt::Chain fromChain(*track.get());
-                        int count = fromChain.link_count();
-                        for (int j = 0; j < count; j++) {
-                            QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
-                            if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
-                                if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                                    // Found a timeremap effect, read params
-                                    m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
-                                    QString mapData(fromLink->get("map"));
-                                    m_view->loadKeyframes(mapData);
-                                    keyframesLoaded = true;
-                                    break;
-                                }
+
+    bool keyframesLoaded = false;
+    int min = in == -1 ? 0 : in;
+    int max = out == -1 ? clip->getFramePlaytime() : out;
+    m_in->setRange(0, max - min);
+    m_out->setRange(min, INT_MAX);
+    m_view->m_startPos = 0;
+    m_view->setBinClipDuration(clip, max - min);
+    if (clip->clipType() == ClipType::Playlist) {
+        Mlt::Service service(clip->originalProducer()->producer()->get_service());
+        qDebug() << "==== producer type: " << service.type();
+        if (service.type() == mlt_service_multitrack_type) {
+            Mlt::Multitrack multi(service);
+            for (int i = 0; i < multi.count(); i++) {
+                std::unique_ptr<Mlt::Producer> track(multi.track(i));
+                qDebug() << "==== GOT TRACK TYPE: " << track->type();
+                switch (track->type()) {
+                case mlt_service_chain_type: {
+                    Mlt::Chain fromChain(*track.get());
+                    int count = fromChain.link_count();
+                    for (int j = 0; j < count; j++) {
+                        QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
+                        if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                            if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                                // Found a timeremap effect, read params
+                                m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
+                                QString mapData(fromLink->get("map"));
+                                m_view->loadKeyframes(mapData);
+                                keyframesLoaded = true;
+                                break;
                             }
                         }
-                        break;
                     }
-                    case mlt_service_playlist_type: {
-                        // that is a single track
-                        Mlt::Playlist local_playlist(*track);
-                        int count = local_playlist.count();
-                        qDebug() << "==== PLAYLIST COUNT: " << count;
-                        if (count == 1) {
-                            Mlt::Producer prod = local_playlist.get_clip(0)->parent();
-                            qDebug() << "==== GOT PROD TYPE: " << prod.type() << " = " << prod.get("mlt_service") << " = " << prod.get("resource");
-                            if (prod.type() == mlt_service_chain_type) {
-                                Mlt::Chain fromChain(prod);
-                                int linkCount = fromChain.link_count();
-                                for (int j = 0; j < linkCount; j++) {
-                                    QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
-                                    if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
-                                        if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
-                                            // Found a timeremap effect, read params
-                                            m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
-                                            QString mapData(fromLink->get("map"));
-                                            m_view->loadKeyframes(mapData);
-                                            keyframesLoaded = true;
-                                            break;
-                                        }
+                    break;
+                }
+                case mlt_service_playlist_type: {
+                    // that is a single track
+                    Mlt::Playlist local_playlist(*track);
+                    int count = local_playlist.count();
+                    qDebug() << "==== PLAYLIST COUNT: " << count;
+                    if (count == 1) {
+                        Mlt::Producer prod = local_playlist.get_clip(0)->parent();
+                        qDebug() << "==== GOT PROD TYPE: " << prod.type() << " = " << prod.get("mlt_service") << " = " << prod.get("resource");
+                        if (prod.type() == mlt_service_chain_type) {
+                            Mlt::Chain fromChain(prod);
+                            int linkCount = fromChain.link_count();
+                            for (int j = 0; j < linkCount; j++) {
+                                QScopedPointer<Mlt::Link> fromLink(fromChain.link(j));
+                                if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                                    if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                                        // Found a timeremap effect, read params
+                                        m_view->m_remapLink = std::make_shared<Mlt::Link>(fromChain.link(j)->get_link());
+                                        QString mapData(fromLink->get("map"));
+                                        m_view->loadKeyframes(mapData);
+                                        keyframesLoaded = true;
+                                        break;
                                     }
                                 }
                             }
                         }
-                        break;
                     }
-                    default:
-                        qDebug() << "=== UNHANDLED TRACK TYPE";
-                        break;
-                    }
+                    break;
+                }
+                default:
+                    qDebug() << "=== UNHANDLED TRACK TYPE";
+                    break;
                 }
             }
         }
-        if (!keyframesLoaded) {
-            m_view->loadKeyframes(QString());
-        }
-        m_seekConnection1 = connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
-        m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, this, [&](int pos) { m_view->slotSetPosition(pos); });
-        remap_box->setEnabled(m_view->m_remapLink != nullptr);
-    } else {
-        remap_box->setEnabled(false);
     }
+    if (!keyframesLoaded) {
+        m_view->loadKeyframes(QString());
+    }
+    m_seekConnection1 = connect(m_view, &RemapView::seekToPos, pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::requestSeek, Qt::UniqueConnection);
+    m_seekConnection2 = connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekPosition, this, [&](int pos) { m_view->slotSetPosition(pos); });
+    remap_box->setEnabled(m_view->m_remapLink != nullptr);
 }
 
 void TimeRemap::updateKeyframes()
