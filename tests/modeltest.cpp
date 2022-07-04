@@ -1,4 +1,7 @@
 #include "test_utils.hpp"
+#include "doc/kdenlivedoc.h"
+
+#include <QUndoGroup>
 
 using namespace fakeit;
 std::default_random_engine g(42);
@@ -2145,6 +2148,63 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         check(17);
     }
 
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
+
+TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    QUndoGroup *undoGroup = new QUndoGroup();
+    undoGroup->addStack(undoStack.get());
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    const QMap<QString, QString> emptyMap{};
+
+    /*
+     * Bug 442545: KdenliveDoc created with 0 video tracks causes a crash at
+     * save time because the document's activeTrack was set to an out-of-range
+     * position.
+     */
+
+    SECTION("0 video tracks")
+    {
+        // Create document
+        KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
+            emptyMap, qMakePair<int, int>(0, 2), 2, nullptr};
+
+        // since there are only 2 tracks, the activeTrack position should be 0 or 1
+        CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
+        CHECK(doc.getDocumentProperty("activeTrack").toInt() < 2);
+    }
+
+    SECTION("both audio and video tracks")
+    {
+        KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
+            emptyMap, qMakePair<int, int>(2, 2), 2, nullptr};
+        CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
+        CHECK(doc.getDocumentProperty("activeTrack").toInt() < 4);
+        // because video tracks come after audio tracks, videoTarget position
+        // should also be after the audio tracks
+        CHECK(doc.getDocumentProperty("videoTarget").toInt() > 1);
+        CHECK(doc.getDocumentProperty("videoTarget").toInt() < 4);
+
+        CHECK(doc.getDocumentProperty("audioTarget").toInt() >= 0);
+        CHECK(doc.getDocumentProperty("audioTarget").toInt() < 2);
+    }
+
+    SECTION("0 audio tracks")
+    {
+        KdenliveDoc doc{QString(), undoGroup, QString(), emptyMap,
+            emptyMap, qMakePair<int, int>(2, 0), 2, nullptr};
+        CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
+        CHECK(doc.getDocumentProperty("activeTrack").toInt() < 2);
+        CHECK(doc.getDocumentProperty("videoTarget").toInt() >= 0);
+        CHECK(doc.getDocumentProperty("videoTarget").toInt() < 2);
+    }
+    delete undoGroup;
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }

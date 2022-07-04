@@ -81,7 +81,10 @@ class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
-    /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks. */
+    /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks.
+     *
+     * @param tracks The number of <video, audio> tracks to create in the project.
+    */
     KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                 const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent = nullptr);
     /** @brief Open an existing Kdenlive project, returning nothing if the project cannot be opened. */

@@ -79,9 +79,15 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     initializeProperties();
+    // video tracks are after audio tracks, and the UI shows them from highest position to lowest position
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
     m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
-    m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.second);
+    // If there is at least one video track, set activeTrack to be the first
+    // video track (which comes after the audio tracks). Otherwise, set the
+    // activeTrack to be the last audio track (the top-most audio track in the
+    // UI).
+    const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
+    m_documentProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
     m_documentProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
 
     // Load properties

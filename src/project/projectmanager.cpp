@@ -1074,11 +1074,17 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number(-1)).toInt();
-    if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
+    if (activeTrackPosition == -2) {
+        // Subtitle model track always has ID == -2
+        pCore->window()->getMainTimeline()->controller()->setActiveTrack(-2);
+    } else if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
+        // otherwise, convert the position to a track ID
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
     } else {
-        // Subtitle model track was active
-        pCore->window()->getMainTimeline()->controller()->setActiveTrack(activeTrackPosition);
+        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition <<
+            "but track count is only" << m_mainTimelineModel->getTracksCount();
+        // set it to some valid track instead
+        pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(0));
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 
