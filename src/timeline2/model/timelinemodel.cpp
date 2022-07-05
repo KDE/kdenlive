@@ -3472,7 +3472,12 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
     if (tid != -1 || !isClip(itemId)) {
         in = qMax(0, getItemPosition(itemId));
         out += in;
-        // size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance); //TODO: implement snapping
+        // m_snaps->addPoint(cursorPos);
+        int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, true, snapDistance);
+        // m_snaps->removePoint(cursorPos);
+        if (proposed_size > -1) {
+            size = proposed_size;
+        }
     }
     qDebug() << "======= ADJUSTED NEW CLIP SIZE (RIPPLE): " << size;
     offset -= size;
