@@ -2227,12 +2227,6 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     int previewLength = 0;
     switch (pCore->activeTool()) {
     case ToolType::SlipTool:
-        // Get copy of timeline producer
-        /* This is an example using a playlist. This does not work with switch -> use if else instead
-        Mlt::Producer test(mainClip->getProducer()->cut(0));
-        Mlt::Playlist list(*m_model->m_tractor->profile());
-        list.append(test);
-        producers.push_back(Mlt::Producer(list)); */
         producers.push_back(std::shared_ptr<Mlt::Producer>(previousFrame));
         producers.push_back(std::shared_ptr<Mlt::Producer>(mainClip->getProducer()->cut(0)));
         producers.push_back(std::shared_ptr<Mlt::Producer>(mainClip->getProducer()->cut(mainClip->getOut() - mainClip->getIn())));

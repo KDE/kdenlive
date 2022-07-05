@@ -36,7 +36,7 @@ StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const 
 {
 }
 
-void StabilizeTask::start(QObject *object, bool force)
+void StabilizeTask::start(QObject *, bool force)
 {
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
     QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, QStringLiteral("vidstab")));

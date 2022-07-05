@@ -47,12 +47,6 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    // Create a request
-    int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid2 = TrackModel::construct(timeline);
-    int tid4 = TrackModel::construct(timeline);
-
     // Initialize subtitle model
     std::shared_ptr<SubtitleModel> subtitleModel(new SubtitleModel(timeline->tractor(), timeline));
     timeline->setSubModel(subtitleModel);

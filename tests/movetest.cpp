@@ -35,10 +35,10 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
     // Create a request
-    int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    /*int tid1 =*/TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid2 = TrackModel::construct(timeline);
-    int tid4 = TrackModel::construct(timeline);
+    /*int tid4 =*/TrackModel::construct(timeline);
 
     // Create clip with audio (40 frames long)
     // QString binId = createAVProducer(profile_move, binModel);

@@ -1889,17 +1889,17 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
         REQUIRE(timeline->requestClipMove(cid4, tid2, 5));
         int l4 = timeline->getClipPlaytime(cid4);
         REQUIRE(l4 == l1);
-        int gid1 = timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid4}), true, GroupType::Normal);
+        /*int gid1 =*/timeline->requestClipsGroup(std::unordered_set<int>({cid1, cid4}), true, GroupType::Normal);
 
         REQUIRE(timeline->requestClipMove(cid5, tid2, 50));
         int l5 = timeline->getClipPlaytime(cid5);
         REQUIRE(l5 == l2);
-        int gid2 = timeline->requestClipsGroup(std::unordered_set<int>({cid2, cid5}), true, GroupType::Normal);
+        /*int gid2 =*/timeline->requestClipsGroup(std::unordered_set<int>({cid2, cid5}), true, GroupType::Normal);
 
         REQUIRE(timeline->requestClipMove(cid6, tid2, 80));
         int l6 = timeline->getClipPlaytime(cid6);
         REQUIRE(l6 == l3);
-        int gid3 = timeline->requestClipsGroup(std::unordered_set<int>({cid3, cid6}), true, GroupType::Normal);
+        /*int gid3 =*/timeline->requestClipsGroup(std::unordered_set<int>({cid3, cid6}), true, GroupType::Normal);
 
         auto stateA1 = [&]() {
             REQUIRE(timeline->checkConsistency());

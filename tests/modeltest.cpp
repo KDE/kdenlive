@@ -448,7 +448,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPlaytime(cid2) == length);
         REQUIRE(timeline->requestItemResize(cid2, 5, true) == 5);
         REQUIRE(timeline->checkConsistency());
-        REQUIRE(binModel->getClipByBinID(binId)->frameDuration() == length);
+        REQUIRE(binModel->getClipByBinID(binId)->getFramePlaytime() == length);
         auto inOut = std::pair<int, int>{0, 4};
         REQUIRE(timeline->m_allClips[cid2]->getInOut() == inOut);
         REQUIRE(timeline->getClipPlaytime(cid2) == 5);
@@ -487,7 +487,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         REQUIRE(timeline->requestClipMove(cid2, tid1, 5));
         REQUIRE(timeline->checkConsistency());
-        REQUIRE(binModel->getClipByBinID(binId)->frameDuration() == length);
+        REQUIRE(binModel->getClipByBinID(binId)->getFramePlaytime() == length);
         CHECK_INSERT(Once);
 
         REQUIRE(timeline->requestItemResize(cid1, 6, true) == -1);
@@ -1170,12 +1170,12 @@ TEST_CASE("Check id unicity", "[ClipModel]")
             REQUIRE(all_ids.count(tid) == 0);
             all_ids.insert(tid);
             track_ids.push_back(tid);
-            REQUIRE(timeline->getTracksCount() == track_ids.size());
+            REQUIRE(timeline->getTracksCount() == int(track_ids.size()));
         } else {
             int cid = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
             REQUIRE(all_ids.count(cid) == 0);
             all_ids.insert(cid);
-            REQUIRE(timeline->getClipsCount() == all_ids.size() - track_ids.size());
+            REQUIRE(timeline->getClipsCount() == int(all_ids.size() - track_ids.size()));
         }
     }
 

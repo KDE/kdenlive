@@ -3259,7 +3259,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         // Mix was resized, update cut position
                         int currentMixDuration = m_allClips[mixData.second.secondClipId]->getMixDuration();
                         int currentMixCut = m_allClips[mixData.second.secondClipId]->getMixCutPosition();
-                        Fun adjust_mix1 = [this, tid, currentMixDuration, currentMixCut, secondId = mixData.second.secondClipId, updatedMixDuration]() {
+                        Fun adjust_mix1 = [this, tid, currentMixCut, secondId = mixData.second.secondClipId, updatedMixDuration]() {
                             getTrackById_const(tid)->setMixDuration(secondId, updatedMixDuration, currentMixCut);
                             QModelIndex ix = makeClipIndexFromID(secondId);
                             emit dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
@@ -3730,8 +3730,8 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
         bool hasMix = false;
         int tid = m_allClips[itemId]->getCurrentTrackId();
         if (tid > -1) {
-            std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
-            /*if (right && mixData.second.firstClipId > -1) {
+            /*std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+            if (right && mixData.second.firstClipId > -1) {
                 hasMix = true;
                 size = qMin(size, mixData.second.secondClipInOut.second - mixData.second.firstClipInOut.first);
             } else if (!right && mixData.first.firstClipId > -1) {
