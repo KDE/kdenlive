@@ -337,8 +337,12 @@ QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
 QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
-    *ok = binClip != nullptr;
-    if (ok) {
+    if (binClip == nullptr) {
+        *ok = false;
+        qWarning() << "[BUG] Could not find binClip for binId" << binId;
+        return {};
+    } else {
+        *ok = true;
         QString streams = binClip->getProducerProperty(QStringLiteral("kdenlive:active_streams"));
         if (streams == QString::number(INT_MAX)) {
             // activate all audio streams
@@ -365,7 +369,6 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
         }
         return streamsList;
     }
-    return {};
 }
 
 // static
