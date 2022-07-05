@@ -751,7 +751,6 @@ private:
     int m_trimmingMainClip;
 
     void initializePreview();
-    bool darkBackground() const;
     int getMenuOrTimelinePos() const;
 
 signals:

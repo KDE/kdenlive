@@ -4412,12 +4412,6 @@ bool TimelineController::hasKeyframeAt(int cid, int frame)
     return false;
 }
 
-bool TimelineController::darkBackground() const
-{
-    KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.background(KColorScheme::NormalBackground).color().value() < 0.5;
-}
-
 QColor TimelineController::videoColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
