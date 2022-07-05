@@ -4245,6 +4245,7 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
         if (subFile.exists()) {
             subFile.copy(workPath);
             subtitleModel->parseSubtitle(workPath);
+        }
         if (!subProperties.isEmpty()) {
             subtitleModel->loadProperties(subProperties);
             // Load the disabled / locked state of the subtitle
