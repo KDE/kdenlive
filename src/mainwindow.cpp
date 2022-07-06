@@ -2327,6 +2327,8 @@ void MainWindow::slotEditKeys()
             break;
         }
     }
+    QAction *my = new QAction(i18n("My Test"), this);
+    dialog.addEditAction(my);
     // If scheme choosing combobox was found, find the "More Actions" button in the same
     // dialog that provides a dropdown menu with additional actions, and add
     // "Download New Keyboard Schemes…" button into that menu

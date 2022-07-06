@@ -1207,11 +1207,7 @@ int GLWidget::reconfigure()
         m_consumer->set("volume", volume / 100.0);
         // m_consumer->set("progressive", 1);
         m_consumer->set("rescale", KdenliveSettings::mltinterpolation().toUtf8().constData());
-#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
-        m_consumer->set("deinterlace_method", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-#else
         m_consumer->set("deinterlacer", KdenliveSettings::mltdeinterlacer().toUtf8().constData());
-#endif
         /*
 #ifdef Q_OS_WIN
         m_consumer->set("audio_buffer", 2048);

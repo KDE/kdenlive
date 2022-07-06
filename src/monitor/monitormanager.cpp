@@ -648,11 +648,7 @@ void MonitorManager::slotSetDeinterlacer(int ix)
         value = QStringLiteral("onefield");
     }
     KdenliveSettings::setMltdeinterlacer(value);
-#if LIBMLT_VERSION_INT < QT_VERSION_CHECK(7, 5, 0)
-    setConsumerProperty(QStringLiteral("deinterlace_method"), value);
-#else
     setConsumerProperty(QStringLiteral("deinterlacer"), value);
-#endif
 }
 
 void MonitorManager::slotSetInterpolation(int ix)
