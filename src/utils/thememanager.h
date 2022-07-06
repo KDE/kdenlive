@@ -17,23 +17,23 @@
 // KDE includes
 #include <KColorSchemeManager>
 
-class ThemeManager : public QAction
+class ThemeManager : public KColorSchemeManager
 {
     Q_OBJECT
 public:
     ThemeManager(QObject *parent);
-    QString currentSchemeName() const;
+    KActionMenu *menu() { return m_menu; };
 
 private Q_SLOTS:
     void slotSchemeChanged(const QString &path);
 
 private:
+    KActionMenu *m_menu;
+
     QString loadCurrentScheme() const;
     QString loadCurrentPath() const;
     void saveCurrentScheme(const QString & path);
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
-    QString currentDesktopDefaultScheme() const;
-#endif
+    QString currentSchemeName() const;
 
 signals:
     void themeChanged(const QString &name);

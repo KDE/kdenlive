@@ -201,6 +201,11 @@ int main(int argc, char *argv[])
             }
         }
     }
+    KConfigGroup uicg(config, "UiSettings");
+    if (!uicg.exists()) {
+        uicg.writeEntry("ColorSchemePath", "BreezeDark.colors");
+        uicg.sync();
+    }
 
 #ifndef NODBUS
     // Init DBus services

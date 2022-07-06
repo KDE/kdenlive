@@ -16,58 +16,39 @@
 #include <QStringList>
 
 #include <KActionMenu>
+#include <KColorSchemeModel>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
 
 ThemeManager::ThemeManager(QObject *parent)
-    : QAction(parent)
+    : KColorSchemeManager(parent)
 {
-    auto manager = new KColorSchemeManager(parent);
-
+    setAutosaveChanges(false);
     const auto schemePath(loadCurrentPath());
-    auto selectionMenu = manager->createSchemeSelectionMenu(QString(), this);
-    auto themesMenu = selectionMenu->menu();
-    QString scheme;
-    // Check for duplicates
-    QList<QAction *> actions = themesMenu->actions();
-    QStringList existing;
-    QList<QAction *> duplicates;
-    for (QAction *ac : qAsConst(actions)) {
-        if (existing.contains(ac->text())) {
-            duplicates << ac;
-        } else {
-            existing << ac->text();
-            if (schemePath.isEmpty()) {
-                if (ac->data().toString().endsWith(QLatin1String("BreezeDark.colors"))) {
-                    themesMenu->setActiveAction(ac);
-                    scheme = ac->text();
-                }
-            } else if (ac->data().toString().endsWith(schemePath)) {
-                themesMenu->setActiveAction(ac);
-                scheme = ac->text();
-            }
-        }
-    }
-    for (QAction *ac : qAsConst(duplicates)) {
-        themesMenu->removeAction(ac);
-    }
-    qDeleteAll(duplicates);
 
     // KColorSchemeManager includes a system color scheme option that reacts to system scheme changes.
     // This scheme will be activated if we pass an empty string to KColorSchemeManager (if "scheme" is empty)
+    QString scheme;
 
-    connect(themesMenu, &QMenu::triggered, this, [this, manager](QAction *action) {
-        QModelIndex schemeIndex = manager->indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
-        const QString path = manager->model()->data(schemeIndex, Qt::UserRole).toString();
+    if (!schemePath.isEmpty()) {
+        for (int i = 1; i < model()->rowCount(); ++i) {
+            QModelIndex index = model()->index(i, 0);
+            if (index.data(KColorSchemeModel::PathRole).toString().endsWith(schemePath)) {
+                scheme = index.data(KColorSchemeModel::NameRole).toString();
+            }
+        }
+    }
+
+    m_menu = createSchemeSelectionMenu(scheme, this);
+
+    connect(m_menu->menu(), &QMenu::triggered, this, [this](QAction *action) {
+        QModelIndex schemeIndex = indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
+        const QString path = model()->data(schemeIndex, Qt::UserRole).toString();
         slotSchemeChanged(path);
     });
 
-    manager->activateScheme(manager->indexForScheme(scheme));
-
-    setMenu(themesMenu);
-    menu()->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-color")));
-    menu()->setTitle(i18n("&Color Theme"));
+    activateScheme(indexForScheme(scheme));
 }
 
 QString ThemeManager::loadCurrentPath() const

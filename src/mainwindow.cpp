@@ -149,7 +149,7 @@ void MainWindow::init(const QString &mltPath)
     QString desktopStyle = QApplication::style()->objectName();
     // Load themes
     auto themeManager = new ThemeManager(actionCollection());
-    actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager);
+    actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
     emit pCore->updatePalette();
 
@@ -4239,7 +4239,7 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
         getMainTimeline()->model()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel);
         pCore->subtitleWidget()->setModel(subtitleModel);
-	    const QString subPath = pCore->currentDoc()->subTitlePath(true);
+        const QString subPath = pCore->currentDoc()->subTitlePath(true);
         const QString workPath = pCore->currentDoc()->subTitlePath(false);
         QFile subFile(subPath);
         if (subFile.exists()) {
