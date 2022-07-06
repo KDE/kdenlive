@@ -82,6 +82,10 @@ public:
     QString getMarkerThumb(GenTime pos);
     int getZoneStart();
     int getZoneEnd();
+    /** @brief Get the in and out points selected in the clip monitor.
+     * @return a QPoint where x() is the in point, and y() is the out point + 1.
+     * E.g. if the user sets in=100, out=101, then this returns <100, 102>.
+     */
     QPoint getZoneInfo() const;
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
     /** @brief Set a property on the effect scene */

@@ -1638,7 +1638,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
             initLength -= in;
             res = requestItemResize(clipId, initLength, false, true, local_undo, local_redo);
         }
-        int updatedDuration = out - in + 1;
+        int updatedDuration = out - in + 1; // +1: e.g. in=100, out=101 is 2 frames long
         res = res && requestItemResize(clipId, updatedDuration, true, true, local_undo, local_redo);
         if (!res) {
             bool undone = local_undo();
