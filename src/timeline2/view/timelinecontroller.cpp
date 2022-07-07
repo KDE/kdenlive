@@ -1568,13 +1568,13 @@ void TimelineController::setZone(const QPoint &zone, bool withUndo)
         m_model->removeSnap(m_zone.x());
     }
     if (m_zone.y() > 0) {
-        m_model->removeSnap(m_zone.y() - 1);
+        m_model->removeSnap(m_zone.y());
     }
     if (zone.x() > 0) {
         m_model->addSnap(zone.x());
     }
     if (zone.y() > 0) {
-        m_model->addSnap(zone.y() - 1);
+        m_model->addSnap(zone.y());
     }
     updateZone(m_zone, zone, withUndo);
 }
@@ -1623,10 +1623,10 @@ void TimelineController::setZoneIn(int inPoint)
 void TimelineController::setZoneOut(int outPoint)
 {
     if (m_zone.y() > 0) {
-        m_model->removeSnap(m_zone.y() - 1);
+        m_model->removeSnap(m_zone.y());
     }
     if (outPoint > 0) {
-        m_model->addSnap(outPoint - 1);
+        m_model->addSnap(outPoint);
     }
     m_zone.setY(outPoint);
     emit zoneChanged();
@@ -1824,7 +1824,9 @@ void TimelineController::seekToClip(int cid, bool seekToEnd)
 {
     int start = m_model->getItemPosition(cid);
     if (seekToEnd) {
-        start += m_model->getItemPlaytime(cid);
+        // -1 because to go to the end of a 10-frame clip,
+        // need to go from frame 0 to frame 9 (10th frame)
+        start += m_model->getItemPlaytime(cid) - 1;
     }
     setPosition(start);
 }

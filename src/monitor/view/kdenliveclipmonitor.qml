@@ -506,7 +506,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: overlayMargin
                 }
-                visible: root.showMarkers && controller.position + 1 == controller.zoneOut
+                visible: root.showMarkers && controller.position == controller.zoneOut
                 text: i18n("Out Point")
                 color: "white"
                 background: Rectangle {

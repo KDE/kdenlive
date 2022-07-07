@@ -804,7 +804,7 @@ void Monitor::slotSetZoneStart()
 void Monitor::slotSetZoneEnd()
 {
     QPoint oldZone = m_glMonitor->getControllerProxy()->zone();
-    int currentOut = m_glMonitor->getCurrentPos() + 1;
+    int currentOut = m_glMonitor->getCurrentPos();
     int updatedZoneIn = -1;
     if (currentOut < oldZone.x()) {
         updatedZoneIn = qMax(0, currentOut - (oldZone.y() - oldZone.x()));
@@ -1015,7 +1015,7 @@ void Monitor::slotStartDrag()
         QStringList list;
         list.append(m_controller->AbstractProjectItem::clipId());
         list.append(QString::number(p.x()));
-        list.append(QString::number(p.y() - 1));
+        list.append(QString::number(p.y()));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
@@ -1333,7 +1333,7 @@ void Monitor::slotZoneEnd()
     if (!slotActivateMonitor()) {
         return;
     }
-    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneOut() - 1);
+    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneOut());
 }
 
 void Monitor::slotRewind(double speed)
@@ -1739,7 +1739,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (out == -1) {
                 m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
             } else {
-                m_glMonitor->getControllerProxy()->setZone(in, out + 1, false);
+                m_glMonitor->getControllerProxy()->setZone(in, out, false);
             }
             m_snaps->addPoint(int(m_controller->frameDuration() - 1));
             // Loading new clip / zone, stop if playing

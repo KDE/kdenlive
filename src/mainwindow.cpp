@@ -3730,9 +3730,7 @@ void MainWindow::slotInsertZoneToTree()
     }
     QPoint info = m_clipMonitor->getZoneInfo();
     QString id;
-    // clip monitor counts the frame after the out point as the zone out, so we
-    // need to subtract 1 to get the actual last frame
-    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y()-1, {}, m_clipMonitor->activeClipId());
+    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y(), {}, m_clipMonitor->activeClipId());
 }
 
 void MainWindow::slotMonitorRequestRenderFrame(bool request)

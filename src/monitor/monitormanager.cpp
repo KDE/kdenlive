@@ -747,7 +747,7 @@ void MonitorManager::slotSetOutPoint()
     } else if (m_activeMonitor == m_projectMonitor) {
         QPoint sourceZone = m_projectMonitor->getZoneInfo();
         QPoint destZone = sourceZone;
-        destZone.setY(m_projectMonitor->position() + 1);
+        destZone.setY(m_projectMonitor->position());
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }

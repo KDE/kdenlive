@@ -695,7 +695,9 @@ bool GLWidget::checkFrameNumber(int pos, bool isPlaying)
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
     if (m_isLoopMode || m_isZoneMode) {
-        if (isPlaying && pos >= m_loopOut) {
+        // not sure why we need to check against pos + 1 but otherwise the
+        // playback shows one frame after the intended out frame
+        if (isPlaying && pos + 1 >= m_loopOut) {
             m_consumer->purge();
             if (!m_isLoopMode) {
                 // end play zone mode
