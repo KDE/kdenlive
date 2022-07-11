@@ -154,8 +154,8 @@ public:
     QSize getCurrentFrameSize() const;
     /** @brief Returns the frame display size (width x height) of current profile */
     QSize getCurrentFrameDisplaySize() const;
-    /** @brief Request project monitor refresh */
-    void requestMonitorRefresh();
+    /** @brief Request project monitor refresh, and restore previously active monitor */
+    void refreshProjectMonitorOnce();
     /** @brief Request project monitor refresh if current position is inside range*/
     void refreshProjectRange(QPair<int, int> range);
     /** @brief Request project monitor refresh if referenced item is under cursor */

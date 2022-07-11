@@ -1473,13 +1473,15 @@ void Monitor::refreshMonitor(bool directUpdate)
             m_glMonitor->requestRefresh();
         }
     } else if (monitorVisible()) {
+        // Monitor was not active. Check if the other one is visible to re-activate it afterwards
+        bool otherMonitorVisible = m_id == Kdenlive::ClipMonitor ? m_monitorManager->projectMonitorVisible() : m_monitorManager->clipMonitorVisible();
         slotActivateMonitor();
         if (isActive()) {
             m_glMonitor->refresh();
             // Monitor was not active, so we activate it, refresh and activate the other monitor once done
             QObject::disconnect(m_switchConnection);
             m_switchConnection = connect(m_glMonitor, &GLWidget::frameDisplayed, this, [=]() {
-                m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor);
+                m_monitorManager->activateMonitor(m_id == Kdenlive::ClipMonitor ? Kdenlive::ProjectMonitor : Kdenlive::ClipMonitor, otherMonitorVisible);
                 QObject::disconnect(m_switchConnection);
             });
         }

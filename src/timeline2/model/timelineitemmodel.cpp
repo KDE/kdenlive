@@ -537,7 +537,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(IsDisabledRole);
         if (!track->isAudioTrack()) {
             pCore->invalidateItem(ObjectId(ObjectType::TimelineTrack, trackId));
-            pCore->requestMonitorRefresh();
+            pCore->refreshProjectMonitorOnce();
             updateMultiTrack = true;
         }
     } else if (name == QLatin1String("kdenlive:timeline_active")) {

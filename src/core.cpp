@@ -527,7 +527,7 @@ QSize Core::getCurrentFrameSize() const
     return {getCurrentProfile()->width(), getCurrentProfile()->height()};
 }
 
-void Core::requestMonitorRefresh()
+void Core::refreshProjectMonitorOnce()
 {
     if (!m_guiConstructed) return;
     m_monitorManager->refreshProjectMonitor();
@@ -724,7 +724,7 @@ void Core::refreshProjectItem(const ObjectId &id)
         break;
     case ObjectType::TimelineTrack:
         if (m_mainWindow->getCurrentTimeline()->model()->isTrack(id.second)) {
-            requestMonitorRefresh();
+            refreshProjectMonitorOnce();
         }
         break;
     case ObjectType::BinClip:
@@ -737,7 +737,7 @@ void Core::refreshProjectItem(const ObjectId &id)
         }
         break;
     case ObjectType::Master:
-        requestMonitorRefresh();
+        refreshProjectMonitorOnce();
         break;
     default:
         qWarning() << "unhandled object type";

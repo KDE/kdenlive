@@ -157,7 +157,7 @@ void MonitorManager::refreshMonitors()
     }
 }
 
-bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
+bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor)
 {
     if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
         return true;
@@ -177,7 +177,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
     if (m_activeMonitor) {
         if (name == Kdenlive::ClipMonitor) {
             if (!m_clipMonitor->monitorIsFullScreen()) {
-                m_clipMonitor->parentWidget()->raise();
+                if (raiseMonitor) {
+                    m_clipMonitor->parentWidget()->raise();
+                }
             } else {
                 m_clipMonitor->fixFocus();
             }
@@ -192,7 +194,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
             m_clipMonitor->displayAudioMonitor(true);
         } else if (name == Kdenlive::ProjectMonitor) {
             if (!m_projectMonitor->monitorIsFullScreen()) {
-                m_projectMonitor->parentWidget()->raise();
+                if (raiseMonitor) {
+                    m_projectMonitor->parentWidget()->raise();
+                }
             } else {
                 m_projectMonitor->fixFocus();
             }

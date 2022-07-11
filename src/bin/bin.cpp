@@ -4294,7 +4294,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         }
         slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
         // when edit is triggered from the timeline, project monitor refresh is necessary after an edit is made
-        pCore->requestMonitorRefresh();
+        pCore->refreshProjectMonitorOnce();
     } else {
         pCore->temporaryUnplug(clips, false);
         if (res == QDialog::Accepted + 1) {

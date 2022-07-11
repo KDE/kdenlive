@@ -67,13 +67,13 @@ void SubtitleModel::setStyle(const QString &style)
     Fun redo = [this, style]() {
         m_subtitleFilter->set("av.force_style", style.toUtf8().constData());
         // Force refresh to show the new style
-        pCore->requestMonitorRefresh();
+        pCore->refreshProjectMonitorOnce();
         return true;
     };
     Fun undo = [this, oldStyle]() {
         m_subtitleFilter->set("av.force_style", oldStyle.toUtf8().constData());
         // Force refresh to show the new style
-        pCore->requestMonitorRefresh();
+        pCore->refreshProjectMonitorOnce();
         return true;
     };
     redo();

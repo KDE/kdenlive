@@ -371,7 +371,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->notifyChange(ix, ix, roles);
-                pCore->requestMonitorRefresh();
+                pCore->refreshProjectMonitorOnce();
                 // invalidate timeline preview
                 if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
                     emit ptr->invalidateZone(m_position, m_position + getPlaytime());
@@ -395,7 +395,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                 if (auto ptr = m_parent.lock()) {
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                     ptr->notifyChange(ix, ix, roles);
-                    pCore->requestMonitorRefresh();
+                    pCore->refreshProjectMonitorOnce();
                     if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
                         emit ptr->invalidateZone(m_position, m_position + getPlaytime());
                     }

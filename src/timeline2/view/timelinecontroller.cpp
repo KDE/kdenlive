@@ -123,7 +123,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
-    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
+    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->refreshProjectMonitorOnce(); });
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
@@ -1362,7 +1362,7 @@ void TimelineController::addAsset(const QVariantMap &data)
 
 void TimelineController::requestRefresh()
 {
-    pCore->requestMonitorRefresh();
+    pCore->refreshProjectMonitorOnce();
 }
 
 void TimelineController::showAsset(int id)
@@ -1870,7 +1870,7 @@ void TimelineController::refreshItem(int id)
         return;
     }
     if (positionIsInItem(id)) {
-        pCore->requestMonitorRefresh();
+        pCore->refreshProjectMonitorOnce();
     }
 }
 
@@ -2780,7 +2780,7 @@ void TimelineController::switchCompositing(bool enable)
         }
     }
     field->unlock();
-    pCore->requestMonitorRefresh();
+    pCore->refreshProjectMonitorOnce();
 }
 
 void TimelineController::extractZone(QPoint zone, bool liftOnly)
@@ -4974,7 +4974,7 @@ void TimelineController::switchSubtitleDisable()
         Fun local_switch = [this, subtitleModel]() {
             subtitleModel->switchDisabled();
             emit subtitlesDisabledChanged();
-            pCore->requestMonitorRefresh();
+            pCore->refreshProjectMonitorOnce();
             return true;
         };
         local_switch();
