@@ -300,12 +300,6 @@ QDebug operator<<(QDebug qd, const ItemInfo &info);
 
 // we provide hash function for qstring and QPersistentModelIndex
 namespace std {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
-template <> struct hash<QString>
-{
-    std::size_t operator()(const QString &k) const { return qHash(k); }
-};
-#endif
 template <> struct hash<QPersistentModelIndex>
 {
     std::size_t operator()(const QPersistentModelIndex &k) const { return qHash(k); }

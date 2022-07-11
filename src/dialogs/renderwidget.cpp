@@ -344,11 +344,7 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
 QSize RenderWidget::sizeHint() const
 {
     // Make sure the widget has minimum size on opening
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
-    return {200, 200};
-#else
     return {200, qMax(200, screen()->availableGeometry().height())};
-#endif
 }
 
 RenderWidget::~RenderWidget()
