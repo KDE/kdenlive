@@ -35,7 +35,7 @@ ThemeManager::ThemeManager(QObject *parent)
         for (int i = 1; i < model()->rowCount(); ++i) {
             QModelIndex index = model()->index(i, 0);
             if (index.data(KColorSchemeModel::PathRole).toString().endsWith(schemePath)) {
-                scheme = index.data(KColorSchemeModel::NameRole).toString();
+                scheme = index.data(Qt::DisplayRole).toString();
             }
         }
     }
