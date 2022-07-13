@@ -61,6 +61,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KOpenWithDialog>
 #include <KRatingPainter>
 #include <KService>
+#include <KUrlRequesterDialog>
 #include <KXMLGUIFactory>
 #include <kwidgetsaddons_version.h>
 
@@ -3185,7 +3186,7 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title…"),
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-    setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Add Animation…"),
+    setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Create Animation…"),
                        QIcon::fromTheme(QStringLiteral("motion_path_animations")));
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
@@ -4016,73 +4017,42 @@ void Bin::slotOpenClipExtern()
         showTitleWidget(clip);
         break;
     case ClipType::Image: {
-        if (KdenliveSettings::defaultimageappId().isEmpty() && !KdenliveSettings::defaultimageapp().isEmpty()) {
-            // Keep for compatibility
-            QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
-            break;
-        }
-        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultimageappId());
-        if (service == nullptr) {
-            QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), QString(), this);
-            if (dlg->exec() == QDialog::Accepted) {
-                service = dlg->service();
-                if (service) {
-                    QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
-                    if (appName.isEmpty()) {
-                        appName = service->desktopEntryName();
-                    }
-                    KdenliveSettings::setDefaultimageapp(appName);
-                    KdenliveSettings::setDefaultimageappId(service->storageId());
-                }
+        if (KdenliveSettings::defaultimageapp().isEmpty()) {
+            QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your image editing application"));
+            if (!url.isEmpty()) {
+                KdenliveSettings::setDefaultimageapp(url.toLocalFile());
             }
-            delete dlg;
         }
-        if (service) {
-            auto *job = new KIO::ApplicationLauncherJob(service);
-            job->setUrls({QUrl::fromLocalFile(clip->url())});
-            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-            job->start();
+        if (!KdenliveSettings::defaultimageapp().isEmpty()) {
+            QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
         } else {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files in the Settings dialog"));
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
         }
     } break;
     case ClipType::Audio: {
-        if (KdenliveSettings::defaultaudioappId().isEmpty() && !KdenliveSettings::defaultaudioapp().isEmpty()) {
-            // Keep for compatibility
-            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
-            break;
-        }
-        KService::Ptr service = KService::serviceByStorageId(KdenliveSettings::defaultaudioappId());
-        if (service == nullptr) {
-            QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), QString(), this);
-            if (dlg->exec() == QDialog::Accepted) {
-                service = dlg->service();
-                if (service) {
-                    QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
-                    if (appName.isEmpty()) {
-                        appName = service->desktopEntryName();
-                    }
-                    KdenliveSettings::setDefaultaudioapp(appName);
-                    KdenliveSettings::setDefaultaudioappId(service->storageId());
-                }
+        if (KdenliveSettings::defaultaudioapp().isEmpty()) {
+            QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your audio editing application"));
+            if (!url.isEmpty()) {
+                KdenliveSettings::setDefaultaudioapp(url.toLocalFile());
             }
-            delete dlg;
         }
-        if (service) {
-            auto *job = new KIO::ApplicationLauncherJob(service);
-            job->setUrls({QUrl::fromLocalFile(clip->url())});
-            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-            job->start();
+        if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
+            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
         } else {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files in the Settings dialog"));
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
         }
     } break;
     case ClipType::Animation: {
-        QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
-        if (glaxBinary.isEmpty()) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations"));
+        if (KdenliveSettings::glaxnimatePath().isEmpty()) {
+            QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path to the Glaxnimate application"));
+            if (!url.isEmpty()) {
+                KdenliveSettings::setGlaxnimatePath(url.toLocalFile());
+            }
+        }
+        if (KdenliveSettings::glaxnimatePath().isEmpty()) {
+            QProcess::startDetached(KdenliveSettings::glaxnimatePath(), {clip->url()});
         } else {
-            QProcess::startDetached(glaxBinary, {clip->url()});
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a path for the Glaxnimate application"));
         }
     } break;
     default:

@@ -148,6 +148,10 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 
 void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId)
 {
+    if (KdenliveSettings::glaxnimatePath().isEmpty()) {
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
+        return;
+    }
     QDir dir(doc->projectDataFolder());
     QString fileName("animation-0001.json");
     if (dir.cd("animations")) {
@@ -215,12 +219,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     QTextStream out(&file);
     out << templateJson;
     file.close();
-    QString glaxBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
-    if (glaxBinary.isEmpty()) {
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
-        return;
-    }
-    QProcess::startDetached(glaxBinary, {fileName});
+    QProcess::startDetached(KdenliveSettings::glaxnimatePath(), {fileName});
     // Add clip to project
     QDomDocument xml;
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
