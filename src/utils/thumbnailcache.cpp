@@ -330,7 +330,11 @@ QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
     }
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
     *ok = binClip != nullptr && binClip->statusReady();
-    return *ok ? binClip->hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".jpg") : QString();
+    QString result;
+    if (!ok) {
+        return result;
+    }
+    return *ok ? binClip->hashForThumbs() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".jpg") : QString();
 }
 
 // static

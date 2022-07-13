@@ -36,6 +36,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
     , m_hasLimitedDuration(true)
+    , m_hasMultipleVideoStreams(false)
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
@@ -47,6 +48,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         return;
     }
     if (m_properties) {
+        m_hasMultipleVideoStreams = m_properties->property_exists("kdenlive:multistreams");
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
         checkAudioVideo();
@@ -105,6 +107,31 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
         emitProducerChanged(m_controllerBinId, producer);
+        if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
+            // Check if clip has multiple video streams
+            int vindex = m_properties->get_int("video_index");
+            int aindex = m_properties->get_int("audio_index");
+            // Find maximum stream index values
+            QList<int> videoStreams;
+            QList<int> audioStreams;
+            int aStreams = m_properties->get_int("meta.media.nb_streams");
+            for (int ix = 0; ix < aStreams; ++ix) {
+                char property[200];
+                snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+                QString type = m_properties->get(property);
+                if (type == QLatin1String("video")) {
+                    videoStreams << ix;
+                } else if (type == QLatin1String("audio")) {
+                    audioStreams << ix;
+                }
+            }
+            if (videoStreams.count() > 1) {
+                setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
+                m_hasMultipleVideoStreams = true;
+                QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(const QString &, m_controllerBinId),
+                                          Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams), Q_ARG(int, aindex), Q_ARG(int, vindex));
+            }
+        }
     }
     connectEffectStack();
 }
@@ -312,11 +339,13 @@ bool ClipController::isValid()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-        return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,"
+        return "kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_"
+               "progressive,force_tff,threads,"
                "force_"
                "colorspace,set.force_full_luma,file_hash,autorotate,disable_exif,xmldata,video_index,audio_index,set.test_image,set.test_audio";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,"
+    return "kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,"
+           "force_tff,threads,"
            "force_"
            "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,length,video_index,audio_index,set.test_image,set.test_audio";
 }

@@ -1242,10 +1242,23 @@ const QString ProjectClip::hash(bool createIfEmpty)
         return QString();
     }
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
-    if (!clipHash.isEmpty() || createIfEmpty) {
+    if (!clipHash.isEmpty() || !createIfEmpty) {
         return clipHash;
     }
     return getFileHash();
+}
+
+const QString ProjectClip::hashForThumbs()
+{
+    if (m_clipStatus == FileStatus::StatusWaiting) {
+        // Clip is not ready
+        return QString();
+    }
+    QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
+    if (!clipHash.isEmpty() && m_hasMultipleVideoStreams) {
+        clipHash.append(m_properties->get("video_index"));
+    }
+    return clipHash;
 }
 
 const QByteArray ProjectClip::getFolderHash(const QDir &dir, QString fileName)
@@ -1987,7 +2000,7 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     if (percent < 0) {
         if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
             int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
-            QImage thumb = ThumbnailCache::get()->getThumbnail(hash(), m_binId, framePos);
+            QImage thumb = ThumbnailCache::get()->getThumbnail(hashForThumbs(), m_binId, framePos);
             if (!thumb.isNull()) {
                 setThumbnail(thumb, -1, -1);
             }
@@ -1998,7 +2011,7 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
     int framePos = duration * percent / 100;
     framePos -= framePos % steps;
-    QImage thumb = ThumbnailCache::get()->getThumbnail(hash(), m_binId, framePos);
+    QImage thumb = ThumbnailCache::get()->getThumbnail(hashForThumbs(), m_binId, framePos);
     if (!thumb.isNull()) {
         setThumbnail(thumb, -1, -1);
     } else {

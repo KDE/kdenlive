@@ -34,7 +34,7 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     if (ok) {
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
         if (binClip) {
-            result = ThumbnailCache::get()->getThumbnail(binClip->hash(), binId, frameNumber);
+            result = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), binId, frameNumber);
             if (!result.isNull()) {
                 *size = result.size();
                 return result;
