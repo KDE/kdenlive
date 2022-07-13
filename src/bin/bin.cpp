@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/abstracttask.h"
 #include "jobs/cliploadtask.h"
@@ -5278,4 +5279,112 @@ bool Bin::containsId(const QString &clipId) const
     } else {
     }
     return true;
+}
+
+void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QList<int> audioStreams, int aindex, int vindex)
+{
+    auto binClip = m_itemModel->getClipByBinID(clipId);
+    // We retrieve the folder containing our clip, because we will set the other streams in the same
+    std::shared_ptr<AbstractProjectItem> baseFolder = binClip->parent();
+    if (!baseFolder) {
+        baseFolder = m_itemModel->getRootFolder();
+    }
+    const QString parentId = baseFolder->clipId();
+    std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
+    // This helper lambda request addition of a given stream
+    auto addStream = [this, parentId, producer](int vindex, int aindex, Fun &undo, Fun &redo) {
+        auto clone = ProjectClip::cloneProducer(producer);
+        clone->set("video_index", vindex);
+        clone->set("audio_index", aindex);
+        QString id;
+        m_itemModel->requestAddBinClip(id, clone, parentId, undo, redo);
+    };
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    if (KdenliveSettings::automultistreams()) {
+        for (int i = 1; i < videoStreams.count(); ++i) {
+            int vindex = videoStreams.at(i);
+            int aindex = 0;
+            if (i <= audioStreams.count() - 1) {
+                aindex = audioStreams.at(i);
+            }
+            addStream(vindex, aindex, undo, redo);
+        }
+        pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", videoStreams.count() - 1));
+        return;
+    }
+
+    int width = int(60.0 * pCore->getCurrentDar());
+    if (width % 2 == 1) {
+        width++;
+    }
+
+    QScopedPointer<QDialog> dialog(new QDialog(qApp->activeWindow()));
+    dialog->setWindowTitle(QStringLiteral("Multi Stream Clip"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    QWidget *mainWidget = new QWidget(dialog.data());
+    auto *mainLayout = new QVBoxLayout;
+    dialog->setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return));
+    dialog->connect(buttonBox, &QDialogButtonBox::accepted, dialog.data(), &QDialog::accept);
+    dialog->connect(buttonBox, &QDialogButtonBox::rejected, dialog.data(), &QDialog::reject);
+    okButton->setText(i18n("Import selected clips"));
+
+    QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", binClip->clipName()), mainWidget);
+    mainLayout->addWidget(lab1);
+    QList<QGroupBox *> groupList;
+    QList<QComboBox *> comboList;
+    // We start loading the list at 1, video index 0 should already be loaded
+    for (int j = 1; j < videoStreams.count(); ++j) {
+        auto clone = ProjectClip::cloneProducer(producer);
+        clone->set("video_index", videoStreams.at(j));
+        // TODO this keyframe should be cached
+        QImage thumb = KThumb::getFrame(clone.get(), 0, width, 60);
+        QGroupBox *streamFrame = new QGroupBox(i18n("Video stream %1", videoStreams.at(j)), mainWidget);
+        mainLayout->addWidget(streamFrame);
+        streamFrame->setProperty("vindex", videoStreams.at(j));
+        groupList << streamFrame;
+        streamFrame->setCheckable(true);
+        streamFrame->setChecked(true);
+        auto *vh = new QVBoxLayout(streamFrame);
+        QLabel *iconLabel = new QLabel(mainWidget);
+        mainLayout->addWidget(iconLabel);
+        iconLabel->setPixmap(QPixmap::fromImage(thumb));
+        vh->addWidget(iconLabel);
+        if (audioStreams.count() > 1) {
+            auto *cb = new QComboBox(mainWidget);
+            mainLayout->addWidget(cb);
+            for (int k = 0; k < audioStreams.count(); ++k) {
+                cb->addItem(i18n("Audio stream %1", audioStreams.at(k)), audioStreams.at(k));
+            }
+            comboList << cb;
+            cb->setCurrentIndex(qMin(j, audioStreams.count() - 1));
+            vh->addWidget(cb);
+        }
+        mainLayout->addWidget(streamFrame);
+    }
+    mainLayout->addStretch(10);
+    mainLayout->addWidget(buttonBox);
+    if (dialog->exec() == QDialog::Accepted) {
+        // import selected streams
+        int importedStreams = 0;
+        for (int i = 0; i < groupList.count(); ++i) {
+            if (groupList.at(i)->isChecked()) {
+                int vindex = groupList.at(i)->property("vindex").toInt();
+                int ax = qMin(i, comboList.size() - 1);
+                int aindex = -1;
+                if (ax >= 0) {
+                    // only check audio index if we have several audio streams
+                    aindex = comboList.at(ax)->itemData(comboList.at(ax)->currentIndex()).toInt();
+                }
+                addStream(vindex, aindex, undo, redo);
+                importedStreams++;
+            }
+        }
+        pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", importedStreams));
+    }
 }

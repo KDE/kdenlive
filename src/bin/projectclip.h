@@ -153,6 +153,8 @@ public:
 
     /** @brief The clip hash created from the clip's resource. */
     const QString hash(bool createIfEmpty = true);
+    /** @brief The clip hash created from the clip's resource, plus the video stream in case of multi-stream clips. */
+    const QString hashForThumbs();
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
