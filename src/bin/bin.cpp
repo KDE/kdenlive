@@ -4052,7 +4052,7 @@ void Bin::slotOpenClipExtern()
                 KdenliveSettings::setGlaxnimatePath(url.toLocalFile());
             }
         }
-        if (KdenliveSettings::glaxnimatePath().isEmpty()) {
+        if (!KdenliveSettings::glaxnimatePath().isEmpty()) {
             QProcess::startDetached(KdenliveSettings::glaxnimatePath(), {clip->url()});
         } else {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a path for the Glaxnimate application"));

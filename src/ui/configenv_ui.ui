@@ -343,7 +343,7 @@
        <item row="2" column="2">
         <widget class="QPushButton" name="kp_anim">
          <property name="text">
-          <string>PushButton</string>
+          <string>Change…</string>
          </property>
         </widget>
        </item>
