@@ -473,7 +473,7 @@ public slots:
     /** @brief Build the project bin audio/video icons according to color theme */
     void slotUpdatePalette();
     /** @brief Import multiple video streams in a clip */
-    void processMultiStream(const QString &clipId, QList<int> videoStreams, QList<int> audioStreams, int aindex, int vindex);
+    void processMultiStream(const QString &clipId, QList<int> videoStreams, QList<int> audioStreams);
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

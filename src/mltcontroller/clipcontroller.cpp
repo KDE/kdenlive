@@ -109,9 +109,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         emitProducerChanged(m_controllerBinId, producer);
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
             // Check if clip has multiple video streams
-            int vindex = m_properties->get_int("video_index");
-            int aindex = m_properties->get_int("audio_index");
-            // Find maximum stream index values
             QList<int> videoStreams;
             QList<int> audioStreams;
             int aStreams = m_properties->get_int("meta.media.nb_streams");
@@ -129,7 +126,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                 setProducerProperty(QStringLiteral("kdenlive:multistreams"), 1);
                 m_hasMultipleVideoStreams = true;
                 QMetaObject::invokeMethod(pCore->bin(), "processMultiStream", Qt::QueuedConnection, Q_ARG(const QString &, m_controllerBinId),
-                                          Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams), Q_ARG(int, aindex), Q_ARG(int, vindex));
+                                          Q_ARG(QList<int>, videoStreams), Q_ARG(QList<int>, audioStreams));
             }
         }
     }
