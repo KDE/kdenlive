@@ -2341,6 +2341,10 @@ void Bin::selectProxyModel(const QModelIndex &id)
             bool isImported = false;
             bool hasAudio = false;
             ClipType::ProducerType type = ClipType::Unknown;
+            // don't need to wait for the clip to be ready to get its type
+            if (clip) {
+                type = clip->clipType();
+            }
             if (clip && clip->statusReady()) {
                 emit requestShowClipProperties(clip, false);
                 m_proxyAction->blockSignals(true);
@@ -2348,7 +2352,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
                     emit findInTimeline(clip->clipId(), clip->timelineInstances());
                 }
                 clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-                type = clip->clipType();
                 hasAudio = clip->hasAudio();
                 m_proxyAction->setChecked(clip->hasProxy());
                 m_proxyAction->blockSignals(false);
