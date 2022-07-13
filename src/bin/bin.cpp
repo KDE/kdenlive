@@ -5254,7 +5254,7 @@ bool Bin::containsId(const QString &clipId) const
     return true;
 }
 
-void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QList<int> audioStreams, int aindex, int vindex)
+void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QList<int> audioStreams)
 {
     auto binClip = m_itemModel->getClipByBinID(clipId);
     // We retrieve the folder containing our clip, because we will set the other streams in the same
