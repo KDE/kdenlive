@@ -607,13 +607,8 @@
       <default></default>
     </entry>
 
-    <entry name="defaultaudioappId" type="String">
-      <label>Default audio editing application service id.</label>
-      <default></default>
-    </entry>
-
-    <entry name="defaultimageappId" type="String">
-      <label>Default image editing application service id.</label>
+    <entry name="glaxnimatePath" type="String">
+      <label>Path to the Glaxnimate application.</label>
       <default></default>
     </entry>
 

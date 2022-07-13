@@ -265,20 +265,6 @@
        <string>Default Apps</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Image editing:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="kcfg_defaultimageapp">
-         <property name="showClearButton" stdset="0">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="kp_image">
          <property name="text">
@@ -295,6 +281,19 @@
        </item>
        <item row="1" column="1">
         <widget class="QLineEdit" name="kcfg_defaultaudioapp">
+         <property name="placeholderText">
+          <string>Path to audio editing application</string>
+         </property>
+         <property name="showClearButton" stdset="0">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="kcfg_defaultimageapp">
+         <property name="placeholderText">
+          <string>Path to image editing application</string>
+         </property>
          <property name="showClearButton" stdset="0">
           <bool>true</bool>
          </property>
@@ -307,7 +306,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -319,6 +318,34 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Image editing:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Animation editing:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="kcfg_glaxnimatePath">
+         <property name="placeholderText">
+          <string>Path to Glaxnimate executable</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="kp_anim">
+         <property name="text">
+          <string>PushButton</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

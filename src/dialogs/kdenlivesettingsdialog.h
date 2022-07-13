@@ -65,6 +65,7 @@ private slots:
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
     void slotEditAudioApplication();
+    void slotEditGlaxnimateApplication();
     void slotReadAudioDevices();
     void slotUpdateGrabRegionStatus();
     void slotCheckAlsaDriver();
@@ -134,8 +135,6 @@ private:
     EncodingProfilesChooser *m_decklinkProfiles;
     EncodingProfilesChooser *m_v4lProfiles;
     EncodingProfilesChooser *m_grabProfiles;
-    QString m_audioAppId;
-    QString m_imageAppId;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();

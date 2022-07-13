@@ -613,31 +613,47 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
     // set up some default applications
     QString program;
     if (KdenliveSettings::defaultimageapp().isEmpty()) {
-        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("gimp"));
-        if (service == nullptr) {
-            service = KService::serviceByDesktopName(QStringLiteral("krita"));
+        QString imageBinary = QStandardPaths::findExecutable(QStringLiteral("gimp"));
+#ifdef Q_OS_WIN
+        if (imageBinary.isEmpty()) {
+            imageBinary = QStandardPaths::findExecutable(QStringLiteral("gimp"), {"C:/Program Files/Gimp", "C:/Program Files (x86)/Gimp"});
         }
-        if (service != nullptr) {
-            QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
-            if (appName.isEmpty()) {
-                appName = service->desktopEntryName();
-            }
-            KdenliveSettings::setDefaultimageapp(appName);
-            KdenliveSettings::setDefaultimageappId(service->storageId());
+#endif
+        if (imageBinary.isEmpty()) {
+            imageBinary = QStandardPaths::findExecutable(QStringLiteral("krita"));
+        }
+#ifdef Q_OS_WIN
+        if (imageBinary.isEmpty()) {
+            imageBinary = QStandardPaths::findExecutable(QStringLiteral("krita"), {"C:/Program Files/Krita", "C:/Program Files (x86)/Krita"});
+        }
+#endif
+        if (!imageBinary.isEmpty()) {
+            KdenliveSettings::setDefaultimageapp(imageBinary);
         }
     }
     if (KdenliveSettings::defaultaudioapp().isEmpty()) {
-        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("audacity"));
-        if (service == nullptr) {
-            service = KService::serviceByDesktopName(QStringLiteral("traverso"));
+        QString audioBinary = QStandardPaths::findExecutable(QStringLiteral("audacity"));
+#ifdef Q_OS_WIN
+        if (audioBinary.isEmpty()) {
+            audioBinary = QStandardPaths::findExecutable(QStringLiteral("audacity"), {"C:/Program Files/Audacity", "C:/Program Files (x86)/Audacity"});
         }
-        if (service != nullptr) {
-            QString appName = service->property(QStringLiteral("Name"), QVariant::String).toString();
-            if (appName.isEmpty()) {
-                appName = service->desktopEntryName();
-            }
-            KdenliveSettings::setDefaultaudioapp(appName);
-            KdenliveSettings::setDefaultaudioappId(service->storageId());
+#endif
+        if (audioBinary.isEmpty()) {
+            audioBinary = QStandardPaths::findExecutable(QStringLiteral("traverso"));
+        }
+        if (!audioBinary.isEmpty()) {
+            KdenliveSettings::setDefaultaudioapp(audioBinary);
+        }
+    }
+    if (KdenliveSettings::glaxnimatePath().isEmpty()) {
+        QString animBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"));
+#ifdef Q_OS_WIN
+        if (animBinary.isEmpty()) {
+            animBinary = QStandardPaths::findExecutable(QStringLiteral("glaxnimate"), {"C:/Program Files/Glaxnimate", "C:/Program Files (x86)/Glaxnimate"});
+        }
+#endif
+        if (!animBinary.isEmpty()) {
+            KdenliveSettings::setGlaxnimatePath(animBinary);
         }
     }
 
