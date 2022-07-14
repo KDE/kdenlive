@@ -752,7 +752,9 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
-        id = QString::number(producer->get_int("kdenlive:id"));
+        if (producer->property_exists("kdenlive:id")) {
+            id = QString::number(producer->get_int("kdenlive:id"));
+        }
         if (!isIdFree(id)) {
             id = QString::number(getFreeClipId());
         }
