@@ -11,6 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "clipcreator.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/kdenlivesettingsdialog.h"
+#include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
@@ -18,6 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "jobs/abstracttask.h"
+#include "jobs/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
 #include "jobs/taskmanager.h"
 #include "jobs/transcodetask.h"
@@ -30,6 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clippropertiescontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
+#include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
 #include "project/projectcommands.h"
@@ -44,11 +48,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
+#include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
-#include <dialogs/textbasededit.h>
-#include <jobs/audiolevelstask.h>
-#include <profiles/profilemodel.hpp>
-#include <utils/thumbnailcache.hpp>
 
 #include <KActionMenu>
 #include <KColorScheme>
@@ -4024,6 +4025,10 @@ void Bin::slotOpenClipExtern()
             QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your image editing application"));
             if (!url.isEmpty()) {
                 KdenliveSettings::setDefaultimageapp(url.toLocalFile());
+                KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
+                if (d) {
+                    d->updateExternalApps();
+                }
             }
         }
         if (!KdenliveSettings::defaultimageapp().isEmpty()) {
@@ -4037,6 +4042,10 @@ void Bin::slotOpenClipExtern()
             QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path for your audio editing application"));
             if (!url.isEmpty()) {
                 KdenliveSettings::setDefaultaudioapp(url.toLocalFile());
+                KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
+                if (d) {
+                    d->updateExternalApps();
+                }
             }
         }
         if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
@@ -4050,6 +4059,10 @@ void Bin::slotOpenClipExtern()
             QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path to the Glaxnimate application"));
             if (!url.isEmpty()) {
                 KdenliveSettings::setGlaxnimatePath(url.toLocalFile());
+                KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
+                if (d) {
+                    d->updateExternalApps();
+                }
             }
         }
         if (!KdenliveSettings::glaxnimatePath().isEmpty()) {
