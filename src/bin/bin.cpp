@@ -4027,7 +4027,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultimageapp().isEmpty()) {
-            QProcess::startDetached(KdenliveSettings::defaultimageapp(), {clip->url()});
+            openExternalApp(KdenliveSettings::defaultimageapp(), clip->url());
         } else {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
         }
@@ -4040,7 +4040,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
-            QProcess::startDetached(KdenliveSettings::defaultaudioapp(), {clip->url()});
+            openExternalApp(KdenliveSettings::defaultaudioapp(), clip->url());
         } else {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
         }
@@ -4053,7 +4053,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::glaxnimatePath().isEmpty()) {
-            QProcess::startDetached(KdenliveSettings::glaxnimatePath(), {clip->url()});
+            openExternalApp(KdenliveSettings::glaxnimatePath(), clip->url());
         } else {
             KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a path for the Glaxnimate application"));
         }
@@ -4061,6 +4061,17 @@ void Bin::slotOpenClipExtern()
     default:
         break;
     }
+}
+
+void Bin::openExternalApp(QString appPath, QString url)
+{
+    QStringList args;
+#if defined(Q_OS_MACOS)
+    appPath.prepend(QStringLiteral("open "));
+    args << QStringLiteral("--args");
+#endif
+    args << url;
+    QProcess::startDetached(appPath, args);
 }
 
 void Bin::updateTimecodeFormat()

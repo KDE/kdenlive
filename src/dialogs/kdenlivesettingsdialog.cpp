@@ -834,7 +834,7 @@ void KdenliveSettingsDialog::slotEditAudioApplication()
 {
     QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(KdenliveSettings::defaultaudioapp()), this, i18n("Enter path to the audio editing application"));
     if (!url.isEmpty()) {
-        KdenliveSettings::setDefaultaudioapp(url.toLocalFile());
+        m_configEnv.kcfg_defaultaudioapp->setText(url.toLocalFile());
     }
 }
 
@@ -842,7 +842,7 @@ void KdenliveSettingsDialog::slotEditImageApplication()
 {
     QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(KdenliveSettings::defaultimageapp()), this, i18n("Enter path to the image editing application"));
     if (!url.isEmpty()) {
-        KdenliveSettings::setDefaultimageapp(url.toLocalFile());
+        m_configEnv.kcfg_defaultimageapp->setText(url.toLocalFile());
     }
 }
 
@@ -850,7 +850,7 @@ void KdenliveSettingsDialog::slotEditGlaxnimateApplication()
 {
     QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(KdenliveSettings::glaxnimatePath()), this, i18n("Enter path to the Glaxnimate application"));
     if (!url.isEmpty()) {
-        KdenliveSettings::setGlaxnimatePath(url.toLocalFile());
+        m_configEnv.kcfg_glaxnimatePath->setText(url.toLocalFile());
     }
 }
 
