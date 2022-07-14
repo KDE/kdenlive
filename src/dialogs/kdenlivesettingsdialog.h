@@ -53,6 +53,8 @@ public:
     ~KdenliveSettingsDialog() override;
     void showPage(int page, int option);
     void checkProfile();
+    /** @brief update kdenlive settings for external app path if they were changed outside config dialog */
+    void updateExternalApps();
 
 protected slots:
     void updateSettings() override;

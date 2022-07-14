@@ -937,6 +937,13 @@ void KdenliveSettingsDialog::accept()
     KConfigDialog::accept();
 }
 
+void KdenliveSettingsDialog::updateExternalApps()
+{
+    m_configEnv.kcfg_defaultimageapp->setText(KdenliveSettings::defaultimageapp());
+    m_configEnv.kcfg_defaultaudioapp->setText(KdenliveSettings::defaultaudioapp());
+    m_configEnv.kcfg_glaxnimatePath->setText(KdenliveSettings::glaxnimatePath());
+}
+
 void KdenliveSettingsDialog::updateSettings()
 {
     // Save changes to settings (for example when user pressed "Apply" or "Ok")
