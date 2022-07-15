@@ -350,7 +350,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
             }
             // When not zoomed, allow seek by clicking on zoombar
-            if (qFuzzyCompare(m_zoomFactor, 1.) && pos != m_position) {
+            if (qFuzzyCompare(m_zoomFactor, 1.) && pos != m_position && !m_hoverZoomIn && !m_hoverZoomOut) {
                 emit seekToPos(pos);
             }
             return;

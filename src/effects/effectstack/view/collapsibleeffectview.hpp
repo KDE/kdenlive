@@ -87,17 +87,16 @@ public slots:
     void blockWheelEvent(bool block);
     /** @brief Switch between collapsed/expanded state */
     void switchCollapsed(int row);
+    /** @brief Open a save effect dialog */
+    void slotSaveEffect();
 
 private slots:
     void setWidgetHeight(qreal value);
     void enableView(bool enabled);
-
-private slots:
     void slotSwitch(bool expand);
     void slotDeleteEffect();
     void slotEffectUp();
     void slotEffectDown();
-    void slotSaveEffect();
     void slotCreateGroup();
     void slotCreateRegion();
     void slotUnGroup();
