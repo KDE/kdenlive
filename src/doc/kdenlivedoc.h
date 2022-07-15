@@ -52,6 +52,7 @@ class Profile;
 class DocOpenResult {
 public:
     bool isSuccessful() const { return m_succeeded; }
+    bool isAborted() const { return m_aborted; }
     /** @returns a unique_ptr to the KdenliveDoc, or an empty unique_ptr */
     std::unique_ptr<KdenliveDoc> getDocument() { return std::move(m_doc); }
     /** @returns an error message if the doc could not be opened. */
@@ -65,6 +66,7 @@ public:
         m_succeeded = true;
     }
     void setError(const QString &error) { m_errorMessage = error; }
+    void setAborted() { m_aborted = true; }
     void setUpgraded(bool upgraded) { m_upgraded = upgraded; }
     void setModified(bool modified) { m_modified = modified; }
 
@@ -75,6 +77,7 @@ private:
     bool m_upgraded = false;
     bool m_modified = false;
     bool m_succeeded = false;
+    bool m_aborted = false;
 };
 
 class KdenliveDoc : public QObject
