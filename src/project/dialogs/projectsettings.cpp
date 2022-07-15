@@ -267,8 +267,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         slotUpdateFiles();
         connect(delete_unused, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteUnused);
     } else {
-        tabWidget->removeTab(2);
-        tabWidget->removeTab(1);
+        // Hide project files tab since its an empty new project
+        tabWidget->removeTab(3);
     }
     connect(project_folder, &KUrlRequester::textChanged, this, &ProjectSettings::slotUpdateButton);
     connect(button_export, &QAbstractButton::clicked, this, &ProjectSettings::slotExportToText);

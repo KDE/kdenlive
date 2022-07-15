@@ -212,6 +212,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
+        documentProperties.insert(QStringLiteral("proxyresize"), w->proxyResize());
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
         QString preview = w->selectedPreview();
@@ -226,7 +227,12 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             }
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
+        if (w->useExternalProxy()) {
+            documentProperties.insert(QStringLiteral("enableexternalproxy"), QStringLiteral("1"));
+            documentProperties.insert(QStringLiteral("externalproxyparams"), w->externalProxyParams());
+        }
         sameProjectFolder = w->docFolderAsStorageFolder();
+        // Metadata
         documentMetadata = w->metadata();
         delete w;
     }
