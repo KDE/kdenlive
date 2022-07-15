@@ -492,7 +492,17 @@ void EffectStackView::slotFocusEffect()
 
 void EffectStackView::slotSaveStack()
 {
-    if (m_model->rowCount() <= 0) {
+    if (m_model->rowCount() == 1) {
+        int currentActive = m_model->getActiveEffect();
+        if (currentActive > -1) {
+            auto item = m_model->getEffectStackRow(currentActive);
+            QModelIndex ix = m_model->getIndexFromItem(item);
+            auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+            w->slotSaveEffect();
+            return;
+        }
+    }
+    if (m_model->rowCount() <= 1) {
         KMessageBox::sorry(this, i18n("No effect selected."));
         return;
     }
