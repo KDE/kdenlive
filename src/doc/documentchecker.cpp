@@ -94,21 +94,21 @@ bool DocumentChecker::hasErrorInClips()
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
-            m_documentid = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
+            QDomElement mainBinPlaylist = playlists.at(i).toElement();
+            m_documentid = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.documentid"));
             if (m_documentid.isEmpty()) {
                 // invalid document id, recreate one
                 m_documentid = QString::number(QDateTime::currentMSecsSinceEpoch());
                 // TODO: Warn on invalid doc id
-                Xml::setXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"), m_documentid);
+                Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.documentid"), m_documentid);
             }
-            storageFolder = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"));
+            storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
             if (!storageFolder.isEmpty() && QFileInfo(storageFolder).isRelative()) {
                 storageFolder.prepend(root);
             }
             if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(m_documentid)) {
                 storageFolder = projectDir.absolutePath();
-                Xml::setXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"),
-                                    projectDir.absoluteFilePath(m_documentid));
+                Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
             }
             break;
@@ -737,6 +737,7 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
             if (!proxyFound) {
                 // Neither proxy nor original file found
                 m_missingClips.append(e);
+                m_missingProxies.append(e);
             } else {
                 // clip has proxy but original clip is missing
                 m_missingSources.append(e);
@@ -1328,6 +1329,10 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
                     // Only set originalurl on master producer
                     Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), fixedResource);
                 }
+                if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource")).isEmpty()) {
+                    // Only set original.resource on master producer
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:original.resource"), fixedResource);
+                }
                 if (m_missingProxyIds.contains(parentId)) {
                     // Proxy is also missing, replace resource
                     if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp")) {
@@ -1402,6 +1407,10 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
                     if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl")).isEmpty()) {
                         // Only set originalurl on master producer
                         Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), fixedResource);
+                    }
+                    if (!Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.resource")).isEmpty()) {
+                        // Only set original.resource on master producer
+                        Xml::setXmlProperty(e, QStringLiteral("kdenlive:original.resource"), fixedResource);
                     }
                     updateProperty(e, QStringLiteral("resource"), updatedResource);
                     QString proxy = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
