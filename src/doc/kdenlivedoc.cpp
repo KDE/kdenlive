@@ -259,7 +259,8 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     DocumentChecker d(url, domDoc);
     success = !d.hasErrorInClips();
     if (!success) {
-        result.setError(i18n("Errors were detected in the project file."));
+        // Loading aborted
+        result.setAborted();
         return result;
     }
 

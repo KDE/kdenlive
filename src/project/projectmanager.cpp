@@ -212,6 +212,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
+        documentProperties.insert(QStringLiteral("proxyresize"), QString::number(w->proxyResize()));
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
         QString preview = w->selectedPreview();
@@ -226,7 +227,12 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             }
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
+        if (w->useExternalProxy()) {
+            documentProperties.insert(QStringLiteral("enableexternalproxy"), QStringLiteral("1"));
+            documentProperties.insert(QStringLiteral("externalproxyparams"), w->externalProxyParams());
+        }
         sameProjectFolder = w->docFolderAsStorageFolder();
+        // Metadata
         documentMetadata = w->metadata();
         delete w;
     }
@@ -624,7 +630,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         QString(), pCore->window()->m_commandStack, false, pCore->window());
 
     KdenliveDoc *doc;
-    if (!openResult.isSuccessful()) {
+    if (!openResult.isSuccessful() && !openResult.isAborted()) {
         if (!isBackup) {
             int answer = KMessageBox::warningYesNoCancel(
                         pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
@@ -646,13 +652,15 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
             KMessageBox::detailedSorry(pCore->window(), "Could not open the backup project file.", openResult.getError());
         }
     } else {
-         doc = openResult.getDocument().release();
+        doc = openResult.getDocument().release();
     }
 
     // if we could not open the file, and could not recover (or user declined), stop now
     if (!openResult.isSuccessful()) {
         delete m_progressDialog;
         m_progressDialog = nullptr;
+        // Open default blank document
+        newFile(false);
         return;
     }
 
