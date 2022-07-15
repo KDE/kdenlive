@@ -212,7 +212,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
-        documentProperties.insert(QStringLiteral("proxyresize"), w->proxyResize());
+        documentProperties.insert(QStringLiteral("proxyresize"), QString::number(w->proxyResize()));
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
         QString preview = w->selectedPreview();
