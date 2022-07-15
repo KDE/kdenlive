@@ -4080,8 +4080,8 @@ void Bin::openExternalApp(QString appPath, QString url)
 {
     QStringList args;
 #if defined(Q_OS_MACOS)
-    appPath.prepend(QStringLiteral("open "));
-    args << QStringLiteral("--args");
+    args << QStringLiteral("-a") << appPath << QStringLiteral("--args");
+    appPath = QStringLiteral("open");
 #endif
     args << url;
     QProcess::startDetached(appPath, args);
