@@ -566,6 +566,8 @@ void CollapsibleEffectView::slotSaveEffect()
             out.setCodec("UTF-8");
 #endif
             out << doc.toString();
+        } else {
+            KMessageBox::sorry(this, i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
         emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
