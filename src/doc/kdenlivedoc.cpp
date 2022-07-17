@@ -1007,6 +1007,8 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
                         out.setCodec("UTF-8");
 #endif
                         out << doc.toString();
+                    } else {
+                        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
                     }
                 }
             }

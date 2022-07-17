@@ -9,11 +9,15 @@
 #include "profiles/profilemodel.hpp"
 #include "xml/xml.hpp"
 
-#include <KLocalizedString>
+#include <QApplication>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QTextStream>
+
+#include <KLocalizedString>
+#include <KMessageBox>
+
 #include <mlt++/Mlt.h>
 
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
@@ -383,6 +387,8 @@ QPair<QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pat
             out.setCodec("UTF-8");
 #endif
             out << doc.toString();
+        } else {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
         results.first = path;

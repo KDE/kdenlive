@@ -7,13 +7,16 @@
 #include "abstractmodel/treeitem.hpp"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
-#include <KLocalizedString>
+
+#include <QApplication>
 #include <QDomDocument>
 #include <QFile>
 #include <array>
 #include <vector>
 
 #include <KActionCategory>
+#include <KLocalizedString>
+#include <KMessageBox>
 #include <QDebug>
 #include <QMenu>
 #include <QMessageBox>
@@ -246,6 +249,8 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
             out.setCodec("UTF-8");
 #endif
             out << doc.toString();
+        } else {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
 
@@ -260,6 +265,8 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
             out.setCodec("UTF-8");
 #endif
             out << doc.toString();
+        } else {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
         reloadEffect(oldpath);
