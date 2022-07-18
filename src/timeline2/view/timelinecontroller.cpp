@@ -567,10 +567,13 @@ int TimelineController::insertComposition(int tid, int position, const QString &
     // Check if composition should be reversed (top clip at beginning, bottom at end)
     int a_track = m_model->getPreviousVideoTrackPos(tid);
     int topClip = m_model->getTrackById_const(tid)->getClipByPosition(position);
-    int bottomTid = m_model->getTrackIndexFromPosition(a_track - 1);
     int bottomClip = -1;
-    if (bottomTid > -1) {
-        bottomClip = m_model->getTrackById_const(bottomTid)->getClipByPosition(position);
+    if (a_track > 0) {
+        // There is a video track below, check its clip
+        int bottomTid = m_model->getTrackIndexFromPosition(a_track - 1);
+        if (bottomTid > -1) {
+            bottomClip = m_model->getTrackById_const(bottomTid)->getClipByPosition(position);
+        }
     }
     bool reverse = false;
     if (topClip > -1 && bottomClip > -1) {
