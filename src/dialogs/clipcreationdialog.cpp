@@ -50,7 +50,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 QStringList ClipCreationDialog::getExtensions()
 {
     // Build list of MIME types
-    QStringList mimeTypes = QStringList() << QLatin1String("") << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist")
+    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist")
                                           << QStringLiteral("text/plain") << QStringLiteral("application/x-kdenlive");
 
     // Video MIMEs
@@ -79,12 +79,22 @@ QStringList ClipCreationDialog::getExtensions()
         mimeTypes << QStringLiteral("application/json");
     }
 
+    // Some newer mimetypes might not be registered on some older Operating Systems, so register manually
+    QMap<QString, QString> manualMap;
+    manualMap.insert(QStringLiteral("image/avif"), QStringLiteral("*.avif"));
+    manualMap.insert(QStringLiteral("image/heif"), QStringLiteral("*.heif"));
+    manualMap.insert(QStringLiteral("image/x-exr"), QStringLiteral("*.exr"));
+    manualMap.insert(QStringLiteral("image/jp2"), QStringLiteral("*.jp2"));
+    manualMap.insert(QStringLiteral("image/jxl"), QStringLiteral("*.jxl"));
+
     QMimeDatabase db;
     QStringList allExtensions;
     for (const QString &mimeType : qAsConst(mimeTypes)) {
         QMimeType mime = db.mimeTypeForName(mimeType);
         if (mime.isValid()) {
             allExtensions.append(mime.globPatterns());
+        } else if (manualMap.contains(mimeType)) {
+            allExtensions.append(manualMap.value(mimeType));
         }
     }
     if (allowLottie) {
