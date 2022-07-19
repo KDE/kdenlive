@@ -4997,7 +4997,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
             };
             int oldAtrack = m_allCompositions[compoId]->getATrack();
             delete_reverse = [this, compoId, oldAtrack, updateView]() {
-                m_allCompositions[compoId]->setATrack(oldAtrack, oldAtrack <= 0 ? -1 : getTrackIndexFromPosition(oldAtrack - 1));
+                m_allCompositions[compoId]->setATrack(oldAtrack, oldAtrack < 1 ? -1 : getTrackIndexFromPosition(oldAtrack - 1));
                 return replantCompositions(compoId, updateView);
             };
         }
@@ -5025,7 +5025,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         Fun insert_reverse = []() { return true; };
         if (old_trackId != trackId) {
             insert_operation = [this, compoId, compositionTrack, updateView]() {
-                m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack <= 0 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
+                m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack < 1 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
                 return replantCompositions(compoId, updateView);
             };
             insert_reverse = [this, compoId]() {
@@ -6104,7 +6104,7 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     int newId = -1;
     // Check if composition should be reversed (top clip at beginning, bottom at end)
     int topClip = getTrackById_const(currentTrack)->getClipByPosition(currentPos);
-    int bottomTid = getTrackIndexFromPosition(a_track - 1);
+    int bottomTid = a_track < 1 ? -1 : getTrackIndexFromPosition(a_track - 1);
     int bottomClip = -1;
     if (bottomTid > -1) {
         bottomClip = getTrackById_const(bottomTid)->getClipByPosition(currentPos);
