@@ -2234,7 +2234,7 @@ void MainWindow::slotUpdateMousePosition(int pos, int duration)
 {
     if (pCore->currentDoc()) {
         if (duration < 0) {
-            duration = getMainTimeline()->controller()->duration() - 1;
+            duration = getMainTimeline()->controller()->duration();
         }
         if (pos >= 0) {
             m_mousePosition = pos;
