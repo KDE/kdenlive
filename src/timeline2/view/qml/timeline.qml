@@ -28,6 +28,11 @@ Rectangle {
     property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
+    Timer {
+        id: doubleClickTimer
+        interval: root.doubleClickInterval
+        repeat: false
+    }
 
     signal clipClicked()
     signal mousePosChanged(int position)
@@ -337,6 +342,7 @@ Rectangle {
         dragProxy.width = 0
         dragProxy.height = 0
         dragProxy.verticalOffset = 0
+        doubleClickTimer.stop()
         root.blockAutoScroll = false
     }
 
@@ -448,6 +454,7 @@ Rectangle {
     property color groupColor: timeline.groupColor
     property color thumbColor1: timeline.thumbColor1
     property color thumbColor2: timeline.thumbColor2
+    property int doubleClickInterval: timeline.doubleClickInterval()
     property int mainItemId: -1
     property int clickFrame: -1
     property int clipBeingDroppedId: -1
@@ -1749,6 +1756,7 @@ Rectangle {
                                         moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && (Qt.platform.os != "windows" || !(mouse.modifiers & Qt.AltModifier))
                                         timeline.activeTrack = dragProxy.sourceTrack
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) === -1) {
+                                            doubleClickTimer.start()
                                             controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                         }
                                         timeline.showAsset(dragProxy.draggedItem)
@@ -1893,7 +1901,7 @@ Rectangle {
                                         }
                                     }
                                     onDoubleClicked: {
-                                        if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes) {
+                                        if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes && !doubleClickTimer.running) {
                                             var newVal = (dragProxy.height - mouseY) / dragProxy.height
                                             var newPos = Math.round(mouseX / timeScale) + dragProxy.masterObject.inPoint
                                             timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
