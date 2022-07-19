@@ -47,7 +47,7 @@ class MediaCapture : public QObject
     Q_OBJECT
     Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
     Q_PROPERTY(int recordState READ recordState NOTIFY recordStateChanged)
-    Q_PROPERTY(int recDuration MEMBER m_lastPos NOTIFY recDurationChanged)
+    Q_PROPERTY(int recDuration READ recDuration NOTIFY recDurationChanged)
 
 public:
     MediaCapture(QObject *parent);
@@ -69,6 +69,7 @@ public:
     int currentState;
     Q_INVOKABLE QVector<qreal> levels() const;
     Q_INVOKABLE int recordState() const;
+    Q_INVOKABLE int recDuration() const;
     void switchMonitorState(bool run);
     /** @brief Returns true is audio monitoring is currently in progress **/
     bool isMonitoring() const;
@@ -97,8 +98,10 @@ private:
     QVector<qreal> m_levels;
     QVector<double> m_recLevels;
     int m_recordState;
-    /** @brief Duration of the recording */
+    /** @brief Last recorded frame */
     int m_lastPos;
+    /** @brief Duration of pre-pause recording */
+    int m_recOffset;
     int m_tid;
     /** @brief true if we started the record countdown */
     bool m_readyForRecord;
