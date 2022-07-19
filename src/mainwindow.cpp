@@ -2334,7 +2334,9 @@ void MainWindow::slotEditKeys()
         foreach (QPushButton *button, dialog.findChildren<QPushButton *>()) {
             if (button->text() == i18n("More Actions")) {
                 QMenu *moreActionsMenu = button->menu();
-                moreActionsMenu->addAction(i18n("Download New Keyboard Schemes…"), this, [this, schemesList] { slotGetNewKeyboardStuff(schemesList); });
+                if (moreActionsMenu) {
+                    moreActionsMenu->addAction(i18n("Download New Keyboard Schemes…"), this, [this, schemesList] { slotGetNewKeyboardStuff(schemesList); });
+                }
                 break;
             }
         }
