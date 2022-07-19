@@ -1106,7 +1106,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(!autoTrack);
-        timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
+        timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack < 1 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
         field->unlock();
         timeline->replantCompositions(cid, true);
         emit timeline->invalidateZone(start, end);
@@ -1118,7 +1118,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(previousAutoTrack == 0);
-        timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
+        timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack < 1 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
         field->unlock();
         timeline->replantCompositions(cid, true);
         emit timeline->invalidateZone(start, end);
@@ -1441,6 +1441,9 @@ int TimelineFunctions::getTrackOffset(const std::shared_ptr<TimelineItemModel> &
     while (track != destTrackMltIndex) {
         track += step;
         qDebug() << "+ + +TESTING TRACK: " << track;
+        if (track < 1) {
+            continue;
+        }
         int trackId = timeline->getTrackIndexFromPosition(track - 1);
         if (isAudio == timeline->isAudioTrack(trackId)) {
             offset += step;
@@ -1460,8 +1463,8 @@ int TimelineFunctions::getOffsetTrackId(const std::shared_ptr<TimelineItemModel>
     while (offset != 0) {
         masterTrackMltIndex += offset > 0 ? 1 : -1;
         qDebug() << "#### TESTING TRACK: " << masterTrackMltIndex;
-        if (masterTrackMltIndex < 0) {
-            masterTrackMltIndex = 0;
+        if (masterTrackMltIndex < 1) {
+            masterTrackMltIndex = 1;
             break;
         }
         if (masterTrackMltIndex > int(timeline->m_allTracks.size())) {
