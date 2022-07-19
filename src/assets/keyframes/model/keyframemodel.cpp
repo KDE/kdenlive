@@ -1324,7 +1324,7 @@ std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(std::shared_ptr<Ass
     return mlt_prop;
 }
 
-const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset)
+const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration)
 {
     Mlt::Properties mlt_prop;
     model->passProperties(mlt_prop);
@@ -1345,7 +1345,7 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
             }
         }
     }
-    return qstrdup(anim.serialize_cut());
+    return qstrdup(anim.serialize_cut(0, duration));
 }
 
 QList<GenTime> KeyframeModel::getKeyframePos() const
