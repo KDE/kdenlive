@@ -1946,8 +1946,15 @@ void Bin::slotDuplicateClip()
         }
         items << m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     }
+    std::function<void(const QString &)> callBack = [this](const QString &binId) {
+        if (!binId.isEmpty()) {
+            selectClipById(binId);
+        }
+    };
+    int ix = 0;
     QString lastId;
     for (const auto &item : qAsConst(items)) {
+        ix++;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
             if (currentItem) {
@@ -1966,8 +1973,11 @@ void Bin::slotDuplicateClip()
                         Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
                     }
                     QString id;
-                    m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
-                    lastId = id;
+                    if (ix == items.count()) {
+                        m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
+                    } else {
+                        m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
+                    }
                 }
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
