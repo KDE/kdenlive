@@ -160,7 +160,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     static QList<QPoint> getRanges(const QString &animData, const std::shared_ptr<AssetParameterModel> &model);
     static std::shared_ptr<Mlt::Properties> getAnimation(std::shared_ptr<AssetParameterModel> model, const QString &animData, int duration = 0);
-    static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset);
+    static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
