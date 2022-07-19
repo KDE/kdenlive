@@ -10,6 +10,7 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 
 #include <KActionCollection>
+#include <QApplication>
 #include <QDir>
 
 class PreviewManager;
@@ -174,6 +175,7 @@ public:
     Q_INVOKABLE QColor lockedColor() const;
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
+    Q_INVOKABLE int doubleClickInterval() const { return QApplication::doubleClickInterval(); }
     Q_INVOKABLE void showToolTip(const QString &info = QString()) const;
     Q_INVOKABLE void showKeyBinding(const QString &info = QString()) const;
     Q_INVOKABLE void showTimelineToolInfo(bool show) const;

@@ -42,7 +42,6 @@
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KUrlRequesterDialog>
-#include <QApplication>
 #include <QClipboard>
 #include <QFontDatabase>
 #include <QQuickItem>
