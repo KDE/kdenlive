@@ -145,6 +145,7 @@ MediaCapture::MediaCapture(QObject *parent)
     , m_audioDevice("default:")
     , m_path(QUrl())
     , m_recordState(0)
+    , m_recOffset(0)
     , m_tid(-1)
     , m_readyForRecord(false)
 {
@@ -226,6 +227,11 @@ void MediaCapture::switchMonitorState(bool run)
     }
 }
 
+int MediaCapture::recDuration() const
+{
+    return m_recOffset + m_lastPos;
+}
+
 const QVector<double> MediaCapture::recLevels() const
 {
     return m_recLevels;
@@ -264,6 +270,7 @@ void MediaCapture::recordAudio(int tid, bool record)
                 m_resetTimer.start();
                 m_recLevels.clear();
                 m_lastPos = -1;
+                m_recOffset = 0;
                 emit audioLevels(QVector<qreal>());
                 // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
                 if (!m_readyForRecord) {
@@ -309,6 +316,7 @@ void MediaCapture::recordAudio(int tid, bool record)
 int MediaCapture::startCapture()
 {
     m_lastPos = -1;
+    m_recOffset = 0;
     m_recTimer.start();
     m_audioRecorder->record();
     m_readyForRecord = false;
@@ -452,6 +460,7 @@ void MediaCapture::pauseRecording()
 void MediaCapture::resumeRecording()
 {
     if (m_audioRecorder->state() == QMediaRecorder::PausedState) {
+        m_recOffset += m_lastPos;
         m_lastPos = -1;
         m_recTimer.start();
         m_audioRecorder->record();
