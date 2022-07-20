@@ -18,6 +18,7 @@
 #include <mlt++/Mlt.h>
 #include <mlt++/MltProperties.h>
 
+#include <KEncodingProber>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -101,7 +102,35 @@ void SubtitleModel::unsetModel()
     m_timeline.reset();
 }
 
-void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport, float startFramerate, float targetFramerate)
+QByteArray SubtitleModel::guessFileEncoding(const QString &file)
+{
+    QFile textFile{file};
+    if (!textFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Could not open" << file;
+        return "";
+    }
+    KEncodingProber prober{};
+    QByteArray sample = textFile.read(1024);
+    if (sample.isEmpty()) {
+        qWarning() << "Tried to guess the encoding of an empty file";
+        return "";
+    }
+    auto state = prober.feed(sample);
+    switch (state) {
+        case KEncodingProber::ProberState::FoundIt:
+            qDebug() << "Guessed subtitle file encoding to be " << prober.encoding();
+            break;
+        case KEncodingProber::ProberState::NotMe:
+            qWarning() << "Subtitle file encoding not recognized";
+            return "";
+        case KEncodingProber::ProberState::Probing:
+            qWarning() << "Subtitle file encoding indeterminate, confidence is" << prober.confidence();
+            break;
+    }
+    return prober.encoding();
+}
+
+void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool externalImport, float startFramerate, float targetFramerate, const QByteArray &encoding)
 {
     QString start, end, comment;
     QString timeLine;
@@ -137,9 +166,13 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         qDebug() << "srt/vtt/sbv File";
         //parsing srt file
         QTextStream stream(&srtFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        stream.setCodec(QTextCodec::codecForName("UTF-8"));
-#endif
+        QTextCodec *inputEncoding = QTextCodec::codecForName(encoding);
+        if (inputEncoding) {
+            stream.setCodec(inputEncoding);
+        } else {
+            qWarning() << "No QTextCodec named" << encoding;
+            stream.setCodec("UTF-8");
+        }
         QString line;
         QStringList srtTime;
         QRegExp rx("([0-9]{1,2}):([0-9]{2})");
@@ -186,8 +219,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                 timeLine.clear();
                 r = 0;
                 turn = defaultTurn;
-            }            
-        }  
+            }
+        }
         srtFile.close();
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug() << "ass File";
@@ -201,9 +234,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             return;
         }
         QTextStream stream(&assFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        stream.setCodec(QTextCodec::codecForName("UTF-8"));
-#endif
+        stream.setCodec(QTextCodec::codecForName(encoding));
         QString line;
         qDebug() << " correct ass file  " << filePath;
         scriptInfoSection.clear();

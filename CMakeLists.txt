@@ -58,7 +58,7 @@ if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
 endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
-find_package(KF5 ${KF_DEP_VERSION} REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
+find_package(KF5 ${KF_DEP_VERSION} REQUIRED COMPONENTS Archive Bookmarks Codecs CoreAddons Config ConfigWidgets
                             KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 

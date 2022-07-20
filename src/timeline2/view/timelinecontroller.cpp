@@ -4896,11 +4896,14 @@ void TimelineController::importSubtitle(const QString &path)
         if (view.cursor_pos->isChecked()) {
             offset = pCore->getTimelinePosition();
         }
-	if (view.transform_framerate_check_box->isChecked()) {
-	  startFramerate = view.caption_original_framerate->value();
-	  targetFramerate = view.caption_target_framerate->value();
-	}
-	subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate);
+        if (view.transform_framerate_check_box->isChecked()) {
+            startFramerate = view.caption_original_framerate->value();
+            targetFramerate = view.caption_target_framerate->value();
+        }
+        const auto localPath = view.subtitle_url->url().toLocalFile();
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(localPath);
+        qDebug() << "Guessed subtitle encoding is" << guessedEncoding;
+        subtitleModel->importSubtitle(localPath, offset, true, startFramerate, targetFramerate, guessedEncoding);
     }
     emit regainFocus();
 }

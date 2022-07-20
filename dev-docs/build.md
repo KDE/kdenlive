@@ -57,7 +57,7 @@ sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev libk
 libkf5configwidgets-dev libkf5dbusaddons-dev libkf5kio-dev libkf5widgetsaddons-dev \
 libkf5notifyconfig-dev libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev \
 libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev libkf5purpose-dev \
-libkf5iconthemes-dev libkf5crash-dev libkf5filemetadata-dev kio \
+libkf5iconthemes-dev libkf5crash-dev libkf5filemetadata-dev libkf5codecs-dev kio \
 kinit qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick-controls libqt5networkauth5-dev \
 qtmultimedia5-dev qtquickcontrols2-5-dev breeze-icon-theme breeze
 
