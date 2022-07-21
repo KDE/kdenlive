@@ -660,7 +660,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
     // in/out points
     int in = 0;
     // Remove last black frame
-    int out = pCore->projectDuration() - 2;
+    int out = pCore->projectDuration() - 1;
     Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
     double fps = pCore->getCurrentProfile()->fps();
     QString subtitleFile;
