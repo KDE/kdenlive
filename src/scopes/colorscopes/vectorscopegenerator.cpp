@@ -112,32 +112,32 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
         // Invalid size
         return QImage();
     }
+    if (accelFactor < 1) { accelFactor = 1; }
 
     // Prepare the vectorscope data
     const int cw = (vectorscopeSize.width() < vectorscopeSize.height()) ? vectorscopeSize.width() : vectorscopeSize.height();
     QImage scope = QImage(cw, cw, QImage::Format_ARGB32);
     scope.fill(qRgba(0, 0, 0, 0));
 
-    const uchar *bits = image.bits();
-
     double dy, dr, dg, db, dmax;
     double /*y,*/ u, v;
     QPoint pt;
     QRgb px;
-
-    const int stepsize = int(uint(image.depth() / 8) * accelFactor);
 
     // Just an average for the number of image pixels per scope pixel.
     // NOTE: byteCount() has to be replaced by (img.bytesPerLine()*img.height()) for Qt 4.5 to compile, see:
     // https://doc.qt.io/qt-5/qimage.html#bytesPerLine
     double avgPxPerPx = double(image.depth()) / 8 * (image.bytesPerLine() * image.height()) / scope.size().width() / scope.size().height() / accelFactor;
 
-    for (int i = 0; i < (image.bytesPerLine() * image.height()); i += stepsize) {
-        auto *col = reinterpret_cast<const QRgb *>(bits);
+    // benchmarking code
+    // const auto start = std::chrono::high_resolution_clock::now();
 
-        int r = qRed(*col);
-        int g = qGreen(*col);
-        int b = qBlue(*col);
+    const auto totalPixels = image.width() * image.height();
+    for (int i = 0; i < totalPixels; i += accelFactor) {
+        const QRgb pixel = image.pixel(i % image.width(), i / image.width());
+        const int r = qRed(pixel);
+        const int g = qGreen(pixel);
+        const int b = qBlue(pixel);
 
         switch (colorSpace) {
         case VectorscopeGenerator::ColorSpace_YUV:
@@ -238,7 +238,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 scope.setPixel(pt, qRgba(int(dr), int(dg), int(db), 255));
                 break;
             case PaintMode_Original:
-                scope.setPixel(pt, *col);
+                scope.setPixel(pt, pixel);
                 break;
             case PaintMode_Green:
                 px = scope.pixel(pt);
@@ -257,8 +257,9 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
                 break;
             }
         }
-
-        bits += stepsize;
     }
+    // const auto elapsed = std::chrono::high_resolution_clock::now() - start;
+    // uint64_t us = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    // qDebug() << "Vectorscope calculated in" << us << " microseconds";
     return scope;
 }
