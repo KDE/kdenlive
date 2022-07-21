@@ -231,6 +231,10 @@
       <label>Default frame width for proxy clips.</label>
       <default>640</default>
     </entry>
+    <entry name="enforceLowerTrackCompositing" type="Bool">
+      <label>Should the lower video track also be composited.</label>
+      <default>false</default>
+    </entry>
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
       <default></default>
@@ -615,6 +619,11 @@
     <entry name="nice_tasks" type="Bool">
       <label>Use lower CPU priority for proxy and transcode tasks</label>
       <default>true</default>
+    </entry>
+
+    <entry name="exportGuidesFormat" type="String">
+      <label>Default format for guides export</label>
+      <default></default>
     </entry>
 
   </group>
