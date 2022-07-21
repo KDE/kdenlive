@@ -55,7 +55,9 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Load a subtitle file")
     {
         QString subtitleFile = sourcesPath + "/dataset/01.srt";
-        subtitleModel->importSubtitle(subtitleFile);
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        CHECK(guessedEncoding == "UTF-8");
+        subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure the 3 dialogues are loaded
         REQUIRE(subtitleModel->rowCount() == 3);
         QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
@@ -64,7 +66,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         controleTime << GenTime(140, 25) << GenTime(265, 25) << GenTime(503, 25) << GenTime(628, 25) << GenTime(628, 25) << GenTime(875, 25);
         QStringList subtitlesText;
         QStringList control = {QStringLiteral("J'hésite à vérifier"), QStringLiteral("Ce test de sous-titres"), QStringLiteral("!! Quand même !!")};
-        for (const auto &s : allSubs) {
+        for (const auto &s : qAsConst(allSubs)) {
             subtitlesText << s.subtitle();
             sTime << s.start();
             sTime << s.end();
@@ -73,6 +75,24 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         REQUIRE(subtitlesText == control);
         // Ensure timeing is correct
         REQUIRE(sTime == controleTime);
+    }
+
+    SECTION("Load a non-UTF-8 subtitle")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/01-iso-8859-1.srt";
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        qDebug() << "Guessed encoding: " << guessedEncoding;
+        subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
+        // Ensure the 3 dialogues are loaded
+        REQUIRE(subtitleModel->rowCount() == 3);
+        QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
+        QStringList subtitlesText;
+        QStringList control = {QStringLiteral("J'hésite à vérifier"), QStringLiteral("Ce test de sous-titres"), QStringLiteral("!! Quand même !!")};
+        for (const auto &s : qAsConst(allSubs)) {
+            subtitlesText << s.subtitle();
+        }
+        // Ensure that non-ASCII characters are read correctly
+        CHECK(subtitlesText == control);
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;

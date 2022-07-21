@@ -89,8 +89,14 @@ public:
     bool moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView);
     void requestSubtitleMove(int clipId, GenTime position);
 
+    /** @brief Guess the text encoding of the file at the provided path
+     * @param file The path to the text file
+     * @return The name of the text encoding, as guessed by KEncodingProber, or
+     * "" if an error occurred
+    */
+    static QByteArray guessFileEncoding(const QString &file);
     /** @brief Function that imports a subtitle file */
-    void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false, float startFramerate = 30.00, float targetFramerate = 30.00);
+    void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false, float startFramerate = 30.00, float targetFramerate = 30.00, const QByteArray &encoding = "UTF-8");
 
     /** @brief Exports the subtitle model to json */
     QString toJson();
