@@ -8,6 +8,7 @@
 
 #include "bin/model/markerlistmodel.hpp"
 #include "core.h"
+#include "kdenlivesettings.h"
 
 #include "kdenlive_debug.h"
 #include <KMessageWidget>
@@ -34,7 +35,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     offsetTimeSpinbox->setTimecode(Timecode(Timecode::HH_MM_SS_FF, pCore->getCurrentFps()));
 
     const QString defaultFormat(YT_FORMAT);
-    formatEdit->setText(defaultFormat);
+    formatEdit->setText(KdenliveSettings::exportGuidesFormat().isEmpty() ? defaultFormat : KdenliveSettings::exportGuidesFormat());
 
     static std::array<QColor, 9> markerTypes = model->markerTypes;
     QPixmap pixmap(32, 32);
@@ -71,10 +72,18 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         clipboard->setText(this->generatedContent->toPlainText());
     });
 
+    connect(buttonReset, &QAbstractButton::clicked, [this, defaultFormat]() {
+        formatEdit->setText(defaultFormat);
+        updateContentByModel();
+    });
+
     adjustSize();
 }
 
-ExportGuidesDialog::~ExportGuidesDialog() {}
+ExportGuidesDialog::~ExportGuidesDialog()
+{
+    KdenliveSettings::setExportGuidesFormat(formatEdit->text());
+}
 
 GenTime ExportGuidesDialog::offsetTime() const
 {
@@ -133,6 +142,7 @@ void ExportGuidesDialog::updateContentByModel() const
         }
 
         line.replace("{{index}}", QString::number(i + 1));
+        line.replace("{{realtimecode}}", pCore->timecode().getDisplayTimecode(currentTime, false));
         line.replace("{{timecode}}", chapterTimeStringFromMs(currentTime.ms()));
         line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
         line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
