@@ -133,6 +133,7 @@ void ExportGuidesDialog::updateContentByModel() const
         }
 
         line.replace("{{index}}", QString::number(i + 1));
+        line.replace("{{realtimecode}}", pCore->timecode().getDisplayTimecode(currentTime, false));
         line.replace("{{timecode}}", chapterTimeStringFromMs(currentTime.ms()));
         line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
         line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
