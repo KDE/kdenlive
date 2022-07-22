@@ -3,6 +3,7 @@
 #include "scopes/colorscopes/colorconstants.h"
 #include "scopes/colorscopes/vectorscopegenerator.h"
 #include "scopes/colorscopes/waveformgenerator.h"
+#include "scopes/colorscopes/rgbparadegenerator.h"
 
 // test for a bug where pixels were assumed to be RGB which was not true on
 // Windows, resulting in red and blue switched. BUG: 453149
@@ -38,10 +39,23 @@ TEST_CASE("Colorscope RGB/BGR handling")
         WaveformGenerator waveform{};
         QImage rgbScope = waveform.calculateWaveform(scopeSize, inputImage,
             WaveformGenerator::PaintMode::PaintMode_Yellow,
-            false, ITURec::Rec_709, 1);
+            false, ITURec::Rec_709, 3);
         QImage bgrScope = waveform.calculateWaveform(scopeSize, bgrInputImage,
             WaveformGenerator::PaintMode::PaintMode_Yellow,
-            false, ITURec::Rec_709, 1);
+            false, ITURec::Rec_709, 3);
+
+        CHECK(rgbScope == bgrScope);
+    }
+
+    SECTION("RGB Parade handles both RGB and BGR")
+    {
+        RGBParadeGenerator rgb{};
+        QImage rgbScope = rgb.calculateRGBParade(scopeSize, inputImage,
+            RGBParadeGenerator::PaintMode::PaintMode_RGB,
+            false, false, 3);
+        QImage bgrScope = rgb.calculateRGBParade(scopeSize, bgrInputImage,
+            RGBParadeGenerator::PaintMode::PaintMode_RGB,
+            false, false, 3);
 
         CHECK(rgbScope == bgrScope);
     }
