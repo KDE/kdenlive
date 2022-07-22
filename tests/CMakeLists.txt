@@ -5,6 +5,7 @@ kde_enable_exceptions()
 add_executable(runTests
     TestMain.cpp
     abortutil.cpp
+    colorscopestest.cpp
     compositiontest.cpp
     effectstest.cpp
     filetest.cpp
