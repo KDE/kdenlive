@@ -50,9 +50,8 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
     const uint ww = uint(paradeSize.width());
     const uint wh = uint(paradeSize.height());
-    const uint iw = uint(image.bytesPerLine());
+    const uint iw = uint(image.width());
     const uint ih = uint(image.height());
-    const uint byteCount = iw * ih; // Note that 1 px = 4 B
 
     const uchar offset = 10;
     const uint partW = (ww - 2 * offset - distRight) / 3;
@@ -63,7 +62,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
     // Number of input pixels that will fall on one scope pixel.
     // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
-    const float pixelDepth = float((byteCount >> 2) / accelFactor) / (partW * 255);
+    const float pixelDepth = float((iw * ih) / accelFactor) / (partW * 255);
     const float gain = 255 / (8 * pixelDepth);
     //        qCDebug(KDENLIVE_LOG) << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
 
@@ -74,14 +73,13 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
 
     std::vector<std::vector<StructRGB>> paradeVals(partW, std::vector<StructRGB>(256, {0, 0, 0}));
 
-    const uchar *bits = image.bits();
-    const uint stepsize = uint(uint(image.depth() / 8) * accelFactor);
-
-    for (uint i = 0, x = 0; i < byteCount; i += stepsize) {
-        auto *col = reinterpret_cast<const QRgb *>(bits);
-        auto r = uchar(qRed(*col));
-        auto g = uchar(qGreen(*col));
-        auto b = uchar(qBlue(*col));
+    const auto totalPixels = image.width() * image.height();
+    for (int i = 0; i < totalPixels; i += accelFactor) {
+        const auto x = i % image.width();
+        const QRgb pixel = image.pixel(x, i / image.width());
+        auto r = uchar(qRed(pixel));
+        auto g = uchar(qGreen(pixel));
+        auto b = uchar(qBlue(pixel));
 
         double dx = x * double(wPrediv);
 
@@ -107,10 +105,6 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QIm
         if (b > maxB) {
             maxB = b;
         }
-
-        bits += stepsize;
-        x += stepsize;
-        x %= iw; // Modulo image width, to represent the current x position in the image
     }
 
     const int offset1 = int(partW + offset);
