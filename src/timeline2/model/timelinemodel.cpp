@@ -4104,7 +4104,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
             _resetView();
         } else {
             if (audioTrack) {
-                for (int i = 0; i <= position; i++) {
+                for (int i = 0; i <= position && i < int(m_allTracks.size()); i++) {
                     QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
                     emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
                 }

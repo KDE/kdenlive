@@ -1024,6 +1024,21 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
+void ProjectManager::requestBackup(const QString &errorMessage)
+{
+    KMessageBox::ButtonCode res = KMessageBox::warningContinueCancel(qApp->activeWindow(), errorMessage);
+    pCore->window()->getMainTimeline()->loading = false;
+    m_project->setModified(false);
+    if (res == KMessageBox::Continue) {
+        // Try opening backup
+        if (!slotOpenBackup(m_project->url())) {
+            newFile(false);
+        }
+    } else {
+        newFile(false);
+    }
+}
+
 bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview)
 {
     pCore->taskManager.slotCancelJobs();
@@ -1037,18 +1052,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     Mlt::Tractor tractor(s);
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
-        KMessageBox::ButtonCode res =
-            KMessageBox::warningContinueCancel(qApp->activeWindow(), i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
-        pCore->window()->getMainTimeline()->loading = false;
-        m_project->setModified(false);
-        if (res == KMessageBox::Continue) {
-            // Try opening backup
-            if (!slotOpenBackup(m_project->url())) {
-                newFile(false);
-            }
-        } else {
-            newFile(false);
-        }
+        requestBackup(i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
         return false;
     }
     m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
@@ -1061,6 +1065,8 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
                                    &projectErrors)) {
         // TODO: act on project load failure
         qDebug() << "// Project failed to load!!";
+        requestBackup(i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
+        return false;
     }
     // Free memory used by original playlist
     xmlProd->clear();

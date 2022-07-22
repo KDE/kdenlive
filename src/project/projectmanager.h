@@ -213,4 +213,6 @@ private:
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};
     void saveRecentFiles();
+    /** @brief Project loading failed, ask user if he wants to open a backup */
+    void requestBackup(const QString &errorMessage);
 };
