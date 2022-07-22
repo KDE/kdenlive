@@ -12,6 +12,7 @@
 
 #include "kdenlive_debug.h"
 #include <KMessageWidget>
+#include <QAction>
 #include <QClipboard>
 #include <QDateTimeEdit>
 #include <QFontDatabase>
@@ -77,6 +78,27 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         updateContentByModel();
     });
 
+    // fill info button menu
+    QMap<QString, QString> infoMenu;
+    infoMenu.insert(QStringLiteral("{{index}}"), i18n("Guide number"));
+    infoMenu.insert(QStringLiteral("{{realtimecode}}"), i18n("Guide position in HH:MM:SS:FF"));
+    infoMenu.insert(QStringLiteral("{{timecode}}"), i18n("Guide position in (HH:)MM.SS"));
+    infoMenu.insert(QStringLiteral("{{nexttimecode}}"), i18n("Next guide position in (HH:)MM.SS"));
+    infoMenu.insert(QStringLiteral("{{frame}}"), i18n("Guide position in frames"));
+    infoMenu.insert(QStringLiteral("{{comment}}"), i18n("Guide comment"));
+    QMapIterator<QString, QString> i(infoMenu);
+    QAction *a;
+    while (i.hasNext()) {
+        i.next();
+        a = new QAction(this);
+        a->setText(QString("%1 - %2").arg(i.value(), i.key()));
+        a->setData(i.key());
+        infoButton->addAction(a);
+    }
+    connect(infoButton, &QToolButton::triggered, [this](QAction *a) {
+        formatEdit->insert(a->data().toString());
+        updateContentByModel();
+    });
     adjustSize();
 }
 
