@@ -41,15 +41,15 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
     const uint ww = uint(waveformSize.width());
     const uint wh = uint(waveformSize.height());
-    const uint iw = uint(image.bytesPerLine());
+    const uint iw = uint(image.width());
     const uint ih = uint(image.height());
-    const uint byteCount = iw * ih;
+    const auto totalPixels = image.width() * image.height();
 
     std::vector<std::vector<uint>> waveValues(size_t(waveformSize.width()), std::vector<uint>(size_t(waveformSize.height()), 0));
 
     // Number of input pixels that will fall on one scope pixel.
     // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
-    const float pixelDepth = float((byteCount >> 2) / accelFactor) / (ww * wh);
+    const float pixelDepth = float(totalPixels / accelFactor) / (ww * wh);
     const float gain = 255.f / (8 * pixelDepth);
     // qCDebug(KDENLIVE_LOG) << "Pixel depth: expected " << pixelDepth << "; Gain: using " << gain << " (acceleration: " << accelFactor << "x)";
 
@@ -58,38 +58,24 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     const float hPrediv = (wh - 1) / 255.f;
     const float wPrediv = (ww - 1) / float(iw - 1);
 
-    const uchar *bits = image.bits();
-    const int bpp = image.depth() / 8;
-
-    for (uint i = 0, x = 0; i < byteCount; i += uint(bpp)) {
-
-        Q_ASSERT(bits < image.bits() + byteCount);
+    for (int i = 0; i < totalPixels; i += accelFactor) {
+        const int x = i % image.width();
+        const QRgb pixel = image.pixel(x, i / image.width());
 
         float dY, dx, dy;
-        auto *col = reinterpret_cast<const QRgb *>(bits);
 
         if (rec == ITURec::Rec_601) {
             // CIE 601 Luminance
-            dY = REC_601_R * qRed(*col) + REC_601_G * qGreen(*col) + REC_601_B * qBlue(*col);
+            dY = REC_601_R * qRed(pixel) + REC_601_G * qGreen(pixel) + REC_601_B * qBlue(pixel);
         } else {
             // CIE 709 Luminance
-            dY = REC_709_R * qRed(*col) + REC_709_G * qGreen(*col) + REC_709_B * qBlue(*col);
+            dY = REC_709_R * qRed(pixel) + REC_709_G * qGreen(pixel) + REC_709_B * qBlue(pixel);
         }
         // dY is on [0,255] now.
 
         dy = dY * hPrediv;
         dx = x * wPrediv;
         waveValues[size_t(dx)][size_t(dy)]++;
-
-        bits += bpp;
-        x += uint(bpp);
-        if (x > iw) {
-            x -= iw;
-            if (accelFactor > 1) {
-                bits += bpp * int(iw * (accelFactor - 1));
-                i += uint(bpp) * iw * (accelFactor - 1);
-            }
-        }
     }
 
     switch (paintMode) {
