@@ -262,9 +262,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     }
 
     if (!ok) {
-        // TODO log error
-        // Don't abort loading because of failed composition
-        undo();
+        // Loading tracks failed, abort loading
         return false;
     }
     if (!qEnvironmentVariableIsSet("MLT_TESTS")) {
