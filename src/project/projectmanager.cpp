@@ -1065,7 +1065,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
                                    &projectErrors)) {
         // TODO: act on project load failure
         qDebug() << "// Project failed to load!!";
-        requestBackup(i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
+        requestBackup(i18n("Project file is corrupted - failed to load tracks. Try to find a backup file?"));
         return false;
     }
     // Free memory used by original playlist
