@@ -4,6 +4,7 @@
 #include "scopes/colorscopes/vectorscopegenerator.h"
 #include "scopes/colorscopes/waveformgenerator.h"
 #include "scopes/colorscopes/rgbparadegenerator.h"
+#include "scopes/colorscopes/histogramgenerator.h"
 
 // test for a bug where pixels were assumed to be RGB which was not true on
 // Windows, resulting in red and blue switched. BUG: 453149
@@ -56,6 +57,21 @@ TEST_CASE("Colorscope RGB/BGR handling")
         QImage bgrScope = rgb.calculateRGBParade(scopeSize, bgrInputImage,
             RGBParadeGenerator::PaintMode::PaintMode_RGB,
             false, false, 3);
+
+        CHECK(rgbScope == bgrScope);
+    }
+
+    SECTION("Histogram handles both RGB and BGR")
+    {
+        const auto ALL_COMPONENTS = HistogramGenerator::Components::ComponentR |
+            HistogramGenerator::Components::ComponentG |
+            HistogramGenerator::Components::ComponentB;
+
+        HistogramGenerator hist{};
+        QImage rgbScope = hist.calculateHistogram(scopeSize, inputImage,
+            ALL_COMPONENTS, ITURec::Rec_709, false, false, 3);
+        QImage bgrScope = hist.calculateHistogram(scopeSize, bgrInputImage,
+            ALL_COMPONENTS, ITURec::Rec_709, false, false, 3);
 
         CHECK(rgbScope == bgrScope);
     }
