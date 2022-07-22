@@ -217,29 +217,69 @@ QPoint MonitorProxy::zone() const
     return {m_zoneIn, m_zoneOut};
 }
 
-QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int width, int height, bool useSourceProfile)
+void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject, bool useSourceProfile)
+{
+    const QString path = pathInfo.at(0);
+    const QString destPath = pathInfo.at(1);
+    const QString folderInfo = pathInfo.at(2);
+    QSize size = pCore->getCurrentFrameSize();
+    QImage img;
+    int height = size.height();
+    int width = size.width();
+    if (!useSourceProfile) {
+        Mlt::Frame *frame = q->m_producer->get_frame();
+        QImage img = KThumb::getFrame(frame, width, height);
+        delete frame;
+        img.save(destPath);
+        if (addToProject) {
+            QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Q_ARG(const QList<QUrl> &, {QUrl::fromLocalFile(destPath)}),
+                                      Q_ARG(const QString &, folderInfo));
+        }
+        return;
+    }
+    if (!path.isEmpty()) {
+        QScopedPointer<Mlt::Producer> producer;
+        QScopedPointer<Mlt::Profile> tmpProfile;
+        if (useSourceProfile) {
+            tmpProfile.reset(new Mlt::Profile());
+            producer.reset(new Mlt::Producer(*tmpProfile, path.toUtf8().constData()));
+        } else {
+            producer.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), path.toUtf8().constData()));
+        }
+        if (producer && producer->is_valid()) {
+            if (useSourceProfile) {
+                tmpProfile->from_producer(*producer);
+                width = tmpProfile->width();
+                height = tmpProfile->height();
+                double projectFps = pCore->getCurrentFps();
+                double currentFps = tmpProfile->fps();
+                if (!qFuzzyCompare(projectFps, currentFps)) {
+                    frame_position = int(frame_position * currentFps / projectFps);
+                }
+            }
+            QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
+            img.save(destPath);
+            if (addToProject) {
+                QMetaObject::invokeMethod(pCore->bin(), "droppedUrls", Q_ARG(const QList<QUrl> &, {QUrl::fromLocalFile(destPath)}),
+                                          Q_ARG(const QString &, folderInfo));
+            }
+        } else {
+            qDebug() << "::: INVALID PRODUCER: " << path;
+        }
+        if (QDir::temp().exists(path)) {
+            // This was a temporary playlist file, remove
+            QFile::remove(path);
+        }
+    }
+}
+
+QImage MonitorProxy::extractFrame(const QString &path, int width, int height, bool useSourceProfile)
 {
     if (width == -1) {
         width = pCore->getCurrentProfile()->width();
         height = pCore->getCurrentProfile()->height();
     } else if (width % 2 == 1) {
         width++;
-    }
-    if (!path.isEmpty()) {
-        QScopedPointer<Mlt::Profile> tmpProfile(new Mlt::Profile());
-        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(*tmpProfile, path.toUtf8().constData()));
-        if (producer && producer->is_valid()) {
-            tmpProfile->from_producer(*producer);
-            width = tmpProfile->width();
-            height = tmpProfile->height();
-            double projectFps = pCore->getCurrentFps();
-            double currentFps = tmpProfile->fps();
-            if (!qFuzzyCompare(projectFps, currentFps)) {
-                frame_position = int(frame_position * currentFps / projectFps);
-            }
-            QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
-            return img;
-        }
     }
 
     if ((q->m_producer == nullptr) || !path.isEmpty()) {

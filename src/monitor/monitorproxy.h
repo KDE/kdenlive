@@ -94,7 +94,6 @@ public:
     void setZone(QPoint zone, bool sendUpdate = true);
     void resetZone();
     QPoint zone() const;
-    QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
@@ -105,6 +104,7 @@ public:
     Q_INVOKABLE bool seekOnDrop() const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     QPoint profile();
+    QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
     void setAudioThumb(const QList <int> &streamIndexes = QList <int>(), const QList <int> &channels = QList <int>());
     void setAudioStream(const QString &name);
@@ -185,4 +185,5 @@ private:
 
 public slots:
     void updateClipBounds(const QVector <QPoint>&bounds);
+    void extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject = false, bool useSourceProfile = false);
 };

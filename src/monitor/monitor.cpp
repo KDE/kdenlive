@@ -58,6 +58,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSlider>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QtConcurrent>
 
 #include <utility>
 
@@ -1162,27 +1163,33 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     if (dlg->exec() == QDialog::Accepted) {
         QString selectedFile = fileWidget->selectedFile();
         if (!selectedFile.isEmpty()) {
-            // Disable monitor preview scaling if any
-            int previewScale = KdenliveSettings::previewScaling();
-            if (previewScale > 0) {
-                KdenliveSettings::setPreviewScaling(0);
-                m_glMonitor->updateScaling();
+            if (b != nullptr) {
+                KdenliveSettings::setExportframe_usingsourceres(b->isChecked());
             }
-            // Create QImage with frame
-            QImage frame;
+            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
             // check if we are using a proxy
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(),
-                                                                        m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")), -1, -1,
-                                                                        b != nullptr ? b->isChecked() : false);
-                if (previewScale > 0) {
-                    KdenliveSettings::setPreviewScaling(previewScale);
-                    m_glMonitor->updateScaling();
+                QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                if (src.open()) {
+                    src.setAutoRemove(false);
+                    m_controller->cloneProducerToFile(src.fileName());
+                    const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
+                    QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
+                                      addToProject, b != nullptr ? b->isChecked() : false);
                 }
+                return;
             } else {
                 if (m_id == Kdenlive::ProjectMonitor) {
+                    // Create QImage with frame
+                    QImage frame;
+                    // Disable monitor preview scaling if any
+                    int previewScale = KdenliveSettings::previewScaling();
+                    if (previewScale > 0) {
+                        KdenliveSettings::setPreviewScaling(0);
+                        m_glMonitor->updateScaling();
+                    }
                     // Check if we have proxied clips at position
                     QStringList proxiedClips = pCore->window()->getCurrentTimeline()->model()->getProxiesAt(m_glMonitor->getCurrentPos());
                     // Temporarily disable proxy on those clips
@@ -1226,23 +1233,16 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     }
                     return;
                 } else {
-                    frame =
-                        m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
-                    if (previewScale > 0) {
-                        KdenliveSettings::setPreviewScaling(previewScale);
-                        m_glMonitor->updateScaling();
+                    QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                    if (src.open()) {
+                        src.setAutoRemove(false);
+                        m_controller->cloneProducerToFile(src.fileName());
+                        const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
+                        QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
+                                          addToProject, b != nullptr ? b->isChecked() : false);
                     }
+                    return;
                 }
-            }
-            frame.save(selectedFile);
-            if (b != nullptr) {
-                KdenliveSettings::setExportframe_usingsourceres(b->isChecked());
-            }
-            KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
-
-            if (addToProject) {
-                QString folderInfo = pCore->bin()->getCurrentFolder();
-                pCore->bin()->droppedUrls(QList<QUrl>{QUrl::fromLocalFile(selectedFile)}, folderInfo);
             }
         }
     }

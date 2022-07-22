@@ -1115,6 +1115,41 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
     return {std::shared_ptr<Mlt::Producer>(ClipController::mediaUnavailable->cut()), false};
 }
 
+void ProjectClip::cloneProducerToFile(const QString &path)
+{
+    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", path.toUtf8().constData());
+    Mlt::Service s(m_masterProducer->get_service());
+    int ignore = s.get_int("ignore_points");
+    if (ignore) {
+        s.set("ignore_points", 0);
+    }
+    c.connect(s);
+    c.set("time_format", "frames");
+    c.set("no_meta", 1);
+    c.set("no_root", 1);
+    c.set("no_profile", 1);
+    c.set("root", "/");
+    c.set("store", "kdenlive");
+    c.run();
+    if (ignore) {
+        s.set("ignore_points", ignore);
+    }
+    if (m_usesProxy) {
+        QFile file(path);
+        if (file.open(QIODevice::ReadOnly)) {
+            QTextStream in(&file);
+            QString content = in.readAll();
+            file.close();
+            content.replace(getProducerProperty(QStringLiteral("resource")), getProducerProperty(QStringLiteral("kdenlive:originalurl")));
+            if (file.open(QIODevice::WriteOnly)) {
+                QTextStream out(&file);
+                out << content;
+                file.close();
+            }
+        }
+    }
+}
+
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
     Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
