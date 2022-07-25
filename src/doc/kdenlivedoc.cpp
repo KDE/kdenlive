@@ -107,27 +107,6 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     pCore->setCurrentProfile(profileName);
     m_document = createEmptyDocument(tracks.first, tracks.second);
     updateProjectProfile(false);
-
-    if (!m_projectFolder.isEmpty()) {
-        // Ask to create the project directory if it does not exist
-        QDir folder(m_projectFolder);
-        if (!folder.mkpath(QStringLiteral("."))) {
-            // Project folder is not writable
-            m_projectFolder = m_url.toString(QUrl::RemoveFilename | QUrl::RemoveScheme);
-            folder.setPath(m_projectFolder);
-            if (folder.exists()) {
-                KMessageBox::sorry(
-                    parent,
-                    i18n("The project directory %1, could not be created.\nPlease make sure you have the required permissions.\nDefaulting to system folders",
-                         m_projectFolder));
-            } else {
-                KMessageBox::information(parent, i18n("Document project folder is invalid, using system default folders"));
-            }
-            m_projectFolder.clear();
-        }
-    }
-    initCacheDirs();
-
     updateProjectFolderPlacesEntry();
 }
 
@@ -271,6 +250,26 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         //doc->setModifiedDecimalPoint(validationResult.second);
     }
     doc->loadDocumentProperties();
+    if (!doc->m_projectFolder.isEmpty()) {
+        // Ask to create the project directory if it does not exist
+        QDir folder(doc->m_projectFolder);
+        if (!folder.mkpath(QStringLiteral("."))) {
+            // Project folder is not writable
+            doc->m_projectFolder = doc->m_url.toString(QUrl::RemoveFilename | QUrl::RemoveScheme);
+            folder.setPath(doc->m_projectFolder);
+            if (folder.exists()) {
+                KMessageBox::sorry(
+                    parent,
+                    i18n("The project directory %1, could not be created.\nPlease make sure you have the required permissions.\nDefaulting to system folders",
+                         doc->m_projectFolder));
+            } else {
+                KMessageBox::information(parent, i18n("Document project folder is invalid, using system default folders"));
+            }
+            doc->m_projectFolder.clear();
+        }
+    }
+    doc->initCacheDirs();
+
     if (doc->m_document.documentElement().hasAttribute(QStringLiteral("upgraded"))) {
         doc->m_documentOpenStatus = UpgradedProject;
         result.setUpgraded(true);
@@ -1279,6 +1278,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     QDir dir = getCacheDir(CacheProxy, &ok);
     if (!ok) {
         // Error
+        qDebug() << "::::: CANNOT GET CACHE DIR!!!!";
         return;
     }
     if (m_proxyExtension.isEmpty()) {
