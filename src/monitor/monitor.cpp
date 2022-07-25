@@ -1520,6 +1520,9 @@ void Monitor::switchPlay(bool play)
     }
     m_speedIndex = 0;
     m_playAction->setActive(play);
+    if (!play) {
+        m_droppedTimer.stop();
+    }
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
@@ -1529,6 +1532,9 @@ void Monitor::switchPlay(bool play)
 void Monitor::updatePlayAction(bool play)
 {
     m_playAction->setActive(play);
+    if (!play) {
+        m_droppedTimer.stop();
+    }
     if (!KdenliveSettings::autoscroll()) {
         emit pCore->autoScrollChanged();
     }
@@ -1571,7 +1577,11 @@ void Monitor::slotSwitchPlay()
     }
     if (showDropped) {
         m_glMonitor->resetDrops();
-        m_droppedTimer.start();
+        if (play) {
+            m_droppedTimer.start();
+        } else {
+            m_droppedTimer.stop();
+        }
     } else {
         m_droppedTimer.stop();
     }
