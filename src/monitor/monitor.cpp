@@ -1107,6 +1107,10 @@ std::shared_ptr<ProjectClip> Monitor::currentController() const
 
 void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
 {
+    if (m_playAction->isActive()) {
+        // Pause playing
+        switchPlay(false);
+    }
     if (QFileInfo(frameName).fileName().isEmpty()) {
         // convenience: when extracting an image to be added to the project,
         // suggest a suitable image file name. In the project monitor, this
