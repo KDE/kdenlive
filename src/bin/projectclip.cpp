@@ -1127,7 +1127,10 @@ void ProjectClip::cloneProducerToFile(const QString &path)
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
-    c.set("no_profile", 1);
+    if (m_clipType != ClipType::Playlist && m_clipType != ClipType::Text && m_clipType != ClipType::TextTemplate) {
+        // Playlist and text clips need to keep their profile info
+        c.set("no_profile", 1);
+    }
     c.set("root", "/");
     c.set("store", "kdenlive");
     c.run();
