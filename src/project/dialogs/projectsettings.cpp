@@ -146,6 +146,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_proxyparameters = KdenliveSettings::proxyparams();
         generate_imageproxy->setChecked(KdenliveSettings::generateimageproxy());
         proxy_imageminsize->setValue(KdenliveSettings::proxyimageminsize());
+        proxy_resize->setValue(KdenliveSettings::proxyscale());
         m_proxyextension = KdenliveSettings::proxyextension();
         m_previewparams = KdenliveSettings::previewparams();
         m_previewextension = KdenliveSettings::previewextension();
