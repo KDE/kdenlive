@@ -42,13 +42,25 @@ bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
     if (!m_name_enabled) {
         return true;
     }
-    QString itemId = item->dataColumn(AssetTreeModel::IdCol).toString().toUtf8().constData();
-    itemId = itemId.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    const QString itemId = normalizeText(item->dataColumn(AssetTreeModel::IdCol).toString());
     QString itemText = i18n(item->dataColumn(AssetTreeModel::NameCol).toString().toUtf8().constData());
-    itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
-    QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegularExpression(QStringLiteral("[^a-zA-Z0-9\\s]")));
+    itemText = normalizeText(itemText);
+    QString patt = normalizeText(m_name_value);
 
     return itemText.contains(patt, Qt::CaseInsensitive) || itemId.contains(patt, Qt::CaseInsensitive);
+}
+
+QString AssetFilter::normalizeText(const QString &text)
+{
+    // NormalizationForm_D decomposes letters with diacritics, and then the
+    // diacritics are removed by checking isLetterOrNumber().
+    const QString normalized = text.normalized(QString::NormalizationForm_D);
+    QString newString;
+    std::copy_if(normalized.begin(), normalized.end(), std::back_inserter(newString),
+        [](QChar c){
+            return c.isLetterOrNumber() || c.isSpace();
+        });
+    return newString;
 }
 
 bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const

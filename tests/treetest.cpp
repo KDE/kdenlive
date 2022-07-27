@@ -204,10 +204,11 @@ TEST_CASE("Effect filter text-matching logic")
         item->setData(AssetTreeModel::IdCol, "Hello World");
         item->setData(AssetTreeModel::NameCol, "This is K-denlive");
 
-        filter.setFilterName(true, "Worl");
+        filter.setFilterName(true, "wORL");
         CHECK(filter.filterName(item) == true);
 
-        filter.setFilterName(true, "Abcd");
+        // should not search across spaces
+        filter.setFilterName(true, "Thisis");
         CHECK(filter.filterName(item) == false);
 
         // should ignore punctuation
@@ -230,6 +231,19 @@ TEST_CASE("Effect filter text-matching logic")
 
         // should ignore punctuation
         filter.setFilterName(true, "ミュ");
+        CHECK(filter.filterName(item) == true);
+    }
+
+    SECTION("Ignores diacritics")
+    {
+        auto item = TreeItem::construct(rootData, model, true);
+        item->setData(AssetTreeModel::IdCol, "rgb parade");
+        item->setData(AssetTreeModel::NameCol, "Défilé RVB");
+
+        // should be able to search with and without diacritics
+        filter.setFilterName(true, "defile");
+        CHECK(filter.filterName(item) == true);
+        filter.setFilterName(true, "ilé");
         CHECK(filter.filterName(item) == true);
     }
 }
