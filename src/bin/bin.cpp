@@ -2986,6 +2986,21 @@ void Bin::reloadMonitorIfActive(const QString &id)
     if (m_monitor->activeClipId() == id || m_monitor->activeClipId().isEmpty()) {
         slotOpenCurrent();
         if (m_monitor->activeClipId() == id) {
+            // Ensure proxy action is correctly updated
+            if (m_doc->useProxy()) {
+                std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+                if (item) {
+                    AbstractProjectItem::PROJECTITEMTYPE itemType = item->itemType();
+                    if (itemType == AbstractProjectItem::ClipItem) {
+                        std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
+                        if (clip && clip->statusReady()) {
+                            m_proxyAction->blockSignals(true);
+                            m_proxyAction->setChecked(clip->hasProxy());
+                            m_proxyAction->blockSignals(false);
+                        }
+                    }
+                }
+            }
             emit requestShowClipProperties(getBinClip(id), true);
         }
     }
