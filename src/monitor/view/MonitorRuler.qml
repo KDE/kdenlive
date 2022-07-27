@@ -200,8 +200,16 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: ruler.height / 2
         opacity: 0.8
-        onXChanged: zoneToolTipTimer.start()
-        onWidthChanged: zoneToolTipTimer.start()
+        onXChanged: {
+            if (zone.visible) {
+                zoneToolTipTimer.start()
+            }
+        }
+        onWidthChanged: {
+            if (zone.visible) {
+                zoneToolTipTimer.start()
+            }
+        }
     }
 
     // frame ticks
