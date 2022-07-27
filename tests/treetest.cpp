@@ -10,6 +10,8 @@
 #define protected public
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
+#include "effects/effectlist/model/effecttreemodel.hpp"
+#include "effects/effectlist/model/effectfilter.hpp"
 
 TEST_CASE("Basic tree testing", "[TreeModel]")
 {
@@ -183,5 +185,51 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         // reinsert
         REQUIRE(item5->changeParent(item2));
         state();
+    }
+}
+
+// Tests the logic for matching the user-supplied search string against the list
+// of items. The actual logic is in AssetFilter but since it's an abstract
+// class, we test EffectFilter instead.
+TEST_CASE("Effect filter text-matching logic")
+{
+    auto model = EffectTreeModel::construct("", nullptr);
+    EffectFilter filter{nullptr};
+    // rootData copied from effecttreemodel.cpp
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav"};
+
+    SECTION("Handles basic alphanum search")
+    {
+        auto item = TreeItem::construct(rootData, model, true);
+        item->setData(AssetTreeModel::IdCol, "Hello World");
+        item->setData(AssetTreeModel::NameCol, "This is K-denlive");
+
+        filter.setFilterName(true, "Worl");
+        CHECK(filter.filterName(item) == true);
+
+        filter.setFilterName(true, "Abcd");
+        CHECK(filter.filterName(item) == false);
+
+        // should ignore punctuation
+        filter.setFilterName(true, "Kden");
+        CHECK(filter.filterName(item) == true);
+    }
+
+    // Tests for bug 432699 where filtering the effects list in Chinese fails
+    // because the filter only works for ascii alphanum characters.
+    SECTION("Handles Chinese/Japanese search")
+    {
+        auto item = TreeItem::construct(rootData, model, true);
+        item->setData(AssetTreeModel::IdCol, "静音");
+        item->setData(AssetTreeModel::NameCol, "ミュート");
+
+        filter.setFilterName(true, "音");
+        CHECK(filter.filterName(item) == true);
+        filter.setFilterName(true, "默");
+        CHECK(filter.filterName(item) == false);
+
+        // should ignore punctuation
+        filter.setFilterName(true, "ミュ");
+        CHECK(filter.filterName(item) == true);
     }
 }
