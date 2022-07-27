@@ -42,7 +42,6 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     const uint ww = uint(waveformSize.width());
     const uint wh = uint(waveformSize.height());
     const uint iw = uint(image.width());
-    const uint ih = uint(image.height());
     const auto totalPixels = image.width() * image.height();
 
     std::vector<std::vector<uint>> waveValues(size_t(waveformSize.width()), std::vector<uint>(size_t(waveformSize.height()), 0));
