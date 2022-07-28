@@ -309,9 +309,9 @@ private:
     Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
-    Mlt::Profile m_monitorProfile;
+    mutable Mlt::Profile m_monitorProfile;
     /** @brief Mlt profile used to build the project's clips */
-    std::unique_ptr<Mlt::Profile> m_projectProfile;
+    mutable std::unique_ptr<ProfileModel> m_projectProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();
@@ -343,7 +343,7 @@ public slots:
     /** @brief Open the proxies test dialog. */
     void testProxies();
     /** @brief Refresh the monitor profile when project profile changes. */
-    void updateMonitorProfile();
+    void updateMonitorProfile() const;
     /** @brief Add a new Bin Widget. */
     void addBin(const QString &id = QString());
     /** @brief Transcode a bin clip video. */
@@ -376,7 +376,7 @@ signals:
     /** @brief Add a time remap effect to clip and show keyframes dialog */
     void remapClip(int cid);
     /** @brief A monitor property changed, check if we need to reset */
-    void monitorProfileUpdated();
+    void monitorProfileUpdated() const;
     /** @brief Color theme changed, process refresh */
     void updatePalette();
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
