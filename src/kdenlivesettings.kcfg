@@ -291,6 +291,10 @@
       <label>Enables nvenc hw accel scaling.</label>
       <default>false</default>
     </entry>
+    <entry name="showRenderTextParameters" type="Bool">
+      <label>Show render preset parameters as editable text.</label>
+      <default>false</default>
+    </entry>
     </group>
 
   <group name="timeline">

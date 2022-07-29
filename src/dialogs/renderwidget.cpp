@@ -591,7 +591,7 @@ void RenderWidget::focusItem(const QString &profile)
         index = m_treeModel->findPreset(KdenliveSettings::renderProfile());
     }
     if (index.isValid()) {
-        selection->select(index, QItemSelectionModel::Select);
+        selection->select(index, QItemSelectionModel::ClearAndSelect);
         // expand corresponding category
         auto parent = m_treeModel->parent(index);
         m_view.profileTree->expand(parent);
