@@ -151,7 +151,7 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
                 newprofiles.appendChild(newdoc.importNode(n, true));
             }
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                KMessageBox::sorry(nullptr, i18n("Unable to write to file %1", exportFile));
+                KMessageBox::error(nullptr, i18n("Unable to write to file %1", exportFile));
                 return;
             }
             QTextStream out(&file);
@@ -366,7 +366,7 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool
     profiles.appendChild(newPreset);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        KMessageBox::sorry(nullptr, i18n("Cannot open file %1", file.fileName()));
+        KMessageBox::error(nullptr, i18n("Cannot open file %1", file.fileName()));
         return {};
     }
     QTextStream out(&file);
@@ -425,7 +425,7 @@ bool RenderPresetRepository::deletePreset(const QString &name, bool dontRefresh)
         ++i;
     }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        KMessageBox::sorry(nullptr, i18n("Unable to write to file %1", exportFile));
+        KMessageBox::error(nullptr, i18n("Unable to write to file %1", exportFile));
         return false;
     }
     QTextStream out(&file);

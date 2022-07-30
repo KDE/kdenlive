@@ -190,7 +190,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     profileChanged();
 
     if (!ProfileRepository::get()->profileExists(m_profile)) {
-        KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
+        KMessageBox::error(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
 
         // TODO this simple widget should be improved and probably use profileWidget
         // we get the list of profiles

@@ -419,12 +419,12 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
                 bool ok;
                 documentId.toLongLong(&ok, 10);
                 if (!ok || documentId.isEmpty()) {
-                    KMessageBox::sorry(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
+                    KMessageBox::error(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
                 } else {
                     QDir newDir(newProjectFolder);
                     QDir oldDir(m_project->projectTempFolder());
                     if (newDir.exists(documentId)) {
-                        KMessageBox::sorry(pCore->window(),
+                        KMessageBox::error(pCore->window(),
                                            i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
@@ -584,7 +584,7 @@ void ProjectManager::openFile(const QUrl &url)
 
     /*if (!url.fileName().endsWith(".kdenlive")) {
         // This is not a Kdenlive project file, abort loading
-        KMessageBox::sorry(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.toLocalFile()));
+        KMessageBox::error(pCore->window(), i18n("File %1 is not a Kdenlive project file", url.toLocalFile()));
         if (m_startUrl.isValid()) {
             // we tried to open an invalid file from command line, init new project
             newFile(false);
@@ -1020,7 +1020,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
         m_replacementPattern.clear();
         slotRevert();
     } else {
-        KMessageBox::sorry(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
+        KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
 }
 

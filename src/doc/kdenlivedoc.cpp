@@ -258,7 +258,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
             doc->m_projectFolder = doc->m_url.toString(QUrl::RemoveFilename | QUrl::RemoveScheme);
             folder.setPath(doc->m_projectFolder);
             if (folder.exists()) {
-                KMessageBox::sorry(
+                KMessageBox::error(
                     parent,
                     i18n("The project directory %1, could not be created.\nPlease make sure you have the required permissions.\nDefaulting to system folders",
                          doc->m_projectFolder));
@@ -769,7 +769,7 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
 void KdenliveDoc::slotMoveFinished(KJob *job)
 {
     if (job->error() != 0) {
-        KMessageBox::sorry(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
+        KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
 }
 

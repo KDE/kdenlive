@@ -159,7 +159,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId)
 {
     if (KdenliveSettings::glaxnimatePath().isEmpty()) {
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
+        KMessageBox::error(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
         return;
     }
     QDir dir(doc->projectDataFolder());
@@ -422,7 +422,7 @@ KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProj
                 KIO::MkdirJob *mkdirJob = KIO::mkdir(QUrl::fromLocalFile(sourcesFolder.absolutePath()));
                 KJobWidgets::setWindow(mkdirJob, QApplication::activeWindow());
                 if (!mkdirJob->exec()) {
-                    KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder.absolutePath()));
+                    KMessageBox::error(QApplication::activeWindow(), i18n("Cannot create directory %1", sourcesFolder.absolutePath()));
                     continue;
                 }
                 //KIO::filesize_t m_requestedSize;

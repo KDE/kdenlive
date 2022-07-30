@@ -1325,7 +1325,7 @@ void KdenliveSettingsDialog::slotAddTranscode()
         QInputDialog::getText(this, i18nc("@title:window", "Enter Preset Name"), i18n("Enter the name of this preset:"), QLineEdit::Normal, QString(), &ok);
     if (!ok) return;
     if (!m_configTranscode.profiles_list->findItems(presetName, Qt::MatchExactly).isEmpty()) {
-        KMessageBox::sorry(this, i18n("A profile with that name already exists"));
+        KMessageBox::error(this, i18n("A profile with that name already exists"));
         return;
     }
     QListWidgetItem *item = new QListWidgetItem(presetName);

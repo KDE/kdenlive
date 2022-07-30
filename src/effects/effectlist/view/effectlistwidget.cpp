@@ -151,7 +151,7 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index)
         KRecentDirs::add(QStringLiteral(":KdenliveExportCustomEffect"), target.adjusted(QUrl::RemoveFilename).toLocalFile());
         KIO::FileCopyJob *copyjob = KIO::file_copy(source, target);
         if (!copyjob->exec()) {
-            KMessageBox::sorry(this, i18n("Unable to write to file %1", target.toLocalFile()));
+            KMessageBox::error(this, i18n("Unable to write to file %1", target.toLocalFile()));
         }
     }
 }

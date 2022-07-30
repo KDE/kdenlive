@@ -45,7 +45,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            KMessageBox::sorry(pCore->window(),
+            KMessageBox::error(pCore->window(),
                                i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }

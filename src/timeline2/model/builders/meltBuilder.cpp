@@ -278,7 +278,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                      "project have been listed in the Project Notes tab,\nplease review them to ensure your project integrity."),
                 m_errorMessage.join("\n"), i18n("Problems found in your project file"));
         } else if (!m_errorMessage.isEmpty()) {
-            KMessageBox::sorry(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
+            KMessageBox::error(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
         }
     }
     return true;

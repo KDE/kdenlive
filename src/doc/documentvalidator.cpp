@@ -75,7 +75,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
 
         if (localeMatch.second == LocaleHandling::MatchType::NoMatch) {
             // Requested locale not available, ask for install
-            KMessageBox::sorry(QApplication::activeWindow(),
+            KMessageBox::error(QApplication::activeWindow(),
                                i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. "
                                     "Until then, Kdenlive might not be able to correctly open the document.",
                                     mltLocale));
@@ -115,7 +115,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     }
     if (qFuzzyIsNull(version)) {
         // version missing, try with latest
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("Version of the project file cannot be read.\nAttempting to open nonetheless."),
+        KMessageBox::error(QApplication::activeWindow(), i18n("Version of the project file cannot be read.\nAttempting to open nonetheless."),
                            i18n("Incorrect project file"));
         version = currentVersion;
     }
@@ -148,7 +148,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     // The document is too new
     if (version > currentVersion) {
         // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
-        KMessageBox::sorry(
+        KMessageBox::error(
             QApplication::activeWindow(),
             i18n("This project type is unsupported (version %1) and cannot be loaded.\nPlease consider upgrading your Kdenlive version.", version),
             i18n("Unable to open project"));
@@ -159,7 +159,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (qFuzzyCompare(version, 0.5) || qFuzzyCompare(version, 0.7)) {
         // 0.7 is unsupported
         // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and cannot be loaded.", version),
+        KMessageBox::error(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and cannot be loaded.", version),
                            i18n("Unable to open project"));
         return false;
     }
@@ -1257,7 +1257,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
         if (playlist.isNull()) {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot recover this project file"));
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot recover this project file"));
             return false;
         }
         // Migrate document notes

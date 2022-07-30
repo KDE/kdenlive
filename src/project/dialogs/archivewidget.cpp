@@ -603,7 +603,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                 } else {
                     QDir dir(slideFolder.toLocalFile());
                     if (!dir.mkpath(QStringLiteral("."))) {
-                        KMessageBox::sorry(this, i18n("Cannot create directory %1", slideFolder.toLocalFile()));
+                        KMessageBox::error(this, i18n("Cannot create directory %1", slideFolder.toLocalFile()));
                     }
                 }
                 isSlideshow = true;
@@ -637,7 +637,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
                     } else {
                         QDir dir(destUrl.toLocalFile());
                         if (!dir.mkpath(QStringLiteral("."))) {
-                            KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+                            KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
                         }
                         QFile file(dir.absoluteFilePath(filename));
                         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -727,7 +727,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     } else {
         QDir dir(destUrl.toLocalFile());
         if (!dir.mkpath(QStringLiteral("."))) {
-            KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+            KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
         connect(m_copyJob, &KJob::result, this, [this](KJob *jb) { slotArchivingFinished(jb, false); });
@@ -1140,7 +1140,7 @@ void ArchiveWidget::slotStartExtracting()
     m_requestedSize = static_cast<KIO::filesize_t>(f.size());
     QDir dir(archive_url->url().toLocalFile());
     if (!dir.mkpath(QStringLiteral("."))) {
-        KMessageBox::sorry(this, i18n("Cannot create directory %1", archive_url->url().toLocalFile()));
+        KMessageBox::error(this, i18n("Cannot create directory %1", archive_url->url().toLocalFile()));
     }
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting…"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
@@ -1208,7 +1208,7 @@ void ArchiveWidget::slotExtractingFinished()
         }
     }
     if (error) {
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
         reject();
     } else {
         accept();

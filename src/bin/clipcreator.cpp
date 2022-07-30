@@ -77,7 +77,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
     QUrl fileUrl = QUrl::fromLocalFile(path);
     if (fileUrl.matches(pCore->currentDoc()->url(), QUrl::RemoveScheme | QUrl::NormalizePathSegments)) {
         // Cannot embed a project in itself
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));
+        KMessageBox::error(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));
         return xml;
     }
     QMimeDatabase db;

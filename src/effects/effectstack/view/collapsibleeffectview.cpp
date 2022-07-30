@@ -480,7 +480,7 @@ void CollapsibleEffectView::slotSaveEffect()
         QString name = effectName->text();
         QString enteredDescription = descriptionBox->toPlainText();
         if (name.trimmed().isEmpty()) {
-            KMessageBox::sorry(this, i18n("No name provided, effect not saved."));
+            KMessageBox::error(this, i18n("No name provided, effect not saved."));
             return;
         }
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
@@ -567,7 +567,7 @@ void CollapsibleEffectView::slotSaveEffect()
 #endif
             out << doc.toString();
         } else {
-            KMessageBox::sorry(this, i18n("Cannot write to file %1", file.fileName()));
+            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
         emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
