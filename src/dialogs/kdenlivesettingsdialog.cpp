@@ -260,7 +260,7 @@ void KdenliveSettingsDialog::initProjectPage()
     m_configProject.profile_box->setLayout(vbox);
     m_configProject.profile_box->setTitle(i18n("Select the Default Profile (preset)"));
     // Select profile
-    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfilePath() : KdenliveSettings::default_profile());
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
@@ -1605,7 +1605,7 @@ void KdenliveSettingsDialog::slotReloadBlackMagic()
 
 void KdenliveSettingsDialog::checkProfile()
 {
-    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
+    m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfilePath() : KdenliveSettings::default_profile());
 }
 
 void KdenliveSettingsDialog::slotReloadShuttleDevices()

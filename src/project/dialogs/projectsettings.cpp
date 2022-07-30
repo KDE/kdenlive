@@ -109,7 +109,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     QString currentProf;
     if (doc) {
-        currentProf = pCore->getCurrentProfile()->path();
+        currentProf = pCore->getCurrentProfilePath();
         enable_proxy->setChecked(doc->useProxy());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
@@ -160,6 +160,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     }
 
     // Select profile
+    qDebug() << "/// LOADING PROFILE: " << currentProf;
     m_pw->loadProfile(currentProf);
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
@@ -501,7 +502,7 @@ void ProjectSettings::accept()
             }
         }
     }
-    if (!m_newProject && selectedProfile() != pCore->getCurrentProfile()->path()) {
+    if (!m_newProject && selectedProfile() != pCore->getCurrentProfilePath()) {
         if (KMessageBox::warningContinueCancel(
                 this,
                 i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
