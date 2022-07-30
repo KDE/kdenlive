@@ -409,7 +409,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         QString newPresetName = preset_name->text().simplified();
         if (newPresetName.isEmpty()) {
-            KMessageBox::warningContinueCancel(this, i18n("The preset name can't be empty"));
+            KMessageBox::error(this, i18n("The preset name can't be empty"));
             return;
         }
         QString newGroupName = groupName->currentText().simplified();
