@@ -98,16 +98,16 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     checkPreset();
 }
 
-RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate,
-                                     const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality,
-                                     const QString &speedsString)
+RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension,
+                                     const QString &defaultVBitrate, const QString &defaultVQuality, const QString &defaultABitrate,
+                                     const QString &defaultAQuality, const QString &speedsString)
     : m_presetFile()
     , m_editable()
     , m_name(name)
     , m_note()
     , m_standard()
     , m_params(params)
-    , m_extension()
+    , m_extension(extension)
     , m_groupName(groupName)
     , m_renderer(QStringLiteral("avformat"))
     , m_url()
