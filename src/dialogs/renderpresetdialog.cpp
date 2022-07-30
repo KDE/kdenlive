@@ -199,6 +199,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         preset_name->setFocus();
         formatCombo->setCurrentText(preset->getParam(QStringLiteral("f")));
+        extension->setText(preset->extension());
         QString width = preset->getParam(QStringLiteral("width"));
         QString height = preset->getParam(QStringLiteral("height"));
         QString size = preset->getParam(QStringLiteral("s"));
@@ -418,7 +419,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         QString speeds_list_str = speeds_list->toPlainText().replace('\n', ';').simplified();
 
         std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(
-            newPresetName, newGroupName, parameters->toPlainText().simplified(), QString::number(default_vbitrate->value()),
+            newPresetName, newGroupName, parameters->toPlainText().simplified(), extension->text().simplified(), QString::number(default_vbitrate->value()),
             QString::number(default_vquality->value()), QString::number(aBitrate->value()), QString::number(aQuality->value()), speeds_list_str));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
@@ -428,7 +429,14 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         accept();
     });
 
-    connect(formatCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
+    connect(formatCombo, &QComboBox::currentTextChanged, [this](const QString &format) {
+        if (format == QLatin1String("matroska")) {
+            extension->setText(QStringLiteral("mkv"));
+        } else {
+            extension->setText(format);
+        }
+        slotUpdateParams();
+    });
     connect(vCodecCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
 
     connect(fieldOrderCombo, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
@@ -510,13 +518,13 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     // TODO
     if (false && m_monitor == nullptr) {
         // QString profile = DvdWizardVob::getDvdProfile(format);
-        m_monitor = new Monitor(Kdenlive::RenderMonitor, pCore->monitorManager(), this);
+        /*m_monitor = new Monitor(Kdenlive::RenderMonitor, pCore->monitorManager(), this);
         m_monitor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         mainBox->addWidget(m_monitor);
         pCore->monitorManager()->appendMonitor(m_monitor);
         // m_monitor->setCustomProfile(profile, m_tc);
         pCore->monitorManager()->activateMonitor(Kdenlive::RenderMonitor);
-        m_monitor->start();
+        m_monitor->start();*/
     }
 }
 

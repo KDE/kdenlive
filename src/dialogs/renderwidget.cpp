@@ -1189,7 +1189,7 @@ void RenderWidget::slotChangeSelection(const QModelIndex &current, const QModelI
     if (m_treeModel->parent(current) == QModelIndex()) {
         // in that case, we have selected a category, which we don't want
         QItemSelectionModel *selection = m_view.profileTree->selectionModel();
-        selection->select(previous, QItemSelectionModel::Select);
+        selection->select(previous, QItemSelectionModel::ClearAndSelect);
         // expand corresponding category
         auto parent = m_treeModel->parent(previous);
         m_view.profileTree->expand(parent);

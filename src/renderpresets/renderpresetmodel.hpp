@@ -24,8 +24,8 @@ public:
     RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName = QString(),
                       const QString &renderer = QStringLiteral("avformat"));
     RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName);
-    RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &defaultVBitrate, const QString &defaultVQuality,
-                      const QString &defaultABitrate, const QString &defaultAQuality, const QString &speedsString);
+    RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension, const QString &defaultVBitrate,
+                      const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality, const QString &speedsString);
 
     enum InstallType { BuildIn, Custom, Download };
 
