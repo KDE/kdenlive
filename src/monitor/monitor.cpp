@@ -1166,22 +1166,26 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     }
     if (dlg->exec() == QDialog::Accepted) {
         QString selectedFile = fileWidget->selectedFile();
+        bool useSourceResolution = b != nullptr && b->isChecked();
         if (!selectedFile.isEmpty()) {
             if (b != nullptr) {
-                KdenliveSettings::setExportframe_usingsourceres(b->isChecked());
+                KdenliveSettings::setExportframe_usingsourceres(useSourceResolution);
             }
             KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
             // check if we are using a proxy
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
-                // using proxy, use original clip url to get frame
+                // Clip monitor, using proxy. Use original clip url to get frame
                 QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
                 if (src.open()) {
                     src.setAutoRemove(false);
                     m_controller->cloneProducerToFile(src.fileName());
                     const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
                     QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, b != nullptr ? b->isChecked() : false);
+                                      addToProject, useSourceResolution);
+                } else {
+                    // TODO: warn user, cannot open tmp file
+                    qDebug() << "Could not create temporary file";
                 }
                 return;
             } else {
@@ -1212,7 +1216,12 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                                 [this, proxiedClips, selectedFile, existingProxies, addToProject, analysisStatus, previewScale](const QImage &img) {
                                     m_glMonitor->sendFrameForAnalysis = analysisStatus;
                                     m_glMonitor->releaseAnalyse();
-                                    img.save(selectedFile);
+                                    if (pCore->getCurrentSar() != 1.) {
+                                        QImage scaled = img.scaled(pCore->getCurrentFrameDisplaySize());
+                                        scaled.save(selectedFile);
+                                    } else {
+                                        img.save(selectedFile);
+                                    }
                                     if (previewScale > 0) {
                                         KdenliveSettings::setPreviewScaling(previewScale);
                                         m_glMonitor->updateScaling();
@@ -1237,15 +1246,20 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     }
                     return;
                 } else {
-                    QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
-                    if (src.open()) {
-                        src.setAutoRemove(false);
-                        m_controller->cloneProducerToFile(src.fileName());
-                        const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
-                        QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
-                                          addToProject, b != nullptr ? b->isChecked() : false);
+                    QStringList pathInfo;
+                    if (useSourceResolution) {
+                        // Create a producer with the original clip
+                        QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                        if (src.open()) {
+                            src.setAutoRemove(false);
+                            m_controller->cloneProducerToFile(src.fileName());
+                            pathInfo = QStringList({src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()});
+                        }
+                    } else {
+                        pathInfo = QStringList({QString(), selectedFile, pCore->bin()->getCurrentFolder()});
                     }
-                    return;
+                    QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
+                                      addToProject, useSourceResolution);
                 }
             }
         }
