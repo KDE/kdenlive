@@ -163,7 +163,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     vRateControlCombo->addItem(i18n("Average Bitrate"));
     vRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     vRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
-    vRateControlCombo->addItem(i18n("Contrained VBR"));
+    vRateControlCombo->addItem(i18n("Constrained VBR"));
 
     connect(scanningCombo, &QComboBox::currentTextChanged, this, [&]() {
         fieldOrderCombo->setEnabled(scanningCombo->currentIndex() != 1);
