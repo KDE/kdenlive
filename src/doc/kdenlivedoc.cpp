@@ -1373,7 +1373,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         QDir folder(m_projectFolder);
         m_documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(m_documentProperties.value(QStringLiteral("documentid"))));
     }
-    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
+    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfilePath());
     if (m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         // "kdenlive:docproperties.decimalPoint" was removed in document version 100
         m_documentProperties.remove(QStringLiteral("decimalPoint"));

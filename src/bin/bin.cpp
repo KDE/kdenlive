@@ -4857,7 +4857,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
         if (*clipProfile.get() == *projectProfile.get()) {
             if (KdenliveSettings::default_profile().isEmpty()) {
                 // Confirm default project format
-                KdenliveSettings::setDefault_profile(pCore->getCurrentProfile()->path());
+                KdenliveSettings::setDefault_profile(pCore->getCurrentProfilePath());
             }
         } else {
             // Profiles do not match, propose profile adjustment
