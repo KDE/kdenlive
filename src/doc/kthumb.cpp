@@ -50,7 +50,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 }
 
 // static
-QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
+QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height, int displayWidth)
 {
     if (producer == nullptr || !producer->is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
@@ -65,13 +65,13 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
 
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
-    const QImage p = getFrame(frame, displayWidth, height);
+    const QImage p = getFrame(frame, width, height, displayWidth);
     delete frame;
     return p;
 }
 
 // static
-QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth, int height)
+QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int width, int height, int displayWidth)
 {
     if (!producer.is_valid()) {
         QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
@@ -80,7 +80,7 @@ QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth,
     }
     producer.seek(framepos);
     Mlt::Frame *frame = producer.get_frame();
-    const QImage p = getFrame(frame, displayWidth, height);
+    const QImage p = getFrame(frame, width, height, displayWidth);
     delete frame;
     return p;
 }
