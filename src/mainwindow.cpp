@@ -217,7 +217,7 @@ void MainWindow::init(const QString &mltPath)
     // If using a custom profile, make sure the file exists or fallback to default
     QString currentProfilePath = pCore->getCurrentProfilePath();
     if (currentProfilePath.startsWith(QLatin1Char('/')) && !QFile::exists(currentProfilePath)) {
-        KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
+        KMessageBox::error(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
         pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
         KdenliveSettings::setDefault_profile(QStringLiteral("atsc_1080p_25"));
     }
@@ -2073,12 +2073,12 @@ void MainWindow::slotEditProjectSettings()
                 bool ok;
                 documentId.toLongLong(&ok, 10);
                 if (!ok || documentId.isEmpty()) {
-                    KMessageBox::sorry(this, i18n("Cannot perform operation, invalid document id: %1", documentId));
+                    KMessageBox::error(this, i18n("Cannot perform operation, invalid document id: %1", documentId));
                 } else {
                     QDir newDir(newProjectFolder);
                     QDir oldDir(project->projectTempFolder());
                     if (newDir.exists(documentId)) {
-                        KMessageBox::sorry(this, i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                        KMessageBox::error(this, i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
                         pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());

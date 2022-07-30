@@ -622,7 +622,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     info_message->hide();
 
     m_logAction = new QAction(i18n("Show log"), this);
-    connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::sorry(this, m_errorString, i18n("Detailed log")); });
+    connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::error(this, m_errorString, i18n("Detailed log")); });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
     connect(speech_zone, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });

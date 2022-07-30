@@ -599,9 +599,9 @@ void ResourceWidget::slotGotFile(KJob *job)
     if (job->error() != 0) {
         const QString errTxt = job->errorString();
         if (job->property("usedOAuth2").toBool()) {
-            KMessageBox::sorry(this, i18n("%1 Try again.", errTxt), i18n("Error Loading Data"));
+            KMessageBox::error(this, i18n("%1 Try again.", errTxt), i18n("Error Loading Data"));
         } else {
-            KMessageBox::sorry(this, errTxt, i18n("Error Loading Data"));
+            KMessageBox::error(this, errTxt, i18n("Error Loading Data"));
         }
         qCDebug(KDENLIVE_LOG) << "//file import job errored: " << errTxt;
         return;

@@ -1828,7 +1828,7 @@ void Bin::slotReloadClip()
                     KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
                     if (copyjob->exec()) {
                         if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                            KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
+                            KMessageBox::error(this, i18n("Unable to write to file %1", path));
                         } else {
                             QTextStream out(&f);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -1896,7 +1896,7 @@ void Bin::slotReplaceClip()
                             }
                         }
                     } else {
-                        KMessageBox::sorry(this, i18n("The selected file %1 is invalid.", fileName));
+                        KMessageBox::error(this, i18n("The selected file %1 is invalid.", fileName));
                         continue;
                     }
                 }
@@ -2172,7 +2172,7 @@ void Bin::createClip(const QDomElement &xml)
             KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
             if (copyjob->exec()) {
                 if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    KMessageBox::sorry(this, i18n("Unable to write to file %1", path));
+                    KMessageBox::error(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -3351,7 +3351,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     QAction *ac = new QAction(i18n("Show log"), this);
     m_infoMessage->addAction(ac);
     connect(ac, &QAction::triggered, this, [this, logInfo](bool) {
-        KMessageBox::sorry(this, logInfo, i18n("Detailed log"));
+        KMessageBox::error(this, logInfo, i18n("Detailed log"));
         slotMessageActionTriggered();
     });
     m_infoMessage->setCloseButtonVisible(false);
@@ -4059,7 +4059,7 @@ void Bin::slotOpenClipExtern()
         if (!KdenliveSettings::defaultimageapp().isEmpty()) {
             openExternalApp(KdenliveSettings::defaultimageapp(), clip->url());
         } else {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
+            KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
         }
     } break;
     case ClipType::Audio: {
@@ -4076,7 +4076,7 @@ void Bin::slotOpenClipExtern()
         if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
             openExternalApp(KdenliveSettings::defaultaudioapp(), clip->url());
         } else {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
+            KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
         }
     } break;
     case ClipType::Animation: {
@@ -4093,7 +4093,7 @@ void Bin::slotOpenClipExtern()
         if (!KdenliveSettings::glaxnimatePath().isEmpty()) {
             openExternalApp(KdenliveSettings::glaxnimatePath(), clip->url());
         } else {
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Please set a path for the Glaxnimate application"));
+            KMessageBox::error(QApplication::activeWindow(), i18n("Please set a path for the Glaxnimate application"));
         }
     } break;
     default:

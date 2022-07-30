@@ -239,7 +239,7 @@ bool ProfilesDialog::slotSaveProfile()
         // this profile name already exists
         const QString path = m_view.profiles_list->itemData(ix).toString();
         if (!path.contains(QLatin1Char('/'))) {
-            KMessageBox::sorry(
+            KMessageBox::error(
                 this, i18n("A profile with same name already exists in MLT's default profiles, please choose another description for your custom profile."));
             return false;
         }

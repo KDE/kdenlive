@@ -503,12 +503,12 @@ void EffectStackView::slotSaveStack()
         }
     }
     if (m_model->rowCount() <= 1) {
-        KMessageBox::sorry(this, i18n("No effect selected."));
+        KMessageBox::error(this, i18n("No effect selected."));
         return;
     }
     QString name = QInputDialog::getText(this, i18nc("@title:window", "Save Effect Stack"), i18n("Name for saved stack: "));
     if (name.trimmed().isEmpty()) {
-        KMessageBox::sorry(this, i18n("No name provided, effect stack not saved."));
+        KMessageBox::error(this, i18n("No name provided, effect stack not saved."));
         return;
     }
 

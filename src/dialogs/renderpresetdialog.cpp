@@ -163,7 +163,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     vRateControlCombo->addItem(i18n("Average Bitrate"));
     vRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     vRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
-    vRateControlCombo->addItem(i18n("Contrained VBR"));
+    vRateControlCombo->addItem(i18n("Constrained VBR"));
 
     connect(scanningCombo, &QComboBox::currentTextChanged, this, [&]() {
         fieldOrderCombo->setEnabled(scanningCombo->currentIndex() != 1);
@@ -409,7 +409,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         QString newPresetName = preset_name->text().simplified();
         if (newPresetName.isEmpty()) {
-            KMessageBox::warningContinueCancel(this, i18n("The preset name can't be empty"));
+            KMessageBox::error(this, i18n("The preset name can't be empty"));
             return;
         }
         QString newGroupName = groupName->currentText().simplified();

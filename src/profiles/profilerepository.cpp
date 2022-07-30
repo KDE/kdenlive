@@ -171,7 +171,7 @@ const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profi
     }
     QFile file(profilePath);
     if (!file.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(nullptr, i18n("Cannot open file %1", profilePath));
+        KMessageBox::error(nullptr, i18n("Cannot open file %1", profilePath));
         return QString();
     }
     QTextStream out(&file);

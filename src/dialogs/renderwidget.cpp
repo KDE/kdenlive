@@ -290,7 +290,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (!QFile::exists(m_renderer)) {
         m_renderer = QStandardPaths::findExecutable(QStringLiteral("kdenlive_render"));
         if (m_renderer.isEmpty()) {
-            KMessageBox::sorry(this,
+            KMessageBox::error(this,
                                i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
         }
     }
@@ -624,7 +624,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
     // mantisbt 1051
     QDir dir(m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile());
     if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
-        KMessageBox::sorry(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.",
+        KMessageBox::error(this, i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.",
                                       m_view.out_file->url().adjusted(QUrl::RemoveFilename).toLocalFile()));
         return;
     }
@@ -668,7 +668,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
         if (!src.open()) {
             // Something went wrong
-            KMessageBox::sorry(this, i18n("Could not create temporary subtitle file"));
+            KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
             return;
         }
         subtitleFile = src.fileName();
@@ -743,7 +743,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                             QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
                             if (!src.open()) {
                                 // Something went wrong
-                                KMessageBox::sorry(this, i18n("Could not create temporary subtitle file"));
+                                KMessageBox::error(this, i18n("Could not create temporary subtitle file"));
                                 return;
                             }
                             subtitleFile = src.fileName();

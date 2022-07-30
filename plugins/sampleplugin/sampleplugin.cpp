@@ -85,14 +85,14 @@ QUrl SamplePlugin::generatedClip(const QString &renderer, const QString &generat
             if (generatorProcess.exitStatus() == QProcess::CrashExit) {
                 // qDebug() << "/// Generator failed: ";
                 QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
-                KMessageBox::sorry(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
+                KMessageBox::error(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
             } else {
                 result = view.path->url();
             }
         } else {
             // qDebug() << "/// Generator failed: ";
             QString error = QString::fromLocal8Bit(generatorProcess.readAllStandardError());
-            KMessageBox::sorry(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
+            KMessageBox::error(QApplication::activeWindow(), i18n("Failed to generate clip:\n%1", error), i18n("Generator Failed"));
         }
     }
     delete d;

@@ -2677,7 +2677,7 @@ void Monitor::slotSwitchRecTimecode(bool enable)
         }
         if (mediainfopath.isEmpty()) {
             // TODO: propose to install mediainfo
-            KMessageBox::sorry(
+            KMessageBox::error(
                 this,
                 i18n("The MediaInfo application is required for the recording timecode feature, please install it and re-enable the feature in Kdenlive"));
             return;
