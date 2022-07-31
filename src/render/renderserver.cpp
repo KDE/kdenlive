@@ -27,7 +27,7 @@ RenderServer::RenderServer(QObject *parent)
     connect(this, &RenderServer::setRenderingFinished, pCore->window(), &MainWindow::setRenderingFinished);
 }
 
-RenderServer::~RenderServer() {}
+// RenderServer::~RenderServer() {}
 
 void RenderServer::jobConnected()
 {
