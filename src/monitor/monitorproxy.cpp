@@ -227,7 +227,7 @@ void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pat
     QImage img;
     int height = size.height();
     int width = size.width();
-    if (path.isEmpty() || !useSourceProfile) {
+    if (path.isEmpty()) {
         // Use current monitor producer to extract frame
         Mlt::Frame *frame = q->m_producer->get_frame();
         QImage img = KThumb::getFrame(frame, width, height, finalSize.width());
