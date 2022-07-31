@@ -1424,12 +1424,12 @@ void RenderWidget::refreshParams()
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     if (params.contains(QLatin1String("%dv_standard"))) {
         QString dvstd;
-        if (fmod(double(projectProfile->frame_rate_num() / projectProfile->frame_rate_den()), 30.01) > 27) {
+        if (fmod(double(projectProfile->frame_rate_num()) / projectProfile->frame_rate_den(), 30.01) > 27) {
             dvstd = QStringLiteral("ntsc");
         } else {
             dvstd = QStringLiteral("pal");
         }
-        if (double(projectProfile->display_aspect_num() / projectProfile->display_aspect_den()) > 1.5) {
+        if (double(projectProfile->display_aspect_num()) / projectProfile->display_aspect_den() > 1.5) {
             dvstd += QLatin1String("_wide");
         }
         params.replace(QLatin1String("%dv_standard"), dvstd);
