@@ -648,7 +648,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 }
             }
         } else {
-            KMessageBox::detailedSorry(pCore->window(), "Could not open the backup project file.", openResult.getError());
+            KMessageBox::detailedError(pCore->window(), "Could not open the backup project file.", openResult.getError());
         }
     } else {
         doc = openResult.getDocument().release();
