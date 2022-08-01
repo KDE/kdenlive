@@ -265,6 +265,7 @@ void ProxyTask::run()
             // Automatic setting, decide based on hw support
             proxyParams = pCore->currentDoc()->getAutoProxyProfile();
         }
+        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
         bool nvenc = proxyParams.contains(QStringLiteral("%nvcodec"));
         if (nvenc) {
             QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
@@ -282,7 +283,7 @@ void ProxyTask::run()
                 supported = false;
             }
             if (proxyParams.contains(QStringLiteral("%frameSize"))) {
-                int w = 640;
+                int w = proxyResize;
                 int h = 0;
                 int oW = binClip->getProducerProperty(QStringLiteral("meta.media.width")).toInt();
                 int oH = binClip->getProducerProperty(QStringLiteral("meta.media.height")).toInt();
@@ -300,14 +301,13 @@ void ProxyTask::run()
                 proxyParams.replace(QStringLiteral("%nvcodec"), codec);
             } else {
                 proxyParams = proxyParams.section(QStringLiteral("-i"), 1);
+                if (!supportedPixFmts.contains(pix_fmt)) {
+                    proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p "));
+                }
                 proxyParams.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
                 proxyParams.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
-                if (!supportedPixFmts.contains(pix_fmt)) {
-                    proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p"));
-                }
             }
         }
-        int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
         proxyParams.replace(QStringLiteral("%width"), QString::number(proxyResize));
         bool disableAutorotate = binClip->getProducerProperty(QStringLiteral("autorotate")) == QLatin1String("0");
         if (disableAutorotate || proxyParams.contains(QStringLiteral("-noautorotate"))) {
