@@ -270,8 +270,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
 bool ProjectManager::testSaveFileAs(const QString &outputFileName)
 {
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
-    QMap<QString, QString> docProperties;
-    docProperties.insert(QStringLiteral("version"), QString::number(m_project->getDocumentVersion()));
+    QMap<QString, QString> docProperties = m_project->documentProperties();
     docProperties.insert(QStringLiteral("timelineHash"), m_mainTimelineModel->timelineHash().toHex());
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>(), m_project->getGuideModel());
     QString scene = m_mainTimelineModel->sceneList(saveFolder);

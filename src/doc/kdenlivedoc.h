@@ -93,6 +93,8 @@ public:
     /** @brief Open an existing Kdenlive project, returning nothing if the project cannot be opened. */
     static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
                 bool recoverCorruption, MainWindow *parent = nullptr);
+    /** @brief Create a dummy project, used for testing. */
+    KdenliveDoc(MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
     /** @brief Get current document's producer. */

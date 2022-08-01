@@ -133,6 +133,17 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     updateClipsCount();
 }
 
+KdenliveDoc::KdenliveDoc(MainWindow *parent)
+    : QObject(parent)
+    , uuid(QUuid::createUuid())
+    , m_autosave(nullptr)
+    , m_clipsCount(0)
+    , m_modified(false)
+    , m_documentOpenStatus(CleanProject)
+{
+    initializeProperties();
+}
+
 DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
     bool recoverCorruption, MainWindow *parent)
 {

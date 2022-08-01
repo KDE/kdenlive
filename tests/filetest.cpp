@@ -27,7 +27,8 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Simple insert and save")
     {
         // Create document
-        Mock<KdenliveDoc> docMock;
+        KdenliveDoc document(nullptr);
+        Mock<KdenliveDoc> docMock(document);
         // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
         //     Q_UNUSED(name) Q_UNUSED(defaultValue)
         //     qDebug() << "Intercepted call";
@@ -43,8 +44,7 @@ TEST_CASE("Save File", "[SF]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        pCore->m_projectManager->m_project = &mockedDoc;
-        pCore->m_projectManager->m_project->m_guideModel = guideModel;
+        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
         TimelineItemModel tim(&profile_file, undoStack);
@@ -110,7 +110,8 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Reopen and check in/out points")
     {
         // Create new document
-        Mock<KdenliveDoc> docMock;
+        KdenliveDoc document(nullptr);
+        Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -121,8 +122,7 @@ TEST_CASE("Save File", "[SF]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        pCore->m_projectManager->m_project = &mockedDoc;
-        pCore->m_projectManager->m_project->m_guideModel = guideModel;
+        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
         TimelineItemModel tim(&profile_file, undoStack);
@@ -174,7 +174,8 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Open a file with AV clips")
     {
         // Create new document
-        Mock<KdenliveDoc> docMock;
+        KdenliveDoc document(nullptr);
+        Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -190,8 +191,7 @@ TEST_CASE("Save File", "[SF]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        pCore->m_projectManager->m_project = &mockedDoc;
-        pCore->m_projectManager->m_project->m_guideModel = guideModel;
+        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
         TimelineItemModel tim(&profile_file, undoStack);
@@ -266,7 +266,8 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     {
 
         // Create document
-        Mock<KdenliveDoc> docMock;
+        KdenliveDoc document(nullptr);
+        Mock<KdenliveDoc> docMock(document);
         // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
         //     Q_UNUSED(name) Q_UNUSED(defaultValue)
         //     qDebug() << "Intercepted call";
@@ -282,8 +283,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        pCore->m_projectManager->m_project = &mockedDoc;
-        pCore->m_projectManager->m_project->m_guideModel = guideModel;
+        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
         TimelineItemModel tim(&profile_file, undoStack);
@@ -360,6 +360,73 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         auto xmldata = getProperty(textTitle, QStringLiteral("xmldata"));
         REQUIRE(xmldata != nullptr);
         CHECK(clipname->text().contains(emojiTestString));
+    }
+
+    SECTION("Save project and check profile")
+    {
+
+        // Create document
+        KdenliveDoc document(nullptr);
+        Mock<KdenliveDoc> docMock(document);
+        // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
+        //     Q_UNUSED(name) Q_UNUSED(defaultValue)
+        //     qDebug() << "Intercepted call";
+        //     return QStringLiteral("dummyId");
+        // });
+        KdenliveDoc &mockedDoc = docMock.get();
+
+        // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
+        ProjectManager &mocked = pmMock.get();
+        pCore->m_projectManager = &mocked;
+        mockedDoc.m_guideModel = guideModel;
+        pCore->setCurrentProfile("atsc_1080p_25");
+
+        // We also mock timeline object to spy few functions and mock others
+        TimelineItemModel tim(&profile_file, undoStack);
+        Mock<TimelineItemModel> timMock(tim);
+        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+        TimelineItemModel::finishConstruct(timeline, guideModel);
+        mocked.testSetActiveDocument(&mockedDoc, timeline);
+        QDir dir = QDir::temp();
+        std::unordered_map<QString, QString> binIdCorresp;
+        QStringList expandedFolders;
+        QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
+        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", doc.toString().toUtf8()));
+
+        Mlt::Service s(*xmlProd);
+        Mlt::Tractor tractor(s);
+        binModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, nullptr);
+
+        RESET(timMock)
+
+        TrackModel::construct(timeline, -1, -1, QString(), true);
+        TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid1 = TrackModel::construct(timeline);
+
+        // Setup timeline audio drop info
+        QMap<int, QString> audioInfo;
+        audioInfo.insert(1, QStringLiteral("stream1"));
+        timeline->m_binAudioTargets = audioInfo;
+        timeline->m_videoTarget = tid1;
+
+        mocked.testSaveFileAs(saveFile.fileName());
+
+        // open the file and check that it contains the correct profile info
+        QFile file(saveFile.fileName());
+        REQUIRE(file.open(QIODevice::ReadOnly));
+        QByteArray contents = file.readAll();
+        QString contentCheck("<property name=\"kdenlive:docproperties.profile\">atsc_1080p_25</property>");
+        if (contents.contains(contentCheck.toUtf8())) {
+            qDebug() << "File contains test string";
+        } else {
+            qDebug() << "File does not contain test string:" << contents;
+        }
+        REQUIRE(contents.contains(contentCheck.toUtf8()));
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
