@@ -171,7 +171,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             stream.setCodec(inputEncoding);
         } else {
             qWarning() << "No QTextCodec named" << encoding;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             stream.setCodec("UTF-8");
+#endif
         }
         QString line;
         QStringList srtTime;
