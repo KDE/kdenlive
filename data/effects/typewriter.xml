@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="typewriter" id="typewriter" type="text" unique="1">
+<effect tag="typewriter" id="typewriter" type="hidden" unique="1">
     <name>TypeWriter</name>
     <description>Typewriter effect v0.3.3</description>
     <author>Rafal Lalik</author>
