@@ -106,6 +106,7 @@ avfilter.earwax
 avfilter.field
 avfilter.qp
 avfilter.reverse
+avfilter.thumbnail_cuda
 avfilter.volume
 avfilter.volumedetect
 
@@ -121,33 +122,48 @@ avfilter.avgblur_opencl
 avfilter.boxblur_opencl
 avfilter.colorkey_opencl
 avfilter.convolution_opencl
+avfilter.deinterlace_qsv
 avfilter.deinterlace_vaapi
 avfilter.denoise_vaapi
+avfilter.deshake_opencl
 avfilter.dilation_opencl
+avfilter.dnn_processing
 avfilter.erosion_opencl
 avfilter.hwupload_cuda
 avfilter.nlmeans_opencl
+avfilter.pad_opencl
 avfilter.prewitt_opencl
 avfilter.procamp_vaapi
 avfilter.roberts_opencl
+avfilter.scale_cuda
 avfilter.scale_vaapi
+avfilter.scale_qsv
 avfilter.sharpness_vaapi
 avfilter.shuffleplanes
 avfilter.sobel_opencl
 avfilter.tonemap
 avfilter.tonemap_opencl
+avfilter.tonemap_vaapi
 avfilter.transpose_opencl
 avfilter.transpose_vaapi
 avfilter.unsharp_opencl
+avfilter.vpp_qsv
+avfilter.yadif_cuda
 avfilter.zmq
+
 
 # WORKING BUT WARNING OR PARTIALLY WORKING
 avfilter.atadenoise
 avfilter.dedot
 avfilter.deflicker
 avfilter.doubleweave
+avfilter.estdif
 avfilter.random
+avfilter.thistogram
+avfilter.tmedian
+avfilter.tmidequalizer
 avfilter.tmix
+avfilter.untile
 avfilter.vertigo
 avfilter.w3fdif
 avfilter.weave
@@ -164,6 +180,7 @@ avfilter.inflate
 avfilter.nlmeans
 avfilter.owdenoise
 avfilter.removegrain
+avfilter.shufflepixels
 avfilter.sr
 deshake
 fieldorder
@@ -171,6 +188,7 @@ frei0r.bgsubtract0r
 frei0r.colorhalftone
 frei0r.delaygrab
 frei0r.lightgraffiti
+frei0r.bigsh0t_zenith_correction
 # frei0r.premultiply
 gtkrescale
 region
@@ -259,7 +277,9 @@ avfilter.ssim
 avfilter.tblend
 avfilter.tpad
 avfilter.uspp
+avfilter.v360
 avfilter.vmafmotion
+avfilter.yaepblur
 cairoblend_mode
 choppy
 frei0r.delay0r
@@ -268,6 +288,7 @@ vismv
 watermark
 
 # COMPLEX UI
+avfilter.addroi
 avfilter.crop
 avfilter.cue
 avfilter.curves
@@ -288,6 +309,7 @@ avfilter.shuffleframes
 avfilter.swaprect
 avfilter.tlut2
 avfilter.vignette
+avfilter.zscale
 qtext
 rgblut
 timer
@@ -317,3 +339,4 @@ frei0r.baltan
 frei0r.bgsubtract0r
 frei0r.lightgraffiti
 frei0r.tehroxx0r
+frei0r.tehRoxx0r
