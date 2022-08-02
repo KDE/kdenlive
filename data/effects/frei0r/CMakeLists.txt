@@ -10,6 +10,7 @@ frei0r_bezier_curves.xml
 frei0r_bgsubtract0r.xml
 frei0r_bigsh0t_eq_mask.xml
 frei0r_bigsh0t_eq_to_rect.xml
+frei0r_bigsh0t_eq_to_stereo.xml
 frei0r_bigsh0t_hemi_to_eq.xml
 frei0r_bigsh0t_rect_to_eq.xml
 frei0r_bigsh0t_stabilize_360.xml
