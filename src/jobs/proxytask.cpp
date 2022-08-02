@@ -331,6 +331,8 @@ void ProxyTask::run()
 
         // Make sure we keep the stream order
         parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
+        // Drop unknown streams instead of aborting
+        parameters << QStringLiteral("-ignore_unknown");
         parameters << dest;
         qDebug() << "/// FULL PROXY PARAMS:\n" << parameters << "\n------";
         m_jobProcess.reset(new QProcess);
