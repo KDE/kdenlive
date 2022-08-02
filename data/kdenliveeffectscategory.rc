@@ -6,15 +6,15 @@
 <text>Alpha, Mask and Keying</text>
 </group>
 
-<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,box_blur,avfilter.unsharp,avfilter.sab">
+<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,box_blur,avfilter.unsharp,avfilter.sab,avfilter.bilateral,avfilter.cas,avfilter.dblur">
 <text>Blur and Sharpen</text>
 </group>
 
-<group list="frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo">
+<group list="frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo,avfilter.shear,avfilter.scroll">
 <text>Transform, Distort and Perspective</text>
 </group>
 
-<group list="dust,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,frei0r.hqdn3d,lines,avfilter.gradfun,avfilter.removegrain">
+<group list="dust,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,frei0r.hqdn3d,lines,avfilter.gradfun,avfilter.removegrain,avfilter.chromanr,avfilter.median">
 <text>Grain and Noise</text>
 </group>
 
@@ -30,7 +30,7 @@
 <text>On Master</text>
 </group>
 
-<group list="invert,sepia,tcolor,greyscale,frei0r.B,frei0r.G,frei0r.R,frei0r.contrast0r,frei0r.saturat0r,frei0r.tint0r,chroma_hold,frei0r.colorize,frei0r.equaliz0r,frei0r.hueshift0r,frei0r.luminance,lumaliftgaingamma,lift_gamma_gain,brightness,gamma,frei0r.colgate,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance,frei0r.curves,frei0r.coloradj_RGB,frei0r.sopsat,frei0r.bezier_curves,avfilter.selectivecolor,avfilter.lut3d,avfilter.chromahold,avfilter.colorbalance,avfilter.colorchannelmixer,avfilter.colorhold,avfilter.colorlevels,avfilter.eq,frei0r.invert0r,frei0r.normaliz0r,frei0r.gamma,frei0r.bw0r,greyscale,avfilter.vibrance,avfilter.swapuv,avfilter.negate,avfilter.histeq,avfilter.normalize,avfilter.fftfilt,avfilter.limiter">
+<group list="invert,sepia,tcolor,greyscale,frei0r.B,frei0r.G,frei0r.R,frei0r.contrast0r,frei0r.saturat0r,frei0r.tint0r,chroma_hold,frei0r.colorize,frei0r.equaliz0r,frei0r.hueshift0r,frei0r.luminance,lumaliftgaingamma,lift_gamma_gain,brightness,gamma,frei0r.colgate,frei0r.balanc0r,frei0r.brightness,frei0r.levels,frei0r.three_point_balance,frei0r.curves,frei0r.coloradj_RGB,frei0r.sopsat,frei0r.bezier_curves,avfilter.selectivecolor,avfilter.lut3d,avfilter.chromahold,avfilter.colorbalance,avfilter.colorchannelmixer,avfilter.colorhold,avfilter.colorlevels,avfilter.eq,frei0r.invert0r,frei0r.normaliz0r,frei0r.gamma,frei0r.bw0r,greyscale,avfilter.vibrance,avfilter.swapuv,avfilter.negate,avfilter.histeq,avfilter.normalize,avfilter.fftfilt,avfilter.limiter,avfilter.colorcontrast,avfilter.colorcorrect,avfilter.colorize,avfilter.colortemperature,avfilter.exposure,avfilter.monochrome">
 <text>Color and Image correction</text>
 </group>
 
@@ -38,11 +38,11 @@
 <text>Audio correction</text>
 </group>
 
-<group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion">
+<group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion,avfilter.epx">
 <text>Image adjustment</text>
 </group>
 
-<group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r">
+<group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity">
 <text>Stylize</text>
 </group>
 
@@ -54,7 +54,7 @@
 <text>GPU effects</text>
 </group>
 
-<group list="frei0r.bigsh0t_eq_mask,frei0r.bigsh0t_eq_to_rect,frei0r.bigsh0t_hemi_to_eq,frei0r.bigsh0t_rect_to_eq,frei0r.bigsh0t_transform_360,frei0r.bigsh0t_stabilize_360,avfilter.stereo3d">
+<group list="frei0r.bigsh0t_eq_mask,frei0r.bigsh0t_eq_to_rect,frei0r.bigsh0t_hemi_to_eq,frei0r.bigsh0t_rect_to_eq,frei0r.bigsh0t_transform_360,frei0r.bigsh0t_stabilize_360,avfilter.stereo3d,frei0r.bigsh0t_eq_to_stereo,frei0r.bigsh0t_zenith_correction">
 <text>VR360 and 3D</text>
 </group>
 
