@@ -42,7 +42,7 @@
 <text>Image adjustment</text>
 </group>
 
-<group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity">
+<group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries,frei0r.aech0r,avfilter.kirsch,avfilter.photosensitivity,typewriter">
 <text>Stylize</text>
 </group>
 
