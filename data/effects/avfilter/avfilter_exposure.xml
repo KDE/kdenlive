@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.exposure" id="avfilter.exposure">
+	<name>Exposure</name>
+	<description>Adjust exposure of the video stream.</description>
+	<author>libavfilter</author>
+	<parameter type="animated" name="av.exposure" min="-3" max="3" default="0" decimals="3">
+		<name>Exposure</name>
+	</parameter>
+	<parameter type="animated" name="av.black" min="-1" max="1" default="0" decimals="3">
+		<name>Radius</name>
+	</parameter>
+</effect>
