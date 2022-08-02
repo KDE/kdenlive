@@ -108,6 +108,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     m_document = createEmptyDocument(tracks.first, tracks.second);
     updateProjectProfile(false);
     updateProjectFolderPlacesEntry();
+    initCacheDirs();
 }
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
