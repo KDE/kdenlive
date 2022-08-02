@@ -43,6 +43,7 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
     m_params = docConvert.toPlainText().simplified();
 
     m_extension = preset.attribute(QStringLiteral("extension"));
+    m_manual = preset.attribute(QStringLiteral("manual")) == QLatin1String("1");
 
     if (getParam(QStringLiteral("f")).isEmpty() && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
         m_params.append(QStringLiteral(" f=%1").arg(m_extension));
@@ -68,6 +69,7 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
 RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName)
     : m_editable(false)
     , m_params(params)
+    , m_manual(false)
     , m_groupName(groupName)
     , m_renderer(QStringLiteral("avformat"))
     , m_defaultSpeedIndex(-1)
@@ -100,7 +102,7 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
 
 RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension,
                                      const QString &defaultVBitrate, const QString &defaultVQuality, const QString &defaultABitrate,
-                                     const QString &defaultAQuality, const QString &speedsString)
+                                     const QString &defaultAQuality, const QString &speedsString, bool manualPreset)
     : m_presetFile()
     , m_editable()
     , m_name(name)
@@ -127,6 +129,7 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     }
 
     m_defaultSpeedIndex = (speeds().count() - 1) * 0.75;
+    m_manual = manualPreset;
 
     checkPreset();
 }
@@ -212,6 +215,9 @@ QDomElement RenderPresetModel::toXml()
     profileElement.setAttribute(QStringLiteral("category"), m_groupName);
     if (!m_extension.isEmpty()) {
         profileElement.setAttribute(QStringLiteral("extension"), m_extension);
+    }
+    if (m_manual) {
+        profileElement.setAttribute(QStringLiteral("manual"), QStringLiteral("1"));
     }
     profileElement.setAttribute(QStringLiteral("args"), m_params);
     if (!m_defaultVBitrate.isEmpty()) {
@@ -350,6 +356,11 @@ QString RenderPresetModel::getParam(const QString &name) const
         return m_params.section(QStringLiteral(" %1=").arg(name), 1, 1).section(QLatin1Char(' '), 0, 0);
     }
     return {};
+}
+
+bool RenderPresetModel::isManual() const
+{
+    return m_manual;
 }
 
 bool RenderPresetModel::hasParam(const QString &name) const

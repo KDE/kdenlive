@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>542</width>
-    <height>622</height>
+    <width>556</width>
+    <height>817</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,7 +63,7 @@
        <widget class="QLineEdit" name="preset_name"/>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_container">
         <property name="text">
          <string>Container:</string>
         </property>
@@ -155,8 +155,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>522</width>
-            <height>322</height>
+            <width>536</width>
+            <height>471</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -173,8 +173,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>489</width>
-                <height>580</height>
+                <width>519</width>
+                <height>730</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout">
@@ -1014,7 +1014,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="other_tab">
       <attribute name="title">
        <string>Other</string>
       </attribute>
@@ -1072,12 +1072,42 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="KMessageWidget" name="kmessagewidget">
+         <property name="text">
+          <string>Enabling manual editing is for advanced users, you will only be able to edit the settings for this preset in a text box.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+         <property name="messageType">
+          <enum>KMessageWidget::Warning</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="button_manual">
+         <property name="text">
+          <string>Enable manual editing</string>
+         </property>
+         <property name="icon">
+          <iconset theme="data-warning"/>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="parameters"/>
+    <widget class="QPlainTextEdit" name="parameters">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

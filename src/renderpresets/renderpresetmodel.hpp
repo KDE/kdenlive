@@ -25,7 +25,8 @@ public:
                       const QString &renderer = QStringLiteral("avformat"));
     RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName);
     RenderPresetModel(const QString &name, const QString &groupName, const QString &params, const QString &extension, const QString &defaultVBitrate,
-                      const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality, const QString &speedsString);
+                      const QString &defaultVQuality, const QString &defaultABitrate, const QString &defaultAQuality, const QString &speedsString,
+                      bool manualPreset);
 
     enum InstallType { BuildIn, Custom, Download };
 
@@ -54,6 +55,7 @@ public:
     QStringList videoQualities() const;
     QString defaultVQuality() const;
     bool editable() const;
+    bool isManual() const;
 
     QString getParam(const QString &name) const;
     bool hasParam(const QString &name) const;
@@ -76,6 +78,7 @@ private:
     QString m_standard;
     QString m_params;
     QString m_extension;
+    bool m_manual;
     QString m_groupName;
     QString m_renderer;
     QString m_url;

@@ -33,8 +33,12 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     , m_saveName(preset ? preset->name() : "")
     , m_monitor(nullptr)
     , m_fixedResRatio(1.)
+    , m_manualPreset(false)
 {
     setupUi(this);
+    if (preset) {
+        m_manualPreset = preset->isManual();
+    }
 
     m_uiParams.append({QStringLiteral("f"),
                        QStringLiteral("acodec"),
@@ -192,192 +196,215 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
     int parNum = projectProfile->sample_aspect_num();
     int parDen = projectProfile->sample_aspect_den();
+    connect(button_manual, &QPushButton::clicked, [this, helpButton]() {
+        if (m_manualPreset) {
+            return;
+        }
+        tabWidget->setVisible(false);
+        label_container->setEnabled(false);
+        formatCombo->setEnabled(false);
+        parameters->setVisible(true);
+        parameters->setReadOnly(false);
+        helpButton->setEnabled(false);
+        m_manualPreset = true;
+    });
     if (preset) {
         groupName->setCurrentText(preset->groupName());
         if (mode != Mode::New) {
             preset_name->setText(preset->name());
         }
         preset_name->setFocus();
-        formatCombo->setCurrentText(preset->getParam(QStringLiteral("f")));
-        extension->setText(preset->extension());
-        QString width = preset->getParam(QStringLiteral("width"));
-        QString height = preset->getParam(QStringLiteral("height"));
-        QString size = preset->getParam(QStringLiteral("s"));
+        if (m_manualPreset) {
+            tabWidget->setVisible(false);
+            label_container->setEnabled(false);
+            formatCombo->setEnabled(false);
+            parameters->setVisible(true);
+            parameters->setPlainText(preset->params());
+            parameters->setReadOnly(false);
+            helpButton->setEnabled(false);
+            extension->setText(preset->extension());
+        } else {
+            formatCombo->setCurrentText(preset->getParam(QStringLiteral("f")));
+            extension->setText(preset->extension());
+            QString width = preset->getParam(QStringLiteral("width"));
+            QString height = preset->getParam(QStringLiteral("height"));
+            QString size = preset->getParam(QStringLiteral("s"));
 
-        if (!(width.isEmpty() && height.isEmpty())) {
-            resWidth->setValue(width.toInt());
-            resHeight->setValue(height.toInt());
-            cResolution->setChecked(true);
-        } else if (!size.isEmpty()) {
-            QStringList list = size.split(QStringLiteral("x"));
-            if (list.count() == 2) {
-                resWidth->setValue(list.at(0).toInt());
-                resHeight->setValue(list.at(1).toInt());
+            if (!(width.isEmpty() && height.isEmpty())) {
+                resWidth->setValue(width.toInt());
+                resHeight->setValue(height.toInt());
                 cResolution->setChecked(true);
-            }
-        } else {
-            resWidth->setValue(projectProfile->width());
-            resHeight->setValue(projectProfile->height());
-        }
-
-        // video tab
-        if (preset->hasParam(QStringLiteral("vbufsize"))) {
-            bool ok = false;
-            int vbufsize = preset->getParam(QStringLiteral("vbufsize")).toInt(&ok);
-            if (ok) {
-                vBuffer->setValue(vbufsize / 1024 / 8);
-                cBuffer->setChecked(true);
-            }
-        }
-        QString vqParam = preset->getParam(QStringLiteral("vq"));
-        QString vbParam = preset->getParam(QStringLiteral("vb"));
-        if (vqParam.isEmpty()) {
-            vqParam = preset->getParam(QStringLiteral("vglobal_quality"));
-        }
-        if (vqParam.isEmpty()) {
-            vqParam = preset->getParam(QStringLiteral("qscale"));
-        }
-        if (vqParam.isEmpty()) {
-            vqParam = preset->getParam(QStringLiteral("crf"));
-        }
-        if (vqParam == QStringLiteral("%quality")) {
-            default_vquality->setValue(preset->defaultVQuality().toInt());
-        } else {
-            default_vquality->setValue(vqParam.toInt());
-        }
-
-        vRateControlCombo->setCurrentIndex(preset->videoRateControl());
-
-        if (vbParam.isEmpty()) {
-            vbParam = preset->getParam(QStringLiteral("vmaxrate"));
-        }
-        if (vbParam.contains(QStringLiteral("%bitrate"))) {
-            default_vbitrate->setValue(preset->defaultVBitrate().toInt());
-            cVBitrate->setChecked(true);
-        } else if (!vbParam.isEmpty()) {
-            default_vbitrate->setValue(vbParam.replace('k', "").replace('M', "000").toInt());
-            cVBitrate->setChecked(true);
-        } else {
-            cVBitrate->setChecked(false);
-        }
-
-        QString sampAspNum = preset->getParam(QStringLiteral("sample_aspect_num"));
-        QString sampAspDen = preset->getParam(QStringLiteral("sample_aspect_den"));
-        QString sampAsp = preset->getParam(QStringLiteral("aspect"));
-
-        if (!(sampAspNum.isEmpty() && sampAspDen.isEmpty())) {
-            parNum = sampAspNum.toInt();
-            parDen = sampAspDen.toInt();
-            cPar->setChecked(true);
-        } else if (!sampAsp.isEmpty()) {
-            QStringList list = sampAsp.split(QStringLiteral("/"));
-            if (list.count() == 2) {
-                parNum = list.at(0).toInt();
-                parDen = list.at(1).toInt();
-                cPar->setChecked(true);
-            }
-        }
-
-        if (preset->hasParam(QStringLiteral("display_aspect_num")) && preset->hasParam(QStringLiteral("display_aspect_den"))) {
-            displayAspectNum->setValue(preset->getParam(QStringLiteral("display_aspect_num")).toInt());
-            displayAspectDen->setValue(preset->getParam(QStringLiteral("display_aspect_den")).toInt());
-            cDar->setChecked(true);
-        } else {
-            displayAspectNum->setValue(projectProfile->display_aspect_num());
-            displayAspectDen->setValue(projectProfile->display_aspect_den());
-        }
-
-        vCodecCombo->setCurrentText(preset->getParam(QStringLiteral("vcodec")));
-        if (!preset->getParam(QStringLiteral("r")).isEmpty()) {
-            cFps->setChecked(true);
-            double val = preset->getParam(QStringLiteral("r")).toDouble();
-            if (val == 23.98 || val == 23.976 || val == (24000 / 1001)) {
-                framerateNum->setValue(24000);
-                framerateDen->setValue(1001);
-            } else if (val == 29.97 || val == (30000 / 1001)) {
-                framerateNum->setValue(30000);
-                framerateDen->setValue(1001);
-            } else if (val == 47.95 || val == (48000 / 1001)) {
-                framerateNum->setValue(48000);
-                framerateDen->setValue(1001);
-            } else if (val == 59.94 || val == (60000 / 1001)) {
-                framerateNum->setValue(60000);
-                framerateDen->setValue(1001);
+            } else if (!size.isEmpty()) {
+                QStringList list = size.split(QStringLiteral("x"));
+                if (list.count() == 2) {
+                    resWidth->setValue(list.at(0).toInt());
+                    resHeight->setValue(list.at(1).toInt());
+                    cResolution->setChecked(true);
+                }
             } else {
-                framerateNum->setValue(qRound(val * 1000));
-                framerateDen->setValue(1000);
+                resWidth->setValue(projectProfile->width());
+                resHeight->setValue(projectProfile->height());
             }
-        } else if (preset->hasParam(QStringLiteral("frame_rate_num")) && preset->hasParam(QStringLiteral("frame_rate_den"))) {
-            framerateNum->setValue(preset->getParam(QStringLiteral("frame_rate_num")).toInt());
-            framerateDen->setValue(preset->getParam(QStringLiteral("frame_rate_den")).toInt());
-            cFps->setChecked(true);
-        } else {
-            framerateNum->setValue(projectProfile->frame_rate_num());
-            framerateDen->setValue(projectProfile->frame_rate_den());
-        }
-        if (preset->hasParam(QStringLiteral("progressive"))) {
-            scanningCombo->setCurrentIndex(preset->getParam(QStringLiteral("progressive")).toInt());
-            cScanning->setChecked(true);
-        }
-        if (preset->hasParam(QStringLiteral("top_field_first"))) {
-            fieldOrderCombo->setCurrentIndex(preset->getParam(QStringLiteral("top_field_first")).toInt());
-            cField->setChecked(true);
-        }
-        int gopVal = -1;
-        if (preset->hasParam(QStringLiteral("g"))) {
-            gopVal = preset->getParam(QStringLiteral("g")).toInt();
-            gopSpinner->setValue(gopVal);
-        }
-        if (preset->hasParam(QStringLiteral("sc_threshold")))
-            fixedGop->setChecked(preset->getParam(QStringLiteral("sc_threshold")).toInt() == 0);
-        else if (preset->hasParam(QStringLiteral("keyint_min")))
-            fixedGop->setChecked(preset->getParam(QStringLiteral("keyint_min")).toInt() == gopVal);
-        else if (preset->hasParam(QStringLiteral("strict_gop"))) {
-            fixedGop->setChecked(preset->getParam(QStringLiteral("strict_gop")).toInt() == 1);
-        } else {
-            fixedGop->setChecked(false);
-        }
-        bFramesSpinner->setValue(preset->getParam(QStringLiteral("bf")).toInt());
 
-        // audio tab
-        if (preset->hasParam(QStringLiteral("channels"))) {
-            int ix = audioChannels->findData(preset->getParam(QStringLiteral("channels")).toInt());
-            audioChannels->setCurrentIndex(ix);
-            cChannels->setChecked(true);
-        } else {
-            int ix = audioChannels->findData(2);
-            audioChannels->setCurrentIndex(ix);
-        }
-        aRateControlCombo->setCurrentIndex(preset->audioRateControl());
+            // video tab
+            if (preset->hasParam(QStringLiteral("vbufsize"))) {
+                bool ok = false;
+                int vbufsize = preset->getParam(QStringLiteral("vbufsize")).toInt(&ok);
+                if (ok) {
+                    vBuffer->setValue(vbufsize / 1024 / 8);
+                    cBuffer->setChecked(true);
+                }
+            }
+            QString vqParam = preset->getParam(QStringLiteral("vq"));
+            QString vbParam = preset->getParam(QStringLiteral("vb"));
+            if (vqParam.isEmpty()) {
+                vqParam = preset->getParam(QStringLiteral("vglobal_quality"));
+            }
+            if (vqParam.isEmpty()) {
+                vqParam = preset->getParam(QStringLiteral("qscale"));
+            }
+            if (vqParam.isEmpty()) {
+                vqParam = preset->getParam(QStringLiteral("crf"));
+            }
+            if (vqParam == QStringLiteral("%quality")) {
+                default_vquality->setValue(preset->defaultVQuality().toInt());
+            } else {
+                default_vquality->setValue(vqParam.toInt());
+            }
 
-        if (preset->hasParam(QStringLiteral("channels"))) {
-            audioSampleRate->setCurrentText(preset->getParam(QStringLiteral("ar")));
-            cSampleR->setChecked(true);
-        } else {
-            audioSampleRate->setCurrentText(QStringLiteral("44100"));
-        }
+            vRateControlCombo->setCurrentIndex(preset->videoRateControl());
 
-        QString aqParam = preset->getParam(QStringLiteral("aq"));
-        if (aqParam.isEmpty()) {
-            aqParam = preset->getParam(QStringLiteral("compression_level"));
-        }
-        if (aqParam.contains(QStringLiteral("%audioquality"))) {
-            aQuality->setValue(preset->defaultAQuality().toInt());
-        } else {
-            aQuality->setValue(aqParam.toInt());
-        }
-        QString abParam = preset->getParam(QStringLiteral("ab"));
-        if (abParam.contains(QStringLiteral("%audiobitrate"))) {
-            aBitrate->setValue(preset->defaultABitrate().toInt());
-        } else {
-            aBitrate->setValue(abParam.replace('k', "").replace('M', "000").toInt());
-        }
+            if (vbParam.isEmpty()) {
+                vbParam = preset->getParam(QStringLiteral("vmaxrate"));
+            }
+            if (vbParam.contains(QStringLiteral("%bitrate"))) {
+                default_vbitrate->setValue(preset->defaultVBitrate().toInt());
+                cVBitrate->setChecked(true);
+            } else if (!vbParam.isEmpty()) {
+                default_vbitrate->setValue(vbParam.replace('k', "").replace('M', "000").toInt());
+                cVBitrate->setChecked(true);
+            } else {
+                cVBitrate->setChecked(false);
+            }
 
-        aCodecCombo->setCurrentText(preset->getParam(QStringLiteral("acodec")));
+            QString sampAspNum = preset->getParam(QStringLiteral("sample_aspect_num"));
+            QString sampAspDen = preset->getParam(QStringLiteral("sample_aspect_den"));
+            QString sampAsp = preset->getParam(QStringLiteral("aspect"));
 
-        // general tab
-        speeds_list->setText(preset->speeds().join('\n'));
-        additionalParams->setPlainText(preset->params(m_uiParams));
+            if (!(sampAspNum.isEmpty() && sampAspDen.isEmpty())) {
+                parNum = sampAspNum.toInt();
+                parDen = sampAspDen.toInt();
+                cPar->setChecked(true);
+            } else if (!sampAsp.isEmpty()) {
+                QStringList list = sampAsp.split(QStringLiteral("/"));
+                if (list.count() == 2) {
+                    parNum = list.at(0).toInt();
+                    parDen = list.at(1).toInt();
+                    cPar->setChecked(true);
+                }
+            }
+
+            if (preset->hasParam(QStringLiteral("display_aspect_num")) && preset->hasParam(QStringLiteral("display_aspect_den"))) {
+                displayAspectNum->setValue(preset->getParam(QStringLiteral("display_aspect_num")).toInt());
+                displayAspectDen->setValue(preset->getParam(QStringLiteral("display_aspect_den")).toInt());
+                cDar->setChecked(true);
+            } else {
+                displayAspectNum->setValue(projectProfile->display_aspect_num());
+                displayAspectDen->setValue(projectProfile->display_aspect_den());
+            }
+
+            vCodecCombo->setCurrentText(preset->getParam(QStringLiteral("vcodec")));
+            if (!preset->getParam(QStringLiteral("r")).isEmpty()) {
+                cFps->setChecked(true);
+                double val = preset->getParam(QStringLiteral("r")).toDouble();
+                if (val == 23.98 || val == 23.976 || val == (24000 / 1001)) {
+                    framerateNum->setValue(24000);
+                    framerateDen->setValue(1001);
+                } else if (val == 29.97 || val == (30000 / 1001)) {
+                    framerateNum->setValue(30000);
+                    framerateDen->setValue(1001);
+                } else if (val == 47.95 || val == (48000 / 1001)) {
+                    framerateNum->setValue(48000);
+                    framerateDen->setValue(1001);
+                } else if (val == 59.94 || val == (60000 / 1001)) {
+                    framerateNum->setValue(60000);
+                    framerateDen->setValue(1001);
+                } else {
+                    framerateNum->setValue(qRound(val * 1000));
+                    framerateDen->setValue(1000);
+                }
+            } else if (preset->hasParam(QStringLiteral("frame_rate_num")) && preset->hasParam(QStringLiteral("frame_rate_den"))) {
+                framerateNum->setValue(preset->getParam(QStringLiteral("frame_rate_num")).toInt());
+                framerateDen->setValue(preset->getParam(QStringLiteral("frame_rate_den")).toInt());
+                cFps->setChecked(true);
+            } else {
+                framerateNum->setValue(projectProfile->frame_rate_num());
+                framerateDen->setValue(projectProfile->frame_rate_den());
+            }
+            if (preset->hasParam(QStringLiteral("progressive"))) {
+                scanningCombo->setCurrentIndex(preset->getParam(QStringLiteral("progressive")).toInt());
+                cScanning->setChecked(true);
+            }
+            if (preset->hasParam(QStringLiteral("top_field_first"))) {
+                fieldOrderCombo->setCurrentIndex(preset->getParam(QStringLiteral("top_field_first")).toInt());
+                cField->setChecked(true);
+            }
+            int gopVal = -1;
+            if (preset->hasParam(QStringLiteral("g"))) {
+                gopVal = preset->getParam(QStringLiteral("g")).toInt();
+                gopSpinner->setValue(gopVal);
+            }
+            if (preset->hasParam(QStringLiteral("sc_threshold")))
+                fixedGop->setChecked(preset->getParam(QStringLiteral("sc_threshold")).toInt() == 0);
+            else if (preset->hasParam(QStringLiteral("keyint_min")))
+                fixedGop->setChecked(preset->getParam(QStringLiteral("keyint_min")).toInt() == gopVal);
+            else if (preset->hasParam(QStringLiteral("strict_gop"))) {
+                fixedGop->setChecked(preset->getParam(QStringLiteral("strict_gop")).toInt() == 1);
+            } else {
+                fixedGop->setChecked(false);
+            }
+            bFramesSpinner->setValue(preset->getParam(QStringLiteral("bf")).toInt());
+
+            // audio tab
+            if (preset->hasParam(QStringLiteral("channels"))) {
+                int ix = audioChannels->findData(preset->getParam(QStringLiteral("channels")).toInt());
+                audioChannels->setCurrentIndex(ix);
+                cChannels->setChecked(true);
+            } else {
+                int ix = audioChannels->findData(2);
+                audioChannels->setCurrentIndex(ix);
+            }
+            aRateControlCombo->setCurrentIndex(preset->audioRateControl());
+
+            if (preset->hasParam(QStringLiteral("channels"))) {
+                audioSampleRate->setCurrentText(preset->getParam(QStringLiteral("ar")));
+                cSampleR->setChecked(true);
+            } else {
+                audioSampleRate->setCurrentText(QStringLiteral("44100"));
+            }
+
+            QString aqParam = preset->getParam(QStringLiteral("aq"));
+            if (aqParam.isEmpty()) {
+                aqParam = preset->getParam(QStringLiteral("compression_level"));
+            }
+            if (aqParam.contains(QStringLiteral("%audioquality"))) {
+                aQuality->setValue(preset->defaultAQuality().toInt());
+            } else {
+                aQuality->setValue(aqParam.toInt());
+            }
+            QString abParam = preset->getParam(QStringLiteral("ab"));
+            if (abParam.contains(QStringLiteral("%audiobitrate"))) {
+                aBitrate->setValue(preset->defaultABitrate().toInt());
+            } else {
+                aBitrate->setValue(abParam.replace('k', "").replace('M', "000").toInt());
+            }
+
+            aCodecCombo->setCurrentText(preset->getParam(QStringLiteral("acodec")));
+
+            // general tab
+            speeds_list->setText(preset->speeds().join('\n'));
+            additionalParams->setPlainText(preset->params(m_uiParams));
+        }
     } else {
         resHeight->setValue(projectProfile->height());
         resWidth->setValue(projectProfile->width());
@@ -418,9 +445,10 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         QString speeds_list_str = speeds_list->toPlainText().replace('\n', ';').simplified();
 
-        std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(
-            newPresetName, newGroupName, parameters->toPlainText().simplified(), extension->text().simplified(), QString::number(default_vbitrate->value()),
-            QString::number(default_vquality->value()), QString::number(aBitrate->value()), QString::number(aQuality->value()), speeds_list_str));
+        std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(newPresetName, newGroupName, parameters->toPlainText().simplified(),
+                                                                           extension->text().simplified(), QString::number(default_vbitrate->value()),
+                                                                           QString::number(default_vquality->value()), QString::number(aBitrate->value()),
+                                                                           QString::number(aQuality->value()), speeds_list_str, m_manualPreset));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
         if ((mode == Mode::Edit) && !m_saveName.isEmpty() && (oldName != m_saveName)) {
@@ -553,8 +581,10 @@ bool RenderPresetDialog::eventFilter(QObject *o, QEvent *e)
 
 void RenderPresetDialog::slotUpdateParams()
 {
+    if (m_manualPreset) {
+        return;
+    }
     QStringList params;
-
     QString vcodec = vCodecCombo->currentText();
     params.append(QStringLiteral("f=%1").arg(formatCombo->currentText()));
     // video tab
@@ -842,7 +872,6 @@ void RenderPresetDialog::slotUpdateParams()
         overrideParamsWarning->hide();
     }
     addionalParams = addionalParams.simplified().prepend(params.join(QStringLiteral(" ")) + QStringLiteral(" "));
-
     parameters->setPlainText(addionalParams.simplified());
 }
 
