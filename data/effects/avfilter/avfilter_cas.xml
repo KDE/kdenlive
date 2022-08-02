@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.cas" id="avfilter.cas">
+	<name>Contrast Adaptive Sharpen</name>
+	<description>Apply Contrast Adaptive Sharpen filter to video stream.</description>
+	<author>libavfilter</author>
+	<parameter type="animated" name="av.strength" min="0" max="1" default="0" decimals="3">
+		<name>Strenght</name><comment>Set the sharpening strength.</comment>
+	</parameter>
+	<parameter type="list" name="av.planes" default="1" paramlist="0;1;2;3;4;5;6;7;">
+        <paramlistdisplay>Alpha,Y,U,V,Red,Green,Blue,All,</paramlistdisplay>
+                <name>Planes</name>
+        </parameter>
+</effect>
