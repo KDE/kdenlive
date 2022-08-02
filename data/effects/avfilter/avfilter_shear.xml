@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.shear" id="avfilter.shear">
+	<name>Shear</name>
+	<description>Apply shear transform to input video.</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.shx" default="0" min="-2" max="2">
+                <name>X shear factor</name>
+        </parameter>
+	<parameter type="constant" name="av.shy" default="0" min="-2" max="2" decimals="0">
+                <name>Y  shear factor</name>
+        </parameter>
+	<parameter type="color" name="av.c" default="black">
+                <name>Background fill color</name>
+        </parameter>
+        <parameter type="list" name="av.interp" default="nearest" paramlist="nearest;bilinear">
+        <paramlistdisplay>Nearest,Bilinear</paramlistdisplay>
+                <name>Interpolation mode</name>
+        </parameter>
+</effect>
