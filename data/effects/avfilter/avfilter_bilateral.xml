@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.bilateral" id="avfilter.bilateral">
+	<name>Bilateral</name>
+	<description>Apply bilateral filter, spatial smoothing while preserving edges.</description>
+	<author>libavfilter</author>
+	<parameter type="animated" name="av.sigmaS" min="0" max="512" default="0.1" decimals="3">
+		<name>Spatial sigma</name><comment>Set sigma of gaussian function to calculate spatial weight.</comment>
+	</parameter>
+	<parameter type="animated" name="av.sigmaR" min="0" max="1" default="0.1" decimals="3">
+		<name>Range sigma</name><comment>Set sigma of gaussian function to calculate range weight.</comment>
+	</parameter>
+	<parameter type="list" name="av.planes" default="1" paramlist="0;1;2;3;4;5;6;7;">
+        <paramlistdisplay>Alpha,Y,U,V,Red,Green,Blue,All,</paramlistdisplay>
+                <name>Planes</name>
+        </parameter>
+</effect>
