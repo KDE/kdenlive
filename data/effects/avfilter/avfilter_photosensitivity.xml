@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.photosensitivity" id="avfilter.photosensitivity">
+	<name>Photosensitivity</name>
+	<description>Filter out photosensitive epilepsy seizure-inducing flashes.</description>
+	<author>libavfilter</author>
+	<parameter type="animated" name="av.f" min="2" max="240" default="30" decimals="0">
+		<name>Frames to use</name><comment>Set how many frames to use.</comment>
+	</parameter>
+	<parameter type="animated" name="av.t" min="0.1" max="10" default="1" decimals="3">
+		<name>Theshold</name><comment>Set detection threshold factor, lower is stricter</comment>
+	</parameter>
+	<parameter type="animated" name="av.skip" min="1" max="1024" default="1" decimals="0">
+		<name>Skip</name><comment>Set pixels to skip when sampling frames</comment>
+	</parameter>
+	<parameter type="bool" name="av.bypass" default="0">
+		<name>Bypass</name><comment>Leave frames unchanged</comment>
+	</parameter>
+</effect>
