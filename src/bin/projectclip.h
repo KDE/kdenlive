@@ -274,7 +274,7 @@ public slots:
      * avoid copy). */
     void updateAudioThumbnail(bool cachedThumb);
     /** @brief Delete the proxy file */
-    void deleteProxy();
+    void deleteProxy(bool reloadClip = true);
     /** @brief A clip job progressed, update display */
     void updateJobProgress();
 
