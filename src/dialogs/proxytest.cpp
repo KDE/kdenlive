@@ -49,6 +49,7 @@ ProxyTest::ProxyTest(QWidget *parent)
         infoWidget->setText(i18n("Starting process"));
         infoWidget->animatedShow();
         resultList->setCursor(Qt::BusyCursor);
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &ProxyTest::startTest);
 #else
@@ -104,7 +105,6 @@ ProxyTest::~ProxyTest()
 
 void ProxyTest::startTest()
 {
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     // load proxy profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup group(&conf, "proxy");
