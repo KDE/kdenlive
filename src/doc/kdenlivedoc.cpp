@@ -1282,16 +1282,14 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         qDebug() << "::::: CANNOT GET CACHE DIR!!!!";
         return;
     }
-    if (m_proxyExtension.isEmpty()) {
-        initProxySettings();
+    QString extension = getDocumentProperty(QStringLiteral("proxyextension"));
+    if (extension.isEmpty()) {
+        if (m_proxyExtension.isEmpty()) {
+            initProxySettings();
+        }
+        extension = m_proxyExtension;
     }
-    QString extension = QLatin1Char('.') + m_proxyExtension;
-    // getDocumentProperty(QStringLiteral("proxyextension"));
-    /*QString params = getDocumentProperty(QStringLiteral("proxyparams"));
-    if (params.contains(QStringLiteral("-s "))) {
-        QString proxySize = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
-        extension.prepend(QStringLiteral("-") + proxySize);
-    }*/
+    extension.prepend(QLatin1Char('.'));
 
     // Prepare updated properties
     QMap<QString, QString> newProps;

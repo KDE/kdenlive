@@ -1600,16 +1600,18 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
         QList<std::shared_ptr<ProjectClip>> clipList{std::static_pointer_cast<ProjectClip>(shared_from_this())};
         pCore->currentDoc()->slotProxyCurrentItem(doProxy, clipList);
     });
-    connect(panel, &ClipPropertiesController::deleteProxy, this, &ProjectClip::deleteProxy);
+    connect(panel, &ClipPropertiesController::deleteProxy, [this]() { deleteProxy(); });
     return panel;
 }
 
-void ProjectClip::deleteProxy()
+void ProjectClip::deleteProxy(bool reloadClip)
 {
     // Disable proxy file
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
     QList<std::shared_ptr<ProjectClip>> clipList{std::static_pointer_cast<ProjectClip>(shared_from_this())};
-    pCore->currentDoc()->slotProxyCurrentItem(false, clipList);
+    if (reloadClip) {
+        pCore->currentDoc()->slotProxyCurrentItem(false, clipList);
+    }
     // Delete
     bool ok;
     QDir dir = pCore->currentDoc()->getCacheDir(CacheProxy, &ok);

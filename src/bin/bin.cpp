@@ -4684,7 +4684,7 @@ void Bin::rebuildProxies()
             toProxy << clp;
             // Abort all pending jobs
             pCore->taskManager.discardJobs({ObjectType::BinClip, clp->clipId().toInt()}, AbstractTask::PROXYJOB);
-            clp->deleteProxy();
+            clp->deleteProxy(false);
         }
     }
     if (toProxy.isEmpty()) {
