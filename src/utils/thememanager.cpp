@@ -20,11 +20,14 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
+#include <kconfigwidgets_version.h>
 
 ThemeManager::ThemeManager(QObject *parent)
     : KColorSchemeManager(parent)
 {
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 89, 0)
     setAutosaveChanges(false);
+#endif
     const auto schemePath(loadCurrentPath());
 
     // KColorSchemeManager includes a system color scheme option that reacts to system scheme changes.
@@ -34,7 +37,11 @@ ThemeManager::ThemeManager(QObject *parent)
     if (!schemePath.isEmpty()) {
         for (int i = 1; i < model()->rowCount(); ++i) {
             QModelIndex index = model()->index(i, 0);
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 94, 0)
             if (index.data(KColorSchemeModel::PathRole).toString().endsWith(schemePath)) {
+#else
+            if (index.data(Qt::UserRole).toString().endsWith(schemePath)) {
+#endif
                 scheme = index.data(Qt::DisplayRole).toString();
             }
         }
