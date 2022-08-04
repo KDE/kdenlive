@@ -47,7 +47,6 @@ public:
     int colorspace() const override;
     mlt_profile get_profile() const;
     QString path() const override;
-    void setPath(const QString path);
 
     void adjustDimensions() override{};
 

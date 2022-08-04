@@ -215,7 +215,7 @@ void MainWindow::init(const QString &mltPath)
     m_commandStack = new QUndoGroup();
 
     // If using a custom profile, make sure the file exists or fallback to default
-    QString currentProfilePath = pCore->getCurrentProfilePath();
+    QString currentProfilePath = pCore->getCurrentProfile()->path();
     if (currentProfilePath.startsWith(QLatin1Char('/')) && !QFile::exists(currentProfilePath)) {
         KMessageBox::sorry(this, i18n("Cannot find your default profile, switching to ATSC 1080p 25"));
         pCore->setCurrentProfile(QStringLiteral("atsc_1080p_25"));
@@ -2086,7 +2086,7 @@ void MainWindow::slotEditProjectSettings()
                 }
             }
         }
-        if (pCore->getCurrentProfilePath() != profile || project->profileChanged(profile)) {
+        if (pCore->getCurrentProfile()->path() != profile || project->profileChanged(profile)) {
             if (!qFuzzyCompare(pCore->getCurrentProfile()->fps() - ProfileRepository::get()->getProfile(profile)->fps(), 0.)) {
                 // Fps was changed, we save the project to an xml file with updated profile and reload project
                 // Check if blank project

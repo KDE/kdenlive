@@ -138,11 +138,6 @@ QString ProfileModel::path() const
     return m_path;
 }
 
-void ProfileModel::setPath(const QString path)
-{
-    m_path = path;
-}
-
 mlt_profile ProfileModel::get_profile() const
 {
     return m_profile->get_profile();

@@ -147,7 +147,7 @@ void ProjectManager::newFile(bool showProjectSettings)
 {
     QString profileName = KdenliveSettings::default_profile();
     if (profileName.isEmpty()) {
-        profileName = pCore->getCurrentProfilePath();
+        profileName = pCore->getCurrentProfile()->path();
     }
     newFile(profileName, showProjectSettings);
 }

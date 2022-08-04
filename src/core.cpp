@@ -473,7 +473,6 @@ bool Core::setCurrentProfile(const QString &profilePath)
         currentProfile->profile().set_display_aspect(profileFromRepository->display_aspect_num(), profileFromRepository->display_aspect_den());
         currentProfile->profile().set_width(profileFromRepository->width());
         currentProfile->profile().get_profile()->description = qstrdup(profileFromRepository->description().toUtf8().constData());
-        currentProfile->setPath(profilePath);
 
         // inform render widget
         m_timecode.setFormat(profileFromRepository->fps());
