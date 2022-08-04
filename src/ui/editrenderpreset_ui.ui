@@ -77,7 +77,7 @@
        </widget>
       </item>
       <item row="4" column="3" colspan="2">
-       <widget class="QLineEdit" name="extension">
+       <widget class="QLineEdit" name="preset_extension">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -156,7 +156,7 @@
             <x>0</x>
             <y>0</y>
             <width>536</width>
-            <height>471</height>
+            <height>501</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -173,8 +173,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>519</width>
-                <height>730</height>
+                <width>503</width>
+                <height>640</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout">
@@ -1094,7 +1094,8 @@
           <string>Enable manual editing</string>
          </property>
          <property name="icon">
-          <iconset theme="data-warning"/>
+          <iconset theme="data-warning">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
