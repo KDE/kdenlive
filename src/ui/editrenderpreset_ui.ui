@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>542</width>
-    <height>622</height>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -77,7 +77,7 @@
        </widget>
       </item>
       <item row="4" column="3" colspan="2">
-       <widget class="QLineEdit" name="extension">
+       <widget class="QLineEdit" name="preset_extension">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -156,7 +156,7 @@
             <x>0</x>
             <y>0</y>
             <width>522</width>
-            <height>322</height>
+            <height>319</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -174,7 +174,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>489</width>
-                <height>580</height>
+                <height>640</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout">

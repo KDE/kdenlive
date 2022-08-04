@@ -199,7 +199,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         preset_name->setFocus();
         formatCombo->setCurrentText(preset->getParam(QStringLiteral("f")));
-        extension->setText(preset->extension());
+        preset_extension->setText(preset->extension());
         QString width = preset->getParam(QStringLiteral("width"));
         QString height = preset->getParam(QStringLiteral("height"));
         QString size = preset->getParam(QStringLiteral("s"));
@@ -419,7 +419,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         QString speeds_list_str = speeds_list->toPlainText().replace('\n', ';').simplified();
 
         std::unique_ptr<RenderPresetModel> newPreset(new RenderPresetModel(
-            newPresetName, newGroupName, parameters->toPlainText().simplified(), extension->text().simplified(), QString::number(default_vbitrate->value()),
+            newPresetName, newGroupName, parameters->toPlainText().simplified(), preset_extension->text().simplified(), QString::number(default_vbitrate->value()),
             QString::number(default_vquality->value()), QString::number(aBitrate->value()), QString::number(aQuality->value()), speeds_list_str));
 
         m_saveName = RenderPresetRepository::get()->savePreset(newPreset.get(), mode == Mode::Edit);
@@ -431,9 +431,9 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     connect(formatCombo, &QComboBox::currentTextChanged, [this](const QString &format) {
         if (format == QLatin1String("matroska")) {
-            extension->setText(QStringLiteral("mkv"));
+            preset_extension->setText(QStringLiteral("mkv"));
         } else {
-            extension->setText(format);
+            preset_extension->setText(format);
         }
         slotUpdateParams();
     });
