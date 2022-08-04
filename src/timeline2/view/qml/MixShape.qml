@@ -14,7 +14,7 @@ Shape {
         fillColor: "#000"
         strokeColor: "transparent"
         PathLine {x: 0; y: 0}
-        PathLine {x: mixCutPos.x; y: mixBackground.height}
+        PathLine {x: mixBackground.width; y: mixBackground.height}
         PathLine {x: 0; y: mixBackground.height}
         PathLine {x: 0; y: 0}
     }
@@ -23,7 +23,7 @@ Shape {
         strokeColor: "transparent"
         PathLine {x: mixBackground.width; y: 0}
         PathLine {x: mixBackground.width; y: mixBackground.height}
-        PathLine {x: mixCutPos.x; y: mixBackground.height}
+        PathLine {x: 0; y: mixBackground.height}
         PathLine {x: mixBackground.width; y: 0}
     }
 }
