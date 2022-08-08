@@ -11,7 +11,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlivesettings.h"
 #include <QAudioOutput>
-#include <QAudioProbe>
 #include <QCameraInfo>
 #include <QDir>
 #include <QtEndian>

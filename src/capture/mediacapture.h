@@ -21,8 +21,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <memory>
 
 class QAudioRecorder;
-class QAudioProbe;
-
 
 class AudioDevInfo: public QIODevice
 {
