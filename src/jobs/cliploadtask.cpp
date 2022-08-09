@@ -740,7 +740,6 @@ void ClipLoadTask::abort()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {

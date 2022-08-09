@@ -787,7 +787,7 @@ void KdenliveDoc::slotMoveFinished(KJob *job)
 
 bool KdenliveDoc::profileChanged(const QString &profile) const
 {
-    return pCore->getCurrentProfile() != ProfileRepository::get()->getProfile(profile);
+    return !(*pCore->getCurrentProfile().get() == *ProfileRepository::get()->getProfile(profile).get());
 }
 
 Render *KdenliveDoc::renderer()
