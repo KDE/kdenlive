@@ -2498,7 +2498,7 @@ bool TrackModel::loadMix(Mlt::Transition *t)
         }
     } else {
         int firstClipIn = m_allClips[cid1]->getPosition();
-        if (in == firstClipIn) {
+        if (in == firstClipIn && in != m_allClips[cid2]->getPosition()) {
             // Incorrecty detected revert mix
             std::swap(cid1, cid2);
         }
@@ -2762,7 +2762,7 @@ bool TrackModel::hasClipStart(int pos)
         if (m_playlist.is_blank_at(pos)) {
             continue;
         }
-        if (m_playlist.get_clip_index_at(pos) != m_playlist.get_clip_index_at(pos - 1)) {
+        if (pos == 0 || m_playlist.get_clip_index_at(pos) != m_playlist.get_clip_index_at(pos - 1)) {
             return true;
         }
     }
