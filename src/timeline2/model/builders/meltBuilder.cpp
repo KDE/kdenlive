@@ -341,7 +341,36 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     }
     // Load same track mixes
     for (auto compo : qAsConst(compositions)) {
-        timeline->plantMix(tid, compo);
+        if (!timeline->plantMix(tid, compo)) {
+            // There is an error with a mix, we have overlapping clips
+            int in = compo->get_in();
+            int out = compo->get_out() - 1;
+            bool reverse = compo->get_int("reverse") == 1;
+            int cid1 = timeline->getClipByPosition(tid, in, reverse ? 1 : 0);
+            int cid2 = timeline->getClipByPosition(tid, out, reverse ? 0 : 1);
+            if (cid1 > 0 && cid2 > 0) {
+                if (timeline->getClipSubPlaylistIndex(cid1) == 1) {
+                    // Delete clip
+                    QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
+                                         .arg(QString::number(in), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
+                                              pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid1)));
+                    m_notesLog << i18n("Incorrect Mix, clip %1 was removed at %2.", timeline->getClipName(cid1), tcInfo);
+                    m_errorMessage << i18n("Incorrect mix found on track %1 at %2, clip %3 removed.", timeline->getTrackTagById(tid),
+                                           pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid1)), timeline->getClipName(cid1));
+                    timeline->requestItemDeletion(cid1, false);
+
+                } else if (timeline->getClipSubPlaylistIndex(cid2) == 1) {
+                    // Delete clip
+                    QString tcInfo = QString("<a href=\"%1?%2\">%3 %4</a>")
+                                         .arg(QString::number(in), QString::number(timeline->getTrackPosition(tid) + 1), timeline->getTrackTagById(tid),
+                                              pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid2)));
+                    m_notesLog << i18n("Incorrect Mix, clip %1 was removed at %2.", timeline->getClipName(cid2), tcInfo);
+                    m_errorMessage << i18n("Incorrect mix found at track %1 at %2, clip %3 removed.", timeline->getTrackTagById(tid),
+                                           pCore->timecode().getTimecodeFromFrames(timeline->getClipPosition(cid2)), timeline->getClipName(cid2));
+                    timeline->requestItemDeletion(cid2, false);
+                }
+            }
+        }
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());
     timeline->importTrackEffects(tid, serv);

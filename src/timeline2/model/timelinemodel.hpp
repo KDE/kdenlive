@@ -219,6 +219,11 @@ public:
     /** @brief Returns an item duration, item can be clip or composition */
     int getItemPlaytime(int itemId) const;
 
+    /** @brief Returns the subplaylist index of a clip in a track */
+    int getClipSubPlaylistIndex(int cid) const;
+    /** @brief Returns the name of a timeline clip */
+    const QString getClipName(int cid) const;
+
     /** @brief Returns the current speed of a clip */
     double getClipSpeed(int clipId) const;
 
@@ -441,7 +446,7 @@ public:
     void switchComposition(int cid, const QString &compoId);
     /**  @brief Plant a same track composition in track tid
      */
-    void plantMix(int tid, Mlt::Transition *t);
+    bool plantMix(int tid, Mlt::Transition *t);
     bool removeMixWithUndo(int cid, Fun &undo, Fun &redo);
     bool removeMix(int cid);
     /**  @brief Returns a list of the master effects zones
@@ -684,7 +689,7 @@ public:
 
     /** @brief Get a timeline clip id by its position or -1 if not found
      */
-    int getClipByPosition(int trackId, int position) const;
+    int getClipByPosition(int trackId, int position, int playlist = -1) const;
     int getClipByStartPosition(int trackId, int position) const;
 
     /** @brief Get a timeline composition id by its starting position or -1 if not found

@@ -362,11 +362,11 @@ int TimelineModel::getClipByStartPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getClipByStartPosition(position);
 }
 
-int TimelineModel::getClipByPosition(int trackId, int position) const
+int TimelineModel::getClipByPosition(int trackId, int position, int playlist) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
-    return getTrackById_const(trackId)->getClipByPosition(position);
+    return getTrackById_const(trackId)->getClipByPosition(position, playlist);
 }
 
 int TimelineModel::getCompositionByPosition(int trackId, int position) const
@@ -4885,6 +4885,18 @@ int TimelineModel::getItemPosition(int itemId) const
     return -1;
 }
 
+int TimelineModel::getClipSubPlaylistIndex(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->getSubPlaylistIndex();
+}
+
+const QString TimelineModel::getClipName(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->clipName();
+}
+
 int TimelineModel::getItemPlaytime(int itemId) const
 {
     if (isClip(itemId)) {
@@ -6150,13 +6162,14 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     }
 }
 
-void TimelineModel::plantMix(int tid, Mlt::Transition *t)
+bool TimelineModel::plantMix(int tid, Mlt::Transition *t)
 {
     if (getTrackById_const(tid)->hasClipStart(t->get_in())) {
         getTrackById_const(tid)->getTrackService()->plant_transition(*t, 0, 1);
-        getTrackById_const(tid)->loadMix(t);
+        return getTrackById_const(tid)->loadMix(t);
     } else {
         qDebug() << "=== INVALID MIX FOUND AT: " << t->get_in() << " - " << t->get("mlt_service");
+        return false;
     }
 }
 
@@ -6364,11 +6377,16 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 }
                 int deltaLeft = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - cutPos;
                 int deltaRight = cutPos - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
+
                 if (deltaRight) {
-                    requestItemResize(cid, updatedDurationRight, false, true, undo, redo);
+                    if (!requestItemResize(cid, updatedDurationRight, false, true, undo, redo)) {
+                        qDebug() << ":::: ERROR RESIZING CID1\n\nAAAAAAAAAAAAAAAAAAAA";
+                    }
                 }
                 if (deltaLeft > 0) {
-                    requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo);
+                    if (!requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo)) {
+                        qDebug() << ":::: ERROR RESIZING clipToResize\n\nAAAAAAAAAAAAAAAAAAAA";
+                    }
                 }
                 int mixCutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - cutPos;
                 if (mixCutPos > updatedDuration) {

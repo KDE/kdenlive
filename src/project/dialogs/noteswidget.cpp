@@ -196,7 +196,9 @@ void NotesWidget::createMarkers()
 void NotesWidget::addProjectNote()
 {
     if (!textCursor().atBlockStart()) {
-        textCursor().movePosition(QTextCursor::EndOfBlock);
+        QTextCursor cur = textCursor();
+        cur.movePosition(QTextCursor::EndOfBlock);
+        setTextCursor(cur);
         insertPlainText(QStringLiteral("\n"));
     }
     emit insertNotesTimecode();
@@ -204,9 +206,10 @@ void NotesWidget::addProjectNote()
 
 void NotesWidget::addTextNote(const QString &text)
 {
-    if (!textCursor().atBlockStart()) {
-        textCursor().movePosition(QTextCursor::EndOfBlock);
-        insertPlainText(QStringLiteral("\n"));
+    if (!textCursor().atEnd()) {
+        QTextCursor cur = textCursor();
+        cur.movePosition(QTextCursor::End);
+        setTextCursor(cur);
     }
     emit insertTextNote(text);
 }

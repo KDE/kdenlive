@@ -2499,8 +2499,20 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     } else {
         int firstClipIn = m_allClips[cid1]->getPosition();
         if (in == firstClipIn && in != m_allClips[cid2]->getPosition()) {
-            // Incorrecty detected revert mix
-            std::swap(cid1, cid2);
+            qDebug() << "/// SWAPPING CLIPS";
+            if (m_allClips[cid1]->getPosition() > m_allClips[cid2]->getPosition()) {
+                // Incorrecty detected revert mix
+                std::swap(cid1, cid2);
+            }
+        }
+        if (m_allClips[cid1]->getPosition() > m_allClips[cid2]->getPosition() ||
+            (m_allClips[cid1]->getPosition() + m_allClips[cid1]->getPlaytime()) > (m_allClips[cid2]->getPosition() + m_allClips[cid2]->getPlaytime())) {
+            // Impossible mix, remove
+            QScopedPointer<Mlt::Field> field(m_track->field());
+            field->lock();
+            field->disconnect_service(*t);
+            field->unlock();
+            return false;
         }
     }
     // Ensure in/out points are in sync with the clips
