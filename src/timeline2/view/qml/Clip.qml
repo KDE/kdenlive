@@ -473,7 +473,7 @@ Rectangle {
                         drag.target: trimInMixArea
                         drag.axis: Drag.XAxis
                         drag.smoothed: false
-                        drag.maximumX: clipRoot.width - 1
+                        drag.maximumX: clipRoot.width
                         drag.minimumX: (clipRoot.mixDuration - clipRoot.mixCut) * clipRoot.timeScale
                         property bool sizeChanged: false
                         cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor)
