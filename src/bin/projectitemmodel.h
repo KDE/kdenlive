@@ -179,7 +179,7 @@ public:
     bool requestCleanupUnused();
 
     /** @brief Request that all clips using one of the given urls are removed from the project and deleted from the hard disk*/
-    bool requestTrashClips(QStringList &urls);
+    bool requestTrashClips(QStringList &ids, QStringList &urls);
 
     /** @brief Retrieves the next id available for attribution to a folder */
     int getFreeFolderId();

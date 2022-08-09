@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/profilewidget.h"
@@ -65,6 +66,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     vbox->addWidget(m_pw);
     profile_box->setLayout(vbox);
     profile_box->setTitle(i18n("Select the profile (preset) of the project"));
+    file_message->hide();
 
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
@@ -338,11 +340,18 @@ void ProjectSettings::slotEditMetadata(QTreeWidgetItem *item, int)
 void ProjectSettings::slotDeleteUnused()
 {
     QStringList toDelete;
+    QStringList idsToDelete;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         if (!clip->isIncludedInTimeline()) {
-            QUrl url(clip->getOriginalUrl());
-            if (url.isValid() && !toDelete.contains(url.path())) toDelete << url.path();
+            idsToDelete << clip->clipId();
+            ClipType::ProducerType type = clip->clipType();
+            if (type != ClipType::Color && type != ClipType::Text && type != ClipType::TextTemplate) {
+                QUrl url = QUrl::fromLocalFile(clip->getOriginalUrl());
+                if (url.isValid() && !toDelete.contains(url.path()) && QFile::exists(url.path())) {
+                    toDelete << url.path();
+                }
+            }
         }
     }
     // make sure our urls are not used in another clip
@@ -353,6 +362,10 @@ void ProjectSettings::slotDeleteUnused()
         }
     }
     if (toDelete.count() == 0) {
+        file_message->setText(i18n("No files to delete on your drive."));
+        file_message->animatedShow();
+        pCore->window()->slotCleanProject();
+        slotUpdateFiles();
         return;
     }
     if (KMessageBox::warningYesNoList(this,
@@ -360,7 +373,7 @@ void ProjectSettings::slotDeleteUnused()
                                            "what you are doing.\nAre you sure you want to continue?"),
                                       toDelete, i18n("Delete unused clips")) != KMessageBox::Yes)
         return;
-    pCore->projectItemModel()->requestTrashClips(toDelete);
+    pCore->projectItemModel()->requestTrashClips(idsToDelete, toDelete);
     slotUpdateFiles();
 }
 

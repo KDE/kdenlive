@@ -616,6 +616,13 @@
        <string>Project Files</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_fonts">
+         <property name="text">
+          <string>Fonts</string>
+         </property>
+        </widget>
+       </item>
        <item row="5" column="0" colspan="5">
         <widget class="QListWidget" name="fonts_list">
          <property name="alternatingRowColors">
@@ -647,15 +654,11 @@
          </column>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Clips used in project:</string>
-         </property>
-        </widget>
+       <item row="2" column="3" colspan="2">
+        <widget class="KTreeWidgetSearchLine" name="list_search"/>
        </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="used_count">
+       <item row="1" column="3">
+        <widget class="QLabel" name="unused_size">
          <property name="text">
           <string/>
          </property>
@@ -668,48 +671,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Unused clips:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="unused_count">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLabel" name="unused_size">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="delete_unused">
-         <property name="text">
-          <string>Delete files</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3" colspan="2">
-        <widget class="KTreeWidgetSearchLine" name="list_search"/>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
           <string>Project files:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_fonts">
-         <property name="text">
-          <string>Fonts</string>
          </property>
         </widget>
        </item>
@@ -726,6 +691,44 @@
           <string/>
          </property>
         </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="used_count">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Unused clips:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="delete_unused">
+         <property name="text">
+          <string>Delete files</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Clips used in project:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="unused_count">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="5">
+        <widget class="KMessageWidget" name="file_message"/>
        </item>
       </layout>
      </widget>
@@ -749,6 +752,11 @@
    <class>KTreeWidgetSearchLine</class>
    <extends>QLineEdit</extends>
    <header>ktreewidgetsearchline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

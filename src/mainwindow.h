@@ -346,6 +346,8 @@ public slots:
     void slotUpdateCompositeAction(bool enable);
     /** @brief Update duration of projet in timeline toolbar. */
     void slotUpdateProjectDuration(int pos);
+    /** @brief Remove all unused clips from the project. */
+    void slotCleanProject();
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -483,7 +485,6 @@ private slots:
 
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
-    void slotCleanProject();
     void slotShutdown();
 
     void slotSwitchMonitors();

@@ -879,7 +879,7 @@ bool ProjectItemModel::requestCleanupUnused()
     return true;
 }
 
-bool ProjectItemModel::requestTrashClips(QStringList &urls)
+bool ProjectItemModel::requestTrashClips(QStringList &ids, QStringList &urls)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -888,7 +888,7 @@ bool ProjectItemModel::requestTrashClips(QStringList &urls)
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::ClipItem && urls.contains(std::static_pointer_cast<ProjectClip>(c)->getOriginalUrl())) {
+        if (ids.contains(c->clipId())) {
             to_delete.push_back(c);
         }
     }
