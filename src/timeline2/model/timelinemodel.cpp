@@ -3249,25 +3249,28 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         } else {
                             return -1;
                         }
+                    } else {
+                        // Mix was resized, update cut position
+                        int currentMixDuration = m_allClips[mixData.first.secondClipId]->getMixDuration();
+                        int currentMixCut = m_allClips[mixData.first.secondClipId]->getMixCutPosition();
+                        adjust_mix = [this, tid, currentMixCut, itemId]() {
+                            MixInfo firstMixData = getTrackById_const(tid)->getMixInfo(itemId).first;
+                            if (firstMixData.firstClipId > -1 && firstMixData.secondClipId > -1) {
+                                getTrackById_const(tid)->setMixDuration(firstMixData.secondClipId,
+                                                                        firstMixData.firstClipInOut.second - firstMixData.secondClipInOut.first, currentMixCut);
+                                QModelIndex ix = makeClipIndexFromID(firstMixData.secondClipId);
+                                emit dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                            }
+                            return true;
+                        };
+                        Fun adjust_mix_undo = [this, tid, mixData, currentMixCut, currentMixDuration]() {
+                            getTrackById_const(tid)->setMixDuration(mixData.first.secondClipId, currentMixDuration, currentMixCut);
+                            QModelIndex ix = makeClipIndexFromID(mixData.first.secondClipId);
+                            emit dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+                            return true;
+                        };
+                        PUSH_LAMBDA(adjust_mix_undo, undo);
                     }
-                    // Mix was resized, update cut position
-                    int currentMixDuration = m_allClips[mixData.first.secondClipId]->getMixDuration();
-                    int currentMixCut = m_allClips[mixData.first.secondClipId]->getMixCutPosition();
-                    adjust_mix = [this, tid, mixData, currentMixCut, itemId]() {
-                        MixInfo firstMixData = getTrackById_const(tid)->getMixInfo(itemId).first;
-                        getTrackById_const(tid)->setMixDuration(firstMixData.secondClipId,
-                                                                firstMixData.firstClipInOut.second - firstMixData.secondClipInOut.first, currentMixCut);
-                        QModelIndex ix = makeClipIndexFromID(firstMixData.secondClipId);
-                        emit dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                        return true;
-                    };
-                    Fun adjust_mix_undo = [this, tid, mixData, currentMixCut, currentMixDuration]() {
-                        getTrackById_const(tid)->setMixDuration(mixData.first.secondClipId, currentMixDuration, currentMixCut);
-                        QModelIndex ix = makeClipIndexFromID(mixData.first.secondClipId);
-                        emit dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                        return true;
-                    };
-                    PUSH_LAMBDA(adjust_mix_undo, undo);
                 }
                 if (getTrackById_const(tid)->hasEndMix(itemId)) {
                     // Resize mix if necessary
