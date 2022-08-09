@@ -45,7 +45,7 @@ Item{
 
                 if (model.mixDuration > 0) {
                     // Clips with mix should be ordered related to their position so that the right clip of a clip mix is always on top (the mix UI is drawn over the right clip)
-                    return model.start / 25;
+                    return Math.round(model.start / 25) + 1;
                 }
 
                 if (root.activeTool === ProjectTool.SlipTool && model.selected) {
