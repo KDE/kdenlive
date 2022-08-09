@@ -272,7 +272,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             if (projectErrors) {
                 *projectErrors = true;
             }
-            KMessageBox::detailedSorry(
+            KMessageBox::detailedError(
                 qApp->activeWindow(),
                 i18n("Some errors were detected in the project file.\nThe project was modified to fix the conflicts. Changes made to the "
                      "project have been listed in the Project Notes tab,\nplease review them to ensure your project integrity."),
