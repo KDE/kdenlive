@@ -99,6 +99,9 @@ public:
     /** @brief This method is only there for tests, do not use in real app.
      */
     bool testSaveFileAs(const QString &outputFileName);
+    /** @brief Retrieve the current timeline (mostly used for testing.
+     */
+    std::shared_ptr<TimelineItemModel> getTimeline();
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);

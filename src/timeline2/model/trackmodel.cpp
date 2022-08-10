@@ -748,6 +748,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     err = m_playlists[target_track].resize_clip(blank, 0, blank_length + delta - 1);
                 }
                 if (err == 0) {
+                    // m_track->block();
                     QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip_mutable));
                     if (out >= clip->get_length()) {
                         clip->parent().set("length", out + 1);
@@ -756,6 +757,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                         clip->set("out", out);
                     }
                     err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
+                    // m_track->unblock();
                 }
                 if (!right && err == 0) {
                     m_allClips[clipId]->setPosition(m_playlists[target_track].clip_start(target_clip_mutable));

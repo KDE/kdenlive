@@ -2270,6 +2270,28 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::startAutoSave, pCore->projectManager(), &ProjectManager::slotStartAutoSave);
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
+    slotSwitchTimelineZone(project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
+    // update track compositing
+    bool compositing = project->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
+    emit project->updateCompositionMode(compositing);
+    getMainTimeline()->controller()->switchCompositing(compositing);
+    connect(getMainTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
+    slotUpdateProjectDuration(getMainTimeline()->model()->duration() - 1);
+    getMainTimeline()->controller()->setZone(project->zone(), false);
+    getMainTimeline()->controller()->setScrollPos(project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
+    int activeTrackPosition = project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+    if (activeTrackPosition == -2) {
+        // Subtitle model track always has ID == -2
+        getMainTimeline()->controller()->setActiveTrack(-2);
+    } else if (activeTrackPosition > -1 && activeTrackPosition < getMainTimeline()->model()->getTracksCount()) {
+        // otherwise, convert the position to a track ID
+        getMainTimeline()->controller()->setActiveTrack(getMainTimeline()->model()->getTrackIndexFromPosition(activeTrackPosition));
+    } else {
+        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition << "but track count is only" << getMainTimeline()->model()->getTracksCount();
+        // set it to some valid track instead
+        getMainTimeline()->controller()->setActiveTrack(getMainTimeline()->model()->getTrackIndexFromPosition(0));
+    }
+
     m_projectMonitor->slotLoadClipZone(project->zone());
     m_clipMonitor->updateDocumentUuid();
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);

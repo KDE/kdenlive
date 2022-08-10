@@ -267,6 +267,11 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
     m_mainTimelineModel = timeline;
 }
 
+std::shared_ptr<TimelineItemModel> ProjectManager::getTimeline()
+{
+    return m_mainTimelineModel;
+}
+
 bool ProjectManager::testSaveFileAs(const QString &outputFileName)
 {
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
@@ -705,6 +710,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     m_project = doc;
     m_project->loadDocumentGuides();
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+
     if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
                         m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
@@ -1041,11 +1047,8 @@ void ProjectManager::requestBackup(const QString &errorMessage)
 bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview)
 {
     pCore->taskManager.slotCancelJobs();
-    pCore->window()->getMainTimeline()->loading = true;
-    pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
 
-    QScopedPointer<Mlt::Producer> xmlProd(
-        new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getAndClearProjectXml().constData()));
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", m_project->getAndClearProjectXml().constData()));
 
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
@@ -1057,7 +1060,9 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
     // Add snap point at project start
     m_mainTimelineModel->addSnap(0);
-    pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    if (pCore->window()) {
+        pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    }
     bool projectErrors = false;
     m_project->cleanupTimelinePreview(documentDate);
     if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty, enablePreview,
@@ -1071,34 +1076,16 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     xmlProd->clear();
     xmlProd.reset(nullptr);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
-    // update track compositing
-    bool compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
-    emit pCore->currentDoc()->updateCompositionMode(compositing);
-    pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
-    connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
-    emit pCore->monitorManager()->updatePreviewScaling();
-    pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
-    pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
-    pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
-    pCore->window()->slotUpdateProjectDuration(m_mainTimelineModel->duration() - 1);
-    pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
-    pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
-    int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number(-1)).toInt();
-    if (activeTrackPosition == -2) {
-        // Subtitle model track always has ID == -2
-        pCore->window()->getMainTimeline()->controller()->setActiveTrack(-2);
-    } else if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
-        // otherwise, convert the position to a track ID
-        pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
-    } else {
-        qWarning() << "[BUG] \"activeTrack\" property is" << activeTrackPosition <<
-            "but track count is only" << m_mainTimelineModel->getTracksCount();
-        // set it to some valid track instead
-        pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(0));
+    if (pCore->monitorManager()) {
+        emit pCore->monitorManager()->updatePreviewScaling();
+        pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
+        pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
+        pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     }
+
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
 
     // Reset locale to C to ensure numbers are serialised correctly

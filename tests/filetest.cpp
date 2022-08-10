@@ -431,3 +431,60 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
+
+TEST_CASE("Opening Mix", "[OPENMIX]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+
+    // Check that mixes (and reverse mixes) load correctly
+
+    const QString emojiTestString = QString::fromUtf8("test\xF0\x9F\x8D\x99test");
+
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    SECTION("Load file with a mix")
+    {
+        // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+
+        ProjectManager &mocked = pmMock.get();
+
+        // We also mock timeline object to spy few functions and mock others
+
+        // try opening the file as a Kdenlivedoc
+        QUrl openURL = QUrl::fromLocalFile(sourcesPath + "/dataset/test-mix.kdenlive");
+
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+        When(Method(pmMock, current)).AlwaysReturn(openedDoc.get());
+        /*TimelineItemModel tim(&profile_file, undoStack);
+        Mock<TimelineItemModel> timMock(tim);
+        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+        TimelineItemModel::finishConstruct(timeline, guideModel);
+        mocked.testSetActiveDocument(openedDoc.get(), timeline);*/
+        pCore->m_projectManager = &mocked;
+        pCore->m_projectManager->m_project = openedDoc.get();
+        pCore->m_projectManager->m_project->m_guideModel = guideModel;
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        pCore->m_projectManager->updateTimeline(0, QString(), QString(), documentDate, 0);
+        std::shared_ptr<TimelineItemModel> timeline = pCore->m_projectManager->getTimeline();
+        REQUIRE(timeline->getTracksCount() == 4);
+        int mixtrackId = timeline->getTrackIndexFromPosition(2);
+        REQUIRE(timeline->getTrackById_const(mixtrackId)->mixCount() == 2);
+        int mixtrackId2 = timeline->getTrackIndexFromPosition(3);
+        REQUIRE(timeline->getTrackById_const(mixtrackId2)->mixCount() == 1);
+
+        QDomDocument *newDoc = &openedDoc->m_document;
+        auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
+    }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+}
