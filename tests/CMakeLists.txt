@@ -23,7 +23,7 @@ add_executable(runTests
     trimmingtest.cpp
     cachetest.cpp
     movetest.cpp
-    #subtitlestest.cpp
+    subtitlestest.cpp
 )
 set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
 target_link_libraries(runTests kdenliveLib)
