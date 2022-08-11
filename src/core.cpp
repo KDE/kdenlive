@@ -416,13 +416,7 @@ std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
 
 std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 {
-    if (m_projectProfile == nullptr) {
-        m_projectProfile = std::make_unique<ProfileModel>(m_currentProfile.toStdString().c_str());
-        m_projectProfile->set_explicit(true);
-        updateMonitorProfile();
-    }
-
-    return m_projectProfile;
+    return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
 Mlt::Profile &Core::getMonitorProfile()
@@ -432,10 +426,15 @@ Mlt::Profile &Core::getMonitorProfile()
 
 Mlt::Profile *Core::getProjectProfile()
 {
-    return &getCurrentProfile()->profile();
+    if (!m_projectProfile) {
+        m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
+        m_projectProfile->set_explicit(true);
+        updateMonitorProfile();
+    }
+    return m_projectProfile.get();
 }
 
-void Core::updateMonitorProfile() const
+void Core::updateMonitorProfile()
 {
     m_monitorProfile.set_colorspace(m_projectProfile->colorspace());
     m_monitorProfile.set_frame_rate(m_projectProfile->frame_rate_num(), m_projectProfile->frame_rate_den());
@@ -455,28 +454,28 @@ const QString &Core::getCurrentProfilePath() const
 
 bool Core::setCurrentProfile(const QString &profilePath)
 {
-    const auto &profileFromRepository = ProfileRepository::get()->getProfile(profilePath);
     if (m_currentProfile == profilePath) {
         // no change required, ensure timecode has correct fps
-        m_timecode.setFormat(profileFromRepository->fps());
+        m_timecode.setFormat(getCurrentProfile()->fps());
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
         m_currentProfile = profilePath;
         m_thumbProfile.reset();
-        const auto &currentProfile = getCurrentProfile();
-        currentProfile->profile().set_colorspace(profileFromRepository->colorspace());
-        currentProfile->profile().set_frame_rate(profileFromRepository->frame_rate_num(), profileFromRepository->frame_rate_den());
-        currentProfile->profile().set_height(profileFromRepository->height());
-        currentProfile->profile().set_progressive(profileFromRepository->progressive());
-        currentProfile->profile().set_sample_aspect(profileFromRepository->sample_aspect_num(), profileFromRepository->sample_aspect_den());
-        currentProfile->profile().set_display_aspect(profileFromRepository->display_aspect_num(), profileFromRepository->display_aspect_den());
-        currentProfile->profile().set_width(profileFromRepository->width());
-        currentProfile->profile().get_profile()->description = qstrdup(profileFromRepository->description().toUtf8().constData());
-        currentProfile->setPath(profilePath);
-
+        if (m_projectProfile) {
+            m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
+            m_projectProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
+            m_projectProfile->set_height(getCurrentProfile()->height());
+            m_projectProfile->set_progressive(getCurrentProfile()->progressive());
+            m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
+            m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
+            m_projectProfile->set_width(getCurrentProfile()->width());
+            m_projectProfile->get_profile()->description = qstrdup(getCurrentProfile()->description().toUtf8().constData());
+            m_projectProfile->set_explicit(true);
+            updateMonitorProfile();
+        }
         // inform render widget
-        m_timecode.setFormat(profileFromRepository->fps());
+        m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
         if (m_guiConstructed) {
             emit m_mainWindow->updateRenderWidgetProfile();
