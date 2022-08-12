@@ -75,6 +75,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         REQUIRE(subtitlesText == control);
         // Ensure timeing is correct
         REQUIRE(sTime == controleTime);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
     }
 
     SECTION("Load a non-UTF-8 subtitle")
@@ -94,6 +96,32 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         // Ensure that non-ASCII characters are read correctly
         CHECK(subtitlesText == control);
     }
+
+    SECTION("Load a broken subtitle file")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/02.srt";
+        subtitleModel->importSubtitle(subtitleFile);
+        // Ensure the 2 dialogues are loaded
+        REQUIRE(subtitleModel->rowCount() == 2);
+        QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
+        QList<GenTime> sTime;
+        QList<GenTime> controleTime;
+        controleTime << GenTime(140, 25) << GenTime(265, 25) << GenTime(628, 25) << GenTime(875, 25);
+        QStringList subtitlesText;
+        QStringList control = {QStringLiteral("J'hésite à vérifier"), QStringLiteral("!! Quand même !!")};
+        for (const auto &s : allSubs) {
+            subtitlesText << s.subtitle();
+            sTime << s.start();
+            sTime << s.end();
+        }
+        // Ensure the texts are read correctly
+        REQUIRE(subtitlesText == control);
+        // Ensure timeing is correct
+        REQUIRE(sTime == controleTime);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }

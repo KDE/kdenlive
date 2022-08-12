@@ -1350,8 +1350,14 @@ const QString ProjectClip::getFileHash()
         break;
     }
     if (fileHash.isEmpty()) {
-        qDebug() << "// WARNING EMPTY CLIP HASH: ";
-        return QString();
+        if (m_service == QLatin1String("blipflash")) {
+            // Used in tests
+            fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
+            fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        } else {
+            qDebug() << "// WARNING EMPTY CLIP HASH: ";
+            return QString();
+        }
     }
     QString result = fileHash.toHex();
     ClipController::setProducerProperty(QStringLiteral("kdenlive:file_hash"), result);
