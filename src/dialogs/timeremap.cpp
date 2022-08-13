@@ -346,33 +346,57 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         double snapPos = ((m_originalRange.first - m_inFrame) * m_scale) - m_zoomStart;
         snapPos *= m_zoomFactor;
         snapPos += m_offset;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (qAbs(snapPos - event->x()) < QApplication::startDragDistance()) {
+#else
+        if (qAbs(snapPos - event->position().x()) < QApplication::startDragDistance()) {
+#endif
             pos = m_originalRange.first - m_inFrame;
         } else {
             snapPos = ((m_originalRange.second - m_inFrame) * m_scale) - m_zoomStart;
             snapPos *= m_zoomFactor;
             snapPos += m_offset;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (qAbs(snapPos - event->x()) < QApplication::startDragDistance()) {
+#else
+            if (qAbs(snapPos - event->position().x()) < QApplication::startDragDistance()) {
+#endif
                 pos = m_originalRange.second - m_inFrame;
             }
         }
         if (pos == -1) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
+#else
+            pos = int(((event->position().x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
+#endif
         }
     } else {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
+#else
+        pos = int(((event->position().x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
+#endif
     }
     pos = qBound(0, pos, m_maxLength - 1);
     GenTime position(pos, pCore->getCurrentFps());
     if (event->buttons() == Qt::NoButton) {
         bool hoverKeyframe = false;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
+#else
+        if (event->position().y() < 2 * m_lineHeight && event->position().y() > m_lineHeight) {
+#endif
             // mouse move in top keyframes area
             std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame);
             if (keyframe.first > -1 && qAbs(keyframe.second - pos - m_inFrame) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                 hoverKeyframe = true;
             }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         } else if (event->y() > m_bottomView - 2 * m_lineHeight && event->y() < m_bottomView - m_lineHeight) {
+#else
+        } else if (event->position().y() > m_bottomView - 2 * m_lineHeight && event->position().y() < m_bottomView - m_lineHeight) {
+#endif
             // move in bottom keyframe area
             std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
             if (keyframe.first > -1 && qAbs(keyframe.first - pos - m_inFrame) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
@@ -388,7 +412,11 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         if (m_hoverZoomIn || m_hoverZoomOut || m_hoverZoom) {
             // Moving zoom handles
             if (m_hoverZoomIn) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 m_zoomHandle.setX(qMin(qMax(0., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
+#else
+                m_zoomHandle.setX(qMin(qMax(0., double(event->position().x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
+#endif
                 int maxWidth = width() - (2 * m_offset);
                 m_zoomStart = m_zoomHandle.x() * maxWidth;
                 m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
@@ -396,7 +424,11 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                 return;
             }
             if (m_hoverZoomOut) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 m_zoomHandle.setY(qMax(qMin(1., double(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
+#else
+                m_zoomHandle.setY(qMax(qMin(1., double(event->position().x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
+#endif
                 int maxWidth = width() - (2 * m_offset);
                 m_zoomStart = m_zoomHandle.x() * maxWidth;
                 m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
@@ -405,7 +437,11 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             }
             // moving zoom zone
             if (m_hoverZoom) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 double clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset) - m_clickOffset;
+#else
+                double clickOffset = (double(event->position().x()) - m_offset) / (width() - 2 * m_offset) - m_clickOffset;
+#endif
                 double newX = m_zoomHandle.x() + clickOffset;
                 if (newX < 0) {
                     clickOffset = -m_zoomHandle.x();
@@ -417,7 +453,11 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
                     newY = 1;
                     newX = m_zoomHandle.x() + clickOffset;
                 }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
+#else
+                m_clickOffset = (double(event->position().x()) - m_offset) / (width() - 2 * m_offset);
+#endif
                 m_zoomHandle = QPointF(newX, newY);
                 int maxWidth = width() - (2 * m_offset);
                 m_zoomStart = m_zoomHandle.x() * maxWidth;
@@ -601,9 +641,15 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
         }
         return;
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (event->y() > m_bottomView) {
         // Moving in zoom area
         if (qAbs(event->x() - m_offset - (m_zoomHandle.x() * (width() - 2 * m_offset))) < QApplication::startDragDistance()) {
+#else
+    if (event->position().y() > m_bottomView) {
+        // Moving in zoom area
+        if (qAbs(event->position().x() - m_offset - (m_zoomHandle.x() * (width() - 2 * m_offset))) < QApplication::startDragDistance()) {
+#endif
             setCursor(Qt::SizeHorCursor);
             m_hoverZoomIn = true;
             m_hoverZoomOut = false;
@@ -611,7 +657,11 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             update();
             return;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (qAbs(event->x() - m_offset - (m_zoomHandle.y() * (width() - 2 * m_offset))) < QApplication::startDragDistance()) {
+#else
+        if (qAbs(event->position().x() - m_offset - (m_zoomHandle.y() * (width() - 2 * m_offset))) < QApplication::startDragDistance()) {
+#endif
             setCursor(Qt::SizeHorCursor);
             m_hoverZoomOut = true;
             m_hoverZoomIn = false;
@@ -619,8 +669,13 @@ void RemapView::mouseMoveEvent(QMouseEvent *event)
             update();
             return;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (m_zoomHandle != QPointF(0, 1) && event->x() > m_offset + (m_zoomHandle.x() * (width() - 2 * m_offset)) &&
             event->x() < m_offset + (m_zoomHandle.y() * (width() - 2 * m_offset))) {
+#else
+        if (m_zoomHandle != QPointF(0, 1) && event->position().x() > m_offset + (m_zoomHandle.x() * (width() - 2 * m_offset)) &&
+            event->position().x() < m_offset + (m_zoomHandle.y() * (width() - 2 * m_offset))) {
+#endif
             setCursor(Qt::PointingHandCursor);
             m_hoverZoom = true;
             m_hoverZoomIn = false;
@@ -775,19 +830,31 @@ void RemapView::mousePressEvent(QMouseEvent *event)
 {
     event->accept();
     m_lastMaxDuration = remapMax();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int pos = int(((event->x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
+#else
+    int pos = int(((event->position().x() - m_offset) / m_zoomFactor + m_zoomStart) / m_scale);
+#endif
     pos = qBound(0, pos, m_maxLength);
     m_moveKeyframeMode = NoMove;
     m_keyframesOrigin = m_keyframes;
     m_oldInFrame = m_inFrame;
     if (event->button() == Qt::LeftButton) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (event->y() < m_centerPos) {
+#else
+        if (event->position().y() < m_centerPos) {
+#endif
             // mouse click in top area
             if (event->modifiers() & Qt::ShiftModifier) {
                 m_clickPoint = pos + m_inFrame;
                 return;
             }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
+#else
+            if (event->position().y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
+#endif
                 std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame);
                 if (keyframe.first > -1 && qAbs(keyframe.second - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                     // Clicked on a top keyframe
@@ -844,19 +911,35 @@ void RemapView::mousePressEvent(QMouseEvent *event)
                 update();
             }
             return;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         } else if (event->y() > m_bottomView) {
+#else
+        } else if (event->position().y() > m_bottomView) {
+#endif
             // click on zoom area
             if (m_hoverZoom) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 m_clickOffset = (double(event->x()) - m_offset) / (width() - 2 * m_offset);
+#else
+                m_clickOffset = (double(event->position().x()) - m_offset) / (width() - 2 * m_offset);
+#endif
             }
             return;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         } else if (event->y() > m_centerPos && event->y() < m_bottomView) {
+#else
+        } else if (event->position().y() > m_centerPos && event->position().y() < m_bottomView) {
+#endif
             // click in bottom area
             if (event->modifiers() & Qt::ShiftModifier) {
                 m_clickPoint = pos + m_inFrame;
                 return;
             }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (event->y() > (m_bottomView - 2 * m_lineHeight) && (event->y() < m_bottomView - m_lineHeight)) {
+#else
+            if (event->position().y() > (m_bottomView - 2 * m_lineHeight) && (event->position().y() < m_bottomView - m_lineHeight)) {
+#endif
                 std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame, true);
                 if (keyframe.first > -1 && qAbs(keyframe.first - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
                     m_currentKeyframeOriginal = keyframe;
@@ -929,7 +1012,11 @@ void RemapView::mousePressEvent(QMouseEvent *event)
             }*/
             return;
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     } else if (event->button() == Qt::RightButton && event->y() > m_bottomView) {
+#else
+    } else if (event->button() == Qt::RightButton && event->position().y() > m_bottomView) {
+#endif
         // Right click on zoom, switch between no zoom and last zoom status
         if (m_zoomHandle == QPointF(0, 1)) {
             if (!m_lastZoomHandle.isNull()) {
