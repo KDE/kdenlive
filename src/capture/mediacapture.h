@@ -9,7 +9,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QAudioBuffer>
 #include <QAudioInput>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QAudioRecorder>
+#else
+#include <QMediaCaptureSession>
+#endif
 #include <QCamera>
 #include <QElapsedTimer>
 #include <QIODevice>
@@ -19,8 +23,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTimer>
 #include <QUrl>
 #include <memory>
-
-class QAudioRecorder;
 
 class AudioDevInfo: public QIODevice
 {
@@ -85,7 +87,12 @@ public slots:
     void setAudioVolume();
 
 private:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     std::unique_ptr<QAudioRecorder> m_audioRecorder;
+#else
+    // TODO: Qt6
+    //std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
+#endif
     std::unique_ptr<QAudioInput> m_audioInput;
     QScopedPointer<AudioDevInfo> m_audioInfo;
     std::unique_ptr<QMediaRecorder> m_videoRecorder;
