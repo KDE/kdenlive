@@ -91,7 +91,7 @@ private:
     std::unique_ptr<QAudioRecorder> m_audioRecorder;
 #else
     // TODO: Qt6
-    //std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
+    // std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
 #endif
     std::unique_ptr<QAudioInput> m_audioInput;
     QScopedPointer<AudioDevInfo> m_audioInfo;

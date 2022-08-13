@@ -907,7 +907,13 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             currentParam.insert(QLatin1String("value"),
-                                fixed.second.type() == QVariant::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                                fixed.second.type() == QVariant::Double
+#else
+                                fixed.second.typeId() == QMetaType::Double
+#endif
+                                    ? QJsonValue(fixed.second.toDouble())
+                                    : QJsonValue(fixed.second.toString()));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -954,8 +960,15 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
-        currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble())
-                                                                                                  : QJsonValue(param.second.value.toString()));
+        currentParam.insert(QLatin1String("value"),
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                            param.second.value.type() == QVariant::Double
+
+#else
+                            param.second.value.typeId() == QMetaType::Double
+#endif
+                                ? QJsonValue(param.second.value.toDouble())
+                                : QJsonValue(param.second.value.toString()));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1018,7 +1031,14 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             auto value = m_keyframes->getInterpolatedValue(pos, ix);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(
-                                                            value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+
+                                                            value.type() == QVariant::Double
+#else
+                                                            value.typeId() == QMetaType::Double
+#endif
+                                                                ? QString::number(value.toDouble())
+                                                                : value.toString())));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1066,8 +1086,16 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         }
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
-        currentParam.insert(QLatin1String("value"),
-                            QJsonValue(QStringLiteral("0=%1").arg(value.type() == QVariant::Double ? QString::number(value.toDouble()) : value.toString())));
+        currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                                                        value.type() == QVariant::Double
+
+#else
+                                                        value.typeId() == QMetaType::Double
+#endif
+                                                            ? QString::number(value.toDouble())
+                                                            : value.toString())));
+
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();

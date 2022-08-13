@@ -112,10 +112,18 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
         // Let the normal alphabetical sort happen
         const QVariant leftData = sourceModel()->data(left, Qt::DisplayRole);
         const QVariant rightData = sourceModel()->data(right, Qt::DisplayRole);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (leftData.type() == QVariant::DateTime) {
+#else
+        if (leftData.typeId() == QMetaType::QDateTime) {
+#endif
             return leftData.toDateTime() < rightData.toDateTime();
         }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (leftData.type() == QVariant::Int) {
+#else
+        if (leftData.typeId() == QMetaType::Int) {
+#endif
             return leftData.toInt() < rightData.toInt();
         }
         return m_collator.compare(leftData.toString(), rightData.toString()) < 0;
