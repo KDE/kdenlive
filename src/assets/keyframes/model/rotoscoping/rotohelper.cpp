@@ -68,7 +68,7 @@ QList<BPoint> RotoHelper::getPoints(const QVariant &value, const QSize frame)
     QList<QVariant> data = value.toList();
 
     // skip tracking flag
-    if (data.count() && data.at(0).canConvert(QVariant::String)) {
+    if (data.count() && data.at(0).canConvert(QMetaType::QString)) {
         data.removeFirst();
     }
 
