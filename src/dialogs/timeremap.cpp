@@ -853,7 +853,7 @@ void RemapView::mousePressEvent(QMouseEvent *event)
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (event->y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
 #else
-            if (event->position().y() < 2 * m_lineHeight && event->y() > m_lineHeight) {
+            if (event->position().y() < 2 * m_lineHeight && event->position().y() > m_lineHeight) {
 #endif
                 std::pair<int, int> keyframe = getClosestKeyframe(pos + m_inFrame);
                 if (keyframe.first > -1 && qAbs(keyframe.second - (pos + m_inFrame)) * m_scale * m_zoomFactor <= m_lineHeight / 2) {
