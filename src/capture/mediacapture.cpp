@@ -21,6 +21,7 @@ AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     : QIODevice(parent)
     , m_format(format)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     switch (m_format.sampleSize()) {
     case 8:
         switch (m_format.sampleType()) {
@@ -65,6 +66,9 @@ AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     default:
         break;
     }
+#else
+    // TODO: qt6
+#endif
 }
 
 qint64 AudioDevInfo::readData(char *data, qint64 maxSize)
@@ -76,6 +80,7 @@ qint64 AudioDevInfo::readData(char *data, qint64 maxSize)
 
 qint64 AudioDevInfo::writeData(const char *data, qint64 len)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (maxAmplitude) {
         Q_ASSERT(m_format.sampleSize() % 8 == 0);
         const int channelBytes = m_format.sampleSize() / 8;
@@ -118,7 +123,6 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
                 } else if (m_format.sampleSize() == 32 && m_format.sampleType() == QAudioFormat::Float) {
                     value = qAbs(*reinterpret_cast<const float *>(ptr) * 0x7fffffff); // assumes 0-1.0
                 }
-
                 levels[j] = qMax(value, levels.at(j));
                 ptr += channelBytes;
             }
@@ -134,6 +138,9 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
         emit levelRecChanged(recLevels);
         emit levelChanged(dbLevels);
     }
+#else
+    // TODO: qt6
+#endif
     return len;
 }
 
@@ -161,6 +168,7 @@ void MediaCapture::switchMonitorState(int tid, bool run)
 
 void MediaCapture::switchMonitorState(bool run)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (run) {
         // Start monitoring audio
         QAudioFormat format;
@@ -225,6 +233,9 @@ void MediaCapture::switchMonitorState(bool run)
         }
         m_audioInput.reset();
     }
+#else
+    // TODO: qt6
+#endif
 }
 
 int MediaCapture::recDuration() const
@@ -447,7 +458,7 @@ void MediaCapture::setCaptureOutputLocation()
     }
 #else
     // TODO: Qt6
-    /*} else if (m_audioRecorder.get() != nullptr) {
+    } /*else if (m_audioRecorder.get() != nullptr) {
         // extension = QStringLiteral(".flac");
         extension = QStringLiteral(".wav");
     }*/
@@ -515,14 +526,17 @@ int MediaCapture::getState()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_audioRecorder != nullptr) {
         currentState = m_audioRecorder->state();
-#else
-    // TODO: Qt6
-    /*if (m_audioRecorder != nullptr) {
-        currentState = m_audioRecorder->state(); */
-#endif
     } else if (m_videoRecorder != nullptr) {
         currentState = m_videoRecorder->state();
     }
+#else
+    // TODO: Qt6
+    /*if (m_audioRecorder != nullptr) {
+        currentState = m_audioRecorder->state();
+    } else if (m_videoRecorder != nullptr) {
+        currentState = m_videoRecorder->state();
+    }*/
+#endif
     return currentState;
 }
 
@@ -562,17 +576,20 @@ void MediaCapture::pauseRecording()
         // Pause is not supported on this platform
         qDebug() << ":::: PAUSING FAILED!!!!";
         m_audioRecorder->stop();
+    } else {
+        qDebug() << ":::: MEDIA CAPTURE PAUSED!!!!";
+    }
 #else
     // TODO: Qt6
     /*m_audioRecorder->pause();
     if (m_audioRecorder->state() == QMediaRecorder::RecordingState) {
         // Pause is not supported on this platform
         qDebug() << ":::: PAUSING FAILED!!!!";
-        m_audioRecorder->stop();*/
-#endif
+        m_audioRecorder->stop();
     } else {
         qDebug() << ":::: MEDIA CAPTURE PAUSED!!!!";
-    }
+    }*/
+#endif
 }
 
 void MediaCapture::resumeRecording()
