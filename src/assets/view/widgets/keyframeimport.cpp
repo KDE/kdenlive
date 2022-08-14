@@ -1299,22 +1299,22 @@ void KeyframeImport::updateView()
         QString current;
         if (name.contains("Position X") &&
             !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::YOnly)) {
-            current = kfrData[0].toDouble() / frameSize.width();
+            current = QString::number(kfrData[0].toDouble() / frameSize.width());
             if (convertMode == ImportRoles::FullGeometry) {
-                current = current.toDouble() + rect.w / frameSize.width() / 2;
+                current = QString::number(current.toDouble() + rect.w / frameSize.width() / 2);
             }
         } else if (name.contains("Position Y") &&
                    !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::XOnly)) {
-            current = kfrData[1].toDouble() / frameSize.height();
+            current = QString::number(kfrData[1].toDouble() / frameSize.height());
             if (convertMode == ImportRoles::FullGeometry) {
-                current = current.toDouble() + rect.h / frameSize.height() / 2;
+                current = QString::number(current.toDouble() + rect.h / frameSize.height() / 2);
             }
         } else if (name.contains("Size X") && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition ||
                                                convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::WidthOnly)) {
-            current = kfrData[2].toDouble() / frameSize.width() / 2;
+            current = QString::number(kfrData[2].toDouble() / frameSize.width() / 2);
         } else if (name.contains("Size Y") && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition ||
                                                convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::HeightOnly)) {
-            current = kfrData[3].toDouble() / frameSize.height() / 2;
+            current = QString::number(kfrData[3].toDouble() / frameSize.height() / 2);
         } else if (fakeRect) {
             current = QString::number(animData->anim_get_double("original", frame));
         } else {
