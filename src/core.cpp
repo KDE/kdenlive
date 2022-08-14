@@ -995,9 +995,11 @@ void Core::clean()
 
 void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
-    if (checkAudio && checkVideo) {
+    // TODO: fix video capture
+    /*if (checkAudio && checkVideo) {
         m_capture->recordVideo(tid, true);
-    } else if (checkAudio) {
+    } else*/
+    if (checkAudio) {
         m_capture->recordAudio(tid, true);
     }
     m_mediaCaptureFile = m_capture->getCaptureOutputLocation();
@@ -1005,9 +1007,11 @@ void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 
 void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
-    if (checkAudio && checkVideo) {
+    // TODO: fix video capture
+    /*if (checkAudio && checkVideo) {
         m_capture->recordVideo(tid, false);
-    } else if (checkAudio) {
+    } else*/
+    if (checkAudio) {
         m_capture->recordAudio(tid, false);
     }
 }

@@ -11,7 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlivesettings.h"
 #include <QAudioOutput>
-#include <QCameraInfo>
+// TODO: fix video capture (Hint: QCameraInfo is not available in Qt6 anymore)
+//#include <QCameraInfo>
 #include <QDir>
 #include <QtEndian>
 #include <utility>
@@ -387,9 +388,10 @@ int MediaCapture::startCapture()
     return m_tid;
 }
 
-void MediaCapture::recordVideo(int tid, bool record)
+// TODO: fix video capture
+
+/*void MediaCapture::recordVideo(int tid, bool record)
 {
-    // TODO: fix video capture
     Q_UNUSED(tid)
     if (!m_videoRecorder) {
         QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
@@ -424,7 +426,7 @@ void MediaCapture::recordVideo(int tid, bool record)
         m_videoRecorder.reset();
         m_camera.reset();
     }
-}
+}*/
 
 void MediaCapture::setCaptureOutputLocation()
 {
