@@ -28,6 +28,9 @@
 #include <QRegExp>
 #include <QTextCodec>
 #include <utility>
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+#include <QStringConverter>
+#endif
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
     : QAbstractListModel(parent)
@@ -175,9 +178,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             stream.setCodec("UTF-8");
         }
 #else
-        std::optional<Encoding> inputEncoding = QStringConverter::encodingForName(encoding);
-        if (!inputEncoding.isEmpty()) {
-            stream.setEncoding(inputEncoding)
+        std::optional<QStringConverter::Encoding> inputEncoding = QStringConverter::encodingForName(encoding);
+        if (inputEncoding) {
+            stream.setEncoding(inputEncoding);
         }
         // else: UTF8 is the default
 #endif
