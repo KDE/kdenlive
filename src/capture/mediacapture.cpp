@@ -510,15 +510,18 @@ void MediaCapture::setAudioVolume()
     if (m_audioRecorder) {
         m_audioRecorder->setVolume(linearVolume);
     }
+    if (m_audioInput) {
+        m_audioInput->setVolume(linearVolume);
+    }
 #else
     // TODO: Qt6
     /*if (m_audioRecorder) {
         m_audioRecorder->setVolume(linearVolume);
-    }*/
-#endif
+    }
     if (m_audioInput) {
         m_audioInput->setVolume(linearVolume);
-    }
+    }*/
+#endif
 }
 
 int MediaCapture::getState()
@@ -556,15 +559,19 @@ bool MediaCapture::isRecording() const
     if (m_readyForRecord || (m_audioRecorder && m_audioRecorder->state() != QMediaRecorder::StoppedState)) {
         return true;
     }
+    if (m_videoRecorder && m_videoRecorder->state() != QMediaRecorder::StoppedState) {
+        return true;
+    }
 #else
     //TODO: Qt6
     /*if (m_readyForRecord || (m_audioRecorder && m_audioRecorder->state() != QMediaRecorder::StoppedState)) {
         return true;
-    }*/
-#endif
+    }
     if (m_videoRecorder && m_videoRecorder->state() != QMediaRecorder::StoppedState) {
         return true;
-    }
+    }*/
+#endif
+
     return false;
 }
 
