@@ -166,15 +166,21 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         qDebug() << "srt/vtt/sbv File";
         //parsing srt file
         QTextStream stream(&srtFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QTextCodec *inputEncoding = QTextCodec::codecForName(encoding);
         if (inputEncoding) {
             stream.setCodec(inputEncoding);
         } else {
             qWarning() << "No QTextCodec named" << encoding;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             stream.setCodec("UTF-8");
-#endif
         }
+#else
+        std::optional<Encoding> inputEncoding = QStringConverter::encodingForName(encoding);
+        if (!inputEncoding.isEmpty()) {
+            stream.setEncoding(inputEncoding)
+        }
+        // else: UTF8 is the default
+#endif
         QString line;
         QStringList srtTime;
         QRegExp rx("([0-9]{1,2}):([0-9]{2})");
@@ -236,7 +242,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             return;
         }
         QTextStream stream(&assFile);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         stream.setCodec(QTextCodec::codecForName(encoding));
+#else
+        stream.setEncoding(QStringConverter::encodingForName(encoding));
+#endif
         QString line;
         qDebug() << " correct ass file  " << filePath;
         scriptInfoSection.clear();
