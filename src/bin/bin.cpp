@@ -698,7 +698,11 @@ void MyListView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QAbstractItemDelegate *del = itemDelegate(ix);
+#else
+            QAbstractItemDelegate *del = itemDelegateForIndex(ix);
+#endif
             m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
         } else {
@@ -755,7 +759,11 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         if (KdenliveSettings::hoverPreview()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QAbstractItemDelegate *del = itemDelegate(index);
+#else
+            QAbstractItemDelegate *del = itemDelegateForIndex(index);
+#endif
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
@@ -805,7 +813,11 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QAbstractItemDelegate *del = itemDelegate(ix);
+#else
+            QAbstractItemDelegate *del = itemDelegateForIndex(ix);
+#endif
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
         } else {
@@ -857,7 +869,11 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
             if (KdenliveSettings::hoverPreview()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 QAbstractItemDelegate *del = itemDelegate(index);
+#else
+                QAbstractItemDelegate *del = itemDelegateForIndex(index);
+#endif
                 int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
                 if (frame >= 0) {
                     emit displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
