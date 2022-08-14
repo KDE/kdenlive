@@ -25,7 +25,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextCodec>
 #include <utility>
 #if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
@@ -186,7 +186,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 #endif
         QString line;
         QStringList srtTime;
-        QRegExp rx("([0-9]{1,2}):([0-9]{2})");
+        QRegularExpression rx("([0-9]{1,2}):([0-9]{2})");
         QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
             line = line.trimmed();
