@@ -5350,7 +5350,7 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
     mainLayout->addWidget(mainWidget);
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
-    okButton->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return));
+    okButton->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return));
     dialog->connect(buttonBox, &QDialogButtonBox::accepted, dialog.data(), &QDialog::accept);
     dialog->connect(buttonBox, &QDialogButtonBox::rejected, dialog.data(), &QDialog::reject);
     okButton->setText(i18n("Import selected clips"));

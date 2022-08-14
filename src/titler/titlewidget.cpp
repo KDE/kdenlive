@@ -329,7 +329,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     buttonSelectRects->setEnabled(false);
 
     m_selectImages = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-images")), QString(), this);
-    m_selectImages->setShortcut(Qt::CTRL + Qt::Key_I);
+    m_selectImages->setShortcut(Qt::CTRL | Qt::Key_I);
     m_selectImages->setToolTip(i18n("Keep only image items selected"));
     connect(m_selectImages, &QAction::triggered, this, &TitleWidget::slotSelectImages);
     buttonSelectImages->setDefaultAction(m_selectImages);
