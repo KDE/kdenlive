@@ -1958,7 +1958,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString
                         value.replace(QRegularExpression("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
                     } else if (autoReplace) {
                         // Just replace decimal point
-                        value.replace(decimalPoint, '.');
+                        value.replace(decimalPoint, QStringLiteral("."));
                     } else {
                         fixTimecode(value);
                     }
