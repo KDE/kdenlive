@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2022 Eric Jiang
+    SPDX-FileCopyrightText: 2022 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "test_utils.hpp"
 
 #include "titler/graphicsscenerectmove.h"

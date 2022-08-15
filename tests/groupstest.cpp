@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2018-2022 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2017-2019 Nicolas Carion <french.ebook.lover@gmail.com>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"

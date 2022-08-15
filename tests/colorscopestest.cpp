@@ -1,3 +1,7 @@
+/*
+    SPDX-FileCopyrightText: 2022 Eric Jiang
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "test_utils.hpp"
 
 #include "scopes/colorscopes/colorconstants.h"

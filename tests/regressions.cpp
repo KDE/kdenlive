@@ -1,3 +1,8 @@
+/*
+    SPDX-FileCopyrightText: 2017-2022 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2017-2019 Nicolas Carion <french.ebook.lover@gmail.com>
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
 #include "test_utils.hpp"
 
 Mlt::Profile reg_profile;
