@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: none
+# SPDX-License-Identifier: CC0-1.0
 ---
 Checks:          'clang-diagnostic-*,clang-analyzer-*,,performance-*,modernize-*,readability-*, cppcoreguidelines-*, misc-definitions-in-headers, misc-misplaced-const'
 WarningsAsErrors: ''

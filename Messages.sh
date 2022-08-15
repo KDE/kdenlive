@@ -1,4 +1,6 @@
 #!/bin/sh
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
 
 kdenlive_subdirs="plugins renderer data src src/ui"
 
