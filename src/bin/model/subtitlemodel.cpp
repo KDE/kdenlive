@@ -180,7 +180,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         QRegExp rx("([0-9]{1,2}):([0-9]{2})");
         QLatin1Char separator = filePath.endsWith(".sbv") ? QLatin1Char(',') : QLatin1Char(' ');
         while (stream.readLineInto(&line)) {
-            line = line.simplified();
+            line = line.trimmed();
             // qDebug()<<"Turn: "<<turn;
             // qDebug()<<"Line: "<<line<<"\n";
             if (!line.isEmpty()) {

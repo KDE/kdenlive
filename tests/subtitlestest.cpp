@@ -127,6 +127,14 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         REQUIRE(subtitleModel->rowCount() == 0);
     }
 
+    SECTION("Preserve multiple spaces in subtitles")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/multiple-spaces.srt";
+        subtitleModel->importSubtitle(subtitleFile);
+        const QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
+        CHECK(allSubs.at(0).subtitle().toStdString() == "three   spaces");
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
