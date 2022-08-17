@@ -120,12 +120,16 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     m_currentProfile = m_profile;
     m_mainWindow = new MainWindow();
     m_guiConstructed = true;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+
     QStringList styles = QQuickStyle::availableStyles();
     if (styles.contains(QLatin1String("org.kde.desktop"))) {
         QQuickStyle::setStyle("org.kde.desktop");
     } else if (styles.contains(QLatin1String("Fusion"))) {
         QQuickStyle::setStyle("Fusion");
     }
+    // ELSE Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
+#endif
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
 
