@@ -21,6 +21,7 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QOpenGLContext>
 #include <kdeclarative_version.h>
 #include <klocalizedstring.h>
 #include <memory>
@@ -118,9 +119,16 @@ GLWidget::GLWidget(int id, QWidget *parent)
     }
     m_displayRulerHeight = m_rulerHeight;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     quickWindow()->setPersistentOpenGLContext(true);
     quickWindow()->setPersistentSceneGraph(true);
     quickWindow()->setClearBeforeRendering(false);
+#else
+    // TODO: qt6
+    quickWindow()->setPersistentGraphics(true);
+    quickWindow()->setPersistentSceneGraph(true);
+    //quickWindow()->setClearBeforeRendering(false);
+#endif
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     auto fmt = QOpenGLContext::globalShareContext()->format();
     fmt.setDepthBufferSize(format().depthBufferSize());
@@ -188,7 +196,12 @@ void GLWidget::initializeGL()
 {
     if (m_isInitialized) return;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     quickWindow()->openglContext()->makeCurrent(&m_offscreenSurface);
+#else
+    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    context.makeCurrent(&m_offscreenSurface);
+#endif
     initializeOpenGLFunctions();
 
     // C & D
@@ -199,7 +212,11 @@ void GLWidget::initializeGL()
     createShader();
 
     m_openGLSync = initGPUAccelSync();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     quickWindow()->openglContext()->doneCurrent();
+#else
+    context.doneCurrent();
+#endif
 
     // C & D
     if (m_glslManager) {
@@ -209,16 +226,29 @@ void GLWidget::initializeGL()
         // See this Qt bug for more info: https://bugreports.qt.io/browse/QTBUG-44677
         // TODO: QTBUG-44677 is closed. still applicable?
         m_shareContext = new QOpenGLContext;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_shareContext->setFormat(quickWindow()->openglContext()->format());
         m_shareContext->setShareContext(quickWindow()->openglContext());
+#else
+        m_shareContext->setFormat(context.format());
+        m_shareContext->setShareContext(&context);
+#endif
         m_shareContext->create();
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_frameRenderer = new FrameRenderer(quickWindow()->openglContext(), &m_offscreenSurface, m_ClientWaitSync);
+#else
+    m_frameRenderer = new FrameRenderer(&context, &m_offscreenSurface, m_ClientWaitSync);
+#endif
 
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     quickWindow()->openglContext()->makeCurrent(quickWindow());
+#else
+    context.makeCurrent(quickWindow());
+#endif
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
     connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
@@ -413,13 +443,25 @@ void GLWidget::releaseAnalyse()
 bool GLWidget::acquireSharedFrameTextures()
 {
     // A
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if ((m_glslManager == nullptr) && !quickWindow()->openglContext()->supportsThreadedOpenGL()) {
         QMutexLocker locker(&m_contextSharedAccess);
         if (!m_sharedFrame.is_valid()) {
             return false;
         }
         uploadTextures(quickWindow()->openglContext(), m_sharedFrame, m_texture);
-    } else if (m_glslManager) {
+    } else
+#else
+        QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+        if ((m_glslManager == nullptr) && !context.supportsThreadedOpenGL()) {
+            QMutexLocker locker(&m_contextSharedAccess);
+            if (!m_sharedFrame.is_valid()) {
+                return false;
+            }
+            uploadTextures(&context, m_sharedFrame, m_texture);
+        } else
+#endif
+    if (m_glslManager) {
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
@@ -483,7 +525,12 @@ void GLWidget::disableGPUAccel()
 
 bool GLWidget::onlyGLESGPUAccel() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return (m_glslManager != nullptr) && quickWindow()->openglContext()->isOpenGLES();
+#else
+    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    return (m_glslManager != nullptr) && context.isOpenGLES();
+#endif
 }
 
 #if defined(Q_OS_WIN)
@@ -498,9 +545,16 @@ bool GLWidget::initGPUAccelSync()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
     if (m_glslManager == nullptr) return false;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!quickWindow()->openglContext()->hasExtension("GL_ARB_sync")) return false;
 
     m_ClientWaitSync = ClientWaitSync_fp(quickWindow()->openglContext()->getProcAddress("glClientWaitSync"));
+#else
+    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    if (!context.hasExtension("GL_ARB_sync")) return false;
+
+    m_ClientWaitSync = ClientWaitSync_fp(context.getProcAddress("glClientWaitSync"));
+#endif
     if (m_ClientWaitSync) {
         return true;
     } else {
@@ -515,7 +569,13 @@ bool GLWidget::initGPUAccelSync()
 
 void GLWidget::paintGL()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QOpenGLFunctions *f = quickWindow()->openglContext()->functions();
+#else
+    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    QOpenGLFunctions *f = context.functions();
+#endif
+
     float width = this->width() * devicePixelRatioF();
     float height = this->height() * devicePixelRatioF();
 

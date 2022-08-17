@@ -38,6 +38,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <QQuickWindow>
 #include <QDir>
 #include <QIcon>
 #include <QProcess>
@@ -71,6 +72,10 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 #endif
 
 #if defined(Q_OS_WIN)
