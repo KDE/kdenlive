@@ -760,7 +760,11 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
             m_dragStart = event->pos();
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
-        emit showContextMenu(event->globalPos());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    emit showContextMenu(event->globalPos());
+#else
+    emit showContextMenu(event->globalPosition().toPoint());
+#endif
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);

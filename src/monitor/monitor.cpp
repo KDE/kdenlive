@@ -842,7 +842,11 @@ void Monitor::mousePressEvent(QMouseEvent *event)
         }
     } else if (m_contextMenu) {
         slotActivateMonitor();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_contextMenu->popup(event->globalPos());
+#else
+        m_contextMenu->popup(event->globalPosition().toPoint());
+#endif
         event->accept();
     }
     QWidget::mousePressEvent(event);
