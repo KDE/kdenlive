@@ -3367,7 +3367,7 @@ void MainWindow::slotResizeItemEnd()
 
 int MainWindow::getNewStuff(const QString &configFile)
 {
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
     for (const auto &entry : qAsConst(entries)) {
@@ -3376,6 +3376,10 @@ int MainWindow::getNewStuff(const QString &configFile)
         }
     }
     return entries.size();
+#else
+    // TODO: qt6
+    return 0;
+#endif
 }
 
 void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
