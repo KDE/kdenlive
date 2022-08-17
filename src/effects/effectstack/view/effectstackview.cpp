@@ -308,7 +308,11 @@ void EffectStackView::loadEffects()
             activeIndex = ix;
         }
         m_effectsTree->setIndexWidget(ix, view);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+#else
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
+#endif
         del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
@@ -385,7 +389,11 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     }
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     if (ix.isValid()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+#else
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
+#endif
         if (del) {
             del->setHeight(ix, newHeight);
             m_timerHeight.start();
