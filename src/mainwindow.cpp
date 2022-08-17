@@ -1857,7 +1857,7 @@ void MainWindow::setupActions()
         QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
         ac->setData(i - 1);
         connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
-        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT + keysequence[i - 1]), timelineActions);
+        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT | keysequence[i - 1]), timelineActions);
         QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
         ac2->setData(i - 1);
         connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
@@ -1865,7 +1865,7 @@ void MainWindow::setupActions()
         QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
         ac3->setData(i - 1);
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
-        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL + keysequence[i - 1]), timelineActions);
+        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL | keysequence[i - 1]), timelineActions);
     }
 
     // Setup effects and transitions actions.
