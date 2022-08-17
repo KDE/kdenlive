@@ -107,17 +107,21 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QMap<QString, QString> playlistUrls;
     QMap<QString, QString> proxyUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
+    QStringList handledUrls;
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         ClipType::ProducerType t = clip->clipType();
         QString id = clip->binId();
         if (t == ClipType::Color) {
             continue;
         }
+        const QString url = clip->clipUrl();
         if (t == ClipType::SlideShow) {
             // TODO: Slideshow files
-            slideUrls.insert(id, clip->clipUrl());
+            slideUrls.insert(id, url);
+            handledUrls << url;
         } else if (t == ClipType::Image) {
-            imageUrls.insert(id, clip->clipUrl());
+            imageUrls.insert(id, url);
+            handledUrls << url;
         } else if (t == ClipType::QText) {
             allFonts << clip->getProducerProperty(QStringLiteral("family"));
         } else if (t == ClipType::Text) {
@@ -126,14 +130,21 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
             extraImageUrls << imagefiles;
             allFonts << fonts;
         } else if (t == ClipType::Playlist) {
-            playlistUrls.insert(id, clip->clipUrl());
-            QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl());
-            otherUrls << files;
+            playlistUrls.insert(id, url);
+            handledUrls << url;
+            const QStringList files = ProjectSettings::extractPlaylistUrls(clip->clipUrl());
+            for (auto &f : files) {
+                if (handledUrls.contains(f)) {
+                    continue;
+                }
+                otherUrls << f;
+            }
         } else if (!clip->clipUrl().isEmpty()) {
+            handledUrls << url;
             if (t == ClipType::Audio) {
-                audioUrls.insert(id, clip->clipUrl());
+                audioUrls.insert(id, url);
             } else {
-                videoUrls.insert(id, clip->clipUrl());
+                videoUrls.insert(id, url);
                 // Check if we have a proxy
                 QString proxy = clip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
                 if (!proxy.isEmpty() && proxy != QLatin1String("-") && QFile::exists(proxy)) {
@@ -141,7 +152,13 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
                 }
             }
         }
-        otherUrls << clip->filesUsedByEffects();
+        const QStringList files = clip->filesUsedByEffects();
+        for (auto &f : files) {
+            if (handledUrls.contains(f)) {
+                continue;
+            }
+            otherUrls << f;
+        }
     }
 
     generateItems(images, extraImageUrls);
@@ -355,6 +372,7 @@ bool ArchiveWidget::closeAccepted()
 void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList &items)
 {
     QStringList filesList;
+    QStringList filesPath;
     QString fileName;
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
@@ -410,8 +428,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
-        } else if (filesList.contains(fileName)) {
-            // we have 2 files with same name
+        } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
+            // we have 2 different files with same name
             int i = 0;
             QString newFileName =
                 fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(i) + QLatin1Char('.') + fileName.section(QLatin1Char('.'), -1);
@@ -435,12 +453,14 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
             }
             filesList << fileName;
         }
+        filesPath << file;
     }
 }
 
 void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QString, QString> &items)
 {
     QStringList filesList;
+    QStringList filesPath;
     QString fileName;
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
@@ -501,8 +521,8 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 item->setData(0, SlideshowSizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
-        } else if (filesList.contains(fileName)) {
-            // we have 2 files with same name
+        } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
+            // we have 2 different files with same name
             int index2 = 0;
             QString newFileName = fileName.section(QLatin1Char('.'), 0, -2) + QLatin1Char('_') + QString::number(index2) + QLatin1Char('.') +
                                   fileName.section(QLatin1Char('.'), -1);
@@ -525,6 +545,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
             }
             filesList << fileName;
         }
+        filesPath << file;
         ++it;
     }
 }
