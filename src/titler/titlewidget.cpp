@@ -1078,7 +1078,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
     // mbd: issue 551:
-    font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
+    font.setWeight(QFont::Weight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt()));
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
 
@@ -1777,7 +1777,7 @@ void TitleWidget::slotUpdateText()
     font.setPixelSize(font_size->value());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
-    font.setWeight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt());
+    font.setWeight(QFont::Weight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt()));
     if (letter_spacing->value() != 0) {
         font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
     }
