@@ -28,7 +28,7 @@
 #include <QRegularExpression>
 #include <QTextCodec>
 #include <utility>
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QStringConverter>
 #endif
 
