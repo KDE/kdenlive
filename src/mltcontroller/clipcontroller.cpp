@@ -268,6 +268,7 @@ void ClipController::getInfoForProducer()
         m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
         m_clipType = ClipType::QText;
+        m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("qml")) {
         m_clipType = ClipType::Qml;
         m_hasLimitedDuration = false;
