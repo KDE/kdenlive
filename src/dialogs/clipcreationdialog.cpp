@@ -22,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_colorclip_ui.h"
 #include "ui_qtextclip_ui.h"
 #include "utils/devices.hpp"
+#include "utils/qcolorutils.h"
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
@@ -261,16 +262,13 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
     dia_ui.fgColor->setAlphaChannelEnabled(true);
     dia_ui.lineColor->setAlphaChannelEnabled(true);
     dia_ui.bgColor->setAlphaChannelEnabled(true);
-    auto get_color = [](ProjectClip *clip, const QString &name) {
-        return QColor(clip->getProducerProperty(name).replace(QStringLiteral("0x"), QStringLiteral("#")));
-    };
     if (clip) {
         dia_ui.name->setText(clip->clipName());
         dia_ui.text->setPlainText(clip->getProducerProperty(QStringLiteral("text")));
-        dia_ui.fgColor->setColor(get_color(clip, QStringLiteral("fgcolour")));
-        dia_ui.bgColor->setColor(get_color(clip, QStringLiteral("bgcolour")));
+        dia_ui.fgColor->setColor(QColorUtils::stringToColor(clip->getProducerProperty(QStringLiteral("fgcolour"))));
+        dia_ui.bgColor->setColor(QColorUtils::stringToColor(clip->getProducerProperty(QStringLiteral("bgcolour"))));
         dia_ui.pad->setValue(clip->getProducerProperty(QStringLiteral("pad")).toInt());
-        dia_ui.lineColor->setColor(get_color(clip, QStringLiteral("olcolour")));
+        dia_ui.lineColor->setColor(QColorUtils::stringToColor(clip->getProducerProperty(QStringLiteral("olcolour"))));
         dia_ui.lineWidth->setValue(clip->getProducerProperty(QStringLiteral("outline")).toInt());
         dia_ui.font->setCurrentFont(QFont(clip->getProducerProperty(QStringLiteral("family"))));
         dia_ui.fontSize->setValue(clip->getProducerProperty(QStringLiteral("size")).toInt());
