@@ -6,16 +6,18 @@
 
 # Kdenlive File Format
 
-Kdenlive's project files (`.kdenlive` files) use an XML format, based on MLT's format (see [MLT’s XML documentation][mlt-xml-doc] and [MLT’s DTD/document type definition][mlt-xml-dtd]) to describe the source media used in a project, as well as the use of that media as in the timeline. For most media, such as video, audio, and images, Kdenlive stores only a reference in a project, but not the media itself. Only some media gets stored directly inside Kdenlive’s project files, most notably Kdenlive title and color clips.
+Kdenlive's project files (`.kdenlive` files) use an XML format, based on MLT's format (see [MLT’s XML documentation][mlt-xml-doc] and [MLT’s DTD/document type definition][mlt-xml-dtd]) to describe the source media used in a project, as well as the use of that media as in the timeline.
+
+For most media, such as video, audio, and images, Kdenlive stores only a reference in a project, but not the media itself. Only some media gets stored directly inside Kdenlive’s project files, most notably Kdenlive title and color clips.
 
 Important aspects of this file format decision are:
 
 * **MLT is able to directly render Kdenlive project files.** MLT simply ignores all the additional Kdenlive-specific project data and just sticks to its rendering information. The Kdenlive-specific data is the additional icing on top that makes working with projects much easier than editing at the (lower) rendering level.
 * **Kdenlive can directly include and work with MLT rendering files,** just the same way it works with other media. In fact, Kdenlive’s library clips are simply MLT rendering files, and nothing more.
 
-There are different file format generations depending on the version of Kdenlive you're using.
-
 ## History and Generations
+
+There are different file format generations depending on the version of Kdenlive you're using.
 
 ### Generation 1
 
@@ -25,7 +27,7 @@ The gen-1 projects contain a lot of project data that needs to be duplicated int
 
 ### Generation 2: KF5
 
-Used in Kdenlive versions 15.04 to 17.08
+*Used in Kdenlive versions 15.04 to 17.08*
 
 With the KF5/Qt5 version of Kdenlive, we now store all Kdenlive data through MLT's xml module to remove the data duplicity from the Kdenlive project file structure. This fixed project data model results in much more stable Kdenlive project behavior. As another positive side effect, it’s now much easier to manually edit or create Kdenlive XML project files from outside Kdenlive.
 
@@ -37,23 +39,20 @@ The reason is that gen-2 project files used their own attributes inside a separa
 
 ```xml
 <?xml version='1.0' encoding='utf-8'?>
-
 <mlt xmlns:kdenlive="http://www.kdenlive.org/project" ...>
-
   ...
-
 </mlt>
 ```
 
 ### Generation 3: Timeline 2
 
-Used in Kdenlive versions 19.04.0 to 20.04.3
+*Used in Kdenlive versions 19.04.0 to 20.04.3*
 
 Generation 3 projects are those projects created or edited using Kdenlive versions with the new Timeline 2 engine.
 
 ### Generation 4: Comma / Point
 
-Used in Kdenlive versions since 20.08.0, Kdenlive document version: 1.00
+*Used in Kdenlive versions since 20.08.0, Kdenlive document version: 1.00*
 
 With version 20.08.0 a major refactoring of the project file fixed a long standing [issue with the decimal separator][comma-point-issue] (comma/point) conflict causing many crashes. Projects created with 20.08 forward are not backwards compatible.
 
@@ -70,70 +69,62 @@ Here is a list of noteworth changes:
 The overall structure of the XML data inside Kdenlive project files is roughly as illustrated next:
 
 ```xml
-<mlt producer="main bin">
+<mlt producer="main_bin" ...>
 
   <!-- definition of rendering profile -->
-
-  <profile/>
-
+  <profile frame_rate_num="25" .../>
 
   <!-- definition of master clips, as well as derived producers -->
-
-  <producer id="#"/>
-
-  <producer id="#_video"/>
-
-  <producer id="#_playlist"/>
-
-  <producer id="slowmotion:#:#:#"/>
-
+  <producer id="producer0">
+    <property name="kdenlive:clipname">Some Clip</property>
+    ...
+  </producer>
+  <producer id="producer1"/>
+  <producer id="producer2"/>
+  <producer id="producer3"/>
   ...
-
 
   <!-- project settings, and more -->
-
-  <playlist id="main bin">
-
-
-  <property name="kdenlive:...">...</property>
-
+  <playlist id="main_bin">
+    <property name="kdenlive:...">...</property>
     ...
-
+    <entry producer="producer0" .../>
+    ...
   </playlist>
 
+  <producer id="black_track"/>
 
-  <producer id="black"/>
-
-
-  <!-- the individual timeline tracks -->
-
-  <playlist id="playlist#"/>
-
+  <!-- each timeline track has a playlist -->
+  <playlist id="playlist0">
+    <!-- entries linking to the producers defined above -->
+    <entry producer="producer1" in="00:00:00.000" out="00:00:04.960">
+      <property name="kdenlive:id">3</property>
+    </entry>
+    <blank length="00:00:03.720"/> <!-- space between clips -->
+    <entry producer="producer1" />
+    ...
+  <playlist id="playlist1"/>
   ...
 
+  <!-- the individual timeline tracks -->
+  <tractor id="tractor0" in="00:00:00.000" out="00:02:20.840">
+    <property name="kdenlive:..">...</property>
+    ...
+    <track hide="audio" producer="playlist0"/> <!-- hide audio, because this is a video track -->
+    <track hide="audio" producer="playlist1"/>
+  </tractor>
 
-  <!-- the main tractor is the last producer in the document,
-
-       so MLT takes it as the default for playout -->
-
-  <tractor id="maintractor">
-
+  <!-- the main tractor is the last producer in the document, so MLT takes it as the default for playout -->
+  <tractor id="tractor1">
+    <track producer="black_track"/>
     <track producer="..."/>
-
     ...
 
-
     <!-- all transitions -->
-
-    <transition id="transition#"/> <!-- user transitions -->
-
-    <transition id="transition#"> <!-- internally added trans -->
-
+    <transition id="transition0"/> <!-- user transitions -->
+    <transition id="transition1"> <!-- internally added trans -->
       <property name="internal_added">237</property>
-
     </transition>
-
-
   </tractor>
 
 </mlt>
@@ -141,8 +132,9 @@ The overall structure of the XML data inside Kdenlive project files is roughly a
 
 We avoid storing any inner Kdenlive project data that’s already present in the outer MLT data layer, this means that all information must be stored in MLT objects like Tractor, Playlist, Producer, etc.
 
-To separate these properties from other MLT properties, we prefix them with "kdenlive:". This page lists the properties that we use in this new file format.
-Properties applied to project clips (MLT Producer object)
+To separate these properties from other MLT properties, we prefix them with `kdenlive:`. This page lists the properties that we use in this new file format.
+
+Properties applied to project clips (MLT Producer object):
 
 | Name                 | Description |
 | -------------------- | ----------- |
@@ -152,34 +144,44 @@ Properties applied to project clips (MLT Producer object)
 | kdenlive:zone_out    | Stores the "out" point for the play zone defined for this clip. |
 | kdenlive:originalurl | Stores the clip's original url. Useful to retrieve original url when a clip was proxied. |
 | kdenlive:proxy       | Stores the url for the proxy clip, or "-" if no proxy should be used for this clip. |
+| kdenlive:clip_type   |  |
+| kdenlive:id          |  |
+| kdenlive:file_size   |  |
+| kdenlive:file_hash   |  |
+| kdenlive:audio_max1  |  |
+
 
 ### Project Bin
 
-The (project) bin is represented by an MLT `<playlist>` element with the well-known id “main bin”. This element holds project-specific (meta) data, the bin folders as well as their hierarchy, clip groups, and some more stuff.
+The (project) bin is represented by an MLT `<playlist>` element with the well-known id “main_bin”. This element holds project-specific (meta) data, the bin folders as well as their hierarchy, clip groups, and some more stuff.
 
 > **Note**
 >
 > While Kdenlive now mainly uses the term “bin” when talking about what formerly was the “project bin”, the early internal name “name bin” has stuck since the early days of Kdenlive.
 
-Properties applied to the Bin Playlist (MLT Playlist object "main bin"):
+Properties applied to the Bin Playlist (MLT Playlist object "main_bin"):
 
-| Name                    | Description |
-| ----------------------- | ----------- |
-| kdenlive:folder.xxx.yyy | This property stores the names of folders created in the Project Bin. xxx is the id of the parent folder (-1 for root) and yyy is the id for this folder. The value of this property is the name of the folder. |
+| Name                     | Description |
+| ------------------------ | ----------- |
+| kdenlive:folder.xxx.yyy  | This property stores the names of folders created in the Project Bin. xxx is the id of the parent folder (-1 for root) and yyy is the id for this folder. The value of this property is the name of the folder. |
+| kdenlive:docproperties.* | There are various properties with this prefix holding settings related to the current project, like proxy size |
+| kdenlive:documentnotes   |  |
+| kdenlive:docproperties.groups | This property holds a json structure representing the clip groups of the timeline |
+
 
 ### Timeline Tracks
 
-The setup of the timeline tracks is represented by an MLT `<tractor>` element with the well-known id “maintractor“. The elements inside are the individual timeline tracks: these are referenced, with the actual tracks then being MLT producers (see next).
+The setup of the timeline tracks is represented by an MLT `<tractor>` element, this “maintractor“ can be identified by being the last `<tractor>` in the file. The elements inside are the individual timeline tracks: these are referenced, with the actual tracks then being MLT producers.
 
-The indivdual Kdenlive timeline tracks can be found in form of MLT `<playlist>` elements. They can also easily be identfied according to their “playlist#” id naming scheme; here, “#” is a number internally maintained by Kdenlive. The tracks feature additional properties that describe their title, locking state, and some more.
+The indivdual Kdenlive timeline tracks can be found in form of MLT `<tractor>` elements holding `<playlist>` elements. They can also easily be identfied according to their “tractor#”/“playlist#” id naming scheme; here, “#” is a number internally maintained by Kdenlive. The tracks feature additional properties that describe their title, locking state, and some more. The reason for the extra level with `<playlist>` elements are mixes (see below).
 
-There is one semi-internal track here, the built-in “black” track. As you can see here, while it is built into Kdenlive, it isn’t so into MLT. Instead, to MLT this is just another track that happen to be created by Kdenlive. Kdenlive never shows this background track in the timeline as an individual track. But you can reference it from transitions (the composite ones, that is).
+There is one semi-internal track here, the built-in “black_track”. As you can see here, while it is built into Kdenlive, it isn’t so into MLT. Instead, to MLT this is just another track that happen to be created by Kdenlive. Kdenlive never shows this background track in the timeline as an individual track. But you can reference it from transitions (the composite ones, that is).
 
 ### Subtitle Track
 
-While for the user it feels like this subtitle track is a track like an audio or video track, in fact it is not. It is a "fake" track and internally a filter, the [`avfilter.subtitles`][subtitle-mlt-doc] filter to be more precise (see also [this ffmpeg doc][subtile-ffmpeg-doc]). If an internal avfilter.subtitles is detected, the subtitle track gets enabled.
+While for the user it feels like this subtitle track is a track like an audio or video track, in fact it is not. It is a "fake" track and internally a filter, the [`avfilter.subtitles`][subtitle-mlt-doc] filter to be more precise (see also [this ffmpeg doc][subtile-ffmpeg-doc]). If an internal `avfilter.subtitles` is detected, the subtitle track gets enabled.
 
-The subtitles are stored in a `*.srt` file next to the project. If your project is named `mymovie.kdenlive`, the subtitle file will be `mymovie.kdenlive.srt`. This file will only be update if you save your project, but the internal subtitle model is not sufficient during work since the `avfilter.subtitles` needs a `*.srt` file to always show the up-to-date state of work in the monitor. Therefor there is another `*.srt` file in the temp directory (`/tmp` on Linux).
+The subtitles are stored in a `*.srt` file next to the project. If your project is named `mymovie.kdenlive`, the subtitle file will be `mymovie.kdenlive.srt`. This file will only be update if you save your project, but the internal subtitle model is not sufficient during work since `avfilter.subtitles` needs a `*.srt` file to always show the up-to-date state of work in the monitor. Therefor there is another `*.srt` file in the temp directory (`/tmp` on Linux).
 
 This is how the subtitle trakc is represented in the kdenlive xml:
 
@@ -203,7 +205,7 @@ Transitions come in two (three) flavors, but always represented by MLT `<transit
 
 TODO
 
-# Filters (Effect)
+### Filters (Effect)
 
 TODO
 
