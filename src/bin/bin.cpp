@@ -54,7 +54,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KActionMenu>
 #include <KColorScheme>
 #include <KIO/ApplicationLauncherJob>
-#include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIconEffect>
 #include <KIconTheme>
