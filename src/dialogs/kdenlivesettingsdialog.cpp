@@ -31,7 +31,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KArchiveDirectory>
 #include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
+#include <kio_version.h>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KIO/JobUiDelegateFactory>
+#else
 #include <KIO/JobUiDelegate>
+#endif
 #include <KIO/OpenUrlJob>
 #include <KLineEdit>
 #include <KMessageBox>
@@ -1683,7 +1688,11 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.models_url, &QLabel::linkActivated, this, [&](const QString &contents) {
         qDebug() << "=== LINK CLICKED: " << contents;
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();
