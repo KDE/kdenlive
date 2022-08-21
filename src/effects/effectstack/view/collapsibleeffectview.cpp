@@ -465,10 +465,8 @@ void CollapsibleEffectView::slotSaveEffect()
 
     auto *effectName = new QLineEdit(&dialog);
     auto *descriptionBox = new QTextEdit(&dialog);
-    QString label_Name = QString("Name : ");
-    form.addRow(label_Name, effectName);
-    QString label = QString("Comments : ");
-    form.addRow(label, descriptionBox);
+    form.addRow(i18n("Name:"), effectName);
+    form.addRow(i18n("Comments:"), descriptionBox);
 
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
