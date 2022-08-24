@@ -8,4 +8,4 @@ frei0r.lightgraffiti.js
 frei0r.select0r.js
 frei0r.sopsat.js
 frei0r.vertigo.js
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects/update)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/effects/update)

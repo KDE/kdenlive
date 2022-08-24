@@ -117,9 +117,9 @@ target_include_directories(kdenlive
 target_include_directories(kdenlive
 	SYSTEM PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
 target_link_libraries(kdenlive kdenliveLib)
-install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
-install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
+install(FILES kdenliveui.rc DESTINATION ${KDE_INSTALL_KXMLGUIDIR}/kdenlive)
 
 
 target_include_directories(kdenliveLib

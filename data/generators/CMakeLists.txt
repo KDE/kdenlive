@@ -4,4 +4,4 @@ count.xml
 noise.xml
 frei0r_test_pat_b.xml
 
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/generators)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/generators)

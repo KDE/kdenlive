@@ -85,4 +85,4 @@ frei0r_twolay0r.xml
 frei0r_vectorscope.xml
 frei0r_vertigo.xml
 frei0r_vignette.xml
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/effects)

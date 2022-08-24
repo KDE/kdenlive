@@ -73,7 +73,7 @@ vignette.xml
 volume.xml
 wave.xml
 
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/effects)
 
 add_subdirectory(update)
 add_subdirectory(avfilter)
