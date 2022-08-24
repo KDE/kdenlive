@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
+#include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
@@ -512,7 +513,7 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
-    QWriteLocker locker(&m_lock);
+    // QWriteLocker locker(&m_lock);
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -527,6 +528,7 @@ void ProjectItemModel::clean()
     m_nextId = 1;
     m_uuid = QUuid::createUuid();
     m_fileWatcher->clear();
+    ThumbnailCache::get()->clearCache();
 }
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
