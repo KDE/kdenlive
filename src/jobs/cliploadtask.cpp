@@ -286,12 +286,17 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                         p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
-                    } else if (binClip.get()) {
+                    } else if (binClip.get() && !m_isCanceled) {
                         // We don't follow m_isCanceled there,
                         qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, false);
+                    }
+                    if (m_isCanceled) {
+                        abort();
+                    } else {
+                        pCore->taskManager.taskDone(m_owner.second, this);
                     }
                 }
             }
@@ -301,19 +306,20 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
 
 void ClipLoadTask::run()
 {
-    // 2 channels interleaved of uchar values
-    if (m_isCanceled) {
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
         abort();
         return;
     }
     // QThread::currentThread()->setPriority(QThread::HighestPriority);
     if (m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
-        if (binClip) {
+        if (binClip && binClip->statusReady()) {
             generateThumbnail(binClip, binClip->originalProducer());
+            return;
+        } else {
+            pCore->taskManager.taskDone(m_owner.second, this);
+            return;
         }
-        pCore->taskManager.taskDone(m_owner.second, this);
-        return;
     }
     m_running = true;
     emit pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));

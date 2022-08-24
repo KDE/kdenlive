@@ -147,6 +147,7 @@ void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions
         m_taskPool.waitForDone();
         m_transcodePool.waitForDone();
     }
+    m_taskList.clear();
     m_blockUpdates = false;
     updateJobCount();
 }
