@@ -2390,7 +2390,7 @@ void MainWindow::slotPreferences(int page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    QRegularExpression ampEx("&{1,1}");
+    static const QRegularExpression ampEx("&{1,1}");
     for (const QString &action_name : qAsConst(m_actionNames)) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);

@@ -864,7 +864,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     if (renderArgs.contains("=stills/")) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
-        QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
+        static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
         if (!rx.match(outputFile).hasMatch()) {
             outputFile = outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
         }

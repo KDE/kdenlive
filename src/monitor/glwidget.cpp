@@ -821,9 +821,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    emit showContextMenu(event->globalPos());
+        emit showContextMenu(event->globalPos());
 #else
-    emit showContextMenu(event->globalPosition().toPoint());
+        emit showContextMenu(event->globalPosition().toPoint());
 #endif
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();

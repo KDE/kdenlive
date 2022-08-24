@@ -217,7 +217,7 @@ void KdenliveSettingsDialog::initMiscPage()
 
     m_configMisc.kcfg_use_exiftool->setEnabled(!QStandardPaths::findExecutable(QStringLiteral("exiftool")).isEmpty());
 
-    QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
+    static const QRegularExpression reg(R"((\+|-)?\d{2}:\d{2}:\d{2}(:||,)\d{2})");
     QValidator *validator = new QRegularExpressionValidator(reg, this);
     m_configMisc.kcfg_color_duration->setInputMask(pCore->timecode().mask());
     m_configMisc.kcfg_color_duration->setValidator(validator);

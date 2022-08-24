@@ -292,7 +292,7 @@ void SlideshowClip::parseFolder()
         }
         // qCDebug(KDENLIVE_LOG) << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
-        QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
+        static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;
         for (const QString &p : qAsConst(result)) {
             if (rx.match(p).hasMatch()) {
