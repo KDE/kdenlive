@@ -300,7 +300,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
             int currentLength = clip->getProducerDuration();
             if (currentLength != duration->getValue()) {
                 properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration->getValue()));
-                properties.insert(QStringLiteral("length"), QString(duration->getValue()));
+                properties.insert(QStringLiteral("length"), QString::number(duration->getValue()));
             }
         }
 
