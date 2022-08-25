@@ -2341,6 +2341,16 @@ void MainWindow::connectDocument()
 void MainWindow::slotEditKeys()
 {
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+
+#if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+    QAction *downloadKeybordSchemes = new QAction(QIcon::fromTheme(QStringLiteral("download")), i18n("Download New Keyboard Schemes…"), &dialog);
+    connect(downloadKeybordSchemes, &QAction::triggered, this, [&]() {
+        if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
+            dialog.refreshSchemes();
+        }
+    });
+    dialog.addActionToSchemesMoreButton(downloadKeybordSchemes);
+#else
     // Find the combobox inside KShortcutsDialog for choosing keyboard scheme
     QComboBox *schemesList = nullptr;
     foreach (QLabel *label, dialog.findChildren<QLabel *>()) {
@@ -2365,6 +2375,7 @@ void MainWindow::slotEditKeys()
     } else {
         qWarning() << "Could not get list of schemes. Downloading new schemes is not available.";
     }
+#endif
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.configure();
 }
@@ -3382,6 +3393,7 @@ int MainWindow::getNewStuff(const QString &configFile)
 #endif
 }
 
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
 void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
@@ -3402,6 +3414,7 @@ void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
         schemesList->addItems(schemes);
     }
 }
+#endif
 
 void MainWindow::slotAutoTransition()
 {

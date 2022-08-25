@@ -460,7 +460,9 @@ private slots:
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
     void slotUnselectAllTracks();
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
     void slotGetNewKeyboardStuff(QComboBox *schemesList);
+#endif
     void slotAutoTransition();
     void slotRunWizard();
     void slotGroupClips();
