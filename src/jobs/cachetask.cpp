@@ -66,7 +66,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
             m_progress = 100 * count / size;
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             count++;
-            if (m_isCanceled) {
+            if (m_isCanceled || pCore->taskManager.isBlocked()) {
                 break;
             }
             if (ThumbnailCache::get()->hasThumbnail(clipId, i)) {
@@ -97,11 +97,14 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
 
 void CacheTask::run()
 {
-    if (!m_isCanceled) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
-        if (binClip) {
-            generateThumbnail(binClip);
-        }
+    if (m_isCanceled || !pCore->taskManager.isBlocked()) {
+        pCore->taskManager.taskDone(m_owner.second, this);
+        return;
+    }
+    QMutexLocker lock(&m_runMutex);
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+    if (binClip) {
+        generateThumbnail(binClip);
     }
     pCore->taskManager.taskDone(m_owner.second, this);
     return;

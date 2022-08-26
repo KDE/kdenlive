@@ -56,10 +56,11 @@ void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QS
 
 void TranscodeTask::run()
 {
-    if (m_isCanceled) {
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
+    QMutexLocker lock(&m_runMutex);
     m_running = true;
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     ClipType::ProducerType type = binClip->clipType();

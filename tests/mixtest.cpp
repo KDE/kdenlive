@@ -952,7 +952,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
 
         state0();
+        binModel->clean();
     }
-    binModel->clean();
     pCore->m_projectManager = nullptr;
 }

@@ -187,10 +187,11 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
 
 void CutTask::run()
 {
-    if (m_isCanceled) {
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
+    QMutexLocker lock(&m_runMutex);
     m_running = true;
     qDebug() << " + + + + + + + + STARTING STAB TASK";
 

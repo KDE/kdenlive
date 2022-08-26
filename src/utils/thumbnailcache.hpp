@@ -8,7 +8,7 @@
 #include "definitions.h"
 #include <QDir>
 #include <QImage>
-#include <QReadWriteLock>
+#include <QMutex>
 #include <QUrl>
 #include <memory>
 #include <mutex>
@@ -76,14 +76,14 @@ protected:
     static QStringList getAudioKey(const QString &binId, bool *ok);
 
     // Return the dir where the persistent cache lives
-    static QDir getDir(bool audio, bool *ok);
+    static const QDir getDir(bool audio, bool *ok);
 
     static std::unique_ptr<ThumbnailCache> instance;
     static std::once_flag m_onceFlag; // flag to create the repository only once;
 
     class Cache_t;
     std::unique_ptr<Cache_t> m_volatileCache;
-    mutable QReadWriteLock m_mutex;
+    mutable QMutex m_mutex;
 
     // the following maps keeps track of the positions that we store for each clip in volatile caches.
     // Note that we don't track deletions due to items dropped from the cache. So the maps can contain more items that are currently stored.

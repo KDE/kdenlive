@@ -46,6 +46,10 @@ void TaskManager::updateConcurrency()
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
     qDebug() << "========== READY FOR TASK DISCARD ON: " << owner.second;
+    if (m_blockUpdates) {
+        // We are already deleting all tasks
+        return;
+    }
     m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.second) == m_taskList.end()) {
@@ -64,7 +68,7 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
             t->cancelJob(softDelete);
             qDebug() << "========== DELETING JOB!!!!";
             // Block until the task is finished
-            // t->m_runMutex.lock();
+            t->m_runMutex.lock();
         }
     }
 }
@@ -99,7 +103,6 @@ TaskManagerStatus TaskManager::jobStatus(const ObjectId &owner) const
     for (AbstractTask *t : taskList) {
         if (t->m_running) {
             return TaskManagerStatus::Running;
-            ;
         }
     }
     return TaskManagerStatus::Pending;
@@ -119,26 +122,35 @@ void TaskManager::updateJobCount()
 void TaskManager::taskDone(int cid, AbstractTask *task)
 {
     // This will be executed in the QRunnable job thread
+    if (m_blockUpdates) {
+        // We are closing, tasks will be handled on close
+        return;
+    }
     m_tasksListLock.lockForWrite();
     Q_ASSERT(m_taskList.find(cid) != m_taskList.end());
     m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
     if (m_taskList[cid].size() == 0) {
         m_taskList.erase(cid);
     }
+    task->deleteLater();
     m_tasksListLock.unlock();
     QMetaObject::invokeMethod(this, "updateJobCount");
 }
 
 void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions)
 {
-    m_tasksListLock.lockForRead();
-    // See if there is already a task for this MLT service and resource.
     m_blockUpdates = true;
+    m_tasksListLock.lockForWrite();
     for (const auto &task : m_taskList) {
         for (AbstractTask *t : task.second) {
-            if (!exceptions.contains(t->m_type)) {
-                // If so, then just add ourselves to be notified upon completion.
-                t->cancelJob();
+            if (m_taskList.find(task.first) != m_taskList.end()) {
+                if (!exceptions.contains(t->m_type)) {
+                    // If so, then just add ourselves to be notified upon completion.
+                    t->cancelJob();
+                    t->m_runMutex.lock();
+                    t->m_runMutex.unlock();
+                    delete t;
+                }
             }
         }
     }
@@ -148,12 +160,18 @@ void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions
         m_transcodePool.waitForDone();
     }
     m_taskList.clear();
+    m_taskPool.clear();
     m_blockUpdates = false;
     updateJobCount();
 }
 
 void TaskManager::startTask(int ownerId, AbstractTask *task)
 {
+    if (m_blockUpdates) {
+        // We are closing, tasks will be handled on close
+        delete task;
+        return;
+    }
     m_tasksListLock.lockForWrite();
     if (m_taskList.find(ownerId) == m_taskList.end()) {
         // First task for this clip

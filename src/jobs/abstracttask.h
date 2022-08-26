@@ -47,6 +47,7 @@ protected:
     bool m_successful;
     QAtomicInt m_isCanceled;
     QAtomicInt m_softDelete;
+    QMutex m_runMutex;
     bool m_isForce;
     bool m_running;
     void run() override;

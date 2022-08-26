@@ -177,7 +177,7 @@ public:
     void selectPreviewProfile();
     void displayMessage(const QString &text, MessageType type = DefaultMessage, int timeOut = 0);
     /** @brief Get a cache directory for this project. */
-    QDir getCacheDir(CacheType type, bool *ok) const;
+    const QDir getCacheDir(CacheType type, bool *ok) const;
     /** @brief Create standard cache dirs for the project */
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */
