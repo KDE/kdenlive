@@ -17,6 +17,7 @@
 
 #include <QDir>
 #include <QDrag>
+#include <QFormLayout>
 #include <QDragEnterEvent>
 #include <QFontDatabase>
 #include <QInputDialog>
@@ -307,7 +308,11 @@ void EffectStackView::loadEffects()
             activeIndex = ix;
         }
         m_effectsTree->setIndexWidget(ix, view);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+#else
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
+#endif
         del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
@@ -384,7 +389,11 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     }
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     if (ix.isValid()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+#else
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
+#endif
         if (del) {
             del->setHeight(ix, newHeight);
             m_timerHeight.start();
@@ -506,50 +515,88 @@ void EffectStackView::slotSaveStack()
         KMessageBox::error(this, i18n("No effect selected."));
         return;
     }
-    QString name = QInputDialog::getText(this, i18nc("@title:window", "Save Effect Stack"), i18n("Name for saved stack: "));
-    if (name.trimmed().isEmpty()) {
-        KMessageBox::error(this, i18n("No name provided, effect stack not saved."));
-        return;
-    }
+    QDialog dialog(this);
+    QFormLayout form(&dialog);
 
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-    }
+    dialog.setWindowTitle(i18nc("@title:window", "Save current Effect Stack"));
 
-    if (dir.exists(name + QStringLiteral(".xml"))) {
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+    auto *stackName = new QLineEdit(&dialog);
+    auto *stackDescription = new QTextEdit(&dialog);
+    
+    form.addRow(i18n("Name for saved stack:"), stackName);
+    form.addRow(i18n("Description:"), stackDescription);
+
+
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    
+    if (dialog.exec() == QDialog::Accepted) {
+        QString name = stackName->text();
+        QString description = stackDescription->toPlainText();
+        if (name.trimmed().isEmpty()) {
+            KMessageBox::error(this, i18n("No name provided, effect stack not saved."));
             return;
         }
-    }
 
-    QDomDocument doc;
-    QDomElement effect = doc.createElement(QStringLiteral("effectgroup"));
-    effect.setAttribute(QStringLiteral("id"), name);
-    auto item = m_model->getEffectStackRow(0);
-    if (item->isAudio()) {
-        effect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
-    }
-    effect.setAttribute(QStringLiteral("parentIn"), pCore->getItemIn(m_model->getOwnerId()));
-    doc.appendChild(effect);
-    for (int i = 0; i <= m_model->rowCount(); ++i) {
-        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, 0, QModelIndex())));
-        if (w) {
-            effect.appendChild(doc.importNode(w->toXml().documentElement(), true));
+        QString effectfilename = name + QStringLiteral(".xml");
+
+        if (description.trimmed().isEmpty()) {
+            if (KMessageBox::questionYesNo(this, i18n("No description provided. \nSave effect with no description?")) == KMessageBox::No) {
+                return;
+            }
         }
+
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+        if (!dir.exists()) {
+            dir.mkpath(QStringLiteral("."));
+        }
+
+        if (dir.exists(effectfilename)) {
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", effectfilename)) == KMessageBox::No) {
+                return;
+            }
+        }
+
+        QDomDocument doc;
+        
+        QDomElement effect = doc.createElement(QStringLiteral("effectgroup"));
+        effect.setAttribute(QStringLiteral("id"), name);
+        
+        QDomElement describtionNode = doc.createElement(QString("description"));
+        QDomText descriptionText = doc.createTextNode(description);
+        describtionNode.appendChild(descriptionText);
+        
+        effect.appendChild(describtionNode);
+        effect.setAttribute(QStringLiteral("description"), description);
+
+        auto item = m_model->getEffectStackRow(0);
+        if (item->isAudio()) {
+            effect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
+        }
+        effect.setAttribute(QStringLiteral("parentIn"), pCore->getItemIn(m_model->getOwnerId()));
+        doc.appendChild(effect);
+        for (int i = 0; i <= m_model->rowCount(); ++i) {
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, 0, QModelIndex())));
+            if (w) {
+                effect.appendChild(doc.importNode(w->toXml().documentElement(), true));
+            }
+        }
+        QFile file(dir.absoluteFilePath(effectfilename));
+        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+            QTextStream out(&file);
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            out.setCodec("UTF-8");
+    #endif
+            out << doc.toString();
+        } else {
+            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
+        }
+        file.close();
+        emit reloadEffect(dir.absoluteFilePath(effectfilename));
     }
-    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
-    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
-        QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        out.setCodec("UTF-8");
-#endif
-        out << doc.toString();
-    } else {
-        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
-    }
-    file.close();
-    emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
 
 /*

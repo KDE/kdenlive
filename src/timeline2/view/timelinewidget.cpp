@@ -190,7 +190,11 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     emit focusProjectMonitor();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_clickPos = event->globalPos();
+#else
+    m_clickPos = event->globalPosition().toPoint();
+#endif
     QQuickWidget::mousePressEvent(event);
 }
 

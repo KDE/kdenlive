@@ -25,8 +25,8 @@ The branching model in Git works as follows:
   new major version is released, the new release branch is created and we enter
   feature and string freeze for final bugfixes and translation of texts. The
   version which is effectively released is marked with a tag.
-* `feature/*` contains feature branches. When you start coding a new feature,
-  do it on a feature branch. When it is ready, the feature branch is merged
+* `work/*` contains work branches. When you start coding a new feature,
+  do it on a work branch. When it is ready, the work branch is merged
   back into master if the merge request has been approved.
 
 Bugfixes for the released versions are added on the release branch and then

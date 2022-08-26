@@ -1434,6 +1434,10 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             passProperties.insert(i.key(), i.value());
         }
     }
+    if (m_clipType == ClipType::QText && properties.contains(QStringLiteral("text"))) {
+        reload = true;
+        refreshOnly = false;
+    }
     if (properties.contains(QStringLiteral("resource"))) {
         // Clip source was changed, update important stuff
         refreshPanel = true;

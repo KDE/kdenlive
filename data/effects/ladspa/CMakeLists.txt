@@ -13,4 +13,4 @@ ladspa_reverb.xml
 ladspa_room_reverb.xml
 ladspa_vinyl.xml
 
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/effects)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/effects)

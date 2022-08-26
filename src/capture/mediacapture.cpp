@@ -11,7 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlivesettings.h"
 #include <QAudioOutput>
-#include <QCameraInfo>
+// TODO: fix video capture (Hint: QCameraInfo is not available in Qt6 anymore)
+//#include <QCameraInfo>
 #include <QDir>
 #include <QtEndian>
 #include <utility>
@@ -20,6 +21,7 @@ AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     : QIODevice(parent)
     , m_format(format)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     switch (m_format.sampleSize()) {
     case 8:
         switch (m_format.sampleType()) {
@@ -64,6 +66,9 @@ AudioDevInfo::AudioDevInfo(const QAudioFormat &format, QObject *parent)
     default:
         break;
     }
+#else
+    // TODO: qt6
+#endif
 }
 
 qint64 AudioDevInfo::readData(char *data, qint64 maxSize)
@@ -75,6 +80,7 @@ qint64 AudioDevInfo::readData(char *data, qint64 maxSize)
 
 qint64 AudioDevInfo::writeData(const char *data, qint64 len)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (maxAmplitude) {
         Q_ASSERT(m_format.sampleSize() % 8 == 0);
         const int channelBytes = m_format.sampleSize() / 8;
@@ -117,7 +123,6 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
                 } else if (m_format.sampleSize() == 32 && m_format.sampleType() == QAudioFormat::Float) {
                     value = qAbs(*reinterpret_cast<const float *>(ptr) * 0x7fffffff); // assumes 0-1.0
                 }
-
                 levels[j] = qMax(value, levels.at(j));
                 ptr += channelBytes;
             }
@@ -133,6 +138,9 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
         emit levelRecChanged(recLevels);
         emit levelChanged(dbLevels);
     }
+#else
+    // TODO: qt6
+#endif
     return len;
 }
 
@@ -160,6 +168,7 @@ void MediaCapture::switchMonitorState(int tid, bool run)
 
 void MediaCapture::switchMonitorState(bool run)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (run) {
         // Start monitoring audio
         QAudioFormat format;
@@ -224,6 +233,9 @@ void MediaCapture::switchMonitorState(bool run)
         }
         m_audioInput.reset();
     }
+#else
+    // TODO: qt6
+#endif
 }
 
 int MediaCapture::recDuration() const
@@ -252,15 +264,23 @@ void MediaCapture::resetIfUnused()
 {
     QMutexLocker lk(&m_recMutex);
     qDebug() << "// CLEARING REC MANAGER";
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_audioRecorder && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
         m_audioRecorder.reset();
     }
+#else
+    // TODO: Qt6
+    /*if (m_audioRecorder && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
+        m_audioRecorder.reset();
+    }*/
+#endif
 }
 
 void MediaCapture::recordAudio(int tid, bool record)
 {
     QMutexLocker lk(&m_recMutex);
     m_tid = tid;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
         connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, this, [&, tid](QMediaRecorder::State state) {
@@ -310,6 +330,58 @@ void MediaCapture::recordAudio(int tid, bool record)
         m_recTimer.start();
         m_audioRecorder->record();
     }
+#else
+    // TODO: Qt6
+    /*if (!m_audioRecorder) {
+        m_audioRecorder = std::make_unique<QAudioRecorder>(this);
+        connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, this, [&, tid](QMediaRecorder::State state) {
+            m_recordState = state;
+            if (m_recordState == QMediaRecorder::StoppedState) {
+                m_resetTimer.start();
+                m_recLevels.clear();
+                m_lastPos = -1;
+                m_recOffset = 0;
+                emit audioLevels(QVector<qreal>());
+                // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
+                if (!m_readyForRecord) {
+                    emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                }
+                m_readyForRecord = false;
+            }
+            emit recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
+        });
+    }
+
+    if (record && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
+        m_recTimer.invalidate();
+        m_resetTimer.stop();
+        m_readyForRecord = true;
+        setAudioCaptureDevice();
+        m_audioRecorder->setAudioInput(m_audioDevice);
+        setCaptureOutputLocation();
+        qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
+        m_audioRecorder->setVolume(linearVolume);
+        // qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
+        connect(m_audioRecorder.get(), static_cast<void (QAudioRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error), this,
+                &MediaCapture::displayErrorMessage);
+
+        QAudioEncoderSettings audioSettings;
+        // audioSettings.setCodec("audio/x-flac");
+        audioSettings.setSampleRate(KdenliveSettings::audiocapturesamplerate());
+        audioSettings.setChannelCount(KdenliveSettings::audiocapturechannels());
+        m_audioRecorder->setEncodingSettings(audioSettings);
+        m_audioRecorder->setOutputLocation(m_path);
+        m_recLevels.clear();
+    } else if (!record) {
+        m_audioRecorder->stop();
+        m_recTimer.invalidate();
+    } else {
+        qDebug() << "::: RESTARTING RECORD\n\nBBBBBB";
+        m_lastPos = -1;
+        m_recTimer.start();
+        m_audioRecorder->record();
+    } */
+#endif
 }
 
 int MediaCapture::startCapture()
@@ -317,14 +389,20 @@ int MediaCapture::startCapture()
     m_lastPos = -1;
     m_recOffset = 0;
     m_recTimer.start();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_audioRecorder->record();
+#else
+    // TODO: Qt6
+    //m_audioRecorder->record();
+#endif
     m_readyForRecord = false;
     return m_tid;
 }
 
-void MediaCapture::recordVideo(int tid, bool record)
+// TODO: fix video capture
+
+/*void MediaCapture::recordVideo(int tid, bool record)
 {
-    // TO DO - fix video capture
     Q_UNUSED(tid)
     if (!m_videoRecorder) {
         QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
@@ -340,8 +418,14 @@ void MediaCapture::recordVideo(int tid, bool record)
     if (record && m_videoRecorder->state() == QMediaRecorder::StoppedState) {
         setCaptureOutputLocation();
         m_videoRecorder->setOutputLocation(m_path);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         connect(m_videoRecorder.get(), static_cast<void (QMediaRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error), this,
                 &MediaCapture::displayErrorMessage);
+#else
+        // TODO: Qt6
+        connect(m_videoRecorder.get(), static_cast<void (QMediaRecorder::*)(QMediaRecorder::Error)>(&QAudioRecorder::error), this,
+                &MediaCapture::displayErrorMessage);
+#endif
         m_camera->setCaptureMode(QCamera::CaptureVideo);
         m_camera->start();
         // QString container = "video/mpeg";
@@ -353,7 +437,7 @@ void MediaCapture::recordVideo(int tid, bool record)
         m_videoRecorder.reset();
         m_camera.reset();
     }
-}
+}*/
 
 void MediaCapture::setCaptureOutputLocation()
 {
@@ -366,11 +450,19 @@ void MediaCapture::setCaptureOutputLocation()
     QString extension;
     if (m_videoRecorder.get() != nullptr) {
         extension = QStringLiteral(".mpeg");
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    // TODO: Qt6
     } else if (m_audioRecorder.get() != nullptr) {
         // extension = QStringLiteral(".flac");
         extension = QStringLiteral(".wav");
     }
-
+#else
+    // TODO: Qt6
+    } /*else if (m_audioRecorder.get() != nullptr) {
+        // extension = QStringLiteral(".flac");
+        extension = QStringLiteral(".wav");
+    }*/
+#endif
     QString path = captureFolder.absoluteFilePath("capture0000" + extension);
     int fileCount = 1;
     while (QFile::exists(path)) {
@@ -388,10 +480,19 @@ QUrl MediaCapture::getCaptureOutputLocation()
 
 QStringList MediaCapture::getAudioCaptureDevices()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     std::unique_ptr<QAudioRecorder> audioRecorder = std::make_unique<QAudioRecorder>(this);
     QStringList audioDevices = audioRecorder->audioInputs();
     audioRecorder.reset();
     return audioDevices;
+#else
+    // TODO: Qt6
+    /*std::unique_ptr<QAudioRecorder> audioRecorder = std::make_unique<QAudioRecorder>(this);
+    QStringList audioDevices = audioRecorder->audioInputs();
+    audioRecorder.reset();
+    return audioDevices;*/
+    return {};
+#endif
 }
 
 void MediaCapture::setAudioCaptureDevice()
@@ -405,21 +506,40 @@ void MediaCapture::setAudioCaptureDevice()
 void MediaCapture::setAudioVolume()
 {
     qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_audioRecorder) {
         m_audioRecorder->setVolume(linearVolume);
     }
     if (m_audioInput) {
         m_audioInput->setVolume(linearVolume);
     }
+#else
+    // TODO: Qt6
+    /*if (m_audioRecorder) {
+        m_audioRecorder->setVolume(linearVolume);
+    }
+    if (m_audioInput) {
+        m_audioInput->setVolume(linearVolume);
+    }*/
+#endif
 }
 
 int MediaCapture::getState()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_audioRecorder != nullptr) {
         currentState = m_audioRecorder->state();
     } else if (m_videoRecorder != nullptr) {
         currentState = m_videoRecorder->state();
     }
+#else
+    // TODO: Qt6
+    /*if (m_audioRecorder != nullptr) {
+        currentState = m_audioRecorder->state();
+    } else if (m_videoRecorder != nullptr) {
+        currentState = m_videoRecorder->state();
+    }*/
+#endif
     return currentState;
 }
 
@@ -435,17 +555,29 @@ int MediaCapture::recordState() const
 
 bool MediaCapture::isRecording() const
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_readyForRecord || (m_audioRecorder && m_audioRecorder->state() != QMediaRecorder::StoppedState)) {
         return true;
     }
     if (m_videoRecorder && m_videoRecorder->state() != QMediaRecorder::StoppedState) {
         return true;
     }
+#else
+    //TODO: Qt6
+    /*if (m_readyForRecord || (m_audioRecorder && m_audioRecorder->state() != QMediaRecorder::StoppedState)) {
+        return true;
+    }
+    if (m_videoRecorder && m_videoRecorder->state() != QMediaRecorder::StoppedState) {
+        return true;
+    }*/
+#endif
+
     return false;
 }
 
 void MediaCapture::pauseRecording()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_audioRecorder->pause();
     if (m_audioRecorder->state() == QMediaRecorder::RecordingState) {
         // Pause is not supported on this platform
@@ -454,14 +586,36 @@ void MediaCapture::pauseRecording()
     } else {
         qDebug() << ":::: MEDIA CAPTURE PAUSED!!!!";
     }
+#else
+    // TODO: Qt6
+    /*m_audioRecorder->pause();
+    if (m_audioRecorder->state() == QMediaRecorder::RecordingState) {
+        // Pause is not supported on this platform
+        qDebug() << ":::: PAUSING FAILED!!!!";
+        m_audioRecorder->stop();
+    } else {
+        qDebug() << ":::: MEDIA CAPTURE PAUSED!!!!";
+    }*/
+#endif
 }
 
 void MediaCapture::resumeRecording()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+
     if (m_audioRecorder->state() == QMediaRecorder::PausedState) {
         m_recOffset += m_lastPos;
         m_lastPos = -1;
         m_recTimer.start();
         m_audioRecorder->record();
     }
+#else
+    // TODO: Qt6
+    /*if (m_audioRecorder->state() == QMediaRecorder::PausedState) {
+        m_recOffset += m_lastPos;
+        m_lastPos = -1;
+        m_recTimer.start();
+        m_audioRecorder->record();
+    }*/
+#endif
 }

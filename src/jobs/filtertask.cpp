@@ -158,7 +158,11 @@ void FilterTask::run()
             if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
                 continue;
             }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             if (it.second.type() == QVariant::Double) {
+#else
+            if (it.second.typeId() == QMetaType::Double) {
+#endif
                 filter.set(it.first.toUtf8().constData(), it.second.toDouble());
             } else {
                 filter.set(it.first.toUtf8().constData(), it.second.toString().toUtf8().constData());

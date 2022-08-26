@@ -12,6 +12,6 @@ luma.xml
 mix.xml
 composite.xml
 
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/transitions)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/transitions)
 
 

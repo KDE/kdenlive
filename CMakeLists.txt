@@ -68,6 +68,10 @@ if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 5)
 endif()
 
+if (QT_MAJOR_VERSION STREQUAL "6")
+    set(USE_VERSIONLESS_TARGETS ON)
+endif()
+
 if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
     ecm_set_disabled_deprecation_versions(
         QT ${QT_MIN_VERSION}

@@ -389,7 +389,11 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_dragStart = e->globalPos();
+#else
+    m_dragStart = e->globalPosition().toPoint();
+#endif
     if (!decoframe->property("active").toBool()) {
         // Activate effect if not already active
         emit activateEffect(m_model->row());
@@ -399,7 +403,11 @@ void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 
 void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if ((e->globalPos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+#else
+    if ((e->globalPosition().toPoint() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+#endif
         QPixmap pix = frame->grab();
         emit startDrag(pix, m_model);
     }
@@ -465,10 +473,8 @@ void CollapsibleEffectView::slotSaveEffect()
 
     auto *effectName = new QLineEdit(&dialog);
     auto *descriptionBox = new QTextEdit(&dialog);
-    QString label_Name = QString("Name : ");
-    form.addRow(label_Name, effectName);
-    QString label = QString("Comments : ");
-    form.addRow(label, descriptionBox);
+    form.addRow(i18n("Name:"), effectName);
+    form.addRow(i18n("Comments:"), descriptionBox);
 
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);

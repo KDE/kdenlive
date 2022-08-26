@@ -842,7 +842,11 @@ void Monitor::mousePressEvent(QMouseEvent *event)
         }
     } else if (m_contextMenu) {
         slotActivateMonitor();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_contextMenu->popup(event->globalPos());
+#else
+        m_contextMenu->popup(event->globalPosition().toPoint());
+#endif
         event->accept();
     }
     QWidget::mousePressEvent(event);
@@ -1181,8 +1185,13 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     src.setAutoRemove(false);
                     m_controller->cloneProducerToFile(src.fileName());
                     const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
                                       addToProject, useSourceResolution);
+#else
+                    QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
+                                      addToProject, useSourceResolution);
+#endif
                 } else {
                     // TODO: warn user, cannot open tmp file
                     qDebug() << "Could not create temporary file";
@@ -1258,8 +1267,13 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     } else {
                         pathInfo = QStringList({QString(), selectedFile, pCore->bin()->getCurrentFolder()});
                     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                     QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
                                       addToProject, useSourceResolution);
+#else
+                    QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
+                                      addToProject, useSourceResolution);
+#endif
                 }
             }
         }

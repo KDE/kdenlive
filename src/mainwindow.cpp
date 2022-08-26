@@ -1563,7 +1563,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
-              QIcon::fromTheme(QStringLiteral("bookmark-new")), Qt::KeypadModifier + Qt::Key_Asterisk);
+              QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_Asterisk));
 
     // Clip actions. We set some category info on the action data to enable/disable it contextually in timelinecontroller
     KActionCategory *clipActionCategory = new KActionCategory(i18n("Current Selection"), actionCollection());
@@ -1857,7 +1857,7 @@ void MainWindow::setupActions()
         QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
         ac->setData(i - 1);
         connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
-        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT + keysequence[i - 1]), timelineActions);
+        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT | keysequence[i - 1]), timelineActions);
         QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
         ac2->setData(i - 1);
         connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
@@ -1865,7 +1865,7 @@ void MainWindow::setupActions()
         QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
         ac3->setData(i - 1);
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
-        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL + keysequence[i - 1]), timelineActions);
+        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL | keysequence[i - 1]), timelineActions);
     }
 
     // Setup effects and transitions actions.
@@ -2341,6 +2341,16 @@ void MainWindow::connectDocument()
 void MainWindow::slotEditKeys()
 {
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+
+#if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+    QAction *downloadKeybordSchemes = new QAction(QIcon::fromTheme(QStringLiteral("download")), i18n("Download New Keyboard Schemes…"), &dialog);
+    connect(downloadKeybordSchemes, &QAction::triggered, this, [&]() {
+        if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
+            dialog.refreshSchemes();
+        }
+    });
+    dialog.addActionToSchemesMoreButton(downloadKeybordSchemes);
+#else
     // Find the combobox inside KShortcutsDialog for choosing keyboard scheme
     QComboBox *schemesList = nullptr;
     foreach (QLabel *label, dialog.findChildren<QLabel *>()) {
@@ -2365,6 +2375,7 @@ void MainWindow::slotEditKeys()
     } else {
         qWarning() << "Could not get list of schemes. Downloading new schemes is not available.";
     }
+#endif
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.configure();
 }
@@ -2390,7 +2401,7 @@ void MainWindow::slotPreferences(int page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    QRegularExpression ampEx("&{1,1}");
+    static const QRegularExpression ampEx("&{1,1}");
     for (const QString &action_name : qAsConst(m_actionNames)) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);
@@ -3367,7 +3378,7 @@ void MainWindow::slotResizeItemEnd()
 
 int MainWindow::getNewStuff(const QString &configFile)
 {
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
     for (const auto &entry : qAsConst(entries)) {
@@ -3376,8 +3387,13 @@ int MainWindow::getNewStuff(const QString &configFile)
         }
     }
     return entries.size();
+#else
+    // TODO: qt6
+    return 0;
+#endif
 }
 
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
 void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
@@ -3398,6 +3414,7 @@ void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
         schemesList->addItems(schemes);
     }
 }
+#endif
 
 void MainWindow::slotAutoTransition()
 {

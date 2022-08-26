@@ -254,7 +254,11 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         auto *l = new QVBoxLayout;
         d.setLayout(l);
         l->addWidget(new QLabel(i18n("Select parameters to copy"), &d));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QMapIterator<QPersistentModelIndex, QString> i(paramList);
+#else
+        QMultiMapIterator<QPersistentModelIndex, QString> i(paramList);
+#endif
         while (i.hasNext()) {
             i.next();
             auto *cb = new QCheckBox(i.value(), this);

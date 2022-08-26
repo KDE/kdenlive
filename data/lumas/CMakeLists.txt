@@ -17,7 +17,7 @@ PAL/square.pgm
 PAL/square2-bars.pgm
 PAL/square2.pgm
 PAL/symmetric_clock.pgm
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/lumas/PAL)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/lumas/PAL)
 
 INSTALL(FILES 
 HD/bi-linear_x.pgm
@@ -38,4 +38,4 @@ HD/square.pgm
 HD/square2-bars.pgm
 HD/square2.pgm
 HD/symmetric_clock.pgm
-DESTINATION ${DATA_INSTALL_DIR}${DATA_INSTALL_PREFIX}/lumas/HD)
+DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/lumas/HD)

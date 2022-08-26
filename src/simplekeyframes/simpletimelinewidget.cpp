@@ -139,8 +139,13 @@ void SimpleTimelineWidget::slotGoToPrev()
 
 void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int pos = int(event->x() / m_scale);
     if (event->y() < m_lineHeight && event->button() == Qt::LeftButton) {
+#else
+    int pos = int(event->position().x() / m_scale);
+    if (event->position().y() < m_lineHeight && event->button() == Qt::LeftButton) {
+#endif
         for (const int &keyframe : qAsConst(m_keyframes)) {
             if (qAbs(keyframe - pos) < 5) {
                 m_currentKeyframeOriginal = keyframe;
@@ -162,7 +167,11 @@ void SimpleTimelineWidget::mousePressEvent(QMouseEvent *event)
 
 void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     int pos = qBound(0, int(event->x() / m_scale), m_duration);
+#else
+    int pos = qBound(0, int(event->position().x() / m_scale), m_duration);
+#endif
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (m_currentKeyframe >= 0) {
             if (!m_keyframes.contains(pos)) {
@@ -184,7 +193,11 @@ void SimpleTimelineWidget::mouseMoveEvent(QMouseEvent *event)
         update();
         return;
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (event->y() < m_lineHeight) {
+#else
+    if (event->position().y() < m_lineHeight) {
+#endif
         for (const int &keyframe : qAsConst(m_keyframes)) {
             if (qAbs(keyframe - pos) < 5) {
                 m_hoverKeyframe = keyframe;
@@ -214,8 +227,13 @@ void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (event->button() == Qt::LeftButton && event->y() < m_lineHeight) {
         int pos = qBound(0, int(event->x() / m_scale), m_duration);
+#else
+    if (event->button() == Qt::LeftButton && event->position().y() < m_lineHeight) {
+        int pos = qBound(0, int(event->position().x() / m_scale), m_duration);
+#endif
         for (const int &keyframe : qAsConst(m_keyframes)) {
             if (qAbs(keyframe - pos) < 5) {
                 m_keyframes.removeAll(keyframe);

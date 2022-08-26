@@ -151,7 +151,11 @@ void StabilizeTask::run()
     qDebug() << " = = = = = CONFIGURING FILTER PARAMS = = = = =  ";
     for (const auto &it : m_filterParams) {
         qDebug() << ". . ." << it.first << " = " << it.second;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (it.second.type() == QVariant::Double) {
+#else
+        if (it.second.typeId() == QMetaType::Double) {
+#endif
             producerArgs << QString("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
         } else {
             producerArgs << QString("%1=%2").arg(it.first, it.second.toString());

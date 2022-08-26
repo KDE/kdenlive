@@ -126,7 +126,6 @@ Exec=kdenlive %F
 Icon=kdenlive
 StartupWMClass=kdenlive
 X-DocPath=kdenlive/index.html
-Terminal=false
 MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;AudioVideoEditing;
 Keywords=editing;video;audio;mlt;kde;

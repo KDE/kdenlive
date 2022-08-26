@@ -26,4 +26,4 @@ else()
     target_link_libraries(kdenlive_render Qt${QT_MAJOR_VERSION}::DBus)
 endif()
 
-install(TARGETS kdenlive_render DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS kdenlive_render DESTINATION ${KDE_INSTALLBINDIR})

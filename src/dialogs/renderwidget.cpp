@@ -24,7 +24,12 @@
 
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
+#include <kio_version.h>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KIO/JobUiDelegateFactory>
+#else
 #include <KIO/JobUiDelegate>
+#endif
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
@@ -859,7 +864,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     if (renderArgs.contains("=stills/")) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
-        QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
+        static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
         if (!rx.match(outputFile).hasMatch()) {
             outputFile = outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
         }
@@ -1552,7 +1557,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
             }
             if (item->data(1, PlayAfterRole).toBool()) {
                 auto *job = new KIO::OpenUrlJob(url);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+                job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
                 job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
                 job->start();
             }
         }
@@ -1960,7 +1969,11 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
         return;
     }
     auto *job = new KIO::OpenUrlJob(QUrl::fromLocalFile(item->text(1)));
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
     job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
     job->start();
 }
 

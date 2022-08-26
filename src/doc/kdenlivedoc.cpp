@@ -34,7 +34,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KBookmarkManager>
 #include <KIO/CopyJob>
 #include <KIO/FileCopyJob>
-#include <KIO/JobUiDelegate>
 #include <KJobWidgets/KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>

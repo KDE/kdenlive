@@ -1924,8 +1924,8 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
         auto fixTimecode = [decimalPoint](QString &value) {
-            QRegularExpression reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
-            QRegularExpression reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
+            static const QRegularExpression reTimecode(R"((\d+:\d+:\d+))" + QString(decimalPoint) + "(\\d+)");
+            static const QRegularExpression reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
             value.replace(reTimecode, "\\1.\\2").replace(reValue, "\\1.\\2");
         };
 
@@ -1958,7 +1958,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString
                         value.replace(QRegularExpression("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
                     } else if (autoReplace) {
                         // Just replace decimal point
-                        value.replace(decimalPoint, '.');
+                        value.replace(decimalPoint, QStringLiteral("."));
                     } else {
                         fixTimecode(value);
                     }

@@ -463,7 +463,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                         font.setBold(node.nodeValue().toInt() != 0);
                     } else {
                         // New: Font weight (QFont::)
-                        font.setWeight(txtProperties.namedItem(QStringLiteral("font-weight")).nodeValue().toInt());
+                        font.setWeight(QFont::Weight(txtProperties.namedItem(QStringLiteral("font-weight")).nodeValue().toInt()));
                     }
                     // font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
                     font.setItalic(txtProperties.namedItem(QStringLiteral("font-italic")).nodeValue().toInt() != 0);

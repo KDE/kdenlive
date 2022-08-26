@@ -89,7 +89,11 @@ ProviderModel::ProviderModel(const QString &path)
                 authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
             });
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QVariantMap *parameters) {
+#else
+            m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters) {
+#endif
                 if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
                     if (m_oauth2.scope().isEmpty()) {
                         parameters->remove("scope");

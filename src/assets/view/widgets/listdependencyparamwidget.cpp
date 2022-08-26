@@ -14,7 +14,11 @@
 #include <QStandardPaths>
 
 #include <kio_version.h>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KIO/JobUiDelegateFactory>
+#else
 #include <KIO/JobUiDelegate>
+#endif
 #include <KIO/OpenUrlJob>
 
 ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
@@ -30,7 +34,11 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     m_infoMessage->hide();
     connect(m_infoMessage, &KMessageWidget::linkActivated, this, [this](const QString &contents) {
         auto *job = new KIO::OpenUrlJob(QUrl(contents));
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
         job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
         job->start();

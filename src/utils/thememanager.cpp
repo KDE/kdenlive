@@ -20,7 +20,6 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
-#include <kconfigwidgets_version.h>
 
 ThemeManager::ThemeManager(QObject *parent)
     : KColorSchemeManager(parent)
