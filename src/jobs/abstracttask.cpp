@@ -45,7 +45,7 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject *object)
     , m_running(false)
     , m_type(type)
 {
-    setAutoDelete(true);
+    setAutoDelete(false);
     switch (type) {
     case AbstractTask::LOADJOB:
         m_priority = 10;
@@ -68,12 +68,13 @@ AbstractTask::AbstractTask(const ObjectId &owner, JOBTYPE type, QObject *object)
 
 void AbstractTask::cancelJob(bool softDelete)
 {
-    m_isCanceled.testAndSetAcquire(0, 1);
-    if (softDelete) {
-        m_softDelete.testAndSetAcquire(0, 1);
+    if (m_isCanceled.testAndSetAcquire(0, 1)) {
+        if (softDelete) {
+            m_softDelete.testAndSetAcquire(0, 1);
+        }
+        qDebug() << "====== SETTING TASK CANCELED: " << m_isCanceled << ", TYPE: " << m_type;
+        emit jobCanceled();
     }
-    qDebug() << "====== SETTING TASK CANCELED: " << m_isCanceled << ", TYPE: " << m_type;
-    emit jobCanceled();
 }
 
 const ObjectId AbstractTask::ownerId() const

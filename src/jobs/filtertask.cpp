@@ -51,10 +51,11 @@ void FilterTask::start(const ObjectId &owner, const QString &binId, const std::w
 
 void FilterTask::run()
 {
-    if (m_isCanceled) {
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
+    QMutexLocker lock(&m_runMutex);
     m_running = true;
 
     QString url;

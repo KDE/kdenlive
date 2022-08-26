@@ -52,12 +52,13 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject *object, bool force)
 
 void AudioLevelsTask::run()
 {
-    m_running = true;
-    // 2 channels interleaved of uchar values
-    if (m_isCanceled) {
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
+    QMutexLocker lock(&m_runMutex);
+    m_running = true;
+    // 2 channels interleaved of uchar values
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     if (binClip == nullptr) {
         // Clip was deleted

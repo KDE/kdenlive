@@ -432,9 +432,8 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
             qDebug() << "File does not contain test string:" << contents;
         }
         REQUIRE(contents.contains(contentCheck.toUtf8()));
+        binModel->clean();
     }
-    binModel->clean();
-    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Opening Mix", "[OPENMIX]")
@@ -480,6 +479,7 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
         pCore->m_projectManager->m_project->m_guideModel = guideModel;
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->m_projectManager->updateTimeline(0, QString(), QString(), documentDate, 0);
+
         std::shared_ptr<TimelineItemModel> timeline = pCore->m_projectManager->getTimeline();
         REQUIRE(timeline->getTracksCount() == 4);
         int mixtrackId = timeline->getTrackIndexFromPosition(2);
@@ -489,7 +489,7 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
 
         QDomDocument *newDoc = &openedDoc->m_document;
         auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
+        binModel->clean();
     }
-    binModel->clean();
     pCore->m_projectManager = nullptr;
 }

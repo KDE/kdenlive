@@ -106,7 +106,7 @@ std::unique_ptr<ThumbnailCache> &ThumbnailCache::get()
 
 bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
-    QReadLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     bool ok = false;
     auto key = pos < 0 ? getAudioKey(binId, &ok).constFirst() : getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
@@ -122,7 +122,7 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 
 QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly) const
 {
-    QReadLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     bool ok = false;
     auto key = getAudioKey(binId, &ok).constFirst();
     if (ok && m_volatileCache->contains(key)) {
@@ -164,7 +164,7 @@ QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos,
         return QImage();
     }
     hash.append(QString("#%1.jpg").arg(pos));
-    QReadLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     if (m_volatileCache->contains(hash)) {
         return m_volatileCache->get(hash);
     }
@@ -181,12 +181,13 @@ QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos,
         locker.unlock();
         return QImage(thumbFolder.absoluteFilePath(hash));
     }
+    locker.unlock();
     return QImage();
 }
 
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
 {
-    QReadLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     bool ok = false;
     auto key = getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
@@ -209,7 +210,7 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
 
 void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent)
 {
-    QWriteLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     bool ok = false;
     const QString key = getKey(binId, pos, &ok);
     if (!ok) {
@@ -249,7 +250,7 @@ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vec
     if (!ok) {
         return;
     }
-    QReadLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     for (auto &key : keys) {
         bool ok;
         for (const auto &pos : key.second) {
@@ -275,7 +276,7 @@ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vec
 
 void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 {
-    QWriteLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
         bool ok = false;
         for (int pos : m_storedVolatile.at(binId)) {
@@ -315,7 +316,7 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
 
 void ThumbnailCache::clearCache()
 {
-    QWriteLocker locker(&m_mutex);
+    QMutexLocker locker(&m_mutex);
     m_volatileCache->clear();
     m_storedVolatile.clear();
     m_storedOnDisk.clear();
@@ -375,7 +376,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 }
 
 // static
-QDir ThumbnailCache::getDir(bool audio, bool *ok)
+const QDir ThumbnailCache::getDir(bool audio, bool *ok)
 {
     return pCore->projectManager()->cacheDir(audio, ok);
 }

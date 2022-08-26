@@ -1122,9 +1122,9 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
     return current()->commandStack();
 }
 
-QDir ProjectManager::cacheDir(bool audio, bool *ok)
+const QDir ProjectManager::cacheDir(bool audio, bool *ok) const
 {
-    return current()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
+    return m_project->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
 }
 
 void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)

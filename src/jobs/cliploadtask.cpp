@@ -225,6 +225,9 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
 {
     // Fetch thumbnail
     qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType() << "\n\n=========";
+    if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
+        return;
+    }
     int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
     if (producer->get_int("video_index") > -1) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), QString::number(m_owner.second), frameNumber);
@@ -239,7 +242,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             if (mltService == QLatin1String("avformat")) {
                 mltService = QStringLiteral("avformat-novalidate");
             }
-            std::unique_ptr<Mlt::Producer> thumbProd;
+            std::unique_ptr<Mlt::Producer> thumbProd = nullptr;
             Mlt::Profile *profile = pCore->thumbProfile();
             if (mltService.startsWith(QLatin1String("xml"))) {
                 int profileWidth = profile->width();
@@ -248,6 +251,9 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                 profile->set_width(profileWidth);
                 profile->set_height(profileHeight);
             } else {
+                if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
+                    return;
+                }
                 thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
             }
             if (thumbProd) {
@@ -277,7 +283,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     int imageWidth(pCore->thumbProfile()->width());
                     int fullWidth(qRound(imageHeight * pCore->getCurrentDar()));
                     QImage result = KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
-                    if (result.isNull() && !m_isCanceled) {
+                    if (result.isNull() && !m_isCanceled.loadAcquire()) {
                         qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
                         result = QImage(fullWidth, imageHeight, QImage::Format_ARGB32_Premultiplied);
                         result.fill(Qt::red);
@@ -286,17 +292,12 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                         p.drawText(0, 0, fullWidth, imageHeight, Qt::AlignCenter, i18n("Invalid"));
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
-                    } else if (binClip.get() && !m_isCanceled) {
+                    } else if (binClip.get() && !m_isCanceled.loadAcquire()) {
                         // We don't follow m_isCanceled there,
                         qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.second), frameNumber, result, false);
-                    }
-                    if (m_isCanceled) {
-                        abort();
-                    } else {
-                        pCore->taskManager.taskDone(m_owner.second, this);
                     }
                 }
             }
@@ -306,20 +307,27 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
 
 void ClipLoadTask::run()
 {
-    if (m_isCanceled || pCore->taskManager.isBlocked()) {
+    if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
         abort();
         return;
     }
+    QMutexLocker lock(&m_runMutex);
     // QThread::currentThread()->setPriority(QThread::HighestPriority);
     if (m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip && binClip->statusReady()) {
+            if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
+                abort();
+                return;
+            }
             generateThumbnail(binClip, binClip->originalProducer());
-            return;
+        }
+        if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
+            abort();
         } else {
             pCore->taskManager.taskDone(m_owner.second, this);
-            return;
         }
+        return;
     }
     m_running = true;
     emit pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));
@@ -462,7 +470,7 @@ void ClipLoadTask::run()
         break;
     }
 
-    if (m_isCanceled) {
+    if (m_isCanceled.loadAcquire()) {
         abort();
         return;
     }
@@ -647,7 +655,7 @@ void ClipLoadTask::run()
         // List streams
         int streams = producer->get_int("meta.media.nb_streams");
         QList<int> audio_list, video_list;
-        for (int i = 0; i < streams && !m_isCanceled; ++i) {
+        for (int i = 0; i < streams && !m_isCanceled.loadAcquire(); ++i) {
             QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
             QString stype = producer->get(propertyName.data());
             if (stype == QLatin1String("audio")) {
@@ -657,7 +665,7 @@ void ClipLoadTask::run()
             }
         }
 
-        if (vindex > -1 && !m_isCanceled) {
+        if (vindex > -1 && !m_isCanceled.loadAcquire()) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.frame_rate", vindex);
             fps = producer->get_double(property);
@@ -704,7 +712,7 @@ void ClipLoadTask::run()
                                       Q_ARG(QString, i18n("File <b>%1</b> has a variable frame rate.", QFileInfo(resource).fileName())));
         }
 
-        if (fps <= 0 && !m_isCanceled) {
+        if (fps <= 0 && !m_isCanceled.loadAcquire()) {
             if (producer->get_double("meta.media.frame_rate_den") > 0) {
                 fps = producer->get_double("meta.media.frame_rate_num") / producer->get_double("meta.media.frame_rate_den");
             } else {
@@ -719,7 +727,7 @@ void ClipLoadTask::run()
             vindex = -1;
         }
     }
-    if (!m_isCanceled) {
+    if (!m_isCanceled.loadAcquire()) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, producer), Q_ARG(bool, true));
@@ -740,17 +748,17 @@ void ClipLoadTask::run()
 void ClipLoadTask::abort()
 {
     m_progress = 100;
-    pCore->taskManager.taskDone(m_owner.second, this);
     if (pCore->taskManager.isBlocked()) {
         return;
     }
+    pCore->taskManager.taskDone(m_owner.second, this);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (!m_softDelete) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
-            if (!m_isCanceled) {
+            if (!m_isCanceled.loadAcquire()) {
                 // User tried to add an invalid clip, remove it.
                 pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
             } else {

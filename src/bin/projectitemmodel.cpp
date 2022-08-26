@@ -514,6 +514,7 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 void ProjectItemModel::clean()
 {
     // QWriteLocker locker(&m_lock);
+    pCore->taskManager.slotCancelJobs();
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
