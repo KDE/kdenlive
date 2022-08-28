@@ -1213,9 +1213,9 @@ void Core::testProxies()
     dialog->exec();
 }
 
-void Core::resizeMix(int cid, int duration, MixAlignment align, int rightFrames)
+void Core::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
-    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, rightFrames);
+    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, leftFrames);
 }
 
 MixAlignment Core::getMixAlign(int cid) const

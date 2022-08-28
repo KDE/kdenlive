@@ -264,7 +264,7 @@ public:
     /** @brief The number of clip load jobs changed */
     void loadingClips(int);
     /** @brief Resize current mix item */
-    void resizeMix(int cid, int duration, MixAlignment align, int rightFrames = -1);
+    void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
     int getMixCutPos(int cid) const;
     /** @brief Get alignment info for a mix item */
