@@ -127,7 +127,7 @@ void MixStackView::durationChanged(const QModelIndex &, const QModelIndex &, con
         QSignalBlocker bk2(m_position);
         m_duration->setValue(duration + 1);
         m_position->setRange(0, duration);
-        m_position->setPosition(mixCutPos);
+        m_position->setPosition(duration - mixCutPos);
         checkAlignment();
     }
 }

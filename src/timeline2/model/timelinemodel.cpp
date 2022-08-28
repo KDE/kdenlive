@@ -6267,7 +6267,7 @@ MixAlignment TimelineModel::getMixAlign(int cid) const
     return MixAlignment::AlignNone;
 }
 
-void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, int rightFrames)
+void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
     Q_ASSERT(isClip(cid));
     int tid = m_allClips.at(cid)->getCurrentTrackId();
@@ -6435,10 +6435,10 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 // No alignment specified
                 int updatedDurationRight;
                 int updatedDurationLeft;
-                if (rightFrames > -1) {
+                if (leftFrames > -1) {
                     // A right frame offset was specified
-                    updatedDurationRight = qBound(0, rightFrames, duration);
-                    updatedDurationLeft = duration - updatedDurationRight;
+                    updatedDurationLeft = qBound(0, leftFrames, duration);
+                    updatedDurationRight = duration - updatedDurationLeft;
                 } else {
                     updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
                     updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;
