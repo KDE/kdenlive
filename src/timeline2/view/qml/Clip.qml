@@ -702,7 +702,11 @@ Rectangle {
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                         var s = i18n("In:%1, Position:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         timeline.showToolTip(s)
-                        timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                        if (clipRoot.mixDuration == 0) {
+                            timeline.showKeyBinding(i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
+                        } else {
+                            timeline.showKeyBinding(i18n("<b>Drag</b> to change mix duration"))
+                        }
                     }
                 }
                 onExited: {
