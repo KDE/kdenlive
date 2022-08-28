@@ -662,7 +662,9 @@ Rectangle {
                     root.trimInProgress = false;
                 }
                 onDoubleClicked: {
-                    timeline.mixClip(clipRoot.clipId, -1)
+                    if (clipRoot.mixDuration == 0) {
+                        timeline.mixClip(clipRoot.clipId, -1)
+                    }
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
