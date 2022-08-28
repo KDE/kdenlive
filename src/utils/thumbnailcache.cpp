@@ -230,7 +230,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
                 std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
                 m_storedOnDisk[binId].push_back(pos);
             }
-            m_mutex.unlock();
+            locker.unlock();
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
                 qDebug() << ".............\n!!!!!!!! ERROR SAVING THUMB in: " << thumbFolder.absoluteFilePath(key);
             }
