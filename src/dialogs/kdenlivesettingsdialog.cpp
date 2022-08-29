@@ -236,8 +236,12 @@ void KdenliveSettingsDialog::initMiscPage()
     m_configMisc.kcfg_subtitle_duration->setInputMask(pCore->timecode().mask());
     m_configMisc.kcfg_subtitle_duration->setValidator(validator);
 
+    m_configMisc.preferredcomposite->clear();
+    m_configMisc.preferredcomposite->addItem(i18n("auto"));
+    m_configMisc.preferredcomposite->addItems(KdenliveSettings::compositingList());
+
     if (!KdenliveSettings::preferredcomposite().isEmpty()) {
-        int ix = m_configMisc.preferredcomposite->findData(KdenliveSettings::preferredcomposite());
+        int ix = m_configMisc.preferredcomposite->findText(KdenliveSettings::preferredcomposite());
         if (ix > -1) {
             m_configMisc.preferredcomposite->setCurrentIndex(ix);
         }

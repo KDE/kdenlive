@@ -174,14 +174,13 @@ const QString TransitionsRepository::getCompositingTransition()
     if (KdenliveSettings::preferredcomposite() != i18n("auto") && exists(KdenliveSettings::preferredcomposite())) {
         return KdenliveSettings::preferredcomposite();
     }
-    if (exists(QStringLiteral("frei0r.cairoblend"))) {
-        return QStringLiteral("frei0r.cairoblend");
-    }
-    if (exists(QStringLiteral("qtblend"))) {
-        return QStringLiteral("qtblend");
-    }
-    if (exists(QStringLiteral("composite"))) {
-        return QStringLiteral("composite");
+    QStringList trackComposites = KdenliveSettings::compositingList();
+    while (!trackComposites.isEmpty()) {
+        const QString &cmp = trackComposites.takeFirst();
+        if (exists(cmp)) {
+            qDebug() << ":::: USING TRACK COMPOSITING: " << cmp;
+            return cmp;
+        }
     }
     qWarning() << "no compositing found";
     return QString();

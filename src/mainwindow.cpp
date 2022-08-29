@@ -1934,6 +1934,11 @@ bool MainWindow::readOptions()
         }
         delete w;
     }
+    if (firstRun) {
+        if (TransitionsRepository::get()->getVersion(QStringLiteral("qtblend")) > 200) {
+            KdenliveSettings::setPreferredcomposite(QStringLiteral("qtblend"));
+        }
+    }
     initialGroup.writeEntry("version", version);
     return firstRun;
 }

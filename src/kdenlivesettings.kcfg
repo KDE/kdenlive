@@ -507,6 +507,10 @@
       <label>The preferred composition for track compositing.</label>
       <default></default>
     </entry>
+    <entry name="compositingList" type="StringList">
+      <label>The allowed compositions for track compositing (sorted by preference).</label>
+      <default>frei0r.cairoblend,qtblend</default>
+    </entry>
 </group>
 
   <group name="env">
