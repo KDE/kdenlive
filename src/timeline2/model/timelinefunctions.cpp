@@ -1622,9 +1622,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     timeline->requestClearSelection();
     if (!semaphore.tryAcquire(1)) {
         pCore->displayMessage(i18n("Another paste operation is in progress"), ErrorMessage, 500);
-    }
-    while (!semaphore.tryAcquire(1)) {
-        qApp->processEvents();
+        while (!semaphore.tryAcquire(1)) {
+            qApp->processEvents();
+        }
     }
     waitingBinIds.clear();
     QDomDocument copiedItems;
