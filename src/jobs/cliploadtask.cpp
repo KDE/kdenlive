@@ -483,6 +483,7 @@ void ClipLoadTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
+        emit taskDone();
         abort();
         return;
     }
@@ -511,6 +512,7 @@ void ClipLoadTask::run()
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
         }
+        emit taskDone();
         abort();
         return;
     }

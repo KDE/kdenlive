@@ -1919,6 +1919,11 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             // Map id
             originalId = mappedIds.value(originalId);
         }
+        if (!pCore->projectItemModel()->hasClip(originalId)) {
+            // Clip import was not successful, continue
+            pCore->displayMessage(i18n("All clips were not successfully copied"), ErrorMessage, 500);
+            continue;
+        }
         int in = prod.attribute(QStringLiteral("in")).toInt();
         int out = prod.attribute(QStringLiteral("out")).toInt();
         int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
