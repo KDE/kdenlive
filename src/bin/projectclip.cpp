@@ -71,6 +71,7 @@ RTTR_REGISTRATION
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id, producer)
+    , isReloading(false)
     , m_resetTimelineOccurences(false)
     , m_audioCount(0)
     , m_uuid(QUuid::createUuid())
@@ -142,6 +143,7 @@ void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer, 
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
+    , isReloading(false)
     , m_resetTimelineOccurences(false)
     , m_audioCount(0)
     , m_uuid(QUuid::createUuid())
@@ -423,6 +425,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 }
             }
             m_audioThumbCreated = false;
+            isReloading = true;
             // Reset uuid to enforce reloading thumbnails from qml cache
             m_uuid = QUuid::createUuid();
             if (forceAudioReload || (!isProxy && hashChanged)) {
@@ -539,6 +542,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     // Make sure we have a hash for this clip
     updateProducer(producer);
+    isReloading = false;
     getFileHash();
     emit producerChanged(m_binId, producer);
     m_thumbsProducer.reset();

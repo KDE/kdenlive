@@ -81,8 +81,10 @@ void FilterTask::run()
         }
         if ((producer == nullptr) || !producer->is_valid()) {
             // Clip was removed or something went wrong
-            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", binClip->url())),
-                                      Q_ARG(int, int(KMessageWidget::Warning)));
+            if (!binClip->isReloading) {
+                QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", binClip->url())),
+                                          Q_ARG(int, int(KMessageWidget::Warning)));
+            }
             pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }

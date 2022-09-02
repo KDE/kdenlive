@@ -69,6 +69,11 @@ public:
      */
     const QString getProxyFromOriginal(QString originalPath) const;
 
+    /**
+     * @brief True if we started a clip reload
+     */
+    bool isReloading;
+
 protected:
     ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer);
     ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);

@@ -13,7 +13,7 @@ FileWatcher::FileWatcher(QObject *parent)
     , m_fileWatcher(new KDirWatch)
 {
     // Init clip modification tracker
-    m_modifiedTimer.setInterval(1500);
+    m_modifiedTimer.setInterval(2000);
     connect(m_fileWatcher.get(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
     connect(m_fileWatcher.get(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
     connect(m_fileWatcher.get(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
