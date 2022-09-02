@@ -480,9 +480,12 @@ void ClipLoadTask::run()
         if (producer) {
             producer.reset();
         }
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
-                                  Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
-                                  Q_ARG(int, int(KMessageWidget::Warning)));
+        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
+        if (binClip && !binClip->isReloading) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                      Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
+                                      Q_ARG(int, int(KMessageWidget::Warning)));
+        }
         emit taskDone();
         abort();
         return;
@@ -760,7 +763,7 @@ void ClipLoadTask::abort()
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
-            if (!m_isCanceled.loadAcquire()) {
+            if (!m_isCanceled.loadAcquire() && !binClip->isReloading) {
                 // User tried to add an invalid clip, remove it.
                 pCore->projectItemModel()->requestBinClipDeletion(binClip, undo, redo);
             } else {
