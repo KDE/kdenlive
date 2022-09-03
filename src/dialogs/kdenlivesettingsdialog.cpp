@@ -663,6 +663,7 @@ void KdenliveSettingsDialog::initDevices()
 #elif !defined(Q_WS_MAC)
     m_configSdl.kcfg_audio_driver->addItem(i18n("ALSA"), "alsa");
     m_configSdl.kcfg_audio_driver->addItem(i18n("PulseAudio"), "pulseaudio");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("PipeWire"), "pipewire");
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
     // m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
     m_configSdl.kcfg_audio_driver->addItem(i18n("Esound Daemon"), "esd");
