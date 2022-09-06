@@ -258,8 +258,8 @@ void ProxyTask::run()
             return;
         }
         // Only output error data, make sure we don't block when proxy file already exists
-        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"),
-                                  QStringLiteral("error")};
+        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"),    QStringLiteral("-stats"),
+                                  QStringLiteral("-v"),           QStringLiteral("error"), QStringLiteral("-noautorotate")};
         m_jobDuration = int(binClip->duration().seconds());
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
