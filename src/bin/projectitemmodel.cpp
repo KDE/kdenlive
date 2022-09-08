@@ -106,6 +106,46 @@ int ProjectItemModel::mapToColumn(int column) const
     }
 }
 
+QList<int> ProjectItemModel::mapDataToColumn(AbstractProjectItem::DataType type) const
+{
+    // Some data types are used in several columns, for example usage count has its
+    // own column for sorting but is also displayed in column 0
+    switch (type) {
+    case AbstractProjectItem::DataName:
+    case AbstractProjectItem::DataThumbnail:
+    case AbstractProjectItem::IconOverlay:
+    case AbstractProjectItem::JobProgress:
+        return {0};
+        break;
+    case AbstractProjectItem::DataDate:
+        return {1};
+        break;
+    case AbstractProjectItem::DataDescription:
+        return {2};
+        break;
+    case AbstractProjectItem::ClipType:
+        return {3};
+        break;
+    case AbstractProjectItem::DataTag:
+        return {0, 4};
+        break;
+    case AbstractProjectItem::DataDuration:
+        return {0, 5};
+        break;
+    case AbstractProjectItem::DataId:
+        return {6};
+        break;
+    case AbstractProjectItem::DataRating:
+        return {7};
+        break;
+    case AbstractProjectItem::UsageCount:
+        return {0, 8};
+        break;
+    default:
+        return {};
+    }
+}
+
 QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
 {
     READ_LOCK();
@@ -276,6 +316,9 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
         case 7:
             columnName = i18n("Rating");
             break;
+        case 8:
+            columnName = i18n("Usage");
+            break;
         default:
             columnName = i18n("Unknown");
             break;
@@ -369,12 +412,33 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
 
 void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, const QVector<int> &roles)
 {
+    int minColumn = -1;
+    int maxColumn = -1;
+    for (auto &r : roles) {
+        const QList<int> indexes = mapDataToColumn((AbstractProjectItem::DataType)r);
+        for (auto &ix : indexes) {
+            if (minColumn == -1 || ix < minColumn) {
+                minColumn = ix;
+            }
+            if (maxColumn == -1 || ix > maxColumn) {
+                maxColumn = ix;
+            }
+        }
+    }
+    if (minColumn == -1) {
+        return;
+    }
     QWriteLocker locker(&m_lock);
     auto tItem = std::static_pointer_cast<TreeItem>(item);
     auto ptr = tItem->parentItem().lock();
     if (ptr) {
-        auto index = getIndexFromItem(tItem);
-        emit dataChanged(index, index, roles);
+        auto index = getIndexFromItem(tItem, minColumn);
+        if (minColumn == maxColumn) {
+            emit dataChanged(index, index, roles);
+        } else {
+            auto index2 = getIndexFromItem(tItem, maxColumn);
+            emit dataChanged(index, index2, roles);
+        }
     }
 }
 

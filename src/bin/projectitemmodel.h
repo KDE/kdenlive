@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "abstractmodel/abstracttreemodel.hpp"
+#include "bin/abstractprojectitem.h"
 #include "definitions.h"
 #include "undohelper.hpp"
 #include <QDomElement>
@@ -19,7 +20,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSize>
 #include <QUuid>
 
-class AbstractProjectItem;
 class BinPlaylist;
 class FileWatcher;
 class MarkerListModel;
@@ -242,6 +242,8 @@ public slots:
 private:
     /** @brief Return reference to column specific data */
     int mapToColumn(int column) const;
+    /** @brief Return column number(s) responsible for a specific data type*/
+    QList<int> mapDataToColumn(AbstractProjectItem::DataType type) const;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 

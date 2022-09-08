@@ -117,14 +117,14 @@ int AbstractTreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-QModelIndex AbstractTreeModel::getIndexFromItem(const std::shared_ptr<TreeItem> &item) const
+QModelIndex AbstractTreeModel::getIndexFromItem(const std::shared_ptr<TreeItem> &item, int column) const
 {
     if (item == rootItem) {
         return QModelIndex();
     }
     if (auto ptr = item->parentItem().lock()) {
         auto parentIndex = getIndexFromItem(ptr);
-        return index(item->row(), 0, parentIndex);
+        return index(item->row(), column, parentIndex);
     }
     return QModelIndex();
 }
