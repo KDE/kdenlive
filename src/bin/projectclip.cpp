@@ -166,6 +166,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     } else {
         m_name = i18n("Untitled");
     }
+    m_date = QFileInfo(m_temporaryUrl).lastModified();
     m_boundaryTimer.setSingleShot(true);
     m_boundaryTimer.setInterval(500);
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this,
@@ -552,7 +553,11 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (m_name.isEmpty()) {
         m_name = clipName();
     }
-    m_date = date;
+    QVector<int> updateRoles;
+    if (m_date != date) {
+        m_date = date;
+        updateRoles << AbstractProjectItem::DataDate;
+    }
     m_description = ClipController::description();
     m_temporaryUrl.clear();
     if (m_clipType == ClipType::Audio) {
@@ -565,9 +570,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
-    QVector<int> updateRoles;
     if (m_clipStatus != currentStatus) {
-        updateRoles = {AbstractProjectItem::ClipStatus, AbstractProjectItem::IconOverlay};
+        updateRoles << AbstractProjectItem::ClipStatus << AbstractProjectItem::IconOverlay;
         updateTimelineClips({TimelineModel::StatusRole, TimelineModel::ClipThumbRole});
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));

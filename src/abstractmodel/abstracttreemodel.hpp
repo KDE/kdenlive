@@ -33,7 +33,7 @@ public:
     ~AbstractTreeModel() override;
 
     /** @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
-    QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;
+    QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item, int column = 0) const;
 
     /** @brief Given an item id, construct the corresponding ModelIndex */
     QModelIndex getIndexFromId(int id) const;
