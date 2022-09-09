@@ -96,6 +96,7 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, QString
     , m_monitor(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
+    , m_recording(false)
     , m_trackTag(std::move(trackTag))
 {
     buildUI(service.get(), trackName);
