@@ -40,7 +40,7 @@
   <profile name="Alpha VP8" extension="webm"
    qualities="5,45" defaultquality="15"
    audioqualities="3,7" defaultaudioquality="4"
-   args="f=webm vcodec=libvpx crf=%quality vb=10M qcomp=1 g=15 mlt_image_format=rgba pix_fmt=yuva420p acodec=vorbis aq=%audioquality"/>
+   args="f=webm vcodec=libvpx auto-alt-ref=0 crf=%quality vb=10M qcomp=1 g=15 mlt_image_format=rgba pix_fmt=yuva420p acodec=vorbis aq=%audioquality"/>
   <profile name="Alpha VP9" extension="webm"
    qualities="5,30" defaultquality="15"
    audioqualities="3,7" defaultaudioquality="4"
