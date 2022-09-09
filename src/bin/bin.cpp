@@ -2616,6 +2616,8 @@ void Bin::slotInitView(QAction *action)
         view->setColumnHidden(6, true);
         // Rating column
         view->header()->resizeSection(7, QFontInfo(font()).pixelSize() * 4);
+        // Usage column
+        view->setColumnHidden(8, true);
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
         m_showRating->setChecked(!view->isColumnHidden(7));
