@@ -150,7 +150,7 @@ namespace BinMessage {
     enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage };
 }
 
-enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2 };
+enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2, SubtitleTrack = 3 };
 
 enum CacheType { SystemCacheRoot = -1, CacheRoot = 0, CacheBase = 1, CachePreview = 2, CacheProxy = 3, CacheAudio = 4, CacheThumbs = 5 };
 
