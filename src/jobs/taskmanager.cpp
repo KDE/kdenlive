@@ -149,7 +149,7 @@ void TaskManager::slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions
                     t->cancelJob();
                     t->m_runMutex.lock();
                     t->m_runMutex.unlock();
-                    delete t;
+                    t->deleteLater();
                 }
             }
         }
