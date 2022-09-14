@@ -608,7 +608,8 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     // We parse all files going into one folder, then start the copy job
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
-        if (parentItem->isDisabled()) {
+        if (parentItem->isDisabled() || parentItem->childCount() == 0) {
+            parentItem->setDisabled(true);
             parentItem->setExpanded(false);
             if (i == files_list->topLevelItemCount() - 1) {
                 isLastCategory = true;
@@ -616,98 +617,94 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             }
             continue;
         }
-        if (parentItem->childCount() > 0) {
-            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
-                QUrl slideFolder = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QStringLiteral("/slideshows"));
-                if (isArchive) {
-                    m_foldersList.append(QStringLiteral("slideshows"));
-                } else {
-                    QDir dir(slideFolder.toLocalFile());
-                    if (!dir.mkpath(QStringLiteral("."))) {
-                        KMessageBox::error(this, i18n("Cannot create directory %1", slideFolder.toLocalFile()));
-                    }
-                }
-                isSlideshow = true;
+
+        if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows")) {
+            QUrl slideFolder = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QStringLiteral("/slideshows"));
+            if (isArchive) {
+                m_foldersList.append(QStringLiteral("slideshows"));
             } else {
-                isSlideshow = false;
-            }
-            files_list->setCurrentItem(parentItem);
-            parentItem->setExpanded(true);
-            destPath = parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/');
-            destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QLatin1Char('/') + destPath);
-            QTreeWidgetItem *item;
-            for (int j = 0; j < parentItem->childCount(); ++j) {
-                item = parentItem->child(j);
-                if (item->isDisabled() || item->isHidden()) {
-                    continue;
-                }
-                items++;
-                if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
-                    // Special case: playlists (mlt files) may contain urls that need to be replaced too
-                    QString filename(QUrl::fromLocalFile(item->text(0)).fileName());
-                    m_infoMessage->setText(i18n("Copying %1", filename));
-                    const QString playList = processPlaylistFile(item->text(0));
-                    if (isArchive) {
-                        m_temp = new QTemporaryFile();
-                        if (!m_temp->open()) {
-                            KMessageBox::error(this, i18n("Cannot create temporary file"));
-                        }
-                        m_temp->write(playList.toUtf8());
-                        m_temp->close();
-                        m_filesList.insert(m_temp->fileName(), destPath + filename);
-                    } else {
-                        QDir dir(destUrl.toLocalFile());
-                        if (!dir.mkpath(QStringLiteral("."))) {
-                            KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
-                        }
-                        QFile file(dir.absoluteFilePath(filename));
-                        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                            qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
-                            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
-                        }
-                        file.write(playList.toUtf8());
-                        if (file.error() != QFile::NoError) {
-                            KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
-                            file.close();
-                            return false;
-                        }
-                        file.close();
-                    }
-                } else if (isSlideshow) {
-                    // Special case: slideshows
-                    destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
-                    destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
-                    QStringList srcFiles = item->data(0, SlideshowImagesRole).toStringList();
-                    for (int k = 0; k < srcFiles.count(); ++k) {
-                        files << QUrl::fromLocalFile(srcFiles.at(k));
-                    }
-                    item->setDisabled(true);
-                    if (parentItem->indexOfChild(item) == parentItem->childCount() - 1) {
-                        // We have processed all slideshows
-                        parentItem->setDisabled(true);
-                    }
-                    // Slideshows are processed one by one, we call slotStartArchiving after each item
-                    break;
-                } else if (item->data(0, Qt::UserRole).isNull()) {
-                    files << QUrl::fromLocalFile(item->text(0));
-                } else {
-                    // We must rename the destination file, since another file with same name exists
-                    // TODO: monitor progress
-                    if (isArchive) {
-                        m_filesList.insert(item->text(0), destPath + item->data(0, Qt::UserRole).toString());
-                    } else {
-                        m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)),
-                                                QUrl::fromLocalFile(destUrl.toLocalFile() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString()));
-                    }
+                QDir dir(slideFolder.toLocalFile());
+                if (!dir.mkpath(QStringLiteral("."))) {
+                    KMessageBox::error(this, i18n("Cannot create directory %1", slideFolder.toLocalFile()));
                 }
             }
-            if (!isSlideshow) {
-                // Slideshow is processed one by one and parent is disabled only once all items are done
-                parentItem->setDisabled(true);
-            }
+            isSlideshow = true;
         } else {
+            isSlideshow = false;
+        }
+        files_list->setCurrentItem(parentItem);
+        parentItem->setExpanded(true);
+        destPath = parentItem->data(0, Qt::UserRole).toString() + QLatin1Char('/');
+        destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QLatin1Char('/') + destPath);
+        QTreeWidgetItem *item;
+        for (int j = 0; j < parentItem->childCount(); ++j) {
+            item = parentItem->child(j);
+            if (item->isDisabled() || item->isHidden()) {
+                continue;
+            }
+            items++;
+            if (parentItem->data(0, Qt::UserRole).toString() == QLatin1String("playlist")) {
+                // Special case: playlists (mlt files) may contain urls that need to be replaced too
+                QString filename(QUrl::fromLocalFile(item->text(0)).fileName());
+                m_infoMessage->setText(i18n("Copying %1", filename));
+                const QString playList = processPlaylistFile(item->text(0));
+                if (isArchive) {
+                    m_temp = new QTemporaryFile();
+                    if (!m_temp->open()) {
+                        KMessageBox::error(this, i18n("Cannot create temporary file"));
+                    }
+                    m_temp->write(playList.toUtf8());
+                    m_temp->close();
+                    m_filesList.insert(m_temp->fileName(), destPath + filename);
+                } else {
+                    QDir dir(destUrl.toLocalFile());
+                    if (!dir.mkpath(QStringLiteral("."))) {
+                        KMessageBox::error(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
+                    }
+                    QFile file(dir.absoluteFilePath(filename));
+                    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                        qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << file.fileName();
+                        KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+                    }
+                    file.write(playList.toUtf8());
+                    if (file.error() != QFile::NoError) {
+                        KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+                        file.close();
+                        return false;
+                    }
+                    file.close();
+                }
+            } else if (isSlideshow) {
+                // Special case: slideshows
+                destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
+                destUrl = QUrl::fromLocalFile(archive_url->url().toLocalFile() + QDir::separator() + destPath);
+                QStringList srcFiles = item->data(0, SlideshowImagesRole).toStringList();
+                for (int k = 0; k < srcFiles.count(); ++k) {
+                    files << QUrl::fromLocalFile(srcFiles.at(k));
+                }
+                item->setDisabled(true);
+                if (parentItem->indexOfChild(item) == parentItem->childCount() - 1) {
+                    // We have processed all slideshows
+                    parentItem->setDisabled(true);
+                }
+                // Slideshows are processed one by one, we call slotStartArchiving after each item
+                break;
+            } else if (item->data(0, Qt::UserRole).isNull()) {
+                files << QUrl::fromLocalFile(item->text(0));
+            } else {
+                // We must rename the destination file, since another file with same name exists
+                // TODO: monitor progress
+                if (isArchive) {
+                    m_filesList.insert(item->text(0), destPath + item->data(0, Qt::UserRole).toString());
+                } else {
+                    m_duplicateFiles.insert(QUrl::fromLocalFile(item->text(0)),
+                                            QUrl::fromLocalFile(destUrl.toLocalFile() + QLatin1Char('/') + item->data(0, Qt::UserRole).toString()));
+                }
+            }
+        }
+        if (!isSlideshow) {
+            // Slideshow is processed one by one and parent is disabled only once all items are done
             parentItem->setDisabled(true);
-            continue;
         }
         // We process each clip category one by one and call slotStartArchiving recursively
         break;
