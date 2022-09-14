@@ -44,7 +44,14 @@ void KeyframeModel::setup()
     connect(this, &KeyframeModel::rowsRemoved, this, &KeyframeModel::modelChanged);
     connect(this, &KeyframeModel::rowsInserted, this, &KeyframeModel::modelChanged);
     connect(this, &KeyframeModel::modelReset, this, &KeyframeModel::modelChanged);
-    connect(this, &KeyframeModel::dataChanged, this, &KeyframeModel::modelChanged);
+    connect(this, &KeyframeModel::dataChanged, this, [this](const QModelIndex &, const QModelIndex &, const QVector<int> &roles) {
+        QVector<int> notParamRoles = {SelectedRole, ActiveRole};
+        if (roles.size() == 1 && notParamRoles.contains(roles.first())) {
+            // Selection role changed, no need to update the keyframe parameters
+            return;
+        }
+        emit modelChanged();
+    });
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
