@@ -52,7 +52,7 @@ class MediaCapture : public QObject
 public:
     MediaCapture(QObject *parent);
     ~MediaCapture() override;
-    void recordAudio(int tid, bool /*record*/);
+    void recordAudio(int tid, bool record);
     // TODO: fix video capture
     // void recordVideo(int tid, bool /*record*/);
     /** @brief Returns true if a recording is in progress **/

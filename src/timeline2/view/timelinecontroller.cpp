@@ -4527,7 +4527,12 @@ void TimelineController::switchRecording(int trackId, bool record)
         }
         pCore->monitorManager()->slotSwitchMonitors(false);
         pCore->startMediaCapture(trackId, true, false);
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
+        if (KdenliveSettings::disablereccountdown()) {
+            pCore->startRecording();
+        } else {
+            pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
+        }
+
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->stopCountDown();
         pCore->stopMediaCapture(trackId, true, false);

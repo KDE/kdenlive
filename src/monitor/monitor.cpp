@@ -1593,12 +1593,13 @@ void Monitor::slotSwitchPlay()
         }
         m_displayingCountdown = true;
     } else if (pCore->getAudioDevice()->isMonitoring()) {
-        pCore->recordAudio(-1, true);
-        if (m_displayingCountdown) {
+        if (m_displayingCountdown || KdenliveSettings::disablereccountdown()) {
             m_displayingCountdown = false;
             m_playAction->setActive(false);
+            pCore->recordAudio(-1, true);
             return;
         }
+        pCore->recordAudio(-1, true);
     }
     m_glMonitor->switchPlay(play, m_offset);
     bool showDropped = false;

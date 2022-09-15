@@ -449,6 +449,11 @@
       <default></default>
     </entry>
 
+    <entry name="disablereccountdown" type="Bool">
+      <label>Disable countdown before starting audio record.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="videodrivername" type="String">
       <label>Video driver used for output.</label>
       <default></default>

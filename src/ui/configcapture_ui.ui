@@ -53,7 +53,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="ffmpeg_tab">
       <attribute name="title">
@@ -544,21 +544,10 @@
        <string>Audio</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Sample rate:</string>
-         </property>
-        </widget>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="kcfg_defaultaudiocapture"/>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Capture volume:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
+       <item row="7" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -570,16 +559,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Channels:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QComboBox" name="audiocapturesamplerate"/>
        </item>
        <item row="3" column="1">
         <widget class="QSlider" name="kcfg_audiocapturevolume">
@@ -606,11 +585,15 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="audiocapturechannels"/>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Capture volume:</string>
+         </property>
+        </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="kcfg_defaultaudiocapture"/>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="audiocapturesamplerate"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_33">
@@ -628,6 +611,30 @@
          </property>
          <property name="text">
           <string>Make sure you have audio plugins installed on your system</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="audiocapturechannels"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Sample rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Channels:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QCheckBox" name="kcfg_disablereccountdown">
+         <property name="text">
+          <string>Disable countdown before recording</string>
          </property>
         </widget>
        </item>

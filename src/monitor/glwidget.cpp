@@ -1805,6 +1805,10 @@ void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel>
 void GLWidget::switchRecordState(bool on)
 {
     if (on) {
+        if (m_maxProducerPosition == 0x7fffffff) {
+            // We are already in rec mode
+            return;
+        }
         m_bckpMax = m_maxProducerPosition;
         m_maxProducerPosition = 0x7fffffff;
     } else {
