@@ -97,7 +97,7 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
 
 void CacheTask::run()
 {
-    if (m_isCanceled || !pCore->taskManager.isBlocked()) {
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
         pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
