@@ -1798,8 +1798,14 @@ void Bin::slotDeleteClip()
     // Ensure we don't delete a parent before a child
     // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth();
     // });
+    QStringList notDeleted;
     for (const auto &item : items) {
-        m_itemModel->requestBinClipDeletion(item, undo, redo);
+        if (!m_itemModel->requestBinClipDeletion(item, undo, redo)) {
+            notDeleted << item->name();
+        }
+    }
+    if (!notDeleted.isEmpty()) {
+        KMessageBox::errorList(this, i18n("Some items could not be deleted. Maybe there are instances on locked tracks?"), notDeleted);
     }
     pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));
 }
