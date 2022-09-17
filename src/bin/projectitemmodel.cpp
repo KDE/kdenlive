@@ -674,7 +674,9 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
         binId = ptr->clipId();
     }
     bool isSubClip = clip->itemType() == AbstractProjectItem::SubClipItem;
-    clip->selfSoftDelete(undo, redo);
+    if (!clip->selfSoftDelete(undo, redo)) {
+        return false;
+    }
     int id = clip->getId();
     Fun operation = removeItem_lambda(id);
     Fun reverse = addItem_lambda(clip, parentId);

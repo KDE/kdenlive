@@ -1967,7 +1967,9 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         }
         if (auto timeline = clip.second.lock()) {
             timeline->requestClipUngroup(clip.first, undo, redo);
-            timeline->requestItemDeletion(clip.first, undo, redo, true);
+            if (!timeline->requestItemDeletion(clip.first, undo, redo, true)) {
+                return false;
+            }
         } else {
             qDebug() << "Error while deleting clip: timeline unavailable";
             Q_ASSERT(false);
