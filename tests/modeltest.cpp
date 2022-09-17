@@ -2147,6 +2147,40 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         REQUIRE(timeline->requestItemResize(compo, 17, true) == 17);
         check(17);
     }
+    SECTION("Can't remove clip contained in locked track")
+    {
+        std::function<bool(void)> undo = []() { return true; };
+        std::function<bool(void)> redo = []() { return true; };
+
+        // insert a clip to the track
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 2);
+
+        // lock the track
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+
+        // try to delete bin clip, this should not work
+        REQUIRE_FALSE(binModel->requestBinClipDeletion(binModel->getClipByBinID(binId), undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 2);
+
+        // unlock track, bin clip deletion should work now
+        timeline->setTrackLockedState(tid1, false);
+        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(binModel->requestBinClipDeletion(binModel->getClipByBinID(binId), undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipsCount() == 0);
+        REQUIRE(timeline->checkConsistency());
+    }
 
     binModel->clean();
     pCore->m_projectManager = nullptr;
