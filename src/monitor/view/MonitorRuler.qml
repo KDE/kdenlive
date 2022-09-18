@@ -3,9 +3,9 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.15
 import Kdenlive.Controls 1.0
-import QtQuick 2.11
+import QtQuick 2.15
 import org.kde.kdenlive 1.0 as Kdenlive
 
     // Monitor ruler

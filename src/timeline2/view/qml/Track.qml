@@ -5,8 +5,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick 2.11
-import QtQml.Models 2.11
+import QtQuick 2.15
+import QtQml.Models 2.15
 import com.enums 1.0
 
 Item{

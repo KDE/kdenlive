@@ -3,10 +3,10 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.11
+import QtQuick.Layouts 1.15
 
 Item {
     id: recContainer

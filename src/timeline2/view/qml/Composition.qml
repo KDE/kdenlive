@@ -5,10 +5,10 @@
     Based on work by Dan Dennedy <dan@dennedy.org> (Shotcut)
 */
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtQml.Models 2.11
-import QtQuick.Window 2.2
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQml.Models 2.15
+import QtQuick.Window 2.15
 import 'Timeline.js' as Logic
 
 Item {

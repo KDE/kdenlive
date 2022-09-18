@@ -4,9 +4,8 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick 2.11
+import QtQuick.Controls 2.15
+import QtQuick 2.15
 
 Item {
     id: overlay

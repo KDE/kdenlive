@@ -5,7 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick 2.11
+import QtQuick 2.15
 
 SequentialAnimation {
     property alias target: firstAnim.target
