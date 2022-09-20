@@ -830,6 +830,21 @@ void MainWindow::init(const QString &mltPath)
     });
     connect(this, &MainWindow::removeBinDock, this, &MainWindow::slotRemoveBinDock);
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
+
+    auto hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
+    // hack to be able to insert the hamburger menu at the first position
+    QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
+    QAction *const seperator = toolBar()->insertSeparator(firstChild);
+    toolBar()->insertAction(seperator, hamburgerMenu);
+    hamburgerMenu->hideActionsOf(toolBar());
+
+    // after the QMenuBar has been initialised
+    hamburgerMenu->setMenuBar(menuBar());
+    QAction *const showMenuBarAction = actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+    // FIXME: workaround for BUG 171080
+    showMenuBarAction->setChecked(!menuBar()->isHidden());
+
+    hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 }
 
 void MainWindow::slotThemeChanged(const QString &name)
@@ -1795,7 +1810,9 @@ void MainWindow::setupActions()
 
     pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
 
-    KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
+    QAction *const showMenuBarAction = KStandardAction::showMenubar(this, &MainWindow::showMenuBar, actionCollection());
+    showMenuBarAction->setWhatsThis(xi18nc("@info:whatsthis", "This switches between having a <emphasis>Menubar</emphasis> "
+                                                              "and having a <interface>Hamburger Menu</interface> button in the main Toolbar."));
 
     KStandardAction::quit(this, SLOT(close()), actionCollection());
 
@@ -4134,7 +4151,7 @@ void MainWindow::slotUpdateCompositeAction(bool enable)
 
 void MainWindow::showMenuBar(bool show)
 {
-    if (!show) {
+    if (!show && toolBar()->isHidden()) {
         KMessageBox::information(this, i18n("This will hide the menu bar completely. You can show it again by typing Ctrl+M."), i18n("Hide menu bar"),
                                  QStringLiteral("show-menubar-warning"));
     }
