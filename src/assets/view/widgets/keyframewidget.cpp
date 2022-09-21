@@ -114,7 +114,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_time = new TimecodeDisplay(pCore->timecode(), this);
     m_time->setRange(0, duration - 1);
-    m_time->setOffset(m_model->data(index, AssetParameterModel::ParentInRole).toInt());
 
     m_toolbar->addAction(previousKFAction);
     m_toolbar->addAction(m_addDeleteAction);
@@ -466,7 +465,6 @@ void KeyframeWidget::slotRefresh()
 
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
-    m_time->setOffset(in);
     if (m_model->monitorId == Kdenlive::ProjectMonitor) {
         monitorSeek(pCore->getTimelinePosition());
     } else {
@@ -495,7 +493,6 @@ void KeyframeWidget::resetKeyframes()
     // m_model->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
-    m_time->setOffset(in);
     slotRefreshParams();
 }
 
