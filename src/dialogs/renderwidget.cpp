@@ -834,6 +834,17 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
     }
 
+    // Insert project metadata
+    if (m_view.export_meta->isChecked()) {
+        QMap<QString, QString> metadata = pCore->currentDoc()->metadata();
+        QMap<QString, QString>::const_iterator mi = metadata.constBegin();
+        while (mi != metadata.constEnd()) {
+            consumer.setAttribute(mi.key(), mi.value());
+            ++mi;
+        }
+    }
+
+
     // insert params from preset
     QStringList args = renderArgs.split(QLatin1Char(' '));
     for (auto &param : args) {
@@ -1360,16 +1371,6 @@ void RenderWidget::refreshParams()
     // Set the thread counts
     if (!params.contains(QStringLiteral("threads="))) {
         newParams.append(QStringLiteral("threads=%1").arg(KdenliveSettings::encodethreads()));
-    }
-
-    // Project metadata
-    if (m_view.export_meta->isChecked()) {
-        QMap<QString, QString> metadata = pCore->currentDoc()->metadata();
-        QMap<QString, QString>::const_iterator i = metadata.constBegin();
-        while (i != metadata.constEnd()) {
-            newParams.append(QStringLiteral("%1=%2").arg(i.key(), i.value()));
-            ++i;
-        }
     }
 
     if (params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%audioquality"))) {
