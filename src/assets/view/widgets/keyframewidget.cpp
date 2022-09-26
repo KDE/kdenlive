@@ -698,6 +698,7 @@ void KeyframeWidget::showKeyframes(bool enable)
     }
     m_toolbar->setVisible(enable);
     m_keyframeview->setVisible(enable);
+    m_time->setVisible(enable);
     setFixedHeight(m_addedHeight + (enable ? m_baseHeight : 0));
 }
 
