@@ -4113,6 +4113,7 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
             }
         }
     }
+    KEditToolBar::setGlobalDefaultToolBar("timelineToolBar");
     connect(contextSize, &QMenu::triggered, this, &MainWindow::setTimelineToolbarIconSize);
     menu.exec(m_timelineToolBar->mapToGlobal(pos));
     contextSize->deleteLater();
