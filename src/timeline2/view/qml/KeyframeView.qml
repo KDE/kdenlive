@@ -227,8 +227,8 @@ Rectangle
                             }
                             if (newVal > 1.5 || newVal < -0.5) {
                                 if (frame != keyframeContainer.inPoint) {
+                                    keyframeContainer.resetSelection()
                                     timeline.removeEffectKeyframe(clipId, frame);
-                                    resetSelection()
                                 } else {
                                     if (newVal < 0) {
                                         newVal = 0;
@@ -270,8 +270,8 @@ Rectangle
                             }
                         }
                         onDoubleClicked: {
+                            keyframeContainer.resetSelection()
                             timeline.removeEffectKeyframe(clipId, frame);
-                            resetSelection()
                         }
                         onEntered: {
                             timeline.showKeyBinding(i18n("<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> for multiple keyframe selection."))
