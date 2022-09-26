@@ -44,6 +44,8 @@ public:
     void monitorAudio(int tid, bool monitor);
     /** @brief Track currently monitored that will be used for recording */
     int recordTrack() const;
+    /** @brief Return true if we have MLT's audiolevel filter version 2 or above (fixes reading track audio level) */
+    bool audioLevelV2() const;
 
 public slots:
     void recordStateChanged(int tid, bool recording);

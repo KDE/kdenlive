@@ -108,7 +108,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     connect(mixer.get(), &MixerWidget::muteTrack, this,
             [&](int id, bool mute) { m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3")); });
     if (m_visibleMixerManager) {
-        mixer->connectMixer(!KdenliveSettings::mixerCollapse(), m_filterIsV2);
+        mixer->connectMixer(!KdenliveSettings::mixerCollapse());
     }
     connect(pCore.get(), &Core::updateMixerLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
@@ -205,7 +205,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), QString(), this));
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) { m_model->tractor()->set("hide", mute ? 3 : 1); });
     if (m_visibleMixerManager) {
-        m_masterMixer->connectMixer(true, m_filterIsV2);
+        m_masterMixer->connectMixer(true);
     }
     connect(this, &MixerManager::clearMixers, m_masterMixer.get(), &MixerWidget::clear);
     m_masterBox->addWidget(m_masterMixer.get());
@@ -226,10 +226,10 @@ void MixerManager::connectMixer(bool doConnect)
 {
     m_visibleMixerManager = doConnect;
     for (const auto &item : m_mixers) {
-        item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse(), m_filterIsV2);
+        item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse());
     }
     if (m_masterMixer != nullptr) {
-        m_masterMixer->connectMixer(m_visibleMixerManager, m_filterIsV2);
+        m_masterMixer->connectMixer(m_visibleMixerManager);
     }
 }
 
@@ -276,4 +276,9 @@ void MixerManager::pauseMonitoring(bool pause)
 int MixerManager::recordTrack() const
 {
     return m_monitorTrack;
+}
+
+bool MixerManager::audioLevelV2() const
+{
+    return m_filterIsV2;
 }
