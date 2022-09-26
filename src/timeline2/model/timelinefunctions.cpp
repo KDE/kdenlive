@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 
+#include <KMessageBox>
 #include <QApplication>
 #include <QDebug>
 #include <QInputDialog>
@@ -1523,6 +1524,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     QDomDocument copiedItems;
     int offset = -1;
     QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
+    container.setAttribute(QStringLiteral("fps"), QString::number(pCore->getCurrentFps()));
     copiedItems.appendChild(container);
     QStringList binIds;
     for (int id : allIds) {
@@ -1853,6 +1855,20 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
+        // Check if the fps matches
+        QString currentFps = QString::number(pCore->getCurrentFps());
+        QString sourceFps = copiedItems.documentElement().attribute(QStringLiteral("fps"));
+        if (currentFps != sourceFps && !sourceFps.isEmpty()) {
+            if (KMessageBox::questionYesNo(
+                    pCore->window(),
+                    i18n("The source project has a different framerate (%1fps) than your current project.<br/>Clips or keyframes might be messed up.",
+                         sourceFps),
+                    i18n("Pasting Warning"), KGuiItem(i18n("Paste")), KGuiItem(i18n("Cancel"))) != KMessageBox::Yes) {
+                semaphore.release(1);
+                return false;
+            }
+            copiedItems.documentElement().setAttribute(QStringLiteral("fps-ratio"), pCore->getCurrentFps() / sourceFps.toDouble());
+        }
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
         if (folderId.isEmpty()) {
             // Folder does not exist
@@ -1914,6 +1930,12 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
     bool res = true;
     std::unordered_map<int, int> correspondingIds;
+    double ratio = 1.0;
+    if (copiedItems.documentElement().hasAttribute(QStringLiteral("fps-ratio"))) {
+        ratio = copiedItems.documentElement().attribute(QStringLiteral("fps-ratio")).toDouble();
+        offset *= ratio;
+    }
+
     QDomElement documentMixes = copiedItems.createElement(QStringLiteral("mixes"));
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
@@ -1937,7 +1959,13 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             semaphore.release(1);
             return false;
         }
-        int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
+        int pos = prod.attribute(QStringLiteral("position")).toInt();
+        if (ratio != 1.0) {
+            in = in * ratio;
+            out = out * ratio;
+            pos = pos * ratio;
+        }
+        pos -= offset;
         double speed = prod.attribute(QStringLiteral("speed")).toDouble();
         bool warp_pitch = false;
         if (!qFuzzyCompare(speed, 1.)) {
@@ -2025,9 +2053,9 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             MixInfo mixData;
             mixData.firstClipId = correspondingIds[originalFirstClipId];
             mixData.secondClipId = correspondingIds[originalSecondClipId];
-            mixData.firstClipInOut.second = mix.attribute(QLatin1String("mixEnd")).toInt();
-            mixData.secondClipInOut.first = mix.attribute(QLatin1String("mixStart")).toInt();
-            mixData.mixOffset = mix.attribute(QLatin1String("mixOffset")).toInt();
+            mixData.firstClipInOut.second = mix.attribute(QLatin1String("mixEnd")).toInt() * ratio;
+            mixData.secondClipInOut.first = mix.attribute(QLatin1String("mixStart")).toInt() * ratio;
+            mixData.mixOffset = mix.attribute(QLatin1String("mixOffset")).toInt() * ratio;
             timeline->getTrackById_const(mix.attribute(QLatin1String("tid")).toInt())->createMix(mixData, mixParams, true);
         }
     }
@@ -2036,8 +2064,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         for (int i = 0; res && i < compositions.count(); i++) {
             QDomElement prod = compositions.at(i).toElement();
             QString originalId = prod.attribute(QStringLiteral("composition"));
-            int in = prod.attribute(QStringLiteral("in")).toInt();
-            int out = prod.attribute(QStringLiteral("out")).toInt();
+            int in = prod.attribute(QStringLiteral("in")).toInt() * ratio;
+            int out = prod.attribute(QStringLiteral("out")).toInt() * ratio;
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
             int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
             if (tracksMap.contains(aTrackId)) {
@@ -2045,7 +2073,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             } else {
                 aTrackId = 0;
             }
-            int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
+            int pos = prod.attribute(QStringLiteral("position")).toInt() * ratio - offset;
             int newId;
             auto transProps = std::make_unique<Mlt::Properties>();
             QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
@@ -2061,8 +2089,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         auto subModel = pCore->getSubtitleModel(true);
         for (int i = 0; res && i < subtitles.count(); i++) {
             QDomElement prod = subtitles.at(i).toElement();
-            int in = prod.attribute(QStringLiteral("in")).toInt() - offset;
-            int out = prod.attribute(QStringLiteral("out")).toInt() - offset;
+            int in = prod.attribute(QStringLiteral("in")).toInt() * ratio - offset;
+            int out = prod.attribute(QStringLiteral("out")).toInt() * ratio - offset;
             QString text = prod.attribute(QStringLiteral("text"));
             res = res && subModel->addSubtitle(GenTime(position + in, pCore->getCurrentFps()), GenTime(position + out, pCore->getCurrentFps()), text,
                                                timeline_undo, timeline_redo);
@@ -2077,7 +2105,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     // Rebuild groups
     const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
     if (!groupsData.isEmpty()) {
-        timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, timeline_undo, timeline_redo);
+        timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, ratio, timeline_undo, timeline_redo);
     }
     // Ensure to clear selection in undo/redo too.
     Fun unselect = [timeline]() {

@@ -144,7 +144,7 @@ public:
     const QString toJson() const;
     const QString toJson(const std::unordered_set<int> &roots) const;
     bool fromJson(const QString &data);
-    bool fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo);
+    bool fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, double ratio, Fun &undo, Fun &redo);
 
     /** @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
     int getSplitPartner(int id) const;
@@ -205,7 +205,14 @@ protected:
     */
     void setType(int gid, GroupType type);
 
-    void adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap);
+    /** @brief Adjust json group data according to offset
+       @param updatedNodes The resulting nodes
+       @param childObject The source data
+       @param offset The position frame offset
+       @param trackMap The map from source to destination tracks
+       @param ratio A ratio to apply to all positions (used in case of fps conversion)
+    */
+    void adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap, double ratio = 1.);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;

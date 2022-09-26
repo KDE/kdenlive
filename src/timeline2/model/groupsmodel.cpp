@@ -842,7 +842,7 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap)
+void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &childObject, int offset, const QMap<int, int> &trackMap, double ratio)
 {
     auto value = childObject.value(QLatin1String("children"));
     auto children = value.toArray();
@@ -856,7 +856,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &chil
             if (auto ptr = m_parent.lock()) {
                 QString cur_data = child.value(QLatin1String("data")).toString();
                 int trackId = cur_data.section(":", 0, 0).toInt();
-                int pos = cur_data.section(":", 1, 1).toInt();
+                int pos = cur_data.section(":", 1, 1).toInt() * ratio;
                 int trackPos = trackId == -2 ? -2 : ptr->getTrackPosition(trackMap.value(trackId));
                 pos += offset;
                 child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
@@ -873,7 +873,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &chil
     }
 }
 
-bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo)
+bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, double ratio, Fun &undo, Fun &redo)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -900,7 +900,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
             continue;
         }
         // Adjust offset
-        adjustOffset(updatedNodes, obj, offset, trackMap);
+        adjustOffset(updatedNodes, obj, offset, trackMap, ratio);
         QJsonObject currentGroup;
         currentGroup.insert(QLatin1String("children"), QJsonValue(updatedNodes));
         currentGroup.insert(QLatin1String("type"), QJsonValue(groupTypeToStr(type)));
