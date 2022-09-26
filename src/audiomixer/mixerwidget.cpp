@@ -228,7 +228,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_monitorFilter.reset(new Mlt::Filter(service->get_profile(), "audiolevel"));
         if (m_monitorFilter->is_valid()) {
             m_monitorFilter->set("iec_scale", 0);
-            m_monitorFilter->set("peak", 1);
+            if (m_manager->audioLevelV2()) {
+                m_monitorFilter->set("dbpeak", 1);
+            }
             service->attach(*m_monitorFilter.get());
         }
     }
@@ -559,15 +561,16 @@ void MixerWidget::setRecordState(bool recording)
     updateMonitorState();
 }
 
-void MixerWidget::connectMixer(bool doConnect, bool filterV2)
+void MixerWidget::connectMixer(bool doConnect)
 {
     if (doConnect) {
         if (m_tid == -1) {
             // Master level
             connect(pCore.get(), &Core::audioLevelsAvailable, m_audioMeterWidget.get(), &AudioLevelWidget::setAudioValues);
         } else if (m_listener == nullptr) {
-            m_listener = m_monitorFilter->listen(
-                "property-changed", this, filterV2 ? reinterpret_cast<mlt_listener>(property_changedV2) : reinterpret_cast<mlt_listener>(property_changed));
+            m_listener = m_monitorFilter->listen("property-changed", this,
+                                                 m_manager->audioLevelV2() ? reinterpret_cast<mlt_listener>(property_changedV2)
+                                                                           : reinterpret_cast<mlt_listener>(property_changed));
         }
     } else {
         if (m_tid == -1) {

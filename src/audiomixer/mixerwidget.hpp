@@ -53,7 +53,7 @@ public:
      * */
     void unSolo();
     /** @brief Connect the mixer widgets to the correspondent filters */
-    void connectMixer(bool doConnect, bool filterV2);
+    void connectMixer(bool doConnect);
     /** @brief Disable/enable monitoring by disabling/enabling filter */
     void pauseMonitoring(bool pause);
     /** @brief Update widget to reflect state (monitor/record/none) */
