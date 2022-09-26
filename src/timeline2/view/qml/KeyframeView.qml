@@ -93,7 +93,7 @@ Rectangle
         // Keyframes container
         anchors.fill: parent
         z: 5
-        visible: keyframeContainer.selected && keyframeContainer.width > root.baseUnit * 3 && (kfrCount < (keyframeContainer.width / root.baseUnit))
+        visible: keyframeContainer.selected && keyframeContainer.width > root.baseUnit * 3 && (kfrCount < (keyframeContainer.width / root.baseUnit)) && kfrCount > 1
         Repeater {
             id: keyframes
             model: kfrModel
@@ -293,8 +293,8 @@ Rectangle
         property int offset: scrollStart < 0 || parent.width <= scrollView.width ? 0 : scrollStart
         anchors.left: parent.left
         anchors.leftMargin: offset
-        width: kfrCount > 1 ? Math.min(parent.width, scrollView.width) : 0
-        height: kfrCount > 1 ? parent.height : 0
+        width: kfrCount > 0 ? Math.min(parent.width, scrollView.width) : 0
+        height: kfrCount > 0 ? parent.height : 0
         opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
             id: comp
@@ -312,7 +312,7 @@ Rectangle
         }
 
         onPaint: {
-            if (kfrCount < 2) {
+            if (kfrCount < 1) {
                 return
             }
             var ctx = getContext("2d");
