@@ -524,6 +524,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         }
     } else {
+        // Adjusting clip end
         GenTime old_out(oldOut, pCore->getCurrentFps());
         GenTime new_out(out, pCore->getCurrentFps());
         Keyframe kf = getKeyframe(old_out, &ok);
@@ -547,7 +548,6 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     return;
                 }
             }
-
             positions << old_out;
         }
         if (toDel.first == GenTime()) {
@@ -560,7 +560,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             }
             toDel = getNextKeyframe(toDel.first, &ok3);
         }
-        if ((ok || positions.size() > 0) && !ok2) {
+        if ((ok || positions.size() > 0) && !ok2 && !singleKeyframe()) {
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_out);
                 param.second->addKeyframe(new_out, type, value, true, undo, redo);

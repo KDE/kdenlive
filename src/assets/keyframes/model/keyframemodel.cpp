@@ -1351,7 +1351,7 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
     } else {
         for (int i = 0; i < anim.key_count(); ++i) {
             int pos = anim.key_get_frame(i) + offset;
-            if (pos > 0) {
+            if (pos >= 0) {
                 anim.key_set_frame(i, pos);
             }
         }
