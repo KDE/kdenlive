@@ -224,7 +224,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         }
     }
     // Monitoring should be appended last so that other effects are reflected in audio monitor
-    if (m_monitorFilter == nullptr) {
+    if (m_monitorFilter == nullptr && m_tid != -1) {
         m_monitorFilter.reset(new Mlt::Filter(service->get_profile(), "audiolevel"));
         if (m_monitorFilter->is_valid()) {
             m_monitorFilter->set("iec_scale", 0);
