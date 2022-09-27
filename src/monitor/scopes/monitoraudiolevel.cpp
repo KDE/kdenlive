@@ -43,6 +43,8 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
             if (samples <= 0) {
                 continue;
             }
+            // TODO: the 200 value is aligned with the MLT audiolevel filter, but seems arbitrary.
+            samples = qMin(200, samples);
             int channels = sFrame.get_audio_channels();
             QVector<double> levels;
             const int16_t *audio = sFrame.get_audio();
