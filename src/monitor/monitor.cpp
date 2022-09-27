@@ -292,7 +292,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             }
         });
     } else if (id == Kdenlive::ProjectMonitor) {
-        connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
+        // JBM - This caused the track audio levels to go blank on pause, doesn't seem to have another use
+        // connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
 
     QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
