@@ -322,8 +322,16 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
-    m_configEnv.capturefolderurl->setEnabled(!KdenliveSettings::capturetoprojectfolder());
-    connect(m_configEnv.kcfg_capturetoprojectfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableCaptureFolder);
+    m_configEnv.capturefolderurl->setEnabled(KdenliveSettings::capturetoprojectfolder() == 2);
+    m_configEnv.kcfg_capturetoprojectfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
+    if (KdenliveSettings::customprojectfolder()) {
+        m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+    } else {
+        m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
+    }
+    connect(m_configEnv.kcfg_capturetoprojectfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotEnableCaptureFolder);
+
     // Library folder
     m_configEnv.libraryfolderurl->setMode(KFile::Directory);
     m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
@@ -339,7 +347,12 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
     m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == 2);
     m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    m_configEnv.kcfg_videotodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    m_configEnv.kcfg_videotodefaultfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
+    if (KdenliveSettings::customprojectfolder()) {
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+    } else {
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use active project folder"));
+    }
     connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
     // Mime types
@@ -636,9 +649,9 @@ void KdenliveSettingsDialog::slotUpdateGrabRegionStatus()
     m_configCapture.region_group->setHidden(m_configCapture.kcfg_grab_capture_type->currentIndex() != 1);
 }
 
-void KdenliveSettingsDialog::slotEnableCaptureFolder()
+void KdenliveSettingsDialog::slotEnableCaptureFolder(int ix)
 {
-    m_configEnv.capturefolderurl->setEnabled(!m_configEnv.kcfg_capturetoprojectfolder->isChecked());
+    m_configEnv.capturefolderurl->setEnabled(ix == 2);
 }
 
 void KdenliveSettingsDialog::slotEnableLibraryFolder()
@@ -993,7 +1006,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     bool resetConsumer = false;
     bool fullReset = false;
-    bool updateCapturePath = false;
     bool updateLibrary = false;
 
     /*if (m_configShuttle.shuttledevicelist->count() > 0) {
@@ -1001,14 +1013,22 @@ void KdenliveSettingsDialog::updateSettings()
     if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
     }*/
 
-    // Capture default folder
-    if (m_configEnv.kcfg_capturetoprojectfolder->isChecked() != KdenliveSettings::capturetoprojectfolder()) {
-        KdenliveSettings::setCapturetoprojectfolder(m_configEnv.kcfg_capturetoprojectfolder->isChecked());
-        updateCapturePath = true;
-    }
-
     if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
         KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
+        if (!KdenliveSettings::sameprojectfolder()) {
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+            m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+        }
+    }
+
+    if (m_configProject.kcfg_customprojectfolder->isChecked() != KdenliveSettings::customprojectfolder()) {
+        if (KdenliveSettings::customprojectfolder()) {
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use active project folder"));
+            m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
+        } else {
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+            m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+        }
     }
 
     if (m_configSdl.fullscreen_monitor->currentData().toString() != KdenliveSettings::fullscreen_monitor()) {
@@ -1017,7 +1037,6 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
-        updateCapturePath = true;
     }
 
     // Library default folder
@@ -1111,9 +1130,6 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setPreviewextension(string);
     }
 
-    if (updateCapturePath) {
-        emit updateCaptureFolder();
-    }
     if (updateLibrary) {
         emit updateLibraryFolder();
     }

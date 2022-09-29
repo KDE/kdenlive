@@ -442,8 +442,9 @@ int MediaCapture::startCapture()
 void MediaCapture::setCaptureOutputLocation()
 {
     QDir captureFolder;
-    if (KdenliveSettings::capturetoprojectfolder()) {
-        captureFolder = QDir(pCore->getProjectFolderName());
+    bool audioCapture = m_videoRecorder.get() == nullptr;
+    if (KdenliveSettings::capturetoprojectfolder() < 2) {
+        captureFolder = QDir(pCore->getProjectFolderName(audioCapture));
     } else {
         captureFolder = QDir(KdenliveSettings::capturefolder());
     }

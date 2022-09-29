@@ -594,9 +594,9 @@
       <default>false</default>
     </entry>
 
-    <entry name="capturetoprojectfolder" type="Bool">
+    <entry name="capturetoprojectfolder" type="Int">
       <label>Save captured files to project folder by default.</label>
-      <default>true</default>
+      <default>1</default>
     </entry>
 
     <entry name="capturefolder" type="Path">

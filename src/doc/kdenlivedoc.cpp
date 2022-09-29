@@ -700,8 +700,28 @@ QString KdenliveDoc::projectTempFolder() const
     return m_projectFolder;
 }
 
-QString KdenliveDoc::projectDataFolder(const QString &newPath) const
+QString KdenliveDoc::projectDataFolder(const QString &newPath, bool folderForAudio) const
 {
+    if (folderForAudio) {
+        if (KdenliveSettings::capturetoprojectfolder() == 2 && !KdenliveSettings::capturefolder().isEmpty()) {
+            return KdenliveSettings::capturefolder();
+        }
+        if (m_projectFolder.isEmpty()) {
+            // Project has not been saved yet
+            if (KdenliveSettings::customprojectfolder()) {
+                return KdenliveSettings::defaultprojectfolder();
+            }
+            return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        }
+        if (KdenliveSettings::capturetoprojectfolder() == 1 || m_sameProjectFolder) {
+            // Always render to project folder
+            if (KdenliveSettings::customprojectfolder() && !m_sameProjectFolder) {
+                return KdenliveSettings::defaultprojectfolder();
+            }
+            return QFileInfo(m_url.toLocalFile()).absolutePath();
+        }
+        return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
     if (KdenliveSettings::videotodefaultfolder() == 2 && !KdenliveSettings::videofolder().isEmpty()) {
         return KdenliveSettings::videofolder();
     }
@@ -718,6 +738,9 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
     }
     if (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder) {
         // Always render to project folder
+        if (KdenliveSettings::customprojectfolder() && !m_sameProjectFolder) {
+            return KdenliveSettings::defaultprojectfolder();
+        }
         return QFileInfo(m_url.toLocalFile()).absolutePath();
     }
     return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);

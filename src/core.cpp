@@ -1073,10 +1073,10 @@ void Core::resetAudioMonitoring()
     }
 }
 
-QString Core::getProjectFolderName()
+QString Core::getProjectFolderName(bool folderForAudio)
 {
     if (currentDoc()) {
-        return currentDoc()->projectDataFolder() + QDir::separator();
+        return currentDoc()->projectDataFolder(QStringLiteral(), folderForAudio) + QDir::separator();
     }
     return QString();
 }

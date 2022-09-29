@@ -129,7 +129,7 @@ public:
     /** @brief Returns the project folder, used to store project temporary files. */
     QString projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc). */
-    QString projectDataFolder(const QString &newPath = QString()) const;
+    QString projectDataFolder(const QString &newPath = QString(), bool folderForAudio = false) const;
     void setZoom(int horizontal, int vertical = -1);
     QPoint zoom() const;
     double dar() const;

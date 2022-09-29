@@ -82,7 +82,7 @@ private slots:
     void slotSetTranscodeProfile();
     void slotShuttleModified();
     void slotDialogModified();
-    void slotEnableCaptureFolder();
+    void slotEnableCaptureFolder(int ix);
     void slotEnableLibraryFolder();
     void slotEnableVideoFolder(int ix);
     void slotUpdatev4lDevice();

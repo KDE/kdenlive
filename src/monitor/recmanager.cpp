@@ -181,7 +181,7 @@ void RecManager::slotRecord(bool record)
 
     QString extension = KdenliveSettings::grab_extension();
     QDir captureFolder;
-    if (KdenliveSettings::capturetoprojectfolder()) {
+    if (KdenliveSettings::capturetoprojectfolder() < 2) {
         captureFolder = QDir(pCore->getProjectFolderName());
     } else {
         captureFolder = QDir(KdenliveSettings::capturefolder());
