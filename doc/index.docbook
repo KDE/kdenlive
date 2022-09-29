@@ -5,12 +5,12 @@
 ]>
 <book id="kdenlive" lang="&language;">
 <bookinfo>
-<title>The Kdenlive Quick Start Guide</title>
+<title>The Kdenlive Quick Start Guide (deprecated)</title>
 <authorgroup>
 <author>
 <personname>
-    <firstname>This documentation was converted from the KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart">Kdenlive/Manual/QuickStart</ulink> page.</firstname>
-<surname></surname>
+    <firstname>This documentation is now deprecated, please check the new <ulink url="https://docs.kdenlive.org/">Kdenlive Manual</ulink> instead.</firstname>
+<surname>This documentation was converted from the KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart">Kdenlive/Manual/QuickStart</ulink> page.</surname>
 </personname>
     </author>
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
