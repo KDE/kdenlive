@@ -574,6 +574,11 @@
       <default>1024</default>
     </entry>
 
+    <entry name="lastCacheCheck" type="DateTime">
+      <label>Kdenlive will check every 2 weeks on startup if the cached data exceeds the defined maxcachesize. This is the last checked date</label>
+      <default></default>
+    </entry>
+
     <entry name="defaultprojectfolder" type="Path">
       <label>Default folder for project files.</label>
       <default></default>

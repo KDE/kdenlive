@@ -479,6 +479,10 @@ void MainWindow::init(const QString &mltPath)
     tabifyDockWidget(m_compositionListDock, m_effectListDock);
     tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
     bool firstRun = readOptions();
+    if (KdenliveSettings::lastCacheCheck().isNull()) {
+        // Define a date for first check
+        KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
+    }
 
     // Build effects menu
     m_effectsMenu = new QMenu(i18n("Add Effect"), this);
@@ -4516,6 +4520,61 @@ void MainWindow::processRestoreState(const QByteArray &state)
     m_projectMonitorDock->close();
     m_clipMonitorDock->close();
     restoreState(state);
+}
+
+void MainWindow::checkMaxCacheSize()
+{
+    // Check cached data size
+    if (KdenliveSettings::maxcachesize() <= 0) {
+        return;
+    }
+    if (KdenliveSettings::lastCacheCheck().daysTo(QDateTime::currentDateTime()) < 14) {
+        return;
+    }
+    KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
+    bool ok;
+    KIO::filesize_t total = 0;
+    QDir cacheDir = pCore->currentDoc()->getCacheDir(SystemCacheRoot, &ok);
+    if (!ok) {
+        return;
+    }
+    QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
+    QList<QDir> toAdd;
+    QList<QDir> toRemove;
+    if (cacheDir.exists()) {
+        toAdd << cacheDir;
+    }
+    if (backupFolder.exists()) {
+        toAdd << cacheDir;
+    }
+    if (cacheDir.cd(QStringLiteral("knewstuff"))) {
+        toRemove << cacheDir;
+        cacheDir.cdUp();
+    }
+    if (cacheDir.cd(QStringLiteral("attica"))) {
+        toRemove << cacheDir;
+        cacheDir.cdUp();
+    }
+    if (cacheDir.cd(QStringLiteral("proxy"))) {
+        toRemove << cacheDir;
+        cacheDir.cdUp();
+    }
+    pCore->displayMessage(i18n("Checking cached data size"), InformationMessage);
+    while (!toAdd.isEmpty()) {
+        QDir dir = toAdd.takeFirst();
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(dir.absolutePath()));
+        job->exec();
+        total += job->totalSize();
+    }
+    while (!toRemove.isEmpty()) {
+        QDir dir = toRemove.takeFirst();
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(dir.absolutePath()));
+        job->exec();
+        total -= job->totalSize();
+    }
+    if (total > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
+        slotManageCache();
+    }
 }
 
 #ifdef DEBUG_MAINW

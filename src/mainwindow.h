@@ -169,6 +169,9 @@ public:
      * @return number of installed items */
     int getNewStuff(const QString &configFile);
 
+    /** @brief Check if the maximum cached data size is not exceeded. */
+    void checkMaxCacheSize();
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or

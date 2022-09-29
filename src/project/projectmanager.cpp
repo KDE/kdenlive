@@ -135,6 +135,7 @@ void ProjectManager::slotLoadOnOpen()
             }
         }
     });
+    pCore->window()->checkMaxCacheSize();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
