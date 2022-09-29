@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>625</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -255,19 +255,48 @@
       <attribute name="title">
        <string>All Projects</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,10,0,0">
-       <item row="4" column="3">
-        <widget class="QToolButton" name="gProxyClean">
-         <property name="toolTip">
-          <string>Cleanup old proxy file.</string>
-         </property>
-         <property name="icon">
-          <iconset theme="edit-clear-history">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-        </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="toolTip">
+            <string>Cached data is composed of clip thumbnails (audio and video) and timeline preview videos. Deleting is safe, all data can be recreated on project opening.</string>
+           </property>
+           <property name="text">
+            <string>Cache data</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>337</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="help_cached">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset theme="help-about"/>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="0" column="0" colspan="5">
+       <item>
         <layout class="QHBoxLayout" name="gChartLayout">
          <item>
           <widget class="QTreeWidget" name="listWidget">
@@ -302,14 +331,101 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="gTotalColor">
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-        </widget>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="1">
+          <widget class="QLabel" name="gTotalLabel">
+           <property name="text">
+            <string>Total cached data:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="gTotalSize">
+           <property name="text">
+            <string>Calculating...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="qSelectedLabel">
+           <property name="text">
+            <string>Selected cached data:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="4">
+          <widget class="QToolButton" name="gClean">
+           <property name="toolTip">
+            <string>Cleanup unused cache.</string>
+           </property>
+           <property name="icon">
+            <iconset theme="edit-clear-history">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="gSelectedSize">
+           <property name="text">
+            <string>Calculating...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QToolButton" name="gDelete">
+           <property name="toolTip">
+            <string>Delete selected cache.</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="gSelectedColor">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="gTotalColor">
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="6" column="0" colspan="5">
+       <item>
         <widget class="QFrame" name="seperator3">
          <property name="frameShape">
           <enum>QFrame::HLine</enum>
@@ -319,14 +435,191 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="gTotalLabel">
-         <property name="text">
-          <string>Total cached data:</string>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Backup data</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>186</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="gBackupLabel">
+           <property name="text">
+            <string>Total size:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="gBackupSize">
+           <property name="text">
+            <string>Calculating...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="gBackupPath">
+           <property name="toolTip">
+            <string>Click to open backup folder.</string>
+           </property>
+           <property name="text">
+            <string>&lt;a href='#'&gt;/home/user/.local/share/kdenlive/.backup&lt;/a&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="gBackupClean">
+           <property name="toolTip">
+            <string>Cleanup old backups.</string>
+           </property>
+           <property name="icon">
+            <iconset theme="edit-clear-history">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="gBackupDelete">
+           <property name="toolTip">
+            <string>Delete all backup data.</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="seperator2">
+         <property name="frameShape">
+          <enum>QFrame::HLine</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Proxy clip data</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>186</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="gProxyLabel">
+           <property name="text">
+            <string>Total size:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="gProxySize">
+           <property name="text">
+            <string>Calculating...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="gProxyPath">
+           <property name="toolTip">
+            <string>Click to open proxy folder.</string>
+           </property>
+           <property name="text">
+            <string>&lt;a href='#'&gt;/home/user/.cache/kdenlive/proxy&lt;/a&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="gProxyClean">
+           <property name="toolTip">
+            <string>Cleanup old proxy file.</string>
+           </property>
+           <property name="icon">
+            <iconset theme="edit-clear-history">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="gProxyDelete">
+           <property name="toolTip">
+            <string>Delete all proxy clips.</string>
+           </property>
+           <property name="icon">
+            <iconset theme="trash-empty">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QFrame" name="seperator4">
          <property name="frameShape">
           <enum>QFrame::HLine</enum>
@@ -336,43 +629,7 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QLabel" name="gBackupLabel">
-         <property name="text">
-          <string>Total backup data:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QLabel" name="gProxySize">
-         <property name="text">
-          <string>Calculating...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QToolButton" name="gDelete">
-         <property name="toolTip">
-          <string>Delete selected cache.</string>
-         </property>
-         <property name="icon">
-          <iconset theme="trash-empty">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="4">
-        <widget class="QToolButton" name="gBackupDelete">
-         <property name="toolTip">
-          <string>Delete all backup data.</string>
-         </property>
-         <property name="icon">
-          <iconset theme="trash-empty">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="5">
+       <item>
         <layout class="QHBoxLayout" name="cleanupLayout" stretch="0,0">
          <item>
           <widget class="QLabel" name="gCleanupLabel">
@@ -398,111 +655,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item row="4" column="4">
-        <widget class="QToolButton" name="gProxyDelete">
-         <property name="toolTip">
-          <string>Delete all proxy clips.</string>
-         </property>
-         <property name="icon">
-          <iconset theme="trash-empty">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QToolButton" name="gClean">
-         <property name="toolTip">
-          <string>Cleanup unused cache.</string>
-         </property>
-         <property name="icon">
-          <iconset theme="edit-clear-history">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="3">
-        <widget class="QToolButton" name="gBackupClean">
-         <property name="toolTip">
-          <string>Cleanup old backups.</string>
-         </property>
-         <property name="icon">
-          <iconset theme="edit-clear-history">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="gSelectedColor">
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="5">
-        <widget class="QFrame" name="seperator2">
-         <property name="frameShape">
-          <enum>QFrame::HLine</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QLabel" name="gBackupSize">
-         <property name="text">
-          <string>Calculating...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="5">
-        <widget class="QLabel" name="gProxyPath">
-         <property name="toolTip">
-          <string>Click to open proxy folder.</string>
-         </property>
-         <property name="text">
-          <string>&lt;a href='#'&gt;/home/user/.cache/kdenlive/proxy&lt;/a&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="gProxyLabel">
-         <property name="text">
-          <string>Total proxy data:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="5">
-        <widget class="QLabel" name="gBackupPath">
-         <property name="toolTip">
-          <string>Click to open backup folder.</string>
-         </property>
-         <property name="text">
-          <string>&lt;a href='#'&gt;/home/user/.local/share/kdenlive/.backup&lt;/a&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="gTotalSize">
-         <property name="text">
-          <string>Calculating...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="qSelectedLabel">
-         <property name="text">
-          <string>Selected cached data:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="gSelectedSize">
-         <property name="text">
-          <string>Calculating...</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

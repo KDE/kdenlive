@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <QTabWidget>
 #include <QToolButton>
+#include <QToolTip>
 #include <QTreeWidget>
 #include <QVBoxLayout>
 
@@ -166,6 +167,13 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
         KdenliveSettings::setCleanCacheMonths(value);
         gCleanupSpin->setSuffix(i18np(" month", " months", KdenliveSettings::cleanCacheMonths()));
     });
+
+    // Setup help text
+    help_cached->setToolTip(i18n("<b>Cached data</b> is composed of clip thumbnails and timeline preview videos. Deleting is safe, all data can be recreated "
+                                 "on project opening.<br/><b>Backup data</b> is an archive of previous versions of your project files. Useful if you need to "
+                                 "recover a previous version of a project. This data cannot be recovered.<br/><b>Proxy clips</b> are lower resolution video "
+                                 "files used for faster editing. Deleting is safe, proxy clips can be recreated if you have the original source clips."));
+    connect(help_cached, &QToolButton::clicked, this, [this]() { QToolTip::showText(QCursor::pos(), help_cached->toolTip()); });
 
     processBackupDirectories();
 
@@ -372,15 +380,20 @@ void TemporaryData::cleanCache()
     if (!root) {
         return;
     }
-    // Find old backup data ( older than 6 months )
+    // Find old backup data ( older than x months ), or very small (that can be quickly recreated)
     size_t total = 0;
     QDateTime current = QDateTime::currentDateTime();
     int max = root->childCount();
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *child = root->child(i);
-        if (child->data(2, Qt::UserRole).toDateTime().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
+        if (emptyDirs.contains(child)) {
+            continue;
+        }
+        size_t childSize = size_t(child->data(1, Qt::UserRole).toLongLong());
+        // Check temporary folders with content less than 200kB or old data
+        if (childSize < 200000 || child->data(2, Qt::UserRole).toDateTime().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             emptyDirs << child;
-            total += size_t(child->data(1, Qt::UserRole).toLongLong());
+            total += childSize;
         }
     }
     QStringList folders;
@@ -393,7 +406,8 @@ void TemporaryData::cleanCache()
     }
 
     if (KMessageBox::warningContinueCancelList(this,
-                                               i18n("This will delete cache data (%1) for missing projects or projects older than %2 months.",
+                                               i18n("This will delete cache data (%1) for projects that were deleted, have very few cached data or older than "
+                                                    "%2 months. All cached data can be recreated from the source files on project opening.",
                                                     KIO::convertSize(total), KdenliveSettings::cleanCacheMonths()),
                                                folders) != KMessageBox::Continue) {
         return;
