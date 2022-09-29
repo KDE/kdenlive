@@ -175,6 +175,9 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
                                  "files used for faster editing. Deleting is safe, proxy clips can be recreated if you have the original source clips."));
     connect(help_cached, &QToolButton::clicked, this, [this]() { QToolTip::showText(QCursor::pos(), help_cached->toolTip()); });
 
+    // Cache info message
+    cache_info->hide();
+
     processBackupDirectories();
 
     connect(listWidget, &QTreeWidget::itemSelectionChanged, this, &TemporaryData::refreshGlobalPie);
@@ -622,6 +625,14 @@ void TemporaryData::gotFolderSize(KJob *job)
     listWidget->resizeColumnToContents(0);
     listWidget->resizeColumnToContents(1);
     if (m_globalDirectories.isEmpty()) {
+        // Processing done, check total size
+        if (m_totalGlobal > 1048576000) {
+            // Cache larger than 1 GB, warn
+            cache_info->setText(i18n("Your cached data exceeds 1Gb, cleanup is recommended."));
+            cache_info->animatedShow();
+        } else {
+            cache_info->animatedHide();
+        }
         gTotalSize->setText(KIO::convertSize(m_totalGlobal));
         listWidget->setCurrentItem(listWidget->topLevelItem(0));
     } else {

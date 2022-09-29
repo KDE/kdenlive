@@ -656,6 +656,16 @@
          </item>
         </layout>
        </item>
+       <item>
+        <widget class="KMessageWidget" name="cache_info">
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="messageType">
+          <enum>KMessageWidget::Warning</enum>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -672,6 +682,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
