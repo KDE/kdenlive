@@ -88,6 +88,7 @@ private:
     bool m_currentProjectOnly;
     KIO::filesize_t m_totalCurrent;
     KIO::filesize_t m_totalGlobal;
+    KIO::filesize_t m_totalBackup;
     QList<KIO::filesize_t> m_currentSizes;
     QStringList m_globalDirectories;
     QString m_processingDirectory;
@@ -100,6 +101,10 @@ private:
     void processBackupDirectories();
     void processProxyDirectory();
     void deleteCache(QStringList &folders);
+    /** @brief
+     * Check if size of cache + backup data exceeds a limit and warn user
+     **/
+    void refreshWarningMessage();
 
 private slots:
     void gotPreviewSize(KJob *job);
@@ -122,6 +127,10 @@ private slots:
     void deleteSelected();
     void cleanCache();
     void cleanProxy();
+    /** @brief
+     * Cleanup cached data and backup
+     **/
+    void slotCleanUp();
 
 signals:
     void disableProxies();

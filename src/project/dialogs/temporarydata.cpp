@@ -177,6 +177,10 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     // Cache info message
     cache_info->hide();
+    QAction *a = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear-history")), i18n("Cleanup"), this);
+    cache_info->setText(i18n("Your cache and backup data exceeds %1, cleanup is recommended.", KIO::convertSize(1048576 * KdenliveSettings::maxcachesize())));
+    cache_info->addAction(a);
+    connect(a, &QAction::triggered, this, &TemporaryData::slotCleanUp);
 
     processBackupDirectories();
 
@@ -352,18 +356,21 @@ void TemporaryData::cleanBackup()
     QFileInfoList files = backupFolder.entryInfoList(QDir::Files, QDir::Time);
     QStringList oldFiles;
     QDateTime current = QDateTime::currentDateTime();
+    KIO::filesize_t totalSize = 0;
     for (const QFileInfo &f : qAsConst(files)) {
         if (f.lastModified().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             oldFiles << f.fileName();
+            totalSize += f.size();
         }
     }
     if (oldFiles.isEmpty()) {
         KMessageBox::information(this, i18n("No backup data older than %1 months was found.", KdenliveSettings::cleanCacheMonths()));
         return;
     }
-    if (KMessageBox::warningContinueCancelList(this,
-                                               i18n("This will delete backup data for projects older than %1 months.", KdenliveSettings::cleanCacheMonths()),
-                                               oldFiles) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(
+            this,
+            i18n("This will delete backup data (%1) for projects older than %2 months.", KIO::convertSize(totalSize), KdenliveSettings::cleanCacheMonths()),
+            oldFiles) != KMessageBox::Continue) {
         return;
     }
     if (backupFolder.dirName() == QLatin1String(".backup")) {
@@ -543,6 +550,8 @@ void TemporaryData::gotBackupSize(KJob *job)
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
+    m_totalBackup = total;
+    refreshWarningMessage();
     gBackupSize->setText(KIO::convertSize(total));
 }
 
@@ -626,17 +635,21 @@ void TemporaryData::gotFolderSize(KJob *job)
     listWidget->resizeColumnToContents(1);
     if (m_globalDirectories.isEmpty()) {
         // Processing done, check total size
-        if (m_totalGlobal > 1048576000) {
-            // Cache larger than 1 GB, warn
-            cache_info->setText(i18n("Your cached data exceeds 1Gb, cleanup is recommended."));
-            cache_info->animatedShow();
-        } else {
-            cache_info->animatedHide();
-        }
+        refreshWarningMessage();
         gTotalSize->setText(KIO::convertSize(m_totalGlobal));
         listWidget->setCurrentItem(listWidget->topLevelItem(0));
     } else {
         processglobalDirectories();
+    }
+}
+
+void TemporaryData::refreshWarningMessage()
+{
+    if (KdenliveSettings::maxcachesize() > 0 && (m_totalGlobal + m_totalBackup > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize())) {
+        // Cache larger than x MB, warn
+        cache_info->animatedShow();
+    } else {
+        cache_info->animatedHide();
     }
 }
 
@@ -739,4 +752,10 @@ void TemporaryData::cleanProxy()
         proxies.remove(f);
     }
     processProxyDirectory();
+}
+
+void TemporaryData::slotCleanUp()
+{
+    cleanCache();
+    cleanBackup();
 }

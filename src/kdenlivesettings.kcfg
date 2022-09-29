@@ -569,6 +569,11 @@
       <default>/tmp/</default>
     </entry>
 
+    <entry name="maxcachesize" type="Int">
+      <label>Kdenlive will periodically check if the cached data exceeds this limit. Data is in Mb</label>
+      <default>1024</default>
+    </entry>
+
     <entry name="defaultprojectfolder" type="Path">
       <label>Default folder for project files.</label>
       <default></default>

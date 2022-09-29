@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>625</width>
-    <height>529</height>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -287,7 +287,8 @@
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset theme="help-about"/>
+            <iconset theme="help-about">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="autoRaise">
             <bool>true</bool>
@@ -660,6 +661,9 @@
         <widget class="KMessageWidget" name="cache_info">
          <property name="wordWrap">
           <bool>true</bool>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>false</bool>
          </property>
          <property name="messageType">
           <enum>KMessageWidget::Warning</enum>
