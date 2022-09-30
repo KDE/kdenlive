@@ -740,7 +740,7 @@ void TemporaryData::cleanProxy()
         }
     }
     if (oldFiles.isEmpty()) {
-        KMessageBox::information(this, i18n("No proxy clips older than %1 months was found.", KdenliveSettings::cleanCacheMonths()));
+        KMessageBox::information(this, i18n("No proxy clip older than %1 months found.", KdenliveSettings::cleanCacheMonths()));
         return;
     }
     if (KMessageBox::warningContinueCancelList(

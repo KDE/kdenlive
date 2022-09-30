@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>660</height>
+    <width>515</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -68,7 +68,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_17">
         <property name="text">
-         <string>Warn if cached data exceeds</string>
+         <string>Warn if cached data exceeds:</string>
         </property>
        </widget>
       </item>
@@ -81,7 +81,7 @@
          </sizepolicy>
         </property>
         <property name="suffix">
-         <string>MiB</string>
+         <string> MiB</string>
         </property>
         <property name="minimum">
          <number>0</number>
@@ -94,7 +94,7 @@
       <item row="1" column="0" colspan="2">
        <widget class="QLabel" name="label_18">
         <property name="text">
-         <string>Set to zero to disable checking</string>
+         <string>Kdenlive will check this limit every 2 weeks. Set to zero to disable checking.</string>
         </property>
        </widget>
       </item>
