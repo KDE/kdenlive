@@ -53,4 +53,7 @@ private:
     std::unique_ptr<QProcess> m_process;
     MyTreeWidgetItem *m_failedProfiles;
     QMutex m_locker;
+
+signals:
+    void jobCanceled();
 };
