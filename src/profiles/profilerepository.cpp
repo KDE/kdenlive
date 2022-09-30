@@ -33,14 +33,9 @@ std::unique_ptr<ProfileRepository> &ProfileRepository::get()
     return instance;
 }
 
-void ProfileRepository::refresh(bool fullRefresh)
+void ProfileRepository::refresh()
 {
     QWriteLocker locker(&m_mutex);
-
-    if (fullRefresh) {
-        // Reset all profiles
-        m_profiles.clear();
-    }
 
     // Helper function to check a profile and print debug info
     auto check_profile = [&](std::unique_ptr<ProfileModel> &profile, const QString &file) {
@@ -156,6 +151,7 @@ QString ProfileRepository::findMatchingProfile(ProfileInfo *profile) const
 
 const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profilePath)
 {
+    bool newProfile = false;
     if (profilePath.isEmpty()) {
         int i = 0;
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
@@ -170,6 +166,9 @@ const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profi
         }
     }
     QFile file(profilePath);
+    if (file.exists()) {
+        newProfile = false;
+    }
     if (!file.open(QIODevice::WriteOnly)) {
         KMessageBox::sorry(nullptr, i18n("Cannot open file %1", profilePath));
         return QString();
@@ -192,7 +191,13 @@ const QString ProfileRepository::saveProfile(ProfileInfo *profile, QString profi
         profilePath.clear();
     }
     file.close();
-    refresh(true);
+    if (!newProfile) {
+        // We edited an existing profile, remove it to trigger a reload
+        if (m_profiles.count(profilePath) > 0) {
+            m_profiles.erase(profilePath);
+        }
+    }
+    refresh();
     return profilePath;
 }
 
@@ -204,7 +209,12 @@ bool ProfileRepository::deleteProfile(const QString &path)
     }
     if (!success) {
         qCDebug(KDENLIVE_LOG) << "//// Cannot delete profile " << path << ", does not seem to be custom one";
+    } else {
+        if (m_profiles.count(path) > 0) {
+            // remove the stored profile
+            m_profiles.erase(path);
+        }
+        refresh();
     }
-    refresh(true);
     return success;
 }
