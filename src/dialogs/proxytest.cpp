@@ -98,7 +98,7 @@ void ProxyTest::showMessage(const QString &message)
 ProxyTest::~ProxyTest()
 {
     m_closing = true;
-    QMetaObject::invokeMethod(m_process.get(), "kill");
+    emit jobCanceled();
     // Wait until concurrent tread is finished
     QMutexLocker lk(&m_locker);
 }
@@ -118,7 +118,9 @@ void ProxyTest::startTest()
         QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create temporary files")));
         return;
     }
+    QMutexLocker lk1(&m_locker);
     m_process.reset(new QProcess());
+    connect(this, &ProxyTest::jobCanceled, m_process.get(), &QProcess::kill, Qt::DirectConnection);
     QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Generating a 60 seconds test video %1", src.fileName())));
     QStringList source = {QStringLiteral("-y"),
                           QStringLiteral("-f"),
@@ -132,11 +134,15 @@ void ProxyTest::startTest()
                           src.fileName()};
     m_process->start(KdenliveSettings::ffmpegpath(), source);
     m_process->waitForStarted();
-    if (m_process->waitForFinished(-1)) {
+    if (m_closing) {
+        return;
+    }
+    m_process->waitForFinished(-1);
+    if (m_closing) {
+        return;
     }
 
-    while (k.hasNext()) {
-        QMutexLocker lk(&m_locker);
+    while (k.hasNext() && !m_closing) {
         k.next();
         if (!k.key().isEmpty()) {
             QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Processing %1", k.key())));
@@ -152,6 +158,7 @@ void ProxyTest::startTest()
             tmp.close();
             params.replace(QStringLiteral("%width"), QString::number(proxyResize));
             m_process.reset(new QProcess());
+            connect(this, &ProxyTest::jobCanceled, m_process.get(), &QProcess::kill, Qt::DirectConnection);
             QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"),
                                       QStringLiteral("error")};
             if (params.contains(QLatin1String("-i "))) {
@@ -196,9 +203,9 @@ void ProxyTest::startTest()
             }
             QMetaObject::invokeMethod(this, "addAnalysis", Qt::QueuedConnection, Q_ARG(QStringList, results));
         }
-        if (m_closing) {
-            return;
-        }
+    }
+    if (m_closing) {
+        return;
     }
     QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(QString, QString()));
 }
