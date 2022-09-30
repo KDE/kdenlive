@@ -187,9 +187,8 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     , m_type(type)
     , m_showAutoItem(showAutoItem)
 {
-    QGridLayout *grid = new QGridLayout();
+    QVBoxLayout *grid = new QVBoxLayout(this);
     grid->setContentsMargins(0, 0, 0, 0);
-    setLayout(grid);
     m_profilesCombo = new QComboBox();
     if (!configName.isEmpty()) {
         m_profilesCombo->setObjectName(QStringLiteral("kcfg_%1").arg(configName));
@@ -205,15 +204,15 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     buttonConfigure->setToolTip(i18n("Show Profile Parameters"));
 
     m_info = new QPlainTextEdit();
-    m_info->setVisible(false);
     m_info->setReadOnly(true);
-    m_info->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
-
-    grid->addWidget(m_profilesCombo, 0, 0);
-    grid->addWidget(buttonConfigure, 0, 1);
-    grid->addWidget(buttonInfo, 0, 2);
-    grid->addWidget(m_info, 1, 0, -1, -1);
-
+    m_info->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
+    QHBoxLayout *hor = new QHBoxLayout(this);
+    hor->addWidget(m_profilesCombo);
+    hor->addWidget(buttonConfigure);
+    hor->addWidget(buttonInfo);
+    grid->addLayout(hor);
+    grid->addWidget(m_info);
+    m_info->setVisible(false);
     connect(buttonConfigure, &QAbstractButton::clicked, this, &EncodingProfilesChooser::slotManageEncodingProfile);
     connect(buttonInfo, &QAbstractButton::clicked, m_info, &QWidget::setVisible);
     connect(m_profilesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &EncodingProfilesChooser::slotUpdateProfile);
@@ -224,6 +223,7 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
         m_profilesCombo->setCurrentIndex(ix);
         slotUpdateProfile(ix);
     }
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 }
 
 void EncodingProfilesChooser::slotManageEncodingProfile()
