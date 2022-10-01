@@ -561,8 +561,10 @@ void PreviewManager::receivedStderr()
     resultList.removeAll(QString(""));
     for (auto &result : resultList) {
         if (result.startsWith(QLatin1String("START:"))) {
-            workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
-            emit m_controller->workingPreviewChanged();
+            if (m_previewProcess.state() == QProcess::Running) {
+                workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
+                emit m_controller->workingPreviewChanged();
+            }
         } else if (result.startsWith(QLatin1String("DONE:"))) {
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
             m_processedChunks++;
@@ -751,7 +753,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     }
     if (m_previewTrack->is_blank_at(frame)) {
         Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
-        if (prod.is_valid()) {
+        if (prod.is_valid() && prod.get_length() == KdenliveSettings::timelinechunks()) {
             m_dirtyMutex.lock();
             m_dirtyChunks.removeAll(QVariant(frame));
             m_dirtyMutex.unlock();
