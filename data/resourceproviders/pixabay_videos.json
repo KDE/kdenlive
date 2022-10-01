@@ -1,0 +1,36 @@
+{
+    "name": "Pixabay Videos",
+    "homepage": "https://pixabay.com/",
+    "type": "video",
+    "integration": "buildin",
+    "clientkey":"%pixabay_apikey%",
+    "api": {
+        "root": "https://pixabay.com/api",
+        "search": {
+            "req": {
+                "path": "/videos/",
+                "method": "GET",
+                "params": [
+                    { "key": "per_page", "value": "%perpage%" },
+                    { "key": "page", "value": "%pagenum%" },
+                    { "key": "q", "value": "%query%" },
+                    { "key": "key", "value": "%clientkey%" }
+                ]
+            },
+            "res": {
+                "format": "json",
+                "resultCount":"total",
+                "list":"hits",
+                "id":"id",
+                "url":"pageURL",
+                "licenseUrl":"$https://pixabay.com/service/license/",
+                "author": "user",
+                "authorUrl": "$https://pixabay.com/users/{user}-{user_id}/",
+                "width": "width",
+                "height": "height",
+                "downloadUrls": { "key": "videos", "isObject":true, "url":"url", "name":"${&} {width}x{height}"},
+                "imageUrl": "$https://i.vimeocdn.com/video/{picture_id}_100x75.jpg"
+            }
+        }
+    }
+}
