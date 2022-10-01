@@ -462,11 +462,20 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
                                                                                          : objectGetValue(item.toObject(), "duration").toInt();
 
             if (keys["downloadUrls"].isObject()) {
-                for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {
-                    onlineItem.downloadUrls << objectGetString(urlItem.toObject(), "downloadUrls.url");
-                    onlineItem.downloadLabels << objectGetString(urlItem.toObject(), "downloadUrls.name");
+                if (keys["downloadUrls"].toObject()["isObject"].toBool(false)) {
+                    QJsonObject list = objectGetValue(item.toObject(), "downloadUrls.key").toObject();
+                    for (const auto &key : list.keys()) {
+                        QJsonObject urlItem = list[key].toObject();
+                        onlineItem.downloadUrls << objectGetString(urlItem, "downloadUrls.url", QString(), key);
+                        onlineItem.downloadLabels << objectGetString(urlItem, "downloadUrls.name", QString(), key);
+                    }
+                } else {
+                    for (const auto urlItem : objectGetValue(item.toObject(), "downloadUrls.key").toArray()) {
+                        onlineItem.downloadUrls << objectGetString(urlItem.toObject(), "downloadUrls.url");
+                        onlineItem.downloadLabels << objectGetString(urlItem.toObject(), "downloadUrls.name");
+                    }
                 }
-                if (onlineItem.previewUrl.isEmpty()) {
+                if (onlineItem.previewUrl.isEmpty() && !onlineItem.downloadUrls.isEmpty()) {
                     onlineItem.previewUrl = onlineItem.downloadUrls.first();
                 }
             } else if (keys["downloadUrl"].isString()) {
