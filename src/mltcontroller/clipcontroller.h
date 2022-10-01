@@ -232,7 +232,7 @@ protected:
     QString m_path;
     int m_videoIndex;
     ClipType::ProducerType m_clipType;
-    bool m_hasLimitedDuration;
+    bool m_forceLimitedDuration;
     bool m_hasMultipleVideoStreams;
     QMutex m_effectMutex;
     void getInfoForProducer();

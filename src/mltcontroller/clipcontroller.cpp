@@ -35,7 +35,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_audioInfo(nullptr)
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
-    , m_hasLimitedDuration(true)
+    , m_forceLimitedDuration(false)
     , m_hasMultipleVideoStreams(false)
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_hasAudio(false)
@@ -245,23 +245,19 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."))) {
             m_clipType = ClipType::SlideShow;
-            m_hasLimitedDuration = true;
         } else {
             m_clipType = ClipType::Image;
-            m_hasLimitedDuration = false;
         }
     } else if (m_service == QLatin1String("colour") || m_service == QLatin1String("color")) {
         m_clipType = ClipType::Color;
         // Required for faster compositing
         m_masterProducer->set("mlt_image_format", "rgb");
-        m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("kdenlivetitle")) {
         if (!m_path.isEmpty()) {
             m_clipType = ClipType::TextTemplate;
         } else {
             m_clipType = ClipType::Text;
         }
-        m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
         m_clipType = ClipType::Playlist;
     } else if (m_service == QLatin1String("webvfx")) {
@@ -270,15 +266,12 @@ void ClipController::getInfoForProducer()
         m_clipType = ClipType::QText;
     } else if (m_service == QLatin1String("qml")) {
         m_clipType = ClipType::Qml;
-        m_hasLimitedDuration = false;
     } else if (m_service == QLatin1String("blipflash")) {
         // Mostly used for testing
         m_clipType = ClipType::AV;
-        m_hasLimitedDuration = true;
     } else if (m_service == QLatin1String("glaxnimate")) {
         // Mostly used for testing
         m_clipType = ClipType::Animation;
-        m_hasLimitedDuration = true;
     } else {
         m_clipType = ClipType::Unknown;
     }
@@ -293,7 +286,7 @@ void ClipController::getInfoForProducer()
         }
     }
 
-    if (!m_hasLimitedDuration) {
+    if (!hasLimitedDuration()) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime <= 0) {
             // Fix clips having missing kdenlive:duration
@@ -305,12 +298,31 @@ void ClipController::getInfoForProducer()
 
 bool ClipController::hasLimitedDuration() const
 {
-    return m_hasLimitedDuration;
+    if (m_forceLimitedDuration) {
+        return true;
+    }
+
+    switch (m_clipType) {
+        case ClipType::SlideShow:
+            return getProducerIntProperty(QStringLiteral("loop")) == 1 ? false : true;
+        case ClipType::Image:
+        case ClipType::Color:
+        case ClipType::TextTemplate:
+        case ClipType::Text:
+        case ClipType::QText:
+        case ClipType::Qml:
+            return false;
+        case ClipType::AV:
+        case ClipType::Animation:
+            return true;
+        default:
+            return true;
+    }
 }
 
 void ClipController::forceLimitedDuration()
 {
-    m_hasLimitedDuration = true;
+    m_forceLimitedDuration = true;
 }
 
 std::shared_ptr<Mlt::Producer> ClipController::originalProducer()
@@ -450,7 +462,7 @@ GenTime ClipController::getPlaytime() const
         return GenTime();
     }
     double fps = pCore->getCurrentFps();
-    if (!m_hasLimitedDuration) {
+    if (!hasLimitedDuration()) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
     }
@@ -463,7 +475,7 @@ int ClipController::getFramePlaytime() const
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return 0;
     }
-    if (!m_hasLimitedDuration) {
+    if (!hasLimitedDuration()) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }
