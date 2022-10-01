@@ -78,7 +78,8 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="view-refresh"/>
+         <iconset theme="view-refresh">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -371,13 +372,27 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_enableshuttle</tabstop>
+  <tabstop>shuttledevicelist</tabstop>
+  <tabstop>toolBtnReload</tabstop>
+  <tabstop>kcfg_shuttledevice</tabstop>
+  <tabstop>shuttle1</tabstop>
+  <tabstop>shuttle2</tabstop>
+  <tabstop>shuttle3</tabstop>
+  <tabstop>shuttle4</tabstop>
+  <tabstop>shuttle5</tabstop>
+  <tabstop>shuttle6</tabstop>
+  <tabstop>shuttle7</tabstop>
+  <tabstop>shuttle8</tabstop>
+  <tabstop>shuttle9</tabstop>
+  <tabstop>shuttle10</tabstop>
+  <tabstop>shuttle11</tabstop>
+  <tabstop>shuttle12</tabstop>
+  <tabstop>shuttle13</tabstop>
+  <tabstop>shuttle14</tabstop>
+  <tabstop>shuttle15</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

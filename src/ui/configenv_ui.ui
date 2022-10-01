@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>515</width>
-    <height>562</height>
+    <width>476</width>
+    <height>524</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -104,7 +104,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -450,6 +450,33 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_proxythreads</tabstop>
+  <tabstop>kcfg_nice_tasks</tabstop>
+  <tabstop>kcfg_maxcachesize</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>ffmpegurl</tabstop>
+  <tabstop>ffplayurl</tabstop>
+  <tabstop>ffprobeurl</tabstop>
+  <tabstop>mltpathurl</tabstop>
+  <tabstop>rendererpathurl</tabstop>
+  <tabstop>mediainfourl</tabstop>
+  <tabstop>tmppathurl</tabstop>
+  <tabstop>kcfg_capturetoprojectfolder</tabstop>
+  <tabstop>capturefolderurl</tabstop>
+  <tabstop>kcfg_librarytodefaultfolder</tabstop>
+  <tabstop>libraryfolderurl</tabstop>
+  <tabstop>kcfg_videotodefaultfolder</tabstop>
+  <tabstop>videofolderurl</tabstop>
+  <tabstop>kcfg_defaultimageapp</tabstop>
+  <tabstop>kp_image</tabstop>
+  <tabstop>kcfg_defaultaudioapp</tabstop>
+  <tabstop>kp_audio</tabstop>
+  <tabstop>kcfg_glaxnimatePath</tabstop>
+  <tabstop>kp_anim</tabstop>
+  <tabstop>kcfg_addedExtensions</tabstop>
+  <tabstop>supportedmimes</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

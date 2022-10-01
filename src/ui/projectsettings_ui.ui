@@ -759,6 +759,49 @@
    <header>kmessagewidget.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>custom_folder</tabstop>
+  <tabstop>project_folder</tabstop>
+  <tabstop>same_folder</tabstop>
+  <tabstop>video_tracks</tabstop>
+  <tabstop>audio_tracks</tabstop>
+  <tabstop>audio_channels</tabstop>
+  <tabstop>video_thumbs</tabstop>
+  <tabstop>audio_thumbs</tabstop>
+  <tabstop>preview_profile</tabstop>
+  <tabstop>preview_showprofileinfo</tabstop>
+  <tabstop>preview_manageprofile</tabstop>
+  <tabstop>previewparams</tabstop>
+  <tabstop>enable_proxy</tabstop>
+  <tabstop>generate_proxy</tabstop>
+  <tabstop>proxy_minsize</tabstop>
+  <tabstop>proxy_profile</tabstop>
+  <tabstop>checkProxy</tabstop>
+  <tabstop>proxy_showprofileinfo</tabstop>
+  <tabstop>proxy_manageprofile</tabstop>
+  <tabstop>proxyparams</tabstop>
+  <tabstop>generate_imageproxy</tabstop>
+  <tabstop>proxy_imageminsize</tabstop>
+  <tabstop>proxy_imagesize</tabstop>
+  <tabstop>proxy_resize</tabstop>
+  <tabstop>external_proxy</tabstop>
+  <tabstop>external_proxy_profile</tabstop>
+  <tabstop>le_relPathOrigToProxy</tabstop>
+  <tabstop>le_prefix_clip</tabstop>
+  <tabstop>le_suffix_clip</tabstop>
+  <tabstop>le_relPathProxyToOrig</tabstop>
+  <tabstop>le_prefix_proxy</tabstop>
+  <tabstop>le_suffix_proxy</tabstop>
+  <tabstop>metadata_list</tabstop>
+  <tabstop>add_metadata</tabstop>
+  <tabstop>delete_metadata</tabstop>
+  <tabstop>delete_unused</tabstop>
+  <tabstop>list_search</tabstop>
+  <tabstop>files_list</tabstop>
+  <tabstop>fonts_list</tabstop>
+  <tabstop>button_export</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

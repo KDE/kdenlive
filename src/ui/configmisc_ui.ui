@@ -257,6 +257,7 @@
   <tabstop>kcfg_use_exiftool</tabstop>
   <tabstop>kcfg_use_magicLantern</tabstop>
   <tabstop>kcfg_tabposition</tabstop>
+  <tabstop>preferredcomposite</tabstop>
   <tabstop>kcfg_color_duration</tabstop>
   <tabstop>kcfg_title_duration</tabstop>
   <tabstop>kcfg_transition_duration</tabstop>
@@ -266,6 +267,7 @@
   <tabstop>kcfg_fade_duration</tabstop>
   <tabstop>kcfg_subtitle_duration</tabstop>
   <tabstop>kcfg_autoimagesequence</tabstop>
+  <tabstop>kcfg_ignoresubdirstructure</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -141,6 +141,14 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_videotracks</tabstop>
+  <tabstop>kcfg_audiotracks</tabstop>
+  <tabstop>kcfg_audio_channels</tabstop>
+  <tabstop>kcfg_customprojectfolder</tabstop>
+  <tabstop>projecturl</tabstop>
+  <tabstop>kcfg_sameprojectfolder</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
