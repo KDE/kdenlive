@@ -101,7 +101,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     hash();
     m_boundaryTimer.setSingleShot(true);
     m_boundaryTimer.setInterval(500);
-    if (m_hasLimitedDuration) {
+    if (hasLimitedDuration()) {
         connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
     }
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this,
@@ -606,7 +606,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     m_videoProducers.clear();
     m_timewarpProducers.clear();
     emit refreshPropertiesPanel();
-    if (m_hasLimitedDuration) {
+    if (hasLimitedDuration()) {
         connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
     } else {
         disconnect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);

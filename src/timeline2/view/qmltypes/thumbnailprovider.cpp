@@ -34,6 +34,11 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
     if (ok) {
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
         if (binClip) {
+            int duration = binClip->frameDuration();
+            if (frameNumber > duration) {
+                // for endless loopable clips, we rewrite the the position
+                frameNumber = frameNumber - ((frameNumber / duration) * duration);
+            }
             result = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), binId, frameNumber);
             if (!result.isNull()) {
                 *size = result.size();
