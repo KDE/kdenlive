@@ -9,12 +9,12 @@
 #include "kdenlivesettings.h"
 
 #include <KFileItem>
-#include <KIO/OpenUrlJob>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSelectAction>
 #include <KSqueezedTextLabel>
 #include <QComboBox>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QIcon>
@@ -63,8 +63,8 @@ ResourceWidget::ResourceWidget(QWidget *parent)
     }
     connect(service_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ResourceWidget::slotChangeProvider);
     loadConfig();
-    connect(provider_info, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-    connect(label_license, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
+    connect(provider_info, &KUrlLabel::leftClickedUrl, this, [&]() { slotOpenUrl(provider_info->url()); });
+    connect(label_license, &KUrlLabel::leftClickedUrl, this, [&]() { slotOpenUrl(label_license->url()); });
     connect(search_text, &KLineEdit::returnKeyPressed, this, &ResourceWidget::slotStartSearch);
     connect(search_results, &QListWidget::currentRowChanged, this, &ResourceWidget::slotUpdateCurrentItem);
     connect(button_preview, &QAbstractButton::clicked, this, [&]() {
@@ -209,7 +209,7 @@ void ResourceWidget::slotChangeProvider()
  */
 void ResourceWidget::slotOpenUrl(const QString &url)
 {
-    KIO::OpenUrlJob(QUrl(url));
+    QDesktopServices::openUrl(QUrl(url));
 }
 
 /**
