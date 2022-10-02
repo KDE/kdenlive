@@ -2,70 +2,63 @@
 <ui version="4.0">
  <class>ConfigProject_UI</class>
  <widget class="QWidget" name="ConfigProject_UI">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>579</width>
-    <height>269</height>
-   </rect>
-  </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QFormLayout" name="formLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="kcfg_videotracks"/>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_project_folder">
+     <property name="text">
+      <string>Project folder:</string>
+     </property>
+    </widget>
    </item>
-   <item row="0" column="0" colspan="7">
-    <widget class="QGroupBox" name="profile_box">
-     <property name="flat">
+   <item row="2" column="1">
+    <widget class="QRadioButton" name="default_folder">
+     <property name="text">
+      <string>Default</string>
+     </property>
+     <property name="checked">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
-    <widget class="QLabel" name="label">
+   <item row="3" column="1">
+    <widget class="QRadioButton" name="kcfg_sameprojectfolder">
+     <property name="text">
+      <string>Parent folder of project file</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_video_tracks">
+     <property name="text">
+      <string>Video tracks:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QSpinBox" name="kcfg_videotracks"/>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_audio_tracks">
+     <property name="text">
+      <string>Audio tracks:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QSpinBox" name="kcfg_audiotracks"/>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_audio_channels">
      <property name="text">
       <string>Audio channels:</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="6">
-    <widget class="QCheckBox" name="kcfg_sameprojectfolder">
-     <property name="text">
-      <string>Use parent folder of the project file as project folder</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QSpinBox" name="kcfg_audiotracks"/>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Audio tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Video tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="5">
+   <item row="10" column="1">
     <widget class="QComboBox" name="kcfg_audio_channels">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <item>
       <property name="text">
        <string>2 channels (stereo)</string>
@@ -83,7 +76,7 @@
      </item>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="21" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -96,10 +89,10 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="0" colspan="6">
+   <item row="4" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QCheckBox" name="kcfg_customprojectfolder">
+      <widget class="QRadioButton" name="kcfg_customprojectfolder">
        <property name="text">
         <string>Custom project folder:</string>
        </property>
@@ -114,22 +107,64 @@
      </item>
     </layout>
    </item>
-   <item row="6" column="0" colspan="6">
-    <layout class="QHBoxLayout" name="preview_profile_box">
-     <item>
-      <widget class="QLabel" name="label_25">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Timeline Preview</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="6" column="0" colspan="2">
+    <widget class="QGroupBox" name="profile_box">
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="minimumSize">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="label_preview_profile">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Timeline Preview profile:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <layout class="QHBoxLayout" name="preview_profile_box"/>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="KMessageWidget" name="kmessagewidget">
+     <property name="text">
+      <string>These are the the default settings for new projects. To edit the parameters of the current project, use the project settings.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+     <property name="icon">
+      <iconset theme="help-hint"/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -140,32 +175,16 @@
    <header>kurlrequester.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>kcfg_videotracks</tabstop>
-  <tabstop>kcfg_audiotracks</tabstop>
-  <tabstop>kcfg_audio_channels</tabstop>
-  <tabstop>kcfg_customprojectfolder</tabstop>
   <tabstop>projecturl</tabstop>
-  <tabstop>kcfg_sameprojectfolder</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>kcfg_customprojectfolder</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>projecturl</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>112</x>
-     <y>98</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>363</x>
-     <y>98</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

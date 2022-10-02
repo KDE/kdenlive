@@ -273,12 +273,7 @@ void KdenliveSettingsDialog::initProjectPage()
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
-    connect(m_configProject.kcfg_customprojectfolder, &QCheckBox::stateChanged, this,
-            [this](int state) { m_configProject.kcfg_sameprojectfolder->setEnabled(state == Qt::Unchecked); });
-    connect(m_configProject.kcfg_sameprojectfolder, &QCheckBox::stateChanged, this, [this](int state) {
-        m_configProject.kcfg_customprojectfolder->setEnabled(state == Qt::Unchecked);
-        m_configProject.projecturl->setEnabled(state == Qt::Unchecked);
-    });
+    connect(m_configProject.kcfg_customprojectfolder, &QCheckBox::toggled, m_configProject.projecturl, &KUrlRequester::setEnabled);
     connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
             m_configProject.kcfg_videotracks->setValue(1);
@@ -764,7 +759,7 @@ void KdenliveSettingsDialog::initDevices()
         m_configSdl.kcfg_audio_backend->setCurrentIndex(ix);
         KdenliveSettings::setAudio_backend(ix);
     }
-    m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend().startsWith(QLatin1String("sdl")));
+    slotCheckAudioBackend();
 
     // Fill monitors data
     fillMonitorData();
@@ -1301,8 +1296,11 @@ void KdenliveSettingsDialog::slotCheckAlsaDriver()
 
 void KdenliveSettingsDialog::slotCheckAudioBackend()
 {
-    QString value = m_configSdl.kcfg_audio_backend->currentData().toString();
-    m_configSdl.group_sdl->setEnabled(value.startsWith(QLatin1String("sdl")));
+    bool isSdl = m_configSdl.kcfg_audio_backend->currentData().toString().startsWith(QLatin1String("sdl"));
+    m_configSdl.label_audio_driver->setEnabled(isSdl);
+    m_configSdl.kcfg_audio_driver->setEnabled(isSdl);
+    m_configSdl.label_audio_device->setEnabled(isSdl);
+    m_configSdl.kcfg_audio_device->setEnabled(isSdl);
 }
 
 void KdenliveSettingsDialog::loadTranscodeProfiles()

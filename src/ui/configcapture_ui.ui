@@ -2,18 +2,7 @@
 <ui version="4.0">
  <class>ConfigCapture_UI</class>
  <widget class="QWidget" name="ConfigCapture_UI">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>525</width>
-    <height>520</height>
-   </rect>
-  </property>
   <layout class="QGridLayout" name="gridLayout_8">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
    <property name="topMargin">
     <number>0</number>
    </property>
@@ -53,81 +42,153 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="ffmpeg_tab">
       <attribute name="title">
        <string>FFmpeg</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="10" column="0" rowspan="4" colspan="8">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+      <layout class="QFormLayout" name="formLayout_4">
+       <item row="0" column="0" colspan="2">
+        <widget class="QCheckBox" name="kcfg_v4l_capturevideo">
+         <property name="text">
+          <string>Capture video (Video4Linux2)</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_30">
+         <property name="text">
+          <string>Detected devices:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="kcfg_detectedv4ldevices"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Video device:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="kcfg_video4vdevice">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
         <widget class="QLabel" name="label_9">
          <property name="text">
-          <string>Capture format</string>
+          <string>Capture format:</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="6" colspan="2">
-        <widget class="QSpinBox" name="kcfg_alsachannels"/>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="kcfg_v4l_format"/>
        </item>
-       <item row="18" column="0" colspan="2">
-        <widget class="QLabel" name="label_24">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Encoding profile</string>
+          <string>Size:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="5" column="1">
+        <widget class="QLabel" name="p_size">
+         <property name="text">
+          <string>720x576</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Frame rate:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="3" colspan="5">
-        <widget class="QComboBox" name="kcfg_v4l_format"/>
-       </item>
-       <item row="15" column="5">
-        <widget class="QLabel" name="label_11">
+       <item row="6" column="1">
+        <widget class="QLabel" name="p_fps">
          <property name="text">
-          <string>Channels</string>
+          <string>25/1</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="3" colspan="2">
-        <spacer name="horizontalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>Pixel aspect ratio:</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>127</width>
-           <height>21</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="9" column="5" colspan="3">
+       <item row="7" column="1">
+        <widget class="QLabel" name="p_aspect">
+         <property name="text">
+          <string>59/54</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_31">
+         <property name="text">
+          <string>Display aspect ratio:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLabel" name="p_display">
+         <property name="text">
+          <string>4/3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>Colorspace:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLabel" name="p_colorspace">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="p_progressive">
+         <property name="text">
+          <string>Interlaced</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
         <widget class="QPushButton" name="config_v4l">
          <property name="text">
           <string>Edit</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="0" colspan="5">
+       <item row="11" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QCheckBox" name="kcfg_v4l_captureaudio">
+         <property name="text">
+          <string>Capture audio (ALSA)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
         <widget class="QComboBox" name="kcfg_v4l_alsadevice">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -137,62 +198,40 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="3">
-        <widget class="QLabel" name="label_31">
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>Display aspect ratio:</string>
+          <string>Channels:</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="2">
-        <widget class="QLabel" name="p_progressive">
-         <property name="text">
-          <string>Interlaced</string>
+       <item row="14" column="1">
+        <widget class="QSpinBox" name="kcfg_alsachannels"/>
+       </item>
+       <item row="15" column="0" colspan="2">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label_30">
+       <item row="16" column="0">
+        <widget class="QLabel" name="label_24">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
-          <string>Detected devices</string>
+          <string>Encoding profile:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Video device</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="3" colspan="5">
+       <item row="16" column="1">
         <layout class="QHBoxLayout" name="v4l_profile_box"/>
        </item>
-       <item row="1" column="3" colspan="5">
-        <widget class="QComboBox" name="kcfg_detectedv4ldevices"/>
-       </item>
-       <item row="6" column="3" colspan="5">
-        <widget class="QLabel" name="p_aspect">
-         <property name="text">
-          <string>59/54</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>Pixel aspect ratio:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0" colspan="8">
-        <widget class="QCheckBox" name="kcfg_v4l_captureaudio">
-         <property name="text">
-          <string>Capture audio (ALSA)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="1" colspan="3">
+       <item row="17" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -205,147 +244,35 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="0" colspan="8">
-        <widget class="QCheckBox" name="kcfg_v4l_capturevideo">
-         <property name="text">
-          <string>Capture video (Video4Linux2)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Size:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0" colspan="8">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QLabel" name="label_32">
-         <property name="text">
-          <string>Colorspace</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3" colspan="5">
-        <widget class="QLabel" name="p_size">
-         <property name="text">
-          <string>720x576</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="3" colspan="5">
-        <widget class="QLabel" name="p_display">
-         <property name="text">
-          <string>4/3</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3" colspan="5">
-        <widget class="QLineEdit" name="kcfg_video4vdevice">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="3" colspan="5">
-        <widget class="QLabel" name="p_colorspace">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3" colspan="5">
-        <widget class="QLabel" name="p_fps">
-         <property name="text">
-          <string>25/1</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="screen_grab_tab">
       <attribute name="title">
        <string>Screen Grab</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="3" column="0" colspan="4">
-        <widget class="QCheckBox" name="kcfg_grab_hide_mouse">
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>Hide cursor</string>
+          <string>Region to capture:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>237</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="8" column="0" colspan="3">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>383</width>
-           <height>160</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_screengrab">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Encoding profile</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="3">
+       <item row="0" column="1">
         <widget class="QComboBox" name="kcfg_grab_capture_type">
          <item>
           <property name="text">
-           <string>Full Screen Capture</string>
+           <string>Full Screen</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Region Capture</string>
+           <string>Rectangular Region</string>
           </property>
          </item>
         </widget>
        </item>
-       <item row="5" column="1" colspan="2">
-        <layout class="QHBoxLayout" name="screen_grab_profile_box"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>Frame rate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="3">
+       <item row="1" column="1">
         <widget class="QFrame" name="region_group">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -461,6 +388,27 @@
         </widget>
        </item>
        <item row="2" column="1">
+        <widget class="QCheckBox" name="kcfg_grab_hide_mouse">
+         <property name="text">
+          <string>Hide</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Mouse cursor:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Frame rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
         <widget class="QDoubleSpinBox" name="kcfg_grab_fps">
          <property name="minimum">
           <double>1.000000000000000</double>
@@ -470,13 +418,49 @@
          </property>
         </widget>
        </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_screengrab">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Encoding profile:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <layout class="QHBoxLayout" name="screen_grab_profile_box"/>
+       </item>
+       <item row="5" column="1">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>383</width>
+           <height>160</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="decklink_tab">
       <attribute name="title">
        <string>Blackmagic</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_6">
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>Detected devices:</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <widget class="QComboBox" name="kcfg_decklink_capturedevice">
          <property name="sizePolicy">
@@ -487,10 +471,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <widget class="QLineEdit" name="kcfg_decklink_filename"/>
-       </item>
-       <item row="2" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="label_16">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -499,18 +480,28 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Encoding profile</string>
+          <string>Encoding profile:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="1" column="1">
+        <layout class="QHBoxLayout" name="decklink_profile_box">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+        </layout>
+       </item>
+       <item row="2" column="0">
         <widget class="QLabel" name="label_29">
          <property name="text">
           <string>Capture file name:</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="kcfg_decklink_filename"/>
+       </item>
+       <item row="3" column="1">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -523,44 +514,31 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_27">
-         <property name="text">
-          <string>Detected devices</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <layout class="QHBoxLayout" name="decklink_profile_box">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-        </layout>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="audio_tab">
       <attribute name="title">
        <string>Audio</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="1">
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>Device:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
         <widget class="QComboBox" name="kcfg_defaultaudiocapture"/>
        </item>
-       <item row="7" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Capture volume:</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>661</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QSlider" name="kcfg_audiocapturevolume">
          <property name="maximum">
           <number>100</number>
@@ -586,23 +564,39 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Capture volume:</string>
+          <string>Channels:</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="3" column="1">
+        <widget class="QComboBox" name="audiocapturechannels"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Sample rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
         <widget class="QComboBox" name="audiocapturesamplerate"/>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_33">
-         <property name="text">
-          <string>Device:</string>
+       <item row="6" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>661</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="1" column="1">
         <widget class="QLabel" name="labelNoAudioDevices">
          <property name="font">
           <font>
@@ -614,24 +608,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="audiocapturechannels"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Sample rate:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Channels:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
+       <item row="5" column="1">
         <widget class="QCheckBox" name="kcfg_disablereccountdown">
          <property name="text">
           <string>Disable countdown before recording</string>
@@ -648,22 +625,12 @@
   <tabstop>kcfg_defaultcapture</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>kcfg_v4l_capturevideo</tabstop>
-  <tabstop>kcfg_detectedv4ldevices</tabstop>
-  <tabstop>kcfg_video4vdevice</tabstop>
-  <tabstop>kcfg_v4l_format</tabstop>
-  <tabstop>config_v4l</tabstop>
-  <tabstop>kcfg_v4l_captureaudio</tabstop>
-  <tabstop>kcfg_v4l_alsadevice</tabstop>
-  <tabstop>kcfg_alsachannels</tabstop>
-  <tabstop>kcfg_grab_capture_type</tabstop>
   <tabstop>kcfg_grab_follow_mouse</tabstop>
   <tabstop>kcfg_grab_hide_frame</tabstop>
   <tabstop>kcfg_grab_offsetx</tabstop>
   <tabstop>kcfg_grab_offsety</tabstop>
   <tabstop>kcfg_grab_width</tabstop>
   <tabstop>kcfg_grab_height</tabstop>
-  <tabstop>kcfg_grab_fps</tabstop>
-  <tabstop>kcfg_grab_hide_mouse</tabstop>
   <tabstop>kcfg_decklink_capturedevice</tabstop>
   <tabstop>kcfg_decklink_filename</tabstop>
   <tabstop>kcfg_defaultaudiocapture</tabstop>

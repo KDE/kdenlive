@@ -6,60 +6,171 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
+    <width>742</width>
     <height>735</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_disable_effect_parameters">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_11">
      <property name="text">
-      <string>Disable parameters when the effect is disabled</string>
+      <string>Project file:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="3">
+   <item row="0" column="1">
     <widget class="QCheckBox" name="kcfg_openlastproject">
      <property name="text">
       <string>Open last project on startup</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_automultistreams">
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="kcfg_crashrecovery">
      <property name="text">
-      <string>Automatically import all streams in multi stream clips</string>
+      <string>Activate crash recovery (auto save)</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item row="2" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>Clip import:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
     <widget class="QCheckBox" name="kcfg_checkfirstprojectclip">
      <property name="text">
       <string>Check if first added clip matches project profile</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="kcfg_automultistreams">
+     <property name="text">
+      <string>Automatically import all streams in multi stream clips</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="kcfg_autoimagesequence">
+     <property name="text">
+      <string>Automatically import image sequences</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QCheckBox" name="kcfg_bypasscodeccheck">
+     <property name="text">
+      <string>Bypass codec verification</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QCheckBox" name="kcfg_use_exiftool">
+     <property name="text">
+      <string>Get clip metadata with exiftool</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QCheckBox" name="kcfg_use_magicLantern">
+     <property name="text">
+      <string>Get clip metadata created by Magic Lantern</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QCheckBox" name="kcfg_disable_effect_parameters">
+     <property name="text">
+      <string>Disable parameters when the effect is disabled</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QCheckBox" name="kcfg_usekuiserver">
+     <property name="text">
+      <string>Use KDE job tracking for render jobs</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Tab position:</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="2">
-    <spacer name="horizontalSpacer">
+   <item row="13" column="1">
+    <widget class="QComboBox" name="kcfg_tabposition">
+     <item>
+      <property name="text">
+       <string>Top</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Bottom</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Left</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Right</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="14" column="0" colspan="2">
+    <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+    </widget>
+   </item>
+   <item row="18" column="0">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Preferred track compositing composition:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="1">
+    <widget class="QComboBox" name="preferredcomposite"/>
+   </item>
+   <item row="24" column="0">
+    <spacer>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
-       <height>20</height>
+       <width>20</width>
+       <height>40</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="11" column="0" colspan="3">
+   <item row="19" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Default Durations</string>
@@ -148,115 +259,18 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_use_exiftool">
-     <property name="text">
-      <string>Get clip metadata with exiftool</string>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="0" colspan="3">
+   <item row="9" column="1">
     <widget class="QCheckBox" name="kcfg_ignoresubdirstructure">
      <property name="text">
       <string>Ignore subfolder structure on import (import all files into toplevel folder)</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="kcfg_crashrecovery">
-     <property name="text">
-      <string>Activate crash recovery (auto save)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_usekuiserver">
-     <property name="text">
-      <string>Use KDE job tracking for render jobs</string>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="0">
-    <spacer>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="9" column="1">
-    <widget class="QComboBox" name="kcfg_tabposition">
-     <item>
-      <property name="text">
-       <string>Top</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Bottom</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Left</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Right</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_bypasscodeccheck">
-     <property name="text">
-      <string>Bypass codec verification</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_use_magicLantern">
-     <property name="text">
-      <string>Get clip metadata created by Magic Lantern</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_autoimagesequence">
-     <property name="text">
-      <string>Automatically import image sequences</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="label_10">
-     <property name="text">
-      <string>Preferred track compositing composition:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
-    <widget class="QComboBox" name="preferredcomposite"/>
-   </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>kcfg_openlastproject</tabstop>
-  <tabstop>kcfg_crashrecovery</tabstop>
   <tabstop>kcfg_checkfirstprojectclip</tabstop>
-  <tabstop>kcfg_usekuiserver</tabstop>
   <tabstop>kcfg_disable_effect_parameters</tabstop>
-  <tabstop>kcfg_automultistreams</tabstop>
-  <tabstop>kcfg_bypasscodeccheck</tabstop>
-  <tabstop>kcfg_use_exiftool</tabstop>
-  <tabstop>kcfg_use_magicLantern</tabstop>
-  <tabstop>kcfg_tabposition</tabstop>
   <tabstop>preferredcomposite</tabstop>
   <tabstop>kcfg_color_duration</tabstop>
   <tabstop>kcfg_title_duration</tabstop>
@@ -266,8 +280,6 @@
   <tabstop>kcfg_sequence_duration</tabstop>
   <tabstop>kcfg_fade_duration</tabstop>
   <tabstop>kcfg_subtitle_duration</tabstop>
-  <tabstop>kcfg_autoimagesequence</tabstop>
-  <tabstop>kcfg_ignoresubdirstructure</tabstop>
  </tabstops>
  <resources/>
  <connections/>
