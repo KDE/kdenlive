@@ -122,11 +122,6 @@
       <default>false</default>
     </entry>
 
-    <entry name="bypasscodeccheck" type="Bool">
-      <label>Ignore libav / ffmpeg codec checking.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="use_exiftool" type="Bool">
       <label>Get h264 metadata using exiftool.</label>
       <default>false</default>
