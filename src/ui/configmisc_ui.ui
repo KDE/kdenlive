@@ -102,21 +102,14 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
-    <widget class="QCheckBox" name="kcfg_usekuiserver">
-     <property name="text">
-      <string>Use KDE job tracking for render jobs</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Tab position:</string>
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
+   <item row="11" column="1">
     <widget class="QComboBox" name="kcfg_tabposition">
      <item>
       <property name="text">
@@ -140,24 +133,24 @@
      </item>
     </widget>
    </item>
-   <item row="13" column="0" colspan="2">
+   <item row="12" column="0" colspan="2">
     <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="17" column="0">
+   <item row="16" column="0">
     <widget class="QLabel" name="label_10">
      <property name="text">
       <string>Preferred track compositing composition:</string>
      </property>
     </widget>
    </item>
-   <item row="17" column="1">
+   <item row="16" column="1">
     <widget class="QComboBox" name="preferredcomposite"/>
    </item>
-   <item row="18" column="0" colspan="2">
+   <item row="17" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Default Durations</string>
@@ -246,7 +239,7 @@
      </layout>
     </widget>
    </item>
-   <item row="23" column="0">
+   <item row="22" column="0">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>

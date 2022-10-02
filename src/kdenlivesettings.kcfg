@@ -69,10 +69,6 @@
       <label>Export image using source resolution.</label>
       <default>true</default>
     </entry>
-    <entry name="usekuiserver" type="Bool">
-      <label>Use KDE central job management to track render jobs.</label>
-      <default>false</default>
-    </entry>
 
     <entry name="color_duration" type="String">
       <label>Default color clip duration.</label>
