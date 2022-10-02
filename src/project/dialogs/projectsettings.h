@@ -22,7 +22,6 @@ public:
     ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels, const QString &projectPath,
                     bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
-    QUrl selectedFolder() const;
     QPair<int, int> tracks() const;
     int audioChannels() const;
     bool enableVideoThumbs() const;

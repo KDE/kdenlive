@@ -1994,7 +1994,6 @@ void MainWindow::slotEditProjectSettings()
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
-        // project->setProjectFolder(w->selectedFolder());
         bool modified = false;
         if (m_renderWidget) {
             m_renderWidget->updateDocumentPath();

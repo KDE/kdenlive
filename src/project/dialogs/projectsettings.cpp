@@ -68,14 +68,10 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     profile_box->setTitle(i18n("Select the profile (preset) of the project"));
     file_message->hide();
 
+    default_folder->setText(i18n("Default: %1", QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+
     list_search->setTreeWidget(files_list);
     project_folder->setMode(KFile::Directory);
-
-    connect(custom_folder, &QCheckBox::toggled, this, [this](bool checked) { same_folder->setEnabled(!checked); });
-    connect(same_folder, &QCheckBox::toggled, this, [this](bool checked) {
-        custom_folder->setEnabled(!checked);
-        project_folder->setEnabled(!checked && custom_folder->isChecked());
-    });
 
     m_buttonOk = buttonBox->button(QDialogButtonBox::Ok);
     // buttonOk->setEnabled(false);
@@ -106,13 +102,14 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     });
 
     connect(external_proxy, &QCheckBox::toggled, this, &ProjectSettings::slotExternalProxyChanged);
+    connect(external_proxy, &QCheckBox::toggled, external_proxy_profile, &QComboBox::setEnabled);
     connect(external_proxy_profile, &QComboBox::currentTextChanged, this, &ProjectSettings::slotExternalProxyProfileChanged);
     slotExternalProxyChanged(external_proxy->checkState());
 
     QString currentProf;
     if (doc) {
         currentProf = pCore->getCurrentProfile()->path();
-        enable_proxy->setChecked(doc->useProxy());
+        proxy_box->setChecked(doc->useProxy());
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
@@ -130,6 +127,8 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
             same_folder->setChecked(true);
         } else if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
+        } else {
+            default_folder->setChecked(true);
         }
         project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
         auto *cacheWidget = new TemporaryData(doc, true, this);
@@ -139,7 +138,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         tabWidget->addTab(cacheWidget, i18n("Cache Data"));
     } else {
         currentProf = KdenliveSettings::default_profile();
-        enable_proxy->setChecked(KdenliveSettings::enableproxy());
+        proxy_box->setChecked(KdenliveSettings::enableproxy());
         external_proxy->setChecked(KdenliveSettings::externalproxy());
         qDebug() << "//// INITIAL REPORT; ENABLE EXT PROCY: " << KdenliveSettings::externalproxy() << "\n++++++++";
         m_initialExternalProxyProfile = KdenliveSettings::externalProxyProfile();
@@ -152,14 +151,20 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_proxyextension = KdenliveSettings::proxyextension();
         m_previewparams = KdenliveSettings::previewparams();
         m_previewextension = KdenliveSettings::previewextension();
-        custom_folder->setChecked(KdenliveSettings::customprojectfolder());
         if (!KdenliveSettings::defaultprojectfolder().isEmpty()) {
             project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
         } else {
             project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         }
-        same_folder->setChecked(KdenliveSettings::sameprojectfolder());
+        if (KdenliveSettings::customprojectfolder()) {
+            custom_folder->setChecked(true);
+        } else if (KdenliveSettings::sameprojectfolder()) {
+            same_folder->setChecked(true);
+        } else {
+            default_folder->setChecked(true);
+        }
     }
+    external_proxy_profile->setEnabled(external_proxy->isChecked());
 
     // Select profile
     m_pw->loadProfile(currentProf);
@@ -279,6 +284,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
 void ProjectSettings::slotExternalProxyChanged(bool enabled)
 {
+
     l_relPathOrigToProxy->setVisible(enabled);
     le_relPathOrigToProxy->setVisible(enabled);
     l_prefix_proxy->setVisible(enabled);
@@ -541,11 +547,6 @@ QString ProjectSettings::selectedProfile() const
     return m_pw->selectedProfile();
 }
 
-QUrl ProjectSettings::selectedFolder() const
-{
-    return project_folder->url();
-}
-
 QPair<int, int> ProjectSettings::tracks() const
 {
     return {video_tracks->value(), audio_tracks->value()};
@@ -575,7 +576,7 @@ bool ProjectSettings::enableAudioThumbs() const
 
 bool ProjectSettings::useProxy() const
 {
-    return enable_proxy->isChecked();
+    return proxy_box->isChecked();
 }
 
 bool ProjectSettings::useExternalProxy() const
