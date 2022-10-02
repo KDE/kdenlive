@@ -51,9 +51,12 @@ class EncodingProfilesChooser : public QWidget
     Q_OBJECT
 
 public:
-    EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType, bool showAutoItem = false, const QString &configname = {});
+    EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType, bool showAutoItem = false, const QString &configname = {},
+                            const QString &selectByValue = {});
     QString currentExtension();
     QString currentParams();
+    /** @brief Only enable preview profiles with matching framerate */
+    void filterPreviewProfiles(const QString &profile);
 
 public slots:
     void slotUpdateProfile(int ix);
@@ -68,4 +71,6 @@ private slots:
     void slotManageEncodingProfile();
     void loadEncodingProfiles();
 
+signals:
+    void incompatibleProfile();
 };

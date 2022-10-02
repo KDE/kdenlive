@@ -5,12 +5,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "encodingprofilesdialog.h"
-
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 
 #include "klocalizedstring.h"
 #include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
@@ -182,14 +184,15 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
-EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType type, bool showAutoItem, const QString &configName)
+EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType type, bool showAutoItem, const QString &configName,
+                                                 const QString &selectByValue)
     : QWidget(parent)
     , m_type(type)
     , m_showAutoItem(showAutoItem)
 {
     QVBoxLayout *grid = new QVBoxLayout(this);
     grid->setContentsMargins(0, 0, 0, 0);
-    m_profilesCombo = new QComboBox();
+    m_profilesCombo = new QComboBox(this);
     if (!configName.isEmpty()) {
         m_profilesCombo->setObjectName(QStringLiteral("kcfg_%1").arg(configName));
     }
@@ -206,7 +209,7 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     m_info = new QPlainTextEdit();
     m_info->setReadOnly(true);
     m_info->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
-    QHBoxLayout *hor = new QHBoxLayout(this);
+    QHBoxLayout *hor = new QHBoxLayout;
     hor->addWidget(m_profilesCombo);
     hor->addWidget(buttonConfigure);
     hor->addWidget(buttonInfo);
@@ -222,6 +225,16 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
         int ix = resourceConfig.readEntry(configName).toInt();
         m_profilesCombo->setCurrentIndex(ix);
         slotUpdateProfile(ix);
+    } else if (!selectByValue.isEmpty()) {
+        int ix = m_profilesCombo->findData(selectByValue);
+        if (ix == -1) {
+            m_profilesCombo->addItem(i18n("Current Settings"), selectByValue);
+            ix = m_profilesCombo->findData(selectByValue);
+        }
+        if (ix > -1) {
+            m_profilesCombo->setCurrentIndex(ix);
+            slotUpdateProfile(ix);
+        }
     }
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 }
@@ -236,12 +249,15 @@ void EncodingProfilesChooser::slotManageEncodingProfile()
 
 void EncodingProfilesChooser::loadEncodingProfiles()
 {
-
     m_profilesCombo->blockSignals(true);
     QString currentItem = m_profilesCombo->currentText();
     m_profilesCombo->clear();
     if (m_showAutoItem) {
-        m_profilesCombo->addItem(i18n("Automatic"));
+        if (m_type == EncodingProfilesManager::TimelinePreview && (KdenliveSettings::nvencEnabled() || KdenliveSettings::vaapiEnabled())) {
+            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+        } else {
+            m_profilesCombo->addItem(i18n("Automatic"));
+        }
     }
 
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
@@ -251,6 +267,21 @@ void EncodingProfilesChooser::loadEncodingProfiles()
     while (i.hasNext()) {
         i.next();
         if (!i.key().isEmpty()) {
+            if (m_type == EncodingProfilesManager::TimelinePreview) {
+                // We filter out incompatible profiles
+                if (i.value().contains(QLatin1String("nvenc"))) {
+                    if (KdenliveSettings::nvencEnabled()) {
+                        m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+                    }
+                    continue;
+                }
+                if (i.value().contains(QLatin1String("vaapi"))) {
+                    if (KdenliveSettings::vaapiEnabled()) {
+                        m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+                    }
+                    continue;
+                }
+            }
             m_profilesCombo->addItem(i.key(), i.value());
         }
     }
@@ -260,6 +291,46 @@ void EncodingProfilesChooser::loadEncodingProfiles()
         slotUpdateProfile(ix);
     }
     m_profilesCombo->blockSignals(false);
+}
+
+void EncodingProfilesChooser::filterPreviewProfiles(const QString &profile)
+{
+    QStandardItemModel *model = qobject_cast<QStandardItemModel *>(m_profilesCombo->model());
+    Q_ASSERT(model != nullptr);
+    int max = m_profilesCombo->count();
+    int current = m_profilesCombo->currentIndex();
+    double projectFps = ProfileRepository::get()->getProfile(profile)->fps();
+    for (int i = 0; i < max; i++) {
+        QString itemData = m_profilesCombo->itemData(i).toString();
+        double fps = 0.;
+        if (itemData.startsWith(QStringLiteral("r="))) {
+            QString fpsString = itemData.section(QLatin1Char('='), 1).section(QLatin1Char(' '), 0, 0);
+            fps = fpsString.toDouble();
+        } else if (itemData.contains(QStringLiteral(" r="))) {
+            QString fpsString = itemData.section(QLatin1String(" r="), 1).section(QLatin1Char(' '), 0, 0);
+            // This profile has a hardcoded framerate, chack if same as project
+            fps = fpsString.toDouble();
+        }
+        if (fps > 0. && qAbs(fps - projectFps) > 0.01) {
+            // Fps does not match, disable
+            QStandardItem *item = model->item(i);
+            item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+            continue;
+        }
+        QStandardItem *item = model->item(i);
+        item->setFlags(item->flags() | Qt::ItemIsEnabled);
+    }
+    QStandardItem *item = model->item(current);
+    if (!(item->flags() & Qt::ItemIsEnabled)) {
+        // Currently selected profile is not usable, switch back to automatic
+        for (int i = 0; i < max; i++) {
+            if (m_profilesCombo->itemData(i).isNull()) {
+                m_profilesCombo->setCurrentIndex(i);
+                emit incompatibleProfile();
+                break;
+            }
+        }
+    }
 }
 
 QString EncodingProfilesChooser::currentExtension()

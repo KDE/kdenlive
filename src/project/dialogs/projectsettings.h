@@ -6,6 +6,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "dialogs/encodingprofilesdialog.h"
+
 #include <QDialog>
 #include <QPushButton>
 
@@ -58,14 +60,12 @@ private slots:
     void slotExportToText();
     /** @brief Update the displayed proxy parameters when user changes selection. */
     void slotUpdateProxyParams();
-    void slotUpdatePreviewParams();
     /** @brief Insert a new metadata field. */
     void slotAddMetadataField();
     /** @brief Delete current metadata field. */
     void slotDeleteMetadataField();
     /** @brief Display proxy profiles management dialog. */
     void slotManageEncodingProfile();
-    void slotManagePreviewProfile();
     /** @brief Open editor for metadata item. */
     void slotEditMetadata(QTreeWidgetItem *, int);
     /** @brief Shows external proxy settings. */
@@ -93,8 +93,9 @@ private:
     QString m_previewparams;
     QString m_previewextension;
     QString m_initialExternalProxyProfile;
+    EncodingProfilesChooser *m_tlPreviewProfiles;
     /** @brief Fill the proxy profiles combobox. */
-    void loadPreviewProfiles();
+    // void loadPreviewProfiles();
 
 signals:
     /** @brief User deleted proxies, so disable them in project. */

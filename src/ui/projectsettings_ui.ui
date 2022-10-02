@@ -37,30 +37,50 @@
        <string>Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="7" column="0" colspan="4">
-        <widget class="QPlainTextEdit" name="previewparams">
+       <item row="5" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>229</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0" colspan="4">
+        <widget class="QGroupBox" name="profile_box">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="readOnly">
+         <property name="flat">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="7" column="0" colspan="4">
+        <widget class="KMessageWidget" name="previewWarning">
          <property name="text">
-          <string>Thumbnails:</string>
+          <string>Selected Timeline preview profile is not compatible with the project framerate,
+reverting to Automatic.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QCheckBox" name="audio_thumbs">
+       <item row="0" column="0" colspan="4">
+        <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Audio</string>
+          <string>Project folder to store proxy clips, thumbnails, previews</string>
          </property>
         </widget>
        </item>
@@ -120,89 +140,19 @@
          </item>
         </layout>
        </item>
-       <item row="5" column="3">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>229</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="0" colspan="4">
-        <widget class="QGroupBox" name="profile_box">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="4">
-        <widget class="QLabel" name="label_4">
+       <item row="5" column="2">
+        <widget class="QCheckBox" name="audio_thumbs">
          <property name="text">
-          <string>Project folder to store proxy clips, thumbnails, previews</string>
+          <string>Audio</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="video_thumbs">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Video</string>
+          <string>Thumbnails:</string>
          </property>
         </widget>
-       </item>
-       <item row="6" column="0" colspan="4">
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="label_25">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Preview profile:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KComboBox" name="preview_profile">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="preview_showprofileinfo">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="preview_manageprofile">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
        <item row="1" column="0" colspan="4">
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -229,14 +179,39 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0" colspan="4">
+        <layout class="QHBoxLayout" name="preview_profile_box">
+         <item>
+          <widget class="QLabel" name="label_26">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Timeline Preview</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="video_thumbs">
+         <property name="text">
+          <string>Video</string>
+         </property>
+        </widget>
+       </item>
       </layout>
       <zorder>label_4</zorder>
       <zorder>profile_box</zorder>
       <zorder>label_2</zorder>
       <zorder>video_thumbs</zorder>
       <zorder>audio_thumbs</zorder>
-      <zorder>previewparams</zorder>
       <zorder>same_folder</zorder>
+      <zorder>previewWarning</zorder>
+      <zorder>layoutWidget</zorder>
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
@@ -769,10 +744,6 @@
   <tabstop>audio_channels</tabstop>
   <tabstop>video_thumbs</tabstop>
   <tabstop>audio_thumbs</tabstop>
-  <tabstop>preview_profile</tabstop>
-  <tabstop>preview_showprofileinfo</tabstop>
-  <tabstop>preview_manageprofile</tabstop>
-  <tabstop>previewparams</tabstop>
   <tabstop>enable_proxy</tabstop>
   <tabstop>generate_proxy</tabstop>
   <tabstop>proxy_minsize</tabstop>
