@@ -11,13 +11,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "dialogs/encodingprofilesdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 #include "project/dialogs/profilewidget.h"
 #include "project/dialogs/temporarydata.h"
 #include "titler/titlewidget.h"
@@ -32,6 +32,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDir>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QStandardItemModel>
 #include <QStyledItemDelegate>
 #include <QTemporaryFile>
 
@@ -171,9 +172,15 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     proxy_minsize->setEnabled(generate_proxy->isChecked());
     proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
-
+    QString currentProfileParams;
+    if (!m_previewparams.isEmpty() || !m_previewextension.isEmpty()) {
+        currentProfileParams = QString("%1;%2").arg(m_previewparams, m_previewextension);
+    }
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(this, true, currentProfileParams);
+    preview_profile_box->addWidget(m_tlPreviewProfiles);
+    connect(m_pw, &ProfileWidget::profileChanged, this, [this]() { m_tlPreviewProfiles->filterPreviewProfiles(m_pw->selectedProfile()); });
+    m_tlPreviewProfiles->filterPreviewProfiles(currentProf);
     loadProxyProfiles();
-    loadPreviewProfiles();
     loadExternalProxyProfiles();
 
     // Proxy GUI stuff
@@ -193,20 +200,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(proxy_showprofileinfo, &QAbstractButton::clicked, proxyparams, &QWidget::setVisible);
 
     external_proxy_profile->setToolTip(i18n("Select camcorder profile"));
-
-    // Preview GUI stuff
-    preview_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    preview_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
-    preview_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    preview_manageprofile->setToolTip(i18n("Manage timeline preview profiles"));
-
-    connect(preview_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManagePreviewProfile);
-    preview_profile->setToolTip(i18n("Select default preview profile"));
-
-    connect(preview_profile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdatePreviewParams);
-    previewparams->setVisible(false);
-    previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
-    connect(preview_showprofileinfo, &QAbstractButton::clicked, previewparams, &QWidget::setVisible);
 
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
@@ -498,7 +491,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
 const QString ProjectSettings::selectedPreview() const
 {
-    return preview_profile->itemData(preview_profile->currentIndex()).toString();
+    return QString("%1;%2").arg(m_tlPreviewProfiles->currentParams(), m_tlPreviewProfiles->currentExtension());
 }
 
 void ProjectSettings::accept()
@@ -507,7 +500,7 @@ void ProjectSettings::accept()
         KMessageBox::error(this, i18n("Please select a video profile"));
         return;
     }
-    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
+    QString params = selectedPreview();
     if (!params.isEmpty()) {
         if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension) {
             // Timeline preview settings changed, warn if there are existing previews
@@ -638,14 +631,12 @@ QString ProjectSettings::proxyExtension() const
 
 QString ProjectSettings::previewParams() const
 {
-    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
-    return params.section(QLatin1Char(';'), 0, 0);
+    return m_tlPreviewProfiles->currentParams();
 }
 
 QString ProjectSettings::previewExtension() const
 {
-    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
-    return params.section(QLatin1Char(';'), 1, 1);
+    return m_tlPreviewProfiles->currentExtension();
 }
 
 // static
@@ -810,12 +801,6 @@ void ProjectSettings::slotUpdateProxyParams()
     proxyparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
-void ProjectSettings::slotUpdatePreviewParams()
-{
-    QString params = preview_profile->currentData().toString();
-    previewparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
-}
-
 const QMap<QString, QString> ProjectSettings::metadata() const
 {
     QMap<QString, QString> metadata;
@@ -858,14 +843,6 @@ void ProjectSettings::slotManageEncodingProfile()
     d->exec();
     delete d;
     loadProxyProfiles();
-}
-
-void ProjectSettings::slotManagePreviewProfile()
-{
-    QPointer<EncodingProfilesDialog> d = new EncodingProfilesDialog(EncodingProfilesManager::TimelinePreview);
-    d->exec();
-    delete d;
-    loadPreviewProfiles();
 }
 
 void ProjectSettings::loadProxyProfiles()
@@ -944,56 +921,6 @@ void ProjectSettings::loadExternalProxyProfiles()
         external_proxy_profile->addItem(i18n("Current Settings"), m_initialExternalProxyProfile);
     }
     external_proxy_profile->setCurrentIndex(ix);
-}
-
-void ProjectSettings::loadPreviewProfiles()
-{
-    // load proxy profiles
-    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    KConfigGroup group(&conf, "timelinepreview");
-    QMap<QString, QString> values = group.entryMap();
-    QMapIterator<QString, QString> k(values);
-    int ix = -1;
-    preview_profile->clear();
-    while (k.hasNext()) {
-        k.next();
-        if (!k.key().isEmpty()) {
-            QString params = k.value().section(QLatin1Char(';'), 0, 0);
-            QString extension = k.value().section(QLatin1Char(';'), 1, 1);
-            if (ix == -1 && (params == m_previewparams && extension == m_previewextension)) {
-                // this is the current profile
-                ix = preview_profile->count();
-            }
-            if (params.contains(QLatin1String("nvenc"))) {
-                preview_profile->addItem(KdenliveSettings::nvencEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer"))
-                                                                          : QIcon::fromTheme(QStringLiteral("dialog-cancel")),
-                                         k.key(), k.value());
-            } else {
-                preview_profile->addItem(k.key(), k.value());
-            }
-        }
-    }
-    if (ix == -1) {
-        // Current project proxy settings not found
-        ix = preview_profile->count();
-        if (m_previewparams.isEmpty() && m_previewextension.isEmpty()) {
-            // Leave empty, will be automatically detected
-            if (KdenliveSettings::nvencEnabled()) {
-                preview_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
-            } else {
-                preview_profile->addItem(i18n("Automatic"));
-            }
-        } else {
-            if (m_previewparams.contains(QLatin1String("nvenc"))) {
-                preview_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Current Settings"),
-                                         QString(m_previewparams + QLatin1Char(';') + m_previewextension));
-            } else {
-                preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
-            }
-        }
-    }
-    preview_profile->setCurrentIndex(ix);
-    slotUpdatePreviewParams();
 }
 
 const QString ProjectSettings::storageFolder() const

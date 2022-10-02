@@ -226,6 +226,23 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0" colspan="4">
+        <layout class="QHBoxLayout" name="preview_profile_box">
+         <item>
+          <widget class="QLabel" name="label_26">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Timeline Preview</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_4">
@@ -775,9 +792,19 @@
  </customwidgets>
  <tabstops>
   <tabstop>project_folder</tabstop>
+<<<<<<< HEAD
   <tabstop>preview_profile</tabstop>
   <tabstop>preview_showprofileinfo</tabstop>
   <tabstop>preview_manageprofile</tabstop>
+=======
+  <tabstop>same_folder</tabstop>
+  <tabstop>video_tracks</tabstop>
+  <tabstop>audio_tracks</tabstop>
+  <tabstop>audio_channels</tabstop>
+  <tabstop>video_thumbs</tabstop>
+  <tabstop>audio_thumbs</tabstop>
+  <tabstop>enable_proxy</tabstop>
+>>>>>>> refs/remotes/upstream/master
   <tabstop>generate_proxy</tabstop>
   <tabstop>metadata_list</tabstop>
   <tabstop>add_metadata</tabstop>

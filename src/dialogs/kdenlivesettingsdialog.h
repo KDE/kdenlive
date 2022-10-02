@@ -132,7 +132,7 @@ private:
     SpeechToText *m_stt;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
-    EncodingProfilesChooser *m_tlPreviewProfiles;
+    EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;
     EncodingProfilesChooser *m_proxyProfiles;
     EncodingProfilesChooser *m_decklinkProfiles;
     EncodingProfilesChooser *m_v4lProfiles;

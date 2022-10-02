@@ -2,8 +2,7 @@
 build*/
 CMakeLists.txt.user*
 *.kdev4
-po
-*.patch
+	*.patch
 packaging/flatpak/.flatpak-builder
 
 # Jetbrains IDE like CLion

@@ -5,12 +5,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "encodingprofilesdialog.h"
-
+#include "core.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 
 #include "klocalizedstring.h"
+#include <KMessageWidget>
 #include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
@@ -182,14 +186,15 @@ void EncodingProfilesDialog::slotEditProfile()
     delete d;
 }
 
-EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType type, bool showAutoItem, const QString &configName)
+EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType type, bool showAutoItem, const QString &configName,
+                                                 bool native)
     : QWidget(parent)
     , m_type(type)
     , m_showAutoItem(showAutoItem)
 {
-    QVBoxLayout *grid = new QVBoxLayout(this);
-    grid->setContentsMargins(0, 0, 0, 0);
-    m_profilesCombo = new QComboBox();
+    QVBoxLayout *verticalLayout = new QVBoxLayout(this);
+    verticalLayout->setContentsMargins(0, 0, 0, 0);
+    m_profilesCombo = new QComboBox(this);
     if (!configName.isEmpty()) {
         m_profilesCombo->setObjectName(QStringLiteral("kcfg_%1").arg(configName));
     }
@@ -206,22 +211,32 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     m_info = new QPlainTextEdit();
     m_info->setReadOnly(true);
     m_info->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
-    QHBoxLayout *hor = new QHBoxLayout(this);
+    QHBoxLayout *hor = new QHBoxLayout;
     hor->addWidget(m_profilesCombo);
     hor->addWidget(buttonConfigure);
     hor->addWidget(buttonInfo);
-    grid->addLayout(hor);
-    grid->addWidget(m_info);
+
+    // Message widget
+    m_messageWidget = new KMessageWidget(this);
+    m_messageWidget->setWordWrap(true);
+    m_messageWidget->setCloseButtonVisible(true);
+
+    verticalLayout->addLayout(hor);
+    verticalLayout->addWidget(m_info);
+    verticalLayout->addWidget(m_messageWidget);
     m_info->setVisible(false);
+    m_messageWidget->hide();
     connect(buttonConfigure, &QAbstractButton::clicked, this, &EncodingProfilesChooser::slotManageEncodingProfile);
     connect(buttonInfo, &QAbstractButton::clicked, m_info, &QWidget::setVisible);
     connect(m_profilesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &EncodingProfilesChooser::slotUpdateProfile);
-    loadEncodingProfiles();
-    if (!configName.isEmpty()) {
-        KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
-        int ix = resourceConfig.readEntry(configName).toInt();
-        m_profilesCombo->setCurrentIndex(ix);
-        slotUpdateProfile(ix);
+    if (native) {
+        loadEncodingProfiles();
+        if (!configName.isEmpty()) {
+            KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
+            int ix = resourceConfig.readEntry(configName).toInt();
+            m_profilesCombo->setCurrentIndex(ix);
+            slotUpdateProfile(ix);
+        }
     }
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 }
@@ -232,16 +247,20 @@ void EncodingProfilesChooser::slotManageEncodingProfile()
     dia->exec();
     delete dia;
     loadEncodingProfiles();
+    filterPreviewProfiles(pCore->getCurrentProfilePath());
 }
 
 void EncodingProfilesChooser::loadEncodingProfiles()
 {
-
-    m_profilesCombo->blockSignals(true);
+    QSignalBlocker bk(m_profilesCombo);
     QString currentItem = m_profilesCombo->currentText();
     m_profilesCombo->clear();
     if (m_showAutoItem) {
-        m_profilesCombo->addItem(i18n("Automatic"));
+        if (m_type == EncodingProfilesManager::TimelinePreview && (KdenliveSettings::nvencEnabled() || KdenliveSettings::vaapiEnabled())) {
+            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+        } else {
+            m_profilesCombo->addItem(i18n("Automatic"));
+        }
     }
 
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
@@ -259,7 +278,6 @@ void EncodingProfilesChooser::loadEncodingProfiles()
         m_profilesCombo->setCurrentIndex(ix);
         slotUpdateProfile(ix);
     }
-    m_profilesCombo->blockSignals(false);
 }
 
 QString EncodingProfilesChooser::currentExtension()
@@ -286,5 +304,120 @@ void EncodingProfilesChooser::slotUpdateProfile(int ix)
     QString profilestr = m_profilesCombo->itemData(ix).toString();
     if (!profilestr.isEmpty()) {
         m_info->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
+    }
+}
+
+void EncodingProfilesChooser::hideMessage()
+{
+    m_messageWidget->hide();
+}
+
+void EncodingProfilesChooser::filterPreviewProfiles(const QString & /*profile*/) {}
+
+EncodingTimelinePreviewProfilesChooser::EncodingTimelinePreviewProfilesChooser(QWidget *parent, bool showAutoItem, const QString &defaultValue,
+                                                                               bool selectFromConfig)
+    : EncodingProfilesChooser(parent, EncodingProfilesManager::TimelinePreview, showAutoItem, QString(), false)
+{
+    loadEncodingProfiles();
+    if (selectFromConfig) {
+        KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
+        int ix = resourceConfig.readEntry(defaultValue).toInt();
+        m_profilesCombo->setCurrentIndex(ix);
+        slotUpdateProfile(ix);
+    } else if (!defaultValue.isEmpty()) {
+        int ix = m_profilesCombo->findData(defaultValue);
+        if (ix == -1) {
+            m_profilesCombo->addItem(i18n("Current Settings"), defaultValue);
+            ix = m_profilesCombo->findData(defaultValue);
+        }
+        if (ix > -1) {
+            m_profilesCombo->setCurrentIndex(ix);
+            slotUpdateProfile(ix);
+        }
+    }
+    connect(m_profilesCombo, &KComboBox::currentIndexChanged, m_messageWidget, &KMessageWidget::hide);
+}
+
+void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
+{
+    QSignalBlocker bk(m_profilesCombo);
+    QString currentItem = m_profilesCombo->currentText();
+    m_profilesCombo->clear();
+    if (m_showAutoItem) {
+        if (KdenliveSettings::nvencEnabled() || KdenliveSettings::vaapiEnabled()) {
+            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+        } else {
+            m_profilesCombo->addItem(i18n("Automatic"));
+        }
+    }
+
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, EncodingProfilesManager::configGroupName(m_type));
+    QMap<QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> i(values);
+    while (i.hasNext()) {
+        i.next();
+        if (!i.key().isEmpty()) {
+            // We filter out incompatible profiles
+            if (i.value().contains(QLatin1String("nvenc"))) {
+                if (KdenliveSettings::nvencEnabled()) {
+                    m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+                }
+                continue;
+            }
+            if (i.value().contains(QLatin1String("vaapi"))) {
+                if (KdenliveSettings::vaapiEnabled()) {
+                    m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
+                }
+                continue;
+            }
+            m_profilesCombo->addItem(i.key(), i.value());
+        }
+    }
+    if (!currentItem.isEmpty()) {
+        int ix = m_profilesCombo->findText(currentItem);
+        m_profilesCombo->setCurrentIndex(ix);
+        slotUpdateProfile(ix);
+    }
+}
+
+void EncodingTimelinePreviewProfilesChooser::filterPreviewProfiles(const QString &profile)
+{
+    QStandardItemModel *model = qobject_cast<QStandardItemModel *>(m_profilesCombo->model());
+    Q_ASSERT(model != nullptr);
+    int max = m_profilesCombo->count();
+    int current = m_profilesCombo->currentIndex();
+    double projectFps = ProfileRepository::get()->getProfile(profile)->fps();
+    for (int i = 0; i < max; i++) {
+        QString itemData = m_profilesCombo->itemData(i).toString();
+        double fps = 0.;
+        if (itemData.startsWith(QStringLiteral("r="))) {
+            QString fpsString = itemData.section(QLatin1Char('='), 1).section(QLatin1Char(' '), 0, 0);
+            fps = fpsString.toDouble();
+        } else if (itemData.contains(QStringLiteral(" r="))) {
+            QString fpsString = itemData.section(QLatin1String(" r="), 1).section(QLatin1Char(' '), 0, 0);
+            // This profile has a hardcoded framerate, chack if same as project
+            fps = fpsString.toDouble();
+        }
+        if (fps > 0. && qAbs(fps - projectFps) > 0.01) {
+            // Fps does not match, disable
+            QStandardItem *item = model->item(i);
+            item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+            continue;
+        }
+        QStandardItem *item = model->item(i);
+        item->setFlags(item->flags() | Qt::ItemIsEnabled);
+    }
+    QStandardItem *item = model->item(current);
+    if (!(item->flags() & Qt::ItemIsEnabled)) {
+        // Currently selected profile is not usable, switch back to automatic
+        for (int i = 0; i < max; i++) {
+            if (m_profilesCombo->itemData(i).isNull()) {
+                m_profilesCombo->setCurrentIndex(i);
+                m_messageWidget->setText(i18n("Selected Timeline preview profile is not compatible with the project framerate,\nreverting to Automatic."));
+                m_messageWidget->animatedShow();
+                break;
+            }
+        }
     }
 }

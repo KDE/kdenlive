@@ -261,15 +261,17 @@ void KdenliveSettingsDialog::initProjectPage()
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     // Timeline preview
-    m_tlPreviewProfiles = new EncodingProfilesChooser(p8, EncodingProfilesManager::TimelinePreview, true, QStringLiteral("preview_profile"));
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p8, true, QStringLiteral("preview_profile"), true);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
     vbox->addWidget(m_pw);
+    connect(m_pw, &ProfileWidget::profileChanged, this, [this]() { m_tlPreviewProfiles->filterPreviewProfiles(m_pw->selectedProfile()); });
     m_configProject.profile_box->setLayout(vbox);
     m_configProject.profile_box->setTitle(i18n("Select the Default Profile (preset)"));
     // Select profile
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
+    m_tlPreviewProfiles->filterPreviewProfiles(m_pw->selectedProfile());
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
@@ -1007,7 +1009,7 @@ void KdenliveSettingsDialog::updateSettings()
     QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
     if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
     }*/
-
+    m_tlPreviewProfiles->hideMessage();
     if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
         KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
         if (!KdenliveSettings::sameprojectfolder()) {
