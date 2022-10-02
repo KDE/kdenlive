@@ -11,6 +11,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "definitions.h"
 #include "ui_manageencodingprofile_ui.h"
 
+class KMessageWidget;
+
 class EncodingProfilesManager
 {
 
@@ -52,25 +54,39 @@ class EncodingProfilesChooser : public QWidget
 
 public:
     EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType, bool showAutoItem = false, const QString &configname = {},
-                            const QString &selectByValue = {});
+                            bool native = true);
     QString currentExtension();
     QString currentParams();
+    void hideMessage();
     /** @brief Only enable preview profiles with matching framerate */
-    void filterPreviewProfiles(const QString &profile);
+    virtual void filterPreviewProfiles(const QString & /*profile*/);
 
 public slots:
     void slotUpdateProfile(int ix);
 
-private:
+protected:
     QComboBox *m_profilesCombo;
-    QPlainTextEdit *m_info;
     EncodingProfilesManager::ProfileType m_type;
     bool m_showAutoItem;
+    KMessageWidget *m_messageWidget;
+
+private:
+    QPlainTextEdit *m_info;
 
 private slots:
     void slotManageEncodingProfile();
-    void loadEncodingProfiles();
+    virtual void loadEncodingProfiles();
+};
 
-signals:
-    void incompatibleProfile();
+class EncodingTimelinePreviewProfilesChooser : public EncodingProfilesChooser
+{
+    Q_OBJECT
+
+public:
+    EncodingTimelinePreviewProfilesChooser(QWidget *parent, bool showAutoItem = false, const QString &defaultValue = {}, bool selectFromConfig = false);
+    /** @brief Only enable preview profiles with matching framerate */
+    void filterPreviewProfiles(const QString &profile) override;
+
+private slots:
+    void loadEncodingProfiles() override;
 };

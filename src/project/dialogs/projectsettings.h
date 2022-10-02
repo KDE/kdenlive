@@ -93,7 +93,7 @@ private:
     QString m_previewparams;
     QString m_previewextension;
     QString m_initialExternalProxyProfile;
-    EncodingProfilesChooser *m_tlPreviewProfiles;
+    EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;
     /** @brief Fill the proxy profiles combobox. */
     // void loadPreviewProfiles();
 

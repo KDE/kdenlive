@@ -61,7 +61,6 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);
-    previewWarning->hide();
     auto *vbox = new QVBoxLayout;
     vbox->setContentsMargins(0, 0, 0, 0);
     m_pw = new ProfileWidget(this);
@@ -172,10 +171,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     if (!m_previewparams.isEmpty() || !m_previewextension.isEmpty()) {
         currentProfileParams = QString("%1;%2").arg(m_previewparams, m_previewextension);
     }
-    m_tlPreviewProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::TimelinePreview, true, QStringLiteral(), currentProfileParams);
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(this, true, currentProfileParams);
     preview_profile_box->addWidget(m_tlPreviewProfiles);
     connect(m_pw, &ProfileWidget::profileChanged, this, [this]() { m_tlPreviewProfiles->filterPreviewProfiles(m_pw->selectedProfile()); });
-    connect(m_tlPreviewProfiles, &EncodingProfilesChooser::incompatibleProfile, previewWarning, &KMessageWidget::animatedShow);
     m_tlPreviewProfiles->filterPreviewProfiles(currentProf);
     loadProxyProfiles();
     loadExternalProxyProfiles();

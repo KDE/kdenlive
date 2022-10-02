@@ -5,11 +5,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "encodingprofilesdialog.h"
+#include "core.h"
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 
 #include "klocalizedstring.h"
+#include <KMessageWidget>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QStandardItemModel>
@@ -185,13 +187,13 @@ void EncodingProfilesDialog::slotEditProfile()
 }
 
 EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfilesManager::ProfileType type, bool showAutoItem, const QString &configName,
-                                                 const QString &selectByValue)
+                                                 bool native)
     : QWidget(parent)
     , m_type(type)
     , m_showAutoItem(showAutoItem)
 {
-    QVBoxLayout *grid = new QVBoxLayout(this);
-    grid->setContentsMargins(0, 0, 0, 0);
+    QVBoxLayout *verticalLayout = new QVBoxLayout(this);
+    verticalLayout->setContentsMargins(0, 0, 0, 0);
     m_profilesCombo = new QComboBox(this);
     if (!configName.isEmpty()) {
         m_profilesCombo->setObjectName(QStringLiteral("kcfg_%1").arg(configName));
@@ -213,25 +215,25 @@ EncodingProfilesChooser::EncodingProfilesChooser(QWidget *parent, EncodingProfil
     hor->addWidget(m_profilesCombo);
     hor->addWidget(buttonConfigure);
     hor->addWidget(buttonInfo);
-    grid->addLayout(hor);
-    grid->addWidget(m_info);
+
+    // Message widget
+    m_messageWidget = new KMessageWidget(this);
+    m_messageWidget->setWordWrap(true);
+    m_messageWidget->setCloseButtonVisible(true);
+
+    verticalLayout->addLayout(hor);
+    verticalLayout->addWidget(m_info);
+    verticalLayout->addWidget(m_messageWidget);
     m_info->setVisible(false);
+    m_messageWidget->hide();
     connect(buttonConfigure, &QAbstractButton::clicked, this, &EncodingProfilesChooser::slotManageEncodingProfile);
     connect(buttonInfo, &QAbstractButton::clicked, m_info, &QWidget::setVisible);
     connect(m_profilesCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &EncodingProfilesChooser::slotUpdateProfile);
-    loadEncodingProfiles();
-    if (!configName.isEmpty()) {
-        KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
-        int ix = resourceConfig.readEntry(configName).toInt();
-        m_profilesCombo->setCurrentIndex(ix);
-        slotUpdateProfile(ix);
-    } else if (!selectByValue.isEmpty()) {
-        int ix = m_profilesCombo->findData(selectByValue);
-        if (ix == -1) {
-            m_profilesCombo->addItem(i18n("Current Settings"), selectByValue);
-            ix = m_profilesCombo->findData(selectByValue);
-        }
-        if (ix > -1) {
+    if (native) {
+        loadEncodingProfiles();
+        if (!configName.isEmpty()) {
+            KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
+            int ix = resourceConfig.readEntry(configName).toInt();
             m_profilesCombo->setCurrentIndex(ix);
             slotUpdateProfile(ix);
         }
@@ -245,11 +247,12 @@ void EncodingProfilesChooser::slotManageEncodingProfile()
     dia->exec();
     delete dia;
     loadEncodingProfiles();
+    filterPreviewProfiles(pCore->getCurrentProfilePath());
 }
 
 void EncodingProfilesChooser::loadEncodingProfiles()
 {
-    m_profilesCombo->blockSignals(true);
+    QSignalBlocker bk(m_profilesCombo);
     QString currentItem = m_profilesCombo->currentText();
     m_profilesCombo->clear();
     if (m_showAutoItem) {
@@ -267,20 +270,106 @@ void EncodingProfilesChooser::loadEncodingProfiles()
     while (i.hasNext()) {
         i.next();
         if (!i.key().isEmpty()) {
-            if (m_type == EncodingProfilesManager::TimelinePreview) {
-                // We filter out incompatible profiles
-                if (i.value().contains(QLatin1String("nvenc"))) {
-                    if (KdenliveSettings::nvencEnabled()) {
-                        m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
-                    }
-                    continue;
+            m_profilesCombo->addItem(i.key(), i.value());
+        }
+    }
+    if (!currentItem.isEmpty()) {
+        int ix = m_profilesCombo->findText(currentItem);
+        m_profilesCombo->setCurrentIndex(ix);
+        slotUpdateProfile(ix);
+    }
+}
+
+QString EncodingProfilesChooser::currentExtension()
+{
+    QString profilestr = m_profilesCombo->currentData().toString();
+    if (profilestr.isEmpty()) {
+        return {};
+    }
+    return profilestr.section(QLatin1Char(';'), 1, 1);
+}
+
+QString EncodingProfilesChooser::currentParams()
+{
+    QString profilestr = m_profilesCombo->currentData().toString();
+    if (profilestr.isEmpty()) {
+        return {};
+    }
+    return profilestr.section(QLatin1Char(';'), 0, 0);
+}
+
+void EncodingProfilesChooser::slotUpdateProfile(int ix)
+{
+    m_info->clear();
+    QString profilestr = m_profilesCombo->itemData(ix).toString();
+    if (!profilestr.isEmpty()) {
+        m_info->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
+    }
+}
+
+void EncodingProfilesChooser::hideMessage()
+{
+    m_messageWidget->hide();
+}
+
+void EncodingProfilesChooser::filterPreviewProfiles(const QString & /*profile*/) {}
+
+EncodingTimelinePreviewProfilesChooser::EncodingTimelinePreviewProfilesChooser(QWidget *parent, bool showAutoItem, const QString &defaultValue,
+                                                                               bool selectFromConfig)
+    : EncodingProfilesChooser(parent, EncodingProfilesManager::TimelinePreview, showAutoItem, QString(), false)
+{
+    loadEncodingProfiles();
+    if (selectFromConfig) {
+        KConfigGroup resourceConfig(KSharedConfig::openConfig(), "project");
+        int ix = resourceConfig.readEntry(defaultValue).toInt();
+        m_profilesCombo->setCurrentIndex(ix);
+        slotUpdateProfile(ix);
+    } else if (!defaultValue.isEmpty()) {
+        int ix = m_profilesCombo->findData(defaultValue);
+        if (ix == -1) {
+            m_profilesCombo->addItem(i18n("Current Settings"), defaultValue);
+            ix = m_profilesCombo->findData(defaultValue);
+        }
+        if (ix > -1) {
+            m_profilesCombo->setCurrentIndex(ix);
+            slotUpdateProfile(ix);
+        }
+    }
+    connect(m_profilesCombo, &KComboBox::currentIndexChanged, m_messageWidget, &KMessageWidget::hide);
+}
+
+void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
+{
+    QSignalBlocker bk(m_profilesCombo);
+    QString currentItem = m_profilesCombo->currentText();
+    m_profilesCombo->clear();
+    if (m_showAutoItem) {
+        if (KdenliveSettings::nvencEnabled() || KdenliveSettings::vaapiEnabled()) {
+            m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Automatic"));
+        } else {
+            m_profilesCombo->addItem(i18n("Automatic"));
+        }
+    }
+
+    KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, EncodingProfilesManager::configGroupName(m_type));
+    QMap<QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> i(values);
+    while (i.hasNext()) {
+        i.next();
+        if (!i.key().isEmpty()) {
+            // We filter out incompatible profiles
+            if (i.value().contains(QLatin1String("nvenc"))) {
+                if (KdenliveSettings::nvencEnabled()) {
+                    m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
                 }
-                if (i.value().contains(QLatin1String("vaapi"))) {
-                    if (KdenliveSettings::vaapiEnabled()) {
-                        m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
-                    }
-                    continue;
+                continue;
+            }
+            if (i.value().contains(QLatin1String("vaapi"))) {
+                if (KdenliveSettings::vaapiEnabled()) {
+                    m_profilesCombo->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i.key(), i.value());
                 }
+                continue;
             }
             m_profilesCombo->addItem(i.key(), i.value());
         }
@@ -290,10 +379,9 @@ void EncodingProfilesChooser::loadEncodingProfiles()
         m_profilesCombo->setCurrentIndex(ix);
         slotUpdateProfile(ix);
     }
-    m_profilesCombo->blockSignals(false);
 }
 
-void EncodingProfilesChooser::filterPreviewProfiles(const QString &profile)
+void EncodingTimelinePreviewProfilesChooser::filterPreviewProfiles(const QString &profile)
 {
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(m_profilesCombo->model());
     Q_ASSERT(model != nullptr);
@@ -326,36 +414,10 @@ void EncodingProfilesChooser::filterPreviewProfiles(const QString &profile)
         for (int i = 0; i < max; i++) {
             if (m_profilesCombo->itemData(i).isNull()) {
                 m_profilesCombo->setCurrentIndex(i);
-                emit incompatibleProfile();
+                m_messageWidget->setText(i18n("Selected Timeline preview profile is not compatible with the project framerate,\nreverting to Automatic."));
+                m_messageWidget->animatedShow();
                 break;
             }
         }
-    }
-}
-
-QString EncodingProfilesChooser::currentExtension()
-{
-    QString profilestr = m_profilesCombo->currentData().toString();
-    if (profilestr.isEmpty()) {
-        return {};
-    }
-    return profilestr.section(QLatin1Char(';'), 1, 1);
-}
-
-QString EncodingProfilesChooser::currentParams()
-{
-    QString profilestr = m_profilesCombo->currentData().toString();
-    if (profilestr.isEmpty()) {
-        return {};
-    }
-    return profilestr.section(QLatin1Char(';'), 0, 0);
-}
-
-void EncodingProfilesChooser::slotUpdateProfile(int ix)
-{
-    m_info->clear();
-    QString profilestr = m_profilesCombo->itemData(ix).toString();
-    if (!profilestr.isEmpty()) {
-        m_info->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
     }
 }
