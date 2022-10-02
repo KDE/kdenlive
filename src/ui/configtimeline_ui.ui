@@ -42,21 +42,91 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
-     <property name="text">
-      <string>Use FFmpeg for audio thumbnails (faster)</string>
+   <item row="3" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="15" column="0">
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Playback and Seeking:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="kcfg_pauseonseek">
+     <property name="text">
+      <string>Pause playback when seeking</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="kcfg_jumptostart">
+     <property name="text">
+      <string>Jump to timeline start if playback is started on last frame in timeline</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QCheckBox" name="kcfg_seekonaddeffect">
+     <property name="text">
+      <string>Seek to clip when adding effect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Scrolling:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QCheckBox" name="kcfg_autoscroll">
+     <property name="text">
+      <string>Autoscroll while playing</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QCheckBox" name="kcfg_scrollvertically">
+     <property name="text">
+      <string>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QCheckBox" name="kcfg_showmarkers">
+     <property name="text">
+      <string>Display clip markers comments</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Default track height:</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="1">
+   <item row="14" column="1">
     <widget class="QSpinBox" name="kcfg_trackheight">
      <property name="minimum">
       <number>0</number>
@@ -69,21 +139,50 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="1">
-    <widget class="QCheckBox" name="kcfg_showmarkers">
-     <property name="text">
-      <string>Display clip markers comments</string>
+   <item row="15" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Raise Properties Pane when Selecting in Timeline</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_raisepropsclips">
+        <property name="text">
+         <string>Clips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
+        <property name="text">
+         <string>Transitions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="kcfg_raisepropstracks">
+        <property name="text">
+         <string>Tracks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>231</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="17" column="0" colspan="2">
+   <item row="16" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Multi Stream Audio Clips</string>
@@ -131,7 +230,7 @@
      </layout>
     </widget>
    </item>
-   <item row="19" column="0">
+   <item row="18" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -143,112 +242,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Playback and Seeking:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QCheckBox" name="kcfg_pauseonseek">
-     <property name="text">
-      <string>Pause playback when seeking</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QCheckBox" name="kcfg_jumptostart">
-     <property name="text">
-      <string>Jump to timeline start if playback is started on last frame in timeline</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QCheckBox" name="kcfg_seekonaddeffect">
-     <property name="text">
-      <string>Seek to clip when adding effect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="Line" name="line_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Scrolling:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="1">
-    <widget class="QCheckBox" name="kcfg_autoscroll">
-     <property name="text">
-      <string>Autoscroll while playing</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
-    <widget class="QCheckBox" name="kcfg_scrollvertically">
-     <property name="text">
-      <string>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0" colspan="2">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Raise Properties Pane when Selecting in Timeline</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="kcfg_raisepropsclips">
-        <property name="text">
-         <string>Clips</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
-        <property name="text">
-         <string>Transitions</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QCheckBox" name="kcfg_raisepropstracks">
-        <property name="text">
-         <string>Tracks</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>231</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
    </item>
   </layout>
  </widget>
