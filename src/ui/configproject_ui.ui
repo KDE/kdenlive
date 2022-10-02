@@ -2,10 +2,35 @@
 <ui version="4.0">
  <class>ConfigProject_UI</class>
  <widget class="QWidget" name="ConfigProject_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>507</width>
+    <height>383</height>
+   </rect>
+  </property>
   <layout class="QFormLayout" name="formLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
+   <item row="1" column="0" colspan="2">
+    <widget class="KMessageWidget" name="kmessagewidget">
+     <property name="text">
+      <string>These are the the default settings for new projects. To edit the parameters of the current project, use the project settings.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+     <property name="icon">
+      <iconset theme="help-hint">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_project_folder">
      <property name="text">
@@ -27,6 +52,38 @@
     <widget class="QRadioButton" name="kcfg_sameprojectfolder">
      <property name="text">
       <string>Parent folder of project file</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QRadioButton" name="kcfg_customprojectfolder">
+       <property name="text">
+        <string>Custom project folder:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KUrlRequester" name="projecturl">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QGroupBox" name="profile_box">
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -76,64 +133,6 @@
      </item>
     </widget>
    </item>
-   <item row="21" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QRadioButton" name="kcfg_customprojectfolder">
-       <property name="text">
-        <string>Custom project folder:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KUrlRequester" name="projecturl">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QGroupBox" name="profile_box">
-     <property name="flat">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="Line" name="line_2">
-     <property name="minimumSize">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="11" column="0">
     <widget class="QLabel" name="label_preview_profile">
      <property name="sizePolicy">
@@ -150,23 +149,7 @@
    <item row="11" column="1">
     <layout class="QHBoxLayout" name="preview_profile_box"/>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="KMessageWidget" name="kmessagewidget">
-     <property name="text">
-      <string>These are the the default settings for new projects. To edit the parameters of the current project, use the project settings.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="closeButtonVisible">
-      <bool>false</bool>
-     </property>
-     <property name="icon">
-      <iconset theme="help-hint"/>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
+   <item row="12" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -179,10 +162,10 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Audio tracks</string>
+   <item row="7" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
