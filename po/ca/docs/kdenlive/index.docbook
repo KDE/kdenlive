@@ -1,0 +1,660 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Catalan  "INCLUDE">
+]>
+<book id="kdenlive" lang="&language;">
+<bookinfo>
+<title
+>Guia d'inici ràpid del Kdenlive (obsoleta)</title>
+<authorgroup>
+<author>
+<personname
+><firstname
+>Actualment aquesta documentació és obsoleta. Si us plau, vegeu el <ulink url="https://docs.kdenlive.org/"
+>Manual del Kdenlive</ulink
+> nou.</firstname
+> <surname
+>Aquesta documentació ha estat convertida des de la pàgina <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+>de la KDE User Base.</surname
+> </personname>
+    </author>
+&traductor.Antoni.Bella; 
+    </authorgroup>
+<legalnotice
+>&FDLNotice;</legalnotice>
+<date
+>7 de maig de 2019</date>
+    <releaseinfo
+>Aplicacions 19.04</releaseinfo>
+<abstract>
+<para
+></para>
+    </abstract>
+    <keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>multimèdia</keyword>
+<keyword
+>vídeo</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp
+>2019-04-16T07:41:55Z</timestamp
+>-->
+
+<!--userbase-content-->
+<chapter id="quick-start"
+><title
+>Inici ràpid</title
+> 
+<sect1 id="creating-a-new-project"
+><title
+>Crear un projecte nou</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-folder-structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Estructura de directoris del &kdenlive;</phrase>
+    </textobject>
+    <caption>
+      <para
+>Estructura de directoris del &kdenlive;</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>El primer pas és crear una nova carpeta (buida) per al nostre nou projecte. En aquesta guia d'aprenentatge l'anomeno <filename
+>quickstart-tutorial/</filename
+>. A continuació, obteniu alguns clips de vídeo, o descarregueu-los des d'aquí: <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2"
+>Kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink
+> (7 MB)<footnote
+><para
+>Si preferiu Theora (és probable que no doncs el vídeo Ogg sol causar problemes), alternativament podeu descarregar <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2"
+>kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink
+>.</para
+></footnote
+>, i extreure'ls &pex; a la subcarpeta <filename
+>quickstart-tutorial/Vídeos/</filename
+> dins de la carpeta del projecte. </para>
+<para
+>La imatge de l'esquerra mostra l'estructura de directori suggerida: Cada projecte té el seu propi directori, amb fitxers de vídeo en el subdirectori <filename
+>Vídeos</filename
+>, fitxers d'àudio en el directori <filename
+>Àudio</filename
+>, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
+>llegir més</ulink
+>). </para>
+<para
+>(La guia d'aprenentatge a partir d'ara assumeix que utilitzeu els vídeos de mostra proporcionats, però funciona amb qualsevol). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-new-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>El diàleg projecte nou</phrase>
+    </textobject>
+    <caption>
+      <para
+>El diàleg projecte nou</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Obriu el &kdenlive; i creeu un projecte nou (<menuchoice
+><guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Nou</guimenuitem
+></menuchoice
+>). </para>
+<para
+>Escolliu la carpeta del projecte creada anteriorment (<filename
+>quickstart-tutorial/</filename
+>) i seleccioneu un perfil de projecte adequat. Els fitxers de vídeo descrits anteriorment són 720p, 23,98 fps.<footnote
+><para
+><ulink url="http://en.wikipedia.org/wiki/720p"
+>720</ulink
+> és l'alçada del vídeo, p és sinònim d'<ulink url="http://en.wikipedia.org/wiki/Progressive_scan"
+>exploració progressiva</ulink
+> en contrast a <ulink url="http://en.wikipedia.org/wiki/Interlaced_video"
+>vídeo entrellaçat</ulink
+>, i el nombre fps denota el nombre de fotogrames complets per segon.</para
+></footnote
+> Si utilitzeu els vostres propis fitxers i no sabeu quin utilitzar, el &kdenlive; suggerirà el més apropiat quan s'afegeixi el primer el clip<footnote
+><para
+>Proporcionat sota les opcions de Configura el &kdenlive; <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
+>Miscel·lània</ulink
+> és establert a <emphasis
+>Comprova si el primer clip afegit concorda amb el perfil del projecte</emphasis
+></para
+></footnote
+>, de manera que podeu deixar el camp com estigui. </para>
+</sect1>
+<sect1 id="adding-clips"
+><title
+>Afegir clips</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Safata del projecte: Afegir clips de vídeo</phrase>
+    </textobject>
+    <caption>
+      <para
+>Safata del projecte: Afegir clips de vídeo</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ara que el projecte està llest, començarem a afegir alguns clips (&ead;, els que descarregueu). Això funciona a través del <emphasis
+>giny Safata del projecte</emphasis
+>, un clic a la icona <guilabel
+>Afegeix un clip</guilabel
+> <inlinemediaobject
+> <imageobject
+> <imagedata fileref="Icon-add-clip.png" format="PNG"/> </imageobject
+> </inlinemediaobject
+> obre directament el diàleg de selecció de fitxers, un clic a la fletxa mostra una llista dels tipus de clips addicionals que també es poden afegir. Clips de vídeo, clips d'àudio, imatges, i altres projectes del &kdenlive; es poden afegir a través del diàleg per omissió <guilabel
+>Afegeix un clip</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Finestra del &kdenlive; amb els fitxers de la guia d'aprenentatge</phrase>
+    </textobject>
+    <caption>
+      <para
+>Finestra del &kdenlive; amb els fitxers de la guia d'aprenentatge</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Després de carregar els clips, el &kdenlive; tindrà un aspecte similar a aquest. A la part superior esquerra es troba el ja conegut arbre del projecte. A la dreta hi ha els monitors que mostren el vídeo. El monitor del clip mostra el vídeo a partir dels clips originals, el monitor del projecte mostra com es veurà el vídeo de sortida, amb tots els efectes, transicions, &etc; aplicats. El tercer element, també molt important, és la línia de temps (per sota dels monitors): Aquest és el lloc on es poden editar els clips de vídeo. Hi ha dos tipus diferents de pistes, de vídeo i d'àudio. Les pistes de vídeo poden contenir qualsevol classe de vídeo, les pistes d'àudio també -però quan es deixa anar un fitxer de vídeo a la pista d'àudio, només s'utilitzarà l'àudio-. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-save-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Desar un projecte del &kdenlive;</phrase>
+    </textobject>
+    <caption>
+      <para
+>Desar un projecte del &kdenlive;</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Guardarem el treball mitjançant <menuchoice
+><guimenu
+>Fitxer</guimenu
+><guimenuitem
+>Desa</guimenuitem
+></menuchoice
+>. Això desarà el nostre projecte, &ead;, els clips que hem situat a la línia de temps, els efectes que hem aplicat, i així successivament. Això <emphasis
+>no</emphasis
+> es pot reproduir.<footnote
+><para
+>Per a ser correctes, ho <emphasis
+>podem</emphasis
+> reproduir utilitzant <varname
+>melt projecte.kdenlive</varname
+>, però aquesta no és la manera en la qual voldreu presentar el vostre últim vídeo, ja que (probablement) sigui massa lent. Més a més, això només funciona si «melt» està instal·lat.</para
+></footnote
+> El procés de crear el vídeo final s'anomena <emphasis
+>Renderitzat</emphasis
+>. </para>
+</sect1>
+<sect1 id="timeline"
+><title
+>Línia de temps</title
+> 
+<para
+>Vegeu també la <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Timeline"
+>secció Línia de temps</ulink
+> del manual. </para>
+<para
+>Ara ve l'edició real. Els clips del projecte es combinen per al resultat final sobre la línia de temps. Arriben allà mitjançant l'acció arrossegar i deixar anar: Arrossegueu algun Napoli (assumint que esteu utilitzant els fitxers proporcionats, com a la resta d'aquesta guia d'aprenentatge d'inici ràpid. Si no, si us plau, assegureu-vos que la vostra pantalla és impermeable, i potser a prova de tomàquets) des de l'arbre del projecte i poseu-lo a la primera pista en la línia de temps. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timeline-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Primers clips en la línia de temps</phrase>
+    </textobject>
+    <caption>
+      <para
+>Primers clips en la línia de temps</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Atès que també es necessiten alguns estris de cuina, agafeu el clip de la cullera i deixeu-lo anar a la primera pista. A continuació, arrossegueu el Napoli al començament de la línia de temps (en cas contrari el vídeo renderitzat començarà amb alguns segons de negre), i la cullera just després del Napoli, de manera que es vegi la imatge a l'esquerra. (Podeu apropar-la amb <keycombo
+>&Ctrl;<keycap
+>Roda</keycap
+></keycombo
+>). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timelinecursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Cursor de la línia de temps</phrase>
+    </textobject>
+    <caption>
+      <para
+>Cursor de la línia de temps</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>El resultat ja es pot pre-visualitzar prement <keycap
+>Espai</keycap
+> (o el botó <guilabel
+>Reprodueix</guilabel
+> en el monitor del projecte). Veureu el Napoli directament seguit per una cullera. Si el cursor de temps no és al començament, el monitor del projecte començarà la reproducció en un punt intermedi. El podeu moure arrossegant-lo en el regle de la línia de temps o en el monitor del projecte. Si preferiu dreceres de teclat, <keycombo
+>&Ctrl;<keycap
+>Inici</keycap
+></keycombo
+> fa el mateix per al monitor que està activat. (Seleccioneu el <guilabel
+>Monitor del projecte</guilabel
+> si encara no està seleccionat abans d'utilitzar la drecera). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-resize-marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Canviar la mida del marcador</phrase>
+    </textobject>
+    <caption>
+      <para
+>Canviar la mida del marcador</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ja que després de dinar es pot jugar, hi ha un clip de Billiards. Afegiu-lo també a la línia de temps. Els primers 1,5 segons no succeeix res al clip, de manera que potser s'haurà de <guilabel
+>retallar</guilabel
+> per evitar que es converteixi en un vídeo avorrit. Una manera fàcil<footnote
+><para
+>Escriure-ho d'aquesta manera suggereix que hi ha diverses formes de retallar un clip. Això és de fet veritat.</para
+></footnote
+> per fer-ho moveu el cursor de la línia de temps a la posició desitjada (&ead;, la posició on voleu retallar el vídeo), a continuació, arrossegueu la vora esquerra del clip fins que aparegui el marcador de canvi de mida. El cursor de la línia de temps serà atret quan esteu prou a prop. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-overlap-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Superposar clips</phrase>
+    </textobject>
+    <caption>
+      <para
+>Superposar clips</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Per afegir una <emphasis
+>transició</emphasis
+> entre el menjar (la cullera) i el joc de billar («billiards»), els dos clips han de superposar-se. Per ser més precisos: el segon clip ha d'estar per sobre o per sota del primer i al final algunes imatges després de començar la segona part. Aquí pot ser convenient apropar fins que apareguin les marques per als marcs individuals. Fer-ho també simplifica tenir sempre la durada de la transició, cinc imatges en aquest cas. </para>
+<para
+>Podeu apropar, ja sigui utilitzant el <guilabel
+>control lliscant de zoom</guilabel
+> a la part inferior de la finestra del &kdenlive;, o amb <keycombo
+>&Ctrl;<keycap
+>roda del ratolí</keycap
+></keycombo
+>. El &kdenlive; s'acostarà al cursor de la línia de temps, de manera que primer hem de dur-lo a la posició que voleu ampliar. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Marcador de transició</phrase>
+    </textobject>
+    <caption>
+      <para
+>Marcador de transició</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ara que s'ha realitzat la superposició dels clips, es pot afegir la transició. Això es fa fent clic dret sobre el clip superior i escollint <guilabel
+>Afegeix una transició</guilabel
+> o, més fàcil, fent clic al passant el ratolí per sobre de la cantonada inferior dreta del clip Spoon fins que aparegui el dit del punter i aparegui el missatge <quote
+>Feu clic per afegir una transició</quote
+>. La segona, per omissió, afegeix una transició de dissolució, la qual en aquest cas seria la millor idea, ja que la cullera no és necessària per a la reproducció. </para>
+<para
+>Les transicions dissolen el primer clip a dins del segon. Vegeu també la secció <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions"
+>Transició</ulink
+> del manual. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-last-clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ara afegirem l'últim clip, el «Piano», i una altra vegada apliqueu una transició de dissolució. Quan s'afegeix a la primera pista de la línia de temps, heu de fer clic a la zona inferior esquerra del nou clip per afegir la transició al clip anterior. </para>
+<sect2 id="effects"
+><title
+>Efectes</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Llista d'efectes</phrase>
+    </textobject>
+    <caption>
+      <para
+>Llista d'efectes</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>El «Piano» es pot acolorir mitjançant l'addició d'un <emphasis
+>efecte</emphasis
+> al mateix. Seleccioneu el clip de piano, a continuació, feu doble clic a l'efecte <guilabel
+>Ajust RGB</guilabel
+> a la <guilabel
+>Llista d'efectes</guilabel
+>. Si no és visible, ho podeu aconseguir a través de <menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Llista d'efectes</guimenuitem
+></menuchoice
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-effect-flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Una vegada s'ha afegit l'efecte, el seu nom serà afegit a la línia de temps del clip. També es mostrarà al giny <guilabel
+>Propietats</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-effectstack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Pila d'efectes amb ajust RGB</phrase>
+    </textobject>
+    <caption>
+      <para
+>Pila d'efectes amb ajust RGB</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Per aconseguir un ambient càlid amb to groc-taronja a la imatge, adequat per a una nit còmoda, el blau necessita ser reduït, mentre que el vermell i el verd s'han d'enfortir. </para>
+<para
+>Els valors al giny Propietats es poden canviar mitjançant el control lliscant (el &BMR; restableix al valor per omissió), o introduint un valor directament fent doble clic al número a la dreta de la barra lliscant. </para>
+<para
+>El giny Propietats sempre es refereix al clip que està seleccionat a la línia de temps. Cada efecte es pot desactivar temporalment fent clic a la icona de l'ull, o tots els efectes per a aquest clip mitjançant la casella de selecció situada a la part superior del giny Propietats (tot i que es desaran les opcions), això és útil &pex; per als efectes que requereixen molta potència de càlcul, de manera que es pot desactivar mentre s'edita i tornar a activar per al renderitzat. </para>
+<para
+>Per a alguns efectes, com el que s'utilitza aquí, és possible afegir fotogrames clau. La icona del cronòmetre indica que emmarca aquesta possibilitat. Els fotogrames clau s'utilitzen per a canviar els paràmetres de l'efecte en el temps. En el nostre clip ens permet fer una decoloració del piano des d'una nit càlida cap a una nit freda. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Els fotogrames clau per als efectes</phrase>
+    </textobject>
+    <caption>
+      <para
+>Els fotogrames clau per als efectes</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Després de fer clic a la icona <guilabel
+>fotograma clau</guilabel
+> (la icona del cronòmetre emmarcat a la imatge anterior), el giny Propietats es tornarà a organitzar. Per omissió, hi haurà dos fotogrames clau, un al començament del clip i un altre al final a la línia de temps. Desplaceu el cursor de la línia de temps cap al final del clip, de manera que el monitor del projecte en realitat mostrarà els nous colors en canviar els paràmetres del fotograma clau al final. </para>
+<para
+>Assegureu-vos que l'últim fotograma clau se selecciona en la llista Propietats. Llavors estareu llest per inundar el piano amb un blau profund. </para>
+<para
+>En moure el cursor de la línia de temps al començament del projecte i reproduir-lo (amb la tecla <keycap
+>Espai</keycap
+>, o el botó <guilabel
+>Reprodueix</guilabel
+> en el <guilabel
+>Monitor del projecte</guilabel
+>), el piano haurà de canviar cap al color que desitjat. </para>
+<para
+>Els fotogrames clau són la part més difícil d'aquesta guia d'aprenentatge. Si els gestioneu per fer-ho, dominareu el &kdenlive; amb facilitat! </para>
+<para
+>Vegeu també la <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Effects"
+>secció Efectes</ulink
+> del manual. </para>
+</sect2>
+<sect2 id="music"
+><title
+>Música</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Esvaïment de l'àudio</phrase>
+    </textobject>
+    <caption>
+      <para
+>Esvaïment de l'àudio</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Atès que els clips no proporcionen cap àudio, cercarem alguna bona peça de música, des de la vostra col·lecció local o a pàgines web com <ulink url="http://www.jamendo.com"
+>Jamendo</ulink
+>. Quan afegiu un clip d'àudio al projecte, s'arrossegarà una pista d'àudio en la línia de temps. </para>
+<para
+>El clip d'àudio es pot canviar de mida a la línia de temps de la mateixa manera que els clips de vídeo. El cursor s'ajusta al final del projecte de forma automàtica. Per afegir un efecte d'esvaïment al final del clip d'àudio (excepte si trobeu un fitxer amb exactament la longitud correcta) podeu anar a la vora superior dreta (o esquerra) del clip a la línia de temps i arrossegueu el triangle amb ombra vermella a la posició on ha de començar l'esvaïment.<footnote
+><para
+>Aquest triangle amb ombra és una forma ràpida per afegir un efecte <menuchoice
+><guimenu
+>Esvaeix</guimenu
+><guimenuitem
+>Esvaeix de forma gradual</guimenuitem
+></menuchoice
+>. Tots dos camins porten al mateix resultat.</para
+></footnote>
+</para>
+</sect2>
+</sect1>
+<sect1 id="rendering"
+><title
+>Renderitzar</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>El diàleg de renderització</phrase>
+    </textobject>
+    <caption>
+      <para
+>El diàleg de renderització</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Uns minuts més, i el projecte estarà finalitzat! Feu clic al botó Renderitza (o aneu a <menuchoice
+><guimenu
+>Projecte</guimenu
+><guimenuitem
+>Renderitza</guimenuitem
+></menuchoice
+>, o premeu <keycombo
+>&Ctrl;&Intro;</keycombo
+>) per obtenir el diàleg que es mostra a l'esquerra. Seleccioneu el fitxer de sortida desitjat per al nostre nou vídeo amb tots els efectes i transicions, escolliu MP4 (funciona gairebé arreu), seleccioneu la ubicació del fitxer de sortida i premeu el botó <guilabel
+>Renderitza a un fitxer</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Progrés del renderitzat</phrase>
+    </textobject>
+    <caption>
+      <para
+>Progrés del renderitzat</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Després d'alguns segons el renderitzat haurà finalitzat, i haureu completat el vostre primer projecte del &kdenlive;. Felicitats! </para>
+</sect1>
+<sect1 id="complete-manual"
+><title
+>Manual complet</title
+> 
+<para
+>Més documentació per a la versió actual del &kdenlive; es pot trobar al <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual"
+>manual complet</ulink
+>. </para>
+</sect1>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title
+>Crèdits i llicència</title>
+    <para
+>Copyright de la documentació, vegeu la <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history"
+>pàgina historial Kdenlive/Manual/QuickStart</ulink
+> d'UserBase.</para>
+    <para
+>Traductor/Revisor de la documentació: &credits.Antoni.Bella;</para
+> &underFDL; </chapter>
+&documentation.index;
+</book>

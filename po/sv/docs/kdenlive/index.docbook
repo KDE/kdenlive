@@ -1,0 +1,678 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Swedish "INCLUDE">
+]>
+<book id="kdenlive" lang="&language;">
+<bookinfo>
+<title
+>Kdenlive snabbstartguide (föråldrad)</title>
+<authorgroup>
+<author>
+<personname
+><firstname
+>Användning av den här dokumentationen avråds nu från, titta istället på den nya <ulink url="https://docs.kdenlive.org/"
+>Handbok Kdenlive</ulink
+>.</firstname
+> <surname
+>Den här dokumentationen konverterades från sidan <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+> på KDE:s användarbas.</surname
+> </personname>
+    </author>
+<othercredit role="translator"
+> <firstname
+>Stefan</firstname
+> <surname
+>Asserhäll</surname
+> <affiliation
+><address
+><email
+>stefan.asserhall@bredband.net</email
+></address
+></affiliation
+> <contrib
+>Översättare</contrib
+></othercredit
+> 
+    </authorgroup>
+<legalnotice
+>&FDLNotice;</legalnotice>
+<date
+>2019-05-07</date>
+    <releaseinfo
+>Program 19.04</releaseinfo>
+<abstract>
+<para
+></para>
+    </abstract>
+    <keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>multimedia</keyword>
+<keyword
+>video</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp
+>2019-04-16T07:41:55Z</timestamp
+>-->
+
+<!--userbase-content-->
+<chapter id="quick-start"
+><title
+>Snabbstart</title
+> 
+<sect1 id="creating-a-new-project"
+><title
+>Skapa ett nytt projekt</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-folder-structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Kdenlive katalogstruktur</phrase>
+    </textobject>
+    <caption>
+      <para
+>Kdenlive katalogstruktur</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Det första steget är att skapa en ny (tom) katalog för vårt nya projekt. Jag kallar den <filename
+>snabbstart-handledning/</filename
+> i den här handledningen. Skaffa därefter några exempel på videoklipp, eller ladda ner dem härifrån: <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2"
+>kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink
+> (7 Mibyte)<footnote
+><para
+>Om du föredrar Theora (vilket du förmodligen inte gör, eftersom Ogg Video oftast orsakar problem), kan du ladda ner <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2"
+>kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink
+>.</para
+></footnote
+> som alternativ, och packa t.ex. upp dem i underkatalogen <filename
+>snabbstart-handledning/Videor/</filename
+> i projektkatalogen. </para>
+<para
+>Bilden till vänster visar den föreslagna katalogstrukturen: Varje projekt har sin egen katalog, med videofiler i underkatalogen <filename
+>Videor</filename
+>, ljudfiler i katalogen <filename
+>Ljud</filename
+>, etc. (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
+>läs mer här</ulink
+>). </para>
+<para
+>(Handledningen förutsätter i fortsättningen att du använder exempelvideorna som tillhandahålls, men det fungerar med vilka som helst.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-new-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Dialogrutan Nytt projekt</phrase>
+    </textobject>
+    <caption>
+      <para
+>Dialogrutan Nytt projekt</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Öppna &kdenlive; och skapa ett nytt projekt (<menuchoice
+><guimenu
+>Arkiv</guimenu
+><guimenuitem
+>Ny</guimenuitem
+></menuchoice
+>). </para>
+<para
+>Välj den tidigare skapade projektkatalogen (<filename
+>snabbstart-handledning/</filename
+>) och välj en lämplig projektprofil. Videofilerna som tillhandahålls ovan är 720p, 23.98 rutor/s.<footnote
+><para
+><ulink url="http://en.wikipedia.org/wiki/720p"
+>720</ulink
+> är videons höjd, och p står för <ulink url="http://sv.wikipedia.org/wiki/Progressive_scan"
+>progressiv återgivning</ulink
+> i motsats till <ulink url="http://en.wikipedia.org/wiki/Interlaced_video"
+>inflätad video</ulink
+>, och värdet i ramar/s anger helt antal ramar per sekund.</para
+></footnote
+> Om du använder egna filer och inte vet vilken du ska välja, föreslår &kdenlive; en när det första klippet läggs till <footnote
+><para
+>Under förutsättning att Anpassa Kdenlive Inställningar under <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
+>Diverse</ulink
+> är inställda till <emphasis
+>Kontrollera om först tillagda klipp motsvarar projektprofilen</emphasis
+></para
+></footnote
+> , så du kan lämna fältet med värdet det råkar ha. </para>
+</sect1>
+<sect1 id="adding-clips"
+><title
+>Lägga till klipp</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Projektkorg: Lägga till videoklipp</phrase>
+    </textobject>
+    <caption>
+      <para
+>Projektkorg: Lägga till videoklipp</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Nu när projektet är klart, låt oss börja lägga till några klipp (dvs. de som du laddade ner). Det sker via <emphasis
+>den grafiska komponenten projektkorg</emphasis
+>. Ett klick på ikonen <guilabel
+>Lägg till klipp</guilabel
+> <inlinemediaobject
+> <imageobject
+> <imagedata fileref="Icon-add-clip.png" format="PNG"/> </imageobject
+> </inlinemediaobject
+> öppnar direkt fildialogrutan, ett klicka på den lilla pilen visar en lista med ytterligare klipptyper som dessutom kan läggas till. Videoklipp, ljudklipp, bilder och andra &kdenlive;-projekt kan läggas till via den vanliga dialogrutan <guilabel
+>Lägg till klipp</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Kdenlive-fönstret med handledningsfilerna</phrase>
+    </textobject>
+    <caption>
+      <para
+>Kdenlive-fönstret med handledningsfilerna</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Efter att ha läst in klippen, ser &kdenlive; ut ungefär så här. Längst upp till vänster finns det redan bekanta projektträdet. Till höger om det är skärmarna som visar video: Klippskärmen visar video från de ursprungliga klippen, projektskärmen visar hur den skapade videon kommer att se ut, med alla effekter, övertoningar, etc. införda. Den tredje, också mycket viktiga objektet, är tidslinjen (under skärmarna). Det är här videoklippen kommer att redigeras. Det finns två olika sorters spår, video och ljud. Videospår kan innehålla vilken sorts klipp som helst, också ljudspår - men om en videofil släpps på ljudspåret, används bara ljudet. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-save-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Spara ett Kdenlive-projekt</phrase>
+    </textobject>
+    <caption>
+      <para
+>Spara ett Kdenlive-projekt</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Låt oss spara arbetet via <menuchoice
+><guimenu
+>Arkiv</guimenu
+><guimenuitem
+>Spara</guimenuitem
+></menuchoice
+>. Det sparar vårt projekt, dvs. var vi placerade klippen på tidslinjen, vilka effekter vi använde, och så vidare. Det kan <emphasis
+>inte</emphasis
+> spelas upp.<footnote
+><para
+>I själva verket <emphasis
+>kan</emphasis
+> det spelas upp med användning av <varname
+>melt ditt-projekt.kdenlive</varname
+>, men det är inte sättet att presentera den slutliga videon, eftersom det (troligtvis) är för långsamt. Dessutom fungerar det bara om melt är installerat.</para
+></footnote
+> Processen att skapa den slutliga videon kallas <emphasis
+>återgivning</emphasis
+>. </para>
+</sect1>
+<sect1 id="timeline"
+><title
+>Tidslinje</title
+> 
+<para
+>Se också <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Timeline"
+>avsnittet om tidslinjer i handboken</ulink
+>. </para>
+<para
+>Nu är vi framme vid själva redigeringen. Projektklipp kombineras till slutresultatet på tidslinjen. De kommer dit via drag och släpp: Dra någon Napoli (med antagandet att du använder filerna som tillhandahålls ovan, som i resten av den här snabbstartguiden. Om inte, försäkra dig om att bildskärmen är vattentät, och kanske också att den tål tomater), och släpp den på det första spåret i tidslinjen. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timeline-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Första klippen i tidslinjen</phrase>
+    </textobject>
+    <caption>
+      <para
+>Första klippen i tidslinjen</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Eftersom en del bestick också behövs, släpp också skeden på det första spåret. Dra därefter Napolin till tidslinjens början (annars skulle den återgivna videon börjar med helsvart i några sekunder), och skeden direkt efter Napolin, så att det ser ut som på bilden till vänster (där jag har zoomat in med <keycombo
+>&Ctrl;<keycap
+>mushjul</keycap
+></keycombo
+>). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timelinecursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Tidslinjens markör</phrase>
+    </textobject>
+    <caption>
+      <para
+>Tidslinjens markör</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Resultatet går redan att förhandsgranska genom att trycka på <keycap
+>mellanslag</keycap
+> (eller knappen <guilabel
+>Spela</guilabel
+> på projektskärmen). Då visas Napolin direkt följd av en sked. Om tidslinjens markör inte är i början, börjar projektskärmen spela någonstans i mitten. Den kan flyttas genom att dra den, antingen på tidslinjens linjal eller på projektskärmen. Om du föredrar snabbtangenter, gör <keycombo
+>&Ctrl;<keycap
+>Home</keycap
+></keycombo
+> samma sak för skärmen som är aktiv (markera <guilabel
+>projektskärmen</guilabel
+> om den inte redan är det, innan snabbtangenten används). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-resize-marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Markören för storleksändring</phrase>
+    </textobject>
+    <caption>
+      <para
+>Markören för storleksändring</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Eftersom leken kommer efter maten, finns ett biljardklipp. Lägg dessutom till det på tidslinjen. De första 1,5 sekunderna händer ingenting i klippet, så det kanske bör <guilabel
+>kortas</guilabel
+> för att undvika att videon blir tråkig. Ett enkelt sätt<footnote
+><para
+>Att beskriva det på detta sätt anger att det finns flera olika sätt att korta ett klipp. Det är helt riktigt.</para
+></footnote
+> att göra det är att flytta tidslinjens markör till önskad position (dvs. positionen där videon ska kortas), och därefter dra klippets vänsterkant när storleksändringsmarkören visas. Den hoppar till tidslinjens markör när du kommer nära nog. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-overlap-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Överlappande klipp</phrase>
+    </textobject>
+    <caption>
+      <para
+>Överlappande klipp</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>För att lägga till en <emphasis
+>övertoning</emphasis
+> mellan att äta (skeden) och spela biljard, måste de två klippen överlappa. För att vara exakt: det andra klippet ska vara ovanför eller under det första, som ska sluta några bildrutor efter den andra börjar. Att zooma in till strecken för enskilda bildrutor visas hjälper till här, och det gör också att det blir enkelt att alltid ha samma längd på övertoningar, fem bildrutor i detta fall. </para>
+<para
+>Det går att zooma in genom att antingen använda <guilabel
+>zoomreglaget</guilabel
+> längst ner i &kdenlive;s fönster, eller med <keycombo
+>&Ctrl;<keycap
+>mushjul</keycap
+></keycombo
+>. &kdenlive; zoomar vid tidslinjens markör, så flytta den först till positionen du vill förstora, och zooma därefter in. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Övertoningsmarkör</phrase>
+    </textobject>
+    <caption>
+      <para
+>Övertoningsmarkör</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>När klippen nu överlappar, kan övertoningen läggas till. Det görs antingen genom att högerklicka på det övre klippet och välja <guilabel
+>Lägg till övertoning</guilabel
+>, eller, på ett enklare sätt, genom att hålla musen över skedklippets nedre högra hörn tills den pekande fingermarkören och meddelandet <quote
+>Klicka för att lägga till övertoning</quote
+> visas. Det senare sättet lägger normalt till en upplösningsövertoning, vilket hursomhelst är bäst i detta fall eftersom skeden ändå inte krävs för att spela biljard. </para>
+<para
+>Upplösningsövertoningen gör att det första klippet tonas över till det andra. Se också <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions"
+>avsnittet om övertoningar i handboken</ulink
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-last-clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Låt oss nu lägga till det sista klippet, pianot, och återigen använda en upplösningsövertoning. När den läggs till på tidslinjens första spår måste du klicka på det nya klippets nedre vänstra kant för att lägga till övertoningen till föregående klipp. </para>
+<sect2 id="effects"
+><title
+>Effekter</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Effektlista</phrase>
+    </textobject>
+    <caption>
+      <para
+>Effektlista</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Pianot kan färgläggas genom att lägga till en <emphasis
+>effekt</emphasis
+> i det. Markera pianoklippet, dubbelklicka därefter på effekten <guilabel
+>RGB-justering</guilabel
+> i <guilabel
+>Effektlistan</guilabel
+>. Om den inte är synlig, kan du visa den via <menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Effektlista</guimenuitem
+></menuchoice
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-effect-flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>När effekten väl har lagts till, kommer dess namn att läggas till på tidslinjens klipp. Den visas också i den grafiska komponenten <guilabel
+>Egenskaper</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-effectstack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Effektstacken med RGB-justeringar</phrase>
+    </textobject>
+    <caption>
+      <para
+>Effektstacken med RGB-justeringar</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>För att få en varm orangegul ton på bilden, som passar den sköna kvällen, måste blått reduceras och rött och grönt förstärkas. </para>
+<para
+>Värdena i den grafiska komponenten Egenskaper kan ändras med skjutreglaget (musens mittenknapp återställer det till normalvärdet), eller genom att direkt skriva in ett värde med ett dubbelklick på talet till höger om skjutreglaget. </para>
+<para
+>Den grafiska komponenten Egenskaper gäller alltid klippet i tidslinjen som för närvarande är markerat. Varje effekt kan tillfälligt inaktiveras genom att klicka på ögonikonen, eller så kan alla effekter för klippet inaktiveras genom att använda kryssrutan längst upp i den grafiska komponenten Egenskaper (dock sparas inställningarna). Det är t.ex. användbart för effekter som kräver mycket beräkningskraft, så att de kan inaktiveras under redigering och aktiveras igen vid återgivning. </para>
+<para
+>För vissa effekter, liksom den som används här, är det möjligt att lägga till nyckelrutor. Den inramade klockikonen anger det. Nyckelrutor används för att ändra effektparametrar med tiden. I vårt klipp låter det oss tona pianots färg från en varm kvällsfärg till en kall nattfärg. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Nyckelrutor för effekter</phrase>
+    </textobject>
+    <caption>
+      <para
+>Nyckelrutor för effekter</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Efter att ha klickat på ikonen <guilabel
+>nyckelruta</guilabel
+> (klockikonen inramad i föregående bild), arrangeras den grafiska komponenten Egenskaper om. Normalt finns det två nyckelrutor, en i början på tidslinjens klipp och en i slutet. Flytta tidslinjens markör till slutet av tidslinjens klipp, så att projektskärmen verkligen visar de nya färgerna när parametrarna för nyckelrutan i slutet ändras. </para>
+<para
+>Försäkra dig om att den sista nyckelrutan är markerad i egenskapernas lista. Därefter är du redo att fylla i pianot med en djupblå färg. </para>
+<para
+>Genom att flytta tidslinjens markör till projektets början och spela upp det (med <keycap
+>mellanslag</keycap
+> eller knappen <guilabel
+>Spela</guilabel
+> på <guilabel
+>Projektskärmen</guilabel
+>), ska pianot nu ändra färg enligt önskemålet. </para>
+<para
+>Att använda nyckelramar var den svåraste delen av den här handledningen. Om du klarade av det, får du inga svårigheter med att använda &kdenlive;! </para>
+<para
+>Se också <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Effects"
+>avsnittet om effekter i handboken</ulink
+>. </para>
+</sect2>
+<sect2 id="music"
+><title
+>Musik</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Borttoning av ljud</phrase>
+    </textobject>
+    <caption>
+      <para
+>Borttoning av ljud</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Eftersom klippen inte tillhandahåller något ljud, låt oss leta rätt på något trevligt musikstycke, i din lokala samling eller på webbsidor som <ulink url="http://www.jamendo.com"
+>jamendo</ulink
+>. Ljudklippet ska dras till ett ljudspår på tidslinjen, efter att det har lagts till. </para>
+<para
+>Ljudklippets storlek kan ändras på tidslinjen precis på samma sätt som videoklipp. Markören låses automatiskt vid projektets slut. För att lägga till en borttoningseffekt i slutet av ljudklippet (utom om du hittade en fil med exakt rätt längd) kan du hålla musen över högerkanten (eller vänsterkanten) på tidslinjens klipp och dra den rödfärgade triangeln till positionen där borttoningen ska börja.<footnote
+><para
+>Den skuggade triangeln är en förkortning för att lägga till effekten <menuchoice
+><guimenu
+>Toning</guimenu
+> <guimenuitem
+>Tona bort</guimenuitem
+></menuchoice
+>. Båda sätt ger samma resultat.</para
+></footnote>
+</para>
+</sect2>
+</sect1>
+<sect1 id="rendering"
+><title
+>Återgivning</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Återgivningsdialogrutan</phrase>
+    </textobject>
+    <caption>
+      <para
+>Återgivningsdialogrutan</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Bara några minuter kvar, så är projektet klart! Klicka på knappen Återge (eller gå till <menuchoice
+><guimenu
+>Projekt</guimenu
+><guimenuitem
+>Återge</guimenuitem
+></menuchoice
+>, eller tryck på <keycombo
+>&Ctrl;<keycap
+>Retur</keycap
+></keycombo
+>) för att få fram dialogrutan som visas till vänster. Välj önskad utdatafil för den nya videon med alla effekter och övergångar, välj MP4 (fungerar nästan överallt), välj plats för filen och klicka på knappen <guilabel
+>Återge till fil</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Återgivningsförlopp</phrase>
+    </textobject>
+    <caption>
+      <para
+>Återgivningsförlopp</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Efter några sekunder är återgivningen klar, och ditt första projekt med &kdenlive; är färdigt. Gratulerar! </para>
+</sect1>
+<sect1 id="complete-manual"
+><title
+>Fullständig handbok</title
+> 
+<para
+>Ytterligare dokumentation av den aktuella versionen av &kdenlive; finns i <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual"
+>den fullständiga handboken</ulink
+>. </para>
+</sect1>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title
+>Tack till och licens</title>
+    <para
+>Dokumentation Copyright se Användarbasen <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history"
+>Kdenlive/Manual/QuickStart page history</ulink
+></para>
+    <para
+>Översättning Stefan Asserhäll <email
+>stefan.asserhall@bredband.net</email
+></para
+> &underFDL; </chapter>
+&documentation.index;
+</book>

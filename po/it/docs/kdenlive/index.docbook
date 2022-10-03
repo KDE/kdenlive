@@ -1,0 +1,692 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Italian "INCLUDE">
+]>
+<book id="kdenlive" lang="&language;">
+<bookinfo>
+<title
+>Guida rapida all'uso di Kdenlive</title>
+<authorgroup>
+<author>
+<personname
+><firstname
+>Questa documentazione è stata convertita dalla pagina <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+> di KDE UserBase.</firstname
+> <surname
+></surname
+> </personname>
+    </author>
+<othercredit role="translator"
+><firstname
+>Paolo</firstname
+><surname
+>Zamponi</surname
+><affiliation
+><address
+><email
+>zapaolo@email.it</email
+></address
+></affiliation
+><contrib
+>Aggiornamento e revisione</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Daniele</firstname
+><surname
+>Micci</surname
+><affiliation
+><address
+><email
+>daniele.micci@tiscali.it</email
+></address
+></affiliation
+><contrib
+>Traduzione della documentazione</contrib
+></othercredit
+> 
+    </authorgroup>
+<legalnotice
+>&FDLNotice;</legalnotice>
+<date
+>07/05/2019</date>
+    <releaseinfo
+>Applications 19.04</releaseinfo>
+<abstract>
+<para
+></para>
+    </abstract>
+    <keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>multimedia</keyword>
+<keyword
+>video</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp
+>2019-04-16T07:41:55Z</timestamp
+>-->
+
+<!--userbase-content-->
+<chapter id="quick-start"
+><title
+>Guida rapida</title
+> 
+<sect1 id="creating-a-new-project"
+><title
+>Creare un nuovo progetto</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-folder-structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Struttura delle cartelle di Kdenlive</phrase>
+    </textobject>
+    <caption>
+      <para
+>Struttura della cartelle di Kdenlive</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Il primo passo è quello di creare una nuova cartella (vuota) per il tuo progetto, che in questa guida chiameremo <filename
+>esercitazione/</filename
+>. Prendi quindi alcuni clip video di prova, oppure scaricane qualcuno da qui: <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2"
+>kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink
+> (7 MB)<footnote
+><para
+>. In alternativa, se preferisci usare Theora (cosa che probabilmente non vorrai fare, dal momento che il formato Ogg Video dà solitamente dei problemi), puoi scaricare <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2"
+>kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink
+>.</para
+></footnote
+>. Estraili in una sotto-cartella del progetto, &eg; <filename
+>esercitazione/Video/</filename
+>. </para>
+<para
+>L'immagine a sinistra mostra la struttura delle cartelle consigliata: ciascun progetto ha la propria cartella, con i file video nella sotto-cartella <filename
+>Video</filename
+>, quelli audio in <filename
+>Audio</filename
+>, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
+>leggi un approfondimento</ulink
+>) </para>
+<para
+>(Ai fini di questa esercitazione guidata d'ora in poi si presupporrà che tu stia utilizzando i video di prova forniti, ma sarà possibile svolgere l'esercitazione con qualsiasi altro). </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-new-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Finestra Nuovo progetto</phrase>
+    </textobject>
+    <caption>
+      <para
+>Finestra Nuovo progetto</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Apri &kdenlive; e crea un nuovo progetto (<menuchoice
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Nuovo</guimenuitem
+></menuchoice
+>). </para>
+<para
+>Scegli la cartella del progetto appena creata (<filename
+>esercitazione/</filename
+>) e seleziona il profilo appropriato per il progetto. I file video forniti sono in formato 720p, 23.98 fps. <footnote
+><para
+><ulink url="https://it.wikipedia.org/wiki/720p"
+>720</ulink
+> è la misura dell'altezza del video, p sta per <ulink url="http://it.wikipedia.org/wiki/Scansione_progressiva"
+>scansione progressiva</ulink
+>, l'opposto della <ulink url="http://it.wikipedia.org/wiki/Interlacciamento"
+>scansione interlacciata</ulink
+>, ed il numero di fps indica la quantità di fotogrammi completi al secondo.</para
+></footnote
+> Se stai utilizzando i tuoi file e non sai quale profilo usare, &kdenlive; te ne suggerirà uno appropriato al momento di aggiungere la prima clip <footnote
+><para
+>Purché l'impostazione in Configura Kdenlive <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
+>Varie</ulink
+> sia impostata su <emphasis
+>Verifica che la prima clip aggiunta corrisponda al profilo del progetto</emphasis
+></para
+></footnote
+>, quindi puoi lasciare il valore indicato nel campo. </para>
+</sect1>
+<sect1 id="adding-clips"
+><title
+>Aggiungere le clip</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Contenitore del progetto: aggiungere le clip video</phrase>
+    </textobject>
+    <caption>
+      <para
+>Contenitore del progetto: aggiungere le clip video</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ora che il progetto è pronto, iniziamo ad aggiungere alcune clip (&ie; quelle che hai scaricato). Questa operazione si compie per mezzo dell'oggetto <emphasis
+>Contenitore del progetto</emphasis
+>; un clic sull'icona <guilabel
+>Aggiungi clip</guilabel
+> <inlinemediaobject
+> <imageobject
+> <imagedata fileref="Icon-add-clip.png" format="PNG"/> </imageobject
+> </inlinemediaobject
+> apre direttamente la finestra di dialogo, mentre un clic sulla piccola freccia mostra un elenco dei tipi di clip che possono essere aggiunti. Clip video, clip audio, immagini ed altri progetti di &kdenlive; possono essere aggiunti attraverso la finestra <guilabel
+>Aggiungi clip</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>La finestra di Kdenlive con i file dell'esercitazione guidata</phrase>
+    </textobject>
+    <caption>
+      <para
+>La finestra di Kdenlive con i file dell'esercitazione guidata</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Dopo l'aggiunta delle clip, &kdenlive; si presenterà così. In alto a sinistra c'è il già noto albero del progetto. Alla sua destra si trovano i monitor di visualizzazione dei video; il monitor della clip mostra le immagini delle clip originali, il monitor del progetto mostra come apparirà il video finale, con l'applicazione di tutti gli effetti, delle transizioni, &etc;. Il terzo oggetto, anch'esso molto importante, è la linea temporale (posta al di sotto dei monitor): è dove le clip video saranno modificate. Ci sono due differenti tipi di traccia: video ed audio. Sia le tracce video che quelle audio possono contenere ogni tipo di clip - ma quando si rilascia un file video su una traccia audio verrà usato solo l'audio del file. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-save-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Salvare un progetto Kdenlive</phrase>
+    </textobject>
+    <caption>
+      <para
+>Salvare un progetto Kdenlive</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Salviamo il lavoro con <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Salva</guimenuitem
+></menuchoice
+>. Questa operazione salva il nostro progetto, &ie; come abbiamo posizionato le clip nella linea temporale, quali effetti abbiamo applicato, e così via. <emphasis
+>Non può</emphasis
+> essere riprodotto. <footnote
+><para
+>Per essere esatti, <emphasis
+>può</emphasis
+> essere riprodotto con <varname
+>melt tuoprogetto.kdenlive</varname
+>, ma questa non è la modalità che vorrai usare per presentare il tuo video finale, perché risulta (quasi certamente) troppo lento, inoltre funziona solo se melt è installato.</para
+></footnote
+> Il processo di creazione del video finale è chiamato <emphasis
+>Esportazione</emphasis
+>. </para>
+</sect1>
+<sect1 id="timeline"
+><title
+>Linea temporale</title
+> 
+<para
+>Vedi anche la <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Timeline"
+>sezione Linea temporale del manuale</ulink
+> </para>
+<para
+>Siamo giunti alla fase di modifica. Le clip del progetto vengono combinate nel risultato finale nella linea temporale, dove vengono posizionate mediante il trascinamento: trascina Napoli (presumendo, come nel resto di questa esercitazione guidata, che tu stia utilizzando i file forniti; altrimenti assicurati che il tuo schermo sia impermeabile, e forse anche a prova di pomodori) dall'albero del progetto, e rilasciala sulla prima traccia della linea temporale. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timeline-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>La prima clip nella linea temporale</phrase>
+    </textobject>
+    <caption>
+      <para
+>La prima clip nella linea temporale</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Dal momento che servono anche le posate, allo stesso modo afferra la clip Spoon (il cucchiaio) e rilasciala sulla prima traccia. Trascina quindi Napoli all'inizio della linea temporale (altrimenti il video esportato inizierà con alcuni secondi di schermo nero), e posiziona Spoon subito dopo Napoli, in modo che il risultato finale somigli all'immagine qui a sinistra. (nella quale ho ingrandito la linea temporale utilizzando <keycombo
+>&Ctrl;<keycap
+>rotellina del mouse</keycap
+></keycombo
+>.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timelinecursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Il cursore della linea temporale</phrase>
+    </textobject>
+    <caption>
+      <para
+>Il cursore della linea temporale</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Il risultato può già essere visto in anteprima premendo <keycap
+>Spazio</keycap
+> (oppure il pulsante <guilabel
+>Riproduci</guilabel
+> nel monitor progetto). Vedrai Napoli direttamente seguita da Spoon. Se il cursore della linea temporale non si trova all'inizio, il monitor del progetto inizierà la riproduzione in un punto nel mezzo; puoi spostarlo sia trascinandolo sulla linea temporale, sia nel monitor di progetto. Se preferisci le scorciatoie da tastiera, <keycombo
+>&Ctrl;<keycap
+>Home</keycap
+></keycombo
+> esegue la stessa operazione per il monitor attivo. (Prima di usare la scorciatoia da tastiera seleziona il <guilabel
+>monitor del progetto</guilabel
+> se non è attivo.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-resize-marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Marcatore del ridimensionamento</phrase>
+    </textobject>
+    <caption>
+      <para
+>Marcatore del ridimensionamento</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Dato che dopo aver mangiato bisogna giocare: c'è una clip sul biliardo (Billard), aggiungi anche quella alla linea temporale. Nel primo secondo e mezzo della clip non accade nulla, quindi forse sarebbe preferibile <guilabel
+>tagliare</guilabel
+> questo pezzo, per evitare che il video risulti noioso. Un modo facile<footnote
+><para
+>Detto così puoi pensare che esistano molti modi per tagliare una clip. Infatti è proprio così.</para
+></footnote
+> di farlo è quello di spostare il cursore della linea temporale nella posizione desiderata (&ie; il punto nel quale desideri tagliare il video), quindi trascinare il bordo sinistro della clip quando appare il marcatore di ridimensionamento; esso aderirà al cursore nella linea temporale non appena ti avvicini sufficientemente ad esso. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-overlap-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Sovrapporre le clip</phrase>
+    </textobject>
+    <caption>
+      <para
+>Sovrapporre le clip</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Per aggiungere una <emphasis
+>transizione</emphasis
+> tra mangiare (il cucchiaio) e giocare a biliardo, è necessario che le due clip siano sovrapposte. Per essere precisi: la seconda clip deve trovarsi sopra o sotto la prima, e terminare alcuni fotogrammi dopo l'inizio della seconda. E' utile aumentare il livello di ingrandimento, affinché vengano visualizzati i singoli fotogrammi; questo aiuta anche ad avere le transizioni sempre della stessa durata, in questo caso di cinque fotogrammi. </para>
+<para
+>Puoi aumentare il livello di ingrandimento con il <guilabel
+>cursore dello zoom</guilabel
+> posto nella parte inferiore della finestra di &kdenlive;, oppure con la <keycombo
+>&Ctrl;<keycap
+>rotellina del mouse</keycap
+></keycombo
+>. &kdenlive; ingrandirà la visualizzazione della linea temporale, quindi posizionati sul punto che desideri vedere ingrandito prima di aumentare il livello di ingrandimento. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Marcatore per la transizione</phrase>
+    </textobject>
+    <caption>
+      <para
+>Marcatore per la transizione</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ora che le clip sono sovrapposte, la transizione può essere aggiunta. Questo può essere compiuto sia facendo clic con il tasto destro del mouse sulla clip superiore e selezionando <guilabel
+>Aggiungi transizione</guilabel
+> sia, in modo più semplice, facendo passare il mouse sull'angolo inferiore destro della clip Spoon finché non viene mostrato il puntatore a indice che punta e appare il messaggio <quote
+>Fai clic per aggiungere la transizione</quote
+>. Quest'ultima azione in via predefinita aggiunge una transizione di dissolvenza, che comunque è la scelta preferibile in questo caso, visto che la clip Spoon non dovrà più essere riprodotta. </para>
+<para
+>La transizione in dissolvenza fa dissolvere la prima clip nella seconda. Vedi anche la <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions"
+>la sezione Transizione del manuale</ulink
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-last-clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Aggiungiamo ora l'ultima clip, Piano, ed applichiamo nuovamente una transizione di dissolvenza. Posizionando la clip nella prima traccia della linea temporale è necessario che tu faccia clic sull'angolo inferiore sinistro della nuova clip per aggiungere la transizione con la clip precedente. </para>
+<sect2 id="effects"
+><title
+>Effetti</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Elenco degli effetti</phrase>
+    </textobject>
+    <caption>
+      <para
+>Elenco degli effetti</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>La clip Piano può essere colorata aggiungendoci un <emphasis
+>effetto</emphasis
+>: seleziona la clip, quindi fai doppio clic sull'effetto <guilabel
+>Regolazione RGB</guilabel
+> che c'è nell'<guilabel
+>Elenco degli effetti</guilabel
+>. Se non è visibile, puoi trovarlo in <menuchoice
+><guimenu
+>Visualizza</guimenu
+><guimenuitem
+>Effetti</guimenuitem
+></menuchoice
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-effect-flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Una volta che l'effetto è stato applicato, il suo nome verrà aggiunto alla clip sulla linea temporale. Esso sarà anche mostrato nell'oggetto <guilabel
+>Proprietà</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-effectstack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Gestione effetti con l'aggiustamento RGB</phrase>
+    </textobject>
+    <caption>
+      <para
+>Gestione effetti con l'aggiustamento RGB</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Per ottenere una calda tonalità dell'immagine giallo-arancio, adatta alla serata confortevole, è necessario ridurre il blu ed aumentare il rosso ed il verde. </para>
+<para
+>I valori nell'oggetto Proprietà possono essere modificati usando il cursore (il tasto centrale del mouse lo riporta al valore predefinito), oppure inserendo direttamente un valore con un doppio clic sul numero posto a destra del cursore. </para>
+<para
+>L'oggetto Proprietà fa riferimento alla clip nella linea temporale che è attualmente selezionata. Ogni effetto può essere temporaneamente disabilitato facendo clic sull'icona a occhio, oppure possono essere disabiliti tutti gli effetti di quella clip usando la casella nella parte superiore dell'oggetto Proprietà (tuttavia le loro impostazioni sono conservate); questo è utile &eg; per effetti che richiedono notevole potenza di elaborazione, i quali possono essere disabilitati durante la modifica e nuovamente attivati al momento dell'esportazione. </para>
+<para
+>Per alcuni effetti, come quello usato qui, è possibile indicare un fotogramma chiave, indicato dall'icona dell'orologio. I fotogrammi chiave sono utilizzati per modificare i parametri dell'effetto nel tempo. Nella nostra clip questo consente di portare i colori del piano da un caldo colore serale ad un freddo colore notturno. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Fotogrammi chiave per gli effetti</phrase>
+    </textobject>
+    <caption>
+      <para
+>Fotogrammi chiave per gli effetti</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Dopo aver fatto clic sull'icona <guilabel
+>fotogramma chiave</guilabel
+> (l'icona dell'orologio indicata nell'immagine precedente), l'oggetto Proprietà si riorganizzerà. In via predefinita ci saranno due fotogrammi chiave: uno all'inizio e l'altro alla fine della linea temporale della clip. Sposta il cursore della linea temporale alla fine della clip, in modo che il monitor del progetto mostri i nuovi colori mentre modifichi i parametri del fotogramma chiave posto alla fine. </para>
+<para
+>Accertati che sia selezionato l'ultimo fotogramma chiave nella lista Proprietà. Ora sei pronto per inondare il piano di un blu profondo. </para>
+<para
+>Muovendo il cursore della linea temporale all'inizio del progetto e avviandone la riproduzione (con <keycap
+>Spazio</keycap
+>, oppure con il pulsante <guilabel
+>Riproduci</guilabel
+> nel <guilabel
+>Monitor progetto</guilabel
+>), il piano dovrebbe ora cambiare colore come desiderato. </para>
+<para
+>La gestione dei fotogrammi chiave era la parte più difficile di questa esercitazione guidata. Se sei riuscito a compiere le operazioni descritte, non avrai problemi a padroneggiare &kdenlive;! </para>
+<para
+>Vedi anche <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Effects"
+>la sezione Effetti del manuale</ulink
+>. </para>
+</sect2>
+<sect2 id="music"
+><title
+>Musica</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Dissolvenza in uscita dell'audio</phrase>
+    </textobject>
+    <caption>
+      <para
+>Dissolvenza in uscita dell'audio</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Dal momento che le clip non contengono alcun audio, cerchiamo qualche gradevole brano musicale nella tua collezione locale, oppure in siti internet come <ulink url="http://www.jamendo.com"
+>Jamendo</ulink
+>. Dopo averla aggiunta, la clip audio dovrebbe essere posizionata su una traccia audio della linea temporale. </para>
+<para
+>Si possono modificare le dimensioni della clip audio sulla linea temporale allo stesso modo in cui lo si fa con le clip video. Il cursore aderirà automaticamente alla fine del progetto. Per aggiungere alla clip audio un effetto di dissolvenza in uscita (a meno che tu non abbia trovato un file esattamente della lunghezza necessaria), puoi avvicinarti all'angolo superiore destro (o sinistro) della clip sulla linea temporale e trascinare il triangolo rosso sfumato fino alla posizione in cui la dissolvenza dovrebbe avere inizio.<footnote
+><para
+>Il triangolo rosso sfumato è una scorciatoia per aggiungere l'effetto <menuchoice
+><guimenu
+>Dissolvenza</guimenu
+><guimenuitem
+>Dissolvenza in uscita</guimenuitem
+></menuchoice
+>. Entrambi i metodi conducono allo stesso risultato.</para
+></footnote>
+</para>
+</sect2>
+</sect1>
+<sect1 id="rendering"
+><title
+>Esportazione</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Finestra di Esportazione</phrase>
+    </textobject>
+    <caption>
+      <para
+>Finestra di Esportazione</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ancora pochi minuti e il progetto sarà finito! Fai clic sul pulsante Esporta (oppure usa il menu <menuchoice
+><guimenu
+>Progetto</guimenu
+><guimenuitem
+>Esporta</guimenuitem
+></menuchoice
+>, o in alternativa premi <keycombo
+>&Ctrl;&Enter;</keycombo
+>) per accedere alla finestra mostrata qui a sinistra. Seleziona il file di destinazione desiderato per il nostro nuovo video completo di tutti gli effetti e le transizioni, scegli il formato MP4 (che funziona pressoché ovunque), seleziona la posizione del file di destinazione e premi il pulsante <guilabel
+>Esporta in un file</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Processo di esportazione</phrase>
+    </textobject>
+    <caption>
+      <para
+>Processo di esportazione</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Dopo alcuni secondi l'esportazione sarà terminata, ed il tuo primo progetto &kdenlive; è stato completato. Congratulazioni! </para>
+</sect1>
+<sect1 id="complete-manual"
+><title
+>Manuale completo</title
+> 
+<para
+>Ulteriore documentazione sull'attuale versione di &kdenlive; può essere trovata nel <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual"
+>manuale completo</ulink
+>. </para>
+</sect1>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title
+>Riconoscimenti e licenza</title>
+    <para
+>Per i diritti sulla documentazione vedi la <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history"
+>cronologia della pagina Kdenlive/Manual/Quickstart</ulink
+> su UserBase</para>
+    <para
+>Paolo Zamponi<email
+>zapaolo@email.it</email
+>Aggiornamento della documentazione</para
+><para
+>Daniele Micci<email
+>daniele.micci@tiscali.it</email
+>Traduzione del documento</para
+> &underFDL; </chapter>
+&documentation.index;
+</book>
