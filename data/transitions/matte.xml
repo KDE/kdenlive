@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="matte" id="matte">
+    <name>Matte</name>
+    <description>Replace the alpha channel of track A with the luma channel from track B.</description>
+    <author>Maksym Veremeyenko</author>
+</transition>
