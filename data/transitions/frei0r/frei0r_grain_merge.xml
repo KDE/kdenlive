@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.grain_merge" id="frei0r.grain_merge">
+    <name>Grain Merge</name>
+    <description>Perform an RGB[A] grain-merge operation between the pixel sources.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

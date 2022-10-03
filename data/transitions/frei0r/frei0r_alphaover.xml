@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.alphaover" id="frei0r.alphaover">
+    <name>Alpha OVER</name>
+    <description>The alpha OVER operation</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

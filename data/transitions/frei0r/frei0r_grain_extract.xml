@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.grain_extract" id="frei0r.grain_extract">
+    <name>Grain Extract</name>
+    <description>Perform an RGB[A] grain-extract operation between the pixel sources.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

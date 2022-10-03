@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.addition" id="frei0r.addition">
+    <name>Addition</name>
+    <description>Perform an RGB[A] addition operation of the pixel sources.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

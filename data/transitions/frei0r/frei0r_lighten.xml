@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.lighten" id="frei0r.lighten">
+    <name>Lighten</name>
+    <description>Perform a lighten operation between two sources (maximum value of both sources).</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

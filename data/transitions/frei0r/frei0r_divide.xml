@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.divide" id="frei0r.divide">
+    <name>Divide</name>
+    <description>Perform an RGB[A] divide operation between the pixel sources: input1 is the numerator, input2 the denominator.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

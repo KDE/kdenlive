@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.subtract" id="frei0r.subtract">
+    <name>Subtract</name>
+    <description>Perform an RGB[A] subtract operation of the pixel source input2 from input1.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

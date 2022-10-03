@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.alphain" id="frei0r.alphain">
+    <name>Alpha IN</name>
+    <description>The alpha IN operation</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

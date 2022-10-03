@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.saturation" id="frei0r.saturation">
+    <name>Saturation</name>
+    <description>Perform a conversion to saturation only of the source input1 using the saturation level of input2.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.uvmap" id="frei0r.uvmap">
+    <name>UV Map</name>
+    <description>Uses Input 1 as UV Map to distort Input 2.</description>
+    <author>Richard Spindler</author>
+</transition>
