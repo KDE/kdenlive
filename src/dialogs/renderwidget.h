@@ -146,7 +146,9 @@ public slots:
     void reloadGuides();
     /** @brief Adjust render file name to current project name. */
     void resetRenderPath(const QString &path);
-    
+    /** @brief Update metadata tooltip with current values. */
+    void updateMetadataToolTip();
+
 private slots:
     /**
      * Will be called when the user selects an output file via the file dialog.

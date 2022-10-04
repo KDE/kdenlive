@@ -351,6 +351,7 @@ public slots:
     void slotUpdateProjectDuration(int pos);
     /** @brief Remove all unused clips from the project. */
     void slotCleanProject();
+    void slotEditProjectSettings(int ix = 0);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -360,7 +361,6 @@ private slots:
     void updateConfiguration();
     void slotConnectMonitors();
     void slotUpdateMousePosition(int pos, int duration = -1);
-    void slotEditProjectSettings();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotShowTimelineTags();

@@ -1981,13 +1981,16 @@ void MainWindow::slotRefreshProfiles()
     }
 }
 
-void MainWindow::slotEditProjectSettings()
+void MainWindow::slotEditProjectSettings(int ix)
 {
     KdenliveDoc *project = pCore->currentDoc();
     QPair<int, int> p = getMainTimeline()->getTracksCount();
     int channels = project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
     ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.first, p.second,
                                              channels, project->projectTempFolder(), true, !project->isModified(), this);
+    if (ix > 0) {
+        w->tabWidget->setCurrentIndex(ix);
+    }
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     // connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
     connect(w, &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
@@ -2068,6 +2071,9 @@ void MainWindow::slotEditProjectSettings()
         }
         if (w->metadata() != project->metadata()) {
             project->setMetadata(w->metadata());
+            if (m_renderWidget) {
+                m_renderWidget->updateMetadataToolTip();
+            }
         }
         QString newProjectFolder = w->storageFolder();
 
@@ -2339,6 +2345,7 @@ void MainWindow::connectDocument()
         m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
+        m_renderWidget->updateMetadataToolTip();
     }
     m_zoomSlider->setValue(project->zoom().x());
     m_commandStack->setActiveStack(project->commandStack().get());

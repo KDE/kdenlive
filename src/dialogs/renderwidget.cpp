@@ -12,6 +12,7 @@
 #include "dialogs/renderpresetdialog.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
@@ -243,6 +244,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(); });
     connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(true); });
+    updateMetadataToolTip();
+    connect(m_view.edit_metadata, &QLabel::linkActivated, []() { pCore->window()->slotEditProjectSettings(2); });
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
@@ -2101,4 +2104,17 @@ void RenderWidget::resetRenderPath(const QString &path)
     QMap<QString, QString> renderProps;
     renderProps.insert(QStringLiteral("renderurl"), url);
     emit selectedRenderProfile(renderProps);
+}
+
+void RenderWidget::updateMetadataToolTip()
+{
+    QString tipText;
+    QMapIterator<QString, QString> i(pCore->currentDoc()->metadata());
+    while (i.hasNext()) {
+        i.next();
+        QString metaName = i.key().section(QLatin1Char('.'), 2, 2);
+        metaName[0] = metaName[0].toUpper();
+        tipText.append(QString("%1: <b>%2</b><br/>").arg(metaName, i.value()));
+    }
+    m_view.edit_metadata->setToolTip(tipText);
 }
