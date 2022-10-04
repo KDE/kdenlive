@@ -33,8 +33,12 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     setupUi(this);
     setWindowTitle(i18nc("@title:window", "Stabilize Clip"));
     auto_add->setText(i18ncp("@action", "Add clip to project", "Add clips to project", m_binIds.size()));
-    auto_add->setChecked(KdenliveSettings::add_new_clip());
-    auto_folder->setChecked(KdenliveSettings::add_new_clip_to_folder());
+    if (KdenliveSettings::add_new_clip()) {
+        auto_add->setChecked(true);
+        auto_folder->setChecked(KdenliveSettings::add_new_clip_to_folder());
+    } else {
+        auto_replace->setChecked(true);
+    }
 
     // QString stylesheet = EffectStackView2::getStyleSheet();
     // setStyleSheet(stylesheet);

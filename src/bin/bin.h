@@ -352,6 +352,7 @@ public:
     void updateKeyBinding(const QString &bindingMessage = QString());
     /** @brief Returns true if a clip with id cid is visible in this bin. */
     bool containsId(const QString &cid) const;
+    void replaceSingleClip(const QString clipId, const QString &newUrl);
 
 private slots:
     void slotAddClip();
@@ -463,7 +464,8 @@ public slots:
     void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
-    bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName);
+    bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName, const QString &replaceId = QString(),
+                                bool replace = false);
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */

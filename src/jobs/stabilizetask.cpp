@@ -191,10 +191,10 @@ void StabilizeTask::run()
         }
         return;
     }
-    if (m_addToProject.first) {
-        QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
-                                  Q_ARG(QString, binClip->parent()->clipId()), Q_ARG(QString, m_addToProject.second ? i18n("Stabilized") : QString()));
-    }
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
+                              Q_ARG(QString, binClip->parent()->clipId()),
+                              Q_ARG(QString, m_addToProject.first && m_addToProject.second ? i18n("Stabilized") : QString()),
+                              Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(bool, !KdenliveSettings::add_new_clip()));
 }
 
 void StabilizeTask::processLogInfo()

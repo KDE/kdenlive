@@ -1870,6 +1870,52 @@ void Bin::slotReloadClip()
     }
 }
 
+void Bin::replaceSingleClip(const QString clipId, const QString &newUrl)
+{
+    if (newUrl.isEmpty() || !QFile::exists(newUrl)) {
+        emit displayBinMessage(i18n("Cannot replace clip with invalid file %1", QFileInfo(newUrl).fileName()), KMessageWidget::Information);
+        return;
+    }
+    std::shared_ptr<ProjectClip> currentItem = getBinClip(clipId);
+    if (currentItem) {
+        QMap<QString, QString> sourceProps;
+        QMap<QString, QString> newProps;
+        sourceProps.insert(QStringLiteral("resource"), currentItem->url());
+        sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
+        sourceProps.insert(QStringLiteral("kdenlive:clipname"), currentItem->clipName());
+        sourceProps.insert(QStringLiteral("kdenlive:proxy"), currentItem->getProducerProperty(QStringLiteral("kdenlive:proxy")));
+        sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
+        newProps.insert(QStringLiteral("resource"), newUrl);
+        newProps.insert(QStringLiteral("kdenlive:originalurl"), newUrl);
+        newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(newUrl).fileName());
+        newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+        newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
+        // Check if replacement clip is long enough
+        if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
+            // Clip is used in timeline, make sure length is similar
+            std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), newUrl.toUtf8().constData()));
+            int currentDuration = int(currentItem->frameDuration());
+            if (replacementProd->is_valid()) {
+                int replacementDuration = replacementProd->get_length();
+                if (replacementDuration < currentDuration) {
+                    if (KMessageBox::warningContinueCancel(
+                            this, i18n("You are replacing a clip with a shorter one, this might cause issues in timeline.\nReplacement is %1 frames shorter.",
+                                       (currentDuration - replacementDuration))) != KMessageBox::Continue) {
+                        return;
+                        ;
+                    }
+                }
+            } else {
+                KMessageBox::error(this, i18n("The selected file %1 is invalid.", newUrl));
+                return;
+            }
+        }
+        slotEditClipCommand(currentItem->clipId(), sourceProps, newProps);
+    } else {
+        emit displayBinMessage(i18n("Cannot find original clip to be replaced"), KMessageWidget::Information);
+    }
+}
+
 void Bin::slotReplaceClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
@@ -5227,18 +5273,21 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     m_transcodingDialog->show();
 }
 
-bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName)
+bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName, const QString &replaceId, bool replace)
 {
     // Check if the clip is already inserted in the project, if yes exit
     QStringList existingIds = m_itemModel->getClipByUrl(QFileInfo(path));
     if (!existingIds.isEmpty()) {
-        // selectClipById(existingIds.first());
         return true;
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    if (replace) {
+        // Simply replace source clip with stabilized version
+        replaceSingleClip(replaceId, path);
+        return true;
+    }
     // Check if folder exists
-
     QString folderId = QStringLiteral("-1");
     // We first try to see if it exists
     std::shared_ptr<ProjectFolder> baseFolder = m_itemModel->getFolderByBinId(parentFolder);
@@ -5264,7 +5313,21 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
             m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
         }
     }
-    auto id = ClipCreator::createClipFromFile(path, folderId, m_itemModel, undo, redo);
+    std::function<void(const QString &)> callBack = [this, replaceId, replace, path](const QString &binId) {
+        if (!binId.isEmpty()) {
+            if (!replace) {
+                // Clip was added to Bin, select it if replaced clip is still selected
+                QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+                if (ix.isValid()) {
+                    std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+                    if (currentItem->clipId() == replaceId) {
+                        selectClipById(binId);
+                    }
+                }
+            }
+        }
+    };
+    auto id = ClipCreator::createClipFromFile(path, folderId, m_itemModel, undo, redo, callBack);
     bool ok = (id != QStringLiteral("-1"));
     if (ok) {
         pCore->pushUndo(undo, redo, i18nc("@action", "Add clip"));
