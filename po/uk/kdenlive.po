@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
-"PO-Revision-Date: 2022-10-02 09:23+0300\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
+"PO-Revision-Date: 2022-10-03 07:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -1785,7 +1785,6 @@ msgid "Position, scale and opacity."
 msgstr "Позиціювання, зміна масштабу і непрозорості."
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2906,95 +2905,6 @@ msgstr "Притлумлення зображення одного відео з
 msgid "Luma Map"
 msgstr "Карта яскравості"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "Афінне злиття Cairo"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"Компонує другі вхідні дані з першими вхідними даними на основі визначеного "
-"користувачем перетворення, непрозорості та режиму змішування."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "Позиція за X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "Позиція за Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "Масштаб за X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "Масштаб за Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Непрозорість"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"Звичайний,Додавання,Насичення,Множення,Екран,Накладання,Затемнення,"
-"Освітлення,Висвітлення кольорів,Вигоряння кольорів,Яскраве світло,Розсіяне "
-"світло,Різниця,Виключення,Відтінок HSL,Насичення HSL,Колір HSL,Яскравість HSL"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "Режим змішування"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "Центр обертання за X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "Центр обертання за Y"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "Злиття Cairo"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"Компонує другі вхідні дані з першими вхідними даними на основі визначеного "
-"користувачем режиму змішування і непрозорості."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -3012,6 +2922,18 @@ msgstr "Створює стаціонарний перехід між поточ
 #, kde-format
 msgid "Wipe Method"
 msgstr "Спосіб витирання"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+#| msgid "Pattern"
+msgid "Matte"
+msgstr "Візерунок"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3078,6 +3000,33 @@ msgstr "Ковзання зображення з одного краю у інш
 #, kde-format
 msgid "Direction"
 msgstr "Напрямок"
+
+#: data/transitions/vqm.xml:3
+#, fuzzy, kde-format
+#| msgid "Measurement"
+msgid "Video Quality Measurement"
+msgstr "Вимірювання"
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "Render line"
+msgstr "Час обробки"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3820,6 +3769,25 @@ msgstr "Типовий тип ключових кадрів"
 #, kde-format
 msgid "Options"
 msgstr "Параметри"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Непрозорість"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "Позиція за Y"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "Позиція за X"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -11873,10 +11841,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Виберіть профіль (налаштування) проєкту"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Типовий"
+msgstr "Типовий: %1"
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -15941,15 +15908,13 @@ msgstr "Захопити відео (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:62 src/ui/configcapture_ui.ui:460
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "Виявлені пристрої"
+msgstr "Виявлені пристрої:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
 msgstr "Пристрій відео:"
 
@@ -16016,24 +15981,21 @@ msgstr "Профіль кодування:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Захоплення області"
+msgstr "Область захоплення:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Перемкнути повноекранний режим"
+msgstr "Повноекранний режим"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Прямокутне вікно"
+msgstr "Прямокутна ділянка"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -16065,10 +16027,9 @@ msgstr "Розміри"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:400
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "Приховати курсор"
+msgstr "Вказівник миші:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:454
@@ -16454,10 +16415,9 @@ msgstr "Кнопка 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "Файли проєкту:"
+msgstr "Файл проєкту:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:24
@@ -16474,10 +16434,9 @@ msgstr "Задіяти відновлення після аварій (авто�
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "Колір кліпу:"
+msgstr "Імпортування кліпу:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:52
@@ -16593,26 +16552,29 @@ msgstr "Субтитри:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "These are the the default settings for new projects. To edit the "
+#| "parameters of the current project, use the project settings."
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
+"Це типові параметри для нових проєктів. Щоб змінити параметри поточного "
+"проєкту, скористайтеся вікном параметрів проєкту."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:37 src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project folder: %1"
+#, kde-format
 msgid "Project folder:"
-msgstr "Тека проєкту: %1"
+msgstr "Тека проєкту:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "Типова тека для файлів проєкту"
+msgstr "Батьківська тека файла проєкту"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:63
@@ -16652,10 +16614,9 @@ msgstr "6 каналів"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:145
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Перегляд на монтажному столі"
+msgstr "Профіль перегляду на монтажному столі:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:28
@@ -16698,18 +16659,16 @@ msgstr "Розмір проміжного зображення"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:141
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "Увімкнено"
+msgstr "Увімкнути"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:177 src/ui/projectsettings_ui.ui:477
-#, fuzzy, kde-format
-#| msgid "Use external proxy clips"
+#, kde-format
 msgid "External proxy clips:"
-msgstr "Використатися зовнішні проміжні кліпи"
+msgstr "Зовнішні проміжні кліпи:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:204
@@ -16766,10 +16725,9 @@ msgstr "Колір тла монітора:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "Використовувати зовнішній дисплей (картка Blackmagic)"
+msgstr "Зовнішній дисплей (картка Blackmagic):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:148
@@ -16779,21 +16737,15 @@ msgstr "Пристрій виводу:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:183
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
-"Використовувати обробку із графічним процесором (бібліотека Movit) — "
-"перезапустіть Kdenlive для застосування"
+msgstr "Увімкнути — перезапустіть Kdenlive для застосування"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
-"Використовувати обробку із графічним процесором (бібліотека Movit) — "
-"перезапустіть Kdenlive для застосування"
+msgstr "Обробка на графічному процесорі (бібліотека Movit):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #: src/ui/configspeech_ui.ui:30
@@ -16840,31 +16792,27 @@ msgstr "Мініатюри:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "Увімкнути відео"
+msgstr "Увімкнути для відео"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:31
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "Увімкнути звук"
+msgstr "Увімкнути для звуку"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Separate channels"
+#, kde-format
 msgid "Separate audio channels"
-msgstr "Розділити канали"
+msgstr "Розділити звукові канали"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Pause playback when seeking"
+#, kde-format
 msgid "Playback and Seeking:"
-msgstr "Призупиняти відтворення при позиціюванні"
+msgstr "Відтворення і позиціювання:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:62
@@ -16888,10 +16836,9 @@ msgstr "Позиціювання у кліпі при додаванні ефе�
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Rolling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "Зміщення "
+msgstr "Гортання:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -16916,10 +16863,9 @@ msgstr "Показувати коментарі позначок у кліпах
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "Висота доріжки:"
+msgstr "Типова висота доріжки:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:145
@@ -17949,44 +17895,39 @@ msgstr "Параметри"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
 msgstr ""
-"Тека проєкту для зберігання проміжних кліпів, мініатюр, даних попереднього "
-"перегляду"
+" Буде використано для зберігання проміжних кліпів, мініатюр, даних "
+"попереднього перегляду"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"Тека проєкту для зберігання проміжних кліпів, мініатюр, даних попереднього "
-"перегляду"
+" Тека проєкту — місце для зберігання даних, зокрема проміжних кліпів, "
+"мініатюр, даних попереднього перегляду."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Типові теки"
+msgstr "Типова тека"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "Типова тека для файлів проєкту"
+msgstr "Батьківська тека для файла проєкту"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Нетиповий"
+msgstr "Нетипова:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:136
@@ -18008,10 +17949,9 @@ msgstr "6 каналів"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "Перегляд на монтажному столі"
+msgstr "Перегляд на монтажному столі:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:192
@@ -18021,10 +17961,9 @@ msgstr "Проксі"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "Проміжні кліпи:"
+msgstr "Проміжні кліпи"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -19457,6 +19396,51 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
 
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "Афінне злиття Cairo"
+
+#~ msgid ""
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
+#~ msgstr ""
+#~ "Компонує другі вхідні дані з першими вхідними даними на основі "
+#~ "визначеного користувачем перетворення, непрозорості та режиму змішування."
+
+#~ msgid "X scale"
+#~ msgstr "Масштаб за X"
+
+#~ msgid "Y scale"
+#~ msgstr "Масштаб за Y"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "Звичайний,Додавання,Насичення,Множення,Екран,Накладання,Затемнення,"
+#~ "Освітлення,Висвітлення кольорів,Вигоряння кольорів,Яскраве світло,"
+#~ "Розсіяне світло,Різниця,Виключення,Відтінок HSL,Насичення HSL,Колір HSL,"
+#~ "Яскравість HSL"
+
+#~ msgid "Blend mode"
+#~ msgstr "Режим змішування"
+
+#~ msgid "Rotation X center"
+#~ msgstr "Центр обертання за X"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "Центр обертання за Y"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "Злиття Cairo"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "Компонує другі вхідні дані з першими вхідними даними на основі "
+#~ "визначеного користувачем режиму змішування і непрозорості."
+
 #~ msgid "Capture format"
 #~ msgstr "Формат захоплення"
 
@@ -20672,9 +20656,6 @@ msgstr "%1 год."
 #~ msgid "Linear,Radial"
 #~ msgstr "Лінійний,Радіальний"
 
-#~ msgid "Pattern"
-#~ msgstr "Візерунок"
-
 #~ msgid "Start Color"
 #~ msgstr "Колір початку"
 
@@ -21565,9 +21546,6 @@ msgstr "%1 год."
 
 #~ msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 #~ msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-
-#~ msgid "Measurement"
-#~ msgstr "Вимірювання"
 
 #~ msgid "X size"
 #~ msgstr "Розмір за X"

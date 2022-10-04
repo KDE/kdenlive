@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
 "PO-Revision-Date: 2022-09-27 18:00+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -1773,7 +1773,6 @@ msgid "Position, scale and opacity."
 msgstr "Posisi, skala dan opasitas."
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2887,95 +2886,6 @@ msgstr "Lesapkan keluar satu video selagi video lainnya sedang melesap masuk."
 msgid "Luma Map"
 msgstr "Peta Luma"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "Paduan Affin Kairo"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"Mengompositkan input kedua pada input pertama menerapkan transformasi, "
-"opasitas, dan mode padu yang ditentukan pengguna."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "Posisi X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "Posisi Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "Skala X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "Skala Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Opasitas"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"Normal,Tambah,Saturasikan,Kalikan,Layar,Overlay,Gelapkan,Terangkan,Hindar "
-"warna,Bakar warna,Cahaya keras,Cahaya lembut,Perbedaan,Ekslusi,Warna HSL,"
-"Saturasi HSL,Kilau HSL"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "Mode padu"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "Rotasi tengah X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "Rotasi tengah Y"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "Padu Kairo"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"Mengompositkan input kedua pada input pertama dengan opasitas dan mode padu "
-"yang ditentukan pengguna."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -2993,6 +2903,19 @@ msgstr "Menerapkan transisi stasioner antara frame saat ini dan berikutnya."
 #, kde-format
 msgid "Wipe Method"
 msgstr "Metode Usap"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+#| msgid "Add marker"
+#| msgid_plural "Add markers"
+msgid "Matte"
+msgstr "Tambahkan penanda"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3059,6 +2982,32 @@ msgstr "Geserkan citra dari satu sisi ke lainnya."
 #, kde-format
 msgid "Direction"
 msgstr "Arah"
+
+#: data/transitions/vqm.xml:3
+#, kde-format
+msgid "Video Quality Measurement"
+msgstr ""
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "Render line"
+msgstr "Waktu Render"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3796,6 +3745,25 @@ msgstr "Tipe Keyframe Default"
 #, kde-format
 msgid "Options"
 msgstr "Opsi"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Opasitas"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "Posisi Y"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "Posisi X"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -16413,8 +16381,8 @@ msgstr "Subtitel:"
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
 #, kde-format
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -19283,6 +19251,50 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1jm"
 
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "Paduan Affin Kairo"
+
+#~ msgid ""
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
+#~ msgstr ""
+#~ "Mengompositkan input kedua pada input pertama menerapkan transformasi, "
+#~ "opasitas, dan mode padu yang ditentukan pengguna."
+
+#~ msgid "X scale"
+#~ msgstr "Skala X"
+
+#~ msgid "Y scale"
+#~ msgstr "Skala Y"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "Normal,Tambah,Saturasikan,Kalikan,Layar,Overlay,Gelapkan,Terangkan,Hindar "
+#~ "warna,Bakar warna,Cahaya keras,Cahaya lembut,Perbedaan,Ekslusi,Warna HSL,"
+#~ "Saturasi HSL,Kilau HSL"
+
+#~ msgid "Blend mode"
+#~ msgstr "Mode padu"
+
+#~ msgid "Rotation X center"
+#~ msgstr "Rotasi tengah X"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "Rotasi tengah Y"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "Padu Kairo"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "Mengompositkan input kedua pada input pertama dengan opasitas dan mode "
+#~ "padu yang ditentukan pengguna."
+
 #~ msgid "Capture format"
 #~ msgstr "Format tangkapan"
 
@@ -19807,12 +19819,6 @@ msgstr "%1jm"
 #~| msgid "Radius"
 #~ msgid "Linear,Radial"
 #~ msgstr "Radius"
-
-#, fuzzy
-#~| msgid "Add marker"
-#~| msgid_plural "Add markers"
-#~ msgid "Pattern"
-#~ msgstr "Tambahkan penanda"
 
 #, fuzzy
 #~| msgid "Opacity"

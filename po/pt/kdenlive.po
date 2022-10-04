@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
 "PO-Revision-Date: 2022-09-29 23:56+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -1868,7 +1868,6 @@ msgid "Position, scale and opacity."
 msgstr "Posição, escala e opacidade."
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2988,95 +2987,6 @@ msgstr "Desvanece um vídeo enquanto aparece gradualmente o outro."
 msgid "Luma Map"
 msgstr "Mapa do Luma"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "Mistura Afim de Cairo"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"Compõe a segunda entrada na primeira, aplicando uma transformação, opacidade "
-"e modo de mistura definidos pelo utilizador."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "Posição em X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "Posição em Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "Escala em X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "Escala em Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Opacidade"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"Normal,Soma,Saturação,Multiplicação,Ecrã,Sobreposição,Escurecimento,"
-"Aclaramento,Desvio de cor,Queimadura de cor,Luz forte,Luz suave,Diferença,"
-"Exclusão,Matiz do HSL,Saturação do HSL,Cor do HSL,Luminosidade do HSL"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "Modo de mistura"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "Centro da rotação em X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "Centro da rotação em Y"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "Mistura de Cairo"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"Compõe a segunda entrada na primeira com o modo de mistura e opacidade "
-"definidos pelo utilizador."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -3094,6 +3004,18 @@ msgstr "Aplica uma transição estacionária entre as imagens actual e seguinte.
 #, kde-format
 msgid "Wipe Method"
 msgstr "Método de Limpeza"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+#| msgid "Patterns"
+msgid "Matte"
+msgstr "Padrões"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3160,6 +3082,32 @@ msgstr "Desliza a imagem de um lado para o outro."
 #, kde-format
 msgid "Direction"
 msgstr "Direcção"
+
+#: data/transitions/vqm.xml:3
+#, kde-format
+msgid "Video Quality Measurement"
+msgstr ""
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "Render line"
+msgstr "Tempo de Desenho"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3899,6 +3847,25 @@ msgstr "Tipo de Imagem-Chave Predefinido"
 #, kde-format
 msgid "Options"
 msgstr "Opções"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Opacidade"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "Posição em Y"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "Posição em X"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -11882,10 +11849,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Seleccionar o perfil (predefinição) do projecto"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Predefinição"
+msgstr "Predefinição: %1"
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -12110,10 +12076,9 @@ msgid ""
 msgstr ""
 
 #: src/project/dialogs/temporarydata.cpp:180
-#, fuzzy, kde-format
-#| msgid "Clean"
+#, kde-format
 msgid "Cleanup"
-msgstr "Limpar"
+msgstr "Limpeza"
 
 #: src/project/dialogs/temporarydata.cpp:181
 #, kde-format
@@ -15932,10 +15897,9 @@ msgstr "Dispositivos detectados"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "Dispositivo de vídeo"
+msgstr "Dispositivo de vídeo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:86 src/ui/wizardcapture_ui.ui:57
@@ -16007,17 +15971,15 @@ msgstr "Captura de Região"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Mudar para o Ecrã Completo"
+msgstr "Ecrã Completo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Janela rectangular"
+msgstr "Região Rectangular"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -16147,7 +16109,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:84
 #, kde-format
 msgid " MiB"
-msgstr ""
+msgstr " MiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:97
@@ -16577,8 +16539,8 @@ msgstr "Legendas:"
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
 #, kde-format
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -16651,10 +16613,9 @@ msgstr "Activar os 'clips' indirectos"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #: src/ui/configproxy_ui.ui:62 src/ui/configproxy_ui.ui:95
 #: src/ui/configproxy_ui.ui:114 src/ui/configproxy_ui.ui:191
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid " pixels"
-msgstr "pontos"
+msgstr " pontos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
@@ -16681,10 +16642,9 @@ msgstr "Tamanho da imagem indirecta"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:141
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "Activo"
+msgstr "Activar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -16870,10 +16830,9 @@ msgstr "Posicionar no 'clip' ao adicionar um efeito"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Scaling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "A dimensionar"
+msgstr "Deslocamento:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -18012,10 +17971,9 @@ msgstr "Indirecto"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "'Clips' indirectos:"
+msgstr "'Clips' indirectos"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -19448,57 +19406,46 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
-#~ msgid "Capture format"
-#~ msgstr "Formato da captura"
-
-#~ msgid "Encoding profile"
-#~ msgstr "Perfil da codificação"
-
-#~ msgid "Colorspace"
-#~ msgstr "Espaço de cores"
-
-#~ msgid "Full Screen Capture"
-#~ msgstr "Captura do Ecrã Total"
-
-#~ msgid "Frame rate"
-#~ msgstr "Taxa de imagens"
-
-#~ msgid "Use KDE job tracking for render jobs"
-#~ msgstr "Usar o seguimento de tarefas do KDE para as tarefas de desenho"
-
-#~ msgid "Bypass codec verification"
-#~ msgstr "Ignorar a verificação do codificador"
-
-#~ msgid "Audio tracks"
-#~ msgstr "Faixas de áudio"
-
-#~ msgid "Use parent folder of the project file as project folder"
-#~ msgstr "Usar a pasta-mãe do ficheiro do projecto como pasta do projecto"
-
-#~ msgid "Video tracks"
-#~ msgstr "Faixas de vídeo"
-
-#~ msgid "Use FFmpeg for audio thumbnails (faster)"
-#~ msgstr "Usar o FFmpeg para as miniaturas de áudio (mais rápido)"
-
-#~ msgid "Manage timeline preview profiles"
-#~ msgstr "Gerir os perfis de antevisão da linha temporal"
-
-#~ msgid "Select default preview profile"
-#~ msgstr "Seleccionar o perfil de antevisão por omissão"
-
-#~ msgid "Preview profile:"
-#~ msgstr "Perfil de antevisão:"
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "Mistura Afim de Cairo"
 
 #~ msgid ""
-#~ "This will delete cache data (%1) for missing projects or projects older "
-#~ "than %2 months."
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
 #~ msgstr ""
-#~ "Isto irá apagar os dados em 'cache' (%1) dos projectos em falta ou dos "
-#~ "projectos anteriores a %2 meses."
+#~ "Compõe a segunda entrada na primeira, aplicando uma transformação, "
+#~ "opacidade e modo de mistura definidos pelo utilizador."
 
-#~ msgid "Use project folder"
-#~ msgstr "Usar a pasta do projecto"
+#~ msgid "X scale"
+#~ msgstr "Escala em X"
 
-#~ msgid "Total proxy data:"
-#~ msgstr "Dados de indirectos totais:"
+#~ msgid "Y scale"
+#~ msgstr "Escala em Y"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "Normal,Soma,Saturação,Multiplicação,Ecrã,Sobreposição,Escurecimento,"
+#~ "Aclaramento,Desvio de cor,Queimadura de cor,Luz forte,Luz suave,Diferença,"
+#~ "Exclusão,Matiz do HSL,Saturação do HSL,Cor do HSL,Luminosidade do HSL"
+
+#~ msgid "Blend mode"
+#~ msgstr "Modo de mistura"
+
+#~ msgid "Rotation X center"
+#~ msgstr "Centro da rotação em X"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "Centro da rotação em Y"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "Mistura de Cairo"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "Compõe a segunda entrada na primeira com o modo de mistura e opacidade "
+#~ "definidos pelo utilizador."

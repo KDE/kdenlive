@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
 "PO-Revision-Date: 2022-08-27 18:08+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1779,7 +1779,6 @@ msgid "Position, scale and opacity."
 msgstr "Posizioa, eskala eta opakotasuna."
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2897,95 +2896,6 @@ msgstr ""
 msgid "Luma Map"
 msgstr "Luma mapa"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "Cairo affine nahasketa "
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"Bigarren sarrera lehenengo sarreran konposatzen du erabiltzaileak "
-"zehaztutako eraldaketa, opakotasuna eta nahaste-modua erabiliz."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "X posizioa"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "Y posizioa:"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "eskala"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "Y eskala"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Opakotasuna"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"Normala,Gehitu,Asetu,Biderkatu,Monitorea,Gainjarri,Ilundu,Argitu,Kolorea "
-"argitu, Kolorea erre,Argi gogorra,Argi leuna,Diferentzia,Esklusioa,HSL "
-"leuntzea,HSL asetzea,HSL kolorea,HSL argitasuna"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "Nahaste modua"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "Errotazio X zentroa"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "Errotazio Y zentroa"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "Cairo nahasketa"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"Bigarren sarrera lehenengo sarreran konposatzen du erabiltzaileak "
-"zehaztutako nahaste-modua eta opakotasuna erabiliz."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -3004,6 +2914,18 @@ msgstr ""
 #, kde-format
 msgid "Wipe Method"
 msgstr "Gortina metodoa"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+#| msgid "Patterns"
+msgid "Matte"
+msgstr "Txantiloiak"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3070,6 +2992,33 @@ msgstr "Labaindu irudia alde batetik bestera."
 #, kde-format
 msgid "Direction"
 msgstr "Norabidea"
+
+#: data/transitions/vqm.xml:3
+#, fuzzy, kde-format
+#| msgid "Measurement"
+msgid "Video Quality Measurement"
+msgstr "Neurria"
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render time"
+msgid "Render line"
+msgstr "Errendatze-denbora"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3822,6 +3771,25 @@ msgstr "Gako-fotograma mota lehenetsia"
 #, kde-format
 msgid "Options"
 msgstr "Aukerak"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Opakotasuna"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "Y posizioa:"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "X posizioa"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -16807,8 +16775,8 @@ msgstr "Azpidatziak"
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
 #, kde-format
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -19854,6 +19822,50 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "Cairo affine nahasketa "
+
+#~ msgid ""
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
+#~ msgstr ""
+#~ "Bigarren sarrera lehenengo sarreran konposatzen du erabiltzaileak "
+#~ "zehaztutako eraldaketa, opakotasuna eta nahaste-modua erabiliz."
+
+#~ msgid "X scale"
+#~ msgstr "eskala"
+
+#~ msgid "Y scale"
+#~ msgstr "Y eskala"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "Normala,Gehitu,Asetu,Biderkatu,Monitorea,Gainjarri,Ilundu,Argitu,Kolorea "
+#~ "argitu, Kolorea erre,Argi gogorra,Argi leuna,Diferentzia,Esklusioa,HSL "
+#~ "leuntzea,HSL asetzea,HSL kolorea,HSL argitasuna"
+
+#~ msgid "Blend mode"
+#~ msgstr "Nahaste modua"
+
+#~ msgid "Rotation X center"
+#~ msgstr "Errotazio X zentroa"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "Errotazio Y zentroa"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "Cairo nahasketa"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "Bigarren sarrera lehenengo sarreran konposatzen du erabiltzaileak "
+#~ "zehaztutako nahaste-modua eta opakotasuna erabiliz."
+
 #~ msgid "Capture format"
 #~ msgstr "Atzemate formatua"
 
@@ -21070,11 +21082,6 @@ msgstr "%1h"
 #~ msgstr "Lineala"
 
 #, fuzzy
-#~| msgid "Patterns"
-#~ msgid "Pattern"
-#~ msgstr "Txantiloiak"
-
-#, fuzzy
 #~| msgid "1st Color"
 #~ msgid "Start Color"
 #~ msgstr "1. kolorea"
@@ -21985,9 +21992,6 @@ msgstr "%1h"
 
 #~ msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 #~ msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-
-#~ msgid "Measurement"
-#~ msgstr "Neurria"
 
 #~ msgid "X size"
 #~ msgstr "X tamaina"

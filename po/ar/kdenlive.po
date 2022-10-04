@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
-"PO-Revision-Date: 2022-10-02 18:23+0400\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
+"PO-Revision-Date: 2022-10-03 17:03+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1747,7 +1747,6 @@ msgid "Position, scale and opacity."
 msgstr "الموضع,المقاس والعتمة"
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2850,95 +2849,6 @@ msgstr "تلاشى خارج من فيديو وتلاشى داخل في أخر"
 msgid "Luma Map"
 msgstr "خريطة ”لوما“"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "خليط تآلفي القاهرة"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"يركّب الإدخال الثاني على الإدخال الأول الذي يطبق التحول المعرفة من قبل "
-"المستخدم، وضع العُتَمَة ووضع المزيج."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "موضع س"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "موضع ص"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "مقياس س"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "مقياس ص"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "العُتَمَة"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"عادية,إضافة,تشبع,مضاعفة,شاشة,تراكب,أغمق,تفتيح,إنقاص كثافة اللون,حرق اللون,"
-"الضوء الصلب,الضوء الناعم,الاختلاف,الاستبعاد,صبغة ص‌ش‌ض,تشبع ص‌ش‌ض,لون ص‌ش‌ض,إضاءة "
-"ص‌ش‌ض"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "وضع الخلط"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "تدوير مركز س"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "تدوير مركز ص"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "خليط القاهرة"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"يركّب الإدخال الثاني على الإدخال الأول بنمط الخلط والعُتمة المعرفين من قبل "
-"المستخدم."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -2956,6 +2866,17 @@ msgstr "يطبق انتقالًا ثابتًا بين الإطارات الحا�
 #, kde-format
 msgid "Wipe Method"
 msgstr "طريقة المسح"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+msgid "Matte"
+msgstr "نقوش"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3022,6 +2943,32 @@ msgstr "أزلق صورة من جانب إلى أخر."
 #, kde-format
 msgid "Direction"
 msgstr "الاتجاه"
+
+#: data/transitions/vqm.xml:3
+#, kde-format
+msgid "Video Quality Measurement"
+msgstr ""
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "Render line"
+msgstr "وقت التصيير"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3767,6 +3714,25 @@ msgstr "نوع الإطار الرئيس المبدئي"
 #, kde-format
 msgid "Options"
 msgstr "خيارات"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "العُتَمَة"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "موضع ص"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "موضع س"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -11736,10 +11702,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "حدد تشكيلة (معدة مسبقا) المشروع"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "المبدئيّ"
+msgstr "المبدئيّ: %1"
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -15719,17 +15684,15 @@ msgstr "التقط الفيديو (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:62 src/ui/configcapture_ui.ui:460
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "الأجهزة المكتشفة"
+msgstr "الأجهزة المكتشفة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "جهاز الفيديو"
+msgstr "جهاز الفيديو:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:86 src/ui/wizardcapture_ui.ui:57
@@ -15794,24 +15757,21 @@ msgstr "ترميز التشكيلة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "التقاط منطقة"
+msgstr "منطقة الالتقاط:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "بدّل ملء شاشة"
+msgstr "ملء شاشة"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "نافذة مستطيلة"
+msgstr "منطقة مستطيلة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -15843,10 +15803,9 @@ msgstr "الحجم"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:400
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "أخفِ المؤشّر"
+msgstr "مؤشر الفأرة:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:454
@@ -16227,10 +16186,9 @@ msgstr "الزّرّ 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "ملفّات المشروع:"
+msgstr "ملف المشروع:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:24
@@ -16247,10 +16205,9 @@ msgstr "فعّل الاستعادة من الانهيار (الحفظ الآلي
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "لون المقطع:"
+msgstr "استيراد مقطع:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:52
@@ -16364,26 +16321,29 @@ msgstr "الترجمة:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "These are the the default settings for new projects. To edit the "
+#| "parameters of the current project, use the project settings."
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
+"هذه هي الإعدادات المبدئية للمشاريع الجديدة. لتحرر معاملات للمشروع الحالي، "
+"استخدم إعدادات المشروع."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:37 src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project folder: %1"
+#, kde-format
 msgid "Project folder:"
-msgstr "مجلّد المشروع: %1"
+msgstr "مجلّد المشروع:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "المجلّد الافتراضيّ لملفّات المشروع"
+msgstr "استخدم المجلد الأصل لملف المشروع"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:63
@@ -16423,10 +16383,9 @@ msgstr "6 قنوات"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:145
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview profile:"
-msgstr "معاينة الخطّ الزّمنيّ"
+msgstr "تشكيلة معاينة الخطّ الزّمنيّ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:28
@@ -16469,18 +16428,16 @@ msgstr "مقاس الصّورة الوسيطة"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:141
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "ممكّن"
+msgstr "مكّن"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:177 src/ui/projectsettings_ui.ui:477
-#, fuzzy, kde-format
-#| msgid "Use external proxy clips"
+#, kde-format
 msgid "External proxy clips:"
-msgstr "استخدم المقاطع الوسيطة الخارجية"
+msgstr "مقاطع وسيطة خارجية:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:204
@@ -16536,10 +16493,9 @@ msgstr "لون خلفيّة الشّاشة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "استعمل عرض خارجي (بطاقة بلاك ماجيك)"
+msgstr "عرض خارجي (بطاقة بلاك ماجيك):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:148
@@ -16549,19 +16505,15 @@ msgstr "جهاز خرج:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:183
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
-"استخدم معالجة وحدة الرّسوميّات (مكتبة Movit) - أعد تشغيل كدينلايف للتّطبيق"
+msgstr "مكّن - أعد تشغيل كدينلايف للتّطبيق"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
-"استخدم معالجة وحدة الرّسوميّات (مكتبة Movit) - أعد تشغيل كدينلايف للتّطبيق"
+msgstr "معالجة بعتاد وحدة الرّسوميّات (مكتبة Movit):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #: src/ui/configspeech_ui.ui:30
@@ -16608,31 +16560,27 @@ msgstr "المصغّرات:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "فعّل الفيديو"
+msgstr "فعّل للفيديو"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:31
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "فعّل الصّوت"
+msgstr "فعّل للصّوت"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Separate channels"
+#, kde-format
 msgid "Separate audio channels"
-msgstr "افصل القنوات"
+msgstr "افصل قنوات الصوت"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Pause playback when seeking"
+#, kde-format
 msgid "Playback and Seeking:"
-msgstr "ألبث التّشغيل عند القصد"
+msgstr "التشغيل والقصد:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:62
@@ -16655,10 +16603,9 @@ msgstr "اقصد مقطع عند إضافة تأثير"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Scaling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "تحجيم"
+msgstr "التمرير:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -16681,10 +16628,9 @@ msgstr "اعرض تعليقات مؤشرات المقطع"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "تابع الارتفاع:"
+msgstr "ارتفاع المسار المبدئيّ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:145
@@ -17711,40 +17657,37 @@ msgstr "إعدادات"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
-msgstr "مجلّد المشروع لتخزين المقاطع الوسيطة، والمصغّرات والمعاينات"
+msgstr " مستخدم لتخزين المقاطع الوسيطة، والمصغّرات والمعاينات"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
-msgstr "مجلّد المشروع لتخزين المقاطع الوسيطة، والمصغّرات والمعاينات"
+msgstr ""
+" مجلّد المشروع هو مكان  لتخزين الموارد مثل المقاطع الوسيطة، والمصغّرات "
+"والمعاينات."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "المجلّدات المبدئية"
+msgstr "المجلد المبدئيّ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "المجلّد الافتراضيّ لملفّات المشروع"
+msgstr "المجلد الأصل لملف المشروع"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "مخصّص"
+msgstr "مخصص:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:136
@@ -17766,10 +17709,9 @@ msgstr "6 القنوات"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "معاينة الخطّ الزّمنيّ"
+msgstr "معاينة الخطّ الزّمنيّ:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:192
@@ -17779,10 +17721,9 @@ msgstr "الوسيط"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "المقاطع الوسيطة:"
+msgstr "المقاطع الوسيطة"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -19213,6 +19154,50 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
 
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "خليط تآلفي القاهرة"
+
+#~ msgid ""
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
+#~ msgstr ""
+#~ "يركّب الإدخال الثاني على الإدخال الأول الذي يطبق التحول المعرفة من قبل "
+#~ "المستخدم، وضع العُتَمَة ووضع المزيج."
+
+#~ msgid "X scale"
+#~ msgstr "مقياس س"
+
+#~ msgid "Y scale"
+#~ msgstr "مقياس ص"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "عادية,إضافة,تشبع,مضاعفة,شاشة,تراكب,أغمق,تفتيح,إنقاص كثافة اللون,حرق اللون,"
+#~ "الضوء الصلب,الضوء الناعم,الاختلاف,الاستبعاد,صبغة ص‌ش‌ض,تشبع ص‌ش‌ض,لون ص‌ش‌ض,"
+#~ "إضاءة ص‌ش‌ض"
+
+#~ msgid "Blend mode"
+#~ msgstr "وضع الخلط"
+
+#~ msgid "Rotation X center"
+#~ msgstr "تدوير مركز س"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "تدوير مركز ص"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "خليط القاهرة"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "يركّب الإدخال الثاني على الإدخال الأول بنمط الخلط والعُتمة المعرفين من قبل "
+#~ "المستخدم."
+
 #~ msgid "Capture format"
 #~ msgstr "تنسيق الالتقاط"
 
@@ -19773,10 +19758,6 @@ msgstr "%1س"
 #~| msgid "Linear"
 #~ msgid "Linear,Radial"
 #~ msgstr "خطّي"
-
-#, fuzzy
-#~ msgid "Pattern"
-#~ msgstr "نقوش"
 
 #, fuzzy
 #~| msgid "Colour"

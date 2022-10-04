@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
 "PO-Revision-Date: 2022-09-20 13:32+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -1802,7 +1802,6 @@ msgid "Position, scale and opacity."
 msgstr "Расположение, масштаб и непрозрачность."
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2932,96 +2931,6 @@ msgstr "Плавное исчезновение одного клипа и по�
 msgid "Luma Map"
 msgstr "Метод вытеснения"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "Аффинное смешивание (Cairo)"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"Накладывает вторую дорожку на первую с применением определённой "
-"пользователем трансформации, непрозрачности и режима смешивания."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "Позиция по X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "Позиция по Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "Масштаб по X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "Масштаб по Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Непрозрачность"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"Обычный,Добавление,Насыщенность,Умножение,Экранирование,Наложение,Замена "
-"тёмным,Замена светлым,Осветление основы,Затемнение основы,Жёсткий свет,"
-"Мягкий свет,Разница,Исключение,HSL оттенок,HSL насыщенность,HSL цвет,HSL "
-"светлота"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "Режим смешивания"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "Центр вращения по X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "Центр вращения по Y"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "Смешивание (Cairo)"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"Накладывает вторую дорожку на первую с применением определяемых\n"
-"пользователем параметров режима смешивания и непрозрачности."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -3039,6 +2948,19 @@ msgstr "Переход между текущим и следующим кадр�
 #, kde-format
 msgid "Wipe Method"
 msgstr "Метод вытеснения"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+msgid "Matte"
+msgstr "Штампы"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
+"Совмещает альфа-канал дорожки A с яркостным\n"
+"каналом дорожки B."
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3105,6 +3027,36 @@ msgstr "Смена изображения перемещением слайда 
 #, kde-format
 msgid "Direction"
 msgstr "Направление"
+
+#: data/transitions/vqm.xml:3
+#, kde-format
+msgid "Video Quality Measurement"
+msgstr "Измерение качества видео"
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+"Выполняет PSNR и SSIM измерения качества видео\n"
+"путем сравнения кадров к системе отсчета А. В нижней\n"
+"части кадра B размещается ниже верхней половины\n"
+"фрейма для визуального сравнения."
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "Render line"
+msgstr "Время сборки"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3847,6 +3799,25 @@ msgstr "Интерполяция по умолчанию"
 #, kde-format
 msgid "Options"
 msgstr "Параметры"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Непрозрачность"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "Позиция по Y"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "Позиция по X"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -16635,8 +16606,8 @@ msgstr "Субтитры:"
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
 #, kde-format
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -19530,6 +19501,51 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ч"
 
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "Аффинное смешивание (Cairo)"
+
+#~ msgid ""
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
+#~ msgstr ""
+#~ "Накладывает вторую дорожку на первую с применением определённой "
+#~ "пользователем трансформации, непрозрачности и режима смешивания."
+
+#~ msgid "X scale"
+#~ msgstr "Масштаб по X"
+
+#~ msgid "Y scale"
+#~ msgstr "Масштаб по Y"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "Обычный,Добавление,Насыщенность,Умножение,Экранирование,Наложение,Замена "
+#~ "тёмным,Замена светлым,Осветление основы,Затемнение основы,Жёсткий свет,"
+#~ "Мягкий свет,Разница,Исключение,HSL оттенок,HSL насыщенность,HSL цвет,HSL "
+#~ "светлота"
+
+#~ msgid "Blend mode"
+#~ msgstr "Режим смешивания"
+
+#~ msgid "Rotation X center"
+#~ msgstr "Центр вращения по X"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "Центр вращения по Y"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "Смешивание (Cairo)"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "Накладывает вторую дорожку на первую с применением определяемых\n"
+#~ "пользователем параметров режима смешивания и непрозрачности."
+
 #~ msgid "Capture format"
 #~ msgstr "Формат захвата"
 
@@ -20726,10 +20742,6 @@ msgstr "%1ч"
 #, fuzzy
 #~ msgid "Linear,Radial"
 #~ msgstr "Линейная"
-
-#, fuzzy
-#~ msgid "Pattern"
-#~ msgstr "Штампы"
 
 #, fuzzy
 #~ msgid "Start Color"
@@ -24060,12 +24072,6 @@ msgstr "%1ч"
 #~ "Выполняет операцию осветления между двумя\n"
 #~ "источниками (максимальное значение как в источниках)."
 
-#~ msgid ""
-#~ "Replace the alpha channel of track A with the luma channel from track B."
-#~ msgstr ""
-#~ "Совмещает альфа-канал дорожки A с яркостным\n"
-#~ "каналом дорожки B."
-
 #~ msgid "multiply"
 #~ msgstr "Умножение"
 
@@ -24140,21 +24146,6 @@ msgstr "%1ч"
 #~ msgstr ""
 #~ "Преобразует, чтобы оценить только источника\n"
 #~ "входного сигнала 1, используя значение вход 2."
-
-#~ msgid "Video Quality Measurement"
-#~ msgstr "Измерение качества видео"
-
-#~ msgid ""
-#~ "This performs the PSNR and SSIM video quality measurements by comparing "
-#~ "the B frames to the reference frame A. It outputs the numbers to stdout "
-#~ "in space-delimited format for easy by another tool. The bottom half of "
-#~ "the B frame is placed below the top half of the A frame for visual "
-#~ "comparison."
-#~ msgstr ""
-#~ "Выполняет PSNR и SSIM измерения качества видео\n"
-#~ "путем сравнения кадров к системе отсчета А. В нижней\n"
-#~ "части кадра B размещается ниже верхней половины\n"
-#~ "фрейма для визуального сравнения."
 
 #~ msgid "Perform an RGB[A] addition operation of the pixel sources."
 #~ msgstr "Выполняет RGB [A]. операцию сложения источников пикселей."

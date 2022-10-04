@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -1812,7 +1812,6 @@ msgid "Position, scale and opacity."
 msgstr "Ionad X"
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, fuzzy, kde-format
@@ -2971,95 +2970,6 @@ msgstr ""
 msgid "Luma Map"
 msgstr "Comhad Luma"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr ""
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, fuzzy, kde-format
-#| msgid "Transitions"
-msgid "X position"
-msgstr "Trasdulta"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, fuzzy, kde-format
-#| msgid "Transitions"
-msgid "Y position"
-msgstr "Trasdulta"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, fuzzy, kde-format
-#| msgid "Rescale"
-msgid "X scale"
-msgstr "Athscálaigh"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, fuzzy, kde-format
-#| msgid "Rescale"
-msgid "Y scale"
-msgstr "Athscálaigh"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Teimhneacht"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, fuzzy, kde-format
-#| msgid "Edge"
-msgid "Blend mode"
-msgstr "Ciumhais"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
-msgid "Rotation X center"
-msgstr "Ailíniú Cothrománach"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
-msgid "Rotation Y center"
-msgstr "Ailíniú Cothrománach"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr ""
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-
 #: data/transitions/luma.xml:3
 #, fuzzy, kde-format
 #| msgid "Luma file"
@@ -3077,6 +2987,18 @@ msgstr ""
 #: data/transitions/wipe.xml:7
 #, kde-format
 msgid "Wipe Method"
+msgstr ""
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+#| msgid "Add marker"
+msgid "Matte"
+msgstr "Cuir marcóir leis"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
 msgstr ""
 
 #: data/transitions/mix.xml:3
@@ -3149,6 +3071,33 @@ msgstr ""
 #, kde-format
 msgid "Direction"
 msgstr "Treo"
+
+#: data/transitions/vqm.xml:3
+#, fuzzy, kde-format
+#| msgid "Enhancement"
+msgid "Video Quality Measurement"
+msgstr "Breisiú"
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Reverb"
+msgid "Render line"
+msgstr "Aisfhuaimniú"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3974,6 +3923,27 @@ msgstr "Cuir Fad Ama in Eagar"
 #, kde-format
 msgid "Options"
 msgstr "Roghanna"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Teimhneacht"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, fuzzy, kde-format
+#| msgid "Transitions"
+msgid "Y position"
+msgstr "Trasdulta"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, fuzzy, kde-format
+#| msgid "Transitions"
+msgid "X position"
+msgstr "Trasdulta"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, fuzzy, kde-format
@@ -17017,8 +16987,8 @@ msgstr "gan teideal"
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
 #, kde-format
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -20075,6 +20045,31 @@ msgid "%1h"
 msgstr ""
 
 #, fuzzy
+#~| msgid "Rescale"
+#~ msgid "X scale"
+#~ msgstr "Athscálaigh"
+
+#, fuzzy
+#~| msgid "Rescale"
+#~ msgid "Y scale"
+#~ msgstr "Athscálaigh"
+
+#, fuzzy
+#~| msgid "Edge"
+#~ msgid "Blend mode"
+#~ msgstr "Ciumhais"
+
+#, fuzzy
+#~| msgid "Horizontal Alignment"
+#~ msgid "Rotation X center"
+#~ msgstr "Ailíniú Cothrománach"
+
+#, fuzzy
+#~| msgid "Horizontal Alignment"
+#~ msgid "Rotation Y center"
+#~ msgstr "Ailíniú Cothrománach"
+
+#, fuzzy
 #~| msgid "Capture format:"
 #~ msgid "Capture format"
 #~ msgstr "Formáid ghabhála:"
@@ -20854,11 +20849,6 @@ msgstr ""
 #~ msgstr "Ga"
 
 #, fuzzy
-#~| msgid "Add marker"
-#~ msgid "Pattern"
-#~ msgstr "Cuir marcóir leis"
-
-#, fuzzy
 #~| msgid "Color"
 #~ msgid "Start Color"
 #~ msgstr "Dath"
@@ -21331,11 +21321,6 @@ msgstr ""
 #~| msgid "Video codec"
 #~ msgid "Video values"
 #~ msgstr "(Dí-)Comhbhrú Físe"
-
-#, fuzzy
-#~| msgid "Enhancement"
-#~ msgid "Measurement"
-#~ msgstr "Breisiú"
 
 #, fuzzy
 #~| msgid "File size"

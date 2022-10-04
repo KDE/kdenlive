@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:46+0000\n"
+"POT-Creation-Date: 2022-10-04 00:43+0000\n"
 "PO-Revision-Date: 2022-09-28 20:47+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -1766,7 +1766,6 @@ msgid "Position, scale and opacity."
 msgstr "Położenie, skala i nieprzezroczystość."
 
 #: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/frei0r_cairoaffineblend.xml:19
 #: data/transitions/qtblend.xml:10
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
@@ -2882,95 +2881,6 @@ msgstr "Zanikanie jednego obrazu podczas wyłaniania się kolejnego."
 msgid "Luma Map"
 msgstr "Mapa lumy"
 
-#: data/transitions/frei0r_cairoaffineblend.xml:3
-#, kde-format
-msgid "Cairo Affine Blend"
-msgstr "Mieszanie afiniczne Cairo"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on first input applying user-defined transformation, "
-"opacity and blend mode."
-msgstr ""
-"Składa drugie wejście z pierwszym wejściem stosując określone przez "
-"użytkownika przekształcenie, tryb nieprzezroczystości i mieszania."
-
-#: data/transitions/frei0r_cairoaffineblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
-#, kde-format
-msgid "X position"
-msgstr "Położenie X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:10
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
-#, kde-format
-msgid "Y position"
-msgstr "Położenie Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:13
-#, kde-format
-msgid "X scale"
-msgstr "Skala X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:16
-#, kde-format
-msgid "Y scale"
-msgstr "Skala Y"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:22
-#: data/transitions/frei0r_cairoblend.xml:7
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
-#: src/widgets/geometrywidget.cpp:78
-#, kde-format
-msgid "Opacity"
-msgstr "Nieprzezroczystość"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:25
-#: data/transitions/frei0r_cairoblend.xml:10
-#, kde-format
-msgid ""
-"Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL "
-"color,HSL luminosity"
-msgstr ""
-"Normalna,Dodaj,Nasyć,Pomnóż,Ekran,Nakładka,Ściemnij,Rozjaśnij,Przyciemnianie "
-"koloru,Wypalanie koloru,Twarde światło,Miękkie światło,Różnica,Wykluczenie,"
-"odcień HSL,nasycenie HSL,kolor HSL ,jasność HSL"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:26
-#: data/transitions/frei0r_cairoblend.xml:11
-#, kde-format
-msgid "Blend mode"
-msgstr "Tryb mieszania"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:29
-#, kde-format
-msgid "Rotation X center"
-msgstr "Środek obrotu X"
-
-#: data/transitions/frei0r_cairoaffineblend.xml:32
-#, kde-format
-msgid "Rotation Y center"
-msgstr "Środek obrotu Y"
-
-#: data/transitions/frei0r_cairoblend.xml:3
-#, kde-format
-msgid "Cairo Blend"
-msgstr "Mieszanie Cairo"
-
-#: data/transitions/frei0r_cairoblend.xml:4
-#, kde-format
-msgid ""
-"Composites second input on the first input with user-defined blend mode and "
-"opacity."
-msgstr ""
-"Składa drugie wejście z pierwszym wejściem stosując określony przez "
-"użytkownika tryb mieszania i nieprzezroczystości."
-
 #: data/transitions/luma.xml:3
 #, kde-format
 msgctxt "Luma Transition Name"
@@ -2988,6 +2898,18 @@ msgstr "Nakłada nieruchome przejście pomiędzy obecną a kolejną klatką."
 #, kde-format
 msgid "Wipe Method"
 msgstr "Sposób przetarcia"
+
+#: data/transitions/matte.xml:3
+#, fuzzy, kde-format
+#| msgid "Patterns"
+msgid "Matte"
+msgstr "Wzorce"
+
+#: data/transitions/matte.xml:4
+#, kde-format
+msgid ""
+"Replace the alpha channel of track A with the luma channel from track B."
+msgstr ""
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3054,6 +2976,33 @@ msgstr "Ślizgaj obraz z jednej strony na drugą"
 #, kde-format
 msgid "Direction"
 msgstr "Kierunek"
+
+#: data/transitions/vqm.xml:3
+#, fuzzy, kde-format
+#| msgid "Measurement"
+msgid "Video Quality Measurement"
+msgstr "Pomiar"
+
+#: data/transitions/vqm.xml:4
+#, kde-format
+msgid ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
+msgstr ""
+
+#: data/transitions/vqm.xml:7
+#, fuzzy, kde-format
+#| msgid "Render Time"
+msgid "Render line"
+msgstr "Czas wyświetlania"
+
+#: data/transitions/vqm.xml:8
+#, kde-format
+msgid ""
+"Render a line between top and bottom halves and the values atop the video."
+msgstr ""
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -3793,6 +3742,25 @@ msgstr "Domyślny rodzaj klatki kluczowej"
 #, kde-format
 msgid "Options"
 msgstr "Ustawienia"
+
+#: src/assets/view/widgets/keyframewidget.cpp:231
+#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/widgets/geometrywidget.cpp:78
+#, kde-format
+msgid "Opacity"
+msgstr "Nieprzezroczystość"
+
+#: src/assets/view/widgets/keyframewidget.cpp:235
+#: src/assets/view/widgets/keyframewidget.cpp:307
+#, kde-format
+msgid "Y position"
+msgstr "Położenie Y"
+
+#: src/assets/view/widgets/keyframewidget.cpp:236
+#: src/assets/view/widgets/keyframewidget.cpp:301
+#, kde-format
+msgid "X position"
+msgstr "Położenie X"
 
 #: src/assets/view/widgets/keyframewidget.cpp:255
 #, kde-format
@@ -16475,8 +16443,8 @@ msgstr "Napisy:"
 #: src/ui/configproject_ui.ui:20 src/ui/configproxy_ui.ui:9
 #, kde-format
 msgid ""
-"These are the the default settings for new projects. To edit the parameters "
-"of the current project, use the project settings."
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -19342,6 +19310,50 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
+#~ msgid "Cairo Affine Blend"
+#~ msgstr "Mieszanie afiniczne Cairo"
+
+#~ msgid ""
+#~ "Composites second input on first input applying user-defined "
+#~ "transformation, opacity and blend mode."
+#~ msgstr ""
+#~ "Składa drugie wejście z pierwszym wejściem stosując określone przez "
+#~ "użytkownika przekształcenie, tryb nieprzezroczystości i mieszania."
+
+#~ msgid "X scale"
+#~ msgstr "Skala X"
+
+#~ msgid "Y scale"
+#~ msgstr "Skala Y"
+
+#~ msgid ""
+#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
+#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
+#~ "saturation,HSL color,HSL luminosity"
+#~ msgstr ""
+#~ "Normalna,Dodaj,Nasyć,Pomnóż,Ekran,Nakładka,Ściemnij,Rozjaśnij,"
+#~ "Przyciemnianie koloru,Wypalanie koloru,Twarde światło,Miękkie światło,"
+#~ "Różnica,Wykluczenie,odcień HSL,nasycenie HSL,kolor HSL ,jasność HSL"
+
+#~ msgid "Blend mode"
+#~ msgstr "Tryb mieszania"
+
+#~ msgid "Rotation X center"
+#~ msgstr "Środek obrotu X"
+
+#~ msgid "Rotation Y center"
+#~ msgstr "Środek obrotu Y"
+
+#~ msgid "Cairo Blend"
+#~ msgstr "Mieszanie Cairo"
+
+#~ msgid ""
+#~ "Composites second input on the first input with user-defined blend mode "
+#~ "and opacity."
+#~ msgstr ""
+#~ "Składa drugie wejście z pierwszym wejściem stosując określony przez "
+#~ "użytkownika tryb mieszania i nieprzezroczystości."
+
 #~ msgid "Capture format"
 #~ msgstr "Format przechwytywania"
 
@@ -20532,11 +20544,6 @@ msgstr "%1h"
 #~ msgstr "Liniowa"
 
 #, fuzzy
-#~| msgid "Patterns"
-#~ msgid "Pattern"
-#~ msgstr "Wzorce"
-
-#, fuzzy
 #~| msgid "1st Color"
 #~ msgid "Start Color"
 #~ msgstr "1. barwa"
@@ -21445,9 +21452,6 @@ msgstr "%1h"
 
 #~ msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
 #~ msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-
-#~ msgid "Measurement"
-#~ msgstr "Pomiar"
 
 #~ msgid "X size"
 #~ msgstr "Rozmiar X"
