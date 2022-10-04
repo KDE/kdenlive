@@ -1292,7 +1292,7 @@ void GLWidget::setZoom(float zoom)
         double scaley = rootObject()->property("scaley").toDouble() * zoomRatio;
         rootObject()->setProperty("scaley", scaley);
     }
-    quickWindow()->update();
+    resizeGL(width(), height());
 }
 
 void GLWidget::onFrameDisplayed(const SharedFrame &frame)
