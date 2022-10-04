@@ -1,0 +1,674 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Indonesian "INCLUDE">
+]>
+<book id="kdenlive" lang="&language;">
+<bookinfo>
+<title
+>Panduan Cepat Memulai Kdenlive</title>
+<authorgroup>
+<author>
+<personname
+><firstname
+>Dokumen ini telah dikonversi dari halaman  KDE UserBase <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+>.</firstname
+> <surname
+></surname
+> </personname>
+    </author>
+<othercredit role="translator"
+><firstname
+>Wantoyo</firstname
+><surname
+></surname
+><affiliation
+><address
+><email
+>wantoyek@gmail.com</email
+></address
+></affiliation
+><contrib
+>Terjemahan</contrib
+></othercredit
+> 
+    </authorgroup>
+<legalnotice
+>&FDLNotice;</legalnotice>
+<date
+>07-05-2019</date>
+    <releaseinfo
+>Aplikasi 19.04</releaseinfo>
+<abstract>
+<para
+></para>
+    </abstract>
+    <keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>multimedia</keyword>
+<keyword
+>video</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp
+>2019-04-16T07:41:55Z</timestamp
+>-->
+
+<!--userbase-content-->
+<chapter id="quick-start"
+><title
+>Mulai Cepat</title
+> 
+<sect1 id="creating-a-new-project"
+><title
+>Menciptakan sebuah projek baru</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-folder-structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Struktur direktori Kdenlive</phrase>
+    </textobject>
+    <caption>
+      <para
+>Struktur direktori Kdenlive</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Langkah pertama adalah menciptakan sebuah folder (kosong) baru untuk projek baru kita. Saya menyebutnya <filename
+>quickstart-tutorial/</filename
+> dalam tutorial ini. Kemudian dapatkan beberapa contoh klip video, atau mengunduhnya dari sini:<ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2"
+>kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink
+> (7 MB)<footnote
+><para
+>Jika kamu suka Theora (yang mungkin kamu tidak lakukan karena Video Ogg biasanya menyebabkan masalah), alternatifnya kamu bisa unduh <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2"
+>kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink
+>.</para
+></footnote
+>, dan mengekstraknya ke &eg; subfolder <filename
+>quickstart-tutorial/Videos/</filename
+> dalamnya folder projek. </para>
+<para
+>"Imqge pada sebelah kiri menampilkan struktur direktori yang disarankan: Setiap projek memiliki dirwktori sendiri, dengan file-file video di dalam subdirektori  <filename
+>Video</filename
+>, file-file audio di dalam direktori <filename
+>Audio</filename
+>, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
+>baca selebihnya</ulink
+>) </para>
+<para
+>(Tutorial mulai sekarang mengasumsikan bahwa kamu menggunakan video-video contoh yang disediakan, tetapi bekerja dengan baik.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-new-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Dialog Projek baru</phrase>
+    </textobject>
+    <caption>
+      <para
+>Dialog Projek baru</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Buka &kdenlive; dan ciptakan sebuah projek baru (<menuchoice
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Baru</guimenuitem
+></menuchoice
+>). </para>
+<para
+>Memilih folder projek yang diciptakan sebelumnya (<filename
+>quickstart-tutorial/</filename
+>) dan pilih sebuah profil projek yang sesuai. File video disediakan di atas 720p, 23.98 fps.<footnote
+><para
+><ulink url="http://en.wikipedia.org/wiki/720p"
+>720</ulink
+> adalah tinggi video, p berdiri untuk <ulink url="http://en.wikipedia.org/wiki/Progressive_scan"
+>progressive scan</ulink
+> dalam kontras untuk <ulink url="http://en.wikipedia.org/wiki/Interlaced_video"
+>interlaced video</ulink
+>, dan sejumlah fps menunjukkan jumlah keseluruhan frame per detik.</para
+></footnote
+> Jika kamu akan menggunakan file-file milikmu dan tidak tau mana yang mau digunakan, &kdenlive; akan menyarankan sesuatu yang sesuai ketika klip pertama ditambahkan <footnote
+><para
+>Disediakan Konfigurasi Pengaturan Kdenlive di bawah <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc"
+>Misc</ulink
+> yang telah diset ke <emphasis
+>Periksa apakah klip yang pertama cocok dengan profil projek</emphasis
+></para
+></footnote
+>, sehingga kamu bisa membiarkan bidang seperti apa adanya. </para>
+</sect1>
+<sect1 id="adding-clips"
+><title
+>Menambahkan klip</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Bin Projek: Menambahkan klip video</phrase>
+    </textobject>
+    <caption>
+      <para
+>Bin Projek: Menambahkan klip video</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Sekarang projek tersebut sudah siap, mari mulai menambahkan beberapa klip (&ie; sesuatu yang kamu unduh). Kerjakan ini via <emphasis
+>widget Bin Projek</emphasis
+>; klik pada ikon <guilabel
+>Tambahkan Klip</guilabel
+> <inlinemediaobject
+> <imageobject
+> <imagedata fileref="Icon-add-clip.png" format="PNG"/> </imageobject
+> </inlinemediaobject
+> secara langsung membukakan dialog file, klik pada panah kecil yang menampilkan daftar tipe-tipe klip tambahan yang bisa ditambahkan sebagaimana mestinya. Klip video, klip audio, citra, dan projek &kdenlive; lain bisa ditambahkan via dialog baku <guilabel
+>Tambahkan Klip</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Window Kdenlive dengan file tutorial</phrase>
+    </textobject>
+    <caption>
+      <para
+>Window Kdenlive dengan file-file tutorial</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Setelah memuat klip, &kdenlive; akan terlihat mirip seperti ini. Di atas kiri ada hierarki projek yang sudah diketahui. Tepat di sana adalah monitor yang menampilkan video; monitor klip mendisplaikan video dari klip asli, monitor projek menampilkan bagaimana video output akan terlihat, dengan semua efek, transisi, &etc; yang diterapkan. Item ketiga, juga sangat penting, adalah linimasa (di bawah monitor): Ini adalah tempat di mana klip video akan diedit. Ada dua jenis trek, Video dan Audio. Trek video bisa berisi segala jenis klip, trek audio juga - tetapi ketika meletakkan file video ke trek audio, hanya audio yang akan digunakan. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-save-project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Menyimpan projek Kdenlive</phrase>
+    </textobject>
+    <caption>
+      <para
+>Menyimpan projek Kdenlive</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Mari simpan pekerjaan kita via <menuchoice
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Simpan</guimenuitem
+></menuchoice
+>. Ini menyimpan projek kita, &ie; di mana kita menempatkan klip di linimasa, efek yang mana kita terapkan, dan seterusnya. Ini bisa <emphasis
+>tidak</emphasis
+> diputar.<footnote
+><para
+>Agar benar, itu <emphasis
+>bisa</emphasis
+> diputar menggunakan <varname
+>melt projekmu.kdenlive</varname
+>, tetapi ini bukan seperti yang kamu inginkan untuk menghadirkan video finalmu karena itu (seperti kebanyakan) terlalu lambat. Selain itu, inu hanya bekerja jika melt telah diinstal.</para
+></footnote
+> Proses penciptaan video final adalah disebut <emphasis
+>Perenderan</emphasis
+>. </para>
+</sect1>
+<sect1 id="timeline"
+><title
+>Linimasa</title
+> 
+<para
+>Lihat juga <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Timeline"
+>Bagian linimasanya manual</ulink
+> </para>
+<para
+>Sekarang tiba pengeditan yang sebenarnya. Klip projek digabungkan ke hasil final di linimasa. Mereka bisa di situ berdasarkan seret dan taruh: Seret beberapa Napoli (dengan asumsi kamu menggunakan file-file yang disediakan di atas, seperti pada tutorial memulai cepat ini; Jika tidak, pastikan layarmu kedap air, dan mungkin tahan banting) dari hierarki proyek, dan letakkan di trek pertama di linimasa. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timeline-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Klip pertama di dalam linimasa</phrase>
+    </textobject>
+    <caption>
+      <para
+>Klip pertama di dalam linimasa</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Karena beberapa peralatan makan juga dibutuhkan, raih klip sendok dan taruhkan di trek pertama sebagaimana mestinya. Kemudian seret Napoli ke awal linimasa (jika tidak, video yang dirender akan dimulai dengan beberapa detik hitam polos), dan Sendok kanan setelah Napoli, sehingga terlihat seperti pada gambar di sebelah kiri. (Di mana telah ku-zoom perbesar dengan <keycombo
+>&Ctrl;<keycap
+>Roda</keycap
+></keycombo
+>.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-timelinecursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Kursor linimasa</phrase>
+    </textobject>
+    <caption>
+      <para
+>Kursor linimasa</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Hasilnya sudah bisa dipratinjau dengan menekan <keycap
+>Spasi</keycap
+> (atau tombol <guilabel
+>Putar</guilabel
+> di monitor projek). Kamu akan melihat Napoli langsung diikuti oleh Sendok. Jika kursor waktu tidak di awal, monitor projek akan mulai bermain di suatu tempat di tengah; kamu bisa memindahkannya dengan menyeretnya pada penggaris linimasa atau di monitor projek. Jika kamu lebih suka pintasan keyboard, <keycombo
+>&Ctrl;<keycap
+>Home</keycap
+></keycombo
+> melakukan hal yang sama untuk monitor yang diaktifkan. (Pilih <guilabel
+>Monitor Projek</guilabel
+> jika belum dipilih sebelum menggunakan pintasan.) </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-resize-marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Penanda ukuran</phrase>
+    </textobject>
+    <caption>
+      <para
+>Penanda ukuran</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Karena setelah habis bermain, ada klip Biliar. Tambahkan ke linimasa sebagaimana mestinya. Selama 1,5 detik pertama tidak ada apa-apa yang terjadi di klip, jadi mungkin seharusnya di<guilabel
+>potong</guilabel
+> untuk menghindari video yang membosankan. Cara mudah<footnote
+><para
+>Menulis dengan cara ini menunjukkan bahwa ada beberapa cara untuk memotong klip. Ini sebenarnya benar.</para
+></footnote
+> untuk hal ini adalah memindahkan kursor linimasa ke posisi yang diinginkan (&ie; posisi tempat Anda ingin memotong video), lalu seret bingkai kiri klip ketika penanda ukuran muncul. Ini akan masuk pada kursor linimasa ketika Anda menggeser cukup dekat. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-overlap-clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Penindihan klip</phrase>
+    </textobject>
+    <caption>
+      <para
+>Penindihan klip</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Untuk menambahkan <emphasis
+>transisi</emphasis
+> antara makan (Sendok) dan bermain biliar, kedua klip harus tumpang tindih. Tepatnya: klip yang kedua harus di atas atau di bawah yang pertama dan ujung beberapa frame setelah yang kedua dimulai. Zoom perbesar sampai tanda tik untuk frame tunggal muncul bantuan di sini; itu juga membuatnya mudah untuk selalu memiliki durasi transisi yang sama, dalam kasus ini lima frame. </para>
+<para
+>Kamu bisa zoom perbesar dengan menggunakan <guilabel
+>penggeser zoom</guilabel
+> di window &kdenlive;, atau dengan <keycombo
+>&Ctrl;<keycap
+>Roda mouse </keycap
+></keycombo
+>. &kdenlive; akan zoom ke kursor linimasa, jadi pertama mengesetnya ke posisi yang ingin kamu perbesar, maka zoom perbesarlah. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Penanda transisi</phrase>
+    </textobject>
+    <caption>
+      <para
+>Penanda transisi</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Sekarang klip tumpang tindih, transisi bisa ditambahkan. Ini dilakukan baik dengan mengklik kanan pada klip atas dan memilih <guilabel
+>Tambah Transisi</guilabel
+> atau, lebih mudah, dengan mengarahkan mouse ke sudut kanan bawah klip Sendok sampai jari penunjuk ditampilkan dan pesan <quote
+>Klik untuk menambahkan transisi</quote
+> muncul. Yang terakhir, secara baku, menambahkan transisi dissolve, yang dalam hal ini adalah ide terbaik sejak Sendok tidak diperlukan untuk bermain. </para>
+<para
+>Transisi dissolve melesapkan klip pertama ke dalam detiknya. Lihat juga <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Transitions"
+>Bagian transisi dari manual</ulink
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-add-last-clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Ayo sekarang tambahkan klip terakhir, Piano, dan terapkan kembali transisi dissolve. Ketika menambahkannya di trek pertama pada linimasa, kamu perlu klik tepi kiri bawah klip baru untuk menambahkan transisi keklip sebelumnya. </para>
+<sect2 id="effects"
+><title
+>Efek</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-add-effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Daftar Efek</phrase>
+    </textobject>
+    <caption>
+      <para
+>Daftar Efek</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Piano bisa diwarnai dengan menambahkan <emphasis
+>efek</emphasis
+> ke dalamnya. Pilih klip piano, kemudian klik ganda efek <guilabel
+>Penyesuaian RGB</guilabel
+> di dalam  <guilabel
+>Daftar Efek</guilabel
+>. Jika tidak terlihat, kamu bisa mendapatkannya via <menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Daftar Efek</guimenuitem
+></menuchoice
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-effect-flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Setelah efek ditambahkan, namanya akan ditambahkan ke klip linimasa. Ini juga akan ditampilkan di widget <guilabel
+>Properti</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive-quickstart-effectstack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Tumpukan Efek dengan penyesuaian RGB</phrase>
+    </textobject>
+    <caption>
+      <para
+>Tumpukan Efek dengan penyesuaian RGB</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Untuk mendapatkan nada kuning-oranye yang hangat pada gambar, paskan kenyamanan malam, biru perlu dikurangi dan merah dan hijau diperbaiki. </para>
+<para
+>Nilai dalam widget Properti bisa diubah dengan menggunakan penggeser (tombol tengah mouse me-reset ke nilai baku), atau dengan memasukkan nilai langsung dengan mengeklik ganda nomor di sebelah kanan bilah geser. </para>
+<para
+>Widget Properti selalu merujuk ke klip linimasa yang saat ini dipilih. Setiap efek bisa dinonfungsikan sementara dengan mengeklik ikon mata, atau semua efek untuk klip itu bisa dinonfungsikan menggunakan kotak-centang di sebelah atas widget Properti (pengaturan disimpan meski demikian), ini adalah &eg; berguna untuk efek yang membutuhkan banyak daya komputasi, sehingga bisa dinonfungsikan ketika mengedit dan difungsikan lagi untuk perenderan. </para>
+<para
+>Untuk beberapa efek, seperti yang digunakan di sini, dimungkinkan untuk menambahkan keyframes. Ikon jam berbingkai mengindikasikan ini. Keyframes digunakan untuk mengubah parameter efek dari waktu ke waktu. Dalam klip kita ini memungkinkan kita untuk melesapkan warna piano dari warna malam yang hangat ke warna malam yang dingin. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Keyframes untuk efek-efek</phrase>
+    </textobject>
+    <caption>
+      <para
+>Keyframes untuk efek-efek</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Setelah mengeklik ikon <guilabel
+>keyframe</guilabel
+> (ikon jam berbingkai pada gambar sebelumnya), widget Properties akan diatur ulang. Secara baku akan ada dua keyframes, satu di awal dan satu di akhir klip linimasa. Pindahkan kursor linimasa ke akhir klip linimasa, sedemikian rupa sehingga monitor proyek benar-benar menunjukkan warna baru saat berganti parameter dari keyframe di akhir. </para>
+<para
+>Pastikan keyframe terakhir dipilih dalam daftar Properti. Kemudian kamu siap melumuri piano dengan warna biru tua. </para>
+<para
+>Memindahkan kursor linimasa ke awal proyek dan memutarnya (pakai tuts <keycap
+>Spasi</keycap
+>, atau tombol <guilabel
+>Putarkan</guilabel
+> di <guilabel
+>Monitor Projek</guilabel
+>), sekarang piano seharusnya warnanya berubah sesuai keinginan. </para>
+<para
+>Keyframing adalah bagian tersulit dari tutorial ini. Jika kamu berhasil melakukannya, kamu akan menguasai &kdenlive; dengan mudah! </para>
+<para
+>Lihat juga <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Effects"
+>Manual bagian efek-efek</ulink
+>. </para>
+</sect2>
+<sect2 id="music"
+><title
+>Musik</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Lesap-senyap audio</phrase>
+    </textobject>
+    <caption>
+      <para
+>Lesap-senyap audio</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Karena klip tidak tersedia audio apa pun, mari kita mencari beberapa musik yang bagus, dari koleksi lokalmu atau di halaman web seperti <ulink url="http://www.jamendo.com"
+>Jamendo</ulink
+>. Klip audio seharusnya, kalau sudah ditambahkan, diseret ke trek audio di linimasa. </para>
+<para
+>Klip audio bisa diubah ukurannya pada linimasa dengan cara yang sama sepertihalnya klip video. Kursor akan menjepret secara otomatis di ujung projek. Untuk menambah efek lesap di ujung klip audio (kecuali jika kamu menemukan file dengan ketepatan panjang yang benar) kamu bisa melayangi tepi kanan atas (atau kiri)-nya klip linimasa dan seret segitiga berbayang merah ke posisi di mana pelesapan-senyap harus dimulai.<footnote
+><para
+>Segitiga berbayang ini adalah cara singkat untuk menambahkan efek <menuchoice
+><guimenu
+>Lesap</guimenu
+> <guimenuitem
+>Lesap-senyap</guimenuitem
+></menuchoice
+>. Kedua cara mengarah ke hasil yang sama.</para
+></footnote>
+</para>
+</sect2>
+</sect1>
+<sect1 id="rendering"
+><title
+>Perenderan</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Dialog perenderan</phrase>
+    </textobject>
+    <caption>
+      <para
+>Dialog perenderan</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Tinggal beberapa menit lagi, dan projek selesai! Klik tombol Render (atau buka <menuchoice
+><guimenu
+>Projek</guimenu
+><guimenuitem
+>Render</guimenuitem
+></menuchoice
+>, atau tekan <keycombo
+>&Ctrl; &Enter;</keycombo
+>) untuk mendapatkan dialog yang ditampilkan di sebelah kiri. Pilih file output yang diinginkan untuk video baru kita, dengan semua efek dan transisi, pilih MP4 (bekerja hampir di mana saja), pilih lokasi file output dan tekan tombol <guilabel
+>Render ke File</guilabel
+>. </para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="kdenlive_quickstart-rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Progres perenderan</phrase>
+    </textobject>
+    <caption>
+      <para
+>Progres perenderan</para>
+    </caption>
+  </mediaobject>
+</screenshot>
+</para>
+<para
+>Setelah beberapa detik, perenderan akan selesai, dan projek &kdenlive;-mu yang pertama  paripurna. Selamat! </para>
+</sect1>
+<sect1 id="complete-manual"
+><title
+>Manual lengkap</title
+> 
+<para
+>Dokumentasi lebih lanjut untuk versi &kdenlive; saat ini bisa ditemukan di <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual"
+>manual lengkap</ulink
+>. </para>
+</sect1>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title
+>Pujian dan Lisensi</title>
+    <para
+>Hakcipta Dokumentasi lihatlah UserBase <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history"
+>Kdenlive/Manual/QuickStart page history</ulink
+></para>
+    <para
+>Wantoyo<email
+>wantoyek@gmail.com</email
+></para
+> &underFDL; </chapter>
+&documentation.index;
+</book>

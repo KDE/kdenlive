@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.multiply" id="frei0r.multiply">
+    <name>Multiply</name>
+    <description>Perform an RGB[A] multiply operation between the pixel sources.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

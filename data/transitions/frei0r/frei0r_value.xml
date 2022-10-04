@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.value" id="frei0r.value">
+    <name>Value</name>
+    <description>Perform a conversion to value only of the source input1 using the value of input2.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

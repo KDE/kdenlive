@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.alphaout" id="frei0r.alphaout">
+    <name>Alpha OUT</name>
+    <description>The alpha OUT operation</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

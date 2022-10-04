@@ -1,0 +1,665 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Portuguese "INCLUDE">
+]>
+<book id="kdenlive" lang="&language;">
+<bookinfo>
+<title
+>O Guia Introdutório Rápido do Kdenlive</title>
+<authorgroup>
+<author>
+<personname
+><firstname
+>Esta documentação foi convertida a partir da página da Base de Utilizadores do KDE <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+> .</firstname
+> <surname
+></surname
+> </personname>
+    </author>
+<othercredit role="translator"
+><firstname
+>José</firstname
+><surname
+>Pires</surname
+><affiliation
+><address
+><email
+>zepires@gmail.com</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> 
+    </authorgroup>
+<legalnotice
+>&FDLNotice;</legalnotice>
+<date
+>2011-06-17</date>
+    <releaseinfo
+>0.8.2</releaseinfo>
+<abstract>
+<para
+></para>
+    </abstract>
+    <keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>multimédia</keyword>
+<keyword
+>vídeo</keyword>
+</keywordset>
+</bookinfo>
+<!--userbase <timestamp
+>2011-06-17T15:39:59Z</timestamp
+>-->
+
+<!--userbase-content-->
+<chapter id="creating-a-new-project"
+><title
+>Criar um novo projecto</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Folder-Structure.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Estrutura de pastas do Kdenlive</phrase>
+    </textobject>
+    <caption>
+      <para
+>Estrutura de pastas do Kdenlive</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>O primeiro passo é criar uma nova pasta (vazia) para o nosso novo projecto. Chamar-se-á <filename
+>introdução-tutorial/</filename
+> neste tutorial. Depois, arranje alguns vídeos de exemplo ou transfira-os aqui: <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-avi.tar.bz2"
+>kdenlive-tutorial-videos-2011-avi.tar.bz2</ulink
+> (7 MB)<footnote
+><para
+>Se preferir vídeos em Theora (o que poderá não ser o caso, dado que o vídeo Ogg normalmente provoca problemas), poderá obter em alternativa o <ulink url="http://granjow.net/uploads/kdenlive/manual/kdenlive-tutorial-videos-2011-ogv.tar.bz2"
+>kdenlive-tutorial-videos-2011-ogv.tar.bz2</ulink
+>.</para
+></footnote
+> e extraí-los &eg; para <filename
+>introdução-tutorial/Videos/</filename
+>, uma sub-pasta dentro da pasta do projecto.</para>
+<para
+>A imagem da esquerda mostra a estrutura de pastas sugerida: Cada projecto tem a sua própria pasta, com os ficheiros dos vídeos na sub-pasta <filename
+>Videos</filename
+> e os ficheiros de áudio na pasta <filename
+>Audio</filename
+>, &etc; (<ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Projects_and_Files#File_Structure"
+>ler mais</ulink
+>)</para>
+<para
+>(O tutorial assume a partir de agora que irá usar os vídeos fornecidos como exemplos, se bem que poderá funcionar com qualquer um.)</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-New-Project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Janela de Novo Projecto</phrase>
+    </textobject>
+    <caption>
+      <para
+>Janela de Novo Projecto</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Abra o <application
+>Kdenlive</application
+> e crie um projecto novo (<menuchoice
+><guimenu
+>Ficheiro</guimenu
+><guimenuitem
+>Novo</guimenuitem
+></menuchoice
+>).</para>
+<para
+>Escolha a pasta do projecto criado anteriormente (<filename
+>introdução-tutorial/</filename
+>) e seleccione um perfil para o projecto apropriado. Os ficheiros de vídeo aqui fornecidos estão no formato 720p, 23,98 fps.<footnote
+><para
+><ulink url="http://en.wikipedia.org/wiki/720p"
+>720</ulink
+> é a altura do vídeo, onde o 'p' significa <ulink url="http://en.wikipedia.org/wiki/Progressive_scan"
+>progressivo</ulink
+> em contraste ao <ulink url="http://en.wikipedia.org/wiki/Interlaced_video"
+>entrelaçado</ulink
+>, e o número 'fps' indica o número de imagens completas por segundo.</para
+></footnote
+> Se estiver a usar os seus próprios ficheiros e não souber quais usar, o <application
+>Kdenlive</application
+> irá sugerir um perfil apropriado quando for adicionado o primeiro vídeo, pelo que poderá deixar o campo como quiser.</para>
+</chapter>
+<chapter id="adding-clips"
+><title
+>Adicionar vídeos</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Add-Clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Árvore do Projecto: Adicionar 'clips' de vídeo</phrase>
+    </textobject>
+    <caption>
+      <para
+>Árvore do Projecto: Adicionar 'clips' de vídeo</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Agora que o projecto está pronto, vamos começar a adicionar alguns vídeos (&ie; os que tiver obtido). Isto funciona com o item da <emphasis
+>Árvore do Projecto</emphasis
+>; se carregar no ícone <guilabel
+>Adicionar um Vídeo</guilabel
+>, irá abrir directamente a janela de ficheiros; se carregar na pequena seta irá mostrar uma lista com os tipos de vídeos que poderão ser também adicionados. Poderá adicionar 'clips' de vídeo, áudio, imagens e outros projectos do <application
+>Kdenlive</application
+> com a janela <guilabel
+>Adicionar um Vídeo</guilabel
+>.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Mainwindow.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>A janela do Kdenlive 0.8 com os ficheiros do tutorial</phrase>
+    </textobject>
+    <caption>
+      <para
+>A janela do Kdenlive 0.8 com os ficheiros do tutorial</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Depois de carregar os vídeos, o <application
+>Kdenlive</application
+> irá ficar semelhante a isto. No canto superior esquerdo, já se encontra a árvore do projecto. À direita desta estão os monitores que mostram o vídeo; o monitor do vídeo mostra o vídeo dos ficheiros originais, o monitor do projecto mostra como é que o vídeo irá ficar no fim, com todos os efeitos, transições, &etc; aplicados. O terceiro item, que também é bastante importante, é a linha temporal (por baixo dos monitores): Aqui é onde os excertos de vídeo serão editados. Existem dois tipos diferentes de faixas: vídeo e áudio. As faixas de vídeo poderão conter qualquer 'clip', incluindo os de áudio - contudo, ao largar um vídeo na faixa de áudio, só será usada a faixa de áudio deste.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Save-Project.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Gravar um projecto do Kdenlive</phrase>
+    </textobject>
+    <caption>
+      <para
+>Gravar um projecto do Kdenlive</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Vamos gravar o trabalho com a opção <menuchoice
+><guimenu
+>Ficheiro</guimenu
+><guimenuitem
+>Gravar</guimenuitem
+></menuchoice
+>. Isto grava o nosso projecto, &ie; onde colocámos os vídeos na linha temporal, os efeitos que foram aplicados e assim por diante. O mesmo <emphasis
+>não</emphasis
+> poderá ser reproduzido.<footnote
+><para
+>Para ser mais exacto, <emphasis
+>pode</emphasis
+> ser reproduzido com o comando <varname
+>melt o-seu-projecto.kdenlive</varname
+>, mas esta não é a forma de apresentar o seu vídeo final, porque é (ou será) demasiado lenta. Adicionalmente, só funciona se tiver instalado o 'melt'.</para
+></footnote
+> O processo de criação do vídeo final chama-se de <emphasis
+>Rasterização</emphasis
+>.</para>
+</chapter>
+<chapter id="timeline"
+><title
+>Linha Temporal</title
+> 
+<para
+>Agora vem a edição propriamente dita. Os vídeos do projecto são combinados para o resultado final na linha temporal. Eles são colocados aí por arrastamento: arraste alguns vídeos de Nápoles (assumindo que está a usar os ficheiros oferecidos acima, como no resto deste tutorial; caso não seja, certifique-se que o seu ecrã é à prova de água e de tomates) e largue-o na primeira faixa da linha temporal.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Timeline-Clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Primeiros vídeos na linha temporal</phrase>
+    </textobject>
+    <caption>
+      <para
+>Primeiros vídeos na linha temporal</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Dado que é preciso algum trabalho de recortes, largue a colher na primeira faixa também. Depois, arraste Nápoles para o início da linha temporal (caso contrário, o vídeo gerado iria começar com alguns segundos de preto total) e meter a colher logo a seguir a Nápoles, de forma que se pareça com a imagem à esquerda (onde foi feita uma ampliação com <keycombo
+>&Ctrl;<keycap
+>Roda</keycap
+></keycombo
+>.)</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-TimelineCursor.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Cursor da linha temporal</phrase>
+    </textobject>
+    <caption>
+      <para
+>Cursor da linha temporal</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>O resultado poderá já ser visto previamente se carregar no <keycap
+>Espaço</keycap
+> (ou no botão <guilabel
+>Tocar</guilabel
+> do monitor do projecto). Irá ver Nápoles seguida directamente por uma colher. Se o cursor da linha temporal não estiver no início, o monitor do projecto irá começar algures a meio; poderá mover o cursor se o arrastar na régua da linha temporal ou no monitor do projecto. Se preferir os atalhos de teclado, o <keycombo
+>&Ctrl;<keycap
+>Home</keycap
+></keycombo
+> fará o mesmo para o monitor activado. (Seleccione o <guilabel
+>Monitor do Projecto</guilabel
+> se não estiver ainda seleccionado antes de usar a combinação de teclas.)</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Resize-Marker.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Marcador de dimensionamento</phrase>
+    </textobject>
+    <caption>
+      <para
+>Marcador de dimensionamento</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Dado que a seguir à comida vem a brincadeira, existe um vídeo de bilhar. Adicione-o também à linha temporal. Nos primeiros 1,5 segundos não acontece nada no vídeo, pelo que poderá ser <guilabel
+>cortado</guilabel
+> para evitar que o vídeo se torne aborrecido. Uma forma simples<footnote
+><para
+>Da forma que está escrito isto, dá a entender que existem várias formas de cortar um vídeo. Isto é verdade, de facto.</para
+></footnote
+> de o fazer é mover o cursor da linha temporal para a posição desejada (&ie; a posição onde deseja cortar o vídeo), depois arraste o contorno esquerdo do vídeo quando aparecer a marcação de dimensionamento. Ajustar-se-á para o cursor da linha temporal quando se aproximar o suficiente.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Overlap-Clips.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Sobrepor os vídeos</phrase>
+    </textobject>
+    <caption>
+      <para
+>Sobrepor os vídeos</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Para adicionar uma <emphasis
+>transição</emphasis
+> entre a comida (a colher) e o jogo de bilhar, os dois vídeos terão de se sobrepor. Para ser mais exacto: o segundo vídeo deverá estar antes ou depois do primeiro e terminar algumas imagens após começar o segundo vídeo. A ampliação até que apareçam as marcações das imagens individuais poderá ajudar aqui; também simplifica ter sempre a mesma duração da transição, como o exemplo das cinco imagens neste caso.</para>
+<para
+>Poderá ampliar tanto com a <guilabel
+>barra de ampliação</guilabel
+> no fundo da janela do <application
+>Kdenlive</application
+> ou com <keycombo
+>&Ctrl;<keycap
+>Roda do rato</keycap
+></keycombo
+>. O <application
+>Kdenlive</application
+> irá ampliar o cursor da linha temporal, pelo que defina primeiro a sua posição onde deseja ampliar, executando a operação propriamente dita depois.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive-Quickstart-Add-Transition.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Marcador de transição</phrase>
+    </textobject>
+    <caption>
+      <para
+>Marcador de transição</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Agora que os vídeos se sobrepõem, poderá adicionar a transição. Isto é feito com o botão direito do rato sobre o vídeo superior e escolhendo a opção <guilabel
+>Adicionar uma Transição</guilabel
+> ou, ainda mais fácil, se carregar no canto inferior direito do vídeo da colher. Por omissão, isto irá adicionar uma transição de dissolução, a qual será a melhor ideia, dado que a colher não é necessária para a reprodução, de qualquer forma.</para>
+<para
+>As transições de dissolução transformam o primeiro vídeo no segundo.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive-Quickstart-Add-Last-Clip.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+    <caption>
+      <para
+></para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Vamos então agora adicionar o último vídeo - o piano - e aplicar de novo uma transição de dissolução. Quando o adicionar à primeira faixa da linha temporal, terá de carregar no canto inferior esquerdo do vídeo para adicionar a transição ao vídeo anterior.</para>
+<sect1 id="effects"
+><title
+>Efeitos</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Add-Effect.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Efeitos</phrase>
+    </textobject>
+    <caption>
+      <para
+>Efeitos</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>O piano poderá ficar colorido se adicionar um <emphasis
+>efeito</emphasis
+> ao mesmo. Seleccione o vídeo do piano, depois faça duplo-click sobre o efeito do <guilabel
+>Ajuste RGB</guilabel
+> na lista de <guilabel
+>Efeitos</guilabel
+>. Se não estiver visível, poderá obter a lista com a opção <menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Efeitos</guimenuitem
+></menuchoice
+>.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Effect-Flag.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+></phrase>
+    </textobject>
+    <caption>
+      <para
+></para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Assim que tiver adicionado o efeito, o seu nome será adicionado ao vídeo da linha temporal. Será também apresentado no item da <guilabel
+>Pilha de Efeitos</guilabel
+>.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive-Quickstart-EffectStack.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>A Pilha de Efeitos com o ajuste RGB</phrase>
+    </textobject>
+    <caption>
+      <para
+>A Pilha de Efeitos com o ajuste RGB</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Para dar um tom quente e alaranjado à imagem, criando um ambiente de noite confortável, o azul terá de ser reduzido e o vermelho e o verde aumentados.</para>
+<para
+>Os valores na pilha de efeitos poderá ser alterado se usar a barra deslizante (o botão do meio do rato repõe o valor predefinido) ou indicando um valor directamente ao fazer duplo-click no número à direita da barra.</para>
+<para
+>Poderá adicionar efeitos com o ícone <guilabel
+>Adicionar um novo efeito</guilabel
+> (na imagem à esquerda) na <guilabel
+>Pilha de Efeitos</guilabel
+>; este refere-se sempre ao vídeo que estiver seleccionado de momento na linha temporal. Se desligar a opção, estes ficarão desactivados temporariamente (a configuração permanece à mesma); isto &eg; é útil para os efeitos que necessitam de bastante processamento, para que possam ser desactivados quando estiver a editar e activados quando for fazer a rasterização.</para>
+<para
+>Para alguns efeitos, como o usando aí, é possível adicionar imagens-chave. O ícone do relógio na imagem indica isso. As imagens-chave são usadas para alterar os parâmetros do efeito ao longo do tempo. No nosso vídeo, isto permite-nos desvanecer a cor do piano de uma cor de noite quente para uma cor de noite fria.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Keyframes.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Imagens-chave para os efeitos</phrase>
+    </textobject>
+    <caption>
+      <para
+>Imagens-chave para os efeitos</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Depois de carregar no ícone da <guilabel
+>imagem-chave</guilabel
+> (o ícone do relógio da imagem anterior), o item da Pilha de Efeitos ficará reorganizada. Por omissão, existirão duas imagens-chave: uma no início do vídeo na linha temporal e outra no fim. Mova o cursor da linha temporal para o fim do vídeo, de modo que o monitor do projecto mostre de facto as cores novas ao mudar os parâmetros da imagem-chave no fim.</para>
+<para
+>Certifique-se que a última imagem-chave está seleccionada na lista da Pilha de Efeitos. Aí estará pronto para inundar o piano com um azul profundo.</para>
+<para
+>Se mover o cursor da linha temporal para o início do projecto e o reproduzir (com o <keycap
+>Espaço</keycap
+> ou com o botão <guilabel
+>Tocar</guilabel
+> no <guilabel
+>Monitor do Projecto</guilabel
+>), o piano agora deverá mudar para a cor desejada.</para>
+<para
+>As imagens-chave foram a parte mais difícil deste tutorial. Se conseguiu lidar bem com esta questão, sentir-se-á à vontade para dominar o <guilabel
+>Kdenlive</guilabel
+> facilmente!</para>
+</sect1>
+<sect1 id="music"
+><title
+>Música</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Fadeout.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Desvanecimento do áudio</phrase>
+    </textobject>
+    <caption>
+      <para
+>Desvanecimento do áudio</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Dado que os vídeos não possuem nenhum áudio, vamos procurar alguma música bonita na sua colecção local ou em páginas Web como a do <ulink url="http://www.jamendo.com"
+>Jamendo</ulink
+>. O 'clip' de áudio deverá, após adicioná-lo, ir para uma faixa de áudio na linha temporal.</para>
+<para
+>Este excerto de áudio poderá ser dimensionado na linha temporal da mesma forma que fez com os vídeos. O cursor irá ajustar-se no fim do projecto automaticamente. Para adicionar um efeito de desvanecimento no fim do áudio (a não ser que tenha encontrado um ficheiro com a duração exacta que pretende) poderá passar o rato sobre o extremo superior direito (ou esquerdo) do 'clip' na linha temporal e arrastar o disco verde para a posição onde deverá começar o desvanecimento.<footnote
+><para
+>Este disco verde é um atalho para adicionar o efeito <menuchoice
+><guimenu
+>Desvanecer</guimenu
+><guimenuitem
+>Desvanecer</guimenuitem
+></menuchoice
+>. Ambas as formas levam ao mesmo resultado.</para
+></footnote
+></para>
+</sect1>
+</chapter>
+<chapter id="rendering"
+><title
+>Rasterização</title
+> 
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Renderer.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Janela de rasterização</phrase>
+    </textobject>
+    <caption>
+      <para
+>Janela de rasterização</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Mais alguns minutos e o projecto está terminado! Carregue no botão Desenhar (ou vá a <menuchoice
+><guimenu
+>Projecto</guimenu
+><guimenuitem
+>Desenhar</guimenuitem
+></menuchoice
+> ou carregue em <keycombo
+>&Ctrl;&Enter;</keycombo
+>) para obter a janela que aparece à esquerda. Seleccione o ficheiro de saída desejado para o novo vídeo, com todos os efeitos e transições, escolha o formato MPEG4 (que funciona em praticamente todo o lado) e uma taxa de 'bits' de 2000k (quanto maior esta taxa, maior será o ficheiro resultante e melhor será a qualidade - mas, dado que a taxa de 'bits' dos vídeos de entrada já era de 2000k, a utilização de um valor maior não iria aumentar a qualidade, pelo que será desnecessário) e carregue no botão <emphasis
+>Desenhar num Ficheiro</emphasis
+>.</para>
+<para>
+<screenshot>
+<screeninfo
+></screeninfo>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="Kdenlive_Quickstart-Rendering.png" format="PNG"/>
+    </imageobject>
+    <textobject>
+      <phrase
+>Evolução da rasterização</phrase>
+    </textobject>
+    <caption>
+      <para
+>Evolução da rasterização</para>
+    </caption>
+  </mediaobject>
+</screenshot
+></para>
+<para
+>Ao fim de alguns segundos, a rasterização terá terminado e terá terminado o seu primeiro projecto do <application
+>Kdenlive</application
+>. Parabéns!</para>
+</chapter>
+
+<!--userbase-content-->
+<chapter id="credits">
+<title
+>Créditos e Licença</title>
+    <para
+>Documentação - para o 'copyright' veja o <ulink url="http://userbase.kde.org/index.php?title=Kdenlive/Manual/QuickStart&amp;action=history"
+>histórico da página Kdenlive/Manual/QuickStart</ulink
+> na Base de Utilizadores</para>
+    <para
+>Tradução de José Nuno Pires <email
+>zepires@gmail.com</email
+></para
+> 
+&underFDL; </chapter>
+&documentation.index;
+</book>

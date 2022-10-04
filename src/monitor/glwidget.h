@@ -71,8 +71,6 @@ public:
     void startGlsl();
     void stopGlsl();
     void clear();
-    // TODO: currently unused
-    int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
 
     int displayWidth() const { return m_rect.width(); }

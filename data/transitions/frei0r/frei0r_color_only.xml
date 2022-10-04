@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.color_only" id="frei0r.color_only">
+    <name>Color Only</name>
+    <description>Perform a conversion to color only of the source input1 using the hue and saturation values of input2.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.alphaatop" id="frei0r.alphaatop">
+    <name>Alpha ATOP</name>
+    <description>The alpha ATOP operation</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

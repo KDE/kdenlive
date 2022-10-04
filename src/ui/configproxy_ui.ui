@@ -6,7 +6,7 @@
    <item>
     <widget class="KMessageWidget" name="kmessagewidget">
      <property name="text">
-      <string>These are the the default settings for new projects. To edit the parameters of the current project, use the project settings.</string>
+      <string>These are the default settings for new projects. To edit the parameters of the current project, use the project settings.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

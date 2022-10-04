@@ -36,6 +36,6 @@ private slots:
     void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     /** @brief Set the global visible state of the DockWidget title bars and update them afterwards */
     void slotShowTitleBars(bool show);
-    /** @brief Toggles the the global visible state of the DockWidget title bars */
+    /** @brief Toggles the global visible state of the DockWidget title bars */
     void slotSwitchTitleBars();
 };

@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.difference" id="frei0r.difference">
+    <name>Difference</name>
+    <description>Perform an RGB[A] difference operation between the pixel sources.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

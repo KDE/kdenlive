@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.hardlight" id="frei0r.hardlight">
+    <name>Hardlight</name>
+    <description>Perform an RGB[A] hardlight operation between the pixel sources.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

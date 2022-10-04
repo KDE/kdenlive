@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.overlay" id="frei0r.overlay">
+    <name>Overlay</name>
+    <description>Perform an RGB[A] overlay operation between the pixel sources, using the generalised algorithm: D = A * (B + (2 * B) * (255 - A))</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

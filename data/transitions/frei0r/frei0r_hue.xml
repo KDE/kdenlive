@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.hue" id="frei0r.hue">
+    <name>Hue</name>
+    <description>Perform a conversion to hue only of the source input1 using the hue of input2.</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

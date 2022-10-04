@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.alphaxor" id="frei0r.alphaxor">
+    <name>Alpha XOR</name>
+    <description>The alpha XOR operation</description>
+    <author>Jean-Sebastien Senecal</author>
+</transition>

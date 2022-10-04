@@ -123,11 +123,6 @@ mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF
 ```
 
-To compile the translations of the application, you need KDE Frameworks >= 5.76, make sure to delete the "po" subdirectory from your build folder if it exists, and use this cmake command to configure the project :
-```bash
-cmake .. -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_L10N_SYNC_TRANSLATIONS=ON -DRELEASE_BUILD=OFF
-```
-
 ```bash
 make -j$JOBS
 make install
