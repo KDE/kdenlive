@@ -26,7 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
 
-#include <KDirOperator>
 #include <KFileWidget>
 #include <KIO/RenameDialog>
 #include <KLocalizedString>
