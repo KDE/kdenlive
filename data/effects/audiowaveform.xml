@@ -9,8 +9,12 @@
     <parameter type="color" name="color.1" default="0xffffffff" alpha="1">
         <name>Foreground Color</name>
     </parameter>
-    <parameter type="constant" name="thickness" max="20" min="0" default="0">
+    <parameter type="animated" name="thickness" max="20" min="0" default="0">
         <name>Line Thickness</name>
+    </parameter>
+    <parameter type="animated" name="angle" default="0" min="0" max="360">
+        <name>Angle</name>
+        <comment>The rotation angle to be applied to the waveform.</comment>
     </parameter>
     <parameter type="animatedrect" name="rect" default="0 0 100% 100%" fixed="1" opacity="false">
         <name>Rectangle</name>
