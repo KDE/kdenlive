@@ -1858,6 +1858,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         // Check if the fps matches
         QString currentFps = QString::number(pCore->getCurrentFps());
         QString sourceFps = copiedItems.documentElement().attribute(QStringLiteral("fps"));
+        double ratio = 1.;
         if (currentFps != sourceFps && !sourceFps.isEmpty()) {
             if (KMessageBox::questionYesNo(
                     pCore->window(),
@@ -1867,7 +1868,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 semaphore.release(1);
                 return false;
             }
-            copiedItems.documentElement().setAttribute(QStringLiteral("fps-ratio"), pCore->getCurrentFps() / sourceFps.toDouble());
+            ratio = pCore->getCurrentFps() / sourceFps.toDouble();
+            copiedItems.documentElement().setAttribute(QStringLiteral("fps-ratio"), ratio);
         }
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
         if (folderId.isEmpty()) {
@@ -1879,6 +1881,12 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
+            if (ratio != 1.) {
+                int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
+                int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
+                currentProd.setAttribute(QStringLiteral("out"), out);
+                Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
+            }
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
             QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
             // Check if we already have a clip with same hash in pasted clips folder
