@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-04 00:43+0000\n"
+"POT-Creation-Date: 2022-10-05 00:45+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -540,7 +540,7 @@ msgstr "Egy csatorna másolása egy másikba"
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
 #: data/effects/channelcopy.xml:8 src/ui/import_subtitle_ui.ui:61
-#: src/ui/renderwidget_ui.ui:81
+#: src/ui/renderwidget_ui.ui:93
 #, kde-format
 msgid "From"
 msgstr "Innentől"
@@ -1400,7 +1400,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:7
 #: data/effects/mask_start_rotoscoping.xml:7
 #: data/effects/mask_start_shape.xml:7 src/bin/bin.cpp:1366
-#: src/bin/bin.cpp:1371 src/bin/bin.cpp:2071
+#: src/bin/bin.cpp:1371 src/bin/bin.cpp:2117
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter"
@@ -2473,7 +2473,7 @@ msgstr "sugár"
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/effects/vignette.xml:13 src/ui/profiledialog_ui.ui:203
-#: src/ui/renderwidget_ui.ui:510
+#: src/ui/renderwidget_ui.ui:534
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -3543,7 +3543,7 @@ msgid "Update current preset"
 msgstr "Jelenlegi beállítások"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:287
+#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:299
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Delete preset"
@@ -3886,7 +3886,7 @@ msgstr "Kulcskép törlése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1320
-#: src/ui/clipstabilize_ui.ui:47
+#: src/ui/clipstabilize_ui.ui:30
 #, kde-format
 msgid "Options"
 msgstr "Beállítások"
@@ -4033,7 +4033,7 @@ msgstr "Csatornák megcserélése"
 msgid "Open Effect Stack"
 msgstr "Effektus verem"
 
-#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4015
+#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4061
 #: src/mltcontroller/clipcontroller.cpp:612
 #: src/onlineresources/resourcewidget.cpp:258
 #: src/onlineresources/resourcewidget.cpp:549
@@ -4227,7 +4227,7 @@ msgstr "Klip törlése"
 msgid "Missing source clip"
 msgstr "Hiányzó forrásklip"
 
-#: src/bin/bin.cpp:1852 src/bin/bin.cpp:2196
+#: src/bin/bin.cpp:1852 src/bin/bin.cpp:2242
 #: src/effects/effectlist/view/effectlistwidget.cpp:154
 #: src/renderpresets/renderpresetrepository.cpp:154
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -4235,7 +4235,7 @@ msgstr "Hiányzó forrásklip"
 msgid "Unable to write to file %1"
 msgstr "A(z) %1 fájl nem írható"
 
-#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2205 src/doc/kdenlivedoc.cpp:656
+#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2251 src/doc/kdenlivedoc.cpp:656
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your project file was modified by Kdenlive.\n"
@@ -4248,14 +4248,17 @@ msgstr ""
 "Az esetleges adatvesztések elkerülése érdekében egy biztonsági másolat "
 "került létrehozásra: %1 néven."
 
-#: src/bin/bin.cpp:1889
+#: src/bin/bin.cpp:1876
 #, fuzzy, kde-format
-#| msgid "Open Backup File"
-msgctxt "@title:window"
-msgid "Open Replacement File"
-msgstr "Biztonsági mentés fájl megnyitása"
+#| msgid ""
+#| "Cannot open archive file:\n"
+#| " %1"
+msgid "Cannot replace clip with invalid file %1"
+msgstr ""
+"Nem sikerült megnyitni az archívum fájlt:\n"
+" %1"
 
-#: src/bin/bin.cpp:1914
+#: src/bin/bin.cpp:1902 src/bin/bin.cpp:1960
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -4263,36 +4266,49 @@ msgid ""
 "Replacement is %1 frames shorter."
 msgstr ""
 
-#: src/bin/bin.cpp:1920
+#: src/bin/bin.cpp:1909 src/bin/bin.cpp:1966
 #, fuzzy, kde-format
 #| msgid "The clip %1 is invalid."
 msgid "The selected file %1 is invalid."
 msgstr "A(z) %1 klip érvénytelen."
 
-#: src/bin/bin.cpp:1952
+#: src/bin/bin.cpp:1915
+#, fuzzy, kde-format
+#| msgid "Cannot find clip to edit"
+msgid "Cannot find original clip to be replaced"
+msgstr "Nem található a szerkesztendő klip"
+
+#: src/bin/bin.cpp:1935
+#, fuzzy, kde-format
+#| msgid "Open Backup File"
+msgctxt "@title:window"
+msgid "Open Replacement File"
+msgstr "Biztonsági mentés fájl megnyitása"
+
+#: src/bin/bin.cpp:1998
 #, fuzzy, kde-format
 msgid "Could not locate %1"
 msgstr "A súgófájl nem nyitható meg – %s nem található."
 
-#: src/bin/bin.cpp:1993
+#: src/bin/bin.cpp:2039
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:1998 src/bin/bin.cpp:2000
+#: src/bin/bin.cpp:2044 src/bin/bin.cpp:2046
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Duplicate clip"
 msgstr "Klip törlése"
 
-#: src/bin/bin.cpp:2107
+#: src/bin/bin.cpp:2153
 #, fuzzy, kde-format
 #| msgid "Clear center size"
 msgid "Clear Filters"
 msgstr "Központi méret törlése"
 
-#: src/bin/bin.cpp:2121
+#: src/bin/bin.cpp:2167
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
@@ -4300,25 +4316,25 @@ msgid_plural "%1 Stars"
 msgstr[0] "Indítás"
 msgstr[1] "Indítás"
 
-#: src/bin/bin.cpp:2128
+#: src/bin/bin.cpp:2174
 #, fuzzy, kde-format
 #| msgid "Unused clips:"
 msgid "Unused Clips"
 msgstr "Fel nem használt klipek:"
 
-#: src/bin/bin.cpp:2135
+#: src/bin/bin.cpp:2181
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter by Type"
 msgstr "%1 szűrése"
 
-#: src/bin/bin.cpp:2138
+#: src/bin/bin.cpp:2184
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "AV Clip"
 msgstr "Klip hozzáadása"
 
-#: src/bin/bin.cpp:2142
+#: src/bin/bin.cpp:2188
 #, fuzzy, kde-format
 #| msgid "mute video"
 msgid "Mute Video"
@@ -4330,7 +4346,7 @@ msgstr "videó elnémítása"
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_audio)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2146 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:2192 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/layoutmanagement.cpp:33 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:539
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:25
@@ -4340,35 +4356,35 @@ msgstr "videó elnémítása"
 #: src/ui/clipproperties_ui.ui:131 src/ui/configcapture_ui.ui:521
 #: src/ui/cutjobdialog_ui.ui:57 src/ui/editrenderpreset_ui.ui:840
 #: src/ui/projectsettings_ui.ui:168 src/ui/recmonitor_ui.ui:107
-#: src/ui/renderwidget_ui.ui:582
+#: src/ui/renderwidget_ui.ui:606
 #, kde-format
 msgid "Audio"
 msgstr "Hang"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_image)
-#: src/bin/bin.cpp:2150 src/ui/clipproperties_ui.ui:357
+#: src/bin/bin.cpp:2196 src/ui/clipproperties_ui.ui:357
 #, kde-format
 msgid "Image"
 msgstr "Kép"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_slideshow)
-#: src/bin/bin.cpp:2154 src/ui/clipproperties_ui.ui:206
+#: src/bin/bin.cpp:2200 src/ui/clipproperties_ui.ui:206
 #, kde-format
 msgid "Slideshow"
 msgstr "Diavetítés"
 
-#: src/bin/bin.cpp:2158
+#: src/bin/bin.cpp:2204
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Playlist"
 msgstr "Lejátszólista klip"
 
-#: src/bin/bin.cpp:2162 src/project/dialogs/projectsettings.cpp:214
+#: src/bin/bin.cpp:2208 src/project/dialogs/projectsettings.cpp:214
 #, kde-format
 msgid "Title"
 msgstr "Cím"
 
-#: src/bin/bin.cpp:2166
+#: src/bin/bin.cpp:2212
 #, fuzzy, kde-format
 #| msgid "Template"
 msgid "Title Template"
@@ -4376,7 +4392,7 @@ msgstr "Sablon"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/bin/bin.cpp:2170 src/layoutmanagement.cpp:35
+#: src/bin/bin.cpp:2216 src/layoutmanagement.cpp:35
 #: src/mltcontroller/clippropertiescontroller.cpp:377
 #: src/ui/clipproperties_ui.ui:176 src/ui/clipproperties_ui.ui:182
 #, kde-format
@@ -4384,156 +4400,156 @@ msgid "Color"
 msgstr "Szín"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2226 src/ui/managecache_ui.ui:318
+#: src/bin/bin.cpp:2272 src/ui/managecache_ui.ui:318
 #, kde-format
 msgid "Folder"
 msgstr "Mappa"
 
-#: src/bin/bin.cpp:2227
+#: src/bin/bin.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Mappa létrehozása"
 
-#: src/bin/bin.cpp:2359 src/bin/bin.cpp:2370 src/bin/bin.cpp:3294
+#: src/bin/bin.cpp:2405 src/bin/bin.cpp:2416 src/bin/bin.cpp:3340
 #: src/timeline2/model/timelinemodel.cpp:1986
 #, kde-format
 msgid "Delete Clip"
 msgstr "Klip törlése"
 
-#: src/bin/bin.cpp:2360 src/bin/bin.cpp:2371 src/bin/bin.cpp:3274
+#: src/bin/bin.cpp:2406 src/bin/bin.cpp:2417 src/bin/bin.cpp:3320
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Proxy klip"
 
-#: src/bin/bin.cpp:2364
+#: src/bin/bin.cpp:2410
 #, kde-format
 msgid "Delete Folder"
 msgstr "Mappa törlése"
 
-#: src/bin/bin.cpp:2365
+#: src/bin/bin.cpp:2411
 #, fuzzy, kde-format
 #| msgid "Project Folder"
 msgid "Proxy Folder"
 msgstr "Projekt mappa"
 
-#: src/bin/bin.cpp:2594
+#: src/bin/bin.cpp:2640
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit rating"
 msgstr "Időtartam szerkesztése"
 
-#: src/bin/bin.cpp:2596
+#: src/bin/bin.cpp:2642
 #, fuzzy, kde-format
 #| msgid "Cannot edit the duration of multiple items"
 msgid "Cannot set rating on this item"
 msgstr "Többszörös elem időtartama nem szerkeszthető"
 
-#: src/bin/bin.cpp:3229
+#: src/bin/bin.cpp:3275
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgid "Add Clip or Folder…"
 msgstr "Mappa hozzáadása"
 
-#: src/bin/bin.cpp:3233
+#: src/bin/bin.cpp:3279
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "Szín klip hozzáadása"
 
-#: src/bin/bin.cpp:3235
+#: src/bin/bin.cpp:3281
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Image Sequence…"
 msgstr "Képsorozat"
 
-#: src/bin/bin.cpp:3237
+#: src/bin/bin.cpp:3283
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "Cím klip hozzáadása"
 
-#: src/bin/bin.cpp:3239
+#: src/bin/bin.cpp:3285
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "Sabloncím hozzáadása"
 
-#: src/bin/bin.cpp:3241
+#: src/bin/bin.cpp:3287
 #, fuzzy, kde-format
 #| msgid "Create DVD"
 msgid "Create Animation…"
 msgstr "DVD létrehozása"
 
-#: src/bin/bin.cpp:3244 src/mainwindow.cpp:357
+#: src/bin/bin.cpp:3290 src/mainwindow.cpp:357
 #, kde-format
 msgid "Online Resources"
 msgstr "Online erőforrások"
 
-#: src/bin/bin.cpp:3248
+#: src/bin/bin.cpp:3294
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Locate Clip…"
 msgstr "Klip törlése"
 
-#: src/bin/bin.cpp:3253
+#: src/bin/bin.cpp:3299
 #, kde-format
 msgid "Reload Clip"
 msgstr "Klip újratöltése"
 
-#: src/bin/bin.cpp:3259
+#: src/bin/bin.cpp:3305
 #, fuzzy, kde-format
 #| msgid "Transcoding to DVD format"
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Átkódolás DVD formátumra"
 
-#: src/bin/bin.cpp:3264
+#: src/bin/bin.cpp:3310
 #, fuzzy, kde-format
 #| msgid "Create Virtual Clip"
 msgid "Replace Clip…"
 msgstr "Virtuális klip létrehozása"
 
-#: src/bin/bin.cpp:3269
+#: src/bin/bin.cpp:3315
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Duplicate Clip"
 msgstr "Klip törlése"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipProperties_UI)
-#: src/bin/bin.cpp:3281 src/bin/bin.cpp:3330 src/ui/clipproperties_ui.ui:14
+#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376 src/ui/clipproperties_ui.ui:14
 #, kde-format
 msgid "Clip Properties"
 msgstr "Klip tulajdonságai"
 
-#: src/bin/bin.cpp:3286 src/mltcontroller/clippropertiescontroller.cpp:314
+#: src/bin/bin.cpp:3332 src/mltcontroller/clippropertiescontroller.cpp:314
 #, kde-format
 msgid "Edit Clip"
 msgstr "Klip szerkesztése"
 
-#: src/bin/bin.cpp:3299
+#: src/bin/bin.cpp:3345
 #, fuzzy, kde-format
 #| msgid "Open projects in new tabs"
 msgid "Open in new bin"
 msgstr "Projekt megnyitása új lapon"
 
-#: src/bin/bin.cpp:3310
+#: src/bin/bin.cpp:3356
 #, kde-format
 msgid "Create Folder"
 msgstr "Mappa létrehozása"
 
-#: src/bin/bin.cpp:3374 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3420 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Napló megjelenítése"
 
-#: src/bin/bin.cpp:3377 src/dialogs/textbasededit.cpp:625
+#: src/bin/bin.cpp:3423 src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
 msgstr "Részletek"
 
-#: src/bin/bin.cpp:3439
+#: src/bin/bin.cpp:3485
 #, fuzzy, kde-format
 #| msgid "Move Clip"
 msgid "Move Clip"
@@ -4541,51 +4557,51 @@ msgid_plural "Move Clips"
 msgstr[0] "Klip mozgatása"
 msgstr[1] "Klip mozgatása"
 
-#: src/bin/bin.cpp:3476
+#: src/bin/bin.cpp:3522
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to process filter %1"
 msgid "No valid clip to insert"
 msgstr "%1 feldolgozó filterhez a klip nem található"
 
-#: src/bin/bin.cpp:3500 src/timeline2/view/timelinecontroller.cpp:1361
+#: src/bin/bin.cpp:3546 src/timeline2/view/timelinecontroller.cpp:1361
 #: src/timeline2/view/timelinecontroller.cpp:3268
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/bin/bin.cpp:3509
+#: src/bin/bin.cpp:3555
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot apply effects on folders"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/bin/bin.cpp:3534 src/effects/effectstack/model/effectstackmodel.cpp:496
+#: src/bin/bin.cpp:3580 src/effects/effectstack/model/effectstackmodel.cpp:496
 #: src/effects/effectstack/model/effectstackmodel.cpp:501
-#: src/mainwindow.cpp:2995
+#: src/mainwindow.cpp:3002
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/bin/bin.cpp:3580 src/bin/bin.cpp:3587
+#: src/bin/bin.cpp:3626 src/bin/bin.cpp:3633
 #, fuzzy, kde-format
 #| msgid "Select a clip to save"
 msgid "Select a clip to add a tag"
 msgstr "Klip kijelölése mentéshez"
 
-#: src/bin/bin.cpp:3726
+#: src/bin/bin.cpp:3772
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Időtartam szerkesztése"
 
-#: src/bin/bin.cpp:4073
+#: src/bin/bin.cpp:4119
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4085
+#: src/bin/bin.cpp:4131
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -4594,12 +4610,12 @@ msgstr ""
 "Állítsa be a „Beállítások” ablakban azt az alapértelmezett alkalmazást, "
 "amellyel a képeket kívánja megnyitni"
 
-#: src/bin/bin.cpp:4090
+#: src/bin/bin.cpp:4136
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4102
+#: src/bin/bin.cpp:4148
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -4609,7 +4625,7 @@ msgstr ""
 "Állítsa be a „Beállítások” ablakban azt az alapértelmezett alkalmazást, "
 "amellyel a hangfájlokat kívánja megnyitni"
 
-#: src/bin/bin.cpp:4107 src/dialogs/kdenlivesettingsdialog.cpp:871
+#: src/bin/bin.cpp:4153 src/dialogs/kdenlivesettingsdialog.cpp:871
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to start the capture application:\n"
@@ -4619,17 +4635,17 @@ msgstr ""
 "Nem sikerült elindítani a rögzítő alkalmazást:\n"
 "%1"
 
-#: src/bin/bin.cpp:4119
+#: src/bin/bin.cpp:4165
 #, kde-format
 msgid "Please set a path for the Glaxnimate application"
 msgstr ""
 
-#: src/bin/bin.cpp:4319 src/dialogs/profilesdialog.cpp:211
+#: src/bin/bin.cpp:4365 src/dialogs/profilesdialog.cpp:211
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4329
+#: src/bin/bin.cpp:4375
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4638,74 +4654,74 @@ msgstr ""
 "Egy külső klip címet szerkeszt (%1). El kívánja menteni a változásokat a cím "
 "fájlba vagy csak a projekt fájlba menti a változásokat?"
 
-#: src/bin/bin.cpp:4332 src/titler/titlewidget.cpp:2172
+#: src/bin/bin.cpp:4378 src/titler/titlewidget.cpp:2172
 #, kde-format
 msgid "Save Title"
 msgstr "Cím mentése"
 
-#: src/bin/bin.cpp:4332
+#: src/bin/bin.cpp:4378
 #, kde-format
 msgid "Save to title file"
 msgstr "Felirat fájlba mentés"
 
-#: src/bin/bin.cpp:4333
+#: src/bin/bin.cpp:4379
 #, kde-format
 msgid "Save in project only"
 msgstr "Mentés csak a projektbe"
 
-#: src/bin/bin.cpp:4351 src/dialogs/clipcreationdialog.cpp:378
+#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:378
 #, kde-format
 msgid "Title clip"
 msgstr "Cím klip"
 
-#: src/bin/bin.cpp:4401
+#: src/bin/bin.cpp:4447
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "A klip érvénytelen, ezért el lesz távolítva a projektből."
 
-#: src/bin/bin.cpp:4405
+#: src/bin/bin.cpp:4451
 #, kde-format
 msgid "Invalid clip"
 msgstr "Érvénytelen klip"
 
-#: src/bin/bin.cpp:4542
+#: src/bin/bin.cpp:4588
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Enable proxies"
 msgstr "Proxyk törlése"
 
-#: src/bin/bin.cpp:4542
+#: src/bin/bin.cpp:4588
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Disable proxies"
 msgstr "Proxyk törlése"
 
-#: src/bin/bin.cpp:4717
+#: src/bin/bin.cpp:4763
 #, fuzzy, kde-format
 #| msgid "Rebuild Group"
 msgid "Rebuild proxies"
 msgstr "Csoport újraépítése"
 
-#: src/bin/bin.cpp:4957
+#: src/bin/bin.cpp:5003
 #, fuzzy, kde-format
 #| msgid "Project"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:4973
+#: src/bin/bin.cpp:5019
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "Sáv hozzáadása"
 
-#: src/bin/bin.cpp:4975
+#: src/bin/bin.cpp:5021
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "Segédpont szerkesztése"
 
-#: src/bin/bin.cpp:4990
+#: src/bin/bin.cpp:5036
 #, fuzzy, kde-format
 #| msgid "Don't blank mask"
 msgid "Don't ask again"
@@ -4713,25 +4729,25 @@ msgstr "Ne hagyja ki a maszkot"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:4994
+#: src/bin/bin.cpp:5040
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5006 src/mainwindow.cpp:2584
+#: src/bin/bin.cpp:5052 src/mainwindow.cpp:2591
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nem találom a klipet, amihez a jelölőt kellene adni"
 
-#: src/bin/bin.cpp:5104
+#: src/bin/bin.cpp:5150
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Klipek hozzáadása"
 
-#: src/bin/bin.cpp:5270 src/bin/clipcreator.cpp:149
+#: src/bin/bin.cpp:5333 src/bin/clipcreator.cpp:149
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4739,17 +4755,17 @@ msgctxt "@action"
 msgid "Add clip"
 msgstr "Klip hozzáadása"
 
-#: src/bin/bin.cpp:5292
+#: src/bin/bin.cpp:5355
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5294
+#: src/bin/bin.cpp:5357
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5359 src/bin/bin.cpp:5433
+#: src/bin/bin.cpp:5422 src/bin/bin.cpp:5496
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -4763,12 +4779,12 @@ msgstr[1] ""
 "További folyamok a kliphez:\n"
 " %1"
 
-#: src/bin/bin.cpp:5380
+#: src/bin/bin.cpp:5443
 #, kde-format
 msgid "Import selected clips"
 msgstr "Kijelölt klipek importálása"
 
-#: src/bin/bin.cpp:5382
+#: src/bin/bin.cpp:5445
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4777,12 +4793,12 @@ msgstr ""
 "További folyamok a kliphez:\n"
 " %1"
 
-#: src/bin/bin.cpp:5392 src/mltcontroller/clippropertiescontroller.cpp:652
+#: src/bin/bin.cpp:5455 src/mltcontroller/clippropertiescontroller.cpp:652
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videofolyam %1"
 
-#: src/bin/bin.cpp:5407
+#: src/bin/bin.cpp:5470
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Hangfolyam %1"
@@ -5050,7 +5066,7 @@ msgstr "Klip törlése "
 msgid "Move subtitle"
 msgstr "Segédpont áthelyezése"
 
-#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:800
+#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:803
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:498
 #: src/effects/effectstack/view/effectstackview.cpp:558
 #: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:830
@@ -5604,7 +5620,7 @@ msgid "Animation duration"
 msgstr "Átmenet időtartam"
 
 #: src/dialogs/clipcreationdialog.cpp:206 src/jobs/cuttask.cpp:171
-#: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:134
+#: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "File already exists"
@@ -5644,7 +5660,7 @@ msgstr "Cím klip sablon"
 #: src/dialogs/clipcreationdialog.cpp:561
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3695 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Minden fájl"
@@ -5770,7 +5786,7 @@ msgid "Export guides as chapters description"
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:46 src/dialogs/markerdialog.cpp:37
-#: src/dialogs/renderwidget.cpp:499 src/jobs/scenesplittask.cpp:60
+#: src/dialogs/renderwidget.cpp:502 src/jobs/scenesplittask.cpp:60
 #, kde-format
 msgid "Category %1"
 msgstr "Kategória %1"
@@ -5822,7 +5838,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "Segédpont zóna"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3616
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3623
 #, kde-format
 msgid "Timeline"
 msgstr "Idővonal"
@@ -6283,69 +6299,69 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:106 src/dialogs/renderwidget.cpp:1756
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
 msgstr "Várakozás…"
 
-#: src/dialogs/renderwidget.cpp:108
+#: src/dialogs/renderwidget.cpp:109
 #, kde-format
 msgid "Rendering finished"
 msgstr "Leképzés befejeződött"
 
-#: src/dialogs/renderwidget.cpp:113
+#: src/dialogs/renderwidget.cpp:114
 #, kde-format
 msgid "Rendering crashed"
 msgstr "A leképzés összeomlott"
 
-#: src/dialogs/renderwidget.cpp:118
+#: src/dialogs/renderwidget.cpp:119
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Leképzés megszakítva"
 
-#: src/dialogs/renderwidget.cpp:201 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:202 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Nincs"
 
-#: src/dialogs/renderwidget.cpp:202
+#: src/dialogs/renderwidget.cpp:203
 #, fuzzy, kde-format
 #| msgid "Timecode overlay"
 msgid "Timecode"
 msgstr "Időkód megjelenítése"
 
-#: src/dialogs/renderwidget.cpp:203
+#: src/dialogs/renderwidget.cpp:204
 #, fuzzy, kde-format
 #| msgid "Real time (drop frames)"
 msgid "Timecode Non Drop Frame"
 msgstr "Valósidejű (képkockák eldobásával)"
 
-#: src/dialogs/renderwidget.cpp:204
+#: src/dialogs/renderwidget.cpp:205
 #, fuzzy, kde-format
 #| msgid "Limit keyframes number"
 msgid "Frame Number"
 msgstr "Kulcsképkockák számának korlátozása"
 
-#: src/dialogs/renderwidget.cpp:208
+#: src/dialogs/renderwidget.cpp:209
 #, fuzzy, kde-format
 #| msgid "Render using proxy clips"
 msgid "Rendering using low quality proxy"
 msgstr "Leképezés a proxy klipek használatával"
 
-#: src/dialogs/renderwidget.cpp:273
+#: src/dialogs/renderwidget.cpp:276
 #, kde-format
 msgid "File"
 msgstr "Fájl"
 
-#: src/dialogs/renderwidget.cpp:282
+#: src/dialogs/renderwidget.cpp:285
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Stored Playlists"
 msgstr "Lejátszólista"
 
-#: src/dialogs/renderwidget.cpp:299 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:302 src/timeline2/view/previewmanager.cpp:49
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not create the video preview window.\n"
@@ -6359,72 +6375,72 @@ msgstr ""
 "Valami probléma lehet a Kdenlive telepítéssel. \n"
 "A program futása most befejeződik…"
 
-#: src/dialogs/renderwidget.cpp:322
+#: src/dialogs/renderwidget.cpp:325
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:330
+#: src/dialogs/renderwidget.cpp:333
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "Hiba történt a fájlok másolása közben: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:330 src/dialogs/renderwidget.cpp:338
-#: src/ui/renderwidget_ui.ui:844
+#: src/dialogs/renderwidget.cpp:333 src/dialogs/renderwidget.cpp:341
+#: src/ui/renderwidget_ui.ui:892
 #, fuzzy, kde-format
 #| msgid "Sharpen"
 msgid "Share"
 msgstr "Élesítés"
 
-#: src/dialogs/renderwidget.cpp:335
+#: src/dialogs/renderwidget.cpp:338
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:338
+#: src/dialogs/renderwidget.cpp:341
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:474
+#: src/dialogs/renderwidget.cpp:477
 #, kde-format
 msgid "Beginning"
 msgstr "Kezdet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:481 src/ui/wipeval_ui.ui:167
+#: src/dialogs/renderwidget.cpp:484 src/ui/wipeval_ui.ui:167
 #, kde-format
 msgid "End"
 msgstr "Leállítás"
 
-#: src/dialogs/renderwidget.cpp:494
+#: src/dialogs/renderwidget.cpp:497
 #, fuzzy, kde-format
 #| msgid "All categories"
 msgid "All Categories"
 msgstr "Minden kategória"
 
-#: src/dialogs/renderwidget.cpp:613
+#: src/dialogs/renderwidget.cpp:616
 #, fuzzy, kde-format
 #| msgid "Add clip to timeline"
 msgid "Add a clip to timeline before rendering"
 msgstr "Klip hozzáadása az idővonalhoz"
 
-#: src/dialogs/renderwidget.cpp:619
+#: src/dialogs/renderwidget.cpp:622
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "A leképzéshez szüksége melt program nem található. A melt program az MLT "
 "csomag része."
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1728
+#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1731
 #: src/project/dialogs/archivewidget.cpp:885
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/dialogs/renderwidget.cpp:632 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:635 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6433,46 +6449,46 @@ msgstr ""
 "A(z) „%1” mappa nem hozható létre.\n"
 "Bizonyosodjon meg róla, hogy rendelkezik a szükséges jogosultságokkal."
 
-#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:751
+#: src/dialogs/renderwidget.cpp:679 src/dialogs/renderwidget.cpp:754
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "Nem hozható létre átmeneti fájl"
 
-#: src/dialogs/renderwidget.cpp:721
+#: src/dialogs/renderwidget.cpp:724
 #, kde-format
 msgid "begin"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:776
+#: src/dialogs/renderwidget.cpp:779
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "Importálás"
 
-#: src/dialogs/renderwidget.cpp:791
+#: src/dialogs/renderwidget.cpp:794
 #, fuzzy, kde-format
 #| msgid "File rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Fájl leképzés"
 
-#: src/dialogs/renderwidget.cpp:791
+#: src/dialogs/renderwidget.cpp:794
 #, fuzzy, kde-format
 #| msgid "Hide a selected zone and follow its movements"
 msgid "Select a name for this rendering."
 msgstr "Kiválasztott zóna elrejtése és mozgásának követése"
 
-#: src/dialogs/renderwidget.cpp:886
+#: src/dialogs/renderwidget.cpp:889
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:925 src/dialogs/renderwidget.cpp:930
-#: src/dialogs/renderwidget.cpp:983 src/dialogs/renderwidget.cpp:988
-#: src/dialogs/renderwidget.cpp:1928 src/dialogs/renderwidget.cpp:1955
+#: src/dialogs/renderwidget.cpp:928 src/dialogs/renderwidget.cpp:933
+#: src/dialogs/renderwidget.cpp:986 src/dialogs/renderwidget.cpp:991
+#: src/dialogs/renderwidget.cpp:1931 src/dialogs/renderwidget.cpp:1958
 #: src/doc/kdenlivedoc.cpp:673 src/doc/kdenlivedoc.cpp:681
 #: src/doc/kdenlivedoc.cpp:1048
 #: src/effects/effectlist/model/effecttreemodel.cpp:253
@@ -6497,7 +6513,7 @@ msgstr ""
 msgid "Cannot write to file %1"
 msgstr "A(z) %1 fájlba nem lehet írni."
 
-#: src/dialogs/renderwidget.cpp:1026 src/dialogs/renderwidget.cpp:1740
+#: src/dialogs/renderwidget.cpp:1029 src/dialogs/renderwidget.cpp:1743
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6509,64 +6525,64 @@ msgstr ""
 "Már van feladat a következő fájl írásához:<br />„<b>%1</b>”<br />Szakítsa "
 "meg a feladatot, ha felül kívánja írni a fájlt…"
 
-#: src/dialogs/renderwidget.cpp:1027 src/dialogs/renderwidget.cpp:1741
+#: src/dialogs/renderwidget.cpp:1030 src/dialogs/renderwidget.cpp:1744
 #, kde-format
 msgid "Already running"
 msgstr "A program már fut."
 
-#: src/dialogs/renderwidget.cpp:1056
+#: src/dialogs/renderwidget.cpp:1059
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:1058
+#: src/dialogs/renderwidget.cpp:1061
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video hangsáv nélkül"
 
-#: src/dialogs/renderwidget.cpp:1122
+#: src/dialogs/renderwidget.cpp:1125
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> leképzése elkezdődött"
 
-#: src/dialogs/renderwidget.cpp:1188 src/monitor/monitor.cpp:1128
+#: src/dialogs/renderwidget.cpp:1191 src/monitor/monitor.cpp:1128
 #, kde-format
 msgid "untitled"
 msgstr "névtelen"
 
-#: src/dialogs/renderwidget.cpp:1226
+#: src/dialogs/renderwidget.cpp:1229
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No preset selected"
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/dialogs/renderwidget.cpp:1228
+#: src/dialogs/renderwidget.cpp:1231
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Nincs illeszkedő profil"
 
-#: src/dialogs/renderwidget.cpp:1240
+#: src/dialogs/renderwidget.cpp:1243
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid preset"
 msgstr "Érvénytelen klip"
 
-#: src/dialogs/renderwidget.cpp:1344
+#: src/dialogs/renderwidget.cpp:1347
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1503
+#: src/dialogs/renderwidget.cpp:1506
 #, fuzzy, kde-format
 #| msgid "Remaining time"
 msgid "Remaining time "
 msgstr "Hátralévő idő"
 
-#: src/dialogs/renderwidget.cpp:1505 src/dialogs/renderwidget.cpp:1537
+#: src/dialogs/renderwidget.cpp:1508 src/dialogs/renderwidget.cpp:1540
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -6574,38 +6590,38 @@ msgid_plural "%1 days "
 msgstr[0] "%1 dB"
 msgstr[1] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1509
+#: src/dialogs/renderwidget.cpp:1512
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1539
+#: src/dialogs/renderwidget.cpp:1542
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Leképzés befejeződött %1 idő alatt"
 
-#: src/dialogs/renderwidget.cpp:1548
+#: src/dialogs/renderwidget.cpp:1551
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 leképzése, hátralévő idő: %2"
 
-#: src/dialogs/renderwidget.cpp:1572
+#: src/dialogs/renderwidget.cpp:1575
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1615 src/ui/renderwidget_ui.ui:837
+#: src/dialogs/renderwidget.cpp:1618 src/ui/renderwidget_ui.ui:885
 #, kde-format
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: src/dialogs/renderwidget.cpp:1618
+#: src/dialogs/renderwidget.cpp:1621
 #, kde-format
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/dialogs/renderwidget.cpp:2058
+#: src/dialogs/renderwidget.cpp:2061
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -6613,7 +6629,7 @@ msgid ""
 "%1"
 msgstr "FFmpeg paraméterek"
 
-#: src/dialogs/renderwidget.cpp:2078
+#: src/dialogs/renderwidget.cpp:2081
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to current project"
@@ -7012,8 +7028,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:175 src/project/cliptranscode.cpp:268
-#: src/ui/renderwidget_ui.ui:348 src/ui/renderwidget_ui.ui:880
-#: src/ui/renderwidget_ui.ui:1038
+#: src/ui/renderwidget_ui.ui:360 src/ui/renderwidget_ui.ui:928
+#: src/ui/renderwidget_ui.ui:1086
 #, kde-format
 msgid "Close"
 msgstr "Bezár"
@@ -7975,7 +7991,7 @@ msgstr "Effekt lefelé mozgatása"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:224
-#: src/project/clipstabilize.cpp:74 src/ui/renderwidget_ui.ui:156
+#: src/project/clipstabilize.cpp:78 src/ui/renderwidget_ui.ui:168
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Presets"
@@ -8330,13 +8346,13 @@ msgid "Markers"
 msgstr "Jelölők"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3571
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3578
 #, kde-format
 msgid "Extract Audio"
 msgstr "Hang kibontása"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3539
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3546
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klipfeladatok"
@@ -9416,7 +9432,7 @@ msgstr "Nagyítás illesztése a projekthez"
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1308 src/mainwindow.cpp:3227
+#: src/mainwindow.cpp:1308 src/mainwindow.cpp:3234
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -9431,7 +9447,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1361 src/project/transitionsettings.cpp:130
 #: src/ui/editrenderpreset_ui.ui:414 src/ui/editrenderpreset_ui.ui:596
-#: src/ui/renderwidget_ui.ui:723
+#: src/ui/renderwidget_ui.ui:747
 #, kde-format
 msgid "Auto"
 msgstr "Automatikus"
@@ -10151,7 +10167,7 @@ msgstr "Képkocka kibontása"
 msgid "Extract Frame to Project…"
 msgstr "Képkocka kibontása"
 
-#: src/mainwindow.cpp:2020 src/mainwindow.cpp:2030
+#: src/mainwindow.cpp:2023 src/mainwindow.cpp:2033
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -10160,7 +10176,7 @@ msgstr ""
 "Megváltoztatta a proxy paramétereit. Újra létre akarja hozni az összes proxy "
 "klipet a projekthez?"
 
-#: src/mainwindow.cpp:2084
+#: src/mainwindow.cpp:2090
 #, kde-format
 msgid ""
 "The current project has not been saved. This will first save the project, "
@@ -10168,82 +10184,82 @@ msgid ""
 "file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2092
+#: src/mainwindow.cpp:2098
 #, kde-format
 msgid ""
 "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project "
 "file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2101 src/project/projectmanager.cpp:427
+#: src/mainwindow.cpp:2107 src/project/projectmanager.cpp:427
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Üres hely eszköz nem használható zárolt sávokon"
 
-#: src/mainwindow.cpp:2106 src/project/projectmanager.cpp:433
+#: src/mainwindow.cpp:2112 src/project/projectmanager.cpp:433
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Üres hely eszköz nem használható zárolt sávokon"
 
-#: src/mainwindow.cpp:2251
+#: src/mainwindow.cpp:2257
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Ez a művelet eltávolítja az összes nem használt klipet a projektből."
 
-#: src/mainwindow.cpp:2251
+#: src/mainwindow.cpp:2257
 #, kde-format
 msgid "Clean up project"
 msgstr "A teljes projekt tisztítása"
 
-#: src/mainwindow.cpp:2371 src/mainwindow.cpp:2395
+#: src/mainwindow.cpp:2378 src/mainwindow.cpp:2402
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Keyboard Schemes…"
 msgstr "Új címsablonok letöltése…"
 
-#: src/mainwindow.cpp:2382
+#: src/mainwindow.cpp:2389
 #, fuzzy, kde-format
 #| msgid "Current clip"
 msgid "Current scheme:"
 msgstr "Jelenlegi klip"
 
-#: src/mainwindow.cpp:2392
+#: src/mainwindow.cpp:2399
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "More Actions"
 msgstr "Beállítások megjelenítése vagy elrejtése"
 
-#: src/mainwindow.cpp:2404
+#: src/mainwindow.cpp:2411
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Általános"
 
-#: src/mainwindow.cpp:2468
+#: src/mainwindow.cpp:2475
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2602 src/mainwindow.cpp:2629
+#: src/mainwindow.cpp:2609 src/mainwindow.cpp:2636
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Nem találom a klipet, amitől a jelölőt el kellene távolítani"
 
-#: src/mainwindow.cpp:2612 src/mainwindow.cpp:2658
+#: src/mainwindow.cpp:2619 src/mainwindow.cpp:2665
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Nem található jelölő kurzornál"
 
-#: src/mainwindow.cpp:2634
+#: src/mainwindow.cpp:2641
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2651 src/timeline2/view/timelinecontroller.cpp:1128
+#: src/mainwindow.cpp:2658 src/timeline2/view/timelinecontroller.cpp:1128
 #: src/timeline2/view/timelinecontroller.cpp:1136
 #: src/timeline2/view/timelinecontroller.cpp:1157
 #: src/timeline2/view/timelinecontroller.cpp:1197
@@ -10253,25 +10269,25 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Nem találom a klipet, amihez a jelölőt kellene adni"
 
-#: src/mainwindow.cpp:2831
+#: src/mainwindow.cpp:2838
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in project bin"
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/mainwindow.cpp:2998
+#: src/mainwindow.cpp:3005
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to add effect"
 msgid "Select an item to add effect"
 msgstr "Nem találom a klipet, amihez az effektust kellene adni"
 
-#: src/mainwindow.cpp:3054
+#: src/mainwindow.cpp:3061
 #, fuzzy, kde-format
 #| msgid "Zoom Level: %1/13"
 msgid "Zoom Level: %1/%2"
 msgstr "Nagyítás: %1/13"
 
-#: src/mainwindow.cpp:3195
+#: src/mainwindow.cpp:3202
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10280,7 +10296,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3199
+#: src/mainwindow.cpp:3206
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10290,25 +10306,25 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3202
+#: src/mainwindow.cpp:3209
 #, fuzzy, kde-format
 #| msgid "Select0r"
 msgid "Select"
 msgstr "Kiválasztó (Select0r)"
 
-#: src/mainwindow.cpp:3204
+#: src/mainwindow.cpp:3211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
-#: src/mainwindow.cpp:3205
+#: src/mainwindow.cpp:3212
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "Vágó eszköz"
 
-#: src/mainwindow.cpp:3209
+#: src/mainwindow.cpp:3216
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10316,13 +10332,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3210
+#: src/mainwindow.cpp:3217
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Üres hely"
 
-#: src/mainwindow.cpp:3212
+#: src/mainwindow.cpp:3219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10330,14 +10346,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3213
+#: src/mainwindow.cpp:3220
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Üres hely eszköz"
 
-#: src/mainwindow.cpp:3218
+#: src/mainwindow.cpp:3225
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10346,14 +10362,14 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3220
+#: src/mainwindow.cpp:3227
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Fájlkiterjesztés:"
 
-#: src/mainwindow.cpp:3226
+#: src/mainwindow.cpp:3233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10361,135 +10377,135 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3238
+#: src/mainwindow.cpp:3245
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "Beszúrás"
 
-#: src/mainwindow.cpp:3241
+#: src/mainwindow.cpp:3248
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "Felülírás mód"
 
-#: src/mainwindow.cpp:3544
+#: src/mainwindow.cpp:3551
 #, fuzzy, kde-format
 #| msgid "Stabilize"
 msgid "Stabilize"
 msgstr "Stabilizálás"
 
-#: src/mainwindow.cpp:3549
+#: src/mainwindow.cpp:3556
 #, fuzzy, kde-format
 #| msgid "Automatic scene split"
 msgid "Automatic Scene Split…"
 msgstr "Automatikus helyszín felosztás"
 
-#: src/mainwindow.cpp:3554
+#: src/mainwindow.cpp:3561
 #, fuzzy, kde-format
 #| msgid "Cannot find clip for speed change"
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Nem találom a klipet, aminek a sebességét meg kellene változtatni"
 
-#: src/mainwindow.cpp:3570
+#: src/mainwindow.cpp:3577
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Átkódolás"
 
-#: src/mainwindow.cpp:3615
+#: src/mainwindow.cpp:3622
 #, kde-format
 msgid "Interface"
 msgstr "Felület"
 
-#: src/mainwindow.cpp:3631
+#: src/mainwindow.cpp:3638
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Raise %1"
 msgstr "Hang rögzítése"
 
-#: src/mainwindow.cpp:3697
+#: src/mainwindow.cpp:3704
 #, fuzzy, kde-format
 #| msgid "No clip to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Nincs átkódolandó klip"
 
-#: src/mainwindow.cpp:3848
+#: src/mainwindow.cpp:3855
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:3854
+#: src/mainwindow.cpp:3861
 #, kde-format
 msgid "Archiving project"
 msgstr "Projekt archiválása"
 
-#: src/mainwindow.cpp:4043
+#: src/mainwindow.cpp:4050
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Icon Size"
 msgstr "Betűméret"
 
-#: src/mainwindow.cpp:4047
+#: src/mainwindow.cpp:4054
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: src/mainwindow.cpp:4068 src/mainwindow.cpp:4096
+#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4070 src/mainwindow.cpp:4098
+#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4072 src/mainwindow.cpp:4100
+#: src/mainwindow.cpp:4079 src/mainwindow.cpp:4107
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4074 src/mainwindow.cpp:4102
+#: src/mainwindow.cpp:4081 src/mainwindow.cpp:4109
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4159
+#: src/mainwindow.cpp:4166
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4159
+#: src/mainwindow.cpp:4166
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide menu bar"
 msgstr "Képkocka elrejtése"
 
-#: src/mainwindow.cpp:4174
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4373 src/timeline2/view/timelinecontroller.cpp:4924
+#: src/mainwindow.cpp:4380 src/timeline2/view/timelinecontroller.cpp:4924
 #, fuzzy, kde-format
 #| msgid "Edit guide at cursor position"
 msgid "No subtitles in current project"
 msgstr "A kurzornál található segédpont szerkesztése"
 
-#: src/mainwindow.cpp:4460
+#: src/mainwindow.cpp:4467
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:4561
+#: src/mainwindow.cpp:4568
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -11439,7 +11455,7 @@ msgstr "Felvétel"
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:137
 #: src/ui/clipproperties_ui.ui:86 src/ui/cutjobdialog_ui.ui:100
 #: src/ui/editrenderpreset_ui.ui:118 src/ui/projectsettings_ui.ui:161
-#: src/ui/recmonitor_ui.ui:100 src/ui/renderwidget_ui.ui:455
+#: src/ui/recmonitor_ui.ui:100 src/ui/renderwidget_ui.ui:479
 #, kde-format
 msgid "Video"
 msgstr "Videó"
@@ -12029,25 +12045,25 @@ msgid_plural "Add clips to project"
 msgstr[0] "Új klip hozzáadása a projekthez"
 msgstr[1] "Új klipek hozzáadása a projekthez"
 
-#: src/project/clipstabilize.cpp:51 src/project/cliptranscode.cpp:58
+#: src/project/clipstabilize.cpp:55 src/project/cliptranscode.cpp:58
 #, kde-format
 msgid "Destination folder"
 msgstr "Célmappa"
 
-#: src/project/clipstabilize.cpp:65 src/project/clipstabilize.cpp:162
+#: src/project/clipstabilize.cpp:69 src/project/clipstabilize.cpp:166
 #, fuzzy, kde-format
 #| msgid "Current settings"
 msgid "Last setting"
 msgstr "Jelenlegi beállítások"
 
-#: src/project/clipstabilize.cpp:117
+#: src/project/clipstabilize.cpp:121
 #, fuzzy, kde-format
 #| msgid "Stabilize clip"
 msgctxt "Description"
 msgid "Stabilize clip"
 msgstr "Klip stabilizálása"
 
-#: src/project/clipstabilize.cpp:156
+#: src/project/clipstabilize.cpp:160
 #, kde-format
 msgid "The stabilize job will overwrite the following files:"
 msgstr "A stabilizálási feladat felül fogja írni a következő fájlokat:"
@@ -16240,7 +16256,7 @@ msgstr "Aktuális gomb törlése"
 #: src/ui/clipproperties_ui.ui:490 src/ui/clipproperties_ui.ui:500
 #: src/ui/clipproperties_ui.ui:587 src/ui/clipproperties_ui.ui:597
 #: src/ui/clipproperties_ui.ui:607 src/ui/clipspeed_ui.ui:85
-#: src/ui/clipstabilize_ui.ui:90 src/ui/collapsiblewidget_ui.ui:99
+#: src/ui/clipstabilize_ui.ui:67 src/ui/collapsiblewidget_ui.ui:99
 #: src/ui/collapsiblewidget_ui.ui:125 src/ui/collapsiblewidget_ui.ui:135
 #: src/ui/collapsiblewidget_ui.ui:145 src/ui/collapsiblewidget_ui.ui:158
 #: src/ui/collapsiblewidget_ui.ui:171 src/ui/collapsiblewidget_ui.ui:184
@@ -16271,8 +16287,8 @@ msgstr "Aktuális gomb törlése"
 #: src/ui/projectsettings_ui.ui:264 src/ui/projectsettings_ui.ui:271
 #: src/ui/projectsettings_ui.ui:281 src/ui/projectsettings_ui.ui:554
 #: src/ui/projectsettings_ui.ui:561 src/ui/qtextclip_ui.ui:90
-#: src/ui/recmonitor_ui.ui:72 src/ui/renderwidget_ui.ui:530
-#: src/ui/renderwidget_ui.ui:940 src/ui/resourcewidget_ui.ui:210
+#: src/ui/recmonitor_ui.ui:72 src/ui/renderwidget_ui.ui:554
+#: src/ui/renderwidget_ui.ui:988 src/ui/resourcewidget_ui.ui:210
 #: src/ui/resourcewidget_ui.ui:277 src/ui/selectivecolor_ui.ui:29
 #: src/ui/selectivecolor_ui.ui:36 src/ui/speechdialog_ui.ui:95
 #: src/ui/textbasededit_ui.ui:58 src/ui/textbasededit_ui.ui:87
@@ -16574,7 +16590,7 @@ msgid "Transparent"
 msgstr "Átlátszó"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dest)
-#: src/ui/clipspeed_ui.ui:22 src/ui/clipstabilize_ui.ui:40
+#: src/ui/clipspeed_ui.ui:22 src/ui/clipstabilize_ui.ui:84
 #: src/ui/cliptranscode_ui.ui:83
 #, kde-format
 msgid "Destination"
@@ -16586,20 +16602,23 @@ msgstr "Cél"
 msgid "Reverse clip"
 msgstr "Klip megfordítása"
 
-#. i18n: ectx: property (text), widget (QCheckBox, auto_add)
-#. i18n: ectx: property (text), widget (QCheckBox, add_clip)
-#: src/ui/clipstabilize_ui.ui:33 src/ui/cliptranscode_ui.ui:157
-#: src/ui/cutjobdialog_ui.ui:93
-#, fuzzy, kde-format
-#| msgid "Add clip to project"
-#| msgid_plural "Add clips to project"
-msgid "Add clip to project"
-msgstr "Új klip hozzáadása a projekthez"
-
 #. i18n: ectx: property (text), widget (QCheckBox, auto_folder)
-#: src/ui/clipstabilize_ui.ui:103
+#: src/ui/clipstabilize_ui.ui:23
 #, kde-format
 msgid "Put clip in \"Stabilized\" folder"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, auto_add)
+#: src/ui/clipstabilize_ui.ui:47
+#, fuzzy, kde-format
+#| msgid "Add new clip to project"
+msgid "Add stabilized clip to project"
+msgstr "Új klip hozzáadása a projekthez"
+
+#. i18n: ectx: property (text), widget (QRadioButton, auto_replace)
+#: src/ui/clipstabilize_ui.ui:77
+#, kde-format
+msgid "Replace original clip with stabilized clip"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ffmpeg_label)
@@ -16639,6 +16658,15 @@ msgstr "Indítás"
 #, kde-format
 msgid "Profile"
 msgstr "Profil"
+
+#. i18n: ectx: property (text), widget (QCheckBox, auto_add)
+#. i18n: ectx: property (text), widget (QCheckBox, add_clip)
+#: src/ui/cliptranscode_ui.ui:157 src/ui/cutjobdialog_ui.ui:93
+#, fuzzy, kde-format
+#| msgid "Add clip to project"
+#| msgid_plural "Add clips to project"
+msgid "Add clip to project"
+msgstr "Új klip hozzáadása a projekthez"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/colorclip_ui.ui:30
@@ -19091,160 +19119,160 @@ msgid "Render Project"
 msgstr "Projekt leképzése"
 
 #. i18n: ectx: property (text), widget (QLabel, toLabel)
-#: src/ui/renderwidget_ui.ui:64
+#: src/ui/renderwidget_ui.ui:76
 #, kde-format
 msgid "to"
 msgstr "eddig"
 
 #. i18n: ectx: property (text), widget (QLabel, outfileLabel)
-#: src/ui/renderwidget_ui.ui:103
+#: src/ui/renderwidget_ui.ui:115
 #, kde-format
 msgid "Output file"
 msgstr "Kimeneti fájl"
 
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, out_file)
-#: src/ui/renderwidget_ui.ui:113
+#: src/ui/renderwidget_ui.ui:125
 #, fuzzy, kde-format
 #| msgid " Selection duration:"
 msgid "Select output destination"
 msgstr "Kiválasztás időtartama:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, options)
-#: src/ui/renderwidget_ui.ui:136
+#: src/ui/renderwidget_ui.ui:148
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "More options"
 msgstr "Beállítások megjelenítése vagy elrejtése"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonNew)
-#: src/ui/renderwidget_ui.ui:203
+#: src/ui/renderwidget_ui.ui:215
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create new preset"
 msgstr "Új profil létrehozása"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonNew)
-#: src/ui/renderwidget_ui.ui:206
+#: src/ui/renderwidget_ui.ui:218
 #, fuzzy, kde-format
 #| msgid "Save"
 msgid "&Save"
 msgstr "Mentés"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDownload)
-#: src/ui/renderwidget_ui.ui:220
+#: src/ui/renderwidget_ui.ui:232
 #, fuzzy, kde-format
 #| msgid "Download New Render Profiles..."
 msgid "Download New Render Presets…"
 msgstr "Új leképző profilok letöltése…"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDownload)
-#: src/ui/renderwidget_ui.ui:223
+#: src/ui/renderwidget_ui.ui:235
 #, kde-format
 msgid "&Download"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:247
+#: src/ui/renderwidget_ui.ui:259
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:250
+#: src/ui/renderwidget_ui.ui:262
 #, fuzzy, kde-format
 #| msgid "Favorites"
 msgid "&Favorite"
 msgstr "Kedvencek"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:267
+#: src/ui/renderwidget_ui.ui:279
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit preset"
 msgstr "Segédpont szerkesztése"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:270
+#: src/ui/renderwidget_ui.ui:282
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "&Edit"
 msgstr "Szerkesztés"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:290
+#: src/ui/renderwidget_ui.ui:302
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "&Delete"
 msgstr "%1 törlése"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:321
+#: src/ui/renderwidget_ui.ui:333
 #, kde-format
 msgid "Render to File"
 msgstr "Leképzés fájlba"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:328
+#: src/ui/renderwidget_ui.ui:340
 #, kde-format
 msgid "Generate Script"
 msgstr "Szkript létrehozása"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:359
+#: src/ui/renderwidget_ui.ui:371
 #, fuzzy, kde-format
 #| msgid "Full project"
 msgid "Fu&ll project"
 msgstr "Teljes projekt"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:369
+#: src/ui/renderwidget_ui.ui:381
 #, fuzzy, kde-format
 #| msgid "Selected zone"
 msgid "Selected &zone"
 msgstr "Kijelölt zóna"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:376
+#: src/ui/renderwidget_ui.ui:388
 #, fuzzy, kde-format
 #| msgid "Guide zone"
 msgid "&Guide zone"
 msgstr "Segédpont zóna"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_multi)
-#: src/ui/renderwidget_ui.ui:383
+#: src/ui/renderwidget_ui.ui:395
 #, kde-format
 msgid "Guide Multi-Export"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:408
+#: src/ui/renderwidget_ui.ui:420
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:464
+#: src/ui/renderwidget_ui.ui:488
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "Render at Preview Resolution"
 msgstr "Videó felbontás"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:471
+#: src/ui/renderwidget_ui.ui:495
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
 msgid "Use Proxy Clips"
 msgstr "Proxy klip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:478
+#: src/ui/renderwidget_ui.ui:502
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Enabled"
 msgstr "Hang rögzítése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:485
+#: src/ui/renderwidget_ui.ui:509
 #, fuzzy, kde-format
 #| msgid "Rescale"
 msgid "Rescale:"
@@ -19252,60 +19280,60 @@ msgstr "Átméretezés"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, rescale_keep)
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/renderwidget_ui.ui:527 src/ui/titlewidget_ui.ui:1381
+#: src/ui/renderwidget_ui.ui:551 src/ui/titlewidget_ui.ui:1381
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "Méretarány megőrzése"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:572
+#: src/ui/renderwidget_ui.ui:596
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Overlay:"
 msgstr "Átfedés"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:591
+#: src/ui/renderwidget_ui.ui:615
 #, fuzzy, kde-format
 #| msgid "Fade in audio track"
 msgid "Separate file for each audio track"
 msgstr "Hangsáv bevezetése"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:601
+#: src/ui/renderwidget_ui.ui:625
 #, fuzzy, kde-format
 #| msgid "Medium Quality"
 msgid "Custom Quality"
 msgstr "Közepes minőség"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:615
+#: src/ui/renderwidget_ui.ui:639
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Low"
 msgstr "Napló"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:628
+#: src/ui/renderwidget_ui.ui:652
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:647
+#: src/ui/renderwidget_ui.ui:671
 #, fuzzy, no-c-format, kde-format
 #| msgid "50%"
 msgid "75%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:654
+#: src/ui/renderwidget_ui.ui:678
 #, kde-format
 msgid "High"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:666
+#: src/ui/renderwidget_ui.ui:690
 #, fuzzy, kde-format
 #| msgid "End Speed"
 msgid "Encoder"
@@ -19313,7 +19341,7 @@ msgstr "Leállítás Sebesség "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:672 src/ui/renderwidget_ui.ui:688
+#: src/ui/renderwidget_ui.ui:696 src/ui/renderwidget_ui.ui:712
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -19321,7 +19349,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:675
+#: src/ui/renderwidget_ui.ui:699
 #, fuzzy, kde-format
 #| msgid "Speed"
 msgid "Speed:"
@@ -19329,107 +19357,113 @@ msgstr "Sebesség"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:707 src/ui/renderwidget_ui.ui:742
+#: src/ui/renderwidget_ui.ui:731 src/ui/renderwidget_ui.ui:766
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Threads:"
 msgstr "Tűréshatár"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:720
+#: src/ui/renderwidget_ui.ui:744
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding threads"
 msgstr "Visszaalakító szálak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:733
+#: src/ui/renderwidget_ui.ui:757
 #, fuzzy, kde-format
 #| msgid "Missing clips"
 msgid "Parallel Processing"
 msgstr "Hiányzó klipek"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:756
+#: src/ui/renderwidget_ui.ui:780
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:775
+#: src/ui/renderwidget_ui.ui:799
 #, kde-format
 msgid "2 pass"
 msgstr "2 menetes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:782
+#: src/ui/renderwidget_ui.ui:808
 #, kde-format
 msgid "Export metadata"
 msgstr "Metaadat exportálása"
 
+#. i18n: ectx: property (text), widget (QLabel, edit_metadata)
+#: src/ui/renderwidget_ui.ui:815
+#, kde-format
+msgid "<a href=\"#\">Edit metadata</a>"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:792
+#: src/ui/renderwidget_ui.ui:840
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:799
+#: src/ui/renderwidget_ui.ui:847
 #, fuzzy, kde-format
 #| msgid "Open browser window after export"
 msgid "Open folder after export"
 msgstr "Tallózóablak megnyitása exportálás után"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:806
+#: src/ui/renderwidget_ui.ui:854
 #, kde-format
 msgid "Play after render"
 msgstr "Videó lejátszása leképzés után"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:828
+#: src/ui/renderwidget_ui.ui:876
 #, kde-format
 msgid "Job Queue"
 msgstr "Feladatsor"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:863
+#: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Start Job"
 msgstr "Feladat elindítása"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:873
+#: src/ui/renderwidget_ui.ui:921
 #, kde-format
 msgid "Clean Up"
 msgstr "Tisztítás"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:933
+#: src/ui/renderwidget_ui.ui:981
 #, kde-format
 msgid "Error Log"
 msgstr "Hibanapló"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:968
+#: src/ui/renderwidget_ui.ui:1016
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "A számítógép leállítása a leképzés befejezése után"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:983
+#: src/ui/renderwidget_ui.ui:1031
 #, kde-format
 msgid "Scripts"
 msgstr "Parancsfájlok"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1011
+#: src/ui/renderwidget_ui.ui:1059
 #, kde-format
 msgid "Start Script"
 msgstr "Parancsfájl indítása"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1018
+#: src/ui/renderwidget_ui.ui:1066
 #, kde-format
 msgid "Delete Script"
 msgstr "Parancsfájl törlése"
@@ -24416,9 +24450,6 @@ msgstr ""
 #~ msgid "Cannot add transition"
 #~ msgstr "Nem adható hozzá átmenet"
 
-#~ msgid "Cannot find clip to edit"
-#~ msgstr "Nem található a szerkesztendő klip"
-
 #~ msgid "Cannot edit an item in a group"
 #~ msgstr "Csoportban lévő klip nem szerkeszthető"
 
@@ -25928,9 +25959,6 @@ msgstr ""
 #~ msgstr ""
 #~ "A művelet végrehajtásához a következő programot kell telepítenie: <b>%1</"
 #~ "b>"
-
-#~ msgid "Add new clip to project"
-#~ msgstr "Új klip hozzáadása a projekthez"
 
 #~ msgid "x1"
 #~ msgstr "x1"
