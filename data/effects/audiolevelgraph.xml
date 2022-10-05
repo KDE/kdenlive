@@ -25,11 +25,11 @@
         <name>Gradient Color 3</name>
         <comment>The color of the waveform gradient.</comment>
     </parameter>
-    <parameter type="constant" name="thickness" max="20" min="0" default="0">
+    <parameter type="animated" name="thickness" max="20" min="0" default="0">
         <name>Line Thickness</name>
         <comment>The thickness of the bar or segments.</comment>
     </parameter>
-    <parameter type="constant" name="angle" max="360" min="0" default="0">
+    <parameter type="animated" name="angle" max="360" min="0" default="0">
         <name>Angle</name>
         <comment>The rotation angle to be applied to the waveform.</comment>
     </parameter>
@@ -50,11 +50,11 @@
         <name>Gradient Orientation</name>
         <comment>Direction of the color gradient.</comment>
     </parameter>
-    <parameter type="constant" name="channels" max="500" min="0" default="2">
+    <parameter type="animated" name="channels" max="500" min="0" default="2">
         <name>Channels</name>
         <comment>The number of channels to show.</comment>
     </parameter>
-    <parameter type="constant" name="segment_gap" max="100" min="0" default="10">
+    <parameter type="animated" name="segment_gap" max="100" min="0" default="10">
         <name>Segment Gap</name>
         <comment>The space in pixels between the segments.</comment>
     </parameter>
