@@ -19,10 +19,22 @@ if (BUILD_DESIGNERPLUGIN)
         GROUP "Kdenlive Widgets"
     )
 
+    ecm_qtdesignerplugin_widget(ColorPickerWidget
+        TOOLTIP "A custom QSpinBox widget to enter timecodes (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
+    ecm_qtdesignerplugin_widget(ChooseColorWidget
+        TOOLTIP "A custom QSpinBox widget to enter timecodes (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
     ecm_add_qtdesignerplugin(kdenlivewidgets
         NAME KdenliveWidgets
         WIDGETS
             TimecodeDisplay
+            ColorPickerWidget
+            ChooseColorWidget
         LINK_LIBRARIES
             kdenliveLib
         INSTALL_DESTINATION "${KDE_INSTALL_QTPLUGINDIR}/designer"

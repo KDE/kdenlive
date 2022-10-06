@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidget>
 
 class KColorButton;
+class QLabel;
 
 /** @class ChooseColorWidget
     @brief Provides options to choose a color.
@@ -18,34 +19,38 @@ class KColorButton;
 class ChooseColorWidget : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY modified USER true)
+    Q_PROPERTY(bool alphaChannelEnabled READ isAlphaChannelEnabled WRITE setAlphaChannelEnabled)
+
 public:
     /** @brief Sets up the widget.
-     * @param name (optional) What the color will be used for (name of the parameter)
-     * @param color (optional) initial color
-     * @param comment (optional) Comment about the parameter
-     * @param alphaEnabled (optional) Should transparent colors be enabled
      * @param parent(optional) Parent widget
+     * @param color (optional) initial color
+     * @param alphaEnabled (optional) Should transparent colors be enabled
      */
-    explicit ChooseColorWidget(const QString &name = QString(), const QString &color = QStringLiteral("0xffffffff"), const QString &comment = QString(),
-                               bool alphaEnabled = false, QWidget *parent = nullptr);
+    explicit ChooseColorWidget(QWidget *parent = nullptr, const QColor &color = QColor(), bool alphaEnabled = false);
 
-    /** @brief Gets the chosen color. */
-    QString getColor() const;
+    /** @brief Gets the choosen color. */
+    QColor color() const;
+    /** @brief Returns true if the user is allowed to change the alpha component. */
+    bool isAlphaChannelEnabled() const;
 
 private:
     KColorButton *m_button;
+    QLabel *m_nameLabel;
 
 public slots:
+    /** @brief Updates the different color choosing options to have all selected @param color. */
+    void setColor(const QColor &color);
+    /** @brief Updates the color to @param color without emitting signals. */
     void slotColorModified(const QColor &color);
 
 private slots:
-    /** @brief Updates the different color choosing options to have all selected @param color. */
-    void setColor(const QColor &color);
+    void setAlphaChannelEnabled(bool alpha);
 
 signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
 
     void disableCurrentFilter(bool);
-    void valueChanged();
 };

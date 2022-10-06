@@ -374,9 +374,18 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Edit color widget
         m_originalProperties.insert(QStringLiteral("resource"), m_properties->get("resource"));
         mlt_color color = m_properties->get_color("resource");
-        ChooseColorWidget *choosecolor = new ChooseColorWidget(i18n("Color"), QColor::fromRgb(color.r, color.g, color.b).name(), "", false, this);
-        fpBox->addWidget(choosecolor);
-        // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
+
+        QLabel *label = new QLabel(i18n("Color"), this);
+        ChooseColorWidget *choosecolor = new ChooseColorWidget(this, QColor::fromRgb(color.r, color.g, color.b), false);
+
+        auto *colorLay = new QHBoxLayout(this);
+        colorLay->setContentsMargins(0, 0, 0, 0);
+        colorLay->setSpacing(0);
+        colorLay->addWidget(label);
+        colorLay->addStretch();
+        colorLay->addWidget(choosecolor);
+
+        fpBox->addLayout(colorLay);
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
         connect(this, static_cast<void (ClipPropertiesController::*)(const QColor &)>(&ClipPropertiesController::modified), choosecolor,
                 &ChooseColorWidget::slotColorModified);
