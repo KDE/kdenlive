@@ -9,6 +9,7 @@
 #include <QWidget>
 
 class KColorButton;
+class ChooseColorWidget;
 
 /** @class ColorEditWidget
     @brief Provides options to choose a color.
@@ -27,10 +28,7 @@ public:
     QString getColor() const;
 
 private:
-    KColorButton *m_button;
-
-public slots:
-    void slotColorModified(const QColor &color);
+    ChooseColorWidget *m_choosecolor;
 
 public slots:
     /** @brief Toggle the comments on or off

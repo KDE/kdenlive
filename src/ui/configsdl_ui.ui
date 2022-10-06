@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>ConfigSdl_UI</class>
  <widget class="QWidget" name="ConfigSdl_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>458</width>
+    <height>460</height>
+   </rect>
+  </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0" colspan="2">
     <widget class="KMessageWidget" name="kmessagewidget">
@@ -22,6 +30,27 @@
      </property>
      <property name="messageType">
       <enum>KMessageWidget::Warning</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_gpu">
+     <property name="text">
+      <string>GPU processing (Movit library):</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="kcfg_gpu_accel">
+     <property name="text">
+      <string>Enable - restart Kdenlive to apply</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -67,89 +96,52 @@
    <item row="5" column="1">
     <widget class="QComboBox" name="kcfg_audio_device"/>
    </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_preview_volume">
-     <property name="text">
-      <string>Preview volume:</string>
+   <item row="6" column="0" colspan="2">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
-    <widget class="QSpinBox" name="kcfg_volume">
-     <property name="suffix">
-      <string>%</string>
-     </property>
-     <property name="maximum">
-      <number>200</number>
-     </property>
-     <property name="value">
-      <number>100</number>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Monitor for fullscreen output:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="7" column="1">
     <widget class="QComboBox" name="fullscreen_monitor"/>
    </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="label_monitor_background">
-     <property name="text">
-      <string>Monitor background color:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="1">
-    <widget class="KColorButton" name="kcfg_window_background">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="defaultColor">
-      <color>
-       <red>180</red>
-       <green>180</green>
-       <blue>180</blue>
-      </color>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="2">
+   <item row="8" column="0" colspan="2">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="11" column="0">
+   <item row="9" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>External display (Blackmagic card):</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
+   <item row="9" column="1">
     <widget class="QCheckBox" name="kcfg_external_display">
      <property name="text">
       <string>Enable</string>
      </property>
     </widget>
    </item>
-   <item row="12" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_5">
      <property name="text">
       <string>Output device:</string>
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
+   <item row="10" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QComboBox" name="kcfg_blackmagic_output_device">
@@ -177,35 +169,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="1">
-    <widget class="QCheckBox" name="kcfg_gpu_accel">
-     <property name="text">
-      <string>Enable - restart Kdenlive to apply</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_gpu">
-     <property name="text">
-      <string>GPU processing (Movit library):</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="Line" name="line_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="1">
+   <item row="11" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -221,11 +185,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
   <customwidget>
    <class>KMessageWidget</class>
    <extends>QFrame</extends>

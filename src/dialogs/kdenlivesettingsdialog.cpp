@@ -1171,8 +1171,8 @@ void KdenliveSettingsDialog::updateSettings()
         fullReset = true;
     }
 
-    if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
-        KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
+    if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
+        KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
         emit updateMonitorBg();
     }
 
@@ -1188,11 +1188,6 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setOverlayColor(m_configColors.kcfg_overlayColor->color());
         pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->colorsChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
-    }
-
-    if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
-        KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
-        resetConsumer = true;
     }
 
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
