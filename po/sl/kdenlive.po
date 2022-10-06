@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-05 00:45+0000\n"
-"PO-Revision-Date: 2022-10-01 13:35+0200\n"
+"POT-Creation-Date: 2022-10-06 00:44+0000\n"
+"PO-Revision-Date: 2022-10-05 00:14+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2902,16 +2902,15 @@ msgid "Wipe Method"
 msgstr "Način zavese"
 
 #: data/transitions/matte.xml:3
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Matte"
-msgstr "Vzorci"
+msgstr "Maska v perspektivi (Matte)"
 
 #: data/transitions/matte.xml:4
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
-msgstr ""
+msgstr "Zamenjajte kanal alfa steze A s kanalom luma steze B."
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -2982,7 +2981,7 @@ msgstr "Smer"
 #: data/transitions/vqm.xml:3
 #, kde-format
 msgid "Video Quality Measurement"
-msgstr ""
+msgstr "Merjenje kakovosti videa"
 
 #: data/transitions/vqm.xml:4
 #, kde-format
@@ -2992,18 +2991,23 @@ msgid ""
 "delimited format for easy by another tool. The bottom half of the B frame is "
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
+"To izvede meritve kakovosti videoposnetkov PSNR in SSIM s primerjavo sličic "
+"B z referenčno sličico A. Izpiše številke na stdout v obliki z vmesnimi "
+"presledki, za enostavno uporabo z drugimi orodji. Spodnja polovica sličice B "
+"se postavi pod vrhnjo polovico sličice A za vizualno primerjavo."
 
 #: data/transitions/vqm.xml:7
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "Čas izrisovanja"
+msgstr "Izriši črto"
 
 #: data/transitions/vqm.xml:8
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
+"Upodobi črto med zgornjo in spodnjo polovico in z vrednostmi čez "
+"videoposnetek."
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -4458,7 +4462,7 @@ msgstr "Shrani v datoteko napisa"
 msgid "Save in project only"
 msgstr "Shrani le v projekt"
 
-#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:378
+#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:377
 #, kde-format
 msgid "Title clip"
 msgstr "Naslovni posnetek"
@@ -4660,7 +4664,7 @@ msgstr "Prenosna naprava"
 msgid "Loading done"
 msgstr "Nalaganje dokončano"
 
-#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:550
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -4674,7 +4678,7 @@ msgstr[3] "Dodaj posnetke"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label_2)
-#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:260
+#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
 #: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
@@ -5294,78 +5298,78 @@ msgstr "Vaš profil projekta ni veljaven, izrisovanje morda ne bo uspelo."
 msgid "Subtitles"
 msgstr "Podnaslavljanje"
 
-#: src/dialogs/clipcreationdialog.cpp:127
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:126
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #, kde-format
 msgid "All Supported Files"
 msgstr "Vse podprte datoteke"
 
-#: src/dialogs/clipcreationdialog.cpp:141
+#: src/dialogs/clipcreationdialog.cpp:140
 #, kde-format
 msgctxt "@title:window"
 msgid "Color Clip"
 msgstr "Barvni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:142
+#: src/dialogs/clipcreationdialog.cpp:141
 #, kde-format
 msgid "Color Clip"
 msgstr "Barvni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:163
+#: src/dialogs/clipcreationdialog.cpp:162
 #, kde-format
 msgid "Please install Glaxnimate to edit Lottie animations."
 msgstr "Prosimo, namestite Glaxnimate za montažo animacij Lottie."
 
-#: src/dialogs/clipcreationdialog.cpp:182
+#: src/dialogs/clipcreationdialog.cpp:181
 #, kde-format
 msgid "Create animation"
 msgstr "Ustvari animacijo"
 
-#: src/dialogs/clipcreationdialog.cpp:190
+#: src/dialogs/clipcreationdialog.cpp:189
 #, kde-format
 msgid "Save animation as"
 msgstr "Shrani animacijo kot"
 
-#: src/dialogs/clipcreationdialog.cpp:193
+#: src/dialogs/clipcreationdialog.cpp:192
 #, kde-format
 msgid "Animation duration"
 msgstr "Trajanje animacije"
 
-#: src/dialogs/clipcreationdialog.cpp:206 src/jobs/cuttask.cpp:171
+#: src/dialogs/clipcreationdialog.cpp:205 src/jobs/cuttask.cpp:171
 #: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
 #, kde-format
 msgid "File already exists"
 msgstr "Datoteka že obstaja"
 
-#: src/dialogs/clipcreationdialog.cpp:249
+#: src/dialogs/clipcreationdialog.cpp:248
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Ustvari posnetek animacije"
 
-#: src/dialogs/clipcreationdialog.cpp:261
+#: src/dialogs/clipcreationdialog.cpp:260
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Posnetek iz besedila"
 
-#: src/dialogs/clipcreationdialog.cpp:279
+#: src/dialogs/clipcreationdialog.cpp:278
 #, kde-format
 msgid "Text Clip"
 msgstr "Posnetek iz besedila"
 
-#: src/dialogs/clipcreationdialog.cpp:334
+#: src/dialogs/clipcreationdialog.cpp:333
 #, kde-format
 msgid "Create Text clip"
 msgstr "Ustvari besedilni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:972
+#: src/dialogs/clipcreationdialog.cpp:389 src/doc/kdenlivedoc.cpp:972
 #, kde-format
 msgid "Template title clip"
 msgstr "Predloga posnetka napisa"
 
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
@@ -5373,14 +5377,14 @@ msgstr "Predloga posnetka napisa"
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: src/dialogs/clipcreationdialog.cpp:465
-#: src/dialogs/clipcreationdialog.cpp:563
+#: src/dialogs/clipcreationdialog.cpp:464
+#: src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Import image sequence"
 msgstr "Uvozi zaporedje slik"
 
-#: src/dialogs/clipcreationdialog.cpp:467
-#: src/dialogs/clipcreationdialog.cpp:566
+#: src/dialogs/clipcreationdialog.cpp:466
+#: src/dialogs/clipcreationdialog.cpp:565
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Prezri strukturo podmape"
@@ -5479,6 +5483,9 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
+"Profil predogleda izbrane časovnice ni združljiv s projektno hitrostjo v sl/"
+"s,\n"
+"povrnjen bo v samodejno nastavitev."
 
 #: src/dialogs/exportguidesdialog.cpp:33
 #, kde-format
@@ -7342,7 +7349,7 @@ msgid "Switch"
 msgstr "Preklopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -11769,10 +11776,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Izberite profil (predlogo nastavitev) projekta"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Privzeto"
+msgstr "Privzeto: %1"
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -13419,20 +13425,20 @@ msgstr "Ni veljavnih podatkov na odlagališču"
 #: src/timeline2/model/timelinefunctions.cpp:1751
 #: src/timeline2/model/timelinefunctions.cpp:1782
 #: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1965
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Ni dovolj stez za lepljenje na odložišče"
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
 #: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1872
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1879
 #, kde-format
 msgid "Pasted clips"
 msgstr "Prilepljeni posnetki"
 
-#: src/timeline2/model/timelinefunctions.cpp:1864
+#: src/timeline2/model/timelinefunctions.cpp:1865
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13441,33 +13447,33 @@ msgstr ""
 "Izvorni projekt ima drugačno hitrost sličic (%1 sl/s) kot vaš trenutni "
 "projekt.<br/>Kadri ali ključne sličice so morda zamaknjeni."
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Opozorilo ob lepljenju"
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Paste"
 msgstr "Prilepi"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
+#: src/timeline2/model/timelinefunctions.cpp:1908
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Ni bilo mogoče dodati posnetek iz posode"
 
-#: src/timeline2/model/timelinefunctions.cpp:1949
+#: src/timeline2/model/timelinefunctions.cpp:1957
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Vsi posnetki niso bili uspešno kopirani"
 
-#: src/timeline2/model/timelinefunctions.cpp:1980
-#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2109
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ni bilo mogoče prilepiti predmetov v časovnico"
 
-#: src/timeline2/model/timelinefunctions.cpp:2121
+#: src/timeline2/model/timelinefunctions.cpp:2129
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Prilepi časovni posnetek"
@@ -15809,17 +15815,15 @@ msgstr "Zajemi sliko (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:62 src/ui/configcapture_ui.ui:460
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "Zaznane naprave"
+msgstr "Zaznane naprave:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "Slikovna naprava"
+msgstr "Slikovna naprava:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:86 src/ui/wizardcapture_ui.ui:57
@@ -15884,24 +15888,21 @@ msgstr "Profil kodiranja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Zajem območja"
+msgstr "Območje za zajem:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Preklopi v celozaslonski način"
+msgstr "Cel zaslon"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Pravokotno okno"
+msgstr "Pravokotno območje"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -15933,10 +15934,9 @@ msgstr "Velikost"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:400
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "Skrij kazalko"
+msgstr "Kazalec miške:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:454
@@ -16320,10 +16320,9 @@ msgstr "Gumb 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "Projektne datoteke:"
+msgstr "Projektna datoteka:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:24
@@ -16340,10 +16339,9 @@ msgstr "Omogoči obnovitev po sesutju (samodejno shranjevanje)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "Barva posnetka:"
+msgstr "Uvoz posnetka:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:52
@@ -16462,21 +16460,21 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
+"To so privzete nastavitve za nove projekte. Če želite urediti parametre "
+"trenutnega projekta, uporabite nastavitve projekta."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:37 src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project folder: %1"
+#, kde-format
 msgid "Project folder:"
-msgstr "Mapa projekta: %1"
+msgstr "Mapa projekta:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "Privzeta mapa za projektne datoteke"
+msgstr "Nadrejena mapa projektne datoteke"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:63
@@ -16516,10 +16514,9 @@ msgstr "6 kanalov"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:145
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Predogled časovnice"
+msgstr "Profil predogleda časovnice:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:28
@@ -16562,18 +16559,16 @@ msgstr "Velikost posredniške slike"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:141
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "Omogočeno"
+msgstr "Omogoči"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:177 src/ui/projectsettings_ui.ui:477
-#, fuzzy, kde-format
-#| msgid "Use external proxy clips"
+#, kde-format
 msgid "External proxy clips:"
-msgstr "Uporabite zunanje posredniške posnetke"
+msgstr "Zunanji posredni posnetki"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:204
@@ -16629,10 +16624,9 @@ msgstr "Barva ozadja oglednika:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "Uporabi zunanji zaslon (kartica Blackmagic)"
+msgstr "Zunanji zaslon (kartica Blackmagic):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:148
@@ -16642,21 +16636,15 @@ msgstr "Izhodna naprava:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:183
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
-"Uporabi obdelavo GPE s knjižnico Movit (da to uveljavite, znova zaženite "
-"Kdenlive)"
+msgstr "Omogoči - za uveljavitev znova zaženi Kdenlive"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
-"Uporabi obdelavo GPE s knjižnico Movit (da to uveljavite, znova zaženite "
-"Kdenlive)"
+msgstr "Obdelovanje GPE (knjižnica Movit):"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #: src/ui/configspeech_ui.ui:30
@@ -16703,31 +16691,27 @@ msgstr "Sličice:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "Omogoči sliko"
+msgstr "Omogoči za sliko"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:31
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "Omogoči zvok"
+msgstr "Omogoči za zvok"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Separate channels"
+#, kde-format
 msgid "Separate audio channels"
-msgstr "Ločeni kanali"
+msgstr "Loči zvočne kanale"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Pause playback when seeking"
+#, kde-format
 msgid "Playback and Seeking:"
-msgstr "Začasno ustavi predvajanje pri iskanju"
+msgstr "Predvajanje in iskanje:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:62
@@ -16751,10 +16735,9 @@ msgstr "Išči po posnetku ob dodajanju učinka"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Scaling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "Umerjanje"
+msgstr "Drsenje:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -16778,10 +16761,9 @@ msgstr "Pokaži opombe označevalnikov posnetka"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "Višina steze:"
+msgstr "Privzeta višina steze:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:145
@@ -17809,42 +17791,37 @@ msgstr "Nastavitve"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
-msgstr ""
-"Mapa projekta za shranjevanje posrednih posnetkov, sličic in predogledov"
+msgstr " Namenjena je shranjevanju posrednih posnetkov, sličic in predogledov"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"Mapa projekta za shranjevanje posrednih posnetkov, sličic in predogledov"
+" Mapa projekta je namenjena shranjevanju sredstev, kot so posredni posnetki, "
+"sličice in predogledi."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Privzete mape"
+msgstr "Privzeta mapa"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "Privzeta mapa za projektne datoteke"
+msgstr "Nadrejena mapa projektne datoteke"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Po meri"
+msgstr "Po meri:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:136
@@ -17866,10 +17843,9 @@ msgstr "6 kanalov"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "Predogled časovnice"
+msgstr "Predogled časovnice:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:192
@@ -17879,10 +17855,9 @@ msgstr "Posrednik"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "Posredni posnetki:"
+msgstr "Posredni posnetki"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -19318,89 +19293,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Cairo Affine Blend"
-#~ msgstr "Zlivanje Cairo - afina"
-
-#~ msgid ""
-#~ "Composites second input on first input applying user-defined "
-#~ "transformation, opacity and blend mode."
-#~ msgstr ""
-#~ "Sestavljanje drugega vhoda na prvem z uporabo uporabnikovih "
-#~ "preoblikovanj, prekrivnosti in načina mešanja."
-
-#~ msgid "X scale"
-#~ msgstr "Merilo X"
-
-#~ msgid "Y scale"
-#~ msgstr "Merilo Y"
-
-#~ msgid ""
-#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
-#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
-#~ "saturation,HSL color,HSL luminosity"
-#~ msgstr ""
-#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
-#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
-#~ "saturation,HSL color,HSL luminosity"
-
-#~ msgid "Blend mode"
-#~ msgstr "Način mešanja"
-
-#~ msgid "Rotation X center"
-#~ msgstr "Center rotacije X"
-
-#~ msgid "Rotation Y center"
-#~ msgstr "Center rotacije Y"
-
-#~ msgid "Cairo Blend"
-#~ msgstr "Zlivanje Cairo"
-
-#~ msgid ""
-#~ "Composites second input on the first input with user-defined blend mode "
-#~ "and opacity."
-#~ msgstr ""
-#~ "Sestavljanje drugega vhoda na prvem z uporabo uporabnikovega načina "
-#~ "mešanja in prekrivnosti."
-
-#~ msgid "Manage timeline preview profiles"
-#~ msgstr "Upravljajte s profili predogleda časovnice"
-
-#~ msgid "Select default preview profile"
-#~ msgstr "Izberite privzet profil predogleda"
-
-#~ msgid "Capture format"
-#~ msgstr "Vrsta zajema"
-
-#~ msgid "Encoding profile"
-#~ msgstr "Profil kodiranja"
-
-#~ msgid "Colorspace"
-#~ msgstr "Barvni prostor"
-
-#~ msgid "Full Screen Capture"
-#~ msgstr "Celozaslonski zajem"
-
-#~ msgid "Frame rate"
-#~ msgstr "Hitrost sličic"
-
-#~ msgid "Use KDE job tracking for render jobs"
-#~ msgstr "Za posel izrisovanja uporabi sledenje poslom za KDE"
-
-#~ msgid "Bypass codec verification"
-#~ msgstr "Preskoči preverjanje kodekov"
-
-#~ msgid "Use parent folder of the project file as project folder"
-#~ msgstr "Uporabi nadrejeno mapo projektne datoteke kot projektno mapo"
-
-#~ msgid "Audio tracks"
-#~ msgstr "Zvočne steze"
-
-#~ msgid "Video tracks"
-#~ msgstr "Slikovne steze"
-
-#~ msgid "Use FFmpeg for audio thumbnails (faster)"
-#~ msgstr "Uporabi FFmpeg za zvočne sličice (hitreje)"
-
-#~ msgid "Preview profile:"
-#~ msgstr "Profil predogleda:"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-05 00:45+0000\n"
-"PO-Revision-Date: 2022-10-04 07:23+0300\n"
+"POT-Creation-Date: 2022-10-06 00:44+0000\n"
+"PO-Revision-Date: 2022-10-05 07:01+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4109,14 +4109,9 @@ msgstr ""
 "Щоб зберегти ваші дані від втрат, було створено резервну копію з назвою %1."
 
 #: src/bin/bin.cpp:1876
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot replace clip with invalid file %1"
-msgstr ""
-"Не вдалося відкрити файл архіву:\n"
-" %1"
+msgstr "Неможливо замінити кліп некоректним файлом %1"
 
 #: src/bin/bin.cpp:1902 src/bin/bin.cpp:1960
 #, kde-format
@@ -4135,10 +4130,9 @@ msgid "The selected file %1 is invalid."
 msgstr "Вибраний файл %1 є некоректним."
 
 #: src/bin/bin.cpp:1915
-#, fuzzy, kde-format
-#| msgid "Cannot find clip to edit marker"
+#, kde-format
 msgid "Cannot find original clip to be replaced"
-msgstr "Не вдалося знайти кліп для зміни позначки"
+msgstr "Не вдалося знайти початковий кліп для заміни"
 
 #: src/bin/bin.cpp:1935
 #, kde-format
@@ -4488,7 +4482,7 @@ msgstr "Зберегти до файла титрів"
 msgid "Save in project only"
 msgstr "Зберегти лише у проєкті"
 
-#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:378
+#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:377
 #, kde-format
 msgid "Title clip"
 msgstr "Кліп з титрами"
@@ -4692,7 +4686,7 @@ msgstr "Портативний пристрій"
 msgid "Loading done"
 msgstr "Завантаження завершено"
 
-#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:550
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -4706,7 +4700,7 @@ msgstr[3] "Додати кліп"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label_2)
-#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:260
+#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
 #: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
@@ -5329,78 +5323,78 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Субтитри"
 
-#: src/dialogs/clipcreationdialog.cpp:127
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:126
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #, kde-format
 msgid "All Supported Files"
 msgstr "Всі файли, що підтримуються"
 
-#: src/dialogs/clipcreationdialog.cpp:141
+#: src/dialogs/clipcreationdialog.cpp:140
 #, kde-format
 msgctxt "@title:window"
 msgid "Color Clip"
 msgstr "Кольоровий кліп"
 
-#: src/dialogs/clipcreationdialog.cpp:142
+#: src/dialogs/clipcreationdialog.cpp:141
 #, kde-format
 msgid "Color Clip"
 msgstr "Кольоровий кліп"
 
-#: src/dialogs/clipcreationdialog.cpp:163
+#: src/dialogs/clipcreationdialog.cpp:162
 #, kde-format
 msgid "Please install Glaxnimate to edit Lottie animations."
 msgstr "Будь ласка, встановіть Glaxnimate, щоб редагувати анімації Lottie."
 
-#: src/dialogs/clipcreationdialog.cpp:182
+#: src/dialogs/clipcreationdialog.cpp:181
 #, kde-format
 msgid "Create animation"
 msgstr "Створити анімацію"
 
-#: src/dialogs/clipcreationdialog.cpp:190
+#: src/dialogs/clipcreationdialog.cpp:189
 #, kde-format
 msgid "Save animation as"
 msgstr "Зберегти анімацію як"
 
-#: src/dialogs/clipcreationdialog.cpp:193
+#: src/dialogs/clipcreationdialog.cpp:192
 #, kde-format
 msgid "Animation duration"
 msgstr "Тривалість анімації"
 
-#: src/dialogs/clipcreationdialog.cpp:206 src/jobs/cuttask.cpp:171
+#: src/dialogs/clipcreationdialog.cpp:205 src/jobs/cuttask.cpp:171
 #: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
 #, kde-format
 msgid "File already exists"
 msgstr "Файл з такою назвою вже існує"
 
-#: src/dialogs/clipcreationdialog.cpp:249
+#: src/dialogs/clipcreationdialog.cpp:248
 #, kde-format
 msgid "Create Animation clip"
 msgstr "Створити кліп анімації"
 
-#: src/dialogs/clipcreationdialog.cpp:261
+#: src/dialogs/clipcreationdialog.cpp:260
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Текстовий кліп"
 
-#: src/dialogs/clipcreationdialog.cpp:279
+#: src/dialogs/clipcreationdialog.cpp:278
 #, kde-format
 msgid "Text Clip"
 msgstr "Текстовий кліп"
 
-#: src/dialogs/clipcreationdialog.cpp:334
+#: src/dialogs/clipcreationdialog.cpp:333
 #, kde-format
 msgid "Create Text clip"
 msgstr "Створення текстового кліпу"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:972
+#: src/dialogs/clipcreationdialog.cpp:389 src/doc/kdenlivedoc.cpp:972
 #, kde-format
 msgid "Template title clip"
 msgstr "Шаблон кліпу з титрами"
 
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
@@ -5408,14 +5402,14 @@ msgstr "Шаблон кліпу з титрами"
 msgid "All Files"
 msgstr "Всі файли"
 
-#: src/dialogs/clipcreationdialog.cpp:465
-#: src/dialogs/clipcreationdialog.cpp:563
+#: src/dialogs/clipcreationdialog.cpp:464
+#: src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Import image sequence"
 msgstr "Імпортувати послідовність зображень"
 
-#: src/dialogs/clipcreationdialog.cpp:467
-#: src/dialogs/clipcreationdialog.cpp:566
+#: src/dialogs/clipcreationdialog.cpp:466
+#: src/dialogs/clipcreationdialog.cpp:565
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "Ігнорувати структуру підтек"
@@ -7407,7 +7401,7 @@ msgid "Switch"
 msgstr "Перемкнутися"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -13531,20 +13525,20 @@ msgstr "У буфері обміну даними немає придатних 
 #: src/timeline2/model/timelinefunctions.cpp:1751
 #: src/timeline2/model/timelinefunctions.cpp:1782
 #: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1965
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Недостатньо доріжок для вставлення з буфера обміну даними"
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
 #: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1872
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1879
 #, kde-format
 msgid "Pasted clips"
 msgstr "Вставлені кліпи"
 
-#: src/timeline2/model/timelinefunctions.cpp:1864
+#: src/timeline2/model/timelinefunctions.cpp:1865
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13554,33 +13548,33 @@ msgstr ""
 "вашого поточного проєкту.<br/>Може виникнути проблема із узгодженням кліпів "
 "або ключових кадрів."
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Попередження щодо вставлення"
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Paste"
 msgstr "Вставити"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
+#: src/timeline2/model/timelinefunctions.cpp:1908
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Не вдалося додати кліп контейнера"
 
-#: src/timeline2/model/timelinefunctions.cpp:1949
+#: src/timeline2/model/timelinefunctions.cpp:1957
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Успішно скопійовано не усі кліпи"
 
-#: src/timeline2/model/timelinefunctions.cpp:1980
-#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2109
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Не вдалося вставити записи на монтажний стіл"
 
-#: src/timeline2/model/timelinefunctions.cpp:2121
+#: src/timeline2/model/timelinefunctions.cpp:2129
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Вставити кліпи монтажного стола"
@@ -15820,16 +15814,15 @@ msgstr "Зберегти кліп у теці «Стабілізовано»"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_add)
 #: src/ui/clipstabilize_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Add clip to project"
+#, kde-format
 msgid "Add stabilized clip to project"
-msgstr "Додати кліп до проєкту"
+msgstr "Додати стабілізований кліп до проєкту"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_replace)
 #: src/ui/clipstabilize_ui.ui:77
 #, kde-format
 msgid "Replace original clip with stabilized clip"
-msgstr ""
+msgstr "Замінити початковий кліп на стабілізований"
 
 #. i18n: ectx: property (text), widget (QLabel, ffmpeg_label)
 #: src/ui/cliptranscode_ui.ui:53
@@ -18413,7 +18406,7 @@ msgstr "Експортувати метадані"
 #: src/ui/renderwidget_ui.ui:815
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
-msgstr ""
+msgstr "<a href=\"#\">Редагувати метадані</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
 #: src/ui/renderwidget_ui.ui:840

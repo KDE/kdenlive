@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-05 00:45+0000\n"
+"POT-Creation-Date: 2022-10-06 00:44+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4596,7 +4596,7 @@ msgstr "タイトルファイルへの保存"
 msgid "Save in project only"
 msgstr "プロジェクト内にのみ保存"
 
-#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:378
+#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:377
 #, kde-format
 msgid "Title clip"
 msgstr "タイトル・クリップ"
@@ -4811,7 +4811,7 @@ msgstr "ファイルの削除"
 msgid "Loading done"
 msgstr "プロジェクトを読み込んでいます"
 
-#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:550
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -4823,7 +4823,7 @@ msgstr[1] "クリップの追加"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label_2)
-#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:260
+#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
 #: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
@@ -5489,87 +5489,87 @@ msgstr ""
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/dialogs/clipcreationdialog.cpp:127
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:126
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #, kde-format
 msgid "All Supported Files"
 msgstr "対応するすべてのファイル"
 
-#: src/dialogs/clipcreationdialog.cpp:141
+#: src/dialogs/clipcreationdialog.cpp:140
 #, fuzzy, kde-format
 #| msgid "Color Clip"
 msgctxt "@title:window"
 msgid "Color Clip"
 msgstr "カラークリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:142
+#: src/dialogs/clipcreationdialog.cpp:141
 #, kde-format
 msgid "Color Clip"
 msgstr "カラークリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:163
+#: src/dialogs/clipcreationdialog.cpp:162
 #, kde-format
 msgid "Please install Glaxnimate to edit Lottie animations."
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:182
+#: src/dialogs/clipcreationdialog.cpp:181
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create animation"
 msgstr "フォルダの作成(C)"
 
-#: src/dialogs/clipcreationdialog.cpp:190
+#: src/dialogs/clipcreationdialog.cpp:189
 #, fuzzy, kde-format
 #| msgid "Animation"
 msgid "Save animation as"
 msgstr "アニメーション"
 
-#: src/dialogs/clipcreationdialog.cpp:193
+#: src/dialogs/clipcreationdialog.cpp:192
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Animation duration"
 msgstr "フレームの長さ"
 
-#: src/dialogs/clipcreationdialog.cpp:206 src/jobs/cuttask.cpp:171
+#: src/dialogs/clipcreationdialog.cpp:205 src/jobs/cuttask.cpp:171
 #: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "File already exists"
 msgstr "プロファイルは既に存在しています"
 
-#: src/dialogs/clipcreationdialog.cpp:249
+#: src/dialogs/clipcreationdialog.cpp:248
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Animation clip"
 msgstr "テンプレート・タイトル・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:261
+#: src/dialogs/clipcreationdialog.cpp:260
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "テキスト・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:279
+#: src/dialogs/clipcreationdialog.cpp:278
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgid "Text Clip"
 msgstr "テキスト・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:334
+#: src/dialogs/clipcreationdialog.cpp:333
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Text clip"
 msgstr "テンプレート・タイトル・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:972
+#: src/dialogs/clipcreationdialog.cpp:389 src/doc/kdenlivedoc.cpp:972
 #, kde-format
 msgid "Template title clip"
 msgstr "テンプレート・タイトル・クリップ"
 
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
@@ -5577,14 +5577,14 @@ msgstr "テンプレート・タイトル・クリップ"
 msgid "All Files"
 msgstr "すべてのファイル"
 
-#: src/dialogs/clipcreationdialog.cpp:465
-#: src/dialogs/clipcreationdialog.cpp:563
+#: src/dialogs/clipcreationdialog.cpp:464
+#: src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Import image sequence"
 msgstr "イメージシーケンスのインポート"
 
-#: src/dialogs/clipcreationdialog.cpp:467
-#: src/dialogs/clipcreationdialog.cpp:566
+#: src/dialogs/clipcreationdialog.cpp:466
+#: src/dialogs/clipcreationdialog.cpp:565
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
@@ -7655,7 +7655,7 @@ msgid "Switch"
 msgstr "モニタの切り替え(W)"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -14091,57 +14091,57 @@ msgstr "フィルタ %1 を処理すべきクリップが見つかりません"
 #: src/timeline2/model/timelinefunctions.cpp:1751
 #: src/timeline2/model/timelinefunctions.cpp:1782
 #: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1965
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "クリップボードに貼り付ける十分なトラックがありません"
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
 #: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1872
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1879
 #, kde-format
 msgid "Pasted clips"
 msgstr "貼り付けたクリップ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1864
+#: src/timeline2/model/timelinefunctions.cpp:1865
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, fuzzy, kde-format
 #| msgid "Master"
 msgid "Paste"
 msgstr "マスター"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
+#: src/timeline2/model/timelinefunctions.cpp:1908
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "クリップの追加"
 
-#: src/timeline2/model/timelinefunctions.cpp:1949
+#: src/timeline2/model/timelinefunctions.cpp:1957
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1980
-#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2109
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "タイムライン内で値を更新する"
 
-#: src/timeline2/model/timelinefunctions.cpp:2121
+#: src/timeline2/model/timelinefunctions.cpp:2129
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste timeline clips"

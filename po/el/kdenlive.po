@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-05 00:45+0000\n"
+"POT-Creation-Date: 2022-10-06 00:44+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4636,7 +4636,7 @@ msgstr "Αποθήκευση σε τίτλο αρχείου"
 msgid "Save in project only"
 msgstr "Αποθήκευση στο έργο μόνο"
 
-#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:378
+#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:377
 #, kde-format
 msgid "Title clip"
 msgstr "Κλιπ τίτλου"
@@ -4849,7 +4849,7 @@ msgstr "Φορητές συσκευές"
 msgid "Loading done"
 msgstr "Φόρτωση έργου"
 
-#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:550
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -4861,7 +4861,7 @@ msgstr[1] "Προσθήκη κλιπ"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label_2)
-#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:260
+#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
 #: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
@@ -5513,87 +5513,87 @@ msgstr ""
 msgid "Subtitles"
 msgstr "Χωρίς τίτλο"
 
-#: src/dialogs/clipcreationdialog.cpp:127
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:126
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #, kde-format
 msgid "All Supported Files"
 msgstr "Όλα τα υποστηριζόμενα αρχεία"
 
-#: src/dialogs/clipcreationdialog.cpp:141
+#: src/dialogs/clipcreationdialog.cpp:140
 #, fuzzy, kde-format
 #| msgid "Color Clip"
 msgctxt "@title:window"
 msgid "Color Clip"
 msgstr "Κλιπ χρώματος"
 
-#: src/dialogs/clipcreationdialog.cpp:142
+#: src/dialogs/clipcreationdialog.cpp:141
 #, kde-format
 msgid "Color Clip"
 msgstr "Κλιπ χρώματος"
 
-#: src/dialogs/clipcreationdialog.cpp:163
+#: src/dialogs/clipcreationdialog.cpp:162
 #, kde-format
 msgid "Please install Glaxnimate to edit Lottie animations."
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:182
+#: src/dialogs/clipcreationdialog.cpp:181
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create animation"
 msgstr "Δημιουργία ομάδας"
 
-#: src/dialogs/clipcreationdialog.cpp:190
+#: src/dialogs/clipcreationdialog.cpp:189
 #, fuzzy, kde-format
 #| msgid "Save clip"
 msgid "Save animation as"
 msgstr "Αποθήκευση κλιπ"
 
-#: src/dialogs/clipcreationdialog.cpp:193
+#: src/dialogs/clipcreationdialog.cpp:192
 #, fuzzy, kde-format
 #| msgid " Selection duration:"
 msgid "Animation duration"
 msgstr " Διάρκεια επιλογής:"
 
-#: src/dialogs/clipcreationdialog.cpp:206 src/jobs/cuttask.cpp:171
+#: src/dialogs/clipcreationdialog.cpp:205 src/jobs/cuttask.cpp:171
 #: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "File already exists"
 msgstr "Το προφίλ αυτό υπάρχει ήδη"
 
-#: src/dialogs/clipcreationdialog.cpp:249
+#: src/dialogs/clipcreationdialog.cpp:248
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Animation clip"
 msgstr "Πρότυπο κλιπ τίτλου"
 
-#: src/dialogs/clipcreationdialog.cpp:261
+#: src/dialogs/clipcreationdialog.cpp:260
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Κλιπ κειμένου"
 
-#: src/dialogs/clipcreationdialog.cpp:279
+#: src/dialogs/clipcreationdialog.cpp:278
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgid "Text Clip"
 msgstr "Κλιπ κειμένου"
 
-#: src/dialogs/clipcreationdialog.cpp:334
+#: src/dialogs/clipcreationdialog.cpp:333
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Text clip"
 msgstr "Πρότυπο κλιπ τίτλου"
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:972
+#: src/dialogs/clipcreationdialog.cpp:389 src/doc/kdenlivedoc.cpp:972
 #, kde-format
 msgid "Template title clip"
 msgstr "Πρότυπο κλιπ τίτλου"
 
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
@@ -5601,14 +5601,14 @@ msgstr "Πρότυπο κλιπ τίτλου"
 msgid "All Files"
 msgstr "Όλα τα αρχεία"
 
-#: src/dialogs/clipcreationdialog.cpp:465
-#: src/dialogs/clipcreationdialog.cpp:563
+#: src/dialogs/clipcreationdialog.cpp:464
+#: src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Import image sequence"
 msgstr "Εισαγωγή ακολουθίας εικόνων"
 
-#: src/dialogs/clipcreationdialog.cpp:467
-#: src/dialogs/clipcreationdialog.cpp:566
+#: src/dialogs/clipcreationdialog.cpp:466
+#: src/dialogs/clipcreationdialog.cpp:565
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
@@ -7616,7 +7616,7 @@ msgid "Switch"
 msgstr "Εναλλαγή επισκόπησης"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
 #: src/ui/titlewidget_ui.ui:187
 #, fuzzy, kde-format
 #| msgid "Configure job"
@@ -13986,7 +13986,7 @@ msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 #: src/timeline2/model/timelinefunctions.cpp:1751
 #: src/timeline2/model/timelinefunctions.cpp:1782
 #: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1965
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "Not enough tracks to paste clipboard"
@@ -13994,50 +13994,50 @@ msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
 #: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1872
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1879
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Pasted clips"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/timeline2/model/timelinefunctions.cpp:1864
+#: src/timeline2/model/timelinefunctions.cpp:1865
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
+#: src/timeline2/model/timelinefunctions.cpp:1908
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1949
+#: src/timeline2/model/timelinefunctions.cpp:1957
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1980
-#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2109
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "ανανέωση τιμών στο χρονοδιάγραμμα"
 
-#: src/timeline2/model/timelinefunctions.cpp:2121
+#: src/timeline2/model/timelinefunctions.cpp:2129
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"

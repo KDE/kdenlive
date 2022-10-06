@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-05 00:45+0000\n"
-"PO-Revision-Date: 2022-10-03 05:49+0200\n"
+"POT-Creation-Date: 2022-10-06 00:44+0000\n"
+"PO-Revision-Date: 2022-10-05 05:58+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4322,7 +4322,7 @@ msgstr ""
 msgid "Save in project only"
 msgstr ""
 
-#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:378
+#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:377
 #, kde-format
 msgid "Title clip"
 msgstr ""
@@ -4515,7 +4515,7 @@ msgstr ""
 msgid "Loading done"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:551
+#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:550
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -4527,7 +4527,7 @@ msgstr[1] ""
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label_2)
-#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:260
+#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
 #: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
@@ -5133,78 +5133,78 @@ msgstr ""
 msgid "Subtitles"
 msgstr "სუბტიტრები"
 
-#: src/dialogs/clipcreationdialog.cpp:127
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:126
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #, kde-format
 msgid "All Supported Files"
 msgstr "ყველა მხარდაჭერილი ფაილი"
 
-#: src/dialogs/clipcreationdialog.cpp:141
+#: src/dialogs/clipcreationdialog.cpp:140
 #, kde-format
 msgctxt "@title:window"
 msgid "Color Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:142
+#: src/dialogs/clipcreationdialog.cpp:141
 #, kde-format
 msgid "Color Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:163
+#: src/dialogs/clipcreationdialog.cpp:162
 #, kde-format
 msgid "Please install Glaxnimate to edit Lottie animations."
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:182
+#: src/dialogs/clipcreationdialog.cpp:181
 #, kde-format
 msgid "Create animation"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:190
+#: src/dialogs/clipcreationdialog.cpp:189
 #, kde-format
 msgid "Save animation as"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:193
+#: src/dialogs/clipcreationdialog.cpp:192
 #, kde-format
 msgid "Animation duration"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:206 src/jobs/cuttask.cpp:171
+#: src/dialogs/clipcreationdialog.cpp:205 src/jobs/cuttask.cpp:171
 #: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
 #, kde-format
 msgid "File already exists"
 msgstr "ფაილი უკვე არსებობს"
 
-#: src/dialogs/clipcreationdialog.cpp:249
+#: src/dialogs/clipcreationdialog.cpp:248
 #, kde-format
 msgid "Create Animation clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:261
+#: src/dialogs/clipcreationdialog.cpp:260
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:279
+#: src/dialogs/clipcreationdialog.cpp:278
 #, kde-format
 msgid "Text Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:334
+#: src/dialogs/clipcreationdialog.cpp:333
 #, kde-format
 msgid "Create Text clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:390 src/doc/kdenlivedoc.cpp:972
+#: src/dialogs/clipcreationdialog.cpp:389 src/doc/kdenlivedoc.cpp:972
 #, kde-format
 msgid "Template title clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:561
+#: src/dialogs/clipcreationdialog.cpp:463
+#: src/dialogs/clipcreationdialog.cpp:560
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
@@ -5212,14 +5212,14 @@ msgstr ""
 msgid "All Files"
 msgstr "ყველა ფაილი"
 
-#: src/dialogs/clipcreationdialog.cpp:465
-#: src/dialogs/clipcreationdialog.cpp:563
+#: src/dialogs/clipcreationdialog.cpp:464
+#: src/dialogs/clipcreationdialog.cpp:562
 #, kde-format
 msgid "Import image sequence"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:467
-#: src/dialogs/clipcreationdialog.cpp:566
+#: src/dialogs/clipcreationdialog.cpp:466
+#: src/dialogs/clipcreationdialog.cpp:565
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
@@ -6372,12 +6372,12 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
-msgstr ""
+msgstr "მოგესალმებათ Kdenlive"
 
 #: src/dialogs/wizard.cpp:79
 #, kde-format
 msgid "Welcome to Kdenlive %1"
-msgstr ""
+msgstr "მოგესალმებათ Kdenlive %1"
 
 #: src/dialogs/wizard.cpp:80
 #, kde-format
@@ -6421,17 +6421,17 @@ msgstr ""
 #: src/dialogs/wizard.cpp:146
 #, kde-format
 msgid "VAAPI hardware acceleration"
-msgstr ""
+msgstr "VAAPI აპარატურული აჩქარება"
 
 #: src/dialogs/wizard.cpp:149
 #, kde-format
 msgid "NVIDIA hardware acceleration"
-msgstr ""
+msgstr "NVIDIA აპარატურული აჩქარება"
 
 #: src/dialogs/wizard.cpp:152
 #, kde-format
 msgid "Check hardware acceleration"
-msgstr ""
+msgstr "აპარატურული აჩქარების შემოწმება"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
@@ -7053,7 +7053,7 @@ msgid "Switch"
 msgstr "გადართვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -7697,7 +7697,7 @@ msgstr "მონიტორინგი"
 #: src/kdenliveui.rc:196
 #, kde-format
 msgid "Go To"
-msgstr ""
+msgstr "გადასვლა"
 
 #. i18n: ectx: Menu (monitor_seek)
 #: src/kdenliveui.rc:208
@@ -7841,7 +7841,7 @@ msgstr "თავიდან ჩართვა"
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
-msgstr ""
+msgstr "განლაგების ჩატვირთვა"
 
 #: src/layoutmanagement.cpp:471
 #, kde-format
@@ -10678,7 +10678,7 @@ msgstr "ავტორი"
 #: src/onlineresources/resourcewidget.cpp:341
 #, kde-format
 msgid "Created by %1"
-msgstr ""
+msgstr "შექმნილია %1-ის მიერ"
 
 #: src/onlineresources/resourcewidget.cpp:347
 #, kde-format
@@ -10688,7 +10688,7 @@ msgstr "ზომა: %1 x %2"
 #: src/onlineresources/resourcewidget.cpp:350
 #, kde-format
 msgid "Duration: %1 sec"
-msgstr ""
+msgstr "ხანგრძლივობა: %1 წმ"
 
 #: src/onlineresources/resourcewidget.cpp:378
 #, kde-format
@@ -10706,7 +10706,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
-msgstr ""
+msgstr "CC BY"
 
 #: src/onlineresources/resourcewidget.cpp:383
 #, kde-format
@@ -10718,7 +10718,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
-msgstr ""
+msgstr "CC BY-ND"
 
 #: src/onlineresources/resourcewidget.cpp:386
 #, kde-format
@@ -10730,7 +10730,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
-msgstr ""
+msgstr "CC BY-NC-SA"
 
 #: src/onlineresources/resourcewidget.cpp:389
 #, kde-format
@@ -10742,7 +10742,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
-msgstr ""
+msgstr "CC BY-SA"
 
 #: src/onlineresources/resourcewidget.cpp:392
 #, kde-format
@@ -10754,7 +10754,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
-msgstr ""
+msgstr "CC BY-NC"
 
 #: src/onlineresources/resourcewidget.cpp:395
 #, kde-format
@@ -10766,7 +10766,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
-msgstr ""
+msgstr "CC BY-NC-ND"
 
 #: src/onlineresources/resourcewidget.cpp:398
 #, kde-format
@@ -10778,7 +10778,7 @@ msgstr ""
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
-msgstr ""
+msgstr "CC 0"
 
 #: src/onlineresources/resourcewidget.cpp:401
 #, kde-format
@@ -10862,7 +10862,7 @@ msgstr ""
 #: src/onlineresources/resourcewidget.cpp:602
 #, kde-format
 msgid "%1 Try again."
-msgstr ""
+msgstr "%1 თავიდან სცადეთ."
 
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:604
@@ -11949,17 +11949,17 @@ msgstr ""
 #: src/pythoninterfaces/abstractpythoninterface.cpp:68
 #, kde-format
 msgid "Check for update"
-msgstr ""
+msgstr "განახლების შემოწმება"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:81
 #, kde-format
 msgid "Installing modules…"
-msgstr ""
+msgstr "მოდულების დაყენება…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:93
 #, kde-format
 msgid "Updating modules…"
-msgstr ""
+msgstr "მოდულების განახლება…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:97
 #, kde-format
@@ -12194,12 +12194,12 @@ msgstr ""
 #, kde-format
 msgctxt "Category Name"
 msgid "Images sequence"
-msgstr ""
+msgstr "გამოსახულებების მიმდევრობა"
 
 #: src/renderpresets/renderpresetrepository.cpp:344
 #, kde-format
 msgid "Preset already exists"
-msgstr ""
+msgstr "პრესეტი უკვე არსებობს"
 
 #: src/renderpresets/renderpresetrepository.cpp:345
 #, kde-format
@@ -12864,53 +12864,53 @@ msgstr ""
 #: src/timeline2/model/timelinefunctions.cpp:1751
 #: src/timeline2/model/timelinefunctions.cpp:1782
 #: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1965
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:1833
 #: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1872
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1879
 #, kde-format
 msgid "Pasted clips"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1864
+#: src/timeline2/model/timelinefunctions.cpp:1865
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:1867
 #, kde-format
 msgid "Paste"
 msgstr "ჩასმა"
 
-#: src/timeline2/model/timelinefunctions.cpp:1900
+#: src/timeline2/model/timelinefunctions.cpp:1908
 #, kde-format
 msgid "Could not add bin clip"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1949
+#: src/timeline2/model/timelinefunctions.cpp:1957
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1980
-#: src/timeline2/model/timelinefunctions.cpp:2101
+#: src/timeline2/model/timelinefunctions.cpp:1988
+#: src/timeline2/model/timelinefunctions.cpp:2109
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2121
+#: src/timeline2/model/timelinefunctions.cpp:2129
 #, kde-format
 msgid "Paste timeline clips"
 msgstr ""
