@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
 #include "mainwindow.h"
+#include "monitor/monitor.h"
 #include "project/projectmanager.h"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
@@ -1522,12 +1523,17 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     int masterTrack = subtitleOnlyCopy ? -1 : timeline->getTrackPosition(masterTid);
     QDomDocument copiedItems;
     int offset = -1;
+    int lastFrame = -1;
     QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
     copiedItems.appendChild(container);
     QStringList binIds;
     for (int id : allIds) {
-        if (offset == -1 || timeline->getItemPosition(id) < offset) {
+        int startPos = timeline->getItemPosition(id);
+        if (offset == -1 || startPos < offset) {
             offset = timeline->getItemPosition(id);
+        }
+        if (startPos + timeline->getItemPlaytime(id) > lastFrame) {
+            lastFrame = startPos + timeline->getItemPlaytime(id);
         }
         if (timeline->isClip(id)) {
             QDomElement clipXml = timeline->m_allClips[id]->toXml(copiedItems);
@@ -1557,6 +1563,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
         container2.appendChild(clip->toXml(tmp));
     }
     container.setAttribute(QStringLiteral("offset"), offset);
+    container.setAttribute(QStringLiteral("duration"), lastFrame - offset);
     if (audioCopy) {
         container.setAttribute(QStringLiteral("masterAudioTrack"), masterTrack);
         int masterMirror = timeline->getMirrorVideoTrackId(masterTid);
@@ -1821,7 +1828,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
     };
     bool clipsImported = false;
-
+    int pasteDuration = copiedItems.documentElement().attribute(QStringLiteral("duration")).toInt();
     if (docId == pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // Check that the bin clips exists in case we try to paste in a copy of original project
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
@@ -1846,6 +1853,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 pCore->projectItemModel()->requestAddBinClip(updatedId, currentProd, folderId, undo, redo, callBack);
             }
         }
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(position + pasteDuration);
     }
 
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
@@ -1858,6 +1866,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
         }
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(position + (pasteDuration * ratio));
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
