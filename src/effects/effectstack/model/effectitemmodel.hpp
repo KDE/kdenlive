@@ -45,6 +45,9 @@ public:
 
     void setCollapsed(bool collapsed);
     bool isCollapsed() const;
+    void setKeyframesHidden(bool hidden);
+    bool isKeyframesHidden() const;
+    bool keyframesHiddenUnset() const;
     bool hasForcedInOut() const;
     bool isValid() const;
     QPair<int, int> getInOut() const;

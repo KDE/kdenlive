@@ -93,6 +93,7 @@ public slots:
 private slots:
     void setWidgetHeight(qreal value);
     void enableView(bool enabled);
+    void enableHideKeyframes(bool enabled);
     void slotSwitch(bool expand);
     void slotDeleteEffect();
     void slotEffectUp();
@@ -104,6 +105,7 @@ private slots:
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     void prepareImportClipKeyframes();
     void updateEffectZone();
+    void slotHideKeyframes(bool hide);
 
 private:
     AssetParameterView *m_view;
@@ -120,6 +122,7 @@ private:
     /** @brief The add group action. */
     QAction *m_groupAction;
     KDualAction *m_enabledButton;
+    KDualAction *m_keyframesButton;
     QAction *m_inOutButton;
     QLabel *m_colorIcon;
     QPixmap m_iconPix;

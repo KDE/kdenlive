@@ -89,6 +89,13 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     keyframesButton->setCheckable(true);
     keyframesButton->setToolTip(i18n("Enable Keyframes"));
 
+    m_keyframesButton = new KDualAction(i18n("Hide Keyframes"), i18n("Show Keyframes"), this);
+    m_keyframesButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
+    m_keyframesButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
+    keyframesButton->setDefaultAction(m_keyframesButton);
+    connect(m_keyframesButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotHideKeyframes);
+    connect(m_model.get(), &AssetParameterModel::hideKeyframesChange, this, &CollapsibleEffectView::enableHideKeyframes);
+
     // Enable button
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
@@ -198,25 +205,18 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
     lay->addWidget(m_view);
-    connect(keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
-        if (toggle) {
-            keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
-        } else {
-            keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
-        }
-        m_view->toggleKeyframes(toggle);
-    });
 
     if (!effectParamModel->hasMoreThanOneKeyframe()) {
         // No keyframe or only one, allow hiding
         bool hideByDefault = effectParamModel->data(effectParamModel->index(0, 0), AssetParameterModel::HideKeyframesFirstRole).toBool();
-        if (hideByDefault) {
-            m_view->toggleKeyframes(false);
-        } else {
-            keyframesButton->setChecked(true);
+        if (hideByDefault && m_model->keyframesHiddenUnset()) {
+            m_model->setKeyframesHidden(true);
         }
-    } else {
-        keyframesButton->setChecked(true);
+    }
+
+    if (m_model->isKeyframesHidden()) {
+        m_view->toggleKeyframes(false);
+        m_keyframesButton->setActive(true);
     }
     // Presets
     presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
@@ -879,6 +879,12 @@ void CollapsibleEffectView::enableView(bool enabled)
     }
 }
 
+void CollapsibleEffectView::enableHideKeyframes(bool enabled)
+{
+    m_keyframesButton->setActive(enabled);
+    m_view->toggleKeyframes(!enabled);
+}
+
 void CollapsibleEffectView::blockWheelEvent(bool block)
 {
     m_blockWheel = block;
@@ -979,4 +985,9 @@ void CollapsibleEffectView::slotPreviousKeyframe()
 void CollapsibleEffectView::addRemoveKeyframe()
 {
     emit m_view->addRemoveKeyframe();
+}
+
+void CollapsibleEffectView::slotHideKeyframes(bool hide)
+{
+    m_model->setKeyframesHidden(hide);
 }

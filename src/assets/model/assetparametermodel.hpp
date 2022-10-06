@@ -264,5 +264,6 @@ signals:
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
     void enabledChange(bool);
+    void hideKeyframesChange(bool);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
 };
