@@ -1190,11 +1190,6 @@ void KdenliveSettingsDialog::updateSettings()
         pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->colorsChanged();
     }
 
-    if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
-        KdenliveSettings::setVolume(m_configSdl.kcfg_volume->value());
-        resetConsumer = true;
-    }
-
     if (m_configMisc.kcfg_tabposition->currentIndex() != KdenliveSettings::tabposition()) {
         KdenliveSettings::setTabposition(m_configMisc.kcfg_tabposition->currentIndex());
     }
