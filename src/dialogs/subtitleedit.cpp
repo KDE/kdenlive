@@ -317,6 +317,9 @@ void SubtitleEdit::updateSubtitle()
     if (m_activeSub > -1 && m_model) {
         QString txt = subText->toPlainText().trimmed();
         txt.replace(QLatin1String("\n\n"), QStringLiteral("\n"));
+        if (subText->document()->defaultTextOption().textDirection() == Qt::RightToLeft && !txt.startsWith(QChar(0x200E))) {
+            txt.prepend(QChar(0x200E));
+        }
         m_model->setText(m_activeSub, txt);
     }
 }
