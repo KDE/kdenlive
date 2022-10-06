@@ -165,6 +165,8 @@ endif()
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
+option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" ON)
+
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)

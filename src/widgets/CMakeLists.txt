@@ -10,3 +10,22 @@ set(kdenlive_SRCS
   widgets/timecodedisplay.cpp
   PARENT_SCOPE
 )
+
+include(ECMAddQtDesignerPlugin)
+
+if (BUILD_DESIGNERPLUGIN)
+    ecm_qtdesignerplugin_widget(TimecodeDisplay
+        TOOLTIP "A custom QSpinBox widget to enter timecodes (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
+    ecm_add_qtdesignerplugin(kdenlivewidgets
+        NAME KdenliveWidgets
+        WIDGETS
+            TimecodeDisplay
+        LINK_LIBRARIES
+            kdenliveLib
+        INSTALL_DESTINATION "${KDE_INSTALL_QTPLUGINDIR}/designer"
+        COMPONENT Devel
+    )
+endif()
