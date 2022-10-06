@@ -336,6 +336,18 @@ Monitor *Core::getMonitor(int id)
     return m_monitorManager->projectMonitor();
 }
 
+void Core::seekMonitor(int id, int position)
+{
+    if (!m_guiConstructed) {
+        return;
+    }
+    if (id == Kdenlive::ProjectMonitor) {
+        m_monitorManager->projectMonitor()->requestSeek(position);
+    } else {
+        m_monitorManager->clipMonitor()->requestSeek(position);
+    }
+}
+
 Bin *Core::bin()
 {
     return m_mainWindow->getBin();
