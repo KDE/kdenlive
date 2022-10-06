@@ -1171,8 +1171,8 @@ void KdenliveSettingsDialog::updateSettings()
         fullReset = true;
     }
 
-    if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
-        KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
+    if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
+        KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
         emit updateMonitorBg();
     }
 
