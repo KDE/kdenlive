@@ -108,10 +108,6 @@ public slots:
     void setValue(const QString &value);
     void setValue(const GenTime &value);
 
-    /** @brief Sets value's format according to Kdenlive's settings.
-     * @param t (optional, if already existing) Timecode object to use */
-    void slotUpdateTimeCodeFormat();
-
 private slots:
     void slotEditingFinished();
     /** @brief Refresh timecode to match project.*/
