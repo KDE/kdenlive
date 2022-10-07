@@ -279,8 +279,9 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
     }
-    if (m_missingClips.isEmpty() && missingLumas.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty() && m_missingFonts.isEmpty() &&
-        m_missingFilters.isEmpty() && m_changedClips.isEmpty()) {
+    // Abort here if our MainWindow is not built (it means we are doing tests and don't want a dialog to pop up
+    if (pCore->window() == nullptr || (m_missingClips.isEmpty() && missingLumas.isEmpty() && m_missingProxies.isEmpty() && m_missingSources.isEmpty() &&
+                                       m_missingFonts.isEmpty() && m_missingFilters.isEmpty() && m_changedClips.isEmpty())) {
         return false;
     }
 

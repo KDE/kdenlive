@@ -5773,7 +5773,7 @@ void TimelineModel::updateFieldOrderFilter(std::unique_ptr<ProfileModel> &ptr)
         if (filterService == QLatin1String("avfilter.fieldorder")) {
             foundCount++;
             if ((ptr->progressive() || foundCount > 1) && fl->get_int("internal_added") == 237) {
-                // If the profile is progressiv, field order is redundant: remove
+                // If the profile is progressive, field order is redundant: remove
                 // Also we only need one field order filter
                 m_tractor->detach(*fl.get());
                 pCore->currentDoc()->setModified(true);
