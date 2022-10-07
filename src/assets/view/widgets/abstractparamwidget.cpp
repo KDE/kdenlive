@@ -66,9 +66,12 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
 
-    QString name = model->data(index, AssetParameterModel::NameRole).toString();
+    if (AssetParameterModel::isAnimated(type)) {
+        return new KeyframeWidget(model, index, frameSize, parent);
+    }
 
     AbstractParamWidget *widget = nullptr;
+    QString name = model->data(index, AssetParameterModel::NameRole).toString();
 
     switch (type) {
     case ParamType::Double:
@@ -85,12 +88,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Bool:
         widget = new BoolParamWidget(model, index, parent);
-        break;
-    case ParamType::KeyframeParam:
-    case ParamType::AnimatedRect:
-    case ParamType::Roto_spline:
-    case ParamType::ColorWheel:
-        widget = new KeyframeWidget(model, index, frameSize, parent);
         break;
     case ParamType::Geometry:
         widget = new GeometryEditWidget(model, index, frameSize, parent);
@@ -145,12 +142,8 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     }
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
-    //        widget = new AnimationWidget(model, index, range, parent);
-    //        break;
-    //  case ParamType::KeyframeParam:
-    //        widget = new KeyframeEdit(model, index, parent);
-    //        break;
     case ParamType::Addedgeometry:
+    default:
         // not reimplemented
         widget = new Unsupported(model, index, parent);
         static_cast<Unsupported *>(widget)->setText(name);

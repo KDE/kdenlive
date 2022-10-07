@@ -75,13 +75,7 @@ protected:
         WidthOnly,
         HeightOnly
     };
-    enum {
-        ValueRole = Qt::UserRole,
-        TypeRole,
-        MinRole,
-        MaxRole,
-        OpacityRole
-    };
+    enum { ValueRole = Qt::UserRole, TypeRole, MinRole, MaxRole, OpacityRole };
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
     void resizeEvent(QResizeEvent *ev) override;
 

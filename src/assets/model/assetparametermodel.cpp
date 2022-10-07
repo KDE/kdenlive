@@ -121,7 +121,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 val += out;
                 value = QString::number(val);
             }
-        } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect || currentRow.type == ParamType::ColorWheel) {
+        } else if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
+            // Roto_spline keyframes are stored as JSON so do not apply this to roto
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
@@ -229,8 +230,7 @@ void AssetParameterModel::prepareKeyframes()
     if (m_keyframes) return;
     int ix = 0;
     for (const auto &name : qAsConst(m_rows)) {
-        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
-            m_params.at(name).type == ParamType::Roto_spline || m_params.at(name).type == ParamType::ColorWheel) {
+        if (isAnimated(m_params.at(name).type)) {
             addKeyframeParam(index(ix, 0));
         }
         ix++;
@@ -246,8 +246,7 @@ QStringList AssetParameterModel::getKeyframableParameters() const
     QStringList paramNames;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
-            m_params.at(name).type == ParamType::ColorWheel) {
+        if (isAnimated(m_params.at(name).type) && m_params.at(name).type != ParamType::Roto_spline) {
             // addKeyframeParam(index(ix, 0));
             paramNames << name;
         }
@@ -702,6 +701,12 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 }
 
 // static
+bool AssetParameterModel::isAnimated(ParamType type)
+{
+    return type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::ColorWheel || type == ParamType::Roto_spline;
+}
+
+// static
 QString AssetParameterModel::getDefaultKeyframes(int start, const QString &defaultValue, bool linearOnly)
 {
     QString keyframes = QString::number(start);
@@ -944,8 +949,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
     QString x, y, w, h;
     int rectIn = 0, rectOut = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect &&
-            param.second.type != ParamType::Roto_spline) {
+        if (!includeFixed && !isAnimated(param.second.type)) {
             continue;
         }
         QJsonObject currentParam;
@@ -1067,11 +1071,9 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
     double x, y, w, h;
     int count = 0;
     for (const auto &param : m_params) {
-        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect &&
-            param.second.type != ParamType::ColorWheel) {
+        if (!includeFixed && !isAnimated(param.second.type)) {
             continue;
         }
-
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         auto value = m_keyframes->getInterpolatedValue(pos, ix);
@@ -1094,15 +1096,22 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         }
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
-        currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(
+        QString stringValue;
+        if (param.second.type == ParamType::Roto_spline) {
+            QJsonObject obj;
+            obj.insert(QStringLiteral("0"), value.toJsonArray());
+            stringValue = QString(QJsonDocument(obj).toJson());
+        } else {
+            stringValue = QStringLiteral("0=%1").arg(
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                                                        value.type() == QVariant::Double
+                value.type() == QVariant::Double
 
 #else
-                                                        value.typeId() == QMetaType::Double
+                value.typeId() == QMetaType::Double
 #endif
-                                                            ? QString::number(value.toDouble())
-                                                            : value.toString())));
+                    ? QString::number(value.toDouble())
+                    : value.toString());
+        }
 
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
@@ -1112,6 +1121,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             min /= factor;
             max /= factor;
         }
+        currentParam.insert(QLatin1String("value"), QJsonValue(stringValue));
         currentParam.insert(QLatin1String("type"), QJsonValue(type));
         currentParam.insert(QLatin1String("min"), QJsonValue(min));
         currentParam.insert(QLatin1String("max"), QJsonValue(max));

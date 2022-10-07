@@ -839,21 +839,6 @@ QString KeyframeModel::getAnimProperty() const
     bool first = true;
     std::shared_ptr<Mlt::Animation> anim(nullptr);
     for (const auto &keyframe : m_keyframeList) {
-        if (first) {
-            switch (m_paramType) {
-            case ParamType::AnimatedRect:
-                mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
-                break;
-            default:
-                mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
-                break;
-            }
-            anim.reset(mlt_prop.get_anim("key"));
-            anim->key_set_type(ix, convertToMltType(keyframe.second.first));
-            first = false;
-            ix++;
-            continue;
-        }
         switch (m_paramType) {
         case ParamType::AnimatedRect:
             mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
@@ -861,6 +846,10 @@ QString KeyframeModel::getAnimProperty() const
         default:
             mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
             break;
+        }
+        if (first) {
+            anim.reset(mlt_prop.get_anim("key"));
+            first = false;
         }
         anim->key_set_type(ix, convertToMltType(keyframe.second.first));
         ix++;
@@ -1176,8 +1165,7 @@ void KeyframeModel::sendModification()
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline ||
-            m_paramType == ParamType::ColorWheel) {
+        if (AssetParameterModel::isAnimated(m_paramType)) {
             m_lastData = getAnimProperty();
             ptr->setParameter(name, m_lastData, false, m_index);
         } else {
@@ -1228,10 +1216,10 @@ void KeyframeModel::refresh()
         qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n";
         return;
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::ColorWheel) {
-        parseAnimProperty(animData);
-    } else if (m_paramType == ParamType::Roto_spline) {
+    if (m_paramType == ParamType::Roto_spline) {
         parseRotoProperty(animData);
+    } else if (AssetParameterModel::isAnimated(m_paramType)) {
+        parseAnimProperty(animData);
     } else {
         // first, try to convert to double
         bool ok = false;
@@ -1262,11 +1250,11 @@ void KeyframeModel::reset()
         qDebug() << "// DATA WAS ALREADY PARSED, ABORTING\n_________________";
         return;
     }
-    if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::ColorWheel) {
+    if (m_paramType == ParamType::Roto_spline) {
+        // TODO: resetRotoProperty(animData);
+    } else if (AssetParameterModel::isAnimated(m_paramType)) {
         qDebug() << "parsing keyframe" << animData;
         resetAnimProperty(animData);
-    } else if (m_paramType == ParamType::Roto_spline) {
-        // TODO: resetRotoProperty(animData);
     } else {
         // first, try to convert to double
         bool ok = false;

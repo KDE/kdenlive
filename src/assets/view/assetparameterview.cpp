@@ -95,7 +95,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 emit updateHeight();
             });
             m_lay->addWidget(w);
-            if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline || type == ParamType::ColorWheel) {
+            if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
@@ -123,7 +123,8 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
         auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         QVariant defaultValue = m_model->data(index, AssetParameterModel::DefaultRole);
-        if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::ColorWheel) {
+        if (AssetParameterModel::isAnimated(type) && type != ParamType::Roto_spline) {
+            // Roto_spline keyframes are stored as JSON so do not apply this to roto
             QString val = defaultValue.toString();
             if (!val.contains(QLatin1Char('='))) {
                 val.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));

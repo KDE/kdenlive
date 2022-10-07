@@ -134,6 +134,9 @@ public:
         Enum16Role
     };
 
+    /** @brief Returns true if @param type is animated */
+    static bool isAnimated(ParamType type);
+
     /** @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
     const QString getAssetMltId();
