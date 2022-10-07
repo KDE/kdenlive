@@ -45,13 +45,18 @@ void ProvidersRepository::refresh(bool fullRefresh)
     };
 
     QStringList profilesFiles;
+    QStringList addedProviders;
     // list providers
     QStringList customProfilesDir =
         QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("resourceproviders"), QStandardPaths::LocateDirectory);
     for (const auto &dir : qAsConst(customProfilesDir)) {
         QStringList files = QDir(dir).entryList(QDir::Files);
         for (const auto &file : qAsConst(files)) {
-            profilesFiles << QDir(dir).absoluteFilePath(file);
+            // Ensure we don't add the same file from different locations (for example Appimage reads its own and the system's resourceproviders folder
+            if (!addedProviders.contains(QFileInfo(file).fileName())) {
+                profilesFiles << QDir(dir).absoluteFilePath(file);
+                addedProviders << QFileInfo(file).fileName();
+            }
         }
     }
 
