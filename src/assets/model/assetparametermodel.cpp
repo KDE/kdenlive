@@ -193,7 +193,10 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         if (!isFixed) {
             currentRow.value = value;
             QString title = i18n(currentParameter.firstChildElement(QStringLiteral("name")).text().toUtf8().data());
-            currentRow.name = title.isEmpty() ? name : title;
+            if (title.isEmpty() || title == QStringLiteral("(I18N_EMPTY_MESSAGE)")) {
+                title = name;
+            }
+            currentRow.name = title;
             m_params[name] = currentRow;
         }
         if (!name.isEmpty()) {

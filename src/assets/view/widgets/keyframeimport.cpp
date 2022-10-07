@@ -118,17 +118,17 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         }
         bool opacity = entryObj[QLatin1String("opacity")].toBool(true);
         m_dataCombo->insertItem(ix, displayName);
-        m_dataCombo->setItemData(ix, value, Qt::UserRole);
-        m_dataCombo->setItemData(ix, type, Qt::UserRole + 1);
-        m_dataCombo->setItemData(ix, min, Qt::UserRole + 2);
-        m_dataCombo->setItemData(ix, max, Qt::UserRole + 3);
-        m_dataCombo->setItemData(ix, opacity, Qt::UserRole + 4);
+        m_dataCombo->setItemData(ix, value, ValueRole);
+        m_dataCombo->setItemData(ix, type, TypeRole);
+        m_dataCombo->setItemData(ix, min, MinRole);
+        m_dataCombo->setItemData(ix, max, MaxRole);
+        m_dataCombo->setItemData(ix, opacity, OpacityRole);
         ix++;
     }
     // If we have several available parameters, put the geometry first
     if (m_dataCombo->count() > 1) {
         for (int indx = 0; indx < m_dataCombo->count(); indx++) {
-            auto type = m_dataCombo->itemData(indx, Qt::UserRole + 1).value<ParamType>();
+            auto type = m_dataCombo->itemData(indx, TypeRole).value<ParamType>();
             if (type == ParamType::AnimatedRect) {
                 m_dataCombo->setCurrentIndex(indx);
                 break;
@@ -334,8 +334,8 @@ void KeyframeImport::resizeEvent(QResizeEvent *ev)
 void KeyframeImport::updateDataDisplay()
 {
     QString comboData = m_dataCombo->currentData().toString();
-    auto type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
-    auto values = m_dataCombo->currentData(Qt::UserRole).toString().split(QLatin1Char(';'));
+    auto type = m_dataCombo->currentData(TypeRole).value<ParamType>();
+    auto values = m_dataCombo->currentData(ValueRole).toString().split(QLatin1Char(';'));
 
     // we do not need all the options if there is only one keyframe
     bool onlyOne = values.length() == 1;
@@ -576,11 +576,11 @@ QString KeyframeImport::selectedData() const
             // Height maximas
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile()->height()));
         }
-        std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
-        if (m_dataCombo->currentText() == "spline") {
+        if (m_dataCombo->currentData(TypeRole).value<ParamType>() == ParamType::Roto_spline) {
             QJsonDocument doc = QJsonDocument::fromJson(m_dataCombo->currentData().toString().toLocal8Bit());
             return QString(doc.toJson(QJsonDocument::Compact));
         }
+        std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
         std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
         animData->anim_get_double("key", m_inPoint->getPosition(), m_outPoint->getPosition());
         int existingKeys = anim->key_count();
@@ -710,8 +710,8 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     if (limitKeyframes > 0) {
         offset = int((out - in) / limitKeyframes / frameFactor);
     }
-    double min = m_dataCombo->currentData(Qt::UserRole + 2).toDouble();
-    double max = m_dataCombo->currentData(Qt::UserRole + 3).toDouble();
+    double min = m_dataCombo->currentData(MinRole).toDouble();
+    double max = m_dataCombo->currentData(MaxRole).toDouble();
     double xDist;
     if (max > min) {
         xDist = max - min;
@@ -858,7 +858,7 @@ void KeyframeImport::importSelectedData()
 
         // wether we are mapping to a fake rectangle
         bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
-        bool useOpacity = m_dataCombo->currentData(Qt::UserRole + 4).toBool();
+        bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
         if (ix == m_targetCombo->currentData().toModelIndex() || fakeRect) {
             // Import our keyframes
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles>(m_sourceCombo->currentData().toInt());
