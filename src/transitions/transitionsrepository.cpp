@@ -168,6 +168,10 @@ bool TransitionsRepository::isComposition(const QString &transitionId) const
 
 const QString TransitionsRepository::getCompositingTransition()
 {
+    // Temporary hack to test the CI
+    if (!pCore->window()) {
+        return QStringLiteral("composite");
+    }
     if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
     }
