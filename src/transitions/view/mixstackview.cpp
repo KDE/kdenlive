@@ -23,10 +23,10 @@ MixStackView::MixStackView(QWidget *parent)
     : AssetParameterView(parent)
 {
     // Position widget
-    m_position = new PositionWidget(i18n("Position"), 0, 0, 0, pCore->timecode()); // TimecodeDisplay(pCore->timecode(), this);
+    m_position = new PositionWidget(i18n("Position"), 0, 0, 0);
     // Duration widget
     m_durationLayout = new QHBoxLayout;
-    m_duration = new TimecodeDisplay(pCore->timecode(), this);
+    m_duration = new TimecodeDisplay(true, this);
     m_duration->setRange(1, -1);
     m_durationLayout->addWidget(new QLabel(i18n("Duration:")));
     m_durationLayout->addWidget(m_duration);
@@ -76,7 +76,6 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     const QSignalBlocker bk1(m_position);
     int duration = m_model->data(m_model->index(0, 0), AssetParameterModel::ParentDurationRole).toInt();
     m_duration->setValue(duration + 1);
-    m_position->updateTimecodeFormat();
     m_position->setRange(0, duration);
     m_position->setPosition(duration - pCore->getMixCutPos(stackOwner().second));
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);

@@ -112,7 +112,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
     connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeWidget::disconnectEffectStack);
 
-    m_time = new TimecodeDisplay(pCore->timecode(), this);
+    m_time = new TimecodeDisplay(true, this);
     m_time->setRange(0, duration - 1);
 
     m_toolbar->addAction(previousKFAction);
@@ -434,11 +434,6 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
 int KeyframeWidget::getPosition() const
 {
     return m_time->getValue() + pCore->getItemIn(m_model->getOwnerId());
-}
-
-void KeyframeWidget::updateTimecodeFormat()
-{
-    m_time->slotUpdateTimeCodeFormat();
 }
 
 void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)

@@ -389,4 +389,6 @@ signals:
     void switchTimelineRecord(bool on);
     /** @brief Launch audio recording on track tid*/
     void recordAudio(int tid, bool record);
+    /** @brief Inform widgets that the project profile (and possibly fps) changed */
+    void updateProjectTimecode();
 };

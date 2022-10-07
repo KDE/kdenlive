@@ -1866,7 +1866,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
         }
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(position + (pasteDuration * ratio));
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(position + pasteDuration);
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));

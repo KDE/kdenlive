@@ -148,16 +148,16 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     out = qMin(out, m_model->data(m_indexes.first(), AssetParameterModel::ParentInRole).toInt() +
                         m_model->data(m_indexes.first(), AssetParameterModel::ParentDurationRole).toInt() - 1);
-    m_inPoint = new PositionWidget(i18n("In"), in, 0, out, pCore->currentDoc()->timecode(), QString(), this);
+    m_inPoint = new PositionWidget(i18n("In"), in, 0, out, QString(), this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
-    m_outPoint = new PositionWidget(i18n("Out"), out, in, out, pCore->currentDoc()->timecode(), QString(), this);
+    m_outPoint = new PositionWidget(i18n("Out"), out, in, out, QString(), this);
     connect(m_outPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
 
     // Output offset
     int clipIn = parentIn;
-    m_offsetPoint = new PositionWidget(i18n("Time offset:"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
+    m_offsetPoint = new PositionWidget(i18n("Time offset:"), clipIn, 0, clipIn + parentDuration, "", this);
     lay->addWidget(m_offsetPoint);
 
     int count = 0;

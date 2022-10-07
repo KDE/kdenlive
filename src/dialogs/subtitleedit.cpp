@@ -69,9 +69,9 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
 
     connect(buttonStyle, &QToolButton::toggled, this, [this](bool toggle) { stackedWidget->setCurrentIndex(toggle ? 1 : 0); });
 
-    m_position = new TimecodeDisplay(pCore->timecode(), this);
-    m_endPosition = new TimecodeDisplay(pCore->timecode(), this);
-    m_duration = new TimecodeDisplay(pCore->timecode(), this);
+    m_position = new TimecodeDisplay(true, this);
+    m_endPosition = new TimecodeDisplay(true, this);
+    m_duration = new TimecodeDisplay(true, this);
     frame_position->setEnabled(false);
     buttonDelete->setEnabled(false);
 

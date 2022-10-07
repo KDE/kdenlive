@@ -18,7 +18,7 @@ class SimpleKeyframeWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent = nullptr);
+    explicit SimpleKeyframeWidget(int duration, QWidget *parent = nullptr);
     ~SimpleKeyframeWidget() override;
 
     int getPosition() const;

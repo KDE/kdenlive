@@ -457,6 +457,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
     if (m_currentProfile == profilePath) {
         // no change required, ensure timecode has correct fps
         m_timecode.setFormat(getCurrentProfile()->fps());
+        emit updateProjectTimecode();
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
@@ -477,14 +478,17 @@ bool Core::setCurrentProfile(const QString &profilePath)
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
-        emit m_mainWindow->updateRenderWidgetProfile();
-        m_monitorManager->resetProfiles();
-        emit m_monitorManager->updatePreviewScaling();
-        if (m_guiConstructed && m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
-            m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
-            m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
-            checkProfileValidity();
-            emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
+        if (m_guiConstructed) {
+            emit m_mainWindow->updateRenderWidgetProfile();
+            m_monitorManager->resetProfiles();
+            emit m_monitorManager->updatePreviewScaling();
+            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
+                m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
+                m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
+                checkProfileValidity();
+                emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
+            }
+            emit updateProjectTimecode();
         }
         return true;
     }

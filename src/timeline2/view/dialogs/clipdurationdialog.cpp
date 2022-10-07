@@ -5,25 +5,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clipdurationdialog.h"
+#include "core.h"
 
 #include <QFontDatabase>
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent)
+ClipDurationDialog::ClipDurationDialog(int clipId, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent)
     : QDialog(parent)
     , m_clipId(clipId)
-    , m_min(GenTime(minpos, tc.fps()))
-    , m_max(GenTime(maxpos, tc.fps()))
-    , m_length(GenTime(length, tc.fps()))
+    , m_fps(pCore->getCurrentFps())
+    , m_min(GenTime(minpos, m_fps))
+    , m_max(GenTime(maxpos, m_fps))
+    , m_length(GenTime(length, m_fps))
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
 
-    m_pos = new TimecodeDisplay(tc, this);
-    m_cropStart = new TimecodeDisplay(tc, this);
-    m_dur = new TimecodeDisplay(tc, this);
-    m_cropEnd = new TimecodeDisplay(tc, this);
+    m_pos = new TimecodeDisplay(true, this);
+    m_cropStart = new TimecodeDisplay(true, this);
+    m_dur = new TimecodeDisplay(true, this);
+    m_cropEnd = new TimecodeDisplay(true, this);
 
     clip_position_box->addWidget(m_pos);
     crop_start_box->addWidget(m_cropStart);
@@ -38,12 +40,12 @@ ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, 
         m_cropEnd->setHidden(true), end_label->hide();
     }
 
-    m_crop = GenTime(in, tc.fps());
+    m_crop = GenTime(in, m_fps);
 
-    m_pos->setValue(GenTime(pos, tc.fps()));
-    m_dur->setValue(GenTime(out - in, tc.fps()));
-    m_cropStart->setValue(GenTime(in, tc.fps()));
-    m_cropEnd->setValue(GenTime(length - out, tc.fps()));
+    m_pos->setValue(GenTime(pos, m_fps));
+    m_dur->setValue(GenTime(out - in, m_fps));
+    m_cropStart->setValue(GenTime(in, m_fps));
+    m_cropEnd->setValue(GenTime(length - out, m_fps));
 
     connect(m_pos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckStart);
     connect(m_dur, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckDuration);
