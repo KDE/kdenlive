@@ -52,7 +52,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/projectsettings.h"
 #include "project/dialogs/temporarydata.h"
-#include "project/projectcommands.h"
 #include "project/projectmanager.h"
 #include "scopes/scopemanager.h"
 #include "timeline2/view/timelinecontroller.h"

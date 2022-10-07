@@ -36,7 +36,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
-#include "project/projectcommands.h"
 #include "project/projectmanager.h"
 #include "project/transcodeseek.h"
 #include "projectclip.h"

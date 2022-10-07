@@ -24,7 +24,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
-#include "project/projectcommands.h"
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
 
