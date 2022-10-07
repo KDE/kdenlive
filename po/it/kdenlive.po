@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:44+0000\n"
+"POT-Creation-Date: 2022-10-07 00:45+0000\n"
 "PO-Revision-Date: 2022-09-19 16:54+0200\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -558,7 +558,7 @@ msgstr "A"
 
 #: data/effects/channelcopy.xml:15 data/effects/copychannelstostereo.xml:15
 #: data/effects/swapchannels.xml:3
-#: src/mltcontroller/clippropertiescontroller.cpp:852
+#: src/mltcontroller/clippropertiescontroller.cpp:861
 #, kde-format
 msgid "Swap channels"
 msgstr "Scambia i canali"
@@ -902,14 +902,12 @@ msgid "Fade video from black"
 msgstr "Dissolve un video dal nero"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
-#. i18n: ectx: property (text), widget (QLabel, label_duration)
 #: data/effects/fade_from_black.xml:7 data/effects/fade_to_black.xml:7
 #: data/effects/fadein.xml:10 data/effects/fadeout.xml:7 src/bin/bin.cpp:1271
 #: src/bin/projectitemmodel.cpp:311
 #: src/timeline2/view/dialogs/speeddialog.cpp:52
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:14
-#: src/ui/clipproperties_ui.ui:58
 #, kde-format
 msgid "Duration"
 msgstr "Durata"
@@ -1540,11 +1538,10 @@ msgstr ""
 "sopra come trasparenti. È utile principalmente per le immagini delle tendine "
 "di luma."
 
-#. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: data/effects/mask_start_shape.xml:17 data/effects/shape.xml:14
 #: data/transitions/composite.xml:31 data/transitions/dissolve.xml:9
 #: data/transitions/luma.xml:10 data/transitions/region.xml:29
-#: data/transitions/wipe.xml:10 src/ui/clipproperties_ui.ui:302
+#: data/transitions/wipe.xml:10
 #, kde-format
 msgid "Softness"
 msgstr "Morbidezza"
@@ -3455,14 +3452,14 @@ msgid "Delete preset"
 msgstr "Elimina preimpostazione"
 
 #: src/assets/view/assetparameterview.cpp:336
-#: src/dialogs/kdenlivesettingsdialog.cpp:1351
+#: src/dialogs/kdenlivesettingsdialog.cpp:1346
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Inserisci il nome della preimpostazione"
 
 #: src/assets/view/assetparameterview.cpp:336
-#: src/dialogs/kdenlivesettingsdialog.cpp:1351
+#: src/dialogs/kdenlivesettingsdialog.cpp:1346
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Inserisci il nome di questa preimpostazione:"
@@ -3846,7 +3843,7 @@ msgid "Volume"
 msgstr "Volume"
 
 #: src/audiomixer/mixerwidget.cpp:152 src/audiomixer/mixerwidget.cpp:537
-#: src/mltcontroller/clippropertiescontroller.cpp:904
+#: src/mltcontroller/clippropertiescontroller.cpp:913
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -3977,9 +3974,7 @@ msgstr "Ordina per"
 msgid "Date"
 msgstr "Data"
 
-#. i18n: ectx: property (text), widget (QLabel, label_description)
 #: src/bin/bin.cpp:1263 src/bin/projectitemmodel.cpp:302
-#: src/ui/clipproperties_ui.ui:41
 #, kde-format
 msgid "Description"
 msgstr "Descrizione"
@@ -4183,7 +4178,6 @@ msgstr "Silenzia video"
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_audio)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2192 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/layoutmanagement.cpp:33 src/lib/audio/audioStreamInfo.cpp:24
@@ -4192,22 +4186,19 @@ msgstr "Silenzia video"
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:106
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:139
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:176
-#: src/ui/clipproperties_ui.ui:131 src/ui/configcapture_ui.ui:521
-#: src/ui/cutjobdialog_ui.ui:57 src/ui/editrenderpreset_ui.ui:840
-#: src/ui/projectsettings_ui.ui:168 src/ui/recmonitor_ui.ui:107
-#: src/ui/renderwidget_ui.ui:606
+#: src/ui/configcapture_ui.ui:521 src/ui/cutjobdialog_ui.ui:57
+#: src/ui/editrenderpreset_ui.ui:840 src/ui/projectsettings_ui.ui:168
+#: src/ui/recmonitor_ui.ui:107 src/ui/renderwidget_ui.ui:606
 #, kde-format
 msgid "Audio"
 msgstr "Audio"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_image)
-#: src/bin/bin.cpp:2196 src/ui/clipproperties_ui.ui:357
+#: src/bin/bin.cpp:2196
 #, kde-format
 msgid "Image"
 msgstr "Immagine"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_slideshow)
-#: src/bin/bin.cpp:2200 src/ui/clipproperties_ui.ui:206
+#: src/bin/bin.cpp:2200
 #, kde-format
 msgid "Slideshow"
 msgstr "Presentazione"
@@ -4227,11 +4218,8 @@ msgstr "Titolo"
 msgid "Title Template"
 msgstr "Modello di titolo"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/bin/bin.cpp:2216 src/layoutmanagement.cpp:35
-#: src/mltcontroller/clippropertiescontroller.cpp:377
-#: src/ui/clipproperties_ui.ui:176 src/ui/clipproperties_ui.ui:182
+#: src/mltcontroller/clippropertiescontroller.cpp:378
 #, kde-format
 msgid "Color"
 msgstr "Colore"
@@ -4339,8 +4327,7 @@ msgstr "Sostituisci clip…"
 msgid "Duplicate Clip"
 msgstr "Duplica clip"
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, ClipProperties_UI)
-#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376 src/ui/clipproperties_ui.ui:14
+#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376
 #, kde-format
 msgid "Clip Properties"
 msgstr "Proprietà della clip"
@@ -4580,7 +4567,7 @@ msgstr ""
 "Flussi addizionali per la clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5455 src/mltcontroller/clippropertiescontroller.cpp:652
+#: src/bin/bin.cpp:5455 src/mltcontroller/clippropertiescontroller.cpp:661
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flusso video %1"
@@ -4644,7 +4631,7 @@ msgid ""
 msgstr ""
 "La seguenti clip sono già state inserite nel progetto. Vuoi duplicarle?"
 
-#: src/bin/clipcreator.cpp:244 src/core.cpp:827
+#: src/bin/clipcreator.cpp:244 src/core.cpp:839
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -4688,7 +4675,7 @@ msgstr[1] "Aggiungi clip"
 #: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
-#: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
+#: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:165
 #: src/ui/spacerdialog_ui.ui:43 src/ui/titlewidget_ui.ui:626
 #, kde-format
 msgid "Duration:"
@@ -4721,7 +4708,7 @@ msgstr "Aggiungi marcatore"
 
 #: src/bin/model/markerlistmodel.cpp:191
 #: src/mltcontroller/clippropertiescontroller.cpp:269
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1468
 #, kde-format
 msgid "Delete marker"
 msgstr "Elimina il marcatore"
@@ -4804,7 +4791,7 @@ msgid "Edit subtitle"
 msgstr "Modifica sottotitolo"
 
 #: src/bin/model/subtitlemodel.cpp:618
-#: src/timeline2/model/timelinefunctions.cpp:186
+#: src/timeline2/model/timelinefunctions.cpp:187
 #: src/timeline2/view/timelinecontroller.cpp:1747
 #, kde-format
 msgid "Cut clip"
@@ -5293,14 +5280,14 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Orologio sopra"
 
-#: src/core.cpp:506
+#: src/core.cpp:518
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Il profilo del progetto non è valido, l'esportazione potrebbe non riuscire."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:561 src/kdenliveui.rc:28 src/mainwindow.cpp:273
+#: src/core.cpp:573 src/kdenliveui.rc:28 src/mainwindow.cpp:273
 #: src/timeline2/view/qml/timeline.qml:1014
 #, kde-format
 msgid "Subtitles"
@@ -5665,7 +5652,7 @@ msgstr "JogShuttle"
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:475 src/dialogs/timeremap.cpp:1658
-#: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:995
+#: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:1004
 #: src/project/transcodeseek.cpp:37 src/project/transcodeseek.cpp:50
 #, kde-format
 msgid "Transcode"
@@ -5751,48 +5738,48 @@ msgstr ""
 msgid "Please select a video profile"
 msgstr "Seleziona un profilo video"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1232
+#: src/dialogs/kdenlivesettingsdialog.cpp:1227
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive deve essere riavviato per cambiare questa impostazione"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1354
+#: src/dialogs/kdenlivesettingsdialog.cpp:1349
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Un profilo con lo stesso nome è già esistente"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1488
+#: src/dialogs/kdenlivesettingsdialog.cpp:1483
 #, kde-format
 msgid "Current settings"
 msgstr "Impostazioni correnti"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1526
-#: src/dialogs/kdenlivesettingsdialog.cpp:1562
-#: src/dialogs/kdenlivesettingsdialog.cpp:1579
-#: src/mltcontroller/clippropertiescontroller.cpp:557
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/dialogs/kdenlivesettingsdialog.cpp:1521
+#: src/dialogs/kdenlivesettingsdialog.cpp:1557
+#: src/dialogs/kdenlivesettingsdialog.cpp:1574
+#: src/mltcontroller/clippropertiescontroller.cpp:566
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/project/dialogs/profilewidget.cpp:108 src/ui/editrenderpreset_ui.ui:222
 #: src/ui/profiledialog_ui.ui:226
 #, kde-format
 msgid "Progressive"
 msgstr "Progressivo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1672
-#: src/dialogs/kdenlivesettingsdialog.cpp:1853
+#: src/dialogs/kdenlivesettingsdialog.cpp:1667
+#: src/dialogs/kdenlivesettingsdialog.cpp:1848
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Aggiungi un modello per il riconoscimento vocale."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1677
+#: src/dialogs/kdenlivesettingsdialog.cpp:1672
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installa le dipendenze mancanti"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1708
+#: src/dialogs/kdenlivesettingsdialog.cpp:1703
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -5801,30 +5788,30 @@ msgstr ""
 "Scarica i modelli di riconoscimento vocale da: <a href=\"https://alphacephei."
 "com/vosk/models\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1736
+#: src/dialogs/kdenlivesettingsdialog.cpp:1731
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Inserisci URL del nuovo dizionario"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1742
+#: src/dialogs/kdenlivesettingsdialog.cpp:1737
 #, kde-format
 msgid "Downloading model…"
 msgstr "Scaricamento del modello..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1752
+#: src/dialogs/kdenlivesettingsdialog.cpp:1747
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Non permettiamo l'eliminazione delle cartelle dei modelli personalizzati, "
 "fallo manualmente."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1758
-#: src/dialogs/kdenlivesettingsdialog.cpp:1816
+#: src/dialogs/kdenlivesettingsdialog.cpp:1753
+#: src/dialogs/kdenlivesettingsdialog.cpp:1811
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Impossibile accedere alla cartella del dizionario."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1767
+#: src/dialogs/kdenlivesettingsdialog.cpp:1762
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -5833,22 +5820,22 @@ msgstr ""
 "Elimina cartella:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1785
 #, kde-format
 msgid "Download error"
 msgstr "Errore nello scaricamento"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1795
+#: src/dialogs/kdenlivesettingsdialog.cpp:1790
 #, kde-format
 msgid "Download error %1"
 msgstr "Errore nello scaricamento %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1823
+#: src/dialogs/kdenlivesettingsdialog.cpp:1818
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Estrazione dell'archivio…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1830
+#: src/dialogs/kdenlivesettingsdialog.cpp:1825
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nuovo dizionario installato."
@@ -6817,7 +6804,7 @@ msgstr ""
 "informazioni tecniche della clip</li>"
 
 #: src/dialogs/wizard.cpp:798
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1352
 #, kde-format
 msgid "Frame size:"
 msgstr "Dimensione dei fotogrammi:"
@@ -6826,9 +6813,9 @@ msgstr "Dimensione dei fotogrammi:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/dialogs/wizard.cpp:799
-#: src/mltcontroller/clippropertiescontroller.cpp:528
-#: src/mltcontroller/clippropertiescontroller.cpp:1348
-#: src/mltcontroller/clippropertiescontroller.cpp:1353
+#: src/mltcontroller/clippropertiescontroller.cpp:537
+#: src/mltcontroller/clippropertiescontroller.cpp:1357
+#: src/mltcontroller/clippropertiescontroller.cpp:1362
 #: src/ui/configcapture_ui.ui:110 src/ui/configcapture_ui.ui:407
 #: src/ui/profiledialog_ui.ui:111
 #, kde-format
@@ -6838,7 +6825,7 @@ msgstr "Frequenza dei fotogrammi:"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: src/dialogs/wizard.cpp:800
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1380
 #: src/ui/configcapture_ui.ui:124 src/ui/profiledialog_ui.ui:267
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -6983,7 +6970,7 @@ msgstr[1] ""
 "Il file del progetto contiene %1 clip modificate, che verranno ricaricate."
 
 #: src/doc/documentchecker.cpp:539
-#: src/mltcontroller/clippropertiescontroller.cpp:442
+#: src/mltcontroller/clippropertiescontroller.cpp:451
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip rappresentativa"
@@ -7173,8 +7160,8 @@ msgstr "Percorso del file non valido"
 #: src/doc/kdenlivedoc.cpp:166 src/jobs/cliploadtask.cpp:486
 #: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
-#: src/mltcontroller/clippropertiescontroller.cpp:1489
-#: src/mltcontroller/clippropertiescontroller.cpp:1514
+#: src/mltcontroller/clippropertiescontroller.cpp:1498
+#: src/mltcontroller/clippropertiescontroller.cpp:1523
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:369
 #, kde-format
@@ -7355,7 +7342,7 @@ msgid "Switch"
 msgstr "Cambia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1875
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -7494,7 +7481,19 @@ msgstr "Abilita %1"
 msgid "Disable %1"
 msgstr "Disabilita %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:282
+#: src/effects/effectstack/model/effectitemmodel.cpp:232
+#, kde-format
+msgid "Hide keyframes"
+msgstr "Nascondi fotogrammi chiave"
+
+#: src/effects/effectstack/model/effectitemmodel.cpp:232
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Move keyframes"
+msgid "Show keyframes"
+msgstr "Sposta fotogrammi chiave"
+
+#: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Aggiorna zona per %1"
@@ -7562,42 +7561,55 @@ msgstr "Espandi effetto"
 msgid "Enable Keyframes"
 msgstr "Abilita fotogrammi chiave"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
+#, fuzzy, kde-format
+#| msgid "Hide keyframes"
+msgid "Hide Keyframes"
+msgstr "Nascondi fotogrammi chiave"
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Move keyframes"
+msgid "Show Keyframes"
+msgstr "Sposta fotogrammi chiave"
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Disable Effect"
 msgstr "Disabilita effetto"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Enable Effect"
 msgstr "Abilita effetto"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
 msgid "Create Group"
 msgstr "Crea gruppo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:124
 #, kde-format
 msgid "In:"
 msgstr "Attacco:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Set zone in"
 msgstr "Imposta zona di attacco"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:128
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:135
 #, kde-format
 msgid "Out:"
 msgstr "Stacco:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Set zone out"
 msgstr "Imposta zona di stacco"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, kde-format
 msgid "Use effect zone"
 msgstr "Usa zona dell'effetto"
@@ -7924,9 +7936,7 @@ msgid "&Clip"
 msgstr "&Clip"
 
 #. i18n: ectx: Menu (marker_menu)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/kdenliveui.rc:65 src/mltcontroller/clippropertiescontroller.cpp:1032
-#: src/ui/clipproperties_ui.ui:402
+#: src/kdenliveui.rc:65 src/mltcontroller/clippropertiescontroller.cpp:1041
 #, kde-format
 msgid "Markers"
 msgstr "Marcatori"
@@ -9273,7 +9283,7 @@ msgstr "Elimina marcatore"
 msgid "Edit Marker…"
 msgstr "Modifica marcatore…"
 
-#: src/mainwindow.cpp:1603 src/timeline2/model/timelinefunctions.cpp:1027
+#: src/mainwindow.cpp:1603 src/timeline2/model/timelinefunctions.cpp:1028
 #, kde-format
 msgid "Restore Audio"
 msgstr "Ripristina audio"
@@ -9962,8 +9972,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Impossibile trovare i profili MLT, specificane il percorso"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:181
-#: src/mltcontroller/clippropertiescontroller.cpp:1359
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -10010,7 +10020,7 @@ msgid "Import analysis…"
 msgstr "Importa analisi…"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:352
-#: src/mltcontroller/clippropertiescontroller.cpp:596
+#: src/mltcontroller/clippropertiescontroller.cpp:605
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Disabilita auto-rotazione"
@@ -10025,40 +10035,40 @@ msgstr "Inserire il testo del modello"
 msgid "Apply"
 msgstr "Applica"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:391
+#: src/mltcontroller/clippropertiescontroller.cpp:400
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Proporzioni:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:488
+#: src/mltcontroller/clippropertiescontroller.cpp:497
 #, kde-format
 msgid "Delete proxy file"
 msgstr "Elimina file della clip rappresentativa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:494
+#: src/mltcontroller/clippropertiescontroller.cpp:503
 #, kde-format
 msgid "Proxy options"
 msgstr "Opzioni della clip rappresentativa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:499
+#: src/mltcontroller/clippropertiescontroller.cpp:508
 #, kde-format
 msgid "Open folder…"
 msgstr "Apri cartella…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:505
+#: src/mltcontroller/clippropertiescontroller.cpp:514
 #, kde-format
 msgid "Play proxy clip"
 msgstr "Riproduci clip rappresentativa"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:511
+#: src/mltcontroller/clippropertiescontroller.cpp:520
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "Copia posizione del file negli appunti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:561
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:567
 #: src/ui/profiledialog_ui.ui:164
 #, kde-format
@@ -10068,8 +10078,8 @@ msgstr "Scansione:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:556
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:565
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/project/dialogs/profilewidget.cpp:107 src/ui/configcapture_ui.ui:166
 #: src/ui/editrenderpreset_ui.ui:217 src/ui/profiledialog_ui.ui:221
 #, kde-format
@@ -10077,109 +10087,99 @@ msgid "Interlaced"
 msgstr "Interlacciato"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:574
+#: src/mltcontroller/clippropertiescontroller.cpp:583
 #: src/ui/profiledialog_ui.ui:297
 #, kde-format
 msgid "Field order:"
 msgstr "Ordine del campo:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:578
+#: src/mltcontroller/clippropertiescontroller.cpp:587
 #, kde-format
 msgid "Bottom First"
 msgstr "Prima la parte inferiore"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:579
+#: src/mltcontroller/clippropertiescontroller.cpp:588
 #, kde-format
 msgid "Top First"
 msgstr "Prima la parte superiore"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:618
+#: src/mltcontroller/clippropertiescontroller.cpp:627
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (predefinito)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:640
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Disable video"
 msgstr "Disabilita il video"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:640
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Enable video"
 msgstr "Abilita il video"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:648
+#: src/mltcontroller/clippropertiescontroller.cpp:657
 #, kde-format
 msgid "Video stream"
 msgstr "Flusso video"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:698
+#: src/mltcontroller/clippropertiescontroller.cpp:707
 #, kde-format
 msgid "Disable audio"
 msgstr "Disabilita l'audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:698
+#: src/mltcontroller/clippropertiescontroller.cpp:707
 #, kde-format
 msgid "Enable audio"
 msgstr "Abilita l'audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:706
+#: src/mltcontroller/clippropertiescontroller.cpp:715
 #, kde-format
 msgid "Audio streams"
 msgstr "Flussi audio"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:728
+#: src/mltcontroller/clippropertiescontroller.cpp:737
 #: src/monitor/monitor.cpp:1746
 #, kde-format
 msgid "Merge all streams"
 msgstr "Unisci tutti i flussi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:834
+#: src/mltcontroller/clippropertiescontroller.cpp:843
 #, kde-format
 msgid "Normalize"
 msgstr "Normalizza"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:870
+#: src/mltcontroller/clippropertiescontroller.cpp:879
 #, kde-format
 msgid "Copy channel:"
 msgstr "Copia canale:"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, programList)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_vproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_aproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, analysis_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:871
-#: src/ui/clipproperties_ui.ui:117 src/ui/clipproperties_ui.ui:162
-#: src/ui/clipproperties_ui.ui:542 src/ui/clipproperties_ui.ui:574
+#: src/mltcontroller/clippropertiescontroller.cpp:880
 #: src/ui/projectsettings_ui.ui:539 src/ui/wizardmltcheck_ui.ui:49
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_vproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_aproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, analysis_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:872
-#: src/ui/clipproperties_ui.ui:122 src/ui/clipproperties_ui.ui:167
-#: src/ui/clipproperties_ui.ui:547 src/ui/clipproperties_ui.ui:579
+#: src/mltcontroller/clippropertiescontroller.cpp:881
 #: src/ui/projectsettings_ui.ui:544
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:901
+#: src/mltcontroller/clippropertiescontroller.cpp:910
 #, kde-format
 msgid "Gain:"
 msgstr "Guadagno:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:928
+#: src/mltcontroller/clippropertiescontroller.cpp:937
 #, kde-format
 msgid "Audio sync:"
 msgstr "Sincronizzazione audio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:930
+#: src/mltcontroller/clippropertiescontroller.cpp:939
 #, kde-format
 msgid "ms"
 msgstr "ms"
@@ -10187,185 +10187,181 @@ msgstr "ms"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #. i18n: ectx: property (text), widget (QLabel, colorspaceLabel)
-#: src/mltcontroller/clippropertiescontroller.cpp:949
-#: src/mltcontroller/clippropertiescontroller.cpp:1376
+#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:1385
 #: src/ui/configcapture_ui.ui:152 src/ui/editrenderpreset_ui.ui:381
 #: src/ui/profiledialog_ui.ui:277
 #, kde-format
 msgid "Colorspace:"
 msgstr "Spazio dei colori:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, clip_full_luma)
-#: src/mltcontroller/clippropertiescontroller.cpp:984
-#: src/ui/clipproperties_ui.ui:772
+#: src/mltcontroller/clippropertiescontroller.cpp:993
 #, kde-format
 msgid "Full luma range"
 msgstr "Intervallo intero del luma"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:994
+#: src/mltcontroller/clippropertiescontroller.cpp:1003
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr ""
 "Il file utilizza una frequenza variabile dei fotogrammi, non è raccomandato"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1026
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #, kde-format
 msgid "File info"
 msgstr "Informazioni sul file"
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #: src/ui/profiledialog_ui.ui:58 src/ui/titlewidget_ui.ui:656
 #, kde-format
 msgid "Properties"
 msgstr "Proprietà"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1030
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #, kde-format
 msgid "Audio Properties"
 msgstr "Proprietà audio"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mltcontroller/clippropertiescontroller.cpp:1034
-#: src/project/dialogs/projectsettings.cpp:824 src/ui/clipproperties_ui.ui:511
-#: src/ui/projectsettings_ui.ui:517
+#: src/mltcontroller/clippropertiescontroller.cpp:1043
+#: src/project/dialogs/projectsettings.cpp:824 src/ui/projectsettings_ui.ui:517
 #, kde-format
 msgid "Metadata"
 msgstr "Metadati"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1036
+#: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "Analysis"
 msgstr "Analisi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1302
+#: src/mltcontroller/clippropertiescontroller.cpp:1311
 #, kde-format
 msgid "Image size:"
 msgstr "Dimensione immagine:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1305
+#: src/mltcontroller/clippropertiescontroller.cpp:1314
 #, kde-format
 msgid "Image duration:"
 msgstr "Durata dell'immagine:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1312
+#: src/mltcontroller/clippropertiescontroller.cpp:1321
 #, kde-format
 msgid "Image count:"
 msgstr "Conteggio immagini:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1339
+#: src/mltcontroller/clippropertiescontroller.cpp:1348
 #, kde-format
 msgid "Video codec:"
 msgstr "Codec video:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1359
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Bitrate video:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1373
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
 #, kde-format
 msgid "Pixel format:"
 msgstr "Formato dei pixel:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, kde-format
 msgid "B frames:"
 msgstr "Fotogrammi B:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, kde-format
 msgid "Yes"
 msgstr "Sì"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, kde-format
 msgid "No"
 msgstr "No"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1382
+#: src/mltcontroller/clippropertiescontroller.cpp:1391
 #, kde-format
 msgid "Audio streams:"
 msgstr "Flussi audio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1397
 #, kde-format
 msgid "Audio codec:"
 msgstr "Codec audio:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1392
+#: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/ui/configproject_ui.ui:113 src/ui/projectsettings_ui.ui:122
 #, kde-format
 msgid "Audio channels:"
 msgstr "Canali audio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1396
+#: src/mltcontroller/clippropertiescontroller.cpp:1405
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Frequenza audio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1396
+#: src/mltcontroller/clippropertiescontroller.cpp:1405
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Bitrate audio:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1409
+#: src/mltcontroller/clippropertiescontroller.cpp:1418
 #, kde-format
 msgid "File size:"
 msgstr "Dimensione del file:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1481
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Clip Markers"
 msgstr "Salva i marcatori della clip"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
+#: src/mltcontroller/clippropertiescontroller.cpp:1507
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Carica i marcatori della clip"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1521
+#: src/mltcontroller/clippropertiescontroller.cpp:1530
 #, kde-format
 msgid "An error occurred while parsing the marker file"
 msgstr "Si è verificato un errore nell'elaborazione del marcatore del file"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1537
-#: src/mltcontroller/clippropertiescontroller.cpp:1569
-#: src/mltcontroller/clippropertiescontroller.cpp:1601
+#: src/mltcontroller/clippropertiescontroller.cpp:1546
+#: src/mltcontroller/clippropertiescontroller.cpp:1578
+#: src/mltcontroller/clippropertiescontroller.cpp:1610
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1622
-#: src/mltcontroller/clippropertiescontroller.cpp:1648
+#: src/mltcontroller/clippropertiescontroller.cpp:1631
+#: src/mltcontroller/clippropertiescontroller.cpp:1657
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Lanterna magica"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1689
+#: src/mltcontroller/clippropertiescontroller.cpp:1698
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Salva dati dell'analisi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1690
-#: src/mltcontroller/clippropertiescontroller.cpp:1703
+#: src/mltcontroller/clippropertiescontroller.cpp:1699
+#: src/mltcontroller/clippropertiescontroller.cpp:1712
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "File di testo (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1702
+#: src/mltcontroller/clippropertiescontroller.cpp:1711
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -10806,14 +10802,13 @@ msgstr "Registra"
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_video)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:541
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:24
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:137
-#: src/ui/clipproperties_ui.ui:86 src/ui/cutjobdialog_ui.ui:100
-#: src/ui/editrenderpreset_ui.ui:118 src/ui/projectsettings_ui.ui:161
-#: src/ui/recmonitor_ui.ui:100 src/ui/renderwidget_ui.ui:479
+#: src/ui/cutjobdialog_ui.ui:100 src/ui/editrenderpreset_ui.ui:118
+#: src/ui/projectsettings_ui.ui:161 src/ui/recmonitor_ui.ui:100
+#: src/ui/renderwidget_ui.ui:479
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -11995,9 +11990,7 @@ msgid "Pan and zoom"
 msgstr "Trasla e ingrandisci"
 
 #. i18n: ectx: property (text), widget (QLabel, label_info)
-#. i18n: ectx: property (text), widget (QLabel, slide_info)
-#: src/project/dialogs/slideshowclip.cpp:319 src/ui/clipproperties_ui.ui:319
-#: src/ui/slideshowclip_ui.ui:295
+#: src/project/dialogs/slideshowclip.cpp:319 src/ui/slideshowclip_ui.ui:295
 #, kde-format
 msgid "No image found"
 msgstr "Nessuna immagine trovata"
@@ -13303,219 +13296,219 @@ msgstr ""
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:114
+#: src/timeline2/model/timelinefunctions.cpp:115
 #, kde-format
 msgid "Insert Clips"
 msgstr "Inserisci clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:292
+#: src/timeline2/model/timelinefunctions.cpp:293
 #, kde-format
 msgid "All tracks are locked"
 msgstr "Tutte le tracce sono bloccate"
 
-#: src/timeline2/model/timelinefunctions.cpp:303
+#: src/timeline2/model/timelinefunctions.cpp:304
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "Impossibile tagliare la clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:314
+#: src/timeline2/model/timelinefunctions.cpp:315
 #, kde-format
 msgid "No clips to cut"
 msgstr "Nessuna clip da tagliare"
 
-#: src/timeline2/model/timelinefunctions.cpp:316
+#: src/timeline2/model/timelinefunctions.cpp:317
 #, kde-format
 msgid "Cut all clips"
 msgstr "Taglia tutte le clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:513
+#: src/timeline2/model/timelinefunctions.cpp:514
 #: src/timeline2/view/timelinecontroller.cpp:1284
 #, kde-format
 msgid "Insert space"
 msgstr "Inserisci spazio"
 
-#: src/timeline2/model/timelinefunctions.cpp:515
+#: src/timeline2/model/timelinefunctions.cpp:516
 #: src/timeline2/view/timelinecontroller.cpp:1286
 #, kde-format
 msgid "Remove space"
 msgstr "Rimuovi spazio"
 
-#: src/timeline2/model/timelinefunctions.cpp:595
+#: src/timeline2/model/timelinefunctions.cpp:596
 #, kde-format
 msgid "Lift zone"
 msgstr "Alza zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:595
+#: src/timeline2/model/timelinefunctions.cpp:596
 #, kde-format
 msgid "Extract zone"
 msgstr "Estrai zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:606
+#: src/timeline2/model/timelinefunctions.cpp:607
 #: src/timeline2/view/timelinecontroller.cpp:2992
 #: src/timeline2/view/timelinecontroller.cpp:3058
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Sovrascrivi zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:606
+#: src/timeline2/model/timelinefunctions.cpp:607
 #: src/timeline2/view/timelinecontroller.cpp:2992
 #: src/timeline2/view/timelinecontroller.cpp:3058
 #, kde-format
 msgid "Insert zone"
 msgstr "Inserisci zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:608
+#: src/timeline2/model/timelinefunctions.cpp:609
 #: src/timeline2/view/timelinecontroller.cpp:2994
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Impossibile inserire zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:641
+#: src/timeline2/model/timelinefunctions.cpp:642
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Attiva una traccia facendo clic sull'etichetta"
 
-#: src/timeline2/model/timelinefunctions.cpp:828
+#: src/timeline2/model/timelinefunctions.cpp:829
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Impossibile spostare il gruppo selezionato"
 
-#: src/timeline2/model/timelinefunctions.cpp:929
-#: src/timeline2/model/timelinefunctions.cpp:933
-#: src/timeline2/model/timelinefunctions.cpp:940
+#: src/timeline2/model/timelinefunctions.cpp:930
+#: src/timeline2/model/timelinefunctions.cpp:934
+#: src/timeline2/model/timelinefunctions.cpp:941
 #: src/timeline2/view/timelinecontroller.cpp:3892
 #, kde-format
 msgid "Enable clip"
 msgstr "Abilita clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:929
-#: src/timeline2/model/timelinefunctions.cpp:933
-#: src/timeline2/model/timelinefunctions.cpp:940
+#: src/timeline2/model/timelinefunctions.cpp:930
+#: src/timeline2/model/timelinefunctions.cpp:934
+#: src/timeline2/model/timelinefunctions.cpp:941
 #: src/timeline2/view/timelinecontroller.cpp:3892
 #, kde-format
 msgid "Disable clip"
 msgstr "Disabilita clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:982
+#: src/timeline2/model/timelinefunctions.cpp:983
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Una o più clip non hanno audio, oppure sono già audio"
 
-#: src/timeline2/model/timelinefunctions.cpp:999
+#: src/timeline2/model/timelinefunctions.cpp:1000
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Non ci sono tracce audio disponibili per l'operazione di ripristino"
 
-#: src/timeline2/model/timelinefunctions.cpp:1007
-#: src/timeline2/model/timelinefunctions.cpp:1020
+#: src/timeline2/model/timelinefunctions.cpp:1008
+#: src/timeline2/model/timelinefunctions.cpp:1021
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Ripristino dell'audio non riuscito"
 
-#: src/timeline2/model/timelinefunctions.cpp:1059
+#: src/timeline2/model/timelinefunctions.cpp:1060
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Non ci sono tracce video disponibili per l'operazione di ripristino"
 
-#: src/timeline2/model/timelinefunctions.cpp:1067
-#: src/timeline2/model/timelinefunctions.cpp:1080
+#: src/timeline2/model/timelinefunctions.cpp:1068
+#: src/timeline2/model/timelinefunctions.cpp:1081
 #, kde-format
 msgid "Video restore failed"
 msgstr "Ripristino del video non riuscito"
 
-#: src/timeline2/model/timelinefunctions.cpp:1086
+#: src/timeline2/model/timelinefunctions.cpp:1087
 #, kde-format
 msgid "Restore Video"
 msgstr "Ripristina video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1133
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Modifica traccia di composizione"
 
-#: src/timeline2/model/timelinefunctions.cpp:1148
+#: src/timeline2/model/timelinefunctions.cpp:1149
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Impossibile abilitare la visuale multi-traccia con una traccia singola"
 
-#: src/timeline2/model/timelinefunctions.cpp:1302
+#: src/timeline2/model/timelinefunctions.cpp:1303
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Aggiungi clip alla libreria"
 
-#: src/timeline2/model/timelinefunctions.cpp:1302
+#: src/timeline2/model/timelinefunctions.cpp:1303
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Inserisci un nome per la clip nella libreria"
 
-#: src/timeline2/model/timelinefunctions.cpp:1615
+#: src/timeline2/model/timelinefunctions.cpp:1622
 #, kde-format
 msgid "Paste clips"
 msgstr "Incolla clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1626
+#: src/timeline2/model/timelinefunctions.cpp:1633
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "È già in corso un'altra operazione di incollaggio"
 
-#: src/timeline2/model/timelinefunctions.cpp:1638
+#: src/timeline2/model/timelinefunctions.cpp:1645
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Nessuna dato valido negli appunti"
 
-#: src/timeline2/model/timelinefunctions.cpp:1664
-#: src/timeline2/model/timelinefunctions.cpp:1722
-#: src/timeline2/model/timelinefunctions.cpp:1751
-#: src/timeline2/model/timelinefunctions.cpp:1782
-#: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1965
+#: src/timeline2/model/timelinefunctions.cpp:1671
+#: src/timeline2/model/timelinefunctions.cpp:1729
+#: src/timeline2/model/timelinefunctions.cpp:1758
+#: src/timeline2/model/timelinefunctions.cpp:1789
+#: src/timeline2/model/timelinefunctions.cpp:1823
+#: src/timeline2/model/timelinefunctions.cpp:1974
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Non ci sono abbastanza tracce per incollare gli appunti"
 
-#: src/timeline2/model/timelinefunctions.cpp:1833
-#: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1874
-#: src/timeline2/model/timelinefunctions.cpp:1879
+#: src/timeline2/model/timelinefunctions.cpp:1840
+#: src/timeline2/model/timelinefunctions.cpp:1854
+#: src/timeline2/model/timelinefunctions.cpp:1882
+#: src/timeline2/model/timelinefunctions.cpp:1887
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clip incollate"
 
-#: src/timeline2/model/timelinefunctions.cpp:1865
+#: src/timeline2/model/timelinefunctions.cpp:1873
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1867
+#: src/timeline2/model/timelinefunctions.cpp:1875
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1867
+#: src/timeline2/model/timelinefunctions.cpp:1875
 #, kde-format
 msgid "Paste"
 msgstr "Incolla"
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1917
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Impossibile aggiungere contenitore di clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1966
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Non tutte le clip sono state copiate con successo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1988
-#: src/timeline2/model/timelinefunctions.cpp:2109
+#: src/timeline2/model/timelinefunctions.cpp:1997
+#: src/timeline2/model/timelinefunctions.cpp:2118
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Impossibile incollare gli elementi nella linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:2129
+#: src/timeline2/model/timelinefunctions.cpp:2138
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Incolla clip della linea temporale"
@@ -14575,14 +14568,13 @@ msgstr "Spessore del bordo"
 #. i18n: ectx: property (suffix), widget (QSpinBox, spin_mag)
 #. i18n: ectx: property (suffix), widget (QSpinBox, spin_yell)
 #. i18n: ectx: property (suffix), widget (QSpinBox, spin_black)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_volume)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:160 src/ui/clipspeed_ui.ui:69
-#: src/ui/configsdl_ui.ui:80 src/ui/selectivecolor_ui.ui:75
-#: src/ui/selectivecolor_ui.ui:108 src/ui/selectivecolor_ui.ui:141
-#: src/ui/selectivecolor_ui.ui:174 src/ui/titlewidget_ui.ui:88
-#: src/widgets/geometrywidget.cpp:71 src/widgets/geometrywidget.cpp:78
+#: src/ui/selectivecolor_ui.ui:75 src/ui/selectivecolor_ui.ui:108
+#: src/ui/selectivecolor_ui.ui:141 src/ui/selectivecolor_ui.ui:174
+#: src/ui/titlewidget_ui.ui:88 src/widgets/geometrywidget.cpp:71
+#: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -15387,11 +15379,6 @@ msgstr "Elimina il punto corrente."
 #. i18n: ectx: property (text), widget (QToolButton, buttonZoomOriginal)
 #. i18n: ectx: property (text), widget (QToolButton, buttonZoomFit)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
-#. i18n: ectx: property (text), widget (QToolButton, marker_save)
-#. i18n: ectx: property (text), widget (QToolButton, marker_load)
-#. i18n: ectx: property (text), widget (QToolButton, analysis_delete)
-#. i18n: ectx: property (text), widget (QToolButton, analysis_save)
-#. i18n: ectx: property (text), widget (QToolButton, analysis_load)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonCut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonApply)
@@ -15404,64 +15391,61 @@ msgstr "Elimina il punto corrente."
 #: src/ui/bezierspline_ui.ui:109 src/ui/bezierspline_ui.ui:122
 #: src/ui/bezierspline_ui.ui:141 src/ui/bezierspline_ui.ui:154
 #: src/ui/bezierspline_ui.ui:167 src/ui/bezierspline_ui.ui:180
-#: src/ui/clipproperties_ui.ui:490 src/ui/clipproperties_ui.ui:500
-#: src/ui/clipproperties_ui.ui:587 src/ui/clipproperties_ui.ui:597
-#: src/ui/clipproperties_ui.ui:607 src/ui/clipspeed_ui.ui:85
-#: src/ui/clipstabilize_ui.ui:67 src/ui/collapsiblewidget_ui.ui:99
-#: src/ui/collapsiblewidget_ui.ui:125 src/ui/collapsiblewidget_ui.ui:135
-#: src/ui/collapsiblewidget_ui.ui:145 src/ui/collapsiblewidget_ui.ui:158
-#: src/ui/collapsiblewidget_ui.ui:171 src/ui/collapsiblewidget_ui.ui:184
-#: src/ui/collapsiblewidget_ui.ui:194 src/ui/collapsiblewidget_ui.ui:204
-#: src/ui/configjogshuttle_ui.ui:78 src/ui/configsdl_ui.ui:170
-#: src/ui/configspeech_ui.ui:33 src/ui/configspeech_ui.ui:77
-#: src/ui/cutjobdialog_ui.ui:80 src/ui/editrenderpreset_ui.ui:703
-#: src/ui/editsub_ui.ui:19 src/ui/editsub_ui.ui:29 src/ui/editsub_ui.ui:39
-#: src/ui/editsub_ui.ui:46 src/ui/editsub_ui.ui:53 src/ui/editsub_ui.ui:60
-#: src/ui/editsub_ui.ui:126 src/ui/editsub_ui.ui:143 src/ui/editsub_ui.ui:160
-#: src/ui/editsub_ui.ui:366 src/ui/effectlist_ui.ui:83
-#: src/ui/effectlist_ui.ui:102 src/ui/effectlist_ui.ui:118
-#: src/ui/effectlist_ui.ui:134 src/ui/effectlist_ui.ui:150
-#: src/ui/exportguidesdialog_ui.ui:122 src/ui/exportguidesdialog_ui.ui:142
-#: src/ui/geometrywidget_ui.ui:70 src/ui/geometrywidget_ui.ui:83
-#: src/ui/geometrywidget_ui.ui:93 src/ui/gradientedit_ui.ui:126
-#: src/ui/gradientedit_ui.ui:143 src/ui/keyframeeditor_ui.ui:91
-#: src/ui/keyframeeditor_ui.ui:101 src/ui/keyframewidget_ui.ui:46
-#: src/ui/keyframewidget_ui.ui:59 src/ui/keyframewidget_ui.ui:72
-#: src/ui/keyframewidget_ui.ui:85 src/ui/keyframewidget_ui.ui:124
-#: src/ui/listdependencyparamwidget_ui.ui:42 src/ui/managecache_ui.ui:61
-#: src/ui/managecache_ui.ui:112 src/ui/managecache_ui.ui:143
-#: src/ui/managecache_ui.ui:198 src/ui/managecache_ui.ui:229
-#: src/ui/managecache_ui.ui:287 src/ui/manageencodingprofile_ui.ui:44
-#: src/ui/manageencodingprofile_ui.ui:51 src/ui/manageencodingprofile_ui.ui:58
-#: src/ui/manageencodingprofile_ui.ui:68 src/ui/monitoreditwidget_ui.ui:53
-#: src/ui/monitoreditwidget_ui.ui:66 src/ui/monitoreditwidget_ui.ui:76
-#: src/ui/projectsettings_ui.ui:264 src/ui/projectsettings_ui.ui:271
-#: src/ui/projectsettings_ui.ui:281 src/ui/projectsettings_ui.ui:554
-#: src/ui/projectsettings_ui.ui:561 src/ui/qtextclip_ui.ui:90
-#: src/ui/recmonitor_ui.ui:72 src/ui/renderwidget_ui.ui:554
-#: src/ui/renderwidget_ui.ui:988 src/ui/resourcewidget_ui.ui:210
-#: src/ui/resourcewidget_ui.ui:277 src/ui/selectivecolor_ui.ui:29
-#: src/ui/selectivecolor_ui.ui:36 src/ui/speechdialog_ui.ui:95
-#: src/ui/textbasededit_ui.ui:58 src/ui/textbasededit_ui.ui:87
-#: src/ui/textbasededit_ui.ui:104 src/ui/textbasededit_ui.ui:175
-#: src/ui/textbasededit_ui.ui:195 src/ui/textbasededit_ui.ui:205
-#: src/ui/textbasededit_ui.ui:215 src/ui/textbasededit_ui.ui:225
-#: src/ui/timeremap_ui.ui:96 src/ui/timeremap_ui.ui:150
-#: src/ui/timeremap_ui.ui:181 src/ui/timeremap_ui.ui:191
-#: src/ui/timeremap_ui.ui:201 src/ui/timeremap_ui.ui:378
-#: src/ui/titlewidget_ui.ui:826 src/ui/titlewidget_ui.ui:836
-#: src/ui/titlewidget_ui.ui:1041 src/ui/titlewidget_ui.ui:1096
-#: src/ui/titlewidget_ui.ui:1146 src/ui/titlewidget_ui.ui:1169
-#: src/ui/titlewidget_ui.ui:1202 src/ui/titlewidget_ui.ui:1292
-#: src/ui/titlewidget_ui.ui:1590 src/ui/titlewidget_ui.ui:1607
-#: src/ui/titlewidget_ui.ui:1621 src/ui/titlewidget_ui.ui:1688
-#: src/ui/titlewidget_ui.ui:1702 src/ui/titlewidget_ui.ui:1716
-#: src/ui/titlewidget_ui.ui:1730 src/ui/titlewidget_ui.ui:1744
-#: src/ui/titlewidget_ui.ui:1758 src/ui/tracksconfigdialog_ui.ui:51
-#: src/ui/tracksconfigdialog_ui.ui:58 src/ui/tracksconfigdialog_ui.ui:65
-#: src/ui/tracksconfigdialog_ui.ui:72 src/ui/tracksconfigdialog_ui.ui:79
-#: src/ui/unicodewidget_ui.ui:197 src/ui/unicodewidget_ui.ui:222
-#: src/ui/urllistparamwidget_ui.ui:119
+#: src/ui/clipspeed_ui.ui:85 src/ui/clipstabilize_ui.ui:67
+#: src/ui/collapsiblewidget_ui.ui:99 src/ui/collapsiblewidget_ui.ui:125
+#: src/ui/collapsiblewidget_ui.ui:135 src/ui/collapsiblewidget_ui.ui:145
+#: src/ui/collapsiblewidget_ui.ui:158 src/ui/collapsiblewidget_ui.ui:171
+#: src/ui/collapsiblewidget_ui.ui:184 src/ui/collapsiblewidget_ui.ui:194
+#: src/ui/collapsiblewidget_ui.ui:204 src/ui/configjogshuttle_ui.ui:78
+#: src/ui/configsdl_ui.ui:162 src/ui/configspeech_ui.ui:33
+#: src/ui/configspeech_ui.ui:77 src/ui/cutjobdialog_ui.ui:80
+#: src/ui/editrenderpreset_ui.ui:703 src/ui/editsub_ui.ui:19
+#: src/ui/editsub_ui.ui:29 src/ui/editsub_ui.ui:39 src/ui/editsub_ui.ui:46
+#: src/ui/editsub_ui.ui:53 src/ui/editsub_ui.ui:60 src/ui/editsub_ui.ui:138
+#: src/ui/editsub_ui.ui:155 src/ui/editsub_ui.ui:172 src/ui/editsub_ui.ui:378
+#: src/ui/effectlist_ui.ui:83 src/ui/effectlist_ui.ui:102
+#: src/ui/effectlist_ui.ui:118 src/ui/effectlist_ui.ui:134
+#: src/ui/effectlist_ui.ui:150 src/ui/exportguidesdialog_ui.ui:122
+#: src/ui/exportguidesdialog_ui.ui:142 src/ui/geometrywidget_ui.ui:70
+#: src/ui/geometrywidget_ui.ui:83 src/ui/geometrywidget_ui.ui:93
+#: src/ui/gradientedit_ui.ui:126 src/ui/gradientedit_ui.ui:143
+#: src/ui/keyframeeditor_ui.ui:91 src/ui/keyframeeditor_ui.ui:101
+#: src/ui/keyframewidget_ui.ui:46 src/ui/keyframewidget_ui.ui:59
+#: src/ui/keyframewidget_ui.ui:72 src/ui/keyframewidget_ui.ui:85
+#: src/ui/keyframewidget_ui.ui:124 src/ui/listdependencyparamwidget_ui.ui:42
+#: src/ui/managecache_ui.ui:61 src/ui/managecache_ui.ui:112
+#: src/ui/managecache_ui.ui:143 src/ui/managecache_ui.ui:198
+#: src/ui/managecache_ui.ui:229 src/ui/managecache_ui.ui:287
+#: src/ui/manageencodingprofile_ui.ui:44 src/ui/manageencodingprofile_ui.ui:51
+#: src/ui/manageencodingprofile_ui.ui:58 src/ui/manageencodingprofile_ui.ui:68
+#: src/ui/monitoreditwidget_ui.ui:53 src/ui/monitoreditwidget_ui.ui:66
+#: src/ui/monitoreditwidget_ui.ui:76 src/ui/projectsettings_ui.ui:264
+#: src/ui/projectsettings_ui.ui:271 src/ui/projectsettings_ui.ui:281
+#: src/ui/projectsettings_ui.ui:554 src/ui/projectsettings_ui.ui:561
+#: src/ui/qtextclip_ui.ui:90 src/ui/recmonitor_ui.ui:72
+#: src/ui/renderwidget_ui.ui:554 src/ui/renderwidget_ui.ui:988
+#: src/ui/resourcewidget_ui.ui:210 src/ui/resourcewidget_ui.ui:277
+#: src/ui/selectivecolor_ui.ui:29 src/ui/selectivecolor_ui.ui:36
+#: src/ui/speechdialog_ui.ui:95 src/ui/textbasededit_ui.ui:58
+#: src/ui/textbasededit_ui.ui:87 src/ui/textbasededit_ui.ui:104
+#: src/ui/textbasededit_ui.ui:175 src/ui/textbasededit_ui.ui:195
+#: src/ui/textbasededit_ui.ui:205 src/ui/textbasededit_ui.ui:215
+#: src/ui/textbasededit_ui.ui:225 src/ui/timeremap_ui.ui:96
+#: src/ui/timeremap_ui.ui:150 src/ui/timeremap_ui.ui:181
+#: src/ui/timeremap_ui.ui:191 src/ui/timeremap_ui.ui:201
+#: src/ui/timeremap_ui.ui:378 src/ui/titlewidget_ui.ui:826
+#: src/ui/titlewidget_ui.ui:836 src/ui/titlewidget_ui.ui:1041
+#: src/ui/titlewidget_ui.ui:1096 src/ui/titlewidget_ui.ui:1146
+#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1202
+#: src/ui/titlewidget_ui.ui:1292 src/ui/titlewidget_ui.ui:1590
+#: src/ui/titlewidget_ui.ui:1607 src/ui/titlewidget_ui.ui:1621
+#: src/ui/titlewidget_ui.ui:1688 src/ui/titlewidget_ui.ui:1702
+#: src/ui/titlewidget_ui.ui:1716 src/ui/titlewidget_ui.ui:1730
+#: src/ui/titlewidget_ui.ui:1744 src/ui/titlewidget_ui.ui:1758
+#: src/ui/tracksconfigdialog_ui.ui:51 src/ui/tracksconfigdialog_ui.ui:58
+#: src/ui/tracksconfigdialog_ui.ui:65 src/ui/tracksconfigdialog_ui.ui:72
+#: src/ui/tracksconfigdialog_ui.ui:79 src/ui/unicodewidget_ui.ui:197
+#: src/ui/unicodewidget_ui.ui:222 src/ui/urllistparamwidget_ui.ui:119
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -15519,7 +15503,7 @@ msgstr "TextLabel"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#: src/ui/clipdurationdialog_ui.ui:20 src/ui/editsub_ui.ui:119
+#: src/ui/clipdurationdialog_ui.ui:20 src/ui/editsub_ui.ui:131
 #: src/ui/keyframedialog_ui.ui:20
 #, kde-format
 msgid "Position:"
@@ -15536,203 +15520,6 @@ msgstr "Inizio del ritaglio:"
 #, kde-format
 msgid "Crop end:"
 msgstr "Fine del ritaglio:"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#. i18n: ectx: property (text), widget (QLabel, label_path)
-#: src/ui/clipproperties_ui.ui:27 src/ui/missingclips_ui.ui:78
-#, kde-format
-msgid "Path"
-msgstr "Percorso"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#. i18n: ectx: property (text), widget (QLabel, label_size)
-#: src/ui/clipproperties_ui.ui:51 src/ui/configcapture_ui.ui:96
-#: src/ui/profiledialog_ui.ui:287
-#, kde-format
-msgid "Size:"
-msgstr "Dimensione:"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize)
-#: src/ui/clipproperties_ui.ui:65
-#, kde-format
-msgid "File size"
-msgstr "Dimensione del file"
-
-#. i18n: ectx: property (text), widget (QLabel, slide_type_label)
-#: src/ui/clipproperties_ui.ui:212
-#, kde-format
-msgid "Image type"
-msgstr "Tipo immagine"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/clipproperties_ui.ui:222
-#, kde-format
-msgid "Frame duration"
-msgstr "Durata del fotogramma"
-
-#. i18n: ectx: property (text), widget (QCheckBox, sm_loop)
-#. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
-#: src/ui/clipproperties_ui.ui:255 src/ui/slideshowclip_ui.ui:263
-#: src/ui/smconfig_ui.ui:26
-#, kde-format
-msgid "Loop"
-msgstr "Ciclo"
-
-#. i18n: ectx: property (text), widget (QCheckBox, slide_fade)
-#: src/ui/clipproperties_ui.ui:262
-#, kde-format
-msgid "Dissolve"
-msgstr "Dissolvi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, slide_luma)
-#: src/ui/clipproperties_ui.ui:292
-#, kde-format
-msgid "Wipe"
-msgstr "Tendina"
-
-#. i18n: ectx: property (text), widget (QCheckBox, slide_crop)
-#: src/ui/clipproperties_ui.ui:339 src/ui/slideshowclip_ui.ui:36
-#, kde-format
-msgid "Center crop"
-msgstr "Ritaglia al centro"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
-#. i18n: ectx: property (text), widget (QLabel, label_animation)
-#: src/ui/clipproperties_ui.ui:346 src/ui/titlewidget_ui.ui:1467
-#, kde-format
-msgid "Animation"
-msgstr "Animazione"
-
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/clipproperties_ui.ui:365
-#, kde-format
-msgid "Image size"
-msgstr "Dimensione dell'immagine"
-
-#. i18n: ectx: property (text), widget (QCheckBox, image_transparency)
-#: src/ui/clipproperties_ui.ui:381
-#, kde-format
-msgid "Transparent background"
-msgstr "Sfondo trasparente"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, markers_list)
-#: src/ui/clipproperties_ui.ui:427
-#, kde-format
-msgid "Time"
-msgstr "Tempo"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#. i18n: ectx: property (text), widget (QTreeWidget, markers_list)
-#: src/ui/clipproperties_ui.ui:432 src/ui/markerdialog_ui.ui:78
-#, kde-format
-msgid "Comment"
-msgstr "Commento"
-
-#. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
-#. i18n: ectx: property (text), widget (QToolButton, marker_new)
-#: src/ui/clipproperties_ui.ui:440 src/ui/titlewidget_ui.ui:456
-#, kde-format
-msgid "N"
-msgstr "N"
-
-#. i18n: ectx: property (text), widget (QToolButton, marker_edit)
-#: src/ui/clipproperties_ui.ui:450
-#, kde-format
-msgid "E"
-msgstr "E"
-
-#. i18n: ectx: property (text), widget (QToolButton, button_delete)
-#. i18n: ectx: property (text), widget (QToolButton, marker_delete)
-#: src/ui/clipproperties_ui.ui:460 src/ui/keyframeeditor_ui.ui:78
-#: src/ui/profiledialog_ui.ui:47
-#, kde-format
-msgid "D"
-msgstr "D"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_advanced)
-#: src/ui/clipproperties_ui.ui:634
-#, kde-format
-msgid "Advanced"
-msgstr "Avanzate"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_ar)
-#: src/ui/clipproperties_ui.ui:653
-#, kde-format
-msgid "Force aspect ratio"
-msgstr "Forza il rapporto d'aspetto"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_threads)
-#: src/ui/clipproperties_ui.ui:686
-#, kde-format
-msgid "Decoding threads"
-msgstr "Thread di decodifica"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_vindex)
-#: src/ui/clipproperties_ui.ui:693
-#, kde-format
-msgid "Video index"
-msgstr "Traccia video"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_progressive)
-#: src/ui/clipproperties_ui.ui:700
-#, kde-format
-msgid "Force scanning"
-msgstr "Forza scansione"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_aindex)
-#: src/ui/clipproperties_ui.ui:720
-#, kde-format
-msgid "Audio index"
-msgstr "Traccia audio"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_framerate)
-#: src/ui/clipproperties_ui.ui:727
-#, kde-format
-msgid "Force frame rate"
-msgstr "Forza frequenza dei fotogrammi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_out)
-#: src/ui/clipproperties_ui.ui:734
-#, kde-format
-msgid "Force duration"
-msgstr "Forza durata dei fotogrammi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_colorspace)
-#: src/ui/clipproperties_ui.ui:751
-#, kde-format
-msgid "Force colorspace"
-msgstr "Forza lo spazio di colore"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_fieldorder)
-#: src/ui/clipproperties_ui.ui:765
-#, kde-format
-msgid "Force field order"
-msgstr "Forza l'ordine del campi"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipproperties_ui.ui:804
-#, kde-format
-msgid ":"
-msgstr ":"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_transparency)
-#: src/ui/clipproperties_ui.ui:829
-#, kde-format
-msgid "Image background"
-msgstr "Immagine di sfondo"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, clip_transparency)
-#: src/ui/clipproperties_ui.ui:837
-#, kde-format
-msgid "Normal"
-msgstr "Normale"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, clip_transparency)
-#: src/ui/clipproperties_ui.ui:842
-#, kde-format
-msgid "Transparent"
-msgstr "Trasparente"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dest)
 #: src/ui/clipspeed_ui.ui:22 src/ui/clipstabilize_ui.ui:84
@@ -15893,6 +15680,13 @@ msgstr "Dispositivo video"
 msgid "Capture format:"
 msgstr "Formato di cattura:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/configcapture_ui.ui:96 src/ui/profiledialog_ui.ui:287
+#, kde-format
+msgid "Size:"
+msgstr "Dimensione:"
+
 #. i18n: ectx: property (text), widget (QLabel, p_size)
 #: src/ui/configcapture_ui.ui:103
 #, kde-format
@@ -16047,17 +15841,23 @@ msgstr "Sii certo di avere installato le estensioni audio nel tuo sistema"
 msgid "Disable countdown before recording"
 msgstr "Disabilita il conto alla rovescia prima della registrazione"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:17
 #, kde-format
 msgid "Audio thumbnail colors:"
 msgstr "Colori delle visualizzazioni audio:"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:37
 #, kde-format
 msgid "Monitor overlay color:"
 msgstr "Colore in sovrimpressione sul controllo:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
+#: src/ui/configcolors_ui.ui:57
+#, kde-format
+msgid "Monitor background color:"
+msgstr "Colore di sfondo del controllo:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:29
@@ -16630,7 +16430,7 @@ msgstr "Dimensione dell'immagine della clip rappresentativa"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:141
+#: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:133
 #: src/ui/projectsettings_ui.ui:470
 #, fuzzy, kde-format
 #| msgid "Enabled"
@@ -16652,7 +16452,7 @@ msgid "Proxy video resize (width):"
 msgstr "Ridimensiona il video della clip rappresentativa (larghezza):"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configsdl_ui.ui:15
+#: src/ui/configsdl_ui.ui:23
 #, kde-format
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
@@ -16661,57 +16461,17 @@ msgstr ""
 "Attenzione: i cambiamenti ai driver e ai dispositivi possono rendere "
 "Kdenlive instabile. Falli solo se sai quello che stai facendo."
 
-#. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
-#: src/ui/configsdl_ui.ui:31
-#, kde-format
-msgid "Audio Backend:"
-msgstr "Motore audio:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
-#: src/ui/configsdl_ui.ui:47
-#, kde-format
-msgid "Audio driver:"
-msgstr "Driver audio:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_audio_device)
-#: src/ui/configsdl_ui.ui:60
-#, kde-format
-msgid "Audio device:"
-msgstr "Dispositivo audio:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_preview_volume)
-#: src/ui/configsdl_ui.ui:73
-#, kde-format
-msgid "Preview volume:"
-msgstr "Volume dell'anteprima:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configsdl_ui.ui:93
-#, kde-format
-msgid "Monitor for fullscreen output:"
-msgstr "Schermo per la visualizzazione a schermo intero:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_monitor_background)
-#: src/ui/configsdl_ui.ui:103
-#, kde-format
-msgid "Monitor background color:"
-msgstr "Colore di sfondo del controllo:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configsdl_ui.ui:134
+#. i18n: ectx: property (text), widget (QLabel, label_gpu)
+#: src/ui/configsdl_ui.ui:39
 #, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
-msgid "External display (Blackmagic card):"
-msgstr "Utilizza display esterno (scheda BlackMagic)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configsdl_ui.ui:148
-#, kde-format
-msgid "Output device:"
-msgstr "Dispositivo di uscita:"
+#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+msgid "GPU processing (Movit library):"
+msgstr ""
+"Utilizza l'elaborazione GPU (libreria Movit) - è necessario riavviare "
+"Kdenlive"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
-#: src/ui/configsdl_ui.ui:183
+#: src/ui/configsdl_ui.ui:46
 #, fuzzy, kde-format
 #| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
 msgid "Enable - restart Kdenlive to apply"
@@ -16719,14 +16479,42 @@ msgstr ""
 "Utilizza l'elaborazione GPU (libreria Movit) - è necessario riavviare "
 "Kdenlive"
 
-#. i18n: ectx: property (text), widget (QLabel, label_gpu)
-#: src/ui/configsdl_ui.ui:190
+#. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
+#: src/ui/configsdl_ui.ui:60
+#, kde-format
+msgid "Audio Backend:"
+msgstr "Motore audio:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
+#: src/ui/configsdl_ui.ui:76
+#, kde-format
+msgid "Audio driver:"
+msgstr "Driver audio:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_audio_device)
+#: src/ui/configsdl_ui.ui:89
+#, kde-format
+msgid "Audio device:"
+msgstr "Dispositivo audio:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/configsdl_ui.ui:109
+#, kde-format
+msgid "Monitor for fullscreen output:"
+msgstr "Schermo per la visualizzazione a schermo intero:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configsdl_ui.ui:126
 #, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
-msgid "GPU processing (Movit library):"
-msgstr ""
-"Utilizza l'elaborazione GPU (libreria Movit) - è necessario riavviare "
-"Kdenlive"
+#| msgid "Use external display (Blackmagic card)"
+msgid "External display (Blackmagic card):"
+msgstr "Utilizza display esterno (scheda BlackMagic)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/configsdl_ui.ui:140
+#, kde-format
+msgid "Output device:"
+msgstr "Dispositivo di uscita:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #: src/ui/configspeech_ui.ui:30
@@ -17232,68 +17020,68 @@ msgid "Enable manual editing"
 msgstr "Abilita modifica manuale"
 
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
-#: src/ui/editsub_ui.ui:136
+#: src/ui/editsub_ui.ui:148
 #, kde-format
 msgid "End:"
 msgstr "Fine:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#: src/ui/editsub_ui.ui:210 src/ui/editsub_ui.ui:311
+#: src/ui/editsub_ui.ui:222 src/ui/editsub_ui.ui:323
 #, kde-format
 msgid "px"
 msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:220
+#: src/ui/editsub_ui.ui:232
 #, kde-format
 msgid "Custom Shadow"
 msgstr "Ombra personalizzata"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:227
+#: src/ui/editsub_ui.ui:239
 #, kde-format
 msgid "Custom Font"
 msgstr "Carattere personalizzato"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:237
+#: src/ui/editsub_ui.ui:249
 #, kde-format
 msgid "pt"
 msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:263
+#: src/ui/editsub_ui.ui:275
 #, kde-format
 msgid "Custom Font Color"
 msgstr "Colore personalizzato del carattere"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:270
+#: src/ui/editsub_ui.ui:282
 #, kde-format
 msgid "Custom Position"
 msgstr "Posizione personalizzata"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:277
+#: src/ui/editsub_ui.ui:289
 #, kde-format
 msgid "Custom Font Size"
 msgstr "Dimensione personalizzata del carattere"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:325
+#: src/ui/editsub_ui.ui:337
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "Colore personalizzato del contorno"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:332
+#: src/ui/editsub_ui.ui:344
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Dimensione personalizzata del contorno"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:339
+#: src/ui/editsub_ui.ui:351
 #, kde-format
 msgid "Opaque background"
 msgstr "Sfondo opaco"
@@ -17450,6 +17238,12 @@ msgstr "Valore:"
 #, kde-format
 msgid "A"
 msgstr "A"
+
+#. i18n: ectx: property (text), widget (QToolButton, button_delete)
+#: src/ui/keyframeeditor_ui.ui:78 src/ui/profiledialog_ui.ui:47
+#, kde-format
+msgid "D"
+msgstr "D"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetKeyframe)
 #: src/ui/keyframeeditor_ui.ui:88
@@ -17779,6 +17573,12 @@ msgstr "Anteprima dell'immagine"
 msgid "Category"
 msgstr "Categoria"
 
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
+#: src/ui/markerdialog_ui.ui:78
+#, kde-format
+msgid "Comment"
+msgstr "Commento"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:14
 #, kde-format
@@ -17796,6 +17596,12 @@ msgstr "Ricostruisci le clip rappresentative"
 #, kde-format
 msgid "Use placeholders for missing clips"
 msgstr "Usa un segnaposto per le clip mancanti"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: src/ui/missingclips_ui.ui:78
+#, kde-format
+msgid "Path"
+msgstr "Percorso"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/ui/missingclips_ui.ui:96
@@ -18567,6 +18373,12 @@ msgstr "Re&lativo"
 msgid "Slideshow Clip"
 msgstr "Clip di presentazione"
 
+#. i18n: ectx: property (text), widget (QCheckBox, slide_crop)
+#: src/ui/slideshowclip_ui.ui:36
+#, kde-format
+msgid "Center crop"
+msgstr "Ritaglia al centro"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/slideshowclip_ui.ui:50
 #, kde-format
@@ -18626,6 +18438,13 @@ msgstr "Tipo di immagine:"
 #, kde-format
 msgid "First frame"
 msgstr "Primo fotogramma"
+
+#. i18n: ectx: property (text), widget (QCheckBox, sm_loop)
+#. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
+#: src/ui/slideshowclip_ui.ui:263 src/ui/smconfig_ui.ui:26
+#, kde-format
+msgid "Loop"
+msgstr "Ciclo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_thumbs)
 #: src/ui/slideshowclip_ui.ui:275
@@ -18875,6 +18694,12 @@ msgstr "Guide orizzontali."
 msgid "Vertical guides."
 msgstr "Guide verticali."
 
+#. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
+#: src/ui/titlewidget_ui.ui:456
+#, kde-format
+msgid "N"
+msgstr "N"
+
 #. i18n: ectx: property (text), widget (QCheckBox, show_guides)
 #: src/ui/titlewidget_ui.ui:476
 #, kde-format
@@ -19038,6 +18863,12 @@ msgstr "Allinea a sinistra."
 #, kde-format
 msgid "Border "
 msgstr "Bordo "
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
+#: src/ui/titlewidget_ui.ui:1467
+#, kde-format
+msgid "Animation"
+msgstr "Animazione"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
 #: src/ui/titlewidget_ui.ui:1473
@@ -19285,8 +19116,18 @@ msgstr "HDV"
 msgid "Show All"
 msgstr "Mostra tutto"
 
-#: src/widgets/colorpickerwidget.cpp:56
+#: src/widgets/colorpickerwidget.cpp:55
 #, kde-format
+msgid "Pick a color on the screen."
+msgstr ""
+
+#: src/widgets/colorpickerwidget.cpp:56
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "Pick a color on the screen. By pressing the mouse button and then moving "
+#| "your mouse you can select a section of the screen from which to get an "
+#| "average color."
+msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
 "your mouse you can select a section of the screen from which to get an "
@@ -19411,6 +19252,78 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1o"
+
+#~ msgid "File size"
+#~ msgstr "Dimensione del file"
+
+#~ msgid "Image type"
+#~ msgstr "Tipo immagine"
+
+#~ msgid "Frame duration"
+#~ msgstr "Durata del fotogramma"
+
+#~ msgid "Dissolve"
+#~ msgstr "Dissolvi"
+
+#~ msgid "Wipe"
+#~ msgstr "Tendina"
+
+#~ msgid "Image size"
+#~ msgstr "Dimensione dell'immagine"
+
+#~ msgid "Transparent background"
+#~ msgstr "Sfondo trasparente"
+
+#~ msgid "Time"
+#~ msgstr "Tempo"
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "Advanced"
+#~ msgstr "Avanzate"
+
+#~ msgid "Force aspect ratio"
+#~ msgstr "Forza il rapporto d'aspetto"
+
+#~ msgid "Decoding threads"
+#~ msgstr "Thread di decodifica"
+
+#~ msgid "Video index"
+#~ msgstr "Traccia video"
+
+#~ msgid "Force scanning"
+#~ msgstr "Forza scansione"
+
+#~ msgid "Audio index"
+#~ msgstr "Traccia audio"
+
+#~ msgid "Force frame rate"
+#~ msgstr "Forza frequenza dei fotogrammi"
+
+#~ msgid "Force duration"
+#~ msgstr "Forza durata dei fotogrammi"
+
+#~ msgid "Force colorspace"
+#~ msgstr "Forza lo spazio di colore"
+
+#~ msgid "Force field order"
+#~ msgstr "Forza l'ordine del campi"
+
+#~ msgid ":"
+#~ msgstr ":"
+
+#~ msgid "Image background"
+#~ msgstr "Immagine di sfondo"
+
+#~ msgid "Normal"
+#~ msgstr "Normale"
+
+#~ msgid "Transparent"
+#~ msgstr "Trasparente"
+
+#~ msgid "Preview volume:"
+#~ msgstr "Volume dell'anteprima:"
 
 #~ msgid "Cairo Affine Blend"
 #~ msgstr "Fusione Cairo affine"
@@ -22335,9 +22248,6 @@ msgstr "%1o"
 
 #~ msgid "Extracting thumb from clip %1"
 #~ msgstr "Estrazione dell'anteprima dalla clip %1"
-
-#~ msgid "Hide keyframes"
-#~ msgstr "Nascondi fotogrammi chiave"
 
 #~ msgid "Laurent Montel"
 #~ msgstr "Laurent Montel"

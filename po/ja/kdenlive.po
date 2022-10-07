@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:44+0000\n"
+"POT-Creation-Date: 2022-10-07 00:45+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -554,7 +554,7 @@ msgstr "コピー先"
 
 #: data/effects/channelcopy.xml:15 data/effects/copychannelstostereo.xml:15
 #: data/effects/swapchannels.xml:3
-#: src/mltcontroller/clippropertiescontroller.cpp:852
+#: src/mltcontroller/clippropertiescontroller.cpp:861
 #, kde-format
 msgid "Swap channels"
 msgstr "チャンネルの入れ替え"
@@ -903,14 +903,12 @@ msgid "Fade video from black"
 msgstr "ビデオを黒からフェードインする"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
-#. i18n: ectx: property (text), widget (QLabel, label_duration)
 #: data/effects/fade_from_black.xml:7 data/effects/fade_to_black.xml:7
 #: data/effects/fadein.xml:10 data/effects/fadeout.xml:7 src/bin/bin.cpp:1271
 #: src/bin/projectitemmodel.cpp:311
 #: src/timeline2/view/dialogs/speeddialog.cpp:52
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:14
-#: src/ui/clipproperties_ui.ui:58
 #, kde-format
 msgid "Duration"
 msgstr "長さ"
@@ -1529,11 +1527,10 @@ msgid ""
 "as transparent. This is mostly useful for luma wipe images."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: data/effects/mask_start_shape.xml:17 data/effects/shape.xml:14
 #: data/transitions/composite.xml:31 data/transitions/dissolve.xml:9
 #: data/transitions/luma.xml:10 data/transitions/region.xml:29
-#: data/transitions/wipe.xml:10 src/ui/clipproperties_ui.ui:302
+#: data/transitions/wipe.xml:10
 #, kde-format
 msgid "Softness"
 msgstr "柔らかさ"
@@ -3503,7 +3500,7 @@ msgid "Delete preset"
 msgstr "プリセットの削除"
 
 #: src/assets/view/assetparameterview.cpp:336
-#: src/dialogs/kdenlivesettingsdialog.cpp:1351
+#: src/dialogs/kdenlivesettingsdialog.cpp:1346
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -3511,7 +3508,7 @@ msgid "Enter Preset Name"
 msgstr "プリセット名の入力"
 
 #: src/assets/view/assetparameterview.cpp:336
-#: src/dialogs/kdenlivesettingsdialog.cpp:1351
+#: src/dialogs/kdenlivesettingsdialog.cpp:1346
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -3925,7 +3922,7 @@ msgid "Volume"
 msgstr "ボリューム"
 
 #: src/audiomixer/mixerwidget.cpp:152 src/audiomixer/mixerwidget.cpp:537
-#: src/mltcontroller/clippropertiescontroller.cpp:904
+#: src/mltcontroller/clippropertiescontroller.cpp:913
 #, kde-format
 msgid "dB"
 msgstr "デシベル"
@@ -4063,9 +4060,7 @@ msgstr ""
 msgid "Date"
 msgstr "日付"
 
-#. i18n: ectx: property (text), widget (QLabel, label_description)
 #: src/bin/bin.cpp:1263 src/bin/projectitemmodel.cpp:302
-#: src/ui/clipproperties_ui.ui:41
 #, kde-format
 msgid "Description"
 msgstr "説明"
@@ -4284,7 +4279,6 @@ msgstr "動画を無音化"
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_audio)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2192 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/layoutmanagement.cpp:33 src/lib/audio/audioStreamInfo.cpp:24
@@ -4293,22 +4287,19 @@ msgstr "動画を無音化"
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:106
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:139
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:176
-#: src/ui/clipproperties_ui.ui:131 src/ui/configcapture_ui.ui:521
-#: src/ui/cutjobdialog_ui.ui:57 src/ui/editrenderpreset_ui.ui:840
-#: src/ui/projectsettings_ui.ui:168 src/ui/recmonitor_ui.ui:107
-#: src/ui/renderwidget_ui.ui:606
+#: src/ui/configcapture_ui.ui:521 src/ui/cutjobdialog_ui.ui:57
+#: src/ui/editrenderpreset_ui.ui:840 src/ui/projectsettings_ui.ui:168
+#: src/ui/recmonitor_ui.ui:107 src/ui/renderwidget_ui.ui:606
 #, kde-format
 msgid "Audio"
 msgstr "オーディオ"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_image)
-#: src/bin/bin.cpp:2196 src/ui/clipproperties_ui.ui:357
+#: src/bin/bin.cpp:2196
 #, kde-format
 msgid "Image"
 msgstr "画像"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab_slideshow)
-#: src/bin/bin.cpp:2200 src/ui/clipproperties_ui.ui:206
+#: src/bin/bin.cpp:2200
 #, kde-format
 msgid "Slideshow"
 msgstr "スライドショー"
@@ -4328,11 +4319,8 @@ msgstr "タイトル"
 msgid "Title Template"
 msgstr "タイトルのテンプレート"
 
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/bin/bin.cpp:2216 src/layoutmanagement.cpp:35
-#: src/mltcontroller/clippropertiescontroller.cpp:377
-#: src/ui/clipproperties_ui.ui:176 src/ui/clipproperties_ui.ui:182
+#: src/mltcontroller/clippropertiescontroller.cpp:378
 #, kde-format
 msgid "Color"
 msgstr "色"
@@ -4450,8 +4438,7 @@ msgstr "クリップの置き換え"
 msgid "Duplicate Clip"
 msgstr "クリップの複製"
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, ClipProperties_UI)
-#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376 src/ui/clipproperties_ui.ui:14
+#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376
 #, kde-format
 msgid "Clip Properties"
 msgstr "クリップのプロパティ(L)"
@@ -4710,7 +4697,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5455 src/mltcontroller/clippropertiescontroller.cpp:652
+#: src/bin/bin.cpp:5455 src/mltcontroller/clippropertiescontroller.cpp:661
 #, kde-format
 msgid "Video stream %1"
 msgstr ""
@@ -4784,7 +4771,7 @@ msgstr ""
 "ファイル %1 は既に存在しています。\n"
 "上書きしてよろしいですか？"
 
-#: src/bin/clipcreator.cpp:244 src/core.cpp:827
+#: src/bin/clipcreator.cpp:244 src/core.cpp:839
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -4826,7 +4813,7 @@ msgstr[1] "クリップの追加"
 #: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
 #: src/mltcontroller/clippropertiescontroller.cpp:327
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
-#: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:153
+#: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:165
 #: src/ui/spacerdialog_ui.ui:43 src/ui/titlewidget_ui.ui:626
 #, kde-format
 msgid "Duration:"
@@ -4862,7 +4849,7 @@ msgstr "マーカーの追加"
 
 #: src/bin/model/markerlistmodel.cpp:191
 #: src/mltcontroller/clippropertiescontroller.cpp:269
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1468
 #, kde-format
 msgid "Delete marker"
 msgstr "マーカーの削除(D)"
@@ -4951,7 +4938,7 @@ msgid "Edit subtitle"
 msgstr "ガイドの追加"
 
 #: src/bin/model/subtitlemodel.cpp:618
-#: src/timeline2/model/timelinefunctions.cpp:186
+#: src/timeline2/model/timelinefunctions.cpp:187
 #: src/timeline2/view/timelinecontroller.cpp:1747
 #, kde-format
 msgid "Cut clip"
@@ -5473,7 +5460,7 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:506
+#: src/core.cpp:518
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -5483,7 +5470,7 @@ msgstr ""
 "%1"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:561 src/kdenliveui.rc:28 src/mainwindow.cpp:273
+#: src/core.cpp:573 src/kdenliveui.rc:28 src/mainwindow.cpp:273
 #: src/timeline2/view/qml/timeline.qml:1014
 #, kde-format
 msgid "Subtitles"
@@ -5865,7 +5852,7 @@ msgstr "ジョグ・シャトル"
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:475 src/dialogs/timeremap.cpp:1658
-#: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:995
+#: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:1004
 #: src/project/transcodeseek.cpp:37 src/project/transcodeseek.cpp:50
 #, kde-format
 msgid "Transcode"
@@ -5952,79 +5939,79 @@ msgstr ""
 msgid "Please select a video profile"
 msgstr "既定のビデオプロファイルを設定してください"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1232
+#: src/dialogs/kdenlivesettingsdialog.cpp:1227
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "この変更には Kdenlive を再起動する必要があります"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1354
+#: src/dialogs/kdenlivesettingsdialog.cpp:1349
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "指定した名前のプロファイルは、既に存在しています"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1488
+#: src/dialogs/kdenlivesettingsdialog.cpp:1483
 #, kde-format
 msgid "Current settings"
 msgstr "現在の設定"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1526
-#: src/dialogs/kdenlivesettingsdialog.cpp:1562
-#: src/dialogs/kdenlivesettingsdialog.cpp:1579
-#: src/mltcontroller/clippropertiescontroller.cpp:557
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/dialogs/kdenlivesettingsdialog.cpp:1521
+#: src/dialogs/kdenlivesettingsdialog.cpp:1557
+#: src/dialogs/kdenlivesettingsdialog.cpp:1574
+#: src/mltcontroller/clippropertiescontroller.cpp:566
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/project/dialogs/profilewidget.cpp:108 src/ui/editrenderpreset_ui.ui:222
 #: src/ui/profiledialog_ui.ui:226
 #, kde-format
 msgid "Progressive"
 msgstr "プログレッシブ"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1672
-#: src/dialogs/kdenlivesettingsdialog.cpp:1853
+#: src/dialogs/kdenlivesettingsdialog.cpp:1667
+#: src/dialogs/kdenlivesettingsdialog.cpp:1848
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "遷移効果の選択(E)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1677
+#: src/dialogs/kdenlivesettingsdialog.cpp:1672
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1708
+#: src/dialogs/kdenlivesettingsdialog.cpp:1703
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1736
+#: src/dialogs/kdenlivesettingsdialog.cpp:1731
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1742
+#: src/dialogs/kdenlivesettingsdialog.cpp:1737
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1752
+#: src/dialogs/kdenlivesettingsdialog.cpp:1747
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1758
-#: src/dialogs/kdenlivesettingsdialog.cpp:1816
+#: src/dialogs/kdenlivesettingsdialog.cpp:1753
+#: src/dialogs/kdenlivesettingsdialog.cpp:1811
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "このクリップにはビデオ効果を追加できません"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1767
+#: src/dialogs/kdenlivesettingsdialog.cpp:1762
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6033,23 +6020,23 @@ msgstr ""
 "フォルダの削除:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1785
 #, kde-format
 msgid "Download error"
 msgstr "ダウンロードエラー"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1795
+#: src/dialogs/kdenlivesettingsdialog.cpp:1790
 #, kde-format
 msgid "Download error %1"
 msgstr "ダウンロードエラー %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1823
+#: src/dialogs/kdenlivesettingsdialog.cpp:1818
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "出力しています..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1830
+#: src/dialogs/kdenlivesettingsdialog.cpp:1825
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -7081,7 +7068,7 @@ msgstr ""
 "奨です</li>"
 
 #: src/dialogs/wizard.cpp:798
-#: src/mltcontroller/clippropertiescontroller.cpp:1343
+#: src/mltcontroller/clippropertiescontroller.cpp:1352
 #, kde-format
 msgid "Frame size:"
 msgstr "フレームサイズ:"
@@ -7090,9 +7077,9 @@ msgstr "フレームサイズ:"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/dialogs/wizard.cpp:799
-#: src/mltcontroller/clippropertiescontroller.cpp:528
-#: src/mltcontroller/clippropertiescontroller.cpp:1348
-#: src/mltcontroller/clippropertiescontroller.cpp:1353
+#: src/mltcontroller/clippropertiescontroller.cpp:537
+#: src/mltcontroller/clippropertiescontroller.cpp:1357
+#: src/mltcontroller/clippropertiescontroller.cpp:1362
 #: src/ui/configcapture_ui.ui:110 src/ui/configcapture_ui.ui:407
 #: src/ui/profiledialog_ui.ui:111
 #, kde-format
@@ -7102,7 +7089,7 @@ msgstr "フレームレート:"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: src/dialogs/wizard.cpp:800
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1380
 #: src/ui/configcapture_ui.ui:124 src/ui/profiledialog_ui.ui:267
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -7260,7 +7247,7 @@ msgstr[1] ""
 "プロジェクトファイルには、存在しないクリップまたはファイルが含まれています"
 
 #: src/doc/documentchecker.cpp:539
-#: src/mltcontroller/clippropertiescontroller.cpp:442
+#: src/mltcontroller/clippropertiescontroller.cpp:451
 #, kde-format
 msgid "Proxy clip"
 msgstr "代用クリップ"
@@ -7466,8 +7453,8 @@ msgstr "無効なプロファイル"
 #: src/doc/kdenlivedoc.cpp:166 src/jobs/cliploadtask.cpp:486
 #: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
-#: src/mltcontroller/clippropertiescontroller.cpp:1489
-#: src/mltcontroller/clippropertiescontroller.cpp:1514
+#: src/mltcontroller/clippropertiescontroller.cpp:1498
+#: src/mltcontroller/clippropertiescontroller.cpp:1523
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:369
 #, kde-format
@@ -7655,7 +7642,7 @@ msgid "Switch"
 msgstr "モニタの切り替え(W)"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1867
+#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1875
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -7803,7 +7790,19 @@ msgstr "%1を有効化"
 msgid "Disable %1"
 msgstr "%1を無効化"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:282
+#: src/effects/effectstack/model/effectitemmodel.cpp:232
+#, fuzzy, kde-format
+#| msgid "Hide frame"
+msgid "Hide keyframes"
+msgstr "フレームの隠蔽"
+
+#: src/effects/effectstack/model/effectitemmodel.cpp:232
+#, fuzzy, kde-format
+#| msgid "Delete keyframe"
+msgid "Show keyframes"
+msgstr "キーフレームの削除"
+
+#: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"
@@ -7875,45 +7874,57 @@ msgstr "効果の追加(A)"
 msgid "Enable Keyframes"
 msgstr "キーフレームの追加"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
+#, fuzzy, kde-format
+#| msgid "Hide frame"
+msgid "Hide Keyframes"
+msgstr "フレームの隠蔽"
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:92
+#, fuzzy, kde-format
+#| msgid "Delete keyframe"
+msgid "Show Keyframes"
+msgstr "キーフレームの削除"
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Disable Effect"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:93
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Enable Effect"
 msgstr "効果の有効化"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-format
 msgid "Create Group"
 msgstr "グループを作成"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:124
 #, kde-format
 msgid "In:"
 msgstr "イン:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set zone in"
 msgstr "ゾーン・インの設定(S)"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:128
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:135
 #, kde-format
 msgid "Out:"
 msgstr "アウト:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:134
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, fuzzy, kde-format
 #| msgid "Set Zone Out"
 msgid "Set zone out"
 msgstr "ゾーン・アウトの設定(Z)"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:156
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, fuzzy, kde-format
 #| msgid "Move effect down"
 msgid "Use effect zone"
@@ -8262,9 +8273,7 @@ msgid "&Clip"
 msgstr "クリップ(C)"
 
 #. i18n: ectx: Menu (marker_menu)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/kdenliveui.rc:65 src/mltcontroller/clippropertiescontroller.cpp:1032
-#: src/ui/clipproperties_ui.ui:402
+#: src/kdenliveui.rc:65 src/mltcontroller/clippropertiescontroller.cpp:1041
 #, kde-format
 msgid "Markers"
 msgstr "マーカー(M)"
@@ -9711,7 +9720,7 @@ msgstr "マーカーの削除"
 msgid "Edit Marker…"
 msgstr "マーカーの編集"
 
-#: src/mainwindow.cpp:1603 src/timeline2/model/timelinefunctions.cpp:1027
+#: src/mainwindow.cpp:1603 src/timeline2/model/timelinefunctions.cpp:1028
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "Restore Audio"
@@ -10455,8 +10464,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "MLT プロファイルが見つかりません。パスを指定してください"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:181
-#: src/mltcontroller/clippropertiescontroller.cpp:1359
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -10510,7 +10519,7 @@ msgid "Import analysis…"
 msgstr "解析のインポート"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:352
-#: src/mltcontroller/clippropertiescontroller.cpp:596
+#: src/mltcontroller/clippropertiescontroller.cpp:605
 #, kde-format
 msgid "Disable autorotate"
 msgstr ""
@@ -10526,45 +10535,45 @@ msgstr "テンプレートパスの入力"
 msgid "Apply"
 msgstr "適用"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:391
+#: src/mltcontroller/clippropertiescontroller.cpp:400
 #, fuzzy, kde-format
 #| msgid "Aspect ratio"
 msgid "Aspect ratio:"
 msgstr "アスペクト比"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:488
+#: src/mltcontroller/clippropertiescontroller.cpp:497
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Delete proxy file"
 msgstr "プロファイルの削除"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:494
+#: src/mltcontroller/clippropertiescontroller.cpp:503
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Proxy options"
 msgstr "オプションの表示/非表示"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:499
+#: src/mltcontroller/clippropertiescontroller.cpp:508
 #, fuzzy, kde-format
 #| msgid "Rename folder"
 msgid "Open folder…"
 msgstr "フォルダの名前変更"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:505
+#: src/mltcontroller/clippropertiescontroller.cpp:514
 #, fuzzy, kde-format
 #| msgid "Proxy clip"
 msgid "Play proxy clip"
 msgstr "代用クリップ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:511
+#: src/mltcontroller/clippropertiescontroller.cpp:520
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "ファイルの場所をクリップボードにコピー"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:552
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:561
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:567
 #: src/ui/profiledialog_ui.ui:164
 #, fuzzy, kde-format
@@ -10575,8 +10584,8 @@ msgstr "スキャン"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:556
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:565
+#: src/mltcontroller/clippropertiescontroller.cpp:1372
 #: src/project/dialogs/profilewidget.cpp:107 src/ui/configcapture_ui.ui:166
 #: src/ui/editrenderpreset_ui.ui:217 src/ui/profiledialog_ui.ui:221
 #, kde-format
@@ -10584,74 +10593,74 @@ msgid "Interlaced"
 msgstr "インターレース"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:574
+#: src/mltcontroller/clippropertiescontroller.cpp:583
 #: src/ui/profiledialog_ui.ui:297
 #, fuzzy, kde-format
 #| msgid "Force field order"
 msgid "Field order:"
 msgstr "フィールド順序の強制"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:578
+#: src/mltcontroller/clippropertiescontroller.cpp:587
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom First"
 msgstr "下から"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:579
+#: src/mltcontroller/clippropertiescontroller.cpp:588
 #, fuzzy, kde-format
 #| msgid "Top first"
 msgid "Top First"
 msgstr "上から"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:618
+#: src/mltcontroller/clippropertiescontroller.cpp:627
 #, fuzzy, kde-format
 #| msgid "Default"
 msgid "%1 (default)"
 msgstr "既定値"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:640
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Disable video"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:640
+#: src/mltcontroller/clippropertiescontroller.cpp:649
 #, kde-format
 msgid "Enable video"
 msgstr "動画を有効化"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:648
+#: src/mltcontroller/clippropertiescontroller.cpp:657
 #, kde-format
 msgid "Video stream"
 msgstr "ビデオストリーム"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:698
+#: src/mltcontroller/clippropertiescontroller.cpp:707
 #, kde-format
 msgid "Disable audio"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:698
+#: src/mltcontroller/clippropertiescontroller.cpp:707
 #, kde-format
 msgid "Enable audio"
 msgstr "音声を有効化"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:706
+#: src/mltcontroller/clippropertiescontroller.cpp:715
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio streams"
 msgstr "オーディオトラック"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:728
+#: src/mltcontroller/clippropertiescontroller.cpp:737
 #: src/monitor/monitor.cpp:1746
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:834
+#: src/mltcontroller/clippropertiescontroller.cpp:843
 #, kde-format
 msgid "Normalize"
 msgstr "ノーマライズ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:870
+#: src/mltcontroller/clippropertiescontroller.cpp:879
 #, fuzzy, kde-format
 #| msgid "Channel"
 msgid "Copy channel:"
@@ -10659,42 +10668,32 @@ msgstr "チャンネル"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, programList)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_vproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_aproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, analysis_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:871
-#: src/ui/clipproperties_ui.ui:117 src/ui/clipproperties_ui.ui:162
-#: src/ui/clipproperties_ui.ui:542 src/ui/clipproperties_ui.ui:574
+#: src/mltcontroller/clippropertiescontroller.cpp:880
 #: src/ui/projectsettings_ui.ui:539 src/ui/wizardmltcheck_ui.ui:49
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_vproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, clip_aproperties)
-#. i18n: ectx: property (text), widget (QTreeWidget, analysis_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:872
-#: src/ui/clipproperties_ui.ui:122 src/ui/clipproperties_ui.ui:167
-#: src/ui/clipproperties_ui.ui:547 src/ui/clipproperties_ui.ui:579
+#: src/mltcontroller/clippropertiescontroller.cpp:881
 #: src/ui/projectsettings_ui.ui:544
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:901
+#: src/mltcontroller/clippropertiescontroller.cpp:910
 #, fuzzy, kde-format
 #| msgid "Gain"
 msgid "Gain:"
 msgstr "ゲイン"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:928
+#: src/mltcontroller/clippropertiescontroller.cpp:937
 #, fuzzy, kde-format
 #| msgid "Audio only"
 msgid "Audio sync:"
 msgstr "オーディオのみ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:930
+#: src/mltcontroller/clippropertiescontroller.cpp:939
 #, kde-format
 msgid "ms"
 msgstr ""
@@ -10702,8 +10701,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #. i18n: ectx: property (text), widget (QLabel, colorspaceLabel)
-#: src/mltcontroller/clippropertiescontroller.cpp:949
-#: src/mltcontroller/clippropertiescontroller.cpp:1376
+#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:1385
 #: src/ui/configcapture_ui.ui:152 src/ui/editrenderpreset_ui.ui:381
 #: src/ui/profiledialog_ui.ui:277
 #, fuzzy, kde-format
@@ -10711,194 +10710,190 @@ msgstr ""
 msgid "Colorspace:"
 msgstr "カラースペース"
 
-#. i18n: ectx: property (text), widget (QCheckBox, clip_full_luma)
-#: src/mltcontroller/clippropertiescontroller.cpp:984
-#: src/ui/clipproperties_ui.ui:772
+#: src/mltcontroller/clippropertiescontroller.cpp:993
 #, kde-format
 msgid "Full luma range"
 msgstr "完全輝度レンジ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:994
+#: src/mltcontroller/clippropertiescontroller.cpp:1003
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1026
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #, kde-format
 msgid "File info"
 msgstr "ファイル情報"
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #: src/ui/profiledialog_ui.ui:58 src/ui/titlewidget_ui.ui:656
 #, kde-format
 msgid "Properties"
 msgstr "プロパティ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1030
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #, kde-format
 msgid "Audio Properties"
 msgstr "音声のプロパティ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mltcontroller/clippropertiescontroller.cpp:1034
-#: src/project/dialogs/projectsettings.cpp:824 src/ui/clipproperties_ui.ui:511
-#: src/ui/projectsettings_ui.ui:517
+#: src/mltcontroller/clippropertiescontroller.cpp:1043
+#: src/project/dialogs/projectsettings.cpp:824 src/ui/projectsettings_ui.ui:517
 #, kde-format
 msgid "Metadata"
 msgstr "メタデータ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1036
+#: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "Analysis"
 msgstr "解析"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1302
+#: src/mltcontroller/clippropertiescontroller.cpp:1311
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Image size:"
 msgstr "画像サイズ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1305
+#: src/mltcontroller/clippropertiescontroller.cpp:1314
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Image duration:"
 msgstr "フレームの長さ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1312
+#: src/mltcontroller/clippropertiescontroller.cpp:1321
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Image count:"
 msgstr "画像の背景"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1339
+#: src/mltcontroller/clippropertiescontroller.cpp:1348
 #, fuzzy, kde-format
 #| msgid "Video codec"
 msgid "Video codec:"
 msgstr "ビデオコーデック"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1359
+#: src/mltcontroller/clippropertiescontroller.cpp:1368
 #, fuzzy, kde-format
 #| msgid "Video bitrate"
 msgid "Video bitrate:"
 msgstr "動画のビットレート"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1373
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
 #, fuzzy, kde-format
 #| msgid "Pixel format"
 msgid "Pixel format:"
 msgstr "ピクセルの形式"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "B frames:"
 msgstr " フレーム"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:1388
 #, fuzzy, kde-format
 #| msgid "N"
 msgid "No"
 msgstr "N"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1382
+#: src/mltcontroller/clippropertiescontroller.cpp:1391
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio streams:"
 msgstr "オーディオトラック"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1397
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio codec:"
 msgstr "オーディオコーデック"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1392
+#: src/mltcontroller/clippropertiescontroller.cpp:1401
 #: src/ui/configproject_ui.ui:113 src/ui/projectsettings_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Audio channels:"
 msgstr "オーディオチャンネル"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1396
+#: src/mltcontroller/clippropertiescontroller.cpp:1405
 #, fuzzy, kde-format
 #| msgid "Audio frequency"
 msgid "Audio frequency:"
 msgstr "オーディオ周波数"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1396
+#: src/mltcontroller/clippropertiescontroller.cpp:1405
 #, fuzzy, kde-format
 #| msgid "H"
 msgctxt "Herz"
 msgid "Hz"
 msgstr "H"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Audio bitrate"
 msgid "Audio bitrate:"
 msgstr "音声のビットレート"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1409
+#: src/mltcontroller/clippropertiescontroller.cpp:1418
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "File size:"
 msgstr "ファイルサイズ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1481
 #, fuzzy, kde-format
 #| msgid "Add clip markers"
 msgctxt "@title:window"
 msgid "Save Clip Markers"
 msgstr "クリップマーカーを追加"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
+#: src/mltcontroller/clippropertiescontroller.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Add clip markers"
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "クリップマーカーを追加"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1521
+#: src/mltcontroller/clippropertiescontroller.cpp:1530
 #, kde-format
 msgid "An error occurred while parsing the marker file"
 msgstr "マーカーファイルの読み込み中にエラーが発生しました"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1537
-#: src/mltcontroller/clippropertiescontroller.cpp:1569
-#: src/mltcontroller/clippropertiescontroller.cpp:1601
+#: src/mltcontroller/clippropertiescontroller.cpp:1546
+#: src/mltcontroller/clippropertiescontroller.cpp:1578
+#: src/mltcontroller/clippropertiescontroller.cpp:1610
 #, kde-format
 msgid "Exif"
 msgstr "Exif 情報"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1622
-#: src/mltcontroller/clippropertiescontroller.cpp:1648
+#: src/mltcontroller/clippropertiescontroller.cpp:1631
+#: src/mltcontroller/clippropertiescontroller.cpp:1657
 #, kde-format
 msgid "Magic Lantern"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1689
+#: src/mltcontroller/clippropertiescontroller.cpp:1698
 #, fuzzy, kde-format
 #| msgid "Save Analysis Data"
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "解析データを保存"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1690
-#: src/mltcontroller/clippropertiescontroller.cpp:1703
+#: src/mltcontroller/clippropertiescontroller.cpp:1699
+#: src/mltcontroller/clippropertiescontroller.cpp:1712
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "テキストファイル (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1702
+#: src/mltcontroller/clippropertiescontroller.cpp:1711
 #, fuzzy, kde-format
 #| msgid "Open Analysis Data"
 msgctxt "@title:window"
@@ -11365,14 +11360,13 @@ msgstr "録画"
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
-#. i18n: ectx: attribute (title), widget (QWidget, tab_video)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:541
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:24
 #: src/timeline2/view/dialogs/tracksconfigdialog.cpp:137
-#: src/ui/clipproperties_ui.ui:86 src/ui/cutjobdialog_ui.ui:100
-#: src/ui/editrenderpreset_ui.ui:118 src/ui/projectsettings_ui.ui:161
-#: src/ui/recmonitor_ui.ui:100 src/ui/renderwidget_ui.ui:479
+#: src/ui/cutjobdialog_ui.ui:100 src/ui/editrenderpreset_ui.ui:118
+#: src/ui/projectsettings_ui.ui:161 src/ui/recmonitor_ui.ui:100
+#: src/ui/renderwidget_ui.ui:479
 #, kde-format
 msgid "Video"
 msgstr "ビデオ"
@@ -12624,9 +12618,7 @@ msgid "Pan and zoom"
 msgstr "パンとズーム"
 
 #. i18n: ectx: property (text), widget (QLabel, label_info)
-#. i18n: ectx: property (text), widget (QLabel, slide_info)
-#: src/project/dialogs/slideshowclip.cpp:319 src/ui/clipproperties_ui.ui:319
-#: src/ui/slideshowclip_ui.ui:295
+#: src/project/dialogs/slideshowclip.cpp:319 src/ui/slideshowclip_ui.ui:295
 #, kde-format
 msgid "No image found"
 msgstr "画像が見つかりません"
@@ -13912,58 +13904,58 @@ msgstr "トラック %1 内の %2 にある不正なクリップは削除され�
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:114
+#: src/timeline2/model/timelinefunctions.cpp:115
 #, kde-format
 msgid "Insert Clips"
 msgstr "クリップの挿入"
 
-#: src/timeline2/model/timelinefunctions.cpp:292
+#: src/timeline2/model/timelinefunctions.cpp:293
 #, kde-format
 msgid "All tracks are locked"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:303
+#: src/timeline2/model/timelinefunctions.cpp:304
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to cut clip"
 msgstr "代用クリップの作成に失敗しました。"
 
-#: src/timeline2/model/timelinefunctions.cpp:314
+#: src/timeline2/model/timelinefunctions.cpp:315
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clips to cut"
 msgstr "クリップはコピーされていません"
 
-#: src/timeline2/model/timelinefunctions.cpp:316
+#: src/timeline2/model/timelinefunctions.cpp:317
 #, fuzzy, kde-format
 #| msgid "Cut clip"
 msgid "Cut all clips"
 msgstr "クリップの切り取り"
 
-#: src/timeline2/model/timelinefunctions.cpp:513
+#: src/timeline2/model/timelinefunctions.cpp:514
 #: src/timeline2/view/timelinecontroller.cpp:1284
 #, kde-format
 msgid "Insert space"
 msgstr "スペースの挿入(I)"
 
-#: src/timeline2/model/timelinefunctions.cpp:515
+#: src/timeline2/model/timelinefunctions.cpp:516
 #: src/timeline2/view/timelinecontroller.cpp:1286
 #, kde-format
 msgid "Remove space"
 msgstr "スペースの削除(R)"
 
-#: src/timeline2/model/timelinefunctions.cpp:595
+#: src/timeline2/model/timelinefunctions.cpp:596
 #, kde-format
 msgid "Lift zone"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:595
+#: src/timeline2/model/timelinefunctions.cpp:596
 #, fuzzy, kde-format
 #| msgid "Extract Zone"
 msgid "Extract zone"
 msgstr "ゾーンの取り出し"
 
-#: src/timeline2/model/timelinefunctions.cpp:606
+#: src/timeline2/model/timelinefunctions.cpp:607
 #: src/timeline2/view/timelinecontroller.cpp:2992
 #: src/timeline2/view/timelinecontroller.cpp:3058
 #, fuzzy, kde-format
@@ -13971,7 +13963,7 @@ msgstr "ゾーンの取り出し"
 msgid "Overwrite zone"
 msgstr "上書きモード(O)"
 
-#: src/timeline2/model/timelinefunctions.cpp:606
+#: src/timeline2/model/timelinefunctions.cpp:607
 #: src/timeline2/view/timelinecontroller.cpp:2992
 #: src/timeline2/view/timelinecontroller.cpp:3058
 #, fuzzy, kde-format
@@ -13979,7 +13971,7 @@ msgstr "上書きモード(O)"
 msgid "Insert zone"
 msgstr "挿入モード(I)"
 
-#: src/timeline2/model/timelinefunctions.cpp:608
+#: src/timeline2/model/timelinefunctions.cpp:609
 #: src/timeline2/view/timelinecontroller.cpp:2994
 #: src/timeline2/view/timelinecontroller.cpp:3060
 #, fuzzy, kde-format
@@ -13987,161 +13979,161 @@ msgstr "挿入モード(I)"
 msgid "Could not insert zone"
 msgstr "挿入モード(I)"
 
-#: src/timeline2/model/timelinefunctions.cpp:641
+#: src/timeline2/model/timelinefunctions.cpp:642
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "トラックのラベルをクリックしてトラックを有効化してください"
 
-#: src/timeline2/model/timelinefunctions.cpp:828
+#: src/timeline2/model/timelinefunctions.cpp:829
 #, fuzzy, kde-format
 #| msgid "Cannot move effect"
 msgid "Cannot move selected group"
 msgstr "効果を移動できません"
 
-#: src/timeline2/model/timelinefunctions.cpp:929
-#: src/timeline2/model/timelinefunctions.cpp:933
-#: src/timeline2/model/timelinefunctions.cpp:940
+#: src/timeline2/model/timelinefunctions.cpp:930
+#: src/timeline2/model/timelinefunctions.cpp:934
+#: src/timeline2/model/timelinefunctions.cpp:941
 #: src/timeline2/view/timelinecontroller.cpp:3892
 #, kde-format
 msgid "Enable clip"
 msgstr "クリップを有効化"
 
-#: src/timeline2/model/timelinefunctions.cpp:929
-#: src/timeline2/model/timelinefunctions.cpp:933
-#: src/timeline2/model/timelinefunctions.cpp:940
+#: src/timeline2/model/timelinefunctions.cpp:930
+#: src/timeline2/model/timelinefunctions.cpp:934
+#: src/timeline2/model/timelinefunctions.cpp:941
 #: src/timeline2/view/timelinecontroller.cpp:3892
 #, kde-format
 msgid "Disable clip"
 msgstr "クリップを無効化"
 
-#: src/timeline2/model/timelinefunctions.cpp:982
+#: src/timeline2/model/timelinefunctions.cpp:983
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "一つ以上のクリップにオーディオがないか、または既にオーディオです"
 
-#: src/timeline2/model/timelinefunctions.cpp:999
+#: src/timeline2/model/timelinefunctions.cpp:1000
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "復元操作に利用できるオーディオトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1007
-#: src/timeline2/model/timelinefunctions.cpp:1020
+#: src/timeline2/model/timelinefunctions.cpp:1008
+#: src/timeline2/model/timelinefunctions.cpp:1021
 #, kde-format
 msgid "Audio restore failed"
 msgstr "音声の復元に失敗しました"
 
-#: src/timeline2/model/timelinefunctions.cpp:1059
+#: src/timeline2/model/timelinefunctions.cpp:1060
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "復元操作に利用できるビデオトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1067
-#: src/timeline2/model/timelinefunctions.cpp:1080
+#: src/timeline2/model/timelinefunctions.cpp:1068
+#: src/timeline2/model/timelinefunctions.cpp:1081
 #, kde-format
 msgid "Video restore failed"
 msgstr "動画の復元に失敗しました"
 
-#: src/timeline2/model/timelinefunctions.cpp:1086
+#: src/timeline2/model/timelinefunctions.cpp:1087
 #, kde-format
 msgid "Restore Video"
 msgstr "動画を復元"
 
-#: src/timeline2/model/timelinefunctions.cpp:1133
+#: src/timeline2/model/timelinefunctions.cpp:1134
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change Composition Track"
 msgstr "中央位置 (X)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1148
+#: src/timeline2/model/timelinefunctions.cpp:1149
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot enable multitrack view on a single track"
 msgstr "施錠されたトラック内では領域を削除できません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1302
+#: src/timeline2/model/timelinefunctions.cpp:1303
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
 msgid "Add Clip to Library"
 msgstr "プロジェクトにクリップを追加"
 
-#: src/timeline2/model/timelinefunctions.cpp:1302
+#: src/timeline2/model/timelinefunctions.cpp:1303
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "ライブラリのクリップ名を入力してください"
 
-#: src/timeline2/model/timelinefunctions.cpp:1615
+#: src/timeline2/model/timelinefunctions.cpp:1622
 #, kde-format
 msgid "Paste clips"
 msgstr "クリップを貼り付け"
 
-#: src/timeline2/model/timelinefunctions.cpp:1626
+#: src/timeline2/model/timelinefunctions.cpp:1633
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1638
+#: src/timeline2/model/timelinefunctions.cpp:1645
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to process filter %1"
 msgid "No valid data in clipboard"
 msgstr "フィルタ %1 を処理すべきクリップが見つかりません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1664
-#: src/timeline2/model/timelinefunctions.cpp:1722
-#: src/timeline2/model/timelinefunctions.cpp:1751
-#: src/timeline2/model/timelinefunctions.cpp:1782
-#: src/timeline2/model/timelinefunctions.cpp:1816
-#: src/timeline2/model/timelinefunctions.cpp:1965
+#: src/timeline2/model/timelinefunctions.cpp:1671
+#: src/timeline2/model/timelinefunctions.cpp:1729
+#: src/timeline2/model/timelinefunctions.cpp:1758
+#: src/timeline2/model/timelinefunctions.cpp:1789
+#: src/timeline2/model/timelinefunctions.cpp:1823
+#: src/timeline2/model/timelinefunctions.cpp:1974
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "クリップボードに貼り付ける十分なトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1833
-#: src/timeline2/model/timelinefunctions.cpp:1847
-#: src/timeline2/model/timelinefunctions.cpp:1874
-#: src/timeline2/model/timelinefunctions.cpp:1879
+#: src/timeline2/model/timelinefunctions.cpp:1840
+#: src/timeline2/model/timelinefunctions.cpp:1854
+#: src/timeline2/model/timelinefunctions.cpp:1882
+#: src/timeline2/model/timelinefunctions.cpp:1887
 #, kde-format
 msgid "Pasted clips"
 msgstr "貼り付けたクリップ"
 
-#: src/timeline2/model/timelinefunctions.cpp:1865
+#: src/timeline2/model/timelinefunctions.cpp:1873
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1867
+#: src/timeline2/model/timelinefunctions.cpp:1875
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1867
+#: src/timeline2/model/timelinefunctions.cpp:1875
 #, fuzzy, kde-format
 #| msgid "Master"
 msgid "Paste"
 msgstr "マスター"
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1917
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "クリップの追加"
 
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1966
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1988
-#: src/timeline2/model/timelinefunctions.cpp:2109
+#: src/timeline2/model/timelinefunctions.cpp:1997
+#: src/timeline2/model/timelinefunctions.cpp:2118
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "タイムライン内で値を更新する"
 
-#: src/timeline2/model/timelinefunctions.cpp:2129
+#: src/timeline2/model/timelinefunctions.cpp:2138
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste timeline clips"
@@ -14576,7 +14568,7 @@ msgstr "キャプチャ処理がクラッシュしました。パラメータを
 #: src/timeline2/view/qml/AudioLevels.qml:22
 #, kde-format
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
 #: src/timeline2/view/qml/timeline.qml:2018
@@ -15258,14 +15250,13 @@ msgstr "境界の幅"
 #. i18n: ectx: property (suffix), widget (QSpinBox, spin_mag)
 #. i18n: ectx: property (suffix), widget (QSpinBox, spin_yell)
 #. i18n: ectx: property (suffix), widget (QSpinBox, spin_black)
-#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_volume)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:160 src/ui/clipspeed_ui.ui:69
-#: src/ui/configsdl_ui.ui:80 src/ui/selectivecolor_ui.ui:75
-#: src/ui/selectivecolor_ui.ui:108 src/ui/selectivecolor_ui.ui:141
-#: src/ui/selectivecolor_ui.ui:174 src/ui/titlewidget_ui.ui:88
-#: src/widgets/geometrywidget.cpp:71 src/widgets/geometrywidget.cpp:78
+#: src/ui/selectivecolor_ui.ui:75 src/ui/selectivecolor_ui.ui:108
+#: src/ui/selectivecolor_ui.ui:141 src/ui/selectivecolor_ui.ui:174
+#: src/ui/titlewidget_ui.ui:88 src/widgets/geometrywidget.cpp:71
+#: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
@@ -16153,11 +16144,6 @@ msgstr "現在のボタンの削除"
 #. i18n: ectx: property (text), widget (QToolButton, buttonZoomOriginal)
 #. i18n: ectx: property (text), widget (QToolButton, buttonZoomFit)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
-#. i18n: ectx: property (text), widget (QToolButton, marker_save)
-#. i18n: ectx: property (text), widget (QToolButton, marker_load)
-#. i18n: ectx: property (text), widget (QToolButton, analysis_delete)
-#. i18n: ectx: property (text), widget (QToolButton, analysis_save)
-#. i18n: ectx: property (text), widget (QToolButton, analysis_load)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonCut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonApply)
@@ -16170,64 +16156,61 @@ msgstr "現在のボタンの削除"
 #: src/ui/bezierspline_ui.ui:109 src/ui/bezierspline_ui.ui:122
 #: src/ui/bezierspline_ui.ui:141 src/ui/bezierspline_ui.ui:154
 #: src/ui/bezierspline_ui.ui:167 src/ui/bezierspline_ui.ui:180
-#: src/ui/clipproperties_ui.ui:490 src/ui/clipproperties_ui.ui:500
-#: src/ui/clipproperties_ui.ui:587 src/ui/clipproperties_ui.ui:597
-#: src/ui/clipproperties_ui.ui:607 src/ui/clipspeed_ui.ui:85
-#: src/ui/clipstabilize_ui.ui:67 src/ui/collapsiblewidget_ui.ui:99
-#: src/ui/collapsiblewidget_ui.ui:125 src/ui/collapsiblewidget_ui.ui:135
-#: src/ui/collapsiblewidget_ui.ui:145 src/ui/collapsiblewidget_ui.ui:158
-#: src/ui/collapsiblewidget_ui.ui:171 src/ui/collapsiblewidget_ui.ui:184
-#: src/ui/collapsiblewidget_ui.ui:194 src/ui/collapsiblewidget_ui.ui:204
-#: src/ui/configjogshuttle_ui.ui:78 src/ui/configsdl_ui.ui:170
-#: src/ui/configspeech_ui.ui:33 src/ui/configspeech_ui.ui:77
-#: src/ui/cutjobdialog_ui.ui:80 src/ui/editrenderpreset_ui.ui:703
-#: src/ui/editsub_ui.ui:19 src/ui/editsub_ui.ui:29 src/ui/editsub_ui.ui:39
-#: src/ui/editsub_ui.ui:46 src/ui/editsub_ui.ui:53 src/ui/editsub_ui.ui:60
-#: src/ui/editsub_ui.ui:126 src/ui/editsub_ui.ui:143 src/ui/editsub_ui.ui:160
-#: src/ui/editsub_ui.ui:366 src/ui/effectlist_ui.ui:83
-#: src/ui/effectlist_ui.ui:102 src/ui/effectlist_ui.ui:118
-#: src/ui/effectlist_ui.ui:134 src/ui/effectlist_ui.ui:150
-#: src/ui/exportguidesdialog_ui.ui:122 src/ui/exportguidesdialog_ui.ui:142
-#: src/ui/geometrywidget_ui.ui:70 src/ui/geometrywidget_ui.ui:83
-#: src/ui/geometrywidget_ui.ui:93 src/ui/gradientedit_ui.ui:126
-#: src/ui/gradientedit_ui.ui:143 src/ui/keyframeeditor_ui.ui:91
-#: src/ui/keyframeeditor_ui.ui:101 src/ui/keyframewidget_ui.ui:46
-#: src/ui/keyframewidget_ui.ui:59 src/ui/keyframewidget_ui.ui:72
-#: src/ui/keyframewidget_ui.ui:85 src/ui/keyframewidget_ui.ui:124
-#: src/ui/listdependencyparamwidget_ui.ui:42 src/ui/managecache_ui.ui:61
-#: src/ui/managecache_ui.ui:112 src/ui/managecache_ui.ui:143
-#: src/ui/managecache_ui.ui:198 src/ui/managecache_ui.ui:229
-#: src/ui/managecache_ui.ui:287 src/ui/manageencodingprofile_ui.ui:44
-#: src/ui/manageencodingprofile_ui.ui:51 src/ui/manageencodingprofile_ui.ui:58
-#: src/ui/manageencodingprofile_ui.ui:68 src/ui/monitoreditwidget_ui.ui:53
-#: src/ui/monitoreditwidget_ui.ui:66 src/ui/monitoreditwidget_ui.ui:76
-#: src/ui/projectsettings_ui.ui:264 src/ui/projectsettings_ui.ui:271
-#: src/ui/projectsettings_ui.ui:281 src/ui/projectsettings_ui.ui:554
-#: src/ui/projectsettings_ui.ui:561 src/ui/qtextclip_ui.ui:90
-#: src/ui/recmonitor_ui.ui:72 src/ui/renderwidget_ui.ui:554
-#: src/ui/renderwidget_ui.ui:988 src/ui/resourcewidget_ui.ui:210
-#: src/ui/resourcewidget_ui.ui:277 src/ui/selectivecolor_ui.ui:29
-#: src/ui/selectivecolor_ui.ui:36 src/ui/speechdialog_ui.ui:95
-#: src/ui/textbasededit_ui.ui:58 src/ui/textbasededit_ui.ui:87
-#: src/ui/textbasededit_ui.ui:104 src/ui/textbasededit_ui.ui:175
-#: src/ui/textbasededit_ui.ui:195 src/ui/textbasededit_ui.ui:205
-#: src/ui/textbasededit_ui.ui:215 src/ui/textbasededit_ui.ui:225
-#: src/ui/timeremap_ui.ui:96 src/ui/timeremap_ui.ui:150
-#: src/ui/timeremap_ui.ui:181 src/ui/timeremap_ui.ui:191
-#: src/ui/timeremap_ui.ui:201 src/ui/timeremap_ui.ui:378
-#: src/ui/titlewidget_ui.ui:826 src/ui/titlewidget_ui.ui:836
-#: src/ui/titlewidget_ui.ui:1041 src/ui/titlewidget_ui.ui:1096
-#: src/ui/titlewidget_ui.ui:1146 src/ui/titlewidget_ui.ui:1169
-#: src/ui/titlewidget_ui.ui:1202 src/ui/titlewidget_ui.ui:1292
-#: src/ui/titlewidget_ui.ui:1590 src/ui/titlewidget_ui.ui:1607
-#: src/ui/titlewidget_ui.ui:1621 src/ui/titlewidget_ui.ui:1688
-#: src/ui/titlewidget_ui.ui:1702 src/ui/titlewidget_ui.ui:1716
-#: src/ui/titlewidget_ui.ui:1730 src/ui/titlewidget_ui.ui:1744
-#: src/ui/titlewidget_ui.ui:1758 src/ui/tracksconfigdialog_ui.ui:51
-#: src/ui/tracksconfigdialog_ui.ui:58 src/ui/tracksconfigdialog_ui.ui:65
-#: src/ui/tracksconfigdialog_ui.ui:72 src/ui/tracksconfigdialog_ui.ui:79
-#: src/ui/unicodewidget_ui.ui:197 src/ui/unicodewidget_ui.ui:222
-#: src/ui/urllistparamwidget_ui.ui:119
+#: src/ui/clipspeed_ui.ui:85 src/ui/clipstabilize_ui.ui:67
+#: src/ui/collapsiblewidget_ui.ui:99 src/ui/collapsiblewidget_ui.ui:125
+#: src/ui/collapsiblewidget_ui.ui:135 src/ui/collapsiblewidget_ui.ui:145
+#: src/ui/collapsiblewidget_ui.ui:158 src/ui/collapsiblewidget_ui.ui:171
+#: src/ui/collapsiblewidget_ui.ui:184 src/ui/collapsiblewidget_ui.ui:194
+#: src/ui/collapsiblewidget_ui.ui:204 src/ui/configjogshuttle_ui.ui:78
+#: src/ui/configsdl_ui.ui:162 src/ui/configspeech_ui.ui:33
+#: src/ui/configspeech_ui.ui:77 src/ui/cutjobdialog_ui.ui:80
+#: src/ui/editrenderpreset_ui.ui:703 src/ui/editsub_ui.ui:19
+#: src/ui/editsub_ui.ui:29 src/ui/editsub_ui.ui:39 src/ui/editsub_ui.ui:46
+#: src/ui/editsub_ui.ui:53 src/ui/editsub_ui.ui:60 src/ui/editsub_ui.ui:138
+#: src/ui/editsub_ui.ui:155 src/ui/editsub_ui.ui:172 src/ui/editsub_ui.ui:378
+#: src/ui/effectlist_ui.ui:83 src/ui/effectlist_ui.ui:102
+#: src/ui/effectlist_ui.ui:118 src/ui/effectlist_ui.ui:134
+#: src/ui/effectlist_ui.ui:150 src/ui/exportguidesdialog_ui.ui:122
+#: src/ui/exportguidesdialog_ui.ui:142 src/ui/geometrywidget_ui.ui:70
+#: src/ui/geometrywidget_ui.ui:83 src/ui/geometrywidget_ui.ui:93
+#: src/ui/gradientedit_ui.ui:126 src/ui/gradientedit_ui.ui:143
+#: src/ui/keyframeeditor_ui.ui:91 src/ui/keyframeeditor_ui.ui:101
+#: src/ui/keyframewidget_ui.ui:46 src/ui/keyframewidget_ui.ui:59
+#: src/ui/keyframewidget_ui.ui:72 src/ui/keyframewidget_ui.ui:85
+#: src/ui/keyframewidget_ui.ui:124 src/ui/listdependencyparamwidget_ui.ui:42
+#: src/ui/managecache_ui.ui:61 src/ui/managecache_ui.ui:112
+#: src/ui/managecache_ui.ui:143 src/ui/managecache_ui.ui:198
+#: src/ui/managecache_ui.ui:229 src/ui/managecache_ui.ui:287
+#: src/ui/manageencodingprofile_ui.ui:44 src/ui/manageencodingprofile_ui.ui:51
+#: src/ui/manageencodingprofile_ui.ui:58 src/ui/manageencodingprofile_ui.ui:68
+#: src/ui/monitoreditwidget_ui.ui:53 src/ui/monitoreditwidget_ui.ui:66
+#: src/ui/monitoreditwidget_ui.ui:76 src/ui/projectsettings_ui.ui:264
+#: src/ui/projectsettings_ui.ui:271 src/ui/projectsettings_ui.ui:281
+#: src/ui/projectsettings_ui.ui:554 src/ui/projectsettings_ui.ui:561
+#: src/ui/qtextclip_ui.ui:90 src/ui/recmonitor_ui.ui:72
+#: src/ui/renderwidget_ui.ui:554 src/ui/renderwidget_ui.ui:988
+#: src/ui/resourcewidget_ui.ui:210 src/ui/resourcewidget_ui.ui:277
+#: src/ui/selectivecolor_ui.ui:29 src/ui/selectivecolor_ui.ui:36
+#: src/ui/speechdialog_ui.ui:95 src/ui/textbasededit_ui.ui:58
+#: src/ui/textbasededit_ui.ui:87 src/ui/textbasededit_ui.ui:104
+#: src/ui/textbasededit_ui.ui:175 src/ui/textbasededit_ui.ui:195
+#: src/ui/textbasededit_ui.ui:205 src/ui/textbasededit_ui.ui:215
+#: src/ui/textbasededit_ui.ui:225 src/ui/timeremap_ui.ui:96
+#: src/ui/timeremap_ui.ui:150 src/ui/timeremap_ui.ui:181
+#: src/ui/timeremap_ui.ui:191 src/ui/timeremap_ui.ui:201
+#: src/ui/timeremap_ui.ui:378 src/ui/titlewidget_ui.ui:826
+#: src/ui/titlewidget_ui.ui:836 src/ui/titlewidget_ui.ui:1041
+#: src/ui/titlewidget_ui.ui:1096 src/ui/titlewidget_ui.ui:1146
+#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1202
+#: src/ui/titlewidget_ui.ui:1292 src/ui/titlewidget_ui.ui:1590
+#: src/ui/titlewidget_ui.ui:1607 src/ui/titlewidget_ui.ui:1621
+#: src/ui/titlewidget_ui.ui:1688 src/ui/titlewidget_ui.ui:1702
+#: src/ui/titlewidget_ui.ui:1716 src/ui/titlewidget_ui.ui:1730
+#: src/ui/titlewidget_ui.ui:1744 src/ui/titlewidget_ui.ui:1758
+#: src/ui/tracksconfigdialog_ui.ui:51 src/ui/tracksconfigdialog_ui.ui:58
+#: src/ui/tracksconfigdialog_ui.ui:65 src/ui/tracksconfigdialog_ui.ui:72
+#: src/ui/tracksconfigdialog_ui.ui:79 src/ui/unicodewidget_ui.ui:197
+#: src/ui/unicodewidget_ui.ui:222 src/ui/urllistparamwidget_ui.ui:119
 #, kde-format
 msgid "..."
 msgstr "..."
@@ -16285,7 +16268,7 @@ msgstr "テキストラベル"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#: src/ui/clipdurationdialog_ui.ui:20 src/ui/editsub_ui.ui:119
+#: src/ui/clipdurationdialog_ui.ui:20 src/ui/editsub_ui.ui:131
 #: src/ui/keyframedialog_ui.ui:20
 #, fuzzy, kde-format
 #| msgid "Position"
@@ -16305,203 +16288,6 @@ msgstr "クロップ開始"
 #| msgid "Crop end"
 msgid "Crop end:"
 msgstr "クロップ終了"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#. i18n: ectx: property (text), widget (QLabel, label_path)
-#: src/ui/clipproperties_ui.ui:27 src/ui/missingclips_ui.ui:78
-#, kde-format
-msgid "Path"
-msgstr "パス"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#. i18n: ectx: property (text), widget (QLabel, label_size)
-#: src/ui/clipproperties_ui.ui:51 src/ui/configcapture_ui.ui:96
-#: src/ui/profiledialog_ui.ui:287
-#, kde-format
-msgid "Size:"
-msgstr "サイズ:"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize)
-#: src/ui/clipproperties_ui.ui:65
-#, kde-format
-msgid "File size"
-msgstr "ファイルサイズ"
-
-#. i18n: ectx: property (text), widget (QLabel, slide_type_label)
-#: src/ui/clipproperties_ui.ui:212
-#, kde-format
-msgid "Image type"
-msgstr "イメージタイプ"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/clipproperties_ui.ui:222
-#, kde-format
-msgid "Frame duration"
-msgstr "フレームの長さ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, sm_loop)
-#. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
-#: src/ui/clipproperties_ui.ui:255 src/ui/slideshowclip_ui.ui:263
-#: src/ui/smconfig_ui.ui:26
-#, kde-format
-msgid "Loop"
-msgstr "繰り返し"
-
-#. i18n: ectx: property (text), widget (QCheckBox, slide_fade)
-#: src/ui/clipproperties_ui.ui:262
-#, kde-format
-msgid "Dissolve"
-msgstr "溶解"
-
-#. i18n: ectx: property (text), widget (QCheckBox, slide_luma)
-#: src/ui/clipproperties_ui.ui:292
-#, kde-format
-msgid "Wipe"
-msgstr "ワイプ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, slide_crop)
-#: src/ui/clipproperties_ui.ui:339 src/ui/slideshowclip_ui.ui:36
-#, kde-format
-msgid "Center crop"
-msgstr "中央クロップ"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
-#. i18n: ectx: property (text), widget (QLabel, label_animation)
-#: src/ui/clipproperties_ui.ui:346 src/ui/titlewidget_ui.ui:1467
-#, kde-format
-msgid "Animation"
-msgstr "アニメーション"
-
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/clipproperties_ui.ui:365
-#, kde-format
-msgid "Image size"
-msgstr "画像サイズ"
-
-#. i18n: ectx: property (text), widget (QCheckBox, image_transparency)
-#: src/ui/clipproperties_ui.ui:381
-#, kde-format
-msgid "Transparent background"
-msgstr "透過背景"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, markers_list)
-#: src/ui/clipproperties_ui.ui:427
-#, kde-format
-msgid "Time"
-msgstr "時間"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#. i18n: ectx: property (text), widget (QTreeWidget, markers_list)
-#: src/ui/clipproperties_ui.ui:432 src/ui/markerdialog_ui.ui:78
-#, kde-format
-msgid "Comment"
-msgstr "コメント"
-
-#. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
-#. i18n: ectx: property (text), widget (QToolButton, marker_new)
-#: src/ui/clipproperties_ui.ui:440 src/ui/titlewidget_ui.ui:456
-#, kde-format
-msgid "N"
-msgstr "N"
-
-#. i18n: ectx: property (text), widget (QToolButton, marker_edit)
-#: src/ui/clipproperties_ui.ui:450
-#, kde-format
-msgid "E"
-msgstr "E"
-
-#. i18n: ectx: property (text), widget (QToolButton, button_delete)
-#. i18n: ectx: property (text), widget (QToolButton, marker_delete)
-#: src/ui/clipproperties_ui.ui:460 src/ui/keyframeeditor_ui.ui:78
-#: src/ui/profiledialog_ui.ui:47
-#, kde-format
-msgid "D"
-msgstr "D"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_advanced)
-#: src/ui/clipproperties_ui.ui:634
-#, kde-format
-msgid "Advanced"
-msgstr "高度"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_ar)
-#: src/ui/clipproperties_ui.ui:653
-#, kde-format
-msgid "Force aspect ratio"
-msgstr "アスペクト比の強制"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_threads)
-#: src/ui/clipproperties_ui.ui:686
-#, kde-format
-msgid "Decoding threads"
-msgstr "デコードスレッド"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_vindex)
-#: src/ui/clipproperties_ui.ui:693
-#, kde-format
-msgid "Video index"
-msgstr "ビデオインデックス"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_progressive)
-#: src/ui/clipproperties_ui.ui:700
-#, kde-format
-msgid "Force scanning"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_aindex)
-#: src/ui/clipproperties_ui.ui:720
-#, kde-format
-msgid "Audio index"
-msgstr "オーディオインデックス"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_framerate)
-#: src/ui/clipproperties_ui.ui:727
-#, kde-format
-msgid "Force frame rate"
-msgstr "フレームレートの強制"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_out)
-#: src/ui/clipproperties_ui.ui:734
-#, kde-format
-msgid "Force duration"
-msgstr "長さの強制"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_colorspace)
-#: src/ui/clipproperties_ui.ui:751
-#, kde-format
-msgid "Force colorspace"
-msgstr "カラースペースの強制"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_fieldorder)
-#: src/ui/clipproperties_ui.ui:765
-#, kde-format
-msgid "Force field order"
-msgstr "フィールド順序の強制"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/clipproperties_ui.ui:804
-#, kde-format
-msgid ":"
-msgstr ":"
-
-#. i18n: ectx: property (text), widget (QCheckBox, clip_force_transparency)
-#: src/ui/clipproperties_ui.ui:829
-#, kde-format
-msgid "Image background"
-msgstr "画像の背景"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, clip_transparency)
-#: src/ui/clipproperties_ui.ui:837
-#, kde-format
-msgid "Normal"
-msgstr "通常"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, clip_transparency)
-#: src/ui/clipproperties_ui.ui:842
-#, kde-format
-msgid "Transparent"
-msgstr "透過"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dest)
 #: src/ui/clipspeed_ui.ui:22 src/ui/clipstabilize_ui.ui:84
@@ -16667,6 +16453,13 @@ msgstr "ビデオデバイス"
 msgid "Capture format:"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/configcapture_ui.ui:96 src/ui/profiledialog_ui.ui:287
+#, kde-format
+msgid "Size:"
+msgstr "サイズ:"
+
 #. i18n: ectx: property (text), widget (QLabel, p_size)
 #: src/ui/configcapture_ui.ui:103
 #, kde-format
@@ -16828,19 +16621,25 @@ msgstr ""
 msgid "Disable countdown before recording"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:17
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Audio thumbnail colors:"
 msgstr "オーディオのサムネイルを表示する(T)"
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:37
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor overlay color:"
 msgstr "モニターのオーバーレイ情報"
+
+#. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
+#: src/ui/configcolors_ui.ui:57
+#, kde-format
+msgid "Monitor background color:"
+msgstr "背景色のモニタ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:29
@@ -17444,7 +17243,7 @@ msgstr "画像サイズ"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
-#: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:141
+#: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:133
 #: src/ui/projectsettings_ui.ui:470
 #, fuzzy, kde-format
 #| msgid "Enable %1"
@@ -17467,7 +17266,7 @@ msgid "Proxy video resize (width):"
 msgstr "画像サイズ"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configsdl_ui.ui:15
+#: src/ui/configsdl_ui.ui:23
 #, kde-format
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
@@ -17476,60 +17275,17 @@ msgstr ""
 "警告: ドライバとデバイスに対する変更は、Kdenlive の動作を不安定にする場合があ"
 "ります。何が起こるのかを熟知している場合にのみ変更してください。"
 
-#. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
-#: src/ui/configsdl_ui.ui:31
+#. i18n: ectx: property (text), widget (QLabel, label_gpu)
+#: src/ui/configsdl_ui.ui:39
 #, fuzzy, kde-format
-#| msgid "Audio tracks"
-msgid "Audio Backend:"
-msgstr "オーディオトラック"
-
-#. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
-#: src/ui/configsdl_ui.ui:47
-#, kde-format
-msgid "Audio driver:"
-msgstr "オーディオドライバ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_audio_device)
-#: src/ui/configsdl_ui.ui:60
-#, kde-format
-msgid "Audio device:"
-msgstr "オーディオデバイス:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_preview_volume)
-#: src/ui/configsdl_ui.ui:73
-#, kde-format
-msgid "Preview volume:"
-msgstr "プレビュー音量:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configsdl_ui.ui:93
-#, fuzzy, kde-format
-#| msgid "Switch monitor fullscreen"
-msgid "Monitor for fullscreen output:"
-msgstr "モニタをフルスクリーン表示(M)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_monitor_background)
-#: src/ui/configsdl_ui.ui:103
-#, kde-format
-msgid "Monitor background color:"
-msgstr "背景色のモニタ:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configsdl_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
-msgid "External display (Blackmagic card):"
-msgstr "外付けのディスプレイを使用する (Blackmagic カード)"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configsdl_ui.ui:148
-#, fuzzy, kde-format
-#| msgid "Output device"
-msgid "Output device:"
-msgstr "出力デバイス"
+#| msgid "Use OpenGL for video display (restart Kdenlive to apply)"
+msgid "GPU processing (Movit library):"
+msgstr ""
+"ビデオ表示に OpenGL を使用する (適用するには Kdenlive を再起動する必要があり"
+"ます)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
-#: src/ui/configsdl_ui.ui:183
+#: src/ui/configsdl_ui.ui:46
 #, fuzzy, kde-format
 #| msgid "Use OpenGL for video display (restart Kdenlive to apply)"
 msgid "Enable - restart Kdenlive to apply"
@@ -17537,14 +17293,45 @@ msgstr ""
 "ビデオ表示に OpenGL を使用する (適用するには Kdenlive を再起動する必要があり"
 "ます)"
 
-#. i18n: ectx: property (text), widget (QLabel, label_gpu)
-#: src/ui/configsdl_ui.ui:190
+#. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
+#: src/ui/configsdl_ui.ui:60
 #, fuzzy, kde-format
-#| msgid "Use OpenGL for video display (restart Kdenlive to apply)"
-msgid "GPU processing (Movit library):"
-msgstr ""
-"ビデオ表示に OpenGL を使用する (適用するには Kdenlive を再起動する必要があり"
-"ます)"
+#| msgid "Audio tracks"
+msgid "Audio Backend:"
+msgstr "オーディオトラック"
+
+#. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
+#: src/ui/configsdl_ui.ui:76
+#, kde-format
+msgid "Audio driver:"
+msgstr "オーディオドライバ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_audio_device)
+#: src/ui/configsdl_ui.ui:89
+#, kde-format
+msgid "Audio device:"
+msgstr "オーディオデバイス:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: src/ui/configsdl_ui.ui:109
+#, fuzzy, kde-format
+#| msgid "Switch monitor fullscreen"
+msgid "Monitor for fullscreen output:"
+msgstr "モニタをフルスクリーン表示(M)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configsdl_ui.ui:126
+#, fuzzy, kde-format
+#| msgid "Use external display (Blackmagic card)"
+msgid "External display (Blackmagic card):"
+msgstr "外付けのディスプレイを使用する (Blackmagic カード)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: src/ui/configsdl_ui.ui:140
+#, fuzzy, kde-format
+#| msgid "Output device"
+msgid "Output device:"
+msgstr "出力デバイス"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #: src/ui/configspeech_ui.ui:30
@@ -18075,76 +17862,76 @@ msgid "Enable manual editing"
 msgstr "音声を有効化"
 
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
-#: src/ui/editsub_ui.ui:136
+#: src/ui/editsub_ui.ui:148
 #, kde-format
 msgid "End:"
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#: src/ui/editsub_ui.ui:210 src/ui/editsub_ui.ui:311
+#: src/ui/editsub_ui.ui:222 src/ui/editsub_ui.ui:323
 #, fuzzy, kde-format
 #| msgid "x"
 msgid "px"
 msgstr "x"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:220
+#: src/ui/editsub_ui.ui:232
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom Shadow"
 msgstr "カスタム"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:227
+#: src/ui/editsub_ui.ui:239
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom Font"
 msgstr "カスタム"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:237
+#: src/ui/editsub_ui.ui:249
 #, kde-format
 msgid "pt"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:263
+#: src/ui/editsub_ui.ui:275
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Custom Font Color"
 msgstr "プロジェクトフォルダの使用"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:270
+#: src/ui/editsub_ui.ui:282
 #, fuzzy, kde-format
 #| msgid "Compositions"
 msgid "Custom Position"
 msgstr "コンポジット"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:277
+#: src/ui/editsub_ui.ui:289
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Custom Font Size"
 msgstr "フォントサイズ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:325
+#: src/ui/editsub_ui.ui:337
 #, fuzzy, kde-format
 #| msgid "Outline Color"
 msgid "Custom Outline Color"
 msgstr "輪郭色"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:332
+#: src/ui/editsub_ui.ui:344
 #, fuzzy, kde-format
 #| msgid "Quality"
 msgid "Custom Outline Size"
 msgstr "品質"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:339
+#: src/ui/editsub_ui.ui:351
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Opaque background"
@@ -18315,6 +18102,12 @@ msgstr "値"
 #, kde-format
 msgid "A"
 msgstr "A"
+
+#. i18n: ectx: property (text), widget (QToolButton, button_delete)
+#: src/ui/keyframeeditor_ui.ui:78 src/ui/profiledialog_ui.ui:47
+#, kde-format
+msgid "D"
+msgstr "D"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetKeyframe)
 #: src/ui/keyframeeditor_ui.ui:88
@@ -18672,6 +18465,12 @@ msgstr "画像のプレビュー"
 msgid "Category"
 msgstr "カテゴリ"
 
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
+#: src/ui/markerdialog_ui.ui:78
+#, kde-format
+msgid "Comment"
+msgstr "コメント"
+
 #. i18n: ectx: property (windowTitle), widget (QDialog, MissingClips_UI)
 #: src/ui/missingclips_ui.ui:14
 #, kde-format
@@ -18690,6 +18489,12 @@ msgstr "グループの再構築"
 #, kde-format
 msgid "Use placeholders for missing clips"
 msgstr "存在しないクリップに対してプレースホルダを使用する"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
+#: src/ui/missingclips_ui.ui:78
+#, kde-format
+msgid "Path"
+msgstr "パス"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/ui/missingclips_ui.ui:96
@@ -18861,8 +18666,7 @@ msgstr "代用"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy clips"
 msgstr "代用クリップ"
 
@@ -19030,8 +18834,7 @@ msgstr "Blackmagic カード"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:14
-#, fuzzy, kde-format
-#| msgid "Rendering"
+#, kde-format
 msgid "Rendering"
 msgstr "レンダリング"
 
@@ -19500,6 +19303,12 @@ msgstr "遷移終了点のサイズ変更"
 msgid "Slideshow Clip"
 msgstr "スライドショー・クリップ"
 
+#. i18n: ectx: property (text), widget (QCheckBox, slide_crop)
+#: src/ui/slideshowclip_ui.ui:36
+#, kde-format
+msgid "Center crop"
+msgstr "中央クロップ"
+
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/slideshowclip_ui.ui:50
 #, fuzzy, kde-format
@@ -19566,6 +19375,13 @@ msgstr "イメージタイプ"
 #, kde-format
 msgid "First frame"
 msgstr "最初のフレーム"
+
+#. i18n: ectx: property (text), widget (QCheckBox, sm_loop)
+#. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
+#: src/ui/slideshowclip_ui.ui:263 src/ui/smconfig_ui.ui:26
+#, kde-format
+msgid "Loop"
+msgstr "繰り返し"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_thumbs)
 #: src/ui/slideshowclip_ui.ui:275
@@ -19837,6 +19653,12 @@ msgstr "水平方向"
 msgid "Vertical guides."
 msgstr "垂直方向"
 
+#. i18n: ectx: property (text), widget (QToolButton, buttonUnselectAll)
+#: src/ui/titlewidget_ui.ui:456
+#, kde-format
+msgid "N"
+msgstr "N"
+
 #. i18n: ectx: property (text), widget (QCheckBox, show_guides)
 #: src/ui/titlewidget_ui.ui:476
 #, fuzzy, kde-format
@@ -20019,6 +19841,12 @@ msgstr "左寄せ"
 #, kde-format
 msgid "Border "
 msgstr "境界 "
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
+#: src/ui/titlewidget_ui.ui:1467
+#, kde-format
+msgid "Animation"
+msgstr "アニメーション"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_start)
 #: src/ui/titlewidget_ui.ui:1473
@@ -20283,8 +20111,18 @@ msgstr "HDV"
 msgid "Show All"
 msgstr "すべてを表示"
 
-#: src/widgets/colorpickerwidget.cpp:56
+#: src/widgets/colorpickerwidget.cpp:55
 #, kde-format
+msgid "Pick a color on the screen."
+msgstr ""
+
+#: src/widgets/colorpickerwidget.cpp:56
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "Pick a color on the screen. By pressing the mouse button and then moving "
+#| "your mouse you can select a section of the screen from which to get an "
+#| "average color."
+msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
 "your mouse you can select a section of the screen from which to get an "
@@ -20412,2295 +20250,71 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
 
-#, fuzzy
-#~| msgid "256 scale"
-#~ msgid "X scale"
-#~ msgstr "256 スケール"
+#~ msgid "File size"
+#~ msgstr "ファイルサイズ"
 
-#, fuzzy
-#~| msgid "256 scale"
-#~ msgid "Y scale"
-#~ msgstr "256 スケール"
+#~ msgid "Image type"
+#~ msgstr "イメージタイプ"
 
-#, fuzzy
-#~| msgid "Edge mode"
-#~ msgid "Blend mode"
-#~ msgstr "輪郭モード"
-
-#, fuzzy
-#~| msgid "Horizontal center"
-#~ msgid "Rotation X center"
-#~ msgstr "水平方向に中央"
-
-#, fuzzy
-#~| msgid "Horizontal center"
-#~ msgid "Rotation Y center"
-#~ msgstr "水平方向に中央"
-
-#~ msgid "Capture format"
-#~ msgstr "キャプチャ形式"
-
-#~ msgid "Encoding profile"
-#~ msgstr "エンコーディングのプロファイル"
-
-#~ msgid "Colorspace"
-#~ msgstr "カラースペース"
-
-#, fuzzy
-#~| msgid "Full screen capture"
-#~ msgid "Full Screen Capture"
-#~ msgstr "フルスクリーンキャプチャ"
-
-#~ msgid "Frame rate"
-#~ msgstr "フレームレート"
-
-#~ msgid "Use KDE job tracking for render jobs"
-#~ msgstr "ジョブのレンダリングに KDE ジョブトラッキングを使用する"
-
-#~ msgid "Audio tracks"
-#~ msgstr "オーディオトラック"
-
-#~ msgid "Use parent folder of the project file as project folder"
-#~ msgstr ""
-#~ "プロジェクトファイルの親フォルダをプロジェクトフォルダとして使用する"
-
-#~ msgid "Video tracks"
-#~ msgstr "ビデオトラック"
-
-#~ msgid "Use FFmpeg for audio thumbnails (faster)"
-#~ msgstr "オーディオサムネイルに FFmpeg を使用する (faster)"
-
-#, fuzzy
-#~| msgid "Delete profile"
-#~ msgid "Manage timeline preview profiles"
-#~ msgstr "プロファイルの削除"
-
-#, fuzzy
-#~| msgid "Select default video player"
-#~ msgid "Select default preview profile"
-#~ msgstr "既定のビデオプレーヤーの選択"
-
-#, fuzzy
-#~| msgid "Save profile"
-#~ msgid "Preview profile:"
-#~ msgstr "プロファイルの保存"
-
-#~ msgid ""
-#~ "This will delete cache data (%1) for missing projects or projects older "
-#~ "than %2 months."
-#~ msgstr ""
-#~ "これは %2 か月より前のプロジェクトや行方不明のプロジェクトのキャッシュデー"
-#~ "タ (%1) を削除します。"
-
-#~ msgid "Use project folder"
-#~ msgstr "プロジェクトフォルダの使用"
-
-#, fuzzy
-#~| msgid "Total Backup Data"
-#~ msgid "Total proxy data:"
-#~ msgstr "全バックアップデータ"
-
-#~ msgid "Outline"
-#~ msgstr "輪郭"
-
-#, fuzzy
-#~| msgid "Project folder: %1"
-#~ msgid "Errors were detected in the project file."
-#~ msgstr "プロジェクトのフォルダ: %1"
-
-#, fuzzy
-#~| msgid "Animation"
-#~ msgid "Add Animation…"
-#~ msgstr "アニメーション"
-
-#~ msgid "Select default image editor"
-#~ msgstr "既定の画像エディタの選択"
-
-#~ msgid "Select default audio editor"
-#~ msgstr "既定のオーディオエディタの選択"
-
-#, fuzzy
-#~| msgid "Color key"
-#~ msgid "&Color Theme"
-#~ msgstr "カラー・キー"
-
-#, fuzzy
-#~| msgid "Composite"
-#~ msgid "Track compositing"
-#~ msgstr "コンポジット"
-
-#~ msgid "High Quality"
-#~ msgstr "高品質"
-
-#~ msgid "Validating"
-#~ msgstr "検証しています"
-
-#~ msgid ""
-#~ "File %1 is not a valid project file.\n"
-#~ "Do you want to open a backup file?"
-#~ msgstr ""
-#~ "ファイル %1 は正しいプロジェクトファイルではありません。\n"
-#~ "バックアップファイルを開きますか？"
-
-#~ msgid "Check missing clips"
-#~ msgstr "クリップの存在チェック"
-
-#, fuzzy
-#~| msgid "Manage Project Profiles"
-#~ msgid "Moving proxy clips failed: %1"
-#~ msgstr "プロジェクトプロファイルの管理(M)"
-
-#, fuzzy
-#~| msgid "Cannot write to file %1"
-#~ msgid "Cannot get duration for file %1"
-#~ msgstr "ファイル %1 に書き込むことができません"
-
-#, fuzzy
-#~| msgid "TextLabel"
-#~ msgid "KSqueezedTextLabel"
-#~ msgstr "テキストラベル"
-
-#~ msgid "Text Edit"
-#~ msgstr "テキストの編集"
-
-#, fuzzy
-#~| msgid "Record Monitor"
-#~ msgid "Rate Controle:"
-#~ msgstr "録画モニタ(R)"
-
-#, fuzzy
-#~| msgid "Edit profile"
-#~ msgid "Edit profile…"
-#~ msgstr "プロファイルの編集"
-
-#~ msgid "Copy profile to favorites"
-#~ msgstr "プロファイルをお気に入りにコピー"
-
-#~ msgid "Encoding threads (0 is automatic)"
-#~ msgstr "エンコードスレッド数 (0は自動)"
-
-#, fuzzy
-#~| msgid "Profile already exists"
-#~ msgctxt "@title:window"
-#~ msgid "Profile Already Exists"
-#~ msgstr "プロファイルは既に存在しています"
-
-#, fuzzy
-#~| msgid "Edit Profile"
-#~ msgctxt "@title:window"
-#~ msgid "Edit Profile"
-#~ msgstr "プロファイルの編集"
-
-#~ msgid "Export audio (automatic)"
-#~ msgstr "オーディオのエクスポート (自動)"
-
-#~ msgid "Export audio"
-#~ msgstr "オーディオのエクスポート"
-
-#, fuzzy
-#~| msgid "Encoder threads"
-#~ msgid "Encoder threads:"
-#~ msgstr "エンコーダスレッド"
-
-#~ msgid "Force Progressive"
-#~ msgstr "プログレッシブの強制"
-
-#~ msgid "Force Interlaced"
-#~ msgstr "インターレースの強制"
-
-#, fuzzy
-#~| msgid "Force field order"
-#~ msgid "Field:"
-#~ msgstr "フィールド順序の強制"
-
-#~ msgid "Render using proxy clips"
-#~ msgstr "代用クリップを利用してレンダリング"
-
-#~ msgid "Create chapter file based on guides"
-#~ msgstr "ガイドに従ってチャプタファイルを作成する"
-
-#~ msgid "Save Profile"
-#~ msgstr "プロファイルの保存"
-
-#, fuzzy
-#~| msgid "Best to worst quality"
-#~ msgid "Best to worst quality."
-#~ msgstr "良い品質から悪い品質"
-
-#~ msgid "Profile name"
-#~ msgstr "プロファイル名"
-
-#~ msgid "Extension"
-#~ msgstr "拡張"
-
-#, fuzzy
-#~| msgid "Force frame rate"
-#~ msgid "Force rotate"
-#~ msgstr "フレームレートの強制"
-
-#, fuzzy
-#~| msgid "270p"
-#~ msgid "270"
-#~ msgstr "270p"
-
-#~ msgid "Pan, low-pass"
-#~ msgstr "パン、ローパス"
-
-#~ msgid "Pan and zoom, low-pass"
-#~ msgstr "パンとズーム、ローパス"
-
-#~ msgid "Zoom, low-pass"
-#~ msgstr "ズーム、ローパス"
-
-#~ msgid "Zoom using vertical drag in ruler"
-#~ msgstr "ルーラーで垂直方向にドラッグすると拡大率を変更する"
-
-#, fuzzy
-#~| msgid "Pixel aspect ratio:"
-#~ msgid "Pixel aspect ratio: %1<br/>"
-#~ msgstr "ピクセルのアスペクト比:"
-
-#, fuzzy
-#~| msgid "AudioSpectrum"
-#~ msgid "Enable audio scrubbing:"
-#~ msgstr "オーディオスペクトラム(I)"
-
-#, fuzzy
-#~| msgid "Misc"
-#~ msgid "Misc…"
-#~ msgstr "その他"
-
-#, fuzzy
-#~| msgid "Change clip type"
-#~ msgctxt "@title:window"
-#~ msgid "Create Clip with Speed"
-#~ msgstr "クリップタイプの変更"
-
-#~ msgid "25%"
-#~ msgstr "25%"
-
-#~ msgid "Loading project..."
-#~ msgstr "プロジェクトを読み込んでいます..."
-
-#~ msgid "Selection tool"
-#~ msgstr "選択ツール(S)"
-
-#, fuzzy
-#~| msgid "Swap channels"
-#~ msgid "Swap Channels"
-#~ msgstr "チャンネルの入れ替え"
-
-#~ msgid "Frame size"
-#~ msgstr "フレームサイズ"
-
-#~ msgid "Pixel aspect ratio"
-#~ msgstr "ピクセルのアスペクト比"
-
-#~ msgid "Play..."
-#~ msgstr "再生..."
-
-#~ msgid "Misc..."
-#~ msgstr "その他..."
-
-#, fuzzy
-#~| msgid "Go to marker..."
-#~ msgid "Go to guide..."
-#~ msgstr "マーカーに移動(G)..."
-
-#~ msgid "Display aspect ratio"
-#~ msgstr "アスペクト比の表示"
-
-#~ msgid "Image Type"
-#~ msgstr "画像タイプ"
-
-#~ msgid "Frame Duration"
+#~ msgid "Frame duration"
 #~ msgstr "フレームの長さ"
 
-#~ msgid "Template"
-#~ msgstr "テンプレート"
+#~ msgid "Dissolve"
+#~ msgstr "溶解"
 
-#~ msgid "H"
-#~ msgstr "H"
+#~ msgid "Wipe"
+#~ msgstr "ワイプ"
 
-#~ msgid "W"
-#~ msgstr "W"
+#~ msgid "Image size"
+#~ msgstr "画像サイズ"
 
-#, fuzzy
-#~| msgid "Custom"
-#~ msgid "custo&m"
-#~ msgstr "カスタム"
-
-#~ msgid "Border Width"
-#~ msgstr "縁の幅"
-
-#, fuzzy
-#~| msgid "Delete profile"
-#~ msgid "Show default timeline preview parameters"
-#~ msgstr "プロファイルの削除"
-
-#, fuzzy
-#~| msgid "Select default video player"
-#~ msgid "Select default timeline preview profile"
-#~ msgstr "既定のビデオプレーヤーの選択"
-
-#~ msgid "Please install python3 and pip on your system."
-#~ msgstr "python3 と pip をシステムにインストールしてください。"
-
-#~ msgid "Cannot find python3, please install it on your system."
-#~ msgstr "python3 が見つかりません、システムにインストールしてください。"
-
-#~ msgid "python3 could not load opentimelineio module"
-#~ msgstr "python3 が opentimelineio を読み込めませんでした"
-
-#~ msgid "Donate"
-#~ msgstr "寄付"
-
-#~ msgid "Forum"
-#~ msgstr "フォーラム"
-
-#, fuzzy
-#~| msgid "Render Project"
-#~ msgid "Recent Projects"
-#~ msgstr "プロジェクトのレンダリング"
-
-#, fuzzy
-#~| msgid "Hide frame"
-#~ msgid "Hide on startup"
-#~ msgstr "フレームの隠蔽"
-
-#~ msgid "New"
-#~ msgstr "新規作成"
-
-#~ msgid "Open"
-#~ msgstr "開く"
-
-#, fuzzy
-#~| msgid "Disconnect"
-#~ msgid "Discard"
-#~ msgstr "切断"
-
-#, fuzzy
-#~| msgid "Please report bugs to http://kdenlive.org/mantis"
-#~ msgid "Please report bugs to https://bugs.kde.org"
-#~ msgstr "バグ報告は http://kdenlive.org/mantis にお願いします"
-
-#, fuzzy
-#~| msgid "Draws simple shapes into the alpha channel"
-#~ msgid "copied to the alpha channel."
-#~ msgstr "アルファチャンネルにシンプルな形 (シェイプ) を描画する"
-
-#, fuzzy
-#~| msgid "Cannot open file"
-#~ msgid "Cannot align mix"
-#~ msgstr "ファイルを開くことができません"
-
-#, fuzzy
-#~| msgid "Position X"
-#~ msgid "Position (left):"
-#~ msgstr "X 位置"
-
-#~ msgid "Chroma Hold"
-#~ msgstr "彩度の固定"
-
-#~ msgctxt "Gamma Effect Name"
-#~ msgid "Gamma"
-#~ msgstr "ガンマ"
-
-#, fuzzy
-#~| msgid "Track height"
-#~ msgid "Tracking data"
-#~ msgstr "トラックの高さ"
-
-#~ msgid "Declipper"
-#~ msgstr "Declipper"
-
-#~ msgid "LADSPA declipper audio effect"
-#~ msgstr "LADSPA declipper オーディオ効果"
-
-#~ msgid "Equalizer"
-#~ msgstr "Equalizer"
-
-#~ msgid "LADSPA equalizer audio effect"
-#~ msgstr "LADSPA equalizer オーディオ効果"
-
-#~ msgid "Lo gain"
-#~ msgstr "低ゲイン"
-
-#~ msgid "Mid gain"
-#~ msgstr "中ゲイン"
-
-#~ msgid "Hi gain"
-#~ msgstr "高ゲイン"
-
-#~ msgid "15 Band Equalizer"
-#~ msgstr "15 Band Equalizer"
-
-#~ msgid "LADSPA equalizer audio effect (15 band)"
-#~ msgstr "LADSPA equalizer オーディオ効果 (15 バンド)"
-
-#~ msgid "50 Hz"
-#~ msgstr "50 Hz"
-
-#~ msgid "100 Hz"
-#~ msgstr "100 Hz"
-
-#~ msgid "156 Hz"
-#~ msgstr "156 Hz"
-
-#~ msgid "220 Hz"
-#~ msgstr "220 Hz"
-
-#~ msgid "311 Hz"
-#~ msgstr "311 Hz"
-
-#~ msgid "440 Hz"
-#~ msgstr "440 Hz"
-
-#~ msgid "622 Hz"
-#~ msgstr "622 Hz"
-
-#~ msgid "880 Hz"
-#~ msgstr "880 Hz"
-
-#~ msgid "1250 Hz"
-#~ msgstr "1250 Hz"
-
-#~ msgid "1750 Hz"
-#~ msgstr "1750 Hz"
-
-#~ msgid "2500 Hz"
-#~ msgstr "2500 Hz"
-
-#~ msgid "3500 Hz"
-#~ msgstr "3500 Hz"
-
-#~ msgid "5000 Hz"
-#~ msgstr "5000 Hz"
-
-#~ msgid "10000 Hz"
-#~ msgstr "10000 Hz"
-
-#~ msgctxt "Limiter Effect Name"
-#~ msgid "Limiter"
-#~ msgstr "リミッター"
-
-#~ msgid "LADSPA limiter audio effect"
-#~ msgstr "LADSPA limiter オーディオ効果"
-
-#~ msgid "Input gain (dB)"
-#~ msgstr "入力ゲイン (dB)"
-
-#~ msgid "Limit (dB)"
-#~ msgstr "制限 (dB)"
-
-#~ msgid "Release time (s)"
-#~ msgstr "開放時間 (秒)"
-
-#~ msgid "Phaser"
-#~ msgstr "Phaser"
-
-#~ msgid "LADSPA phaser audio effect"
-#~ msgstr "LADSPA phaser オーディオ効果"
-
-#~ msgid "Rate (Hz)"
-#~ msgstr "レート (Hz)"
-
-#~ msgid "Depth"
-#~ msgstr "深さ"
-
-#~ msgid "Feedback"
-#~ msgstr "フィードバック"
-
-#~ msgid "Spread"
-#~ msgstr "Spread"
-
-#~ msgid "LADSPA change pitch audio effect"
-#~ msgstr "LADSPA change pitch オーディオ効果"
-
-#~ msgid "Shift"
-#~ msgstr "シフト"
-
-#~ msgid "LADSPA pitch scale audio effect"
-#~ msgstr "LADSPA pitch scale オーディオ効果"
-
-#~ msgid "Co-efficient"
-#~ msgstr "Co-efficient"
-
-#~ msgid "Rate Scaler"
-#~ msgstr "Rate Scaler"
-
-#~ msgid "LADSPA rate scale audio effect"
-#~ msgstr "LADSPA rate scale オーディオ効果"
-
-#~ msgid "Rate"
-#~ msgstr "レート"
-
-#~ msgctxt "Reverb Effect Name"
-#~ msgid "Reverb"
-#~ msgstr "リバーブ"
-
-#~ msgid "LADSPA reverb audio effect"
-#~ msgstr "LADSPA reverb オーディオ効果"
-
-#~ msgid "Reverb time"
-#~ msgstr "反響時間"
-
-#~ msgid "Damping"
-#~ msgstr "Damping"
-
-#~ msgid "Room Reverb"
-#~ msgstr "Room Reverb"
-
-#~ msgid "LADSPA room reverb audio effect"
-#~ msgstr "LADSPA room reverb オーディオ効果"
-
-#~ msgid "Room size (m)"
-#~ msgstr "部屋の大きさ (m)"
-
-#~ msgid "Delay (s/10)"
-#~ msgstr "遅延 (10 分の 1 秒)"
-
-#, fuzzy
-#~| msgid "Vinyl"
-#~ msgctxt "Vinyl Effect Name"
-#~ msgid "Vinyl"
-#~ msgstr "Vinyl"
-
-#~ msgid "Simulates a vinyl audio player - LADSPA audio effect"
-#~ msgstr "vinyl オーディオプレーヤーのシミュレート - LADSPA オーディオ効果"
-
-#, fuzzy
-#~| msgid "Year"
-#~ msgctxt "Vinyl Effect Year"
-#~ msgid "Year"
-#~ msgstr "年"
-
-#~ msgid "RPM"
-#~ msgstr "RPM"
-
-#~ msgid "Surface warping"
-#~ msgstr "Surface warping"
-
-#~ msgid "Crackle"
-#~ msgstr "Crackle"
-
-#~ msgid "Wear"
-#~ msgstr "Wear"
-
-#~ msgid "Blur (GPU)"
-#~ msgstr "ぼかし (GPU)"
-
-#~ msgid "Flip (GPU)"
-#~ msgstr "フリップ (GPU)"
-
-#~ msgid "Mirror (GPU)"
-#~ msgstr "ミラー (GPU)"
-
-#, fuzzy
-#~| msgid "Opacity"
-#~ msgid "Opacity (GPU)"
-#~ msgstr "不透明さ"
-
-#, fuzzy
-#~| msgid "Pan and Zoom"
-#~ msgid "Pan and Zoom (GPU)"
-#~ msgstr "パン/ズーム"
-
-#, fuzzy
-#~| msgid "Follow mouse"
-#~ msgid "Allow upscale"
-#~ msgstr "マウスの追跡"
-
-#, fuzzy
-#~| msgid "Saturation"
-#~ msgid "Saturation (GPU)"
-#~ msgstr "彩度"
-
-#~ msgid "Saturation"
-#~ msgstr "彩度"
-
-#~ msgid "Amount"
-#~ msgstr "量"
-
-#, fuzzy
-#~| msgid "Vignette"
-#~ msgid "Vignette (GPU)"
-#~ msgstr "口径食"
-
-#, fuzzy
-#~| msgid "White Balance"
-#~ msgid "White Balance (GPU)"
-#~ msgstr "ホワイトバランス"
-
-#~ msgid "Neutral Color"
-#~ msgstr "中立色"
-
-#~ msgid "Sox Band"
-#~ msgstr "Sox Band"
-
-#~ msgid "Sox band audio effect"
-#~ msgstr "Sox Band オーディオ効果"
-
-#~ msgid "Center Frequency"
-#~ msgstr "中央周波数"
-
-#~ msgid "Sox Bass"
-#~ msgstr "Sox Bass"
-
-#~ msgid "Sox bass audio effect"
-#~ msgstr "Sox Bass オーディオ効果"
-
-#~ msgid "Frequency"
-#~ msgstr "周波数"
-
-#~ msgid "Sox Echo"
-#~ msgstr "Sox Echo"
-
-#~ msgid "Sox echo audio effect"
-#~ msgstr "Sox Echo オーディオ効果"
-
-#~ msgid "Gain In"
-#~ msgstr "ゲイン・イン"
-
-#~ msgid "Gain Out"
-#~ msgstr "ゲイン・アウト"
-
-#~ msgid "Delay"
-#~ msgstr "遅延"
-
-#~ msgid "Decay"
-#~ msgstr "減衰"
-
-#~ msgid "Sox Flanger"
-#~ msgstr "Sox Flanger"
-
-#~ msgid "Sox flanger audio effect"
-#~ msgstr "Sox Flanger オーディオ効果"
-
-#~ msgid "Regeneration"
-#~ msgstr "再生成"
-
-#~ msgid "Phase"
-#~ msgstr "フェーズ"
-
-#~ msgid "Sox Gain"
-#~ msgstr "Sox Gain"
-
-#~ msgid "Sox gain audio effect"
-#~ msgstr "Sox Gain オーディオ効果"
-
-#~ msgid "Sox Phaser"
-#~ msgstr "Sox Phaser"
-
-#~ msgid "Sox phaser audio effect"
-#~ msgstr "Sox Phaser オーディオ効果"
-
-#~ msgid "Sox Pitch Shift"
-#~ msgstr "Sox Pitch Shift"
-
-#~ msgid "Sox change pitch audio effect"
-#~ msgstr "Sox change pitch オーディオ効果"
-
-#~ msgid "Time window (ms)"
-#~ msgstr "時間ウインドウ (ミリ秒)"
-
-#~ msgid "Sox Reverb"
-#~ msgstr "Sox Reverb"
-
-#~ msgid "Sox reverb audio effect"
-#~ msgstr "Sox Reverb オーディオ効果"
-
-#~ msgid "Reverberance"
-#~ msgstr "Reverberance"
-
-#~ msgid "High frequency damping"
-#~ msgstr "高周波数の抑止"
-
-#~ msgid "Room scale"
-#~ msgstr "部屋の大きさ"
-
-#~ msgid "Stereo depth"
-#~ msgstr "ステレオの深さ"
-
-#~ msgid "Pre-delay"
-#~ msgstr "プレ・ディレイ"
-
-#~ msgid "Wet gain"
-#~ msgstr "残響ゲイン"
-
-#~ msgid "Sox Stretch"
-#~ msgstr "Sox Stretch"
-
-#~ msgid "Sox stretch audio effect"
-#~ msgstr "Sox Stretch オーディオ効果"
-
-#~ msgid "Factor"
-#~ msgstr "係数"
-
-#~ msgctxt "Indicates the start of an animation"
-#~ msgid "Start"
-#~ msgstr "開始"
-
-#~ msgctxt "Indicates the end of an animation"
-#~ msgid "End"
-#~ msgstr "終了"
-
-#, fuzzy
-#~| msgid "Add clip"
-#~| msgid_plural "Add clips"
-#~ msgid "Add clip remap"
-#~ msgstr "クリップの追加"
-
-#, fuzzy
-#~| msgid "Cannot find clip for speed change"
-#~ msgid "Duplicate clip with time remap"
-#~ msgstr "速度変更のためのクリップが見つかりません"
-
-#, fuzzy
-#~| msgid "Maximum gain"
-#~ msgid "Maximum true peak"
-#~ msgstr "最大ゲイン"
-
-#, fuzzy
-#~| msgid "Offset X"
-#~ msgid "Offset gain"
-#~ msgstr "オフセット X"
-
-#~ msgid "3dflippo"
-#~ msgstr "3dflippo"
-
-#~ msgid "Frame rotation in 3D space"
-#~ msgstr "三次元空間でフレームを回転する"
-
-#~ msgid "X axis rotation"
-#~ msgstr "X 軸回転"
-
-#~ msgid "Y axis rotation"
-#~ msgstr "Y 軸回転"
-
-#~ msgid "Z axis rotation"
-#~ msgstr "Z 軸回転"
-
-#~ msgid "X axis rotation rate"
-#~ msgstr "X 軸回転率"
-
-#~ msgid "Y axis rotation rate"
-#~ msgstr "Y 軸回転率"
-
-#~ msgid "Z axis rotation rate"
-#~ msgstr "Z 軸回転率"
-
-#~ msgid "Center position (X)"
-#~ msgstr "中央位置 (X)"
-
-#~ msgid "Center position (Y)"
-#~ msgstr "中央位置 (Y)"
-
-#~ msgid "Invert rotation assignment"
-#~ msgstr "回転の割り当てを反転する"
-
-#~ msgid "Don't blank mask"
-#~ msgstr "マスクを不可視化しない"
-
-#~ msgid "Fill with image or black"
-#~ msgstr "画像または黒で塗りつぶす"
-
-#~ msgid "Alpha operations"
-#~ msgstr "アルファ操作"
-
-#~ msgid "Display and manipulation of the alpha channel"
-#~ msgstr "アルファチャンネルの表示および操作"
-
-#~ msgid ""
-#~ "Image,Alpha as gray,Gray + red,Selection on black,Selection on gray,"
-#~ "Selection on white,Selection on checkers"
-#~ msgstr ""
-#~ "画像,グレーでのアルファ,グレー+赤,黒での選択,グレーでの選択,白での選択,市"
-#~ "松模様での選択"
-
-#~ msgid "Display"
-#~ msgstr "表示"
-
-#~ msgid "Display input alpha"
-#~ msgstr "入力アルファの表示"
-
-#~ msgid "NO OP,Shave,Shrink hard,Shrink soft,Grow hard,Grow soft,Threshold"
-#~ msgstr "無操作,刈り取り,強い縮小,弱い縮小,強い拡大,弱い拡大,しきい値"
-
-#~ msgid "Shrink/grow amount"
-#~ msgstr "縮小/拡大量"
-
-#~ msgid "Alpha gradient"
-#~ msgstr "アルファ傾斜"
-
-#~ msgid "Fill the alpha channel with a specified gradient"
-#~ msgstr "指定した傾斜でアルファチャンネルを塗りつぶす"
-
-#~ msgid "Alpha shapes"
-#~ msgstr "アルファシェイプ"
-
-#~ msgid "Draws simple shapes into the alpha channel"
-#~ msgstr "アルファチャンネルにシンプルな形 (シェイプ) を描画する"
-
-#~ msgctxt "White Balance Effect Name"
-#~ msgid "White Balance"
-#~ msgstr "ホワイトバランス"
-
-#~ msgid "Adjust the white balance / color temperature"
-#~ msgstr "ホワイトバランスや色温度の調整"
-
-#~ msgid "Green Tint"
-#~ msgstr "緑系の色調"
-
-#~ msgid "White Balance"
-#~ msgstr "ホワイトバランス"
-
-#~ msgid "Baltan"
-#~ msgstr "バルタン"
-
-#~ msgid "Delayed alpha smoothed blit of time"
-#~ msgstr "少しの時間だけ遅延した平滑化アルファ"
-
-#~ msgid "Bézier Curves"
-#~ msgstr "ベジェ曲線"
-
-#~ msgid "Color curves adjustment"
-#~ msgstr "色曲線の調整"
-
-#~ msgid "RGB,Red,Green,Blue,Alpha,Luma,Hue,Saturation"
-#~ msgstr "RGB,赤,緑,青,アルファ,輝度,色相,彩度"
-
-#~ msgid "Rec. 601,Rec. 709"
-#~ msgstr "Rec. 601,Rec. 709"
-
-#~ msgid "Luma formula"
-#~ msgstr "輝度式"
-
-#, fuzzy
-#~| msgid "Background opacity"
-#~ msgid "Background Subtractor"
-#~ msgstr "背景の不透明さ"
-
-#, fuzzy
-#~| msgid "Rectangular window"
-#~ msgid "VR360 Equirectangular Mask"
-#~ msgstr "矩形窓"
-
-#, fuzzy
-#~| msgid "Vertical center"
-#~ msgid "Vertical Start"
-#~ msgstr "垂直方向に中央"
-
-#, fuzzy
-#~| msgid "Vertical"
-#~ msgid "Vertical End"
-#~ msgstr "垂直方向"
-
-#, fuzzy
-#~| msgid "Horizontal center"
-#~ msgid "Horizontal Start"
-#~ msgstr "水平方向に中央"
-
-#, fuzzy
-#~| msgid "Horizontal"
-#~ msgid "Horizontal End"
-#~ msgstr "水平方向"
-
-#~ msgid "pitch"
-#~ msgstr "ピッチ"
-
-#, fuzzy
-#~| msgid "Defish"
-#~ msgid "fisheye"
-#~ msgstr "デフィッシュ"
-
-#, fuzzy
-#~| msgid "Align center"
-#~ msgid "Alignment Yaw"
-#~ msgstr "中央寄せ"
-
-#, fuzzy
-#~| msgid "Align item to right"
-#~ msgid "Alignment Pitch"
-#~ msgstr "項目を右に合わせる"
-
-#, fuzzy
-#~| msgid "Align item to top"
-#~ msgid "Alignment Roll"
-#~ msgstr "項目を一番上に合わせる"
-
-#, fuzzy
-#~| msgid "Clip in Project Tree"
-#~ msgid "Projection"
-#~ msgstr "プロジェクトツリー内でクリップ"
-
-#, fuzzy
-#~| msgid "Radius"
-#~ msgid "Lens Radius"
-#~ msgstr "半径"
-
-#, fuzzy
-#~| msgid "Font Size"
-#~ msgid "Front X"
-#~ msgstr "フォントサイズ"
-
-#, fuzzy
-#~| msgid "Font Size"
-#~ msgid "Front Y"
-#~ msgstr "フォントサイズ"
-
-#, fuzzy
-#~| msgid "Radius"
-#~ msgid "Nadir Radius"
-#~ msgstr "半径"
-
-#, fuzzy
-#~| msgid "Edit start"
-#~ msgid "Nadir Start"
-#~ msgstr "編集開始"
-
-#, fuzzy
-#~| msgid "Stabilised"
-#~ msgid "VR360 Stabilize"
-#~ msgstr "安定化済み"
-
-#~ msgid "Analyze"
-#~ msgstr "解析"
-
-#~ msgid "Track Points"
-#~ msgstr "トラックポイント"
-
-#, fuzzy
-#~| msgid "Amount"
-#~ msgid "Yaw Amount"
-#~ msgstr "量"
-
-#, fuzzy
-#~| msgid "smooth"
-#~ msgid "Yaw Smoothing"
-#~ msgstr "スムーズ"
-
-#, fuzzy
-#~| msgid "Show Title Bars"
-#~ msgid "Yaw Time Bias"
-#~ msgstr "タイトルバーの表示(B)"
-
-#, fuzzy
-#~| msgid "smooth"
-#~ msgid "Pitch Smoothing"
-#~ msgstr "スムーズ"
-
-#, fuzzy
-#~| msgid "Amount"
-#~ msgid "Roll Amount"
-#~ msgstr "量"
-
-#, fuzzy
-#~| msgid "smooth"
-#~ msgid "Roll Smoothing"
-#~ msgstr "スムーズ"
-
-#, fuzzy
-#~| msgid "Transcode"
-#~ msgid "VR360 Transform"
-#~ msgstr "トランスコード"
-
-#~ msgctxt "Brightness Effect Name"
-#~ msgid "Brightness"
-#~ msgstr "明るさ"
-
-#~ msgid "Adjusts the brightness of a source image"
-#~ msgstr "元画像の明るさを調整する"
-
-#, fuzzy
-#~| msgid "Corners"
-#~ msgctxt "Corners Effect Name"
-#~ msgid "Corners"
-#~ msgstr "コーナー"
-
-#~ msgid "Four corners geometry engine"
-#~ msgstr "四隅の幾何学エンジン"
-
-#~ msgid "Corner 1 X"
-#~ msgstr "コーナー 1 X"
-
-#~ msgid "Corner 1 Y"
-#~ msgstr "コーナー 1 Y"
-
-#~ msgid "Corner 2 X"
-#~ msgstr "コーナー 2 X"
-
-#~ msgid "Corner 2 Y"
-#~ msgstr "コーナー 2 Y"
-
-#~ msgid "Corner 3 X"
-#~ msgstr "コーナー 3 X"
-
-#~ msgid "Corner 3 Y"
-#~ msgstr "コーナー 3 Y"
-
-#~ msgid "Corner 4 X"
-#~ msgstr "コーナー 4 X"
-
-#~ msgid "Corner 4 Y"
-#~ msgstr "コーナー 4 Y"
-
-#~ msgid "Stretch Y"
-#~ msgstr "Y 伸縮"
-
-#~ msgid "Feather Alpha"
-#~ msgstr "フェザーアルファ"
-
-#~ msgid "Enable Stretch"
-#~ msgstr "伸縮を有効にする"
-
-#~ msgid ""
-#~ "Nearest neighbor,Bilinear,Bicubic smooth,Bicubic sharp,Spline 4x4,Spline "
-#~ "6x6,Lanczos"
-#~ msgstr ""
-#~ "近傍,双一次,双三次スムース,双三次シャープ,スプライン 4x4,スプライン 6x6,"
-#~ "Lanczos"
-
-#~ msgid "Interpolator"
-#~ msgstr "補間"
-
-#~ msgid "Transparent Background"
+#~ msgid "Transparent background"
 #~ msgstr "透過背景"
 
-#~ msgid "Alpha operation"
-#~ msgstr "アルファ操作"
-
-#, fuzzy
-#~| msgid "Alpha gradient"
-#~ msgid "Cairogradient"
-#~ msgstr "アルファ傾斜"
-
-#, fuzzy
-#~| msgid "Radius"
-#~ msgid "Linear,Radial"
-#~ msgstr "半径"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgid "Start Color"
-#~ msgstr "色"
-
-#, fuzzy
-#~| msgid "Start Script"
-#~ msgid "Start Opacity"
-#~ msgstr "スクリプトの起動"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgid "End Color"
-#~ msgstr "色"
-
-#, fuzzy
-#~| msgid "Opacity"
-#~ msgid "End Opacity"
-#~ msgstr "不透明さ"
-
-#, fuzzy
-#~| msgid "Start"
-#~ msgid "Start X"
-#~ msgstr "開始"
-
-#, fuzzy
-#~| msgid "Start"
-#~ msgid "Start Y"
-#~ msgstr "開始"
-
-#, fuzzy
-#~| msgid "End Gain"
-#~ msgid "End X"
-#~ msgstr "ゲイン終了"
-
-#, fuzzy
-#~| msgid "End Gain"
-#~ msgid "End Y"
-#~ msgstr "ゲイン終了"
-
-#, fuzzy
-#~| msgid "Edge mode"
-#~ msgid "Blend Mode"
-#~ msgstr "輪郭モード"
-
-#, fuzzy
-#~| msgid "Video index"
-#~ msgid "Video grid"
-#~ msgstr "ビデオインデックス"
-
-#, fuzzy
-#~| msgid "Slideshow clip"
-#~ msgid "Create a video Grid"
-#~ msgstr "スライドショー・クリップ"
-
-#, fuzzy
-#~| msgctxt "@title:menu"
-#~| msgid "Columns"
-#~ msgid "Columns"
-#~ msgstr "列"
-
-#~ msgid "Cartoon"
-#~ msgstr "カートゥーン"
-
-#~ msgid "Cartoonify video, do a form of edge detect"
-#~ msgstr "ビデオのカートゥーン化 (エッジ抽出の一種)"
-
-#~ msgid "Level of trip"
-#~ msgstr "トリップレベル"
-
-#~ msgid "Difference space"
-#~ msgstr "差異スペース"
-
-#~ msgid "K-Means Clustering"
-#~ msgstr "K-平均クラスタリング"
-
-#~ msgid "Clusters of a source image by color and spatial distance"
-#~ msgstr "元の画像を色や空間的な色でクラスタ化する"
-
-#~ msgid "Amount of clusters"
-#~ msgstr "クラスタ量"
-
-#~ msgid "Weight on distance"
-#~ msgstr "距離に対する重み"
-
-#~ msgid "RGB adjustment"
-#~ msgstr "RGB 調整"
-
-#~ msgid "Simple color adjustment"
-#~ msgstr "シンプルな色調整"
-
-#~ msgid "Add constant,Change gamma,Multiply"
-#~ msgstr "定数の追加,ガンマ変更,乗算"
-
-#~ msgid "Action"
-#~ msgstr "動作"
-
-#~ msgid "Keep luma"
-#~ msgstr "輝度の維持"
-
-#~ msgid "Alpha controlled"
-#~ msgstr "アルファ制御"
-
-#~ msgid "Color Distance"
-#~ msgstr "色距離"
-
-#~ msgid ""
-#~ "Calculates the distance between the selected color and the current pixel "
-#~ "and uses that value as new pixel value"
-#~ msgstr ""
-#~ "選択した色と現在のピクセルの間で距離を計算し、新しいピクセルの値として使用"
-#~ "します"
-
-#~ msgid "Source Color"
-#~ msgstr "元の色"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgctxt "Colorize Effect Name"
-#~ msgid "Colorize"
-#~ msgstr "色"
-
-#~ msgid "Hue"
-#~ msgstr "色相"
-
-#, fuzzy
-#~| msgid "Brightness"
-#~ msgid "Lightness"
-#~ msgstr "明るさ"
-
-#~ msgid "Color Effect"
-#~ msgstr "色効果"
-
-#~ msgctxt "Contrast Effect Name"
-#~ msgid "Contrast"
-#~ msgstr "コントラスト"
-
-#~ msgid "Adjusts the contrast of a source image"
-#~ msgstr "元の画像のコントラストを調整する"
-
-#, fuzzy
-#~| msgid "Curves"
-#~ msgctxt "Curves Effect Name"
-#~ msgid "Curves"
-#~ msgstr "曲線"
-
-#~ msgid "Red,Green,Blue,Luma"
-#~ msgstr "赤,緑,青,輝度"
-
-#~ msgid "Number of curve points"
-#~ msgstr "曲線に使用する点の数"
-
-#~ msgid "Point 1 input value"
-#~ msgstr "1 点目の入力値"
-
-#~ msgid "Point 1 output value"
-#~ msgstr "1 点目の出力値"
-
-#~ msgid "Point 2 input value"
-#~ msgstr "2 点目の入力値"
-
-#~ msgid "Point 2 output value"
-#~ msgstr "2 点目の出力値"
-
-#~ msgid "Point 3 input value"
-#~ msgstr "3 点目の入力値"
-
-#~ msgid "Point 3 output value"
-#~ msgstr "3 点目の出力値"
-
-#~ msgid "Point 4 input value"
-#~ msgstr "4 点目の入力値"
-
-#~ msgid "Point 4 output value"
-#~ msgstr "4 点目の出力値"
-
-#~ msgid "Point 5 input value"
-#~ msgstr "5 点目の入力値"
-
-#~ msgid "Point 5 output value"
-#~ msgstr "5 点目の出力値"
-
-#~ msgid "Show graph in picture"
-#~ msgstr "画像内にグラフを表示"
-
-#~ msgid "Top Left,Top Right,Bottom Left,Bottom Right"
-#~ msgstr "左上,右上,左下,右下"
-
-#~ msgid "Graph position"
-#~ msgstr "グラフ位置"
-
-#~ msgid "Curves"
-#~ msgstr "曲線"
-
-#~ msgid "Nikon D90 Stairstepping fix"
-#~ msgstr "Nikon D90 段差修復"
-
-#~ msgid ""
-#~ "Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
-#~ "        <full><![CDATA[Sharp lines in videos from the Nikon D90 show "
-#~ "steps each 8th or 9th line, assumedly\n"
-#~ "        due to poor downsampling. These can be smoothed out with this "
-#~ "filter if they become too annoying.]]></full>\n"
-#~ "        "
-#~ msgstr ""
-#~ "Nikon D90 の 720p ビデオで発生する、段差形の出力を解消します。\n"
-#~ "        <full><![CDATA[Nikon D90 で撮影したビデオで、8 行または 9 行単位に"
-#~ "鋭い線が現われてしまう現象です。おそらくはダウンサンプリング機能が乏しいこ"
-#~ "とによるものと\n"
-#~ "        思われます。これを使用することで、これらの厄介な表示を取り除いてス"
-#~ "ムーズな表示にすることができます。]]></full>\n"
-#~ "        "
-
-#, fuzzy
-#~| msgid "Defish"
-#~ msgctxt "Defish Effect Name"
-#~ msgid "Defish"
-#~ msgstr "デフィッシュ"
-
-#~ msgid "Non rectilinear lens mappings"
-#~ msgstr "非直線のレンズマッピング"
-
-#~ msgid "DeFish"
-#~ msgstr "デフィッシュ"
-
-#~ msgid "Equidistant,Orthographic,Equiarea,Stereographic"
-#~ msgstr "等距離,正射影,等領域,立体射影"
-
-#~ msgid "Fill,Center,Fit,Manual"
-#~ msgstr "埋め,中央,調整,手動"
-
-#~ msgid "Manual Scale"
-#~ msgstr "手動スケール"
-
-#~ msgid "Square,PAL DV,NTSC DV,HDV,Manual"
-#~ msgstr "正方形,PAL DV,NTSC DV,HDV,手動"
-
-#~ msgid "Aspect type"
-#~ msgstr "アスペクト種類"
-
-#~ msgid "Manual Aspect"
-#~ msgstr "手動アスペクト"
-
-#~ msgid "delay0r"
-#~ msgstr "delay0r"
-
-#~ msgid "Video delay"
-#~ msgstr "ビデオ遅延"
-
-#~ msgid "Delay time"
-#~ msgstr "遅延時間"
-
-#~ msgid "Delay grab"
-#~ msgstr "遅延グラブ"
-
-#~ msgid "Delayed frame blitting mapped on a time bitmap"
-#~ msgstr "時間ビットマップに割り当てられた遅延フレーム描画"
-
-#, fuzzy
-#~| msgid "Distort"
-#~ msgctxt "Distort Effect Name"
-#~ msgid "Distort"
-#~ msgstr "ゆがみ"
-
-#~ msgid "Plasma"
-#~ msgstr "プラズマ"
-
-#~ msgid "Levels"
-#~ msgstr "レベル"
-
-#~ msgid "Edge glow"
-#~ msgstr "輪郭強調"
-
-#~ msgid "Edge glow filter"
-#~ msgstr "輪郭強調フィルタ"
-
-#~ msgid "Edge lightening threshold"
-#~ msgstr "輪郭の明るさしきい値"
-
-#~ msgid "Edge brightness upscaling multiplier"
-#~ msgstr "輪郭の明度加算比"
-
-#~ msgid "Non-edge brightness downscaling multiplier"
-#~ msgstr "比輪郭部分の明るさ減算比"
-
-#~ msgctxt "Emboss Effect Name"
-#~ msgid "Emboss"
-#~ msgstr "エンボス"
-
-#, fuzzy
-#~| msgid "Creates a luminance map of the image"
-#~ msgid "Creates embossed relief image of source image"
-#~ msgstr "画像の輝度マップを作成します"
-
-#, fuzzy
-#~| msgid "Mirroring direction"
-#~ msgid "Light direction"
-#~ msgstr "裏返す方向"
-
-#, fuzzy
-#~| msgid "Background Weight"
-#~ msgid "Background lightness"
-#~ msgstr "背景の重み"
-
-#, fuzzy
-#~| msgid "Background Weight"
-#~ msgid "Background lightness (0 to 90)."
-#~ msgstr "背景の重み"
-
-#, fuzzy
-#~| msgid "Track height"
-#~ msgid "Bump height"
-#~ msgstr "トラックの高さ"
-
-#~ msgid "Equaliz0r"
-#~ msgstr "Equaliz0r"
-
-#~ msgid "Equalizes the intensity histograms"
-#~ msgstr "強度ヒストグラムの均一化"
-
-#~ msgid "Face blur"
-#~ msgstr "顔ぼかし"
-
-#~ msgid "Automatically detect and blur a face using OpenCV"
-#~ msgstr "OpenCV を利用して顔を検出し、その顔をぼかします。"
-
-#~ msgid "Search scale"
-#~ msgstr "検索スケール"
-
-#~ msgid ""
-#~ "The search window scale factor. For example, 120 = 1.20 = increases by "
-#~ "20% on each pass."
-#~ msgstr ""
-#~ "検索ウインドウのスケール比です。例えば 120 は 1.20 の意味で、各パスで 20% "
-#~ "の追加を行なう意味になります。"
-
-#~ msgid "Neighbors"
-#~ msgstr "近接"
-
-#~ msgid "Minimum number of rectangles that determines an object."
-#~ msgstr "オブジェクトを決定するための長方形の最小数。"
-
-#~ msgid "Smallest"
-#~ msgstr "最小"
-
-#~ msgid "The minimum window size in pixels."
-#~ msgstr "ピクセル単位での最小ウインドウサイズ。"
-
-#~ msgid "Largest"
-#~ msgstr "最大"
-
-#~ msgid ""
-#~ "The largest size face in pixels - both horizontally and vertically "
-#~ "(square window)."
-#~ msgstr ""
-#~ "水平方向と垂直方向に対する、ピクセル単位での最大の顔サイズ (正方形) 。"
-
-#~ msgid "Recheck"
-#~ msgstr "再チェック"
-
-#~ msgid ""
-#~ "How often to detect a face. In between checks, it does object motion "
-#~ "tracking."
-#~ msgstr ""
-#~ "顔の認識頻度。チェックの間ではオブジェクトの移動追跡が行なわれます。"
-
-#~ msgid "Show ellipse"
-#~ msgstr "楕円の表示"
-
-#~ msgid "Draw a blue ellipse around the face area?"
-#~ msgstr "顔の周囲に青い楕円を表示しますか？"
-
-#~ msgid "Face detect"
-#~ msgstr "顔検出"
-
-#~ msgid "Detect faces and draw shapes on them using OpenCV"
-#~ msgstr "OpenCV を利用して顔を検出し、形状を描画する"
-
-#~ msgid "circle,ellipse,rectangle,random"
-#~ msgstr "円,楕円,長方形,ランダム"
-
-#~ msgid "Stroke width"
-#~ msgstr "ストローク幅"
-
-#~ msgid ""
-#~ "0 means fill; otherwise, draw unfilled with a stroke width of this size."
-#~ msgstr ""
-#~ "0 は塗りつぶしを表わし、それ以外の値ではその幅だけ間隔をあける意味になりま"
-#~ "す。"
-
-#~ msgid "Alpha"
-#~ msgstr "アルファ"
-
-#~ msgid ""
-#~ "Set the alpha channel of the shape area to a percentage of fully opaque."
-#~ msgstr ""
-#~ "形状の領域に対するアルファチャンネルを、不透明度の割合で指定します。"
-
-#~ msgid "Antialias"
-#~ msgstr "アンチエイリアス"
-
-#~ msgid "Draw with anti-aliasing?"
-#~ msgstr "アンチエイリアス機能を利用して描画しますか？"
-
-#~ msgid "Set the shape color of the first detected face."
-#~ msgstr "最初に検出した顔に対して設定する、形状色を設定します。"
-
-#~ msgid "Set the shape color of the second detected face."
-#~ msgstr "2 番目に検出した顔に対して設定する、形状色を設定します。"
-
-#~ msgid "Color 3"
-#~ msgstr "色 3"
-
-#~ msgid "Set the shape color of the third detected face."
-#~ msgstr "3 番目に検出した顔に対して設定する、形状色を設定します。"
-
-#~ msgid "Color 4"
-#~ msgstr "色 4"
-
-#~ msgid "Set the shape color of the fourth detected face."
-#~ msgstr "4 番目に検出した顔に対して設定する、形状色を設定します。"
-
-#~ msgid "Color 5"
-#~ msgstr "色 5"
-
-#~ msgid "Set the shape color of the fifth detected face."
-#~ msgstr "5 番目に検出した顔に対して設定する、形状色を設定します。"
-
-#~ msgid "Flippo"
-#~ msgstr "Flippo"
-
-#~ msgid "Flipping in X and Y axis"
-#~ msgstr "X 軸および Y 軸で裏返す"
-
-#~ msgid "X axis"
-#~ msgstr "X 軸"
-
-#~ msgid "Y axis"
-#~ msgstr "Y 軸"
-
-#, fuzzy
-#~| msgid "Switch monitor"
-#~ msgid "Glitch0r"
-#~ msgstr "モニタの切り替え(W)"
-
-#, fuzzy
-#~| msgid "Frequency"
-#~ msgid "Glitch frequency"
-#~ msgstr "周波数"
-
-#, fuzzy
-#~| msgid "Track height"
-#~ msgid "Block height"
-#~ msgstr "トラックの高さ"
-
-#, fuzzy
-#~| msgid "Intensity"
-#~ msgid "Shift intensity"
-#~ msgstr "強度"
-
-#~ msgctxt "Glow Effect Name"
-#~ msgid "Glow"
-#~ msgstr "グロー"
-
-#~ msgid "Creates a Glamorous Glow"
-#~ msgstr "Glamorous Glow 効果を作成"
-
-#~ msgid "Denoiser"
-#~ msgstr "ノイズ除去"
-
-#~ msgid "High quality 3D denoiser"
-#~ msgstr "高品質な三次元ノイズ除去"
-
-#~ msgid "Spatial"
-#~ msgstr "空間"
-
-#~ msgid "Amount of spatial filtering"
-#~ msgstr "空間フィルタリングの量"
-
-#~ msgid "Temporal"
+#~ msgid "Time"
 #~ msgstr "時間"
 
-#~ msgid "Amount of temporal filtering"
-#~ msgstr "時間フィルタリングの量"
+#~ msgid "E"
+#~ msgstr "E"
 
-#~ msgid "Hue shift"
-#~ msgstr "色相シフト"
+#~ msgid "Advanced"
+#~ msgstr "高度"
 
-#~ msgid "Shifts the hue of a source image"
-#~ msgstr "元の画像の色相をずらす"
+#~ msgid "Force aspect ratio"
+#~ msgstr "アスペクト比の強制"
 
-#~ msgctxt "Blur Effect name"
-#~ msgid "Blur"
-#~ msgstr "ぼかし"
+#~ msgid "Decoding threads"
+#~ msgstr "デコードスレッド"
 
-#~ msgid "Blur using 2D IIR filters (Exponential, Lowpass, Gaussian)"
-#~ msgstr "2D IIR フィルタを使用してぼかす (指数, ローパス, ガウス)"
+#~ msgid "Video index"
+#~ msgstr "ビデオインデックス"
 
-#~ msgid "Amount of blur"
-#~ msgstr "ぼかし量"
+#~ msgid "Audio index"
+#~ msgstr "オーディオインデックス"
 
-#~ msgid "Exponential,Lowpass,Gaussian"
-#~ msgstr "指数,ローパス,ガウス"
+#~ msgid "Force frame rate"
+#~ msgstr "フレームレートの強制"
 
-#~ msgid "Select blurring algorithm"
-#~ msgstr "ぼかしのアルゴリズムの選択"
+#~ msgid "Force duration"
+#~ msgstr "長さの強制"
 
-#~ msgid "Edge"
-#~ msgstr "輪郭"
+#~ msgid "Force colorspace"
+#~ msgstr "カラースペースの強制"
 
-#~ msgid "Enable edge compensation"
-#~ msgstr "輪郭補正の有効化"
+#~ msgid "Force field order"
+#~ msgstr "フィールド順序の強制"
 
-#~ msgid "Lens Correction"
-#~ msgstr "レンズ修正"
+#~ msgid ":"
+#~ msgstr ":"
 
-#~ msgid "Allows compensation of lens distortion"
-#~ msgstr "レンズのゆがみの補正を許可"
+#~ msgid "Image background"
+#~ msgstr "画像の背景"
 
-#~ msgid "Horizontal center"
-#~ msgstr "水平方向に中央"
+#~ msgid "Normal"
+#~ msgstr "通常"
 
-#~ msgid "Vertical center"
-#~ msgstr "垂直方向に中央"
+#~ msgid "Transparent"
+#~ msgstr "透過"
 
-#~ msgid "Center correction"
-#~ msgstr "中央補正"
-
-#~ msgid "Edges correction"
-#~ msgstr "輪郭補正"
-
-#~ msgid "LetterB0xed"
-#~ msgstr "LetterB0xed"
-
-#~ msgid "Adds black borders at top and bottom for cinema look"
-#~ msgstr "映画のように見せる目的で、上下に黒い縁を追加"
-
-#~ msgctxt "Levels Effect Name"
-#~ msgid "Levels"
-#~ msgstr "レベル"
-
-#~ msgid "Adjust levels"
-#~ msgstr "レベルの調整"
-
-#~ msgid "Input black level"
-#~ msgstr "入力側の黒レベル"
-
-#~ msgid "Input white level"
-#~ msgstr "入力側の白レベル"
-
-#~ msgid "Black output"
-#~ msgstr "黒出力"
-
-#~ msgid "White output"
-#~ msgstr "白出力"
-
-#~ msgid "Show histogram"
-#~ msgstr "ヒストグラムの表示"
-
-#~ msgid "Histogram position"
-#~ msgstr "ヒストグラムの位置"
-
-#~ msgid "Light Graffiti"
-#~ msgstr "ライト・グラフィティ"
-
-#, fuzzy
-#~| msgid ""
-#~| "Light Graffiti effect.\n"
-#~| "        <full><![CDATA[This effect allows to do Light Painting (i.e. "
-#~| "painting with light sources on a photo by keeping the shutter\n"
-#~| "        opened for a while), but for video.]]></full>"
-#~ msgid ""
-#~ "Light Graffiti effect.\n"
-#~ "        <full><![CDATA[This effect allows one to do Light Painting (i.e. "
-#~ "painting with light sources on a photo by keeping the shutter\n"
-#~ "        opened for a while), but for video.]]></full>"
-#~ msgstr ""
-#~ "ライト・グラフィティ効果。\n"
-#~ "        <full><![CDATA[この効果は、光を利用して絵を描くことができるもので"
-#~ "す (言い換えると、しばらくの間シャッターを開きっぱなしにしたカメラの前で、"
-#~ "光を\n"
-#~ "        動かして軌跡を撮影するものです)。ただしビデオ用です。]]></full>"
-
-#~ msgid "Brightness Threshold"
-#~ msgstr "明るさのしきい値"
-
-#~ msgid ""
-#~ "<![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order "
-#~ "to be recognized as a light source?<br/>\n"
-#~ "            Increasing this threshold requires brighter light sources (i."
-#~ "e. more white or less color, respectively) but prevents some «false "
-#~ "alarms» where semi-bright parts, e.g. hands where colors can change quite "
-#~ "a lot compared to the background, are incorrectly recognized as light "
-#~ "source.]]>"
-#~ msgstr ""
-#~ "<![CDATA[どれだけの明るさ (<code>R+G+B</code>) のものを光源として認識させ"
-#~ "るのか、を指定する方法です。<br/>\n"
-#~ "            このしきい値を増やすと、より明るいもの (つまり、より白に近いも"
-#~ "の) のみを光源として認識させることができ、誤った個所 (例えば背景と比べて"
-#~ "ずっと明るい、手や指などの個所) を光源として認識されないようにすることがで"
-#~ "きます。]]>"
-
-#~ msgid "Difference Threshold"
-#~ msgstr "差分しきい値"
-
-#~ msgid ""
-#~ "<![CDATA[How much does the strongest color channel of a pixel have to "
-#~ "change, compared to the background image (<code>max(dR, dG, dB)</code>), "
-#~ "in order to be recognized as light source? <br/>\n"
-#~ "            Increasing this threshold makes it harder for light sources "
-#~ "to be accepted on bright backgrounds, but decreases the danger of noise "
-#~ "or generally bright spots counting as light source.]]>"
-#~ msgstr ""
-#~ "<![CDATA[背景画像に比べて、どれだけの色変化が起こった場合に光源として認識"
-#~ "するのかを、色チャンネルの最大値 (<code>max(dR, dG, dB)</code>) で表わす方"
-#~ "法です。<br/>\n"
-#~ "            このしきい値を大きくすると、明るい背景内にある光源を認識しにく"
-#~ "くなりますが、光源ではない明るい点 (例えばノイズ) を光源として誤解する危険"
-#~ "性を減らすことができます。]]>"
-
-#~ msgid "Difference Sum Threshold"
-#~ msgstr "差分合計しきい値"
-
-#~ msgid ""
-#~ "<![CDATA[How much does the sum of all color channels <em>relative to the "
-#~ "background image</em> (<code>dR + dG + dB</code>) have to change until a "
-#~ "pixel is recognized as a light source?<br/>\n"
-#~ "            Raising this value might, in some cases, avoid that some "
-#~ "light objects lit by the light source are added to the light mask.]]>"
-#~ msgstr ""
-#~ "<![CDATA[<em>背景画像に比べて</em>、どれだけの色変化が起こった場合に光源と"
-#~ "して認識するのかを、すべての色チャンネルの合計値 (<code>dR + dG + dB</"
-#~ "code>) で表わす方法です。<br/>\n"
-#~ "            この値を大きくすると、場合によっては、光源に照らされた物体が、"
-#~ "光マスクに追加されるのを防ぐことができます。]]>"
-
-#~ msgid "Sensitivity"
-#~ msgstr "感度"
-
-#~ msgid ""
-#~ "<![CDATA[Light sensitivity.<br/>\n"
-#~ "            For slowly moving light source try to use a lower sensitivity "
-#~ "to obtain a better exposure.]]>"
-#~ msgstr ""
-#~ "<![CDATA[光の感度を指定します。<br/>\n"
-#~ "            ゆっくり動く光源に対しては、よりよい露出を得るために低い感度を"
-#~ "設定してください。]]>"
-
-#~ msgid "Lower Overexposure"
-#~ msgstr "露出過度の低減"
-
-#~ msgid ""
-#~ "<![CDATA[Lowers overexposure.<br/>\n"
-#~ "            The light mask does not get white immediately when the light "
-#~ "source is moving slowly or staying steady.]]>"
-#~ msgstr ""
-#~ "<![CDATA[露出過度を低減します。<br/>\n"
-#~ "            光源がゆっくり動いている場合や固定されている場合、光マスクが即"
-#~ "時に白くならないようにします。]]>"
-
-#~ msgid "Dimming"
-#~ msgstr "減光"
-
-#~ msgid ""
-#~ "Dims the light mask. Lights will leave a fainting trail if it is set to a "
-#~ "value > 0."
-#~ msgstr ""
-#~ "光マスクを減光します。この値を 0 より大きくすると、光に対してかすかな軌跡"
-#~ "を残すようになります。"
-
-#~ msgid "Background Weight"
-#~ msgstr "背景の重み"
-
-#~ msgid ""
-#~ "Strength of the (calculated) background image. Setting it to 100 paints "
-#~ "the light mask directly over the background, without the painting person "
-#~ "in the image if the video starts with a «clean» background image. (See "
-#~ "the α parameter.)"
-#~ msgstr ""
-#~ "(計算処理における) 背景画像の重みを設定します。100 を指定すると、背景の上"
-#~ "に光マスクを直接描画し、背景画像のみからビデオがスタートする場合に、人が表"
-#~ "示されなくなります (αパラメータも参照してください) 。"
-
-#~ msgid "α"
-#~ msgstr "α"
-
-#~ msgid ""
-#~ "<![CDATA[Determines how the effect tries to adapt to background changes. "
-#~ "<br/>\n"
-#~ "            The Light Graffiti effect remembers the first frame of the "
-#~ "clip it is applied to, so the clip should <em>always</em> start with the "
-#~ "painter outside of the video. If the background constantly changes, e.g. "
-#~ "on a street, try to set α > 0 to calculate an average background image.]]>"
-#~ msgstr ""
-#~ "<![CDATA[効果が背景の変更に対して、どれだけ馴染むようにするかを指定しま"
-#~ "す。<br/>\n"
-#~ "            ライト・グラフィテイ効果では、適用先のクリップについて、その冒"
-#~ "頭のフレームを記憶します。そのため、クリップは<em>常に</em>ビデオの外側か"
-#~ "ら始まるようにしなければなりません。背景が絶えず変化しているような場合、例"
-#~ "えば街などの場合は、α を 0 より大きく設定し、平均的な背景画像を計算させる"
-#~ "ようにしてみてください。]]>"
-
-#~ msgid "Increases the saturation of lights."
-#~ msgstr "光の彩度を増加させます。"
-
-#~ msgid "Show brightness statistics"
-#~ msgstr "明るさの統計情報の表示"
-
-#~ msgid ""
-#~ "<![CDATA[The stats switches allow easy and accurate adjustment of the "
-#~ "threshold parameters.<br/>\n"
-#~ "            Example: To adjust the brightness threshold, check this box "
-#~ "and adjust the threshold until the whole light source is highlighted. "
-#~ "Repeat the same with the other parameters. Only parts that are "
-#~ "highlighted in <em>all</em> thresholds will count as light source.]]>"
-#~ msgstr ""
-#~ "<![CDATA[統計スイッチを利用すると、境界パラメータをより簡単かつ正確に設定"
-#~ "することができます。<br/>\n"
-#~ "            例: 明るさのしきい値を調整するには、このボックスにチェックを入"
-#~ "れてから、すべての光源がハイライト表示されるようにしきい値を調整します。他"
-#~ "のパラメータについても同様に設定します。<em>すべての</em>しきい値でハイラ"
-#~ "イト表示された部分だけが、光源としてカウントされます。]]>"
-
-#~ msgid "Show background difference statistics"
-#~ msgstr "背景の差異統計の表示"
-
-#~ msgid "Show background difference sum statistics"
-#~ msgstr "背景の合計差異統計の表示"
-
-#~ msgid ""
-#~ "Makes the background transparent, allowing to apply a composite effect "
-#~ "and paint the light mask over a completely different video."
-#~ msgstr ""
-#~ "背景を透明に設定し、完全に異なるビデオで合成効果と光マスクの描画を適用でき"
-#~ "るようにします。"
-
-#~ msgid "Nonlinear dimming"
-#~ msgstr "非線形減光"
-
-#~ msgid "If normal dimming does not look natural enough, try this one."
-#~ msgstr ""
-#~ "通常の減光処理できれいに表示されない場合は、この設定を使用してみてくださ"
-#~ "い。"
-
-#~ msgid ""
-#~ "Resets the light mask and the background image. This is necessary e.g. if "
-#~ "you apply this effect to a clip in the timeline and then move the "
-#~ "timeline cursor from outside of the clip to the middle of it. The effect "
-#~ "receives this frame in the middle as first frame and uses it as "
-#~ "background image. For proper threshold adjusting move the timeline cursor "
-#~ "to the beginning of the clip, check the Reset box and uncheck it again."
-#~ msgstr ""
-#~ "光マスクと背景画像をリセットします。これは例えば、この効果をタイムライン上"
-#~ "のクリップに適用し、タイムラインカーソルをクリップの外側から中央までの間に"
-#~ "移動させるような場合に必要となります。効果側では、中央にあるフレームを最初"
-#~ "のフレームとして受け取り、それを背景画像として使用します。正しくしきい値を"
-#~ "調整するために、タイムラインカーソルをクリップの冒頭に移動してから、ボック"
-#~ "スをリセットしてチェックを外してください。"
-
-#~ msgid ""
-#~ "Light Graffiti effect.\n"
-#~ "        <full><![CDATA[This effect allows to do Light Painting (i.e. "
-#~ "painting with light sources on a photo by keeping the shutter\n"
-#~ "        opened for a while), but for video.]]></full>"
-#~ msgstr ""
-#~ "ライト・グラフィティ効果。\n"
-#~ "        <full><![CDATA[この効果は、光を利用して絵を描くことができるもので"
-#~ "す (言い換えると、しばらくの間シャッターを開きっぱなしにしたカメラの前で、"
-#~ "光を\n"
-#~ "        動かして軌跡を撮影するものです)。ただしビデオ用です。]]></full>"
-
-#, fuzzy
-#~| msgid "Luminance"
-#~ msgctxt "Luminance Effect Name"
-#~ msgid "Luminance"
-#~ msgstr "輝度"
-
-#~ msgid "Creates a luminance map of the image"
-#~ msgstr "画像の輝度マップを作成します"
-
-#, fuzzy
-#~| msgid "Rectangular window"
-#~ msgid "Rectangular Alpha mask"
-#~ msgstr "矩形窓"
-
-#~ msgid "Creates an square alpha-channel mask"
-#~ msgstr "正方形のアルファチャンネルマスクを作成します"
-
-#~ msgid "Nervous"
-#~ msgstr "ナーバス"
-
-#~ msgid "Flushes frames in time in a nervous way"
-#~ msgstr "緊張感のある方法でフレームをフラッシュします"
-
-#~ msgid "nosync0r"
-#~ msgstr "nosync0r"
-
-#~ msgid "Broken TV"
-#~ msgstr "壊れた TV"
-
-#~ msgid "HSync"
-#~ msgstr "水平同期"
-
-#~ msgid "Pixelize"
-#~ msgstr "ピクセル化"
-
-#~ msgid "Pixelize input image."
-#~ msgstr "入力画像をピクセル化します。"
-
-#~ msgid "Block Size X"
-#~ msgstr "ブロックサイズ X"
-
-#~ msgid "Block Size Y"
-#~ msgstr "ブロックサイズ Y"
-
-#, fuzzy
-#~| msgid "Video clips"
-#~ msgid "Video values"
-#~ msgstr "ビデオ・クリップ"
-
-#~ msgid "Measure video values"
-#~ msgstr "ビデオ値測定"
-
-#~ msgid "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-#~ msgstr "RGB,Y'PbPr - rec. 601,Y'PbPr - rec. 709,HSV,HSL"
-
-#~ msgid "X size"
-#~ msgstr "X サイズ"
-
-#~ msgid "Y size"
-#~ msgstr "Y サイズ"
-
-#~ msgid "256 scale"
-#~ msgstr "256 スケール"
-
-#~ msgid "Show alpha"
-#~ msgstr "アルファ表示"
-
-#~ msgid "Big window"
-#~ msgstr "巨大ウインドウ"
-
-#, fuzzy
-#~| msgid "2D video oscilloscope"
-#~ msgid "Oscilloscope"
-#~ msgstr "二次元ビデオオシロスコープ"
-
-#~ msgid "2D video oscilloscope"
-#~ msgstr "二次元ビデオオシロスコープ"
-
-#~ msgid "Length"
-#~ msgstr "長さ"
-
-#~ msgid "R,G,B,Y',Pr,Pb,Alpha"
-#~ msgstr "R,G,B,Y',Pr,Pb,アルファ"
-
-#~ msgid "Marker 2"
-#~ msgstr "マーカー 2"
-
-#~ msgid "R trace"
-#~ msgstr "R トレース"
-
-#~ msgid "G trace"
-#~ msgstr "G トレース"
-
-#~ msgid "B trace"
-#~ msgstr "B トレース"
-
-#~ msgid "Y trace"
-#~ msgstr "Y トレース"
-
-#~ msgid "Pr trace"
-#~ msgstr "Pr トレース"
-
-#~ msgid "Pb trace"
-#~ msgstr "Pb トレース"
-
-#~ msgid "Alpha trace"
-#~ msgstr "アルファトレース"
-
-#~ msgid "Display average"
-#~ msgstr "平均値の表示"
-
-#~ msgid "Display RMS"
-#~ msgstr "RMS の表示"
-
-#~ msgid "Display minimum"
-#~ msgstr "最小値の表示"
-
-#~ msgid "Display maximum"
-#~ msgstr "最大値の表示"
-
-#~ msgid "CCIR rec. 601,CCIR rec. 709"
-#~ msgstr "CCIR rec. 601,CCIR rec. 709"
-
-#~ msgid "Crosshair color"
-#~ msgstr "十字線の色"
-
-#, fuzzy
-#~| msgid "Primaries"
-#~ msgctxt "Primaries Effect Name"
-#~ msgid "Primaries"
-#~ msgstr "原色"
-
-#~ msgid "Reduce image to primary colors"
-#~ msgstr "原色になるよう画像を縮小します"
-
-#~ msgid "<![CDATA[Influence of mean px value, > 32 = 0]]>"
-#~ msgstr "<![CDATA[ピクセル値の影響値, 32 より大きい値は 0 と見なされます]]>"
-
-#, fuzzy
-#~| msgid "Noise"
-#~ msgid "RGB Noise"
-#~ msgstr "ノイズ(N)"
-
-#, fuzzy
-#~| msgid "Amount of clusters"
-#~ msgid "Amount of noise added."
-#~ msgstr "クラスタ量"
-
-#~ msgid "Display a histogram of R, G and B components of the video data"
-#~ msgstr "ビデオデータの R, G, B の各要素に対して、ヒストグラムを表示します"
-
-#, fuzzy
-#~| msgid "Vertical scatter"
-#~ msgid "Vertical split distance"
-#~ msgstr "垂直分散"
-
-#, fuzzy
-#~| msgid "Horizontal scatter"
-#~ msgid "Horizontal split distance"
-#~ msgstr "水平分散"
-
-#, fuzzy
-#~| msgid "Saturation"
-#~ msgctxt "Saturation Effect Name"
-#~ msgid "Saturation"
-#~ msgstr "彩度"
-
-#~ msgid "Adjusts the saturation of a source image"
-#~ msgstr "元画像の彩度を調整します"
-
-#~ msgid "Crop, Scale and Tilt"
-#~ msgstr "クロップ、スケール、傾き"
-
-#~ msgid "Scales, Tilts and Crops an Image"
-#~ msgstr "画像に対するスケール, チルト, クロップ"
-
-#, fuzzy
-#~| msgid "Clip left"
-#~ msgid "Crop left"
-#~ msgstr "左をクリップ"
-
-#, fuzzy
-#~| msgid "Copyright"
-#~ msgid "Crop right"
-#~ msgstr "著作権"
-
-#, fuzzy
-#~| msgid "Clip bottom"
-#~ msgid "Crop bottom"
-#~ msgstr "下をクリップ"
-
-#~ msgid "Scale X"
-#~ msgstr "スケール X"
-
-#~ msgid "Scale Y"
-#~ msgstr "スケール X"
-
-#~ msgid "Tilt X"
-#~ msgstr "チルト X"
-
-#~ msgid "Tilt Y"
-#~ msgstr "チルト Y"
-
-#~ msgid "scanline0r"
-#~ msgstr "scanline0r"
-
-#~ msgid "Interlaced black lines"
-#~ msgstr "インターレース化した黒線"
-
-#~ msgid "Chroma Key: Advanced (Color Selection)"
-#~ msgstr "クロマキー: 高度 (色選択)"
-
-#~ msgid "Hard,Fat,Normal,Skinny"
-#~ msgstr "ハード,太く,普通,薄く"
-
-#, fuzzy
-#~| msgid "Sharpen"
-#~ msgctxt "Sharpen Effect Name"
-#~ msgid "Sharpen"
-#~ msgstr "鮮明化"
-
-#~ msgid "Unsharp masking (port from Mplayer)"
-#~ msgstr "マスクの不鮮明化 (Mplayer からの移植)"
-
-#, fuzzy
-#~| msgid "Brightness down"
-#~ msgid "Brightness of image."
-#~ msgstr "明るさを下げる"
-
-#, fuzzy
-#~| msgid "Sharpen"
-#~ msgid "Sharpness"
-#~ msgstr "鮮明化"
-
-#~ msgid "Sobel"
-#~ msgstr "ゾーベル"
-
-#~ msgid "Sobel filter"
-#~ msgstr "ゾーベルフィルタ"
-
-#, fuzzy
-#~| msgid "Glow"
-#~ msgctxt "Soft Glow Effect Name"
-#~ msgid "Soft Glow"
-#~ msgstr "グロー"
-
-#, fuzzy
-#~| msgid "Brightness Threshold"
-#~ msgid "Brightness of highlight areas."
-#~ msgstr "明るさのしきい値"
-
-#~ msgid "SOP/Sat"
-#~ msgstr "SOP/Sat"
-
-#~ msgid ""
-#~ "Changes Slope, Offset, and Power of the color components, and the overall "
-#~ "Saturation, according to the ASC CDL (Color Decision List)."
-#~ msgstr ""
-#~ "各色に対して、傾斜とオフセット値、倍率のほか、全体の彩度を ASC CSL (Color "
-#~ "Decision List) に沿って設定します。"
-
-#~ msgid "Slope Red"
-#~ msgstr "赤の傾斜"
-
-#~ msgid ""
-#~ "<![CDATA[Changing the slope means multiplying the pixel value with a "
-#~ "constant value. Black pixels will remain black, whileas brighter ones "
-#~ "will be changed.<br/>\n"
-#~ "                All effects can be observed well when applied on a "
-#~ "greyscale gradient and looking at the RGB Parade monitor.]]>"
-#~ msgstr ""
-#~ "<![CDATA[傾斜値を変更すると、ピクセルの値を指定の値で掛け合わせることにな"
-#~ "ります。また、黒いピクセルは黒いままで、明るいピクセルのみ変更されます。"
-#~ "<br/>\n"
-#~ "                グレースケールの傾斜に対して適用した場合に、すべての効果を"
-#~ "よく確認することができます。RGB パレードモニタもご覧ください。]]>"
-
-#~ msgid "Slope Green"
-#~ msgstr "緑の傾斜"
-
-#~ msgid "Slope Blue"
-#~ msgstr "青の傾斜"
-
-#~ msgid "Slope Alpha"
-#~ msgstr "アルファの傾斜"
-
-#~ msgid "Offset Red"
-#~ msgstr "赤のオフセット"
-
-#~ msgid ""
-#~ "Changing the offset lifts (or lowers) the brightness of each pixel by the "
-#~ "given value."
-#~ msgstr ""
-#~ "オフセット値を変更すると、それぞれのピクセルを指定した値だけ明るく(または"
-#~ "暗く)設定することができます。"
-
-#~ msgid "Offset Green"
-#~ msgstr "緑のオフセット"
-
-#~ msgid "Offset Blue"
-#~ msgstr "青のオフセット"
-
-#~ msgid "Offset Alpha"
-#~ msgstr "アルファのオフセット"
-
-#~ msgid "Power Red"
-#~ msgstr "赤の倍率"
-
-#~ msgid ""
-#~ "<![CDATA[Changes the Gamma value for the selected channel. Black and "
-#~ "white pixel values will not be affected, but everything between.<br/>\n"
-#~ "                Mathematically, what happens is an exponentiation of the "
-#~ "pixel brightness on <code>[0,1]</code> by the gamma value.]]>"
-#~ msgstr ""
-#~ "<![CDATA[選択したチャンネルに対して、ガンマ値を変更します。黒と白のピクセ"
-#~ "ルは影響を受けませんが、それ以外はすべて影響を受けます。<br/>\n"
-#~ "                数学的には、ピクセルの明るさを <code>[0,1]</code> のガンマ"
-#~ "値で捉え、それに対する指数として動作します。]]>"
-
-#~ msgid "Power Green"
-#~ msgstr "緑の倍率"
-
-#~ msgid "Power Blue"
-#~ msgstr "青の倍率"
-
-#~ msgid "Power Alpha"
-#~ msgstr "アルファの倍率"
-
-#~ msgid "Overall Saturation"
-#~ msgstr "全体の彩度"
-
-#~ msgid ""
-#~ "The overall saturation will be changed in the last step of this filter."
-#~ msgstr "全体の彩度は、このフィルタの最後の段階で適用されます。"
-
-#~ msgid "Square Blur"
-#~ msgstr "正方形のぼかし"
-
-#~ msgid "Square blur"
-#~ msgstr "正方形のぼかし"
-
-#~ msgid "Kernel size"
-#~ msgstr "カーネルサイズ"
-
-#~ msgid "TehRoxx0r"
-#~ msgstr "TehRoxx0r"
-
-#~ msgid "Something videowall-ish"
-#~ msgstr "テレビスクリーンのようなもの"
-
-#~ msgid "Interval"
-#~ msgstr "間隔"
-
-#~ msgid "3 point balance"
-#~ msgstr "3 点バランス"
-
-#~ msgid "Balances colors along with 3 points"
-#~ msgstr "3 つの点の間で色をバランスします。"
-
-#~ msgid "Black color"
-#~ msgstr "黒色"
-
-#~ msgid "Gray color"
-#~ msgstr "灰色"
-
-#~ msgid "White color"
-#~ msgstr "白色"
-
-#~ msgid "Split screen preview"
-#~ msgstr "画面プレビューの分割"
-
-#~ msgid "Source image on left side"
-#~ msgstr "左側の元画像"
-
-#, fuzzy
-#~| msgid "Dynamic 3-level thresholding"
-#~ msgid "3-level Threshold"
-#~ msgstr "動的な 3 レベルしきい値設定"
-
-#~ msgid "Dynamic 3-level thresholding"
-#~ msgstr "動的な 3 レベルしきい値設定"
-
-#~ msgid "Thresholds a source image"
-#~ msgstr "元画像にしきい値を設定します"
-
-#, fuzzy
-#~| msgid "Tint"
-#~ msgctxt "Tint Effect Name"
-#~ msgid "Tint"
-#~ msgstr "色調"
-
-#~ msgid "Maps source image luminance between two colors specified"
-#~ msgstr "指定した 2 色の間で元画像の輝度を割り当てます。"
-
-#~ msgid "Map black to"
-#~ msgstr "黒に割り当て"
-
-#~ msgid "Map white to"
-#~ msgstr "白に割り当て"
-
-#~ msgid "Tint amount"
-#~ msgstr "色調量"
-
-#~ msgid "Dynamic thresholding"
-#~ msgstr "動的なしきい値設定"
-
-#, fuzzy
-#~| msgid "Vectorscope"
-#~ msgctxt "Vectorscope Effect Name"
-#~ msgid "Vectorscope"
-#~ msgstr "ベクタースコープ(V)"
-
-#~ msgid "Display a vectorscope of the video data"
-#~ msgstr "ビデオデータのベクトルスコープを表示"
-
-#~ msgid "Vertigo"
-#~ msgstr "Vertigo"
-
-#~ msgid "Alpha blending with zoomed and rotated images"
-#~ msgstr "拡大・回転した画像に対してアルファブレンドを適用する"
-
-#~ msgid "Phase Increment"
-#~ msgstr "フェーズ増加"
-
-#~ msgid "Zoom Rate"
-#~ msgstr "拡大率"
-
-#~ msgid "Vignette"
-#~ msgstr "口径食"
-
-#~ msgid "Natural lens vignetting effect"
-#~ msgstr "自然なレンズ口径食効果"
-
-#~ msgid "Clear center size"
-#~ msgstr "中央サイズのクリア"
-
-#, fuzzy
-#~| msgid "Pixelize"
-#~ msgid "Pixelate"
-#~ msgstr "ピクセル化"
-
-#, fuzzy
-#~| msgid "Mode"
-#~ msgid "Trim Mode"
-#~ msgstr "モード"
-
-#~ msgid "Slide"
-#~ msgstr "スライド"
-
-#, fuzzy
-#~| msgid "Close"
-#~ msgid "close"
-#~ msgstr "閉じる"
+#~ msgid "Preview volume:"
+#~ msgstr "プレビュー音量:"
