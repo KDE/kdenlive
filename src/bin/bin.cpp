@@ -3024,7 +3024,6 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         m_propertiesPanel->setLayout(lay);
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
-    connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
     connect(this, &Bin::deleteMarkers, panel, &ClipPropertiesController::slotDeleteSelectedMarkers);
     connect(this, &Bin::selectMarkers, panel, &ClipPropertiesController::slotSelectAllMarkers);
     connect(panel, &ClipPropertiesController::updateClipProperties, this, &Bin::slotEditClipCommand);
@@ -4179,11 +4178,6 @@ void Bin::openExternalApp(QString appPath, QString url)
 #endif
     args << url;
     QProcess::startDetached(appPath, args);
-}
-
-void Bin::updateTimecodeFormat()
-{
-    emit refreshTimeCode();
 }
 
 /*

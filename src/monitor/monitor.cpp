@@ -393,7 +393,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
-    m_timePos = new TimecodeDisplay(pCore->timecode(), this);
+    m_timePos = new TimecodeDisplay(true, this);
 
     if (id == Kdenlive::ProjectMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
@@ -1894,7 +1894,6 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
 
 void Monitor::resetProfile()
 {
-    m_timePos->updateTimeCode(pCore->timecode());
     m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     // Update drop frame info
@@ -1948,7 +1947,6 @@ void Monitor::slotEditMarker()
 
 void Monitor::updateTimecodeFormat()
 {
-    m_timePos->slotUpdateTimeCodeFormat();
     m_glMonitor->rootObject()->setProperty("timecode", m_timePos->displayText());
 }
 

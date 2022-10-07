@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "definitions.h"
-#include "utils/timecode.h"
 
 #include <KMessageWidget>
 
@@ -79,7 +78,6 @@ public:
 
 public slots:
     void slotReloadProperties();
-    void slotRefreshTimeCode();
     void slotFillMeta(QTreeWidget *tree);
     void slotFillAnalysisData();
     void slotDeleteSelectedMarkers();
@@ -110,7 +108,6 @@ private:
     ClipController *m_controller;
     QTabWidget *m_tabWidget;
     ElidedLinkLabel *m_clipLabel;
-    Timecode m_tc;
     QString m_id;
     ClipType::ProducerType m_type;
     /** @brief: the properties of the active producer (can be a proxy) */

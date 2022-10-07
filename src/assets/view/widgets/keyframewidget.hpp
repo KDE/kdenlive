@@ -39,7 +39,6 @@ public:
     /** @brief Returns the monitor scene required for this asset
      */
     MonitorSceneType requiredScene() const;
-    void updateTimecodeFormat();
     /** @brief Show / hide keyframe related widgets
      */
     void showKeyframes(bool enable);

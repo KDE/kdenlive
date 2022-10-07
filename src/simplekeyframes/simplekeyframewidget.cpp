@@ -12,7 +12,7 @@
 
 #include <klocalizedstring.h>
 
-SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent)
+SimpleKeyframeWidget::SimpleKeyframeWidget(int duration, QWidget *parent)
     : QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -37,7 +37,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWid
     m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
-    m_time = new TimecodeDisplay(t, this);
+    m_time = new TimecodeDisplay(true, this);
     m_time->setRange(0, duration);
 
     l->addWidget(m_timeline, 0, 0, 1, -1);

@@ -199,7 +199,6 @@ private:
 ClipPropertiesController::ClipPropertiesController(ClipController *controller, QWidget *parent)
     : QWidget(parent)
     , m_controller(controller)
-    , m_tc(Timecode(Timecode::HH_MM_SS_HH, pCore->getCurrentFps()))
     , m_id(controller->binId())
     , m_type(controller->clipType())
     , m_properties(new Mlt::Properties(controller->properties()))
@@ -327,7 +326,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QCheckBox *box = new QCheckBox(i18n("Duration:"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
-        auto *timePos = new TimecodeDisplay(m_tc, this);
+        auto *timePos = new TimecodeDisplay(true, this);
         timePos->setObjectName(QStringLiteral("force_duration_value"));
         timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties->get_int("length"));
         int original_length = m_properties->get_int("kdenlive:original_length");
@@ -341,7 +340,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
-        connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
 
         // Autorotate
@@ -1066,11 +1064,6 @@ void ClipPropertiesController::updateTab(int ix)
     KdenliveSettings::setProperties_panel_page(ix);
 }
 
-void ClipPropertiesController::slotRefreshTimeCode()
-{
-    emit updateTimeCodeFormat();
-}
-
 void ClipPropertiesController::slotReloadProperties()
 {
     mlt_color color;
@@ -1472,7 +1465,7 @@ void ClipPropertiesController::slotDeleteMarker()
 void ClipPropertiesController::slotAddMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
-    GenTime pos(m_controller->originalProducer()->position(), m_tc.fps());
+    GenTime pos(m_controller->originalProducer()->position(), pCore->getCurrentFps());
     markerModel->editMarkerGui(pos, this, true, m_controller, true);
 }
 

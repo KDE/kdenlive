@@ -473,6 +473,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
     if (m_currentProfile == profilePath) {
         // no change required, ensure timecode has correct fps
         m_timecode.setFormat(getCurrentProfile()->fps());
+        emit updateProjectTimecode();
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
@@ -503,6 +504,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
                 checkProfileValidity();
                 emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
             }
+            emit updateProjectTimecode();
         }
         return true;
     }

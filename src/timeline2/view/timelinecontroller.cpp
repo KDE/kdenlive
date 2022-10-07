@@ -3671,8 +3671,7 @@ void TimelineController::editItemDuration(int id)
     int minFrame = qMax(0, in - (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, false)
                                                : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false)));
     int partner = isComposition ? -1 : m_model->getClipSplitPartner(id);
-    QPointer<ClipDurationDialog> dialog =
-        new ClipDurationDialog(id, pCore->currentDoc()->timecode(), start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
+    QPointer<ClipDurationDialog> dialog = new ClipDurationDialog(id, start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow());
     if (dialog->exec() == QDialog::Accepted) {
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };

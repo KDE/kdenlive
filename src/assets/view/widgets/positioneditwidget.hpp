@@ -26,9 +26,7 @@ public:
     /** @brief set position
      */
     void setPosition(int pos);
-    /** @brief Call this when the timecode has been changed project-wise
-     */
-    void updateTimecodeFormat();
+
     /** @brief checks that the allowed time interval is valid
      */
     bool isValid() const;

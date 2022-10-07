@@ -13,7 +13,7 @@
 #include <QLabel>
 #include <QSlider>
 
-PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, const Timecode &tc, const QString &comment, QWidget *parent)
+PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, const QString &comment, QWidget *parent)
     : QWidget(parent)
 {
     auto *layout = new QHBoxLayout(this);
@@ -22,7 +22,7 @@ PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, c
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     m_slider->setRange(min, max);
 
-    m_display = new TimecodeDisplay(tc, this);
+    m_display = new TimecodeDisplay(true, this);
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
     m_display->setRange(min, max);
 
@@ -40,11 +40,6 @@ PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, c
 }
 
 PositionWidget::~PositionWidget() = default;
-
-void PositionWidget::updateTimecodeFormat()
-{
-    m_display->slotUpdateTimeCodeFormat();
-}
 
 int PositionWidget::getPosition() const
 {

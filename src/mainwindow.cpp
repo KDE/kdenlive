@@ -3729,12 +3729,9 @@ void MainWindow::slotSetDocumentRenderProfile(const QMap<QString, QString> &prop
 void MainWindow::slotUpdateTimecodeFormat(int ix)
 {
     KdenliveSettings::setFrametimecode(ix == 1);
+    emit pCore->updateProjectTimecode();
     m_clipMonitor->updateTimecodeFormat();
     m_projectMonitor->updateTimecodeFormat();
-    // TODO refac: reimplement ?
-    // m_effectStack->transitionConfig()->updateTimecodeFormat();
-    // m_effectStack->updateTimecodeFormat();
-    pCore->bin()->updateTimecodeFormat();
     emit getMainTimeline()->controller()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 }

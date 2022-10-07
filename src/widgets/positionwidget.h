@@ -26,7 +26,7 @@ public:
      * @param tc Timecode object to define time format
      * @param comment (optional) A comment explaining the parameter. Will be shown in a tooltip.
      * @param parent (optional) Parent Widget */
-    explicit PositionWidget(const QString &name, int pos, int min, int max, const Timecode &tc, const QString &comment = QString(), QWidget *parent = nullptr);
+    explicit PositionWidget(const QString &name, int pos, int min, int max, const QString &comment = QString(), QWidget *parent = nullptr);
     ~PositionWidget() override;
     /** @brief get current position
      */
@@ -34,9 +34,6 @@ public:
     /** @brief set position
      */
     void setPosition(int pos);
-    /** @brief Call this when the timecode has been changed project-wise
-     */
-    void updateTimecodeFormat();
     /** @brief checks that the allowed time interval is valid
      */
     bool isValid() const;

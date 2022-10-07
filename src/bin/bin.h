@@ -285,8 +285,7 @@ public:
     void renameSubClip(const QString &id, const QString &newName, int in, int out);
     /** @brief Returns current project's timecode. */
     Timecode projectTimecode() const;
-    /** @brief Trigger timecode format refresh where needed. */
-    void updateTimecodeFormat();
+
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip);
     /** @brief An effect setting was changed, update stack if displayed. */
@@ -592,8 +591,6 @@ signals:
     /** @brief Save folder info into MLT. */
     void storeFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
     void gotFilterJobResults(const QString &, int, int, stringMap, stringMap);
-    /** @brief Trigger timecode format refresh where needed. */
-    void refreshTimeCode();
     /** @brief Request display of effect stack for a Bin clip. */
     void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     void requestShowClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
