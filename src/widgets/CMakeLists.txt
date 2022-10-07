@@ -15,16 +15,19 @@ include(ECMAddQtDesignerPlugin)
 
 if (BUILD_DESIGNERPLUGIN)
     ecm_qtdesignerplugin_widget(TimecodeDisplay
+        INCLUDE_FILE widgets/timecodedisplay.h
         TOOLTIP "A custom QSpinBox widget to enter timecodes (Kdenlive)"
         GROUP "Kdenlive Widgets"
     )
 
     ecm_qtdesignerplugin_widget(ColorPickerWidget
+        INCLUDE_FILE widgets/colorpickerwidget.h
         TOOLTIP "A custom QSpinBox widget to enter timecodes (Kdenlive)"
         GROUP "Kdenlive Widgets"
     )
 
     ecm_qtdesignerplugin_widget(ChooseColorWidget
+        INCLUDE_FILE widgets/choosecolorwidget.h
         TOOLTIP "A custom QSpinBox widget to enter timecodes (Kdenlive)"
         GROUP "Kdenlive Widgets"
     )
