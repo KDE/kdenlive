@@ -779,13 +779,15 @@ KdenliveDoc *Core::currentDoc()
 
 Timecode Core::timecode() const
 {
-    return m_timecode;
+    if (this) {
+        return m_timecode;
+    }
+    return {};
 }
 
 void Core::setDocumentModified()
 {
     m_projectManager->current()->setModified();
-    ;
 }
 
 int Core::projectDuration() const
