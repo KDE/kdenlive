@@ -782,7 +782,7 @@ Timecode Core::timecode() const
     if (this) {
         return m_timecode;
     }
-    return {};
+    return Timecode();
 }
 
 void Core::setDocumentModified()
