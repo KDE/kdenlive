@@ -393,7 +393,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
-    m_timePos = new TimecodeDisplay(true, this);
+    m_timePos = new TimecodeDisplay(this);
 
     if (id == Kdenlive::ProjectMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);

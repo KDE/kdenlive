@@ -22,7 +22,7 @@ PositionWidget::PositionWidget(const QString &name, int pos, int min, int max, c
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     m_slider->setRange(min, max);
 
-    m_display = new TimecodeDisplay(true, this);
+    m_display = new TimecodeDisplay(this);
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
     m_display->setRange(min, max);
 

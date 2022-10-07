@@ -17,7 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 // deprecated
 SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int track, const QList<TrackInfo> &tracks, QWidget *parent)
     : QDialog(parent)
-    , m_in(tc)
+    , m_in(nullptr, tc)
 {
     Q_UNUSED(track)
     Q_UNUSED(tracks)
@@ -40,7 +40,7 @@ SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, int trac
 
 SpacerDialog::SpacerDialog(const GenTime &duration, const Timecode &tc, QWidget *parent)
     : QDialog(parent)
-    , m_in(tc)
+    , m_in(nullptr, tc)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);

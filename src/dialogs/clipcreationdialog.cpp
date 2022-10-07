@@ -140,7 +140,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     dia->setWindowTitle(i18nc("@title:window", "Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
 
-    QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(true, dia.get()));
+    QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(dia.get()));
     t->setValue(KdenliveSettings::color_duration());
     dia_ui.clip_durationBox->addWidget(t.data());
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
@@ -190,7 +190,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     l->addWidget(&fileUrl);
     QHBoxLayout *lay = new QHBoxLayout;
     lay->addWidget(new QLabel(i18n("Animation duration"), &d));
-    TimecodeDisplay tCode(pCore->timecode(), &d);
+    TimecodeDisplay tCode(&d);
     tCode.setValue(QStringLiteral("00:00:05:00"));
     lay->addWidget(&tCode);
     l->addLayout(lay);
@@ -255,7 +255,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(bin));
     Ui::QTextClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
-    TimecodeDisplay *duration = new TimecodeDisplay(true, dia.data());
+    TimecodeDisplay *duration = new TimecodeDisplay(dia.data());
     dia_ui.formLayout->addRow(i18n("Duration:"), duration);
     dia->setWindowTitle(i18nc("@title:window", "Text Clip"));
     dia_ui.fgColor->setAlphaChannelEnabled(true);

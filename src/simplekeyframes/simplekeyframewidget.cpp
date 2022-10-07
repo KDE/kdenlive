@@ -37,7 +37,7 @@ SimpleKeyframeWidget::SimpleKeyframeWidget(int duration, QWidget *parent)
     m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
-    m_time = new TimecodeDisplay(true, this);
+    m_time = new TimecodeDisplay(this);
     m_time->setRange(0, duration);
 
     l->addWidget(m_timeline, 0, 0, 1, -1);

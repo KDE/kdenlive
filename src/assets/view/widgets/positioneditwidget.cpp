@@ -24,7 +24,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
-    m_display = new TimecodeDisplay(true, this);
+    m_display = new TimecodeDisplay(this);
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
 
     layout->addWidget(label);

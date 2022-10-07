@@ -326,7 +326,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QCheckBox *box = new QCheckBox(i18n("Duration:"), this);
         box->setObjectName(QStringLiteral("force_duration"));
         hlay->addWidget(box);
-        auto *timePos = new TimecodeDisplay(true, this);
+        auto *timePos = new TimecodeDisplay(this);
         timePos->setObjectName(QStringLiteral("force_duration_value"));
         timePos->setValue(kdenlive_length > 0 ? kdenlive_length : m_properties->get_int("length"));
         int original_length = m_properties->get_int("kdenlive:original_length");

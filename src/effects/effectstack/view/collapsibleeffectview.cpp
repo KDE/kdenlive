@@ -129,7 +129,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     setIn->setAutoRaise(true);
     setIn->setToolTip(i18n("Set zone in"));
     layZone->addWidget(setIn);
-    m_inPos = new TimecodeDisplay(true, this);
+    m_inPos = new TimecodeDisplay(this);
     layZone->addWidget(m_inPos);
     layZone->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
     QLabel *out = new QLabel(i18n("Out:"), this);
@@ -140,7 +140,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     setOut->setAutoRaise(true);
     setOut->setToolTip(i18n("Set zone out"));
     layZone->addWidget(setOut);
-    m_outPos = new TimecodeDisplay(true, this);
+    m_outPos = new TimecodeDisplay(this);
     layZone->addWidget(m_outPos);
 
     connect(setIn, &QToolButton::clicked, this, [=]() {
