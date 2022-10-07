@@ -1,7 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2008 Jean-Baptiste Mardelle <jb@kdenlive.org>
-
-SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #pragma once
@@ -9,12 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 #include <QWizard>
 #include <QWizardPage>
-
-#include "ui_wizardcapture_ui.h"
-#include "ui_wizardcheck_ui.h"
-#include "ui_wizardextra_ui.h"
-#include "ui_wizardmltcheck_ui.h"
-#include "ui_wizardstandard_ui.h"
 
 class KMessageWidget;
 
@@ -40,11 +33,6 @@ public:
     static void slotCheckPrograms(QString &infos, QString &warnings);
 
 private:
-    Ui::WizardStandard_UI m_standard;
-    Ui::WizardExtra_UI m_extra;
-    Ui::WizardMltCheck_UI m_mltCheck;
-    Ui::WizardCapture_UI m_capture;
-    Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     MyWizardPage *m_page;
     KMessageWidget *m_errorWidget;
@@ -53,20 +41,11 @@ private:
     QString m_errors;
     QString m_warnings;
     QString m_infos;
-    QMap<QString, QString> m_dvProfiles;
-    QMap<QString, QString> m_hdvProfiles;
-    QMap<QString, QString> m_otherProfiles;
     void checkMltComponents();
     void checkMissingCodecs();
     void updateHwStatus();
 
 private slots:
-    void slotCheckStandard();
-    void slotCheckSelectedItem();
     void slotCheckMlt();
-    void slotDetectWebcam();
-    void slotUpdateCaptureParameters();
-    void slotSaveCaptureFormat();
-    void slotUpdateDecklinkDevice(uint captureCard);
     void slotOpenManual();
 };
