@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
-    <height>124</height>
+    <width>239</width>
+    <height>152</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="label_name">
      <property name="text">
       <string>Name:</string>
      </property>
@@ -25,14 +25,14 @@
     <widget class="QLineEdit" name="clip_name"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_color">
      <property name="text">
       <string>Clip color:</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="label_duration">
      <property name="text">
       <string>Duration:</string>
      </property>
@@ -47,9 +47,6 @@
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout" name="clip_durationBox"/>
    </item>
    <item row="1" column="1">
     <widget class="KColorCombo" name="clip_color"/>
@@ -67,18 +64,21 @@
      </property>
     </spacer>
    </item>
+   <item row="2" column="1">
+    <widget class="TimecodeDisplay" name="clip_duration"/>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
+  </customwidget>
+  <customwidget>
    <class>KColorCombo</class>
    <extends>QComboBox</extends>
    <header>kcolorcombo.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

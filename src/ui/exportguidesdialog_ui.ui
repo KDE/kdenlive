@@ -90,11 +90,7 @@
       </widget>
      </item>
      <item>
-      <widget class="TimecodeDisplay" name="offsetTimeSpinbox" native="true">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
+      <widget class="TimecodeDisplay" name="offsetTimeSpinbox"/>
      </item>
     </layout>
    </item>
@@ -187,14 +183,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KMessageWidget</class>
-   <extends>QFrame</extends>
-   <header>kmessagewidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>TimecodeDisplay</class>
    <extends>QWidget</extends>
    <header>widgets/timecodedisplay.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

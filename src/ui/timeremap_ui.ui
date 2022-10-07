@@ -247,28 +247,28 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_9">
                <item>
-                <widget class="QLabel" name="label_7">
+                <widget class="QLabel" name="label_sourceTC">
                  <property name="text">
                   <string>Source time</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="inLayout"/>
+                <widget class="TimecodeDisplay" name="m_in"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_10">
                <item>
-                <widget class="QLabel" name="label_8">
+                <widget class="QLabel" name="label_outputTC">
                  <property name="text">
                   <string>Output time</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="outLayout"/>
+                <widget class="TimecodeDisplay" name="m_out"/>
                </item>
               </layout>
              </item>
@@ -396,9 +396,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
+  </customwidget>
+  <customwidget>
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

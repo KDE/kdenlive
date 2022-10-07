@@ -4061,11 +4061,6 @@ void Bin::renameSubClip(const QString &id, const QString &newName, int in, int o
     emit itemUpdated(sub);
 }
 
-Timecode Bin::projectTimecode() const
-{
-    return m_doc->timecode();
-}
-
 void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                              QMap<QString, QString> &extraParams)
 {

@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "klocalizedstring.h"
 
-MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget *parent)
+MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, QWidget *parent)
     : QDialog(parent)
     , m_clip(clip)
 {
@@ -38,8 +38,6 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     }
     marker_type->setCurrentIndex(t.markerType());
 
-    m_in = new TimecodeDisplay(this);
-    inputLayout->addWidget(m_in);
     m_in->setValue(t.time());
 
     m_previewTimer = new QTimer(this);

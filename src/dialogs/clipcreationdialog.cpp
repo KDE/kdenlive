@@ -140,16 +140,14 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
     dia->setWindowTitle(i18nc("@title:window", "Color Clip"));
     dia_ui.clip_name->setText(i18n("Color Clip"));
 
-    QScopedPointer<TimecodeDisplay> t(new TimecodeDisplay(dia.get()));
-    t->setValue(KdenliveSettings::color_duration());
-    dia_ui.clip_durationBox->addWidget(t.data());
+    dia_ui.clip_duration->setValue(KdenliveSettings::color_duration());
     dia_ui.clip_color->setColor(KdenliveSettings::colorclipcolor());
 
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui.clip_color->color().name();
         KdenliveSettings::setColorclipcolor(color);
         color = color.replace(0, 1, QStringLiteral("0x")) + "ff";
-        int duration = doc->getFramePos(doc->timecode().getTimecode(t->gentime()));
+        int duration = doc->getFramePos(doc->timecode().getTimecode(dia_ui.clip_duration->gentime()));
         QString name = dia_ui.clip_name->text();
 
         ClipCreator::createColorClip(color, duration, name, parentFolder, std::move(model));
@@ -255,8 +253,6 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
     QScopedPointer<QDialog> dia(new QDialog(bin));
     Ui::QTextClip_UI dia_ui;
     dia_ui.setupUi(dia.data());
-    TimecodeDisplay *duration = new TimecodeDisplay(dia.data());
-    dia_ui.formLayout->addRow(i18n("Duration:"), duration);
     dia->setWindowTitle(i18nc("@title:window", "Text Clip"));
     dia_ui.fgColor->setAlphaChannelEnabled(true);
     dia_ui.lineColor->setAlphaChannelEnabled(true);
@@ -273,7 +269,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
         dia_ui.fontSize->setValue(clip->getProducerProperty(QStringLiteral("size")).toInt());
         dia_ui.weight->setValue(clip->getProducerProperty(QStringLiteral("weight")).toInt());
         dia_ui.italic->setChecked(clip->getProducerProperty(QStringLiteral("style")) == QStringLiteral("italic"));
-        duration->setValue(clip->frameDuration());
+        dia_ui.duration->setValue(clip->frameDuration());
     } else {
         dia_ui.name->setText(i18n("Text Clip"));
         dia_ui.fgColor->setColor(titleConfig.readEntry(QStringLiteral("font_color")));
@@ -292,14 +288,14 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
         if (!parentId.isEmpty()) {
             properties.insert(QStringLiteral("kdenlive:folderid"), parentId);
         }
-
-        if (duration->getValue() != clip->getFramePlaytime()) {
+        int newDuration = dia_ui.duration->getValue();
+        if (clip && (newDuration != clip->getFramePlaytime())) {
             // duration changed, we need to update duration
-            properties.insert(QStringLiteral("out"), clip->framesToTime(duration->getValue() - 1));
+            properties.insert(QStringLiteral("out"), clip->framesToTime(newDuration - 1));
             int currentLength = clip->getProducerDuration();
-            if (currentLength != duration->getValue()) {
-                properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration->getValue()));
-                properties.insert(QStringLiteral("length"), QString::number(duration->getValue()));
+            if (currentLength != newDuration) {
+                properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(newDuration));
+                properties.insert(QStringLiteral("length"), QString::number(newDuration));
             }
         }
 
@@ -327,7 +323,7 @@ void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parent
             prod.setAttribute(QStringLiteral("id"), QString::number(id));
 
             prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
-            prod.setAttribute(QStringLiteral("out"), duration->getValue());
+            prod.setAttribute(QStringLiteral("out"), newDuration);
             Xml::addXmlProperties(prod, properties);
             QString clipId = QString::number(id);
             pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Text clip"));

@@ -19,7 +19,6 @@ class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
 
 public:
     explicit ClipDurationDialog(int clipId, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent = nullptr);
-    ~ClipDurationDialog() override;
     GenTime startPos() const;
     GenTime cropStart() const;
     GenTime duration() const;
@@ -33,10 +32,6 @@ private slots:
 private:
     int m_clipId;
     double m_fps;
-    TimecodeDisplay *m_pos;
-    TimecodeDisplay *m_dur;
-    TimecodeDisplay *m_cropStart;
-    TimecodeDisplay *m_cropEnd;
     GenTime m_min;
     GenTime m_max;
     GenTime m_crop;

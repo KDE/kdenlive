@@ -39,7 +39,8 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="list-add"/>
+        <iconset theme="list-add">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -49,7 +50,8 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="edit-cut"/>
+        <iconset theme="edit-cut">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -59,7 +61,8 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="dialog-ok-apply"/>
+        <iconset theme="dialog-ok-apply">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -69,7 +72,8 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="format-text-color"/>
+        <iconset theme="format-text-color">
+         <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -118,21 +122,52 @@
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item row="0" column="0" colspan="3">
-           <widget class="KTextEdit" name="subText">
-            <property name="tabChangesFocus">
+          <item row="2" column="2">
+           <widget class="TimecodeDisplay" name="tc_end"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QToolButton" name="buttonIn">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="zone-in">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_end">
+            <property name="text">
+             <string>End:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="TimecodeDisplay" name="tc_duration"/>
+          </item>
+          <item row="3" column="1">
+           <widget class="QToolButton" name="buttonLock">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="kdenlive-lock">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+            <property name="checkable">
              <bool>true</bool>
             </property>
-            <property name="acceptRichText">
-             <bool>false</bool>
-            </property>
-            <property name="checkSpellingEnabled">
+            <property name="autoRaise">
              <bool>true</bool>
             </property>
            </widget>
           </item>
+          <item row="1" column="2">
+           <widget class="TimecodeDisplay" name="tc_position"/>
+          </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="position_label">
+           <widget class="QLabel" name="label_position">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -144,64 +179,49 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QToolButton" name="buttonIn">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="zone-in"/>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <layout class="QHBoxLayout" name="position_box"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="duration_label">
-            <property name="text">
-             <string>End:</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1">
            <widget class="QToolButton" name="buttonOut">
             <property name="text">
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="zone-out"/>
+             <iconset theme="zone-out">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <layout class="QHBoxLayout" name="end_box"/>
-          </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="duration_label_2">
+           <widget class="QLabel" name="label_duration">
             <property name="text">
              <string>Duration:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QToolButton" name="buttonLock">
-            <property name="text">
-             <string>...</string>
+          <item row="2" column="3">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="icon">
-             <iconset theme="kdenlive-lock"/>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
             </property>
-            <property name="checkable">
+           </spacer>
+          </item>
+          <item row="0" column="0" colspan="4">
+           <widget class="KTextEdit" name="subText">
+            <property name="tabChangesFocus">
              <bool>true</bool>
             </property>
-            <property name="autoRaise">
+            <property name="acceptRichText">
+             <bool>false</bool>
+            </property>
+            <property name="checkSpellingEnabled">
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item row="3" column="2">
-           <layout class="QHBoxLayout" name="duration_box"/>
           </item>
          </layout>
         </widget>
@@ -399,13 +419,19 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="edit-delete"/>
+      <iconset theme="edit-delete">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
+  </customwidget>
   <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>

@@ -493,19 +493,19 @@
           <bool>false</bool>
          </property>
          <property name="autoDefault">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color" stdset="0">
+         <property name="color">
           <color>
            <red>255</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor" stdset="0">
+         <property name="defaultColor">
           <color>
            <red>255</red>
            <green>0</green>
@@ -703,8 +703,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>388</width>
-                    <height>542</height>
+                    <width>372</width>
+                    <height>618</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -766,14 +766,14 @@
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
-                        <property name="color" stdset="0">
+                        <property name="color">
                          <color alpha="100">
                           <red>0</red>
                           <green>0</green>
                           <blue>0</blue>
                          </color>
                         </property>
-                        <property name="alphaChannelEnabled" stdset="0">
+                        <property name="alphaChannelEnabled">
                          <bool>true</bool>
                         </property>
                        </widget>
@@ -1054,7 +1054,7 @@
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="color" stdset="0">
+                     <property name="color">
                       <color>
                        <red>0</red>
                        <green>0</green>
@@ -1074,14 +1074,14 @@
                      <property name="flat">
                       <bool>false</bool>
                      </property>
-                     <property name="color" stdset="0">
+                     <property name="color">
                       <color>
                        <red>255</red>
                        <green>255</green>
                        <blue>255</blue>
                       </color>
                      </property>
-                     <property name="defaultColor" stdset="0">
+                     <property name="defaultColor">
                       <color>
                        <red>255</red>
                        <green>255</green>
@@ -1256,14 +1256,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color" stdset="0">
+                 <property name="color">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor" stdset="0">
+                 <property name="defaultColor">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1325,14 +1325,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color" stdset="0">
+                 <property name="color">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor" stdset="0">
+                 <property name="defaultColor">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1444,14 +1444,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="color" stdset="0">
+             <property name="color">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor" stdset="0">
+             <property name="defaultColor">
               <color>
                <red>0</red>
                <green>0</green>
@@ -1783,7 +1783,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <layout class="QHBoxLayout" name="duration_box"/>
+        <widget class="TimecodeDisplay" name="m_duration"/>
        </item>
       </layout>
      </widget>
@@ -1812,6 +1812,11 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
   </customwidget>
   <customwidget>
    <class>KColorButton</class>

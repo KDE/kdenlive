@@ -121,7 +121,6 @@ private:
 
     /** @brief Project path for storing title documents. */
     QString m_projectTitlePath;
-    TimecodeDisplay *m_duration;
 
     /** @brief The project framerate. */
     double m_fps;

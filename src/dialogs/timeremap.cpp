@@ -1661,10 +1661,6 @@ TimeRemap::TimeRemap(QWidget *parent)
         QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, QString()), Q_ARG(QString, m_binId), Q_ARG(int, 0),
                                   Q_ARG(bool, false));
     });
-    m_in = new TimecodeDisplay(this);
-    inLayout->addWidget(m_in);
-    m_out = new TimecodeDisplay(this);
-    outLayout->addWidget(m_out);
     m_view = new RemapView(this);
     speedBefore->setKeyboardTracking(false);
     speedAfter->setKeyboardTracking(false);

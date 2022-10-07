@@ -20,7 +20,7 @@
       <number>20</number>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="nameLabel">
+      <widget class="QLabel" name="label_name">
        <property name="text">
         <string>Name:</string>
        </property>
@@ -30,7 +30,7 @@
       <widget class="QLineEdit" name="name"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="textLabel">
+      <widget class="QLabel" name="label_text">
        <property name="text">
         <string>Text:</string>
        </property>
@@ -40,7 +40,7 @@
       <widget class="QTextEdit" name="text"/>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="fontLabel">
+      <widget class="QLabel" name="label_font">
        <property name="text">
         <string>Font:</string>
        </property>
@@ -121,7 +121,7 @@
       </layout>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="outlineLabel">
+      <widget class="QLabel" name="label_outline">
        <property name="text">
         <string>Outline:</string>
        </property>
@@ -145,7 +145,7 @@
           </sizepolicy>
          </property>
          <property name="autoDefault">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="alphaChannelEnabled">
           <bool>true</bool>
@@ -155,7 +155,7 @@
       </layout>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="bgLabel">
+      <widget class="QLabel" name="label_bg">
        <property name="text">
         <string>Background:</string>
        </property>
@@ -175,7 +175,7 @@
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="padLabel">
+      <widget class="QLabel" name="label_padding">
        <property name="text">
         <string>Padding:</string>
        </property>
@@ -187,6 +187,16 @@
         <number>4096</number>
        </property>
       </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_duration">
+       <property name="text">
+        <string>Duration:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="TimecodeDisplay" name="duration"/>
      </item>
     </layout>
    </item>
@@ -203,6 +213,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
+  </customwidget>
   <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>

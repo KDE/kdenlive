@@ -36,8 +36,9 @@ class TimecodeDisplay : public QAbstractSpinBox
 
 public:
     /** @brief Constructor for the widget.
+     *  This is the constructor used for Qt Designer
      * @param parent parent Widget
-     * @param autoAdjust if true, the timecode will be set and adjusted according to pCore's timecode */
+     * @param autoAdjust @default true if true, the timecode will be set and adjusted according to pCore's timecode */
     explicit TimecodeDisplay(QWidget *parent = nullptr, bool autoAdjust = true);
 
     /** @brief Constructor for the widget. Beware, this constructor does not automatically adjust its fps!

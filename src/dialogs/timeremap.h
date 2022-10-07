@@ -162,8 +162,6 @@ private slots:
 
 private:
     std::shared_ptr<Mlt::Link> m_splitRemap;
-    TimecodeDisplay *m_in;
-    TimecodeDisplay *m_out;
     RemapView *m_view;
     int m_lastLength;
     int m_cid;

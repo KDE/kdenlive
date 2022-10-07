@@ -61,22 +61,10 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
 
     connect(buttonStyle, &QToolButton::toggled, this, [this](bool toggle) { stackedWidget->setCurrentIndex(toggle ? 1 : 0); });
 
-    m_position = new TimecodeDisplay(this);
-    m_endPosition = new TimecodeDisplay(this);
-    m_duration = new TimecodeDisplay(this);
     frame_position->setEnabled(false);
     buttonDelete->setEnabled(false);
 
-    position_box->addWidget(m_position);
-    auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    position_box->addSpacerItem(spacer);
-    spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    end_box->addWidget(m_endPosition);
-    end_box->addSpacerItem(spacer);
-    duration_box->addWidget(m_duration);
-    spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
-    duration_box->addSpacerItem(spacer);
-    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
+    connect(tc_position, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -86,7 +74,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
         }
     });
-    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
+    connect(tc_end, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
         updateSubtitle();
         if (buttonLock->isChecked()) {
             // Perform a move instead of a resize
@@ -96,7 +84,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
         }
     });
-    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
+    connect(tc_duration, &TimecodeDisplay::timeCodeEditingFinished, this, [this](int value) {
         updateSubtitle();
         m_model->requestResize(m_activeSub, value, true);
     });
@@ -326,23 +314,23 @@ void SubtitleEdit::setActiveSubtitle(int id)
         QSignalBlocker bk(subText);
         stackedWidget->widget(0)->setEnabled(true);
         buttonDelete->setEnabled(true);
-        QSignalBlocker bk2(m_position);
-        QSignalBlocker bk3(m_endPosition);
-        QSignalBlocker bk4(m_duration);
+        QSignalBlocker bk2(tc_position);
+        QSignalBlocker bk3(tc_end);
+        QSignalBlocker bk4(tc_duration);
         subText->setPlainText(m_model->getText(id));
         m_startPos = m_model->getStartPosForId(id);
         GenTime duration = GenTime(m_model->getSubtitlePlaytime(id), pCore->getCurrentFps());
         m_endPos = m_startPos + duration;
-        m_position->setValue(m_startPos);
-        m_endPosition->setValue(m_endPos);
-        m_duration->setValue(duration);
-        m_position->setEnabled(true);
-        m_endPosition->setEnabled(true);
-        m_duration->setEnabled(true);
+        tc_position->setValue(m_startPos);
+        tc_end->setValue(m_endPos);
+        tc_duration->setValue(duration);
+        tc_position->setEnabled(true);
+        tc_end->setEnabled(true);
+        tc_duration->setEnabled(true);
     } else {
-        m_position->setEnabled(false);
-        m_endPosition->setEnabled(false);
-        m_duration->setEnabled(false);
+        tc_position->setEnabled(false);
+        tc_end->setEnabled(false);
+        tc_duration->setEnabled(false);
         stackedWidget->widget(0)->setEnabled(false);
         buttonDelete->setEnabled(false);
         QSignalBlocker bk(subText);

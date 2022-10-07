@@ -6,23 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>226</width>
-    <height>117</height>
+    <width>230</width>
+    <height>156</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Duration</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="position_label">
-     <property name="text">
-      <string>Position:</string>
+   <item row="4" column="1">
+    <widget class="TimecodeDisplay" name="m_cropEnd">
+     <property name="enabled">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <layout class="QHBoxLayout" name="clip_position_box"/>
+   <item row="1" column="1">
+    <widget class="TimecodeDisplay" name="m_cropStart"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="crop_label">
@@ -31,8 +31,22 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <layout class="QHBoxLayout" name="crop_start_box"/>
+   <item row="0" column="0">
+    <widget class="QLabel" name="position_label">
+     <property name="text">
+      <string>Position:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="duration_label">
@@ -41,18 +55,8 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout" name="clip_duration_box"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="end_label">
-     <property name="text">
-      <string>Crop end:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <layout class="QHBoxLayout" name="crop_end_box"/>
+   <item row="0" column="1">
+    <widget class="TimecodeDisplay" name="m_pos"/>
    </item>
    <item row="5" column="0" colspan="2">
     <spacer name="verticalSpacer">
@@ -67,18 +71,25 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   <item row="2" column="1">
+    <widget class="TimecodeDisplay" name="m_dur"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="end_label">
+     <property name="text">
+      <string>Crop end:</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

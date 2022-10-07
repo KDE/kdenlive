@@ -283,8 +283,6 @@ public:
     void renameSubClipCommand(const QString &id, const QString &newName, const QString &oldName, int in, int out);
     /** @brief Rename a clip zone (subclip). */
     void renameSubClip(const QString &id, const QString &newName, int in, int out);
-    /** @brief Returns current project's timecode. */
-    Timecode projectTimecode() const;
 
     /** @brief Edit an effect settings to a bin clip. */
     void editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip);

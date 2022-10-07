@@ -22,16 +22,6 @@ ClipDurationDialog::ClipDurationDialog(int clipId, int pos, int minpos, int in, 
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
 
-    m_pos = new TimecodeDisplay(this);
-    m_cropStart = new TimecodeDisplay(this);
-    m_dur = new TimecodeDisplay(this);
-    m_cropEnd = new TimecodeDisplay(this);
-
-    clip_position_box->addWidget(m_pos);
-    crop_start_box->addWidget(m_cropStart);
-    clip_duration_box->addWidget(m_dur);
-    crop_end_box->addWidget(m_cropEnd);
-
     bool allowCrop = length != -1;
 
     if (!allowCrop) {
@@ -53,14 +43,6 @@ ClipDurationDialog::ClipDurationDialog(int clipId, int pos, int minpos, int in, 
     connect(m_cropEnd, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckEnd);
 
     adjustSize();
-}
-
-ClipDurationDialog::~ClipDurationDialog()
-{
-    delete m_pos;
-    delete m_dur;
-    delete m_cropStart;
-    delete m_cropEnd;
 }
 
 void ClipDurationDialog::slotCheckStart()
