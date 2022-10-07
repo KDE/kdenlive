@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>323</height>
+    <width>355</width>
+    <height>373</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,6 +78,9 @@
      </property>
      <property name="text">
       <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="configure"/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -158,6 +161,7 @@
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

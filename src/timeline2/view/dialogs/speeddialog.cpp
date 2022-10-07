@@ -30,7 +30,6 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     ui->speedSlider->setTickInterval(10);
     ui->label_dest->setVisible(false);
     ui->kurlrequester->setVisible(false);
-    ui->toolButton->setVisible(false);
     if (reversed) {
         ui->checkBox->setChecked(true);
     }

@@ -127,34 +127,13 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     layout->addWidget(m_edit);
     m_edit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    /*m_leftParam = new ValueLabel<CurveWidget_t>(true, m_mode, this);
-    m_leftParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-    m_leftParam->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    m_bottomParam = new ValueLabel<CurveWidget_t>(false, m_mode, this);
-    m_bottomParam->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-    m_bottomParam->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-
-    // horizontal layout to make sure that everything is centered
-    auto *horiz_layout = new QHBoxLayout;
-    horiz_layout->addWidget(m_leftParam);
-    horiz_layout->addWidget(m_bottomParam);
-
-    layout->addLayout(horiz_layout);*/
     auto *widget = new QWidget(this);
     widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_ui.setupUi(widget);
     layout->addWidget(widget);
 
     // set up icons and initial button states
-    m_ui.buttonLinkHandles->setIcon(QIcon::fromTheme(QStringLiteral("edit-link")));
-    m_ui.buttonDeletePoint->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
-    m_ui.buttonZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
-    m_ui.buttonZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
-    m_ui.buttonGridChange->setIcon(QIcon::fromTheme(QStringLiteral("view-grid")));
     m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, 0.8))));
-    m_ui.buttonResetSpline->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
-    m_ui.buttonShowAllHandles->setIcon(QIcon::fromTheme(QStringLiteral("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
     m_edit->setGridLines(KdenliveSettings::bezier_gridlines());
     m_ui.buttonShowPixmap->setChecked(KdenliveSettings::bezier_showpixmap());
@@ -247,8 +226,6 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setMode(
         if (m_showPixmap) {
             slotShowPixmap(true);
         }
-        //m_leftParam->setMode(mode);
-        //m_bottomParam->setMode(mode);
     }
 }
 

@@ -12,8 +12,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <widget class="KSqueezedTextLabel" name="clipNameLabel">
-    </widget>
+    <widget class="KSqueezedTextLabel" name="clipNameLabel"/>
    </item>
    <item row="1" column="0">
     <widget class="QFrame" name="text_frame">
@@ -57,6 +56,10 @@
         <property name="text">
          <string>...</string>
         </property>
+        <property name="icon">
+         <iconset theme="process-stop">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
         <property name="autoRaise">
          <bool>true</bool>
         </property>
@@ -86,6 +89,9 @@
         <property name="text">
          <string>...</string>
         </property>
+        <property name="icon">
+         <iconset theme="go-up"/>
+        </property>
        </widget>
       </item>
       <item row="0" column="0">
@@ -102,6 +108,9 @@
        <widget class="QToolButton" name="search_next">
         <property name="text">
          <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset theme="go-down"/>
         </property>
        </widget>
       </item>
@@ -174,6 +183,9 @@
         <property name="text">
          <string>...</string>
         </property>
+        <property name="icon">
+         <iconset theme="edit-find"/>
+        </property>
         <property name="checkable">
          <bool>true</bool>
         </property>
@@ -201,8 +213,15 @@
       </item>
       <item row="0" column="1">
        <widget class="QToolButton" name="button_insert">
+        <property name="toolTip">
+         <string>Insert selected blocks in timeline</string>
+        </property>
         <property name="text">
          <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset theme="timeline-insert">
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -221,8 +240,18 @@
       </item>
       <item row="0" column="3">
        <widget class="QToolButton" name="button_add">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Save edited text in a new playlist</string>
+        </property>
         <property name="text">
          <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset theme="document-save-as">
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="autoRaise">
          <bool>true</bool>
@@ -242,6 +271,7 @@
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KSqueezedTextLabel</class>

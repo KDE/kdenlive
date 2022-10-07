@@ -73,9 +73,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
         m_view->setModel(m_assetModel, QSize(1920, 1080));
         m_vbox->addWidget(m_view.get());
         // Presets
-        preset_button->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
         preset_button->setMenu(m_view->presetMenu());
-        preset_button->setToolTip(i18n("Presets"));
     }
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);

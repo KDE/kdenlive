@@ -54,11 +54,6 @@ EncodingProfilesDialog::EncodingProfilesDialog(EncodingProfilesManager::ProfileT
     profile_type->addItem(i18n("Screen Capture"), EncodingProfilesManager::ScreenCapture);
     profile_type->addItem(i18n("Decklink Capture"), EncodingProfilesManager::DecklinkCapture);
 
-    button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    button_edit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
-    button_delete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
-    button_download->setIcon(QIcon::fromTheme(QStringLiteral("download")));
-
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     profile_type->setCurrentIndex(profileType);
     connect(profile_type, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &EncodingProfilesDialog::slotLoadProfiles);

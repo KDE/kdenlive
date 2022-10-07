@@ -45,14 +45,6 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok-apply")));
-    buttonAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    buttonCut->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
-    buttonIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
-    buttonOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
-    buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-    buttonStyle->setIcon(QIcon::fromTheme(QStringLiteral("format-text-color")));
-    buttonLock->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);

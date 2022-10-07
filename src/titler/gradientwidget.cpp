@@ -27,8 +27,6 @@ GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, 
     connect(angle, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
     connect(color1, &KColorButton::changed, this, &GradientWidget::updatePreview);
     connect(color2, &KColorButton::changed, this, &GradientWidget::updatePreview);
-    add_gradient->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    remove_gradient->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     connect(add_gradient, SIGNAL(clicked()), this, SLOT(saveGradient()));
     connect(remove_gradient, &QAbstractButton::clicked, this, &GradientWidget::deleteGradient);
     QFontMetrics metrics(font());

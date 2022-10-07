@@ -595,7 +595,6 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_start->setEnabled(false);
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     frame_progress->setVisible(false);
-    button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(button_abort, &QToolButton::clicked, this, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
             m_speechJob->kill();
@@ -630,17 +629,12 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_delete->setToolTip(i18n("Delete selected text"));
     connect(m_visualEditor->deleteAction, &QAction::triggered, this, &TextBasedEdit::deleteItem);
 
-    button_add->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
-    button_add->setToolTip(i18n("Save edited text in a new playlist"));
-    button_add->setEnabled(false);
     connect(button_add, &QToolButton::clicked, this, [this]() { previewPlaylist(); });
 
     button_bookmark->setDefaultAction(m_visualEditor->bookmarkAction);
     button_bookmark->setToolTip(i18n("Add bookmark for current selection"));
     connect(m_visualEditor->bookmarkAction, &QAction::triggered, this, &TextBasedEdit::addBookmark);
 
-    button_insert->setIcon(QIcon::fromTheme(QStringLiteral("timeline-insert")));
-    button_insert->setToolTip(i18n("Insert selected blocks in timeline"));
     connect(button_insert, &QToolButton::clicked, this, &TextBasedEdit::insertToTimeline);
     button_insert->setEnabled(false);
 
@@ -651,9 +645,6 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 
     // Search stuff
     search_frame->setVisible(false);
-    button_search->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
-    search_prev->setIcon(QIcon::fromTheme(QStringLiteral("go-up")));
-    search_next->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     connect(button_search, &QToolButton::toggled, this, [&](bool toggled) {
         search_frame->setVisible(toggled);
         search_line->setFocus();

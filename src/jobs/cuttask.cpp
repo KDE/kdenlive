@@ -148,7 +148,6 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
     QObject::connect(ui.vcodec, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), d.data(), [callBack]() { callBack(); });
     QFontMetrics fm = ui.file_url->lineEdit()->fontMetrics();
     ui.file_url->setMinimumWidth(int(fm.boundingRect(ui.file_url->text().left(50)).width() * 1.4));
-    ui.button_more->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     callBack();
     QString mess = i18n("Extracting %1 out of %2", Timecode::getStringTimecode(out - in, pCore->getCurrentFps(), true), binClip->getStringDuration());
     ui.info_label->setText(mess);

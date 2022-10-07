@@ -64,6 +64,10 @@
        <property name="text">
         <string>...</string>
        </property>
+       <property name="icon">
+        <iconset theme="list-remove">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
        <property name="autoRaise">
         <bool>true</bool>
        </property>
@@ -84,6 +88,10 @@
          </property>
          <property name="text">
           <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="edit-link">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -107,6 +115,9 @@
          </property>
          <property name="text">
           <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="view-refresh"/>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -140,6 +151,9 @@
          <property name="text">
           <string>...</string>
          </property>
+         <property name="icon">
+          <iconset theme="view-grid"/>
+         </property>
          <property name="autoRaise">
           <bool>true</bool>
          </property>
@@ -152,6 +166,10 @@
          </property>
          <property name="text">
           <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="zoom-in">
+           <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -166,6 +184,10 @@
          <property name="text">
           <string>...</string>
          </property>
+         <property name="icon">
+          <iconset theme="zoom-out">
+           <normaloff>.</normaloff>.</iconset>
+         </property>
          <property name="autoRaise">
           <bool>true</bool>
          </property>
@@ -178,6 +200,9 @@
          </property>
          <property name="text">
           <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="draw-bezier-curves"/>
          </property>
          <property name="checkable">
           <bool>true</bool>

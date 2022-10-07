@@ -124,7 +124,6 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this]() { slotProcessSpeech(); });
     m_stt->parseVoskDictionaries();
     frame_progress->setVisible(false);
-    button_abort->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(button_abort, &QToolButton::clicked, this, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
             m_speechJob->kill();
