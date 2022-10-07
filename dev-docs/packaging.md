@@ -45,7 +45,7 @@ Replcace `$USER` by your Launchpad username.
 
 The kdenlive-packaging repository contains a `po` branch containing the `po/` directory that is merged by KDE release service into [official tarballs][kde-release-tars]. You need to copy and past and push this manually.
 
-(There is room for improvements as this could be automated, even with fetch_translations procedure. However there are KDE plans to bring the translations to the source repositories, once this is the case this step will be obsolete anyway)
+At the moment this applies only to the release recipe, for master builds translations are in the source repository now. With 22.12 this will probably also be the case for release so this step will be obsolete.
 
 #### Packaging data
 

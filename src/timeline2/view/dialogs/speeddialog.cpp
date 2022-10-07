@@ -50,7 +50,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     ui->speedSpin->selectAll();
     if (m_duration > 0) {
         ui->durationLayout->addWidget(new QLabel(i18n("Duration"), this));
-        m_durationDisplay = new TimecodeDisplay(true, this);
+        m_durationDisplay = new TimecodeDisplay(this);
         m_durationDisplay->setValue(m_duration);
         ui->durationLayout->addWidget(m_durationDisplay);
         connect(m_durationDisplay, &TimecodeDisplay::timeCodeEditingFinished, this, [this, infoMessage, speed, minSpeed](int value) {

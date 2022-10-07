@@ -165,7 +165,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 
     splitter->setStretchFactor(0, 20);
 
-    m_duration = new TimecodeDisplay(true, this);
+    m_duration = new TimecodeDisplay(this);
     m_duration->setValue(KdenliveSettings::title_duration());
     duration_box->addWidget(m_duration);
     auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);

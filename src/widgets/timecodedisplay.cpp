@@ -33,38 +33,15 @@ QValidator::State TimecodeValidator::validate(QString &str, int &) const
     return QValidator::Acceptable;
 }
 
-TimecodeDisplay::TimecodeDisplay(bool autoAdjust, QWidget *parent)
-    : QAbstractSpinBox(parent)
-    , m_timecode(autoAdjust ? pCore->timecode() : Timecode())
-    , m_frametimecode(false)
-    , m_minimum(0)
-    , m_maximum(-1)
-    , m_value(0)
-    , m_offset(0)
+TimecodeDisplay::TimecodeDisplay(QWidget *parent, bool autoAdjust)
+    : TimecodeDisplay(parent, autoAdjust ? pCore->timecode() : Timecode())
 {
-    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    lineEdit()->setFont(ft);
-    setFont(ft);
-    lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    QFontMetrics fm(ft);
-    setFrame(false);
-    QPalette palette;
-    palette.setColor(QPalette::Base, Qt::transparent); // palette.window().color());
-    setPalette(palette);
-    setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
-    setValue(m_minimum);
-    setMinimumWidth(fm.horizontalAdvance(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() -
-                    lineEdit()->contentsRect().width() + (int)QStyle::PM_SpinBoxFrameWidth + 6);
-
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
-    setAccelerated(true);
-    connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
     if (autoAdjust) {
         connect(pCore.get(), &Core::updateProjectTimecode, this, &TimecodeDisplay::refreshTimeCode);
     }
 }
 
-TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
+TimecodeDisplay::TimecodeDisplay(QWidget *parent, const Timecode &t)
     : QAbstractSpinBox(parent)
     , m_timecode(t)
     , m_frametimecode(false)
@@ -90,11 +67,6 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
     connect(lineEdit(), &QLineEdit::editingFinished, this, &TimecodeDisplay::slotEditingFinished, Qt::DirectConnection);
-}
-
-TimecodeDisplay::TimecodeDisplay(QWidget *parent)
-    : TimecodeDisplay(Timecode(), parent)
-{
 }
 
 // virtual protected
@@ -135,11 +107,6 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
         lineEdit()->setValidator(valid);
     }
     setValue(m_value);
-}
-
-void TimecodeDisplay::slotUpdateTimeCodeFormat()
-{
-    setTimeCodeFormat(KdenliveSettings::frametimecode());
 }
 
 void TimecodeDisplay::updateTimeCode(const Timecode &t)

@@ -22,10 +22,10 @@ ClipDurationDialog::ClipDurationDialog(int clipId, int pos, int minpos, int in, 
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
 
-    m_pos = new TimecodeDisplay(true, this);
-    m_cropStart = new TimecodeDisplay(true, this);
-    m_dur = new TimecodeDisplay(true, this);
-    m_cropEnd = new TimecodeDisplay(true, this);
+    m_pos = new TimecodeDisplay(this);
+    m_cropStart = new TimecodeDisplay(this);
+    m_dur = new TimecodeDisplay(this);
+    m_cropEnd = new TimecodeDisplay(this);
 
     clip_position_box->addWidget(m_pos);
     crop_start_box->addWidget(m_cropStart);

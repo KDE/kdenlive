@@ -559,10 +559,11 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
                                         "Do you want to add license attribution to your Project Notes?"),
                                    QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("Remember this decision")) == KMessageBox::Yes) {
         attribution = i18nc("item name, item url, author name, license name, license url",
-                            "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5 .<br/> ",
+                            "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of this license, visit %5",
                             m_currentItem->data(nameRole).toString().isEmpty() ? i18n("Unnamed") : m_currentItem->data(nameRole).toString(),
                             m_currentItem->data(urlRole).toString(), m_currentItem->data(authorRole).toString(),
                             ResourceWidget::licenseNameFromUrl(m_currentItem->data(licenseRole).toString(), true), m_currentItem->data(licenseRole).toString());
+        attribution.append(QStringLiteral("<br/> "));
     }
 
     QString saveUrlstring = QFileDialog::getSaveFileName(this, QString(), path, ext);

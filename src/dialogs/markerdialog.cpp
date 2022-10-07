@@ -38,7 +38,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     }
     marker_type->setCurrentIndex(t.markerType());
 
-    m_in = new TimecodeDisplay(true, this);
+    m_in = new TimecodeDisplay(this);
     inputLayout->addWidget(m_in);
     m_in->setValue(t.time());
 

@@ -112,7 +112,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
     connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeWidget::disconnectEffectStack);
 
-    m_time = new TimecodeDisplay(true, this);
+    m_time = new TimecodeDisplay(this);
     m_time->setRange(0, duration - 1);
 
     m_toolbar->addAction(previousKFAction);

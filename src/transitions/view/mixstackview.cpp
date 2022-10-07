@@ -26,7 +26,7 @@ MixStackView::MixStackView(QWidget *parent)
     m_position = new PositionWidget(i18n("Position"), 0, 0, 0);
     // Duration widget
     m_durationLayout = new QHBoxLayout;
-    m_duration = new TimecodeDisplay(true, this);
+    m_duration = new TimecodeDisplay(this);
     m_duration->setRange(1, -1);
     m_durationLayout->addWidget(new QLabel(i18n("Duration:")));
     m_durationLayout->addWidget(m_duration);

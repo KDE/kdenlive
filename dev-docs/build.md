@@ -6,7 +6,7 @@ Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build 
 
 Currently supported distributions are:
 
-* Ubuntu 20.04 LTS Focal Fossa and derivatives
+* Ubuntu 22.04 LTS Focal Fossa and derivatives
 * Arch Linux
 
 But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.15.2, KF5 >= 5.86, MLT >= 7.8.0.
@@ -59,7 +59,7 @@ libkf5notifyconfig-dev libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev
 libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev libkf5purpose-dev \
 libkf5iconthemes-dev libkf5crash-dev libkf5filemetadata-dev libkf5codecs-dev kio \
 kinit qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick-controls libqt5networkauth5-dev \
-qtmultimedia5-dev qtquickcontrols2-5-dev breeze-icon-theme breeze
+qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev breeze-icon-theme breeze
 
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg
@@ -250,7 +250,7 @@ Note that Kdenlive cannot be easily run from inside the Docker container as it i
 ```bash
 # Spin up a Docker container
 # The --rm flag removes the container after it is stopped.
-docker run -it --rm ubuntu:20.04
+docker run -it --rm ubuntu:22.04
 
 # Now install the dependencies etc.
 # Note that you are root in the container, and sudo neither exists nor works.

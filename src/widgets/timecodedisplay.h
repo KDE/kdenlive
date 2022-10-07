@@ -36,20 +36,14 @@ class TimecodeDisplay : public QAbstractSpinBox
 
 public:
     /** @brief Constructor for the widget.
-     * @param autoAdjust if true, the timecode will be set and adjusted according to pCore's timecode
-     * @param parent parent Widget */
-    explicit TimecodeDisplay(bool autoAdjust = true, QWidget *parent = nullptr);
+     * @param parent parent Widget
+     * @param autoAdjust if true, the timecode will be set and adjusted according to pCore's timecode */
+    explicit TimecodeDisplay(QWidget *parent = nullptr, bool autoAdjust = true);
 
     /** @brief Constructor for the widget. Beware, this constructor does not automatically adjust its fps!
-     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
-     * @param parent parent Widget */
-    explicit TimecodeDisplay(const Timecode &t, QWidget *parent = nullptr);
-
-    /** @brief Constructor for the widget, sets value to 0.
-     *  This variant of ctor is mainly for the usage in QtDesigner,
-     *  remember to set a correct timecode with setTimecode()
-     * @param parent parent Widget */
-    explicit TimecodeDisplay(QWidget *parent = nullptr);
+     * @param parent parent Widget
+     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF) */
+    explicit TimecodeDisplay(QWidget *parent, const Timecode &t);
 
     /** @brief Returns the minimum value, which can be entered.
      * default is 0 */
@@ -113,10 +107,6 @@ public slots:
     void setValue(int value);
     void setValue(const QString &value);
     void setValue(const GenTime &value);
-
-    /** @brief Sets value's format according to Kdenlive's settings.
-     * @param t (optional, if already existing) Timecode object to use */
-    void slotUpdateTimeCodeFormat();
 
 private slots:
     void slotEditingFinished();
