@@ -37,10 +37,11 @@ Generators::Generators(const QString &path, QWidget *parent)
     , m_container(nullptr)
     , m_preview(nullptr)
 {
-    QFile file(path);
     QDomDocument doc;
-    doc.setContent(&file, false);
-    file.close();
+    if (!Xml::docContentFromFile(doc, path, false)) {
+        return;
+    }
+
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("generator")) {
         QString generatorTag = base.attribute(QStringLiteral("tag"));
@@ -129,9 +130,10 @@ QPair<QString, QString> Generators::parseGenerator(const QString &path, const QS
 {
     QPair<QString, QString> result;
     QDomDocument doc;
-    QFile file(path);
-    doc.setContent(&file, false);
-    file.close();
+    if (!Xml::docContentFromFile(doc, path, false)) {
+        return result;
+    }
+
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("generator")) {
         QString generatorTag = base.attribute(QStringLiteral("tag"));

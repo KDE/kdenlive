@@ -49,10 +49,10 @@ Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) cons
 
 void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
 {
-    QFile file(file_name);
     QDomDocument doc;
-    doc.setContent(&file, false);
-    file.close();
+    if (!Xml::docContentFromFile(doc, file_name, false)) {
+        return;
+    }
 
     QDomElement base = doc.documentElement();
     QDomNodeList transitions = doc.elementsByTagName(QStringLiteral("transition"));

@@ -22,6 +22,7 @@
 #include "profiles/profilemodel.hpp"
 #include "titler/patternsmodel.h"
 #include "widgets/timecodedisplay.h"
+#include "xml/xml.hpp"
 
 #include <cmath>
 
@@ -2138,12 +2139,12 @@ void TitleWidget::loadTitle(QUrl url)
         }
         m_scene->clearTextSelection();
         QDomDocument doc;
-        QFile file(url.toLocalFile());
-        doc.setContent(&file, false);
-        file.close();
+        if (!Xml::docContentFromFile(doc, url.toLocalFile(), false)) {
+            return;
+        }
         setXml(doc);
         updateGuides(0);
-        m_projectTitlePath = QFileInfo(file).dir().absolutePath();
+        m_projectTitlePath = QFileInfo(url.toLocalFile()).dir().absolutePath();
         KRecentDirs::add(QStringLiteral(":KdenliveProjectsTitles"), m_projectTitlePath);
     }
 }

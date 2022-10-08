@@ -5,8 +5,25 @@
 
 #include "xml.hpp"
 #include <QDebug>
+#include <QFile>
 
 // static
+bool Xml::docContentFromFile(QDomDocument &doc, const QString &fileName, bool namespaceProcessing)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file" << file.fileName() << "for reading";
+        return false;
+    }
+    if (!doc.setContent(&file, namespaceProcessing)) {
+        qWarning() << "Failed to parse file" << file.fileName() << "to QDomDocument";
+        file.close();
+        return false;
+    }
+    file.close();
+    return true;
+}
+
 QString Xml::getSubTagContent(const QDomElement &element, const QString &tagName)
 {
     QVector<QDomNode> nodeList = getDirectChildrenByTagName(element, tagName);

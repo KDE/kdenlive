@@ -56,10 +56,11 @@ Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId) const
 
 void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const
 {
-    QFile file(file_name);
     QDomDocument doc;
-    doc.setContent(&file, false);
-    file.close();
+    if (!Xml::docContentFromFile(doc, file_name, false)) {
+        return;
+    }
+
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("effectgroup")) {
         QDomNodeList effects = base.elementsByTagName(QStringLiteral("effect"));
@@ -162,7 +163,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 if (effectFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
                     effectFile.write(doc.toString().toUtf8());
                 }
-                file.close();
+                effectFile.close();
             }
         } else if (type == QLatin1String("text")) {
             result.type = AssetListType::AssetType::Text;
@@ -288,10 +289,11 @@ QPair<QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
 QPair<QString, QString> EffectsRepository::fixCustomAssetFile(const QString &path)
 {
     QPair<QString, QString> results;
-    QFile file(path);
     QDomDocument doc;
-    doc.setContent(&file, false);
-    file.close();
+    if (!Xml::docContentFromFile(doc, path, false)) {
+        return results;
+    }
+
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("effectgroup")) {
         // Groups not implemented
@@ -375,6 +377,7 @@ QPair<QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pat
     if (effectAdjusted) {
         QDir dir(QFileInfo(path).absoluteDir());
         dir.cd(QStringLiteral("legacy"));
+        QFile file(path);
         if (!file.copy(dir.absoluteFilePath(QFileInfo(file).fileName()))) {
             // Cannot copy the backup file
             qWarning() << "Could not copy old effect to" << dir.absoluteFilePath(QFileInfo(file).fileName());

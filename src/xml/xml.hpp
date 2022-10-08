@@ -15,6 +15,20 @@
  */
 namespace Xml {
 
+/** @brief Set the content of the given @param doc from a file.
+ *
+ *  It makes sure that the file is open for reading as required by Qt in the future (as of Qt5 2022-10-08)
+ *
+ *  @param doc
+ *  @param fileName
+ *  @param namespaceProcessing parameter of QDomDocument::setContent(). If namespaceProcessing is true, the parser recognizes namespaces in the XML file and
+ * sets the prefix name, local name and namespace URI to appropriate values. If namespaceProcessing is false, the parser does no namespace processing when it
+ * reads the XML file.
+ *
+ *  @returns false if an error occured while reading or parsing the file to the document
+ */
+bool docContentFromFile(QDomDocument &doc, const QString &fileName, bool namespaceProcessing);
+
 /** @brief Returns the content of a given tag within the current DomElement.
    For example, if your \@param element looks like <html><title>foo</title><head>bar</head></html>, passing \@tagName = "title" will return foo, and \@tagName
    = "head" returns bar

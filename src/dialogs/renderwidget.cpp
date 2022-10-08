@@ -1675,10 +1675,10 @@ void RenderWidget::parseScriptFiles()
     }
     for (int i = 0; i < scriptFiles.size(); ++i) {
         QUrl scriptpath = QUrl::fromLocalFile(projectFolder.absoluteFilePath(scriptFiles.at(i)));
-        QFile f(scriptpath.toLocalFile());
         QDomDocument doc;
-        doc.setContent(&f, false);
-        f.close();
+        if (!Xml::docContentFromFile(doc, scriptpath.toLocalFile(), false)) {
+            continue;
+        }
         QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
         if (consumer.isNull()) {
             continue;

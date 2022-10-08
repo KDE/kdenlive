@@ -91,29 +91,25 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
     } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
         // opening a title file
         QDomDocument txtdoc(QStringLiteral("titledocument"));
-        QFile txtfile(path);
-        if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
-            txtfile.close();
-            // extract embedded images
-            QDomNodeList items = txtdoc.elementsByTagName(QStringLiteral("content"));
-            for (int j = 0; j < items.count(); ++j) {
-                QDomElement content = items.item(j).toElement();
-                if (content.hasAttribute(QStringLiteral("base64"))) {
-                    QString titlesFolder = pCore->currentDoc()->projectDataFolder() + QStringLiteral("/titles/");
-                    QString imgPath = TitleDocument::extractBase64Image(titlesFolder, content.attribute(QStringLiteral("base64")));
-                    if (!imgPath.isEmpty()) {
-                        content.setAttribute(QStringLiteral("url"), imgPath);
-                        content.removeAttribute(QStringLiteral("base64"));
-                    }
-                }
-            }
-            prod = createProducer(xml, ClipType::Text, path, QString(), -1, QString());
-            QString titleData = txtdoc.toString();
-            prod.setAttribute(QStringLiteral("xmldata"), titleData);
-        } else {
-            txtfile.close();
+        if (!Xml::docContentFromFile(txtdoc, path, false)) {
             return QDomDocument();
         }
+        // extract embedded images
+        QDomNodeList items = txtdoc.elementsByTagName(QStringLiteral("content"));
+        for (int j = 0; j < items.count(); ++j) {
+            QDomElement content = items.item(j).toElement();
+            if (content.hasAttribute(QStringLiteral("base64"))) {
+                QString titlesFolder = pCore->currentDoc()->projectDataFolder() + QStringLiteral("/titles/");
+                QString imgPath = TitleDocument::extractBase64Image(titlesFolder, content.attribute(QStringLiteral("base64")));
+                if (!imgPath.isEmpty()) {
+                    content.setAttribute(QStringLiteral("url"), imgPath);
+                    content.removeAttribute(QStringLiteral("base64"));
+                }
+            }
+        }
+        prod = createProducer(xml, ClipType::Text, path, QString(), -1, QString());
+        QString titleData = txtdoc.toString();
+        prod.setAttribute(QStringLiteral("xmldata"), titleData);
     } else {
         // it is a "normal" file, just use a producer
         prod = xml.createElement(QStringLiteral("producer"));
@@ -173,8 +169,7 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     // We try to retrieve duration for template
     int duration = 0;
     QDomDocument titledoc;
-    QFile txtfile(path);
-    if (txtfile.open(QIODevice::ReadOnly) && titledoc.setContent(&txtfile)) {
+    if (Xml::docContentFromFile(titledoc, path, false)) {
         if (titledoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
             duration = titledoc.documentElement().attribute(QStringLiteral("duration")).toInt();
         } else {
@@ -182,7 +177,6 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
             duration = titledoc.documentElement().attribute(QStringLiteral("out")).toInt();
         }
     }
-    txtfile.close();
 
     // Duration not found, we fall-back to defaults
     if (duration == 0) {

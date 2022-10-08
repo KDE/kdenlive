@@ -1108,18 +1108,10 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 // static
 double KdenliveDoc::getDisplayRatio(const QString &path)
 {
-    QFile file(path);
     QDomDocument doc;
-    if (!file.open(QIODevice::ReadOnly)) {
-        qCWarning(KDENLIVE_LOG) << "ERROR, CANNOT READ: " << path;
+    if (!Xml::docContentFromFile(doc, path, false)) {
         return 0;
     }
-    if (!doc.setContent(&file)) {
-        qCWarning(KDENLIVE_LOG) << "ERROR, CANNOT READ: " << path;
-        file.close();
-        return 0;
-    }
-    file.close();
     QDomNodeList list = doc.elementsByTagName(QStringLiteral("profile"));
     if (list.isEmpty()) {
         return 0;

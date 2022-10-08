@@ -1840,28 +1840,30 @@ void Bin::slotReloadClip()
                 QString path = currentItem->url();
                 QFile f(path);
                 QDomDocument doc;
-                doc.setContent(&f, false);
-                f.close();
-                DocumentChecker d(QUrl::fromLocalFile(path), doc);
-                if (!d.hasErrorInClips() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
-                    QString backupFile = path + QStringLiteral(".backup");
-                    KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
-                    if (copyjob->exec()) {
-                        if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                            KMessageBox::error(this, i18n("Unable to write to file %1", path));
-                        } else {
-                            QTextStream out(&f);
+                if (!Xml::docContentFromFile(doc, path, false)) {
+                    DocumentChecker d(QUrl::fromLocalFile(path), doc);
+                    if (!d.hasErrorInClips() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
+                        QString backupFile = path + QStringLiteral(".backup");
+                        KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
+                        if (copyjob->exec()) {
+                            if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                                KMessageBox::error(this, i18n("Unable to write to file %1", path));
+                            } else {
+                                QTextStream out(&f);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                            out.setCodec("UTF-8");
+                                out.setCodec("UTF-8");
 #endif
-                            out << doc.toString();
-                            f.close();
-                            KMessageBox::information(
-                                this,
-                                i18n("Your project file was modified by Kdenlive.\nTo make sure you do not lose data, a backup copy called %1 was created.",
-                                     backupFile));
+                                out << doc.toString();
+                                f.close();
+                                KMessageBox::information(
+                                    this,
+                                    i18n("Your project file was modified by Kdenlive.\nTo make sure you do not lose data, a backup copy called %1 was created.",
+                                         backupFile));
+                            }
                         }
                     }
+                } else {
+                    KMessageBox::error(this, i18n("Unable to parse file %1", path));
                 }
             }
             currentItem->reloadProducer(false, false, true);
@@ -4330,9 +4332,9 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {
-        QFile file(path);
-        doc.setContent(&file, false);
-        file.close();
+        if (!Xml::docContentFromFile(doc, path, false)) {
+            return;
+        }
     } else {
         doc.setContent(xmldata);
     }

@@ -8,6 +8,7 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "renderpresetmodel.hpp"
+#include "xml/xml.hpp"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QDir>
@@ -115,9 +116,9 @@ void RenderPresetRepository::refresh(bool fullRefresh)
 void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
 {
     QDomDocument doc;
-    QFile file(exportFile);
-    doc.setContent(&file, false);
-    file.close();
+    if (!Xml::docContentFromFile(doc, exportFile, false)) {
+        return;
+    }
     QDomElement documentElement;
     QDomNodeList groups = doc.elementsByTagName(QStringLiteral("group"));
 
