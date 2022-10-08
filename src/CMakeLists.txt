@@ -78,7 +78,14 @@ list(APPEND kdenlive_SRCS ${top_SRCS})
 ## Others special cases
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
+ecm_qt_declare_logging_category(kdenlive_SRCS
+    HEADER kdenlive_debug.h
+    IDENTIFIER KDENLIVE_LOG
+    CATEGORY_NAME org.kde.multimedia.kdenlive
+    DESCRIPTION "kdenlive"
+    EXPORT KDENLIVE
+)
+
 if(NOT NODBUS)
     if(USE_VERSIONLESS_TARGETS)
         qt_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
