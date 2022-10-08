@@ -171,6 +171,7 @@ target_link_libraries(kdenliveLib
     KF5::Declarative
     KF5::IconThemes
     KF5::Solid
+    KF5::FileMetaData
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}
@@ -228,11 +229,6 @@ if(DRMINGW_FOUND)
 elseif(KF5Crash_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DKF5_USE_CRASH)
     target_link_libraries(kdenlive KF5::Crash)
-endif()
-
-if(KF5_FILEMETADATA)
-    target_compile_definitions(kdenliveLib PRIVATE -DKF5_USE_FILEMETADATA)
-    target_link_libraries(kdenliveLib KF5::FileMetaData)
 endif()
 
 if(KF5_PURPOSE)
