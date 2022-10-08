@@ -69,20 +69,19 @@ add_subdirectory(widgets)
 add_subdirectory(xml)
 
 ## toplevel source code files
-set(kdenlive_SRCS
-  ${kdenlive_SRCS}
-  core.cpp
-  definitions.cpp
-  docktitlebarmanager.cpp
-  layoutmanagement.cpp
-  mainwindow.cpp
-  mltconnection.cpp
-  statusbarmessagelabel.cpp
-  undohelper.cpp
-  PARENT_SCOPE
+list(APPEND kdenlive_SRCS
+    core.cpp
+    definitions.cpp
+    docktitlebarmanager.cpp
+    layoutmanagement.cpp
+    mainwindow.cpp
+    mltconnection.cpp
+    statusbarmessagelabel.cpp
+    undohelper.cpp
 )
+
 if(CRASH_AUTO_TEST)
-    set(kdenlive_SRCS ${kdenlive_SRCS} logger.cpp PARENT_SCOPE)
+    list(APPEND kdenlive_SRCS logger.cpp)
 endif()
 
 ## Others special cases
