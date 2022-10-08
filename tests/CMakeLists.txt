@@ -2,9 +2,8 @@ include_directories(${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR} ..)
 set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR})
 configure_file(tests_definitions.h.in tests_definitions.h)
 kde_enable_exceptions()
-add_executable(runTests
-    TestMain.cpp
-    abortutil.cpp
+
+set(KdenliveTest_SOURCES
     colorscopestest.cpp
     compositiontest.cpp
     effectstest.cpp
@@ -16,7 +15,6 @@ add_executable(runTests
     modeltest.cpp
     regressions.cpp
     snaptest.cpp
-    test_utils.cpp
     timewarptest.cpp
     titlertest.cpp
     treetest.cpp
@@ -25,6 +23,18 @@ add_executable(runTests
     movetest.cpp
     subtitlestest.cpp
 )
-set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
-target_link_libraries(runTests kdenliveLib)
-add_test(NAME runTests COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/runTests -d yes)
+
+include(ECMAddTests)
+
+foreach(_source ${KdenliveTest_SOURCES})
+  get_filename_component(_targetname ${_source} NAME_WE)
+  ecm_add_test(
+      TestMain.cpp
+      test_utils.cpp
+      abortutil.cpp
+      ${_source}
+      TEST_NAME ${_targetname}
+      LINK_LIBRARIES kdenliveLib
+  )
+  set_property(TARGET ${_targetname} PROPERTY CXX_STANDARD 14)
+endforeach()
