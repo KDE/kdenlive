@@ -67,14 +67,24 @@ add_subdirectory(transitions)
 add_subdirectory(utils)
 add_subdirectory(widgets)
 add_subdirectory(xml)
-## top_SRCS
-file(GLOB top_SRCS "*.cpp")
-if(NOT CRASH_AUTO_TEST)
-    list(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/logger.cpp)
+
+## toplevel source code files
+set(kdenlive_SRCS
+  ${kdenlive_SRCS}
+  core.cpp
+  definitions.cpp
+  docktitlebarmanager.cpp
+  layoutmanagement.cpp
+  mainwindow.cpp
+  mltconnection.cpp
+  statusbarmessagelabel.cpp
+  undohelper.cpp
+  PARENT_SCOPE
+)
+if(CRASH_AUTO_TEST)
+    set(kdenlive_SRCS ${kdenlive_SRCS} logger.cpp PARENT_SCOPE)
 endif()
-# string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/lib/[^;]+;?" "" top_SRCS "${top_SRCS}")
-list(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
-list(APPEND kdenlive_SRCS ${top_SRCS})
+
 ## Others special cases
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 install(FILES kdenlivesettings.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
@@ -95,9 +105,11 @@ if(NOT NODBUS)
 else()
     add_subdirectory(render)
 endif()
+
 ## UI's
 file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
+
 ## MOC
 if(USE_VERSIONLESS_TARGETS)
     qt_wrap_cpp(kdenlive_MOC definitions.h)
@@ -113,9 +125,12 @@ if(USE_VERSIONLESS_TARGETS)
 else()
     qt5_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
 endif()
+
 ## Icon for Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
 ecm_add_app_icon(kdenlive ICONS ${ICONS_SRCS}) # icon name = variable name
+
+## Kdenlive Executable
 add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
@@ -127,7 +142,7 @@ install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
 install(FILES kdenliveui.rc DESTINATION ${KDE_INSTALL_KXMLGUIDIR}/kdenlive)
 
-
+## Kdenlive Lib
 target_include_directories(kdenliveLib
     PRIVATE ${CMAKE_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}

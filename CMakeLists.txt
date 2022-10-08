@@ -19,13 +19,20 @@ if(POLICY CMP0053)
     cmake_policy(SET CMP0053 NEW)
 endif()
 
-# To be switched on when releasing.
-option(RELEASE_BUILD "Remove Git revision from program version" ON)
+include(FeatureSummary)
+include(GenerateExportHeader)
+
+# Register CMake options
+option(RELEASE_BUILD "Remove Git revision from program version" ON) # To be switched on when releasing.
 option(BUILD_TESTING "Build tests" ON)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(NODBUS "Build without DBus IPC" OFF)
 option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
+option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
+add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+
+option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" ON)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
@@ -38,10 +45,10 @@ set(KF_DEP_VERSION "5.86.0")
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(KDE_COMPILERSETTINGS_LEVEL 5.80)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+
+## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
-include(FeatureSummary)
 include(ECMInstallIcons)
-include(GenerateExportHeader)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(ECMOptionalAddSubdirectory)
@@ -58,9 +65,32 @@ if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
 endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
-find_package(KF5 ${KF_DEP_VERSION} REQUIRED COMPONENTS Archive Bookmarks Codecs CoreAddons Config ConfigWidgets
-                            KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
-                 OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
+find_package(KF5 ${KF_DEP_VERSION}
+    REQUIRED COMPONENTS
+    Archive
+    Bookmarks
+    Codecs
+    CoreAddons
+    Config
+    ConfigWidgets
+    KIO
+    WidgetsAddons
+    NotifyConfig
+    NewStuff
+    XmlGui
+    Notifications
+    GuiAddons
+    TextWidgets
+    IconThemes
+    Declarative
+    Solid
+
+    OPTIONAL_COMPONENTS
+    DocTools
+    FileMetaData
+    Crash
+    Purpose
+)
 
 # Qt
 set(QT_MIN_VERSION 5.15.2)
@@ -79,8 +109,17 @@ if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
     )
 endif()
 
-
-find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core Widgets Svg Quick QuickControls2 Concurrent QuickWidgets Multimedia NetworkAuth)
+find_package(Qt${QT_MAJOR_VERSION}
+    REQUIRED COMPONENTS
+    Core Widgets
+    Svg
+    Quick
+    QuickControls2
+    Concurrent
+    QuickWidgets
+    Multimedia
+    NetworkAuth
+)
 if (QT_MAJOR_VERSION STREQUAL "6")
     find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS SvgWidgets)
 endif()
@@ -162,11 +201,6 @@ if(CRASH_AUTO_TEST)
   endif()
 endif()
 
-option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
-add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-
-option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" ON)
-
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
@@ -176,6 +210,8 @@ add_subdirectory(src)
 add_subdirectory(renderer)
 add_subdirectory(thumbnailer)
 add_subdirectory(data)
+
+# Install
 ki18n_install(po)
 
 if (BUILD_QCH)
