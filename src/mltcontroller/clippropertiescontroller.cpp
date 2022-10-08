@@ -21,14 +21,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KDualAction>
 #include <KLocalizedString>
 
-#ifdef KF5_USE_FILEMETADATA
+#include "kdenlive_debug.h"
 #include <KFileMetaData/ExtractionResult>
 #include <KFileMetaData/Extractor>
 #include <KFileMetaData/ExtractorCollection>
 #include <KFileMetaData/PropertyInfo>
-#endif
-
-#include "kdenlive_debug.h"
 #include <KIO/Global>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
@@ -125,7 +122,6 @@ QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
     return mime;
 }
 
-#ifdef KF5_USE_FILEMETADATA
 class ExtractionResult : public KFileMetaData::ExtractionResult
 {
 public:
@@ -194,7 +190,6 @@ private:
     QTreeWidget *m_tree;
     Q_DISABLE_COPY(ExtractionResult)
 };
-#endif
 
 ClipPropertiesController::ClipPropertiesController(ClipController *controller, QWidget *parent)
     : QWidget(parent)
@@ -1284,7 +1279,6 @@ void ClipPropertiesController::fillProperties()
 
     m_propertiesTree->setSortingEnabled(false);
 
-#ifdef KF5_USE_FILEMETADATA
     // Read File Metadata through KDE's metadata system
     KFileMetaData::ExtractorCollection metaDataCollection;
     QMimeDatabase mimeDatabase;
@@ -1295,7 +1289,6 @@ void ClipPropertiesController::fillProperties()
         ExtractionResult extractionResult(m_controller->clipUrl(), mimeType.name(), m_propertiesTree);
         plugin->extract(&extractionResult);
     }
-#endif
 
     // Get MLT's metadata
     if (m_type == ClipType::Image) {

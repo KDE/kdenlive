@@ -84,10 +84,10 @@ find_package(KF5 ${KF_DEP_VERSION}
     IconThemes
     Declarative
     Solid
+    FileMetaData
 
     OPTIONAL_COMPONENTS
     DocTools
-    FileMetaData
     Crash
     Purpose
 )
@@ -153,13 +153,6 @@ if(APPLE)
     set(DATA_INSTALL_PREFIX "")
 else()
     set(DATA_INSTALL_PREFIX "/kdenlive")
-endif()
-
-if(KF5FileMetaData_FOUND)
-  message(STATUS "Found KF5 FileMetadata to extract file metadata")
-  set(KF5_FILEMETADATA TRUE)
-else()
-  message(STATUS "KF5 FileMetadata not found, file metadata will not be available")
 endif()
 
 if(KF5Purpose_FOUND)
