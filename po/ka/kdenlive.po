@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-08 00:46+0000\n"
-"PO-Revision-Date: 2022-10-07 06:24+0200\n"
+"PO-Revision-Date: 2022-10-08 06:31+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7084,16 +7084,14 @@ msgid "Disable %1"
 msgstr ""
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid "Hide keyframes"
-msgstr " კადრები"
+msgstr "კადრების დამალვა"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid "Show keyframes"
-msgstr " კადრები"
+msgstr "კადრების ჩვენება"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
@@ -7164,16 +7162,14 @@ msgid "Enable Keyframes"
 msgstr ""
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid "Hide Keyframes"
-msgstr " კადრები"
+msgstr "კადრების დამალვა"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid "Show Keyframes"
-msgstr " კადრები"
+msgstr "კადრების ჩვენება"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
