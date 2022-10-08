@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:45+0000\n"
+"POT-Creation-Date: 2022-10-08 00:46+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -555,7 +555,7 @@ msgstr "Go"
 
 #: data/effects/channelcopy.xml:15 data/effects/copychannelstostereo.xml:15
 #: data/effects/swapchannels.xml:3
-#: src/mltcontroller/clippropertiescontroller.cpp:861
+#: src/mltcontroller/clippropertiescontroller.cpp:859
 #, fuzzy, kde-format
 #| msgid "Channels"
 msgid "Swap channels"
@@ -745,7 +745,7 @@ msgid "Initial Zoom"
 msgstr "Ionad X"
 
 #: data/effects/dance.xml:22 data/effects/vidstab.xml:39
-#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:349
+#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Zoom"
 msgstr "Súmáil"
@@ -830,7 +830,6 @@ msgstr ""
 
 #: data/effects/dynamictext.xml:7
 #: src/assets/view/widgets/keyframeimport.cpp:370
-#: src/project/transitionsettings.cpp:108
 #, kde-format
 msgid "Geometry"
 msgstr "Céimseata"
@@ -916,9 +915,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:7 data/effects/fade_to_black.xml:7
-#: data/effects/fadein.xml:10 data/effects/fadeout.xml:7 src/bin/bin.cpp:1271
+#: data/effects/fadein.xml:10 data/effects/fadeout.xml:7 src/bin/bin.cpp:1270
 #: src/bin/projectitemmodel.cpp:311
-#: src/timeline2/view/dialogs/speeddialog.cpp:52
+#: src/timeline2/view/dialogs/speeddialog.cpp:51
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:14
 #, kde-format
@@ -1419,8 +1418,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:7
 #: data/effects/mask_start_rotoscoping.xml:7
-#: data/effects/mask_start_shape.xml:7 src/bin/bin.cpp:1366
-#: src/bin/bin.cpp:1371 src/bin/bin.cpp:2117
+#: data/effects/mask_start_shape.xml:7 src/bin/bin.cpp:1365
+#: src/bin/bin.cpp:1370 src/bin/bin.cpp:2116
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter"
@@ -2780,7 +2779,7 @@ msgstr ""
 msgid "Noise Reduction and audio Restoration"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1342
+#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1341
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3111,7 +3110,6 @@ msgstr "Aisfhuaimniú"
 #. i18n: ectx: property (windowTitle), widget (QDialog, CountDown_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, QTextClip_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, TestProxy_UI)
-#. i18n: ectx: property (windowTitle), widget (QDialog, SmConfig_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, TranscodeSeekable_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManageEncodingProfile_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipSpeed_UI)
@@ -3128,16 +3126,15 @@ msgstr "Aisfhuaimniú"
 #: src/ui/clipstabilize_ui.ui:14 src/ui/cliptranscode_ui.ui:14
 #: src/ui/colorclip_ui.ui:14 src/ui/gradientedit_ui.ui:14
 #: src/ui/import_subtitle_ui.ui:14 src/ui/manageencodingprofile_ui.ui:14
-#: src/ui/qtextclip_ui.ui:14 src/ui/smconfig_ui.ui:14
-#: src/ui/speechdialog_ui.ui:14 src/ui/testproxy_ui.ui:14
-#: src/ui/transcodeseekable_ui.ui:14
+#: src/ui/qtextclip_ui.ui:14 src/ui/speechdialog_ui.ui:14
+#: src/ui/testproxy_ui.ui:14 src/ui/transcodeseekable_ui.ui:14
 #, kde-format
 msgid "Dialog"
 msgstr "Dialóg"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, destination_label)
-#: plugins/sampleplugin/countdown_ui.ui:19 src/ui/cutjobdialog_ui.ui:115
+#: plugins/sampleplugin/countdown_ui.ui:19 src/ui/cutjobdialog_ui.ui:118
 #, kde-format
 msgid "Save to"
 msgstr "Sábháil go"
@@ -3289,9 +3286,8 @@ msgstr "Eagar"
 msgid "Export XML…"
 msgstr "Tionscadal"
 
-#: src/assets/assetlist/view/qml/assetList.qml:364 src/bin/bin.cpp:1255
+#: src/assets/assetlist/view/qml/assetList.qml:364 src/bin/bin.cpp:1254
 #: src/bin/projectitemmodel.cpp:296
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:62
 #, kde-format
 msgid "Name"
 msgstr "Ainm"
@@ -3375,10 +3371,8 @@ msgstr "Cuir maisíocht nua leis"
 #: src/assets/keyframes/model/keyframemodel.cpp:110
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
-#: src/assets/view/widgets/keyframewidget.cpp:65 src/dialogs/timeremap.cpp:1694
-#: src/dialogs/timeremap.cpp:1713
-#: src/simplekeyframes/simplekeyframewidget.cpp:28
-#: src/simplekeyframes/simplekeyframewidget.cpp:119
+#: src/assets/view/widgets/keyframewidget.cpp:65 src/dialogs/timeremap.cpp:1690
+#: src/dialogs/timeremap.cpp:1709
 #, kde-format
 msgid "Add keyframe"
 msgstr ""
@@ -3393,8 +3387,7 @@ msgstr "Sprioc"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:200
 #: src/assets/keyframes/model/keyframemodellist.cpp:181
-#: src/assets/view/widgets/keyframewidget.cpp:67 src/dialogs/timeremap.cpp:1710
-#: src/simplekeyframes/simplekeyframewidget.cpp:116
+#: src/assets/view/widgets/keyframewidget.cpp:67 src/dialogs/timeremap.cpp:1706
 #, kde-format
 msgid "Delete keyframe"
 msgstr ""
@@ -3430,18 +3423,18 @@ msgstr "Cuir Marcóirí Leis"
 msgid "Delete all keyframes"
 msgstr "Scrios Fráma"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1017
+#: src/assets/keyframes/model/keyframemodel.cpp:1006
 #, kde-format
 msgid "effect"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1026
+#: src/assets/keyframes/model/keyframemodel.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Reset %1"
 msgstr "Athshocraigh"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1278
+#: src/assets/keyframes/model/keyframemodel.cpp:1266
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Reset effect"
@@ -3543,7 +3536,7 @@ msgid "Edit %1"
 msgstr "Eagar"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:546
+#: src/assets/view/widgets/keyframewidget.cpp:541
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Edit %1 keyframe"
@@ -3555,8 +3548,8 @@ msgstr "Cuir Marcóirí Leis"
 msgid "Update %1"
 msgstr "Nuashonraigh próifíl"
 
-#: src/assets/model/assetparametermodel.cpp:1174
-#: src/assets/model/assetparametermodel.cpp:1221
+#: src/assets/model/assetparametermodel.cpp:1187
+#: src/assets/model/assetparametermodel.cpp:1234
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot open preset file %1"
@@ -3586,7 +3579,7 @@ msgstr "Socraithe Reatha"
 msgid "Delete preset"
 msgstr "Scrios an Phróifíl"
 
-#: src/assets/view/assetparameterview.cpp:336
+#: src/assets/view/assetparameterview.cpp:337
 #: src/dialogs/kdenlivesettingsdialog.cpp:1346
 #, fuzzy, kde-format
 #| msgid "Profile name"
@@ -3594,7 +3587,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ainm na próifíle"
 
-#: src/assets/view/assetparameterview.cpp:336
+#: src/assets/view/assetparameterview.cpp:337
 #: src/dialogs/kdenlivesettingsdialog.cpp:1346
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -3670,7 +3663,7 @@ msgstr "Ailíniú Ingearach"
 
 #: src/assets/view/widgets/keyframeimport.cpp:213
 #: src/assets/view/widgets/keyframeimport.cpp:223
-#: src/dialogs/subtitleedit.cpp:152 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/subtitleedit.cpp:132 src/transitions/view/mixstackview.cpp:47
 #, fuzzy, kde-format
 #| msgid "Countdown"
 msgid "Center"
@@ -3823,20 +3816,20 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1698
-#: src/mainwindow.cpp:1715 src/simplekeyframes/simplekeyframewidget.cpp:33
+#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1694
+#: src/mainwindow.cpp:1714
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1696
-#: src/mainwindow.cpp:1713 src/simplekeyframes/simplekeyframewidget.cpp:38
+#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1692
+#: src/mainwindow.cpp:1712
 #, kde-format
 msgid "Go to next keyframe"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1702
-#: src/dialogs/timeremap.cpp:1703
+#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1698
+#: src/dialogs/timeremap.cpp:1699
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Move selected keyframe to cursor"
@@ -3915,7 +3908,7 @@ msgid "Default Keyframe Type"
 msgstr "Cuir Fad Ama in Eagar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1320
+#: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1319
 #: src/ui/clipstabilize_ui.ui:30
 #, kde-format
 msgid "Options"
@@ -4008,7 +4001,7 @@ msgid "Volume"
 msgstr "Colúin"
 
 #: src/audiomixer/mixerwidget.cpp:152 src/audiomixer/mixerwidget.cpp:537
-#: src/mltcontroller/clippropertiescontroller.cpp:913
+#: src/mltcontroller/clippropertiescontroller.cpp:911
 #, fuzzy, kde-format
 #| msgid "B"
 msgid "dB"
@@ -4063,7 +4056,7 @@ msgstr "Cainéil"
 msgid "Open Effect Stack"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4061
+#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4059
 #: src/mltcontroller/clipcontroller.cpp:612
 #: src/onlineresources/resourcewidget.cpp:258
 #: src/onlineresources/resourcewidget.cpp:549
@@ -4073,25 +4066,25 @@ msgstr "Sábháil an Mhaisíocht"
 msgid "Unnamed"
 msgstr "Ainm comhaid"
 
-#: src/bin/bin.cpp:687 src/bin/bin.cpp:846
+#: src/bin/bin.cpp:686 src/bin/bin.cpp:845
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr ""
 
-#: src/bin/bin.cpp:789 src/bin/bin.cpp:890
+#: src/bin/bin.cpp:788 src/bin/bin.cpp:889
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
 
-#: src/bin/bin.cpp:791 src/bin/bin.cpp:892
+#: src/bin/bin.cpp:790 src/bin/bin.cpp:891
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "<b>F2</b> to rename selected item"
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/bin/bin.cpp:1045
+#: src/bin/bin.cpp:1044
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
@@ -4101,7 +4094,7 @@ msgstr[2] "%1 jab"
 msgstr[3] "%1 jab"
 msgstr[4] "%1 jab"
 
-#: src/bin/bin.cpp:1046
+#: src/bin/bin.cpp:1045
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
@@ -4111,158 +4104,157 @@ msgstr[2] "%1 jab ar feitheamh"
 msgstr[3] "%1 jab ar feitheamh"
 msgstr[4] "%1 jab ar feitheamh"
 
-#: src/bin/bin.cpp:1171
+#: src/bin/bin.cpp:1170
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "Cuardaigh"
 
-#: src/bin/bin.cpp:1214
+#: src/bin/bin.cpp:1213
 #, fuzzy, kde-format
 #| msgid "Mode"
 msgid "View Mode"
 msgstr "Mód"
 
-#: src/bin/bin.cpp:1217
+#: src/bin/bin.cpp:1216
 #, fuzzy, kde-format
 #| msgid "View"
 msgid "Tree View"
 msgstr "Amharc"
 
-#: src/bin/bin.cpp:1224
+#: src/bin/bin.cpp:1223
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:1228
+#: src/bin/bin.cpp:1227
 #, fuzzy, kde-format
 #| msgid "View"
 msgid "Icon View"
 msgstr "Amharc"
 
-#: src/bin/bin.cpp:1236
+#: src/bin/bin.cpp:1235
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Descending"
 msgstr "Taifead"
 
-#: src/bin/bin.cpp:1252
+#: src/bin/bin.cpp:1251
 #, kde-format
 msgid "Sort By"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1259 src/bin/projectitemmodel.cpp:299
+#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:299
 #: src/project/dialogs/projectsettings.cpp:246 src/ui/managecache_ui.ui:328
 #, kde-format
 msgid "Date"
 msgstr "Dáta"
 
-#: src/bin/bin.cpp:1263 src/bin/projectitemmodel.cpp:302
+#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:302
 #, kde-format
 msgid "Description"
 msgstr "Cur Síos"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
-#: src/bin/bin.cpp:1267 src/bin/projectitemmodel.cpp:305
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:62
+#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:305
 #: src/ui/missingclips_ui.ui:73
 #, kde-format
 msgid "Type"
 msgstr "Cineál"
 
-#: src/bin/bin.cpp:1275
+#: src/bin/bin.cpp:1274
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert Order"
 msgstr "Ionsá"
 
-#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:317
+#: src/bin/bin.cpp:1278 src/bin/projectitemmodel.cpp:317
 #, kde-format
 msgid "Rating"
 msgstr "Rátáil"
 
-#: src/bin/bin.cpp:1303
+#: src/bin/bin.cpp:1302
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Bin Effects"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/bin/bin.cpp:1311
+#: src/bin/bin.cpp:1310
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Show Video Preview in Thumbnails"
 msgstr "Taispeáin mionsamhlacha"
 
-#: src/bin/bin.cpp:1327
+#: src/bin/bin.cpp:1326
 #, fuzzy, kde-format
 #| msgid "Show path"
 msgid "Show Date"
 msgstr "Taispeáin conair"
 
-#: src/bin/bin.cpp:1331
+#: src/bin/bin.cpp:1330
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Show Description"
 msgstr "Cur Síos"
 
-#: src/bin/bin.cpp:1335
+#: src/bin/bin.cpp:1334
 #, fuzzy, kde-format
 #| msgid "Show path"
 msgid "Show Rating"
 msgstr "Taispeáin conair"
 
-#: src/bin/bin.cpp:1353
+#: src/bin/bin.cpp:1352
 #, kde-format
 msgid "Tags Panel"
 msgstr ""
 
-#: src/bin/bin.cpp:1477
+#: src/bin/bin.cpp:1476
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr ""
 
-#: src/bin/bin.cpp:1479
+#: src/bin/bin.cpp:1478
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr ""
 
-#: src/bin/bin.cpp:1481
+#: src/bin/bin.cpp:1480
 #, fuzzy, kde-format
 #| msgid "%1 pending job"
 #| msgid_plural "%1 pending jobs"
 msgid "Cancel Pending Jobs"
 msgstr "%1 jab ar feitheamh"
 
-#: src/bin/bin.cpp:1790
+#: src/bin/bin.cpp:1789
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:1793
+#: src/bin/bin.cpp:1792
 #, kde-format
 msgid "This will delete all folder content"
 msgstr ""
 
-#: src/bin/bin.cpp:1808
+#: src/bin/bin.cpp:1807
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
 
-#: src/bin/bin.cpp:1810
+#: src/bin/bin.cpp:1809
 #, fuzzy, kde-format
 #| msgid "Delete Script"
 msgid "Delete bin Clips"
 msgstr "Scrios Script"
 
-#: src/bin/bin.cpp:1835 src/doc/documentchecker.cpp:561
+#: src/bin/bin.cpp:1834 src/doc/documentchecker.cpp:562
 #, kde-format
 msgid "Missing source clip"
 msgstr ""
 
-#: src/bin/bin.cpp:1852 src/bin/bin.cpp:2242
+#: src/bin/bin.cpp:1851 src/bin/bin.cpp:2241
 #: src/effects/effectlist/view/effectlistwidget.cpp:154
 #: src/renderpresets/renderpresetrepository.cpp:154
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -4270,20 +4262,20 @@ msgstr ""
 msgid "Unable to write to file %1"
 msgstr ""
 
-#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2251 src/doc/kdenlivedoc.cpp:656
+#: src/bin/bin.cpp:1861 src/bin/bin.cpp:2250 src/doc/kdenlivedoc.cpp:655
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
 
-#: src/bin/bin.cpp:1876
+#: src/bin/bin.cpp:1875
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/bin/bin.cpp:1902 src/bin/bin.cpp:1960
+#: src/bin/bin.cpp:1901 src/bin/bin.cpp:1959
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -4291,48 +4283,48 @@ msgid ""
 "Replacement is %1 frames shorter."
 msgstr ""
 
-#: src/bin/bin.cpp:1909 src/bin/bin.cpp:1966
+#: src/bin/bin.cpp:1908 src/bin/bin.cpp:1965
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr ""
 
-#: src/bin/bin.cpp:1915
+#: src/bin/bin.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot find original clip to be replaced"
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/bin/bin.cpp:1935
+#: src/bin/bin.cpp:1934
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement File"
 msgstr ""
 
-#: src/bin/bin.cpp:1998
+#: src/bin/bin.cpp:1997
 #, fuzzy, kde-format
 #| msgid "Cannot load image %1."
 msgid "Could not locate %1"
 msgstr "Ní féidir íomhá %1 a luchtú."
 
-#: src/bin/bin.cpp:2039
+#: src/bin/bin.cpp:2038
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:2044 src/bin/bin.cpp:2046
+#: src/bin/bin.cpp:2043 src/bin/bin.cpp:2045
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Duplicate clip"
 msgstr "Teideal"
 
-#: src/bin/bin.cpp:2153
+#: src/bin/bin.cpp:2152
 #, fuzzy, kde-format
 #| msgid "Original size"
 msgid "Clear Filters"
 msgstr "Bunmhéid"
 
-#: src/bin/bin.cpp:2167
+#: src/bin/bin.cpp:2166
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
@@ -4343,228 +4335,223 @@ msgstr[2] "Tosaigh"
 msgstr[3] "Tosaigh"
 msgstr[4] "Tosaigh"
 
-#: src/bin/bin.cpp:2174
+#: src/bin/bin.cpp:2173
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Unused Clips"
 msgstr "Teideal"
 
-#: src/bin/bin.cpp:2181
+#: src/bin/bin.cpp:2180
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter by Type"
 msgstr "Scagaire %1"
 
-#: src/bin/bin.cpp:2184
+#: src/bin/bin.cpp:2183
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "AV Clip"
 msgstr "Ailínigh ar chlé"
 
-#: src/bin/bin.cpp:2188
+#: src/bin/bin.cpp:2187
 #, fuzzy, kde-format
 #| msgid "Video"
 msgid "Mute Video"
 msgstr "Físeán"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rec_audio)
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2192 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:2191 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/layoutmanagement.cpp:33 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:539
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:25
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:106
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:139
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:176
 #: src/ui/configcapture_ui.ui:521 src/ui/cutjobdialog_ui.ui:57
 #: src/ui/editrenderpreset_ui.ui:840 src/ui/projectsettings_ui.ui:168
-#: src/ui/recmonitor_ui.ui:107 src/ui/renderwidget_ui.ui:606
+#: src/ui/renderwidget_ui.ui:606
 #, kde-format
 msgid "Audio"
 msgstr "Fuaim"
 
-#: src/bin/bin.cpp:2196
+#: src/bin/bin.cpp:2195
 #, kde-format
 msgid "Image"
 msgstr "Íomhá"
 
-#: src/bin/bin.cpp:2200
+#: src/bin/bin.cpp:2199
 #, kde-format
 msgid "Slideshow"
 msgstr "Taispeántas Sleamhnán"
 
-#: src/bin/bin.cpp:2204
+#: src/bin/bin.cpp:2203
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Playlist"
 msgstr "Seinmliosta"
 
-#: src/bin/bin.cpp:2208 src/project/dialogs/projectsettings.cpp:214
+#: src/bin/bin.cpp:2207 src/project/dialogs/projectsettings.cpp:214
 #, kde-format
 msgid "Title"
 msgstr "Teideal"
 
-#: src/bin/bin.cpp:2212
+#: src/bin/bin.cpp:2211
 #, fuzzy, kde-format
 #| msgid "Template"
 msgid "Title Template"
 msgstr "Teimpléad"
 
-#: src/bin/bin.cpp:2216 src/layoutmanagement.cpp:35
-#: src/mltcontroller/clippropertiescontroller.cpp:378
+#: src/bin/bin.cpp:2215 src/layoutmanagement.cpp:35
+#: src/mltcontroller/clippropertiescontroller.cpp:376
 #, kde-format
 msgid "Color"
 msgstr "Dath"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2272 src/ui/managecache_ui.ui:318
+#: src/bin/bin.cpp:2271 src/ui/managecache_ui.ui:318
 #, kde-format
 msgid "Folder"
 msgstr "Fillteán"
 
-#: src/bin/bin.cpp:2273
+#: src/bin/bin.cpp:2272
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Cruthaigh Fillteán"
 
-#: src/bin/bin.cpp:2405 src/bin/bin.cpp:2416 src/bin/bin.cpp:3340
+#: src/bin/bin.cpp:2404 src/bin/bin.cpp:2415 src/bin/bin.cpp:3338
 #: src/timeline2/model/timelinemodel.cpp:1986
 #, kde-format
 msgid "Delete Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2406 src/bin/bin.cpp:2417 src/bin/bin.cpp:3320
+#: src/bin/bin.cpp:2405 src/bin/bin.cpp:2416 src/bin/bin.cpp:3318
 #, kde-format
 msgid "Proxy Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2410
+#: src/bin/bin.cpp:2409
 #, kde-format
 msgid "Delete Folder"
 msgstr "Scrios Fillteán"
 
-#: src/bin/bin.cpp:2411
+#: src/bin/bin.cpp:2410
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Proxy Folder"
 msgstr "Comhaid an Tionscadail"
 
-#: src/bin/bin.cpp:2640
+#: src/bin/bin.cpp:2639
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit rating"
 msgstr "Cuir Fad Ama in Eagar"
 
-#: src/bin/bin.cpp:2642
+#: src/bin/bin.cpp:2641
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr ""
 
-#: src/bin/bin.cpp:3275
+#: src/bin/bin.cpp:3273
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgid "Add Clip or Folder…"
 msgstr "Cuir fillteán leis"
 
-#: src/bin/bin.cpp:3279
+#: src/bin/bin.cpp:3277
 #, fuzzy, kde-format
 #| msgid "Color 1"
 msgid "Add Color Clip…"
 msgstr "Dath 1"
 
-#: src/bin/bin.cpp:3281
+#: src/bin/bin.cpp:3279
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Add Image Sequence…"
 msgstr "Méid na híomhá"
 
-#: src/bin/bin.cpp:3283
+#: src/bin/bin.cpp:3281
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Add Title Clip…"
 msgstr "Teideal"
 
-#: src/bin/bin.cpp:3285
+#: src/bin/bin.cpp:3283
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Add Template Title…"
 msgstr "Nuashonraigh próifíl"
 
-#: src/bin/bin.cpp:3287
+#: src/bin/bin.cpp:3285
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Animation…"
 msgstr "Cruthaigh Grúpa"
 
-#: src/bin/bin.cpp:3290 src/mainwindow.cpp:357
+#: src/bin/bin.cpp:3288 src/mainwindow.cpp:356
 #, kde-format
 msgid "Online Resources"
 msgstr ""
 
-#: src/bin/bin.cpp:3294
+#: src/bin/bin.cpp:3292
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Locate Clip…"
 msgstr "Teideal"
 
-#: src/bin/bin.cpp:3299
+#: src/bin/bin.cpp:3297
 #, kde-format
 msgid "Reload Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3305
+#: src/bin/bin.cpp:3303
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:3310
+#: src/bin/bin.cpp:3308
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Replace Clip…"
 msgstr "Athraigh an mhéid"
 
-#: src/bin/bin.cpp:3315
+#: src/bin/bin.cpp:3313
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Duplicate Clip"
 msgstr "Teideal"
 
-#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376
+#: src/bin/bin.cpp:3325 src/bin/bin.cpp:3374
 #, kde-format
 msgid "Clip Properties"
 msgstr ""
 
-#: src/bin/bin.cpp:3332 src/mltcontroller/clippropertiescontroller.cpp:314
+#: src/bin/bin.cpp:3330 src/mltcontroller/clippropertiescontroller.cpp:313
 #, kde-format
 msgid "Edit Clip"
 msgstr ""
 
-#: src/bin/bin.cpp:3345
+#: src/bin/bin.cpp:3343
 #, kde-format
 msgid "Open in new bin"
 msgstr ""
 
-#: src/bin/bin.cpp:3356
+#: src/bin/bin.cpp:3354
 #, kde-format
 msgid "Create Folder"
 msgstr "Cruthaigh Fillteán"
 
-#: src/bin/bin.cpp:3420 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3418 src/dialogs/textbasededit.cpp:623
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Taispeáin an logchomhad"
 
-#: src/bin/bin.cpp:3423 src/dialogs/textbasededit.cpp:625
+#: src/bin/bin.cpp:3421 src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Detailed log"
 msgstr ""
 
-#: src/bin/bin.cpp:3485
+#: src/bin/bin.cpp:3483
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Move Clip"
@@ -4575,195 +4562,195 @@ msgstr[2] "Teideal"
 msgstr[3] "Teideal"
 msgstr[4] "Teideal"
 
-#: src/bin/bin.cpp:3522
+#: src/bin/bin.cpp:3520
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No valid clip to insert"
 msgstr "Amlíne"
 
-#: src/bin/bin.cpp:3546 src/timeline2/view/timelinecontroller.cpp:1361
+#: src/bin/bin.cpp:3544 src/timeline2/view/timelinecontroller.cpp:1361
 #: src/timeline2/view/timelinecontroller.cpp:3268
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr ""
 
-#: src/bin/bin.cpp:3555
+#: src/bin/bin.cpp:3553
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot apply effects on folders"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/bin/bin.cpp:3580 src/effects/effectstack/model/effectstackmodel.cpp:496
+#: src/bin/bin.cpp:3578 src/effects/effectstack/model/effectstackmodel.cpp:496
 #: src/effects/effectstack/model/effectstackmodel.cpp:501
-#: src/mainwindow.cpp:3002
+#: src/mainwindow.cpp:3001
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect to clip"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/bin/bin.cpp:3626 src/bin/bin.cpp:3633
+#: src/bin/bin.cpp:3624 src/bin/bin.cpp:3631
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr ""
 
-#: src/bin/bin.cpp:3772
+#: src/bin/bin.cpp:3770
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Cuir Fad Ama in Eagar"
 
-#: src/bin/bin.cpp:4119
+#: src/bin/bin.cpp:4112
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4131
+#: src/bin/bin.cpp:4124
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 
-#: src/bin/bin.cpp:4136
+#: src/bin/bin.cpp:4129
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4148
+#: src/bin/bin.cpp:4141
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:4153 src/dialogs/kdenlivesettingsdialog.cpp:871
+#: src/bin/bin.cpp:4146 src/dialogs/kdenlivesettingsdialog.cpp:871
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr ""
 
-#: src/bin/bin.cpp:4165
+#: src/bin/bin.cpp:4158
 #, kde-format
 msgid "Please set a path for the Glaxnimate application"
 msgstr ""
 
-#: src/bin/bin.cpp:4365 src/dialogs/profilesdialog.cpp:211
+#: src/bin/bin.cpp:4353 src/dialogs/profilesdialog.cpp:211
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4375
+#: src/bin/bin.cpp:4363
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4378 src/titler/titlewidget.cpp:2172
+#: src/bin/bin.cpp:4366 src/titler/titlewidget.cpp:2168
 #, kde-format
 msgid "Save Title"
 msgstr ""
 
-#: src/bin/bin.cpp:4378
+#: src/bin/bin.cpp:4366
 #, kde-format
 msgid "Save to title file"
 msgstr ""
 
-#: src/bin/bin.cpp:4379
+#: src/bin/bin.cpp:4367
 #, kde-format
 msgid "Save in project only"
 msgstr ""
 
-#: src/bin/bin.cpp:4397 src/dialogs/clipcreationdialog.cpp:377
+#: src/bin/bin.cpp:4385 src/dialogs/clipcreationdialog.cpp:373
 #, kde-format
 msgid "Title clip"
 msgstr ""
 
-#: src/bin/bin.cpp:4447
+#: src/bin/bin.cpp:4435
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr ""
 
-#: src/bin/bin.cpp:4451
+#: src/bin/bin.cpp:4439
 #, kde-format
 msgid "Invalid clip"
 msgstr ""
 
-#: src/bin/bin.cpp:4588
+#: src/bin/bin.cpp:4576
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Enable proxies"
 msgstr "Scrios an Phróifíl"
 
-#: src/bin/bin.cpp:4588
+#: src/bin/bin.cpp:4576
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Disable proxies"
 msgstr "Scrios an Phróifíl"
 
-#: src/bin/bin.cpp:4763
+#: src/bin/bin.cpp:4751
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Rebuild proxies"
 msgstr "Scrios an Phróifíl"
 
-#: src/bin/bin.cpp:5003
+#: src/bin/bin.cpp:4991
 #, fuzzy, kde-format
 #| msgid "Project"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:5019
+#: src/bin/bin.cpp:5007
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "Cuir Rian Leis"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5009
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "Edit Streams"
 msgstr "Eagar"
 
-#: src/bin/bin.cpp:5036
+#: src/bin/bin.cpp:5024
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5040
+#: src/bin/bin.cpp:5028
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5052 src/mainwindow.cpp:2591
+#: src/bin/bin.cpp:5040 src/mainwindow.cpp:2590
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
 
-#: src/bin/bin.cpp:5150
+#: src/bin/bin.cpp:5138
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgid "Could not find master clip"
 msgstr "Dún an cluaisín reatha"
 
-#: src/bin/bin.cpp:5333 src/bin/clipcreator.cpp:149
+#: src/bin/bin.cpp:5321 src/bin/clipcreator.cpp:149
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Dún an cluaisín reatha"
 
-#: src/bin/bin.cpp:5355
+#: src/bin/bin.cpp:5343
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5357
+#: src/bin/bin.cpp:5345
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5422 src/bin/bin.cpp:5496
+#: src/bin/bin.cpp:5410 src/bin/bin.cpp:5484
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -4773,25 +4760,25 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/bin/bin.cpp:5443
+#: src/bin/bin.cpp:5431
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Import selected clips"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:5445
+#: src/bin/bin.cpp:5433
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5455 src/mltcontroller/clippropertiescontroller.cpp:661
+#: src/bin/bin.cpp:5443 src/mltcontroller/clippropertiescontroller.cpp:659
 #, kde-format
 msgid "Video stream %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5470
+#: src/bin/bin.cpp:5458
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio stream %1"
@@ -4855,7 +4842,7 @@ msgid ""
 "duplicate them?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:244 src/core.cpp:839
+#: src/bin/clipcreator.cpp:244 src/core.cpp:843
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -4882,23 +4869,22 @@ msgstr "Bain an comhad"
 msgid "Loading done"
 msgstr "Á Luchtú"
 
-#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:550
+#: src/bin/clipcreator.cpp:383 src/dialogs/clipcreationdialog.cpp:546
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
 msgstr[0] ""
 msgstr[1] ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_duration)
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#. i18n: ectx: property (text), widget (QLabel, label_duration)
-#. i18n: ectx: property (text), widget (QLabel, duration_label_2)
-#: src/bin/generators/generators.cpp:56 src/dialogs/clipcreationdialog.cpp:259
-#: src/mltcontroller/clippropertiescontroller.cpp:327
-#: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:40
-#: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:165
-#: src/ui/spacerdialog_ui.ui:43 src/ui/titlewidget_ui.ui:626
+#: src/bin/generators/generators.cpp:56
+#: src/mltcontroller/clippropertiescontroller.cpp:326
+#: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:54
+#: src/ui/colorclip_ui.ui:37 src/ui/editsub_ui.ui:196
+#: src/ui/qtextclip_ui.ui:194 src/ui/spacerdialog_ui.ui:33
+#: src/ui/titlewidget_ui.ui:626
 #, kde-format
 msgid "Duration:"
 msgstr "Aga:"
@@ -4932,8 +4918,8 @@ msgid "Add marker"
 msgstr "Cuir marcóir leis"
 
 #: src/bin/model/markerlistmodel.cpp:191
-#: src/mltcontroller/clippropertiescontroller.cpp:269
-#: src/mltcontroller/clippropertiescontroller.cpp:1468
+#: src/mltcontroller/clippropertiescontroller.cpp:268
+#: src/mltcontroller/clippropertiescontroller.cpp:1461
 #, kde-format
 msgid "Delete marker"
 msgstr "Scrios marcóir"
@@ -4999,12 +4985,12 @@ msgstr ""
 msgid "guide"
 msgstr "Treoirleabhair"
 
-#: src/bin/model/markerlistmodel.cpp:676
+#: src/bin/model/markerlistmodel.cpp:675
 #, kde-format
 msgid "Edit Guide"
 msgstr ""
 
-#: src/bin/model/markerlistmodel.cpp:676
+#: src/bin/model/markerlistmodel.cpp:675
 #, kde-format
 msgid "Edit Marker"
 msgstr ""
@@ -5016,7 +5002,7 @@ msgid "Edit subtitle style"
 msgstr "Cuir Próifíl Leis"
 
 #: src/bin/model/subtitlemodel.cpp:368 src/bin/model/subtitlemodel.cpp:584
-#: src/timeline2/view/timelinecontroller.cpp:4826
+#: src/timeline2/view/timelinecontroller.cpp:4825
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Edit subtitle"
@@ -5031,7 +5017,7 @@ msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:748
 #: src/timeline2/model/timelinemodel.cpp:3418
-#: src/timeline2/view/timelinecontroller.cpp:4846
+#: src/timeline2/view/timelinecontroller.cpp:4845
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Resize subtitle"
@@ -5057,62 +5043,62 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/bin/projectclip.cpp:167 src/doc/kdenlivedoc.cpp:900
+#: src/bin/projectclip.cpp:166 src/doc/kdenlivedoc.cpp:899
 #: src/project/dialogs/archivewidget.cpp:213
 #: src/project/projectmanager.cpp:1138
 #, kde-format
 msgid "Untitled"
 msgstr "Gan Teideal"
 
-#: src/bin/projectclip.cpp:482
+#: src/bin/projectclip.cpp:481
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "S"
 
-#: src/bin/projectclip.cpp:568
+#: src/bin/projectclip.cpp:567
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:799
+#: src/bin/projectclip.cpp:798
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:985 src/jobs/cliploadtask.cpp:292
+#: src/bin/projectclip.cpp:984 src/jobs/cliploadtask.cpp:292
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Invalid"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/bin/projectclip.cpp:1798
+#: src/bin/projectclip.cpp:1797
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1798
+#: src/bin/projectclip.cpp:1797
 #, kde-format
 msgid "Merge"
 msgstr "Cumaisc"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
-#: src/bin/projectclip.cpp:1799 src/ui/exportguidesdialog_ui.ui:82
+#: src/bin/projectclip.cpp:1798 src/ui/exportguidesdialog_ui.ui:82
 #, kde-format
 msgid "Add"
 msgstr "Cuir Leis"
 
-#: src/bin/projectclip.cpp:2216
+#: src/bin/projectclip.cpp:2215
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/bin/projectclip.cpp:2241
+#: src/bin/projectclip.cpp:2240
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -5146,7 +5132,7 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:323 src/doc/documentchecker.cpp:336
+#: src/bin/projectitemmodel.cpp:323 src/doc/documentchecker.cpp:337
 #: src/mltcontroller/clipcontroller.cpp:433 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -5177,7 +5163,7 @@ msgstr "Dath 1"
 msgid "Rename Folder"
 msgstr "Cruthaigh Fillteán"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1396
+#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1395
 #, kde-format
 msgid "Clean Project"
 msgstr ""
@@ -5531,13 +5517,13 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:518
+#: src/core.cpp:520
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:573 src/kdenliveui.rc:28 src/mainwindow.cpp:273
+#: src/core.cpp:575 src/kdenliveui.rc:28 src/mainwindow.cpp:272
 #: src/timeline2/view/qml/timeline.qml:1014
 #, fuzzy, kde-format
 #| msgid "untitled"
@@ -5545,8 +5531,8 @@ msgid "Subtitles"
 msgstr "gan teideal"
 
 #: src/dialogs/clipcreationdialog.cpp:126
-#: src/dialogs/clipcreationdialog.cpp:463
-#: src/dialogs/clipcreationdialog.cpp:560
+#: src/dialogs/clipcreationdialog.cpp:459
+#: src/dialogs/clipcreationdialog.cpp:556
 #, kde-format
 msgid "All Supported Files"
 msgstr "Gach Comhad a dTacaítear Leis"
@@ -5563,83 +5549,83 @@ msgstr "Dath 1"
 msgid "Color Clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:162
+#: src/dialogs/clipcreationdialog.cpp:160
 #, kde-format
 msgid "Please install Glaxnimate to edit Lottie animations."
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:181
+#: src/dialogs/clipcreationdialog.cpp:179
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create animation"
 msgstr "Cruthaigh Grúpa"
 
-#: src/dialogs/clipcreationdialog.cpp:189
+#: src/dialogs/clipcreationdialog.cpp:187
 #, fuzzy, kde-format
 #| msgid "Animation"
 msgid "Save animation as"
 msgstr "Beochan"
 
-#: src/dialogs/clipcreationdialog.cpp:192
+#: src/dialogs/clipcreationdialog.cpp:190
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Animation duration"
 msgstr "Ráta fráma"
 
-#: src/dialogs/clipcreationdialog.cpp:205 src/jobs/cuttask.cpp:171
-#: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:138
+#: src/dialogs/clipcreationdialog.cpp:203 src/jobs/cuttask.cpp:170
+#: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:136
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "File already exists"
 msgstr "Méid an chomhaid"
 
-#: src/dialogs/clipcreationdialog.cpp:248
+#: src/dialogs/clipcreationdialog.cpp:246
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Animation clip"
 msgstr "Cruthaigh Grúpa"
 
-#: src/dialogs/clipcreationdialog.cpp:260
+#: src/dialogs/clipcreationdialog.cpp:256
 #, fuzzy, kde-format
 #| msgid "Title"
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "Teideal"
 
-#: src/dialogs/clipcreationdialog.cpp:278
+#: src/dialogs/clipcreationdialog.cpp:274
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Text Clip"
 msgstr "Teideal"
 
-#: src/dialogs/clipcreationdialog.cpp:333
+#: src/dialogs/clipcreationdialog.cpp:329
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Text clip"
 msgstr "Cruthaigh Grúpa"
 
-#: src/dialogs/clipcreationdialog.cpp:389 src/doc/kdenlivedoc.cpp:972
+#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:971
 #, kde-format
 msgid "Template title clip"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:463
-#: src/dialogs/clipcreationdialog.cpp:560
+#: src/dialogs/clipcreationdialog.cpp:459
+#: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3702 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3701 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Gach Comhad"
 
-#: src/dialogs/clipcreationdialog.cpp:464
-#: src/dialogs/clipcreationdialog.cpp:562
+#: src/dialogs/clipcreationdialog.cpp:460
+#: src/dialogs/clipcreationdialog.cpp:558
 #, kde-format
 msgid "Import image sequence"
 msgstr ""
 
-#: src/dialogs/clipcreationdialog.cpp:466
-#: src/dialogs/clipcreationdialog.cpp:565
+#: src/dialogs/clipcreationdialog.cpp:462
+#: src/dialogs/clipcreationdialog.cpp:561
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr ""
@@ -5661,7 +5647,7 @@ msgstr "Dath 1"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:52 src/kdenliveui.rc:116
-#: src/mainwindow.cpp:549
+#: src/mainwindow.cpp:548
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Timeline Preview"
@@ -5685,45 +5671,45 @@ msgstr "Gabh"
 msgid "Decklink Capture"
 msgstr "Réigiúnaigh"
 
-#: src/dialogs/encodingprofilesdialog.cpp:127
-#: src/dialogs/encodingprofilesdialog.cpp:159
+#: src/dialogs/encodingprofilesdialog.cpp:122
+#: src/dialogs/encodingprofilesdialog.cpp:154
 #, kde-format
 msgid "Profile name:"
 msgstr "Ainm na próifíle:"
 
-#: src/dialogs/encodingprofilesdialog.cpp:130
-#: src/dialogs/encodingprofilesdialog.cpp:162
+#: src/dialogs/encodingprofilesdialog.cpp:125
+#: src/dialogs/encodingprofilesdialog.cpp:157
 #, kde-format
 msgid "Parameters:"
 msgstr "Paraiméadair:"
 
-#: src/dialogs/encodingprofilesdialog.cpp:133
-#: src/dialogs/encodingprofilesdialog.cpp:165
+#: src/dialogs/encodingprofilesdialog.cpp:128
+#: src/dialogs/encodingprofilesdialog.cpp:160
 #, kde-format
 msgid "File extension:"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:204
+#: src/dialogs/encodingprofilesdialog.cpp:199
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure profiles"
 msgstr "Cumraigh"
 
-#: src/dialogs/encodingprofilesdialog.cpp:205
+#: src/dialogs/encodingprofilesdialog.cpp:200
 #, kde-format
 msgid "Manage Encoding Profiles"
 msgstr ""
 
-#: src/dialogs/encodingprofilesdialog.cpp:209
+#: src/dialogs/encodingprofilesdialog.cpp:204
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show Profile Parameters"
 msgstr "Taispeáin gach próifíl"
 
-#: src/dialogs/encodingprofilesdialog.cpp:260
-#: src/dialogs/encodingprofilesdialog.cpp:262
-#: src/dialogs/encodingprofilesdialog.cpp:348
-#: src/dialogs/encodingprofilesdialog.cpp:350
+#: src/dialogs/encodingprofilesdialog.cpp:255
+#: src/dialogs/encodingprofilesdialog.cpp:257
+#: src/dialogs/encodingprofilesdialog.cpp:343
+#: src/dialogs/encodingprofilesdialog.cpp:345
 #: src/dialogs/kdenlivesettingsdialog.cpp:667
 #: src/project/dialogs/projectsettings.cpp:858
 #: src/project/dialogs/projectsettings.cpp:860
@@ -5732,14 +5718,14 @@ msgstr "Taispeáin gach próifíl"
 msgid "Automatic"
 msgstr "Uathoibríoch"
 
-#: src/dialogs/encodingprofilesdialog.cpp:330
+#: src/dialogs/encodingprofilesdialog.cpp:325
 #: src/project/dialogs/projectsettings.cpp:890
 #: src/project/dialogs/projectsettings.cpp:921
 #, kde-format
 msgid "Current Settings"
 msgstr "Socraithe Reatha"
 
-#: src/dialogs/encodingprofilesdialog.cpp:417
+#: src/dialogs/encodingprofilesdialog.cpp:412
 #, kde-format
 msgid ""
 "Selected Timeline preview profile is not compatible with the project "
@@ -5804,7 +5790,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "Treoirleabhair"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3623
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3622
 #, kde-format
 msgid "Timeline"
 msgstr "Amlíne"
@@ -5820,8 +5806,7 @@ msgstr "Dath"
 msgid "Speech To Text"
 msgstr ""
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: src/dialogs/kdenlivesettingsdialog.cpp:128 src/ui/smconfig_ui.ui:20
+#: src/dialogs/kdenlivesettingsdialog.cpp:128
 #, kde-format
 msgid "Playback"
 msgstr "Athsheinm"
@@ -5840,7 +5825,7 @@ msgstr "Éagsúil"
 #: src/dialogs/kdenlivesettingsdialog.cpp:240
 #: src/dialogs/kdenlivesettingsdialog.cpp:777
 #: src/doc/documentvalidator.cpp:2213
-#: src/transitions/transitionsrepository.cpp:174
+#: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
 msgstr ""
@@ -5922,7 +5907,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:475 src/dialogs/timeremap.cpp:1658
-#: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:1004
+#: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:1002
 #: src/project/transcodeseek.cpp:37 src/project/transcodeseek.cpp:50
 #, kde-format
 msgid "Transcode"
@@ -5967,7 +5952,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/kdenlivesettingsdialog.cpp:692
-#: src/dialogs/kdenlivesettingsdialog.cpp:693 src/mainwindow.cpp:186
+#: src/dialogs/kdenlivesettingsdialog.cpp:693 src/mainwindow.cpp:185
 #: src/ui/configproject_ui.ui:44
 #, kde-format
 msgid "Default"
@@ -5984,7 +5969,7 @@ msgstr ""
 msgid "RtAudio"
 msgstr "Fuaim"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:780 src/mainwindow.cpp:328
+#: src/dialogs/kdenlivesettingsdialog.cpp:780 src/mainwindow.cpp:327
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor %1"
@@ -6028,8 +6013,8 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1521
 #: src/dialogs/kdenlivesettingsdialog.cpp:1557
 #: src/dialogs/kdenlivesettingsdialog.cpp:1574
-#: src/mltcontroller/clippropertiescontroller.cpp:566
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:564
+#: src/mltcontroller/clippropertiescontroller.cpp:1365
 #: src/project/dialogs/profilewidget.cpp:108 src/ui/editrenderpreset_ui.ui:222
 #: src/ui/profiledialog_ui.ui:226
 #, kde-format
@@ -6428,8 +6413,8 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:928 src/dialogs/renderwidget.cpp:933
 #: src/dialogs/renderwidget.cpp:986 src/dialogs/renderwidget.cpp:991
 #: src/dialogs/renderwidget.cpp:1931 src/dialogs/renderwidget.cpp:1958
-#: src/doc/kdenlivedoc.cpp:673 src/doc/kdenlivedoc.cpp:681
-#: src/doc/kdenlivedoc.cpp:1048
+#: src/doc/kdenlivedoc.cpp:672 src/doc/kdenlivedoc.cpp:680
+#: src/doc/kdenlivedoc.cpp:1047
 #: src/effects/effectlist/model/effecttreemodel.cpp:253
 #: src/effects/effectlist/model/effecttreemodel.cpp:269
 #: src/effects/effectsrepository.cpp:391
@@ -6446,8 +6431,8 @@ msgstr ""
 #: src/project/projectmanager.cpp:1285
 #: src/renderpresets/renderpresetrepository.cpp:378
 #: src/renderpresets/renderpresetrepository.cpp:437
-#: src/timeline2/view/timelinecontroller.cpp:4941
-#: src/titler/titlewidget.cpp:2188
+#: src/timeline2/view/timelinecontroller.cpp:4940
+#: src/titler/titlewidget.cpp:2184
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ní féidir comhad %1 a scríobh"
@@ -6576,7 +6561,7 @@ msgstr "Tionscadal"
 msgid "Process"
 msgstr "Dún an cluaisín reatha"
 
-#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:610
+#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:609
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Please install speech recognition models"
@@ -6599,41 +6584,41 @@ msgstr "Uirlis roghnúcháin"
 msgid "No audio track found"
 msgstr "Cuir rian leis"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:761
+#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:752
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Please configure speech to text."
 msgstr "Roghnú"
 
-#: src/dialogs/speechdialog.cpp:152
+#: src/dialogs/speechdialog.cpp:151
 #, kde-format
 msgid "Starting audio export"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:220
+#: src/dialogs/speechdialog.cpp:219
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio export failed"
 msgstr "Cuir rian leis"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:778
+#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:769
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:896
+#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:887
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Speech recognition aborted."
 msgstr "Roghnú"
 
-#: src/dialogs/speechdialog.cpp:262
+#: src/dialogs/speechdialog.cpp:261
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles imported"
 msgstr "gan teideal"
 
-#: src/dialogs/speechdialog.cpp:265
+#: src/dialogs/speechdialog.cpp:264
 #, kde-format
 msgid "Speech recognition failed"
 msgstr ""
@@ -6643,92 +6628,92 @@ msgstr ""
 msgid "Made by KDE"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:125
+#: src/dialogs/subtitleedit.cpp:105
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Go to next subtitle"
 msgstr "Teideal"
 
-#: src/dialogs/subtitleedit.cpp:126
+#: src/dialogs/subtitleedit.cpp:106
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Go to previous subtitle"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/dialogs/subtitleedit.cpp:127
-#: src/timeline2/view/timelinecontroller.cpp:4879
+#: src/dialogs/subtitleedit.cpp:107
+#: src/timeline2/view/timelinecontroller.cpp:4878
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Add subtitle"
 msgstr "Cuir Próifíl Leis"
 
-#: src/dialogs/subtitleedit.cpp:128
+#: src/dialogs/subtitleedit.cpp:108
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:129
+#: src/dialogs/subtitleedit.cpp:109
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Update subtitle text"
 msgstr "Nuashonraigh próifíl"
 
-#: src/dialogs/subtitleedit.cpp:130
+#: src/dialogs/subtitleedit.cpp:110
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Show style options"
 msgstr "Ionad"
 
-#: src/dialogs/subtitleedit.cpp:131
-#: src/timeline2/view/timelinecontroller.cpp:4978
+#: src/dialogs/subtitleedit.cpp:111
+#: src/timeline2/view/timelinecontroller.cpp:4977
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete subtitle"
 msgstr "Scrios comhaid"
 
-#: src/dialogs/subtitleedit.cpp:148
+#: src/dialogs/subtitleedit.cpp:128
 #, fuzzy, kde-format
 #| msgid "Horizontal Alignment"
 msgid "Bottom Center"
 msgstr "Ailíniú Cothrománach"
 
-#: src/dialogs/subtitleedit.cpp:149
+#: src/dialogs/subtitleedit.cpp:129
 #, fuzzy, kde-format
 #| msgid "Bottom"
 msgid "Bottom Left"
 msgstr "Bun"
 
-#: src/dialogs/subtitleedit.cpp:150
+#: src/dialogs/subtitleedit.cpp:130
 #, fuzzy, kde-format
 #| msgid "Align right"
 msgid "Bottom Right"
 msgstr "Ailínigh ar dheis"
 
-#: src/dialogs/subtitleedit.cpp:151
+#: src/dialogs/subtitleedit.cpp:131
 #, fuzzy, kde-format
 #| msgid "Countdown"
 msgid "Center Left"
 msgstr "Comhaireamh anuas"
 
-#: src/dialogs/subtitleedit.cpp:153
+#: src/dialogs/subtitleedit.cpp:133
 #, fuzzy, kde-format
 #| msgid "Right"
 msgid "Center Right"
 msgstr "Ar Dheis"
 
-#: src/dialogs/subtitleedit.cpp:154
+#: src/dialogs/subtitleedit.cpp:134
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Top Left"
 msgstr "Ailínigh ar chlé"
 
-#: src/dialogs/subtitleedit.cpp:155
+#: src/dialogs/subtitleedit.cpp:135
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Top Center"
 msgstr "Ailínigh ar chlé"
 
-#: src/dialogs/subtitleedit.cpp:156
+#: src/dialogs/subtitleedit.cpp:136
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Top Right"
@@ -6746,111 +6731,100 @@ msgstr "Cuir marcóir leis"
 msgid "Delete selection"
 msgstr "Roghnú"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:912
-#: src/dialogs/textbasededit.cpp:980
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:903
+#: src/dialogs/textbasededit.cpp:971
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No speech"
 msgstr "Amlíne"
 
-#: src/dialogs/textbasededit.cpp:630
+#: src/dialogs/textbasededit.cpp:629
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Delete selected text"
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/dialogs/textbasededit.cpp:634
-#, kde-format
-msgid "Save edited text in a new playlist"
-msgstr ""
-
-#: src/dialogs/textbasededit.cpp:639
+#: src/dialogs/textbasededit.cpp:635
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Add bookmark for current selection"
 msgstr "Tionscadal"
 
-#: src/dialogs/textbasededit.cpp:643
-#, fuzzy, kde-format
-#| msgid "Timeline"
-msgid "Insert selected blocks in timeline"
-msgstr "Amlíne"
-
-#: src/dialogs/textbasededit.cpp:751
+#: src/dialogs/textbasededit.cpp:742
 #, kde-format
 msgid "Another recognition job is running. Abort it ?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:767
+#: src/dialogs/textbasededit.cpp:758
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:773
+#: src/dialogs/textbasededit.cpp:764
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Select a clip with audio in Project Bin."
 msgstr "Tionscadal"
 
-#: src/dialogs/textbasededit.cpp:821
+#: src/dialogs/textbasededit.cpp:812
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Roghnú"
 
-#: src/dialogs/textbasededit.cpp:830
+#: src/dialogs/textbasededit.cpp:821
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot create temporary file."
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/dialogs/textbasededit.cpp:835
+#: src/dialogs/textbasededit.cpp:826
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Extracting audio for %1."
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/dialogs/textbasededit.cpp:844
+#: src/dialogs/textbasededit.cpp:835
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio extract failed."
 msgstr "Cuir rian leis"
 
-#: src/dialogs/textbasededit.cpp:850 src/dialogs/textbasededit.cpp:877
+#: src/dialogs/textbasededit.cpp:841 src/dialogs/textbasededit.cpp:868
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Starting speech recognition on %1."
 msgstr "Roghnú"
 
-#: src/dialogs/textbasededit.cpp:899
+#: src/dialogs/textbasededit.cpp:890
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:901
+#: src/dialogs/textbasededit.cpp:892
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No speech detected."
 msgstr "Amlíne"
 
-#: src/dialogs/textbasededit.cpp:919
+#: src/dialogs/textbasededit.cpp:910
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Speech recognition finished."
 msgstr "Roghnú"
 
-#: src/dialogs/textbasededit.cpp:1088
+#: src/dialogs/textbasededit.cpp:1079
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No text to export"
 msgstr "Amlíne"
 
-#: src/dialogs/textbasededit.cpp:1108
+#: src/dialogs/textbasededit.cpp:1099
 #, kde-format
 msgid "Enter new playlist path"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1209
+#: src/dialogs/textbasededit.cpp:1200
 #, kde-format
 msgid "No timecode found in selection"
 msgstr ""
@@ -6866,78 +6840,76 @@ msgstr "Ní féidir comhad %1 a scríobh"
 msgid "Cannot move first source keyframe before clip start"
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1797
+#: src/dialogs/timeremap.cpp:1793
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:2085
+#: src/dialogs/timeremap.cpp:2081
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Edit Timeremap keyframes"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/dialogs/wizard.cpp:73
+#: src/dialogs/wizard.cpp:70
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:79
+#: src/dialogs/wizard.cpp:76
 #, kde-format
 msgid "Welcome to Kdenlive %1"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:80
+#: src/dialogs/wizard.cpp:77
 #, kde-format
 msgid "Using MLT %1"
 msgstr ""
 
-#. i18n("Video Standard"));
-#. m_standard.setupUi(page2);
-#: src/dialogs/wizard.cpp:93 src/project/cliptranscode.cpp:192
+#: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
 #: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Abort"
 msgstr "Tobscoir"
 
-#: src/dialogs/wizard.cpp:94
+#: src/dialogs/wizard.cpp:88
 #, kde-format
 msgid "OK"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:103
+#: src/dialogs/wizard.cpp:97
 #, kde-format
 msgid "Converting old custom effects successful:"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:111
+#: src/dialogs/wizard.cpp:105
 #, kde-format
 msgid "Converting old custom effects failed:"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:120
+#: src/dialogs/wizard.cpp:114
 #, kde-format
 msgid "Startup error or warning, check our <a href='#'>online manual</a>."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:141
+#: src/dialogs/wizard.cpp:135
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:146
+#: src/dialogs/wizard.cpp:140
 #, kde-format
 msgid "VAAPI hardware acceleration"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:149
+#: src/dialogs/wizard.cpp:143
 #, kde-format
 msgid "NVIDIA hardware acceleration"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:152
+#: src/dialogs/wizard.cpp:146
 #, kde-format
 msgid "Check hardware acceleration"
 msgstr ""
@@ -6945,270 +6917,214 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:175 src/project/cliptranscode.cpp:268
+#: src/dialogs/wizard.cpp:169 src/project/cliptranscode.cpp:268
 #: src/ui/renderwidget_ui.ui:360 src/ui/renderwidget_ui.ui:928
 #: src/ui/renderwidget_ui.ui:1086
 #, kde-format
 msgid "Close"
 msgstr "Dún"
 
-#: src/dialogs/wizard.cpp:276
-#, kde-format
-msgid "Default video4linux device:"
-msgstr ""
-
-#: src/dialogs/wizard.cpp:292
-#, kde-format
-msgid "No device found, plug your webcam and refresh."
-msgstr ""
-
-#: src/dialogs/wizard.cpp:317
-#, kde-format
-msgid "Current settings (%1x%2, %3/%4fps)"
-msgstr ""
-
-#: src/dialogs/wizard.cpp:362
-#, kde-format
-msgid "Default settings (%1x%2, %3/%4fps)"
-msgstr ""
-
-#: src/dialogs/wizard.cpp:376
+#: src/dialogs/wizard.cpp:193
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:382
+#: src/dialogs/wizard.cpp:199
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:409
+#: src/dialogs/wizard.cpp:226
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
 "many effects and transitions. Install recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:424
+#: src/dialogs/wizard.cpp:241
 #, kde-format
 msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
 "recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:438
+#: src/dialogs/wizard.cpp:255
 #, kde-format
 msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
 "feature. Install recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:458
+#: src/dialogs/wizard.cpp:275
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
 "many icons used in Kdenlive. Install recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:487
+#: src/dialogs/wizard.cpp:304
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:499
+#: src/dialogs/wizard.cpp:316
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:509
+#: src/dialogs/wizard.cpp:326
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
 "video</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:518
+#: src/dialogs/wizard.cpp:335
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:525
+#: src/dialogs/wizard.cpp:342
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:531
+#: src/dialogs/wizard.cpp:348
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
 "animations</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:564
+#: src/dialogs/wizard.cpp:381
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
 "li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:578
+#: src/dialogs/wizard.cpp:395
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:592
+#: src/dialogs/wizard.cpp:409
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:673
+#: src/dialogs/wizard.cpp:479
 #, kde-format
 msgid ""
 "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
 "information</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:798
-#: src/mltcontroller/clippropertiescontroller.cpp:1352
-#, kde-format
-msgid "Frame size:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/dialogs/wizard.cpp:799
-#: src/mltcontroller/clippropertiescontroller.cpp:537
-#: src/mltcontroller/clippropertiescontroller.cpp:1357
-#: src/mltcontroller/clippropertiescontroller.cpp:1362
-#: src/ui/configcapture_ui.ui:110 src/ui/configcapture_ui.ui:407
-#: src/ui/profiledialog_ui.ui:111
-#, kde-format
-msgid "Frame rate:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/dialogs/wizard.cpp:800
-#: src/mltcontroller/clippropertiescontroller.cpp:1380
-#: src/ui/configcapture_ui.ui:124 src/ui/profiledialog_ui.ui:267
-#, kde-format
-msgid "Pixel aspect ratio:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_dar)
-#. i18n: ectx: property (text), widget (QLabel, label_31)
-#: src/dialogs/wizard.cpp:802 src/ui/configcapture_ui.ui:138
-#: src/ui/profiledialog_ui.ui:101
-#, kde-format
-msgid "Display aspect ratio:"
-msgstr ""
-
-#: src/dialogs/wizard.cpp:844
+#: src/dialogs/wizard.cpp:584
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:848
+#: src/dialogs/wizard.cpp:588
 #, kde-format
 msgid "Fatal Error"
 msgstr "Earráid Mharfach"
 
-#: src/dialogs/wizard.cpp:1056
+#: src/dialogs/wizard.cpp:766
 #, kde-format
 msgid "No hardware encoders found."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:1059
+#: src/dialogs/wizard.cpp:769
 #, kde-format
 msgid "NVIDIA hardware encoders found and enabled."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:1062
+#: src/dialogs/wizard.cpp:772
 #, kde-format
 msgid "VAAPI hardware encoders found and enabled."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:292
+#: src/doc/documentchecker.cpp:293
 #, kde-format
 msgid "Luma file"
 msgstr "Comhad Luma"
 
-#: src/doc/documentchecker.cpp:318
+#: src/doc/documentchecker.cpp:319
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:322
+#: src/doc/documentchecker.cpp:323
 #, fuzzy, kde-format
 #| msgid "Slideshow"
 msgid "Slideshow clip"
 msgstr "Taispeántas Sleamhnán"
 
-#: src/doc/documentchecker.cpp:325
+#: src/doc/documentchecker.cpp:326
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:329
+#: src/doc/documentchecker.cpp:330
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:332
+#: src/doc/documentchecker.cpp:333
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Title Image"
 msgstr "Sábháil marcóirí"
 
-#: src/doc/documentchecker.cpp:359
+#: src/doc/documentchecker.cpp:360
 #, kde-format
 msgid "Missing item"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:391
-#: src/doc/documentchecker.cpp:1192
+#: src/doc/documentchecker.cpp:374 src/doc/documentchecker.cpp:392
+#: src/doc/documentchecker.cpp:1193
 #, kde-format
 msgid "Relocated item"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:400
+#: src/doc/documentchecker.cpp:401
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Title Font"
 msgstr "Teideal"
 
-#: src/doc/documentchecker.cpp:405
+#: src/doc/documentchecker.cpp:406
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:410
+#: src/doc/documentchecker.cpp:411
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Modified Clips"
 msgstr "Teideal"
 
-#: src/doc/documentchecker.cpp:414
+#: src/doc/documentchecker.cpp:415
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:420
+#: src/doc/documentchecker.cpp:421
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:426
+#: src/doc/documentchecker.cpp:427
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7218,12 +7134,12 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/doc/documentchecker.cpp:433
+#: src/doc/documentchecker.cpp:434
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:451
+#: src/doc/documentchecker.cpp:452
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7236,7 +7152,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/doc/documentchecker.cpp:458
+#: src/doc/documentchecker.cpp:459
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7247,13 +7163,13 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/doc/documentchecker.cpp:539
-#: src/mltcontroller/clippropertiescontroller.cpp:451
+#: src/doc/documentchecker.cpp:540
+#: src/mltcontroller/clippropertiescontroller.cpp:449
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:542
+#: src/doc/documentchecker.cpp:543
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7263,73 +7179,73 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/doc/documentchecker.cpp:545
+#: src/doc/documentchecker.cpp:546
 #, kde-format
 msgid "Missing proxy"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:556 src/doc/documentchecker.cpp:570
+#: src/doc/documentchecker.cpp:557 src/doc/documentchecker.cpp:571
 #: src/ui/timeremap_ui.ui:89
 #, kde-format
 msgid "Source clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:558
+#: src/doc/documentchecker.cpp:559
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:869
+#: src/doc/documentchecker.cpp:870
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Cuir fillteán leis"
 
-#: src/doc/documentchecker.cpp:900 src/doc/documentchecker.cpp:924
-#: src/doc/documentchecker.cpp:934 src/doc/documentchecker.cpp:946
+#: src/doc/documentchecker.cpp:901 src/doc/documentchecker.cpp:925
+#: src/doc/documentchecker.cpp:935 src/doc/documentchecker.cpp:947
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Recovered item"
 msgstr "Teideal"
 
-#: src/doc/documentchecker.cpp:959
+#: src/doc/documentchecker.cpp:960
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search aborted"
 msgstr "Cuardaigh"
 
-#: src/doc/documentchecker.cpp:961
+#: src/doc/documentchecker.cpp:962
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Cuardaigh"
 
-#: src/doc/documentchecker.cpp:1057
+#: src/doc/documentchecker.cpp:1058
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Á Scanadh"
 
-#: src/doc/documentchecker.cpp:1154
+#: src/doc/documentchecker.cpp:1155
 #, kde-format
 msgid "Enter new location for folder"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1180
+#: src/doc/documentchecker.cpp:1181
 #, kde-format
 msgid "Enter new location for file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1525
+#: src/doc/documentchecker.cpp:1526
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/documentchecker.cpp:1527
+#: src/doc/documentchecker.cpp:1528
 #, kde-format
 msgid "Remove clips"
 msgstr ""
@@ -7417,30 +7333,30 @@ msgstr ""
 msgid "The following filters/transitions were deleted from the project:"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:158
+#: src/doc/kdenlivedoc.cpp:157
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Invalid file path"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/doc/kdenlivedoc.cpp:166 src/jobs/cliploadtask.cpp:486
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:486
 #: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
-#: src/mltcontroller/clippropertiescontroller.cpp:1523
+#: src/mltcontroller/clippropertiescontroller.cpp:1491
+#: src/mltcontroller/clippropertiescontroller.cpp:1516
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:369
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Ní féidir comhad %1 a oscailt"
 
-#: src/doc/kdenlivedoc.cpp:208
+#: src/doc/kdenlivedoc.cpp:207
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Could not recover corrupted file."
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/doc/kdenlivedoc.cpp:215
+#: src/doc/kdenlivedoc.cpp:214
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid ""
@@ -7448,24 +7364,24 @@ msgid ""
 "%2 (line %3, col %4)"
 msgstr "Ní féidir comhad %1 a oscailt"
 
-#: src/doc/kdenlivedoc.cpp:228
+#: src/doc/kdenlivedoc.cpp:227
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:235
+#: src/doc/kdenlivedoc.cpp:234
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:248
+#: src/doc/kdenlivedoc.cpp:247
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
 "this project's Movit filters."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:278
+#: src/doc/kdenlivedoc.cpp:277
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -7473,128 +7389,128 @@ msgid ""
 "Defaulting to system folders"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:281
+#: src/doc/kdenlivedoc.cpp:280
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:504 src/doc/kdenlivedoc.cpp:514
+#: src/doc/kdenlivedoc.cpp:503 src/doc/kdenlivedoc.cpp:513
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot create autosave file %1"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/doc/kdenlivedoc.cpp:509 src/doc/kdenlivedoc.cpp:634
+#: src/doc/kdenlivedoc.cpp:508 src/doc/kdenlivedoc.cpp:633
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:652
+#: src/doc/kdenlivedoc.cpp:651
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:666
+#: src/doc/kdenlivedoc.cpp:665
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:810 src/project/projectmanager.cpp:1029
+#: src/doc/kdenlivedoc.cpp:809 src/project/projectmanager.cpp:1029
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/doc/kdenlivedoc.cpp:958
+#: src/doc/kdenlivedoc.cpp:957
 #, fuzzy, kde-format
 #| msgid "Template"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Teimpléad"
 
-#: src/doc/kdenlivedoc.cpp:1055
+#: src/doc/kdenlivedoc.cpp:1054
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1088 src/doc/kdenlivedoc.cpp:1102
+#: src/doc/kdenlivedoc.cpp:1087 src/doc/kdenlivedoc.cpp:1101
 #, kde-format
 msgid "Project Folder"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1154 src/doc/kdenlivedoc.cpp:1162
+#: src/doc/kdenlivedoc.cpp:1153 src/doc/kdenlivedoc.cpp:1161
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
 "%1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1307
+#: src/doc/kdenlivedoc.cpp:1306
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1309
+#: src/doc/kdenlivedoc.cpp:1308
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1353 src/doc/kdenlivedoc.cpp:1387
+#: src/doc/kdenlivedoc.cpp:1352 src/doc/kdenlivedoc.cpp:1386
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1569
+#: src/doc/kdenlivedoc.cpp:1568
 #, kde-format
 msgid ""
 "\n"
 "Warning: unknown non integer fps, might cause incorrect duration display."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1588
+#: src/doc/kdenlivedoc.cpp:1587
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1590
+#: src/doc/kdenlivedoc.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Change default project profile"
 msgstr "Comhaid an Tionscadail"
 
-#: src/doc/kdenlivedoc.cpp:1590
+#: src/doc/kdenlivedoc.cpp:1589
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1591
+#: src/doc/kdenlivedoc.cpp:1590
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Keep current default %1"
 msgstr "Scrios an Phróifíl"
 
-#: src/doc/kdenlivedoc.cpp:1591
+#: src/doc/kdenlivedoc.cpp:1590
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1611
+#: src/doc/kdenlivedoc.cpp:1610
 #, kde-format
 msgid "Switch"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1613 src/timeline2/model/timelinefunctions.cpp:1875
+#: src/doc/kdenlivedoc.cpp:1612 src/timeline2/model/timelinefunctions.cpp:1875
 #: src/ui/titlewidget_ui.ui:187
 #, fuzzy, kde-format
 #| msgid "Cancel job"
@@ -7602,33 +7518,33 @@ msgstr ""
 msgid "Cancel"
 msgstr "Cealaigh an jab"
 
-#: src/doc/kdenlivedoc.cpp:1615
+#: src/doc/kdenlivedoc.cpp:1614
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Cuir rian leis"
 
-#: src/doc/kdenlivedoc.cpp:1620
+#: src/doc/kdenlivedoc.cpp:1619
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1622
+#: src/doc/kdenlivedoc.cpp:1621
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1897 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:1896 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Dearg"
 
-#: src/doc/kdenlivedoc.cpp:1898 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:1897 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7636,21 +7552,18 @@ msgstr "Dearg"
 msgid "Green"
 msgstr "Uaine"
 
-#: src/doc/kdenlivedoc.cpp:1899 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:1898 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Gorm"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/doc/kdenlivedoc.cpp:1900 src/scopes/colorscopes/waveform.cpp:32
-#: src/ui/selectivecolor_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:1899 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Buí"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/doc/kdenlivedoc.cpp:1901 src/ui/selectivecolor_ui.ui:55
+#: src/doc/kdenlivedoc.cpp:1900
 #, kde-format
 msgid "Cyan"
 msgstr ""
@@ -7889,8 +7802,9 @@ msgid "Use effect zone"
 msgstr "Maisíochtaí"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
+#. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:224
-#: src/project/clipstabilize.cpp:78 src/ui/renderwidget_ui.ui:168
+#: src/ui/clipstabilize_ui.ui:67 src/ui/renderwidget_ui.ui:168
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Presets"
@@ -7909,7 +7823,7 @@ msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Sábháil an Mhaisíocht"
 
-#. i18n: ectx: property (text), widget (QLabel, nameLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:476
 #: src/ui/colorclip_ui.ui:20 src/ui/qtextclip_ui.ui:25
@@ -8042,30 +7956,30 @@ msgstr ""
 msgid "AAC encoding"
 msgstr ""
 
-#: src/jobs/cuttask.cpp:153
+#: src/jobs/cuttask.cpp:152
 #, kde-format
 msgid "Extracting %1 out of %2"
 msgstr ""
 
-#: src/jobs/cuttask.cpp:209 src/jobs/cuttask.cpp:211 src/jobs/filtertask.cpp:69
+#: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:69
 #: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:196
 #: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:131
 #, kde-format
 msgid "No producer for this clip."
 msgstr ""
 
-#: src/jobs/cuttask.cpp:216 src/jobs/cuttask.cpp:218
+#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr ""
 
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:233
+#: src/jobs/cuttask.cpp:251 src/jobs/transcodetask.cpp:233
 #: src/jobs/transcodetask.cpp:269
 #, kde-format
 msgid "Failed to create file."
 msgstr ""
 
-#: src/jobs/cuttask.cpp:263
+#: src/jobs/cuttask.cpp:262
 #, kde-format
 msgid "Cut job failed."
 msgstr ""
@@ -8172,7 +8086,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, pitchCompensate)
 #. i18n: ectx: property (text), widget (QCheckBox, pitch_compensate)
-#: src/jobs/speedtask.cpp:80 src/ui/clipspeed_ui.ui:118
+#: src/jobs/speedtask.cpp:80 src/ui/clipspeed_ui.ui:111
 #: src/ui/timeremap_ui.ui:344
 #, fuzzy, kde-format
 #| msgid "Composite"
@@ -8229,21 +8143,21 @@ msgid "&Clip"
 msgstr "Ailínigh ar chlé"
 
 #. i18n: ectx: Menu (marker_menu)
-#: src/kdenliveui.rc:65 src/mltcontroller/clippropertiescontroller.cpp:1041
+#: src/kdenliveui.rc:65 src/mltcontroller/clippropertiescontroller.cpp:1039
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Markers"
 msgstr "Cuir Marcóirí Leis"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3578
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3577
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Audio"
 msgstr "Bain Amach"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3546
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3545
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Clip Jobs"
@@ -8304,20 +8218,20 @@ msgstr "Spás"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:157 src/mainwindow.cpp:1731
+#: src/kdenliveui.rc:157 src/mainwindow.cpp:1730
 #: src/ui/configtimeline_ui.ui:165
 #, kde-format
 msgid "Tracks"
 msgstr "Amhráin"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:176 src/mainwindow.cpp:488
+#: src/kdenliveui.rc:176 src/mainwindow.cpp:487
 #, kde-format
 msgid "Add Effect"
 msgstr ""
 
 #. i18n: ectx: Menu (monitor)
-#: src/kdenliveui.rc:190 src/mainwindow.cpp:137
+#: src/kdenliveui.rc:190 src/mainwindow.cpp:136
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor"
@@ -8342,7 +8256,7 @@ msgid "Current Monitor Overlay"
 msgstr ""
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:232 src/mainwindow.cpp:1457
+#: src/kdenliveui.rc:232 src/mainwindow.cpp:1456
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Preview Resolution"
@@ -8397,7 +8311,7 @@ msgstr ""
 msgid "Editing"
 msgstr "Cuir Fad Ama in Eagar"
 
-#: src/layoutmanagement.cpp:34 src/mainwindow.cpp:428 src/mainwindow.cpp:489
+#: src/layoutmanagement.cpp:34 src/mainwindow.cpp:427 src/mainwindow.cpp:488
 #, kde-format
 msgid "Effects"
 msgstr "Maisíochtaí"
@@ -8470,9 +8384,7 @@ msgid "Delete the layout."
 msgstr "Scrios %1"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:385
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:68
-#: src/ui/exportguidesdialog_ui.ui:139
+#: src/layoutmanagement.cpp:385 src/ui/exportguidesdialog_ui.ui:135
 #, kde-format
 msgid "Reset"
 msgstr "Athshocraigh"
@@ -8843,11 +8755,9 @@ msgstr ""
 msgid "Open source multimedia framework."
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (KComboBox, device_selector)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
 #: src/main.cpp:262 src/ui/configcapture_ui.ui:26 src/ui/configcapture_ui.ui:49
-#: src/ui/recmonitor_ui.ui:139
 #, kde-format
 msgid "FFmpeg"
 msgstr ""
@@ -8884,129 +8794,129 @@ msgstr ""
 msgid "Document to open"
 msgstr "Cáipéis le hoscailt"
 
-#: src/mainwindow.cpp:139
+#: src/mainwindow.cpp:138
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgid "Add Clip"
 msgstr "Dún an cluaisín reatha"
 
-#: src/mainwindow.cpp:141
+#: src/mainwindow.cpp:140
 #, kde-format
 msgid "Navigation and Playback"
 msgstr ""
 
-#: src/mainwindow.cpp:143
+#: src/mainwindow.cpp:142
 #, kde-format
 msgid "Bin Tags"
 msgstr ""
 
-#: src/mainwindow.cpp:162
+#: src/mainwindow.cpp:161
 #, kde-format
 msgid "Style"
 msgstr ""
 
-#: src/mainwindow.cpp:220
+#: src/mainwindow.cpp:219
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr ""
 
-#: src/mainwindow.cpp:272
+#: src/mainwindow.cpp:271
 #, kde-format
 msgid "Library"
 msgstr ""
 
-#: src/mainwindow.cpp:274
+#: src/mainwindow.cpp:273
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Speech Editor"
 msgstr "Roghnú"
 
-#: src/mainwindow.cpp:275
+#: src/mainwindow.cpp:274
 #, kde-format
 msgid "Time Remapping"
 msgstr ""
 
-#: src/mainwindow.cpp:338 src/monitor/recmanager.cpp:104
+#: src/mainwindow.cpp:337 src/monitor/recmanager.cpp:104
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure Recording"
 msgstr "Cumraigh"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:341 src/monitor/recmanager.cpp:95
+#: src/mainwindow.cpp:340 src/monitor/recmanager.cpp:95
 #: src/ui/configcapture_ui.ui:251
 #, kde-format
 msgid "Screen Grab"
 msgstr ""
 
-#: src/mainwindow.cpp:345
+#: src/mainwindow.cpp:344
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio Spectrum"
 msgstr "(Dí-)Comhbhrú Fuaime"
 
-#: src/mainwindow.cpp:349
+#: src/mainwindow.cpp:348
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:352
+#: src/mainwindow.cpp:351
 #, kde-format
 msgid "Media Browser"
 msgstr ""
 
-#: src/mainwindow.cpp:377
+#: src/mainwindow.cpp:376
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Effect/Composition Stack"
 msgstr "Ilchodach"
 
-#: src/mainwindow.cpp:431
+#: src/mainwindow.cpp:430
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:29
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Compositions"
 msgstr "Ilchodach"
 
-#: src/mainwindow.cpp:434
+#: src/mainwindow.cpp:433
 #, kde-format
 msgid "Clip Monitor"
 msgstr ""
 
-#: src/mainwindow.cpp:435
+#: src/mainwindow.cpp:434
 #, kde-format
 msgid "Project Monitor"
 msgstr ""
 
-#: src/mainwindow.cpp:439
+#: src/mainwindow.cpp:438
 #, kde-format
 msgid "Clean"
 msgstr "Glan"
 
-#: src/mainwindow.cpp:441
+#: src/mainwindow.cpp:440
 #, kde-format
 msgid "Undo History"
 msgstr "Stair an Chealaithe"
 
-#: src/mainwindow.cpp:447
+#: src/mainwindow.cpp:446
 #, kde-format
 msgid "Force Breeze Icon Theme"
 msgstr ""
 
-#: src/mainwindow.cpp:453 src/mainwindow.cpp:454
+#: src/mainwindow.cpp:452 src/mainwindow.cpp:453
 #, fuzzy, kde-format
 #| msgid "Audio device:"
 msgid "Audio Mixer"
 msgstr "Gléas fuaime:"
 
-#: src/mainwindow.cpp:492
+#: src/mainwindow.cpp:491
 #, kde-format
 msgid "Add Transition"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:493 src/mainwindow.cpp:1893
+#: src/mainwindow.cpp:492 src/mainwindow.cpp:1892
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:30
 #: src/ui/configtimeline_ui.ui:158
 #, kde-format
@@ -9014,97 +8924,97 @@ msgid "Transitions"
 msgstr "Trasdulta"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:510 src/mainwindow.cpp:521 src/mainwindow.cpp:525
+#: src/mainwindow.cpp:509 src/mainwindow.cpp:520 src/mainwindow.cpp:524
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Favorite Effects"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/mainwindow.cpp:533 src/mainwindow.cpp:1390
+#: src/mainwindow.cpp:532 src/mainwindow.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Render…"
 msgstr "Rindreáil"
 
-#: src/mainwindow.cpp:538
+#: src/mainwindow.cpp:537
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Render Button"
 msgstr "Rindreáil"
 
-#: src/mainwindow.cpp:544
+#: src/mainwindow.cpp:543
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Rendering preview"
 msgstr "Cuir eagar ar phróifíl"
 
-#: src/mainwindow.cpp:620 src/monitor/monitor.cpp:353
+#: src/mainwindow.cpp:619 src/monitor/monitor.cpp:353
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Go to Guide…"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/mainwindow.cpp:646
+#: src/mainwindow.cpp:645
 #, fuzzy, kde-format
 #| msgid "Channels"
 msgid "Separate Channels"
 msgstr "Cainéil"
 
-#: src/mainwindow.cpp:653
+#: src/mainwindow.cpp:652
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Normalize Audio Thumbnails"
 msgstr "Taispeáin mionsamhlacha"
 
-#: src/mainwindow.cpp:660
+#: src/mainwindow.cpp:659
 #, kde-format
 msgid "Thumbnails"
 msgstr "Mionsamhlacha"
 
-#: src/mainwindow.cpp:662
+#: src/mainwindow.cpp:661
 #, fuzzy, kde-format
 #| msgid "Frames"
 msgid "In Frame"
 msgstr "Frámaí"
 
-#: src/mainwindow.cpp:666
+#: src/mainwindow.cpp:665
 #, fuzzy, kde-format
 #| msgid "Frames"
 msgid "In/Out Frames"
 msgstr "Frámaí"
 
-#: src/mainwindow.cpp:670
+#: src/mainwindow.cpp:669
 #, fuzzy, kde-format
 #| msgid "Frames"
 msgid "All Frames"
 msgstr "Frámaí"
 
-#: src/mainwindow.cpp:674
+#: src/mainwindow.cpp:673
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "No Thumbnails"
 msgstr "Taispeáin mionsamhlacha"
 
-#: src/mainwindow.cpp:683
+#: src/mainwindow.cpp:682
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to change this setting. Do you want to "
 "proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:745
+#: src/mainwindow.cpp:744
 #, fuzzy, kde-format
 #| msgid "Color 1"
 msgid "Preview Using Proxy Clips"
 msgstr "Dath 1"
 
-#: src/mainwindow.cpp:752
+#: src/mainwindow.cpp:751
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic Preview"
 msgstr "Uathoibríoch"
 
-#: src/mainwindow.cpp:935
+#: src/mainwindow.cpp:934
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -9118,123 +9028,123 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/mainwindow.cpp:937
+#: src/mainwindow.cpp:936
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgid "Start them now"
 msgstr "Tosaigh ag"
 
-#: src/mainwindow.cpp:937
+#: src/mainwindow.cpp:936
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete them"
 msgstr "Scrios %1"
 
-#: src/mainwindow.cpp:1036 src/timeline2/view/timelinecontroller.cpp:1984
+#: src/mainwindow.cpp:1035 src/timeline2/view/timelinecontroller.cpp:1984
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr ""
 
-#: src/mainwindow.cpp:1083
+#: src/mainwindow.cpp:1082
 #, fuzzy, kde-format
 #| msgid "Normal mode"
 msgid "Normal Mode"
 msgstr "Gnáthmhód"
 
-#: src/mainwindow.cpp:1087
+#: src/mainwindow.cpp:1086
 #, fuzzy, kde-format
 #| msgid "Typewriter"
 msgid "Overwrite Mode"
 msgstr "Clóscríobhán"
 
-#: src/mainwindow.cpp:1091
+#: src/mainwindow.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert Mode"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:1095
+#: src/mainwindow.cpp:1094
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Timeline Edit Mode"
 msgstr "Comhad Íomhá"
 
-#: src/mainwindow.cpp:1104
+#: src/mainwindow.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1104
+#: src/mainwindow.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Use Timeline Zone for Insert"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1111
+#: src/mainwindow.cpp:1110
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Enable Track Compositing"
 msgstr "Ilchodach"
 
-#: src/mainwindow.cpp:1117
+#: src/mainwindow.cpp:1116
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Split Audio Tracks"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:1123
+#: src/mainwindow.cpp:1122
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Split Audio Tracks (reverse)"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:1129
+#: src/mainwindow.cpp:1128
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Mixed Audio tracks"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:1154
+#: src/mainwindow.cpp:1153
 #, fuzzy, kde-format
 #| msgid "Track mouse"
 msgid "Track menu"
 msgstr "Lorg an luch"
 
-#: src/mainwindow.cpp:1159 src/project/dialogs/slideshowclip.cpp:86
+#: src/mainwindow.cpp:1158 src/project/dialogs/slideshowclip.cpp:86
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr ""
 
-#: src/mainwindow.cpp:1160 src/project/dialogs/slideshowclip.cpp:87
+#: src/mainwindow.cpp:1159 src/project/dialogs/slideshowclip.cpp:87
 #, kde-format
 msgid "Frames"
 msgstr "Frámaí"
 
-#: src/mainwindow.cpp:1172
+#: src/mainwindow.cpp:1171
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Edit Subtitle Tool"
 msgstr "Cuir Próifíl Leis"
 
-#: src/mainwindow.cpp:1179 src/titler/titlewidget.cpp:373
-#: src/titler/titlewidget.cpp:376
+#: src/mainwindow.cpp:1178 src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Selection Tool"
 msgstr "Uirlis an Roghnaithe"
 
-#: src/mainwindow.cpp:1184
+#: src/mainwindow.cpp:1183
 #, kde-format
 msgid "Razor Tool"
 msgstr ""
 
-#: src/mainwindow.cpp:1189
+#: src/mainwindow.cpp:1188
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer Tool"
 msgstr "Spás"
 
-#: src/mainwindow.cpp:1194
+#: src/mainwindow.cpp:1193
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "Ripple Tool"
@@ -9244,75 +9154,75 @@ msgstr "Méid an chomhaid"
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1205
+#: src/mainwindow.cpp:1204
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Slip Tool"
 msgstr "Uirlis roghnúcháin"
 
-#: src/mainwindow.cpp:1209
+#: src/mainwindow.cpp:1208
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Multicam Tool"
 msgstr "Uirlis roghnúcháin"
 
-#: src/mainwindow.cpp:1231
+#: src/mainwindow.cpp:1230
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1235
+#: src/mainwindow.cpp:1234
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Mix Clips"
 msgstr "Ailínigh ar chlé"
 
-#: src/mainwindow.cpp:1243
+#: src/mainwindow.cpp:1242
 #, fuzzy, kde-format
 #| msgid "Thumbnails"
 msgid "Show Video Thumbnails"
 msgstr "Mionsamhlacha"
 
-#: src/mainwindow.cpp:1249
+#: src/mainwindow.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Show Audio Thumbnails"
 msgstr "Taispeáin mionsamhlacha"
 
-#: src/mainwindow.cpp:1255
+#: src/mainwindow.cpp:1254
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Markers Comments"
 msgstr "Monatóir Taifeadta"
 
-#: src/mainwindow.cpp:1261
+#: src/mainwindow.cpp:1260
 #, kde-format
 msgid "Snap"
 msgstr "Léim"
 
-#: src/mainwindow.cpp:1267
+#: src/mainwindow.cpp:1266
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Show Color Tags in Timeline"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1273
+#: src/mainwindow.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Fit Zoom to Project"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1298
+#: src/mainwindow.cpp:1297
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1308 src/mainwindow.cpp:3234
+#: src/mainwindow.cpp:1307 src/mainwindow.cpp:3233
 #, kde-format
 msgid "Multicam"
 msgstr ""
 
-#: src/mainwindow.cpp:1310
+#: src/mainwindow.cpp:1309
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr ""
@@ -9320,612 +9230,610 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1361 src/project/transitionsettings.cpp:130
-#: src/ui/editrenderpreset_ui.ui:414 src/ui/editrenderpreset_ui.ui:596
-#: src/ui/renderwidget_ui.ui:747
+#: src/mainwindow.cpp:1360 src/ui/editrenderpreset_ui.ui:414
+#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:747
 #, kde-format
 msgid "Auto"
 msgstr "Uathoibríoch"
 
-#: src/mainwindow.cpp:1366
+#: src/mainwindow.cpp:1365
 #, kde-format
 msgid "OpenGL"
 msgstr ""
 
-#: src/mainwindow.cpp:1371
+#: src/mainwindow.cpp:1370
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr ""
 
-#: src/mainwindow.cpp:1376
+#: src/mainwindow.cpp:1375
 #, kde-format
 msgid "Software OpenGL"
 msgstr ""
 
-#: src/mainwindow.cpp:1386
+#: src/mainwindow.cpp:1385
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr ""
 
-#: src/mainwindow.cpp:1387
+#: src/mainwindow.cpp:1386
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Settings…"
 msgstr "Socruithe an Tionscadail"
 
-#: src/mainwindow.cpp:1393
+#: src/mainwindow.cpp:1392
 #, fuzzy, kde-format
 #| msgid "Preview Settings"
 msgid "Stop Render"
 msgstr "Socruithe Réamhamhairc"
 
-#: src/mainwindow.cpp:1398
+#: src/mainwindow.cpp:1397
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Reset Configuration…"
 msgstr "Cumraigh"
 
-#: src/mainwindow.cpp:1402
+#: src/mainwindow.cpp:1401
 #, kde-format
 msgid "Play Zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1404
+#: src/mainwindow.cpp:1403
 #, kde-format
 msgid "Loop Zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1406
+#: src/mainwindow.cpp:1405
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Loop Selected Clip"
 msgstr "Teideal"
 
-#: src/mainwindow.cpp:1410
+#: src/mainwindow.cpp:1409
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcode Clips…"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:1411
+#: src/mainwindow.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO E&xport…"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1414
+#: src/mainwindow.cpp:1413
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO &Import…"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1418
+#: src/mainwindow.cpp:1417
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archive Project…"
 msgstr "Cuir an Tionscadal i gCartlann"
 
-#: src/mainwindow.cpp:1420
+#: src/mainwindow.cpp:1419
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Switch Monitor"
 msgstr "Monatóir"
 
-#: src/mainwindow.cpp:1421
+#: src/mainwindow.cpp:1420
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Focus Timecode"
 msgstr "Am"
 
-#: src/mainwindow.cpp:1422
+#: src/mainwindow.cpp:1421
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Expand Clip"
 msgstr "Teideal"
 
-#: src/mainwindow.cpp:1424
+#: src/mainwindow.cpp:1423
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr ""
 
-#: src/mainwindow.cpp:1429
+#: src/mainwindow.cpp:1428
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr ""
 
-#: src/mainwindow.cpp:1434
+#: src/mainwindow.cpp:1433
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr ""
 
-#: src/mainwindow.cpp:1439
+#: src/mainwindow.cpp:1438
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr ""
 
-#: src/mainwindow.cpp:1444
+#: src/mainwindow.cpp:1443
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Monatóir"
 
-#: src/mainwindow.cpp:1461
+#: src/mainwindow.cpp:1460
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Full Resolution (1:1)"
 msgstr "Taifeach"
 
-#: src/mainwindow.cpp:1465 src/monitor/monitor.cpp:175
+#: src/mainwindow.cpp:1464 src/monitor/monitor.cpp:175
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1469 src/monitor/monitor.cpp:175
+#: src/mainwindow.cpp:1468 src/monitor/monitor.cpp:175
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1473 src/monitor/monitor.cpp:176
+#: src/mainwindow.cpp:1472 src/monitor/monitor.cpp:176
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1477 src/monitor/monitor.cpp:176
+#: src/mainwindow.cpp:1476 src/monitor/monitor.cpp:176
 #, kde-format
 msgid "270p"
 msgstr ""
 
-#: src/mainwindow.cpp:1508
+#: src/mainwindow.cpp:1507
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr ""
 
-#: src/mainwindow.cpp:1514
+#: src/mainwindow.cpp:1513
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor Gamma"
 msgstr "Monatóir"
 
-#: src/mainwindow.cpp:1515
+#: src/mainwindow.cpp:1514
 #, kde-format
 msgid "sRGB (computer)"
 msgstr ""
 
-#: src/mainwindow.cpp:1516
+#: src/mainwindow.cpp:1515
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr ""
 
-#: src/mainwindow.cpp:1522
+#: src/mainwindow.cpp:1521
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr ""
 
-#: src/mainwindow.cpp:1525
+#: src/mainwindow.cpp:1524
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr ""
 
-#: src/mainwindow.cpp:1527
+#: src/mainwindow.cpp:1526
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr ""
 
-#: src/mainwindow.cpp:1529
+#: src/mainwindow.cpp:1528
 #, kde-format
 msgid "Go to Clip Start"
 msgstr ""
 
-#: src/mainwindow.cpp:1531
+#: src/mainwindow.cpp:1530
 #, kde-format
 msgid "Go to Clip End"
 msgstr ""
 
-#: src/mainwindow.cpp:1533
+#: src/mainwindow.cpp:1532
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Go to Previous Guide"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/mainwindow.cpp:1535
+#: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Go to Next Guide"
 msgstr ""
 
-#: src/mainwindow.cpp:1537
+#: src/mainwindow.cpp:1536
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr ""
 
-#: src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:1539
 #, kde-format
 msgid "Grab Current Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1543
+#: src/mainwindow.cpp:1542
 #, kde-format
 msgid "Automatic Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:1550
+#: src/mainwindow.cpp:1549
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1552
+#: src/mainwindow.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Insert Clip Zone in Timeline"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1554
+#: src/mainwindow.cpp:1553
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1556
+#: src/mainwindow.cpp:1555
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Lift Timeline Zone"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1557
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Add Preview Zone"
 msgstr "Réamhamharc"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1559
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove Preview Zone"
 msgstr "Réamhamharc"
 
-#: src/mainwindow.cpp:1562
+#: src/mainwindow.cpp:1561
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove All Preview Zones"
 msgstr "Réamhamharc"
 
-#: src/mainwindow.cpp:1564
+#: src/mainwindow.cpp:1563
 #, fuzzy, kde-format
 #| msgid "Preview Settings"
 msgid "Start Preview Render"
 msgstr "Socruithe Réamhamhairc"
 
-#: src/mainwindow.cpp:1566
+#: src/mainwindow.cpp:1565
 #, fuzzy, kde-format
 #| msgid "Preview Settings"
 msgid "Stop Preview Render"
 msgstr "Socruithe Réamhamhairc"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1568
 #, kde-format
 msgid "Select Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1571
+#: src/mainwindow.cpp:1570
 #, kde-format
 msgid "Deselect Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1573
+#: src/mainwindow.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Add Clip to Selection"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:1575
+#: src/mainwindow.cpp:1574
 #, kde-format
 msgid "Select Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:1577
+#: src/mainwindow.cpp:1576
 #, kde-format
 msgid "Deselect Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:1579
+#: src/mainwindow.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Add Transition to Selection"
 msgstr "Uirlis roghnúcháin"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1581
 #, kde-format
 msgid "Delete All Markers"
 msgstr ""
 
-#: src/mainwindow.cpp:1584
+#: src/mainwindow.cpp:1583
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr ""
 
-#: src/mainwindow.cpp:1588
+#: src/mainwindow.cpp:1587
 #, fuzzy, kde-format
 #| msgid "Current Settings"
 msgid "Current Selection"
 msgstr "Socraithe Reatha"
 
-#: src/mainwindow.cpp:1590 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1589 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr ""
 
-#: src/mainwindow.cpp:1594
+#: src/mainwindow.cpp:1593
 #, kde-format
 msgid "Delete Marker"
 msgstr ""
 
-#: src/mainwindow.cpp:1598
+#: src/mainwindow.cpp:1597
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit Marker…"
 msgstr "Cuir marcóir in eagar"
 
-#: src/mainwindow.cpp:1603 src/timeline2/model/timelinefunctions.cpp:1028
+#: src/mainwindow.cpp:1602 src/timeline2/model/timelinefunctions.cpp:1028
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Restore Audio"
 msgstr "Bain Amach"
 
-#: src/mainwindow.cpp:1609
+#: src/mainwindow.cpp:1608
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Clip"
 msgstr "Bain Amach"
 
-#: src/mainwindow.cpp:1615
+#: src/mainwindow.cpp:1614
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Save Clip Part to Bin"
 msgstr "Roghnú"
 
-#: src/mainwindow.cpp:1620
+#: src/mainwindow.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Disable Clip"
 msgstr "Teideal"
 
-#: src/mainwindow.cpp:1625
+#: src/mainwindow.cpp:1624
 #, kde-format
 msgid "Set Audio Reference"
 msgstr ""
 
-#: src/mainwindow.cpp:1632
+#: src/mainwindow.cpp:1631
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr ""
 
-#: src/mainwindow.cpp:1637
+#: src/mainwindow.cpp:1636
 #, kde-format
 msgid "Edit Duration"
 msgstr "Cuir Fad Ama in Eagar"
 
-#: src/mainwindow.cpp:1641
+#: src/mainwindow.cpp:1640
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Change Speed"
 msgstr "Sprioc"
 
-#: src/mainwindow.cpp:1647
+#: src/mainwindow.cpp:1646
 #, kde-format
 msgid "Time Remap"
 msgstr ""
 
-#: src/mainwindow.cpp:1654
+#: src/mainwindow.cpp:1653
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Clip in Project Bin"
 msgstr "Tionscadal"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1660 src/ui/cutjobdialog_ui.ui:14
+#: src/mainwindow.cpp:1659 src/ui/cutjobdialog_ui.ui:14
 #, kde-format
 msgid "Cut Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1662
 #, fuzzy, kde-format
 #| msgid "Color 1"
 msgid "Cut All Clips"
 msgstr "Dath 1"
 
-#: src/mainwindow.cpp:1666
+#: src/mainwindow.cpp:1665
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/mainwindow.cpp:1669
+#: src/mainwindow.cpp:1668
 #, kde-format
 msgid "Resize Item Start"
 msgstr ""
 
-#: src/mainwindow.cpp:1673
+#: src/mainwindow.cpp:1672
 #, kde-format
 msgid "Resize Item End"
 msgstr ""
 
-#: src/mainwindow.cpp:1677
+#: src/mainwindow.cpp:1676
 #, kde-format
 msgid "Paste Effects"
 msgstr ""
 
-#: src/mainwindow.cpp:1683
+#: src/mainwindow.cpp:1682
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete Effects"
 msgstr "Scrios %1"
 
-#: src/mainwindow.cpp:1690
+#: src/mainwindow.cpp:1689
 #, kde-format
 msgid "Group Clips"
 msgstr ""
 
-#: src/mainwindow.cpp:1696
+#: src/mainwindow.cpp:1695
 #, kde-format
 msgid "Ungroup Clips"
 msgstr ""
 
-#: src/mainwindow.cpp:1710
+#: src/mainwindow.cpp:1709
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Effect Keyframes"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/mainwindow.cpp:1711 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1710 src/monitor/view/EffectToolBar.qml:89
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Add/Remove Keyframe"
 msgstr "Bain an comhad"
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1726
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert Space…"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:1728
+#: src/mainwindow.cpp:1727
 #, kde-format
 msgid "Remove Space"
 msgstr ""
 
-#: src/mainwindow.cpp:1729
+#: src/mainwindow.cpp:1728
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:1732
+#: src/mainwindow.cpp:1731
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:1736 src/timeline2/view/timelinecontroller.cpp:4638
+#: src/mainwindow.cpp:1735 src/timeline2/view/timelinecontroller.cpp:4637
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Master effects"
 msgstr "Maisíochtaí"
 
-#: src/mainwindow.cpp:1743
+#: src/mainwindow.cpp:1742
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1748 src/timeline2/model/timelinemodel.cpp:4189
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:76
+#: src/mainwindow.cpp:1747 src/timeline2/model/timelinemodel.cpp:4189
 #: src/timeline2/view/timelinecontroller.cpp:777
 #, kde-format
 msgid "Delete Track"
 msgstr "Scrios Rian"
 
-#: src/mainwindow.cpp:1753
+#: src/mainwindow.cpp:1752
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Record Controls"
 msgstr "Monatóir Taifeadta"
 
-#: src/mainwindow.cpp:1759
+#: src/mainwindow.cpp:1758
 #, kde-format
 msgid "Select All in Current Track"
 msgstr ""
 
-#: src/mainwindow.cpp:1776
+#: src/mainwindow.cpp:1775
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr ""
 
-#: src/mainwindow.cpp:1779
+#: src/mainwindow.cpp:1778
 #, fuzzy, kde-format
 #| msgid "Image File"
 msgid "Disable Timeline Preview"
 msgstr "Comhad Íomhá"
 
-#: src/mainwindow.cpp:1783
+#: src/mainwindow.cpp:1782
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Add/Remove Guide"
 msgstr "Bain an comhad"
 
-#: src/mainwindow.cpp:1784
+#: src/mainwindow.cpp:1783
 #, kde-format
 msgid "Delete Guide"
 msgstr ""
 
-#: src/mainwindow.cpp:1785
+#: src/mainwindow.cpp:1784
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "Edit Guide…"
 msgstr "Eagar"
 
-#: src/mainwindow.cpp:1786
+#: src/mainwindow.cpp:1785
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Export Guides…"
 msgstr "Luchtaigh marcóirí"
 
-#: src/mainwindow.cpp:1789
+#: src/mainwindow.cpp:1788
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guides Locked"
 msgstr "Treoirleabhair"
 
-#: src/mainwindow.cpp:1793
+#: src/mainwindow.cpp:1792
 #, kde-format
 msgid "Delete All Guides"
 msgstr ""
 
-#: src/mainwindow.cpp:1795
+#: src/mainwindow.cpp:1794
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Add Subtitle"
 msgstr "Cuir Próifíl Leis"
 
-#: src/mainwindow.cpp:1797
+#: src/mainwindow.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Disable Subtitle"
 msgstr "Scrios comhaid"
 
-#: src/mainwindow.cpp:1798
+#: src/mainwindow.cpp:1797
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock Subtitle"
 msgstr "gan teideal"
 
-#: src/mainwindow.cpp:1800
+#: src/mainwindow.cpp:1799
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import Subtitle File…"
 msgstr "Luchtaigh marcóirí"
 
-#: src/mainwindow.cpp:1802
+#: src/mainwindow.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Export Subtitle File…"
 msgstr "Cuir Próifíl Leis"
 
-#: src/mainwindow.cpp:1804 src/timeline2/model/timelinemodel.cpp:1990
+#: src/mainwindow.cpp:1803 src/timeline2/model/timelinemodel.cpp:1990
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete Subtitle"
 msgstr "Scrios comhaid"
 
-#: src/mainwindow.cpp:1805
+#: src/mainwindow.cpp:1804
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Speech Recognition…"
 msgstr "Roghnú"
 
-#: src/mainwindow.cpp:1811
+#: src/mainwindow.cpp:1810
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Add Timeline Selection to Library"
 msgstr "Uirlis roghnúcháin"
 
-#: src/mainwindow.cpp:1818
+#: src/mainwindow.cpp:1817
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9933,109 +9841,109 @@ msgid ""
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
 
-#: src/mainwindow.cpp:1848
+#: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Copy Debug Information"
 msgstr ""
 
-#: src/mainwindow.cpp:1850
+#: src/mainwindow.cpp:1849
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Timeline Effects"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/mainwindow.cpp:1856
+#: src/mainwindow.cpp:1855
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Disabled"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1858
+#: src/mainwindow.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Lock"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1859
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle All Track Lock"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1862
+#: src/mainwindow.cpp:1861
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Target"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1864
+#: src/mainwindow.cpp:1863
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle Track Active"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1866
+#: src/mainwindow.cpp:1865
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Toggle All Tracks Active"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1868
+#: src/mainwindow.cpp:1867
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Switch All Tracks Active"
 msgstr "Scrios rian"
 
-#: src/mainwindow.cpp:1870
+#: src/mainwindow.cpp:1869
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:1872
+#: src/mainwindow.cpp:1871
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Add Project Note"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:1878
+#: src/mainwindow.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Select Audio Track %1"
 msgstr "Cuir rian leis"
 
-#: src/mainwindow.cpp:1882
+#: src/mainwindow.cpp:1881
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Select Video Track %1"
 msgstr "Scrios Rian"
 
-#: src/mainwindow.cpp:1886
+#: src/mainwindow.cpp:1885
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Select Target %1"
 msgstr "Scrios %1"
 
-#: src/mainwindow.cpp:1904
+#: src/mainwindow.cpp:1903
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Frame…"
 msgstr "Bain Amach"
 
-#: src/mainwindow.cpp:1907
+#: src/mainwindow.cpp:1906
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Extract Frame to Project…"
 msgstr "Sábháil marcóirí"
 
-#: src/mainwindow.cpp:2023 src/mainwindow.cpp:2033
+#: src/mainwindow.cpp:2022 src/mainwindow.cpp:2032
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
 
-#: src/mainwindow.cpp:2090
+#: src/mainwindow.cpp:2089
 #, kde-format
 msgid ""
 "The current project has not been saved. This will first save the project, "
@@ -10043,79 +9951,79 @@ msgid ""
 "file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2098
+#: src/mainwindow.cpp:2097
 #, kde-format
 msgid ""
 "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project "
 "file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2107 src/project/projectmanager.cpp:427
+#: src/mainwindow.cpp:2106 src/project/projectmanager.cpp:427
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2112 src/project/projectmanager.cpp:433
+#: src/mainwindow.cpp:2111 src/project/projectmanager.cpp:433
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2257
+#: src/mainwindow.cpp:2256
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr ""
 
-#: src/mainwindow.cpp:2257
+#: src/mainwindow.cpp:2256
 #, kde-format
 msgid "Clean up project"
 msgstr ""
 
-#: src/mainwindow.cpp:2378 src/mainwindow.cpp:2402
+#: src/mainwindow.cpp:2377 src/mainwindow.cpp:2401
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr ""
 
-#: src/mainwindow.cpp:2389
+#: src/mainwindow.cpp:2388
 #, fuzzy, kde-format
 #| msgid "Current Settings"
 msgid "Current scheme:"
 msgstr "Socraithe Reatha"
 
-#: src/mainwindow.cpp:2399
+#: src/mainwindow.cpp:2398
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "More Actions"
 msgstr "Ionad"
 
-#: src/mainwindow.cpp:2411
+#: src/mainwindow.cpp:2410
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Ginearálta"
 
-#: src/mainwindow.cpp:2475
+#: src/mainwindow.cpp:2474
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2609 src/mainwindow.cpp:2636
+#: src/mainwindow.cpp:2608 src/mainwindow.cpp:2635
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr ""
 
-#: src/mainwindow.cpp:2619 src/mainwindow.cpp:2665
+#: src/mainwindow.cpp:2618 src/mainwindow.cpp:2664
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr ""
 
-#: src/mainwindow.cpp:2641
+#: src/mainwindow.cpp:2640
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2658 src/timeline2/view/timelinecontroller.cpp:1128
+#: src/mainwindow.cpp:2657 src/timeline2/view/timelinecontroller.cpp:1128
 #: src/timeline2/view/timelinecontroller.cpp:1136
 #: src/timeline2/view/timelinecontroller.cpp:1157
 #: src/timeline2/view/timelinecontroller.cpp:1197
@@ -10125,23 +10033,23 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/mainwindow.cpp:2838
+#: src/mainwindow.cpp:2837
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip selected in project bin"
 msgstr "Amlíne"
 
-#: src/mainwindow.cpp:3005
+#: src/mainwindow.cpp:3004
 #, kde-format
 msgid "Select an item to add effect"
 msgstr ""
 
-#: src/mainwindow.cpp:3061
+#: src/mainwindow.cpp:3060
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3202
+#: src/mainwindow.cpp:3201
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10150,7 +10058,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3206
+#: src/mainwindow.cpp:3205
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10160,24 +10068,24 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3209
+#: src/mainwindow.cpp:3208
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select"
 msgstr "Roghnú"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3210
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
-#: src/mainwindow.cpp:3212
+#: src/mainwindow.cpp:3211
 #, kde-format
 msgid "Razor"
 msgstr ""
 
-#: src/mainwindow.cpp:3216
+#: src/mainwindow.cpp:3215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10185,13 +10093,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3217
+#: src/mainwindow.cpp:3216
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Spás"
 
-#: src/mainwindow.cpp:3219
+#: src/mainwindow.cpp:3218
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10199,14 +10107,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3220
+#: src/mainwindow.cpp:3219
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Uirlis roghnúcháin"
 
-#: src/mainwindow.cpp:3225
+#: src/mainwindow.cpp:3224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10215,14 +10123,14 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3227
+#: src/mainwindow.cpp:3226
 #, fuzzy, kde-format
 #| msgid "File size"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Méid an chomhaid"
 
-#: src/mainwindow.cpp:3233
+#: src/mainwindow.cpp:3232
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10230,136 +10138,136 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3245
+#: src/mainwindow.cpp:3244
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "Ionsá"
 
-#: src/mainwindow.cpp:3248
+#: src/mainwindow.cpp:3247
 #, fuzzy, kde-format
 #| msgid "Typewriter"
 msgid "Overwrite"
 msgstr "Clóscríobhán"
 
-#: src/mainwindow.cpp:3551
+#: src/mainwindow.cpp:3550
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Stabilize"
 msgstr "Teideal"
 
-#: src/mainwindow.cpp:3556
+#: src/mainwindow.cpp:3555
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic Scene Split…"
 msgstr "Uathoibríoch"
 
-#: src/mainwindow.cpp:3561
+#: src/mainwindow.cpp:3560
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Teideal"
 
-#: src/mainwindow.cpp:3577
+#: src/mainwindow.cpp:3576
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:3622
+#: src/mainwindow.cpp:3621
 #, kde-format
 msgid "Interface"
 msgstr "Comhéadan"
 
-#: src/mainwindow.cpp:3638
+#: src/mainwindow.cpp:3637
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Raise %1"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/mainwindow.cpp:3704
+#: src/mainwindow.cpp:3703
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Traschódaigh"
 
-#: src/mainwindow.cpp:3855
+#: src/mainwindow.cpp:3851
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:3861
+#: src/mainwindow.cpp:3857
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archiving project"
 msgstr "Cuir an Tionscadal i gCartlann"
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4046
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Icon Size"
 msgstr "Clómhéid"
 
-#: src/mainwindow.cpp:4054
+#: src/mainwindow.cpp:4050
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Réamhshocrú"
 
-#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
+#: src/mainwindow.cpp:4071 src/mainwindow.cpp:4099
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
+#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4079 src/mainwindow.cpp:4107
+#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4081 src/mainwindow.cpp:4109
+#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4166
+#: src/mainwindow.cpp:4162
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4166
+#: src/mainwindow.cpp:4162
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
 
-#: src/mainwindow.cpp:4181
+#: src/mainwindow.cpp:4177
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4380 src/timeline2/view/timelinecontroller.cpp:4924
+#: src/mainwindow.cpp:4376 src/timeline2/view/timelinecontroller.cpp:4923
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "No subtitles in current project"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:4467
+#: src/mainwindow.cpp:4463
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
 msgstr "Tionscadal"
 
-#: src/mainwindow.cpp:4568
+#: src/mainwindow.cpp:4564
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Checking cached data size"
@@ -10376,114 +10284,126 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:181
-#: src/mltcontroller/clippropertiescontroller.cpp:1368
-#: src/mltcontroller/clippropertiescontroller.cpp:1410
+#: src/mltcontroller/clippropertiescontroller.cpp:1361
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:268
+#: src/mltcontroller/clippropertiescontroller.cpp:267
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add marker…"
 msgstr "Cuir marcóir leis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:270
+#: src/mltcontroller/clippropertiescontroller.cpp:269
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit marker…"
 msgstr "Cuir marcóir in eagar"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:271
+#: src/mltcontroller/clippropertiescontroller.cpp:270
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Export markers…"
 msgstr "Cuir marcóir in eagar"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:272
+#: src/mltcontroller/clippropertiescontroller.cpp:271
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import markers…"
 msgstr "Luchtaigh marcóirí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:294
+#: src/mltcontroller/clippropertiescontroller.cpp:293
 #, kde-format
 msgid "Analysis data"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:297
+#: src/mltcontroller/clippropertiescontroller.cpp:296
 #, fuzzy, kde-format
 #| msgid "Delete data"
 msgid "Delete analysis"
 msgstr "Scrios sonraí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:298
+#: src/mltcontroller/clippropertiescontroller.cpp:297
 #, fuzzy, kde-format
 #| msgid "Export metadata"
 msgid "Export analysis…"
 msgstr "Easpórtáil meiteashonraí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:299
+#: src/mltcontroller/clippropertiescontroller.cpp:298
 #, fuzzy, kde-format
 #| msgid "Export metadata"
 msgid "Import analysis…"
 msgstr "Easpórtáil meiteashonraí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:352
-#: src/mltcontroller/clippropertiescontroller.cpp:605
+#: src/mltcontroller/clippropertiescontroller.cpp:350
+#: src/mltcontroller/clippropertiescontroller.cpp:603
 #, kde-format
 msgid "Disable autorotate"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:368
+#: src/mltcontroller/clippropertiescontroller.cpp:366
 #, kde-format
 msgid "Enter template text here"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:370
+#: src/mltcontroller/clippropertiescontroller.cpp:368
 #, kde-format
 msgid "Apply"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:400
+#: src/mltcontroller/clippropertiescontroller.cpp:398
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Cóimheas treoíochta:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:497
+#: src/mltcontroller/clippropertiescontroller.cpp:495
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Delete proxy file"
 msgstr "Scrios an Phróifíl"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:503
+#: src/mltcontroller/clippropertiescontroller.cpp:501
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Proxy options"
 msgstr "Ionad"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:508
+#: src/mltcontroller/clippropertiescontroller.cpp:506
 #, fuzzy, kde-format
 #| msgid "Capture format:"
 msgid "Open folder…"
 msgstr "Formáid ghabhála:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:514
+#: src/mltcontroller/clippropertiescontroller.cpp:512
 #, fuzzy, kde-format
 #| msgid "Color 1"
 msgid "Play proxy clip"
 msgstr "Dath 1"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:520
+#: src/mltcontroller/clippropertiescontroller.cpp:518
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
+#: src/mltcontroller/clippropertiescontroller.cpp:535
+#: src/mltcontroller/clippropertiescontroller.cpp:1350
+#: src/mltcontroller/clippropertiescontroller.cpp:1355
+#: src/ui/configcapture_ui.ui:110 src/ui/configcapture_ui.ui:407
+#: src/ui/profiledialog_ui.ui:111
+#, kde-format
+msgid "Frame rate:"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:561
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:559
+#: src/mltcontroller/clippropertiescontroller.cpp:1365
 #: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:567
 #: src/ui/profiledialog_ui.ui:164
 #, fuzzy, kde-format
@@ -10494,8 +10414,8 @@ msgstr "Á Scanadh"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:565
-#: src/mltcontroller/clippropertiescontroller.cpp:1372
+#: src/mltcontroller/clippropertiescontroller.cpp:563
+#: src/mltcontroller/clippropertiescontroller.cpp:1365
 #: src/project/dialogs/profilewidget.cpp:107 src/ui/configcapture_ui.ui:166
 #: src/ui/editrenderpreset_ui.ui:217 src/ui/profiledialog_ui.ui:221
 #, kde-format
@@ -10503,111 +10423,110 @@ msgid "Interlaced"
 msgstr "Crosfhite"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:583
+#: src/mltcontroller/clippropertiescontroller.cpp:581
 #: src/ui/profiledialog_ui.ui:297
 #, kde-format
 msgid "Field order:"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:587
+#: src/mltcontroller/clippropertiescontroller.cpp:585
 #, fuzzy, kde-format
 #| msgid "Align right"
 msgid "Bottom First"
 msgstr "Ailínigh ar dheis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:588
+#: src/mltcontroller/clippropertiescontroller.cpp:586
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Top First"
 msgstr "Cóipcheart"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:627
+#: src/mltcontroller/clippropertiescontroller.cpp:625
 #, fuzzy, kde-format
 #| msgid "Default"
 msgid "%1 (default)"
 msgstr "Réamhshocrú"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/mltcontroller/clippropertiescontroller.cpp:647
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable video"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:649
+#: src/mltcontroller/clippropertiescontroller.cpp:647
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable video"
 msgstr "Cumasaigh maisíocht"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: src/mltcontroller/clippropertiescontroller.cpp:655
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Video stream"
 msgstr "Cuir rian leis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:707
+#: src/mltcontroller/clippropertiescontroller.cpp:705
 #, kde-format
 msgid "Disable audio"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:707
+#: src/mltcontroller/clippropertiescontroller.cpp:705
 #, kde-format
 msgid "Enable audio"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:715
+#: src/mltcontroller/clippropertiescontroller.cpp:713
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio streams"
 msgstr "Cuir rian leis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:737
+#: src/mltcontroller/clippropertiescontroller.cpp:735
 #: src/monitor/monitor.cpp:1746
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:843
+#: src/mltcontroller/clippropertiescontroller.cpp:841
 #, kde-format
 msgid "Normalize"
 msgstr "Normalaigh"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:879
+#: src/mltcontroller/clippropertiescontroller.cpp:877
 #, fuzzy, kde-format
 #| msgid "Channel"
 msgid "Copy channel:"
 msgstr "Cainéal"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, programList)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:880
-#: src/ui/projectsettings_ui.ui:539 src/ui/wizardmltcheck_ui.ui:49
+#: src/mltcontroller/clippropertiescontroller.cpp:878
+#: src/ui/projectsettings_ui.ui:539
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:881
+#: src/mltcontroller/clippropertiescontroller.cpp:879
 #: src/ui/projectsettings_ui.ui:544
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:910
+#: src/mltcontroller/clippropertiescontroller.cpp:908
 #, fuzzy, kde-format
 #| msgid "Gain"
 msgid "Gain:"
 msgstr "Neartú"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:937
+#: src/mltcontroller/clippropertiescontroller.cpp:935
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio sync:"
 msgstr "(Dí-)Comhbhrú Fuaime"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:939
+#: src/mltcontroller/clippropertiescontroller.cpp:937
 #, kde-format
 msgid "ms"
 msgstr ""
@@ -10615,8 +10534,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #. i18n: ectx: property (text), widget (QLabel, colorspaceLabel)
-#: src/mltcontroller/clippropertiescontroller.cpp:958
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:956
+#: src/mltcontroller/clippropertiescontroller.cpp:1378
 #: src/ui/configcapture_ui.ui:152 src/ui/editrenderpreset_ui.ui:381
 #: src/ui/profiledialog_ui.ui:277
 #, fuzzy, kde-format
@@ -10624,17 +10543,17 @@ msgstr ""
 msgid "Colorspace:"
 msgstr "Samhail de dhathanna:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:993
+#: src/mltcontroller/clippropertiescontroller.cpp:991
 #, kde-format
 msgid "Full luma range"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1003
+#: src/mltcontroller/clippropertiescontroller.cpp:1001
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1033
 #, fuzzy, kde-format
 #| msgid "File not found"
 msgid "File info"
@@ -10642,173 +10561,186 @@ msgstr "Comhad gan aimsiú"
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1037
+#: src/mltcontroller/clippropertiescontroller.cpp:1035
 #: src/ui/profiledialog_ui.ui:58 src/ui/titlewidget_ui.ui:656
 #, kde-format
 msgid "Properties"
 msgstr "Airíonna"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1039
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #, fuzzy, kde-format
 #| msgid "Properties"
 msgid "Audio Properties"
 msgstr "Airíonna"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1043
+#: src/mltcontroller/clippropertiescontroller.cpp:1041
 #: src/project/dialogs/projectsettings.cpp:824 src/ui/projectsettings_ui.ui:517
 #, kde-format
 msgid "Metadata"
 msgstr "Meiteashonraí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1045
+#: src/mltcontroller/clippropertiescontroller.cpp:1043
 #, kde-format
 msgid "Analysis"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1311
+#: src/mltcontroller/clippropertiescontroller.cpp:1304
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Image size:"
 msgstr "Méid na híomhá"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1314
+#: src/mltcontroller/clippropertiescontroller.cpp:1307
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Image duration:"
 msgstr "Ráta fráma"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1321
+#: src/mltcontroller/clippropertiescontroller.cpp:1314
 #, fuzzy, kde-format
 #| msgid "Show background"
 msgid "Image count:"
 msgstr "Taispeáin cúlra"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1348
+#: src/mltcontroller/clippropertiescontroller.cpp:1341
 #, fuzzy, kde-format
 #| msgid "Video codec"
 msgid "Video codec:"
 msgstr "(Dí-)Comhbhrú Físe"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1368
+#: src/mltcontroller/clippropertiescontroller.cpp:1345
+#, kde-format
+msgid "Frame size:"
+msgstr ""
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1361
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Video bitrate:"
 msgstr "Cuir rian leis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1382
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#. i18n: ectx: property (text), widget (QLabel, label_23)
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
+#: src/ui/configcapture_ui.ui:124 src/ui/profiledialog_ui.ui:267
+#, kde-format
+msgid "Pixel aspect ratio:"
+msgstr ""
+
+#: src/mltcontroller/clippropertiescontroller.cpp:1375
 #, fuzzy, kde-format
 #| msgid "Pixelize"
 msgid "Pixel format:"
 msgstr "Picteilíniú"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1381
 #, fuzzy, kde-format
 #| msgid "Frames"
 msgid "B frames:"
 msgstr "Frámaí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1381
 #, kde-format
 msgid "Yes"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1381
 #, fuzzy, kde-format
 #| msgid "N"
 msgid "No"
 msgstr "T"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
+#: src/mltcontroller/clippropertiescontroller.cpp:1384
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio streams:"
 msgstr "Cuir rian leis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio codec:"
 msgstr "(Dí-)Comhbhrú Fuaime"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1401
+#: src/mltcontroller/clippropertiescontroller.cpp:1394
 #: src/ui/configproject_ui.ui:113 src/ui/projectsettings_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio channels:"
 msgstr "(Dí-)Comhbhrú Fuaime"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1405
+#: src/mltcontroller/clippropertiescontroller.cpp:1398
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "Audio frequency:"
 msgstr "Minicíocht"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1405
+#: src/mltcontroller/clippropertiescontroller.cpp:1398
 #, fuzzy, kde-format
 #| msgid "H"
 msgctxt "Herz"
 msgid "Hz"
 msgstr "H"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1410
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio bitrate:"
 msgstr "Cuir rian leis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
+#: src/mltcontroller/clippropertiescontroller.cpp:1411
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "File size:"
 msgstr "Méid an chomhaid"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1481
+#: src/mltcontroller/clippropertiescontroller.cpp:1474
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Clip Markers"
 msgstr "Sábháil marcóirí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1507
+#: src/mltcontroller/clippropertiescontroller.cpp:1500
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgctxt "@title:window"
 msgid "Load Clip Markers"
 msgstr "Luchtaigh marcóirí"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1530
+#: src/mltcontroller/clippropertiescontroller.cpp:1523
 #, kde-format
 msgid "An error occurred while parsing the marker file"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1546
-#: src/mltcontroller/clippropertiescontroller.cpp:1578
-#: src/mltcontroller/clippropertiescontroller.cpp:1610
+#: src/mltcontroller/clippropertiescontroller.cpp:1539
+#: src/mltcontroller/clippropertiescontroller.cpp:1571
+#: src/mltcontroller/clippropertiescontroller.cpp:1603
 #, kde-format
 msgid "Exif"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1631
-#: src/mltcontroller/clippropertiescontroller.cpp:1657
+#: src/mltcontroller/clippropertiescontroller.cpp:1624
+#: src/mltcontroller/clippropertiescontroller.cpp:1650
 #, kde-format
 msgid "Magic Lantern"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1698
+#: src/mltcontroller/clippropertiescontroller.cpp:1691
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1699
-#: src/mltcontroller/clippropertiescontroller.cpp:1712
+#: src/mltcontroller/clippropertiescontroller.cpp:1692
+#: src/mltcontroller/clippropertiescontroller.cpp:1705
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1711
+#: src/mltcontroller/clippropertiescontroller.cpp:1704
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -10925,12 +10857,9 @@ msgstr ""
 msgid "Free Resize"
 msgstr "Athraigh an mhéid"
 
-#. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:370 src/project/transitionsettings.cpp:141
-#: src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:219
-#: src/ui/selectivecolor_ui.ui:154 src/ui/titlewidget_ui.ui:121
+#: src/monitor/monitor.cpp:370 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/timeline2/view/timelinecontroller.cpp:219 src/ui/titlewidget_ui.ui:121
 #, kde-format
 msgid "Black"
 msgstr "Dubh"
@@ -11040,42 +10969,42 @@ msgstr[2] "Cuir rian leis"
 msgstr[3] "Cuir rian leis"
 msgstr[4] "Cuir rian leis"
 
-#: src/monitor/monitor.cpp:2180
+#: src/monitor/monitor.cpp:2178
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2222 src/monitor/monitor.cpp:2274
+#: src/monitor/monitor.cpp:2220 src/monitor/monitor.cpp:2272
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2242
+#: src/monitor/monitor.cpp:2240
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Clip has no effects"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/monitor/monitor.cpp:2244
+#: src/monitor/monitor.cpp:2242
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2281
+#: src/monitor/monitor.cpp:2279
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2327
+#: src/monitor/monitor.cpp:2325
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2698
+#: src/monitor/monitor.cpp:2696
 #, kde-format
 msgid ""
 "The MediaInfo application is required for the recording timecode feature, "
@@ -11256,17 +11185,13 @@ msgstr "Réamhamharc"
 msgid "Record"
 msgstr "Taifead"
 
-#. i18n: ectx: property (text), widget (QCheckBox, rec_video)
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, video_tab)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:541
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:24
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:137
-#: src/ui/cutjobdialog_ui.ui:100 src/ui/editrenderpreset_ui.ui:118
-#: src/ui/projectsettings_ui.ui:161 src/ui/recmonitor_ui.ui:100
-#: src/ui/renderwidget_ui.ui:479
+#: src/ui/cutjobdialog_ui.ui:103 src/ui/editrenderpreset_ui.ui:118
+#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:479
 #, kde-format
 msgid "Video"
 msgstr "Físeán"
@@ -11346,7 +11271,7 @@ msgstr "Uathoibríoch"
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
 #: src/monitor/view/EffectToolBar.qml:102
 #: src/monitor/view/MultiScreenToolBar.qml:64
-#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:151
+#: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:165
 #, fuzzy, kde-format
 #| msgid "Zoom In"
 msgid "Zoom in"
@@ -11355,7 +11280,7 @@ msgstr "Súmáil Isteach"
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
 #: src/monitor/view/EffectToolBar.qml:107
 #: src/monitor/view/MultiScreenToolBar.qml:72
-#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:164
+#: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:182
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Zoom out"
@@ -11741,35 +11666,35 @@ msgid ""
 "this license, visit %5"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:602
+#: src/onlineresources/resourcewidget.cpp:603
 #, kde-format
 msgid "%1 Try again."
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:602
-#: src/onlineresources/resourcewidget.cpp:604
+#: src/onlineresources/resourcewidget.cpp:603
+#: src/onlineresources/resourcewidget.cpp:605
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error Loading Data"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Resource saved to %1"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:614
 #, fuzzy, kde-format
 #| msgid "Data to import"
 msgid "Data Imported"
 msgstr "Sonraí le hiompórtáil"
 
-#: src/onlineresources/resourcewidget.cpp:641
+#: src/onlineresources/resourcewidget.cpp:642
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr ""
 
-#: src/onlineresources/resourcewidget.cpp:642
+#: src/onlineresources/resourcewidget.cpp:643
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error Getting Access Token from %1."
@@ -11857,20 +11782,20 @@ msgstr[4] "Cuir rian leis"
 msgid "Destination folder"
 msgstr ""
 
-#: src/project/clipstabilize.cpp:69 src/project/clipstabilize.cpp:166
+#: src/project/clipstabilize.cpp:69 src/project/clipstabilize.cpp:164
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Last setting"
 msgstr "Socruithe"
 
-#: src/project/clipstabilize.cpp:121
+#: src/project/clipstabilize.cpp:119
 #, fuzzy, kde-format
 #| msgid "Title"
 msgctxt "Description"
 msgid "Stabilize clip"
 msgstr "Teideal"
 
-#: src/project/clipstabilize.cpp:160
+#: src/project/clipstabilize.cpp:158
 #, kde-format
 msgid "The stabilize job will overwrite the following files:"
 msgstr ""
@@ -12667,31 +12592,6 @@ msgstr "Amlíne"
 #: src/project/notesplugin.cpp:98
 #, kde-format
 msgid "Cannot perform assign"
-msgstr ""
-
-#: src/project/projectcommands.cpp:24
-#, kde-format
-msgid "Add clip cut"
-msgstr ""
-
-#: src/project/projectcommands.cpp:58
-#, kde-format
-msgid "Add folder"
-msgstr "Cuir fillteán leis"
-
-#: src/project/projectcommands.cpp:60
-#, kde-format
-msgid "Delete folder"
-msgstr ""
-
-#: src/project/projectcommands.cpp:95
-#, kde-format
-msgid "Edit clip cut"
-msgstr ""
-
-#: src/project/projectcommands.cpp:124
-#, kde-format
-msgid "Rename folder"
 msgstr ""
 
 #: src/project/projectmanager.cpp:58
@@ -13754,7 +13654,7 @@ msgstr ""
 #: src/timeline2/model/timelinefunctions.cpp:930
 #: src/timeline2/model/timelinefunctions.cpp:934
 #: src/timeline2/model/timelinefunctions.cpp:941
-#: src/timeline2/view/timelinecontroller.cpp:3892
+#: src/timeline2/view/timelinecontroller.cpp:3891
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
@@ -13764,7 +13664,7 @@ msgstr "Díchumasaigh Maisíocht"
 #: src/timeline2/model/timelinefunctions.cpp:930
 #: src/timeline2/model/timelinefunctions.cpp:934
 #: src/timeline2/model/timelinefunctions.cpp:941
-#: src/timeline2/view/timelinecontroller.cpp:3892
+#: src/timeline2/view/timelinecontroller.cpp:3891
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
@@ -14015,7 +13915,7 @@ msgstr "Ilchodach"
 
 #: src/timeline2/model/timelinemodel.cpp:2140
 #: src/timeline2/model/timelinemodel.cpp:2302
-#: src/timeline2/view/timelinecontroller.cpp:4073
+#: src/timeline2/view/timelinecontroller.cpp:4072
 #, kde-format
 msgid "Move group"
 msgstr ""
@@ -14232,17 +14132,17 @@ msgstr "Athraigh an mhéid"
 msgid "Clip Speed"
 msgstr "Luas"
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:42
+#: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:100
+#: src/timeline2/view/dialogs/speeddialog.cpp:99
 #, kde-format
 msgid "Minimum speed is %1"
 msgstr ""
 
-#: src/timeline2/view/dialogs/speeddialog.cpp:101
+#: src/timeline2/view/dialogs/speeddialog.cpp:100
 #, kde-format
 msgid "Maximum speed is %1"
 msgstr ""
@@ -14254,7 +14154,6 @@ msgid "Delete Track(s)"
 msgstr "Scrios Rian"
 
 #: src/timeline2/view/dialogs/trackdialog.cpp:21
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:72
 #, kde-format
 msgid "Add Track"
 msgstr "Cuir Rian Leis"
@@ -14275,36 +14174,6 @@ msgstr[1] "Amhrán"
 msgstr[2] "Amhrán"
 msgstr[3] "Amhrán"
 msgstr[4] "Amhrán"
-
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:62
-#, kde-format
-msgid "Hidden"
-msgstr "Folaithe"
-
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:62
-#, kde-format
-msgid "Muted"
-msgstr "Gan fuaim"
-
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:62
-#, kde-format
-msgid "Locked"
-msgstr "Faoi Ghlas"
-
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:62
-#, kde-format
-msgid "Composite"
-msgstr "Ilchodach"
-
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:80
-#, kde-format
-msgid "Move Track upwards"
-msgstr ""
-
-#: src/timeline2/view/dialogs/tracksconfigdialog.cpp:84
-#, kde-format
-msgid "Move Track downwards"
-msgstr ""
 
 #: src/timeline2/view/previewmanager.cpp:83
 #, fuzzy, kde-format
@@ -14672,7 +14541,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:754
-#: src/timeline2/view/timelinecontroller.cpp:4779
+#: src/timeline2/view/timelinecontroller.cpp:4778
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Could not insert track"
@@ -14713,7 +14582,7 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:3563
 #: src/timeline2/view/timelinecontroller.cpp:3578
 #: src/timeline2/view/timelinecontroller.cpp:3640
-#: src/timeline2/view/timelinecontroller.cpp:3751
+#: src/timeline2/view/timelinecontroller.cpp:3750
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clip selected"
@@ -14757,7 +14626,7 @@ msgid "No item to edit"
 msgstr "Amlíne"
 
 #: src/timeline2/view/timelinecontroller.cpp:2802
-#: src/timeline2/view/timelinecontroller.cpp:5108
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -14815,73 +14684,73 @@ msgstr "Maisíochtaí"
 msgid "Cannot paste effect on selected clip"
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/timeline2/view/timelinecontroller.cpp:3733
+#: src/timeline2/view/timelinecontroller.cpp:3732
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "Edit item"
 msgstr "Eagar"
 
-#: src/timeline2/view/timelinecontroller.cpp:3758
+#: src/timeline2/view/timelinecontroller.cpp:3757
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Item is not a title clip"
 msgstr "Cruthaigh Grúpa"
 
-#: src/timeline2/view/timelinecontroller.cpp:3833
+#: src/timeline2/view/timelinecontroller.cpp:3832
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3887
+#: src/timeline2/view/timelinecontroller.cpp:3886
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Restore video"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/timeline2/view/timelinecontroller.cpp:3887
+#: src/timeline2/view/timelinecontroller.cpp:3886
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Restore audio"
 msgstr "Bain Amach"
 
-#: src/timeline2/view/timelinecontroller.cpp:4054
+#: src/timeline2/view/timelinecontroller.cpp:4053
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Move item"
 msgstr "Teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:4511
+#: src/timeline2/view/timelinecontroller.cpp:4510
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4522
+#: src/timeline2/view/timelinecontroller.cpp:4521
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4597
+#: src/timeline2/view/timelinecontroller.cpp:4596
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Record audio"
 msgstr "Bain Amach"
 
-#: src/timeline2/view/timelinecontroller.cpp:4733
+#: src/timeline2/view/timelinecontroller.cpp:4732
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Expand clip"
 msgstr "Teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:4736
+#: src/timeline2/view/timelinecontroller.cpp:4735
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgid "Could not expand clip"
 msgstr "Dún an cluaisín reatha"
 
-#: src/timeline2/view/timelinecontroller.cpp:4777
+#: src/timeline2/view/timelinecontroller.cpp:4776
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -14891,56 +14760,56 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4859
+#: src/timeline2/view/timelinecontroller.cpp:4858
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add text"
 msgstr "Cuir marcóir leis"
 
-#: src/timeline2/view/timelinecontroller.cpp:4897
+#: src/timeline2/view/timelinecontroller.cpp:4896
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import Subtitle"
 msgstr "Luchtaigh marcóirí"
 
-#: src/timeline2/view/timelinecontroller.cpp:4927
+#: src/timeline2/view/timelinecontroller.cpp:4926
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Export subtitle file"
 msgstr "Cuir Próifíl Leis"
 
-#: src/timeline2/view/timelinecontroller.cpp:4928
+#: src/timeline2/view/timelinecontroller.cpp:4927
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitle File (*.srt)"
 msgstr "gan teideal"
 
-#: src/timeline2/view/timelinecontroller.cpp:4958
+#: src/timeline2/view/timelinecontroller.cpp:4957
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4993
+#: src/timeline2/view/timelinecontroller.cpp:4992
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Show subtitle track"
 msgstr "Cuir rian leis"
 
-#: src/timeline2/view/timelinecontroller.cpp:4993
+#: src/timeline2/view/timelinecontroller.cpp:4992
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Hide subtitle track"
 msgstr "Scrios comhaid"
 
-#: src/timeline2/view/timelinecontroller.cpp:5017
+#: src/timeline2/view/timelinecontroller.cpp:5016
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Unlock subtitle track"
 msgstr "Amhrán"
 
-#: src/timeline2/view/timelinecontroller.cpp:5017
+#: src/timeline2/view/timelinecontroller.cpp:5016
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
@@ -14970,8 +14839,8 @@ msgstr "Ilchodach"
 msgid "No available stream"
 msgstr "Frámaí"
 
-#: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3233 src/titler/titlewidget.cpp:3236
+#: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
+#: src/titler/titlewidget.cpp:3229 src/titler/titlewidget.cpp:3232
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -15030,281 +14899,275 @@ msgstr ""
 msgid "Border width"
 msgstr ""
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, spin_cyan)
-#. i18n: ectx: property (suffix), widget (QSpinBox, spin_mag)
-#. i18n: ectx: property (suffix), widget (QSpinBox, spin_yell)
-#. i18n: ectx: property (suffix), widget (QSpinBox, spin_black)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
 #: src/titler/titlewidget.cpp:160 src/ui/clipspeed_ui.ui:69
-#: src/ui/selectivecolor_ui.ui:75 src/ui/selectivecolor_ui.ui:108
-#: src/ui/selectivecolor_ui.ui:141 src/ui/selectivecolor_ui.ui:174
 #: src/ui/titlewidget_ui.ui:88 src/widgets/geometrywidget.cpp:71
 #: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:261
+#: src/titler/titlewidget.cpp:257
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:262
+#: src/titler/titlewidget.cpp:258
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:263
+#: src/titler/titlewidget.cpp:259
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:264
+#: src/titler/titlewidget.cpp:260
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:265
+#: src/titler/titlewidget.cpp:261
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:266
+#: src/titler/titlewidget.cpp:262
 #, kde-format
 msgid "Font weight"
 msgstr "Clómheáchan"
 
-#: src/titler/titlewidget.cpp:280
+#: src/titler/titlewidget.cpp:276
 #, kde-format
 msgid "Insert Unicode character"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:286
+#: src/titler/titlewidget.cpp:282
 #, kde-format
 msgid "Raise object"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:292
+#: src/titler/titlewidget.cpp:288
 #, kde-format
 msgid "Lower object"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:300
+#: src/titler/titlewidget.cpp:296
 #, kde-format
 msgid "Raise object to top"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:307
+#: src/titler/titlewidget.cpp:303
 #, kde-format
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:313
+#: src/titler/titlewidget.cpp:309
 #, fuzzy, kde-format
 #| msgid "Select all"
 msgid "Select All"
 msgstr "Roghnaigh uile"
 
-#: src/titler/titlewidget.cpp:319
+#: src/titler/titlewidget.cpp:315
 #, kde-format
 msgid "Keep only text items selected"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:326
+#: src/titler/titlewidget.cpp:322
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:333
+#: src/titler/titlewidget.cpp:329
 #, kde-format
 msgid "Keep only image items selected"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:340
+#: src/titler/titlewidget.cpp:336
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Deselect"
 msgstr "Roghnú"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:341
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:346
+#: src/titler/titlewidget.cpp:342
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:347
+#: src/titler/titlewidget.cpp:343
 #, kde-format
 msgid "Select fill color"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Select border color"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:350
+#: src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Original size (1:1)"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:347
 #, kde-format
 msgid "Fit zoom"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:352
+#: src/titler/titlewidget.cpp:348
 #, kde-format
 msgid "Select background color"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:349
 #, kde-format
 msgid "Background opacity"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Select all"
 msgstr "Roghnaigh uile"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Select text items in current selection"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:356
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:357
+#: src/titler/titlewidget.cpp:353
 #, kde-format
 msgid "Select image items in current selection"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:358
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Unselect all"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:379 src/titler/titlewidget.cpp:382
+#: src/titler/titlewidget.cpp:375 src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Add Text"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:385 src/titler/titlewidget.cpp:388
+#: src/titler/titlewidget.cpp:381 src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Add Rectangle"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:391 src/titler/titlewidget.cpp:394
+#: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgid "Add Ellipse"
 msgstr "Dún an cluaisín reatha"
 
-#: src/titler/titlewidget.cpp:397 src/titler/titlewidget.cpp:400
-#: src/titler/titlewidget.cpp:804
+#: src/titler/titlewidget.cpp:393 src/titler/titlewidget.cpp:396
+#: src/titler/titlewidget.cpp:800
 #, kde-format
 msgid "Add Image"
 msgstr "Cuir Íomhá Leis"
 
-#: src/titler/titlewidget.cpp:405 src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:401 src/titler/titlewidget.cpp:404
 #, kde-format
 msgid "Open Document"
 msgstr "Oscail Cáipéis"
 
-#: src/titler/titlewidget.cpp:411 src/titler/titlewidget.cpp:414
+#: src/titler/titlewidget.cpp:407 src/titler/titlewidget.cpp:410
 #, kde-format
 msgid "Save As"
 msgstr "Sábháil Mar"
 
-#: src/titler/titlewidget.cpp:417 src/titler/titlewidget.cpp:420
+#: src/titler/titlewidget.cpp:413 src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:535
+#: src/titler/titlewidget.cpp:531
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgid "Save and add to project"
 msgstr "Sábháil marcóirí"
 
-#: src/titler/titlewidget.cpp:536
+#: src/titler/titlewidget.cpp:532
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Title"
 msgstr "Cruthaigh Grúpa"
 
-#: src/titler/titlewidget.cpp:685
+#: src/titler/titlewidget.cpp:681
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:792
+#: src/titler/titlewidget.cpp:788
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "All Images"
 msgstr "Cuir Íomhá Leis"
 
-#: src/titler/titlewidget.cpp:794
+#: src/titler/titlewidget.cpp:790
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "%1 Image"
 msgstr "Íomhá"
 
-#: src/titler/titlewidget.cpp:1628
+#: src/titler/titlewidget.cpp:1624
 #, kde-format
 msgid "−X"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1630 src/ui/titlewidget_ui.ui:256
+#: src/titler/titlewidget.cpp:1626 src/ui/titlewidget_ui.ui:256
 #, kde-format
 msgid "+X"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:1652
+#: src/titler/titlewidget.cpp:1648
 #, kde-format
 msgid "−Y"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1654 src/ui/titlewidget_ui.ui:286
+#: src/titler/titlewidget.cpp:1650 src/ui/titlewidget_ui.ui:286
 #, kde-format
 msgid "+Y"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2121
+#: src/titler/titlewidget.cpp:2117
 #, kde-format
 msgid "Load Title"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2122
+#: src/titler/titlewidget.cpp:2118
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2168
+#: src/titler/titlewidget.cpp:2164
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2233
+#: src/titler/titlewidget.cpp:2229
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "This title has 1 missing element"
@@ -15315,48 +15178,48 @@ msgstr[2] "Scrios comhaid"
 msgstr[3] "Scrios comhaid"
 msgstr[4] "Scrios comhaid"
 
-#: src/titler/titlewidget.cpp:2234 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2230 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2237
+#: src/titler/titlewidget.cpp:2233
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete missing elements"
 msgstr "Scrios comhaid"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2293
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Update Title"
 msgstr "Nuashonraigh próifíl"
 
-#: src/titler/titlewidget.cpp:2300
+#: src/titler/titlewidget.cpp:2296
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Add as new Title"
 msgstr "Nuashonraigh próifíl"
 
-#: src/titler/titlewidget.cpp:2354
+#: src/titler/titlewidget.cpp:2350
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2548
+#: src/titler/titlewidget.cpp:2544
 #, fuzzy, kde-format
 #| msgid "Start at"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Tosaigh ag"
 
-#: src/titler/titlewidget.cpp:2549
+#: src/titler/titlewidget.cpp:2545
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3266
+#: src/titler/titlewidget.cpp:3262
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Gradient"
@@ -15714,7 +15577,6 @@ msgstr ""
 msgid "Delete current point."
 msgstr "Scrios an Phróifíl"
 
-#. i18n: ectx: property (text), widget (QToolButton, rec_options)
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
@@ -15723,47 +15585,27 @@ msgstr "Scrios an Phróifíl"
 #. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
 #. i18n: ectx: property (text), widget (QToolButton, button_add)
-#. i18n: ectx: property (text), widget (QToolButton, add_preset)
-#. i18n: ectx: property (text), widget (QToolButton, remove_preset)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
 #. i18n: ectx: property (text), widget (QToolButton, arrowUp)
 #. i18n: ectx: property (text), widget (QToolButton, arrowDown)
 #. i18n: ectx: property (text), widget (QToolButton, toolBtnReload)
 #. i18n: ectx: property (text), widget (QToolButton, rescale_keep)
 #. i18n: ectx: property (text), widget (QToolButton, hide_log)
-#. i18n: ectx: property (text), widget (QToolButton, effectsAll)
-#. i18n: ectx: property (text), widget (QToolButton, effectsVideo)
-#. i18n: ectx: property (text), widget (QToolButton, effectsAudio)
-#. i18n: ectx: property (text), widget (QToolButton, effectsGPU)
-#. i18n: ectx: property (text), widget (QToolButton, effectsCustom)
 #. i18n: ectx: property (text), widget (QToolButton, reload_blackmagic)
 #. i18n: ectx: property (text), widget (QToolButton, button_edit)
 #. i18n: ectx: property (text), widget (QToolButton, button_download)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomin)
 #. i18n: ectx: property (text), widget (QToolButton, button_zoomout)
-#. i18n: ectx: property (text), widget (QToolButton, toolButton)
-#. i18n: ectx: property (text), widget (QToolButton, buttonLeftRight)
-#. i18n: ectx: property (text), widget (QToolButton, buttonUpDown)
-#. i18n: ectx: property (text), widget (QToolButton, buttonShowInTimeline)
-#. i18n: ectx: property (text), widget (QToolButton, buttonNewPoints)
-#. i18n: ectx: property (text), widget (QToolButton, buttonHelp)
-#. i18n: ectx: property (text), widget (QToolButton, buttonUp)
-#. i18n: ectx: property (text), widget (QToolButton, buttonDown)
-#. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
-#. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#. i18n: ectx: property (text), widget (QToolButton, buttonReset)
 #. i18n: ectx: property (text), widget (QToolButton, preset_button)
 #. i18n: ectx: property (text), widget (QToolButton, checkProxy)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_showprofileinfo)
 #. i18n: ectx: property (text), widget (QToolButton, proxy_manageprofile)
 #. i18n: ectx: property (text), widget (QToolButton, add_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, delete_metadata)
-#. i18n: ectx: property (text), widget (QToolButton, buttonAddDelete)
-#. i18n: ectx: property (text), widget (QToolButton, buttonPrevious)
-#. i18n: ectx: property (text), widget (QToolButton, buttonNext)
 #. i18n: ectx: property (text), widget (QToolButton, remove_gradient)
 #. i18n: ectx: property (text), widget (QToolButton, add_gradient)
 #. i18n: ectx: property (text), widget (QToolButton, infoButton)
+#. i18n: ectx: property (text), widget (QToolButton, buttonReset)
 #. i18n: ectx: property (text), widget (QToolButton, button_center_top)
 #. i18n: ectx: property (text), widget (QToolButton, button_center)
 #. i18n: ectx: property (text), widget (QToolButton, button_prev)
@@ -15776,6 +15618,8 @@ msgstr "Scrios an Phróifíl"
 #. i18n: ectx: property (text), widget (QToolButton, enabledButton)
 #. i18n: ectx: property (text), widget (QToolButton, presetButton)
 #. i18n: ectx: property (text), widget (QToolButton, saveEffectButton)
+#. i18n: ectx: property (text), widget (QToolButton, buttonUp)
+#. i18n: ectx: property (text), widget (QToolButton, buttonDown)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDel)
 #. i18n: ectx: property (text), widget (QToolButton, buttonInsertUnicode)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAlignCenter)
@@ -15808,85 +15652,69 @@ msgstr "Scrios an Phróifíl"
 #. i18n: ectx: property (text), widget (QToolButton, delPreview)
 #. i18n: ectx: property (text), widget (QToolButton, delCurrent)
 #. i18n: ectx: property (text), widget (QToolButton, help_cached)
-#. i18n: ectx: property (text), widget (QToolButton, buttonResetKeyframe)
-#. i18n: ectx: property (text), widget (QToolButton, buttonSeek)
-#. i18n: ectx: property (text), widget (QToolButton, buttonDirectUpdate)
-#. i18n: ectx: property (text), widget (QToolButton, buttonZoomOriginal)
-#. i18n: ectx: property (text), widget (QToolButton, buttonZoomFit)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
+#. i18n: ectx: property (text), widget (QToolButton, buttonNext)
+#. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonCut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonApply)
 #. i18n: ectx: property (text), widget (QToolButton, buttonStyle)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
-#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
+#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
+#. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
-#: src/ui/bezierspline_ui.ui:65 src/ui/bezierspline_ui.ui:86
-#: src/ui/bezierspline_ui.ui:109 src/ui/bezierspline_ui.ui:122
-#: src/ui/bezierspline_ui.ui:141 src/ui/bezierspline_ui.ui:154
-#: src/ui/bezierspline_ui.ui:167 src/ui/bezierspline_ui.ui:180
-#: src/ui/clipspeed_ui.ui:85 src/ui/clipstabilize_ui.ui:67
-#: src/ui/collapsiblewidget_ui.ui:99 src/ui/collapsiblewidget_ui.ui:125
-#: src/ui/collapsiblewidget_ui.ui:135 src/ui/collapsiblewidget_ui.ui:145
-#: src/ui/collapsiblewidget_ui.ui:158 src/ui/collapsiblewidget_ui.ui:171
-#: src/ui/collapsiblewidget_ui.ui:184 src/ui/collapsiblewidget_ui.ui:194
-#: src/ui/collapsiblewidget_ui.ui:204 src/ui/configjogshuttle_ui.ui:78
-#: src/ui/configsdl_ui.ui:162 src/ui/configspeech_ui.ui:33
-#: src/ui/configspeech_ui.ui:77 src/ui/cutjobdialog_ui.ui:80
-#: src/ui/editrenderpreset_ui.ui:703 src/ui/editsub_ui.ui:19
-#: src/ui/editsub_ui.ui:29 src/ui/editsub_ui.ui:39 src/ui/editsub_ui.ui:46
-#: src/ui/editsub_ui.ui:53 src/ui/editsub_ui.ui:60 src/ui/editsub_ui.ui:138
-#: src/ui/editsub_ui.ui:155 src/ui/editsub_ui.ui:172 src/ui/editsub_ui.ui:378
-#: src/ui/effectlist_ui.ui:83 src/ui/effectlist_ui.ui:102
-#: src/ui/effectlist_ui.ui:118 src/ui/effectlist_ui.ui:134
-#: src/ui/effectlist_ui.ui:150 src/ui/exportguidesdialog_ui.ui:122
-#: src/ui/exportguidesdialog_ui.ui:142 src/ui/geometrywidget_ui.ui:70
-#: src/ui/geometrywidget_ui.ui:83 src/ui/geometrywidget_ui.ui:93
-#: src/ui/gradientedit_ui.ui:126 src/ui/gradientedit_ui.ui:143
-#: src/ui/keyframeeditor_ui.ui:91 src/ui/keyframeeditor_ui.ui:101
-#: src/ui/keyframewidget_ui.ui:46 src/ui/keyframewidget_ui.ui:59
-#: src/ui/keyframewidget_ui.ui:72 src/ui/keyframewidget_ui.ui:85
-#: src/ui/keyframewidget_ui.ui:124 src/ui/listdependencyparamwidget_ui.ui:42
-#: src/ui/managecache_ui.ui:61 src/ui/managecache_ui.ui:112
-#: src/ui/managecache_ui.ui:143 src/ui/managecache_ui.ui:198
-#: src/ui/managecache_ui.ui:229 src/ui/managecache_ui.ui:287
-#: src/ui/manageencodingprofile_ui.ui:44 src/ui/manageencodingprofile_ui.ui:51
-#: src/ui/manageencodingprofile_ui.ui:58 src/ui/manageencodingprofile_ui.ui:68
-#: src/ui/monitoreditwidget_ui.ui:53 src/ui/monitoreditwidget_ui.ui:66
-#: src/ui/monitoreditwidget_ui.ui:76 src/ui/projectsettings_ui.ui:264
+#: src/ui/bezierspline_ui.ui:65 src/ui/bezierspline_ui.ui:90
+#: src/ui/bezierspline_ui.ui:117 src/ui/bezierspline_ui.ui:133
+#: src/ui/bezierspline_ui.ui:152 src/ui/bezierspline_ui.ui:168
+#: src/ui/bezierspline_ui.ui:185 src/ui/bezierspline_ui.ui:202
+#: src/ui/clipstabilize_ui.ui:70 src/ui/collapsiblewidget_ui.ui:99
+#: src/ui/collapsiblewidget_ui.ui:125 src/ui/collapsiblewidget_ui.ui:135
+#: src/ui/collapsiblewidget_ui.ui:145 src/ui/collapsiblewidget_ui.ui:158
+#: src/ui/collapsiblewidget_ui.ui:171 src/ui/collapsiblewidget_ui.ui:184
+#: src/ui/collapsiblewidget_ui.ui:194 src/ui/collapsiblewidget_ui.ui:204
+#: src/ui/configjogshuttle_ui.ui:78 src/ui/configsdl_ui.ui:162
+#: src/ui/configspeech_ui.ui:33 src/ui/configspeech_ui.ui:77
+#: src/ui/cutjobdialog_ui.ui:80 src/ui/editrenderpreset_ui.ui:703
+#: src/ui/editsub_ui.ui:19 src/ui/editsub_ui.ui:29 src/ui/editsub_ui.ui:39
+#: src/ui/editsub_ui.ui:50 src/ui/editsub_ui.ui:61 src/ui/editsub_ui.ui:72
+#: src/ui/editsub_ui.ui:131 src/ui/editsub_ui.ui:152 src/ui/editsub_ui.ui:185
+#: src/ui/editsub_ui.ui:419 src/ui/exportguidesdialog_ui.ui:118
+#: src/ui/exportguidesdialog_ui.ui:138 src/ui/gradientedit_ui.ui:126
+#: src/ui/gradientedit_ui.ui:146 src/ui/managecache_ui.ui:61
+#: src/ui/managecache_ui.ui:112 src/ui/managecache_ui.ui:143
+#: src/ui/managecache_ui.ui:198 src/ui/managecache_ui.ui:229
+#: src/ui/managecache_ui.ui:287 src/ui/manageencodingprofile_ui.ui:44
+#: src/ui/manageencodingprofile_ui.ui:55 src/ui/manageencodingprofile_ui.ui:66
+#: src/ui/manageencodingprofile_ui.ui:80 src/ui/projectsettings_ui.ui:264
 #: src/ui/projectsettings_ui.ui:271 src/ui/projectsettings_ui.ui:281
 #: src/ui/projectsettings_ui.ui:554 src/ui/projectsettings_ui.ui:561
-#: src/ui/qtextclip_ui.ui:90 src/ui/recmonitor_ui.ui:72
-#: src/ui/renderwidget_ui.ui:554 src/ui/renderwidget_ui.ui:988
-#: src/ui/resourcewidget_ui.ui:210 src/ui/resourcewidget_ui.ui:277
-#: src/ui/selectivecolor_ui.ui:29 src/ui/selectivecolor_ui.ui:36
-#: src/ui/speechdialog_ui.ui:95 src/ui/textbasededit_ui.ui:58
-#: src/ui/textbasededit_ui.ui:87 src/ui/textbasededit_ui.ui:104
-#: src/ui/textbasededit_ui.ui:175 src/ui/textbasededit_ui.ui:195
-#: src/ui/textbasededit_ui.ui:205 src/ui/textbasededit_ui.ui:215
-#: src/ui/textbasededit_ui.ui:225 src/ui/timeremap_ui.ui:96
-#: src/ui/timeremap_ui.ui:150 src/ui/timeremap_ui.ui:181
-#: src/ui/timeremap_ui.ui:191 src/ui/timeremap_ui.ui:201
-#: src/ui/timeremap_ui.ui:378 src/ui/titlewidget_ui.ui:826
-#: src/ui/titlewidget_ui.ui:836 src/ui/titlewidget_ui.ui:1041
-#: src/ui/titlewidget_ui.ui:1096 src/ui/titlewidget_ui.ui:1146
-#: src/ui/titlewidget_ui.ui:1169 src/ui/titlewidget_ui.ui:1202
-#: src/ui/titlewidget_ui.ui:1292 src/ui/titlewidget_ui.ui:1590
-#: src/ui/titlewidget_ui.ui:1607 src/ui/titlewidget_ui.ui:1621
-#: src/ui/titlewidget_ui.ui:1688 src/ui/titlewidget_ui.ui:1702
-#: src/ui/titlewidget_ui.ui:1716 src/ui/titlewidget_ui.ui:1730
-#: src/ui/titlewidget_ui.ui:1744 src/ui/titlewidget_ui.ui:1758
-#: src/ui/tracksconfigdialog_ui.ui:51 src/ui/tracksconfigdialog_ui.ui:58
-#: src/ui/tracksconfigdialog_ui.ui:65 src/ui/tracksconfigdialog_ui.ui:72
-#: src/ui/tracksconfigdialog_ui.ui:79 src/ui/unicodewidget_ui.ui:197
+#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:554
+#: src/ui/renderwidget_ui.ui:988 src/ui/resourcewidget_ui.ui:210
+#: src/ui/resourcewidget_ui.ui:277 src/ui/speechdialog_ui.ui:95
+#: src/ui/textbasededit_ui.ui:57 src/ui/textbasededit_ui.ui:90
+#: src/ui/textbasededit_ui.ui:110 src/ui/textbasededit_ui.ui:184
+#: src/ui/textbasededit_ui.ui:207 src/ui/textbasededit_ui.ui:220
+#: src/ui/textbasededit_ui.ui:234 src/ui/textbasededit_ui.ui:250
+#: src/ui/timeremap_ui.ui:96 src/ui/timeremap_ui.ui:150
+#: src/ui/timeremap_ui.ui:181 src/ui/timeremap_ui.ui:191
+#: src/ui/timeremap_ui.ui:201 src/ui/timeremap_ui.ui:378
+#: src/ui/titlewidget_ui.ui:826 src/ui/titlewidget_ui.ui:836
+#: src/ui/titlewidget_ui.ui:1041 src/ui/titlewidget_ui.ui:1096
+#: src/ui/titlewidget_ui.ui:1146 src/ui/titlewidget_ui.ui:1169
+#: src/ui/titlewidget_ui.ui:1202 src/ui/titlewidget_ui.ui:1292
+#: src/ui/titlewidget_ui.ui:1590 src/ui/titlewidget_ui.ui:1607
+#: src/ui/titlewidget_ui.ui:1621 src/ui/titlewidget_ui.ui:1688
+#: src/ui/titlewidget_ui.ui:1702 src/ui/titlewidget_ui.ui:1716
+#: src/ui/titlewidget_ui.ui:1730 src/ui/titlewidget_ui.ui:1744
+#: src/ui/titlewidget_ui.ui:1758 src/ui/unicodewidget_ui.ui:197
 #: src/ui/unicodewidget_ui.ui:222 src/ui/urllistparamwidget_ui.ui:119
 #, kde-format
 msgid "..."
 msgstr "..."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonLinkHandles)
-#: src/ui/bezierspline_ui.ui:83
+#: src/ui/bezierspline_ui.ui:87
 #, kde-format
 msgid ""
 "Link the handles' position for current point.<br />Results in a natural "
@@ -15894,20 +15722,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetSpline)
-#: src/ui/bezierspline_ui.ui:106
+#: src/ui/bezierspline_ui.ui:114
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Reset the selected spline."
 msgstr "Scrios an Mhír Roghnaithe"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowPixmap)
-#: src/ui/bezierspline_ui.ui:119
+#: src/ui/bezierspline_ui.ui:130
 #, kde-format
 msgid "Show background indicating changes caused by modifying the curve."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonGridChange)
-#: src/ui/bezierspline_ui.ui:138
+#: src/ui/bezierspline_ui.ui:149
 #, kde-format
 msgid ""
 "Increases the number of lines in the grid.<br />After 8 lines it will begin "
@@ -15915,7 +15743,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
-#: src/ui/bezierspline_ui.ui:177
+#: src/ui/bezierspline_ui.ui:199
 #, kde-format
 msgid "Show handles for all points or only for the selected one."
 msgstr ""
@@ -15933,15 +15761,6 @@ msgstr ""
 msgid "TextLabel"
 msgstr "Lipéad"
 
-#. i18n: ectx: property (text), widget (QLabel, position_label)
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#: src/ui/clipdurationdialog_ui.ui:20 src/ui/editsub_ui.ui:131
-#: src/ui/keyframedialog_ui.ui:20
-#, fuzzy, kde-format
-#| msgid "Position"
-msgid "Position:"
-msgstr "Ionad"
-
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
 #: src/ui/clipdurationdialog_ui.ui:30
 #, fuzzy, kde-format
@@ -15949,15 +15768,23 @@ msgstr "Ionad"
 msgid "Crop start:"
 msgstr "Cóipcheart"
 
+#. i18n: ectx: property (text), widget (QLabel, position_label)
+#. i18n: ectx: property (text), widget (QLabel, label_position)
+#: src/ui/clipdurationdialog_ui.ui:37 src/ui/editsub_ui.ui:178
+#, fuzzy, kde-format
+#| msgid "Position"
+msgid "Position:"
+msgstr "Ionad"
+
 #. i18n: ectx: property (text), widget (QLabel, end_label)
-#: src/ui/clipdurationdialog_ui.ui:50
+#: src/ui/clipdurationdialog_ui.ui:80
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Crop end:"
 msgstr "Ailínigh ar chlé"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dest)
-#: src/ui/clipspeed_ui.ui:22 src/ui/clipstabilize_ui.ui:84
+#: src/ui/clipspeed_ui.ui:22 src/ui/clipstabilize_ui.ui:90
 #: src/ui/cliptranscode_ui.ui:83
 #, fuzzy, kde-format
 #| msgid "Description"
@@ -15965,7 +15792,7 @@ msgid "Destination"
 msgstr "Cur Síos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
-#: src/ui/clipspeed_ui.ui:111
+#: src/ui/clipspeed_ui.ui:104
 #, fuzzy, kde-format
 #| msgid "Reverse"
 msgid "Reverse clip"
@@ -15985,7 +15812,7 @@ msgid "Add stabilized clip to project"
 msgstr "Cuir rian leis"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_replace)
-#: src/ui/clipstabilize_ui.ui:77
+#: src/ui/clipstabilize_ui.ui:83
 #, kde-format
 msgid "Replace original clip with stabilized clip"
 msgstr ""
@@ -16032,12 +15859,12 @@ msgstr "Próifíl"
 
 #. i18n: ectx: property (text), widget (QCheckBox, auto_add)
 #. i18n: ectx: property (text), widget (QCheckBox, add_clip)
-#: src/ui/cliptranscode_ui.ui:157 src/ui/cutjobdialog_ui.ui:93
+#: src/ui/cliptranscode_ui.ui:157 src/ui/cutjobdialog_ui.ui:96
 #, kde-format
 msgid "Add clip to project"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, label_color)
 #: src/ui/colorclip_ui.ui:30
 #, fuzzy, kde-format
 #| msgid "Color"
@@ -16087,9 +15914,8 @@ msgstr "Ainm comhaid"
 msgid "Default capture device"
 msgstr "Gléas aschurtha"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, device_selector)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
-#: src/ui/configcapture_ui.ui:31 src/ui/recmonitor_ui.ui:144
+#: src/ui/configcapture_ui.ui:31
 #, kde-format
 msgid "Screen grab"
 msgstr ""
@@ -16116,7 +15942,7 @@ msgid "Video device:"
 msgstr "(Dí-)Comhbhrú Físe"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: src/ui/configcapture_ui.ui:86 src/ui/wizardcapture_ui.ui:57
+#: src/ui/configcapture_ui.ui:86
 #, kde-format
 msgid "Capture format:"
 msgstr "Formáid ghabhála:"
@@ -16144,6 +15970,13 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:131
 #, kde-format
 msgid "59/54"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_dar)
+#. i18n: ectx: property (text), widget (QLabel, label_31)
+#: src/ui/configcapture_ui.ui:138 src/ui/profiledialog_ui.ui:101
+#, kde-format
+msgid "Display aspect ratio:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, p_display)
@@ -16665,8 +16498,7 @@ msgid "Open last project on startup"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_crashrecovery)
-#. i18n: ectx: property (text), widget (QCheckBox, autosave)
-#: src/ui/configmisc_ui.ui:31 src/ui/wizardextra_ui.ui:59
+#: src/ui/configmisc_ui.ui:31
 #, kde-format
 msgid "Activate crash recovery (auto save)"
 msgstr ""
@@ -17514,77 +17346,77 @@ msgstr ""
 msgid "Enable manual editing"
 msgstr "Ilchodach"
 
-#. i18n: ectx: property (text), widget (QLabel, duration_label)
-#: src/ui/editsub_ui.ui:148
+#. i18n: ectx: property (text), widget (QLabel, label_end)
+#: src/ui/editsub_ui.ui:142
 #, kde-format
 msgid "End:"
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#: src/ui/editsub_ui.ui:222 src/ui/editsub_ui.ui:323
+#: src/ui/editsub_ui.ui:263 src/ui/editsub_ui.ui:364
 #, fuzzy, kde-format
 #| msgid "x"
 msgid "px"
 msgstr "x"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:232
+#: src/ui/editsub_ui.ui:273
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Shadow"
 msgstr "Cruthaigh Fillteán"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:239
+#: src/ui/editsub_ui.ui:280
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Font"
 msgstr "Cruthaigh Fillteán"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:249
+#: src/ui/editsub_ui.ui:290
 #, kde-format
 msgid "pt"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:275
+#: src/ui/editsub_ui.ui:316
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Font Color"
 msgstr "Cruthaigh Fillteán"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:282
+#: src/ui/editsub_ui.ui:323
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Custom Position"
 msgstr "Ilchodach"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:289
+#: src/ui/editsub_ui.ui:330
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Custom Font Size"
 msgstr "Clómhéid"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:337
+#: src/ui/editsub_ui.ui:378
 #, fuzzy, kde-format
 #| msgid "Outline"
 msgid "Custom Outline Color"
 msgstr "Imlíne"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:344
+#: src/ui/editsub_ui.ui:385
 #, fuzzy, kde-format
 #| msgid "Quality"
 msgid "Custom Outline Size"
 msgstr "Cáilíocht"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:351
+#: src/ui/editsub_ui.ui:392
 #, fuzzy, kde-format
 #| msgid "Show background"
 msgid "Opaque background"
@@ -17621,21 +17453,21 @@ msgstr "Bain Amach"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
-#: src/ui/exportguidesdialog_ui.ui:110 src/ui/titlewidget_ui.ui:790
+#: src/ui/exportguidesdialog_ui.ui:106 src/ui/titlewidget_ui.ui:790
 #, fuzzy, kde-format
 #| msgid "Offset"
 msgid "Offset:"
 msgstr "Fritháireamh"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/exportguidesdialog_ui.ui:155
+#: src/ui/exportguidesdialog_ui.ui:151
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Exported:"
 msgstr "Tionscadal"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
-#: src/ui/exportguidesdialog_ui.ui:165
+#: src/ui/exportguidesdialog_ui.ui:161
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
 msgstr ""
@@ -17735,92 +17567,6 @@ msgstr ""
 #, kde-format
 msgid "Import at timeline cursor position"
 msgstr ""
-
-#. i18n: ectx: property (windowTitle), widget (QDialog, KeyFrameDialog_UI)
-#: src/ui/keyframedialog_ui.ui:14
-#, kde-format
-msgid "Edit Keyframe"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#: src/ui/keyframedialog_ui.ui:27
-#, fuzzy, kde-format
-#| msgid "Value"
-msgid "Value:"
-msgstr "Luach"
-
-#. i18n: ectx: property (text), widget (QToolButton, buttonSelectAll)
-#. i18n: ectx: property (text), widget (QToolButton, button_add)
-#: src/ui/keyframeeditor_ui.ui:68 src/ui/titlewidget_ui.ui:486
-#, kde-format
-msgid "A"
-msgstr "A"
-
-#. i18n: ectx: property (text), widget (QToolButton, button_delete)
-#: src/ui/keyframeeditor_ui.ui:78 src/ui/profiledialog_ui.ui:47
-#, kde-format
-msgid "D"
-msgstr "D"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetKeyframe)
-#: src/ui/keyframeeditor_ui.ui:88
-#, kde-format
-msgid "Reset the parameters to their default values."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonSeek)
-#: src/ui/keyframeeditor_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Remove file"
-msgid "Seek to active keyframe."
-msgstr "Bain an comhad"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonKeyframes)
-#: src/ui/keyframeeditor_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Add Markers"
-msgid "Add keyframes."
-msgstr "Cuir Marcóirí Leis"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonLeftRight)
-#: src/ui/keyframewidget_ui.ui:43
-#, kde-format
-msgid "Move on X axis."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonUpDown)
-#: src/ui/keyframewidget_ui.ui:56
-#, kde-format
-msgid "Move on Y axis."
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowInTimeline)
-#: src/ui/keyframewidget_ui.ui:69
-#, fuzzy, kde-format
-#| msgid "Add Markers"
-msgid "Update values in timeline."
-msgstr "Cuir Marcóirí Leis"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonNewPoints)
-#: src/ui/keyframewidget_ui.ui:82
-#, fuzzy, kde-format
-#| msgid "Create Region"
-msgid "Create new points."
-msgstr "Cruthaigh Réigiún"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox)
-#: src/ui/keyframewidget_ui.ui:105
-#, fuzzy, kde-format
-#| msgid "View"
-msgid "GraphView"
-msgstr "Amharc"
-
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonHelp)
-#: src/ui/keyframewidget_ui.ui:121
-#, fuzzy, kde-format
-#| msgid "Description"
-msgid "Parameter description."
-msgstr "Cur Síos"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:38
@@ -18185,6 +17931,12 @@ msgstr "C"
 msgid "Delete profile"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QToolButton, button_delete)
+#: src/ui/profiledialog_ui.ui:47
+#, kde-format
+msgid "D"
+msgstr "D"
+
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -18414,14 +18166,14 @@ msgstr "Scrios comhaid"
 msgid "Clips used in project:"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, textLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:35
 #, fuzzy, kde-format
 #| msgid "Text"
 msgid "Text:"
 msgstr "Téacs"
 
-#. i18n: ectx: property (text), widget (QLabel, fontLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_font)
 #: src/ui/qtextclip_ui.ui:45
 #, fuzzy, kde-format
 #| msgid "Font"
@@ -18435,7 +18187,6 @@ msgstr "Cló"
 msgid "Weight:"
 msgstr "Airde"
 
-#. i18n: ectx: property (text), widget (QLabel, outlineLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
 #: src/ui/qtextclip_ui.ui:126 src/ui/titlewidget_ui.ui:915
 #, fuzzy, kde-format
@@ -18443,7 +18194,7 @@ msgstr "Airde"
 msgid "Outline:"
 msgstr "Imlíne"
 
-#. i18n: ectx: property (text), widget (QLabel, bgLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_bg)
 #. i18n: ectx: property (text), widget (QLabel, lblBackground)
 #: src/ui/qtextclip_ui.ui:160 src/ui/vectorscope_ui.ui:46
 #, fuzzy, kde-format
@@ -18451,30 +18202,12 @@ msgstr "Imlíne"
 msgid "Background:"
 msgstr "Cúlra"
 
-#. i18n: ectx: property (text), widget (QLabel, padLabel)
+#. i18n: ectx: property (text), widget (QLabel, label_padding)
 #: src/ui/qtextclip_ui.ui:180
 #, fuzzy, kde-format
 #| msgid "Padding"
 msgid "Padding:"
 msgstr "Stuáil"
-
-#. i18n: ectx: property (text), widget (QLabel, video_frame)
-#: src/ui/recmonitor_ui.ui:35
-#, kde-format
-msgid "Not connected"
-msgstr "Gan cheangal"
-
-#. i18n: ectx: property (text), item, widget (KComboBox, device_selector)
-#: src/ui/recmonitor_ui.ui:134
-#, kde-format
-msgid "Firewire"
-msgstr ""
-
-#. i18n: ectx: property (text), item, widget (KComboBox, device_selector)
-#: src/ui/recmonitor_ui.ui:149
-#, kde-format
-msgid "Blackmagic card"
-msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:14
@@ -18918,38 +18651,6 @@ msgstr "Frámaí"
 msgid "Add clip markers:"
 msgstr "Cuir marcóir leis"
 
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/selectivecolor_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Reset"
-msgid "Preset"
-msgstr "Athshocraigh"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/selectivecolor_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Color Space"
-msgid "Color range"
-msgstr "Spás Datha"
-
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/selectivecolor_ui.ui:88
-#, kde-format
-msgid "Magenta"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, absolute)
-#: src/ui/selectivecolor_ui.ui:189
-#, kde-format
-msgid "Absol&ute"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, relative)
-#: src/ui/selectivecolor_ui.ui:196
-#, kde-format
-msgid "Re&lative"
-msgstr ""
-
 #. i18n: ectx: property (windowTitle), widget (QDialog, SlideshowClip_UI)
 #: src/ui/slideshowclip_ui.ui:14
 #, kde-format
@@ -19031,9 +18732,8 @@ msgstr "Cineál Íomhá"
 msgid "First frame"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, sm_loop)
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
-#: src/ui/slideshowclip_ui.ui:263 src/ui/smconfig_ui.ui:26
+#: src/ui/slideshowclip_ui.ui:263
 #, kde-format
 msgid "Loop"
 msgstr "Lúb"
@@ -19057,32 +18757,6 @@ msgstr "Beochan"
 msgid "Low pass"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/smconfig_ui.ui:33
-#, kde-format
-msgid "Number of frames to play (0 to play all frames)"
-msgstr ""
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: src/ui/smconfig_ui.ui:73
-#, fuzzy, kde-format
-#| msgid "Interval"
-msgid "Interval Capture"
-msgstr "Eatramh"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/smconfig_ui.ui:79
-#, fuzzy, kde-format
-#| msgid "Capture"
-msgid "Capture delay"
-msgstr "Gabh"
-
-#. i18n: ectx: property (text), widget (QCheckBox, sm_prenotify)
-#: src/ui/smconfig_ui.ui:96
-#, kde-format
-msgid "Notify before capture"
-msgstr ""
-
 #. i18n: ectx: property (windowTitle), widget (QDialog, SpacerDialog_UI)
 #: src/ui/spacerdialog_ui.ui:14
 #, fuzzy, kde-format
@@ -19091,7 +18765,7 @@ msgid "Add Space"
 msgstr "Cuir rian leis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, insert_all_tracks)
-#: src/ui/spacerdialog_ui.ui:53
+#: src/ui/spacerdialog_ui.ui:40
 #, kde-format
 msgid "Insert space in all tracks"
 msgstr ""
@@ -19150,24 +18824,37 @@ msgid "File Size"
 msgstr "Méid an chomhaid"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
-#: src/ui/textbasededit_ui.ui:94
+#: src/ui/textbasededit_ui.ui:100
 #, kde-format
 msgid "Search"
 msgstr "Cuardaigh"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:132
+#: src/ui/textbasededit_ui.ui:141
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Start recognition"
 msgstr "Roghnú"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:188
+#: src/ui/textbasededit_ui.ui:200
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Selected zone only"
 msgstr "Roghnú"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_insert)
+#: src/ui/textbasededit_ui.ui:217
+#, fuzzy, kde-format
+#| msgid "Timeline"
+msgid "Insert selected blocks in timeline"
+msgstr "Amlíne"
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
+#: src/ui/textbasededit_ui.ui:247
+#, kde-format
+msgid "Save edited text in a new playlist"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, TimeRemap_UI)
 #: src/ui/timeremap_ui.ui:14
@@ -19183,14 +18870,14 @@ msgstr "Formáidí"
 msgid "Output"
 msgstr "Aschomhad"
 
-#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, label_sourceTC)
 #: src/ui/timeremap_ui.ui:252
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "Source time"
 msgstr "Foinse"
 
-#. i18n: ectx: property (text), widget (QLabel, label_8)
+#. i18n: ectx: property (text), widget (QLabel, label_outputTC)
 #: src/ui/timeremap_ui.ui:266
 #, fuzzy, kde-format
 #| msgid "Output file"
@@ -19328,6 +19015,12 @@ msgstr "Taispeáin conair"
 #, kde-format
 msgid "Selects all items on the canvas."
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, buttonSelectAll)
+#: src/ui/titlewidget_ui.ui:486
+#, kde-format
+msgid "A"
+msgstr "A"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
 #: src/ui/titlewidget_ui.ui:540
@@ -19618,12 +19311,6 @@ msgstr "Láraigh go hingearach"
 msgid "Align item to bottom."
 msgstr ""
 
-#. i18n: ectx: property (windowTitle), widget (QDialog, TracksConfigDialog_UI)
-#: src/ui/tracksconfigdialog_ui.ui:14
-#, kde-format
-msgid "Configure Tracks"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/transcodeseekable_ui.ui:20
 #, fuzzy, kde-format
@@ -19638,13 +19325,6 @@ msgid ""
 "The following clips are not usable for editing. This will transcode them in "
 "an edit friendly format and replace the original ones in your project."
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/transitionsettings_ui.ui:23
-#, fuzzy, kde-format
-#| msgid "Track"
-msgid "track"
-msgstr "Amhrán"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:20
@@ -19671,101 +19351,6 @@ msgstr "Tosaigh"
 #| msgid "Transparency"
 msgid "Transparency:"
 msgstr "Trédhearcacht"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_reload)
-#: src/ui/wizardcapture_ui.ui:17
-#, kde-format
-msgid "Check"
-msgstr "Seiceáil"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/wizardextra_ui.ui:16
-#, kde-format
-msgid "Default folder for project files"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, videothumbs)
-#: src/ui/wizardextra_ui.ui:35
-#, kde-format
-msgid "Show video thumbnails"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, audiothumbs)
-#: src/ui/wizardextra_ui.ui:42
-#, kde-format
-msgid "Show audio thumbnails"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, installmimes)
-#: src/ui/wizardextra_ui.ui:66
-#, kde-format
-msgid "Install extra video MIME types"
-msgstr ""
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/wizardmltcheck_ui.ui:21
-#, kde-format
-msgid "Installed modules"
-msgstr ""
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/wizardmltcheck_ui.ui:63
-#, kde-format
-msgid "Available Codecs (avformat)"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wizardmltcheck_ui.ui:90
-#, kde-format
-msgid "Formats"
-msgstr "Formáidí"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/wizardmltcheck_ui.ui:97
-#, fuzzy, kde-format
-#| msgid "Video codec"
-msgid "Video Codecs"
-msgstr "(Dí-)Comhbhrú Físe"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/wizardmltcheck_ui.ui:104
-#, fuzzy, kde-format
-#| msgid "Audio codec"
-msgid "Audio Codecs"
-msgstr "(Dí-)Comhbhrú Fuaime"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wizardstandard_ui.ui:17
-#, kde-format
-msgid "Please set your default video profile"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/wizardstandard_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Resolution"
-msgid "Video Resolution"
-msgstr "Taifeach"
-
-#. i18n: ectx: property (text), widget (QRadioButton, button_dv)
-#: src/ui/wizardstandard_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "DVD"
-msgid "DV"
-msgstr "DVD"
-
-#. i18n: ectx: property (text), widget (QRadioButton, button_hdv)
-#: src/ui/wizardstandard_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "DVD"
-msgid "HDV"
-msgstr "DVD"
-
-#. i18n: ectx: property (text), widget (QRadioButton, button_all)
-#: src/ui/wizardstandard_ui.ui:61
-#, kde-format
-msgid "Show All"
-msgstr "Taispeáin Uile"
 
 #: src/widgets/colorpickerwidget.cpp:55
 #, kde-format
@@ -19898,6 +19483,118 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#~ msgid "Add folder"
+#~ msgstr "Cuir fillteán leis"
+
+#~ msgid "Hidden"
+#~ msgstr "Folaithe"
+
+#~ msgid "Muted"
+#~ msgstr "Gan fuaim"
+
+#~ msgid "Locked"
+#~ msgstr "Faoi Ghlas"
+
+#~ msgid "Composite"
+#~ msgstr "Ilchodach"
+
+#, fuzzy
+#~| msgid "Value"
+#~ msgid "Value:"
+#~ msgstr "Luach"
+
+#, fuzzy
+#~| msgid "Remove file"
+#~ msgid "Seek to active keyframe."
+#~ msgstr "Bain an comhad"
+
+#, fuzzy
+#~| msgid "Add Markers"
+#~ msgid "Add keyframes."
+#~ msgstr "Cuir Marcóirí Leis"
+
+#, fuzzy
+#~| msgid "Add Markers"
+#~ msgid "Update values in timeline."
+#~ msgstr "Cuir Marcóirí Leis"
+
+#, fuzzy
+#~| msgid "Create Region"
+#~ msgid "Create new points."
+#~ msgstr "Cruthaigh Réigiún"
+
+#, fuzzy
+#~| msgid "View"
+#~ msgid "GraphView"
+#~ msgstr "Amharc"
+
+#, fuzzy
+#~| msgid "Description"
+#~ msgid "Parameter description."
+#~ msgstr "Cur Síos"
+
+#~ msgid "Not connected"
+#~ msgstr "Gan cheangal"
+
+#, fuzzy
+#~| msgid "Reset"
+#~ msgid "Preset"
+#~ msgstr "Athshocraigh"
+
+#, fuzzy
+#~| msgid "Color Space"
+#~ msgid "Color range"
+#~ msgstr "Spás Datha"
+
+#, fuzzy
+#~| msgid "Interval"
+#~ msgid "Interval Capture"
+#~ msgstr "Eatramh"
+
+#, fuzzy
+#~| msgid "Capture"
+#~ msgid "Capture delay"
+#~ msgstr "Gabh"
+
+#, fuzzy
+#~| msgid "Track"
+#~ msgid "track"
+#~ msgstr "Amhrán"
+
+#~ msgid "Check"
+#~ msgstr "Seiceáil"
+
+#~ msgid "Formats"
+#~ msgstr "Formáidí"
+
+#, fuzzy
+#~| msgid "Video codec"
+#~ msgid "Video Codecs"
+#~ msgstr "(Dí-)Comhbhrú Físe"
+
+#, fuzzy
+#~| msgid "Audio codec"
+#~ msgid "Audio Codecs"
+#~ msgstr "(Dí-)Comhbhrú Fuaime"
+
+#, fuzzy
+#~| msgid "Resolution"
+#~ msgid "Video Resolution"
+#~ msgstr "Taifeach"
+
+#, fuzzy
+#~| msgid "DVD"
+#~ msgid "DV"
+#~ msgstr "DVD"
+
+#, fuzzy
+#~| msgid "DVD"
+#~ msgid "HDV"
+#~ msgstr "DVD"
+
+#~ msgid "Show All"
+#~ msgstr "Taispeáin Uile"
 
 #~ msgid "File size"
 #~ msgstr "Méid an chomhaid"
