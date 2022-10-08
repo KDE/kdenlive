@@ -1215,7 +1215,7 @@ bool EffectStackModel::checkConsistency()
             QVector<QPair<QString, QVariant>> params = allFilters[i]->getAllParameters();
             for (const auto &val : qAsConst(params)) {
                 // Check parameters values
-                if (val.second != QVariant(mltFilter->get(val.first.toUtf8().constData()))) {
+                if (val.second.toString() != QString(mltFilter->get(val.first.toUtf8().constData()))) {
                     qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: " << val.first << " = " << val.second
                              << " != " << mltFilter->get(val.first.toUtf8().constData());
                     return false;
