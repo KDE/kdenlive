@@ -222,7 +222,7 @@ install(DIRECTORY LICENSES DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 ecm_qt_install_logging_categories(
     EXPORT KDENLIVE
-    FILE kdenlive   .categories
+    FILE kdenlive.categories
     DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
 )
 
