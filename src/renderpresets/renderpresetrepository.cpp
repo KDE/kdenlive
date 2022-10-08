@@ -151,6 +151,7 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
                 QDomNode n = profilelist.at(i).cloneNode();
                 newprofiles.appendChild(newdoc.importNode(n, true));
             }
+            QFile file(exportFile);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 KMessageBox::error(nullptr, i18n("Unable to write to file %1", exportFile));
                 return;

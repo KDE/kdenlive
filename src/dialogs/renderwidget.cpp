@@ -1689,6 +1689,7 @@ void RenderWidget::parseScriptFiles()
             continue;
         }
         QTreeWidgetItem *item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << QString() << scriptpath.fileName());
+        QFile f(scriptpath.toLocalFile());
         auto icon = QFileIconProvider().icon(QFileInfo(f));
         item->setIcon(0, icon.isNull() ? QIcon::fromTheme(QStringLiteral("application-x-executable-script")) : icon);
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
