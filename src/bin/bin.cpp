@@ -5000,7 +5000,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         // Don't show this message if another one is active
         return;
     }
-    int requestedTracks = minimumTracksCount - pCore->projectManager()->tracksCount().second;
+    int requestedTracks = minimumTracksCount - pCore->projectManager()->avTracksCount().first;
     if (requestedTracks > 0) {
         if (clipId.isEmpty()) {
             clipId = m_monitor->activeClipId();

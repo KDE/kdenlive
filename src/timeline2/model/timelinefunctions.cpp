@@ -1582,6 +1582,9 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
        this is a video track, unless audioCopy is defined */
     container.setAttribute(QStringLiteral("masterTrack"), masterTrack);
     container.setAttribute(QStringLiteral("documentid"), pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid")));
+    QPair<int, int> avTracks = timeline->getAVtracksCount();
+    container.setAttribute(QStringLiteral("audioTracks"), avTracks.first);
+    container.setAttribute(QStringLiteral("videoTracks"), avTracks.second);
     QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
     container.appendChild(grp);
     std::unordered_set<int> groupRoots;
@@ -1812,8 +1815,13 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     if (!audioOffsetCalculated && audioMaster) {
         audioOffset = masterIx - masterSourceTrack;
         audioOffsetCalculated = true;
+    } else if (audioMirrors.size() == 0) {
+        // We are passing ungrouped audio clips, calculate offset
+        int sourceAudioTracks = copiedItems.documentElement().attribute(QStringLiteral("audioTracks")).toInt();
+        if (sourceAudioTracks > 0) {
+            audioOffset = projectTracks.first.count() - sourceAudioTracks;
+        }
     }
-
     for (int oldPos : qAsConst(singleAudioTracks)) {
         if (tracksMap.contains(oldPos)) {
             continue;

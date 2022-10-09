@@ -186,9 +186,9 @@ QPair<int, int> TimelineModel::getAVtracksCount() const
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack()) {
-            tracks.second++;
-        } else {
             tracks.first++;
+        } else {
+            tracks.second++;
         }
         ++it;
     }

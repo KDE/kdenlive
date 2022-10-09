@@ -174,7 +174,7 @@ public:
 
     /** @brief returns the number of tracks */
     int getTracksCount() const;
-    /** @brief returns the number of video and audio tracks */
+    /** @brief returns the number of {audio, video} tracks */
     QPair<int, int> getAVtracksCount() const;
     /** @brief returns the ids of all audio or video tracks */
     QList<int> getTracksIds(bool audio) const;

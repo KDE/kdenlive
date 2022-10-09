@@ -418,9 +418,9 @@ ToolType::ProjectTool TimelineWidget::activeTool()
     return ToolType::ProjectTool(rootObject()->property("activeTool").toInt());
 }
 
-QPair<int, int> TimelineWidget::getTracksCount() const
+QPair<int, int> TimelineWidget::getAvTracksCount() const
 {
-    return m_proxy->getTracksCount();
+    return m_proxy->getAvTracksCount();
 }
 
 void TimelineWidget::slotUngrabHack()

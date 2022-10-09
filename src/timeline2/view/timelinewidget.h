@@ -32,7 +32,7 @@ public:
     std::shared_ptr<TimelineItemModel> model();
     void setTool(ToolType::ProjectTool tool);
     ToolType::ProjectTool activeTool();
-    QPair<int, int>getTracksCount() const;
+    QPair<int, int> getAvTracksCount() const;
     /** @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;
     /** @brief Give keyboard focus to timeline qml */
