@@ -106,6 +106,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>profiles_list</tabstop>
+  <tabstop>profile_description</tabstop>
+  <tabstop>profile_extension</tabstop>
+  <tabstop>profile_audioonly</tabstop>
+  <tabstop>profile_parameters</tabstop>
+  <tabstop>button_add</tabstop>
+  <tabstop>button_update</tabstop>
+  <tabstop>button_delete</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

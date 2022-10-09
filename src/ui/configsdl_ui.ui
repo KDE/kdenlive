@@ -200,6 +200,18 @@
    <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_gpu_accel</tabstop>
+  <tabstop>kcfg_audio_backend</tabstop>
+  <tabstop>kcfg_audio_driver</tabstop>
+  <tabstop>kcfg_audio_device</tabstop>
+  <tabstop>kcfg_volume</tabstop>
+  <tabstop>fullscreen_monitor</tabstop>
+  <tabstop>kcfg_window_background</tabstop>
+  <tabstop>kcfg_external_display</tabstop>
+  <tabstop>kcfg_blackmagic_output_device</tabstop>
+  <tabstop>reload_blackmagic</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

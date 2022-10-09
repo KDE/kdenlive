@@ -33,7 +33,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="edit-delete"/>
+      <iconset theme="edit-delete">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -76,7 +77,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="list-add"/>
+      <iconset theme="list-add">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -89,7 +91,8 @@
       <string>Check configuration</string>
      </property>
      <property name="icon">
-      <iconset theme="view-refresh"/>
+      <iconset theme="view-refresh">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -131,6 +134,13 @@
    <header>kmessagewidget.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>custom_vosk_folder</tabstop>
+  <tabstop>vosk_folder</tabstop>
+  <tabstop>button_add</tabstop>
+  <tabstop>button_delete</tabstop>
+  <tabstop>check_vosk</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

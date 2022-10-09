@@ -69,6 +69,11 @@
    <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_thumbColor1</tabstop>
+  <tabstop>kcfg_thumbColor2</tabstop>
+  <tabstop>kcfg_overlayColor</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -188,6 +188,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>kcfg_enableproxy</tabstop>
+  <tabstop>kcfg_generateproxy</tabstop>
+  <tabstop>kcfg_proxyminsize</tabstop>
+  <tabstop>kcfg_generateimageproxy</tabstop>
+  <tabstop>kcfg_proxyimageminsize</tabstop>
+  <tabstop>kcfg_proxyimagesize</tabstop>
+  <tabstop>kcfg_proxyscale</tabstop>
+  <tabstop>kcfg_externalproxy</tabstop>
+  <tabstop>kcfg_external_proxy_profile</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

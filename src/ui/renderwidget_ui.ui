@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>874</width>
     <height>900</height>
    </rect>
   </property>
@@ -444,7 +444,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>313</width>
+            <width>300</width>
             <height>952</height>
            </rect>
           </property>
@@ -1070,6 +1070,62 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>optionsGroup</tabstop>
+  <tabstop>buttonNew</tabstop>
+  <tabstop>buttonDownload</tabstop>
+  <tabstop>buttonSaveAs</tabstop>
+  <tabstop>buttonEdit</tabstop>
+  <tabstop>buttonDelete</tabstop>
+  <tabstop>profileTree</tabstop>
+  <tabstop>render_full</tabstop>
+  <tabstop>render_zone</tabstop>
+  <tabstop>render_guide</tabstop>
+  <tabstop>render_multi</tabstop>
+  <tabstop>guide_start</tabstop>
+  <tabstop>guide_end</tabstop>
+  <tabstop>guideCategoryCombo</tabstop>
+  <tabstop>options</tabstop>
+  <tabstop>buttonRender</tabstop>
+  <tabstop>buttonGenerateScript</tabstop>
+  <tabstop>buttonClose</tabstop>
+  <tabstop>video_box</tabstop>
+  <tabstop>render_at_preview_res</tabstop>
+  <tabstop>proxy_render</tabstop>
+  <tabstop>rescale</tabstop>
+  <tabstop>rescale_width</tabstop>
+  <tabstop>rescale_height</tabstop>
+  <tabstop>rescale_keep</tabstop>
+  <tabstop>tc_type</tabstop>
+  <tabstop>audio_box</tabstop>
+  <tabstop>stemAudioExport</tabstop>
+  <tabstop>qualityGroup</tabstop>
+  <tabstop>quality</tabstop>
+  <tabstop>speed</tabstop>
+  <tabstop>encoder_threads</tabstop>
+  <tabstop>processing_box</tabstop>
+  <tabstop>processing_threads</tabstop>
+  <tabstop>checkTwoPass</tabstop>
+  <tabstop>export_meta</tabstop>
+  <tabstop>embed_subtitles</tabstop>
+  <tabstop>open_browser</tabstop>
+  <tabstop>play_after</tabstop>
+  <tabstop>advanced_params</tabstop>
+  <tabstop>running_jobs</tabstop>
+  <tabstop>hide_log</tabstop>
+  <tabstop>error_log</tabstop>
+  <tabstop>shutdown</tabstop>
+  <tabstop>abort_job</tabstop>
+  <tabstop>start_job</tabstop>
+  <tabstop>clean_up</tabstop>
+  <tabstop>shareButton</tabstop>
+  <tabstop>buttonClose2</tabstop>
+  <tabstop>scripts_list</tabstop>
+  <tabstop>start_script</tabstop>
+  <tabstop>delete_script</tabstop>
+  <tabstop>buttonClose3</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

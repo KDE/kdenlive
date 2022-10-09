@@ -250,12 +250,22 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>kcfg_videothumbnails</tabstop>
+  <tabstop>kcfg_audiothumbnails</tabstop>
+  <tabstop>kcfg_displayallchannels</tabstop>
   <tabstop>kcfg_ffmpegaudiothumbnails</tabstop>
   <tabstop>kcfg_showmarkers</tabstop>
   <tabstop>kcfg_autoscroll</tabstop>
+  <tabstop>kcfg_pauseonseek</tabstop>
+  <tabstop>kcfg_jumptostart</tabstop>
   <tabstop>kcfg_seekonaddeffect</tabstop>
   <tabstop>kcfg_scrollvertically</tabstop>
   <tabstop>kcfg_trackheight</tabstop>
+  <tabstop>kcfg_multistream</tabstop>
+  <tabstop>kcfg_multistream_checktrack</tabstop>
+  <tabstop>kcfg_raisepropsclips</tabstop>
+  <tabstop>kcfg_raisepropstransitions</tabstop>
+  <tabstop>kcfg_raisepropstracks</tabstop>
  </tabstops>
  <resources/>
  <connections>

@@ -640,6 +640,14 @@
  <tabstops>
   <tabstop>kcfg_defaultcapture</tabstop>
   <tabstop>tabWidget</tabstop>
+  <tabstop>kcfg_v4l_capturevideo</tabstop>
+  <tabstop>kcfg_detectedv4ldevices</tabstop>
+  <tabstop>kcfg_video4vdevice</tabstop>
+  <tabstop>kcfg_v4l_format</tabstop>
+  <tabstop>config_v4l</tabstop>
+  <tabstop>kcfg_v4l_captureaudio</tabstop>
+  <tabstop>kcfg_v4l_alsadevice</tabstop>
+  <tabstop>kcfg_alsachannels</tabstop>
   <tabstop>kcfg_grab_capture_type</tabstop>
   <tabstop>kcfg_grab_follow_mouse</tabstop>
   <tabstop>kcfg_grab_hide_frame</tabstop>
@@ -647,6 +655,14 @@
   <tabstop>kcfg_grab_offsety</tabstop>
   <tabstop>kcfg_grab_width</tabstop>
   <tabstop>kcfg_grab_height</tabstop>
+  <tabstop>kcfg_grab_fps</tabstop>
+  <tabstop>kcfg_grab_hide_mouse</tabstop>
+  <tabstop>kcfg_decklink_capturedevice</tabstop>
+  <tabstop>kcfg_decklink_filename</tabstop>
+  <tabstop>kcfg_defaultaudiocapture</tabstop>
+  <tabstop>kcfg_audiocapturevolume</tabstop>
+  <tabstop>audiocapturechannels</tabstop>
+  <tabstop>audiocapturesamplerate</tabstop>
  </tabstops>
  <resources/>
  <connections/>

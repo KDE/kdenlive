@@ -396,6 +396,32 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_proxythreads</tabstop>
+  <tabstop>kcfg_nice_tasks</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>ffmpegurl</tabstop>
+  <tabstop>ffplayurl</tabstop>
+  <tabstop>ffprobeurl</tabstop>
+  <tabstop>mltpathurl</tabstop>
+  <tabstop>rendererpathurl</tabstop>
+  <tabstop>mediainfourl</tabstop>
+  <tabstop>tmppathurl</tabstop>
+  <tabstop>kcfg_capturetoprojectfolder</tabstop>
+  <tabstop>capturefolderurl</tabstop>
+  <tabstop>kcfg_librarytodefaultfolder</tabstop>
+  <tabstop>libraryfolderurl</tabstop>
+  <tabstop>kcfg_videotodefaultfolder</tabstop>
+  <tabstop>videofolderurl</tabstop>
+  <tabstop>kcfg_defaultimageapp</tabstop>
+  <tabstop>kp_image</tabstop>
+  <tabstop>kcfg_defaultaudioapp</tabstop>
+  <tabstop>kp_audio</tabstop>
+  <tabstop>kcfg_glaxnimatePath</tabstop>
+  <tabstop>kp_anim</tabstop>
+  <tabstop>kcfg_addedExtensions</tabstop>
+  <tabstop>supportedmimes</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
