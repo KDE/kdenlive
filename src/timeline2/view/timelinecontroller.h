@@ -484,7 +484,7 @@ public:
     bool positionIsInItem(int id);
     /** @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
-    QPair<int, int>getTracksCount() const;
+    QPair<int, int> getAvTracksCount() const;
     /** @brief Request monitor refresh if item (clip or composition) is under timeline cursor
      */
     void refreshItem(int id);

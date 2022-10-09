@@ -1958,9 +1958,9 @@ void MainWindow::slotRefreshProfiles()
 void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->currentDoc();
-    QPair<int, int> p = getMainTimeline()->getTracksCount();
+    QPair<int, int> p = getMainTimeline()->getAvTracksCount();
     int channels = project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
-    ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.first, p.second,
+    ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.second, p.first,
                                              channels, project->projectTempFolder(), true, !project->isModified(), this);
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     // connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));

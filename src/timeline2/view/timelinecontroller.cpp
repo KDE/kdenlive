@@ -1876,7 +1876,7 @@ void TimelineController::refreshItem(int id)
     }
 }
 
-QPair<int, int> TimelineController::getTracksCount() const
+QPair<int, int> TimelineController::getAvTracksCount() const
 {
     return m_model->getAVtracksCount();
 }

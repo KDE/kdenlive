@@ -1308,9 +1308,9 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }
 
-QPair<int, int> ProjectManager::tracksCount()
+QPair<int, int> ProjectManager::avTracksCount()
 {
-    return pCore->window()->getMainTimeline()->controller()->getTracksCount();
+    return pCore->window()->getMainTimeline()->controller()->getAvTracksCount();
 }
 
 void ProjectManager::addAudioTracks(int tracksCount)

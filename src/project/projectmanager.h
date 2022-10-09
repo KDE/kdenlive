@@ -88,7 +88,7 @@ public:
 
     /** @brief Get the number of tracks in this project (video, audio).
      */
-    QPair<int, int> tracksCount();
+    QPair<int, int> avTracksCount();
 
     /** @brief Add requested audio tracks number to project.
      */
