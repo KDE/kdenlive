@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-09 00:47+0000\n"
+"POT-Creation-Date: 2022-10-10 00:45+0000\n"
 "PO-Revision-Date: 2022-08-27 18:08+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -7344,7 +7344,7 @@ msgid "Switch"
 msgstr "Aldatu"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1604 src/timeline2/model/timelinefunctions.cpp:1875
+#: src/doc/kdenlivedoc.cpp:1604 src/timeline2/model/timelinefunctions.cpp:1883
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -13584,74 +13584,74 @@ msgstr "Gehitu klipa liburutegian"
 msgid "Enter a name for the clip in Library"
 msgstr "Sartu izen bat liburutegiko kliparentzat"
 
-#: src/timeline2/model/timelinefunctions.cpp:1622
+#: src/timeline2/model/timelinefunctions.cpp:1625
 #, kde-format
 msgid "Paste clips"
 msgstr "Itsatsi klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:1633
+#: src/timeline2/model/timelinefunctions.cpp:1636
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1645
+#: src/timeline2/model/timelinefunctions.cpp:1648
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Datu onargarririk ez arbelean"
 
-#: src/timeline2/model/timelinefunctions.cpp:1671
-#: src/timeline2/model/timelinefunctions.cpp:1729
-#: src/timeline2/model/timelinefunctions.cpp:1758
-#: src/timeline2/model/timelinefunctions.cpp:1789
-#: src/timeline2/model/timelinefunctions.cpp:1823
-#: src/timeline2/model/timelinefunctions.cpp:1974
+#: src/timeline2/model/timelinefunctions.cpp:1674
+#: src/timeline2/model/timelinefunctions.cpp:1732
+#: src/timeline2/model/timelinefunctions.cpp:1761
+#: src/timeline2/model/timelinefunctions.cpp:1792
+#: src/timeline2/model/timelinefunctions.cpp:1831
+#: src/timeline2/model/timelinefunctions.cpp:1982
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Ez dago pista nahikorik arbela itsasteko"
 
-#: src/timeline2/model/timelinefunctions.cpp:1840
-#: src/timeline2/model/timelinefunctions.cpp:1854
-#: src/timeline2/model/timelinefunctions.cpp:1882
-#: src/timeline2/model/timelinefunctions.cpp:1887
+#: src/timeline2/model/timelinefunctions.cpp:1848
+#: src/timeline2/model/timelinefunctions.cpp:1862
+#: src/timeline2/model/timelinefunctions.cpp:1890
+#: src/timeline2/model/timelinefunctions.cpp:1895
 #, kde-format
 msgid "Pasted clips"
 msgstr "Itsatsitako klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:1873
+#: src/timeline2/model/timelinefunctions.cpp:1881
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, fuzzy, kde-format
 #| msgid "Master"
 msgid "Paste"
 msgstr "Maisua"
 
-#: src/timeline2/model/timelinefunctions.cpp:1917
+#: src/timeline2/model/timelinefunctions.cpp:1925
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Ezin izan da klipa gehitu erretiluan"
 
-#: src/timeline2/model/timelinefunctions.cpp:1966
+#: src/timeline2/model/timelinefunctions.cpp:1974
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1997
-#: src/timeline2/model/timelinefunctions.cpp:2118
+#: src/timeline2/model/timelinefunctions.cpp:2005
+#: src/timeline2/model/timelinefunctions.cpp:2126
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ezin izan dira elementuak itsatsi denbora-lerroan"
 
-#: src/timeline2/model/timelinefunctions.cpp:2138
+#: src/timeline2/model/timelinefunctions.cpp:2146
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Itsatsi denbora-lerroko klipak"

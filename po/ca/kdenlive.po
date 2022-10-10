@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-09 00:47+0000\n"
-"PO-Revision-Date: 2022-10-07 18:13+0200\n"
+"POT-Creation-Date: 2022-10-10 00:45+0000\n"
+"PO-Revision-Date: 2022-10-09 11:51+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4090,10 +4090,9 @@ msgstr ""
 "anomenada %1."
 
 #: src/bin/bin.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "No és possible escriure al fitxer %1"
+msgstr "No s'ha pogut analitzar el fitxer %1"
 
 #: src/bin/bin.cpp:1877
 #, kde-format
@@ -7253,7 +7252,7 @@ msgid "Switch"
 msgstr "Canvia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1604 src/timeline2/model/timelinefunctions.cpp:1875
+#: src/doc/kdenlivedoc.cpp:1604 src/timeline2/model/timelinefunctions.cpp:1883
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -13323,40 +13322,40 @@ msgstr "Afegeix un clip a la biblioteca"
 msgid "Enter a name for the clip in Library"
 msgstr "Introduïu un nom per al clip a la biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1622
+#: src/timeline2/model/timelinefunctions.cpp:1625
 #, kde-format
 msgid "Paste clips"
 msgstr "Enganxa els clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1633
+#: src/timeline2/model/timelinefunctions.cpp:1636
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Hi ha una altra operació d'enganxat en curs"
 
-#: src/timeline2/model/timelinefunctions.cpp:1645
+#: src/timeline2/model/timelinefunctions.cpp:1648
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "No hi ha dades vàlides al porta-retalls"
 
-#: src/timeline2/model/timelinefunctions.cpp:1671
-#: src/timeline2/model/timelinefunctions.cpp:1729
-#: src/timeline2/model/timelinefunctions.cpp:1758
-#: src/timeline2/model/timelinefunctions.cpp:1789
-#: src/timeline2/model/timelinefunctions.cpp:1823
-#: src/timeline2/model/timelinefunctions.cpp:1974
+#: src/timeline2/model/timelinefunctions.cpp:1674
+#: src/timeline2/model/timelinefunctions.cpp:1732
+#: src/timeline2/model/timelinefunctions.cpp:1761
+#: src/timeline2/model/timelinefunctions.cpp:1792
+#: src/timeline2/model/timelinefunctions.cpp:1831
+#: src/timeline2/model/timelinefunctions.cpp:1982
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "No hi ha pistes suficients per a enganxar el porta-retalls"
 
-#: src/timeline2/model/timelinefunctions.cpp:1840
-#: src/timeline2/model/timelinefunctions.cpp:1854
-#: src/timeline2/model/timelinefunctions.cpp:1882
-#: src/timeline2/model/timelinefunctions.cpp:1887
+#: src/timeline2/model/timelinefunctions.cpp:1848
+#: src/timeline2/model/timelinefunctions.cpp:1862
+#: src/timeline2/model/timelinefunctions.cpp:1890
+#: src/timeline2/model/timelinefunctions.cpp:1895
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clips enganxats"
 
-#: src/timeline2/model/timelinefunctions.cpp:1873
+#: src/timeline2/model/timelinefunctions.cpp:1881
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13365,33 +13364,33 @@ msgstr ""
 "El projecte d'origen té una freqüència de fotogrames diferent (%1fps) que el "
 "projecte actual.<br/>Els clips o fotogrames clau es poden confondre."
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Avís d'enganxat"
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, kde-format
 msgid "Paste"
 msgstr "Enganxa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1917
+#: src/timeline2/model/timelinefunctions.cpp:1925
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "No s'ha pogut afegir un clip a la safata"
 
-#: src/timeline2/model/timelinefunctions.cpp:1966
+#: src/timeline2/model/timelinefunctions.cpp:1974
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "No tots els clips s'han copiat correctament"
 
-#: src/timeline2/model/timelinefunctions.cpp:1997
-#: src/timeline2/model/timelinefunctions.cpp:2118
+#: src/timeline2/model/timelinefunctions.cpp:2005
+#: src/timeline2/model/timelinefunctions.cpp:2126
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "No s'han pogut enganxar els elements a la línia de temps"
 
-#: src/timeline2/model/timelinefunctions.cpp:2138
+#: src/timeline2/model/timelinefunctions.cpp:2146
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Enganxa clips a la línia de temps"
@@ -18774,335 +18773,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Default video4linux device:"
-#~ msgstr "Dispositiu video4linux per defecte:"
-
-#~ msgid "No device found, plug your webcam and refresh."
-#~ msgstr ""
-#~ "No s'ha trobat cap dispositiu. Endolleu la vostra webcam i refresqueu."
-
-#~ msgid "Current settings (%1x%2, %3/%4fps)"
-#~ msgstr "Paràmetres actuals (%1x%2, %3/%4fps)"
-
-#~ msgid "Default settings (%1x%2, %3/%4fps)"
-#~ msgstr "Paràmetres per defecte (%1x%2, %3/%4fps)"
-
-#~ msgid "Add clip cut"
-#~ msgstr "Afegeix un retall de clip"
-
-#~ msgid "Add folder"
-#~ msgstr "Afegeix una carpeta"
-
-#~ msgid "Delete folder"
-#~ msgstr "Suprimeix carpeta"
-
-#~ msgid "Edit clip cut"
-#~ msgstr "Edita el retall de clip"
-
-#~ msgid "Rename folder"
-#~ msgstr "Reanomena la carpeta"
-
-#~ msgid "Hidden"
-#~ msgstr "Ocult"
-
-#~ msgid "Muted"
-#~ msgstr "Silenciat"
-
-#~ msgid "Locked"
-#~ msgstr "Blocat"
-
-#~ msgid "Composite"
-#~ msgstr "Composició"
-
-#~ msgid "Move Track upwards"
-#~ msgstr "Mou la pista amunt"
-
-#~ msgid "Move Track downwards"
-#~ msgstr "Mou la pista avall"
-
-#~ msgid "Edit Keyframe"
-#~ msgstr "Edita el fotograma clau"
-
-#~ msgid "Value:"
-#~ msgstr "Valor:"
-
-#~ msgid "Reset the parameters to their default values."
-#~ msgstr "Restableix tots els paràmetres als seus valors predeterminats."
-
-#~ msgid "Seek to active keyframe."
-#~ msgstr "Cerca el fotograma clau actiu."
-
-#~ msgid "Add keyframes."
-#~ msgstr "Afegeix fotogrames clau."
-
-#~ msgid "Move on X axis."
-#~ msgstr "Mou sobre l'eix X."
-
-#~ msgid "Move on Y axis."
-#~ msgstr "Mou sobre l'eix Y."
-
-#~ msgid "Update values in timeline."
-#~ msgstr "Actualitza els valors a la línia de temps."
-
-#~ msgid "Create new points."
-#~ msgstr "Crea punts nous."
-
-#~ msgid "GraphView"
-#~ msgstr "GraphView"
-
-#~ msgid "Parameter description."
-#~ msgstr "Descripció del paràmetre."
-
-#~ msgid "Not connected"
-#~ msgstr "No connectat"
-
-#~ msgid "Firewire"
-#~ msgstr "Firewire"
-
-#~ msgid "Blackmagic card"
-#~ msgstr "Targeta Blackmagic"
-
-#~ msgid "Preset"
-#~ msgstr "Predefinit"
-
-#~ msgid "Color range"
-#~ msgstr "Interval de color"
-
-#~ msgid "Magenta"
-#~ msgstr "Magenta"
-
-#~ msgid "Absol&ute"
-#~ msgstr "Absol&ut"
-
-#~ msgid "Re&lative"
-#~ msgstr "Re&latiu"
-
-#~ msgid "Number of frames to play (0 to play all frames)"
-#~ msgstr "Nombre de fotogrames a reproduir (0 per a reproduir-los tots)"
-
-#~ msgid "Interval Capture"
-#~ msgstr "Interval de captura"
-
-#~ msgid "Capture delay"
-#~ msgstr "Retard de la captura"
-
-#~ msgid "Notify before capture"
-#~ msgstr "Notifica abans de la captura"
-
-#~ msgid "Configure Tracks"
-#~ msgstr "Configura les pistes"
-
-#~ msgid "track"
-#~ msgstr "pista"
-
-#~ msgid "Check"
-#~ msgstr "Comprova"
-
-#~ msgid "Default folder for project files"
-#~ msgstr "Carpeta predeterminada per als fitxers de projecte"
-
-#~ msgid "Show video thumbnails"
-#~ msgstr "Mostra les miniatures de vídeo"
-
-#~ msgid "Show audio thumbnails"
-#~ msgstr "Mostra les miniatures d'àudio"
-
-#~ msgid "Install extra video MIME types"
-#~ msgstr "Instal·la els tipus MIME extra del vídeo"
-
-#~ msgid "Installed modules"
-#~ msgstr "Mòduls instal·lats"
-
-#~ msgid "Available Codecs (avformat)"
-#~ msgstr "Còdecs disponibles (avformat)"
-
-#~ msgid "Formats"
-#~ msgstr "Formats"
-
-#~ msgid "Video Codecs"
-#~ msgstr "Còdecs de vídeo"
-
-#~ msgid "Audio Codecs"
-#~ msgstr "Còdecs d'àudio"
-
-#~ msgid "Please set your default video profile"
-#~ msgstr "Indiqueu el vostre perfil de vídeo predeterminat"
-
-#~ msgid "Video Resolution"
-#~ msgstr "Resolució de vídeo"
-
-#~ msgid "DV"
-#~ msgstr "DV"
-
-#~ msgid "HDV"
-#~ msgstr "HDV"
-
-#~ msgid "Show All"
-#~ msgstr "Mostra-ho tot"
-
-#~ msgid "File size"
-#~ msgstr "Mida del fitxer"
-
-#~ msgid "Image type"
-#~ msgstr "Tipus d'imatge"
-
-#~ msgid "Frame duration"
-#~ msgstr "Durada del fotograma"
-
-#~ msgid "Dissolve"
-#~ msgstr "Dissoldre"
-
-#~ msgid "Wipe"
-#~ msgstr "Cortineta"
-
-#~ msgid "Image size"
-#~ msgstr "Mida de la imatge"
-
-#~ msgid "Transparent background"
-#~ msgstr "Fons transparent"
-
-#~ msgid "Time"
-#~ msgstr "Temps"
-
-#~ msgid "E"
-#~ msgstr "E"
-
-#~ msgid "Advanced"
-#~ msgstr "Avançat"
-
-#~ msgid "Force aspect ratio"
-#~ msgstr "Força la relació d'aspecte"
-
-#~ msgid "Decoding threads"
-#~ msgstr "Fils de descodificació"
-
-#~ msgid "Video index"
-#~ msgstr "Índex de vídeo"
-
-#~ msgid "Force scanning"
-#~ msgstr "Força l'escaneig"
-
-#~ msgid "Audio index"
-#~ msgstr "Índex d'àudio"
-
-#~ msgid "Force frame rate"
-#~ msgstr "Força la velocitat dels fotogrames"
-
-#~ msgid "Force duration"
-#~ msgstr "Força la durada"
-
-#~ msgid "Force colorspace"
-#~ msgstr "Força l'espai de color"
-
-#~ msgid "Force field order"
-#~ msgstr "Força l'ordre dels camps"
-
-#~ msgid ":"
-#~ msgstr ":"
-
-#~ msgid "Image background"
-#~ msgstr "Imatge de fons"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Transparent"
-#~ msgstr "Transparent"
-
-#~ msgid "Preview volume:"
-#~ msgstr "Volum de la previsualització:"
-
-#~ msgid "Cairo Affine Blend"
-#~ msgstr "Barreja afí del Cairo"
-
-#~ msgid ""
-#~ "Composites second input on first input applying user-defined "
-#~ "transformation, opacity and blend mode."
-#~ msgstr ""
-#~ "Combina una segona entrada sobre la primera entrada aplicant una "
-#~ "transformació, opacitat i mode de barreja definida per l'usuari."
-
-#~ msgid "X scale"
-#~ msgstr "Escala X"
-
-#~ msgid "Y scale"
-#~ msgstr "Escala Y"
-
-#~ msgid ""
-#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
-#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
-#~ "saturation,HSL color,HSL luminosity"
-#~ msgstr ""
-#~ "Normal,Suma,Satura,Multiplica,Pantalla,Superposició,Enfosquit,Aclarit,"
-#~ "Subexposició del color,Sobreexposició del color,Llum forta,Llum suau,"
-#~ "Diferència,Exclusió,To HSL,Saturació HSL,Color HSL,Lluminositat HSL"
-
-#~ msgid "Blend mode"
-#~ msgstr "Mode de barreja"
-
-#~ msgid "Rotation X center"
-#~ msgstr "Centre de la rotació X"
-
-#~ msgid "Rotation Y center"
-#~ msgstr "Centre de la rotació Y"
-
-#~ msgid "Cairo Blend"
-#~ msgstr "Barreja del Cairo"
-
-#~ msgid ""
-#~ "Composites second input on the first input with user-defined blend mode "
-#~ "and opacity."
-#~ msgstr ""
-#~ "Combina una segona entrada sobre la primera entrada amb un mode de "
-#~ "barreja i una opacitat definida per l'usuari."
-
-#~ msgid "Capture format"
-#~ msgstr "Format de captura"
-
-#~ msgid "Encoding profile"
-#~ msgstr "Perfil de codificació"
-
-#~ msgid "Colorspace"
-#~ msgstr "Espai de color"
-
-#~ msgid "Full Screen Capture"
-#~ msgstr "Captura de pantalla completa"
-
-#~ msgid "Frame rate"
-#~ msgstr "Velocitat dels fotogrames"
-
-#~ msgid "Use KDE job tracking for render jobs"
-#~ msgstr ""
-#~ "Usa el seguiment de tasques del KDE per a les tasques de renderització"
-
-#~ msgid "Bypass codec verification"
-#~ msgstr "Evita la verificació dels còdecs"
-
-#~ msgid "Audio tracks"
-#~ msgstr "Pistes d'àudio"
-
-#~ msgid "Use parent folder of the project file as project folder"
-#~ msgstr ""
-#~ "Usa la carpeta pare del fitxer de projecte com a carpeta del projecte"
-
-#~ msgid "Video tracks"
-#~ msgstr "Pistes de vídeo"
-
-#~ msgid "Use FFmpeg for audio thumbnails (faster)"
-#~ msgstr "Usa el FFmpeg per a les miniatures d'àudio (més ràpid)"
-
-#~ msgid "Manage timeline preview profiles"
-#~ msgstr "Gestiona els perfils de vista prèvia de la línia de temps"
-
-#~ msgid "Select default preview profile"
-#~ msgstr "Selecciona el perfil de vista prèvia per defecte"
-
-#~ msgid "Preview profile:"
-#~ msgstr "Perfil de vista prèvia:"
-
-#~ msgid "Use project folder"
-#~ msgstr "Usa la carpeta del projecte"
-
-#~ msgid "Total proxy data:"
-#~ msgstr "Total de les dades d'intermediaris:"

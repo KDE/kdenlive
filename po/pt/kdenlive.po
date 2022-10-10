@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-09 00:47+0000\n"
+"POT-Creation-Date: 2022-10-10 00:45+0000\n"
 "PO-Revision-Date: 2022-10-07 09:13+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -7345,7 +7345,7 @@ msgid "Switch"
 msgstr "Mudar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1604 src/timeline2/model/timelinefunctions.cpp:1875
+#: src/doc/kdenlivedoc.cpp:1604 src/timeline2/model/timelinefunctions.cpp:1883
 #: src/ui/titlewidget_ui.ui:187
 #, kde-format
 msgid "Cancel"
@@ -13411,40 +13411,40 @@ msgstr "Adicionar o 'Clip' à Biblioteca"
 msgid "Enter a name for the clip in Library"
 msgstr "Indique um nome para o 'clip' na Biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1622
+#: src/timeline2/model/timelinefunctions.cpp:1625
 #, kde-format
 msgid "Paste clips"
 msgstr "Colar os 'clips'"
 
-#: src/timeline2/model/timelinefunctions.cpp:1633
+#: src/timeline2/model/timelinefunctions.cpp:1636
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Está outra operação de colagem em curso"
 
-#: src/timeline2/model/timelinefunctions.cpp:1645
+#: src/timeline2/model/timelinefunctions.cpp:1648
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Nenhuns dados válidos na área de transferência"
 
-#: src/timeline2/model/timelinefunctions.cpp:1671
-#: src/timeline2/model/timelinefunctions.cpp:1729
-#: src/timeline2/model/timelinefunctions.cpp:1758
-#: src/timeline2/model/timelinefunctions.cpp:1789
-#: src/timeline2/model/timelinefunctions.cpp:1823
-#: src/timeline2/model/timelinefunctions.cpp:1974
+#: src/timeline2/model/timelinefunctions.cpp:1674
+#: src/timeline2/model/timelinefunctions.cpp:1732
+#: src/timeline2/model/timelinefunctions.cpp:1761
+#: src/timeline2/model/timelinefunctions.cpp:1792
+#: src/timeline2/model/timelinefunctions.cpp:1831
+#: src/timeline2/model/timelinefunctions.cpp:1982
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Não existem faixas para colar a área de transferência"
 
-#: src/timeline2/model/timelinefunctions.cpp:1840
-#: src/timeline2/model/timelinefunctions.cpp:1854
-#: src/timeline2/model/timelinefunctions.cpp:1882
-#: src/timeline2/model/timelinefunctions.cpp:1887
+#: src/timeline2/model/timelinefunctions.cpp:1848
+#: src/timeline2/model/timelinefunctions.cpp:1862
+#: src/timeline2/model/timelinefunctions.cpp:1890
+#: src/timeline2/model/timelinefunctions.cpp:1895
 #, kde-format
 msgid "Pasted clips"
 msgstr "'Clips' colados"
 
-#: src/timeline2/model/timelinefunctions.cpp:1873
+#: src/timeline2/model/timelinefunctions.cpp:1881
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13453,33 +13453,33 @@ msgstr ""
 "O projecto de origem tem uma taxa de imagens diferente (%1ips) do do "
 "projecto actual.<br/>Os 'clips' ou imagens-chave poderão estar baralhados."
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Aviso da Colagem"
 
-#: src/timeline2/model/timelinefunctions.cpp:1875
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, kde-format
 msgid "Paste"
 msgstr "Colar"
 
-#: src/timeline2/model/timelinefunctions.cpp:1917
+#: src/timeline2/model/timelinefunctions.cpp:1925
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Não foi possível adicionar o 'clip' ao grupo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1966
+#: src/timeline2/model/timelinefunctions.cpp:1974
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Nem todos os 'clips' foram gravados com sucesso"
 
-#: src/timeline2/model/timelinefunctions.cpp:1997
-#: src/timeline2/model/timelinefunctions.cpp:2118
+#: src/timeline2/model/timelinefunctions.cpp:2005
+#: src/timeline2/model/timelinefunctions.cpp:2126
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Não foi possível colar os itens na linha temporal"
 
-#: src/timeline2/model/timelinefunctions.cpp:2138
+#: src/timeline2/model/timelinefunctions.cpp:2146
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Colar os 'clips' da linha temporal"
