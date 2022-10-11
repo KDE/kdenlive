@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:45+0000\n"
-"PO-Revision-Date: 2022-10-07 16:11+0200\n"
+"PO-Revision-Date: 2022-10-10 08:45+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4071,10 +4071,9 @@ msgstr ""
 "imenom %1."
 
 #: src/bin/bin.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "V datoteko %1 ni mogoče pisati"
+msgstr "Datoteke %1 ni mogoče razčleniti"
 
 #: src/bin/bin.cpp:1877
 #, kde-format
@@ -18726,168 +18725,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Default video4linux device:"
-#~ msgstr "Privzeta naprava video4linux:"
-
-#~ msgid "No device found, plug your webcam and refresh."
-#~ msgstr "Ni najdene naprave, vklopite vašo spletno kamero in osvežite."
-
-#~ msgid "Current settings (%1x%2, %3/%4fps)"
-#~ msgstr "Trenutne nastavitve (%1x%2, %3/%4 sl/s)"
-
-#~ msgid "Default settings (%1x%2, %3/%4fps)"
-#~ msgstr "Privzete nastavitve (%1x%2, %3/%4 sl/s)"
-
-#~ msgid "Add clip cut"
-#~ msgstr "Dodaj rez posnetka"
-
-#~ msgid "Add folder"
-#~ msgstr "Dodaj mapo"
-
-#~ msgid "Delete folder"
-#~ msgstr "Izbriši mapo"
-
-#~ msgid "Edit clip cut"
-#~ msgstr "Uredi rez posnetka"
-
-#~ msgid "Rename folder"
-#~ msgstr "Preimenuj mapo"
-
-#~ msgid "Hidden"
-#~ msgstr "Skrita"
-
-#~ msgid "Muted"
-#~ msgstr "Utišana"
-
-#~ msgid "Locked"
-#~ msgstr "Zaklenjena"
-
-#~ msgid "Composite"
-#~ msgstr "Kompozit"
-
-#~ msgid "Move Track upwards"
-#~ msgstr "Premakni stezo navzgor"
-
-#~ msgid "Move Track downwards"
-#~ msgstr "Premakni stezo navzdol"
-
-#~ msgid "Edit Keyframe"
-#~ msgstr "Uredi ključno sličico"
-
-#~ msgid "Value:"
-#~ msgstr "Vrednost:"
-
-#~ msgid "Reset the parameters to their default values."
-#~ msgstr "Ponastavi vse parametre na njihove privzete vrednosti."
-
-#~ msgid "Seek to active keyframe."
-#~ msgstr "Preišči do dejavne ključne sličice."
-
-#~ msgid "Add keyframes."
-#~ msgstr "Dodaj ključne sličice."
-
-#~ msgid "Move on X axis."
-#~ msgstr "Premakni po osi X."
-
-#~ msgid "Move on Y axis."
-#~ msgstr "Premakni po osi Y."
-
-#~ msgid "Update values in timeline."
-#~ msgstr "Posodobi vrednosti na časovnici."
-
-#~ msgid "Create new points."
-#~ msgstr "Ustvari nove točke."
-
-#~ msgid "GraphView"
-#~ msgstr "GraphView"
-
-#~ msgid "Parameter description."
-#~ msgstr "Opis parametra."
-
-#~ msgid "Not connected"
-#~ msgstr "Brez povezave"
-
-#~ msgid "Firewire"
-#~ msgstr "Firewire"
-
-#~ msgid "Blackmagic card"
-#~ msgstr "Kartica Blackmagic"
-
-#~ msgid "Preset"
-#~ msgstr "Predloga nastavitev"
-
-#~ msgid "Color range"
-#~ msgstr "Barvni obseg"
-
-#~ msgid "Magenta"
-#~ msgstr "Škrlatna"
-
-#~ msgid "Absol&ute"
-#~ msgstr "Absol&utno"
-
-#~ msgid "Re&lative"
-#~ msgstr "Re&lativno"
-
-#~ msgid "Number of frames to play (0 to play all frames)"
-#~ msgstr "Število predvajanih sličic (0 za predvajanje vseh sličic)"
-
-#~ msgid "Interval Capture"
-#~ msgstr "Razmik zajema"
-
-#~ msgid "Capture delay"
-#~ msgstr "Zakasnitev zajema"
-
-#~ msgid "Notify before capture"
-#~ msgstr "Obvesti pred zajemom"
-
-#~ msgid "Configure Tracks"
-#~ msgstr "Prilagodi steze"
-
-#~ msgid "track"
-#~ msgstr "steza"
-
-#~ msgid "Check"
-#~ msgstr "Preveri"
-
-#~ msgid "Default folder for project files"
-#~ msgstr "Privzeta mapa za projektne datoteke"
-
-#~ msgid "Show video thumbnails"
-#~ msgstr "Pokaži video sličice"
-
-#~ msgid "Show audio thumbnails"
-#~ msgstr "Pokaži zvočne izvlečke"
-
-#~ msgid "Install extra video MIME types"
-#~ msgstr "Namesti dodatne vrste MIME za video"
-
-#~ msgid "Installed modules"
-#~ msgstr "Nameščeni moduli"
-
-#~ msgid "Available Codecs (avformat)"
-#~ msgstr "Razpoložljivi kodeki (avformat)"
-
-#~ msgid "Formats"
-#~ msgstr "Vrste"
-
-#~ msgid "Video Codecs"
-#~ msgstr "Slikovni kodeki"
-
-#~ msgid "Audio Codecs"
-#~ msgstr "Zvočni kodeki"
-
-#~ msgid "Please set your default video profile"
-#~ msgstr "Izberite svoj privzeti profil za video"
-
-#~ msgid "Video Resolution"
-#~ msgstr "Ločljivost videa"
-
-#~ msgid "DV"
-#~ msgstr "DV"
-
-#~ msgid "HDV"
-#~ msgstr "HDV"
-
-#~ msgid "Show All"
-#~ msgstr "Pokaži vse"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:45+0000\n"
-"PO-Revision-Date: 2022-10-08 06:31+0200\n"
+"PO-Revision-Date: 2022-10-10 03:53+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2984,7 +2984,7 @@ msgstr ""
 #: src/assets/assetlist/view/qml/assetList.qml:54
 #, kde-format
 msgid "Main effects"
-msgstr ""
+msgstr "მთავარი ეფექტები"
 
 #: src/assets/assetlist/view/qml/assetList.qml:54
 #, kde-format
@@ -3432,7 +3432,7 @@ msgstr ""
 #: src/ui/import_subtitle_ui.ui:87
 #, kde-format
 msgid " to "
-msgstr ""
+msgstr " სადამდე "
 
 #: src/assets/view/widgets/keyframeimport.cpp:272
 #, kde-format
@@ -3794,7 +3794,7 @@ msgstr[1] ""
 #: src/bin/bin.cpp:1170
 #, kde-format
 msgid "Search…"
-msgstr ""
+msgstr "ძებნა…"
 
 #: src/bin/bin.cpp:1213
 #, kde-format
@@ -3932,7 +3932,7 @@ msgstr ""
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
 msgid "Unable to write to file %1"
-msgstr "%1 ფაილსი ჩაწერის შეცდომა"
+msgstr "%1 ფაილში ჩაწერის შეცდომა"
 
 #: src/bin/bin.cpp:1860 src/bin/bin.cpp:2252 src/doc/kdenlivedoc.cpp:655
 #, kde-format
@@ -3942,10 +3942,9 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "%1 ფაილსი ჩაწერის შეცდომა"
+msgstr "ფაილის დამუშავების შეცდომა: %1"
 
 #: src/bin/bin.cpp:1877
 #, kde-format
@@ -4001,8 +4000,8 @@ msgstr ""
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ვარსკვლავი"
+msgstr[1] "%1 ვარსკვლავი"
 
 #: src/bin/bin.cpp:2175
 #, kde-format
@@ -4739,7 +4738,7 @@ msgstr "გამოყენება"
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
-msgstr ""
+msgstr "უცნობი"
 
 #: src/bin/projectitemmodel.cpp:644
 #, kde-format
@@ -4774,7 +4773,7 @@ msgstr ""
 #: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2102
 #, kde-format
 msgid "Zone %1"
-msgstr ""
+msgstr "ზონა %1"
 
 #: src/bin/tagwidget.cpp:52
 #, kde-format
@@ -5204,7 +5203,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Encoding Profiles"
-msgstr ""
+msgstr "კოდირების პროფილების მართვა"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #: src/dialogs/kdenlivesettingsdialog.cpp:299
@@ -5599,7 +5598,7 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1737
 #, kde-format
 msgid "Downloading model…"
-msgstr ""
+msgstr "მოდელის გადმოწერა…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1747
 #, kde-format
@@ -5679,7 +5678,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
-msgstr ""
+msgstr "პროქსის პროფილის შედარება"
 
 #: src/dialogs/proxytest.cpp:31
 #, kde-format
@@ -5694,7 +5693,7 @@ msgstr ""
 #: src/dialogs/proxytest.cpp:49
 #, kde-format
 msgid "Starting process"
-msgstr ""
+msgstr "პროცესის გაშვება"
 
 #: src/dialogs/proxytest.cpp:118 src/dialogs/proxytest.cpp:155
 #, kde-format
@@ -5816,7 +5815,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:205
 #, kde-format
 msgid "Frame Number"
-msgstr ""
+msgstr "კადრის ნომერი"
 
 #: src/dialogs/renderwidget.cpp:209
 #, kde-format
@@ -6524,7 +6523,7 @@ msgstr "ფატალური შეცდომა"
 #: src/dialogs/wizard.cpp:766
 #, kde-format
 msgid "No hardware encoders found."
-msgstr ""
+msgstr "აპარატურული ენკოდერები ვერ ვიპოვე."
 
 #: src/dialogs/wizard.cpp:769
 #, kde-format
@@ -7044,7 +7043,7 @@ msgstr ""
 #: src/effects/effectlist/model/effecttreemodel.cpp:230
 #, kde-format
 msgid "Error"
-msgstr ""
+msgstr "შეცდომა"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:230
 #, kde-format
@@ -7056,7 +7055,7 @@ msgstr ""
 #: src/effects/effectlist/view/effectlistwidget.cpp:119
 #, kde-format
 msgid "Name : "
-msgstr ""
+msgstr "სახელი : "
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:120
 #, kde-format
@@ -7087,7 +7086,7 @@ msgstr "%1-ის ჩართვა"
 #: src/effects/effectstack/model/abstracteffectitem.cpp:34
 #, kde-format
 msgid "Disable %1"
-msgstr ""
+msgstr "%1-ის გამორთვა"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
 #, kde-format
@@ -7102,17 +7101,17 @@ msgstr "კადრების ჩვენება"
 #: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
 msgid "Update zone for %1"
-msgstr ""
+msgstr "%1-სთვის ზონის განახლება"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:221
 #, kde-format
 msgid "Delete effect %1"
-msgstr ""
+msgstr "ეფექტის წაშლა: %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:233
 #, kde-format
 msgid "Copy effect"
-msgstr ""
+msgstr "ეფექტის კოპირება"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:321
 #: src/effects/effectstack/model/effectstackmodel.cpp:428
@@ -7125,32 +7124,32 @@ msgstr ""
 #: src/effects/effectstack/model/effectstackmodel.cpp:472
 #, kde-format
 msgid "Paste effect"
-msgstr ""
+msgstr "ეფექტის ჩასმა"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:563
 #, kde-format
 msgid "Add effect %1"
-msgstr ""
+msgstr "ეფექტის დამატება: %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:871
 #, kde-format
 msgid "Move effect %1"
-msgstr ""
+msgstr "ეფექტის გადატანა %1"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:49
 #, kde-format
 msgid "Move effect up"
-msgstr ""
+msgstr "ეფექტის მაღლა ატანა"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:51
 #, kde-format
 msgid "Move effect down"
-msgstr ""
+msgstr "ეფექტის დაბლა ჩამოტანა"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
 msgid "Delete effect"
-msgstr ""
+msgstr "ეფექტის წაშლა"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:66
 #, kde-format
@@ -7885,22 +7884,22 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Folder to Library"
-msgstr ""
+msgstr "&საქაღალდის ბიბლიოთეკაში ჩამატება"
 
 #: src/library/librarywidget.cpp:339
 #, kde-format
 msgid "Enter a folder name"
-msgstr ""
+msgstr "შეიყვანეთ საქაღალდის სახელი"
 
 #: src/library/librarywidget.cpp:361
 #, kde-format
 msgid "Folder %1 already exists"
-msgstr ""
+msgstr "საქაღალდე უკვე არსბეობს: \"%1\""
 
 #: src/library/librarywidget.cpp:365
 #, kde-format
 msgid "Error creating folder %1"
-msgstr ""
+msgstr "შეცდომა საქაღალდის შექმნისას: %1"
 
 #: src/library/librarywidget.cpp:464
 #, kde-format
@@ -9428,7 +9427,7 @@ msgstr "ხატულების ზომა"
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
-msgstr ""
+msgstr "ნაგულისხმები"
 
 #: src/mainwindow.cpp:4071 src/mainwindow.cpp:4099
 #, kde-format
@@ -9809,12 +9808,12 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:1368
 #, kde-format
 msgid "Pixel format:"
-msgstr ""
+msgstr "პიქსელის ფორმატი:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #, kde-format
 msgid "B frames:"
-msgstr ""
+msgstr "B კადრები:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #, kde-format
@@ -9829,7 +9828,7 @@ msgstr "არა"
 #: src/mltcontroller/clippropertiescontroller.cpp:1377
 #, kde-format
 msgid "Audio streams:"
-msgstr ""
+msgstr "აუდიონაკადები:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1383
 #, kde-format
@@ -9841,12 +9840,12 @@ msgstr "აუდიო კოდეკი:"
 #: src/ui/configproject_ui.ui:113 src/ui/projectsettings_ui.ui:122
 #, kde-format
 msgid "Audio channels:"
-msgstr ""
+msgstr "აუდიო არხები:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1391
 #, kde-format
 msgid "Audio frequency:"
-msgstr ""
+msgstr "აუდიოს სიხშირე:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1391
 #, kde-format
@@ -9857,7 +9856,7 @@ msgstr "ჰც"
 #: src/mltcontroller/clippropertiescontroller.cpp:1396
 #, kde-format
 msgid "Audio bitrate:"
-msgstr ""
+msgstr "აუდიოს ბიტური სიჩქარე:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1404
 #, kde-format
@@ -9904,7 +9903,7 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:1698
 #, kde-format
 msgid "Text File (*.txt)"
-msgstr ""
+msgstr "ტექსტური ფაილი (*.txt)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1697
 #, kde-format
@@ -10091,7 +10090,7 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:1602
 #, kde-format
 msgid "Set Zone"
-msgstr ""
+msgstr "ზონის დაყენება"
 
 #: src/monitor/monitor.cpp:1140
 #, kde-format
@@ -10114,8 +10113,8 @@ msgstr ""
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 აუდიო ნაკადი"
+msgstr[1] "%1 აუდიო ნაკადი"
 
 #: src/monitor/monitor.cpp:2178
 #, kde-format
@@ -10534,7 +10533,7 @@ msgstr "გიდის მოცილება"
 #, kde-format
 msgctxt "@title:window"
 msgid "Error Loading Data"
-msgstr ""
+msgstr "მონაცემების ჩატვირთვის შეცდომა"
 
 #: src/onlineresources/resourcewidget.cpp:81
 #, kde-format
@@ -10787,7 +10786,7 @@ msgstr "%1 თავიდან სცადეთ."
 #: src/onlineresources/resourcewidget.cpp:605
 #, kde-format
 msgid "Error Loading Data"
-msgstr ""
+msgstr "მონაცემების ჩატვირთვის შეცდომა"
 
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
