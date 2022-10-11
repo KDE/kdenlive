@@ -21,6 +21,8 @@
 #include <QQmlContext>
 #include <QStandardPaths>
 #include <QTextEdit>
+#include <knewstuff_version.h>
+
 #include <memory>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
@@ -90,13 +92,6 @@ void EffectListWidget::reloadCustomEffect(const QString &path)
 {
     static_cast<EffectTreeModel *>(m_model.get())->reloadEffect(path);
     m_proxyModel->sort(0, Qt::AscendingOrder);
-}
-
-void EffectListWidget::downloadNewEffects()
-{
-    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_effects.knsrc")) > 0) {
-        // reloadCustomEffect();
-    }
 }
 
 void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)

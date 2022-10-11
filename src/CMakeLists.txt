@@ -163,7 +163,6 @@ target_link_libraries(kdenliveLib
     KF5::KIOFileWidgets
     KF5::KIOWidgets
     KF5::NotifyConfig
-    KF5::NewStuff
     KF5::XmlGui
     KF5::GuiAddons
     KF5::Notifications
@@ -179,6 +178,14 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft)
+
+if(KF5NewStuff_VERSION VERSION_LESS "5.90")
+    target_link_libraries(kdenliveLib
+        KF5::NewStuff)
+else()
+    target_link_libraries(kdenliveLib
+        KF5::NewStuffWidgets)
+endif()
 
 if(USE_VERSIONLESS_TARGETS)
     target_link_libraries(kdenliveLib

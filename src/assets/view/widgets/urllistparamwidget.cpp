@@ -31,13 +31,29 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     m_list->setIconSize(QSize(50, 30));
     setMinimumHeight(m_list->sizeHint().height());
     // setup download
-    m_download->setHidden(configFile.isEmpty());
+    if (!configFile.isEmpty()) {
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
+        // TODO: ones we require at least KF 5.91 move this to the *.ui file
+        m_knsbutton = new KNSWidgets::Button(QString(), configFile, this);
+        connect(m_knsbutton, &KNSWidgets::Button::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+            if (changedEntries.count() > 0) {
+                if (configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
+                    MltConnection::refreshLumas();
+                }
+                slotRefresh();
+            }
+        });
+#else
+        m_knsbutton = new QToolButton(this);
+        m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download"));
+        connect(m_knsbutton, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
+#endif
+        m_value_box->layout()->addWidget(m_knsbutton);
+    }
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     m_isLutList = m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"));
-    slotRefresh();
-
-    connect(m_download, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
+    UrlListParamWidget::slotRefresh();
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
@@ -252,6 +268,7 @@ void UrlListParamWidget::openFile()
     m_list->setCurrentIndex(m_currentIndex);
 }
 
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 91, 0)
 void UrlListParamWidget::downloadNewItems()
 {
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
@@ -266,3 +283,4 @@ void UrlListParamWidget::downloadNewItems()
         slotRefresh();
     }
 }
+#endif

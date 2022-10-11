@@ -9,17 +9,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/taskmanager.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
+#include "utils/timecode.h"
+#include <KSharedDataCache>
+#include <QColor>
 #include <QMutex>
 #include <QObject>
-#include <QColor>
-#include <QUrl>
-#include <memory>
 #include <QPoint>
-#include <QThreadPool>
 #include <QTextEdit>
-#include <KSharedDataCache>
+#include <QThreadPool>
+#include <QUrl>
+#include <knewstuff_version.h>
+#include <memory>
 #include <unordered_set>
-#include "utils/timecode.h"
 
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltPlaylist.h>
@@ -273,10 +274,12 @@ public:
     MixAlignment getMixAlign(int cid) const;
     /** @brief Closing current document, do some cleanup */
     void cleanup();
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
      * @param configFile configuration file for KNewStuff
      * @return number of installed items */
     int getNewStuff(const QString &configFile);
+#endif
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist);

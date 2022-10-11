@@ -18,14 +18,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QString>
 #include <QUndoView>
 
-#include <kxmlgui_version.h>
 #include <KActionCategory>
 #include <KColorSchemeManager>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <kautosavefile.h>
-#include <utility>
+#include <knewstuff_version.h>
+#include <kxmlgui_version.h>
 #include <mlt++/Mlt.h>
+#include <utility>
 
 #include "bin/bin.h"
 #include "definitions.h"
@@ -164,10 +165,12 @@ public:
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
 
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
      * @param configFile configuration file for KNewStuff
      * @return number of installed items */
     int getNewStuff(const QString &configFile);
+#endif
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();

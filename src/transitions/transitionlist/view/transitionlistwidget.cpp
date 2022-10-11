@@ -66,12 +66,10 @@ void TransitionListWidget::setFilterType(const QString &type)
     }
 }
 
-void TransitionListWidget::downloadNewLumas()
+void TransitionListWidget::refreshLumas()
 {
-    if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
-        MltConnection::refreshLumas();
-        // TODO: refresh currently displayed trans ?
-    }
+    MltConnection::refreshLumas();
+    // TODO: refresh currently displayed trans ?
 }
 
 void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &) {}

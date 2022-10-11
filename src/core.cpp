@@ -1268,10 +1268,12 @@ void Core::cleanup()
     }
 }
 
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
 int Core::getNewStuff(const QString &config)
 {
     return m_mainWindow->getNewStuff(config);
 }
+#endif
 
 void Core::addBin(const QString &id)
 {

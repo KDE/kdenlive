@@ -7,6 +7,7 @@
 
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
+#include <knewstuff_version.h>
 
 class TransitionListWidgetProxy;
 
@@ -26,7 +27,7 @@ public:
      or kdenlive/transition*/
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
-    void downloadNewLumas();
+    void refreshLumas();
     void reloadCustomEffectIx(const QModelIndex &path) override;
     void editCustomAsset(const QModelIndex &index) override;
 
@@ -64,7 +65,7 @@ public:
 
     Q_INVOKABLE void setFilterName(const QString &pattern) { q->setFilterName(pattern); }
     Q_INVOKABLE QString getMimeType(const QString &assetId) const { return q->getMimeType(assetId); }
-    Q_INVOKABLE void downloadNewLumas() { q->downloadNewLumas(); }
+    Q_INVOKABLE void refreshLumas() { q->refreshLumas(); }
     bool showDescription() const { return KdenliveSettings::showeffectinfo(); }
 
     void setShowDescription(bool show)

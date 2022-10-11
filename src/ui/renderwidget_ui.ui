@@ -227,21 +227,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QToolButton" name="buttonDownload">
-                    <property name="toolTip">
-                     <string>Download New Render Presets…</string>
+                   <layout class="QHBoxLayout" name="downloadButtonBox">
+                    <property name="spacing">
+                     <number>0</number>
                     </property>
-                    <property name="text">
-                     <string>&amp;Download</string>
-                    </property>
-                    <property name="icon">
-                     <iconset theme="edit-download">
-                      <normaloff>.</normaloff>.</iconset>
-                    </property>
-                    <property name="autoRaise">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
+                   </layout>
                   </item>
                   <item>
                    <widget class="KSeparator" name="kseparator">
@@ -1122,7 +1112,6 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>optionsGroup</tabstop>
   <tabstop>buttonNew</tabstop>
-  <tabstop>buttonDownload</tabstop>
   <tabstop>buttonSaveAs</tabstop>
   <tabstop>buttonEdit</tabstop>
   <tabstop>buttonDelete</tabstop>

@@ -411,11 +411,24 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString());
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 90, 0)
     m_buttonDownload = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("edit-download")), i18n("Download New Title Templates..."));
     m_buttonDownload->setCheckable(false);
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
     m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString());
     connect(m_buttonDownload, &QAction::triggered, this, &TitleWidget::downloadTitleTemplates);
+#else
+    m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates..."), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
+    m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
+    m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString());
+    m_toolbar->addAction(m_buttonDownload);
+    connect(m_buttonDownload, &KNSWidgets::Action::dialogFinished, this, [&](const KNS3::Entry::List &changedEntries) {
+        if (changedEntries.count() > 0) {
+            refreshTitleTemplates(m_projectTitlePath);
+            refreshTemplateBoxContents();
+        }
+    });
+#endif
 
     layout->addWidget(m_toolbar);
 
@@ -2190,6 +2203,7 @@ QUrl TitleWidget::saveTitle(QUrl url)
     return QUrl();
 }
 
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 90, 0)
 void TitleWidget::downloadTitleTemplates()
 {
     if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_titles.knsrc")) > 0) {
@@ -2197,6 +2211,7 @@ void TitleWidget::downloadTitleTemplates()
         refreshTemplateBoxContents();
     }
 }
+#endif
 
 QDomDocument TitleWidget::xml()
 {

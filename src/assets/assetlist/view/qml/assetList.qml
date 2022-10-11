@@ -4,12 +4,14 @@
 */
 
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 // TODO: we need QQC1 for TreeView (not available in QQC2, but in Qt6 again)
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.4 as QQC1
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.15
 import QtQml.Models 2.15
+import org.kde.newstuff 1.86 as NewStuff
 import com.enums 1.0
 
 Rectangle {
@@ -44,14 +46,14 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: false
             spacing: 4
-            ExclusiveGroup { id: filterGroup}
+            ButtonGroup { id: buttonGroup }
             ToolButton {
                 id: showAll
-                iconName: "show-all-effects"
+                icon.name: "show-all-effects"
                 checkable: true
                 checked: true
-                exclusiveGroup: filterGroup
-                tooltip: isEffectList ? i18n("Main effects") : i18n("Main compositions")
+                ButtonGroup.group: buttonGroup
+                ToolTip.text: isEffectList ? i18n("Main effects") : i18n("Main compositions")
                 onClicked: {
                     assetlist.setFilterType("")
                 }
@@ -59,10 +61,10 @@ Rectangle {
             ToolButton {
                 id: showTransitions
                 visible: !isEffectList
-                iconName: "transform-move-horizontal"
+                icon.name: "transform-move-horizontal"
                 checkable:true
-                exclusiveGroup: filterGroup
-                tooltip: i18n("Show transitions only")
+                ButtonGroup.group: buttonGroup
+                ToolTip.text: i18n("Show transitions only")
                 onClicked: {
                     assetlist.setFilterType("transition")
                 }
@@ -70,11 +72,10 @@ Rectangle {
             ToolButton {
                 id: showVideo
                 visible: isEffectList
-                iconName: "kdenlive-show-video"
-                iconSource: 'image://icon/kdenlive-show-video'
+                icon.name: "kdenlive-show-video"
                 checkable:true
-                exclusiveGroup: filterGroup
-                tooltip: i18n("Show all video effects")
+                ButtonGroup.group: buttonGroup
+                ToolTip.text: i18n("Show all video effects")
                 onClicked: {
                     assetlist.setFilterType("video")
                 }
@@ -82,11 +83,10 @@ Rectangle {
             ToolButton {
                 id: showAudio
                 visible: isEffectList
-                iconName: "kdenlive-show-audio"
-                iconSource: 'image://icon/kdenlive-show-audio'
+                icon.name: "kdenlive-show-audio"
                 checkable:true
-                exclusiveGroup: filterGroup
-                tooltip: i18n("Show all audio effects")
+                ButtonGroup.group: buttonGroup
+                ToolTip.text: i18n("Show all audio effects")
                 onClicked: {
                     assetlist.setFilterType("audio")
                 }
@@ -94,20 +94,20 @@ Rectangle {
             ToolButton {
                 id: showCustom
                 visible: isEffectList
-                iconName: "kdenlive-custom-effect"
+                icon.name: "kdenlive-custom-effect"
                 checkable:true
-                exclusiveGroup: filterGroup
-                tooltip: i18n("Show all custom effects")
+                ButtonGroup.group: buttonGroup
+                ToolTip.text: i18n("Show all custom effects")
                 onClicked: {
                     assetlist.setFilterType("custom")
                 }
             }
             ToolButton {
                 id: showFavorites
-                iconName: "favorite"
+                icon.name: "favorite"
                 checkable:true
-                exclusiveGroup: filterGroup
-                tooltip: i18n("Show favorite items")
+                ButtonGroup.group: buttonGroup
+                ToolTip.text: i18n("Show favorite items")
                 onClicked: {
                     assetlist.setFilterType("favorites")
                 }
@@ -115,21 +115,28 @@ Rectangle {
             ToolButton {
                 id: downloadTransitions
                 visible: !isEffectList
-                iconName: "edit-download"
-                tooltip: i18n("Download New Wipes...")
-                onClicked: {
-                    assetlist.downloadNewLumas()
+                ToolTip.text: i18n("Download New Wipes...")
+                action: NewStuff.Action {
+                    configFile: ":data/kdenlive_wipes.knsrc"
+                    onEntryEvent: function (entry, event) {
+                        if (event === NewStuff.Entry.StatusChangedEvent) {
+                            assetlist.refreshLumas()
+                        }
+                    }
                 }
             }
             ToolButton {
                 id: downloadEffecs
                 visible: isEffectList
-                iconName: "edit-download"
-                tooltip: i18n("Download New Effects...")
-                onClicked: {
-                    assetlist.downloadNewEffects()
-                }
-            }
+                ToolTip.text: i18n("Download New Effects...")
+                action: NewStuff.Action {
+                    configFile: ":data/kdenlive_effects.knsrc"
+                    onEntryEvent: function (entry, event) {
+                        if (event === NewStuff.Entry.StatusChangedEvent) {
+                            // reloadCustomEffect();
+                        }
+                    }
+                }            }
             Rectangle {
                 //This is a spacer
                 Layout.fillHeight: false
@@ -138,9 +145,9 @@ Rectangle {
             }
             ToolButton {
                 id: showDescription
-                iconName: "help-about"
+                icon.name: "help-about"
                 checkable:true
-                tooltip: isEffectList ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions")
+                ToolTip.text: isEffectList ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions")
                 onCheckedChanged:{
                     assetlist.showDescription = checked
                 }
@@ -225,175 +232,177 @@ Rectangle {
             orientation: Qt.Vertical
             Layout.fillHeight: true
             Layout.fillWidth: true
-        TreeView {
-            id: treeView
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            alternatingRowColors: false
-            headerVisible: false
-            selection: sel
-            selectionMode: SelectionMode.SingleSelection
-            itemDelegate: Rectangle {
-                id: assetDelegate
-                // These anchors are important to allow "copy" dragging
-                anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                anchors.right: parent ? parent.right : undefined
-                property bool isItem : styleData.value !== "root" && styleData.value !== ""
-                property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
-                height: assetText.implicitHeight
-                color: dragArea.containsMouse ? activePalette.highlight : "transparent"
+            QQC1.TreeView {
+                id: treeView
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                alternatingRowColors: false
+                headerVisible: false
+                selection: sel
+                selectionMode: QQC1.SelectionMode.SingleSelection
+                itemDelegate: Rectangle {
+                    id: assetDelegate
+                    // These anchors are important to allow "copy" dragging
+                    anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+                    anchors.right: parent ? parent.right : undefined
+                    property bool isItem : styleData.value !== "root" && styleData.value !== ""
+                    property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
+                    height: assetText.implicitHeight
+                    color: dragArea.containsMouse ? activePalette.highlight : "transparent"
 
-                Drag.active: isItem ? dragArea.drag.active : false
-                Drag.dragType: Drag.Automatic
-                Drag.supportedActions: Qt.CopyAction
-                Drag.mimeData: isItem ? assetlist.getMimeData(styleData.value) : {}
-                Drag.keys:[
-                    isItem ? assetlist.getMimeType(styleData.value) : ""
-                ]
+                    Drag.active: isItem ? dragArea.drag.active : false
+                    Drag.dragType: Drag.Automatic
+                    Drag.supportedActions: Qt.CopyAction
+                    Drag.mimeData: isItem ? assetlist.getMimeData(styleData.value) : {}
+                    Drag.keys:[
+                        isItem ? assetlist.getMimeType(styleData.value) : ""
+                    ]
 
-                Row {
-                    anchors.fill:parent
-                    anchors.leftMargin: 1
-                    anchors.topMargin: 1
-                    anchors.bottomMargin: 1
-                    spacing: 4
-                    Image{
-                        id: assetThumb
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: assetDelegate.isItem
-                        property bool isFavorite: model == undefined || model.favorite === undefined ? false : model.favorite
-                        property bool isCustom: model == undefined ? false : model.type == AssetType.Custom || model.type == AssetType.CustomAudio
-                        height: parent.height * 0.8
-                        width: height
-                        source: assetText.text == '' ? '' : 'image://asseticon/' + assetText.text + '/' + model.type
-                    }
-                    Label {
-                        id: assetText
-                        font.bold : assetThumb.isFavorite
-                        text: assetlist.getName(styleData.index)
-                    }
-                }
-                MouseArea {
-                    id: dragArea
-                    anchors.fill: assetDelegate
-                    hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-                    drag.target: undefined
-                    onReleased: {
-                        drag.target = undefined
-                    }
-                    onPressed: {
-                        if (assetDelegate.isItem) {
-                            //sel.select(styleData.index, ItemSelectionModel.Select)
-                            sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
-                            if (mouse.button === Qt.LeftButton) {
-                                drag.target = parent
-                                // grabToImage does not work on QQuickWidget from AssetListWidget. We should use QQuickView + QWidget::createWindowContainer
-                                /*parent.grabToImage(function(result) {
-                                    parent.Drag.imageSource = result.url
-                                })*/
-                            } else {
-                                drag.target = undefined
-                                assetContextMenu.isItemFavorite = assetThumb.isFavorite
-                                assetContextMenu.isCustom = assetThumb.isCustom
-                                assetContextMenu.popup()
-                                mouse.accepted = false
-                            }
-                            console.log(parent.Drag.keys)
-                        } else {
-                            if (treeView.isExpanded(styleData.index)) {
-                                treeView.collapse(styleData.index)
-                            } else {
-                                treeView.expand(styleData.index)
-                            }
-
+                    Row {
+                        anchors.fill:parent
+                        anchors.leftMargin: 1
+                        anchors.topMargin: 1
+                        anchors.bottomMargin: 1
+                        spacing: 4
+                        Image{
+                            id: assetThumb
+                            anchors.verticalCenter: parent.verticalCenter
+                            visible: assetDelegate.isItem
+                            property bool isFavorite: model == undefined || model.favorite === undefined ? false : model.favorite
+                            property bool isCustom: model == undefined ? false : model.type == AssetType.Custom || model.type == AssetType.CustomAudio
+                            height: parent.height * 0.8
+                            width: height
+                            source: assetText.text == '' ? '' : 'image://asseticon/' + assetText.text + '/' + model.type
                         }
-                        treeView.focus = true
-                    }
-                    onDoubleClicked: {
-                        if (isItem) {
-                            assetlist.activate(styleData.index)
+                        Label {
+                            id: assetText
+                            font.bold : assetThumb.isFavorite
+                            text: assetlist.getName(styleData.index)
                         }
                     }
-                }
-            }
-            Menu {
-                id: assetContextMenu
-                property bool isItemFavorite
-                property bool isCustom: false
-                MenuItem {
-                    text: assetContextMenu.isItemFavorite ? i18n("Remove from favorites") : i18n("Add to favorites")
-                    onTriggered: {
-                        assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
-                    }
-                }
-                MenuItem {
-                    id: removeMenu
-                    text: i18n("Delete custom effect")
-                    visible: isEffectList && assetContextMenu.isCustom
-                    onTriggered: {
-                        assetlist.deleteCustomEffect(sel.currentIndex)
-                    }
-                }
-                MenuItem {
-                    id: reloadMenu
-                    text: i18n("Reload custom effect")
-                    visible: isEffectList && assetContextMenu.isCustom
-                    onTriggered: {
-                        assetlist.reloadCustomEffectIx(sel.currentIndex)
-                    }
-                }
-                MenuItem {
-                    id: editMenu
-                    text: i18n("Edit Info")
-                    visible: isEffectList && assetContextMenu.isCustom
-                    onTriggered: {
-                        assetlist.editCustomEffectInfo(sel.currentIndex)
-                    }
-                }
-                MenuItem {
-                    id: exportMenu
-                    text: i18n("Export XML…")
-                    visible: isEffectList && assetContextMenu.isCustom
-                    onTriggered: {
-                        assetlist.exportCustomEffect(sel.currentIndex)
-                    }
-                }
-            }
+                    MouseArea {
+                        id: dragArea
+                        anchors.fill: assetDelegate
+                        hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        drag.target: undefined
+                        onReleased: {
+                            drag.target = undefined
+                        }
+                        onPressed: {
+                            if (assetDelegate.isItem) {
+                                //sel.select(styleData.index, ItemSelectionModel.Select)
+                                sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
+                                if (mouse.button === Qt.LeftButton) {
+                                    drag.target = parent
+                                    // grabToImage does not work on QQuickWidget from AssetListWidget. We should use QQuickView + QWidget::createWindowContainer
+                                    /*parent.grabToImage(function(result) {
+                                        parent.Drag.imageSource = result.url
+                                    })*/
+                                } else {
+                                    drag.target = undefined
+                                    assetContextMenu.isItemFavorite = assetThumb.isFavorite
+                                    assetContextMenu.isCustom = assetThumb.isCustom
+                                    assetContextMenu.popup()
+                                    mouse.accepted = false
+                                }
+                                console.log(parent.Drag.keys)
+                            } else {
+                                if (treeView.isExpanded(styleData.index)) {
+                                    treeView.collapse(styleData.index)
+                                } else {
+                                    treeView.expand(styleData.index)
+                                }
 
-            TableViewColumn { role: "identifier"; title: i18n("Name"); }
-            model: assetListModel
+                            }
+                            treeView.focus = true
+                        }
+                        onDoubleClicked: {
+                            if (isItem) {
+                                assetlist.activate(styleData.index)
+                            }
+                        }
+                    }
+                }
+                Menu {
+                    id: assetContextMenu
+                    property bool isItemFavorite
+                    property bool isCustom: false
+                    MenuItem {
+                        text: assetContextMenu.isItemFavorite ? i18n("Remove from favorites") : i18n("Add to favorites")
+                        onTriggered: {
+                            assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
+                        }
+                    }
+                    MenuItem {
+                        id: removeMenu
+                        text: i18n("Delete custom effect")
+                        visible: isEffectList && assetContextMenu.isCustom
+                        onTriggered: {
+                            assetlist.deleteCustomEffect(sel.currentIndex)
+                        }
+                    }
+                    MenuItem {
+                        id: reloadMenu
+                        text: i18n("Reload custom effect")
+                        visible: isEffectList && assetContextMenu.isCustom
+                        onTriggered: {
+                            assetlist.reloadCustomEffectIx(sel.currentIndex)
+                        }
+                    }
+                    MenuItem {
+                        id: editMenu
+                        text: i18n("Edit Info")
+                        visible: isEffectList && assetContextMenu.isCustom
+                        onTriggered: {
+                            assetlist.editCustomEffectInfo(sel.currentIndex)
+                        }
+                    }
+                    MenuItem {
+                        id: exportMenu
+                        text: i18n("Export XML…")
+                        visible: isEffectList && assetContextMenu.isCustom
+                        onTriggered: {
+                            assetlist.exportCustomEffect(sel.currentIndex)
+                        }
+                    }
+                }
 
-            Keys.onDownPressed: {
-                sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
-                treeView.expand(sel.currentIndex.parent)
-                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
+                QQC1.TableViewColumn { role: "identifier"; title: i18n("Name"); }
+                model: assetListModel
+
+                Keys.onDownPressed: {
+                    sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
+                    treeView.expand(sel.currentIndex.parent)
+                    treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
+                }
+                Keys.onUpPressed: {
+                    sel.setCurrentIndex(assetListModel.getPreviousChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
+                    treeView.expand(sel.currentIndex.parent)
+                    treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
+                }
+                Keys.onReturnPressed: {
+                    if (sel.hasSelection) {
+                        assetlist.activate(sel.currentIndex)
+                    }
+                }
+
             }
-            Keys.onUpPressed: {
-                sel.setCurrentIndex(assetListModel.getPreviousChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
-                treeView.expand(sel.currentIndex.parent)
-                treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
-            }
-            Keys.onReturnPressed: {
-                if (sel.hasSelection) {
-                    assetlist.activate(sel.currentIndex)
+            ScrollView {
+                visible: showDescription.checked
+                SplitView.fillWidth: true
+                SplitView.minimumHeight: font.pixelSize * 5
+                height: 50
+                TextArea {
+                    id: assetDescription
+                    text: ""
+                    readOnly: true
+                    states: State {
+                        name: "hasDescription"; when: assetDescription.text != '' && showDescription.checked
+                        PropertyChanges { target: assetDescription; visible: true}
+                    }
                 }
             }
-
-        }
-        TextArea {
-            id: assetDescription
-            text: ""
-            visible: showDescription.checked
-            readOnly: true
-            Layout.fillWidth: true
-            height: font.pixelSize * 5
-            states: State {
-                name: "hasDescription"; when: assetDescription.text != '' && showDescription.checked
-                PropertyChanges { target: assetDescription; visible: true}
-            }
-        }
-
         }
     }
 }

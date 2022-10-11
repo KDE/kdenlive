@@ -2374,9 +2374,10 @@ void MainWindow::slotEditKeys()
     KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
 
 #if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 98, 0)
-    QAction *downloadKeybordSchemes = new QAction(QIcon::fromTheme(QStringLiteral("download")), i18n("Download New Keyboard Schemes…"), &dialog);
-    connect(downloadKeybordSchemes, &QAction::triggered, this, [&]() {
-        if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
+    KNSWidgets::Action *downloadKeybordSchemes =
+        new KNSWidgets::Action(i18n("Download New Keyboard Schemes…"), QStringLiteral(":data/kdenlive_keyboardschemes.knsrc"), this);
+    connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const KNS3::Entry::List &changedEntries) {
+        if (changedEntries.count() > 0) {
             dialog.refreshSchemes();
         }
     });
@@ -3407,9 +3408,9 @@ void MainWindow::slotResizeItemEnd()
     getMainTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
 }
 
+#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
 int MainWindow::getNewStuff(const QString &configFile)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     KNS3::QtQuickDialogWrapper dialog(configFile);
     const QList<KNSCore::EntryInternal> entries = dialog.exec();
     for (const auto &entry : qAsConst(entries)) {
@@ -3418,11 +3419,8 @@ int MainWindow::getNewStuff(const QString &configFile)
         }
     }
     return entries.size();
-#else
-    // TODO: qt6
-    return 0;
-#endif
 }
+#endif
 
 #if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
 void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)

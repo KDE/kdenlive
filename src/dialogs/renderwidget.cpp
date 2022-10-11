@@ -37,6 +37,7 @@
 #include <KMessageBox>
 #include <KNotification>
 #include <kio_version.h>
+#include <knewstuff_version.h>
 #include <knotifications_version.h>
 
 #include "kdenlive_debug.h"
@@ -153,7 +154,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonEdit->setIconSize(iconSize);
     m_view.buttonNew->setIconSize(iconSize);
     m_view.buttonSaveAs->setIconSize(iconSize);
-    m_view.buttonDownload->setIconSize(iconSize);
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
@@ -174,11 +174,29 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         refreshView();
     });
     connect(m_view.buttonSaveAs, &QAbstractButton::clicked, this, &RenderWidget::slotSavePresetAs);
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
+    // TODO: ones we require at least KF 5.91 move this to the *.ui file
+    m_knsbutton = new KNSWidgets::Button(QString(), QStringLiteral(":data/kdenlive_renderprofiles.knsrc"), this);
+    m_knsbutton->setFlat(true);
+    connect(m_knsbutton, &KNSWidgets::Button::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+        if (changedEntries.count() > 0) {
+            parseProfiles();
+        }
+    });
+#else
+    m_knsbutton = new QToolButton(this);
+    m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download"));
+    m_knsbutton->setAutoRaise(true);
     connect(m_view.buttonDownload, &QAbstractButton::clicked, this, [&]() {
         if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
             parseProfiles();
         }
     });
+#endif
+    m_knsbutton->setIconSize(iconSize);
+    m_knsbutton->setToolTip(i18n("Download New Render Presets…"));
+    m_view.downloadButtonBox->addWidget(m_knsbutton);
+
     m_view.optionsGroup->setVisible(m_view.options->isChecked());
     m_view.optionsGroup->setMinimumWidth(m_view.optionsGroup->width() + m_view.optionsGroup->verticalScrollBar()->width());
     connect(m_view.options, &QAbstractButton::toggled, m_view.optionsGroup, &QWidget::setVisible);

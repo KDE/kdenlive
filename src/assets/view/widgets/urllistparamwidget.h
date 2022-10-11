@@ -9,6 +9,10 @@
 #include "ui_urllistparamwidget_ui.h"
 #include <QVariant>
 #include <QWidget>
+#include <knewstuff_version.h>
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
+#include <KNSWidgets/Button>
+#endif
 
 class AssetParameterModel;
 
@@ -62,6 +66,11 @@ private:
     int m_currentIndex;
     bool m_isLutList;
     bool m_isLumaList;
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
+    KNSWidgets::Button *m_knsbutton;
+#else
+    QToolButton *m_knsbutton;
+#endif
     /** @brief Reads the first 30 lines of a .cube LUT file and check for validity
      */
     bool isValidCubeFile(const QString &path);
@@ -79,8 +88,9 @@ public slots:
      */
     void openFile();
 
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 91, 0)
     /** @brief Open KNewStuff dialog to download new LUTs
      */
     void downloadNewItems();
-
+#endif
 };
