@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-10 00:45+0000\n"
+"POT-Creation-Date: 2022-10-12 00:46+0000\n"
 "PO-Revision-Date: 2022-04-28 19:14+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2443,7 +2443,7 @@ msgstr "säde"
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: data/effects/vignette.xml:13 src/ui/profiledialog_ui.ui:203
-#: src/ui/renderwidget_ui.ui:534
+#: src/ui/renderwidget_ui.ui:524
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -3088,22 +3088,22 @@ msgstr ""
 msgid "Generator Failed"
 msgstr "Tuottaminen epäonnistui"
 
-#: src/assets/assetlist/view/qml/assetList.qml:54
+#: src/assets/assetlist/view/qml/assetList.qml:56
 #, kde-format
 msgid "Main effects"
 msgstr "Päätehoste"
 
-#: src/assets/assetlist/view/qml/assetList.qml:54
+#: src/assets/assetlist/view/qml/assetList.qml:56
 #, kde-format
 msgid "Main compositions"
 msgstr "Jälkituotanto"
 
-#: src/assets/assetlist/view/qml/assetList.qml:65
+#: src/assets/assetlist/view/qml/assetList.qml:67
 #, kde-format
 msgid "Show transitions only"
 msgstr "Näytä vain siirtymät"
 
-#: src/assets/assetlist/view/qml/assetList.qml:77
+#: src/assets/assetlist/view/qml/assetList.qml:78
 #, kde-format
 msgid "Show all video effects"
 msgstr "Näytä videotehosteet"
@@ -3123,57 +3123,57 @@ msgstr "Näytä mukautetut tehosteet"
 msgid "Show favorite items"
 msgstr "Näytä suosikkitehosteet"
 
-#: src/assets/assetlist/view/qml/assetList.qml:119
+#: src/assets/assetlist/view/qml/assetList.qml:118
 #, kde-format
 msgid "Download New Wipes..."
 msgstr "Lataa uusia pyyhkäisyjä…"
 
-#: src/assets/assetlist/view/qml/assetList.qml:128
+#: src/assets/assetlist/view/qml/assetList.qml:131
 #, kde-format
 msgid "Download New Effects..."
 msgstr "Lataa uusia tehosteita…"
 
-#: src/assets/assetlist/view/qml/assetList.qml:143
+#: src/assets/assetlist/view/qml/assetList.qml:150
 #, kde-format
 msgid "Show/hide description of the effects"
 msgstr "Näytä/piilota tehosteiden kuvaus"
 
-#: src/assets/assetlist/view/qml/assetList.qml:143
+#: src/assets/assetlist/view/qml/assetList.qml:150
 #, kde-format
 msgid "Show/hide description of the compositions"
 msgstr "Näytä/piilota koostamisen kuvaus"
 
-#: src/assets/assetlist/view/qml/assetList.qml:325
+#: src/assets/assetlist/view/qml/assetList.qml:332
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Poista suosikeista"
 
-#: src/assets/assetlist/view/qml/assetList.qml:325
+#: src/assets/assetlist/view/qml/assetList.qml:332
 #, kde-format
 msgid "Add to favorites"
 msgstr "Lisää suosikkeihin"
 
-#: src/assets/assetlist/view/qml/assetList.qml:332
+#: src/assets/assetlist/view/qml/assetList.qml:339
 #, kde-format
 msgid "Delete custom effect"
 msgstr "Poista mukautettu tehoste"
 
-#: src/assets/assetlist/view/qml/assetList.qml:340
+#: src/assets/assetlist/view/qml/assetList.qml:347
 #, kde-format
 msgid "Reload custom effect"
 msgstr "Poista mukautettu tehoste"
 
-#: src/assets/assetlist/view/qml/assetList.qml:348
+#: src/assets/assetlist/view/qml/assetList.qml:355
 #, kde-format
 msgid "Edit Info"
 msgstr "Muokkaa tiedot"
 
-#: src/assets/assetlist/view/qml/assetList.qml:356
+#: src/assets/assetlist/view/qml/assetList.qml:363
 #, kde-format
 msgid "Export XML…"
 msgstr "Vie XML..."
 
-#: src/assets/assetlist/view/qml/assetList.qml:364 src/bin/bin.cpp:1254
+#: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1254
 #: src/bin/projectitemmodel.cpp:296
 #, kde-format
 msgid "Name"
@@ -3419,7 +3419,7 @@ msgid "Update current preset"
 msgstr "Päivitä nykyinen esiasetus"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:299
+#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:289
 #, kde-format
 msgid "Delete preset"
 msgstr "Poista esiasetus"
@@ -3764,17 +3764,17 @@ msgstr "<Valitse hakusana>"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:171
 #: src/assets/view/widgets/listparamwidget.cpp:95
-#: src/assets/view/widgets/urllistparamwidget.cpp:119
+#: src/assets/view/widgets/urllistparamwidget.cpp:135
 #, kde-format
 msgid "None (Dissolve)"
 msgstr "Ei mitään (häivytä)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:195
+#: src/assets/view/widgets/urllistparamwidget.cpp:211
 #, kde-format
 msgid "Custom…"
 msgstr "Mukautettu..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:244
+#: src/assets/view/widgets/urllistparamwidget.cpp:260
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid LUT file %1"
@@ -4041,7 +4041,7 @@ msgid "Missing source clip"
 msgstr "Lähdeleike puuttuu"
 
 #: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
-#: src/effects/effectlist/view/effectlistwidget.cpp:154
+#: src/effects/effectlist/view/effectlistwidget.cpp:149
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
@@ -4159,7 +4159,7 @@ msgstr "Vaimenna video"
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:539
 #: src/ui/configcapture_ui.ui:521 src/ui/cutjobdialog_ui.ui:57
 #: src/ui/editrenderpreset_ui.ui:840 src/ui/projectsettings_ui.ui:168
-#: src/ui/renderwidget_ui.ui:606
+#: src/ui/renderwidget_ui.ui:596
 #, kde-format
 msgid "Audio"
 msgstr "Ääni"
@@ -4354,7 +4354,7 @@ msgstr "Tehosteita ei voi käyttää kansioihin"
 
 #: src/bin/bin.cpp:3580 src/effects/effectstack/model/effectstackmodel.cpp:496
 #: src/effects/effectstack/model/effectstackmodel.cpp:501
-#: src/mainwindow.cpp:3001
+#: src/mainwindow.cpp:3002
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tehostetta ei voitu lisätä tähän leikkeeseen"
@@ -4420,7 +4420,7 @@ msgstr ""
 "Muokkaat ulkoista tekstileikettä (%1). Haluatko tallentaa muutokset myös "
 "tekstitiedostoon vai ainoastaan tähän projektiin?"
 
-#: src/bin/bin.cpp:4368 src/titler/titlewidget.cpp:2169
+#: src/bin/bin.cpp:4368 src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid "Save Title"
 msgstr "Tallenna teksti"
@@ -4498,7 +4498,7 @@ msgstr ""
 "Projektisi tarvitsee lisää ääniraitoja kaiken videon käsittelemiseksi. "
 "Lisätäänkö %1 ääniraitaa?"
 
-#: src/bin/bin.cpp:5042 src/mainwindow.cpp:2590
+#: src/bin/bin.cpp:5042 src/mainwindow.cpp:2591
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Leikettä merkkauksen lisäämiseen ei löydy"
@@ -4788,7 +4788,7 @@ msgstr "Poista tekstitys"
 msgid "Move subtitle"
 msgstr "Siirrä tekstitys"
 
-#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:803
+#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:821
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:498
 #: src/effects/effectstack/view/effectstackview.cpp:558
 #: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:830
@@ -5347,9 +5347,9 @@ msgstr "Tekstileikkeen mallipohja"
 
 #: src/dialogs/clipcreationdialog.cpp:459
 #: src/dialogs/clipcreationdialog.cpp:556
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:137
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3701 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3699 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Kaikki tiedostot"
@@ -5467,7 +5467,7 @@ msgid "Export guides as chapters description"
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:46 src/dialogs/markerdialog.cpp:37
-#: src/dialogs/renderwidget.cpp:502 src/jobs/scenesplittask.cpp:60
+#: src/dialogs/renderwidget.cpp:520 src/jobs/scenesplittask.cpp:60
 #, kde-format
 msgid "Category %1"
 msgstr "Luokka %1"
@@ -5519,7 +5519,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "&Opastealue"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3622
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3620
 #, kde-format
 msgid "Timeline"
 msgstr "Aikajana"
@@ -5960,130 +5960,135 @@ msgstr ""
 "Seuraavilla parametreilla ei ole merkitystä, koska ne korvataan vastaavilla "
 "käyttöliittymäasetuksilla: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:106 src/dialogs/renderwidget.cpp:1757
+#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1775
 #, kde-format
 msgid "Waiting…"
 msgstr "Odotetaan…"
 
-#: src/dialogs/renderwidget.cpp:109
+#: src/dialogs/renderwidget.cpp:110
 #, kde-format
 msgid "Rendering finished"
 msgstr "Hahmonnus valmis"
 
-#: src/dialogs/renderwidget.cpp:114
+#: src/dialogs/renderwidget.cpp:115
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Hahmonnus kaatui"
 
-#: src/dialogs/renderwidget.cpp:119
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Hahmonnus keskeytetty"
 
-#: src/dialogs/renderwidget.cpp:202 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:197
+#, kde-format
+msgid "Download New Render Presets…"
+msgstr "Lataa uusia hahmonnusesiasetuksia…"
+
+#: src/dialogs/renderwidget.cpp:220 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Ei mitään"
 
-#: src/dialogs/renderwidget.cpp:203
+#: src/dialogs/renderwidget.cpp:221
 #, kde-format
 msgid "Timecode"
 msgstr "Aika"
 
-#: src/dialogs/renderwidget.cpp:204
+#: src/dialogs/renderwidget.cpp:222
 #, fuzzy, kde-format
 #| msgid "Timecode non drop frame"
 msgid "Timecode Non Drop Frame"
 msgstr "Aikakoodi ei pudota ruutuja"
 
-#: src/dialogs/renderwidget.cpp:205
+#: src/dialogs/renderwidget.cpp:223
 #, kde-format
 msgid "Frame Number"
 msgstr "Kehyksen numero"
 
-#: src/dialogs/renderwidget.cpp:209
+#: src/dialogs/renderwidget.cpp:227
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Hahmonnetaan heikkolaatuisella puskurilla"
 
-#: src/dialogs/renderwidget.cpp:276
+#: src/dialogs/renderwidget.cpp:294
 #, kde-format
 msgid "File"
 msgstr "Tiedosto"
 
-#: src/dialogs/renderwidget.cpp:285
+#: src/dialogs/renderwidget.cpp:303
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Tallennetut listat"
 
-#: src/dialogs/renderwidget.cpp:302 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:320 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:325
+#: src/dialogs/renderwidget.cpp:343
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:333
+#: src/dialogs/renderwidget.cpp:351
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Tiedoston jakamisessa sattui virhe: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:333 src/dialogs/renderwidget.cpp:341
-#: src/ui/renderwidget_ui.ui:892
+#: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
+#: src/ui/renderwidget_ui.ui:882
 #, kde-format
 msgid "Share"
 msgstr "Jaa"
 
-#: src/dialogs/renderwidget.cpp:338
+#: src/dialogs/renderwidget.cpp:356
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Asiakirjan jakaminen onnistui"
 
-#: src/dialogs/renderwidget.cpp:341
+#: src/dialogs/renderwidget.cpp:359
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Löydät jaetun tiedoston osoitteesta: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:477
+#: src/dialogs/renderwidget.cpp:495
 #, kde-format
 msgid "Beginning"
 msgstr "Alku"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:484 src/ui/wipeval_ui.ui:167
+#: src/dialogs/renderwidget.cpp:502 src/ui/wipeval_ui.ui:167
 #, kde-format
 msgid "End"
 msgstr "Loppu"
 
-#: src/dialogs/renderwidget.cpp:497
+#: src/dialogs/renderwidget.cpp:515
 #, kde-format
 msgid "All Categories"
 msgstr "Kaikki luokat"
 
-#: src/dialogs/renderwidget.cpp:616
+#: src/dialogs/renderwidget.cpp:634
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Lisää leike aikajanalle ennen hahmonnusta"
 
-#: src/dialogs/renderwidget.cpp:622
+#: src/dialogs/renderwidget.cpp:640
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Hahmonnuksen vaadittavaa melt-ohjelmaa ei löydy (osa MLT:tä)"
 
-#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1732
+#: src/dialogs/renderwidget.cpp:646 src/dialogs/renderwidget.cpp:1750
 #: src/project/dialogs/archivewidget.cpp:885
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Tiedosto on jo olemassa. Korvataanko?"
 
-#: src/dialogs/renderwidget.cpp:635 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:653 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6092,43 +6097,43 @@ msgstr ""
 "Kansiota %1 ei voida luoda.\n"
 "Varmista, että sinulla on vaadittavat oikeudet."
 
-#: src/dialogs/renderwidget.cpp:679 src/dialogs/renderwidget.cpp:754
+#: src/dialogs/renderwidget.cpp:697 src/dialogs/renderwidget.cpp:772
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "Väliaikaista tiedostoa ei voitu luoda"
 
-#: src/dialogs/renderwidget.cpp:724
+#: src/dialogs/renderwidget.cpp:742
 #, kde-format
 msgid "begin"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:779
+#: src/dialogs/renderwidget.cpp:797
 #, kde-format
 msgid "export"
 msgstr "vie"
 
-#: src/dialogs/renderwidget.cpp:794
+#: src/dialogs/renderwidget.cpp:812
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Viivästetty hahmonnus"
 
-#: src/dialogs/renderwidget.cpp:794
+#: src/dialogs/renderwidget.cpp:812
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Valitse nimi tälle videolle."
 
-#: src/dialogs/renderwidget.cpp:889
+#: src/dialogs/renderwidget.cpp:907
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:928 src/dialogs/renderwidget.cpp:933
-#: src/dialogs/renderwidget.cpp:986 src/dialogs/renderwidget.cpp:991
-#: src/dialogs/renderwidget.cpp:1932 src/dialogs/renderwidget.cpp:1959
+#: src/dialogs/renderwidget.cpp:946 src/dialogs/renderwidget.cpp:951
+#: src/dialogs/renderwidget.cpp:1004 src/dialogs/renderwidget.cpp:1009
+#: src/dialogs/renderwidget.cpp:1950 src/dialogs/renderwidget.cpp:1977
 #: src/doc/kdenlivedoc.cpp:672 src/doc/kdenlivedoc.cpp:680
 #: src/doc/kdenlivedoc.cpp:1047
 #: src/effects/effectlist/model/effecttreemodel.cpp:253
@@ -6148,12 +6153,12 @@ msgstr ""
 #: src/renderpresets/renderpresetrepository.cpp:380
 #: src/renderpresets/renderpresetrepository.cpp:439
 #: src/timeline2/view/timelinecontroller.cpp:4940
-#: src/titler/titlewidget.cpp:2185
+#: src/titler/titlewidget.cpp:2198
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Tiedostoon %1 ei voida kirjoittaa"
 
-#: src/dialogs/renderwidget.cpp:1029 src/dialogs/renderwidget.cpp:1744
+#: src/dialogs/renderwidget.cpp:1047 src/dialogs/renderwidget.cpp:1762
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6162,97 +6167,97 @@ msgstr ""
 "Yksi työ kirjoittaa jo tiedostoon:<br /><b>%1</b><br />Keskeytä työ, jos "
 "haluat korvata sen…"
 
-#: src/dialogs/renderwidget.cpp:1030 src/dialogs/renderwidget.cpp:1745
+#: src/dialogs/renderwidget.cpp:1048 src/dialogs/renderwidget.cpp:1763
 #, kde-format
 msgid "Already running"
 msgstr "On jo käynnissä"
 
-#: src/dialogs/renderwidget.cpp:1059
+#: src/dialogs/renderwidget.cpp:1077
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video ilman ääniraitaa"
 
-#: src/dialogs/renderwidget.cpp:1061
+#: src/dialogs/renderwidget.cpp:1079
 #, kde-format
 msgid "Audio without video track"
 msgstr "Ääni ilman videoraitaa"
 
-#: src/dialogs/renderwidget.cpp:1125
+#: src/dialogs/renderwidget.cpp:1143
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Tiedoston <i>%1</i> hahmonnus aloitettu"
 
-#: src/dialogs/renderwidget.cpp:1191 src/monitor/monitor.cpp:1128
+#: src/dialogs/renderwidget.cpp:1209 src/monitor/monitor.cpp:1128
 #, kde-format
 msgid "untitled"
 msgstr "nimetön"
 
-#: src/dialogs/renderwidget.cpp:1229
+#: src/dialogs/renderwidget.cpp:1247
 #, kde-format
 msgid "No preset selected"
 msgstr "Esiasetusta ei ole valittu"
 
-#: src/dialogs/renderwidget.cpp:1231
+#: src/dialogs/renderwidget.cpp:1249
 #, kde-format
 msgid "No matching preset"
 msgstr "Ei sopivaa esiasetusta"
 
-#: src/dialogs/renderwidget.cpp:1243
+#: src/dialogs/renderwidget.cpp:1261
 #, kde-format
 msgid "Invalid preset"
 msgstr "Virheellinen esiasetus"
 
-#: src/dialogs/renderwidget.cpp:1347
+#: src/dialogs/renderwidget.cpp:1365
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1506
+#: src/dialogs/renderwidget.cpp:1524
 #, kde-format
 msgid "Remaining time "
 msgstr "Jäljellä oleva aika "
 
-#: src/dialogs/renderwidget.cpp:1508 src/dialogs/renderwidget.cpp:1540
+#: src/dialogs/renderwidget.cpp:1526 src/dialogs/renderwidget.cpp:1558
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 päivä"
 msgstr[1] "%1 päivää"
 
-#: src/dialogs/renderwidget.cpp:1512
+#: src/dialogs/renderwidget.cpp:1530
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (ruutu %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1542
+#: src/dialogs/renderwidget.cpp:1560
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Hahmonnus valmis ajassa %1"
 
-#: src/dialogs/renderwidget.cpp:1551
+#: src/dialogs/renderwidget.cpp:1569
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Työn %1 hahmonnus valmis ajassa %2"
 
-#: src/dialogs/renderwidget.cpp:1575
+#: src/dialogs/renderwidget.cpp:1593
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Työn %1 hahmonnus kaatui</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1618 src/ui/renderwidget_ui.ui:885
+#: src/dialogs/renderwidget.cpp:1636 src/ui/renderwidget_ui.ui:875
 #, kde-format
 msgid "Abort Job"
 msgstr "Keskeytä työ"
 
-#: src/dialogs/renderwidget.cpp:1621
+#: src/dialogs/renderwidget.cpp:1639
 #, kde-format
 msgid "Remove Job"
 msgstr "Poista työ"
 
-#: src/dialogs/renderwidget.cpp:2062
+#: src/dialogs/renderwidget.cpp:2080
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6261,7 +6266,7 @@ msgstr ""
 "Koodekin nopeusasetukset:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2082
+#: src/dialogs/renderwidget.cpp:2100
 #, kde-format
 msgid "Add to current project"
 msgstr "Lisää projektiin"
@@ -6607,8 +6612,8 @@ msgstr "Tarkista laitteistopohjainen kiihdytys"
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:169 src/project/cliptranscode.cpp:268
-#: src/ui/renderwidget_ui.ui:360 src/ui/renderwidget_ui.ui:928
-#: src/ui/renderwidget_ui.ui:1086
+#: src/ui/renderwidget_ui.ui:350 src/ui/renderwidget_ui.ui:918
+#: src/ui/renderwidget_ui.ui:1076
 #, kde-format
 msgid "Close"
 msgstr "Sulje"
@@ -7336,22 +7341,22 @@ msgstr ""
 "Tehosteen nimi %1 on jo olemassa.\n"
 "Korvataanko?"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:119
+#: src/effects/effectlist/view/effectlistwidget.cpp:114
 #, kde-format
 msgid "Name : "
 msgstr "Nimi :"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:120
+#: src/effects/effectlist/view/effectlistwidget.cpp:115
 #, kde-format
 msgid "Comments : "
 msgstr "Kommentit :"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:137
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr "Kdenlive tehosteen määritelmät"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:147
+#: src/effects/effectlist/view/effectlistwidget.cpp:142
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
@@ -7832,13 +7837,13 @@ msgid "Markers"
 msgstr "Merkinnät"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3577
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3575
 #, kde-format
 msgid "Extract Audio"
 msgstr "Poimi ääni"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3545
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3543
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Leiketyöt"
@@ -8841,7 +8846,7 @@ msgstr "Sovita lähennys projektiin"
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Kokeellinen GPU-laskenta käytössä - ei tuotantoon"
 
-#: src/mainwindow.cpp:1307 src/mainwindow.cpp:3233
+#: src/mainwindow.cpp:1307 src/mainwindow.cpp:3234
 #, kde-format
 msgid "Multicam"
 msgstr "Useampi kamera"
@@ -8855,7 +8860,7 @@ msgstr "Aktiivinen työkalu ja muokkaustila"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1360 src/ui/editrenderpreset_ui.ui:414
-#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:747
+#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:737
 #, kde-format
 msgid "Auto"
 msgstr "Automaattinen"
@@ -9546,28 +9551,28 @@ msgstr "Tämä poistaa kaikki käyttämättömät leikkeet projektista."
 msgid "Clean up project"
 msgstr "Siivoa projekti"
 
-#: src/mainwindow.cpp:2377 src/mainwindow.cpp:2401
+#: src/mainwindow.cpp:2378 src/mainwindow.cpp:2402
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Lataa uusia pikanäppäinasetteluja…"
 
-#: src/mainwindow.cpp:2388
+#: src/mainwindow.cpp:2389
 #, kde-format
 msgid "Current scheme:"
 msgstr "Nykyinen asettelu:"
 
-#: src/mainwindow.cpp:2398
+#: src/mainwindow.cpp:2399
 #, kde-format
 msgid "More Actions"
 msgstr "Lisää toimintoja"
 
-#: src/mainwindow.cpp:2410
+#: src/mainwindow.cpp:2411
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Yleistä"
 
-#: src/mainwindow.cpp:2474
+#: src/mainwindow.cpp:2475
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -9576,22 +9581,22 @@ msgstr ""
 "Tämä poistaa Kdenliven asetustiedoston ja käynnistää ohjelman uudelleen."
 "Haluatko jatkaa?"
 
-#: src/mainwindow.cpp:2608 src/mainwindow.cpp:2635
+#: src/mainwindow.cpp:2609 src/mainwindow.cpp:2636
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Leikettä merkinnän poistamiseksi ei löydy"
 
-#: src/mainwindow.cpp:2618 src/mainwindow.cpp:2664
+#: src/mainwindow.cpp:2619 src/mainwindow.cpp:2665
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Merkintää kohdistimen kohdalta ei löydy"
 
-#: src/mainwindow.cpp:2640
+#: src/mainwindow.cpp:2641
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Merkkejä poistettaessa tapahtui virhe"
 
-#: src/mainwindow.cpp:2657 src/timeline2/view/timelinecontroller.cpp:1128
+#: src/mainwindow.cpp:2658 src/timeline2/view/timelinecontroller.cpp:1128
 #: src/timeline2/view/timelinecontroller.cpp:1136
 #: src/timeline2/view/timelinecontroller.cpp:1157
 #: src/timeline2/view/timelinecontroller.cpp:1197
@@ -9600,22 +9605,22 @@ msgstr "Merkkejä poistettaessa tapahtui virhe"
 msgid "Cannot find clip to edit marker"
 msgstr "Leikettä merkintään ei löydy"
 
-#: src/mainwindow.cpp:2837
+#: src/mainwindow.cpp:2838
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Leikettä ei ole valittu projektista"
 
-#: src/mainwindow.cpp:3004
+#: src/mainwindow.cpp:3005
 #, kde-format
 msgid "Select an item to add effect"
 msgstr "Lisää tehoste valitsemalla kohde"
 
-#: src/mainwindow.cpp:3060
+#: src/mainwindow.cpp:3061
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Lähennystaso: %1/%2"
 
-#: src/mainwindow.cpp:3201
+#: src/mainwindow.cpp:3202
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -9632,7 +9637,7 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3205
+#: src/mainwindow.cpp:3206
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -9650,24 +9655,24 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3208
+#: src/mainwindow.cpp:3209
 #, kde-format
 msgid "Select"
 msgstr "Valinta"
 
-#: src/mainwindow.cpp:3210
+#: src/mainwindow.cpp:3211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> katso leikattua ruutua"
 
 # *** TARKISTA: Onko razor todella videokäsittelytermistössä ”sakset”?
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3212
 #, kde-format
 msgid "Razor"
 msgstr "Sakset"
 
-#: src/mainwindow.cpp:3215
+#: src/mainwindow.cpp:3216
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9677,12 +9682,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> lisää vain nykyiselle raidalle, <shortcut>Shift</"
 "shortcut> myös opasteen siirtämiseen. Voit yhdistää molemmat muuntajat."
 
-#: src/mainwindow.cpp:3216
+#: src/mainwindow.cpp:3217
 #, kde-format
 msgid "Spacer"
 msgstr "Erotin"
 
-#: src/mainwindow.cpp:3218
+#: src/mainwindow.cpp:3219
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9692,13 +9697,13 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> kohteen päällä liukua, <shortcut>Shift-"
 "napsauta</shortcut> useamman valintaan"
 
-#: src/mainwindow.cpp:3219
+#: src/mainwindow.cpp:3220
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Liuku"
 
-#: src/mainwindow.cpp:3224
+#: src/mainwindow.cpp:3225
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9710,13 +9715,13 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3226
+#: src/mainwindow.cpp:3227
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Laajennus"
 
-#: src/mainwindow.cpp:3232
+#: src/mainwindow.cpp:3233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9726,94 +9731,94 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> projektin valvonnan näkymässä raitojen nosto, "
 "lukuun ottamatta aktiivista"
 
-#: src/mainwindow.cpp:3244
+#: src/mainwindow.cpp:3245
 #, kde-format
 msgid "Insert"
 msgstr "Lisää"
 
-#: src/mainwindow.cpp:3247
+#: src/mainwindow.cpp:3248
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: src/mainwindow.cpp:3550
+#: src/mainwindow.cpp:3548
 #, kde-format
 msgid "Stabilize"
 msgstr "Vakauta"
 
-#: src/mainwindow.cpp:3555
+#: src/mainwindow.cpp:3553
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Automaattinen kohtauksen jako…"
 
-#: src/mainwindow.cpp:3560
+#: src/mainwindow.cpp:3558
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Monista leike nopeuden muutoksin…"
 
-#: src/mainwindow.cpp:3576
+#: src/mainwindow.cpp:3574
 #, kde-format
 msgid "Transcoders"
 msgstr "Muuntimet"
 
-#: src/mainwindow.cpp:3621
+#: src/mainwindow.cpp:3619
 #, kde-format
 msgid "Interface"
 msgstr "Käyttöliittymä"
 
-#: src/mainwindow.cpp:3637
+#: src/mainwindow.cpp:3635
 #, kde-format
 msgid "Raise %1"
 msgstr "Nosta %1"
 
-#: src/mainwindow.cpp:3703
+#: src/mainwindow.cpp:3701
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Muunnettavat tiedostot"
 
-#: src/mainwindow.cpp:3851
+#: src/mainwindow.cpp:3849
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektin tiedostoa ei voitu tallentaa arkistointia varten."
 
-#: src/mainwindow.cpp:3857
+#: src/mainwindow.cpp:3855
 #, kde-format
 msgid "Archiving project"
 msgstr "Arkistoidaan projektia"
 
-#: src/mainwindow.cpp:4046
+#: src/mainwindow.cpp:4044
 #, kde-format
 msgid "Icon Size"
 msgstr "Kuvakkeen koko"
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4048
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Oletus"
 
-#: src/mainwindow.cpp:4071 src/mainwindow.cpp:4099
+#: src/mainwindow.cpp:4069 src/mainwindow.cpp:4097
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Pieni (%1×%2)"
 
-#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
+#: src/mainwindow.cpp:4071 src/mainwindow.cpp:4099
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskikokoinen (%1×%2)"
 
-#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
+#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suuri (%1×%2)"
 
-#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
+#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Valtava (%1×%2)"
 
-#: src/mainwindow.cpp:4162
+#: src/mainwindow.cpp:4160
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -9821,12 +9826,12 @@ msgid ""
 msgstr ""
 "Tämä piilottaa valikon täysin. Saat sen uudelleen näkyviin painamalla Ctrl-M."
 
-#: src/mainwindow.cpp:4162
+#: src/mainwindow.cpp:4160
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Piilota valikko"
 
-#: src/mainwindow.cpp:4177
+#: src/mainwindow.cpp:4175
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -9834,17 +9839,17 @@ msgstr ""
 "Kdenlive on käynnistettävä uudelleen, jotta kuvakkeiden muutos otetaan "
 "käyttöön. Käynnistä uudelleen nyt?"
 
-#: src/mainwindow.cpp:4376 src/timeline2/view/timelinecontroller.cpp:4923
+#: src/mainwindow.cpp:4374 src/timeline2/view/timelinecontroller.cpp:4923
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Projektissa ei ole tekstityksiä"
 
-#: src/mainwindow.cpp:4463
+#: src/mainwindow.cpp:4461
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektin kansio %1"
 
-#: src/mainwindow.cpp:4564
+#: src/mainwindow.cpp:4562
 #, fuzzy, kde-format
 #| msgid "Selected cached data:"
 msgid "Checking cached data size"
@@ -10713,7 +10718,7 @@ msgstr "Nauhoita"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:541
 #: src/ui/cutjobdialog_ui.ui:103 src/ui/editrenderpreset_ui.ui:118
-#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:479
+#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:469
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -14324,7 +14329,7 @@ msgid "No available stream"
 msgstr "Ei suoratoistoa saatavilla"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3230 src/titler/titlewidget.cpp:3233
+#: src/titler/titlewidget.cpp:3245 src/titler/titlewidget.cpp:3248
 #, kde-format
 msgid "Gradient %1"
 msgstr "Liukuväri %1"
@@ -14561,7 +14566,7 @@ msgid "Add Ellipse"
 msgstr "Lisää ellipsi"
 
 #: src/titler/titlewidget.cpp:394 src/titler/titlewidget.cpp:397
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:814
 #, kde-format
 msgid "Add Image"
 msgstr "Lisää kuva"
@@ -14576,22 +14581,23 @@ msgstr "Avaa tiedosto"
 msgid "Save As"
 msgstr "Tallenna nimellä"
 
-#: src/titler/titlewidget.cpp:414 src/titler/titlewidget.cpp:417
+#: src/titler/titlewidget.cpp:415 src/titler/titlewidget.cpp:418
+#: src/titler/titlewidget.cpp:421 src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Lataa uudet tekstimallit..."
 
-#: src/titler/titlewidget.cpp:532
+#: src/titler/titlewidget.cpp:545
 #, kde-format
 msgid "Save and add to project"
 msgstr "Tallenna ja lisää projektiin"
 
-#: src/titler/titlewidget.cpp:533
+#: src/titler/titlewidget.cpp:546
 #, kde-format
 msgid "Create Title"
 msgstr "Luo otsikko"
 
-#: src/titler/titlewidget.cpp:682
+#: src/titler/titlewidget.cpp:695
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -14599,49 +14605,49 @@ msgid ""
 msgstr ""
 "Haluatko todella ladata uuden mallin? Muutokset tähän tekstiin menetetään!"
 
-#: src/titler/titlewidget.cpp:789
+#: src/titler/titlewidget.cpp:802
 #, kde-format
 msgid "All Images"
 msgstr "Kaikki kuvat"
 
-#: src/titler/titlewidget.cpp:791
+#: src/titler/titlewidget.cpp:804
 #, kde-format
 msgid "%1 Image"
 msgstr "%1kuva"
 
-#: src/titler/titlewidget.cpp:1625
+#: src/titler/titlewidget.cpp:1638
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1627 src/ui/titlewidget_ui.ui:256
+#: src/titler/titlewidget.cpp:1640 src/ui/titlewidget_ui.ui:256
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1649
+#: src/titler/titlewidget.cpp:1662
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1651 src/ui/titlewidget_ui.ui:286
+#: src/titler/titlewidget.cpp:1664 src/ui/titlewidget_ui.ui:286
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2118
+#: src/titler/titlewidget.cpp:2131
 #, kde-format
 msgid "Load Title"
 msgstr "Avaa otsikko"
 
-#: src/titler/titlewidget.cpp:2119
+#: src/titler/titlewidget.cpp:2132
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive-otsikko (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2165
+#: src/titler/titlewidget.cpp:2178
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -14650,51 +14656,51 @@ msgstr ""
 "Haluatko upottaa kuvia tähän otsikkoon?\n"
 "Tätä tarvitaan eniten tekstin jakamiseen."
 
-#: src/titler/titlewidget.cpp:2230
+#: src/titler/titlewidget.cpp:2245
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Tästä otsikosta puuttuu 1 elementti"
 msgstr[1] "Tästä otsikosta puuttuu %1 elementtiä"
 
-#: src/titler/titlewidget.cpp:2231 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2246 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Tarkemmat tiedot"
 
-#: src/titler/titlewidget.cpp:2234
+#: src/titler/titlewidget.cpp:2249
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Poista puuttuvat elementit"
 
-#: src/titler/titlewidget.cpp:2294
+#: src/titler/titlewidget.cpp:2309
 #, kde-format
 msgid "Update Title"
 msgstr "Päivitä otsikko"
 
-#: src/titler/titlewidget.cpp:2297
+#: src/titler/titlewidget.cpp:2312
 #, kde-format
 msgid "Add as new Title"
 msgstr "Lisää uutena otsikkona"
 
-#: src/titler/titlewidget.cpp:2351
+#: src/titler/titlewidget.cpp:2366
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Seuraavat tiedostot puuttuvat:"
 
-#: src/titler/titlewidget.cpp:2545
+#: src/titler/titlewidget.cpp:2560
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Aloita näkymä"
 
-#: src/titler/titlewidget.cpp:2546
+#: src/titler/titlewidget.cpp:2561
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Lopeta näkymä"
 
-#: src/titler/titlewidget.cpp:3263
+#: src/titler/titlewidget.cpp:3278
 #, kde-format
 msgid "Gradient"
 msgstr "Liukuväri"
@@ -15127,7 +15133,6 @@ msgstr "Poista nykyinen piste."
 #. i18n: ectx: property (text), widget (QToolButton, button_prev)
 #. i18n: ectx: property (text), widget (QToolButton, button_next)
 #. i18n: ectx: property (text), widget (QToolButton, button_del)
-#. i18n: ectx: property (text), widget (QToolButton, m_download)
 #. i18n: ectx: property (text), widget (QToolButton, collapseButton)
 #. i18n: ectx: property (text), widget (QToolButton, keyframesButton)
 #. i18n: ectx: property (text), widget (QToolButton, inOutButton)
@@ -15205,8 +15210,8 @@ msgstr "Poista nykyinen piste."
 #: src/ui/manageencodingprofile_ui.ui:80 src/ui/projectsettings_ui.ui:264
 #: src/ui/projectsettings_ui.ui:271 src/ui/projectsettings_ui.ui:281
 #: src/ui/projectsettings_ui.ui:554 src/ui/projectsettings_ui.ui:561
-#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:554
-#: src/ui/renderwidget_ui.ui:988 src/ui/resourcewidget_ui.ui:210
+#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:544
+#: src/ui/renderwidget_ui.ui:978 src/ui/resourcewidget_ui.ui:210
 #: src/ui/resourcewidget_ui.ui:277 src/ui/speechdialog_ui.ui:95
 #: src/ui/textbasededit_ui.ui:57 src/ui/textbasededit_ui.ui:90
 #: src/ui/textbasededit_ui.ui:110 src/ui/textbasededit_ui.ui:184
@@ -15224,7 +15229,7 @@ msgstr "Poista nykyinen piste."
 #: src/ui/titlewidget_ui.ui:1702 src/ui/titlewidget_ui.ui:1716
 #: src/ui/titlewidget_ui.ui:1730 src/ui/titlewidget_ui.ui:1744
 #: src/ui/titlewidget_ui.ui:1758 src/ui/unicodewidget_ui.ui:197
-#: src/ui/unicodewidget_ui.ui:222 src/ui/urllistparamwidget_ui.ui:119
+#: src/ui/unicodewidget_ui.ui:222
 #, kde-format
 msgid "..."
 msgstr "…"
@@ -17690,173 +17695,161 @@ msgstr "Luo uusi esiasetus"
 msgid "&Save"
 msgstr "&Tallenna"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, buttonDownload)
-#: src/ui/renderwidget_ui.ui:232
-#, kde-format
-msgid "Download New Render Presets…"
-msgstr "Lataa uusia hahmonnusesiasetuksia…"
-
-#. i18n: ectx: property (text), widget (QToolButton, buttonDownload)
-#: src/ui/renderwidget_ui.ui:235
-#, kde-format
-msgid "&Download"
-msgstr "&Lataa"
-
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:259
+#: src/ui/renderwidget_ui.ui:249
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:262
+#: src/ui/renderwidget_ui.ui:252
 #, kde-format
 msgid "&Favorite"
 msgstr "&Suosikki"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:279
+#: src/ui/renderwidget_ui.ui:269
 #, kde-format
 msgid "Edit preset"
 msgstr "Muokkaa esiasetusta"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:282
+#: src/ui/renderwidget_ui.ui:272
 #, kde-format
 msgid "&Edit"
 msgstr "&Muokkaa"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:302
+#: src/ui/renderwidget_ui.ui:292
 #, kde-format
 msgid "&Delete"
 msgstr "&Poista"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:333
+#: src/ui/renderwidget_ui.ui:323
 #, kde-format
 msgid "Render to File"
 msgstr "Hahmonna tiedostoon"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:340
+#: src/ui/renderwidget_ui.ui:330
 #, kde-format
 msgid "Generate Script"
 msgstr "Tuota skripti"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:371
+#: src/ui/renderwidget_ui.ui:361
 #, kde-format
 msgid "Fu&ll project"
 msgstr "Koko &projekti"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:381
+#: src/ui/renderwidget_ui.ui:371
 #, kde-format
 msgid "Selected &zone"
 msgstr "&Valittu alue"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:388
+#: src/ui/renderwidget_ui.ui:378
 #, kde-format
 msgid "&Guide zone"
 msgstr "&Opastealue"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_multi)
-#: src/ui/renderwidget_ui.ui:395
+#: src/ui/renderwidget_ui.ui:385
 #, kde-format
 msgid "Guide Multi-Export"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:420
+#: src/ui/renderwidget_ui.ui:410
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:488
+#: src/ui/renderwidget_ui.ui:478
 #, kde-format
 msgid "Render at Preview Resolution"
 msgstr "Hahmonna esikatselutarkkuuteen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:495
+#: src/ui/renderwidget_ui.ui:485
 #, fuzzy, kde-format
 #| msgid "Proxy Clips"
 msgid "Use Proxy Clips"
 msgstr "Puskuroidut leikkeet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:502
+#: src/ui/renderwidget_ui.ui:492
 #, kde-format
 msgid "Enabled"
 msgstr "Käytössä"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:509
+#: src/ui/renderwidget_ui.ui:499
 #, kde-format
 msgid "Rescale:"
 msgstr "Mittakaavan muutos:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, rescale_keep)
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/renderwidget_ui.ui:551 src/ui/titlewidget_ui.ui:1381
+#: src/ui/renderwidget_ui.ui:541 src/ui/titlewidget_ui.ui:1381
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "Säilytä kuvasuhde"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:596
+#: src/ui/renderwidget_ui.ui:586
 #, kde-format
 msgid "Overlay:"
 msgstr "Peittokuva:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:615
+#: src/ui/renderwidget_ui.ui:605
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "Erillinen tiedosto kullekin ääniraidalle"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:625
+#: src/ui/renderwidget_ui.ui:615
 #, kde-format
 msgid "Custom Quality"
 msgstr "Mukautettu laatu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:639
+#: src/ui/renderwidget_ui.ui:629
 #, kde-format
 msgid "Low"
 msgstr "Matala"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:652
+#: src/ui/renderwidget_ui.ui:642
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "Suosi pientä tiedostoa laadun kustannuksella."
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:671
+#: src/ui/renderwidget_ui.ui:661
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:678
+#: src/ui/renderwidget_ui.ui:668
 #, kde-format
 msgid "High"
 msgstr "Korkea"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:690
+#: src/ui/renderwidget_ui.ui:680
 #, kde-format
 msgid "Encoder"
 msgstr "Koodaaja"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:696 src/ui/renderwidget_ui.ui:712
+#: src/ui/renderwidget_ui.ui:686 src/ui/renderwidget_ui.ui:702
 #, fuzzy, kde-format
 #| msgid ""
 #| "For a given quality, tune the compromise between encoding time and output "
@@ -17869,119 +17862,119 @@ msgstr ""
 "välillä (nopeampi koodaus tuottaa suuremman tiedoston)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:699
+#: src/ui/renderwidget_ui.ui:689
 #, kde-format
 msgid "Speed:"
 msgstr "Nopeus:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:731 src/ui/renderwidget_ui.ui:766
+#: src/ui/renderwidget_ui.ui:721 src/ui/renderwidget_ui.ui:756
 #, kde-format
 msgid "Threads:"
 msgstr "Säikeitä:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:744
+#: src/ui/renderwidget_ui.ui:734
 #, kde-format
 msgid "Encoding threads"
 msgstr "Koodaussäikeitä"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:757
+#: src/ui/renderwidget_ui.ui:747
 #, fuzzy, kde-format
 #| msgid "Parallel Processing (experimental!)"
 msgid "Parallel Processing"
 msgstr "Rinnakkaislaskenta (kokeellinen!)"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:780
+#: src/ui/renderwidget_ui.ui:770
 #, fuzzy, kde-format
 #| msgid "Parallel Processing (experimental!)"
 msgid "Parallel processing may cause render artifacts"
 msgstr "Rinnakkaislaskenta (kokeellinen!)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:799
+#: src/ui/renderwidget_ui.ui:789
 #, kde-format
 msgid "2 pass"
 msgstr "Kaksivaiheinen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:808
+#: src/ui/renderwidget_ui.ui:798
 #, kde-format
 msgid "Export metadata"
 msgstr "Vie metatiedot"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:815
+#: src/ui/renderwidget_ui.ui:805
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:840
+#: src/ui/renderwidget_ui.ui:830
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:847
+#: src/ui/renderwidget_ui.ui:837
 #, fuzzy, kde-format
 #| msgid "Open browser window after export"
 msgid "Open folder after export"
 msgstr "Avaa selainikkuna viennin jälkeen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:854
+#: src/ui/renderwidget_ui.ui:844
 #, kde-format
 msgid "Play after render"
 msgstr "Toista hahmonnuksen päätyttyä"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:876
+#: src/ui/renderwidget_ui.ui:866
 #, kde-format
 msgid "Job Queue"
 msgstr "Työjono"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:911
+#: src/ui/renderwidget_ui.ui:901
 #, kde-format
 msgid "Start Job"
 msgstr "Aloita työ"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:921
+#: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Clean Up"
 msgstr "Puhdista"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:981
+#: src/ui/renderwidget_ui.ui:971
 #, kde-format
 msgid "Error Log"
 msgstr "Virheloki"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1016
+#: src/ui/renderwidget_ui.ui:1006
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Sammuta tietokone hahmonnuksen päätyttyä"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1031
+#: src/ui/renderwidget_ui.ui:1021
 #, kde-format
 msgid "Scripts"
 msgstr "Skriptit"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1059
+#: src/ui/renderwidget_ui.ui:1049
 #, kde-format
 msgid "Start Script"
 msgstr "Aloita skripti"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1066
+#: src/ui/renderwidget_ui.ui:1056
 #, kde-format
 msgid "Delete Script"
 msgstr "Poista skripti"
@@ -18832,6 +18825,9 @@ msgstr "%1 min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
+
+#~ msgid "&Download"
+#~ msgstr "&Lataa"
 
 #~ msgid "Default video4linux device:"
 #~ msgstr "Video4Linux-oletuslaite:"
