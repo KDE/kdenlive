@@ -15,6 +15,7 @@
 #include <QQmlContext>
 #include <QQuickItem>
 #include <kdeclarative_version.h>
+#include <kquickiconprovider.h>
 
 BuiltStack::BuiltStack(AssetPanel *parent)
     : QQuickWidget(parent)
@@ -22,7 +23,11 @@ BuiltStack::BuiltStack(AssetPanel *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
+#else
+    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 
     // qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
