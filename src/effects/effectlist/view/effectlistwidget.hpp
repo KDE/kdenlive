@@ -43,6 +43,7 @@ signals:
     void reloadFavorites();
 };
 
+// TODO we use Qt 5.15 now where this is fixed
 // see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
 class EffectListWidgetProxy : public QObject
 {

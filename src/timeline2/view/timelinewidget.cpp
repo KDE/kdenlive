@@ -26,7 +26,6 @@
 #include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>
-// #include <QUrl>
 #include <QAction>
 #include <QActionGroup>
 #include <QFontDatabase>
@@ -36,6 +35,8 @@
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
 #include <QUuid>
+#include <kdeclarative_version.h>
+#include <kquickiconprovider.h>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
@@ -44,7 +45,11 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
+#else
+    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     setClearColor(palette().window().color());
     setMouseTracking(true);
