@@ -4,7 +4,6 @@ set(kdenlive_SRCS
   transitions/transitionlist/view/transitionlistwidget.cpp
   transitions/transitionlist/model/transitiontreemodel.cpp
   transitions/transitionlist/model/transitionfilter.cpp
-  transitions/view/transitionparameterview.cpp
   transitions/view/transitionstackview.cpp
   transitions/view/mixstackview.cpp
   PARENT_SCOPE)

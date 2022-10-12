@@ -39,7 +39,6 @@
         <file alias="Timeline.js">timeline2/view/qml/Timeline.js</file>
         <file alias="assetList.qml">assets/assetlist/view/qml/assetList.qml</file>
         <file alias="AssetView.qml">assets/view/qml/AssetView.qml</file>
-        <file alias="transitionView.qml">transitions/view/qml/transitionView.qml</file>
         <file alias="AssetMenu.qml">timeline2/view/qml/AssetMenu.qml</file>
         <file alias="GuidesMenu.qml">timeline2/view/qml/GuidesMenu.qml</file>
         <file alias="BuiltStack.qml">effects/effectstack/view/qml/BuiltStack.qml</file>
