@@ -2376,7 +2376,11 @@ void MainWindow::slotEditKeys()
 #if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     KNSWidgets::Action *downloadKeybordSchemes =
         new KNSWidgets::Action(i18n("Download New Keyboard Schemes…"), QStringLiteral(":data/kdenlive_keyboardschemes.knsrc"), this);
+#if KNEWSTUFFWIDGETS_ENABLE_DEPRECATED_SINCE(5, 90)
     connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const KNS3::Entry::List &changedEntries) {
+#else
+    connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+#endif
         if (changedEntries.count() > 0) {
             dialog.refreshSchemes();
         }

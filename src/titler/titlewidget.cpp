@@ -422,7 +422,11 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
     m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString());
     m_toolbar->addAction(m_buttonDownload);
+#if KNEWSTUFFWIDGETS_ENABLE_DEPRECATED_SINCE(5, 90)
     connect(m_buttonDownload, &KNSWidgets::Action::dialogFinished, this, [&](const KNS3::Entry::List &changedEntries) {
+#else
+    connect(m_buttonDownload, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
+#endif
         if (changedEntries.count() > 0) {
             refreshTitleTemplates(m_projectTitlePath);
             refreshTemplateBoxContents();
