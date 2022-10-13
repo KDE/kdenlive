@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:46+0000\n"
+"POT-Creation-Date: 2022-10-13 00:45+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -4461,7 +4461,7 @@ msgstr "Kan ikke anvender effekter på mapper"
 
 #: src/bin/bin.cpp:3580 src/effects/effectstack/model/effectstackmodel.cpp:496
 #: src/effects/effectstack/model/effectstackmodel.cpp:501
-#: src/mainwindow.cpp:3002
+#: src/mainwindow.cpp:3006
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan ikke tilføje en effekt til dette klip"
@@ -4533,7 +4533,7 @@ msgstr ""
 "Du er ved at redigere et eksternt titelklip (%1). Vil du gemme dine "
 "ændringer af titelfilen eller kun gemme ændringerne for dette projekt?"
 
-#: src/bin/bin.cpp:4368 src/titler/titlewidget.cpp:2182
+#: src/bin/bin.cpp:4368 src/titler/titlewidget.cpp:2186
 #, kde-format
 msgid "Save Title"
 msgstr "Gem titel"
@@ -4609,7 +4609,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5042 src/mainwindow.cpp:2591
+#: src/bin/bin.cpp:5042 src/mainwindow.cpp:2595
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan ikke finde klip for at tilføje markør"
@@ -5500,7 +5500,7 @@ msgstr "Skabelon til titelklip"
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:137
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3699 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3703 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Alle filer"
@@ -5675,7 +5675,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "&Hjælpelinjezone"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3620
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3624
 #, kde-format
 msgid "Timeline"
 msgstr "Tidslinje"
@@ -6326,7 +6326,7 @@ msgstr ""
 #: src/renderpresets/renderpresetrepository.cpp:380
 #: src/renderpresets/renderpresetrepository.cpp:439
 #: src/timeline2/view/timelinecontroller.cpp:4940
-#: src/titler/titlewidget.cpp:2198
+#: src/titler/titlewidget.cpp:2202
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kan ikke skrive til filen %1"
@@ -8113,13 +8113,13 @@ msgid "Markers"
 msgstr "Markører"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3575
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3579
 #, kde-format
 msgid "Extract Audio"
 msgstr "Udtræk lyd"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3543
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3547
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klipjob"
@@ -9155,7 +9155,7 @@ msgstr "Tilpas zoom til projekt"
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1307 src/mainwindow.cpp:3234
+#: src/mainwindow.cpp:1307 src/mainwindow.cpp:3238
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -9888,51 +9888,51 @@ msgstr "Dette vil fjerne alle ubrugte klip fra dit projekt."
 msgid "Clean up project"
 msgstr "Ryd op i projekt"
 
-#: src/mainwindow.cpp:2378 src/mainwindow.cpp:2402
+#: src/mainwindow.cpp:2378 src/mainwindow.cpp:2406
 #, fuzzy, kde-format
 #| msgid "Download New Keyboard Schemes..."
 msgid "Download New Keyboard Schemes…"
 msgstr "Download nye tastaturskemaer..."
 
-#: src/mainwindow.cpp:2389
+#: src/mainwindow.cpp:2393
 #, kde-format
 msgid "Current scheme:"
 msgstr "Nuværende skema:"
 
-#: src/mainwindow.cpp:2399
+#: src/mainwindow.cpp:2403
 #, kde-format
 msgid "More Actions"
 msgstr "Flere handlinger"
 
-#: src/mainwindow.cpp:2411
+#: src/mainwindow.cpp:2415
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Generelt"
 
-#: src/mainwindow.cpp:2475
+#: src/mainwindow.cpp:2479
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2609 src/mainwindow.cpp:2636
+#: src/mainwindow.cpp:2613 src/mainwindow.cpp:2640
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Kan ikke finde klip for at fjerne markør"
 
-#: src/mainwindow.cpp:2619 src/mainwindow.cpp:2665
+#: src/mainwindow.cpp:2623 src/mainwindow.cpp:2669
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Ingen markør fundet ved markørtidspunktet"
 
-#: src/mainwindow.cpp:2641
+#: src/mainwindow.cpp:2645
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2658 src/timeline2/view/timelinecontroller.cpp:1128
+#: src/mainwindow.cpp:2662 src/timeline2/view/timelinecontroller.cpp:1128
 #: src/timeline2/view/timelinecontroller.cpp:1136
 #: src/timeline2/view/timelinecontroller.cpp:1157
 #: src/timeline2/view/timelinecontroller.cpp:1197
@@ -9941,24 +9941,24 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Kan ikke finde klip for at redigere markør"
 
-#: src/mainwindow.cpp:2838
+#: src/mainwindow.cpp:2842
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No clip selected in project bin"
 msgstr "Ingen profil valgt"
 
-#: src/mainwindow.cpp:3005
+#: src/mainwindow.cpp:3009
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to add effect"
 msgid "Select an item to add effect"
 msgstr "Kan ikke finde klip for at tilføje effekt"
 
-#: src/mainwindow.cpp:3061
+#: src/mainwindow.cpp:3065
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Zoomniveau: %1/%2"
 
-#: src/mainwindow.cpp:3202
+#: src/mainwindow.cpp:3206
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9967,7 +9967,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3206
+#: src/mainwindow.cpp:3210
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9977,26 +9977,26 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3209
+#: src/mainwindow.cpp:3213
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select"
 msgstr "Markering"
 
-#: src/mainwindow.cpp:3211
+#: src/mainwindow.cpp:3215
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 # scootergrisen: bruges ved saks-ikon
-#: src/mainwindow.cpp:3212
+#: src/mainwindow.cpp:3216
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "Klippeværktøj"
 
-#: src/mainwindow.cpp:3216
+#: src/mainwindow.cpp:3220
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10004,13 +10004,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3217
+#: src/mainwindow.cpp:3221
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Tomrum"
 
-#: src/mainwindow.cpp:3219
+#: src/mainwindow.cpp:3223
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10018,14 +10018,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3220
+#: src/mainwindow.cpp:3224
 #, fuzzy, kde-format
 #| msgid "Slip"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Glid"
 
-#: src/mainwindow.cpp:3225
+#: src/mainwindow.cpp:3229
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10034,13 +10034,13 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3227
+#: src/mainwindow.cpp:3231
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr ""
 
-#: src/mainwindow.cpp:3233
+#: src/mainwindow.cpp:3237
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10048,99 +10048,99 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3245
+#: src/mainwindow.cpp:3249
 #, kde-format
 msgid "Insert"
 msgstr "Indsæt"
 
-#: src/mainwindow.cpp:3248
+#: src/mainwindow.cpp:3252
 #, kde-format
 msgid "Overwrite"
 msgstr "Overskriv"
 
-#: src/mainwindow.cpp:3548
+#: src/mainwindow.cpp:3552
 #, fuzzy, kde-format
 #| msgid "Stabilize"
 msgid "Stabilize"
 msgstr "Stabilisér"
 
-#: src/mainwindow.cpp:3553
+#: src/mainwindow.cpp:3557
 #, fuzzy, kde-format
 #| msgid "Automatic scene split"
 msgid "Automatic Scene Split…"
 msgstr "Automatisk sceneopdeling"
 
-#: src/mainwindow.cpp:3558
+#: src/mainwindow.cpp:3562
 #, fuzzy, kde-format
 #| msgid "Duplicate clip with speed change"
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplikatklip med ændring af hastighed"
 
-#: src/mainwindow.cpp:3574
+#: src/mainwindow.cpp:3578
 #, kde-format
 msgid "Transcoders"
 msgstr "Omkodere"
 
-#: src/mainwindow.cpp:3619
+#: src/mainwindow.cpp:3623
 #, kde-format
 msgid "Interface"
 msgstr "Brugerflade"
 
-#: src/mainwindow.cpp:3635
+#: src/mainwindow.cpp:3639
 #, fuzzy, kde-format
 #| msgid "Disable %1"
 msgid "Raise %1"
 msgstr "Deaktivér %1"
 
-#: src/mainwindow.cpp:3701
+#: src/mainwindow.cpp:3705
 #, fuzzy, kde-format
 #| msgid "Files to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Filer der skal omkodes"
 
-#: src/mainwindow.cpp:3849
+#: src/mainwindow.cpp:3853
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:3855
+#: src/mainwindow.cpp:3859
 #, kde-format
 msgid "Archiving project"
 msgstr "Arkivering af projekt"
 
-#: src/mainwindow.cpp:4044
+#: src/mainwindow.cpp:4048
 #, kde-format
 msgid "Icon Size"
 msgstr "Ikonstørrelse"
 
-#: src/mainwindow.cpp:4048
+#: src/mainwindow.cpp:4052
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Standard"
 
-#: src/mainwindow.cpp:4069 src/mainwindow.cpp:4097
+#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Lille (%1x%2)"
 
-#: src/mainwindow.cpp:4071 src/mainwindow.cpp:4099
+#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Medium (%1x%2)"
 
-#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
+#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Stor (%1x%2)"
 
-#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
+#: src/mainwindow.cpp:4079 src/mainwindow.cpp:4107
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Kæmpestor (%1x%2)"
 
-#: src/mainwindow.cpp:4160
+#: src/mainwindow.cpp:4164
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -10148,31 +10148,31 @@ msgid ""
 msgstr ""
 "Det vil skjule menulinjen helt. Du kan vise den igen ved at trykke på Ctrl+M."
 
-#: src/mainwindow.cpp:4160
+#: src/mainwindow.cpp:4164
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skjul menulinje"
 
-#: src/mainwindow.cpp:4175
+#: src/mainwindow.cpp:4179
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 "Kdenlive skal genstartes for at anvende ikontemaet. Vil du genstarte nu?"
 
-#: src/mainwindow.cpp:4374 src/timeline2/view/timelinecontroller.cpp:4923
+#: src/mainwindow.cpp:4378 src/timeline2/view/timelinecontroller.cpp:4923
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Ingen hjælpelinje ved markørtidspunktet"
 
-#: src/mainwindow.cpp:4461
+#: src/mainwindow.cpp:4465
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
 msgstr "Projektkurv"
 
-#: src/mainwindow.cpp:4562
+#: src/mainwindow.cpp:4566
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -14731,24 +14731,24 @@ msgstr "unavngivet"
 msgid "Main timeline"
 msgstr "Klip i tidslinje"
 
-#: src/timeline2/view/timelinewidget.cpp:63
+#: src/timeline2/view/timelinewidget.cpp:68
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Indsæt en effekt..."
 
-#: src/timeline2/view/timelinewidget.cpp:64
+#: src/timeline2/view/timelinewidget.cpp:69
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Indsæt en komposition..."
 
-#: src/timeline2/view/timelinewidget.cpp:275
+#: src/timeline2/view/timelinewidget.cpp:280
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"
 msgstr " frames"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3245 src/titler/titlewidget.cpp:3248
+#: src/titler/titlewidget.cpp:3249 src/titler/titlewidget.cpp:3252
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradient %1"
@@ -14991,7 +14991,7 @@ msgid "Add Ellipse"
 msgstr "Tilføj klip"
 
 #: src/titler/titlewidget.cpp:394 src/titler/titlewidget.cpp:397
-#: src/titler/titlewidget.cpp:814
+#: src/titler/titlewidget.cpp:818
 #, kde-format
 msgid "Add Image"
 msgstr "Tilføj billede"
@@ -15012,18 +15012,18 @@ msgstr "Gem som"
 msgid "Download New Title Templates..."
 msgstr "Download nye titelskabeloner..."
 
-#: src/titler/titlewidget.cpp:545
+#: src/titler/titlewidget.cpp:549
 #, fuzzy, kde-format
 #| msgid "Save Image to Project"
 msgid "Save and add to project"
 msgstr "Gem billede til projekt"
 
-#: src/titler/titlewidget.cpp:546
+#: src/titler/titlewidget.cpp:550
 #, kde-format
 msgid "Create Title"
 msgstr "Opret titel"
 
-#: src/titler/titlewidget.cpp:695
+#: src/titler/titlewidget.cpp:699
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -15031,49 +15031,49 @@ msgid ""
 msgstr ""
 "Vil du virkelig indlæse en ny skabelon? Ændringer i denne titel vil gå tabt!"
 
-#: src/titler/titlewidget.cpp:802
+#: src/titler/titlewidget.cpp:806
 #, kde-format
 msgid "All Images"
 msgstr "Alle billeder"
 
-#: src/titler/titlewidget.cpp:804
+#: src/titler/titlewidget.cpp:808
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 billede"
 
-#: src/titler/titlewidget.cpp:1638
+#: src/titler/titlewidget.cpp:1642
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1640 src/ui/titlewidget_ui.ui:256
+#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:256
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1662
+#: src/titler/titlewidget.cpp:1666
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1664 src/ui/titlewidget_ui.ui:286
+#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:286
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2131
+#: src/titler/titlewidget.cpp:2135
 #, kde-format
 msgid "Load Title"
 msgstr "Indlæs titel"
 
-#: src/titler/titlewidget.cpp:2132
+#: src/titler/titlewidget.cpp:2136
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive-titel (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2178
+#: src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -15082,7 +15082,7 @@ msgstr ""
 "Vil du indlejre billeder i dette titeldokument?\n"
 "Dette er mest nødvendigt for deling af titler."
 
-#: src/titler/titlewidget.cpp:2245
+#: src/titler/titlewidget.cpp:2249
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -15090,48 +15090,48 @@ msgid_plural "This title has %1 missing elements"
 msgstr[0] "Slet valgte elementer"
 msgstr[1] "Slet valgte elementer"
 
-#: src/titler/titlewidget.cpp:2246 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2250 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/titler/titlewidget.cpp:2249
+#: src/titler/titlewidget.cpp:2253
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Slet valgte elementer"
 
-#: src/titler/titlewidget.cpp:2309
+#: src/titler/titlewidget.cpp:2313
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Opdatér profil"
 
-#: src/titler/titlewidget.cpp:2312
+#: src/titler/titlewidget.cpp:2316
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Tilføj skabelontitel"
 
-#: src/titler/titlewidget.cpp:2366
+#: src/titler/titlewidget.cpp:2370
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Følgende filer mangler:"
 
-#: src/titler/titlewidget.cpp:2560
+#: src/titler/titlewidget.cpp:2564
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start script"
 
-#: src/titler/titlewidget.cpp:2561
+#: src/titler/titlewidget.cpp:2565
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3278
+#: src/titler/titlewidget.cpp:3282
 #, kde-format
 msgid "Gradient"
 msgstr "Gradient"
@@ -15405,12 +15405,6 @@ msgstr "Venstrejusteret"
 #, kde-format
 msgid "Align right"
 msgstr "Højrejusteret"
-
-#: src/transitions/view/qml/transitionView.qml:22
-#, fuzzy, kde-format
-#| msgid "Edit transition %1"
-msgid "Properties of transition %1"
-msgstr "Redigér overgang %1"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:46
@@ -19433,6 +19427,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1t"
+
+#, fuzzy
+#~| msgid "Edit transition %1"
+#~ msgid "Properties of transition %1"
+#~ msgstr "Redigér overgang %1"
 
 #~ msgid "&Download"
 #~ msgstr "&Download"
