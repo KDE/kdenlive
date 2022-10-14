@@ -7,6 +7,7 @@
 
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
+#include <QUuid>
 
 class ThumbnailProvider;
 class TimelineController;
@@ -20,8 +21,9 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid &uuid, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
+    const QUuid uuid;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
 

@@ -66,9 +66,10 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
 
 ProjectItemModel::~ProjectItemModel() = default;
 
-void ProjectItemModel::buildPlaylist()
+void ProjectItemModel::buildPlaylist(const QUuid &uuid)
 {
-    m_binPlaylist.reset(new BinPlaylist());
+    m_uuid = uuid;
+    m_binPlaylist.reset(new BinPlaylist(m_uuid));
 }
 
 int ProjectItemModel::mapToColumn(int column) const
@@ -377,7 +378,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
         if (type == AbstractProjectItem::ClipItem) {
             ClipType::ProducerType cType = item->clipType();
             QString dragId = item->clipId();
-            if ((cType == ClipType::AV || cType == ClipType::Playlist)) {
+            if ((cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
                 switch (m_dragType) {
                 case PlaylistState::AudioOnly:
                     dragId.prepend(QLatin1Char('A'));
@@ -1103,8 +1104,8 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
-                                       QStringList &expandedFolders, QProgressDialog *progressDialog)
+void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
+                                       QStringList &expandedFolders, QProgressDialog *progressDialog, QStringList timelines)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1145,7 +1146,31 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     qDebug() << "==== IGNORING BIN PRODUCER: " << prod->parent().get("kdenlive:id");
                     continue;
                 }
-                std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
+                std::shared_ptr<Mlt::Producer> producer;
+                if (prod->parent().property_exists("kdenlive:uuid")) {
+                    if (prod->parent().type() == mlt_service_tractor_type) {
+                        // This is the entry for the main playlist
+                        std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>((mlt_tractor)prod->parent().get_producer());
+                        // m_binPlaylist->setRetainIn(trac.get());
+                        m_extraPlaylists.insert({QString(prod->parent().get("kdenlive:uuid")), trac});
+                        producer.reset(new Mlt::Producer(trac.get()));
+                        producer->set("kdenlive:id", prod->parent().get("kdenlive:id"));
+                        producer->set("length", prod->parent().get("length"));
+                        producer->set("out", prod->parent().get("out"));
+                        producer->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
+                        qDebug() << "==========================\n********************\n\nINSERTED PLAYLIST CLIP: " << prod->parent().get("kdenlive:uuid")
+                                 << ", LENGTH: " << prod->parent().get("length") << "\n\n**********************";
+                        continue;
+                    } else {
+                        QString resource = prod->parent().get("resource");
+                        if (resource.endsWith(QLatin1String("<tractor>"))) {
+                            // Buggy internal xml producer, drop
+                            continue;
+                        }
+                    }
+                } else {
+                    producer.reset(new Mlt::Producer(prod->parent()));
+                }
                 int id = producer->parent().get_int("kdenlive:id");
                 if (!id) id = getFreeClipId();
                 binProducers.insert(id, producer);
@@ -1163,6 +1188,31 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
                 qApp->processEvents();
                 binIdCorresp[QString::number(i.key())] = newId;
+            }
+        }
+        qDebug() << "===========CHKING EXTRA PLAYLISTS \n" << timelines << "\n\nTTTTTTTTTTTTTTT";
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        for (const auto &t : timelines) {
+            std::shared_ptr<Mlt::Tractor> playlist(new Mlt::Tractor(mlt_tractor(retainList.get_data(t.toUtf8().constData()))));
+            qDebug() << "=== FOUND TYPE: " << playlist->type();
+            if (playlist->is_valid() && playlist->type() == mlt_service_tractor_type) {
+                m_extraPlaylists.insert({t, playlist});
+                QString currId = playlist->get("kdenlive:id");
+                QString newId = QString::number(getFreeClipId());
+                QString parentId = qstrdup(playlist->get("kdenlive:folderid"));
+                if (parentId.isEmpty()) {
+                    parentId = QStringLiteral("-1");
+                }
+                std::shared_ptr<Mlt::Producer> prod(playlist);
+                requestAddBinClip(newId, std::move(prod), parentId, undo, redo);
+                binIdCorresp[currId] = newId;
+                std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(newId);
+                std::shared_ptr<Mlt::Producer> prod2 = std::make_shared<Mlt::Producer>(*playlist.get());
+                clip->setProducer(prod2);
+            } else {
+                qDebug() << "::: FOUND EXTERNAL TIMELINE: " << playlist->type() << " = " << t;
+                exit(1);
             }
         }
     }
@@ -1265,4 +1315,12 @@ QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QS
 bool ProjectItemModel::urlExists(const QString &path) const
 {
     return m_fileWatcher->contains(path);
+}
+
+std::shared_ptr<Mlt::Tractor> ProjectItemModel::getExtraTimeline(const QString &uuid)
+{
+    if (m_extraPlaylists.count(uuid) > 0) {
+        return m_extraPlaylists.at(uuid);
+    }
+    return nullptr;
 }

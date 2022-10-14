@@ -60,6 +60,7 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
 
 ClipType::ProducerType ClipLoadTask::getTypeForService(const QString &id, const QString &path)
 {
+    qDebug() << ":::: QUERYING SERVICE TYPE FOR: " << id << " = " << path;
     if (id.isEmpty()) {
         QString ext = path.section(QLatin1Char('.'), -1);
         if (ext == QLatin1String("mlt") || ext == QLatin1String("kdenlive")) {
@@ -78,6 +79,9 @@ ClipType::ProducerType ClipLoadTask::getTypeForService(const QString &id, const 
     }
     if (id == QLatin1String("xml") || id == QLatin1String("consumer")) {
         return ClipType::Playlist;
+    }
+    if (id == QLatin1String("tractor")) {
+        return ClipType::Timeline;
     }
     if (id == QLatin1String("webvfx")) {
         return ClipType::WebVfx;

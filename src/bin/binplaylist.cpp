@@ -13,8 +13,9 @@
 
 QString BinPlaylist::binPlaylistId = QString("main_bin");
 
-BinPlaylist::BinPlaylist()
+BinPlaylist::BinPlaylist(const QUuid &uuid)
     : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
+    , m_uuid(uuid)
 {
     m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
@@ -35,7 +36,19 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
         Q_ASSERT(m_allClips.count(id) == 0);
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
         if (clip->isValid()) {
-            m_binPlaylist->append(*clip->originalProducer().get());
+            if (clip->clipType() == ClipType::Timeline) {
+                QString uuid = clip->getProducerProperty(QStringLiteral("kdenlive:uuid"));
+                if (uuid == m_uuid.toString()) {
+                    // The main tractor should never be inserted in the bin playlist
+                } else if (!uuid.isEmpty()) {
+                    Mlt::Tractor t((mlt_tractor)clip->originalProducer()->get_producer());
+                    qDebug() << "=====================\n\nIIIIIIIIIIIIIIIIIIIIIIIII\n\nINSEETING TRACTOR ITEM: " << t.get("id");
+                    Mlt::Producer prod1(t.get_producer());
+                    m_binPlaylist->append(prod1);
+                }
+            } else {
+                m_binPlaylist->append(*clip->originalProducer().get());
+            }
         } else {
             // if clip is not loaded yet, we insert a dummy producer
             Mlt::Producer dummy(pCore->getCurrentProfile()->profile(), "color:blue");
@@ -94,8 +107,12 @@ void BinPlaylist::removeBinClip(const QString &id)
 void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     Q_ASSERT(m_allClips.count(id) > 0);
-    removeBinClip(id);
-    m_binPlaylist->append(*producer.get());
+    if (producer->property_exists("kdenlive:uuid")) {
+        // The timeline clips should never be inserted in the bin playlist
+    } else {
+        removeBinClip(id);
+        m_binPlaylist->append(*producer.get());
+    }
 }
 
 void BinPlaylist::setRetainIn(Mlt::Tractor *modelTractor)

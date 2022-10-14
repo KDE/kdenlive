@@ -330,6 +330,17 @@ public:
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();
+    /** @brief Register a new timeline clip
+     * @param uuid the uuid of the new playlist (equals the uuid of the timelinemodel)
+     * @param id the bin id of the clip
+     */
+    void registerPlaylist(QUuid uuid, const QString id);
+    /** @brief Update a new timeline clip when it has been changed
+     * @param uuid the uuid of the timeline clip that was changed
+     * @param id the updated duration of the timeline clip
+     * * @param current the uuid of the currently active timeline
+     */
+    void updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &current);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -350,6 +361,8 @@ public:
     /** @brief Returns true if a clip with id cid is visible in this bin. */
     bool containsId(const QString &cid) const;
     void replaceSingleClip(const QString clipId, const QString &newUrl);
+    /** @brief Remove clip references for a timeline. */
+    void removeReferencedClips(const QUuid &uuid);
 
 private slots:
     void slotAddClip();
@@ -491,6 +504,8 @@ private:
     BinItemDelegate *m_binTreeViewDelegate;
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
+    /** @brief A map of opened timeline clips {uuid, bin id} */
+    QMap<QUuid, QString> m_openedPlaylists;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;
@@ -613,4 +628,6 @@ signals:
     /** @brief Selected all markers in clip properties dialog. */
     void selectMarkers();
     void requestBinClose();
+    /** @brief Update a timeline tab name on clip rename. */
+    void updateTabName(const QUuid &, const QString &);
 };

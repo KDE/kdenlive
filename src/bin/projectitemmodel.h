@@ -31,6 +31,7 @@ namespace Mlt {
 class Producer;
 class Properties;
 class Tractor;
+class Service;
 } // namespace Mlt
 
 /**
@@ -51,7 +52,7 @@ public:
     friend class ProjectClip;
     
     /** @brief Builds the MLT playlist, can only be done after MLT is correctly initialized */
-    void buildPlaylist();
+    void buildPlaylist(const QUuid &uuid);
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
@@ -102,7 +103,8 @@ public:
     bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
+    void loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
+                         QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr, QStringList timelines = {});
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
@@ -207,6 +209,7 @@ public:
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
+    std::shared_ptr<Mlt::Tractor> getExtraTimeline(const QString &uuid);
     /** @brief Check if  a file is already in Bin */
     bool urlExists(const QString &path) const;
     /** @brief Returns the unique uuid for this project item model */
@@ -250,6 +253,7 @@ private:
     std::unique_ptr<BinPlaylist> m_binPlaylist;
 
     std::unique_ptr<FileWatcher> m_fileWatcher;
+    std::unordered_map<QString, std::shared_ptr<Mlt::Tractor>> m_extraPlaylists;
 
     int m_nextId;
     QIcon m_blankThumb;

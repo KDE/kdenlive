@@ -36,7 +36,7 @@ public:
        @param undo_stack is a weak pointer to the undo stack of the project
        @param guideModel ptr to the guide model of the project
      */
-    static std::shared_ptr<TimelineItemModel> construct(Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
+    static std::shared_ptr<TimelineItemModel> construct(const QUuid &uuid, Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,
                                                         std::weak_ptr<DocUndoStack> undo_stack);
 
     friend bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor);
@@ -44,7 +44,7 @@ public:
 protected:
     /** @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineItemModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     ~TimelineItemModel() override;

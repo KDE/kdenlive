@@ -60,7 +60,7 @@ const double DOCUMENTVERSION = 1.04;
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent)
     : QObject(parent)
-    , uuid(QUuid::createUuid())
+    , m_uuid(QUuid::createUuid())
     , m_autosave(nullptr)
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
@@ -111,9 +111,9 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     initCacheDirs();
 }
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
+KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
     : QObject(parent)
-    , uuid(QUuid::createUuid())
+    , m_uuid(QUuid::createUuid())
     , m_autosave(nullptr)
     , m_document(newDom)
     , m_clipsCount(0)
@@ -138,7 +138,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
 
 KdenliveDoc::KdenliveDoc(MainWindow *parent)
     : QObject(parent)
-    , uuid(QUuid::createUuid())
+    , m_uuid(QUuid::createUuid())
     , m_autosave(nullptr)
     , m_clipsCount(0)
     , m_modified(false)
@@ -263,7 +263,9 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         doc->m_modifiedDecimalPoint = validationResult.second;
         //doc->setModifiedDecimalPoint(validationResult.second);
     }
+    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZZZ\n\nZZZZZZZZZZZZZZZZZZ\nLOADING DOCPROPS";
     doc->loadDocumentProperties();
+    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZZZ\n\nZZZZZZZZZZZZZZZZZZ\nLOADING DOCPROPS DONE.....";
     if (!doc->m_projectFolder.isEmpty()) {
         // Ask to create the project directory if it does not exist
         QDir folder(doc->m_projectFolder);
@@ -350,6 +352,7 @@ void KdenliveDoc::initializeProperties() {
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
+    m_documentProperties[QStringLiteral("uuid")] = m_uuid.toString();
 }
 
 int KdenliveDoc::updateClipsCount()
@@ -371,7 +374,7 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
     return result;
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
+QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks, bool disableProfile)
 {
     QList<TrackInfo> tracks;
     // Tracks are added «backwards», so we need to reverse the track numbering
@@ -398,24 +401,27 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.duration = 0;
         tracks.append(videoTrack);
     }
-    return createEmptyDocument(tracks);
+    return createEmptyDocument(tracks, disableProfile);
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
+QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks, bool disableProfile)
 {
     // Creating new document
     QDomDocument doc;
-    Mlt::Profile docProfile;
-    Mlt::Consumer xmlConsumer(docProfile, "xml:kdenlive_playlist");
-    xmlConsumer.set("no_profile", 1);
+    std::unique_ptr<Mlt::Profile> docProfile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
+    Mlt::Consumer xmlConsumer(*docProfile.get(), "xml:kdenlive_playlist");
+    if (disableProfile) {
+        xmlConsumer.set("no_profile", 1);
+    }
+
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
-    Mlt::Tractor tractor(docProfile);
-    Mlt::Producer bk(docProfile, "color:black");
+    Mlt::Tractor tractor(*docProfile.get());
+    Mlt::Producer bk(*docProfile.get(), "color:black");
     bk.set("mlt_image_format", "rgba");
     tractor.insert_track(bk, 0);
     for (int i = 0; i < tracks.count(); ++i) {
-        Mlt::Tractor track(docProfile);
+        Mlt::Tractor track(*docProfile.get());
         track.set("kdenlive:track_name", tracks.at(i).trackName.toUtf8().constData());
         track.set("kdenlive:timeline_active", 1);
         track.set("kdenlive:trackheight", KdenliveSettings::trackheight());
@@ -434,8 +440,8 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
         } else if (tracks.at(i).isBlind) {
             track.set("hide", 1);
         }
-        Mlt::Playlist playlist1(docProfile);
-        Mlt::Playlist playlist2(docProfile);
+        Mlt::Playlist playlist1(*docProfile.get());
+        Mlt::Playlist playlist2(*docProfile.get());
         track.insert_track(playlist1, 0);
         track.insert_track(playlist2, 1);
         tractor.insert_track(track, i + 1);
@@ -445,7 +451,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     if (!compositeService.isEmpty()) {
         for (int i = 0; i <= tracks.count(); i++) {
             if (i > 0 && tracks.at(i - 1).type == AudioTrack) {
-                Mlt::Transition tr(docProfile, "mix");
+                Mlt::Transition tr(*docProfile.get(), "mix");
                 tr.set("a_track", 0);
                 tr.set("b_track", i);
                 tr.set("always_active", 1);
@@ -455,7 +461,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
                 field->plant_transition(tr, 0, i);
             }
             if (i > 0 && tracks.at(i - 1).type == VideoTrack) {
-                Mlt::Transition tr(docProfile, compositeService.toUtf8().constData());
+                Mlt::Transition tr(*docProfile.get(), compositeService.toUtf8().constData());
                 tr.set("a_track", 0);
                 tr.set("b_track", i);
                 tr.set("always_active", 1);
@@ -468,6 +474,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
     xmlConsumer.connect(prod);
     xmlConsumer.run();
     QString playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
+    qDebug() << ":::: CREATED PLAYLIST:\n___________________\n" << playlist << "\n\n_______________________________";
     doc.setContent(playlist);
     return doc;
 }
@@ -1424,34 +1431,48 @@ void KdenliveDoc::loadDocumentProperties()
     if (!m_documentRoot.isEmpty()) {
         m_documentRoot = QDir::cleanPath(m_documentRoot) + QLatin1Char('/');
     }
-    if (!list.isEmpty()) {
-        QDomElement pl = list.at(0).toElement();
-        if (pl.isNull()) {
-            return;
+    // Find main playlist
+    QDomElement pl;
+    for (int i = 0; i < list.count(); i++) {
+        pl = list.at(i).toElement();
+        const QString id = pl.attribute(QStringLiteral("id"));
+        if (id == QLatin1String("main_bin") || id == QLatin1String("main bin")) {
+            break;
         }
-        // QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
-        QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
-        QString name;
-        QDomElement e;
-        for (int i = 0; i < props.count(); i++) {
-            e = props.at(i).toElement();
-            name = e.attribute(QStringLiteral("name"));
-            if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
-                name = name.section(QLatin1Char('.'), 1);
-                if (name == QStringLiteral("storagefolder")) {
-                    // Make sure we have an absolute path
-                    QString value = e.firstChild().nodeValue();
-                    if (QFileInfo(value).isRelative()) {
-                        value.prepend(m_documentRoot);
-                    }
-                    m_documentProperties.insert(name, value);
-                } else {
-                    m_documentProperties.insert(name, e.firstChild().nodeValue());
+        pl = QDomElement();
+    }
+    if (pl.isNull()) {
+        qDebug() << "==== DOCUMENT PLAYLIST NOT FOUND!!!!!";
+        return;
+    }
+    // QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
+    QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
+    QString name;
+    QDomElement e;
+    for (int i = 0; i < props.count(); i++) {
+        e = props.at(i).toElement();
+        name = e.attribute(QStringLiteral("name"));
+        if (name.startsWith(QLatin1String("kdenlive:docproperties."))) {
+            name = name.section(QLatin1Char('.'), 1);
+            qDebug() << ":::: FOUD DOC PROPERTY: " << name;
+            if (name == QStringLiteral("storagefolder")) {
+                // Make sure we have an absolute path
+                QString value = e.firstChild().nodeValue();
+                if (QFileInfo(value).isRelative()) {
+                    value.prepend(m_documentRoot);
                 }
-            } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
-                name = name.section(QLatin1Char('.'), 1);
-                m_documentMetadata.insert(name, e.firstChild().nodeValue());
+                m_documentProperties.insert(name, value);
+            } else {
+                m_documentProperties.insert(name, e.firstChild().nodeValue());
+                if (name == QLatin1String("uuid")) {
+                    m_uuid = QUuid(e.firstChild().nodeValue());
+                } else if (name == QLatin1String("timelines")) {
+                    qDebug() << "=======\n\nFOUND EXTRA TIMELINES:\n\n" << e.firstChild().nodeValue() << "\n\n=========";
+                }
             }
+        } else if (name.startsWith(QLatin1String("kdenlive:docmetadata."))) {
+            name = name.section(QLatin1Char('.'), 1);
+            m_documentMetadata.insert(name, e.firstChild().nodeValue());
         }
     }
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
@@ -1626,6 +1647,23 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
             emit docModified(true);
         }
     }
+}
+
+void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel)
+{
+    m_timelineGuides.insert(uuid, std::move(guideModel));
+    QStringList timelines;
+    QMapIterator<QUuid, std::shared_ptr<MarkerListModel>> i(m_timelineGuides);
+    while (i.hasNext()) {
+        i.next();
+        timelines << i.key().toString();
+    }
+    setDocumentProperty(QStringLiteral("timelines"), timelines.join(QLatin1Char(';')));
+}
+
+int KdenliveDoc::timelineCount() const
+{
+    return m_timelineGuides.size();
 }
 
 void KdenliveDoc::doAddAction(const QString &name, QAction *a, const QKeySequence &shortcut)
@@ -1836,8 +1874,14 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid &uuid) const
 {
+    if (uuid == QUuid() || uuid == m_uuid) {
+        return m_guideModel;
+    }
+    qDebug() << "=== RETURNING SECONDARY GUIDE MODEL: " << uuid;
+    return m_timelineGuides.value(uuid);
+
     return m_guideModel;
 }
 
@@ -2027,4 +2071,27 @@ void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
             }
         }
     }
+}
+
+const QUuid &KdenliveDoc::uuid() const
+{
+    return m_uuid;
+}
+
+const QStringList KdenliveDoc::getSecondaryTimelines() const
+{
+    qDebug() << "::: GOT DOCUMENT TIMELINES: " << getDocumentProperty(QStringLiteral("timelines")) << "\n\n__________________";
+    QString timelines = getDocumentProperty(QStringLiteral("timelines"));
+    if (timelines.isEmpty()) {
+        return QStringList();
+    }
+    return getDocumentProperty(QStringLiteral("timelines")).split(QLatin1Char(';'));
+}
+
+const QString KdenliveDoc::projectName() const
+{
+    if (!m_url.isValid()) {
+        return i18n("Untitled");
+    }
+    return m_url.fileName();
 }

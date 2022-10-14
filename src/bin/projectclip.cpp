@@ -544,7 +544,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     updateProducer(producer);
     isReloading = false;
     getFileHash();
-    emit producerChanged(m_binId, producer);
+    emit producerChanged(m_binId, m_masterProducer);
     m_thumbsProducer.reset();
     connectEffectStack();
 
@@ -562,7 +562,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else if (m_clipType == ClipType::Image) {
-        if (producer->get_int("meta.media.width") < 8 || producer->get_int("meta.media.height") < 8) {
+        if (m_masterProducer->get_int("meta.media.width") < 8 || m_masterProducer->get_int("meta.media.height") < 8) {
             KMessageBox::information(QApplication::activeWindow(),
                                      i18n("Image dimension smaller than 8 pixels.\nThis is not correctly supported by our video framework."));
         }
@@ -862,7 +862,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                                                    m_clipType == ClipType::TextTemplate || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-            return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+            std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+            if (m_clipType == ClipType::Timeline && m_masterProducer->property_exists("kdenlive:maxduration")) {
+                prod->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+            }
+            return prod;
         }
         if (m_timewarpProducers.count(clipId) > 0) {
             m_effectStack->removeService(m_timewarpProducers[clipId]);
@@ -882,7 +886,12 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 trackId = -trackId;
             }
             if (m_audioProducers.count(trackId) == 0) {
-                m_audioProducers[trackId] = cloneProducer(true);
+                if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
+                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
+                    m_audioProducers[trackId] = prod;
+                } else {
+                    m_audioProducers[trackId] = cloneProducer(true);
+                }
                 m_audioProducers[trackId]->set("set.test_audio", 0);
                 m_audioProducers[trackId]->set("set.test_image", 1);
                 if (m_streamEffects.contains(audioStream)) {
@@ -901,7 +910,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 }
                 m_effectStack->addService(m_audioProducers[trackId]);
             }
-            return std::shared_ptr<Mlt::Producer>(m_audioProducers[trackId]->cut());
+            std::shared_ptr<Mlt::Producer> prod(m_audioProducers[trackId]->cut());
+            if (m_clipType == ClipType::Timeline && m_audioProducers[trackId]->property_exists("kdenlive:maxduration")) {
+                prod->set("kdenlive:maxduration", m_audioProducers[trackId]->get_int("kdenlive:maxduration"));
+            }
+            return prod;
         }
         if (m_audioProducers.count(trackId) > 0) {
             m_effectStack->removeService(m_audioProducers[trackId]);
@@ -915,7 +928,17 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 trackId = -trackId;
             }
             if (m_videoProducers.count(trackId) == 0) {
-                m_videoProducers[trackId] = cloneProducer(true);
+                if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
+                    std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
+                    m_videoProducers[trackId] = prod;
+
+                } else {
+                    m_videoProducers[trackId] = cloneProducer(true);
+                }
+                if (m_masterProducer->property_exists("kdenlive:maxduration")) {
+                    qDebug() << "ZZZZZZZZZZZZZZ\nFOUND MAXKDENLIVE DURATION: " << m_masterProducer->get_int("kdenlive:maxduration");
+                    m_videoProducers[trackId]->set("kdenlive:maxduration", m_masterProducer->get_int("kdenlive:maxduration"));
+                }
                 // Let audio enabled so that we can use audio visualization filters ?
                 m_videoProducers[trackId]->set("set.test_audio", 1);
                 m_videoProducers[trackId]->set("set.test_image", 0);
@@ -931,7 +954,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
         int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-        return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+        std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
+        if (m_clipType == ClipType::Timeline && m_videoProducers[trackId]->property_exists("kdenlive:maxduration")) {
+            prod->set("kdenlive:maxduration", m_videoProducers[trackId]->get_int("kdenlive:maxduration"));
+        }
+        return prod;
     }
 
     // For timewarp clips, we keep one separate producer for each clip.
@@ -1350,6 +1377,10 @@ const QString ProjectClip::getFileHash()
         fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
+    case ClipType::Timeline:
+        fileData = getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8();
+        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        break;
     default:
         QPair<QByteArray, qint64> hashData = calculateHash(clipUrl());
         fileHash = hashData.first;
@@ -1516,7 +1547,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            {AbstractProjectItem::DataDuration});
         refreshOnly = false;
-        reload = true;
+        reload = m_clipType != ClipType::Timeline;
     }
     QVector<int> refreshRoles;
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {
@@ -1535,6 +1566,10 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                                                                            {AbstractProjectItem::DataName});
         }
         refreshRoles << TimelineModel::NameRole;
+        if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
+            // This is a timeline clip, update tab name
+            emit pCore->bin()->updateTabName(QUuid(m_properties->get("kdenlive:uuid")), m_name);
+        }
     }
     // update timeline clips
     if (!reload) {
@@ -1855,7 +1890,7 @@ const QString ProjectClip::geometryWithOffset(const QString &data, int offset)
 
 bool ProjectClip::isSplittable() const
 {
-    return (m_clipType == ClipType::AV || m_clipType == ClipType::Playlist);
+    return (m_clipType == ClipType::AV || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
 }
 
 void ProjectClip::setBinEffectsEnabled(bool enabled)
@@ -1938,10 +1973,47 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
 QList<int> ProjectClip::timelineInstances() const
 {
     QList<int> ids;
+    const QUuid activeUuid = pCore->currentTimelineId();
     for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (ptr->uuid() != activeUuid) {
+                continue;
+            }
+            qDebug() << ":::: FOUND CLIP: " << registeredClip.first << " IN UUID: " << ptr->uuid();
+        }
         ids.push_back(registeredClip.first);
     }
     return ids;
+}
+
+void ProjectClip::purgeReferences(const QUuid &activeUuid)
+{
+    QList<int> toDelete;
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (ptr->uuid() == activeUuid) {
+                toDelete.push_back(registeredClip.first);
+            }
+        }
+    }
+    if (!toDelete.isEmpty()) {
+        while (!toDelete.isEmpty()) {
+            int id = toDelete.takeFirst();
+            if (m_hasAudio) {
+                auto search = m_registeredClips.find(id);
+                if (search != m_registeredClips.end()) {
+                    if (auto ptr = search->second.lock()) {
+                        if (ptr->getClipState(search->first) == PlaylistState::AudioOnly) {
+                            m_audioCount--;
+                        }
+                    }
+                }
+            }
+            m_registeredClips.erase(id);
+        }
+        setRefCount(uint(m_registeredClips.size()), m_audioCount);
+        emit registeredClipChanged();
+    }
 }
 
 bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
@@ -2412,4 +2484,25 @@ const QStringList ProjectClip::enforcedParams() const
 const QString ProjectClip::baseThumbPath()
 {
     return QString("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
+}
+
+void ProjectClip::reloadPlaylist()
+{
+    pCore->bin()->reloadMonitorIfActive(m_binId);
+    for (auto &p : m_audioProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_videoProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    for (auto &p : m_timewarpProducers) {
+        m_effectStack->removeService(p.second);
+    }
+    // Release audio producers
+    m_audioProducers.clear();
+    m_videoProducers.clear();
+    m_timewarpProducers.clear();
+    emit refreshPropertiesPanel();
+    replaceInTimeline();
+    updateTimelineClips({TimelineModel::IsProxyRole});
 }

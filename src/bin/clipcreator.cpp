@@ -12,6 +12,8 @@
 #include "klocalizedstring.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
 #include "utils/devices.hpp"
@@ -29,6 +31,11 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
     xml.appendChild(prod);
     prod.setAttribute(QStringLiteral("type"), int(type));
+    if (type == ClipType::Timeline) {
+        QUuid uuid = QUuid::createUuid();
+        qDebug() << "::: CREATED XML PLAYLIST UUID: " << uuid;
+        prod.setAttribute(QStringLiteral("kdenlive:uuid"), uuid.toString());
+    }
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
     prod.setAttribute(QStringLiteral("length"), duration);
     std::unordered_map<QString, QString> properties;
@@ -68,6 +75,44 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
+    return res ? id : QStringLiteral("-1");
+}
+
+QString ClipCreator::createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
+{
+    QDomDocument xml = pCore->currentDoc()->createEmptyDocument(2, 2, false);
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
+    const QUuid uuid = QUuid::createUuid();
+    prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    prod->set("kdenlive:clipname", name.toUtf8().constData());
+    prod->set("kdenlive:duration", 1);
+    QString id;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    if (res) {
+        // Open playlist timeline
+        qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
+        pCore->projectManager()->openTimeline(id, uuid);
+    }
+    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    return res ? id : QStringLiteral("-1");
+}
+
+QString ClipCreator::createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+                                        std::shared_ptr<Mlt::Producer> producer, const QUuid uuid, const QMap<QString, QString> mainProperties)
+{
+    QString id;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    QMapIterator<QString, QString> i(mainProperties);
+    while (i.hasNext()) {
+        i.next();
+        producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+    }
+    bool res = model->requestAddBinClip(id, producer, parentFolder, undo, redo);
+    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    // bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
     return res ? id : QStringLiteral("-1");
 }
 

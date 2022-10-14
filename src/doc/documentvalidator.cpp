@@ -62,10 +62,17 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     }
 
     QLocale documentLocale = QLocale::c(); // Document locale for conversion. Previous MLT / Kdenlive versions used C locale by default
-
+    QDomElement main_playlist;
+    QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.count(); i++) {
+        if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") ||
+            playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            main_playlist = playlists.at(i).toElement();
+            break;
+        }
+    }
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) { // Backwards compatibility
         // Check document numeric separator (added in Kdenlive 16.12.1 and removed in Kdenlive 20.08)
-        QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
         QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString("."));
         QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C"); // Backwards compatibility
         qDebug() << "LOCALE: Document uses " << sep << " as decimal point and " << mltLocale << " as locale";
@@ -88,8 +95,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
         // Newer Kdenlive document version
-        QDomElement main = mlt.firstChildElement(QStringLiteral("playlist"));
-        version = Xml::getXmlProperty(main, QStringLiteral("kdenlive:docproperties.version")).toDouble();
+        version = Xml::getXmlProperty(main_playlist, QStringLiteral("kdenlive:docproperties.version")).toDouble();
     } else {
         bool ok;
         version = documentLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);

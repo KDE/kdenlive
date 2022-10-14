@@ -288,6 +288,8 @@ public:
     QString packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
+    /** @brief Get the uuid of currently active timeline */
+    const QUuid &currentTimelineId() const;
 
 private:
     explicit Core(const QString &packageType);

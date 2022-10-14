@@ -106,6 +106,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
+        qDebug() << "AAAAAAAAAAAA\nPROD CHANGES ID: " << m_controllerBinId << "\n\nAAAAAAAAAAAAAAAAAAAAA";
         emitProducerChanged(m_controllerBinId, producer);
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
             // Check if clip has multiple video streams
@@ -260,6 +261,8 @@ void ClipController::getInfoForProducer()
         }
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
         m_clipType = ClipType::Playlist;
+    } else if (m_service == QLatin1String("tractor")) {
+        m_clipType = ClipType::Timeline;
     } else if (m_service == QLatin1String("webvfx")) {
         m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
@@ -406,6 +409,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_effectStack->resetService(m_masterProducer);
+        qDebug() << "AAAAAAAAAAAA\nPROD UPDATE ID: " << m_controllerBinId << "\n\nAAAAAAAAAAAAAAAAAAAAA";
         emitProducerChanged(m_controllerBinId, producer);
         if (m_clipType == ClipType::Unknown) {
             getInfoForProducer();
@@ -417,7 +421,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         }
         */
     }
-    qDebug() << "// replace finished: " << binId() << " : " << m_masterProducer->get("resource");
+    qDebug() << "// replace finished: " << binId() << " : " << m_masterProducer->get("resource") << " = " << m_masterProducer->get("kdenlive:id");
 }
 
 const QString ClipController::getStringDuration()
@@ -475,7 +479,10 @@ int ClipController::getFramePlaytime() const
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return 0;
     }
-    if (!hasLimitedDuration()) {
+    if (!hasLimitedDuration() || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+        if (!m_masterProducer->property_exists("kdenlive:duration")) {
+            return m_masterProducer->get_length();
+        }
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }
@@ -757,7 +764,7 @@ void ClipController::checkAudioVideo()
         if (service.isEmpty()) {
             service = m_masterProducer->get("mlt_service");
         }
-        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
+        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Timeline, ClipType::Unknown};
         if (avTypes.contains(m_clipType)) {
             QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
             if (frame->is_valid()) {

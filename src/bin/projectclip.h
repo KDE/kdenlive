@@ -246,12 +246,15 @@ public:
     int getRecordTime();
     /** @brief Return maximum audio level for a stream. */
     int getAudioMax(int stream);
+    void reloadPlaylist();
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
     /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */
     const QStringList enforcedParams() const;
 
     const QString baseThumbPath();
+    /** @brief Remove clip references in a timeline. */
+    void purgeReferences(const QUuid &activeUuid);
 
 protected:
     friend class ClipModel;

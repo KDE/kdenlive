@@ -246,6 +246,11 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"));
 }
 
+void ClipCreationDialog::createPlaylistClip(const QString &name, KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+{
+    ClipCreator::createPlaylistClip(name, parentFolder, std::move(model));
+}
+
 void ClipCreationDialog::createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, ProjectClip *clip)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();

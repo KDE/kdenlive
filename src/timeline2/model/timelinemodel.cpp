@@ -108,8 +108,9 @@ RTTR_REGISTRATION
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
+    , m_uuid(uuid)
     , m_blockRefresh(false)
     , m_tractor(new Mlt::Tractor(*profile))
     , m_masterStack(nullptr)
@@ -134,7 +135,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set("set.test_audio", 0);
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
-
+    m_tractor->set("id", uuid.toString().toUtf8().constData());
     TRACE_CONSTR(this);
 }
 
@@ -155,6 +156,7 @@ void TimelineModel::prepareClose()
 
 TimelineModel::~TimelineModel()
 {
+    qDebug() << ":::: ZZZZZZZZZZZZZZZZZZZZZZ\nDELETING TIMELINE MODEL\n\nZZZZZZZZZZZZZZZZZZZZZZZZZ";
     std::vector<int> all_ids;
     for (auto tracks : m_iteratorTable) {
         all_ids.push_back(tracks.first);
@@ -1726,7 +1728,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
-    if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) && (type == ClipType::AV || type == ClipType::Playlist)) {
+    if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) &&
+        (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline)) {
         bool useAudioTarget = false;
         if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio
@@ -4194,6 +4197,7 @@ bool TimelineModel::requestTrackDeletion(int trackId)
 
 bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
 {
+    qDebug() << "::::::: DELETING TRACK ARGH!!!!";
     Q_ASSERT(isTrack(trackId));
     if (m_allTracks.size() < 2) {
         pCore->displayMessage(i18n("Cannot delete last track in timeline"), ErrorMessage, 500);
@@ -6560,6 +6564,11 @@ QVariantList TimelineModel::getMasterEffectZones() const
     return {};
 }
 
+const QUuid TimelineModel::uuid() const
+{
+    return m_uuid;
+}
+
 const QSize TimelineModel::getCompositionSizeOnTrack(const ObjectId &id)
 {
     int pos = getCompositionPosition(id.second);
@@ -6629,7 +6638,7 @@ QByteArray TimelineModel::timelineHash()
         fileData.append(compoData.toLatin1());
     }
     // Guides
-    QString guidesData = pCore->currentDoc()->getGuideModel()->toJson();
+    QString guidesData = pCore->currentDoc()->getGuideModel(m_uuid)->toJson();
     fileData.append(guidesData.toUtf8().constData());
     QByteArray fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
     return fileHash;

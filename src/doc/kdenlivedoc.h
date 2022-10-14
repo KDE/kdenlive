@@ -103,7 +103,7 @@ public:
     int width() const;
     int height() const;
     QUrl url() const;
-    QUuid uuid;
+    const QUuid &uuid() const;
     KAutoSaveFile *m_autosave;
     /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
     bool m_sameProjectFolder;
@@ -194,7 +194,7 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model */
-    std::shared_ptr<MarkerListModel> getGuideModel() const;
+    std::shared_ptr<MarkerListModel> getGuideModel(const QUuid &uuid) const;
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -221,12 +221,13 @@ public:
      */
     QString &modifiedDecimalPoint();
     void setModifiedDecimalPoint(const QString &decimalPoint) { m_modifiedDecimalPoint = decimalPoint; }
+    const QStringList getSecondaryTimelines() const;
     /** @brief Initialize subtitle model */
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
     const QString subTitlePath(bool final);
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
     /** @brief Replace proxy clips with originals for rendering. */
@@ -236,6 +237,9 @@ public:
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
     void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
+    void addTimeline(const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel);
+    int timelineCount() const;
+    const QString projectName() const;
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
@@ -244,6 +248,7 @@ private:
         MainWindow *parent = nullptr);
     /** @brief Set document default properties using hard-coded values and KdenliveSettings. */
     void initializeProperties();
+    QUuid m_uuid;
     QDomDocument m_document;
     int m_clipsCount;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */
@@ -276,11 +281,12 @@ private:
     std::weak_ptr<SubtitleModel> m_subtitleModel;
 
     QString m_modifiedDecimalPoint;
+    QMap<QUuid, std::shared_ptr<MarkerListModel>> m_timelineGuides;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
+    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks, bool disableProfile);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();

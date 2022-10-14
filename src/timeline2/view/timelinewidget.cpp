@@ -42,8 +42,9 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(QWidget *parent)
+TimelineWidget::TimelineWidget(const QUuid &uuid, QWidget *parent)
     : QQuickWidget(parent)
+    , uuid(uuid)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -165,9 +166,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("proxy", proxy);
     // Create a unique id for this timeline to prevent thumbnails
     // leaking from one project to another because of qml's image caching
-    rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
+    rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel().get());
+    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel(uuid).get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
@@ -317,7 +318,7 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
@@ -336,7 +337,7 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();

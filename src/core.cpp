@@ -52,7 +52,6 @@ Core::Core(const QString &packageType)
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
-    // m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
     projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
 }
@@ -181,7 +180,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         m_mainWindow->init(MltPath);
     }
     m_mixerWidget->checkAudioLevelVersion();
-    m_projectItemModel->buildPlaylist();
+    m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();
     // load default profile
@@ -365,14 +364,14 @@ void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame,
 
 void Core::selectTimelineItem(int id)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
         m_mainWindow->getCurrentTimeline()->model()->requestAddToSelection(id, true);
     }
 }
 
 std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
         auto subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
         if (enforce && subModel == nullptr) {
             m_mainWindow->slotEditSubtitle();
@@ -423,6 +422,11 @@ void Core::initLocale()
 ToolType::ProjectTool Core::activeTool()
 {
     return m_mainWindow->getCurrentTimeline()->activeTool();
+}
+
+const QUuid &Core::currentTimelineId() const
+{
+    return m_mainWindow->getCurrentTimeline()->uuid;
 }
 
 std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
@@ -720,6 +724,7 @@ int Core::getItemTrack(const ObjectId &id)
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
     case ObjectType::TimelineMix:
+        qDebug() << "::: QUERYING TRACK FOR ITEM IN TIMELINE: " << m_mainWindow->getCurrentTimeline()->uuid;
         return m_mainWindow->getCurrentTimeline()->model()->getItemTrackId(id.second);
     default:
         qWarning() << "unhandled object type";
@@ -1192,7 +1197,7 @@ void Core::addGuides(const QList<int> &guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    currentDoc()->getGuideModel()->addMarkers(markers);
+    currentDoc()->getGuideModel(currentTimelineId())->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
@@ -1218,14 +1223,14 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }
 
 void Core::updateMasterZones()
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->model()->getMasterEffectZones());
     }
 }

@@ -723,7 +723,7 @@ void Monitor::updateMarkers()
         if (m_id == Kdenlive::ClipMonitor && m_controller) {
             model = m_controller->getMarkerModel();
         } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-            model = pCore->currentDoc()->getGuideModel();
+            model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
         }
         if (model) {
             QList<CommentedTime> markersList = model->getAllMarkers();
@@ -740,7 +740,7 @@ void Monitor::updateMarkers()
 
 void Monitor::updateDocumentUuid()
 {
-    m_glMonitor->rootObject()->setProperty("documentId", pCore->currentDoc()->uuid);
+    m_glMonitor->rootObject()->setProperty("documentId", pCore->currentDoc()->uuid());
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -1329,7 +1329,7 @@ void Monitor::checkOverlay(int pos)
             model = m_controller->getMarkerModel();
         }
     } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-        model = pCore->currentDoc()->getGuideModel();
+        model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
     }
 
     if (model) {
@@ -1716,7 +1716,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
             m_glMonitor->rootObject()->setProperty("baseThumbPath",
-                                                   QString("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid.toString()));
+                                                   QString("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
         } else {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }
@@ -2436,7 +2436,7 @@ void Monitor::slotEditInlineMarker()
             // We are editing a clip marker
             model = m_controller->getMarkerModel();
         } else {
-            model = pCore->currentDoc()->getGuideModel();
+            model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
         }
         QString newComment = root->property("markerText").toString();
         bool found = false;

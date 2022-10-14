@@ -409,7 +409,8 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             if (auto ptr = m_parent.lock()) {
                 ptr->m_snaps->removePoint(old_in);
                 ptr->m_snaps->removePoint(old_out);
-                if (finalMove) {
+                if (finalMove && !ptr->m_closing) {
+                    qDebug() << "::::::: TIMELINE MODEL: " << ptr->uuid().toString() << " IS CLOSED: " << ptr->m_closing;
                     if (!audioOnly && !isAudioTrack()) {
                         emit ptr->invalidateZone(old_in, old_out);
                     }
@@ -447,7 +448,11 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     }
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalDeletion);
     if (operation()) {
-        if (finalMove && duration != trackDuration()) {
+        bool closing = false;
+        if (auto ptr = m_parent.lock()) {
+            closing = ptr->m_closing;
+        }
+        if (!closing && finalMove && duration != trackDuration()) {
             // A clip move changed the track duration, update track effects
             m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
         }

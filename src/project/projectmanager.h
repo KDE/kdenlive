@@ -102,6 +102,21 @@ public:
     /** @brief Retrieve the current timeline (mostly used for testing.
      */
     std::shared_ptr<TimelineItemModel> getTimeline();
+    /** @brief Open a timeline clip in a tab.
+     */
+    void openTimeline(const QString &id, const QUuid &uuid);
+    /** @brief Set a property on timeline uuid
+     */
+    void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
+    /** @brief Get the count of timelines in this project
+     */
+    int getTimelinesCount() const;
+
+    void activateDocument(const QUuid &uuid);
+    bool closeDocument();
+    /** @brief Close a timeline tab through its uuid
+     */
+    bool closeTimeline(const QUuid &uuid);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -195,7 +210,7 @@ signals:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
+    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
@@ -213,6 +228,7 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
+    std::unordered_map<QString, std::shared_ptr<TimelineItemModel>> m_timelineModels;
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};
     void saveRecentFiles();

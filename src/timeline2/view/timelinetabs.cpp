@@ -13,6 +13,8 @@
 #include "timelinecontroller.h"
 #include "timelinewidget.h"
 
+#include <QMenu>
+
 TimelineContainer::TimelineContainer(QWidget *parent)
     : QWidget(parent)
 {
@@ -25,32 +27,149 @@ QSize TimelineContainer::sizeHint() const
 
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
-    , m_mainTimeline(new TimelineWidget(this))
+    , m_activeTimeline(nullptr)
 {
     setTabBarAutoHide(true);
     setTabsClosable(true);
-    addTab(m_mainTimeline, i18n("Main timeline"));
-    connectTimeline(m_mainTimeline);
 
     // Resize to 0 the size of the close button of the main timeline, so that the user cannot close it.
-    if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
+    /*if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
         tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
+    }*/
+    connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
+    connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
+}
+
+bool TimelineTabs::raiseTimeline(const QUuid &uuid)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (timeline->uuid == uuid) {
+            setCurrentIndex(i);
+            return true;
+        }
     }
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_mainTimeline, &TimelineWidget::zoneUpdated);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdatedWithUndo, m_mainTimeline, &TimelineWidget::zoneUpdatedWithUndo);
-    connect(m_mainTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
+    return false;
+}
+
+void TimelineTabs::setModified(const QUuid &uuid, bool modified)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (timeline->uuid == uuid) {
+            setTabIcon(i, modified ? QIcon::fromTheme(QStringLiteral("document-save")) : QIcon());
+            break;
+        }
+    }
+}
+
+TimelineWidget *TimelineTabs::addTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
+{
+    TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
+    newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
+                                 m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu);
+    newTimeline->setModel(timelineModel, proxy);
+    addTab(newTimeline, tabName);
+    return newTimeline;
+}
+
+void TimelineTabs::connectCurrent(int ix)
+{
+    qDebug() << "==== SWITCHING CURRENT TIMELINE TO: " << ix;
+    QUuid previousTab = QUuid();
+    int duration = 0;
+    if (m_activeTimeline && m_activeTimeline->model()) {
+        previousTab = m_activeTimeline->uuid;
+        m_activeTimeline->model()->updateDuration();
+        duration = m_activeTimeline->model()->duration();
+        pCore->window()->disconnectTimeline(m_activeTimeline);
+        disconnectTimeline(m_activeTimeline);
+    } else {
+        qDebug() << "==== NO PRECIOUS TIMELINE";
+    }
+    if (ix < 0 || ix >= count()) {
+        m_activeTimeline = nullptr;
+        return;
+    }
+    m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
+    if (m_activeTimeline->model() == nullptr || m_activeTimeline->model()->m_closing) {
+        // Closing app
+        qDebug() << "++++++++++++\n\nCLOSING APP\n\n+++++++++++++";
+        return;
+    }
+    qDebug() << "==== CONNECT NEW TIMELINE, MODEL:" << m_activeTimeline->model()->getTracksCount();
+    connectTimeline(m_activeTimeline);
+    pCore->window()->connectTimeline();
+    if (previousTab != QUuid()) {
+        pCore->bin()->updatePlaylistClip(previousTab, duration, m_activeTimeline->uuid);
+    }
+}
+
+void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
+{
+    qDebug() << "==== READY TO RENAME!!!!!!!!!";
+    for (int i = 0; i < count(); i++) {
+        if (static_cast<TimelineWidget *>(widget(i))->uuid == uuid) {
+            tabBar()->setTabText(i, name);
+            pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
+            break;
+        }
+    }
+}
+
+void TimelineTabs::closeTimelineByIndex(int ix)
+{
+    TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+    timeline->setSource(QUrl());
+    const QUuid uuid = timeline->uuid;
+    timeline->blockSignals(true);
+    pCore->window()->disconnectTimeline(timeline);
+    disconnectTimeline(timeline);
+    pCore->projectManager()->closeTimeline(uuid);
+    if (m_activeTimeline == timeline) {
+        m_activeTimeline = nullptr;
+    }
+    delete timeline;
+    removeTab(ix);
 }
 
 TimelineTabs::~TimelineTabs()
 {
     // clear source
-    m_mainTimeline->setSource(QUrl());
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        timeline->setSource(QUrl());
+    };
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
 {
-    return m_mainTimeline;
+    return m_activeTimeline;
+}
+
+void TimelineTabs::closeTimelines()
+{
+    for (int i = 0; i < count(); i++) {
+        static_cast<TimelineWidget *>(widget(i))->unsetModel();
+    }
+}
+
+void TimelineTabs::closeTimeline(const QUuid &uuid)
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
+        if (uuid == timeline->uuid) {
+            if (m_activeTimeline == timeline) {
+                pCore->window()->disconnectTimeline(m_activeTimeline);
+                disconnectTimeline(m_activeTimeline);
+                m_activeTimeline = nullptr;
+            }
+            timeline->unsetModel();
+            removeTab(i);
+            delete timeline;
+            break;
+        }
+    }
 }
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
@@ -68,6 +187,11 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
     connect(timeline->controller(), &TimelineController::updateAssetPosition, this, &TimelineTabs::updateAssetPosition);
     connect(timeline->controller(), &TimelineController::centerView, timeline, &TimelineWidget::slotCenterView);
+
+    /*connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdated, m_activeTimeline, &TimelineWidget::zoneUpdated);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::zoneUpdatedWithUndo, m_activeTimeline, &TimelineWidget::zoneUpdatedWithUndo);
+    connect(m_activeTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
+    connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_activeTimeline->controller(), &TimelineController::addEffectToCurrentClip);*/
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
@@ -83,5 +207,20 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     disconnect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
     disconnect(timeline->controller(), &TimelineController::updateAssetPosition, this, &TimelineTabs::updateAssetPosition);
-    delete timeline;
+    // delete timeline;
+}
+
+void TimelineTabs::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu,
+                                   QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
+{
+    m_timelineClipMenu = clipMenu;
+    m_timelineCompositionMenu = compositionMenu;
+    m_timelineMenu = timelineMenu;
+    m_timelineRulerMenu = timelineRulerMenu;
+    m_guideMenu = guideMenu;
+    m_headerMenu = headerMenu;
+    m_thumbsMenu = thumbsMenu;
+    m_headerMenu->addMenu(m_thumbsMenu);
+    m_timelineSubtitleClipMenu = subtitleClipMenu;
+    m_editGuideAction = editGuideAction;
 }

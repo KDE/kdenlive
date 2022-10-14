@@ -50,6 +50,8 @@ class TimelineTabs;
 class TimelineWidget;
 class TimelineContainer;
 class Transition;
+class TimelineItemModel;
+class MonitorProxy;
 class KDualAction;
 
 class MltErrorEvent : public QEvent
@@ -128,6 +130,8 @@ public:
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
 
+    void closeTimeline(const QUuid &uuid);
+
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;
     
@@ -171,6 +175,12 @@ public:
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();
+
+    TimelineWidget *openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
+    /** @brief Bring a timeline tab in front. Returns false if no tab exists for this timeline. */
+    bool raiseTimeline(const QUuid &uuid);
+    void connectTimeline();
+    void disconnectTimeline(TimelineWidget *timeline);
 
 protected:
     /** @brief Closes the window.
@@ -349,6 +359,10 @@ public slots:
     /** @brief Remove all unused clips from the project. */
     void slotCleanProject();
     void slotEditProjectSettings(int ix = 0);
+    /** @brief Sets the timeline zoom slider to @param value.
+     *
+     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
+    void slotSetZoom(int value, bool zoomOnMouse = false);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -368,10 +382,6 @@ private slots:
      * (triggered by KdenliveDoc::setModified()) */
     void slotUpdateDocumentState(bool modified);
 
-    /** @brief Sets the timeline zoom slider to @param value.
-     *
-     * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
-    void slotSetZoom(int value, bool zoomOnMouse = false);
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();
     /** @brief Updates the zoom slider tooltip to fit @param zoomlevel. */
