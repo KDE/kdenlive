@@ -36,4 +36,5 @@ Dependencies:
 
 Options:
   require-passing-tests-on: [ 'Linux' ]
+  cppcheck-arguments: '--suppress="*:tests/fakeit.hpp" --suppress="*:tests/catch.hpp" --suppress="*:fuzzer/fakeit_standalone.hpp"'
 
