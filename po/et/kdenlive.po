@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -14755,17 +14755,17 @@ msgstr "nimetu"
 msgid "Main timeline"
 msgstr "Põhiajatelg"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Lisa efekt ..."
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert a composition..."
 msgstr ""
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, kde-format
 msgid "No available stream"
 msgstr "Ühtegi voogu pole saada"

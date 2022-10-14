@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2022-08-24 17:38+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -14241,17 +14241,17 @@ msgstr "Altyazı cığırını kilidləyin"
 msgid "Main timeline"
 msgstr "Əsas zaman qrafiki"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Effekt əlavə edin..."
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Kompozisiya əlavə edin..."
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, kde-format
 msgid "No available stream"
 msgstr "Axın əlçatan deyil"

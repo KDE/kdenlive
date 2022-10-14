@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -14637,19 +14637,19 @@ msgstr "ماۋزۇسىز"
 msgid "Main timeline"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Insert an effect..."
 msgstr "ئۈنۈم"
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert a composition..."
 msgstr "Composite"
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"

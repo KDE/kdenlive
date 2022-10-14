@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -14216,17 +14216,17 @@ msgstr "Lås textningsspår"
 msgid "Main timeline"
 msgstr "Huvudtidslinje"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Infoga en effekt..."
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Infoga en komposition..."
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, kde-format
 msgid "No available stream"
 msgstr "Ingen tillgänglig ström"

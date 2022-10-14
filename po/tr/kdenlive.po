@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2022-10-09 06:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -14211,17 +14211,17 @@ msgstr "Altyazı izini kilitle"
 msgid "Main timeline"
 msgstr "Ana zaman akışı"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Bir Efekt Ekle..."
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Bir Bileşikleştirme Ekle..."
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, kde-format
 msgid "No available stream"
 msgstr "Kullanılabilir akış yok"

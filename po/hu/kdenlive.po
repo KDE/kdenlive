@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -15103,19 +15103,19 @@ msgstr "névtelen"
 msgid "Main timeline"
 msgstr "Klipek betöltése"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Insert an effect..."
 msgstr "Effektus eltávolítás"
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert a composition..."
 msgstr "Kompozit"
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, fuzzy, kde-format
 #| msgid "Razor all tracks"
 msgid "No available stream"

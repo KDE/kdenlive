@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
-"PO-Revision-Date: 2022-10-01 16:19-0300\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
+"PO-Revision-Date: 2022-10-13 01:22-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2925,16 +2925,16 @@ msgid "Wipe Method"
 msgstr "Método de barrido"
 
 #: data/transitions/matte.xml:3
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Matte"
-msgstr "Patrones"
+msgstr "Mate"
 
 #: data/transitions/matte.xml:4
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
 msgstr ""
+"Reemplaza el canal alfa de la pista A con el canal de luma de la pista B."
 
 #: data/transitions/mix.xml:3
 #, kde-format
@@ -3003,10 +3003,9 @@ msgid "Direction"
 msgstr "Dirección"
 
 #: data/transitions/vqm.xml:3
-#, fuzzy, kde-format
-#| msgid "Measurement"
+#, kde-format
 msgid "Video Quality Measurement"
-msgstr "Medida"
+msgstr "Medición de calidad de video"
 
 #: data/transitions/vqm.xml:4
 #, kde-format
@@ -3016,18 +3015,25 @@ msgid ""
 "delimited format for easy by another tool. The bottom half of the B frame is "
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
+"Realiza las mediciones de calidad de video PSNR y SSIM, comparando los "
+"fotogramas B con el fotograma de referencia A. Devuelve el resultado a la "
+"salida estándar stdout en un formato delimitado por espacios, para una "
+"edición sencilla usando otras herramientas. La mitad inferior del fotograma "
+"B se ubicará por debajo de la mitad superior del fotograma A, para "
+"posibilitar una comparación visual."
 
 #: data/transitions/vqm.xml:7
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "Tiempo de procesamiento"
+msgstr "Mostrar línea"
 
 #: data/transitions/vqm.xml:8
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
+"Muestra una línea separadora entre las mitades superior e inferior y los "
+"valores encima del video."
 
 #: data/transitions/wipe.xml:3
 #, kde-format
@@ -4057,8 +4063,8 @@ msgstr "Esto borrará todo el contenido de la carpeta"
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
-"Algunos elementos no pudieron ser eliminados. Es posible que existan "
-"instancias en pistas bloqueadas"
+"Algunos elementos no pudieron ser eliminados. ¿Es posible que existan "
+"instancias en pistas bloqueadas?"
 
 #: src/bin/bin.cpp:1809
 #, kde-format
@@ -4089,20 +4095,14 @@ msgstr ""
 "llamada %1."
 
 #: src/bin/bin.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "No es posible escribir en el archivo %1"
+msgstr "No es posible analizar el archivo %1"
 
 #: src/bin/bin.cpp:1877
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot replace clip with invalid file %1"
-msgstr ""
-"No es posible abrir el archivo de proyecto:\n"
-" %1"
+msgstr "No es posible reemplazar el clip con el archivo inválido %1"
 
 #: src/bin/bin.cpp:1903 src/bin/bin.cpp:1961
 #, kde-format
@@ -4121,10 +4121,9 @@ msgid "The selected file %1 is invalid."
 msgstr "El archivo seleccionado %1 no es válido."
 
 #: src/bin/bin.cpp:1916
-#, fuzzy, kde-format
-#| msgid "Cannot find clip to edit"
+#, kde-format
 msgid "Cannot find original clip to be replaced"
-msgstr "No se encuentra clip que editar"
+msgstr "No es posible encontrar el clip original a ser reemplazado"
 
 #: src/bin/bin.cpp:1936
 #, kde-format
@@ -5477,6 +5476,9 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
+"El perfil de previsualización de la línea de tiempo seleccionado no es "
+"compatible con la velocidad de fotogramas del proyecto,\n"
+"volviendo a Automático."
 
 #: src/dialogs/exportguidesdialog.cpp:33
 #, kde-format
@@ -7405,11 +7407,9 @@ msgid "Hide keyframes"
 msgstr "Ocultar claves"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show keyframes"
-msgstr "Mover claves"
+msgstr "Mostrar claves"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
@@ -7480,17 +7480,14 @@ msgid "Enable Keyframes"
 msgstr "Habilitar claves"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgid "Hide keyframes"
+#, kde-format
 msgid "Hide Keyframes"
 msgstr "Ocultar claves"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show Keyframes"
-msgstr "Mover claves"
+msgstr "Mostrar claves"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
@@ -11703,10 +11700,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Seleccionar el ajuste de perfil del proyecto"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Predeterminado"
+msgstr "Predeterminado: %1"
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -14332,17 +14328,17 @@ msgstr "Bloquear pista de subtítulos"
 msgid "Main timeline"
 msgstr "Línea de tiempo principal"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, kde-format
 msgid "Insert an effect..."
 msgstr "Insertar un efecto..."
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert a composition..."
 msgstr "Insertar un método de composición..."
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, kde-format
 msgid "No available stream"
 msgstr "No hay fuentes disponibles"
@@ -15338,16 +15334,15 @@ msgstr "Colocar clip en la carpeta \"Estabilizado\""
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_add)
 #: src/ui/clipstabilize_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Add clip to project"
+#, kde-format
 msgid "Add stabilized clip to project"
-msgstr "Agregar clip al proyecto"
+msgstr "Agregar clip estabilizado al proyecto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_replace)
 #: src/ui/clipstabilize_ui.ui:83
 #, kde-format
 msgid "Replace original clip with stabilized clip"
-msgstr ""
+msgstr "Reemplazar clip original con clip estabilizado"
 
 #. i18n: ectx: property (text), widget (QLabel, ffmpeg_label)
 #: src/ui/cliptranscode_ui.ui:53
@@ -15457,17 +15452,15 @@ msgstr "Capturar video (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:62 src/ui/configcapture_ui.ui:460
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "Dispositivos detectados"
+msgstr "Dispositivos detectados:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "Dispositivo de video"
+msgstr "Dispositivo de video:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:86
@@ -15546,24 +15539,21 @@ msgstr "Perfil de codificación:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Capturar una región"
+msgstr "Región a capturar:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Cambiar a pantalla completa"
+msgstr "Pantalla completa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Ventana rectangular"
+msgstr "Región rectangular"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -15595,10 +15585,9 @@ msgstr "Tamaño"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:400
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "Ocultar cursor"
+msgstr "Puntero del ratón:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:454
@@ -15925,7 +15914,7 @@ msgstr "Botón  4"
 #: src/ui/configjogshuttle_ui.ui:183
 #, kde-format
 msgid "Device name:"
-msgstr "Nombre del dispositivo:"
+msgstr "Nombre de dispositivo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configjogshuttle_ui.ui:196
@@ -15989,10 +15978,9 @@ msgstr "Botón 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "Archivos de proyecto:"
+msgstr "Archivo de proyecto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:24
@@ -16008,10 +15996,9 @@ msgstr "Activar recuperación ante un error (autoguardado)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "Color del clip:"
+msgstr "Importación de clips:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:52
@@ -16133,21 +16120,21 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
+"Estas son las opciones predeterminadas para nuevos proyectos. Para editar "
+"los parámetros del proyecto actual, usar las opciones del proyecto."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:37 src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project folder"
+#, kde-format
 msgid "Project folder:"
-msgstr "Carpeta del proyecto"
+msgstr "Carpeta del proyecto:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "Carpeta predeterminada para archivos de proyecto"
+msgstr "Carpeta superior del archivo de proyecto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:63
@@ -16187,10 +16174,9 @@ msgstr "6 canales"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:145
-#, fuzzy, kde-format
-#| msgid "Timeline preview profiles"
+#, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Perfiles de previsualización de la línea de tiempo"
+msgstr "Perfil de previsualización de línea de tiempo:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:28
@@ -16233,18 +16219,16 @@ msgstr "Tamaño de imagen de reemplazo"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:133
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "Habilitado"
+msgstr "Habilitar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:177 src/ui/projectsettings_ui.ui:477
-#, fuzzy, kde-format
-#| msgid "Use external proxy clips"
+#, kde-format
 msgid "External proxy clips:"
-msgstr "Usar clips externos de reemplazo"
+msgstr "Clips externos de reemplazo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:204
@@ -16264,21 +16248,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:39
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
-"Usar procesamiento mediante la GPU (biblioteca Movit) - reiniciar Kdenlive "
-"para aplicar"
+msgstr "Procesamiento mediante GPU (biblioteca Movit):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:46
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
-"Usar procesamiento mediante la GPU (biblioteca Movit) - reiniciar Kdenlive "
-"para aplicar"
+msgstr "Habilitar - reiniciar Kdenlive para aplicar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:60
@@ -16306,10 +16284,9 @@ msgstr "Monitor para pantalla completa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "Usar dispositivo externo (placa Blackmagic)"
+msgstr "Dispositivo externo de visualización (placa Blackmagic):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:140
@@ -16362,31 +16339,27 @@ msgstr "Miniaturas:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "Habilitar video"
+msgstr "Habilitar para video"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:31
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "Habilitar audio"
+msgstr "Habilitar para audio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Separate channels"
+#, kde-format
 msgid "Separate audio channels"
-msgstr "Separar canales"
+msgstr "Separar canales de audio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Pause playback when seeking"
+#, kde-format
 msgid "Playback and Seeking:"
-msgstr "Pausar la reproducción al saltar"
+msgstr "Reproducción y saltos:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:62
@@ -16410,10 +16383,9 @@ msgstr "Saltar al clip al agregar un efecto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Rolling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "Continua"
+msgstr "Desplazamiento:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -16438,10 +16410,9 @@ msgstr "Mostrar comentarios de marcadores de clip"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "Altura de pista:"
+msgstr "Altura predeterminada de pistas:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:145
@@ -17417,44 +17388,38 @@ msgstr "Preferencias"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
 msgstr ""
-"Carpeta de proyecto, donde almacenar clips de reemplazo, miniaturas, "
-"previsualizaciones"
+" Usada para almacenar clips de reemplazo, miniaturas y previsualizaciones"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"Carpeta de proyecto, donde almacenar clips de reemplazo, miniaturas, "
-"previsualizaciones"
+" Carpeta de proyecto, es el lugar donde almacenar recursos como clips de "
+"reemplazo, miniaturas y previsualizaciones."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Carpetas predeterminadas"
+msgstr "Carpeta predeterminada"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "Carpeta predeterminada para archivos de proyecto"
+msgstr "Carpeta superior del archivo de proyecto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Personalizado"
+msgstr "Personalizada:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:136
@@ -17488,10 +17453,9 @@ msgstr "Reemplazo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "Clips de reemplazo:"
+msgstr "Clips de reemplazo"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -17883,7 +17847,7 @@ msgstr "Exportar metadatos"
 #: src/ui/renderwidget_ui.ui:805
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
-msgstr ""
+msgstr "<a href=\"#\">Editar metadatos</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
 #: src/ui/renderwidget_ui.ui:830
@@ -18662,22 +18626,18 @@ msgstr "Transparencia:"
 #: src/widgets/colorpickerwidget.cpp:55
 #, kde-format
 msgid "Pick a color on the screen."
-msgstr ""
+msgstr "Escoger un color en la pantalla."
 
 #: src/widgets/colorpickerwidget.cpp:56
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Pick a color on the screen. By pressing the mouse button and then moving "
-#| "your mouse you can select a section of the screen from which to get an "
-#| "average color."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
 "your mouse you can select a section of the screen from which to get an "
 "average color."
 msgstr ""
-"Escoger un color de la pantalla. Presionando el botón del ratón y luego "
-"moviéndolo, es posible seleccionar una sección de la pantalla de la cual se "
+"Escoger un color en la pantalla. Presionando el botón del ratón y luego "
+"moviéndolo es posible seleccionar una sección de la pantalla de la cual se "
 "obtiene un color promedio."
 
 #: src/widgets/dragvalue.cpp:115

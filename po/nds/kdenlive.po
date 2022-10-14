@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-13 00:45+0000\n"
+"POT-Creation-Date: 2022-10-14 00:46+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -14706,19 +14706,19 @@ msgstr "ahn Titel"
 msgid "Main timeline"
 msgstr "Vöransichten warrt laadt"
 
-#: src/timeline2/view/timelinewidget.cpp:68
+#: src/timeline2/view/timelinewidget.cpp:70
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Insert an effect..."
 msgstr "Keen Effekt"
 
-#: src/timeline2/view/timelinewidget.cpp:69
+#: src/timeline2/view/timelinewidget.cpp:71
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Insert a composition..."
 msgstr "Positschoon"
 
-#: src/timeline2/view/timelinewidget.cpp:280
+#: src/timeline2/view/timelinewidget.cpp:282
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"
