@@ -1091,11 +1091,12 @@ void ArchiveWidget::createArchive()
     int ix = 0;
     bool success = true;
     QMapIterator<QString, QString> i(m_filesList);
+    int max = m_filesList.count();
     while (i.hasNext()) {
         i.next();
         m_infoMessage->setText(i18n("Archiving %1", i.key()));
         success = archive->addLocalFile(i.key(), i.value());
-        emit archiveProgress(100 * ix / m_filesList.count());
+        emit archiveProgress(100 * ix / max);
         ix++;
         if (!success) {
             break;
