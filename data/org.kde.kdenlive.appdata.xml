@@ -22,6 +22,7 @@
   <name xml:lang="gl">Kdenlive</name>
   <name xml:lang="id">Kdenlive</name>
   <name xml:lang="it">Kdenlive</name>
+  <name xml:lang="ka">Kdenlive</name>
   <name xml:lang="ko">Kdenlive</name>
   <name xml:lang="nl">Kdenlive</name>
   <name xml:lang="nn">Kdenlive</name>
@@ -56,6 +57,7 @@
   <summary xml:lang="gl">Editor de vídeo</summary>
   <summary xml:lang="id">Editor Video</summary>
   <summary xml:lang="it">Editor video</summary>
+  <summary xml:lang="ka">ვიდეო რედაქტორი</summary>
   <summary xml:lang="ko">동영상 편집기</summary>
   <summary xml:lang="nl">Videobewerker</summary>
   <summary xml:lang="nn">Videoredigering</summary>
@@ -124,6 +126,7 @@
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
+    <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
     <p xml:lang="nn">Funksjonar:</p>
@@ -158,6 +161,7 @@
       <li xml:lang="gl">Interface intuitiva con varias pistas.</li>
       <li xml:lang="id">Antarmuka multitrek yang intuitif.</li>
       <li xml:lang="it">Interfaccia multitraccia intuitiva.</li>
+      <li xml:lang="ka">ინტუიციური მრავალტრეკიანი ინტერფეისი.</li>
       <li xml:lang="ko">사용하기 편한 다중 트랙 인터페이스.</li>
       <li xml:lang="nl">Intuïtief interface met meerdere tracks.</li>
       <li xml:lang="nn">Intuitivt fleirsporsgrensesnitt</li>
@@ -191,6 +195,7 @@
       <li xml:lang="gl">Moitos efectos e transicións.</li>
       <li xml:lang="id">Banyak efek dan transisi.</li>
       <li xml:lang="it">Numerosi effetti e transizioni.</li>
+      <li xml:lang="ka">ბევრი ეფექტი და გადაყვანა.</li>
       <li xml:lang="ko">다양한 효과와 트랜지션.</li>
       <li xml:lang="nl">Veel effecten en overgangen.</li>
       <li xml:lang="nn">Mange effektar og overgangar</li>
@@ -224,6 +229,7 @@
       <li xml:lang="gl">Ámbitos de cores.</li>
       <li xml:lang="id">Cakupan warna</li>
       <li xml:lang="it">Diagrammi di colore</li>
+      <li xml:lang="ka">ფერის ფარგლები</li>
       <li xml:lang="ko">색상 범위</li>
       <li xml:lang="nl">Kleurreeksen</li>
       <li xml:lang="nn">Fargeskop</li>
@@ -288,6 +294,7 @@
       <caption xml:lang="fr">Montage Kdenlive</caption>
       <caption xml:lang="id">Linimasa Kdenlive</caption>
       <caption xml:lang="it">Linea temporale Kdenlive</caption>
+      <caption xml:lang="ka">Kdenlive დროის ხაზი</caption>
       <caption xml:lang="ko">Kdenlive 타임라인</caption>
       <caption xml:lang="nl">Kdenlive tijdlijn</caption>
       <caption xml:lang="nn">Tidslinje i Kdenlive</caption>
@@ -323,6 +330,7 @@
       <caption xml:lang="fr">Ajustements audio Kdenlive</caption>
       <caption xml:lang="id">Penyetelan Audio Kdenlive</caption>
       <caption xml:lang="it">Regolazioni audio Kdenlive</caption>
+      <caption xml:lang="ka">Kdenlive აუდიოს გასწორება</caption>
       <caption xml:lang="ko">Kdenlive 오디오 조정</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="nn">Lysjustering i Kdenlive</caption>
@@ -358,6 +366,7 @@
       <caption xml:lang="fr">Effets Kdenlive</caption>
       <caption xml:lang="id">Efek Kdenlive</caption>
       <caption xml:lang="it">Effetti Kdenlive</caption>
+      <caption xml:lang="ka">Kdenlive -ის ეფექტები</caption>
       <caption xml:lang="ko">Kdenlive 효과</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="nn">Kdenlive-effektar</caption>
