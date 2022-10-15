@@ -371,7 +371,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QLabel *label = new QLabel(i18n("Color"), this);
         ChooseColorWidget *choosecolor = new ChooseColorWidget(this, QColor::fromRgb(color.r, color.g, color.b), false);
 
-        auto *colorLay = new QHBoxLayout(this);
+        auto *colorLay = new QHBoxLayout;
         colorLay->setContentsMargins(0, 0, 0, 0);
         colorLay->setSpacing(0);
         colorLay->addWidget(label);
