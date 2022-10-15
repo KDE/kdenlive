@@ -3405,7 +3405,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->animatedShow();
 }
 
-void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString &logInfo)
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString logInfo)
 {
     // Remove existing actions if any
     m_currentMessage = BinMessage::BinCategory::InformationMessage;
@@ -4599,11 +4599,11 @@ void Bin::refreshProxySettings()
     if (!m_doc->useProxy()) {
         // Disable all proxies
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
-    } else {
+    } else if (m_doc->autoGenerateProxy(-1) || m_doc->autoGenerateImageProxy(-1)) {
         QList<std::shared_ptr<ProjectClip>> toProxy;
         for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
             ClipType::ProducerType t = clp->clipType();
-            if (t == ClipType::Playlist) {
+            if (t == ClipType::Playlist && m_doc->autoGenerateProxy(pCore->getCurrentFrameDisplaySize().width())) {
                 toProxy << clp;
                 continue;
             } else if ((t == ClipType::AV || t == ClipType::Video) &&

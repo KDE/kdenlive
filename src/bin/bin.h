@@ -443,7 +443,7 @@ public slots:
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString &logInfo);
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString logInfo);
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
     /** @brief Select a clip in the Bin from its id. */

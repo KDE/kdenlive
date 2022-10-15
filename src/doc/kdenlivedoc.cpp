@@ -485,13 +485,13 @@ bool KdenliveDoc::useExternalProxy() const
 bool KdenliveDoc::autoGenerateProxy(int width) const
 {
     return (m_documentProperties.value(QStringLiteral("generateproxy")).toInt() != 0) &&
-           width > m_documentProperties.value(QStringLiteral("proxyminsize")).toInt();
+           (width < 0 || width > m_documentProperties.value(QStringLiteral("proxyminsize")).toInt());
 }
 
 bool KdenliveDoc::autoGenerateImageProxy(int width) const
 {
     return (m_documentProperties.value(QStringLiteral("generateimageproxy")).toInt() != 0) &&
-           width > m_documentProperties.value(QStringLiteral("proxyimageminsize")).toInt();
+           (width < 0 || width > m_documentProperties.value(QStringLiteral("proxyimageminsize")).toInt());
 }
 
 void KdenliveDoc::slotAutoSave(const QString &scene)

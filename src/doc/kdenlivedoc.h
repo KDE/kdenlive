@@ -162,7 +162,13 @@ public:
     QMap<QString, QString> documentProperties();
     bool useProxy() const;
     bool useExternalProxy() const;
+    /** @brief Returns true if a proxy clip should be automatically generated for this width.
+     *  if width < 0, returns true if the document's automatic proxy generation is enabled
+     */
     bool autoGenerateProxy(int width) const;
+    /** @brief Returns true if a proxy clip should be automatically generated for this width.
+     *  if width < 0, returns true if the document's automatic proxy generation is enabled
+     */
     bool autoGenerateImageProxy(int width) const;
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);

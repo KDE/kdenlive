@@ -96,7 +96,7 @@ void ProxyTask::run()
         }
         mltParameters << source;
         // set destination
-        mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:") + dest;
+        mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:%1").arg(dest) << QStringLiteral("out=%1").arg(binClip->frameDuration());
         QString parameter = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (parameter.isEmpty()) {
             // Automatic setting, decide based on hw support
@@ -162,7 +162,8 @@ void ProxyTask::run()
         } else {
             threadCount = 1;
         }
-        mltParameters.append(QStringLiteral("real_time=-%1").arg(threadCount));
+        // real_time parameter seems to cause rendering artifacts with playlist clips
+        // mltParameters.append(QStringLiteral("real_time=-%1").arg(threadCount));
         mltParameters.append(QStringLiteral("threads=%1").arg(threadCount));
         mltParameters.append(QStringLiteral("terminate_on_pause=1"));
 
@@ -347,8 +348,6 @@ void ProxyTask::run()
     }
     // remove temporary playlist if it exists
     m_progress = 100;
-    pCore->taskManager.taskDone(m_owner.second, this);
-    QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (result && !m_isCanceled) {
         if (QFileInfo(dest).size() == 0) {
             QFile::remove(dest);
@@ -371,6 +370,8 @@ void ProxyTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
     }
+    pCore->taskManager.taskDone(m_owner.second, this);
+    QMetaObject::invokeMethod(m_object, "updateJobProgress");
     return;
 }
 

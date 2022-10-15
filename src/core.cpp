@@ -848,7 +848,7 @@ void Core::displayBinMessage(const QString &text, int type, const QList<QAction 
     m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), actions, showClose, messageCategory);
 }
 
-void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
+void Core::displayBinLogMessage(const QString &text, int type, const QString logInfo)
 {
     m_mainWindow->getBin()->doDisplayMessage(text, KMessageWidget::MessageType(type), logInfo);
 }
