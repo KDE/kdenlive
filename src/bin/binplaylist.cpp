@@ -79,8 +79,13 @@ void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
     case AbstractProjectItem::ClipItem: {
         Q_ASSERT(m_allClips.count(id) > 0);
         m_allClips.erase(id);
-        removeBinClip(id);
-        disconnect(static_cast<ProjectClip *>(binElem), &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
+        {
+            auto clip = static_cast<ProjectClip *>(binElem);
+            if (!clip->isValid() || clip->clipType() != ClipType::Timeline) {
+                removeBinClip(id);
+            }
+            disconnect(clip, &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
+        }
         break;
     }
     default:
