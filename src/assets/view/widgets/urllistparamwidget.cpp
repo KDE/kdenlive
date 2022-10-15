@@ -32,9 +32,7 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     setMinimumHeight(m_list->sizeHint().height());
     // setup download
     if (!configFile.isEmpty()) {
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
-        // TODO: ones we require at least KF 5.91 move this to the *.ui file
-        m_knsbutton = new KNSWidgets::Button(QString(), configFile, this);
+        m_knsbutton->setConfigFile(configFile);
         connect(m_knsbutton, &KNSWidgets::Button::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 if (configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
@@ -43,12 +41,8 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
                 slotRefresh();
             }
         });
-#else
-        m_knsbutton = new QToolButton(this);
-        m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download"));
-        connect(m_knsbutton, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
-#endif
-        m_value_box->layout()->addWidget(m_knsbutton);
+    } else {
+        m_knsbutton->hide();
     }
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
@@ -267,20 +261,3 @@ void UrlListParamWidget::openFile()
     }
     m_list->setCurrentIndex(m_currentIndex);
 }
-
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 91, 0)
-void UrlListParamWidget::downloadNewItems()
-{
-    const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
-    if (configFile.isEmpty()) {
-        return;
-    }
-
-    if (pCore->getNewStuff(configFile) > 0) {
-        if (configFile.contains(QStringLiteral("kdenlive_wipes.knsrc"))) {
-            MltConnection::refreshLumas();
-        }
-        slotRefresh();
-    }
-}
-#endif

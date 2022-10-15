@@ -327,9 +327,6 @@ public slots:
     void connectDocument();
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,91,0)
-    void configureToolbars() override;
-#endif
     /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn(bool zoomOnMouse = false);
     /** @brief Increases the timeline zoom level by 1. */
@@ -532,10 +529,6 @@ private slots:
     void slotCheckTabPosition();
     /** @brief Toggle automatic timeline preview on/off */
     void slotToggleAutoPreview(bool enable);
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5,91,0)
-    /** @brief Rebuild/reload timeline toolbar. */
-    void rebuildTimlineToolBar();
-#endif
     void showTimelineToolbarMenu(const QPoint &pos);
     /** @brief Open Cached Data management dialog. */
     void slotManageCache();

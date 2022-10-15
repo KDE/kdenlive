@@ -113,11 +113,25 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="KNSWidgets::Button" name="m_knsbutton">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KNSWidgets::Button</class>
+   <extends>QPushButton</extends>
+   <header>KNSWidgets/Button</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

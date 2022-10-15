@@ -37,11 +37,7 @@ install(FILES
 
   DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX})
 
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
-    install(FILES  kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
-else()
-    install(FILES  kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFY5RCDIR})
-endif()
+install(FILES  kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 install(FILES profiles.xml DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/export)
 install(FILES org.kde.kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES org.kde.kdenlive.desktop DESTINATION ${KDE_INSTALL_APPDIR})

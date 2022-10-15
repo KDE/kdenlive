@@ -227,11 +227,20 @@
                    </widget>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="downloadButtonBox">
-                    <property name="spacing">
-                     <number>0</number>
+                   <widget class="KNSWidgets::Button" name="m_knsbutton">
+                    <property name="toolTip">
+                     <string>Download New Render Presets…</string>
                     </property>
-                   </layout>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="flat">
+                     <bool>true</bool>
+                    </property>
+                    <property name="configFile">
+                     <string>:data/kdenlive_renderprofiles.knsrc</string>
+                    </property>
+                   </widget>
                   </item>
                   <item>
                    <widget class="KSeparator" name="kseparator">
@@ -1094,6 +1103,11 @@
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KNSWidgets::Button</class>
+   <extends>QPushButton</extends>
+   <header>KNSWidgets/Button</header>
   </customwidget>
   <customwidget>
    <class>KMessageWidget</class>

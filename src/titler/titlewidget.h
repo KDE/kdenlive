@@ -20,9 +20,7 @@
 #include "ui_titlewidget_ui.h"
 
 #include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 90, 0)
 #include <KNSWidgets/Action>
-#endif
 #include <QMap>
 #include <QModelIndex>
 #include <QSignalMapper>
@@ -139,11 +137,7 @@ private:
     QAction *m_buttonCursor;
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 90, 0)
-    QAction *m_buttonDownload;
-#else
     KNSWidgets::Action *m_buttonDownload;
-#endif
 
     QAction *m_unicodeAction;
     QAction *m_zUp;
@@ -237,11 +231,6 @@ private:
     QString getTooltipWithShortcut(const QString &tipText, QAction *button);
     void loadGradients();
     void storeGradient(const QString &gradientData);
-
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 90, 0)
-    /** @brief Open title download dialog */
-    void downloadTitleTemplates();
-#endif
 
     /** @brief Read patterns from config file
      */

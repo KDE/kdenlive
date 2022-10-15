@@ -21,9 +21,7 @@ class Menu;
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
 #include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
 #include <KNSWidgets/Button>
-#endif
 
 class QDomElement;
 class QKeyEvent;
@@ -215,11 +213,6 @@ private:
     QString m_renderer;
     QMap<int, QString> m_errorMessages;
     std::weak_ptr<MarkerListModel> m_guidesModel;
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
-    KNSWidgets::Button *m_knsbutton;
-#else
-    QToolButton *m_knsbutton;
-#endif
 
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;

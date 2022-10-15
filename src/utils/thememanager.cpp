@@ -24,9 +24,7 @@
 ThemeManager::ThemeManager(QObject *parent)
     : KColorSchemeManager(parent)
 {
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 89, 0)
     setAutosaveChanges(false);
-#endif
     const auto schemePath(loadCurrentPath());
 
     // KColorSchemeManager includes a system color scheme option that reacts to system scheme changes.

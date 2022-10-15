@@ -41,7 +41,7 @@ set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # KDE Frameworks
-set(KF_DEP_VERSION "5.86.0")
+set(KF_DEP_VERSION "5.92.0")
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(KDE_COMPILERSETTINGS_LEVEL 5.80)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -57,12 +57,8 @@ include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 include(ECMAddQch)
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.89.0")
-    include(QtVersionOption)
-endif()
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
-    include(ECMDeprecationSettings)
-endif()
+include(QtVersionOption)
+include(ECMDeprecationSettings)
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 ${KF_DEP_VERSION}
@@ -102,12 +98,10 @@ if (QT_MAJOR_VERSION STREQUAL "6")
     set(USE_VERSIONLESS_TARGETS ON)
 endif()
 
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.91.0")
-    ecm_set_disabled_deprecation_versions(
-        QT ${QT_MIN_VERSION}
-        KF ${KF_DEP_VERSION}
-    )
-endif()
+ecm_set_disabled_deprecation_versions(
+    QT ${QT_MIN_VERSION}
+    KF ${KF_DEP_VERSION}
+)
 
 find_package(Qt${QT_MAJOR_VERSION}
     REQUIRED COMPONENTS
