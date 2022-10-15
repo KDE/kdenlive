@@ -89,7 +89,22 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
+    // Create the timelines folder to store timeline clips
+    QString folderId;
+    bool res = false;
+    if (parentFolder == QLatin1String("-1")) {
+        // Create timeline folder
+        folderId = model->getFolderIdByName(i18n("Timelines"));
+        if (folderId.isEmpty()) {
+            res = model->requestAddFolder(folderId, i18n("Timelines"), QStringLiteral("-1"), undo, redo);
+        } else {
+            res = true;
+        }
+    }
+    if (!res) {
+        folderId = parentFolder;
+    }
+    res = model->requestAddBinClip(id, prod, folderId, undo, redo);
     if (res) {
         // Open playlist timeline
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
@@ -99,8 +114,8 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     return res ? id : QStringLiteral("-1");
 }
 
-QString ClipCreator::createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
-                                        std::shared_ptr<Mlt::Producer> producer, const QUuid uuid, const QMap<QString, QString> mainProperties)
+QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
+                                        const QMap<QString, QString> mainProperties)
 {
     QString id;
     Fun undo = []() { return true; };
@@ -110,9 +125,22 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
         i.next();
         producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
     }
-    bool res = model->requestAddBinClip(id, producer, parentFolder, undo, redo);
+    QString folderId;
+    bool res = false;
+    if (parentFolder == QLatin1String("-1")) {
+        // Create timeline folder
+        folderId = model->getFolderIdByName(i18n("Timelines"));
+        if (folderId.isEmpty()) {
+            res = model->requestAddFolder(folderId, i18n("Timelines"), QStringLiteral("-1"), undo, redo);
+        } else {
+            res = true;
+        }
+    }
+    if (!res) {
+        folderId = parentFolder;
+    }
+    res = model->requestAddBinClip(id, producer, folderId, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
-    // bool res = model->requestAddBinClip(id, xml2.documentElement(), parentFolder, i18n("Create playlist clip"));
     return res ? id : QStringLiteral("-1");
 }
 

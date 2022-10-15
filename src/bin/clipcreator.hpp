@@ -36,8 +36,8 @@ QString createColorClip(const QString &color, int duration, const QString &name,
    @return the binId of the created clip
 */
 QString createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
-QString createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
-                           std::shared_ptr<Mlt::Producer> producer, const QUuid uuid, const QMap<QString, QString> mainProperties);
+QString createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
+                           const QMap<QString, QString> mainProperties);
 
 /** @brief Create a title clip
    @param properties : title properties (xmldata, etc)

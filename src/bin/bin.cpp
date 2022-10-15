@@ -2915,12 +2915,6 @@ void Bin::slotEditClip()
     case ClipType::QText:
         ClipCreationDialog::createQTextClip(m_doc, parentFolder, this, clip.get());
         break;
-    case ClipType::Timeline: {
-        int timelinesCount = pCore->projectManager()->getTimelinesCount();
-        ClipCreationDialog::createPlaylistClip(i18n("Playlist %1", timelinesCount), m_doc, parentFolder, m_itemModel);
-        break;
-    }
-
     default:
         break;
     }
@@ -3481,7 +3475,7 @@ void Bin::slotCreateProjectClip()
         ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
         break;
     case ClipType::Timeline: {
-        int timelinesCount = pCore->projectManager()->getTimelinesCount();
+        int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
         ClipCreationDialog::createPlaylistClip(i18n("Playlist %1", timelinesCount), m_doc, parentFolder, m_itemModel);
         break;
     }

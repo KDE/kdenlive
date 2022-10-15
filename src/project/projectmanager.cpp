@@ -160,15 +160,14 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         std::shared_ptr<Mlt::Producer> main(m_mainTimelineModel->tractor());
         // std::shared_ptr<Mlt::Producer>main(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, "color:red"));
         QMap<QString, QString> mainProperties;
-        mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Main Playlist"));
+        mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Playlist 1"));
         int duration = m_mainTimelineModel->duration();
         mainProperties.insert("kdenlive:maxduration", QString::number(duration));
         mainProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration - 1));
         mainProperties.insert(QStringLiteral("length"), QString::number(duration));
         // mainProperties.insert("out", QString::number(duration - 1));
         mainProperties.insert(QStringLiteral("kdenlive:uuid"), m_mainTimelineModel->uuid().toString().toUtf8().constData());
-        QString mainId = ClipCreator::createPlaylistClip(i18n("Main Playlist"), QStringLiteral("-1"), std::move(pCore->projectItemModel()), main,
-                                                         m_mainTimelineModel->uuid(), mainProperties);
+        QString mainId = ClipCreator::createPlaylistClip(QStringLiteral("-1"), std::move(pCore->projectItemModel()), main, mainProperties);
         pCore->bin()->registerPlaylist(m_mainTimelineModel->uuid(), mainId);
         std::shared_ptr<ProjectClip> mainClip = pCore->bin()->getBinClip(mainId);
         QObject::connect(m_mainTimelineModel.get(), &TimelineModel::durationUpdated, [model = m_mainTimelineModel, mainClip]() {
@@ -313,7 +312,6 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         m_renderWidget->updateMetadataToolTip();
     }*/
     pCore->window()->raiseTimeline(timeline->uuid);
-    pCore->window()->slotSetZoom(m_project->zoom().x());
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -473,6 +471,7 @@ void ProjectManager::activateDocument(const QUuid &uuid)
     pCore->window()->connectDocument();*/
     pCore->window()->raiseTimeline(uuid);
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
+    pCore->window()->slotSetZoom(m_project->zoom().x());
     // emit pCore->monitorManager()->updatePreviewScaling();
     // pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
 }
@@ -1280,7 +1279,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     // Add snap point at project start
     timelineModel->addSnap(0);
     m_timelineModels.insert({uuid.toString(), timelineModel});
-    qDebug() << ":::::: UPDATEING TIMELINE\n\nHHHHHHHHHHHHHH";
     TimelineWidget *documentTimeline = nullptr;
     bool projectErrors = false;
     m_project->cleanupTimelinePreview(documentDate);
@@ -1292,10 +1290,9 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     } else {
         // Create a new timeline tab
         documentTimeline =
-            pCore->window()->openTimeline(uuid, m_project->projectName(), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+            pCore->window()->openTimeline(uuid, i18n("Playlist 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
         // doc->setModels(documentTimeline, pCore->getProjectItemModel(uuid));
     }
-    qDebug() << "::: INIT PLAYYLIST WITH UUID : " << pCore->projectItemModel()->uuid();
     pCore->projectItemModel()->buildPlaylist(uuid);
     if (!constructTimelineFromTractor(uuid, timelineModel, pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint(),
                                       m_project->getSecondaryTimelines(), chunks, dirty, documentDate, enablePreview, &projectErrors)) {

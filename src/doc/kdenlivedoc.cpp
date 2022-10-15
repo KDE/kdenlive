@@ -263,9 +263,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         doc->m_modifiedDecimalPoint = validationResult.second;
         //doc->setModifiedDecimalPoint(validationResult.second);
     }
-    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZZZ\n\nZZZZZZZZZZZZZZZZZZ\nLOADING DOCPROPS";
     doc->loadDocumentProperties();
-    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZZZ\n\nZZZZZZZZZZZZZZZZZZ\nLOADING DOCPROPS DONE.....";
     if (!doc->m_projectFolder.isEmpty()) {
         // Ask to create the project directory if it does not exist
         QDir folder(doc->m_projectFolder);
@@ -533,7 +531,7 @@ void KdenliveDoc::setZoom(int horizontal, int vertical)
 
 QPoint KdenliveDoc::zoom() const
 {
-    return QPoint(m_documentProperties.value(QStringLiteral("zoom")).toInt(), m_documentProperties.value(QStringLiteral("verticalzoom")).toInt());
+    return QPoint(m_documentProperties.value(QStringLiteral("zoom"), "8").toInt(), m_documentProperties.value(QStringLiteral("verticalzoom")).toInt());
 }
 
 void KdenliveDoc::setZone(int start, int end)
