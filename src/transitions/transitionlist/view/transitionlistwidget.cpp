@@ -26,8 +26,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
     m_proxyModel->setSortRole(AssetTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
 
-    m_proxy = new TransitionListWidgetProxy(this);
-    rootContext()->setContextProperty("assetlist", m_proxy);
+    rootContext()->setContextProperty("assetlist", this);
     rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
     rootContext()->setContextProperty("isEffectList", false);
     m_assetIconProvider = new AssetIconProvider(false);
@@ -46,13 +45,6 @@ QString TransitionListWidget::getMimeType(const QString &assetId) const
 {
     Q_UNUSED(assetId);
     return QStringLiteral("kdenlive/composition");
-}
-
-void TransitionListWidget::updateFavorite(const QModelIndex &index)
-{
-    emit m_proxyModel->dataChanged(index, index, QVector<int>());
-    m_proxyModel->reloadFilterOnFavorite();
-    emit reloadFavorites();
 }
 
 void TransitionListWidget::setFilterType(const QString &type)

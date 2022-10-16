@@ -62,9 +62,12 @@ bool AssetListWidget::isFavorite(const QModelIndex &index) const
     return m_model->isFavorite(m_proxyModel->mapToSource(index));
 }
 
-void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite, bool isEffect)
+void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
 {
-    m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect);
+    m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect());
+    emit m_proxyModel->dataChanged(index, index, QVector<int>());
+    m_proxyModel->reloadFilterOnFavorite();
+    emit reloadFavorites();
 }
 
 void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
@@ -72,9 +75,9 @@ void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
     m_model->deleteEffect(m_proxyModel->mapToSource(index));
 }
 
-QString AssetListWidget::getDescription(bool isEffect, const QModelIndex &index) const
+QString AssetListWidget::getDescription(const QModelIndex &index) const
 {
-    return m_model->getDescription(isEffect, m_proxyModel->mapToSource(index));
+    return m_model->getDescription(isEffect(), m_proxyModel->mapToSource(index));
 }
 
 void AssetListWidget::setFilterName(const QString &pattern)
@@ -103,4 +106,15 @@ void AssetListWidget::activate(const QModelIndex &ix)
     }
     const QString assetId = m_model->data(m_proxyModel->mapToSource(ix), AssetTreeModel::IdRole).toString();
     emit activateAsset(getMimeData(assetId));
+}
+
+bool AssetListWidget::showDescription() const
+{
+    return KdenliveSettings::showeffectinfo();
+}
+
+void AssetListWidget::setShowDescription(bool show)
+{
+    KdenliveSettings::setShoweffectinfo(show);
+    emit showDescriptionChanged();
 }

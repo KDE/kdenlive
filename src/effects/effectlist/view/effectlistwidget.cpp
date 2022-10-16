@@ -36,8 +36,8 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);
-    m_proxy = new EffectListWidgetProxy(this);
-    rootContext()->setContextProperty("assetlist", m_proxy);
+
+    rootContext()->setContextProperty("assetlist", this);
     rootContext()->setContextProperty("assetListModel", m_proxyModel.get());
     rootContext()->setContextProperty("isEffectList", true);
     m_assetIconProvider = new AssetIconProvider(true);
@@ -45,13 +45,6 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     setup();
     // Activate "Main effects" filter
     setFilterType("");
-}
-
-void EffectListWidget::updateFavorite(const QModelIndex &index)
-{
-    emit m_proxyModel->dataChanged(index, index, QVector<int>());
-    m_proxyModel->reloadFilterOnFavorite();
-    emit reloadFavorites();
 }
 
 EffectListWidget::~EffectListWidget() {}
@@ -104,7 +97,7 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     QDialog dialog(this);
     QFormLayout form(&dialog);
     QString currentName = getName(index);
-    QString desc = getDescription(true, index);
+    QString desc = getDescription(index);
     // Strip effect Name
     if (desc.contains(QLatin1Char('('))) {
         desc = desc.section(QLatin1Char('('), 0, -2).simplified();

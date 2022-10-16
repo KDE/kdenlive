@@ -355,7 +355,7 @@ Rectangle {
                         text: i18n("Edit Info")
                         visible: isEffectList && assetContextMenu.isCustom
                         onTriggered: {
-                            assetlist.editCustomEffectInfo(sel.currentIndex)
+                            assetlist.editCustomAsset(sel.currentIndex)
                         }
                     }
                     MenuItem {
