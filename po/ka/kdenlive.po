@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-14 00:46+0000\n"
+"POT-Creation-Date: 2022-10-16 00:46+0000\n"
 "PO-Revision-Date: 2022-10-10 03:53+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -6355,7 +6355,7 @@ msgstr ""
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
-#: src/project/dialogs/archivewidget.cpp:1164
+#: src/project/dialogs/archivewidget.cpp:1165
 #, kde-format
 msgid "Abort"
 msgstr "შეწყვეტა"
@@ -7412,18 +7412,18 @@ msgstr ""
 msgid "Failed to filter source."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:191
+#: src/jobs/proxytask.cpp:192
 #, kde-format
 msgid "Cannot load image %1."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:252 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:357 src/jobs/proxytask.cpp:370
+#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr ""
@@ -10979,8 +10979,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/project/dialogs/archivewidget.cpp:209
-#: src/project/dialogs/archivewidget.cpp:1310
-#: src/project/dialogs/archivewidget.cpp:1352
+#: src/project/dialogs/archivewidget.cpp:1311
+#: src/project/dialogs/archivewidget.cpp:1353
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -10988,8 +10988,8 @@ msgstr[0] "(%1 ჩანაწერი)"
 msgstr[1] "(%1 ჩანაწერი)"
 
 #: src/project/dialogs/archivewidget.cpp:215
-#: src/project/dialogs/archivewidget.cpp:1312
-#: src/project/dialogs/archivewidget.cpp:1354
+#: src/project/dialogs/archivewidget.cpp:1313
+#: src/project/dialogs/archivewidget.cpp:1355
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -11004,7 +11004,7 @@ msgstr "არქივი"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #: src/project/dialogs/archivewidget.cpp:775
-#: src/project/dialogs/archivewidget.cpp:1135
+#: src/project/dialogs/archivewidget.cpp:1136
 #, kde-format
 msgid "There was an error processing project file"
 msgstr ""
@@ -11083,7 +11083,7 @@ msgstr ""
 #: src/project/dialogs/archivewidget.cpp:628
 #: src/project/dialogs/archivewidget.cpp:662
 #: src/project/dialogs/archivewidget.cpp:748
-#: src/project/dialogs/archivewidget.cpp:1161
+#: src/project/dialogs/archivewidget.cpp:1162
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "საქაღალდის შექმნის შეცდომა: %1"
@@ -11110,29 +11110,29 @@ msgstr ""
 msgid "There was an error while copying the files: %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1096
+#: src/project/dialogs/archivewidget.cpp:1097
 #, kde-format
 msgid "Archiving %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1132
+#: src/project/dialogs/archivewidget.cpp:1133
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1163
+#: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Extracting…"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open file"
 msgstr "ფაილის გახსნის შეცდომა"

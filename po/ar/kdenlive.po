@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-14 00:46+0000\n"
+"POT-Creation-Date: 2022-10-16 00:46+0000\n"
 "PO-Revision-Date: 2022-10-09 21:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -6523,7 +6523,7 @@ msgstr "يستخدم ام ال تي %1"
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
-#: src/project/dialogs/archivewidget.cpp:1164
+#: src/project/dialogs/archivewidget.cpp:1165
 #, kde-format
 msgid "Abort"
 msgstr "أجهض"
@@ -7669,18 +7669,18 @@ msgstr "تعذّر إنشاء المرشح %1"
 msgid "Failed to filter source."
 msgstr "فشل ترشيح المصدر."
 
-#: src/jobs/proxytask.cpp:191
+#: src/jobs/proxytask.cpp:192
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "تعذّر تحميل الصّورة %1."
 
-#: src/jobs/proxytask.cpp:252 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كدينلايف"
 
-#: src/jobs/proxytask.cpp:357 src/jobs/proxytask.cpp:370
+#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "فشل إنشاء المقطع الوسيط."
@@ -11337,8 +11337,8 @@ msgstr[4] "تفقد %1 مقطعاً في هذا المشروع."
 msgstr[5] "تفقد %1 مقطع في هذا المشروع."
 
 #: src/project/dialogs/archivewidget.cpp:209
-#: src/project/dialogs/archivewidget.cpp:1310
-#: src/project/dialogs/archivewidget.cpp:1352
+#: src/project/dialogs/archivewidget.cpp:1311
+#: src/project/dialogs/archivewidget.cpp:1353
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -11350,8 +11350,8 @@ msgstr[4] "(%1 عنصرًا)"
 msgstr[5] "(%1 عنصر)"
 
 #: src/project/dialogs/archivewidget.cpp:215
-#: src/project/dialogs/archivewidget.cpp:1312
-#: src/project/dialogs/archivewidget.cpp:1354
+#: src/project/dialogs/archivewidget.cpp:1313
+#: src/project/dialogs/archivewidget.cpp:1355
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -11370,7 +11370,7 @@ msgstr "أرشف"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #: src/project/dialogs/archivewidget.cpp:775
-#: src/project/dialogs/archivewidget.cpp:1135
+#: src/project/dialogs/archivewidget.cpp:1136
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "حدث خطأ في تحليل ملفّ المشروع"
@@ -11453,7 +11453,7 @@ msgstr "يؤرشف… "
 #: src/project/dialogs/archivewidget.cpp:628
 #: src/project/dialogs/archivewidget.cpp:662
 #: src/project/dialogs/archivewidget.cpp:748
-#: src/project/dialogs/archivewidget.cpp:1161
+#: src/project/dialogs/archivewidget.cpp:1162
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "تعذّر إنشاء الدّليل %1"
@@ -11480,12 +11480,12 @@ msgstr "أُرشف المشروع بنجاح."
 msgid "There was an error while copying the files: %1"
 msgstr "حدث خطأ أثناء نسخ الملفّات: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1096
+#: src/project/dialogs/archivewidget.cpp:1097
 #, kde-format
 msgid "Archiving %1"
 msgstr "يؤرشف %1"
 
-#: src/project/dialogs/archivewidget.cpp:1132
+#: src/project/dialogs/archivewidget.cpp:1133
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -11494,17 +11494,17 @@ msgstr ""
 "أُرشف المشروع بنجاح.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1163
+#: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Extracting…"
 msgstr "يستخرج…"
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "تعذّر فتح ملفّ المشروع %1"
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open file"
 msgstr "تعذّر فتح الملفّ"

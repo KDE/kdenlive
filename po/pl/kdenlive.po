@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-14 00:46+0000\n"
+"POT-Creation-Date: 2022-10-16 00:46+0000\n"
 "PO-Revision-Date: 2022-10-09 10:13+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -6553,7 +6553,7 @@ msgstr "Używa MLT %1"
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
-#: src/project/dialogs/archivewidget.cpp:1164
+#: src/project/dialogs/archivewidget.cpp:1165
 #, kde-format
 msgid "Abort"
 msgstr "Przerwij"
@@ -7714,18 +7714,18 @@ msgstr "Nie można utworzyć filtra %1"
 msgid "Failed to filter source."
 msgstr "Nie udało się odfiltrować źródła."
 
-#: src/jobs/proxytask.cpp:191
+#: src/jobs/proxytask.cpp:192
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Nie można wczytać obrazu  %1."
 
-#: src/jobs/proxytask.cpp:252 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "Nie znaleziono FFmpeg, ustaw ścieżkę w ustawieniach otoczenia Kdenlive"
 
-#: src/jobs/proxytask.cpp:357 src/jobs/proxytask.cpp:370
+#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Nie udało się utworzyć wycinka pośredniego."
@@ -11400,8 +11400,8 @@ msgstr[1] "Brakuje %1 wycinków w twoim projekcie."
 msgstr[2] "Brakuje %1 wycinków w twoim projekcie."
 
 #: src/project/dialogs/archivewidget.cpp:209
-#: src/project/dialogs/archivewidget.cpp:1310
-#: src/project/dialogs/archivewidget.cpp:1352
+#: src/project/dialogs/archivewidget.cpp:1311
+#: src/project/dialogs/archivewidget.cpp:1353
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -11410,8 +11410,8 @@ msgstr[1] "(%1 elementy)"
 msgstr[2] "(%1 elementów)"
 
 #: src/project/dialogs/archivewidget.cpp:215
-#: src/project/dialogs/archivewidget.cpp:1312
-#: src/project/dialogs/archivewidget.cpp:1354
+#: src/project/dialogs/archivewidget.cpp:1313
+#: src/project/dialogs/archivewidget.cpp:1355
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -11427,7 +11427,7 @@ msgstr "Archiwizuj"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #: src/project/dialogs/archivewidget.cpp:775
-#: src/project/dialogs/archivewidget.cpp:1135
+#: src/project/dialogs/archivewidget.cpp:1136
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Wystąpił błąd przetwarzania pliku projektu"
@@ -11510,7 +11510,7 @@ msgstr "Archiwizowanie…"
 #: src/project/dialogs/archivewidget.cpp:628
 #: src/project/dialogs/archivewidget.cpp:662
 #: src/project/dialogs/archivewidget.cpp:748
-#: src/project/dialogs/archivewidget.cpp:1161
+#: src/project/dialogs/archivewidget.cpp:1162
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Nie można utworzyć katalogu %1"
@@ -11537,12 +11537,12 @@ msgstr "Projekt został pomyślnie zarchiwizowany."
 msgid "There was an error while copying the files: %1"
 msgstr "Wystąpił błąd podczas kopiowania plików: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1096
+#: src/project/dialogs/archivewidget.cpp:1097
 #, kde-format
 msgid "Archiving %1"
 msgstr "Archiwizowanie %1"
 
-#: src/project/dialogs/archivewidget.cpp:1132
+#: src/project/dialogs/archivewidget.cpp:1133
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -11551,17 +11551,17 @@ msgstr ""
 "Projekt został pomyślnie zarchiwizowany.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1163
+#: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Extracting…"
 msgstr "Wypakowywanie…"
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Nie można otworzyć pliku projektu %1"
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open file"
 msgstr "Nie można otworzyć pliku"

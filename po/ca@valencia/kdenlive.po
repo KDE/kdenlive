@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-14 00:46+0000\n"
+"POT-Creation-Date: 2022-10-16 00:46+0000\n"
 "PO-Revision-Date: 2022-10-09 11:51+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6567,7 +6567,7 @@ msgstr "Utilitza el MLT %1"
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
-#: src/project/dialogs/archivewidget.cpp:1164
+#: src/project/dialogs/archivewidget.cpp:1165
 #, kde-format
 msgid "Abort"
 msgstr "Interromp"
@@ -7715,12 +7715,12 @@ msgstr "No s'ha pogut crear el filtre %1"
 msgid "Failed to filter source."
 msgstr "No s'ha pogut filtrar l'origen."
 
-#: src/jobs/proxytask.cpp:191
+#: src/jobs/proxytask.cpp:192
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "No s'ha pogut carregar la imatge %1."
 
-#: src/jobs/proxytask.cpp:252 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -7728,7 +7728,7 @@ msgstr ""
 "No s'ha trobat FFmpeg. Cal definir el camí cap a la configuració de l'entorn "
 "de Kdenlive"
 
-#: src/jobs/proxytask.cpp:357 src/jobs/proxytask.cpp:370
+#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "No s'ha pogut crear el clip intermediari."
@@ -11409,8 +11409,8 @@ msgstr[0] "Falta %1 clip en el projecte."
 msgstr[1] "Falten %1 clips en el projecte."
 
 #: src/project/dialogs/archivewidget.cpp:209
-#: src/project/dialogs/archivewidget.cpp:1310
-#: src/project/dialogs/archivewidget.cpp:1352
+#: src/project/dialogs/archivewidget.cpp:1311
+#: src/project/dialogs/archivewidget.cpp:1353
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -11418,8 +11418,8 @@ msgstr[0] "(%1 element)"
 msgstr[1] "(%1 elements)"
 
 #: src/project/dialogs/archivewidget.cpp:215
-#: src/project/dialogs/archivewidget.cpp:1312
-#: src/project/dialogs/archivewidget.cpp:1354
+#: src/project/dialogs/archivewidget.cpp:1313
+#: src/project/dialogs/archivewidget.cpp:1355
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -11434,7 +11434,7 @@ msgstr "Arxiu"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #: src/project/dialogs/archivewidget.cpp:775
-#: src/project/dialogs/archivewidget.cpp:1135
+#: src/project/dialogs/archivewidget.cpp:1136
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "S'ha produït un error en processar el fitxer de projecte"
@@ -11517,7 +11517,7 @@ msgstr "S'està arxivant…"
 #: src/project/dialogs/archivewidget.cpp:628
 #: src/project/dialogs/archivewidget.cpp:662
 #: src/project/dialogs/archivewidget.cpp:748
-#: src/project/dialogs/archivewidget.cpp:1161
+#: src/project/dialogs/archivewidget.cpp:1162
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "No s'ha pogut crear el directori %1"
@@ -11544,12 +11544,12 @@ msgstr "El projecte s'ha arxivat correctament."
 msgid "There was an error while copying the files: %1"
 msgstr "S'ha produït un error en copiar els fitxers: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1096
+#: src/project/dialogs/archivewidget.cpp:1097
 #, kde-format
 msgid "Archiving %1"
 msgstr "S'està arxivant %1"
 
-#: src/project/dialogs/archivewidget.cpp:1132
+#: src/project/dialogs/archivewidget.cpp:1133
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -11558,17 +11558,17 @@ msgstr ""
 "El projecte s'ha arxivat correctament.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1163
+#: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Extracting…"
 msgstr "S'està extraent…"
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "No s'ha pogut obrir el fitxer de projecte %1"
 
-#: src/project/dialogs/archivewidget.cpp:1229
+#: src/project/dialogs/archivewidget.cpp:1230
 #, kde-format
 msgid "Cannot open file"
 msgstr "No s'ha pogut obrir el fitxer"
