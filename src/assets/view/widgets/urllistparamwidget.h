@@ -12,6 +12,8 @@
 #include <knewstuff_version.h>
 #if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
 #include <KNSWidgets/Button>
+#else
+#include <QToolButton>
 #endif
 
 class AssetParameterModel;

@@ -185,9 +185,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     });
 #else
     m_knsbutton = new QToolButton(this);
-    m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download"));
+    m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download")));
     m_knsbutton->setAutoRaise(true);
-    connect(m_view.buttonDownload, &QAbstractButton::clicked, this, [&]() {
+    connect(m_knsbutton, &QAbstractButton::clicked, this, [&]() {
         if (pCore->getNewStuff(QStringLiteral(":data/kdenlive_renderprofiles.knsrc")) > 0) {
             parseProfiles();
         }

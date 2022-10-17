@@ -45,7 +45,7 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
         });
 #else
         m_knsbutton = new QToolButton(this);
-        m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download"));
+        m_knsbutton->setIcon(QIcon::fromTheme(QStringLiteral("edit-download")));
         connect(m_knsbutton, &QToolButton::clicked, this, &UrlListParamWidget::downloadNewItems);
 #endif
         m_value_box->layout()->addWidget(m_knsbutton);

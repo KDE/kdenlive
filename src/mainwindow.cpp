@@ -3412,7 +3412,7 @@ void MainWindow::slotResizeItemEnd()
     getMainTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
 }
 
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
+#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
 int MainWindow::getNewStuff(const QString &configFile)
 {
     KNS3::QtQuickDialogWrapper dialog(configFile);
