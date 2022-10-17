@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-16 00:46+0000\n"
+"POT-Creation-Date: 2022-10-17 00:46+0000\n"
 "PO-Revision-Date: 2021-11-24 09:11-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -4098,7 +4098,7 @@ msgid "Missing source clip"
 msgstr "Falta o clipe de origem"
 
 #: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
-#: src/effects/effectlist/view/effectlistwidget.cpp:149
+#: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
@@ -5447,7 +5447,7 @@ msgstr "Modelo de clipe de titulo"
 
 #: src/dialogs/clipcreationdialog.cpp:459
 #: src/dialogs/clipcreationdialog.cpp:556
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3703 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
@@ -7496,23 +7496,23 @@ msgstr ""
 "Um efeito com o nome %1 já existe.\n"
 " Tentar outro nome?"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:114
+#: src/effects/effectlist/view/effectlistwidget.cpp:107
 #, kde-format
 msgid "Name : "
 msgstr "Nome: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:115
+#: src/effects/effectlist/view/effectlistwidget.cpp:108
 #, kde-format
 msgid "Comments : "
 msgstr "Comentários: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #, fuzzy, kde-format
 #| msgid "Kdenlive project (*.kdenlive)"
 msgid "Kdenlive Effect definitions"
 msgstr "Projeto do Kdenlive (*.kdenlive)"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:135
 #, fuzzy, kde-format
 #| msgid "Delete custom effect"
 msgctxt "@title:window"

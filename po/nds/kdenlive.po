@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-16 00:46+0000\n"
+"POT-Creation-Date: 2022-10-17 00:46+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -4232,7 +4232,7 @@ msgid "Missing source clip"
 msgstr "Ümkoderen"
 
 #: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
-#: src/effects/effectlist/view/effectlistwidget.cpp:149
+#: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
@@ -5585,7 +5585,7 @@ msgstr ""
 
 #: src/dialogs/clipcreationdialog.cpp:459
 #: src/dialogs/clipcreationdialog.cpp:556
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3703 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
@@ -7570,23 +7570,23 @@ msgid ""
 " Try another name?"
 msgstr ""
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:114
+#: src/effects/effectlist/view/effectlistwidget.cpp:107
 #, fuzzy, kde-format
 #| msgid "Name"
 msgid "Name : "
 msgstr "Naam"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:115
+#: src/effects/effectlist/view/effectlistwidget.cpp:108
 #, kde-format
 msgid "Comments : "
 msgstr ""
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr ""
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:135
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgctxt "@title:window"

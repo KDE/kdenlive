@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-16 00:46+0000\n"
+"POT-Creation-Date: 2022-10-17 00:46+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -4132,7 +4132,7 @@ msgid "Missing source clip"
 msgstr "丟失的素材"
 
 #: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
-#: src/effects/effectlist/view/effectlistwidget.cpp:149
+#: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
@@ -5484,7 +5484,7 @@ msgstr "字幕 / 標題樣板素材"
 
 #: src/dialogs/clipcreationdialog.cpp:459
 #: src/dialogs/clipcreationdialog.cpp:556
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3703 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
@@ -7463,24 +7463,24 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:114
+#: src/effects/effectlist/view/effectlistwidget.cpp:107
 #, fuzzy, kde-format
 #| msgid "Name"
 msgid "Name : "
 msgstr "名稱"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:115
+#: src/effects/effectlist/view/effectlistwidget.cpp:108
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Comments : "
 msgstr "註釋"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr ""
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:135
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgctxt "@title:window"

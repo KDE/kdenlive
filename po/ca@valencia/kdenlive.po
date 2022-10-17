@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-16 00:46+0000\n"
+"POT-Creation-Date: 2022-10-17 00:46+0000\n"
 "PO-Revision-Date: 2022-10-09 11:51+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3491,7 +3491,7 @@ msgstr "B: "
 #: src/assets/view/widgets/keyframeimport.cpp:46
 #, kde-format
 msgid "Data to import:"
-msgstr "Dades a importar:"
+msgstr "Dades que s'han d'importar:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:160
 #, kde-format
@@ -4073,7 +4073,7 @@ msgid "Missing source clip"
 msgstr "Falta clip d'origen"
 
 #: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
-#: src/effects/effectlist/view/effectlistwidget.cpp:149
+#: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
@@ -4119,7 +4119,7 @@ msgstr "El fitxer seleccionat %1 no és vàlid."
 #: src/bin/bin.cpp:1916
 #, kde-format
 msgid "Cannot find original clip to be replaced"
-msgstr "No s'ha pogut trobar el clip originalque s'ha de substituir"
+msgstr "No s'ha pogut trobar el clip original a substituir"
 
 #: src/bin/bin.cpp:1936
 #, kde-format
@@ -4363,7 +4363,7 @@ msgstr[1] "Mou els clips"
 #: src/bin/bin.cpp:3522
 #, kde-format
 msgid "No valid clip to insert"
-msgstr "No s'ha trobat cap clip vàlid a inserir"
+msgstr "No s'ha trobat cap clip vàlid que s'haja d'inserir"
 
 #: src/bin/bin.cpp:3546 src/timeline2/view/timelinecontroller.cpp:1361
 #: src/timeline2/view/timelinecontroller.cpp:3268
@@ -5355,7 +5355,7 @@ msgstr "Plantilla de clip de títol"
 
 #: src/dialogs/clipcreationdialog.cpp:459
 #: src/dialogs/clipcreationdialog.cpp:556
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3703 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
@@ -6179,8 +6179,8 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"Ja existix un treball escrivint a fitxer:<br /><b>%1.</b><br />Interrompeu "
-"el treball si el voleu sobreescriure…"
+"Ja existix un treball escrivint a un fitxer:<br /><b>%1.</b><br /"
+">Interrompeu el treball si el voleu sobreescriure…"
 
 #: src/dialogs/renderwidget.cpp:1048 src/dialogs/renderwidget.cpp:1763
 #, kde-format
@@ -7356,22 +7356,22 @@ msgstr ""
 "El nom d'efecte %1 ja existix.\n"
 " Intenteu un altre nom?"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:114
+#: src/effects/effectlist/view/effectlistwidget.cpp:107
 #, kde-format
 msgid "Name : "
 msgstr "Nom: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:115
+#: src/effects/effectlist/view/effectlistwidget.cpp:108
 #, kde-format
 msgid "Comments : "
 msgstr "Comentaris: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr "Definicions dels efectes de Kdenlive"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
@@ -8466,12 +8466,12 @@ msgstr "Nivell de depuració MLT"
 #: src/main.cpp:286
 #, kde-format
 msgid "Comma separated list of clips to add"
-msgstr "Llista dels clips a afegir, separats per comes"
+msgstr "Llista dels clips que s'afegiran, separats per comes"
 
 #: src/main.cpp:287
 #, kde-format
 msgid "Document to open"
-msgstr "Document que s'obrirà"
+msgstr "Document que s'ha d'obrir"
 
 #: src/mainwindow.cpp:138
 #, kde-format
@@ -10293,7 +10293,7 @@ msgstr "Seleccioneu una zona per a reproduir"
 #: src/monitor/glwidget.cpp:1661
 #, kde-format
 msgid "Select a clip to play"
-msgstr "Seleccioneu un clip a reproduir"
+msgstr "Seleccioneu un clip que s'ha de reproduir"
 
 #: src/monitor/glwidget.cpp:1733
 #, kde-format
@@ -11753,7 +11753,7 @@ msgstr "Any"
 #: src/project/dialogs/projectsettings.cpp:363
 #, kde-format
 msgid "No files to delete on your drive."
-msgstr "No hi ha fitxers a suprimir en la unitat."
+msgstr "No hi ha fitxers que s'hagen de suprimir en la unitat."
 
 #: src/project/dialogs/projectsettings.cpp:370
 #, kde-format
@@ -12534,7 +12534,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:142
 #, kde-format
 msgid "Project to import"
-msgstr "Projecte que s'importarà"
+msgstr "Projecte que s'ha d'importar"
 
 #: src/pythoninterfaces/otioconvertions.cpp:148
 #, kde-format
@@ -17675,7 +17675,7 @@ msgstr "Sup&rimix"
 #: src/ui/renderwidget_ui.ui:323
 #, kde-format
 msgid "Render to File"
-msgstr "Renderitza a un fitxer"
+msgstr "Renderitza en un fitxer"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
 #: src/ui/renderwidget_ui.ui:330
@@ -17711,7 +17711,7 @@ msgstr "Guia d'exportació múltiple"
 #: src/ui/renderwidget_ui.ui:410
 #, kde-format
 msgid "Guides to use as separator:"
-msgstr "Guies que s'utilitzaran com a separador:"
+msgstr "Guies que s'han d'utilitzar com a separador:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:478
@@ -18760,9 +18760,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Properties of transition %1"
-#~ msgstr "Propietats de la transició %1"
-
-#~ msgid "&Download"
-#~ msgstr "&Baixa"

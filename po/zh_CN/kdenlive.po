@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-16 00:46+0000\n"
+"POT-Creation-Date: 2022-10-17 00:46+0000\n"
 "PO-Revision-Date: 2022-10-02 15:49\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3982,7 +3982,7 @@ msgid "Missing source clip"
 msgstr "缺少来源素材"
 
 #: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
-#: src/effects/effectlist/view/effectlistwidget.cpp:149
+#: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:430
 #, kde-format
@@ -5259,7 +5259,7 @@ msgstr "模板字幕剪辑"
 
 #: src/dialogs/clipcreationdialog.cpp:459
 #: src/dialogs/clipcreationdialog.cpp:556
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
 #: src/mainwindow.cpp:3703 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
@@ -7194,22 +7194,22 @@ msgstr ""
 "效果名称 %1 已经存在。\n"
 "请尝试另一个名称。"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:114
+#: src/effects/effectlist/view/effectlistwidget.cpp:107
 #, kde-format
 msgid "Name : "
 msgstr "名称："
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:115
+#: src/effects/effectlist/view/effectlistwidget.cpp:108
 #, kde-format
 msgid "Comments : "
 msgstr "注释："
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:137
+#: src/effects/effectlist/view/effectlistwidget.cpp:130
 #, kde-format
 msgid "Kdenlive Effect definitions"
 msgstr "Kdenlive 效果定义"
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:142
+#: src/effects/effectlist/view/effectlistwidget.cpp:135
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
