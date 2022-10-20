@@ -2,3 +2,11 @@ include:
   - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/linux.yml
   - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/freebsd.yml
   - https://invent.kde.org/sysadmin/ci-utilities/raw/master/gitlab-templates/linux-qt6.yml
+
+xml_lint:
+  stage: build
+  image: kdeorg/ci-suse-qt515:latest
+  tags:
+    - Linux
+  script:
+    - xmllint --noout data/effects/*.xml data/effects/*/*.xml data/transitions/*.xml data/transitions/*/*.xml
