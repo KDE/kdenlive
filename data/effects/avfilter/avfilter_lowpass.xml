@@ -23,7 +23,6 @@
         <parameter type="bool" name="av.n" default="0">
                 <name>Normalize</name>
         </parameter>
-        </parameter>
         <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
         <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
         <name>Transform type</name>

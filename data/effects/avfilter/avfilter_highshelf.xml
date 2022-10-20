@@ -26,13 +26,12 @@
         <parameter type="bool" name="av.n" default="0">
                 <name>Normalize</name>
         </parameter>
-        </parameter>
         <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
-        <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
-        <name>Transform type</name>
+                <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
+                <name>Transform type</name>
         </parameter>
         <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
-        <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
-        <name>Filter precision</name>
+                <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
+                <name>Filter precision</name>
         </parameter>
 </effect>

@@ -3,7 +3,7 @@
     <name>Motion Tracker</name>
     <description>Select a zone to follow its movements</description>
     <author>Jean-Baptiste Mardelle</author>
-    <parameter type="animatedrect" name="results" opacity="false" conditional="1" opacity="false" default="50% 50% 25% 25%">
+    <parameter type="animatedrect" name="results" conditional="1" opacity="false" default="50% 50% 25% 25%">
         <name>Rectangle</name>
     </parameter>
     <parameter type="listdependency" name="algo" default="KCF" paramlist="KCF;CSRT;MOSSE;MIL;MEDIANFLOW;DaSIAM" conditional="1">
