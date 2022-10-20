@@ -9,11 +9,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transcodeseek.h"
 #include "kdenlivesettings.h"
 
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QStandardPaths>
-#include <klocalizedstring.h>
 #include <kxmlgui_version.h>
 
 TranscodeSeek::TranscodeSeek(QWidget *parent)

@@ -26,6 +26,7 @@
 #include <KActionCategory>
 #include <KActionMenu>
 #include <KDualAction>
+#include <KLocalizedString>
 #include <KSelectAction>
 #include <QApplication>
 #include <QCheckBox>
@@ -37,7 +38,6 @@
 #include <QStyle>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <klocalizedstring.h>
 #include <kwidgetsaddons_version.h>
 #include <utility>
 

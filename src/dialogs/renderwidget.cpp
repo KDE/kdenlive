@@ -36,7 +36,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
-#include <kio_version.h>
 #include <knewstuff_version.h>
 #include <knotifications_version.h>
 

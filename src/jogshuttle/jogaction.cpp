@@ -9,9 +9,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitormanager.h"
 
 #include "kdenlive_debug.h"
+#include <KLocalizedString>
 #include <cstdio>
 #include <cstdlib>
-#include <klocalizedstring.h>
 #include <utility>
 // TODO(fleury): this should probably be a user configuration parameter (at least the max speed).
 // const double SPEEDS[] = {0.0, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0};

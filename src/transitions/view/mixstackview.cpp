@@ -11,13 +11,13 @@
 #include "widgets/positionwidget.h"
 #include "widgets/timecodedisplay.h"
 
+#include <KLocalizedString>
 #include <QComboBox>
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSignalBlocker>
 #include <QToolButton>
-#include <klocalizedstring.h>
 
 MixStackView::MixStackView(QWidget *parent)
     : AssetParameterView(parent)

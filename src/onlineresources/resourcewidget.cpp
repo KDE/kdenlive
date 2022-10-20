@@ -9,6 +9,7 @@
 #include "kdenlivesettings.h"
 
 #include <KFileItem>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KSelectAction>
@@ -22,7 +23,6 @@
 #include <QMenu>
 #include <QProgressDialog>
 #include <QToolBar>
-#include <klocalizedstring.h>
 
 #include <kcompletion_version.h>
 

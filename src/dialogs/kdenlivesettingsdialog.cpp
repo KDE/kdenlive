@@ -45,7 +45,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KTar>
 #include <KUrlRequesterDialog>
 #include <KZip>
-#include <kio_version.h>
 
 #include <QAction>
 #include <QDir>

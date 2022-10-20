@@ -18,9 +18,9 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 
+#include <KLocalizedString>
 #include <QFontDatabase>
 #include <QStyle>
-#include <klocalizedstring.h>
 #include <kwidgetsaddons_version.h>
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,

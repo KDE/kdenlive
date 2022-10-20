@@ -8,7 +8,7 @@
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <utility>
 
 AssetFilter::AssetFilter(QObject *parent)

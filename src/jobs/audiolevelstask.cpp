@@ -11,6 +11,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 
+#include <KLocalizedString>
 #include <KMessageWidget>
 #include <QElapsedTimer>
 #include <QFile>
@@ -22,7 +23,6 @@
 #include <QThreadPool>
 #include <QTime>
 #include <QVariantList>
-#include <klocalizedstring.h>
 
 static QList<AudioLevelsTask *> tasksList;
 static QMutex tasksListMutex;

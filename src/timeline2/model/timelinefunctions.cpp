@@ -25,12 +25,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
 #include <QDebug>
 #include <QInputDialog>
 #include <QSemaphore>
-#include <klocalizedstring.h>
 #include <unordered_map>
 
 #ifdef CRASH_AUTO_TEST

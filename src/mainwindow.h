@@ -19,10 +19,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUndoView>
 
 #include <KActionCategory>
+#include <KAutoSaveFile>
 #include <KColorSchemeManager>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
-#include <kautosavefile.h>
 #include <knewstuff_version.h>
 #include <kxmlgui_version.h>
 #include <mlt++/Mlt.h>

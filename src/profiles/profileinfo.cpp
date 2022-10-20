@@ -5,7 +5,7 @@
 */
 
 #include "profileinfo.hpp"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <mlt++/MltProfile.h>
 
 bool ProfileInfo::operator==(const ProfileInfo &other) const

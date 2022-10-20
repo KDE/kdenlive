@@ -19,12 +19,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include <KDiskFreeSpaceInfo>
 #include <KGuiItem>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KMessageWidget>
 #include <KTar>
 #include <KZip>
 #include <kio/directorysizejob.h>
-#include <klocalizedstring.h>
 
 #include <QTreeWidget>
 #include <QtConcurrent>

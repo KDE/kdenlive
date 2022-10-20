@@ -20,12 +20,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KIO/RenameDialog>
 #include <KLineEdit>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QComboBox>
 #include <QObject>
 #include <QProcess>
 #include <QThread>
-#include <klocalizedstring.h>
 
 CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStringList &encodingParams, int in, int out, bool addToProject, QObject *object)
     : AbstractTask(owner, AbstractTask::CUTJOB, object)

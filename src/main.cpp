@@ -35,19 +35,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KDBusService>
 #endif
 #include <KIconTheme>
+#include <KLocalizedString>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
-#include <QQuickWindow>
 #include <QDir>
 #include <QIcon>
 #include <QProcess>
 #include <QQmlEngine>
+#include <QQuickWindow>
 #include <QResource>
 #include <QSplashScreen>
 #include <QUrl> //new
 #include <kiconthemes_version.h>
-#include <klocalizedstring.h>
 
 #ifdef Q_OS_WIN
 extern "C" {

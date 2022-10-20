@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
+#include <KLocalizedString>
 #include <KMessageWidget>
 #include <QAction>
 #include <QElapsedTimer>
@@ -27,7 +28,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QString>
 #include <QTime>
 #include <QVariantList>
-#include <klocalizedstring.h>
 #include <monitor/monitor.h>
 #include <profiles/profilemodel.hpp>
 

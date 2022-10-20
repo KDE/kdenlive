@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProcess>
 #include <QThread>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,
                        const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams,

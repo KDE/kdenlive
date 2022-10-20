@@ -14,11 +14,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/thumbnailcache.hpp"
 
 #include "xml/xml.hpp"
+#include <KLocalizedString>
 #include <QFile>
 #include <QImage>
 #include <QString>
 #include <QtMath>
-#include <klocalizedstring.h>
 #include <set>
 
 CacheTask::CacheTask(const ObjectId &owner, int thumbsCount, int in, int out, QObject *object)

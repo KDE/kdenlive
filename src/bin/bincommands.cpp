@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bincommands.h"
 #include "bin.h"
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <utility>
 MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent)
     : QUndoCommand(parent)

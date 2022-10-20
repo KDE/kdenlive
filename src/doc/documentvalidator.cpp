@@ -15,8 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <klocalizedstring.h>
 
 #include <QApplication>
 #include <QJsonArray>

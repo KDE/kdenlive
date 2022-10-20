@@ -9,10 +9,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlive_debug.h"
 
+#include <KLocalizedString>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
-#include <klocalizedstring.h>
 
 NotesWidget::NotesWidget(QWidget *parent)
     : QTextEdit(parent)

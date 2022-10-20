@@ -8,6 +8,7 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QDateTime>
 #include <QDesktopServices>
@@ -20,7 +21,6 @@
 #include <QNetworkRequest>
 #include <QUrlQuery>
 #include <kio/storedtransferjob.h>
-#include <klocalizedstring.h>
 
 ProviderModel::ProviderModel(const QString &path)
     : m_path(path)

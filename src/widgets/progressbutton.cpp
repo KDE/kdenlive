@@ -7,9 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "progressbutton.h"
 
+#include <KLocalizedString>
 #include <QAction>
 #include <QPainter>
-#include <klocalizedstring.h>
 
 ProgressButton::ProgressButton(const QString &text, double max, QWidget *parent)
     : QToolButton(parent)

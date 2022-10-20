@@ -15,13 +15,13 @@
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
 
+#include <KLocalizedString>
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QModelIndex>
 #include <QScreen>
 #include <QScrollArea>
 #include <QTimer>
-#include <klocalizedstring.h>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 

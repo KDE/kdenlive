@@ -22,7 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProcess>
 #include <QThread>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::pair<bool, bool> autoAddClip,
                              const std::unordered_map<QString, QVariant> &filterParams, QObject *object)

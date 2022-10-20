@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "definitions.h"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 #include <QColor>
 #include <utility>

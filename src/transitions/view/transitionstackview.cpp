@@ -9,12 +9,12 @@
 #include "core.h"
 #include "monitor/monitor.h"
 
+#include <KLocalizedString>
 #include <QComboBox>
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSignalBlocker>
-#include <klocalizedstring.h>
 
 TransitionStackView::TransitionStackView(QWidget *parent)
     : AssetParameterView(parent)

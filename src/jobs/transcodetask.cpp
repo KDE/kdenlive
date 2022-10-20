@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTemporaryFile>
 #include <QThread>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out,
                              bool replaceProducer, QObject *object, bool checkProfile)

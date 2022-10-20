@@ -18,8 +18,8 @@
 #include <QPainter>
 #include <QVBoxLayout>
 
+#include <KLocalizedString>
 #include <KMessageWidget>
-#include <klocalizedstring.h>
 
 #include <cmath>
 

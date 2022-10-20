@@ -26,10 +26,10 @@
 
 #include <cmath>
 
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KMessageWidget>
 #include <KRecentDirs>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QButtonGroup>

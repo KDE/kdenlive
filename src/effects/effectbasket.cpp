@@ -7,7 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effectbasket.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 #include <QMimeData>
 

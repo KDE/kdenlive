@@ -17,6 +17,7 @@
 #include "mlt++/MltTractor.h"
 
 #include <KDualAction>
+#include <KLocalizedString>
 #include <KSqueezedTextLabel>
 #include <QCheckBox>
 #include <QDial>
@@ -29,7 +30,6 @@
 #include <QSpinBox>
 #include <QStyle>
 #include <QToolButton>
-#include <klocalizedstring.h>
 #include <utility>
 
 static inline int fromDB(double level)

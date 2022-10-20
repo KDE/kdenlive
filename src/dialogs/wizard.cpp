@@ -17,10 +17,10 @@
 #include <framework/mlt_version.h>
 #include <mlt++/Mlt.h>
 
+#include <KLocalizedString>
 #include <KMessageWidget>
 #include <KProcess>
 #include <KRun>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QApplication>
@@ -35,7 +35,6 @@
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QXmlStreamWriter>
-#include <kio_version.h>
 
 #include <KIO/OpenUrlJob>
 #include <kio_version.h>

@@ -27,7 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTemporaryFile>
 #include <QThread>
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <project/projectmanager.h>
 
 SceneSplitTask::SceneSplitTask(const ObjectId &owner, double threshold, int markersCategory, bool addSubclips, int minDuration, QObject *object)

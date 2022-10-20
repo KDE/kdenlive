@@ -12,10 +12,10 @@
 #include "kthumb.h"
 #include "titler/titlewidget.h"
 
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentDirs>
 #include <KUrlRequesterDialog>
-#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>

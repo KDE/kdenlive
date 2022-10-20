@@ -8,7 +8,7 @@
 #include "cubic/kis_curve_widget.h"
 #include "kdenlivesettings.h"
 #include "widgets/dragvalue.h"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 /** @brief this label is a pixmap corresponding to a legend of the axis*/
 template <typename CurveWidget_t> class ValueLabel : public QLabel

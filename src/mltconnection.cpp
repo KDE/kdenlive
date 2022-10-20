@@ -9,10 +9,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mlt_config.h"
+#include <KLocalizedString>
 #include <KUrlRequester>
 #include <KUrlRequesterDialog>
 #include <QtConcurrent>
-#include <klocalizedstring.h>
 
 #include <clocale>
 #include <lib/localeHandling.h>

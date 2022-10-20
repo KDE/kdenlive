@@ -11,7 +11,7 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 DockTitleBarManager::DockTitleBarManager(QObject *parent)
     : QObject(parent)

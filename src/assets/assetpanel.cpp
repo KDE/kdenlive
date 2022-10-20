@@ -22,6 +22,7 @@
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KDualAction>
+#include <KLocalizedString>
 #include <KMessageWidget>
 #include <KSqueezedTextLabel>
 #include <QApplication>
@@ -32,7 +33,6 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
     : QWidget(parent)

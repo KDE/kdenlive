@@ -22,8 +22,8 @@
 #include <QVBoxLayout>
 
 #include <KIO/FileCopyJob>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <klocalizedstring.h>
 
 enum LibraryItem { PlayList, Clip, Folder };
 
