@@ -13,17 +13,20 @@
 */
 
 #include <KDeclarative/KDeclarative>
+#include <kdeclarative_version.h>
+#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KQuickIconProvider>
+#endif
 #include <KLocalizedContext>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
 #include <QFontDatabase>
+#include <QOpenGLContext>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
-#include <QOpenGLContext>
-#include <kdeclarative_version.h>
-#include <klocalizedstring.h>
 #include <memory>
 
 #include "core.h"
@@ -103,9 +106,13 @@ GLWidget::GLWidget(int id, QWidget *parent)
     , m_ClientWaitSync(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
+    kdeclarative.setDeclarativeEngine(engine());
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
-    auto *localizedContextObject = new KLocalizedContext(engine());
-    engine()->rootContext()->setContextObject(localizedContextObject);
+#else
+    engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
+#endif
+    engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");

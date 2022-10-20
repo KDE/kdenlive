@@ -37,7 +37,7 @@
 #include <QUuid>
 #include <kdeclarative_version.h>
 #if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 98, 0)
-#include <kquickiconprovider.h>
+#include <KQuickIconProvider>
 #endif
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
