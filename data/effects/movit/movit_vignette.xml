@@ -1,11 +1,12 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.vignette" id="movit.vignette">
-	<name>Vignette (GPU)</name>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="radius" default="0.3" min="0" max="1000" factor="1000">
-		<name>Radius</name>
-	</parameter>
-	<parameter type="animated" name="inner_radius" default="0.3" min="0" max="1000" factor="1000">
-		<name>Inner radius</name>
-	</parameter>
+    <name>Vignette (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="animated" name="radius" default="0.3" min="0" max="1000" factor="1000">
+        <name>Radius</name>
+    </parameter>
+    <parameter type="animated" name="inner_radius" default="0.3" min="0" max="1000" factor="1000">
+        <name>Inner radius</name>
+    </parameter>
 </effect>

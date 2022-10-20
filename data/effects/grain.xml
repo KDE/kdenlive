@@ -1,15 +1,16 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="grain" id="grain" type="video" unique="1">
-	<name context="Grain Effect Name">Grain</name>
-	<description>Grain over the image</description>
-	<author>Marco Gittler</author>
-	<parameter type="double" name="noise" max="200" min="0" default="40" suffix="%">
-		<name>Noise</name>
-	</parameter>
-	<parameter type="double" name="contrast" max="400" min="0" default="160">
-		<name>Contrast</name>
-	</parameter>
-	<parameter type="double" name="brightness" max="400" min="0" default="70">
-		<name>Brightness</name>
-	</parameter>
+    <name context="Grain Effect Name">Grain</name>
+    <description>Grain over the image</description>
+    <author>Marco Gittler</author>
+    <parameter type="double" name="noise" max="200" min="0" default="40" suffix="%">
+        <name>Noise</name>
+    </parameter>
+    <parameter type="double" name="contrast" max="400" min="0" default="160">
+        <name>Contrast</name>
+    </parameter>
+    <parameter type="double" name="brightness" max="400" min="0" default="70">
+        <name>Brightness</name>
+    </parameter>
 </effect>

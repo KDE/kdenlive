@@ -1,21 +1,22 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="ladspa" library="vynil_1905.so" id="vinyl" ladspaid="1905" type="audio">
-	<name context="Vinyl Effect Name">Vinyl</name>
-	<description>Simulates a vinyl audio player - LADSPA audio effect</description>
-	<author>http://www.ladspa.org</author>
-	<parameter type="constant" name="year" max="1990" min="1900" default="1990">
-		<name context="Vinyl Effect Year">Year</name>
-	</parameter>
-	<parameter type="constant" name="rpm" max="78" min="33" default="33">
-		<name>RPM</name>
-	</parameter>
-	<parameter type="constant" name="warping" max="100" min="0" default="0" factor="100">
-		<name>Surface warping</name>
-	</parameter>
-	<parameter type="constant" name="crackle" max="100" min="0" default="0" factor="100">
-		<name>Crackle</name>
-	</parameter>
-	<parameter type="constant" name="wear" max="100" min="0" default="0" factor="100">
-		<name>Wear</name>
-	</parameter>
+    <name context="Vinyl Effect Name">Vinyl</name>
+    <description>Simulates a vinyl audio player - LADSPA audio effect</description>
+    <author>http://www.ladspa.org</author>
+    <parameter type="constant" name="year" max="1990" min="1900" default="1990">
+        <name context="Vinyl Effect Year">Year</name>
+    </parameter>
+    <parameter type="constant" name="rpm" max="78" min="33" default="33">
+        <name>RPM</name>
+    </parameter>
+    <parameter type="constant" name="warping" max="100" min="0" default="0" factor="100">
+        <name>Surface warping</name>
+    </parameter>
+    <parameter type="constant" name="crackle" max="100" min="0" default="0" factor="100">
+        <name>Crackle</name>
+    </parameter>
+    <parameter type="constant" name="wear" max="100" min="0" default="0" factor="100">
+        <name>Wear</name>
+    </parameter>
 </effect>

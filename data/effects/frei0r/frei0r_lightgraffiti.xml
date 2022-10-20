@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <group>
     <effect tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti">
@@ -72,7 +73,6 @@
             <comment>Resets the light mask and the background image. This is necessary e.g. if you apply this effect to a clip in the timeline and then move the timeline cursor from outside of the clip to the middle of it. The effect receives this frame in the middle as first frame and uses it as background image. For proper threshold adjusting move the timeline cursor to the beginning of the clip, check the Reset box and uncheck it again.</comment>
         </parameter>
     </effect>
-
     <effect LC_NUMERIC="C" tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti" version="0.2">
         <name>Light Graffiti</name>
         <description>Light Graffiti effect.

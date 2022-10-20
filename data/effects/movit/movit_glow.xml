@@ -1,14 +1,15 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.glow" id="movit.glow">
-	<name>Glow (GPU)</name>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="radius" default="20" min="0" max="1000" factor="10">
-		<name>Radius</name>
-	</parameter>
-	<parameter type="animated" name="blur_mix" default="1" min="0" max="1000" factor="100">
-		<name>Glow strength</name>
-	</parameter>
-	<parameter type="animated" name="highlight_cutoff" default="0.2" min="0" max="100" factor="100">
-		<name>Highlight cutoff threshold</name>
-	</parameter>
+    <name>Glow (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="animated" name="radius" default="20" min="0" max="1000" factor="10">
+        <name>Radius</name>
+    </parameter>
+    <parameter type="animated" name="blur_mix" default="1" min="0" max="1000" factor="100">
+        <name>Glow strength</name>
+    </parameter>
+    <parameter type="animated" name="highlight_cutoff" default="0.2" min="0" max="100" factor="100">
+        <name>Highlight cutoff threshold</name>
+    </parameter>
 </effect>

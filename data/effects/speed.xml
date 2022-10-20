@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="timewarp" id="speed" type="av" unique="1">
-	<name>Speed</name>
-	<description>Make clip play faster or slower</description>
-	<author>Brian Matherly</author>
-	<parameter type="constant" name="speed" max="2000" min="-2000" default="1" factor="100" suffix="%">
-		<name>Speed</name>
-	</parameter>
+    <name>Speed</name>
+    <description>Make clip play faster or slower</description>
+    <author>Brian Matherly</author>
+    <parameter type="constant" name="speed" max="2000" min="-2000" default="1" factor="100" suffix="%">
+        <name>Speed</name>
+    </parameter>
 </effect>

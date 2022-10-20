@@ -1,18 +1,19 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="sox" id="sox_echo" type="audio">
-	<name>Sox Echo</name>
-	<description>Sox echo audio effect</description>
-	<author>http://sox.sourceforge.net</author>
-	<parameter type="constant" name="gain-in" max="100" min="0" default="0.5" factor="100">
-		<name>Gain In</name>
-	</parameter>
-	<parameter type="constant" name="gain-out" max="100" min="0" default="1" factor="100">
-		<name>Gain Out</name>
-	</parameter>
-	<parameter type="constant" name="delay" max="500" min="100" default="150">
-		<name>Delay</name>
-	</parameter>
-	<parameter type="constant" name="decay" max="100" min="0" default="0.8" factor="100">
-		<name>Decay</name>
-	</parameter>
+    <name>Sox Echo</name>
+    <description>Sox echo audio effect</description>
+    <author>http://sox.sourceforge.net</author>
+    <parameter type="constant" name="gain-in" max="100" min="0" default="0.5" factor="100">
+        <name>Gain In</name>
+    </parameter>
+    <parameter type="constant" name="gain-out" max="100" min="0" default="1" factor="100">
+        <name>Gain Out</name>
+    </parameter>
+    <parameter type="constant" name="delay" max="500" min="100" default="150">
+        <name>Delay</name>
+    </parameter>
+    <parameter type="constant" name="decay" max="100" min="0" default="0.8" factor="100">
+        <name>Decay</name>
+    </parameter>
 </effect>

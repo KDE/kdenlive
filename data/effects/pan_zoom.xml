@@ -1,18 +1,19 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="affine" id="pan_zoom" type="video" context="nomovit">
-	<name>Position and Zoom</name>
-	<description>Adjust size and position of clip</description>
-	<author>Charles Yates</author>
-	<parameter type="animatedrect" name="transition.rect" default="0 0 %width %height" opacity="false">
-		<name>Rectangle</name>
-	</parameter>
-	<parameter type="bool" name="transition.distort" default="0">
-		<name>Distort</name>
-	</parameter>
-	<parameter type="bool" name="use_normalised" default="0">
-		<name>Normalise</name>
-	</parameter>
-	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
-		<name>Background Color</name>
-	</parameter>
+    <name>Position and Zoom</name>
+    <description>Adjust size and position of clip</description>
+    <author>Charles Yates</author>
+    <parameter type="animatedrect" name="transition.rect" default="0 0 %width %height" opacity="false">
+        <name>Rectangle</name>
+    </parameter>
+    <parameter type="bool" name="transition.distort" default="0">
+        <name>Distort</name>
+    </parameter>
+    <parameter type="bool" name="use_normalised" default="0">
+        <name>Normalise</name>
+    </parameter>
+    <parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
+        <name>Background Color</name>
+    </parameter>
 </effect>

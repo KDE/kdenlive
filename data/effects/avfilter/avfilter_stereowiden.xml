@@ -1,20 +1,25 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.stereowiden" id="avfilter.stereowiden" type="audio">
-	<name>Stereo widener</name>
-	<description>This filter enhance the stereo effect by suppressing signal common to both channels and by delaying the signal of left into right and vice versa, thereby widening the stereo effect.</description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.delay" default="20" min="1" max="100" suffix=" ms">
-        <name>Delay</name><comment>Time in milliseconds of the delay of left signal into right and vice versa.</comment>
-        </parameter>
-	<parameter type="constant" name="av.feedback" default="0.3" min="0" max="0.9" decimals="2">
-                <name>Feedback Gain</name><comment>Amount of gain in delayed signal into right and vice versa.
+    <name>Stereo widener</name>
+    <description>This filter enhance the stereo effect by suppressing signal common to both channels and by delaying the signal of left into right and vice versa, thereby widening the stereo effect.</description>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.delay" default="20" min="1" max="100" suffix=" ms">
+        <name>Delay</name>
+        <comment>Time in milliseconds of the delay of left signal into right and vice versa.</comment>
+    </parameter>
+    <parameter type="constant" name="av.feedback" default="0.3" min="0" max="0.9" decimals="2">
+        <name>Feedback Gain</name>
+        <comment>Amount of gain in delayed signal into right and vice versa.
 Gives a delay effect of left signal in right output and vice versa which gives widening effect.</comment>
-        </parameter>
-	<parameter type="constant" name="av.crossfeed" default="0.3" min="0" max="25" decimals="2">
-                <name>Cross feed</name><comment>Cross feed of left into right with inverted phase. This helps in suppressing the mono.
+    </parameter>
+    <parameter type="constant" name="av.crossfeed" default="0.3" min="0" max="25" decimals="2">
+        <name>Cross feed</name>
+        <comment>Cross feed of left into right with inverted phase. This helps in suppressing the mono.
 If the value is 1 it will cancel all the signal common to both channels. </comment>
-        </parameter>
-        	<parameter type="constant" name="av.drymix" default="0.8" min="0" max="1" decimals="3">
-                <name>Drymix</name><comment>Set level of input signal of original channel.</comment>
-        </parameter>
+    </parameter>
+    <parameter type="constant" name="av.drymix" default="0.8" min="0" max="1" decimals="3">
+        <name>Drymix</name>
+        <comment>Set level of input signal of original channel.</comment>
+    </parameter>
 </effect>

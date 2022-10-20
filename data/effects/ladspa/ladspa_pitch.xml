@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="ladspa" library="am_pitchshift_1433.so" id="pitch_shift" ladspaid="1433" type="audio">
-	<name>Pitch Shift</name>
-	<description>LADSPA change pitch audio effect</description>
-	<author>http://www.ladspa.org</author>
-	<parameter type="constant" name="pitch" max="400" min="25" default="1" factor="100">
-		<name>Shift</name>
-	</parameter>
+    <name>Pitch Shift</name>
+    <description>LADSPA change pitch audio effect</description>
+    <author>http://www.ladspa.org</author>
+    <parameter type="constant" name="pitch" max="400" min="25" default="1" factor="100">
+        <name>Shift</name>
+    </parameter>
 </effect>

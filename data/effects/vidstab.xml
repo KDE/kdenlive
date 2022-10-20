@@ -1,64 +1,65 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="vidstab" id="vidstab" type="hidden" version="0.2">
-	<name context="Stabilize Effect Name">Stabilize</name>
-	<description>Stabilize Video (for wiggly/rolling video)</description>
-	<author>Marco Gittler</author>
-	<parameter type="constant" name="accuracy" default="8" max="10" min="1">
-		<name>Accuracy</name>
+    <name context="Stabilize Effect Name">Stabilize</name>
+    <description>Stabilize Video (for wiggly/rolling video)</description>
+    <author>Marco Gittler</author>
+    <parameter type="constant" name="accuracy" default="8" max="10" min="1">
+        <name>Accuracy</name>
         <comment>Accuracy of Shakiness detection</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="shakiness" default="4" max="10" min="1">
-		<name>Shakiness</name>
+        <name>Shakiness</name>
         <comment>How shaky is the Video</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="stepsize" default="6" max="100" min="0">
-		<name>Stepsize</name>
+        <name>Stepsize</name>
         <comment>Stepsize of Detection process minimum around</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="mincontrast" default="0.3" max="1" min="0" decimals="2">
-		<name>Min. contrast</name>
+        <name>Min. contrast</name>
         <comment>Below this Contrast Field is discarded</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="smoothing" default="10" max="100" min="0">
-		<name>Smoothing</name>
+        <name>Smoothing</name>
         <comment>Number of frames for lowpass filtering</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="maxshift" default="-1" max="1000" min="-1">
-		<name>Max shift</name>
+        <name>Max shift</name>
         <comment>Max number of pixels to shift (-1 = no limit)</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="maxangle" default="-1" max="3.14" min="-1" decimals="2">
-		<name>Max angle</name>
+        <name>Max angle</name>
         <comment>Max angle to rotate (in rad)</comment>
-	</parameter>
+    </parameter>
     <parameter type="bool" name="crop" default="0" max="0" min="1">
-		<name>Crop</name>
+        <name>Crop</name>
         <comment>Disabled = keep border, enabled = black background</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="zoom" default="0" max="500" min="-500">
-		<name>Zoom</name>
+        <name>Zoom</name>
         <comment>Additional zoom during transform</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="optzoom" default="1" max="2" min="0">
-		<name>Optimal Zoom</name>
+        <name>Optimal Zoom</name>
         <comment>Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="zoomspeed" default="0.25" max="1" min="0" decimals="2">
-		<name>Optimal Zoom Speed</name>
+        <name>Optimal Zoom Speed</name>
         <comment>Zoom per frame (used when optimal zoom = 2)</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="sharpen" default="0.8" max="1" min="0" decimals="1">
-		<name>Sharpen</name>
+        <name>Sharpen</name>
         <comment>Sharpen transformed image</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="show" default="0" max="2" min="0">
-		<name>Show fields</name>
+        <name>Show fields</name>
         <comment>0 = draw nothing 1 or 2 = show fields and transforms</comment>
-	</parameter>
+    </parameter>
     <parameter type="constant" name="tripod" default="0" max="100000" min="0">
-    <name>Tripod</name>
+        <name>Tripod</name>
         <comment>Reference frame</comment>
-	</parameter>                             
-    <parameter type="fixed" name="reload" default="1" max="1" min="1" />
-    <parameter type="fixed" name="analyse" default="0" max="0" min="0" />
+    </parameter>
+    <parameter type="fixed" name="reload" default="1" max="1" min="1"/>
+    <parameter type="fixed" name="analyse" default="0" max="0" min="0"/>
 </effect>

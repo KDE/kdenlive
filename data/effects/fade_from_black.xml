@@ -1,14 +1,15 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="brightness" id="fade_from_black" type="video" unique="1">
-	<name context="Image Fade In Effect Name">Fade in</name>
-	<description>Fade video from black</description>
-	<author>Charles Yates</author>
-	<parameter type="position" name="out" max="90000" min="0" default="%fade">
-		<name>Duration</name>
-	</parameter>
-	<parameter type="fixed" name="in" max="0" min="0" default="0">
-		<name>In</name>
-	</parameter>
+    <name context="Image Fade In Effect Name">Fade in</name>
+    <description>Fade video from black</description>
+    <author>Charles Yates</author>
+    <parameter type="position" name="out" max="90000" min="0" default="%fade">
+        <name>Duration</name>
+    </parameter>
+    <parameter type="fixed" name="in" max="0" min="0" default="0">
+        <name>In</name>
+    </parameter>
     <parameter type="multiswitch" name="level&#10;alpha" default="1&#10;0=0;-1=1" min="1&#10;0=0;-1=1" max="0=0;-1=1&#10;1">
         <name>Fade from Black</name>
     </parameter>

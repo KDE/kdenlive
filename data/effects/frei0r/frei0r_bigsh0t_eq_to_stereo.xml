@@ -1,25 +1,26 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="frei0r.bigsh0t_eq_to_stereo" id="frei0r.bigsh0t_eq_to_stereo">
-	<name>VR360 Equirectangular to Stereo</name>
-	<description>Projects a stereographic image from an equirectangular. Use this to create the little planet effect from a VR360 footage.</description>
-	<author>libavfilter</author>
-	<parameter type="animated" name="0" min="-360" max="360" default="0" decimals="3" suffix="° deg">
-		<name>Yaw</name>
-	</parameter>
-	<parameter type="animated" name="1" min="-180" max="180" default="-90" decimals="3" suffix="° deg">
-		<name>Pitch</name>
-	</parameter>
-	<parameter type="animated" name="2" min="-180" max="180" default="0" decimals="3" suffix="° deg">
-		<name>Roll</name>
-	</parameter>
-	<parameter type="animated" name="3" min="-180" max="180" default="160" decimals="3" suffix="° deg">
-		<name>FOV</name>
-	</parameter>
-	<parameter type="animated" name="4" min="0" max="100" default="100" decimals="0" suffix=" %">
-		<name>Amount</name>
-	</parameter>
-	<parameter type="list" name="5" default="0" paramlist="0;1">
+    <name>VR360 Equirectangular to Stereo</name>
+    <description>Projects a stereographic image from an equirectangular. Use this to create the little planet effect from a VR360 footage.</description>
+    <author>libavfilter</author>
+    <parameter type="animated" name="0" min="-360" max="360" default="0" decimals="3" suffix="° deg">
+        <name>Yaw</name>
+    </parameter>
+    <parameter type="animated" name="1" min="-180" max="180" default="-90" decimals="3" suffix="° deg">
+        <name>Pitch</name>
+    </parameter>
+    <parameter type="animated" name="2" min="-180" max="180" default="0" decimals="3" suffix="° deg">
+        <name>Roll</name>
+    </parameter>
+    <parameter type="animated" name="3" min="-180" max="180" default="160" decimals="3" suffix="° deg">
+        <name>FOV</name>
+    </parameter>
+    <parameter type="animated" name="4" min="0" max="100" default="100" decimals="0" suffix=" %">
+        <name>Amount</name>
+    </parameter>
+    <parameter type="list" name="5" default="0" paramlist="0;1">
         <paramlistdisplay>Nearest-neighbor,Bilinear</paramlistdisplay>
-                <name>Interpolation</name>
-        </parameter>
+        <name>Interpolation</name>
+    </parameter>
 </effect>

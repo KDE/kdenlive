@@ -1,33 +1,28 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="rotoscoping" id="rotoscoping">
-        <name>Rotoscoping</name>
-        <description>Keyframable vector based rotoscoping</description>
-        <author>Till Theato</author>
-        <parameter type="roto-spline" name="spline" default="" />
-
-        <parameter type="list" name="mode" default="alpha" paramlist="alpha;luma;rgb">
-            <paramlistdisplay>Alpha,Luma,RGB</paramlistdisplay>
-            <name>Mode</name>
-        </parameter>
-
-        <parameter type="list" name="alpha_operation" default="clear" paramlist="clear;max;min;add;sub">
-            <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
-            <name>Alpha Operation</name>
-        </parameter>
-
-        <parameter type="bool" name="invert" default="0">
-            <name>Invert</name>
-        </parameter>
-
-        <!--<parameter type="bool" name="track" default="0">
+    <name>Rotoscoping</name>
+    <description>Keyframable vector based rotoscoping</description>
+    <author>Till Theato</author>
+    <parameter type="roto-spline" name="spline" default=""/>
+    <parameter type="list" name="mode" default="alpha" paramlist="alpha;luma;rgb">
+        <paramlistdisplay>Alpha,Luma,RGB</paramlistdisplay>
+        <name>Mode</name>
+    </parameter>
+    <parameter type="list" name="alpha_operation" default="clear" paramlist="clear;max;min;add;sub">
+        <paramlistdisplay>Write on clear,Maximum,Minimum,Add,Subtract</paramlistdisplay>
+        <name>Alpha Operation</name>
+    </parameter>
+    <parameter type="bool" name="invert" default="0">
+        <name>Invert</name>
+    </parameter>
+    <!--<parameter type="bool" name="track" default="0">
             <name>Track</name>
         </parameter>-->
-
-        <parameter type="constant" name="feather" max="500" min="0" default="0">
-            <name>Feather width</name>
-        </parameter>
-
-        <parameter type="constant" name="feather_passes" max="20" min="1" default="1">
-            <name>Feathering passes</name>
-        </parameter>
+    <parameter type="constant" name="feather" max="500" min="0" default="0">
+        <name>Feather width</name>
+    </parameter>
+    <parameter type="constant" name="feather_passes" max="20" min="1" default="1">
+        <name>Feathering passes</name>
+    </parameter>
 </effect>

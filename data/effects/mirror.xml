@@ -1,13 +1,14 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="mirror" id="mirror">
-	<name context="Mirror Effect Name">Mirror</name>
-	<description>Flip your image in any direction</description>
-	<author>Charles Yates</author>
-	<parameter type="list" name="mirror" default="horizontal" paramlist="horizontal;vertical;diagonal;xdiagonal;flip;flop">
-	   <paramlistdisplay>Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop</paramlistdisplay>
-		<name>Mirroring direction</name>
-	</parameter>
-	<parameter type="bool" name="reverse" default="0">
-		<name>Invert</name>
-	</parameter>
+    <name context="Mirror Effect Name">Mirror</name>
+    <description>Flip your image in any direction</description>
+    <author>Charles Yates</author>
+    <parameter type="list" name="mirror" default="horizontal" paramlist="horizontal;vertical;diagonal;xdiagonal;flip;flop">
+        <paramlistdisplay>Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop</paramlistdisplay>
+        <name>Mirroring direction</name>
+    </parameter>
+    <parameter type="bool" name="reverse" default="0">
+        <name>Invert</name>
+    </parameter>
 </effect>

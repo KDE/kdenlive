@@ -1,30 +1,31 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.alimiter" id="avfilter.alimiter" type="audio">
-	<name>Limiter</name>
-	<description>Audio lookahead limiter.</description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.level_in" default="1" min="0.01" max="64" decimals="2">
-                <name>Input gain</name>
-        </parameter>
-	<parameter type="constant" name="av.level_out" default="1" min="0.01" max="64" decimals="2">
-                <name>Output gain</name>
-        </parameter>
-	<parameter type="constant" name="av.limit" default="1" min="0.06" max="1" decimals="2">
-                <name>Limit</name>
-        </parameter>
-        	<parameter type="constant" name="av.attack" default="5" min="0.1" max="80" decimals="2">
-                <name>Attack</name>
-        </parameter>
-        <parameter type="constant" name="av.release" default="50" min="1" max="8000">
-                <name>Release</name>
-        </parameter>
-        <parameter type="bool" name="av.asc" default="0">
-                <name>Enable ASC</name>
-        </parameter>
-        <parameter type="constant" name="av.asc_level" default="0.5" min="0" max="1" decimals="1">
-                <name>ASC level</name>
-        </parameter>
-        <parameter type="bool" name="av.level" default="0">
+    <name>Limiter</name>
+    <description>Audio lookahead limiter.</description>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.level_in" default="1" min="0.01" max="64" decimals="2">
+        <name>Input gain</name>
+    </parameter>
+    <parameter type="constant" name="av.level_out" default="1" min="0.01" max="64" decimals="2">
+        <name>Output gain</name>
+    </parameter>
+    <parameter type="constant" name="av.limit" default="1" min="0.06" max="1" decimals="2">
+        <name>Limit</name>
+    </parameter>
+    <parameter type="constant" name="av.attack" default="5" min="0.1" max="80" decimals="2">
+        <name>Attack</name>
+    </parameter>
+    <parameter type="constant" name="av.release" default="50" min="1" max="8000">
+        <name>Release</name>
+    </parameter>
+    <parameter type="bool" name="av.asc" default="0">
+        <name>Enable ASC</name>
+    </parameter>
+    <parameter type="constant" name="av.asc_level" default="0.5" min="0" max="1" decimals="1">
+        <name>ASC level</name>
+    </parameter>
+    <parameter type="bool" name="av.level" default="0">
         <name>Normalize to 0dB</name>
-        </parameter>
+    </parameter>
 </effect>

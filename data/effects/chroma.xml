@@ -1,12 +1,13 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="chroma" id="chroma">
-	<name>Chroma Key: Basic</name>
-	<description>Make selected color transparent</description>
-	<author>Charles Yates</author>
-	<parameter type="color" name="key" default="0x0000ffff">
-		<name>Color key</name>
-	</parameter>
-	<parameter type="constant" name="variance" max="1000" min="0" factor="1000" default="0.15">
-		<name>Variance</name>
-	</parameter>
+    <name>Chroma Key: Basic</name>
+    <description>Make selected color transparent</description>
+    <author>Charles Yates</author>
+    <parameter type="color" name="key" default="0x0000ffff">
+        <name>Color key</name>
+    </parameter>
+    <parameter type="constant" name="variance" max="1000" min="0" factor="1000" default="0.15">
+        <name>Variance</name>
+    </parameter>
 </effect>

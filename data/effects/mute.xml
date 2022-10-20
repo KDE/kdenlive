@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="mute" type="audio">
-	<name context="Mute Effect Name">Mute</name>
-	<description>Mute clip</description>
-	<author>Dan Dennedy</author>
-	<parameter type="fixed" name="gain" max="0" min="0" default="0">
-		<name>Gain</name>
-	</parameter>
+    <name context="Mute Effect Name">Mute</name>
+    <description>Mute clip</description>
+    <author>Dan Dennedy</author>
+    <parameter type="fixed" name="gain" max="0" min="0" default="0">
+        <name>Gain</name>
+    </parameter>
 </effect>

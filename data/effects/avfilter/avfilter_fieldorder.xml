@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.fieldorder" id="avfilter.fieldorder">
-	<name>Interlace field order</name>
-	<description>Transform the field order of the input video.</description>
-	<author>libavfilter</author>
-	<parameter type="list" name="av.order" default="tff" paramlist="tff;bff">
-                <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
-                <name>Field priority</name>
-        </parameter>
+    <name>Interlace field order</name>
+    <description>Transform the field order of the input video.</description>
+    <author>libavfilter</author>
+    <parameter type="list" name="av.order" default="tff" paramlist="tff;bff">
+        <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
+        <name>Field priority</name>
+    </parameter>
 </effect>

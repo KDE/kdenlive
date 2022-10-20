@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.negate" id="avfilter.negate">
-	<name>Negate</name>
-	<description>Negate (invert) the input video or its alpha channel.</description>
-	<author>libavfilter</author>
+    <name>Negate</name>
+    <description>Negate (invert) the input video or its alpha channel.</description>
+    <author>libavfilter</author>
     <parameter type="bool" name="av.negate_alpha" default="0">
         <name>Negate alpha</name>
-        </parameter>
+    </parameter>
 </effect>

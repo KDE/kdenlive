@@ -1,20 +1,21 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.sharpen" id="movit.sharpen">
-	<name>Deconvolution sharpen (GPU)</name>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="matrix_size" default="5" min="1" max="10">
-		<name>Matrix size</name>
-	</parameter>
-	<parameter type="animated" name="circle_radius" default="2" min="0" max="1000" factor="100">
-		<name>Circle radius</name>
-	</parameter>
-	<parameter type="animated" name="gaussian_radius" default="0" min="0" max="1000" factor="100">
-		<name>Gaussian radius</name>
-	</parameter>
-	<parameter type="animated" name="correlation" default="0.95" min="0" max="1000" factor="1000">
-		<name>Correlation</name>
-	</parameter>
-	<parameter type="animated" name="noise" default="0.01" min="0" max="1000" factor="1000">
-		<name>Noise</name>
-	</parameter>
+    <name>Deconvolution sharpen (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="animated" name="matrix_size" default="5" min="1" max="10">
+        <name>Matrix size</name>
+    </parameter>
+    <parameter type="animated" name="circle_radius" default="2" min="0" max="1000" factor="100">
+        <name>Circle radius</name>
+    </parameter>
+    <parameter type="animated" name="gaussian_radius" default="0" min="0" max="1000" factor="100">
+        <name>Gaussian radius</name>
+    </parameter>
+    <parameter type="animated" name="correlation" default="0.95" min="0" max="1000" factor="1000">
+        <name>Correlation</name>
+    </parameter>
+    <parameter type="animated" name="noise" default="0.01" min="0" max="1000" factor="1000">
+        <name>Noise</name>
+    </parameter>
 </effect>

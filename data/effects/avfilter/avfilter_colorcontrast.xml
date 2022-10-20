@@ -1,27 +1,28 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.colorcontrast" id="avfilter.colorcontrast">
-	<name>Color Contrast</name>
-	<description>Adjust color contrast between RGB components.</description>
-	<author>libavfilter</author>
-	<parameter type="animated" name="av.rc" default="0" min="-1" max="1" decimals="3">
-                <name>Red-Cyan contrast</name>
-        </parameter>
-        <parameter type="animated" name="av.gm" default="0" min="-1" max="1" decimals="3">
-                <name>Green-Magenta contrast</name>
-        </parameter>
-        <parameter type="animated" name="av.by" default="0" min="-1" max="1" decimals="3">
-                <name>Blue-Yellow contrast</name>
-        </parameter>
-        <parameter type="animated" name="av.rcw" default="0" min="0" max="1" decimals="3">
-                <name>Red-Cyan weight</name>
-        </parameter>
-        <parameter type="animated" name="av.gmw" default="0" min="0" max="1" decimals="3">
-                <name>Green-Magenta weight</name>
-        </parameter>
-        <parameter type="animated" name="av.byw" default="0" min="0" max="1" decimals="3">
-                <name>Blue-Yellow weight</name>
-        </parameter>
-        <parameter type="animated" name="av.pl" default="0" min="0" max="1" decimals="3">
-                <name>Preserving lightness</name>
-        </parameter>
+    <name>Color Contrast</name>
+    <description>Adjust color contrast between RGB components.</description>
+    <author>libavfilter</author>
+    <parameter type="animated" name="av.rc" default="0" min="-1" max="1" decimals="3">
+        <name>Red-Cyan contrast</name>
+    </parameter>
+    <parameter type="animated" name="av.gm" default="0" min="-1" max="1" decimals="3">
+        <name>Green-Magenta contrast</name>
+    </parameter>
+    <parameter type="animated" name="av.by" default="0" min="-1" max="1" decimals="3">
+        <name>Blue-Yellow contrast</name>
+    </parameter>
+    <parameter type="animated" name="av.rcw" default="0" min="0" max="1" decimals="3">
+        <name>Red-Cyan weight</name>
+    </parameter>
+    <parameter type="animated" name="av.gmw" default="0" min="0" max="1" decimals="3">
+        <name>Green-Magenta weight</name>
+    </parameter>
+    <parameter type="animated" name="av.byw" default="0" min="0" max="1" decimals="3">
+        <name>Blue-Yellow weight</name>
+    </parameter>
+    <parameter type="animated" name="av.pl" default="0" min="0" max="1" decimals="3">
+        <name>Preserving lightness</name>
+    </parameter>
 </effect>

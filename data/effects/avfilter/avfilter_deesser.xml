@@ -1,20 +1,24 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.deesser" id="avfilter.deesser" type="audio">
-	<name>Deesser</name>
-	<description>Apply de-essing to the audio samples.</description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.i" default="0" min="0" max="3" decimals="3">
-        <name>Intensity</name><comment>Set intensity for triggering de-essing. Allowed range is from 0 to 1.</comment>
-        </parameter>
-        <parameter type="constant" name="av.m" default="0.8" min="0" max="3" decimals="3">
-        <name>Max deessing</name><comment>Set amount of ducking on treble part of sound. Allowed range is from 0 to 1.</comment>
-        </parameter>
-	<parameter type="constant" name="av.f" default="0.01" min="0.01" max="90" decimals="2">
-        <name>Frequency</name><comment>How much of original frequency content to keep when de-essing. Allowed range is from 0 to 1.</comment>
-        </parameter>
-	<parameter type="list" name="av.s" default="o" paramlist="i;o;e">
+    <name>Deesser</name>
+    <description>Apply de-essing to the audio samples.</description>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.i" default="0" min="0" max="3" decimals="3">
+        <name>Intensity</name>
+        <comment>Set intensity for triggering de-essing. Allowed range is from 0 to 1.</comment>
+    </parameter>
+    <parameter type="constant" name="av.m" default="0.8" min="0" max="3" decimals="3">
+        <name>Max deessing</name>
+        <comment>Set amount of ducking on treble part of sound. Allowed range is from 0 to 1.</comment>
+    </parameter>
+    <parameter type="constant" name="av.f" default="0.01" min="0.01" max="90" decimals="2">
+        <name>Frequency</name>
+        <comment>How much of original frequency content to keep when de-essing. Allowed range is from 0 to 1.</comment>
+    </parameter>
+    <parameter type="list" name="av.s" default="o" paramlist="i;o;e">
         <paramlistdisplay>Input,Output,Ess only</paramlistdisplay>
-        <name>Output mode</name><comment>Set the output mode.</comment>
-        </parameter>
+        <name>Output mode</name>
+        <comment>Set the output mode.</comment>
+    </parameter>
 </effect>
-

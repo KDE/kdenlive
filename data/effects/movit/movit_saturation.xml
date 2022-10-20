@@ -1,8 +1,9 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.saturation" id="movit.saturation">
-	<name>Saturation (GPU)</name>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="saturation" default="1" min="0" max="1000" factor="100">
-		<name>Saturation</name>
-	</parameter>
+    <name>Saturation (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="animated" name="saturation" default="1" min="0" max="1000" factor="100">
+        <name>Saturation</name>
+    </parameter>
 </effect>

@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
-    <effect LC_NUMERIC="C" tag="frei0r.G" id="frei0r.G">
-	    <name>Channel Extractor GREEN</name>
-	    <description>Extracts Green from Image</description>
-	    <author>Richard Spindler</author>
-    </effect>
+<effect LC_NUMERIC="C" tag="frei0r.G" id="frei0r.G">
+    <name>Channel Extractor GREEN</name>
+    <description>Extracts Green from Image</description>
+    <author>Richard Spindler</author>
+</effect>

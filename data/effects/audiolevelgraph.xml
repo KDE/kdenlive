@@ -1,60 +1,61 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="audiolevelgraph" id="audiolevelgraph" type="video">
-        <name>Audio Level Visualization Filter</name>
-        <author>Meltytech, LLC</author>
-        <description>An audio visualization filter that draws an audio level meter on the image.</description>
-        <parameter type="list" name="type"  default="bar" paramlist="segment;bar">
-            <paramlistdisplay>Segment,Bar</paramlistdisplay>
-            <name>Graph type</name>
-            <comment>The type of graph to display the levels.</comment>
-        </parameter>
-        <parameter type="color" name="bgcolor" default="0x00000000" alpha="1">
-            <name>Background Color</name>
-            <comment>The background color to be applied to the entire frame.</comment>
-        </parameter>
-        <parameter type="color" name="color.1" default="0xffffffff" alpha="1">
-            <name>Gradient Color 1</name>
-            <comment>The color of the waveform gradient.</comment>
-        </parameter>
-        <parameter type="color" name="color.2" default="0xffffffff" alpha="1">
-            <name>Gradient Color 2</name>
-            <comment>The color of the waveform gradient.</comment>
-        </parameter>
-        <parameter type="color" name="color.3" default="0xffffffff" alpha="1">
-            <name>Gradient Color 3</name>
-            <comment>The color of the waveform gradient.</comment>
-        </parameter>
-        <parameter type="constant" name="thickness" max="20" min="0" default="0">
-            <name>Line Thickness</name>
-            <comment>The thickness of the bar or segments.</comment>
-        </parameter>
-        <parameter type="constant" name="angle" max="360" min="0" default="0">
-            <name>Angle</name>
-            <comment>The rotation angle to be applied to the waveform.</comment>
-        </parameter>
-        <parameter type="animatedrect" name="rect" default="0 0 100% 100%">
-            <name>Rectangle</name>
-            <comment>Defines the rectangle that the waveform(s) should be drawn in.</comment>
-        </parameter>
-        <parameter type="bool" name="mirror" default="0">
-            <name>Mirror</name>
-            <comment>Mirror the spectrum about the center of the rectangle.</comment>
-        </parameter>
-        <parameter type="bool" name="reverse" default="0">
-            <name>Reverse</name>
-            <comment>Draw the points starting with the right channel first.</comment>
-        </parameter>
-        <parameter type="list" name="gorient"  default="vertical" paramlist="vertical;horizontal">
-            <paramlistdisplay>Vertical,Horizontal</paramlistdisplay>
-            <name>Gradient Orientation</name>
-            <comment>Direction of the color gradient.</comment>
-        </parameter>
-        <parameter type="constant" name="channels" max="500" min="0" default="2">
-            <name>Channels</name>
-            <comment>The number of channels to show.</comment>
-        </parameter>
-        <parameter type="constant" name="segment_gap" max="100" min="0" default="10">
-            <name>Segment Gap</name>
-            <comment>The space in pixels between the segments.</comment>
-        </parameter>
+    <name>Audio Level Visualization Filter</name>
+    <author>Meltytech, LLC</author>
+    <description>An audio visualization filter that draws an audio level meter on the image.</description>
+    <parameter type="list" name="type" default="bar" paramlist="segment;bar">
+        <paramlistdisplay>Segment,Bar</paramlistdisplay>
+        <name>Graph type</name>
+        <comment>The type of graph to display the levels.</comment>
+    </parameter>
+    <parameter type="color" name="bgcolor" default="0x00000000" alpha="1">
+        <name>Background Color</name>
+        <comment>The background color to be applied to the entire frame.</comment>
+    </parameter>
+    <parameter type="color" name="color.1" default="0xffffffff" alpha="1">
+        <name>Gradient Color 1</name>
+        <comment>The color of the waveform gradient.</comment>
+    </parameter>
+    <parameter type="color" name="color.2" default="0xffffffff" alpha="1">
+        <name>Gradient Color 2</name>
+        <comment>The color of the waveform gradient.</comment>
+    </parameter>
+    <parameter type="color" name="color.3" default="0xffffffff" alpha="1">
+        <name>Gradient Color 3</name>
+        <comment>The color of the waveform gradient.</comment>
+    </parameter>
+    <parameter type="constant" name="thickness" max="20" min="0" default="0">
+        <name>Line Thickness</name>
+        <comment>The thickness of the bar or segments.</comment>
+    </parameter>
+    <parameter type="constant" name="angle" max="360" min="0" default="0">
+        <name>Angle</name>
+        <comment>The rotation angle to be applied to the waveform.</comment>
+    </parameter>
+    <parameter type="animatedrect" name="rect" default="0 0 100% 100%">
+        <name>Rectangle</name>
+        <comment>Defines the rectangle that the waveform(s) should be drawn in.</comment>
+    </parameter>
+    <parameter type="bool" name="mirror" default="0">
+        <name>Mirror</name>
+        <comment>Mirror the spectrum about the center of the rectangle.</comment>
+    </parameter>
+    <parameter type="bool" name="reverse" default="0">
+        <name>Reverse</name>
+        <comment>Draw the points starting with the right channel first.</comment>
+    </parameter>
+    <parameter type="list" name="gorient" default="vertical" paramlist="vertical;horizontal">
+        <paramlistdisplay>Vertical,Horizontal</paramlistdisplay>
+        <name>Gradient Orientation</name>
+        <comment>Direction of the color gradient.</comment>
+    </parameter>
+    <parameter type="constant" name="channels" max="500" min="0" default="2">
+        <name>Channels</name>
+        <comment>The number of channels to show.</comment>
+    </parameter>
+    <parameter type="constant" name="segment_gap" max="100" min="0" default="10">
+        <name>Segment Gap</name>
+        <comment>The space in pixels between the segments.</comment>
+    </parameter>
 </effect>

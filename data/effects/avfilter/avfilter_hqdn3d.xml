@@ -1,18 +1,19 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.hqdn3d" id="avfilter.hqdn3d">
-	<name>High precision/quality 3d denoiser</name>
-	<description>Apply a High Quality 3D Denoise</description>
-	<author>libavfilter</author>
-	<parameter type="float" name="av.luma_spatial" default="0" min="0" max="500" format="double">
-                <name>Spatial Luma Strength</name>
-        </parameter>
-        	<parameter type="float" name="av.chroma_spatial" default="0" min="0" max="500" format="double">
-                <name>Spatial Chroma Strength</name>
-        </parameter>
-        <parameter type="float" name="av.luma_tmp" default="0" min="0" max="500" format="double">
-                <name>Temporal Luma Strength</name>
-        </parameter>
-        <parameter type="float" name="av.chroma_tmp" default="0" min="0" max="500" format="double">
-                <name>Temporal Chroma Strength</name>
-        </parameter>
-        </effect>
+    <name>High precision/quality 3d denoiser</name>
+    <description>Apply a High Quality 3D Denoise</description>
+    <author>libavfilter</author>
+    <parameter type="float" name="av.luma_spatial" default="0" min="0" max="500" format="double">
+        <name>Spatial Luma Strength</name>
+    </parameter>
+    <parameter type="float" name="av.chroma_spatial" default="0" min="0" max="500" format="double">
+        <name>Spatial Chroma Strength</name>
+    </parameter>
+    <parameter type="float" name="av.luma_tmp" default="0" min="0" max="500" format="double">
+        <name>Temporal Luma Strength</name>
+    </parameter>
+    <parameter type="float" name="av.chroma_tmp" default="0" min="0" max="500" format="double">
+        <name>Temporal Chroma Strength</name>
+    </parameter>
+</effect>

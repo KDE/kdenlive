@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.mirror" id="movit.mirror">
-	<name>Mirror (GPU)</name>
-	<author>Steinar H. Gunderson</author>
+    <name>Mirror (GPU)</name>
+    <author>Steinar H. Gunderson</author>
 </effect>

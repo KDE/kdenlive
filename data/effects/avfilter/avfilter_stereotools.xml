@@ -1,82 +1,98 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.stereotools" id="avfilter.stereotools" type="audio">
-	<name>Stereo tools</name>
-	<description>This filter has some handy utilities to manage stereo signals, for converting M/S stereo recordings to L/R signal while having control over the parameters or spreading the stereo image of master track. </description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.level_in" default="1" min="0.015" max="64" decimals="3">
-        <name>Level IN</name><comment>Set input level before filtering for both channels.
+    <name>Stereo tools</name>
+    <description>This filter has some handy utilities to manage stereo signals, for converting M/S stereo recordings to L/R signal while having control over the parameters or spreading the stereo image of master track. </description>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.level_in" default="1" min="0.015" max="64" decimals="3">
+        <name>Level IN</name>
+        <comment>Set input level before filtering for both channels.
 Allowed range is from 0.015625 to 64.</comment>
-        </parameter>
-	<parameter type="constant" name="av.level_out" default="1" min="0.015" max="64" decimals="3">
-        <name>Level OUT</name><comment>Set input level before filtering for both channels.
+    </parameter>
+    <parameter type="constant" name="av.level_out" default="1" min="0.015" max="64" decimals="3">
+        <name>Level OUT</name>
+        <comment>Set input level before filtering for both channels.
 Allowed range is from 0.015625 to 64.</comment>
-        </parameter>
-        <parameter type="constant" name="av.balance_in" default="0" min="-1" max="1" decimals="3">
-                <name>Balance IN</name><comment>Set input balance between both channels. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>
-        <parameter type="constant" name="av.balance_out" default="0" min="-1" max="1" decimals="3">
-                <name>Balance OUT</name><comment>Set input balance between both channels. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>
-        <parameter type="bool" name="av.softclip" default="0">
-            <name>Softclip</name><comment>Enable softclipping. Results in analog distortion instead of harsh digital 0dB clipping.</comment>
-        </parameter>
-        <parameter type="bool" name="av.mutel" default="0">
-            <name>Mute Left</name>
-        </parameter>
-        <parameter type="bool" name="av.muter" default="0">
-            <name>Mute Right</name>
-        </parameter>
-        <parameter type="bool" name="av.phasel" default="0">
-            <name>Phase Left</name><comment>Change the phase of the left channel.</comment>
-        </parameter>
-        <parameter type="bool" name="av.phaser" default="0">
-            <name>Phase Right</name><comment>Change the phase of the right channel.</comment>
-        </parameter>
-        <parameter type="list" name="av.mode" default="lr>lr" paramlist="lr>lr;lr>ms;ms>lr;lr>ll;lr>rr;lr>l+r;lr>rl;ms>ll;ms>rr;ms>rl;lr>l-r">
+    </parameter>
+    <parameter type="constant" name="av.balance_in" default="0" min="-1" max="1" decimals="3">
+        <name>Balance IN</name>
+        <comment>Set input balance between both channels. Default is 0. Allowed range is from -1 to 1.</comment>
+    </parameter>
+    <parameter type="constant" name="av.balance_out" default="0" min="-1" max="1" decimals="3">
+        <name>Balance OUT</name>
+        <comment>Set input balance between both channels. Default is 0. Allowed range is from -1 to 1.</comment>
+    </parameter>
+    <parameter type="bool" name="av.softclip" default="0">
+        <name>Softclip</name>
+        <comment>Enable softclipping. Results in analog distortion instead of harsh digital 0dB clipping.</comment>
+    </parameter>
+    <parameter type="bool" name="av.mutel" default="0">
+        <name>Mute Left</name>
+    </parameter>
+    <parameter type="bool" name="av.muter" default="0">
+        <name>Mute Right</name>
+    </parameter>
+    <parameter type="bool" name="av.phasel" default="0">
+        <name>Phase Left</name>
+        <comment>Change the phase of the left channel.</comment>
+    </parameter>
+    <parameter type="bool" name="av.phaser" default="0">
+        <name>Phase Right</name>
+        <comment>Change the phase of the right channel.</comment>
+    </parameter>
+    <parameter type="list" name="av.mode" default="lr>lr" paramlist="lr>lr;lr>ms;ms>lr;lr>ll;lr>rr;lr>l+r;lr>rl;ms>ll;ms>rr;ms>rl;lr>l-r">
         <paramlistdisplay>Left/Right to Left/Right,Left/Right to Mid/Side,Mid/Side to Left/Right,Left/Right to Left/Left,Left/Right to Right/Right,Left/Right to Left + Right,Left/Right to Right/Left,Mid/Side to Left/Left,Mid/Side to Right/Right,Mid/Side to Right/Left,Left/Right to Left - Right</paramlistdisplay>
-            <name>Stereo Mode</name>
-        </parameter>
-        <parameter type="constant" name="av.slevel" default="1" min="0.015" max="64" decimals="3">
-        <name>Side Level</name><comment>Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64.</comment>
-        </parameter>
-        <parameter type="constant" name="av.sbalance" default="0" min="-1" max="1" decimals="3">
-                <name>Side Balance</name><comment>Set balance of side signal. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>
-        <parameter type="constant" name="av.mlev" default="1" min="0.015" max="64" decimals="3">
-        <name>Mid Level</name><comment>Set level of the middle signal. Default is 1. Allowed range is from 0.015625 to 64.</comment>
-        </parameter>
-         <parameter type="constant" name="av.mpan" default="0" min="-1" max="1" decimals="3">
-        <name>Mid Pan</name><comment>Set middle signal pan. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>
-        <parameter type="constant" name="av.base" default="0" min="-1" max="1" decimals="3">
-                <name>Stereo base</name><comment>Set stereo base between mono and inverted channels. Default is 0. Allowed range is from -1 to 1.</comment>
-        </parameter>
-        <parameter type="constant" name="av.delay" default="0" min="-20" max="20" suffix=" ms">
-                <name>Delay</name><comment>Set delay in milliseconds how much to delay left from right channel and vice versa. Default is 0. Allowed range is from -20 to 20.</comment>
-        </parameter>
-        <parameter type="constant" name="av.sclevel" default="1" min="1" max="100">
-                <name>S/C level</name>
-        </parameter>
-       <parameter type="constant" name="av.phase" default="0" min="0" max="360" suffix=" deg">
-                <name>Stereo phase</name><comment>Set the stereo phase in degrees.</comment>
-        </parameter>
-        <parameter type="list" name="av.bmode_in" default="balance" paramlist="balance;amplitude;power">
-            <paramlistdisplay>balance,amplitude,power</paramlistdisplay><comment>‘balance’
+        <name>Stereo Mode</name>
+    </parameter>
+    <parameter type="constant" name="av.slevel" default="1" min="0.015" max="64" decimals="3">
+        <name>Side Level</name>
+        <comment>Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64.</comment>
+    </parameter>
+    <parameter type="constant" name="av.sbalance" default="0" min="-1" max="1" decimals="3">
+        <name>Side Balance</name>
+        <comment>Set balance of side signal. Default is 0. Allowed range is from -1 to 1.</comment>
+    </parameter>
+    <parameter type="constant" name="av.mlev" default="1" min="0.015" max="64" decimals="3">
+        <name>Mid Level</name>
+        <comment>Set level of the middle signal. Default is 1. Allowed range is from 0.015625 to 64.</comment>
+    </parameter>
+    <parameter type="constant" name="av.mpan" default="0" min="-1" max="1" decimals="3">
+        <name>Mid Pan</name>
+        <comment>Set middle signal pan. Default is 0. Allowed range is from -1 to 1.</comment>
+    </parameter>
+    <parameter type="constant" name="av.base" default="0" min="-1" max="1" decimals="3">
+        <name>Stereo base</name>
+        <comment>Set stereo base between mono and inverted channels. Default is 0. Allowed range is from -1 to 1.</comment>
+    </parameter>
+    <parameter type="constant" name="av.delay" default="0" min="-20" max="20" suffix=" ms">
+        <name>Delay</name>
+        <comment>Set delay in milliseconds how much to delay left from right channel and vice versa. Default is 0. Allowed range is from -20 to 20.</comment>
+    </parameter>
+    <parameter type="constant" name="av.sclevel" default="1" min="1" max="100">
+        <name>S/C level</name>
+    </parameter>
+    <parameter type="constant" name="av.phase" default="0" min="0" max="360" suffix=" deg">
+        <name>Stereo phase</name>
+        <comment>Set the stereo phase in degrees.</comment>
+    </parameter>
+    <parameter type="list" name="av.bmode_in" default="balance" paramlist="balance;amplitude;power">
+        <paramlistdisplay>balance,amplitude,power</paramlistdisplay>
+        <comment>‘balance’
 Classic balance mode. Attenuate one channel at a time. Gain is raised up to 1.
 ‘amplitude’
 Similar to classic mode above but gain is raised up to 2.
 ‘power’
 Equal power distribution, from -6dB to +6dB range.</comment>
-<name>Balance IN</name>
-        </parameter>
-
-        <parameter type="list" name="av.bmode_out" default="balance" paramlist="balance;amplitude;power">
-            <paramlistdisplay>balance,amplitude,power</paramlistdisplay><comment>‘balance’
+        <name>Balance IN</name>
+    </parameter>
+    <parameter type="list" name="av.bmode_out" default="balance" paramlist="balance;amplitude;power">
+        <paramlistdisplay>balance,amplitude,power</paramlistdisplay>
+        <comment>‘balance’
 Classic balance mode. Attenuate one channel at a time. Gain is raised up to 1.
 ‘amplitude’
 Similar to classic mode above but gain is raised up to 2.
 ‘power’
 Equal power distribution, from -6dB to +6dB range.</comment>
-<name>Balance OUT</name>
-        </parameter>
+        <name>Balance OUT</name>
+    </parameter>
 </effect>

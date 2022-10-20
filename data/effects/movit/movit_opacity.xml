@@ -1,8 +1,9 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.opacity" id="movit.opacity">
-	<name>Opacity (GPU)</name>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="opacity" default="1" min="0" max="200" factor="100">
-		<name>Opacity</name>
-	</parameter>
+    <name>Opacity (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="animated" name="opacity" default="1" min="0" max="200" factor="100">
+        <name>Opacity</name>
+    </parameter>
 </effect>

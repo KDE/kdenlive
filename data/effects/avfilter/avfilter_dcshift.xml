@@ -1,14 +1,17 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.dcshift" id="avfilter.dcshift" type="audio">
-	<name>DC shift</name>
-	<description>Apply a DC shift to the audio.
+    <name>DC shift</name>
+    <description>Apply a DC shift to the audio.
 This can be useful to remove a DC offset (caused perhaps by a hardware problem in the recording chain) from the audio.
 The effect of a DC offset is reduced headroom and hence volume. The astats filter can be used to determine if a signal has a DC offset.</description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.shift" default="0" min="-1" max="1" decimals="3">
-        <name>DC shift</name><comment>Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift the audio.</comment>
-        </parameter>
-	<parameter type="constant" name="av.limitergain" default="0" min="0" max="1" decimals="3">
-        <name>Limiter gain</name><comment>Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is used to prevent clipping.</comment>
-        </parameter>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.shift" default="0" min="-1" max="1" decimals="3">
+        <name>DC shift</name>
+        <comment>Set the DC shift, allowed range is [-1, 1]. It indicates the amount to shift the audio.</comment>
+    </parameter>
+    <parameter type="constant" name="av.limitergain" default="0" min="0" max="1" decimals="3">
+        <name>Limiter gain</name>
+        <comment>Optional. It should have a value much less than 1 (e.g. 0.05 or 0.02) and is used to prevent clipping.</comment>
+    </parameter>
 </effect>

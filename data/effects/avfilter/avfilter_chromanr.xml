@@ -1,32 +1,32 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.chromanr" id="avfilter.chromanr">
-	<name>Chroma Noise Reduction</name>
-	<description>Reduce chrominance noise.</description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.thres" default="30" min="1" max="200">
-                <name>Y+U+V Threshold</name>
-        </parameter>
-	<parameter type="constant" name="av.sizew" default="5" min="1" max="100" decimals="0">
-                <name>Horizontal size</name>
-        </parameter>
-	<parameter type="constant" name="av.sizeh" default="5" min="1" max="100" decimals="0">
-                <name>Vertical size</name>
-        </parameter>
-
-        <parameter type="constant" name="av.stepw" default="1" min="1" max="50" decimals="0">
-                <name>Horizontal step</name>
-        </parameter>
-        <parameter type="constant" name="av.threy" default="200" min="1" max="200" decimals="0">
-                <name>Y threshold</name>
-        </parameter>
-	    <parameter type="constant" name="av.threu" default="200" min="1" max="200" decimals="0">
-                <name>U threshold</name>
-        </parameter>
-        <parameter type="constant" name="av.threv" default="200" min="1" max="200" decimals="0">
-                <name>V threshold</name>
-        </parameter>
-        <parameter type="list" name="av.distance" default="0" paramlist="manhattan;euclidean">
+    <name>Chroma Noise Reduction</name>
+    <description>Reduce chrominance noise.</description>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.thres" default="30" min="1" max="200">
+        <name>Y+U+V Threshold</name>
+    </parameter>
+    <parameter type="constant" name="av.sizew" default="5" min="1" max="100" decimals="0">
+        <name>Horizontal size</name>
+    </parameter>
+    <parameter type="constant" name="av.sizeh" default="5" min="1" max="100" decimals="0">
+        <name>Vertical size</name>
+    </parameter>
+    <parameter type="constant" name="av.stepw" default="1" min="1" max="50" decimals="0">
+        <name>Horizontal step</name>
+    </parameter>
+    <parameter type="constant" name="av.threy" default="200" min="1" max="200" decimals="0">
+        <name>Y threshold</name>
+    </parameter>
+    <parameter type="constant" name="av.threu" default="200" min="1" max="200" decimals="0">
+        <name>U threshold</name>
+    </parameter>
+    <parameter type="constant" name="av.threv" default="200" min="1" max="200" decimals="0">
+        <name>V threshold</name>
+    </parameter>
+    <parameter type="list" name="av.distance" default="0" paramlist="manhattan;euclidean">
         <paramlistdisplay>Manhattan,Euclidean</paramlistdisplay>
-                <name>Distance</name>
-        </parameter>
+        <name>Distance</name>
+    </parameter>
 </effect>

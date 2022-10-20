@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.flip" id="movit.flip">
-	<name>Flip (GPU)</name>
-	<description>Simple vertical flip</description>
-	<author>libavfilter</author>
-            </effect>
+    <name>Flip (GPU)</name>
+    <description>Simple vertical flip</description>
+    <author>libavfilter</author>
+</effect>

@@ -1,12 +1,13 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="threshold" id="threshold">
-	<name>Binarize</name>
-	<description>Make monochrome clip</description>
-	<author>Charles Yates</author>
-        <parameter type="animated" name="midpoint" max="255" min="0" default="128">
-		<name>Threshold value</name>
-	</parameter>
-	<parameter type="bool" name="use_alpha" default="0">
-		<name>Use transparency</name>
-	</parameter>
+    <name>Binarize</name>
+    <description>Make monochrome clip</description>
+    <author>Charles Yates</author>
+    <parameter type="animated" name="midpoint" max="255" min="0" default="128">
+        <name>Threshold value</name>
+    </parameter>
+    <parameter type="bool" name="use_alpha" default="0">
+        <name>Use transparency</name>
+    </parameter>
 </effect>

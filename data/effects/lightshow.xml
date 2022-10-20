@@ -1,27 +1,28 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="lightshow" id="lightshow">
-	<name>Light Show</name>
-	<description>An audio visualization filter that colors the image proportional to the magnitude of the audio spectrum.</description>
-	<author>Brian Matherly</author>
+    <name>Light Show</name>
+    <description>An audio visualization filter that colors the image proportional to the magnitude of the audio spectrum.</description>
+    <author>Brian Matherly</author>
     <parameter type="integer" name="frequency_low" default="20" min="20" max="20000" factor="1" suffix=" Hz">
         <name>Low frequency</name>
     </parameter>
-        <parameter type="integer" name="frequency_high" default="20000" min="20" max="20000" factor="1" suffix=" Hz">
+    <parameter type="integer" name="frequency_high" default="20000" min="20" max="20000" factor="1" suffix=" Hz">
         <name>High frequency</name>
     </parameter>
-        <parameter type="float" name="threshold" default="-30" min="-100" max="0" factor="1" suffix=" db">
-                <name>Threshold</name>
-        </parameter>    
-        <parameter type="float" name="osc" default="5" min="0" max="20" factor="1" suffix=" Hz">
-                <name>Oscillation</name>
-        </parameter>
-     <parameter type="color" name="color.1">
-                <name>1st Color</name>
-        </parameter>
-     <parameter type="color" name="color.2">
-                <name>2nd Color</name>
-            </parameter>            
+    <parameter type="float" name="threshold" default="-30" min="-100" max="0" factor="1" suffix=" db">
+        <name>Threshold</name>
+    </parameter>
+    <parameter type="float" name="osc" default="5" min="0" max="20" factor="1" suffix=" Hz">
+        <name>Oscillation</name>
+    </parameter>
+    <parameter type="color" name="color.1">
+        <name>1st Color</name>
+    </parameter>
+    <parameter type="color" name="color.2">
+        <name>2nd Color</name>
+    </parameter>
     <parameter type="rect" name="rect" default="0 0 100% 100%">
-                <name>Rectangle</name>
-        </parameter>        
+        <name>Rectangle</name>
+    </parameter>
 </effect>

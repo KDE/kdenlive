@@ -1,18 +1,19 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="rbpitch" id="rbpitch" type="audio">
-	<name>Rubberband Pitch Scale</name>
-	<description>Adjust the audio pitch using the Rubberband library.</description>
-	<author>Meltytech, LLC</author>
-        <parameter type="constant" name="pitchscale" max="10" min="0.1" default="1.0" decimals="3">
-            <name>Pitch Scale</name>
-            <comment>The pitch scaling ratio. This is the ratio of target frequency to source frequency. For example, a ratio of 2.0 would shift up by one octave; 0.5 down by one octave; or 1.0 leave the pitch unaffected. To put this in musical terms, a pitch scaling ratio corresponding to a shift of o octaves (where o is positive for an upwards shift and negative for downwards) is: f = pow(2.0, o). Overrides octaveshift.</comment>
-	</parameter>
-        <parameter type="bool" name="stretch" default="0">
-            <name>Stretch</name>
-            <comment>Stretch the audio to fill the requested samples. This option will have no effect if the requested sample size is the same as the received sample size.</comment>
-	</parameter>
-        <parameter type="constant" name="latency" max="2000" min="0" default="0" suffix=" ms">
-            <name>Latency</name>
-            <comment>The amount of delay for each sample from the input to the output.</comment>
-	</parameter>
+    <name>Rubberband Pitch Scale</name>
+    <description>Adjust the audio pitch using the Rubberband library.</description>
+    <author>Meltytech, LLC</author>
+    <parameter type="constant" name="pitchscale" max="10" min="0.1" default="1.0" decimals="3">
+        <name>Pitch Scale</name>
+        <comment>The pitch scaling ratio. This is the ratio of target frequency to source frequency. For example, a ratio of 2.0 would shift up by one octave; 0.5 down by one octave; or 1.0 leave the pitch unaffected. To put this in musical terms, a pitch scaling ratio corresponding to a shift of o octaves (where o is positive for an upwards shift and negative for downwards) is: f = pow(2.0, o). Overrides octaveshift.</comment>
+    </parameter>
+    <parameter type="bool" name="stretch" default="0">
+        <name>Stretch</name>
+        <comment>Stretch the audio to fill the requested samples. This option will have no effect if the requested sample size is the same as the received sample size.</comment>
+    </parameter>
+    <parameter type="constant" name="latency" max="2000" min="0" default="0" suffix=" ms">
+        <name>Latency</name>
+        <comment>The amount of delay for each sample from the input to the output.</comment>
+    </parameter>
 </effect>

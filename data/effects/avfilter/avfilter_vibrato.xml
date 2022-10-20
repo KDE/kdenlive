@@ -1,12 +1,13 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.vibrato" id="avfilter.vibrato" type="audio">
-	<name>Vibrato</name>
-	<description>Vibrato effect.</description>
-	<author>libavfilter</author>
+    <name>Vibrato</name>
+    <description>Vibrato effect.</description>
+    <author>libavfilter</author>
     <parameter type="constant" name="av.f" default="5" min="0.1" max="20000" decimals="3" suffix=" Hz">
-                <name>Frequency</name>
-        </parameter>
-	<parameter type="constant" name="av.d" default="0.5" min="0" max="1" decimals="3">
-                <name>Depth</name>
-        </parameter>
+        <name>Frequency</name>
+    </parameter>
+    <parameter type="constant" name="av.d" default="0.5" min="0" max="1" decimals="3">
+        <name>Depth</name>
+    </parameter>
 </effect>

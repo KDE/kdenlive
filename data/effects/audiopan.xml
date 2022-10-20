@@ -1,13 +1,14 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="panner" id="audiopan" type="audio">
-	<name context="Pan Effect Name">Pan</name>
-	<description>Adjust the left/right spread of a channel</description>
-	<author>Dan Dennedy</author>
-        <parameter type="list" name="channel" default="0" paramlist="0;1">
-                <paramlistdisplay>Left,Right</paramlistdisplay>
-                <name>Channel</name>
-        </parameter>
-	<parameter type="animated" name="start" max="1000" min="0" default="0.5" factor="1000">
-		<name context="Audio Pan">Pan</name>
-	</parameter>
+    <name context="Pan Effect Name">Pan</name>
+    <description>Adjust the left/right spread of a channel</description>
+    <author>Dan Dennedy</author>
+    <parameter type="list" name="channel" default="0" paramlist="0;1">
+        <paramlistdisplay>Left,Right</paramlistdisplay>
+        <name>Channel</name>
+    </parameter>
+    <parameter type="animated" name="start" max="1000" min="0" default="0.5" factor="1000">
+        <name context="Audio Pan">Pan</name>
+    </parameter>
 </effect>

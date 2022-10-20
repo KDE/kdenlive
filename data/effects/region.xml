@@ -1,13 +1,14 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="region" id="region">
-	<name Context="Regionalize Effect Name">Regionalize</name>
-	<description>Apply sub-effects to a region defined by a clip's alpha channel</description>
-	<author>Charles Yates</author>
-	<parameter type="url" name="resource" default="">
-		<name>Url</name>
-	</parameter>
-	<parameter type="geometry" name="composite.geometry" default="0 0:100% 100%" fixed="1" opacity="false">
-		<name>Pan and Zoom</name>
-	</parameter>
-	<parameter type="fixed" name="filter_only" min="1" max="1" default="1" />
+    <name Context="Regionalize Effect Name">Regionalize</name>
+    <description>Apply sub-effects to a region defined by a clip's alpha channel</description>
+    <author>Charles Yates</author>
+    <parameter type="url" name="resource" default="">
+        <name>Url</name>
+    </parameter>
+    <parameter type="geometry" name="composite.geometry" default="0 0:100% 100%" fixed="1" opacity="false">
+        <name>Pan and Zoom</name>
+    </parameter>
+    <parameter type="fixed" name="filter_only" min="1" max="1" default="1"/>
 </effect>

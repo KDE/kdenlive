@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="gain" type="audio">
-	<name context="Gain Effect Name">Gain</name>
-	<description>Adjust the audio volume without keyframes</description>
-	<author>Dan Dennedy</author>
-	<parameter type="constant" name="gain" default="1" min="0" max="1000" factor="100" suffix="%">
-		<name>Gain</name>
-	</parameter>
+    <name context="Gain Effect Name">Gain</name>
+    <description>Adjust the audio volume without keyframes</description>
+    <author>Dan Dennedy</author>
+    <parameter type="constant" name="gain" default="1" min="0" max="1000" factor="100" suffix="%">
+        <name>Gain</name>
+    </parameter>
 </effect>

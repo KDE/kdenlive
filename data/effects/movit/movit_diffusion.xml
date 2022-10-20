@@ -1,11 +1,12 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="movit.diffusion" id="movit.diffusion">
-	<name>Diffusion (GPU)</name>
-	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="radius" default="3" min="0" max="1000" factor="10">
-		<name>Radius</name>
-	</parameter>
-	<parameter type="animated" name="mix" default="0.3" min="0" max="1000" factor="100">
-		<name>Mix amount</name>
-	</parameter>
+    <name>Diffusion (GPU)</name>
+    <author>Steinar H. Gunderson</author>
+    <parameter type="animated" name="radius" default="3" min="0" max="1000" factor="10">
+        <name>Radius</name>
+    </parameter>
+    <parameter type="animated" name="mix" default="0.3" min="0" max="1000" factor="100">
+        <name>Mix amount</name>
+    </parameter>
 </effect>

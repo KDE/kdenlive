@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="obscure" id="obscure">
-	<name context="Obscure Effect Name">Obscure</name>
-	<description>Hide a region of the clip</description>
-	<author>Charles Yates</author>
-	<parameter type="geometry" name="start" default="40% 40% 20% 20%" fixed="1" opacity="false">
-		<name>Region</name>
-	</parameter>
+    <name context="Obscure Effect Name">Obscure</name>
+    <description>Hide a region of the clip</description>
+    <author>Charles Yates</author>
+    <parameter type="geometry" name="start" default="40% 40% 20% 20%" fixed="1" opacity="false">
+        <name>Region</name>
+    </parameter>
 </effect>

@@ -1,37 +1,38 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.bass" id="avfilter.bass" type="audio">
-	<name>Bass</name>
-	<description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. Boost or cut lower frequencies.</description>
-	<author>libavfilter</author>
+    <name>Bass</name>
+    <description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. Boost or cut lower frequencies.</description>
+    <author>libavfilter</author>
     <parameter type="constant" name="av.g" default="0" min="-20" max="20" suffix=" dB">
-                <name>Gain</name>
-        </parameter>
-	<parameter type="constant" name="av.f" default="100" min="20" max="20000" suffix="Hz">
-                <name>Central frequency</name>
-        </parameter>
-	<parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
+        <name>Gain</name>
+    </parameter>
+    <parameter type="constant" name="av.f" default="100" min="20" max="20000" suffix="Hz">
+        <name>Central frequency</name>
+    </parameter>
+    <parameter type="list" name="av.t" default="h" paramlist="h;q;o;s;k">
         <paramlistdisplay>Hz,Q-FActor,Octave,Slope,KHz</paramlistdisplay>
-                <name>Method</name>
-        </parameter>
-	<parameter type="constant" name="av.w" default="0.5" min="1" max="9999" decimals="2">
-                <name>Filter-width</name>
-        </parameter>
-        <parameter type="list" name="av.p" default="2" paramlist="1;2">
+        <name>Method</name>
+    </parameter>
+    <parameter type="constant" name="av.w" default="0.5" min="1" max="9999" decimals="2">
+        <name>Filter-width</name>
+    </parameter>
+    <parameter type="list" name="av.p" default="2" paramlist="1;2">
         <paramlistdisplay>1,2</paramlistdisplay>
         <name>Poles</name>
-        </parameter>
-        	<parameter type="constant" name="av.m" default="1" min="0" max="1" decimals="2">
-                <name>Mix</name>
-        </parameter>
-        <parameter type="bool" name="av.n" default="0">
-                <name>Normalize</name>
-        </parameter>
-        <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
+    </parameter>
+    <parameter type="constant" name="av.m" default="1" min="0" max="1" decimals="2">
+        <name>Mix</name>
+    </parameter>
+    <parameter type="bool" name="av.n" default="0">
+        <name>Normalize</name>
+    </parameter>
+    <parameter type="list" name="av.a" default="di" paramlist="di;dii;tdii;latt">
         <paramlistdisplay>di,dii,tdii,latt</paramlistdisplay>
         <name>Transform type</name>
-        </parameter>
-        <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
+    </parameter>
+    <parameter type="list" name="av.r" default="auto" paramlist="auto;s16;s32;f32;f64">
         <paramlistdisplay>Auto,s16,s32,f32,f64</paramlistdisplay>
         <name>Filter precision</name>
-        </parameter>
+    </parameter>
 </effect>

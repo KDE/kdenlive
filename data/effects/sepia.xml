@@ -1,12 +1,13 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="sepia" id="sepia">
-	<name context="Sepia Effect Name">Sepia</name>
-	<description>Turn clip colors to sepia</description>
-	<author>Charles Yates</author>
-	<parameter type="constant" name="u" max="255" min="0" default="75">
-		<name>Chrominance U</name>
-	</parameter>
-	<parameter type="constant" name="v" max="255" min="0" default="150">
-		<name>Chrominance V</name>
-	</parameter>
+    <name context="Sepia Effect Name">Sepia</name>
+    <description>Turn clip colors to sepia</description>
+    <author>Charles Yates</author>
+    <parameter type="constant" name="u" max="255" min="0" default="75">
+        <name>Chrominance U</name>
+    </parameter>
+    <parameter type="constant" name="v" max="255" min="0" default="150">
+        <name>Chrominance V</name>
+    </parameter>
 </effect>

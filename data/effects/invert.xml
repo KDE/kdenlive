@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="invert" id="invert">
-	<name context="Invert Effect Name">Invert</name>
-	<description>Invert colors</description>
-	<author>Charles Yates</author>
+    <name context="Invert Effect Name">Invert</name>
+    <description>Invert colors</description>
+    <author>Charles Yates</author>
 </effect>

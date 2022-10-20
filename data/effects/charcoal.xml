@@ -1,21 +1,22 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="charcoal" id="charcoal">
-	<name>Charcoal</name>
-	<description>Charcoal drawing effect</description>
-	<author>Charles Yates</author>
-        <parameter type="animated" name="x_scatter" max="10" min="0" default="2">
-		<name>Horizontal scatter</name>
-	</parameter>
-        <parameter type="animated" name="y_scatter" max="10" min="0" default="2">
-		<name>Vertical scatter</name>
-	</parameter>
-        <parameter type="animated" name="scale" max="10" min="0" default="1">
-		<name>Scale</name>
-	</parameter>
-        <parameter type="animated" name="mix" max="10" min="0" default="0">
-		<name>Mix</name>
-	</parameter>
-	<parameter type="bool" name="invert" default="0">
-		<name>Invert</name>
-	</parameter>
+    <name>Charcoal</name>
+    <description>Charcoal drawing effect</description>
+    <author>Charles Yates</author>
+    <parameter type="animated" name="x_scatter" max="10" min="0" default="2">
+        <name>Horizontal scatter</name>
+    </parameter>
+    <parameter type="animated" name="y_scatter" max="10" min="0" default="2">
+        <name>Vertical scatter</name>
+    </parameter>
+    <parameter type="animated" name="scale" max="10" min="0" default="1">
+        <name>Scale</name>
+    </parameter>
+    <parameter type="animated" name="mix" max="10" min="0" default="0">
+        <name>Mix</name>
+    </parameter>
+    <parameter type="bool" name="invert" default="0">
+        <name>Invert</name>
+    </parameter>
 </effect>

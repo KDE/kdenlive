@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.hflip" id="avfilter.hflip">
-	<name>Flip Horizontally</name>
-	<description>Horizontally flip the input video.</description>
-	<author>libavfilter</author>
-        </effect>
+    <name>Flip Horizontally</name>
+    <description>Horizontally flip the input video.</description>
+    <author>libavfilter</author>
+</effect>

@@ -1,27 +1,34 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.compensationdelay" id="avfilter.compensationdelay" type="audio">
-	<name>Compensation Delay</name>
-	<description>Compensation Delay Line is a metric based delay to compensate differing positions of microphones or speakers.
+    <name>Compensation Delay</name>
+    <description>Compensation Delay Line is a metric based delay to compensate differing positions of microphones or speakers.
 For example, you have recorded guitar with two microphones placed in different locations. Because the front of sound wave has fixed speed in normal conditions, the phasing of microphones can vary and depends on their location and interposition. The best sound mix can be achieved when these microphones are in phase (synchronized). Note that a distance of ~30 cm between microphones makes one microphone capture the signal in antiphase to the other microphone. That makes the final mix sound moody. This filter helps to solve phasing problems by adding different delays to each microphone track and make them synchronized.
 
 The best result can be reached when you take one track as base and synchronize other tracks one by one with it. Remember that synchronization/delay tolerance depends on sample rate, too. Higher sample rates will give more tolerance. </description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.mm" default="0" min="0" max="10" suffix=" mm">
-        <name>Millimiter distance</name><comment>Set millimeters distance. This is compensation distance for fine tuning.</comment>
-        </parameter>
-	<parameter type="constant" name="av.cm" default="0" min="0" max="100" suffix=" cm">
-                <name>Centimeter distance</name><comment>Set cm distance. This is compensation distance for tightening distance setup.</comment>
-        </parameter>
-	<parameter type="constant" name="av.m" default="0" min="0" max="100" suffix=" m">
-                <name>Meter distance</name><comment>Set meters distance. This is compensation distance for hard distance setup.</comment>
-        </parameter>
-        	<parameter type="constant" name="av.dry" default="0" min="0" max="1" decimals="3">
-                <name>Dry amount</name><comment>Set dry amount. Amount of unprocessed (dry) signal.</comment>
-        </parameter>
-        <parameter type="constant" name="av.wet" default="1" min="0" max="1" decimals="3">
-                <name>Wet amount</name><comment>Set wet amount. Amount of processed (wet) signal.</comment>
-        </parameter>
-        <parameter type="constant" name="av.temp" default="20" min="-50" max="50" suffix=" C°">
-                <name>Temperature</name><comment>Set temperature in degrees Celsius. This is the temperature of the environment.</comment>
-        </parameter>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.mm" default="0" min="0" max="10" suffix=" mm">
+        <name>Millimiter distance</name>
+        <comment>Set millimeters distance. This is compensation distance for fine tuning.</comment>
+    </parameter>
+    <parameter type="constant" name="av.cm" default="0" min="0" max="100" suffix=" cm">
+        <name>Centimeter distance</name>
+        <comment>Set cm distance. This is compensation distance for tightening distance setup.</comment>
+    </parameter>
+    <parameter type="constant" name="av.m" default="0" min="0" max="100" suffix=" m">
+        <name>Meter distance</name>
+        <comment>Set meters distance. This is compensation distance for hard distance setup.</comment>
+    </parameter>
+    <parameter type="constant" name="av.dry" default="0" min="0" max="1" decimals="3">
+        <name>Dry amount</name>
+        <comment>Set dry amount. Amount of unprocessed (dry) signal.</comment>
+    </parameter>
+    <parameter type="constant" name="av.wet" default="1" min="0" max="1" decimals="3">
+        <name>Wet amount</name>
+        <comment>Set wet amount. Amount of processed (wet) signal.</comment>
+    </parameter>
+    <parameter type="constant" name="av.temp" default="20" min="-50" max="50" suffix=" C°">
+        <name>Temperature</name>
+        <comment>Set temperature in degrees Celsius. This is the temperature of the environment.</comment>
+    </parameter>
 </effect>

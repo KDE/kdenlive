@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="panner" id="audiobalance" type="audio">
-	<name>Balance</name>
-	<description>Adjust the left/right balance</description>
-	<author>Dan Dennedy</author>
-    <parameter type="fixed" name="start" min="0.5" max="0.5" default="0.5" />
-	<parameter type="animated" name="split" max="1000" min="0" default="0.5" factor="1000">
-		<name>Balance</name>
-	</parameter>
+    <name>Balance</name>
+    <description>Adjust the left/right balance</description>
+    <author>Dan Dennedy</author>
+    <parameter type="fixed" name="start" min="0.5" max="0.5" default="0.5"/>
+    <parameter type="animated" name="split" max="1000" min="0" default="0.5" factor="1000">
+        <name>Balance</name>
+    </parameter>
 </effect>

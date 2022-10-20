@@ -1,29 +1,30 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.deblock" id="avfilter.deblock">
-	<name>DeBlock</name>
-	<description>Remove blocking artifacts from input video.</description>
-	<author>libavfilter</author>
+    <name>DeBlock</name>
+    <description>Remove blocking artifacts from input video.</description>
+    <author>libavfilter</author>
     <parameter type="list" name="av.filter" default="strong" paramlist="weak;strong">
         <paramlistdisplay>Weak,Strong</paramlistdisplay>
-                <name>Filter strength</name>
-        </parameter>        
+        <name>Filter strength</name>
+    </parameter>
     <parameter type="constant" name="av.block" default="8" min="4" max="512" factor="1">
-                <name>Block size</name>
-        </parameter>        
+        <name>Block size</name>
+    </parameter>
     <parameter type="constant" name="av.alpha" default="0.098" min="0" max="1" decimals="3">
-                <name>Alpha threshold</name>
-        </parameter>
-        <parameter type="constant" name="av.beta" default="0.05"  min="0" max="1" decimals="3">
-                <name>Beta threshold</name>
-        </parameter>
-        <parameter type="constant" name="av.gamma" default="0.05"  min="0" max="1" decimals="3">
-                <name>Gamma threshold</name>
-        </parameter>
-        <parameter type="constant" name="av.delta" default="0.05"  min="0" max="1" decimals="3">
-                <name>Delta threshold</name>
-        </parameter>
-         <parameter type="list" name="av.planes" default="1" paramlist="0;1;2;3;4;5;6;7">
+        <name>Alpha threshold</name>
+    </parameter>
+    <parameter type="constant" name="av.beta" default="0.05" min="0" max="1" decimals="3">
+        <name>Beta threshold</name>
+    </parameter>
+    <parameter type="constant" name="av.gamma" default="0.05" min="0" max="1" decimals="3">
+        <name>Gamma threshold</name>
+    </parameter>
+    <parameter type="constant" name="av.delta" default="0.05" min="0" max="1" decimals="3">
+        <name>Delta threshold</name>
+    </parameter>
+    <parameter type="list" name="av.planes" default="1" paramlist="0;1;2;3;4;5;6;7">
         <paramlistdisplay>All,Y,U,V,Alpha,Red,Green,Blue</paramlistdisplay>
-                <name>Planes</name>
-        </parameter>        
+        <name>Planes</name>
+    </parameter>
 </effect>

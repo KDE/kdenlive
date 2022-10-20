@@ -1,30 +1,31 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="sox" id="sox_flanger" type="audio">
-	<name>Sox Flanger</name>
-	<description>Sox flanger audio effect</description>
-	<author>http://sox.sourceforge.net</author>
-	<parameter type="constant" name="delay" max="30" min="0" default="0" suffix="ms">
-		<name>Delay</name>
-	</parameter>
-	<parameter type="constant" name="depth" max="10" min="0" default="2" suffix="ms">
-		<name>Depth</name>
-	</parameter>
-	<parameter type="constant" name="regen" max="95" min="-95" default="0" suffix="%">
-		<name>Regeneration</name>
-	</parameter>
-	<parameter type="constant" name="width" max="100" min="0" default="71" suffix="%">
-		<name>Width</name>
-	</parameter>
-	<parameter type="constant" name="speed" max="100" min="0" default="0.5" factor="10" suffix="Hz">
-		<name>Speed</name>
-	</parameter>
-	<parameter type="list" name="shape" default="sine" paramlist="sine;triangle">
-		<name>Shape</name>
-	</parameter>
-	<parameter type="constant" name="phase" max="100" min="0" default="25" suffix="%">
-		<name>Phase</name>
-	</parameter>
-	<parameter type="list" name="interp" default="linear" paramlist="linear;quadratic">
-		<name>Interpolation</name>
-	</parameter>
+    <name>Sox Flanger</name>
+    <description>Sox flanger audio effect</description>
+    <author>http://sox.sourceforge.net</author>
+    <parameter type="constant" name="delay" max="30" min="0" default="0" suffix="ms">
+        <name>Delay</name>
+    </parameter>
+    <parameter type="constant" name="depth" max="10" min="0" default="2" suffix="ms">
+        <name>Depth</name>
+    </parameter>
+    <parameter type="constant" name="regen" max="95" min="-95" default="0" suffix="%">
+        <name>Regeneration</name>
+    </parameter>
+    <parameter type="constant" name="width" max="100" min="0" default="71" suffix="%">
+        <name>Width</name>
+    </parameter>
+    <parameter type="constant" name="speed" max="100" min="0" default="0.5" factor="10" suffix="Hz">
+        <name>Speed</name>
+    </parameter>
+    <parameter type="list" name="shape" default="sine" paramlist="sine;triangle">
+        <name>Shape</name>
+    </parameter>
+    <parameter type="constant" name="phase" max="100" min="0" default="25" suffix="%">
+        <name>Phase</name>
+    </parameter>
+    <parameter type="list" name="interp" default="linear" paramlist="linear;quadratic">
+        <name>Interpolation</name>
+    </parameter>
 </effect>

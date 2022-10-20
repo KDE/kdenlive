@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <effectgroup id="Shut-off" parentIn="1">
     <effect id="frei0r.lenscorrection">
         <property name="brightness">1=0;10=0</property>

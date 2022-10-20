@@ -1,27 +1,28 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="crop" id="crop">
-	<name>Edge Crop</name>
-	<description>Trim the edges of a clip</description>
-	<author>Dan Dennedy</author>
-	<parameter type="constant" name="top" max="%maxHeight" min="0" default="0" suffix="pixels">
-		<name>Top</name>
-	</parameter>
-	<parameter type="constant" name="left" max="%maxWidth" min="0" default="0" suffix="pixels">
-		<name>Left</name>
-	</parameter>
-	<parameter type="constant" name="bottom" max="%maxHeight" min="0" default="0" suffix="pixels">
-		<name>Bottom</name>
-	</parameter>
-	<parameter type="constant" name="right" max="%maxWidth" min="0" default="0" suffix="pixels">
-		<name>Right</name>
-	</parameter>
-	<parameter type="bool" name="center" default="0">
-		<name>Automatic center-crop</name>
-	</parameter>
-	<parameter type="constant" name="center_bias" max="%maxWidth" min="-%maxWidth" default="0">
-		<name>Center balance</name>
-	</parameter>
-        <parameter type="bool" name="use_profile" default="1">
-            <name>Use project resolution</name>
-        </parameter>
+    <name>Edge Crop</name>
+    <description>Trim the edges of a clip</description>
+    <author>Dan Dennedy</author>
+    <parameter type="constant" name="top" max="%maxHeight" min="0" default="0" suffix="pixels">
+        <name>Top</name>
+    </parameter>
+    <parameter type="constant" name="left" max="%maxWidth" min="0" default="0" suffix="pixels">
+        <name>Left</name>
+    </parameter>
+    <parameter type="constant" name="bottom" max="%maxHeight" min="0" default="0" suffix="pixels">
+        <name>Bottom</name>
+    </parameter>
+    <parameter type="constant" name="right" max="%maxWidth" min="0" default="0" suffix="pixels">
+        <name>Right</name>
+    </parameter>
+    <parameter type="bool" name="center" default="0">
+        <name>Automatic center-crop</name>
+    </parameter>
+    <parameter type="constant" name="center_bias" max="%maxWidth" min="-%maxWidth" default="0">
+        <name>Center balance</name>
+    </parameter>
+    <parameter type="bool" name="use_profile" default="1">
+        <name>Use project resolution</name>
+    </parameter>
 </effect>

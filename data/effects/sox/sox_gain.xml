@@ -1,14 +1,15 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="sox" id="sox_gain" type="audio">
-	<name>Sox Gain</name>
-	<description>Sox gain audio effect</description>
-	<author>http://sox.sourceforge.net</author>
-	<parameter type="double" name="gain" max="50" min="-50" default="5.00" decimals="2">
-		<name>Gain</name>
-	</parameter>
-	<parameter type="filterjob" filtertag="sox:analysis" filterparams="" consumer="null" consumerparams="video_off=1 all=1 terminate_on_pause=1">
+    <name>Sox Gain</name>
+    <description>Sox gain audio effect</description>
+    <author>http://sox.sourceforge.net</author>
+    <parameter type="double" name="gain" max="50" min="-50" default="5.00" decimals="2">
+        <name>Gain</name>
+    </parameter>
+    <parameter type="filterjob" filtertag="sox:analysis" filterparams="" consumer="null" consumerparams="video_off=1 all=1 terminate_on_pause=1">
         <name>Normalize</name>
-		<jobparam name="key">gain</jobparam>
-		<jobparam name="finalfilter">sox_gain</jobparam>
-	</parameter>
+        <jobparam name="key">gain</jobparam>
+        <jobparam name="finalfilter">sox_gain</jobparam>
+    </parameter>
 </effect>

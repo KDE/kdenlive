@@ -1,31 +1,32 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="affine" id="affinerotate">
-	<name>Rotate (keyframable)</name>
-	<description>Rotate clip in any 3 directions</description>
-	<author>Charles Yates</author>
-	<parameter type="simplekeyframe" name="transition.rotate_x" max="1800" min="-1800" default="0" factor="10">
-		<name>Rotate X</name>
-	</parameter>
-	<parameter type="simplekeyframe" name="transition.rotate_y" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
-		<name>Rotate Y</name>
-	</parameter>
-	<parameter type="simplekeyframe" name="transition.rotate_z" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
-		<name>Rotate Z</name>
-	</parameter>
-        <parameter type="simplekeyframe" name="transition.ox" max="32000" min="-32000" default="0" notintimeline="1">
-                <name>Offset X</name>
-        </parameter>
-        <parameter type="simplekeyframe" name="transition.oy" max="32000" min="-32000" default="0" notintimeline="1">
-                <name>Offset Y</name>
-        </parameter>
-	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
-		<name>Background Color</name>
-	</parameter>
-    <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
+    <name>Rotate (keyframable)</name>
+    <description>Rotate clip in any 3 directions</description>
+    <author>Charles Yates</author>
+    <parameter type="simplekeyframe" name="transition.rotate_x" max="1800" min="-1800" default="0" factor="10">
+        <name>Rotate X</name>
+    </parameter>
+    <parameter type="simplekeyframe" name="transition.rotate_y" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
+        <name>Rotate Y</name>
+    </parameter>
+    <parameter type="simplekeyframe" name="transition.rotate_z" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
+        <name>Rotate Z</name>
+    </parameter>
+    <parameter type="simplekeyframe" name="transition.ox" max="32000" min="-32000" default="0" notintimeline="1">
+        <name>Offset X</name>
+    </parameter>
+    <parameter type="simplekeyframe" name="transition.oy" max="32000" min="-32000" default="0" notintimeline="1">
+        <name>Offset Y</name>
+    </parameter>
+    <parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
+        <name>Background Color</name>
+    </parameter>
+    <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1"/>
     <parameter type="bool" name="transition.repeat_off" default="1">
-		<name>Disable repeat</name>
-	</parameter>
+        <name>Disable repeat</name>
+    </parameter>
     <parameter type="bool" name="transition.mirror_off" default="1">
-		<name>Disable mirror</name>
-	</parameter>
+        <name>Disable mirror</name>
+    </parameter>
 </effect>

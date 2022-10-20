@@ -1,15 +1,16 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="boxblur" id="boxblur">
-	<name>Box Blur</name>
-	<description>Box blur (separate horizontal and vertical blur)</description>
-	<author>Leny Grisel</author>
-	<parameter type="animated" name="hori" max="50" min="1" default="1">
-		<name>Horizontal multiplicator</name>
-	</parameter>
-	<parameter type="animated" name="vert" max="50" min="1" default="1">
-		<name>Vertical multiplicator</name>
-	</parameter>
-	<parameter type="animated" name="blur" max="100" min="0" default="5">
-		<name>Blur factor</name>
-	</parameter>
+    <name>Box Blur</name>
+    <description>Box blur (separate horizontal and vertical blur)</description>
+    <author>Leny Grisel</author>
+    <parameter type="animated" name="hori" max="50" min="1" default="1">
+        <name>Horizontal multiplicator</name>
+    </parameter>
+    <parameter type="animated" name="vert" max="50" min="1" default="1">
+        <name>Vertical multiplicator</name>
+    </parameter>
+    <parameter type="animated" name="blur" max="100" min="0" default="5">
+        <name>Blur factor</name>
+    </parameter>
 </effect>

@@ -1,18 +1,19 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="fadein" type="audio" unique="1">
-	<name context="Audio Fade In Effect Name">Fade in</name>
-	<description>Fade in audio track</description>
-	<author></author>
-	<parameter type="fixed" name="in" max="0" min="0" default="0">
-		<name></name>
-	</parameter>
-	<parameter type="position" name="out" max="90000" min="0" default="%fade">
-		<name>Duration</name>
-	</parameter>
-	<parameter type="fixed" name="gain" max="0" min="0" default="0">
-		<name>Start Gain</name>
-	</parameter>
-	<parameter type="fixed" name="end" max="1" min="1" default="1">
-		<name>End Gain</name>
-	</parameter>
+    <name context="Audio Fade In Effect Name">Fade in</name>
+    <description>Fade in audio track</description>
+    <author/>
+    <parameter type="fixed" name="in" max="0" min="0" default="0">
+        <name/>
+    </parameter>
+    <parameter type="position" name="out" max="90000" min="0" default="%fade">
+        <name>Duration</name>
+    </parameter>
+    <parameter type="fixed" name="gain" max="0" min="0" default="0">
+        <name>Start Gain</name>
+    </parameter>
+    <parameter type="fixed" name="end" max="1" min="1" default="1">
+        <name>End Gain</name>
+    </parameter>
 </effect>

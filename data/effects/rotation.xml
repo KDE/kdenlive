@@ -1,42 +1,43 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="affine" id="affine">
-	<name>Rotate and Shear</name>
-	<description>Rotate clip in any 3 directions</description>
-	<author>Charles Yates</author>
-	<parameter type="constant" name="transition.fix_rotate_x" max="1800" min="-1800" default="0" factor="10">
-		<name>Rotate X</name>
-	</parameter>
-	<parameter type="constant" name="transition.fix_rotate_y" max="1800" min="-1800" default="0" factor="10">
-		<name>Rotate Y</name>
-	</parameter>
-	<parameter type="constant" name="transition.fix_rotate_z" max="1800" min="-1800" default="0" factor="10">
-		<name>Rotate Z</name>
-	</parameter>
-	<parameter type="constant" name="transition.rotate_x" max="200" min="-200" default="0" factor="10">
-		<name>Animate Rotate X</name>
-	</parameter>
-	<parameter type="constant" name="transition.rotate_y" max="200" min="-200" default="0" factor="10">
-		<name>Animate Rotate Y</name>
-	</parameter>
-	<parameter type="constant" name="transition.rotate_z" max="200" min="-200" default="0" factor="10">
-		<name>Animate Rotate Z</name>
-	</parameter>
-	<parameter type="constant" name="transition.fix_shear_x" max="1800" min="-1800" default="0" factor="10">
-		<name>Shear X</name>
-	</parameter>
-	<parameter type="constant" name="transition.fix_shear_y" max="1800" min="-1800" default="0" factor="10">
-		<name>Shear Y</name>
-	</parameter>
-	<parameter type="constant" name="transition.shear_x" max="200" min="-200" default="0" factor="10">
-		<name>Animate Shear X</name>
-	</parameter>
-	<parameter type="constant" name="transition.shear_y" max="200" min="-200" default="0" factor="10">
-		<name>Animate Shear Y</name>
-	</parameter>
-	<parameter type="geometry" name="transition.geometry" default="0 0:100% 100%" fixed="1" opacity="false">
-		<name>Pan and Zoom</name>
-	</parameter>
-	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
-		<name>Background Color</name>
-	</parameter>
+    <name>Rotate and Shear</name>
+    <description>Rotate clip in any 3 directions</description>
+    <author>Charles Yates</author>
+    <parameter type="constant" name="transition.fix_rotate_x" max="1800" min="-1800" default="0" factor="10">
+        <name>Rotate X</name>
+    </parameter>
+    <parameter type="constant" name="transition.fix_rotate_y" max="1800" min="-1800" default="0" factor="10">
+        <name>Rotate Y</name>
+    </parameter>
+    <parameter type="constant" name="transition.fix_rotate_z" max="1800" min="-1800" default="0" factor="10">
+        <name>Rotate Z</name>
+    </parameter>
+    <parameter type="constant" name="transition.rotate_x" max="200" min="-200" default="0" factor="10">
+        <name>Animate Rotate X</name>
+    </parameter>
+    <parameter type="constant" name="transition.rotate_y" max="200" min="-200" default="0" factor="10">
+        <name>Animate Rotate Y</name>
+    </parameter>
+    <parameter type="constant" name="transition.rotate_z" max="200" min="-200" default="0" factor="10">
+        <name>Animate Rotate Z</name>
+    </parameter>
+    <parameter type="constant" name="transition.fix_shear_x" max="1800" min="-1800" default="0" factor="10">
+        <name>Shear X</name>
+    </parameter>
+    <parameter type="constant" name="transition.fix_shear_y" max="1800" min="-1800" default="0" factor="10">
+        <name>Shear Y</name>
+    </parameter>
+    <parameter type="constant" name="transition.shear_x" max="200" min="-200" default="0" factor="10">
+        <name>Animate Shear X</name>
+    </parameter>
+    <parameter type="constant" name="transition.shear_y" max="200" min="-200" default="0" factor="10">
+        <name>Animate Shear Y</name>
+    </parameter>
+    <parameter type="geometry" name="transition.geometry" default="0 0:100% 100%" fixed="1" opacity="false">
+        <name>Pan and Zoom</name>
+    </parameter>
+    <parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
+        <name>Background Color</name>
+    </parameter>
 </effect>

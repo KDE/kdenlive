@@ -1,22 +1,27 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <effect tag="avfilter.compand" id="avfilter.compand" type="audio">
-	<name>Compressor/Expander</name>
-	<description>Compress or expand the audio’s dynamic range.</description>
-	<author>libavfilter</author>
-	<parameter type="constant" name="av.attacks" default="0" min="0" max="3" decimals="3" suffix=" sec">
-        <name>Attacks</name><comment>A list of times in seconds for each channel over which the instantaneous level of the input signal is averaged to determine its volume. attacks refers to increase of volume and decays refers to decrease of volume. For most situations, the attack time (response to the audio getting louder) should be shorter than the decay time, because the human ear is more sensitive to sudden loud audio than sudden soft audio. A typical value for attack is 0.3 seconds and a typical value for decay is 0.8 seconds. If specified number of attacks and decays is lower than number of channels, the last set attack/decay will be used for all remaining channels.</comment>
-        </parameter>
-        <parameter type="constant" name="av.decays" default="0.8" min="0" max="3" decimals="3" suffix=" sec">
-        <name>Decays</name><comment>A list of times in seconds for each channel over which the instantaneous level of the input signal is averaged to determine its volume. attacks refers to increase of volume and decays refers to decrease of volume. For most situations, the attack time (response to the audio getting louder) should be shorter than the decay time, because the human ear is more sensitive to sudden loud audio than sudden soft audio. A typical value for attack is 0.3 seconds and a typical value for decay is 0.8 seconds. If specified number of attacks and decays is lower than number of channels, the last set attack/decay will be used for all remaining channels.</comment>
-        </parameter>
-	<parameter type="constant" name="av.soft-knee" default="0.01" min="0.01" max="90" decimals="2" suffix=" dB">
-        <name>Soft-Knee</name><comment>Set the curve radius in dB for all joints.</comment>
-        </parameter>
-	<parameter type="constant" name="av.gain" default="0" min="-90" max="90" decimals="2" suffix=" dB">
-        <name>Gain</name><comment>Set the additional gain in dB to be applied at all points on the transfer function. This allows for easy adjustment of the overall gain.</comment>
-        </parameter>
-        	<parameter type="constant" name="av.volume" default="0" min="-90" max="0" decimals="2" suffix=" dB">
-                <name>Initial volume</name><comment>et an initial volume, in dB, to be assumed for each channel when filtering starts. This permits the user to supply a nominal level initially, so that, for example, a very large gain is not applied to initial signal levels before the companding has begun to operate. A typical value for audio which is initially quiet is -90 dB.</comment>
-        </parameter>
+    <name>Compressor/Expander</name>
+    <description>Compress or expand the audio’s dynamic range.</description>
+    <author>libavfilter</author>
+    <parameter type="constant" name="av.attacks" default="0" min="0" max="3" decimals="3" suffix=" sec">
+        <name>Attacks</name>
+        <comment>A list of times in seconds for each channel over which the instantaneous level of the input signal is averaged to determine its volume. attacks refers to increase of volume and decays refers to decrease of volume. For most situations, the attack time (response to the audio getting louder) should be shorter than the decay time, because the human ear is more sensitive to sudden loud audio than sudden soft audio. A typical value for attack is 0.3 seconds and a typical value for decay is 0.8 seconds. If specified number of attacks and decays is lower than number of channels, the last set attack/decay will be used for all remaining channels.</comment>
+    </parameter>
+    <parameter type="constant" name="av.decays" default="0.8" min="0" max="3" decimals="3" suffix=" sec">
+        <name>Decays</name>
+        <comment>A list of times in seconds for each channel over which the instantaneous level of the input signal is averaged to determine its volume. attacks refers to increase of volume and decays refers to decrease of volume. For most situations, the attack time (response to the audio getting louder) should be shorter than the decay time, because the human ear is more sensitive to sudden loud audio than sudden soft audio. A typical value for attack is 0.3 seconds and a typical value for decay is 0.8 seconds. If specified number of attacks and decays is lower than number of channels, the last set attack/decay will be used for all remaining channels.</comment>
+    </parameter>
+    <parameter type="constant" name="av.soft-knee" default="0.01" min="0.01" max="90" decimals="2" suffix=" dB">
+        <name>Soft-Knee</name>
+        <comment>Set the curve radius in dB for all joints.</comment>
+    </parameter>
+    <parameter type="constant" name="av.gain" default="0" min="-90" max="90" decimals="2" suffix=" dB">
+        <name>Gain</name>
+        <comment>Set the additional gain in dB to be applied at all points on the transfer function. This allows for easy adjustment of the overall gain.</comment>
+    </parameter>
+    <parameter type="constant" name="av.volume" default="0" min="-90" max="0" decimals="2" suffix=" dB">
+        <name>Initial volume</name>
+        <comment>et an initial volume, in dB, to be assumed for each channel when filtering starts. This permits the user to supply a nominal level initially, so that, for example, a very large gain is not applied to initial signal levels before the companding has begun to operate. A typical value for audio which is initially quiet is -90 dB.</comment>
+    </parameter>
 </effect>
-
