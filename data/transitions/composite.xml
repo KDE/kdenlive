@@ -1,8 +1,9 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="composite" id="composite">
     <name context="Composite Transition Name">Composite</name>
-        <description>A key-framable alpha-channel compositor for two frames.</description>
-        <author>Dan Dennedy</author>
+    <description>A key-framable alpha-channel compositor for two frames.</description>
+    <author>Dan Dennedy</author>
     <parameter type="animatedrect" name="geometry" default="0 0 %width %height 100">
         <name>Rectangle</name>
     </parameter>
@@ -25,10 +26,10 @@
         <name>V align</name>
     </parameter>
     <parameter type="urllist" name="luma" paramlist="%lumaPaths" filter="Luma files (*.png *.pgm)" newstuff=":data/kdenlive_wipes.knsrc" optional="1">
-      <name>Composite Method</name>
+        <name>Composite Method</name>
     </parameter>
     <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
-            <name>Softness</name>
+        <name>Softness</name>
     </parameter>
     <parameter type="bool" name="progressive" default="1" min="0" max="1">
         <name>Force Progressive Rendering</name>

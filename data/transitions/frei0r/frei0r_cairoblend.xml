@@ -1,13 +1,14 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="frei0r.cairoblend" id="frei0r.cairoblend">
-        <name>Cairo Blend</name>
-        <description>Composites second input on the first input with user-defined blend mode and opacity.</description>
-        <author>Janne Liljeblad</author>
-        <parameter type="simplekeyframe" name="0" max="100" min="0" default="100" factor="100">
-                <name>Opacity</name>
-        </parameter>
-        <parameter type="list" name="1" default="normal" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity" >
-                <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
-                <name>Blend mode</name>
-        </parameter>
+    <name>Cairo Blend</name>
+    <description>Composites second input on the first input with user-defined blend mode and opacity.</description>
+    <author>Janne Liljeblad</author>
+    <parameter type="simplekeyframe" name="0" max="100" min="0" default="100" factor="100">
+        <name>Opacity</name>
+    </parameter>
+    <parameter type="list" name="1" default="normal" paramlist="normal;add;saturate;multiply;screen;overlay;darken;lighten;colordodge;colorburn;hardlight;softlight;difference;exclusion;hslhue;hslsaturation;hslcolor;hslluminosity">
+        <paramlistdisplay>Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL saturation,HSL color,HSL luminosity</paramlistdisplay>
+        <name>Blend mode</name>
+    </parameter>
 </transition>

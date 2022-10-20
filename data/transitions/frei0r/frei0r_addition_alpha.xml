@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="frei0r.addition_alpha" id="frei0r.addition_alpha">
     <name>addition_alpha</name>

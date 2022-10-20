@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="frei0r.burn" id="frei0r.burn">
     <name>Burn</name>

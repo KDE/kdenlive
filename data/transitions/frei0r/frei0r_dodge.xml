@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="frei0r.dodge" id="frei0r.dodge">
     <name>Dodge</name>

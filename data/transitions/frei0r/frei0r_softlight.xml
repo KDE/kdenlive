@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="frei0r.softlight" id="frei0r.softlight">
     <name>Softlight</name>

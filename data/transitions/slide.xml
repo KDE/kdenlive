@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="affine" id="slide" type="short">
-        <name context="Slide Transition Name">Slide</name>
-        <description>Slide image from one side to another.</description>
-        <author>Dan Dennedy</author>
-        <parameter type="wipe" default="0=-100% 0% 100% 100% 100%;-1=0% 0% 100% 100% 100%" name="rect">
-            <name>Direction</name>
-        </parameter>
+    <name context="Slide Transition Name">Slide</name>
+    <description>Slide image from one side to another.</description>
+    <author>Dan Dennedy</author>
+    <parameter type="wipe" default="0=-100% 0% 100% 100% 100%;-1=0% 0% 100% 100% 100%" name="rect">
+        <name>Direction</name>
+    </parameter>
 </transition>

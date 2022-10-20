@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="frei0r.hardlight" id="frei0r.hardlight">
     <name>Hardlight</name>

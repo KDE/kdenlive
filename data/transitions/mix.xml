@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="mix" id="mix" type="audio">
     <name>Audio Mix</name>
@@ -7,4 +8,3 @@
         <name>Reverse</name>
     </parameter>
 </transition>
-

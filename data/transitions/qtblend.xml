@@ -1,23 +1,23 @@
+<?xml version="1.0"?>
 <!DOCTYPE kpartgui>
 <transition tag="qtblend" id="qtblend">
-        <name>Composite and transform</name>
-        <description>Composites second input on the first input with user-defined blend mode, opacity and scale.</description>
-        <author>Jean-Baptiste Mardelle</author>
-	<parameter type="animatedrect" name="rect" default="0 0 %width %height 1">
-		<name>Rectangle</name>
-	</parameter>
-	<parameter type="keyframe" name="rotation" max="360" min="-360" default="0" notintimeline="1">
-                <name>Rotation</name>
-	</parameter>
-        <parameter type="list" name="compositing" default="0" paramlist="0;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;6;8">
-	   <paramlistdisplay>Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,Destination out</paramlistdisplay>
-		<name>Compositing</name>
-	</parameter>
-        <parameter type="bool" name="distort" default="0" min="0" max="1">
-		<name>Distort</name>
-	</parameter>
-	<parameter type="bool" name="rotate_center" default="1" min="0" max="1">
-		<name>Rotate from center</name>
-	</parameter>
+    <name>Composite and transform</name>
+    <description>Composites second input on the first input with user-defined blend mode, opacity and scale.</description>
+    <author>Jean-Baptiste Mardelle</author>
+    <parameter type="animatedrect" name="rect" default="0 0 %width %height 1">
+        <name>Rectangle</name>
+    </parameter>
+    <parameter type="keyframe" name="rotation" max="360" min="-360" default="0" notintimeline="1">
+        <name>Rotation</name>
+    </parameter>
+    <parameter type="list" name="compositing" default="0" paramlist="0;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;6;8">
+        <paramlistdisplay>Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,Color burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,Destination out</paramlistdisplay>
+        <name>Compositing</name>
+    </parameter>
+    <parameter type="bool" name="distort" default="0" min="0" max="1">
+        <name>Distort</name>
+    </parameter>
+    <parameter type="bool" name="rotate_center" default="1" min="0" max="1">
+        <name>Rotate from center</name>
+    </parameter>
 </transition>
-
