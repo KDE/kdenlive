@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-17 00:46+0000\n"
-"PO-Revision-Date: 2022-10-07 11:14+0200\n"
+"PO-Revision-Date: 2022-10-19 07:25+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2932,10 +2932,9 @@ msgid "Wipe Method"
 msgstr "Méthode de balayage"
 
 #: data/transitions/matte.xml:3
-#, fuzzy, kde-format
-#| msgid "Pattern"
+#, kde-format
 msgid "Matte"
-msgstr "Motifs"
+msgstr "Mat"
 
 #: data/transitions/matte.xml:4
 #, kde-format
@@ -3027,10 +3026,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/vqm.xml:7
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "Temps de rendu"
+msgstr "Ligne de rendu"
 
 #: data/transitions/vqm.xml:8
 #, kde-format
@@ -5596,10 +5594,9 @@ msgstr "Réglages par défaut du projet"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:323
 #: src/dialogs/kdenlivesettingsdialog.cpp:347
-#, fuzzy, kde-format
-#| msgid "Use default folder"
+#, kde-format
 msgid "Use default folder: %1"
-msgstr "Utiliser le dossier par défaut"
+msgstr "Utiliser le dossier par défaut : %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:325
 #: src/dialogs/kdenlivesettingsdialog.cpp:349
@@ -7438,11 +7435,9 @@ msgid "Hide keyframes"
 msgstr "Cacher les images clés"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show keyframes"
-msgstr "Déplacer des images clés"
+msgstr "Afficher les trames clé"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
@@ -7513,17 +7508,14 @@ msgid "Enable Keyframes"
 msgstr "Activer les images clés"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgid "Hide keyframes"
+#, kde-format
 msgid "Hide Keyframes"
-msgstr "Cacher les images clés"
+msgstr "Masquer les trames clé"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show Keyframes"
-msgstr "Déplacer des images clés"
+msgstr "Afficher les trames clé"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
@@ -11755,10 +11747,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Sélectionner le profil (prédéfini) pour le projet"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Par défaut"
+msgstr "Par défaut : %1"
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -11981,8 +11972,7 @@ msgid ""
 msgstr ""
 
 #: src/project/dialogs/temporarydata.cpp:180
-#, fuzzy, kde-format
-#| msgid "Clean"
+#, kde-format
 msgid "Cleanup"
 msgstr "Effacer"
 
@@ -15524,17 +15514,15 @@ msgstr "Acquisition vidéo (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:62 src/ui/configcapture_ui.ui:460
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "Périphériques détectés"
+msgstr "Périphériques détectés :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "Périphérique vidéo"
+msgstr "Périphérique de vidéo :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:86
@@ -15613,24 +15601,21 @@ msgstr "Profil d'encodage :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Capture d'une zone"
+msgstr "Zone à capturer :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Basculer en mode plein écran"
+msgstr "Plein écran"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Fenêtrage rectangulaire"
+msgstr "Zone rectangulaire"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -15662,10 +15647,9 @@ msgstr "Taille"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:400
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "Masquer le curseur"
+msgstr "Pointeur de la souris :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:454
@@ -15752,10 +15736,9 @@ msgstr "Processus concurrents :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configenv_ui.ui:65
-#, fuzzy, kde-format
-#| msgid "Cache Data"
+#, kde-format
 msgid "Cached Data"
-msgstr "Données en cache"
+msgstr "Données mises en cache"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/configenv_ui.ui:71
@@ -16058,10 +16041,9 @@ msgstr "Bouton 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "Fichiers du projet :"
+msgstr "Fichier du projet :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:24
@@ -16077,10 +16059,9 @@ msgstr "Activer la récupération après plantage (enregistrement automatique)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "Couleur de vidéo :"
+msgstr "Importation de vidéo :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:52
@@ -16207,10 +16188,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:37 src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project folder"
+#, kde-format
 msgid "Project folder:"
-msgstr "Dossier du projet"
+msgstr "Dossier du projet :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:54
@@ -16274,8 +16254,7 @@ msgstr "Activer les clips intermédiaires"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #: src/ui/configproxy_ui.ui:62 src/ui/configproxy_ui.ui:95
 #: src/ui/configproxy_ui.ui:114 src/ui/configproxy_ui.ui:191
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid " pixels"
 msgstr "pixels"
 
@@ -16304,10 +16283,9 @@ msgstr "Taille de l'image intermédiaire"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:133
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "Activé"
+msgstr "Activer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -16435,17 +16413,15 @@ msgstr "Vignettes : "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "Activer la vidéo"
+msgstr "Activer pour la vidéo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:31
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "Activer l'audio"
+msgstr "Activer pour l'audio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:41
@@ -16483,10 +16459,9 @@ msgstr "Se positionner sur une vidéo lors de l'application d'un effet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Rolling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "Rouleau"
+msgstr "Défilement :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -16511,10 +16486,9 @@ msgstr "Afficher les commentaires des repères du clip"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "Hauteur de piste :"
+msgstr "Hauteur de piste par défaut :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:145
@@ -17194,8 +17168,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:267
-#, fuzzy, kde-format
-#| msgid "Cache Data"
+#, kde-format
 msgid "Cache data"
 msgstr "Données en cache"
 
@@ -17235,18 +17208,16 @@ msgstr "Supprimer le cache sélectionné."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/managecache_ui.ui:444
-#, fuzzy, kde-format
-#| msgid "Total backup data:"
+#, kde-format
 msgid "Backup data"
-msgstr "Quantité totale de données de sauvegarde :"
+msgstr "Archiver les données"
 
 #. i18n: ectx: property (text), widget (QLabel, gBackupLabel)
 #. i18n: ectx: property (text), widget (QLabel, gProxyLabel)
 #: src/ui/managecache_ui.ui:464 src/ui/managecache_ui.ui:561
-#, fuzzy, kde-format
-#| msgid "File size:"
+#, kde-format
 msgid "Total size:"
-msgstr "Taille du fichier :"
+msgstr "Taille totale :"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:482
@@ -17274,10 +17245,9 @@ msgstr "Supprimer toutes les données de sauvegarde."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/managecache_ui.ui:541
-#, fuzzy, kde-format
-#| msgid "Proxy clip"
+#, kde-format
 msgid "Proxy clip data"
-msgstr "Clip intermédiaire"
+msgstr "Données vidéo en cache"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:579
@@ -17521,10 +17491,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Dossiers par défaut"
+msgstr "Dossier par défaut"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:55
@@ -17535,10 +17504,9 @@ msgstr "Dossier par défaut des fichiers projet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Personnalisé"
+msgstr "Personnalisé :"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:136
@@ -17560,10 +17528,9 @@ msgstr "6 canaux "
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Image preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "Aperçu de l'image"
+msgstr "Aperçu de la frise chronologique :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:192

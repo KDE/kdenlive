@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-17 00:46+0000\n"
-"PO-Revision-Date: 2022-10-02 15:49\n"
+"PO-Revision-Date: 2022-10-19 13:22\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2851,10 +2851,9 @@ msgid "Wipe Method"
 msgstr "擦除方式"
 
 #: data/transitions/matte.xml:3
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Matte"
-msgstr "图案"
+msgstr ""
 
 #: data/transitions/matte.xml:4
 #, kde-format
@@ -2942,10 +2941,9 @@ msgid ""
 msgstr ""
 
 #: data/transitions/vqm.xml:7
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "渲染时间"
+msgstr ""
 
 #: data/transitions/vqm.xml:8
 #, kde-format
@@ -3999,20 +3997,14 @@ msgstr ""
 "为确保不发生数据丢失，已创建名为 %1 的备份。"
 
 #: src/bin/bin.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "无法写入到文件 %1"
+msgstr ""
 
 #: src/bin/bin.cpp:1877
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr ""
-"无法打开压缩项目文件：\n"
-" %1"
 
 #: src/bin/bin.cpp:1903 src/bin/bin.cpp:1961
 #, kde-format
@@ -4030,10 +4022,9 @@ msgid "The selected file %1 is invalid."
 msgstr "所选文件 %1 无效。"
 
 #: src/bin/bin.cpp:1916
-#, fuzzy, kde-format
-#| msgid "Cannot find clip to edit marker"
+#, kde-format
 msgid "Cannot find original clip to be replaced"
-msgstr "无法找到要编辑标记的剪辑"
+msgstr ""
 
 #: src/bin/bin.cpp:1936
 #, kde-format
@@ -7231,17 +7222,14 @@ msgid "Disable %1"
 msgstr "禁用 %1"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgid "Hide frame"
+#, kde-format
 msgid "Hide keyframes"
-msgstr "隐藏边框"
+msgstr ""
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show keyframes"
-msgstr "移动关键帧"
+msgstr ""
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
@@ -7312,17 +7300,14 @@ msgid "Enable Keyframes"
 msgstr "启用关键帧"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgid "Hide frame"
+#, kde-format
 msgid "Hide Keyframes"
-msgstr "隐藏边框"
+msgstr ""
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show Keyframes"
-msgstr "移动关键帧"
+msgstr ""
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
@@ -11472,10 +11457,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "选择项目的编码方案 (预设)"
 
 #: src/project/dialogs/projectsettings.cpp:72
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "默认"
+msgstr ""
 
 #: src/project/dialogs/projectsettings.cpp:139
 #, kde-format
@@ -14978,10 +14962,9 @@ msgstr "将剪辑放入“已稳定”文件夹"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_add)
 #: src/ui/clipstabilize_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Add clip to project"
+#, kde-format
 msgid "Add stabilized clip to project"
-msgstr "添加剪辑到项目"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_replace)
 #: src/ui/clipstabilize_ui.ui:83
@@ -15097,17 +15080,15 @@ msgstr "捕获视频 (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:62 src/ui/configcapture_ui.ui:460
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "检测到的设备"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:72
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "视频设备"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:86
@@ -15186,24 +15167,21 @@ msgstr "编码方案："
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "区域捕获"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "切换全屏"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "矩形窗"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:289
@@ -15235,10 +15213,9 @@ msgstr "大小"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:400
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "隐藏光标"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:454
@@ -15625,10 +15602,9 @@ msgstr "按钮 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:17
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "项目文件："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:24
@@ -15644,10 +15620,9 @@ msgstr "启用崩溃恢复功能 (自动保存)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "剪辑颜色："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:52
@@ -15769,17 +15744,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:37 src/ui/projectsettings_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Project folder: %1"
+#, kde-format
 msgid "Project folder:"
-msgstr "项目文件夹： %1"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "项目文件的默认文件夹"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:63
@@ -15819,10 +15792,9 @@ msgstr "6 声道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:145
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview profile:"
-msgstr "时间轴预览"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:28
@@ -15865,18 +15837,16 @@ msgstr "代理剪辑图像尺寸"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:170 src/ui/configsdl_ui.ui:133
 #: src/ui/projectsettings_ui.ui:470
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "已启用"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:177 src/ui/projectsettings_ui.ui:477
-#, fuzzy, kde-format
-#| msgid "Use external proxy clips"
+#, kde-format
 msgid "External proxy clips:"
-msgstr "使用外部代理剪辑"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:204
@@ -15896,17 +15866,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:39
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr "使用 GPU 处理 (Movit 程序库) - 重启 Kdenlive 以生效"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:46
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr "使用 GPU 处理 (Movit 程序库) - 重启 Kdenlive 以生效"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:60
@@ -15934,10 +15902,9 @@ msgstr "全屏输出监视器："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "使用外部显示 (Blackmagic 扩展卡)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:140
@@ -15990,31 +15957,27 @@ msgstr "缩略图："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "启用视频"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:31
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "启用音频"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:41
-#, fuzzy, kde-format
-#| msgid "Separate channels"
+#, kde-format
 msgid "Separate audio channels"
-msgstr "拆分声道"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Pause playback when seeking"
+#, kde-format
 msgid "Playback and Seeking:"
-msgstr "时移时停止播放"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:62
@@ -16036,10 +15999,9 @@ msgstr "添加效果时时移到剪辑"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Scaling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "缩放"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:97
@@ -16062,10 +16024,9 @@ msgstr "显示剪辑标记的注释"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "轨道高度："
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:145
@@ -17030,40 +16991,35 @@ msgstr "项目设置"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
-msgstr "项目文件夹：用于存储代理剪辑、缩略图和预览"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
-msgstr "项目文件夹：用于存储代理剪辑、缩略图和预览"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "默认文件夹"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "项目文件的默认文件夹"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "自定义"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:136
@@ -17085,10 +17041,9 @@ msgstr "6 声道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:181
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "时间轴预览"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:192
@@ -17098,10 +17053,9 @@ msgstr "代理剪辑"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:198
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "代理剪辑："
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -18272,11 +18226,7 @@ msgid "Pick a color on the screen."
 msgstr ""
 
 #: src/widgets/colorpickerwidget.cpp:56
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Pick a color on the screen. By pressing the mouse button and then moving "
-#| "your mouse you can select a section of the screen from which to get an "
-#| "average color."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
@@ -18400,328 +18350,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Properties of transition %1"
-#~ msgstr "合成属性 %1"
-
-#~ msgid "&Download"
-#~ msgstr "下载(&D)"
-
-#~ msgid "Default video4linux device:"
-#~ msgstr "默认 video4linux 设备："
-
-#~ msgid "No device found, plug your webcam and refresh."
-#~ msgstr "未找到设备，请连接网络摄像头并刷新。"
-
-#~ msgid "Current settings (%1x%2, %3/%4fps)"
-#~ msgstr "当前设置 (%1x%2，%3/%4fps)"
-
-#~ msgid "Default settings (%1x%2, %3/%4fps)"
-#~ msgstr "默认设置 (%1x%2，%3/%4fps)"
-
-#~ msgid "Add clip cut"
-#~ msgstr "添加剪辑剪切"
-
-#~ msgid "Add folder"
-#~ msgstr "添加文件夹"
-
-#~ msgid "Delete folder"
-#~ msgstr "删除文件夹"
-
-#~ msgid "Edit clip cut"
-#~ msgstr "编辑剪辑剪切"
-
-#~ msgid "Rename folder"
-#~ msgstr "重命名文件夹"
-
-#~ msgid "Hidden"
-#~ msgstr "已隐藏"
-
-#~ msgid "Muted"
-#~ msgstr "已静音"
-
-#~ msgid "Locked"
-#~ msgstr "已锁定"
-
-#~ msgid "Composite"
-#~ msgstr "合成"
-
-#~ msgid "Move Track upwards"
-#~ msgstr "上移轨道"
-
-#~ msgid "Move Track downwards"
-#~ msgstr "下移轨道"
-
-#~ msgid "Edit Keyframe"
-#~ msgstr "编辑关键帧"
-
-#~ msgid "Value:"
-#~ msgstr "数值："
-
-#~ msgid "Reset the parameters to their default values."
-#~ msgstr "重置参数为默认值。"
-
-#~ msgid "Seek to active keyframe."
-#~ msgstr "跳转到活动关键帧。"
-
-#~ msgid "Add keyframes."
-#~ msgstr "添加关键帧。"
-
-#~ msgid "Move on X axis."
-#~ msgstr "在 X 轴上移动。"
-
-#~ msgid "Move on Y axis."
-#~ msgstr "在 Y 轴上移动。"
-
-#~ msgid "Update values in timeline."
-#~ msgstr "更新时间轴数值。"
-
-#~ msgid "Create new points."
-#~ msgstr "创建新点。"
-
-#~ msgid "GraphView"
-#~ msgstr "图表视图"
-
-#~ msgid "Parameter description."
-#~ msgstr "参数描述。"
-
-#~ msgid "Not connected"
-#~ msgstr "未连接"
-
-#~ msgid "Firewire"
-#~ msgstr "火线"
-
-#~ msgid "Blackmagic card"
-#~ msgstr "Blackmagic 采集卡"
-
-#~ msgid "Preset"
-#~ msgstr "预设"
-
-#~ msgid "Color range"
-#~ msgstr "色彩范围"
-
-#~ msgid "Magenta"
-#~ msgstr "品红"
-
-#~ msgid "Absol&ute"
-#~ msgstr "绝对(&U)"
-
-#~ msgid "Re&lative"
-#~ msgstr "相对(&L)"
-
-#~ msgid "Number of frames to play (0 to play all frames)"
-#~ msgstr "要播放的帧数 (0 将播放所有帧)"
-
-#~ msgid "Interval Capture"
-#~ msgstr "间隔捕获"
-
-#~ msgid "Capture delay"
-#~ msgstr "捕获延迟"
-
-#~ msgid "Notify before capture"
-#~ msgstr "捕获前通知"
-
-#~ msgid "Configure Tracks"
-#~ msgstr "配置轨道"
-
-#~ msgid "track"
-#~ msgstr "轨道"
-
-#~ msgid "Check"
-#~ msgstr "检查"
-
-#~ msgid "Default folder for project files"
-#~ msgstr "项目文件的默认文件夹"
-
-#~ msgid "Show video thumbnails"
-#~ msgstr "显示视频缩略图"
-
-#~ msgid "Show audio thumbnails"
-#~ msgstr "显示音频缩略图"
-
-#~ msgid "Install extra video MIME types"
-#~ msgstr "安装额外的视频 MIME 类型"
-
-#~ msgid "Installed modules"
-#~ msgstr "已安装模块"
-
-#~ msgid "Available Codecs (avformat)"
-#~ msgstr "可用编码 (avformat)"
-
-#~ msgid "Formats"
-#~ msgstr "格式"
-
-#~ msgid "Video Codecs"
-#~ msgstr "视频编码"
-
-#~ msgid "Audio Codecs"
-#~ msgstr "音频编码"
-
-#~ msgid "Please set your default video profile"
-#~ msgstr "请设置默认视频编码方案"
-
-#~ msgid "Video Resolution"
-#~ msgstr "视频分辨率"
-
-#~ msgid "DV"
-#~ msgstr "DV"
-
-#~ msgid "HDV"
-#~ msgstr "HDV"
-
-#~ msgid "Show All"
-#~ msgstr "显示全部"
-
-#~ msgid "File size"
-#~ msgstr "文件体积"
-
-#~ msgid "Image type"
-#~ msgstr "图像类型"
-
-#~ msgid "Frame duration"
-#~ msgstr "帧持续时间"
-
-#~ msgid "Dissolve"
-#~ msgstr "溶解"
-
-#~ msgid "Wipe"
-#~ msgstr "擦除"
-
-#~ msgid "Image size"
-#~ msgstr "图像尺寸"
-
-#~ msgid "Transparent background"
-#~ msgstr "透明背景"
-
-#~ msgid "Time"
-#~ msgstr "时间"
-
-#~ msgid "E"
-#~ msgstr "E"
-
-#~ msgid "Advanced"
-#~ msgstr "高级"
-
-#~ msgid "Force aspect ratio"
-#~ msgstr "强制宽高比"
-
-#~ msgid "Decoding threads"
-#~ msgstr "解码线程数"
-
-#~ msgid "Video index"
-#~ msgstr "视频索引"
-
-#~ msgid "Force scanning"
-#~ msgstr "强制扫描"
-
-#~ msgid "Audio index"
-#~ msgstr "音频索引"
-
-#~ msgid "Force frame rate"
-#~ msgstr "强制帧速率"
-
-#~ msgid "Force duration"
-#~ msgstr "强制持续时间"
-
-#~ msgid "Force colorspace"
-#~ msgstr "强制色彩空间"
-
-#~ msgid "Force field order"
-#~ msgstr "强制场序"
-
-#~ msgid ":"
-#~ msgstr ":"
-
-#~ msgid "Image background"
-#~ msgstr "图像背景"
-
-#~ msgid "Normal"
-#~ msgstr "正常"
-
-#~ msgid "Transparent"
-#~ msgstr "透明"
-
-#~ msgid "Preview volume:"
-#~ msgstr "预览音量："
-
-#~ msgid "Cairo Affine Blend"
-#~ msgstr "Cairo Affine Blend - Cairo 仿射混合"
-
-#~ msgid ""
-#~ "Composites second input on first input applying user-defined "
-#~ "transformation, opacity and blend mode."
-#~ msgstr ""
-#~ "按照用户指定的变形、透明度和混合模式将第二输入来源合成到第一输入来源。"
-
-#~ msgid "X scale"
-#~ msgstr "X 缩放"
-
-#~ msgid "Y scale"
-#~ msgstr "Y 缩放"
-
-#~ msgid ""
-#~ "Normal,Add,Saturate,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
-#~ "Color burn,Hard light,Soft light,Difference,Exclusion,HSL hue,HSL "
-#~ "saturation,HSL color,HSL luminosity"
-#~ msgstr ""
-#~ "正常,线性减淡,饱和度,相乘,滤色,叠加,变暗,变亮,暗淡,颜色减淡,颜色加深,强光,"
-#~ "柔光,差值,排除,HSL 色相,HSL 饱和度,HSL 颜色,HSL 亮度"
-
-#~ msgid "Blend mode"
-#~ msgstr "混合模式"
-
-#~ msgid "Rotation X center"
-#~ msgstr "旋转 X 中心"
-
-#~ msgid "Rotation Y center"
-#~ msgstr "旋转 Y 中心"
-
-#~ msgid "Cairo Blend"
-#~ msgstr "Cairo Blend - Cairo 混合"
-
-#~ msgid ""
-#~ "Composites second input on the first input with user-defined blend mode "
-#~ "and opacity."
-#~ msgstr "在第一输入画面上按照用户定义的混合模式、不透明度合成第二输入画面。"
-
-#~ msgid "Manage timeline preview profiles"
-#~ msgstr "管理时间轴预览编码方案"
-
-#~ msgid "Select default preview profile"
-#~ msgstr "选择默认预览编码方案"
-
-#~ msgid "Capture format"
-#~ msgstr "捕获格式"
-
-#~ msgid "Encoding profile"
-#~ msgstr "编码方案"
-
-#~ msgid "Colorspace"
-#~ msgstr "色彩空间"
-
-#~ msgid "Full Screen Capture"
-#~ msgstr "全屏捕获"
-
-#~ msgid "Frame rate"
-#~ msgstr "帧速率"
-
-#~ msgid "Use KDE job tracking for render jobs"
-#~ msgstr "导出时使用 KDE 任务跟踪器"
-
-#~ msgid "Bypass codec verification"
-#~ msgstr "跳过编码验证"
-
-#~ msgid "Use parent folder of the project file as project folder"
-#~ msgstr "使用项目文件的上级文件夹作为项目文件夹"
-
-#~ msgid "Audio tracks"
-#~ msgstr "音频轨道"
-
-#~ msgid "Video tracks"
-#~ msgstr "视频轨道"
-
-#~ msgid "Use FFmpeg for audio thumbnails (faster)"
-#~ msgstr "使用 FFmpeg 处理音频缩略图 (更快)"
-
-#~ msgid "Preview profile:"
-#~ msgstr "预览编码方案："
