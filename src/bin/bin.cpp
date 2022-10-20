@@ -2230,15 +2230,16 @@ void Bin::createClip(const QDomElement &xml)
     }
     QString path = Xml::getXmlProperty(xml, QStringLiteral("resource"));
     if (path.endsWith(QStringLiteral(".mlt")) || path.endsWith(QStringLiteral(".kdenlive"))) {
-        QFile f(path);
         QDomDocument doc;
-        doc.setContent(&f, false);
-        f.close();
+        if (!Xml::docContentFromFile(doc, path, false)) {
+            return;
+        }
         DocumentChecker d(QUrl::fromLocalFile(path), doc);
         if (!d.hasErrorInClips() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
             QString backupFile = path + QStringLiteral(".backup");
             KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
             if (copyjob->exec()) {
+                QFile f(path);
                 if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
                     KMessageBox::error(this, i18n("Unable to write to file %1", path));
                 } else {
@@ -3920,7 +3921,7 @@ void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *
     // Parse playlist clips
     QDomDocument doc;
     QFile file(url);
-    doc.setContent(&file, false);
+    doc.setContent(&file, false); //TODO: use Xml::docContentFromFile
     file.close();
     bool invalid = false;
     if (doc.documentElement().isNull()) {

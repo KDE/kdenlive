@@ -1193,10 +1193,12 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         m_project->setModified(false);
     }
 
-    QFile f(currentFile);
     QDomDocument doc;
-    doc.setContent(&f, false);
-    f.close();
+    if (!Xml::docContentFromFile(doc, currentFile, false)) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot read file %1", currentFile));
+        return;
+    }
+
     QDomElement mltProfile = doc.documentElement().firstChildElement(QStringLiteral("profile"));
     if (!mltProfile.isNull()) {
         mltProfile.setAttribute(QStringLiteral("frame_rate_num"), newProfile->frame_rate_num());

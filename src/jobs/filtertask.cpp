@@ -185,19 +185,17 @@ void FilterTask::run()
     producer.reset();
     // wholeProducer.reset();
 
-    QFile f1(sourceFile.fileName());
-    f1.open(QIODevice::ReadOnly);
     QDomDocument dom(sourceFile.fileName());
-    dom.setContent(&f1);
-    f1.close();
+    Xml::docContentFromFile(dom, sourceFile.fileName(), false);
 
     // add consumer element
     QDomElement consumerNode = dom.createElement("consumer");
     QDomNodeList profiles = dom.elementsByTagName("profile");
-    if (profiles.isEmpty())
+    if (profiles.isEmpty()) {
         dom.documentElement().insertAfter(consumerNode, dom.documentElement());
-    else
+    } else {
         dom.documentElement().insertAfter(consumerNode, profiles.at(profiles.length() - 1));
+    }
     consumerNode.setAttribute("mlt_service", "xml");
     for (const QString &param : qAsConst(m_consumerArgs)) {
         if (param.contains(QLatin1Char('='))) {
@@ -206,6 +204,7 @@ void FilterTask::run()
     }
     consumerNode.setAttribute("resource", destFile.fileName());
 
+    QFile f1(sourceFile.fileName());
     f1.open(QIODevice::WriteOnly);
     QTextStream stream(&f1);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -241,17 +240,16 @@ void FilterTask::run()
     if (m_filterData.find(QStringLiteral("key")) != m_filterData.end()) {
         key = m_filterData.at(QStringLiteral("key"));
     }
-    QFile f2(destFile.fileName());
-    f2.open(QIODevice::ReadOnly);
-    dom.setContent(&f2);
-    f2.close();
+
     QString resultData;
-    QDomNodeList filters = dom.elementsByTagName(QLatin1String("filter"));
-    for (int i = 0; i < filters.count(); ++i) {
-        QDomElement currentParameter = filters.item(i).toElement();
-        if (currentParameter.attribute(QLatin1String("id")) == QLatin1String("kdenlive-analysis")) {
-            resultData = Xml::getXmlProperty(currentParameter, key);
-            break;
+    if (Xml::docContentFromFile(dom, destFile.fileName(), false)) {
+        QDomNodeList filters = dom.elementsByTagName(QLatin1String("filter"));
+        for (int i = 0; i < filters.count(); ++i) {
+            QDomElement currentParameter = filters.item(i).toElement();
+            if (currentParameter.attribute(QLatin1String("id")) == QLatin1String("kdenlive-analysis")) {
+                resultData = Xml::getXmlProperty(currentParameter, key);
+                break;
+            }
         }
     }
 

@@ -39,11 +39,8 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     std::shared_ptr<TreeItem> miscCategory = nullptr;
     std::shared_ptr<TreeItem> audioCategory = nullptr;
     // We parse category file
-    if (!categoryFile.isEmpty()) {
-        QDomDocument doc;
-        QFile file(categoryFile);
-        doc.setContent(&file, false);
-        file.close();
+    QDomDocument doc;
+    if (!categoryFile.isEmpty() && Xml::docContentFromFile(doc, categoryFile, false)) {
         QDomNodeList groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
         auto groupLegacy = self->rootItem->appendChild(QList<QVariant>{i18n("Legacy"), QStringLiteral("root")});
 

@@ -799,8 +799,7 @@ void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 QString ArchiveWidget::processPlaylistFile(const QString &filename)
 {
     QDomDocument doc;
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly) || !doc.setContent(&file)) {
+    if (!Xml::docContentFromFile(doc, filename, false)) {
         return QString();
     }
     return processMltFile(doc, QStringLiteral("../"));

@@ -366,10 +366,8 @@ void ClipLoadTask::run()
                 producerLength = producer->time_to_frames(pLength.toUtf8().constData());
             }
             // Title from .kdenlivetitle file
-            QFile txtfile(resource);
             QDomDocument txtdoc(QStringLiteral("titledocument"));
-            if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
-                txtfile.close();
+            if (Xml::docContentFromFile(txtdoc, resource, false)) {
                 if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
                     duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
                 } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {

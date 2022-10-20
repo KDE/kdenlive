@@ -2207,12 +2207,11 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     int tid = timeline->getClipTrackId(cid);
     int pos = timeline->getClipPosition(cid);
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
-    const QString url = clip->clipUrl();
-    QFile f(url);
     QDomDocument sourceDoc;
-    sourceDoc.setContent(&f, false);
-    f.close();
     QDomDocument destDoc;
+    if (!Xml::docContentFromFile(sourceDoc, clip->clipUrl(), false)) {
+        return destDoc;
+    }
     QDomElement container = destDoc.createElement(QStringLiteral("kdenlive-scene"));
     destDoc.appendChild(container);
     QDomElement bin = destDoc.createElement(QStringLiteral("bin"));

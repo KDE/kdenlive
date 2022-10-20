@@ -644,15 +644,10 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 {
     QStringList urls;
     QDomDocument doc;
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly)) {
+
+    if (!Xml::docContentFromFile(doc, path, false)) {
         return urls;
     }
-    if (!doc.setContent(&file)) {
-        file.close();
-        return urls;
-    }
-    file.close();
     QString root = doc.documentElement().attribute(QStringLiteral("root"));
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));

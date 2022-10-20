@@ -308,9 +308,12 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    QFile file(dir.absoluteFilePath(QStringLiteral("customprofiles.xml")));
-    doc.setContent(&file, false);
-    file.close();
+    QString fileName(dir.absoluteFilePath(QStringLiteral("customprofiles.xml")));
+    if (!Xml::docContentFromFile(doc, fileName, false)) {
+        KMessageBox::error(nullptr, i18n("Cannot read file %1", fileName));
+        return {};
+    }
+
     QDomElement documentElement;
     QDomElement profiles = doc.documentElement();
     if (profiles.isNull() || profiles.tagName() != QLatin1String("profiles")) {
@@ -366,7 +369,7 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool
     }
 
     profiles.appendChild(newPreset);
-
+    QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         KMessageBox::error(nullptr, i18n("Cannot open file %1", file.fileName()));
         return {};
