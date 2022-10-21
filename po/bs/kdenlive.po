@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-17 00:46+0000\n"
+"POT-Creation-Date: 2022-10-21 00:46+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -35,124 +35,124 @@ msgstr ""
 "ribic@etf.unsa.ba,nahmic1@etf.unsa.ba,vljubovic@smartnet.ba,nboja1@etf.unsa."
 "ba"
 
-#: data/effects/audiobalance.xml:3 data/effects/audiobalance.xml:8
+#: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:171 src/audiomixer/mixerwidget.cpp:182
 #, kde-format
 msgid "Balance"
 msgstr ""
 
-#: data/effects/audiobalance.xml:4
+#: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
 msgstr ""
 
-#: data/effects/audiolevel.xml:3
+#: data/effects/audiolevel.xml:4
 #, fuzzy, kde-format
 msgid "Audio levels"
 msgstr "Podesi  audio referencu"
 
-#: data/effects/audiolevel.xml:4
+#: data/effects/audiolevel.xml:5
 #, kde-format
 msgid "Compute the audio amplitude."
 msgstr ""
 
-#: data/effects/audiolevel.xml:7
+#: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:3
+#: data/effects/audiolevelgraph.xml:4
 #, fuzzy, kde-format
 msgid "Audio Level Visualization Filter"
 msgstr "Jačina zvuka"
 
-#: data/effects/audiolevelgraph.xml:5
+#: data/effects/audiolevelgraph.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:7
+#: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:8 data/effects/audiospectrum.xml:9
+#: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, fuzzy, kde-format
 msgid "Graph type"
 msgstr "Vrsta slike"
 
-#: data/effects/audiolevelgraph.xml:9
+#: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:12 data/effects/audiospectrum.xml:13
-#: data/effects/audiowaveform.xml:6 data/effects/dynamictext.xml:22
-#: data/effects/pan_zoom.xml:16 data/effects/rotation.xml:40
-#: data/effects/rotation_keyframable.xml:22 src/monitor/monitor.cpp:369
+#: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
+#: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
+#: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
+#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:369
 #, fuzzy, kde-format
 msgid "Background Color"
 msgstr "Pozadina"
 
-#: data/effects/audiolevelgraph.xml:13
+#: data/effects/audiolevelgraph.xml:14
 #, kde-format
 msgid "The background color to be applied to the entire frame."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:16
+#: data/effects/audiolevelgraph.xml:17
 #, fuzzy, kde-format
 msgid "Gradient Color 1"
 msgstr "Učitavam"
 
-#: data/effects/audiolevelgraph.xml:17 data/effects/audiolevelgraph.xml:21
-#: data/effects/audiolevelgraph.xml:25
+#: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
+#: data/effects/audiolevelgraph.xml:26
 #, kde-format
 msgid "The color of the waveform gradient."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:20
+#: data/effects/audiolevelgraph.xml:21
 #, fuzzy, kde-format
 msgid "Gradient Color 2"
 msgstr "Učitavam"
 
-#: data/effects/audiolevelgraph.xml:24
+#: data/effects/audiolevelgraph.xml:25
 #, fuzzy, kde-format
 msgid "Gradient Color 3"
 msgstr "Učitavam"
 
-#: data/effects/audiolevelgraph.xml:28 data/effects/audiospectrum.xml:21
-#: data/effects/audiowaveform.xml:12
+#: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
+#: data/effects/audiowaveform.xml:13
 #, kde-format
 msgid "Line Thickness"
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:29
+#: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: data/effects/audiolevelgraph.xml:32 data/effects/audiospectrum.xml:25
+#: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
 #: src/ui/gradientedit_ui.ui:96
 #, fuzzy, kde-format
 #| msgid "UV angle"
 msgid "Angle"
 msgstr "UV ugao"
 
-#: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
+#: data/effects/audiolevelgraph.xml:34 data/effects/audiospectrum.xml:27
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:36 data/effects/audiospectrum.xml:29
-#: data/effects/audiowaveform.xml:15 data/effects/lightshow.xml:25
-#: data/effects/pan_zoom.xml:7 data/effects/pillar_echo.xml:7
-#: data/effects/qtblend.xml:8 data/effects/qtblend.xml:26
-#: data/effects/qtcrop.xml:7 data/effects/spot_remover.xml:7
-#: data/effects/tracker.xml:7 data/transitions/affine.xml:7
-#: data/transitions/composite.xml:7 data/transitions/qtblend.xml:7
-#: data/transitions/region.xml:10
+#: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
+#: data/effects/audiowaveform.xml:16 data/effects/lightshow.xml:26
+#: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
+#: data/effects/qtblend.xml:9 data/effects/qtblend.xml:27
+#: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
+#: data/effects/tracker.xml:8 data/transitions/affine.xml:8
+#: data/transitions/composite.xml:8 data/transitions/qtblend.xml:8
+#: data/transitions/region.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:249
 #: src/assets/view/widgets/keyframeimport.cpp:384
 #: src/assets/view/widgets/keyframeimport.cpp:860
@@ -161,221 +161,221 @@ msgstr ""
 msgid "Rectangle"
 msgstr "Dodaj pravougaonik"
 
-#: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
+#: data/effects/audiolevelgraph.xml:38 data/effects/audiospectrum.xml:31
 #, kde-format
 msgid "Defines the rectangle that the waveform(s) should be drawn in."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:40 data/effects/audiospectrum.xml:37
+#: data/effects/audiolevelgraph.xml:41 data/effects/audiospectrum.xml:38
 #, fuzzy, kde-format
 msgid "Mirror"
 msgstr "greška"
 
-#: data/effects/audiolevelgraph.xml:41 data/effects/audiospectrum.xml:38
+#: data/effects/audiolevelgraph.xml:42 data/effects/audiospectrum.xml:39
 #, kde-format
 msgid "Mirror the spectrum about the center of the rectangle."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:44 data/effects/audiospectrum.xml:41
-#: data/transitions/dissolve.xml:12 data/transitions/luma.xml:19
-#: data/transitions/mix.xml:7
+#: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
+#: data/transitions/dissolve.xml:13 data/transitions/luma.xml:20
+#: data/transitions/mix.xml:8
 #, kde-format
 msgid "Reverse"
 msgstr "Obrni"
 
-#: data/effects/audiolevelgraph.xml:45
+#: data/effects/audiolevelgraph.xml:46
 #, kde-format
 msgid "Draw the points starting with the right channel first."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:48
+#: data/effects/audiolevelgraph.xml:49
 #, fuzzy, kde-format
 msgid "Vertical,Horizontal"
 msgstr "Centriraj horizontalno"
 
-#: data/effects/audiolevelgraph.xml:49
+#: data/effects/audiolevelgraph.xml:50
 #, fuzzy, kde-format
 #| msgid "Gradient reference line"
 msgid "Gradient Orientation"
 msgstr "Gradijent referentne linije"
 
-#: data/effects/audiolevelgraph.xml:50
+#: data/effects/audiolevelgraph.xml:51
 #, kde-format
 msgid "Direction of the color gradient."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:53 data/kdenliveeffectscategory.rc:85
+#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
 #, kde-format
 msgid "Channels"
 msgstr "Kanali"
 
-#: data/effects/audiolevelgraph.xml:54
+#: data/effects/audiolevelgraph.xml:55
 #, kde-format
 msgid "The number of channels to show."
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:57
+#: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
 msgstr ""
 
-#: data/effects/audiolevelgraph.xml:58
+#: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
 msgstr ""
 
-#: data/effects/audiomap.xml:3 data/effects/audiomap.xml:4
+#: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgid "audiomap"
 msgstr "Zvuk"
 
-#: data/effects/audiomap.xml:7 data/effects/audiomap.xml:11
-#: data/effects/audiomap.xml:15 data/effects/audiomap.xml:19
-#: data/effects/audiomap.xml:23 data/effects/audiomap.xml:27
+#: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
+#: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
+#: data/effects/audiomap.xml:24 data/effects/audiomap.xml:28
 #, kde-format
 msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 msgstr ""
 
-#: data/effects/audiomap.xml:8
+#: data/effects/audiomap.xml:9
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "CH1 source"
 msgstr "Izvor"
 
-#: data/effects/audiomap.xml:12
+#: data/effects/audiomap.xml:13
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "CH2 source"
 msgstr "Izvor"
 
-#: data/effects/audiomap.xml:16
+#: data/effects/audiomap.xml:17
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "CH3 source"
 msgstr "Izvor"
 
-#: data/effects/audiomap.xml:20
+#: data/effects/audiomap.xml:21
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "CH4 source"
 msgstr "Izvor"
 
-#: data/effects/audiomap.xml:24
+#: data/effects/audiomap.xml:25
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "CH5 source"
 msgstr "Izvor"
 
-#: data/effects/audiomap.xml:28
+#: data/effects/audiomap.xml:29
 #, fuzzy, kde-format
 #| msgid "Source"
 msgid "CH6 source"
 msgstr "Izvor"
 
-#: data/effects/audiopan.xml:3
+#: data/effects/audiopan.xml:4
 #, fuzzy, kde-format
 #| msgid "Pan"
 msgctxt "Pan Effect Name"
 msgid "Pan"
 msgstr "Paniraj"
 
-#: data/effects/audiopan.xml:4
+#: data/effects/audiopan.xml:5
 #, kde-format
 msgid "Adjust the left/right spread of a channel"
 msgstr ""
 
-#: data/effects/audiopan.xml:7 data/effects/channelcopy.xml:7
-#: data/effects/channelcopy.xml:11
+#: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
+#: data/effects/channelcopy.xml:12
 #, fuzzy, kde-format
 msgid "Left,Right"
 msgstr "Svijetli"
 
-#: data/effects/audiopan.xml:8
+#: data/effects/audiopan.xml:9
 #, fuzzy, kde-format
 msgid "Channel"
 msgstr "Kanali"
 
-#: data/effects/audiopan.xml:11
+#: data/effects/audiopan.xml:12
 #, fuzzy, kde-format
 #| msgid "Pan"
 msgctxt "Audio Pan"
 msgid "Pan"
 msgstr "Paniraj"
 
-#: data/effects/audiospectrum.xml:4
+#: data/effects/audiospectrum.xml:5
 #, fuzzy, kde-format
 #| msgid "AudioSpectrum"
 msgid "Audio Spectrum Filter"
 msgstr "ZvučniSpektrum"
 
-#: data/effects/audiospectrum.xml:5
+#: data/effects/audiospectrum.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:8
+#: data/effects/audiospectrum.xml:9
 #, kde-format
 msgid "Line,Bar"
 msgstr ""
 
-#: data/effects/audiospectrum.xml:10
+#: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:14
+#: data/effects/audiospectrum.xml:15
 #, kde-format
 msgid ""
 "The background color to be applied to the entire frame. The default color is "
 "transparent."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:17
+#: data/effects/audiospectrum.xml:18
 #, fuzzy, kde-format
 msgid "Foreground color"
 msgstr "Boja granice"
 
-#: data/effects/audiospectrum.xml:18
+#: data/effects/audiospectrum.xml:19
 #, kde-format
 msgid "The color of the waveform."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:22
+#: data/effects/audiospectrum.xml:23
 #, kde-format
 msgid ""
 "The thickness of the line used to draw the waveform for line graph. The "
 "thickness of the bar for bar graph."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:33 data/effects/audiowaveform.xml:18
-#: data/transitions/region.xml:20
+#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:19
+#: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
 msgstr "Popuni"
 
-#: data/effects/audiospectrum.xml:34
+#: data/effects/audiospectrum.xml:35
 #, kde-format
 msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:42
+#: data/effects/audiospectrum.xml:43
 #, kde-format
 msgid "Draw the points starting with the highest frequency first."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:45
+#: data/effects/audiospectrum.xml:46
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Line Tension"
 msgstr "Ekstenzija dokumenta:"
 
-#: data/effects/audiospectrum.xml:46
+#: data/effects/audiospectrum.xml:47
 #, kde-format
 msgid ""
 "Affects the amount of curve in the line interpolating between points. 0.0 = "
@@ -384,60 +384,60 @@ msgid ""
 "graph type."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:49
+#: data/effects/audiospectrum.xml:50
 #, fuzzy, kde-format
 #| msgid "In Point"
 msgid "Points"
 msgstr "U tački"
 
-#: data/effects/audiospectrum.xml:50
+#: data/effects/audiospectrum.xml:51
 #, kde-format
 msgid ""
 "The number of bands to draw in the spectrum. Each band shows up as a data "
 "point in the graph."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:53 data/effects/dance.xml:7
+#: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "Low Frequency"
 msgstr "Učestalost"
 
-#: data/effects/audiospectrum.xml:54
+#: data/effects/audiospectrum.xml:55
 #, kde-format
 msgid "The low end of the frequency range to be used for the graph."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:57 data/effects/dance.xml:10
+#: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "High Frequency"
 msgstr "Učestalost"
 
-#: data/effects/audiospectrum.xml:58
+#: data/effects/audiospectrum.xml:59
 #, kde-format
 msgid "The high end of the frequency range to be used for the graph."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:61 data/effects/dance.xml:13
+#: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Level Threshold"
 msgstr "Prag"
 
-#: data/effects/audiospectrum.xml:62
+#: data/effects/audiospectrum.xml:63
 #, kde-format
 msgid ""
 "The minimum amplitude of sound that must occur within the frequency range to "
 "cause the value to be applied."
 msgstr ""
 
-#: data/effects/audiospectrum.xml:65 data/effects/dance.xml:43
+#: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, fuzzy, kde-format
 msgid "Window Size"
 msgstr "Font"
 
-#: data/effects/audiospectrum.xml:66
+#: data/effects/audiospectrum.xml:67
 #, kde-format
 msgid ""
 "The number of samples that the FFT will be performed on. If window size is "
@@ -448,449 +448,449 @@ msgid ""
 "transformed."
 msgstr ""
 
-#: data/effects/audiowave.xml:3
+#: data/effects/audiowave.xml:4
 #, fuzzy, kde-format
 msgid "Audio Wave"
 msgstr "Jačina zvuka"
 
-#: data/effects/audiowave.xml:4
+#: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
 msgstr ""
 
-#: data/effects/audiowaveform.xml:3
+#: data/effects/audiowaveform.xml:4
 #, fuzzy, kde-format
 msgid "Audio Waveform Filter"
 msgstr "Jačina zvuka"
 
-#: data/effects/audiowaveform.xml:9 data/effects/dynamictext.xml:19
+#: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #, fuzzy, kde-format
 msgid "Foreground Color"
 msgstr "Boja granice"
 
-#: data/effects/audiowaveform.xml:21
+#: data/effects/audiowaveform.xml:22
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
 msgstr ""
 
-#: data/effects/audiowaveform.xml:22
+#: data/effects/audiowaveform.xml:23
 #, fuzzy, kde-format
 msgid "Channel to draw"
 msgstr "Kanali"
 
-#: data/effects/box_blur.xml:3
+#: data/effects/box_blur.xml:4
 #, fuzzy, kde-format
 msgid "BoxBlur"
 msgstr "Zamagli"
 
-#: data/effects/box_blur.xml:4 data/effects/boxblur.xml:4
+#: data/effects/box_blur.xml:5 data/effects/boxblur.xml:5
 #, kde-format
 msgid "Box blur (separate horizontal and vertical blur)"
 msgstr ""
 
-#: data/effects/box_blur.xml:7 data/effects/boxblur.xml:7
+#: data/effects/box_blur.xml:8 data/effects/boxblur.xml:8
 #, kde-format
 msgid "Horizontal multiplicator"
 msgstr ""
 
-#: data/effects/box_blur.xml:10 data/effects/boxblur.xml:10
+#: data/effects/box_blur.xml:11 data/effects/boxblur.xml:11
 #, kde-format
 msgid "Vertical multiplicator"
 msgstr ""
 
-#: data/effects/boxblur.xml:3
+#: data/effects/boxblur.xml:4
 #, fuzzy, kde-format
 msgid "Box Blur"
 msgstr "Zamagli"
 
-#: data/effects/boxblur.xml:13
+#: data/effects/boxblur.xml:14
 #, kde-format
 msgid "Blur factor"
 msgstr ""
 
-#: data/effects/brightness.xml:3
+#: data/effects/brightness.xml:4
 #, kde-format
 msgid "Brightness (keyframable)"
 msgstr ""
 
-#: data/effects/brightness.xml:4
+#: data/effects/brightness.xml:5
 #, kde-format
 msgid "Change image brightness with keyframes"
 msgstr ""
 
-#: data/effects/brightness.xml:7
+#: data/effects/brightness.xml:8
 #, kde-format
 msgid "Intensity"
 msgstr ""
 
-#: data/effects/channelcopy.xml:3
+#: data/effects/channelcopy.xml:4
 #, kde-format
 msgid "Stereo to mono"
 msgstr ""
 
-#: data/effects/channelcopy.xml:4
+#: data/effects/channelcopy.xml:5
 #, kde-format
 msgid "Copy one channel to another"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
-#: data/effects/channelcopy.xml:8 src/ui/import_subtitle_ui.ui:61
+#: data/effects/channelcopy.xml:9 src/ui/import_subtitle_ui.ui:61
 #: src/ui/renderwidget_ui.ui:93
 #, kde-format
 msgid "From"
 msgstr "Od"
 
-#: data/effects/channelcopy.xml:12
+#: data/effects/channelcopy.xml:13
 #, fuzzy, kde-format
 msgid "To"
 msgstr "T"
 
-#: data/effects/channelcopy.xml:15 data/effects/copychannelstostereo.xml:15
-#: data/effects/swapchannels.xml:3
+#: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
+#: data/effects/swapchannels.xml:4
 #: src/mltcontroller/clippropertiescontroller.cpp:854
 #, fuzzy, kde-format
 msgid "Swap channels"
 msgstr "Zvučni kanali"
 
-#: data/effects/charcoal.xml:3
+#: data/effects/charcoal.xml:4
 #, kde-format
 msgid "Charcoal"
 msgstr ""
 
-#: data/effects/charcoal.xml:4
+#: data/effects/charcoal.xml:5
 #, fuzzy, kde-format
 msgid "Charcoal drawing effect"
 msgstr "Problem prilikom obrađivanja efekta"
 
-#: data/effects/charcoal.xml:7
+#: data/effects/charcoal.xml:8
 #, fuzzy, kde-format
 msgid "Horizontal scatter"
 msgstr "Normalna skala"
 
-#: data/effects/charcoal.xml:10
+#: data/effects/charcoal.xml:11
 #, kde-format
 msgid "Vertical scatter"
 msgstr ""
 
-#: data/effects/charcoal.xml:13
+#: data/effects/charcoal.xml:14
 #, fuzzy, kde-format
 msgid "Scale"
 msgstr "Razmjera"
 
-#: data/effects/charcoal.xml:16
+#: data/effects/charcoal.xml:17
 #, kde-format
 msgid "Mix"
 msgstr "Mješavina"
 
-#: data/effects/charcoal.xml:19 data/effects/mask_start_rotoscoping.xml:22
-#: data/effects/mask_start_shape.xml:21 data/effects/mirror.xml:11
-#: data/effects/rotoscoping.xml:19 data/effects/shape.xml:18
-#: data/transitions/luma.xml:16 data/transitions/region.xml:32
-#: data/transitions/wipe.xml:13
+#: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
+#: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
+#: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
+#: data/transitions/luma.xml:17 data/transitions/region.xml:33
+#: data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "Invertuj"
 
-#: data/effects/chroma.xml:3
+#: data/effects/chroma.xml:4
 #, kde-format
 msgid "Chroma Key: Basic"
 msgstr ""
 
-#: data/effects/chroma.xml:4
+#: data/effects/chroma.xml:5
 #, kde-format
 msgid "Make selected color transparent"
 msgstr ""
 
-#: data/effects/chroma.xml:7 data/effects/chroma_hold.xml:7
+#: data/effects/chroma.xml:8 data/effects/chroma_hold.xml:8
 #, fuzzy, kde-format
 msgid "Color key"
 msgstr "Boja"
 
-#: data/effects/chroma.xml:10 data/effects/chroma_hold.xml:10
+#: data/effects/chroma.xml:11 data/effects/chroma_hold.xml:11
 #, fuzzy, kde-format
 msgid "Variance"
 msgstr "Varijanta"
 
-#: data/effects/chroma_hold.xml:3
+#: data/effects/chroma_hold.xml:4
 #, kde-format
 msgid "Chroma Keep"
 msgstr ""
 
-#: data/effects/chroma_hold.xml:4
+#: data/effects/chroma_hold.xml:5
 #, kde-format
 msgid "Make image greyscale except for chosen color"
 msgstr ""
 
-#: data/effects/copychannelstostereo.xml:3
+#: data/effects/copychannelstostereo.xml:4
 #, fuzzy, kde-format
 msgid "Copy Channels to Stereo"
 msgstr "Kanali"
 
-#: data/effects/copychannelstostereo.xml:4
+#: data/effects/copychannelstostereo.xml:5
 #, kde-format
 msgid "Copy one audio channel to another."
 msgstr ""
 
-#: data/effects/copychannelstostereo.xml:7
-#: data/effects/copychannelstostereo.xml:11
+#: data/effects/copychannelstostereo.xml:8
+#: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 msgstr ""
 
-#: data/effects/copychannelstostereo.xml:8
+#: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
 msgstr ""
 
-#: data/effects/copychannelstostereo.xml:12
+#: data/effects/copychannelstostereo.xml:13
 #, fuzzy, kde-format
 #| msgid "T"
 msgid "TO"
 msgstr "T"
 
-#: data/effects/crop.xml:3
+#: data/effects/crop.xml:4
 #, kde-format
 msgid "Edge Crop"
 msgstr ""
 
-#: data/effects/crop.xml:4
+#: data/effects/crop.xml:5
 #, kde-format
 msgid "Trim the edges of a clip"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:7 src/ui/configmisc_ui.ui:116
+#: data/effects/crop.xml:8 src/ui/configmisc_ui.ui:116
 #, kde-format
 msgid "Top"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:10 data/effects/dance.xml:25 data/effects/dance.xml:34
+#: data/effects/crop.xml:11 data/effects/dance.xml:26 data/effects/dance.xml:35
 #: src/ui/configmisc_ui.ui:126
 #, kde-format
 msgid "Left"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:13 src/ui/configmisc_ui.ui:121
+#: data/effects/crop.xml:14 src/ui/configmisc_ui.ui:121
 #, fuzzy, kde-format
 msgid "Bottom"
 msgstr "Dno prvo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:16 data/effects/dance.xml:28
+#: data/effects/crop.xml:17 data/effects/dance.xml:29
 #: src/ui/configmisc_ui.ui:131
 #, fuzzy, kde-format
 msgid "Right"
 msgstr "Svijetli"
 
-#: data/effects/crop.xml:19
+#: data/effects/crop.xml:20
 #, fuzzy, kde-format
 msgid "Automatic center-crop"
 msgstr "Automatski podijeli prizore"
 
-#: data/effects/crop.xml:22
+#: data/effects/crop.xml:23
 #, fuzzy, kde-format
 msgid "Center balance"
 msgstr "Raspletač"
 
-#: data/effects/crop.xml:25
+#: data/effects/crop.xml:26
 #, fuzzy, kde-format
 msgid "Use project resolution"
 msgstr "Koristi projekat mape"
 
-#: data/effects/dance.xml:3
+#: data/effects/dance.xml:4
 #, fuzzy, kde-format
 #| msgid "Cancel job"
 #| msgid_plural "Cancel jobs"
 msgid "Dance"
 msgstr "Otkaži posao"
 
-#: data/effects/dance.xml:4
+#: data/effects/dance.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that moves the image around proportional to "
 "the magnitude of the audio spectrum."
 msgstr ""
 
-#: data/effects/dance.xml:16 data/effects/lightshow.xml:16
+#: data/effects/dance.xml:17 data/effects/lightshow.xml:17
 #, fuzzy, kde-format
 #| msgid "Destination"
 msgid "Oscillation"
 msgstr "Odredište"
 
-#: data/effects/dance.xml:19
+#: data/effects/dance.xml:20
 #, fuzzy, kde-format
 msgid "Initial Zoom"
 msgstr "Paniraj i uvećaj"
 
-#: data/effects/dance.xml:22 data/effects/vidstab.xml:39
+#: data/effects/dance.xml:23 data/effects/vidstab.xml:40
 #: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Zoom"
 msgstr "Uvećaj"
 
-#: data/effects/dance.xml:31
+#: data/effects/dance.xml:32
 #, kde-format
 msgid "Up"
 msgstr ""
 
-#: data/effects/dance.xml:37 data/effects/dance.xml:40
+#: data/effects/dance.xml:38 data/effects/dance.xml:41
 #, kde-format
 msgid "Clockwise"
 msgstr ""
 
-#: data/effects/dust.xml:3
+#: data/effects/dust.xml:4
 #, kde-format
 msgid "Dust"
 msgstr ""
 
-#: data/effects/dust.xml:4
+#: data/effects/dust.xml:5
 #, kde-format
 msgid "Add dust and specks to the video, as in old movies"
 msgstr ""
 
-#: data/effects/dust.xml:7
+#: data/effects/dust.xml:8
 #, kde-format
 msgid "Maximal Diameter"
 msgstr ""
 
-#: data/effects/dust.xml:10
+#: data/effects/dust.xml:11
 #, kde-format
 msgid "Maximal number of dust"
 msgstr ""
 
-#: data/effects/dynamic_loudness.xml:3
+#: data/effects/dynamic_loudness.xml:4
 #, fuzzy, kde-format
 msgctxt "Normalize Effect Name"
 msgid "Normalize"
 msgstr "Normalno"
 
-#: data/effects/dynamic_loudness.xml:4
+#: data/effects/dynamic_loudness.xml:5
 #, kde-format
 msgid "Dynamically correct audio loudness as recommended by EBU R128"
 msgstr ""
 
-#: data/effects/dynamic_loudness.xml:7 data/effects/loudness.xml:7
+#: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
 msgid "Target Program Loudness"
 msgstr ""
 
-#: data/effects/dynamic_loudness.xml:10
+#: data/effects/dynamic_loudness.xml:11
 #, kde-format
 msgid "Measurement Window"
 msgstr ""
 
-#: data/effects/dynamic_loudness.xml:13
+#: data/effects/dynamic_loudness.xml:14
 #, kde-format
 msgid "Maximum Gain Increase"
 msgstr ""
 
-#: data/effects/dynamic_loudness.xml:16
+#: data/effects/dynamic_loudness.xml:17
 #, kde-format
 msgid "Maximum Gain Decrease"
 msgstr ""
 
-#: data/effects/dynamic_loudness.xml:19
+#: data/effects/dynamic_loudness.xml:20
 #, kde-format
 msgid "Maximum Rate Change"
 msgstr ""
 
-#: data/effects/dynamictext.xml:3
+#: data/effects/dynamictext.xml:4
 #, kde-format
 msgid "Dynamic Text"
 msgstr ""
 
-#: data/effects/dynamictext.xml:4
+#: data/effects/dynamictext.xml:5
 #, kde-format
 msgid "Overlay text with keywords replaced"
 msgstr ""
 
-#: data/effects/dynamictext.xml:7
+#: data/effects/dynamictext.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:370
 #, kde-format
 msgid "Geometry"
 msgstr "Geometrija"
 
-#: data/effects/dynamictext.xml:10
+#: data/effects/dynamictext.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr ""
 
-#: data/effects/dynamictext.xml:13
+#: data/effects/dynamictext.xml:14
 #, fuzzy, kde-format
 msgid "Font Size"
 msgstr "Font"
 
-#: data/effects/dynamictext.xml:16
+#: data/effects/dynamictext.xml:17
 #, fuzzy, kde-format
 msgid "Font Weight"
 msgstr "Debljina slova"
 
-#: data/effects/dynamictext.xml:25
+#: data/effects/dynamictext.xml:26
 #, fuzzy, kde-format
 msgid "Outline Color"
 msgstr "Kontura"
 
-#: data/effects/dynamictext.xml:28
+#: data/effects/dynamictext.xml:29
 #, fuzzy, kde-format
 msgid "Outline Width"
 msgstr "Širina obrisa"
 
-#: data/effects/dynamictext.xml:31
+#: data/effects/dynamictext.xml:32
 #, fuzzy, kde-format
 msgid "Padding"
 msgstr "Učitavam"
 
-#: data/effects/dynamictext.xml:34 data/transitions/composite.xml:20
+#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr ""
 
-#: data/effects/dynamictext.xml:35
+#: data/effects/dynamictext.xml:36
 #, fuzzy, kde-format
 msgid "Horizontal Alignment"
 msgstr "Bez poravnanja"
 
-#: data/effects/dynamictext.xml:38 data/transitions/composite.xml:24
+#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr ""
 
-#: data/effects/dynamictext.xml:39
+#: data/effects/dynamictext.xml:40
 #, fuzzy, kde-format
 msgid "Vertical Alignment"
 msgstr "Bez poravnanja"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
-#: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:7
+#: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:34
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
 
-#: data/effects/dynamictext.xml:43
+#: data/effects/dynamictext.xml:44
 #, kde-format
 msgid ""
 "timecode,frame,file date,local file date,source frame rate,source codec,"
 "source bit rate,source width,source height,source comment"
 msgstr ""
 
-#: data/effects/fade_from_black.xml:3
+#: data/effects/fade_from_black.xml:4
 #, fuzzy, kde-format
 msgctxt "Image Fade In Effect Name"
 msgid "Fade in"
 msgstr "Izblijediti"
 
-#: data/effects/fade_from_black.xml:4
+#: data/effects/fade_from_black.xml:5
 #, kde-format
 msgid "Fade video from black"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
-#: data/effects/fade_from_black.xml:7 data/effects/fade_to_black.xml:7
-#: data/effects/fadein.xml:10 data/effects/fadeout.xml:7 src/bin/bin.cpp:1270
+#: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
+#: data/effects/fadein.xml:11 data/effects/fadeout.xml:8 src/bin/bin.cpp:1270
 #: src/bin/projectitemmodel.cpp:311
 #: src/timeline2/view/dialogs/speeddialog.cpp:51
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
@@ -899,7 +899,7 @@ msgstr ""
 msgid "Duration"
 msgstr "Trajanje"
 
-#: data/effects/fade_from_black.xml:10
+#: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:151
 #: src/monitor/view/kdenlivemonitortrimming.qml:105
 #: src/timeline2/view/qml/Track.qml:355
@@ -907,142 +907,142 @@ msgstr "Trajanje"
 msgid "In"
 msgstr "Ulaz"
 
-#: data/effects/fade_from_black.xml:13
+#: data/effects/fade_from_black.xml:14
 #, kde-format
 msgid "Fade from Black"
 msgstr ""
 
-#: data/effects/fade_to_black.xml:3
+#: data/effects/fade_to_black.xml:4
 #, fuzzy, kde-format
 msgctxt "Image Fade Out Effect Name"
 msgid "Fade out"
 msgstr "Izblijediti"
 
-#: data/effects/fade_to_black.xml:4
+#: data/effects/fade_to_black.xml:5
 #, fuzzy, kde-format
 msgid "Fade video to black"
 msgstr "Video traka"
 
-#: data/effects/fade_to_black.xml:10
+#: data/effects/fade_to_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:154
 #: src/monitor/view/kdenlivemonitortrimming.qml:139
 #, kde-format
 msgid "Out"
 msgstr "Van"
 
-#: data/effects/fade_to_black.xml:13
+#: data/effects/fade_to_black.xml:14
 #, fuzzy, kde-format
 msgid "Fade to Black"
 msgstr "Sakrij traku"
 
-#: data/effects/fadein.xml:3
+#: data/effects/fadein.xml:4
 #, fuzzy, kde-format
 msgctxt "Audio Fade In Effect Name"
 msgid "Fade in"
 msgstr "Izblijediti"
 
-#: data/effects/fadein.xml:4
+#: data/effects/fadein.xml:5
 #, fuzzy, kde-format
 msgid "Fade in audio track"
 msgstr "Video bez audio zapisa"
 
-#: data/effects/fadein.xml:13 data/effects/fadeout.xml:13
+#: data/effects/fadein.xml:14 data/effects/fadeout.xml:14
 #, fuzzy, kde-format
 msgid "Start Gain"
 msgstr "Započni u"
 
-#: data/effects/fadein.xml:16 data/effects/fadeout.xml:16
+#: data/effects/fadein.xml:17 data/effects/fadeout.xml:17
 #, kde-format
 msgid "End Gain"
 msgstr ""
 
-#: data/effects/fadeout.xml:3
+#: data/effects/fadeout.xml:4
 #, fuzzy, kde-format
 msgctxt "Audio Fade Out Effect Name"
 msgid "Fade out"
 msgstr "Izblijediti"
 
-#: data/effects/fadeout.xml:4
+#: data/effects/fadeout.xml:5
 #, fuzzy, kde-format
 msgid "Fade out audio track"
 msgstr "Video bez audio zapisa"
 
-#: data/effects/freeze.xml:3
+#: data/effects/freeze.xml:4
 #, fuzzy, kde-format
 #| msgid "Frame size"
 msgctxt "Freeze Effect Name"
 msgid "Freeze"
 msgstr "Veličina okvira"
 
-#: data/effects/freeze.xml:4
+#: data/effects/freeze.xml:5
 #, kde-format
 msgid "Freeze video on a chosen frame"
 msgstr ""
 
-#: data/effects/freeze.xml:7
+#: data/effects/freeze.xml:8
 #, kde-format
 msgid "Freeze at"
 msgstr ""
 
-#: data/effects/freeze.xml:10
+#: data/effects/freeze.xml:11
 #, kde-format
 msgid "Freeze Before"
 msgstr ""
 
-#: data/effects/freeze.xml:13
+#: data/effects/freeze.xml:14
 #, kde-format
 msgid "Freeze After"
 msgstr ""
 
-#: data/effects/gain.xml:3
+#: data/effects/gain.xml:4
 #, kde-format
 msgctxt "Gain Effect Name"
 msgid "Gain"
 msgstr ""
 
-#: data/effects/gain.xml:4
+#: data/effects/gain.xml:5
 #, kde-format
 msgid "Adjust the audio volume without keyframes"
 msgstr ""
 
-#: data/effects/gain.xml:7 data/effects/lumaliftgaingamma.xml:10
-#: data/effects/mute.xml:7 data/effects/normalise.xml:7
-#: data/effects/volume.xml:7 src/assets/view/widgets/lumaliftgainparam.cpp:32
+#: data/effects/gain.xml:8 data/effects/lumaliftgaingamma.xml:11
+#: data/effects/mute.xml:8 data/effects/normalise.xml:8
+#: data/effects/volume.xml:8 src/assets/view/widgets/lumaliftgainparam.cpp:32
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:80
 #, kde-format
 msgid "Gain"
 msgstr ""
 
-#: data/effects/gamma.xml:3
+#: data/effects/gamma.xml:4
 #, fuzzy, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
 msgstr "Izbriši glavni okvir"
 
-#: data/effects/gamma.xml:4
+#: data/effects/gamma.xml:5
 #, kde-format
 msgid "Change gamma color value"
 msgstr ""
 
-#: data/effects/gamma.xml:7 data/effects/lumaliftgaingamma.xml:13
+#: data/effects/gamma.xml:8 data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:63
 #, kde-format
 msgid "Gamma"
 msgstr ""
 
-#: data/effects/gpstext.xml:3
+#: data/effects/gpstext.xml:4
 #, fuzzy, kde-format
 #| msgid "Text"
 msgid "GPS Text"
 msgstr "Tekst"
 
-#: data/effects/gpstext.xml:4
+#: data/effects/gpstext.xml:5
 #, kde-format
 msgid "Overlay GPS-related text onto the video."
 msgstr ""
 
-#: data/effects/gpstext.xml:8
+#: data/effects/gpstext.xml:9
 #, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and "
@@ -1052,47 +1052,47 @@ msgid ""
 "downhill so far,distance travelled on flat area so far"
 msgstr ""
 
-#: data/effects/gpstext.xml:11
+#: data/effects/gpstext.xml:12
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "GPS File"
 msgstr "Sve datoteke"
 
-#: data/effects/gpstext.xml:14
+#: data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
 msgstr ""
 
-#: data/effects/gpstext.xml:17
+#: data/effects/gpstext.xml:18
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Smoothing level"
 msgstr "Promjeniti kraj tranzicije"
 
-#: data/effects/gpstext.xml:20
+#: data/effects/gpstext.xml:21
 #, fuzzy, kde-format
 #| msgid "Processing data analysis"
 msgid "GPS processing start time"
 msgstr "Obrada podataka dobivenih analizom"
 
-#: data/effects/gpstext.xml:23
+#: data/effects/gpstext.xml:24
 #, fuzzy, kde-format
 #| msgid "Fields per second"
 msgid "Updates per second"
 msgstr "Polja po sekundi"
 
-#: data/effects/grain.xml:3
+#: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
 msgid "Grain"
 msgstr ""
 
-#: data/effects/grain.xml:4
+#: data/effects/grain.xml:5
 #, fuzzy, kde-format
 msgid "Grain over the image"
 msgstr "Kreiranje slika menija"
 
-#: data/effects/grain.xml:7 plugins/sampleplugin/sampleplugin.cpp:23
+#: data/effects/grain.xml:8 plugins/sampleplugin/sampleplugin.cpp:23
 #: plugins/sampleplugin/sampleplugin.cpp:32
 #: plugins/sampleplugin/sampleplugin.cpp:46
 #: plugins/sampleplugin/sampleplugin.cpp:70
@@ -1100,184 +1100,184 @@ msgstr "Kreiranje slika menija"
 msgid "Noise"
 msgstr "Šum"
 
-#: data/effects/grain.xml:10
+#: data/effects/grain.xml:11
 #, kde-format
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: data/effects/grain.xml:13
+#: data/effects/grain.xml:14
 #, fuzzy, kde-format
 msgid "Brightness"
 msgstr "Svijetliji"
 
-#: data/effects/greyscale.xml:3
+#: data/effects/greyscale.xml:4
 #, fuzzy, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Greyscale"
 msgstr "Promijeni razmjeru"
 
-#: data/effects/greyscale.xml:4
+#: data/effects/greyscale.xml:5
 #, fuzzy, kde-format
 msgid "Discard color information"
 msgstr "Tražim informaciju o boji..."
 
-#: data/effects/invert.xml:3
+#: data/effects/invert.xml:4
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgctxt "Invert Effect Name"
 msgid "Invert"
 msgstr "Invertuj"
 
-#: data/effects/invert.xml:4
+#: data/effects/invert.xml:5
 #, fuzzy, kde-format
 msgid "Invert colors"
 msgstr "Unesi isječak"
 
-#: data/effects/lift_gamma_gain.xml:3
+#: data/effects/lift_gamma_gain.xml:4
 #, kde-format
 msgid "Lift/gamma/gain"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:6
+#: data/effects/lift_gamma_gain.xml:7
 #, kde-format
 msgid "Lift: Red"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:9
+#: data/effects/lift_gamma_gain.xml:10
 #, fuzzy, kde-format
 msgid "Lift: Green"
 msgstr "Zelena"
 
-#: data/effects/lift_gamma_gain.xml:12
+#: data/effects/lift_gamma_gain.xml:13
 #, kde-format
 msgid "Lift: Blue"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:15
+#: data/effects/lift_gamma_gain.xml:16
 #, kde-format
 msgid "Gamma: Red"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:18
+#: data/effects/lift_gamma_gain.xml:19
 #, kde-format
 msgid "Gamma: Green"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:21
+#: data/effects/lift_gamma_gain.xml:22
 #, kde-format
 msgid "Gamma: Blue"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:24
+#: data/effects/lift_gamma_gain.xml:25
 #, kde-format
 msgid "Gain: Red"
 msgstr ""
 
-#: data/effects/lift_gamma_gain.xml:27
+#: data/effects/lift_gamma_gain.xml:28
 #, fuzzy, kde-format
 msgid "Gain: Green"
 msgstr "Zelena"
 
-#: data/effects/lift_gamma_gain.xml:30
+#: data/effects/lift_gamma_gain.xml:31
 #, kde-format
 msgid "Gain: Blue"
 msgstr ""
 
-#: data/effects/lightshow.xml:3
+#: data/effects/lightshow.xml:4
 #, fuzzy, kde-format
 #| msgctxt "Font style"
 #| msgid "Light"
 msgid "Light Show"
 msgstr "Svijetli"
 
-#: data/effects/lightshow.xml:4
+#: data/effects/lightshow.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that colors the image proportional to the "
 "magnitude of the audio spectrum."
 msgstr ""
 
-#: data/effects/lightshow.xml:7
+#: data/effects/lightshow.xml:8
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "Low frequency"
 msgstr "Učestalost"
 
-#: data/effects/lightshow.xml:10
+#: data/effects/lightshow.xml:11
 #, fuzzy, kde-format
 #| msgid "Frequency"
 msgid "High frequency"
 msgstr "Učestalost"
 
-#: data/effects/lightshow.xml:13 data/effects/mask_start_shape.xml:13
-#: data/effects/shape.xml:10
+#: data/effects/lightshow.xml:14 data/effects/mask_start_shape.xml:14
+#: data/effects/shape.xml:11
 #, kde-format
 msgid "Threshold"
 msgstr "Prag"
 
-#: data/effects/lightshow.xml:19
+#: data/effects/lightshow.xml:20
 #, fuzzy, kde-format
 #| msgid "Color"
 msgid "1st Color"
 msgstr "Boja"
 
-#: data/effects/lightshow.xml:22
+#: data/effects/lightshow.xml:23
 #, fuzzy, kde-format
 #| msgid "Color"
 msgid "2nd Color"
 msgstr "Boja"
 
-#: data/effects/loudness.xml:3
+#: data/effects/loudness.xml:4
 #, fuzzy, kde-format
 msgid "Normalize (2 pass)"
 msgstr "Normalno"
 
-#: data/effects/loudness.xml:4
+#: data/effects/loudness.xml:5
 #, kde-format
 msgid "Correct audio loudness as recommended by EBU R128"
 msgstr ""
 
-#: data/effects/loudness.xml:10 data/effects/tracker.xml:40
+#: data/effects/loudness.xml:11 data/effects/tracker.xml:41
 #, kde-format
 msgid "Analyse"
 msgstr ""
 
-#: data/effects/lumaliftgaingamma.xml:3
+#: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "LumaLiftGainGamma"
 msgstr ""
 
-#: data/effects/lumaliftgaingamma.xml:4
+#: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
 msgid ""
 "Filter can be used to apply lift, gain and gamma correction to luma values "
 "of image."
 msgstr ""
 
-#: data/effects/lumaliftgaingamma.xml:7
+#: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
 msgstr ""
 
-#: data/effects/mask_apply.xml:3
+#: data/effects/mask_apply.xml:4
 #, fuzzy, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
 msgstr "Vrsta slike"
 
-#: data/effects/mask_apply.xml:4
+#: data/effects/mask_apply.xml:5
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr ""
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:3
+#: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes (Mask)"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:4
+#: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before it draws simple shapes into "
@@ -1287,13 +1287,13 @@ msgid ""
 "zero or more effects, mask_apply."
 msgstr ""
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:7
+#: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:8
-#: data/effects/mask_start_frei0r_select0r.xml:24
+#: data/effects/mask_start_frei0r_alphaspot.xml:9
+#: data/effects/mask_start_frei0r_select0r.xml:22
 #, kde-format
 msgid "Shape"
 msgstr ""
@@ -1303,59 +1303,59 @@ msgstr ""
 msgid "Position X"
 msgstr "Položaj"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:16
+#: data/effects/mask_start_frei0r_alphaspot.xml:15
 #, fuzzy, kde-format
 msgid "Position Y"
 msgstr "Položaj"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:20
+#: data/effects/mask_start_frei0r_alphaspot.xml:18
 #, fuzzy, kde-format
 msgid "Size X"
 msgstr "Veličina"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:24
+#: data/effects/mask_start_frei0r_alphaspot.xml:21
 #, fuzzy, kde-format
 msgid "Size Y"
 msgstr "Veličina"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:28
+#: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, kde-format
 msgid "Tilt"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:32
+#: data/effects/mask_start_frei0r_alphaspot.xml:27
 #, fuzzy, kde-format
 msgid "Transition width"
 msgstr "Prijelaz"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, fuzzy, kde-format
 msgid "Min"
 msgstr "Mješavina"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:40
+#: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, fuzzy, kde-format
 msgid "Max"
 msgstr "Mješavina"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:44
-#: data/effects/mask_start_frei0r_select0r.xml:49
+#: data/effects/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Write on clear,Max,Min,Add,Subtract"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:45
-#: data/effects/mask_start_frei0r_select0r.xml:50
+#: data/effects/mask_start_frei0r_alphaspot.xml:37
+#: data/effects/mask_start_frei0r_select0r.xml:42
 #, fuzzy, kde-format
 msgid "Operation"
 msgstr "Opcije"
 
-#: data/effects/mask_start_frei0r_select0r.xml:3
+#: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:4
+#: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before a keyframable Chroma Key "
@@ -1366,16 +1366,16 @@ msgid ""
 "effects, mask_apply."
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:7
-#: data/effects/mask_start_rotoscoping.xml:7
-#: data/effects/mask_start_shape.xml:7 src/bin/bin.cpp:1365
+#: data/effects/mask_start_frei0r_select0r.xml:8
+#: data/effects/mask_start_rotoscoping.xml:8
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1365
 #: src/bin/bin.cpp:1370 src/bin/bin.cpp:2118
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter"
 msgstr "Filter %1"
 
-#: data/effects/mask_start_frei0r_select0r.xml:10
+#: data/effects/mask_start_frei0r_select0r.xml:11
 #, fuzzy, kde-format
 msgid "Color to select"
 msgstr "Korekcija boja"
@@ -1385,58 +1385,58 @@ msgstr "Korekcija boja"
 msgid "Invert selection"
 msgstr "Toggle selekcija"
 
-#: data/effects/mask_start_frei0r_select0r.xml:18
+#: data/effects/mask_start_frei0r_select0r.xml:17
 #, kde-format
 msgid "RGB,ABI,HCI"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:19
+#: data/effects/mask_start_frei0r_select0r.xml:18
 #, fuzzy, kde-format
 msgid "Color Model"
 msgstr "Boja"
 
-#: data/effects/mask_start_frei0r_select0r.xml:23
+#: data/effects/mask_start_frei0r_select0r.xml:21
 #, kde-format
 msgid "Box,Ellipsoid,Diamond"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:28
+#: data/effects/mask_start_frei0r_select0r.xml:25
 #, kde-format
 msgid "Hard,Fat,Normal,Skinny,Slope"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:29
+#: data/effects/mask_start_frei0r_select0r.xml:26
 #, fuzzy, kde-format
 msgid "Edge mode"
 msgstr "Prepoznavanje ivica"
 
-#: data/effects/mask_start_frei0r_select0r.xml:33
+#: data/effects/mask_start_frei0r_select0r.xml:29
 #, kde-format
 msgid "Red / Hue Delta"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:37
+#: data/effects/mask_start_frei0r_select0r.xml:32
 #, kde-format
 msgid "Green / Chroma Delta"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:41
+#: data/effects/mask_start_frei0r_select0r.xml:35
 #, kde-format
 msgid "Blue / Intensity Delta"
 msgstr ""
 
-#: data/effects/mask_start_frei0r_select0r.xml:45
+#: data/effects/mask_start_frei0r_select0r.xml:38
 #, fuzzy, kde-format
 #| msgid "Softness"
 msgid "Soften"
 msgstr "Mekoća"
 
-#: data/effects/mask_start_rotoscoping.xml:3
+#: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping (Mask)"
 msgstr ""
 
-#: data/effects/mask_start_rotoscoping.xml:4
+#: data/effects/mask_start_rotoscoping.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before a keyframable vector based "
@@ -1456,37 +1456,37 @@ msgstr ""
 msgid "Mode"
 msgstr ""
 
-#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
+#: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
 msgid "Write on clear,Maximum,Minimum,Add,Subtract"
 msgstr ""
 
-#: data/effects/mask_start_rotoscoping.xml:18 data/effects/rotoscoping.xml:15
+#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, fuzzy, kde-format
 msgid "Alpha Operation"
 msgstr "Operacija Alfa Kanala"
 
-#: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
+#: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
 msgid "Track"
 msgstr "Numera"
 
-#: data/effects/mask_start_rotoscoping.xml:30 data/effects/rotoscoping.xml:27
+#: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
 #, fuzzy, kde-format
 msgid "Feather width"
 msgstr "Širina granice"
 
-#: data/effects/mask_start_rotoscoping.xml:34 data/effects/rotoscoping.xml:31
+#: data/effects/mask_start_rotoscoping.xml:29 data/effects/rotoscoping.xml:26
 #, kde-format
 msgid "Feathering passes"
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:3
+#: data/effects/mask_start_shape.xml:4
 #, fuzzy, kde-format
 msgid "Shape Alpha (Mask)"
 msgstr "Prikaži put"
 
-#: data/effects/mask_start_shape.xml:4
+#: data/effects/mask_start_shape.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before an alpha channel "
@@ -1496,261 +1496,261 @@ msgid ""
 "the following sequence: this effect, zero or more effects, mask_apply."
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:10 data/effects/shape.xml:7
+#: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
 msgid "Image or video resource"
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
+#: data/effects/mask_start_shape.xml:15 data/effects/shape.xml:12
 #, kde-format
 msgid ""
 "Convert alpha or luma values below this level as opaque and above this level "
 "as transparent. This is mostly useful for luma wipe images."
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:17 data/effects/shape.xml:14
-#: data/transitions/composite.xml:31 data/transitions/dissolve.xml:9
-#: data/transitions/luma.xml:10 data/transitions/region.xml:29
-#: data/transitions/wipe.xml:10
+#: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
+#: data/transitions/composite.xml:32 data/transitions/dissolve.xml:10
+#: data/transitions/luma.xml:11 data/transitions/region.xml:30
+#: data/transitions/wipe.xml:11
 #, kde-format
 msgid "Softness"
 msgstr "Mekoća"
 
-#: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
+#: data/effects/mask_start_shape.xml:19 data/effects/shape.xml:16
 #, kde-format
 msgid ""
 "When using mix (threshold) how soft to make the edge around the threshold. "
 "0.0 = no softness, 1.0 = too soft."
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:22 data/effects/shape.xml:19
+#: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, kde-format
 msgid "Use the inverse of the alpha or luma value."
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:25 data/effects/shape.xml:22
+#: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, fuzzy, kde-format
 #| msgid "Luma"
 msgid "Use Luma"
 msgstr "Luma"
 
-#: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
+#: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
 msgid "Use the image luma instead of the alpha channel."
 msgstr ""
 
-#: data/effects/mask_start_shape.xml:29 data/effects/shape.xml:26
+#: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Use Threshold"
 msgstr "Prag"
 
-#: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
+#: data/effects/mask_start_shape.xml:31 data/effects/shape.xml:28
 #, kde-format
 msgid ""
 "Whether to apply a threshold filter to the luma or alpha or not. If not, "
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
 
-#: data/effects/mirror.xml:3
+#: data/effects/mirror.xml:4
 #, fuzzy, kde-format
 msgctxt "Mirror Effect Name"
 msgid "Mirror"
 msgstr "greška"
 
-#: data/effects/mirror.xml:4
+#: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
 msgstr ""
 
-#: data/effects/mirror.xml:7
+#: data/effects/mirror.xml:8
 #, kde-format
 msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
 msgstr ""
 
-#: data/effects/mirror.xml:8
+#: data/effects/mirror.xml:9
 #, kde-format
 msgid "Mirroring direction"
 msgstr ""
 
-#: data/effects/mono.xml:3
+#: data/effects/mono.xml:4
 #, kde-format
 msgid "Mixdown"
 msgstr ""
 
-#: data/effects/mono.xml:4
+#: data/effects/mono.xml:5
 #, kde-format
 msgid ""
 "Mix all channels of audio into a mono signal and output it as N channels"
 msgstr ""
 
-#: data/effects/mono.xml:7
+#: data/effects/mono.xml:8
 #, fuzzy, kde-format
 msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
 msgstr "Zvučni kanali"
 
-#: data/effects/mono.xml:8
+#: data/effects/mono.xml:9
 #, kde-format
 msgid "number of output channels"
 msgstr ""
 
-#: data/effects/mute.xml:3
+#: data/effects/mute.xml:4
 #, fuzzy, kde-format
 msgctxt "Mute Effect Name"
 msgid "Mute"
 msgstr "Utišano"
 
-#: data/effects/mute.xml:4
+#: data/effects/mute.xml:5
 #, fuzzy, kde-format
 msgid "Mute clip"
 msgstr "Izreži isječak"
 
-#: data/effects/normalise.xml:3
+#: data/effects/normalise.xml:4
 #, kde-format
 msgid "Normalise (deprecated)"
 msgstr ""
 
-#: data/effects/normalise.xml:4
+#: data/effects/normalise.xml:5
 #, kde-format
 msgid "Dynamically normalise the audio volume"
 msgstr ""
 
-#: data/effects/normalise.xml:10
+#: data/effects/normalise.xml:11
 #, kde-format
 msgid "Maximum gain"
 msgstr ""
 
-#: data/effects/normalise.xml:13
+#: data/effects/normalise.xml:14
 #, kde-format
 msgid "Window"
 msgstr ""
 
-#: data/effects/obscure.xml:3
+#: data/effects/obscure.xml:4
 #, kde-format
 msgctxt "Obscure Effect Name"
 msgid "Obscure"
 msgstr ""
 
-#: data/effects/obscure.xml:4
+#: data/effects/obscure.xml:5
 #, kde-format
 msgid "Hide a region of the clip"
 msgstr ""
 
-#: data/effects/obscure.xml:7
+#: data/effects/obscure.xml:8
 #, kde-format
 msgid "Region"
 msgstr "Oblast"
 
-#: data/effects/oldfilm.xml:3
+#: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Oldfilm"
 msgstr ""
 
-#: data/effects/oldfilm.xml:4
+#: data/effects/oldfilm.xml:5
 #, kde-format
 msgid "Moves the Picture up and down and random brightness change"
 msgstr ""
 
-#: data/effects/oldfilm.xml:7
+#: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Y-Delta"
 msgstr ""
 
-#: data/effects/oldfilm.xml:10
+#: data/effects/oldfilm.xml:11
 #, no-c-format, kde-format
 msgid "% of picture have a delta"
 msgstr ""
 
-#: data/effects/oldfilm.xml:13
+#: data/effects/oldfilm.xml:14
 #, fuzzy, kde-format
 msgid "Brightness up"
 msgstr "Svijetliji"
 
-#: data/effects/oldfilm.xml:16
+#: data/effects/oldfilm.xml:17
 #, fuzzy, kde-format
 msgid "Brightness down"
 msgstr "Svijetliji"
 
-#: data/effects/oldfilm.xml:19
+#: data/effects/oldfilm.xml:20
 #, kde-format
 msgid "Brightness every"
 msgstr ""
 
-#: data/effects/oldfilm.xml:22
+#: data/effects/oldfilm.xml:23
 #, kde-format
 msgid "Unevendevelop up"
 msgstr ""
 
-#: data/effects/oldfilm.xml:25
+#: data/effects/oldfilm.xml:26
 #, kde-format
 msgid "Unevendevelop down"
 msgstr ""
 
-#: data/effects/oldfilm.xml:28
+#: data/effects/oldfilm.xml:29
 #, kde-format
 msgid "Unevendevelop Duration"
 msgstr ""
 
-#: data/effects/pan_zoom.xml:3
+#: data/effects/pan_zoom.xml:4
 #, fuzzy, kde-format
 msgid "Position and Zoom"
 msgstr "Paniraj i uvećaj"
 
-#: data/effects/pan_zoom.xml:4
+#: data/effects/pan_zoom.xml:5
 #, fuzzy, kde-format
 msgid "Adjust size and position of clip"
 msgstr "Dodaj prenos na snimak"
 
-#: data/effects/pan_zoom.xml:10 data/effects/qtblend.xml:18
-#: data/effects/qtblend.xml:36 data/transitions/affine.xml:19
-#: data/transitions/composite.xml:10 data/transitions/qtblend.xml:17
-#: data/transitions/region.xml:23
+#: data/effects/pan_zoom.xml:11 data/effects/qtblend.xml:19
+#: data/effects/qtblend.xml:37 data/transitions/affine.xml:20
+#: data/transitions/composite.xml:11 data/transitions/qtblend.xml:18
+#: data/transitions/region.xml:24
 #, kde-format
 msgid "Distort"
 msgstr "Izobličiti"
 
-#: data/effects/pan_zoom.xml:13
+#: data/effects/pan_zoom.xml:14
 #, fuzzy, kde-format
 msgid "Normalise"
 msgstr "Normalno"
 
-#: data/effects/pillar_echo.xml:3
+#: data/effects/pillar_echo.xml:4
 #, kde-format
 msgid "Pillar Echo"
 msgstr ""
 
-#: data/effects/pillar_echo.xml:4
+#: data/effects/pillar_echo.xml:5
 #, kde-format
 msgid "Create an echo effect (blur) outside of an area of interest."
 msgstr ""
 
-#: data/effects/pillar_echo.xml:10 data/effects/tracker.xml:29
+#: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:30
 #, kde-format
 msgid "Blur"
 msgstr "Zamagli"
 
-#: data/effects/qtblend.xml:4
+#: data/effects/qtblend.xml:5
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "Qtblend Transform Effect Name"
 msgid "Transform"
 msgstr "Dekodiraj"
 
-#: data/effects/qtblend.xml:5 data/effects/qtblend.xml:23
+#: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
 #, fuzzy, kde-format
 msgid "Position, scale and opacity."
 msgstr "Paniraj i uvećaj"
 
-#: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/qtblend.xml:10
+#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:30
+#: data/transitions/qtblend.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, fuzzy, kde-format
 #| msgid "Motion"
 msgid "Rotation"
 msgstr "Pokret"
 
-#: data/effects/qtblend.xml:14 data/effects/qtblend.xml:32
-#: data/transitions/qtblend.xml:13
+#: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
+#: data/transitions/qtblend.xml:14
 #, kde-format
 msgid ""
 "Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
@@ -1759,67 +1759,67 @@ msgid ""
 "Destination out"
 msgstr ""
 
-#: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
-#: data/transitions/qtblend.xml:14
+#: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
+#: data/transitions/qtblend.xml:15
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Compositing"
 msgstr "Smjesa"
 
-#: data/effects/qtblend.xml:22
+#: data/effects/qtblend.xml:23
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transform"
 msgstr "Dekodiraj"
 
-#: data/effects/qtblend.xml:39 data/transitions/qtblend.xml:20
+#: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
 msgstr ""
 
-#: data/effects/qtcrop.xml:3
+#: data/effects/qtcrop.xml:4
 #, kde-format
 msgid "Crop by padding"
 msgstr ""
 
-#: data/effects/qtcrop.xml:4
+#: data/effects/qtcrop.xml:5
 #, kde-format
 msgid ""
 "This filter crops the image to a rounded rectangle or circle by padding it "
 "with a color."
 msgstr ""
 
-#: data/effects/qtcrop.xml:10
+#: data/effects/qtcrop.xml:11
 #, kde-format
 msgid "Radius"
 msgstr "Poluprečnik"
 
-#: data/effects/qtcrop.xml:13
+#: data/effects/qtcrop.xml:14
 #, kde-format
 msgid "Circle"
 msgstr ""
 
-#: data/effects/qtcrop.xml:16
+#: data/effects/qtcrop.xml:17
 #, fuzzy, kde-format
 msgid "Padding Color"
 msgstr "Učitavam"
 
-#: data/effects/rboctaveshift.xml:3
+#: data/effects/rboctaveshift.xml:4
 #, kde-format
 msgid "Rubberband Octave Shift"
 msgstr ""
 
-#: data/effects/rboctaveshift.xml:4 data/effects/rbpitchscale.xml:4
+#: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
 msgstr ""
 
-#: data/effects/rboctaveshift.xml:7
+#: data/effects/rboctaveshift.xml:8
 #, kde-format
 msgid "Octave Shift"
 msgstr ""
 
-#: data/effects/rboctaveshift.xml:8
+#: data/effects/rboctaveshift.xml:9
 #, kde-format
 msgid ""
 "The octave shift. This is the octave shift of the source frequency. For "
@@ -1830,39 +1830,39 @@ msgid ""
 "is set."
 msgstr ""
 
-#: data/effects/rboctaveshift.xml:11 data/effects/rbpitchscale.xml:11
+#: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, fuzzy, kde-format
 msgid "Stretch"
 msgstr "Omogući efekt"
 
-#: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
+#: data/effects/rboctaveshift.xml:13 data/effects/rbpitchscale.xml:13
 #, kde-format
 msgid ""
 "Stretch the audio to fill the requested samples. This option will have no "
 "effect if the requested sample size is the same as the received sample size."
 msgstr ""
 
-#: data/effects/rboctaveshift.xml:15 data/effects/rbpitchscale.xml:15
+#: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
 #, kde-format
 msgid "Latency"
 msgstr ""
 
-#: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
+#: data/effects/rboctaveshift.xml:17 data/effects/rbpitchscale.xml:17
 #, kde-format
 msgid "The amount of delay for each sample from the input to the output."
 msgstr ""
 
-#: data/effects/rbpitchscale.xml:3
+#: data/effects/rbpitchscale.xml:4
 #, fuzzy, kde-format
 msgid "Rubberband Pitch Scale"
 msgstr "Skala piksela"
 
-#: data/effects/rbpitchscale.xml:7
+#: data/effects/rbpitchscale.xml:8
 #, fuzzy, kde-format
 msgid "Pitch Scale"
 msgstr "Skala piksela"
 
-#: data/effects/rbpitchscale.xml:8
+#: data/effects/rbpitchscale.xml:9
 #, kde-format
 msgid ""
 "The pitch scaling ratio. This is the ratio of target frequency to source "
@@ -1873,191 +1873,191 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:3
+#: data/effects/region.xml:4
 #, fuzzy, kde-format
 msgid "Regionalize"
 msgstr "Oblast"
 
-#: data/effects/region.xml:4
+#: data/effects/region.xml:5
 #, kde-format
 msgid "Apply sub-effects to a region defined by a clip's alpha channel"
 msgstr ""
 
-#: data/effects/region.xml:7
+#: data/effects/region.xml:8
 #, kde-format
 msgid "Url"
 msgstr ""
 
-#: data/effects/region.xml:10 data/effects/rotation.xml:37
+#: data/effects/region.xml:11 data/effects/rotation.xml:38
 #, fuzzy, kde-format
 msgid "Pan and Zoom"
 msgstr "Paniraj i uvećaj"
 
-#: data/effects/rotation.xml:3
+#: data/effects/rotation.xml:4
 #, fuzzy, kde-format
 msgid "Rotate and Shear"
 msgstr "Rotacija oko X ose"
 
-#: data/effects/rotation.xml:4 data/effects/rotation_keyframable.xml:4
+#: data/effects/rotation.xml:5 data/effects/rotation_keyframable.xml:5
 #, kde-format
 msgid "Rotate clip in any 3 directions"
 msgstr ""
 
-#: data/effects/rotation.xml:7 data/effects/rotation_keyframable.xml:7
-#: data/transitions/affine.xml:10
+#: data/effects/rotation.xml:8 data/effects/rotation_keyframable.xml:8
+#: data/transitions/affine.xml:11
 #, kde-format
 msgid "Rotate X"
 msgstr "Rotiraj X"
 
-#: data/effects/rotation.xml:10 data/effects/rotation_keyframable.xml:10
-#: data/transitions/affine.xml:13
+#: data/effects/rotation.xml:11 data/effects/rotation_keyframable.xml:11
+#: data/transitions/affine.xml:14
 #, kde-format
 msgid "Rotate Y"
 msgstr "Rotiraj Y"
 
-#: data/effects/rotation.xml:13 data/effects/rotation_keyframable.xml:13
-#: data/transitions/affine.xml:16
+#: data/effects/rotation.xml:14 data/effects/rotation_keyframable.xml:14
+#: data/transitions/affine.xml:17
 #, kde-format
 msgid "Rotate Z"
 msgstr "Rotiraj Z"
 
-#: data/effects/rotation.xml:16
+#: data/effects/rotation.xml:17
 #, fuzzy, kde-format
 msgid "Animate Rotate X"
 msgstr "Rotiraj X"
 
-#: data/effects/rotation.xml:19
+#: data/effects/rotation.xml:20
 #, fuzzy, kde-format
 msgid "Animate Rotate Y"
 msgstr "Rotiraj Y"
 
-#: data/effects/rotation.xml:22
+#: data/effects/rotation.xml:23
 #, fuzzy, kde-format
 msgid "Animate Rotate Z"
 msgstr "Rotiraj Z"
 
-#: data/effects/rotation.xml:25
+#: data/effects/rotation.xml:26
 #, fuzzy, kde-format
 msgid "Shear X"
 msgstr "Popravi smicanje X"
 
-#: data/effects/rotation.xml:28
+#: data/effects/rotation.xml:29
 #, fuzzy, kde-format
 msgid "Shear Y"
 msgstr "Popravi smicanje Y"
 
-#: data/effects/rotation.xml:31
+#: data/effects/rotation.xml:32
 #, fuzzy, kde-format
 msgid "Animate Shear X"
 msgstr "Popravi smicanje X"
 
-#: data/effects/rotation.xml:34
+#: data/effects/rotation.xml:35
 #, fuzzy, kde-format
 msgid "Animate Shear Y"
 msgstr "Popravi smicanje Y"
 
-#: data/effects/rotation_keyframable.xml:3
+#: data/effects/rotation_keyframable.xml:4
 #, fuzzy, kde-format
 msgid "Rotate (keyframable)"
 msgstr "Izbriši glavni okvir"
 
-#: data/effects/rotation_keyframable.xml:16
+#: data/effects/rotation_keyframable.xml:17
 #, fuzzy, kde-format
 msgid "Offset X"
 msgstr "Pomak"
 
-#: data/effects/rotation_keyframable.xml:19
+#: data/effects/rotation_keyframable.xml:20
 #, fuzzy, kde-format
 msgid "Offset Y"
 msgstr "Pomak"
 
-#: data/effects/rotation_keyframable.xml:26 data/transitions/affine.xml:23
+#: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable repeat"
 msgstr "Onemogući efekt"
 
-#: data/effects/rotation_keyframable.xml:29 data/transitions/affine.xml:26
+#: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable mirror"
 msgstr "Onemogući efekt"
 
-#: data/effects/rotoscoping.xml:3
+#: data/effects/rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping"
 msgstr ""
 
-#: data/effects/rotoscoping.xml:4
+#: data/effects/rotoscoping.xml:5
 #, kde-format
 msgid "Keyframable vector based rotoscoping"
 msgstr ""
 
-#: data/effects/scratchlines.xml:3
+#: data/effects/scratchlines.xml:4
 #, kde-format
 msgid "Scratchlines"
 msgstr ""
 
-#: data/effects/scratchlines.xml:4
+#: data/effects/scratchlines.xml:5
 #, kde-format
 msgid "Scratchlines over the picture"
 msgstr ""
 
-#: data/effects/scratchlines.xml:7
+#: data/effects/scratchlines.xml:8
 #, kde-format
 msgid "Width of line"
 msgstr ""
 
-#: data/effects/scratchlines.xml:10
+#: data/effects/scratchlines.xml:11
 #, kde-format
 msgid "Max number of lines"
 msgstr ""
 
-#: data/effects/scratchlines.xml:13
+#: data/effects/scratchlines.xml:14
 #, fuzzy, kde-format
 msgid "Max darker"
 msgstr "Marker"
 
-#: data/effects/scratchlines.xml:16
+#: data/effects/scratchlines.xml:17
 #, kde-format
 msgid "Max lighter"
 msgstr ""
 
-#: data/effects/sepia.xml:3
+#: data/effects/sepia.xml:4
 #, kde-format
 msgctxt "Sepia Effect Name"
 msgid "Sepia"
 msgstr ""
 
-#: data/effects/sepia.xml:4
+#: data/effects/sepia.xml:5
 #, kde-format
 msgid "Turn clip colors to sepia"
 msgstr ""
 
-#: data/effects/sepia.xml:7
+#: data/effects/sepia.xml:8
 #, kde-format
 msgid "Chrominance U"
 msgstr ""
 
-#: data/effects/sepia.xml:10
+#: data/effects/sepia.xml:11
 #, kde-format
 msgid "Chrominance V"
 msgstr ""
 
-#: data/effects/shape.xml:3
+#: data/effects/shape.xml:4
 #, fuzzy, kde-format
 msgid "Shape Alpha"
 msgstr "Prikaži put"
 
-#: data/effects/shape.xml:4
+#: data/effects/shape.xml:5
 #, kde-format
 msgid "Create an alpha channel (transparency) based on another resource"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: data/effects/speed.xml:3 data/effects/speed.xml:7 data/effects/wave.xml:16
+#: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
 #: src/timeline2/view/qml/Track.qml:330 src/timeline2/view/qml/Track.qml:404
 #: src/ui/clipspeed_ui.ui:43
@@ -2065,18 +2065,18 @@ msgstr ""
 msgid "Speed"
 msgstr ""
 
-#: data/effects/speed.xml:4
+#: data/effects/speed.xml:5
 #, kde-format
 msgid "Make clip play faster or slower"
 msgstr ""
 
-#: data/effects/spot_remover.xml:3
+#: data/effects/spot_remover.xml:4
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Spot Remover"
 msgstr "Ukloni datoteku"
 
-#: data/effects/spot_remover.xml:4
+#: data/effects/spot_remover.xml:5
 #, kde-format
 msgid ""
 "Replace an area with interpolated pixels. The new pixel values are "
@@ -2084,397 +2084,397 @@ msgid ""
 "area."
 msgstr ""
 
-#: data/effects/spot_remover.xml:8
+#: data/effects/spot_remover.xml:9
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr ""
 
-#: data/effects/swapchannels.xml:4
+#: data/effects/swapchannels.xml:5
 #, kde-format
 msgid "Move the left channel to the right and right-to-left"
 msgstr ""
 
-#: data/effects/tcolor.xml:3
+#: data/effects/tcolor.xml:4
 #, kde-format
 msgid "Technicolor"
 msgstr ""
 
-#: data/effects/tcolor.xml:4
+#: data/effects/tcolor.xml:5
 #, kde-format
 msgid "Oversaturate the color in video, like in old Technicolor movies"
 msgstr ""
 
-#: data/effects/tcolor.xml:7
+#: data/effects/tcolor.xml:8
 #, kde-format
 msgid "Blue/Yellow axis"
 msgstr ""
 
-#: data/effects/tcolor.xml:10
+#: data/effects/tcolor.xml:11
 #, kde-format
 msgid "Red/Green axis"
 msgstr ""
 
-#: data/effects/threshold.xml:3
+#: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
 msgstr ""
 
-#: data/effects/threshold.xml:4
+#: data/effects/threshold.xml:5
 #, kde-format
 msgid "Make monochrome clip"
 msgstr ""
 
-#: data/effects/threshold.xml:7
+#: data/effects/threshold.xml:8
 #, fuzzy, kde-format
 msgid "Threshold value"
 msgstr "Prag"
 
-#: data/effects/threshold.xml:10 data/transitions/luma.xml:13
+#: data/effects/threshold.xml:11 data/transitions/luma.xml:14
 #, fuzzy, kde-format
 msgid "Use transparency"
 msgstr "Transparentnost"
 
-#: data/effects/tracker.xml:3
+#: data/effects/tracker.xml:4
 #, fuzzy, kde-format
 #| msgid "Motion"
 msgid "Motion Tracker"
 msgstr "Pokret"
 
-#: data/effects/tracker.xml:4
+#: data/effects/tracker.xml:5
 #, kde-format
 msgid "Select a zone to follow its movements"
 msgstr ""
 
-#: data/effects/tracker.xml:10
+#: data/effects/tracker.xml:11
 #, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
 msgstr ""
 
-#: data/effects/tracker.xml:11
+#: data/effects/tracker.xml:12
 #, kde-format
 msgid "Tracker algorithm"
 msgstr ""
 
-#: data/effects/tracker.xml:15
+#: data/effects/tracker.xml:16
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframes spacing"
 msgstr "Interpolacija"
 
-#: data/effects/tracker.xml:16
+#: data/effects/tracker.xml:17
 #, kde-format
 msgid ""
 "Defines the frequency of stored keyframes. A keyframe is created every steps "
 "frames."
 msgstr ""
 
-#: data/effects/tracker.xml:19
+#: data/effects/tracker.xml:20
 #, kde-format
 msgid "Rectangle,Ellipse,Arrow"
 msgstr ""
 
-#: data/effects/tracker.xml:20
+#: data/effects/tracker.xml:21
 #, fuzzy, kde-format
 #| msgid "Frame size"
 msgid "Frame shape"
 msgstr "Veličina okvira"
 
-#: data/effects/tracker.xml:23
+#: data/effects/tracker.xml:24
 #, fuzzy, kde-format
 msgid "Shape width"
 msgstr "Odgovarati širini"
 
-#: data/effects/tracker.xml:26
+#: data/effects/tracker.xml:27
 #, fuzzy, kde-format
 msgid "Shape color"
 msgstr "Boja popunjavanja"
 
-#: data/effects/tracker.xml:32
+#: data/effects/tracker.xml:33
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr ""
 
-#: data/effects/tracker.xml:33
+#: data/effects/tracker.xml:34
 #, fuzzy, kde-format
 #| msgid "Blur"
 msgid "Blur type"
 msgstr "Zamagli"
 
-#: data/effects/typewriter.xml:3
+#: data/effects/typewriter.xml:4
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "TypeWriter (for title clips)"
 msgstr "Uzorak za naziv isječka"
 
-#: data/effects/typewriter.xml:4
+#: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
 msgstr ""
 
-#: data/effects/typewriter.xml:7
+#: data/effects/typewriter.xml:8
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Frames step"
 msgstr "Protok kadrova"
 
-#: data/effects/typewriter.xml:10
+#: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr ""
 
-#: data/effects/typewriter.xml:13
+#: data/effects/typewriter.xml:14
 #, kde-format
 msgid "Random Seed"
 msgstr ""
 
-#: data/effects/typewriter.xml:16
+#: data/effects/typewriter.xml:17
 #, kde-format
 msgid "Char by char,Word by word,Line by line,Custom macro"
 msgstr ""
 
-#: data/effects/typewriter.xml:17
+#: data/effects/typewriter.xml:18
 #, fuzzy, kde-format
 msgid "Macro type"
 msgstr "Vrsta slike"
 
-#: data/effects/vidstab.xml:3
+#: data/effects/vidstab.xml:4
 #, fuzzy, kde-format
 #| msgid "Stabilize"
 msgctxt "Stabilize Effect Name"
 msgid "Stabilize"
 msgstr "Stabilizacija"
 
-#: data/effects/vidstab.xml:4
+#: data/effects/vidstab.xml:5
 #, kde-format
 msgid "Stabilize Video (for wiggly/rolling video)"
 msgstr ""
 
-#: data/effects/vidstab.xml:7
+#: data/effects/vidstab.xml:8
 #, kde-format
 msgid "Accuracy"
 msgstr ""
 
-#: data/effects/vidstab.xml:8
+#: data/effects/vidstab.xml:9
 #, kde-format
 msgid "Accuracy of Shakiness detection"
 msgstr ""
 
-#: data/effects/vidstab.xml:11
+#: data/effects/vidstab.xml:12
 #, kde-format
 msgid "Shakiness"
 msgstr ""
 
-#: data/effects/vidstab.xml:12
+#: data/effects/vidstab.xml:13
 #, kde-format
 msgid "How shaky is the Video"
 msgstr ""
 
-#: data/effects/vidstab.xml:15
+#: data/effects/vidstab.xml:16
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Stepsize"
 msgstr "Promijeni veličinu"
 
-#: data/effects/vidstab.xml:16
+#: data/effects/vidstab.xml:17
 #, kde-format
 msgid "Stepsize of Detection process minimum around"
 msgstr ""
 
-#: data/effects/vidstab.xml:19
+#: data/effects/vidstab.xml:20
 #, fuzzy, kde-format
 #| msgid "Contrast"
 msgid "Min. contrast"
 msgstr "Kontrast"
 
-#: data/effects/vidstab.xml:20
+#: data/effects/vidstab.xml:21
 #, kde-format
 msgid "Below this Contrast Field is discarded"
 msgstr ""
 
-#: data/effects/vidstab.xml:23
+#: data/effects/vidstab.xml:24
 #, kde-format
 msgid "Smoothing"
 msgstr ""
 
-#: data/effects/vidstab.xml:24
+#: data/effects/vidstab.xml:25
 #, fuzzy, kde-format
 #| msgid "Number of frames to play (0 to play all frames)"
 msgid "Number of frames for lowpass filtering"
 msgstr "Broj kadrova za pokretanje (0 da pokrenete sve kadrove)"
 
-#: data/effects/vidstab.xml:27
+#: data/effects/vidstab.xml:28
 #, fuzzy, kde-format
 msgid "Max shift"
 msgstr "HSV Smjena Nijanse"
 
-#: data/effects/vidstab.xml:28
+#: data/effects/vidstab.xml:29
 #, kde-format
 msgid "Max number of pixels to shift (-1 = no limit)"
 msgstr ""
 
-#: data/effects/vidstab.xml:31
+#: data/effects/vidstab.xml:32
 #, fuzzy, kde-format
 #| msgid "UV angle"
 msgid "Max angle"
 msgstr "UV ugao"
 
-#: data/effects/vidstab.xml:32
+#: data/effects/vidstab.xml:33
 #, kde-format
 msgid "Max angle to rotate (in rad)"
 msgstr ""
 
-#: data/effects/vidstab.xml:35
+#: data/effects/vidstab.xml:36
 #, fuzzy, kde-format
 msgid "Crop"
 msgstr "Poravnanje vrha"
 
-#: data/effects/vidstab.xml:36
+#: data/effects/vidstab.xml:37
 #, kde-format
 msgid "Disabled = keep border, enabled = black background"
 msgstr ""
 
-#: data/effects/vidstab.xml:40
+#: data/effects/vidstab.xml:41
 #, kde-format
 msgid "Additional zoom during transform"
 msgstr ""
 
-#: data/effects/vidstab.xml:43
+#: data/effects/vidstab.xml:44
 #, kde-format
 msgid "Optimal Zoom"
 msgstr ""
 
-#: data/effects/vidstab.xml:44
+#: data/effects/vidstab.xml:45
 #, kde-format
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
 
-#: data/effects/vidstab.xml:47
+#: data/effects/vidstab.xml:48
 #, kde-format
 msgid "Optimal Zoom Speed"
 msgstr ""
 
-#: data/effects/vidstab.xml:48
+#: data/effects/vidstab.xml:49
 #, kde-format
 msgid "Zoom per frame (used when optimal zoom = 2)"
 msgstr ""
 
-#: data/effects/vidstab.xml:51
+#: data/effects/vidstab.xml:52
 #, kde-format
 msgid "Sharpen"
 msgstr ""
 
-#: data/effects/vidstab.xml:52
+#: data/effects/vidstab.xml:53
 #, kde-format
 msgid "Sharpen transformed image"
 msgstr ""
 
-#: data/effects/vidstab.xml:55
+#: data/effects/vidstab.xml:56
 #, fuzzy, kde-format
 #| msgid "Show path"
 msgid "Show fields"
 msgstr "Prikaži put"
 
-#: data/effects/vidstab.xml:56
+#: data/effects/vidstab.xml:57
 #, kde-format
 msgid "0 = draw nothing 1 or 2 = show fields and transforms"
 msgstr ""
 
-#: data/effects/vidstab.xml:59
+#: data/effects/vidstab.xml:60
 #, kde-format
 msgid "Tripod"
 msgstr ""
 
-#: data/effects/vidstab.xml:60
+#: data/effects/vidstab.xml:61
 #, fuzzy, kde-format
 msgid "Reference frame"
 msgstr "Slobodno: %1"
 
-#: data/effects/vignette.xml:3
+#: data/effects/vignette.xml:4
 #, fuzzy, kde-format
 msgid "Vignette Effect"
 msgstr "Restartuj efekat"
 
-#: data/effects/vignette.xml:4
+#: data/effects/vignette.xml:5
 #, kde-format
 msgid "Adjustable Vignette"
 msgstr ""
 
-#: data/effects/vignette.xml:7
+#: data/effects/vignette.xml:8
 #, kde-format
 msgid "smooth"
 msgstr ""
 
-#: data/effects/vignette.xml:10
+#: data/effects/vignette.xml:11
 #, fuzzy, kde-format
 msgid "radius"
 msgstr "Poluprečnik"
 
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: data/effects/vignette.xml:13 src/ui/profiledialog_ui.ui:203
-#: src/ui/renderwidget_ui.ui:524
+#: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:203
+#: src/ui/renderwidget_ui.ui:533
 #, kde-format
 msgid "x"
 msgstr "x"
 
-#: data/effects/vignette.xml:16
+#: data/effects/vignette.xml:17
 #, kde-format
 msgid "y"
 msgstr ""
 
-#: data/effects/vignette.xml:19
+#: data/effects/vignette.xml:20
 #, fuzzy, kde-format
 msgid "opacity"
 msgstr "Neprozirnost"
 
-#: data/effects/vignette.xml:22
+#: data/effects/vignette.xml:23
 #, kde-format
 msgid "use cos instead of linear"
 msgstr ""
 
-#: data/effects/volume.xml:3
+#: data/effects/volume.xml:4
 #, fuzzy, kde-format
 msgid "Volume (keyframable)"
 msgstr "Izbriši glavni okvir"
 
-#: data/effects/volume.xml:4
+#: data/effects/volume.xml:5
 #, kde-format
 msgid "Adjust audio volume with keyframes"
 msgstr ""
 
-#: data/effects/wave.xml:3
+#: data/effects/wave.xml:4
 #, fuzzy, kde-format
 msgctxt "Wave Effect Name"
 msgid "Wave"
 msgstr "Valni oblik"
 
-#: data/effects/wave.xml:4
+#: data/effects/wave.xml:5
 #, kde-format
 msgid "Make waves on your clip with keyframes"
 msgstr ""
 
-#: data/effects/wave.xml:7
+#: data/effects/wave.xml:8
 #, fuzzy, kde-format
 msgid "Amplitude"
 msgstr "Rascijepi zvuk"
 
-#: data/effects/wave.xml:10
+#: data/effects/wave.xml:11
 #, fuzzy, kde-format
 msgid "End Amplitude"
 msgstr "Rascijepi zvuk"
 
-#: data/effects/wave.xml:13
+#: data/effects/wave.xml:14
 #, fuzzy, kde-format
 msgid "Wave Amplitude"
 msgstr "Rascijepi zvuk"
 
-#: data/effects/wave.xml:19
+#: data/effects/wave.xml:20
 #, fuzzy, kde-format
 msgid "Horizontal"
 msgstr "Centriraj horizontalno"
 
-#: data/effects/wave.xml:22
+#: data/effects/wave.xml:23
 #, kde-format
 msgid "Vertical"
 msgstr ""
@@ -2629,7 +2629,7 @@ msgid "Motion"
 msgstr "Pokret"
 
 #: data/kdenliveeffectscategory.rc:54
-#: src/effects/effectlist/model/effecttreemodel.cpp:52
+#: src/effects/effectlist/model/effecttreemodel.cpp:49
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "GPU effects"
@@ -2745,7 +2745,7 @@ msgid "Calf  Plugins"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:138
-#: src/effects/effectlist/model/effecttreemodel.cpp:97
+#: src/effects/effectlist/model/effecttreemodel.cpp:94
 #, kde-format
 msgid "Deprecated"
 msgstr ""
@@ -2782,194 +2782,194 @@ msgstr ""
 msgid "MLT ladspa"
 msgstr ""
 
-#: data/transitions/affine.xml:3
+#: data/transitions/affine.xml:4
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "Affine Transform Transition Name"
 msgid "Transform"
 msgstr "Dekodiraj"
 
-#: data/transitions/affine.xml:4
+#: data/transitions/affine.xml:5
 #, kde-format
 msgid "Perform an affine transform on for compositing."
 msgstr ""
 
-#: data/transitions/composite.xml:3
+#: data/transitions/composite.xml:4
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgctxt "Composite Transition Name"
 msgid "Composite"
 msgstr "Smjesa"
 
-#: data/transitions/composite.xml:4
+#: data/transitions/composite.xml:5
 #, kde-format
 msgid "A key-framable alpha-channel compositor for two frames."
 msgstr "Kompozitor alfa kanala s ključnim kadrovima."
 
-#: data/transitions/composite.xml:11
+#: data/transitions/composite.xml:12
 #, kde-format
 msgid ""
 "When set, causes the B frame image to fill the WxH completely with no regard "
 "to B's aspect ratio."
 msgstr ""
 
-#: data/transitions/composite.xml:14
+#: data/transitions/composite.xml:15
 #, fuzzy, kde-format
 msgid "Crop to fill"
 msgstr "Poravnanje vrha"
 
-#: data/transitions/composite.xml:17 data/transitions/region.xml:17
+#: data/transitions/composite.xml:18 data/transitions/region.xml:18
 #, kde-format
 msgid "Align"
 msgstr "Poravnanje"
 
-#: data/transitions/composite.xml:21
+#: data/transitions/composite.xml:22
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "H align"
 msgstr "Poravnanje"
 
-#: data/transitions/composite.xml:25
+#: data/transitions/composite.xml:26
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "V align"
 msgstr "Poravnanje"
 
-#: data/transitions/composite.xml:28
+#: data/transitions/composite.xml:29
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Composite Method"
 msgstr "Smjesa"
 
-#: data/transitions/composite.xml:34 data/transitions/region.xml:35
+#: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
 msgstr "Progresivna vizualizacija"
 
-#: data/transitions/dissolve.xml:3
+#: data/transitions/dissolve.xml:4
 #, fuzzy, kde-format
 #| msgid "Dissolve"
 msgctxt "Dissolve Transition Name"
 msgid "Dissolve"
 msgstr "Rastopi"
 
-#: data/transitions/dissolve.xml:4
+#: data/transitions/dissolve.xml:5
 #, kde-format
 msgid "Fade out one video while fading in the other video."
 msgstr "Izblijedi jedan video dok se ubacuje drugi video."
 
-#: data/transitions/dissolve.xml:6
+#: data/transitions/dissolve.xml:7
 #, fuzzy, kde-format
 #| msgid "Luma value"
 msgid "Luma Map"
 msgstr "Luma vrijednost"
 
-#: data/transitions/luma.xml:3
+#: data/transitions/luma.xml:4
 #, fuzzy, kde-format
 #| msgid "Luma"
 msgctxt "Luma Transition Name"
 msgid "Luma"
 msgstr "Luma"
 
-#: data/transitions/luma.xml:4 data/transitions/mix.xml:4
-#: data/transitions/wipe.xml:4
+#: data/transitions/luma.xml:5 data/transitions/mix.xml:5
+#: data/transitions/wipe.xml:5
 #, kde-format
 msgid "Applies a stationary transition between the current and next frames."
 msgstr "Primjenjuje stacionarne prenose između trenutnog i slijedećih okvira."
 
-#: data/transitions/luma.xml:7 data/transitions/region.xml:26
-#: data/transitions/wipe.xml:7
+#: data/transitions/luma.xml:8 data/transitions/region.xml:27
+#: data/transitions/wipe.xml:8
 #, fuzzy, kde-format
 #| msgid "Wipe Invert"
 msgid "Wipe Method"
 msgstr "Obriši izvrtanje"
 
-#: data/transitions/matte.xml:3
+#: data/transitions/matte.xml:4
 #, fuzzy, kde-format
 #| msgid "Add chapter"
 msgid "Matte"
 msgstr "Dodaj poglavlje"
 
-#: data/transitions/matte.xml:4
+#: data/transitions/matte.xml:5
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
 msgstr ""
 
-#: data/transitions/mix.xml:3
+#: data/transitions/mix.xml:4
 #, fuzzy, kde-format
 #| msgid "Audio driver:"
 msgid "Audio Mix"
 msgstr "Zvučni drajveer:"
 
-#: data/transitions/qtblend.xml:3
+#: data/transitions/qtblend.xml:4
 #, fuzzy, kde-format
 #| msgid "Crop and transform"
 msgid "Composite and transform"
 msgstr "Izreži i transformiši"
 
-#: data/transitions/qtblend.xml:4
+#: data/transitions/qtblend.xml:5
 #, kde-format
 msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
 
-#: data/transitions/region.xml:3
+#: data/transitions/region.xml:4
 #, fuzzy, kde-format
 msgctxt "Regionalize Transition Name"
 msgid "Regionalize"
 msgstr "Oblast"
 
-#: data/transitions/region.xml:4
+#: data/transitions/region.xml:5
 #, kde-format
 msgid "Use alpha channel of another clip to create a transition."
 msgstr "Koristi alfa kanal drugog snimka za kreiranje prenosa."
 
-#: data/transitions/region.xml:7
+#: data/transitions/region.xml:8
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Mask clip"
 msgstr "Snimci liste zvukova"
 
-#: data/transitions/region.xml:13
+#: data/transitions/region.xml:14
 #, kde-format
 msgid "Over,And,Or,Xor"
 msgstr "Preko,I,Ili,Xili"
 
-#: data/transitions/region.xml:14
+#: data/transitions/region.xml:15
 #, kde-format
 msgid "Alpha Channel Operation"
 msgstr "Operacija Alfa Kanala"
 
-#: data/transitions/region.xml:38
+#: data/transitions/region.xml:39
 #, kde-format
 msgid "Force Deinterlace Overlay"
 msgstr "Prisili Raspletavanje Preklapanja"
 
-#: data/transitions/slide.xml:3
+#: data/transitions/slide.xml:4
 #, fuzzy, kde-format
 #| msgid "Slide"
 msgctxt "Slide Transition Name"
 msgid "Slide"
 msgstr "Gurač"
 
-#: data/transitions/slide.xml:4
+#: data/transitions/slide.xml:5
 #, kde-format
 msgid "Slide image from one side to another."
 msgstr "Pomjeri sliku sa jedne na drugu stranu."
 
-#: data/transitions/slide.xml:7
+#: data/transitions/slide.xml:8
 #, kde-format
 msgid "Direction"
 msgstr "Pravac"
 
-#: data/transitions/vqm.xml:3
+#: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
 msgstr ""
 
-#: data/transitions/vqm.xml:4
+#: data/transitions/vqm.xml:5
 #, kde-format
 msgid ""
 "This performs the PSNR and SSIM video quality measurements by comparing the "
@@ -2978,25 +2978,25 @@ msgid ""
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
 
-#: data/transitions/vqm.xml:7
+#: data/transitions/vqm.xml:8
 #, fuzzy, kde-format
 msgid "Render line"
 msgstr "Obrni"
 
-#: data/transitions/vqm.xml:8
+#: data/transitions/vqm.xml:9
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
 
-#: data/transitions/wipe.xml:3
+#: data/transitions/wipe.xml:4
 #, fuzzy, kde-format
 #| msgid "Wipe"
 msgctxt "Wipe Transition Name"
 msgid "Wipe"
 msgstr "Čisti"
 
-#: data/transitions/wipe.xml:16
+#: data/transitions/wipe.xml:17
 #, fuzzy, kde-format
 msgid "Revert"
 msgstr "Obrni"
@@ -3462,14 +3462,14 @@ msgid "Update current preset"
 msgstr "Trenutna podešavanja"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:289
+#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:298
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Delete preset"
 msgstr "Izbriši proxies"
 
 #: src/assets/view/assetparameterview.cpp:337
-#: src/dialogs/kdenlivesettingsdialog.cpp:1346
+#: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgctxt "@title:window"
@@ -3477,7 +3477,7 @@ msgid "Enter Preset Name"
 msgstr "Unesi ime sekvence"
 
 #: src/assets/view/assetparameterview.cpp:337
-#: src/dialogs/kdenlivesettingsdialog.cpp:1346
+#: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -3837,19 +3837,19 @@ msgstr "<izaberi ključnu riječ>"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:171
 #: src/assets/view/widgets/listparamwidget.cpp:95
-#: src/assets/view/widgets/urllistparamwidget.cpp:135
+#: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, fuzzy, kde-format
 #| msgid "Dissolve"
 msgid "None (Dissolve)"
 msgstr "Rastopi"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:211
+#: src/assets/view/widgets/urllistparamwidget.cpp:205
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Podešen"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:260
+#: src/assets/view/widgets/urllistparamwidget.cpp:254
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid LUT file %1"
@@ -3943,7 +3943,7 @@ msgstr "Zvučni kanali"
 msgid "Open Effect Stack"
 msgstr "Stek Efekata"
 
-#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4061
+#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4062
 #: src/mltcontroller/clipcontroller.cpp:612
 #: src/onlineresources/resourcewidget.cpp:258
 #: src/onlineresources/resourcewidget.cpp:549
@@ -4138,15 +4138,15 @@ msgstr "Obriši snimak"
 msgid "Missing source clip"
 msgstr "Nedostaje izvor isječka"
 
-#: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
+#: src/bin/bin.cpp:1850 src/bin/bin.cpp:2244
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:430
+#: src/renderpresets/renderpresetrepository.cpp:433
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nije moguće pisati u datoteku %1"
 
-#: src/bin/bin.cpp:1860 src/bin/bin.cpp:2252 src/doc/kdenlivedoc.cpp:655
+#: src/bin/bin.cpp:1860 src/bin/bin.cpp:2253 src/doc/kdenlivedoc.cpp:655
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your project file was modified by Kdenlive.\n"
@@ -4263,12 +4263,12 @@ msgstr "Zašuti video snimak"
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2193 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:2193 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:33 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:539
 #: src/ui/configcapture_ui.ui:521 src/ui/cutjobdialog_ui.ui:57
 #: src/ui/editrenderpreset_ui.ui:840 src/ui/projectsettings_ui.ui:168
-#: src/ui/renderwidget_ui.ui:596
+#: src/ui/renderwidget_ui.ui:605
 #, kde-format
 msgid "Audio"
 msgstr "Zvuk"
@@ -4307,153 +4307,153 @@ msgid "Color"
 msgstr "Boja"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2273 src/ui/managecache_ui.ui:318
+#: src/bin/bin.cpp:2274 src/ui/managecache_ui.ui:318
 #, kde-format
 msgid "Folder"
 msgstr "Direktorij"
 
-#: src/bin/bin.cpp:2274
+#: src/bin/bin.cpp:2275
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Napravi direktorij"
 
-#: src/bin/bin.cpp:2406 src/bin/bin.cpp:2417 src/bin/bin.cpp:3340
+#: src/bin/bin.cpp:2407 src/bin/bin.cpp:2418 src/bin/bin.cpp:3341
 #: src/timeline2/model/timelinemodel.cpp:1986
 #, kde-format
 msgid "Delete Clip"
 msgstr "Obriši snimak"
 
-#: src/bin/bin.cpp:2407 src/bin/bin.cpp:2418 src/bin/bin.cpp:3320
+#: src/bin/bin.cpp:2408 src/bin/bin.cpp:2419 src/bin/bin.cpp:3321
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Proxy isječak"
 
-#: src/bin/bin.cpp:2411
+#: src/bin/bin.cpp:2412
 #, kde-format
 msgid "Delete Folder"
 msgstr "Obriši direktorij"
 
-#: src/bin/bin.cpp:2412
+#: src/bin/bin.cpp:2413
 #, fuzzy, kde-format
 msgid "Proxy Folder"
 msgstr "Datoteka Projekta"
 
-#: src/bin/bin.cpp:2641
+#: src/bin/bin.cpp:2642
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit rating"
 msgstr "Uredi trajanje"
 
-#: src/bin/bin.cpp:2643
+#: src/bin/bin.cpp:2644
 #, fuzzy, kde-format
 #| msgid "Cannot edit the duration of multiple items"
 msgid "Cannot set rating on this item"
 msgstr "Nije moguće obraditi trajanje više detalja"
 
-#: src/bin/bin.cpp:3275
+#: src/bin/bin.cpp:3276
 #, fuzzy, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Dodaj folder"
 
-#: src/bin/bin.cpp:3279
+#: src/bin/bin.cpp:3280
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "Dodaj boju isječka"
 
-#: src/bin/bin.cpp:3281
+#: src/bin/bin.cpp:3282
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Image Sequence…"
 msgstr "Sekvenca slike"
 
-#: src/bin/bin.cpp:3283
+#: src/bin/bin.cpp:3284
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "Dodaj naziv isječka"
 
-#: src/bin/bin.cpp:3285
+#: src/bin/bin.cpp:3286
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "Dodaj uzorak naziva"
 
-#: src/bin/bin.cpp:3287
+#: src/bin/bin.cpp:3288
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Animation…"
 msgstr "Kreiraj grupu"
 
-#: src/bin/bin.cpp:3290 src/mainwindow.cpp:356
+#: src/bin/bin.cpp:3291 src/mainwindow.cpp:356
 #, kde-format
 msgid "Online Resources"
 msgstr "Online resursi"
 
-#: src/bin/bin.cpp:3294
+#: src/bin/bin.cpp:3295
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Locate Clip…"
 msgstr "Obriši snimak"
 
-#: src/bin/bin.cpp:3299
+#: src/bin/bin.cpp:3300
 #, kde-format
 msgid "Reload Clip"
 msgstr "Ponovo učitaj Snimak"
 
-#: src/bin/bin.cpp:3305
+#: src/bin/bin.cpp:3306
 #, fuzzy, kde-format
 #| msgid "Transcoding to DVD format"
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transkodiranje u DVD format"
 
-#: src/bin/bin.cpp:3310
+#: src/bin/bin.cpp:3311
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Replace Clip…"
 msgstr "Ponovo učitaj Snimak"
 
-#: src/bin/bin.cpp:3315
+#: src/bin/bin.cpp:3316
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Duplicate Clip"
 msgstr "Obriši snimak"
 
-#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376
+#: src/bin/bin.cpp:3328 src/bin/bin.cpp:3377
 #, kde-format
 msgid "Clip Properties"
 msgstr "Video karakteristike"
 
-#: src/bin/bin.cpp:3332 src/mltcontroller/clippropertiescontroller.cpp:308
+#: src/bin/bin.cpp:3333 src/mltcontroller/clippropertiescontroller.cpp:308
 #, kde-format
 msgid "Edit Clip"
 msgstr "Obradi Snimak"
 
-#: src/bin/bin.cpp:3345
+#: src/bin/bin.cpp:3346
 #, fuzzy, kde-format
 #| msgid "Open projects in new tabs"
 msgid "Open in new bin"
 msgstr "Otvori projekte u novim karticama"
 
-#: src/bin/bin.cpp:3356
+#: src/bin/bin.cpp:3357
 #, kde-format
 msgid "Create Folder"
 msgstr "Napravi direktorij"
 
-#: src/bin/bin.cpp:3420 src/dialogs/textbasededit.cpp:623
+#: src/bin/bin.cpp:3421 src/dialogs/textbasededit.cpp:623
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Prikaži dnevnik"
 
-#: src/bin/bin.cpp:3423 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3424 src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
 msgstr "Detalji"
 
-#: src/bin/bin.cpp:3485
+#: src/bin/bin.cpp:3486
 #, fuzzy, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -4461,25 +4461,25 @@ msgstr[0] "Pomjeri snimke"
 msgstr[1] "Pomjeri snimke"
 msgstr[2] "Pomjeri snimke"
 
-#: src/bin/bin.cpp:3522
+#: src/bin/bin.cpp:3523
 #, fuzzy, kde-format
 msgid "No valid clip to insert"
 msgstr "Nije moguće naći snimak za preradu filtera %1"
 
-#: src/bin/bin.cpp:3546 src/timeline2/view/timelinecontroller.cpp:1361
+#: src/bin/bin.cpp:3547 src/timeline2/view/timelinecontroller.cpp:1361
 #: src/timeline2/view/timelinecontroller.cpp:3268
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/bin/bin.cpp:3555
+#: src/bin/bin.cpp:3556
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot apply effects on folders"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:3580 src/effects/effectstack/model/effectstackmodel.cpp:496
+#: src/bin/bin.cpp:3581 src/effects/effectstack/model/effectstackmodel.cpp:496
 #: src/effects/effectstack/model/effectstackmodel.cpp:501
 #: src/mainwindow.cpp:3006
 #, fuzzy, kde-format
@@ -4487,24 +4487,24 @@ msgstr "Nije moguće dodavanje video efekta na snimak"
 msgid "Cannot add effect to clip"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:3626 src/bin/bin.cpp:3633
+#: src/bin/bin.cpp:3627 src/bin/bin.cpp:3634
 #, fuzzy, kde-format
 #| msgid "Select a clip to save"
 msgid "Select a clip to add a tag"
 msgstr "Selektuj isječak da ga sčuvate"
 
-#: src/bin/bin.cpp:3772
+#: src/bin/bin.cpp:3773
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Uredi trajanje"
 
-#: src/bin/bin.cpp:4114
+#: src/bin/bin.cpp:4115
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4126
+#: src/bin/bin.cpp:4127
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -4513,12 +4513,12 @@ msgstr ""
 "Molimo vas da odaberete standardnu aplikaciju za otvaranje slika u dijalogu "
 "Podešenja"
 
-#: src/bin/bin.cpp:4131
+#: src/bin/bin.cpp:4132
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4143
+#: src/bin/bin.cpp:4144
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -4528,7 +4528,7 @@ msgstr ""
 "Molimo vas da odaberete standardnu aplikaciju za otvaranje zvučnih "
 "dokumenata u dijalogu Podešenja"
 
-#: src/bin/bin.cpp:4148 src/dialogs/kdenlivesettingsdialog.cpp:871
+#: src/bin/bin.cpp:4149 src/dialogs/kdenlivesettingsdialog.cpp:870
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to start the capture application:\n"
@@ -4538,17 +4538,17 @@ msgstr ""
 "Neuspješno pokretanje aplikacije za hvatanje isječaka:\n"
 "%1"
 
-#: src/bin/bin.cpp:4160
+#: src/bin/bin.cpp:4161
 #, kde-format
 msgid "Please set a path for the Glaxnimate application"
 msgstr ""
 
-#: src/bin/bin.cpp:4355 src/dialogs/profilesdialog.cpp:211
+#: src/bin/bin.cpp:4356 src/dialogs/profilesdialog.cpp:211
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4365
+#: src/bin/bin.cpp:4366
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4557,98 +4557,98 @@ msgstr ""
 "Obrađujete eksterni isječak naziva (%1). Da li želite spasiti promjene na "
 "imenovanoj datoteci ili da spasite samo izmjene na ovom projektu?"
 
-#: src/bin/bin.cpp:4368 src/titler/titlewidget.cpp:2186
+#: src/bin/bin.cpp:4369 src/titler/titlewidget.cpp:2178
 #, kde-format
 msgid "Save Title"
 msgstr "Sačuvaj naslov"
 
-#: src/bin/bin.cpp:4368
+#: src/bin/bin.cpp:4369
 #, kde-format
 msgid "Save to title file"
 msgstr "Sačuvaj naziv dokumenta"
 
-#: src/bin/bin.cpp:4369
+#: src/bin/bin.cpp:4370
 #, kde-format
 msgid "Save in project only"
 msgstr "Spasi samo u projekat"
 
-#: src/bin/bin.cpp:4387 src/dialogs/clipcreationdialog.cpp:373
+#: src/bin/bin.cpp:4388 src/dialogs/clipcreationdialog.cpp:373
 #, kde-format
 msgid "Title clip"
 msgstr "Naslov snimka"
 
-#: src/bin/bin.cpp:4437
+#: src/bin/bin.cpp:4438
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Okvir je nevažeći, uklonit će se iz projekta."
 
-#: src/bin/bin.cpp:4441
+#: src/bin/bin.cpp:4442
 #, kde-format
 msgid "Invalid clip"
 msgstr "Neispravan snimak"
 
-#: src/bin/bin.cpp:4578
+#: src/bin/bin.cpp:4579
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Enable proxies"
 msgstr "Izbriši proxies"
 
-#: src/bin/bin.cpp:4578
+#: src/bin/bin.cpp:4579
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Disable proxies"
 msgstr "Izbriši proxies"
 
-#: src/bin/bin.cpp:4753
+#: src/bin/bin.cpp:4754
 #, fuzzy, kde-format
 #| msgid "Rebuild Group"
 msgid "Rebuild proxies"
 msgstr "Ponovo izgradi Grupu"
 
-#: src/bin/bin.cpp:4993
+#: src/bin/bin.cpp:4994
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektne datoteke"
 
-#: src/bin/bin.cpp:5009
+#: src/bin/bin.cpp:5010
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "Dodaj traku"
 
-#: src/bin/bin.cpp:5011
+#: src/bin/bin.cpp:5012
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "Uredi vodic"
 
-#: src/bin/bin.cpp:5026
+#: src/bin/bin.cpp:5027
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5030
+#: src/bin/bin.cpp:5031
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5042 src/mainwindow.cpp:2595
+#: src/bin/bin.cpp:5043 src/mainwindow.cpp:2595
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nije moguće pronaći snimak za dodavanje markera"
 
-#: src/bin/bin.cpp:5140
+#: src/bin/bin.cpp:5141
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Dodavanje isječaka"
 
-#: src/bin/bin.cpp:5323 src/bin/clipcreator.cpp:145
+#: src/bin/bin.cpp:5324 src/bin/clipcreator.cpp:145
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4656,17 +4656,17 @@ msgctxt "@action"
 msgid "Add clip"
 msgstr "Dodaj snimak"
 
-#: src/bin/bin.cpp:5345
+#: src/bin/bin.cpp:5346
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5347
+#: src/bin/bin.cpp:5348
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5412 src/bin/bin.cpp:5486
+#: src/bin/bin.cpp:5413 src/bin/bin.cpp:5487
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -4683,12 +4683,12 @@ msgstr[2] ""
 "Dodatni slijedovi za snimak\n"
 " %1"
 
-#: src/bin/bin.cpp:5433
+#: src/bin/bin.cpp:5434
 #, kde-format
 msgid "Import selected clips"
 msgstr "Uvezi odabrane snimke"
 
-#: src/bin/bin.cpp:5435
+#: src/bin/bin.cpp:5436
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4697,12 +4697,12 @@ msgstr ""
 "Dodatni slijedovi za snimak\n"
 " %1"
 
-#: src/bin/bin.cpp:5445 src/mltcontroller/clippropertiescontroller.cpp:654
+#: src/bin/bin.cpp:5446 src/mltcontroller/clippropertiescontroller.cpp:654
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video slijed %1"
 
-#: src/bin/bin.cpp:5460
+#: src/bin/bin.cpp:5461
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Zvučni slijed %1"
@@ -4964,13 +4964,13 @@ msgstr "Izbriši snimak"
 msgid "Move subtitle"
 msgstr "Pomjeri vodič"
 
-#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:821
+#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:805
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:498
 #: src/effects/effectstack/view/effectstackview.cpp:558
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:830
-#: src/project/dialogs/archivewidget.cpp:843
-#: src/project/dialogs/archivewidget.cpp:859
-#: src/project/dialogs/archivewidget.cpp:872
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:829
+#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:858
+#: src/project/dialogs/archivewidget.cpp:871
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5566,7 +5566,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Profili upravljačkog kodiranja"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
-#: src/dialogs/kdenlivesettingsdialog.cpp:299
+#: src/dialogs/kdenlivesettingsdialog.cpp:298
 #: src/project/dialogs/archivewidget.cpp:91
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
@@ -5638,17 +5638,17 @@ msgstr "Prikaži sve profile"
 #: src/dialogs/encodingprofilesdialog.cpp:257
 #: src/dialogs/encodingprofilesdialog.cpp:343
 #: src/dialogs/encodingprofilesdialog.cpp:345
-#: src/dialogs/kdenlivesettingsdialog.cpp:667
-#: src/project/dialogs/projectsettings.cpp:858
-#: src/project/dialogs/projectsettings.cpp:860
+#: src/dialogs/kdenlivesettingsdialog.cpp:666
+#: src/project/dialogs/projectsettings.cpp:853
+#: src/project/dialogs/projectsettings.cpp:855
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Automatski"
 
 #: src/dialogs/encodingprofilesdialog.cpp:325
-#: src/project/dialogs/projectsettings.cpp:890
-#: src/project/dialogs/projectsettings.cpp:921
+#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:916
 #, kde-format
 msgid "Current Settings"
 msgstr "Trenutna Podešenja"
@@ -5667,7 +5667,7 @@ msgid "Export guides as chapters description"
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:46 src/dialogs/markerdialog.cpp:37
-#: src/dialogs/renderwidget.cpp:520 src/jobs/scenesplittask.cpp:60
+#: src/dialogs/renderwidget.cpp:504 src/jobs/scenesplittask.cpp:60
 #, kde-format
 msgid "Category %1"
 msgstr "Kategorija %1"
@@ -5717,229 +5717,229 @@ msgstr ""
 msgid "Guide comment"
 msgstr "Zona navoda"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3624
+#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3624
 #, kde-format
 msgid "Timeline"
 msgstr "Vremenska osa"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:120
+#: src/dialogs/kdenlivesettingsdialog.cpp:119
 #, fuzzy, kde-format
 #| msgid "Color"
 msgid "Colors"
 msgstr "Boja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:124
+#: src/dialogs/kdenlivesettingsdialog.cpp:123
 #, kde-format
 msgid "Speech To Text"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:128
+#: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
 msgid "Playback"
 msgstr "Reprodukcija"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:138
+#: src/dialogs/kdenlivesettingsdialog.cpp:137
 #, kde-format
 msgid "Capture"
 msgstr "Uhvati"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:216
-#: src/effects/effectlist/model/effecttreemodel.cpp:62
+#: src/dialogs/kdenlivesettingsdialog.cpp:215
+#: src/effects/effectlist/model/effecttreemodel.cpp:59
 #, kde-format
 msgid "Misc"
 msgstr "Razno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:240
-#: src/dialogs/kdenlivesettingsdialog.cpp:777
+#: src/dialogs/kdenlivesettingsdialog.cpp:239
+#: src/dialogs/kdenlivesettingsdialog.cpp:776
 #: src/doc/documentvalidator.cpp:2213
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:271
+#: src/dialogs/kdenlivesettingsdialog.cpp:270
 #, fuzzy, kde-format
 #| msgid "Select default video player"
 msgid "Select the Default Profile (preset)"
 msgstr "Odaberi standardni program za Video reprodukciju"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:290
+#: src/dialogs/kdenlivesettingsdialog.cpp:289
 #, kde-format
 msgid "Project Defaults"
 msgstr "Podrazumjevana podešenja projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:323
-#: src/dialogs/kdenlivesettingsdialog.cpp:347
+#: src/dialogs/kdenlivesettingsdialog.cpp:322
+#: src/dialogs/kdenlivesettingsdialog.cpp:346
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Use default folder: %1"
 msgstr "Zadani folderi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:325
-#: src/dialogs/kdenlivesettingsdialog.cpp:349
+#: src/dialogs/kdenlivesettingsdialog.cpp:324
+#: src/dialogs/kdenlivesettingsdialog.cpp:348
+#: src/dialogs/kdenlivesettingsdialog.cpp:1015
 #: src/dialogs/kdenlivesettingsdialog.cpp:1016
-#: src/dialogs/kdenlivesettingsdialog.cpp:1017
+#: src/dialogs/kdenlivesettingsdialog.cpp:1025
 #: src/dialogs/kdenlivesettingsdialog.cpp:1026
-#: src/dialogs/kdenlivesettingsdialog.cpp:1027
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:327
-#: src/dialogs/kdenlivesettingsdialog.cpp:351
+#: src/dialogs/kdenlivesettingsdialog.cpp:326
+#: src/dialogs/kdenlivesettingsdialog.cpp:350
+#: src/dialogs/kdenlivesettingsdialog.cpp:1022
 #: src/dialogs/kdenlivesettingsdialog.cpp:1023
-#: src/dialogs/kdenlivesettingsdialog.cpp:1024
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:364
+#: src/dialogs/kdenlivesettingsdialog.cpp:363
 #, kde-format
 msgid "Environment"
 msgstr "Okruženje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:400
+#: src/dialogs/kdenlivesettingsdialog.cpp:399
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Hvatanje nije još dostupno na Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:410
+#: src/dialogs/kdenlivesettingsdialog.cpp:409
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Mono (1 channel)"
 msgstr "Zvučni kanali"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/kdenlivesettingsdialog.cpp:410
 #, fuzzy, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Zvučni kanali"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:418
+#: src/dialogs/kdenlivesettingsdialog.cpp:417
 #, kde-format
 msgid "44100 Hz"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:419
+#: src/dialogs/kdenlivesettingsdialog.cpp:418
 #, kde-format
 msgid "48000 Hz"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:468
+#: src/dialogs/kdenlivesettingsdialog.cpp:467
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:475 src/dialogs/timeremap.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:474 src/dialogs/timeremap.cpp:1658
 #: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:997
 #: src/project/transcodeseek.cpp:37 src/project/transcodeseek.cpp:50
 #, kde-format
 msgid "Transcode"
 msgstr "Dekodiraj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:505
+#: src/dialogs/kdenlivesettingsdialog.cpp:504
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:674
+#: src/dialogs/kdenlivesettingsdialog.cpp:673
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:675
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:674
+#: src/dialogs/kdenlivesettingsdialog.cpp:727
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:676
+#: src/dialogs/kdenlivesettingsdialog.cpp:675
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:677
+#: src/dialogs/kdenlivesettingsdialog.cpp:676
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:679
+#: src/dialogs/kdenlivesettingsdialog.cpp:678
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound daemon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:680
+#: src/dialogs/kdenlivesettingsdialog.cpp:679
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS daemon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:692
-#: src/dialogs/kdenlivesettingsdialog.cpp:693 src/mainwindow.cpp:185
+#: src/dialogs/kdenlivesettingsdialog.cpp:691
+#: src/dialogs/kdenlivesettingsdialog.cpp:692 src/mainwindow.cpp:185
 #: src/ui/configproject_ui.ui:44
 #, kde-format
 msgid "Default"
 msgstr "Podrazumijevano"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:744
+#: src/dialogs/kdenlivesettingsdialog.cpp:743
 #, kde-format
 msgid "SDL"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:756
+#: src/dialogs/kdenlivesettingsdialog.cpp:755
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgid "RtAudio"
 msgstr "Zvuk"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:780 src/mainwindow.cpp:327
+#: src/dialogs/kdenlivesettingsdialog.cpp:779 src/mainwindow.cpp:327
 #, fuzzy, kde-format
 msgid "Monitor %1"
 msgstr "Isječak monitora"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:855
+#: src/dialogs/kdenlivesettingsdialog.cpp:854
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:863
+#: src/dialogs/kdenlivesettingsdialog.cpp:862
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:954
-#: src/dialogs/kdenlivesettingsdialog.cpp:972
+#: src/dialogs/kdenlivesettingsdialog.cpp:953
+#: src/dialogs/kdenlivesettingsdialog.cpp:971
 #: src/project/dialogs/projectsettings.cpp:500
 #, fuzzy, kde-format
 #| msgid "Please set your default video profile"
 msgid "Please select a video profile"
 msgstr "Molimo vas da odaberete standardni video profil"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1227
+#: src/dialogs/kdenlivesettingsdialog.cpp:1226
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1349
+#: src/dialogs/kdenlivesettingsdialog.cpp:1348
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profil sa tim imenom već postoji"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1483
+#: src/dialogs/kdenlivesettingsdialog.cpp:1482
 #, kde-format
 msgid "Current settings"
 msgstr "Trenutna podešavanja"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1521
-#: src/dialogs/kdenlivesettingsdialog.cpp:1557
-#: src/dialogs/kdenlivesettingsdialog.cpp:1574
+#: src/dialogs/kdenlivesettingsdialog.cpp:1520
+#: src/dialogs/kdenlivesettingsdialog.cpp:1556
+#: src/dialogs/kdenlivesettingsdialog.cpp:1573
 #: src/mltcontroller/clippropertiescontroller.cpp:559
 #: src/mltcontroller/clippropertiescontroller.cpp:1358
 #: src/project/dialogs/profilewidget.cpp:108 src/ui/editrenderpreset_ui.ui:222
@@ -5948,51 +5948,51 @@ msgstr "Trenutna podešavanja"
 msgid "Progressive"
 msgstr "Progresivno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1667
-#: src/dialogs/kdenlivesettingsdialog.cpp:1848
+#: src/dialogs/kdenlivesettingsdialog.cpp:1666
+#: src/dialogs/kdenlivesettingsdialog.cpp:1847
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Odaberi prijelaz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1672
+#: src/dialogs/kdenlivesettingsdialog.cpp:1671
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1703
+#: src/dialogs/kdenlivesettingsdialog.cpp:1702
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1731
+#: src/dialogs/kdenlivesettingsdialog.cpp:1730
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1737
+#: src/dialogs/kdenlivesettingsdialog.cpp:1736
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1747
+#: src/dialogs/kdenlivesettingsdialog.cpp:1746
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1753
-#: src/dialogs/kdenlivesettingsdialog.cpp:1811
+#: src/dialogs/kdenlivesettingsdialog.cpp:1752
+#: src/dialogs/kdenlivesettingsdialog.cpp:1810
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1762
+#: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -6000,25 +6000,25 @@ msgid ""
 "%1"
 msgstr "Obriši datoteku"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1785
+#: src/dialogs/kdenlivesettingsdialog.cpp:1784
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1789
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1818
+#: src/dialogs/kdenlivesettingsdialog.cpp:1817
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Raspakujem..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1825
+#: src/dialogs/kdenlivesettingsdialog.cpp:1824
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -6169,143 +6169,137 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1775
+#: src/dialogs/renderwidget.cpp:106 src/dialogs/renderwidget.cpp:1759
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
 msgstr "Čekam..."
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:109
 #, kde-format
 msgid "Rendering finished"
 msgstr "Iscrtavanje završenog"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:114
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Obrada krahirala"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:119
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Obrada prekinuta"
 
-#: src/dialogs/renderwidget.cpp:197
-#, fuzzy, kde-format
-#| msgid "Download New Render Profiles..."
-msgid "Download New Render Presets…"
-msgstr "Preuzmi novi profil vizualizacije..."
-
-#: src/dialogs/renderwidget.cpp:220 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:204 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Niti jedan"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:205
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Timecode"
 msgstr "Vrijeme"
 
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:206
 #, fuzzy, kde-format
 #| msgid "Real time (drop frames)"
 msgid "Timecode Non Drop Frame"
 msgstr "Stvarno vrijeme ( ispustiti okvire)"
 
-#: src/dialogs/renderwidget.cpp:223
+#: src/dialogs/renderwidget.cpp:207
 #, fuzzy, kde-format
 #| msgid "Limit keyframes number"
 msgid "Frame Number"
 msgstr "Ograniči broj glavnih okvira"
 
-#: src/dialogs/renderwidget.cpp:227
+#: src/dialogs/renderwidget.cpp:211
 #, fuzzy, kde-format
 #| msgid "Render using proxy clips"
 msgid "Rendering using low quality proxy"
 msgstr "Izrazi pomoću proxy isječaka"
 
-#: src/dialogs/renderwidget.cpp:294
+#: src/dialogs/renderwidget.cpp:278
 #, kde-format
 msgid "File"
 msgstr "Datoteka"
 
-#: src/dialogs/renderwidget.cpp:303
+#: src/dialogs/renderwidget.cpp:287
 #, fuzzy, kde-format
 #| msgid "Playlist"
 msgid "Stored Playlists"
 msgstr "Lista numera"
 
-#: src/dialogs/renderwidget.cpp:320 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:304 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:343
+#: src/dialogs/renderwidget.cpp:327
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:351
+#: src/dialogs/renderwidget.cpp:335
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "Došlo je do greške prilikom kopiranja fajlova:%1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
-#: src/ui/renderwidget_ui.ui:882
+#: src/dialogs/renderwidget.cpp:335 src/dialogs/renderwidget.cpp:343
+#: src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Share"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:356
+#: src/dialogs/renderwidget.cpp:340
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:359
+#: src/dialogs/renderwidget.cpp:343
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:495
+#: src/dialogs/renderwidget.cpp:479
 #, kde-format
 msgid "Beginning"
 msgstr "Početak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:502 src/ui/wipeval_ui.ui:167
+#: src/dialogs/renderwidget.cpp:486 src/ui/wipeval_ui.ui:167
 #, kde-format
 msgid "End"
 msgstr "Kraj"
 
-#: src/dialogs/renderwidget.cpp:515
+#: src/dialogs/renderwidget.cpp:499
 #, fuzzy, kde-format
 #| msgid "All categories"
 msgid "All Categories"
 msgstr "Sve kategorije"
 
-#: src/dialogs/renderwidget.cpp:634
+#: src/dialogs/renderwidget.cpp:618
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:640
+#: src/dialogs/renderwidget.cpp:624
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Ne mogu naći melt program potreban za iscrtavanje (dio Mlt)"
 
-#: src/dialogs/renderwidget.cpp:646 src/dialogs/renderwidget.cpp:1750
-#: src/project/dialogs/archivewidget.cpp:885
+#: src/dialogs/renderwidget.cpp:630 src/dialogs/renderwidget.cpp:1734
+#: src/project/dialogs/archivewidget.cpp:884
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Izlazni dokument već postoji. Da li želite pisati preko?"
 
-#: src/dialogs/renderwidget.cpp:653 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:637 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6314,70 +6308,70 @@ msgstr ""
 "Direktorij %1, ne može biti kreiran.\n"
 "Molimo vas da se uvjerite da imate zahtjevane dozvole."
 
-#: src/dialogs/renderwidget.cpp:697 src/dialogs/renderwidget.cpp:772
+#: src/dialogs/renderwidget.cpp:681 src/dialogs/renderwidget.cpp:756
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "Ne mogu kreirati privremenu datoteku"
 
-#: src/dialogs/renderwidget.cpp:742
+#: src/dialogs/renderwidget.cpp:726
 #, kde-format
 msgid "begin"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:797
+#: src/dialogs/renderwidget.cpp:781
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "ubaci"
 
-#: src/dialogs/renderwidget.cpp:812
+#: src/dialogs/renderwidget.cpp:796
 #, fuzzy, kde-format
 #| msgid "File rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Iscrtavanje dokumenata"
 
-#: src/dialogs/renderwidget.cpp:812
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:907
+#: src/dialogs/renderwidget.cpp:891
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:946 src/dialogs/renderwidget.cpp:951
-#: src/dialogs/renderwidget.cpp:1004 src/dialogs/renderwidget.cpp:1009
-#: src/dialogs/renderwidget.cpp:1950 src/dialogs/renderwidget.cpp:1977
+#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:935
+#: src/dialogs/renderwidget.cpp:988 src/dialogs/renderwidget.cpp:993
+#: src/dialogs/renderwidget.cpp:1934 src/dialogs/renderwidget.cpp:1961
 #: src/doc/kdenlivedoc.cpp:672 src/doc/kdenlivedoc.cpp:680
 #: src/doc/kdenlivedoc.cpp:1047
-#: src/effects/effectlist/model/effecttreemodel.cpp:253
-#: src/effects/effectlist/model/effecttreemodel.cpp:269
+#: src/effects/effectlist/model/effecttreemodel.cpp:250
+#: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #: src/effects/effectstack/view/effectstackview.cpp:595
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:667
 #: src/project/dialogs/archivewidget.cpp:671
-#: src/project/dialogs/archivewidget.cpp:850
-#: src/project/dialogs/archivewidget.cpp:865
-#: src/project/dialogs/archivewidget.cpp:878
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:896
-#: src/project/projectmanager.cpp:1285
-#: src/renderpresets/renderpresetrepository.cpp:380
-#: src/renderpresets/renderpresetrepository.cpp:439
+#: src/project/dialogs/archivewidget.cpp:849
+#: src/project/dialogs/archivewidget.cpp:864
+#: src/project/dialogs/archivewidget.cpp:877
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:895
+#: src/project/projectmanager.cpp:1287
+#: src/renderpresets/renderpresetrepository.cpp:383
+#: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4940
-#: src/titler/titlewidget.cpp:2202
+#: src/titler/titlewidget.cpp:2194
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/dialogs/renderwidget.cpp:1047 src/dialogs/renderwidget.cpp:1762
+#: src/dialogs/renderwidget.cpp:1031 src/dialogs/renderwidget.cpp:1746
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6389,64 +6383,64 @@ msgstr ""
 "Već postoji posao koji piše dokument:<br /><b>%1</b><br />Obustavite posao "
 "ako želite pisati preko..."
 
-#: src/dialogs/renderwidget.cpp:1048 src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1032 src/dialogs/renderwidget.cpp:1747
 #, kde-format
 msgid "Already running"
 msgstr "Već pokrenut"
 
-#: src/dialogs/renderwidget.cpp:1077
+#: src/dialogs/renderwidget.cpp:1061
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video bez audio zapisa"
 
-#: src/dialogs/renderwidget.cpp:1079
+#: src/dialogs/renderwidget.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "Video bez audio zapisa"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1127
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Iscrtavanje <i>%1</i> je započelo"
 
-#: src/dialogs/renderwidget.cpp:1209 src/monitor/monitor.cpp:1128
+#: src/dialogs/renderwidget.cpp:1193 src/monitor/monitor.cpp:1128
 #, kde-format
 msgid "untitled"
 msgstr "bez naslova"
 
-#: src/dialogs/renderwidget.cpp:1247
+#: src/dialogs/renderwidget.cpp:1231
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No preset selected"
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/dialogs/renderwidget.cpp:1249
+#: src/dialogs/renderwidget.cpp:1233
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "Nema profila koji se slaže"
 
-#: src/dialogs/renderwidget.cpp:1261
+#: src/dialogs/renderwidget.cpp:1245
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid preset"
 msgstr "Neispravan snimak"
 
-#: src/dialogs/renderwidget.cpp:1365
+#: src/dialogs/renderwidget.cpp:1349
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1524
+#: src/dialogs/renderwidget.cpp:1508
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Remaining time "
 msgstr "Otvaranje fajla %1"
 
-#: src/dialogs/renderwidget.cpp:1526 src/dialogs/renderwidget.cpp:1558
+#: src/dialogs/renderwidget.cpp:1510 src/dialogs/renderwidget.cpp:1542
 #, fuzzy, kde-format
 #| msgid "%1 dB"
 msgid "%1 day "
@@ -6455,38 +6449,38 @@ msgstr[0] "%1 dB"
 msgstr[1] "%1 dB"
 msgstr[2] "%1 dB"
 
-#: src/dialogs/renderwidget.cpp:1530
+#: src/dialogs/renderwidget.cpp:1514
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1560
+#: src/dialogs/renderwidget.cpp:1544
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Iscrtavanje je završeno za %1"
 
-#: src/dialogs/renderwidget.cpp:1569
+#: src/dialogs/renderwidget.cpp:1553
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Obrađivanje %1 završeno u %2"
 
-#: src/dialogs/renderwidget.cpp:1593
+#: src/dialogs/renderwidget.cpp:1577
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Iscrtavanje %1 krahiralo</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1636 src/ui/renderwidget_ui.ui:875
+#: src/dialogs/renderwidget.cpp:1620 src/ui/renderwidget_ui.ui:884
 #, kde-format
 msgid "Abort Job"
 msgstr "Prekini posao"
 
-#: src/dialogs/renderwidget.cpp:1639
+#: src/dialogs/renderwidget.cpp:1623
 #, kde-format
 msgid "Remove Job"
 msgstr "Ukloni posao"
 
-#: src/dialogs/renderwidget.cpp:2080
+#: src/dialogs/renderwidget.cpp:2064
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -6494,7 +6488,7 @@ msgid ""
 "%1"
 msgstr "FFmpeg parametri"
 
-#: src/dialogs/renderwidget.cpp:2100
+#: src/dialogs/renderwidget.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to current project"
@@ -6803,67 +6797,67 @@ msgstr ""
 msgid "Edit Timeremap keyframes"
 msgstr "Uredi glavni okvir"
 
-#: src/dialogs/wizard.cpp:70
+#: src/dialogs/wizard.cpp:69
 #, fuzzy, kde-format
 #| msgid "Required for Kdenlive"
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
 msgstr "Potrebno za Kdenlive"
 
-#: src/dialogs/wizard.cpp:76
+#: src/dialogs/wizard.cpp:75
 #, fuzzy, kde-format
 #| msgid "Required for Kdenlive"
 msgid "Welcome to Kdenlive %1"
 msgstr "Potrebno za Kdenlive"
 
-#: src/dialogs/wizard.cpp:77
+#: src/dialogs/wizard.cpp:76
 #, kde-format
 msgid "Using MLT %1"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
+#: src/dialogs/wizard.cpp:86 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
-#: src/project/dialogs/archivewidget.cpp:1165
+#: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Abort"
 msgstr "Prekini"
 
-#: src/dialogs/wizard.cpp:88
+#: src/dialogs/wizard.cpp:87
 #, kde-format
 msgid "OK"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:97
+#: src/dialogs/wizard.cpp:96
 #, kde-format
 msgid "Converting old custom effects successful:"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:105
+#: src/dialogs/wizard.cpp:104
 #, kde-format
 msgid "Converting old custom effects failed:"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:114
+#: src/dialogs/wizard.cpp:113
 #, kde-format
 msgid "Startup error or warning, check our <a href='#'>online manual</a>."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:135
+#: src/dialogs/wizard.cpp:134
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:140
+#: src/dialogs/wizard.cpp:139
 #, kde-format
 msgid "VAAPI hardware acceleration"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:143
+#: src/dialogs/wizard.cpp:142
 #, kde-format
 msgid "NVIDIA hardware acceleration"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:146
+#: src/dialogs/wizard.cpp:145
 #, kde-format
 msgid "Check hardware acceleration"
 msgstr ""
@@ -6871,118 +6865,118 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:169 src/project/cliptranscode.cpp:268
-#: src/ui/renderwidget_ui.ui:350 src/ui/renderwidget_ui.ui:918
-#: src/ui/renderwidget_ui.ui:1076
+#: src/dialogs/wizard.cpp:168 src/project/cliptranscode.cpp:268
+#: src/ui/renderwidget_ui.ui:359 src/ui/renderwidget_ui.ui:927
+#: src/ui/renderwidget_ui.ui:1085
 #, kde-format
 msgid "Close"
 msgstr "Zatvori"
 
-#: src/dialogs/wizard.cpp:193
+#: src/dialogs/wizard.cpp:192
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:199
+#: src/dialogs/wizard.cpp:198
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:226
+#: src/dialogs/wizard.cpp:225
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
 "many effects and transitions. Install recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:241
+#: src/dialogs/wizard.cpp:240
 #, kde-format
 msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
 "recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:255
+#: src/dialogs/wizard.cpp:254
 #, kde-format
 msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
 "feature. Install recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:275
+#: src/dialogs/wizard.cpp:274
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
 "many icons used in Kdenlive. Install recommended</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:304
+#: src/dialogs/wizard.cpp:303
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:316
+#: src/dialogs/wizard.cpp:315
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:326
+#: src/dialogs/wizard.cpp:325
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
 "video</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:335
+#: src/dialogs/wizard.cpp:334
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:342
+#: src/dialogs/wizard.cpp:341
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:348
+#: src/dialogs/wizard.cpp:347
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
 "animations</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:381
+#: src/dialogs/wizard.cpp:380
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
 "li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:395
+#: src/dialogs/wizard.cpp:394
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:409
+#: src/dialogs/wizard.cpp:408
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:479
+#: src/dialogs/wizard.cpp:478
 #, kde-format
 msgid ""
 "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
 "information</li>"
 msgstr ""
 
-#: src/dialogs/wizard.cpp:584
+#: src/dialogs/wizard.cpp:583
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
@@ -6990,22 +6984,22 @@ msgstr ""
 "Vaša MLT instalacija nije pronađena. Instalirajte MLT i ponovo pokrenite "
 "Kdenlive.\n"
 
-#: src/dialogs/wizard.cpp:588
+#: src/dialogs/wizard.cpp:587
 #, kde-format
 msgid "Fatal Error"
 msgstr "Kobna pogreška"
 
-#: src/dialogs/wizard.cpp:766
+#: src/dialogs/wizard.cpp:765
 #, kde-format
 msgid "No hardware encoders found."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:769
+#: src/dialogs/wizard.cpp:768
 #, kde-format
 msgid "NVIDIA hardware encoders found and enabled."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:772
+#: src/dialogs/wizard.cpp:771
 #, kde-format
 msgid "VAAPI hardware encoders found and enabled."
 msgstr ""
@@ -7323,13 +7317,13 @@ msgstr "Slijedeći efekti su uvezeni iz projekta:"
 msgid "Invalid file path"
 msgstr "Neispravan snimak"
 
-#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:486
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:484
 #: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
 #: src/mltcontroller/clippropertiescontroller.cpp:1484
 #: src/mltcontroller/clippropertiescontroller.cpp:1509
 #: src/profiles/profilerepository.cpp:173
-#: src/renderpresets/renderpresetrepository.cpp:371
+#: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Ne mogu otvoriti datoteku %1"
@@ -7580,35 +7574,35 @@ msgstr ""
 msgid "Show Title Bars"
 msgstr "Pokaži nazive barova"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:48
+#: src/effects/effectlist/model/effecttreemodel.cpp:45
 #, kde-format
 msgid "Legacy"
 msgstr ""
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:64
+#: src/effects/effectlist/model/effecttreemodel.cpp:61
 #: src/profiles/tree/profiletreemodel.cpp:56
 #, kde-format
 msgid "Custom"
 msgstr "Podešen"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/effects/effectlist/model/effecttreemodel.cpp:62
 #, fuzzy, kde-format
 #| msgid "Template"
 msgid "Templates"
 msgstr "Šablon"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:98
+#: src/effects/effectlist/model/effecttreemodel.cpp:95
 #, kde-format
 msgid " - deprecated"
 msgstr ""
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:230
+#: src/effects/effectlist/model/effecttreemodel.cpp:227
 #, fuzzy, kde-format
 #| msgid "error"
 msgid "Error"
 msgstr "greška"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:230
+#: src/effects/effectlist/model/effecttreemodel.cpp:227
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -7908,17 +7902,17 @@ msgstr "Ne mogu otvoriti datoteku %1"
 msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:514
+#: src/jobs/cliploadtask.cpp:512
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:656
+#: src/jobs/cliploadtask.cpp:654
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:717
+#: src/jobs/cliploadtask.cpp:715
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -8014,7 +8008,7 @@ msgstr "Ne može se kreirati potrošač %1."
 msgid "Cannot create filter %1"
 msgstr "Ne može se kreirati potrošač %1."
 
-#: src/jobs/filtertask.cpp:233
+#: src/jobs/filtertask.cpp:232
 #, fuzzy, kde-format
 #| msgid "Failed to start capture"
 msgid "Failed to filter source."
@@ -8768,59 +8762,51 @@ msgstr "IMENA PREVODITELJA"
 msgid "EMAIL OF TRANSLATORS"
 msgstr "EMAIL-OVI PREVODITELJA"
 
-#: src/main.cpp:257
-#, kde-format
-msgid ""
-"Using:\n"
-"<a href=\"https://mltframework.org\">MLT</a> version %1\n"
-"<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
-msgstr ""
-
-#: src/main.cpp:260
+#: src/main.cpp:256
 #, kde-format
 msgid "MLT"
 msgstr ""
 
-#: src/main.cpp:260
+#: src/main.cpp:256
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:262 src/ui/configcapture_ui.ui:26 src/ui/configcapture_ui.ui:49
+#: src/main.cpp:258 src/ui/configcapture_ui.ui:26 src/ui/configcapture_ui.ui:49
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:262
+#: src/main.cpp:258
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr ""
 
-#: src/main.cpp:283
+#: src/main.cpp:279
 #, kde-format
 msgid "Set a custom config file name"
 msgstr ""
 
-#: src/main.cpp:284
+#: src/main.cpp:280
 #, kde-format
 msgid "Set the path for MLT environment"
 msgstr "Postavi put za MLT okruženje"
 
-#: src/main.cpp:285
+#: src/main.cpp:281
 #, kde-format
 msgid "MLT log level"
 msgstr ""
 
-#: src/main.cpp:286
+#: src/main.cpp:282
 #, kde-format
 msgid "Comma separated list of clips to add"
 msgstr "Lista isječaka za dodavanje"
 
-#: src/main.cpp:287
+#: src/main.cpp:283
 #, kde-format
 msgid "Document to open"
 msgstr "Dokument za otvaranje"
@@ -9266,7 +9252,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1360 src/ui/editrenderpreset_ui.ui:414
-#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:737
+#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:746
 #, kde-format
 msgid "Auto"
 msgstr "Automatski"
@@ -10253,69 +10239,69 @@ msgstr ""
 msgid "Archiving project"
 msgstr "Arhivisanje projekta"
 
-#: src/mainwindow.cpp:4048
+#: src/mainwindow.cpp:4015
 #, fuzzy, kde-format
 msgid "Icon Size"
 msgstr "Font"
 
-#: src/mainwindow.cpp:4052
+#: src/mainwindow.cpp:4019
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Podrazumijevano"
 
-#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
+#: src/mainwindow.cpp:4040 src/mainwindow.cpp:4068
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
+#: src/mainwindow.cpp:4042 src/mainwindow.cpp:4070
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
+#: src/mainwindow.cpp:4044 src/mainwindow.cpp:4072
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4079 src/mainwindow.cpp:4107
+#: src/mainwindow.cpp:4046 src/mainwindow.cpp:4074
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4164
+#: src/mainwindow.cpp:4131
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4164
+#: src/mainwindow.cpp:4131
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide menu bar"
 msgstr "Sakrij okvir"
 
-#: src/mainwindow.cpp:4179
+#: src/mainwindow.cpp:4146
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4378 src/timeline2/view/timelinecontroller.cpp:4923
+#: src/mainwindow.cpp:4345 src/timeline2/view/timelinecontroller.cpp:4923
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Bez vodiča za vrijeme pokazivača"
 
-#: src/mainwindow.cpp:4465
+#: src/mainwindow.cpp:4432
 #, fuzzy, kde-format
 msgid "Project Bin %1"
 msgstr "Projektne datoteke"
 
-#: src/mainwindow.cpp:4566
+#: src/mainwindow.cpp:4533
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -10629,7 +10615,7 @@ msgstr "Video karakteristike"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1036
-#: src/project/dialogs/projectsettings.cpp:824 src/ui/projectsettings_ui.ui:517
+#: src/project/dialogs/projectsettings.cpp:819 src/ui/projectsettings_ui.ui:517
 #, kde-format
 msgid "Metadata"
 msgstr "Metapodaci"
@@ -10809,19 +10795,19 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Otvori analizu podataka"
 
-#: src/monitor/glwidget.cpp:1625
+#: src/monitor/glwidget.cpp:1632
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Alat za biranje"
 
-#: src/monitor/glwidget.cpp:1661
+#: src/monitor/glwidget.cpp:1668
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Alat za biranje"
 
-#: src/monitor/glwidget.cpp:1733
+#: src/monitor/glwidget.cpp:1740
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -11256,7 +11242,7 @@ msgstr "Snimaj"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:541
 #: src/ui/cutjobdialog_ui.ui:103 src/ui/editrenderpreset_ui.ui:118
-#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:469
+#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:478
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -11953,8 +11939,8 @@ msgstr[1] "Imate %1 snimaka koji nedostaju vašem projektu."
 msgstr[2] "Imate %1 snimaka koji nedostaju vašem projektu."
 
 #: src/project/dialogs/archivewidget.cpp:209
-#: src/project/dialogs/archivewidget.cpp:1311
-#: src/project/dialogs/archivewidget.cpp:1353
+#: src/project/dialogs/archivewidget.cpp:1310
+#: src/project/dialogs/archivewidget.cpp:1352
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -11963,8 +11949,8 @@ msgstr[1] "(%1 detalja)"
 msgstr[2] "(%1 detalja)"
 
 #: src/project/dialogs/archivewidget.cpp:215
-#: src/project/dialogs/archivewidget.cpp:1313
-#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1312
+#: src/project/dialogs/archivewidget.cpp:1354
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -11980,7 +11966,7 @@ msgstr "Arhiva"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #: src/project/dialogs/archivewidget.cpp:775
-#: src/project/dialogs/archivewidget.cpp:1136
+#: src/project/dialogs/archivewidget.cpp:1135
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Došlo je do greške prilikom procesuiranja fajla projekta"
@@ -12066,7 +12052,7 @@ msgstr "Arhiviranje.."
 #: src/project/dialogs/archivewidget.cpp:628
 #: src/project/dialogs/archivewidget.cpp:662
 #: src/project/dialogs/archivewidget.cpp:748
-#: src/project/dialogs/archivewidget.cpp:1162
+#: src/project/dialogs/archivewidget.cpp:1161
 #, fuzzy, kde-format
 msgid "Cannot create directory %1"
 msgstr "Ne može se kreirati potrošač %1."
@@ -12079,7 +12065,7 @@ msgid "Copying %1"
 msgstr "Uhvatiti za %1"
 
 #: src/project/dialogs/archivewidget.cpp:654
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:818
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Ne mogu kreirati privremenu datoteku"
@@ -12094,13 +12080,13 @@ msgstr "Projekat je uspješno arhiviran."
 msgid "There was an error while copying the files: %1"
 msgstr "Došlo je do greške prilikom kopiranja fajlova:%1"
 
-#: src/project/dialogs/archivewidget.cpp:1097
+#: src/project/dialogs/archivewidget.cpp:1096
 #, fuzzy, kde-format
 #| msgid "Archiving..."
 msgid "Archiving %1"
 msgstr "Arhiviranje.."
 
-#: src/project/dialogs/archivewidget.cpp:1133
+#: src/project/dialogs/archivewidget.cpp:1132
 #, fuzzy, kde-format
 #| msgid "Project was successfully archived."
 msgid ""
@@ -12108,18 +12094,18 @@ msgid ""
 "%1"
 msgstr "Projekat je uspješno arhiviran."
 
-#: src/project/dialogs/archivewidget.cpp:1164
+#: src/project/dialogs/archivewidget.cpp:1163
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting…"
 msgstr "Raspakujem..."
 
-#: src/project/dialogs/archivewidget.cpp:1230
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/dialogs/archivewidget.cpp:1230
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Cannot open file"
 msgstr "Ne mogu otvoriti datoteku"
@@ -12412,8 +12398,8 @@ msgstr ""
 "operacije, koja može prouzrokovati kvarenje prijenosa.\n"
 " Jeste li sigurni da želite nastaviti?"
 
-#: src/project/dialogs/projectsettings.cpp:737
-#: src/project/dialogs/projectsettings.cpp:752
+#: src/project/dialogs/projectsettings.cpp:732
+#: src/project/dialogs/projectsettings.cpp:747
 #: src/project/dialogs/slideshowclip.cpp:321
 #, kde-format
 msgid "1 image found"
@@ -12422,22 +12408,22 @@ msgstr[0] "pronađena %1 slika"
 msgstr[1] "pronađeno %1 slika"
 msgstr[2] "pronađeno %1 slika"
 
-#: src/project/dialogs/projectsettings.cpp:768
+#: src/project/dialogs/projectsettings.cpp:763
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Datoteka projekta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:769
+#: src/project/dialogs/projectsettings.cpp:764
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Profil projekta: %1"
 
-#: src/project/dialogs/projectsettings.cpp:770
+#: src/project/dialogs/projectsettings.cpp:765
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Ukupno isječaka: %1 (%2 korišteno na vremeplovu)."
 
-#: src/project/dialogs/projectsettings.cpp:824
+#: src/project/dialogs/projectsettings.cpp:819
 #, fuzzy, kde-format
 #| msgid "Metadata"
 msgctxt "@title:window"
@@ -12853,7 +12839,14 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1198
+#: src/renderpresets/renderpresetrepository.cpp:313
+#, fuzzy, kde-format
+#| msgid "Cannot create consumer %1."
+msgid "Cannot read file %1"
+msgstr "Ne može se kreirati potrošač %1."
+
+#: src/project/projectmanager.cpp:1272
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -12861,7 +12854,7 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazni dokument već postoji. Da li želite pisati preko?"
 
-#: src/project/projectmanager.cpp:1295
+#: src/project/projectmanager.cpp:1297
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
@@ -13175,13 +13168,13 @@ msgctxt "Category Name"
 msgid "Images sequence"
 msgstr "Sekvenca slike"
 
-#: src/renderpresets/renderpresetrepository.cpp:346
+#: src/renderpresets/renderpresetrepository.cpp:349
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Preset already exists"
 msgstr "Profil već postoji"
 
-#: src/renderpresets/renderpresetrepository.cpp:347
+#: src/renderpresets/renderpresetrepository.cpp:350
 #, fuzzy, kde-format
 #| msgid ""
 #| "This profile name already exists. Change the name if you don't want to "
@@ -14976,7 +14969,7 @@ msgid "No available stream"
 msgstr " kadrovi"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3249 src/titler/titlewidget.cpp:3252
+#: src/titler/titlewidget.cpp:3231 src/titler/titlewidget.cpp:3234
 #, kde-format
 msgid "Gradient %1"
 msgstr ""
@@ -15221,7 +15214,7 @@ msgid "Add Ellipse"
 msgstr "Dodaj snimak"
 
 #: src/titler/titlewidget.cpp:394 src/titler/titlewidget.cpp:397
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "Add Image"
 msgstr "Dodaj sliku"
@@ -15236,25 +15229,24 @@ msgstr "Otvori dokument"
 msgid "Save As"
 msgstr "Sačuvaj kao"
 
-#: src/titler/titlewidget.cpp:415 src/titler/titlewidget.cpp:418
-#: src/titler/titlewidget.cpp:421 src/titler/titlewidget.cpp:423
+#: src/titler/titlewidget.cpp:414 src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Skini nove nazive uzoraka..."
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:541
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgid "Save and add to project"
 msgstr "Sačuvaj DVD projekat"
 
-#: src/titler/titlewidget.cpp:550
+#: src/titler/titlewidget.cpp:542
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create Title"
 msgstr "Uzorak za naziv isječka"
 
-#: src/titler/titlewidget.cpp:699
+#: src/titler/titlewidget.cpp:691
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -15263,51 +15255,51 @@ msgstr ""
 "Da li zaista želiš da pokreneš novi uzorak? Promjene u nazivu biće "
 "promjenjene!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:798
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgid "All Images"
 msgstr "Dodaj sliku"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:800
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "%1 Image"
 msgstr "Slika"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1634
 #, kde-format
 msgid "−X"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:256
+#: src/titler/titlewidget.cpp:1636 src/ui/titlewidget_ui.ui:256
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1658
 #, kde-format
 msgid "−Y"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:286
+#: src/titler/titlewidget.cpp:1660 src/ui/titlewidget_ui.ui:286
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2127
 #, kde-format
 msgid "Load Title"
 msgstr "Učitavanje naziva"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2128
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2174
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -15316,7 +15308,7 @@ msgstr ""
 "Da li želite ugraditi Slike u ovaj dokument?\n"
 "Ovo je najviše potrebno za dijeljenje Naziva."
 
-#: src/titler/titlewidget.cpp:2249
+#: src/titler/titlewidget.cpp:2231
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
@@ -15325,48 +15317,48 @@ msgstr[0] "Obriši odabrane detalje"
 msgstr[1] "Obriši odabrane detalje"
 msgstr[2] "Obriši odabrane detalje"
 
-#: src/titler/titlewidget.cpp:2250 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2232 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalji"
 
-#: src/titler/titlewidget.cpp:2253
+#: src/titler/titlewidget.cpp:2235
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "Obriši odabrane detalje"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2295
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Ažuriraj profil"
 
-#: src/titler/titlewidget.cpp:2316
+#: src/titler/titlewidget.cpp:2298
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Dodaj uzorak naziva"
 
-#: src/titler/titlewidget.cpp:2370
+#: src/titler/titlewidget.cpp:2352
 #, kde-format
 msgid "The following files are missing:"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2564
+#: src/titler/titlewidget.cpp:2546
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Započni skriptu"
 
-#: src/titler/titlewidget.cpp:2565
+#: src/titler/titlewidget.cpp:2547
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3282
+#: src/titler/titlewidget.cpp:3264
 #, kde-format
 msgid "Gradient"
 msgstr ""
@@ -15941,8 +15933,8 @@ msgstr "Dodaj trenutno dugme"
 #: src/ui/manageencodingprofile_ui.ui:80 src/ui/projectsettings_ui.ui:264
 #: src/ui/projectsettings_ui.ui:271 src/ui/projectsettings_ui.ui:281
 #: src/ui/projectsettings_ui.ui:554 src/ui/projectsettings_ui.ui:561
-#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:544
-#: src/ui/renderwidget_ui.ui:978 src/ui/resourcewidget_ui.ui:210
+#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:553
+#: src/ui/renderwidget_ui.ui:987 src/ui/resourcewidget_ui.ui:210
 #: src/ui/resourcewidget_ui.ui:277 src/ui/speechdialog_ui.ui:95
 #: src/ui/textbasededit_ui.ui:57 src/ui/textbasededit_ui.ui:90
 #: src/ui/textbasededit_ui.ui:110 src/ui/textbasededit_ui.ui:184
@@ -18509,105 +18501,118 @@ msgstr "Kreiraj novi profil"
 msgid "&Save"
 msgstr "Sačuvaj"
 
+#. i18n: ectx: property (toolTip), widget (KNSWidgets::Button, m_knsbutton)
+#: src/ui/renderwidget_ui.ui:232
+#, fuzzy, kde-format
+#| msgid "Download New Render Profiles..."
+msgid "Download New Render Presets…"
+msgstr "Preuzmi novi profil vizualizacije..."
+
+#. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
+#: src/ui/renderwidget_ui.ui:241
+#, kde-format
+msgid ":data/kdenlive_renderprofiles.knsrc"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:249
+#: src/ui/renderwidget_ui.ui:258
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:252
+#: src/ui/renderwidget_ui.ui:261
 #, fuzzy, kde-format
 #| msgid "Favorites"
 msgid "&Favorite"
 msgstr "Omiljene"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:269
+#: src/ui/renderwidget_ui.ui:278
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit preset"
 msgstr "Uredi vodic"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:272
+#: src/ui/renderwidget_ui.ui:281
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "&Edit"
 msgstr "Izmjena"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:292
+#: src/ui/renderwidget_ui.ui:301
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "&Delete"
 msgstr "Obriši %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:323
+#: src/ui/renderwidget_ui.ui:332
 #, kde-format
 msgid "Render to File"
 msgstr "Vizualiziraj u datoteku"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:330
+#: src/ui/renderwidget_ui.ui:339
 #, kde-format
 msgid "Generate Script"
 msgstr "Generiranje skripte"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:361
+#: src/ui/renderwidget_ui.ui:370
 #, fuzzy, kde-format
 msgid "Fu&ll project"
 msgstr "Cijeli projekat"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:371
+#: src/ui/renderwidget_ui.ui:380
 #, fuzzy, kde-format
 msgid "Selected &zone"
 msgstr "Odabrane zone"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:378
+#: src/ui/renderwidget_ui.ui:387
 #, fuzzy, kde-format
 msgid "&Guide zone"
 msgstr "Zona navoda"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_multi)
-#: src/ui/renderwidget_ui.ui:385
+#: src/ui/renderwidget_ui.ui:394
 #, kde-format
 msgid "Guide Multi-Export"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:410
+#: src/ui/renderwidget_ui.ui:419
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:478
+#: src/ui/renderwidget_ui.ui:487
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "Render at Preview Resolution"
 msgstr "Video rezolucija"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:485
+#: src/ui/renderwidget_ui.ui:494
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
 msgid "Use Proxy Clips"
 msgstr "Proxy isječak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:492
+#: src/ui/renderwidget_ui.ui:501
 #, fuzzy, kde-format
 #| msgid "Split audio"
 msgid "Enabled"
 msgstr "Razdvoji zvuk"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:499
+#: src/ui/renderwidget_ui.ui:508
 #, fuzzy, kde-format
 #| msgid "Rescale"
 msgid "Rescale:"
@@ -18615,59 +18620,59 @@ msgstr "Promijeni razmjeru"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, rescale_keep)
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/renderwidget_ui.ui:541 src/ui/titlewidget_ui.ui:1381
+#: src/ui/renderwidget_ui.ui:550 src/ui/titlewidget_ui.ui:1381
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "Očuvati omjer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:586
+#: src/ui/renderwidget_ui.ui:595
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Overlay:"
 msgstr "Preklapanje"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:605
+#: src/ui/renderwidget_ui.ui:614
 #, fuzzy, kde-format
 msgid "Separate file for each audio track"
 msgstr "Video bez audio zapisa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:615
+#: src/ui/renderwidget_ui.ui:624
 #, fuzzy, kde-format
 #| msgid "Qualities"
 msgid "Custom Quality"
 msgstr "Kvalitete"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:629
+#: src/ui/renderwidget_ui.ui:638
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Low"
 msgstr "Dnevnik"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:642
+#: src/ui/renderwidget_ui.ui:651
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:661
+#: src/ui/renderwidget_ui.ui:670
 #, fuzzy, no-c-format, kde-format
 #| msgid "50%"
 msgid "75%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:668
+#: src/ui/renderwidget_ui.ui:677
 #, kde-format
 msgid "High"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:680
+#: src/ui/renderwidget_ui.ui:689
 #, fuzzy, kde-format
 #| msgid "Encoder threads"
 msgid "Encoder"
@@ -18675,7 +18680,7 @@ msgstr "Koder niti"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:686 src/ui/renderwidget_ui.ui:702
+#: src/ui/renderwidget_ui.ui:695 src/ui/renderwidget_ui.ui:711
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -18683,7 +18688,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:689
+#: src/ui/renderwidget_ui.ui:698
 #, fuzzy, kde-format
 #| msgid "Clip Properties"
 msgid "Speed:"
@@ -18691,112 +18696,112 @@ msgstr "Video karakteristike"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:721 src/ui/renderwidget_ui.ui:756
+#: src/ui/renderwidget_ui.ui:730 src/ui/renderwidget_ui.ui:765
 #, fuzzy, kde-format
 #| msgid "Threshold"
 msgid "Threads:"
 msgstr "Prag"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:734
+#: src/ui/renderwidget_ui.ui:743
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding threads"
 msgstr "Dekodiranje tema"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:747
+#: src/ui/renderwidget_ui.ui:756
 #, fuzzy, kde-format
 msgid "Parallel Processing"
 msgstr "Dekodiranje tema"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:770
+#: src/ui/renderwidget_ui.ui:779
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:789
+#: src/ui/renderwidget_ui.ui:798
 #, kde-format
 msgid "2 pass"
 msgstr "2 prolaza"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:798
+#: src/ui/renderwidget_ui.ui:807
 #, kde-format
 msgid "Export metadata"
 msgstr "Izvezi metapodatke"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:805
+#: src/ui/renderwidget_ui.ui:814
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:830
+#: src/ui/renderwidget_ui.ui:839
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:837
+#: src/ui/renderwidget_ui.ui:846
 #, fuzzy, kde-format
 #| msgid "Open browser window after export"
 msgid "Open folder after export"
 msgstr "Otvori prozor za pretraživanje poslije izvoza"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:844
+#: src/ui/renderwidget_ui.ui:853
 #, kde-format
 msgid "Play after render"
 msgstr "Pokreni nakon vizualizacije"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:866
+#: src/ui/renderwidget_ui.ui:875
 #, kde-format
 msgid "Job Queue"
 msgstr "Red posla"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:901
+#: src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Start Job"
 msgstr "Započni posao"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:911
+#: src/ui/renderwidget_ui.ui:920
 #, kde-format
 msgid "Clean Up"
 msgstr "Očisti"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:971
+#: src/ui/renderwidget_ui.ui:980
 #, kde-format
 msgid "Error Log"
 msgstr "Zapisnik grešaka"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1006
+#: src/ui/renderwidget_ui.ui:1015
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Isključi računar nakon vizualizacije"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1021
+#: src/ui/renderwidget_ui.ui:1030
 #, kde-format
 msgid "Scripts"
 msgstr "Skripte"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1049
+#: src/ui/renderwidget_ui.ui:1058
 #, kde-format
 msgid "Start Script"
 msgstr "Započni skriptu"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1056
+#: src/ui/renderwidget_ui.ui:1065
 #, kde-format
 msgid "Delete Script"
 msgstr "Obriši skriptu"

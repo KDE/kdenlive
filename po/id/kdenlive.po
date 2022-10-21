@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-17 00:46+0000\n"
+"POT-Creation-Date: 2022-10-21 00:46+0000\n"
 "PO-Revision-Date: 2022-09-27 18:00+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -30,124 +30,124 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "wantoyek@gmail.com,linerly@protonmail.com"
 
-#: data/effects/audiobalance.xml:3 data/effects/audiobalance.xml:8
+#: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:171 src/audiomixer/mixerwidget.cpp:182
 #, kde-format
 msgid "Balance"
 msgstr "Keseimbangan"
 
-#: data/effects/audiobalance.xml:4
+#: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
 msgstr "Sesuaikan keseimbangan kanan/kiri"
 
-#: data/effects/audiolevel.xml:3
+#: data/effects/audiolevel.xml:4
 #, kde-format
 msgid "Audio levels"
 msgstr "Level audio"
 
-#: data/effects/audiolevel.xml:4
+#: data/effects/audiolevel.xml:5
 #, kde-format
 msgid "Compute the audio amplitude."
 msgstr "Hitung amplitudo audio."
 
-#: data/effects/audiolevel.xml:7
+#: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
 msgstr "Gunakan skala IEC 60268-18"
 
-#: data/effects/audiolevelgraph.xml:3
+#: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
 msgstr "Filter Visualisasi Level Audio"
 
-#: data/effects/audiolevelgraph.xml:5
+#: data/effects/audiolevelgraph.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
 msgstr ""
 "Filter visualisasi audio yang menggambar pengukur level audio pada citra."
 
-#: data/effects/audiolevelgraph.xml:7
+#: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
 msgstr "Segmen,Bilah"
 
-#: data/effects/audiolevelgraph.xml:8 data/effects/audiospectrum.xml:9
+#: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "Graph type"
 msgstr "Tipe grafik"
 
-#: data/effects/audiolevelgraph.xml:9
+#: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
 msgstr "Tipenya grafik untuk menampilkan ketingkatan."
 
-#: data/effects/audiolevelgraph.xml:12 data/effects/audiospectrum.xml:13
-#: data/effects/audiowaveform.xml:6 data/effects/dynamictext.xml:22
-#: data/effects/pan_zoom.xml:16 data/effects/rotation.xml:40
-#: data/effects/rotation_keyframable.xml:22 src/monitor/monitor.cpp:369
+#: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
+#: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
+#: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
+#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:369
 #, kde-format
 msgid "Background Color"
 msgstr "Warna LatarBelakang"
 
-#: data/effects/audiolevelgraph.xml:13
+#: data/effects/audiolevelgraph.xml:14
 #, kde-format
 msgid "The background color to be applied to the entire frame."
 msgstr "Warna latar belakang yang mau diterapkan ke seluruh frame."
 
-#: data/effects/audiolevelgraph.xml:16
+#: data/effects/audiolevelgraph.xml:17
 #, kde-format
 msgid "Gradient Color 1"
 msgstr "Warna Gradien 1"
 
-#: data/effects/audiolevelgraph.xml:17 data/effects/audiolevelgraph.xml:21
-#: data/effects/audiolevelgraph.xml:25
+#: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
+#: data/effects/audiolevelgraph.xml:26
 #, kde-format
 msgid "The color of the waveform gradient."
 msgstr "Warna gradien bentuk gelombang."
 
-#: data/effects/audiolevelgraph.xml:20
+#: data/effects/audiolevelgraph.xml:21
 #, kde-format
 msgid "Gradient Color 2"
 msgstr "Warna Gradien 2"
 
-#: data/effects/audiolevelgraph.xml:24
+#: data/effects/audiolevelgraph.xml:25
 #, kde-format
 msgid "Gradient Color 3"
 msgstr "Warna Gradien 3"
 
-#: data/effects/audiolevelgraph.xml:28 data/effects/audiospectrum.xml:21
-#: data/effects/audiowaveform.xml:12
+#: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
+#: data/effects/audiowaveform.xml:13
 #, kde-format
 msgid "Line Thickness"
 msgstr "Ketebalan Garis"
 
-#: data/effects/audiolevelgraph.xml:29
+#: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
 msgstr "Ketebalan bilah atau segmen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: data/effects/audiolevelgraph.xml:32 data/effects/audiospectrum.xml:25
+#: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
 #: src/ui/gradientedit_ui.ui:96
 #, kde-format
 msgid "Angle"
 msgstr "Sudutpandang"
 
-#: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
+#: data/effects/audiolevelgraph.xml:34 data/effects/audiospectrum.xml:27
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
 msgstr "Sudutpandang rotasi yang akan diterapkan pada bentuk gelombang."
 
-#: data/effects/audiolevelgraph.xml:36 data/effects/audiospectrum.xml:29
-#: data/effects/audiowaveform.xml:15 data/effects/lightshow.xml:25
-#: data/effects/pan_zoom.xml:7 data/effects/pillar_echo.xml:7
-#: data/effects/qtblend.xml:8 data/effects/qtblend.xml:26
-#: data/effects/qtcrop.xml:7 data/effects/spot_remover.xml:7
-#: data/effects/tracker.xml:7 data/transitions/affine.xml:7
-#: data/transitions/composite.xml:7 data/transitions/qtblend.xml:7
-#: data/transitions/region.xml:10
+#: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
+#: data/effects/audiowaveform.xml:16 data/effects/lightshow.xml:26
+#: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
+#: data/effects/qtblend.xml:9 data/effects/qtblend.xml:27
+#: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
+#: data/effects/tracker.xml:8 data/transitions/affine.xml:8
+#: data/transitions/composite.xml:8 data/transitions/qtblend.xml:8
+#: data/transitions/region.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:249
 #: src/assets/view/widgets/keyframeimport.cpp:384
 #: src/assets/view/widgets/keyframeimport.cpp:860
@@ -156,77 +156,77 @@ msgstr "Sudutpandang rotasi yang akan diterapkan pada bentuk gelombang."
 msgid "Rectangle"
 msgstr "Persegi"
 
-#: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
+#: data/effects/audiolevelgraph.xml:38 data/effects/audiospectrum.xml:31
 #, kde-format
 msgid "Defines the rectangle that the waveform(s) should be drawn in."
 msgstr ""
 "Menentukan persegi panjang tempat bentuk gelombang yang harus digambar."
 
-#: data/effects/audiolevelgraph.xml:40 data/effects/audiospectrum.xml:37
+#: data/effects/audiolevelgraph.xml:41 data/effects/audiospectrum.xml:38
 #, kde-format
 msgid "Mirror"
 msgstr "Cermin"
 
-#: data/effects/audiolevelgraph.xml:41 data/effects/audiospectrum.xml:38
+#: data/effects/audiolevelgraph.xml:42 data/effects/audiospectrum.xml:39
 #, kde-format
 msgid "Mirror the spectrum about the center of the rectangle."
 msgstr "Cermin spektrum tentang tengah pada persegi panjang."
 
-#: data/effects/audiolevelgraph.xml:44 data/effects/audiospectrum.xml:41
-#: data/transitions/dissolve.xml:12 data/transitions/luma.xml:19
-#: data/transitions/mix.xml:7
+#: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
+#: data/transitions/dissolve.xml:13 data/transitions/luma.xml:20
+#: data/transitions/mix.xml:8
 #, kde-format
 msgid "Reverse"
 msgstr "Mundur"
 
-#: data/effects/audiolevelgraph.xml:45
+#: data/effects/audiolevelgraph.xml:46
 #, kde-format
 msgid "Draw the points starting with the right channel first."
 msgstr "Gambari titik dimulai dengan kanal yang benar terlebih dahulu."
 
-#: data/effects/audiolevelgraph.xml:48
+#: data/effects/audiolevelgraph.xml:49
 #, kde-format
 msgid "Vertical,Horizontal"
 msgstr "Vertikal,Horisontal"
 
-#: data/effects/audiolevelgraph.xml:49
+#: data/effects/audiolevelgraph.xml:50
 #, kde-format
 msgid "Gradient Orientation"
 msgstr "Orientasi Gradien"
 
-#: data/effects/audiolevelgraph.xml:50
+#: data/effects/audiolevelgraph.xml:51
 #, kde-format
 msgid "Direction of the color gradient."
 msgstr "Arah pada warna gradien."
 
-#: data/effects/audiolevelgraph.xml:53 data/kdenliveeffectscategory.rc:85
+#: data/effects/audiolevelgraph.xml:54 data/kdenliveeffectscategory.rc:85
 #, kde-format
 msgid "Channels"
 msgstr "Kanal"
 
-#: data/effects/audiolevelgraph.xml:54
+#: data/effects/audiolevelgraph.xml:55
 #, kde-format
 msgid "The number of channels to show."
 msgstr "Jumlah kanal yang ditampilkan."
 
-#: data/effects/audiolevelgraph.xml:57
+#: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
 msgstr "Jarak Segmen"
 
-#: data/effects/audiolevelgraph.xml:58
+#: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
 msgstr "Spasi dalam pixel antara segmen."
 
-#: data/effects/audiomap.xml:3 data/effects/audiomap.xml:4
+#: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
 msgid "audiomap"
 msgstr "peta audio"
 
-#: data/effects/audiomap.xml:7 data/effects/audiomap.xml:11
-#: data/effects/audiomap.xml:15 data/effects/audiomap.xml:19
-#: data/effects/audiomap.xml:23 data/effects/audiomap.xml:27
+#: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
+#: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
+#: data/effects/audiomap.xml:24 data/effects/audiomap.xml:28
 #, kde-format
 msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
@@ -235,87 +235,87 @@ msgstr ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
-#: data/effects/audiomap.xml:8
+#: data/effects/audiomap.xml:9
 #, kde-format
 msgid "CH1 source"
 msgstr "Sumber CH1"
 
-#: data/effects/audiomap.xml:12
+#: data/effects/audiomap.xml:13
 #, kde-format
 msgid "CH2 source"
 msgstr "Sumber CH2"
 
-#: data/effects/audiomap.xml:16
+#: data/effects/audiomap.xml:17
 #, kde-format
 msgid "CH3 source"
 msgstr "Sumber CH3"
 
-#: data/effects/audiomap.xml:20
+#: data/effects/audiomap.xml:21
 #, kde-format
 msgid "CH4 source"
 msgstr "Sumber CH4"
 
-#: data/effects/audiomap.xml:24
+#: data/effects/audiomap.xml:25
 #, kde-format
 msgid "CH5 source"
 msgstr "Sumber CH5"
 
-#: data/effects/audiomap.xml:28
+#: data/effects/audiomap.xml:29
 #, kde-format
 msgid "CH6 source"
 msgstr "Sumber CH6"
 
-#: data/effects/audiopan.xml:3
+#: data/effects/audiopan.xml:4
 #, fuzzy, kde-format
 msgctxt "Pan Effect Name"
 msgid "Pan"
 msgstr "Pan"
 
-#: data/effects/audiopan.xml:4
+#: data/effects/audiopan.xml:5
 #, kde-format
 msgid "Adjust the left/right spread of a channel"
 msgstr "Sesuaikan kiri/kanan sebaran kanal."
 
-#: data/effects/audiopan.xml:7 data/effects/channelcopy.xml:7
-#: data/effects/channelcopy.xml:11
+#: data/effects/audiopan.xml:8 data/effects/channelcopy.xml:8
+#: data/effects/channelcopy.xml:12
 #, kde-format
 msgid "Left,Right"
 msgstr "Kiri,Kanan"
 
-#: data/effects/audiopan.xml:8
+#: data/effects/audiopan.xml:9
 #, kde-format
 msgid "Channel"
 msgstr "Kanal"
 
-#: data/effects/audiopan.xml:11
+#: data/effects/audiopan.xml:12
 #, fuzzy, kde-format
 msgctxt "Audio Pan"
 msgid "Pan"
 msgstr "Pan"
 
-#: data/effects/audiospectrum.xml:4
+#: data/effects/audiospectrum.xml:5
 #, kde-format
 msgid "Audio Spectrum Filter"
 msgstr "Filter Spektrum Audio"
 
-#: data/effects/audiospectrum.xml:5
+#: data/effects/audiospectrum.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
 msgstr ""
 "Sebuah filter visualisasi audio yang menggambar spektrum audio pada citra."
 
-#: data/effects/audiospectrum.xml:8
+#: data/effects/audiospectrum.xml:9
 #, kde-format
 msgid "Line,Bar"
 msgstr "Bilah,Garis"
 
-#: data/effects/audiospectrum.xml:10
+#: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
 msgstr "Tipenya grafik untuk menampilkan spektrum."
 
-#: data/effects/audiospectrum.xml:14
+#: data/effects/audiospectrum.xml:15
 #, kde-format
 msgid ""
 "The background color to be applied to the entire frame. The default color is "
@@ -324,17 +324,17 @@ msgstr ""
 "Warna latar belakang yang akan diterapkan ke seluruh frame. Warna bawaannya "
 "adalah transparan."
 
-#: data/effects/audiospectrum.xml:17
+#: data/effects/audiospectrum.xml:18
 #, kde-format
 msgid "Foreground color"
 msgstr "Warna latardepan"
 
-#: data/effects/audiospectrum.xml:18
+#: data/effects/audiospectrum.xml:19
 #, kde-format
 msgid "The color of the waveform."
 msgstr "Warna pada bentuk gelombang."
 
-#: data/effects/audiospectrum.xml:22
+#: data/effects/audiospectrum.xml:23
 #, kde-format
 msgid ""
 "The thickness of the line used to draw the waveform for line graph. The "
@@ -343,13 +343,13 @@ msgstr ""
 "Ketebalan garis yang digunakan untuk menggambar bentuk gelombang untuk "
 "grafik garis. Ketebalan bilah untuk grafik bilah."
 
-#: data/effects/audiospectrum.xml:33 data/effects/audiowaveform.xml:18
-#: data/transitions/region.xml:20
+#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:19
+#: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
 msgstr "Isi"
 
-#: data/effects/audiospectrum.xml:34
+#: data/effects/audiospectrum.xml:35
 #, kde-format
 msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
@@ -358,18 +358,18 @@ msgstr ""
 "Apakah area di bawah bentuk gelombang harus diisi. Hanya berlaku untuk jenis "
 "grafik garis."
 
-#: data/effects/audiospectrum.xml:42
+#: data/effects/audiospectrum.xml:43
 #, kde-format
 msgid "Draw the points starting with the highest frequency first."
 msgstr ""
 "Gambar titik-titik yang dimulai dengan frekuensi tertinggi terlebih dahulu."
 
-#: data/effects/audiospectrum.xml:45
+#: data/effects/audiospectrum.xml:46
 #, kde-format
 msgid "Line Tension"
 msgstr "Ketegangan Garis"
 
-#: data/effects/audiospectrum.xml:46
+#: data/effects/audiospectrum.xml:47
 #, kde-format
 msgid ""
 "Affects the amount of curve in the line interpolating between points. 0.0 = "
@@ -382,12 +382,12 @@ msgstr ""
 "dan > 100 akan menyebabkan loop pada garis. Hanya berlaku untuk jenis grafik "
 "garis."
 
-#: data/effects/audiospectrum.xml:49
+#: data/effects/audiospectrum.xml:50
 #, kde-format
 msgid "Points"
 msgstr "Poin"
 
-#: data/effects/audiospectrum.xml:50
+#: data/effects/audiospectrum.xml:51
 #, kde-format
 msgid ""
 "The number of bands to draw in the spectrum. Each band shows up as a data "
@@ -396,32 +396,32 @@ msgstr ""
 "Jumlah pita yang akan digambar dalam spektrum. Setiap band muncul sebagai "
 "poin data dalam grafik."
 
-#: data/effects/audiospectrum.xml:53 data/effects/dance.xml:7
+#: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
 #, kde-format
 msgid "Low Frequency"
 msgstr "Frekuensi Rendah"
 
-#: data/effects/audiospectrum.xml:54
+#: data/effects/audiospectrum.xml:55
 #, kde-format
 msgid "The low end of the frequency range to be used for the graph."
 msgstr "Ujung bawah rentang frekuensi yang akan digunakan untuk grafik."
 
-#: data/effects/audiospectrum.xml:57 data/effects/dance.xml:10
+#: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, kde-format
 msgid "High Frequency"
 msgstr "Frekuensi Tinggi"
 
-#: data/effects/audiospectrum.xml:58
+#: data/effects/audiospectrum.xml:59
 #, kde-format
 msgid "The high end of the frequency range to be used for the graph."
 msgstr "Ujung atas rentang frekuensi yang akan digunakan untuk grafik."
 
-#: data/effects/audiospectrum.xml:61 data/effects/dance.xml:13
+#: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
 msgid "Level Threshold"
 msgstr "Batas Ambang Level"
 
-#: data/effects/audiospectrum.xml:62
+#: data/effects/audiospectrum.xml:63
 #, kde-format
 msgid ""
 "The minimum amplitude of sound that must occur within the frequency range to "
@@ -430,12 +430,12 @@ msgstr ""
 "Amplitudo minimum suara yang harus terjadi dalam rentang frekuensi untuk "
 "menyebabkan nilai diterapkan."
 
-#: data/effects/audiospectrum.xml:65 data/effects/dance.xml:43
+#: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, kde-format
 msgid "Window Size"
 msgstr "Ukuran Jendela"
 
-#: data/effects/audiospectrum.xml:66
+#: data/effects/audiospectrum.xml:67
 #, kde-format
 msgid ""
 "The number of samples that the FFT will be performed on. If window size is "
@@ -451,263 +451,263 @@ msgstr ""
 "frame sebelumnya untuk mengisi jendela. Buffering dilakukan sebagai jendela "
 "geser sehingga sampel terbaru selalu berubah."
 
-#: data/effects/audiowave.xml:3
+#: data/effects/audiowave.xml:4
 #, kde-format
 msgid "Audio Wave"
 msgstr "Gelombang Audio"
 
-#: data/effects/audiowave.xml:4
+#: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
 msgstr "Tampilkan bentuk gelombang audio daripada video"
 
-#: data/effects/audiowaveform.xml:3
+#: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
 msgstr "Filter Bentuk Gelombang Audio"
 
-#: data/effects/audiowaveform.xml:9 data/effects/dynamictext.xml:19
+#: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #, kde-format
 msgid "Foreground Color"
 msgstr "Warna LatarDepan"
 
-#: data/effects/audiowaveform.xml:21
+#: data/effects/audiowaveform.xml:22
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
 msgstr "Gabung,Semua,1,2,3,4,5,6,7,8,9,10"
 
-#: data/effects/audiowaveform.xml:22
+#: data/effects/audiowaveform.xml:23
 #, kde-format
 msgid "Channel to draw"
 msgstr "Kanal untuk menggambar"
 
-#: data/effects/box_blur.xml:3
+#: data/effects/box_blur.xml:4
 #, kde-format
 msgid "BoxBlur"
 msgstr "Kotak Buram"
 
-#: data/effects/box_blur.xml:4 data/effects/boxblur.xml:4
+#: data/effects/box_blur.xml:5 data/effects/boxblur.xml:5
 #, kde-format
 msgid "Box blur (separate horizontal and vertical blur)"
 msgstr "Kotak buram (buran vertikal dan horisontal terpisah)"
 
-#: data/effects/box_blur.xml:7 data/effects/boxblur.xml:7
+#: data/effects/box_blur.xml:8 data/effects/boxblur.xml:8
 #, kde-format
 msgid "Horizontal multiplicator"
 msgstr "Pengganda horizontal"
 
-#: data/effects/box_blur.xml:10 data/effects/boxblur.xml:10
+#: data/effects/box_blur.xml:11 data/effects/boxblur.xml:11
 #, kde-format
 msgid "Vertical multiplicator"
 msgstr "Pengganda vertikal"
 
-#: data/effects/boxblur.xml:3
+#: data/effects/boxblur.xml:4
 #, kde-format
 msgid "Box Blur"
 msgstr "Kotak Buram"
 
-#: data/effects/boxblur.xml:13
+#: data/effects/boxblur.xml:14
 #, kde-format
 msgid "Blur factor"
 msgstr "Faktor buram"
 
-#: data/effects/brightness.xml:3
+#: data/effects/brightness.xml:4
 #, kde-format
 msgid "Brightness (keyframable)"
 msgstr "Kecerahan (keyframable)"
 
-#: data/effects/brightness.xml:4
+#: data/effects/brightness.xml:5
 #, kde-format
 msgid "Change image brightness with keyframes"
 msgstr "Ubah kecerahan citra dengan keyframe"
 
-#: data/effects/brightness.xml:7
+#: data/effects/brightness.xml:8
 #, kde-format
 msgid "Intensity"
 msgstr "Intensitas"
 
-#: data/effects/channelcopy.xml:3
+#: data/effects/channelcopy.xml:4
 #, kde-format
 msgid "Stereo to mono"
 msgstr "Stereo ke mono"
 
-#: data/effects/channelcopy.xml:4
+#: data/effects/channelcopy.xml:5
 #, kde-format
 msgid "Copy one channel to another"
 msgstr "Salin kanal satu untuk yang lain"
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
-#: data/effects/channelcopy.xml:8 src/ui/import_subtitle_ui.ui:61
+#: data/effects/channelcopy.xml:9 src/ui/import_subtitle_ui.ui:61
 #: src/ui/renderwidget_ui.ui:93
 #, kde-format
 msgid "From"
 msgstr "Dari"
 
-#: data/effects/channelcopy.xml:12
+#: data/effects/channelcopy.xml:13
 #, kde-format
 msgid "To"
 msgstr "Ke"
 
-#: data/effects/channelcopy.xml:15 data/effects/copychannelstostereo.xml:15
-#: data/effects/swapchannels.xml:3
+#: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
+#: data/effects/swapchannels.xml:4
 #: src/mltcontroller/clippropertiescontroller.cpp:854
 #, kde-format
 msgid "Swap channels"
 msgstr "Tukar kanal"
 
-#: data/effects/charcoal.xml:3
+#: data/effects/charcoal.xml:4
 #, kde-format
 msgid "Charcoal"
 msgstr "Arang"
 
-#: data/effects/charcoal.xml:4
+#: data/effects/charcoal.xml:5
 #, kde-format
 msgid "Charcoal drawing effect"
 msgstr "Efek gambar arang"
 
-#: data/effects/charcoal.xml:7
+#: data/effects/charcoal.xml:8
 #, kde-format
 msgid "Horizontal scatter"
 msgstr "Penyebar horisontal"
 
-#: data/effects/charcoal.xml:10
+#: data/effects/charcoal.xml:11
 #, kde-format
 msgid "Vertical scatter"
 msgstr "Penyebar vertikal"
 
-#: data/effects/charcoal.xml:13
+#: data/effects/charcoal.xml:14
 #, kde-format
 msgid "Scale"
 msgstr "Skala"
 
-#: data/effects/charcoal.xml:16
+#: data/effects/charcoal.xml:17
 #, kde-format
 msgid "Mix"
 msgstr "Campur"
 
-#: data/effects/charcoal.xml:19 data/effects/mask_start_rotoscoping.xml:22
-#: data/effects/mask_start_shape.xml:21 data/effects/mirror.xml:11
-#: data/effects/rotoscoping.xml:19 data/effects/shape.xml:18
-#: data/transitions/luma.xml:16 data/transitions/region.xml:32
-#: data/transitions/wipe.xml:13
+#: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
+#: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
+#: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
+#: data/transitions/luma.xml:17 data/transitions/region.xml:33
+#: data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "Kebalikan"
 
-#: data/effects/chroma.xml:3
+#: data/effects/chroma.xml:4
 #, kde-format
 msgid "Chroma Key: Basic"
 msgstr "Kunci Kroma: Dasar"
 
-#: data/effects/chroma.xml:4
+#: data/effects/chroma.xml:5
 #, kde-format
 msgid "Make selected color transparent"
 msgstr "Buat transparan warna yang dipilih"
 
-#: data/effects/chroma.xml:7 data/effects/chroma_hold.xml:7
+#: data/effects/chroma.xml:8 data/effects/chroma_hold.xml:8
 #, kde-format
 msgid "Color key"
 msgstr "Tombol warna"
 
-#: data/effects/chroma.xml:10 data/effects/chroma_hold.xml:10
+#: data/effects/chroma.xml:11 data/effects/chroma_hold.xml:11
 #, kde-format
 msgid "Variance"
 msgstr "Varian"
 
-#: data/effects/chroma_hold.xml:3
+#: data/effects/chroma_hold.xml:4
 #, kde-format
 msgid "Chroma Keep"
 msgstr "Jaga Kroma"
 
-#: data/effects/chroma_hold.xml:4
+#: data/effects/chroma_hold.xml:5
 #, kde-format
 msgid "Make image greyscale except for chosen color"
 msgstr "Buat citra skala abu kecuali untuk warna yang dipilih"
 
-#: data/effects/copychannelstostereo.xml:3
+#: data/effects/copychannelstostereo.xml:4
 #, kde-format
 msgid "Copy Channels to Stereo"
 msgstr "Salin Kanal ke Stereo"
 
-#: data/effects/copychannelstostereo.xml:4
+#: data/effects/copychannelstostereo.xml:5
 #, kde-format
 msgid "Copy one audio channel to another."
 msgstr "Salin salah satu kanal audio untuk lainnya."
 
-#: data/effects/copychannelstostereo.xml:7
-#: data/effects/copychannelstostereo.xml:11
+#: data/effects/copychannelstostereo.xml:8
+#: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 
-#: data/effects/copychannelstostereo.xml:8
+#: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
 msgstr "DARI"
 
-#: data/effects/copychannelstostereo.xml:12
+#: data/effects/copychannelstostereo.xml:13
 #, kde-format
 msgid "TO"
 msgstr "KE"
 
-#: data/effects/crop.xml:3
+#: data/effects/crop.xml:4
 #, kde-format
 msgid "Edge Crop"
 msgstr "Pangkas Tepi"
 
-#: data/effects/crop.xml:4
+#: data/effects/crop.xml:5
 #, kde-format
 msgid "Trim the edges of a clip"
 msgstr "Pangkas tepi klip"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:7 src/ui/configmisc_ui.ui:116
+#: data/effects/crop.xml:8 src/ui/configmisc_ui.ui:116
 #, kde-format
 msgid "Top"
 msgstr "Atas"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:10 data/effects/dance.xml:25 data/effects/dance.xml:34
+#: data/effects/crop.xml:11 data/effects/dance.xml:26 data/effects/dance.xml:35
 #: src/ui/configmisc_ui.ui:126
 #, kde-format
 msgid "Left"
 msgstr "Kiri"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:13 src/ui/configmisc_ui.ui:121
+#: data/effects/crop.xml:14 src/ui/configmisc_ui.ui:121
 #, kde-format
 msgid "Bottom"
 msgstr "Bawah"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:16 data/effects/dance.xml:28
+#: data/effects/crop.xml:17 data/effects/dance.xml:29
 #: src/ui/configmisc_ui.ui:131
 #, kde-format
 msgid "Right"
 msgstr "Kanan"
 
-#: data/effects/crop.xml:19
+#: data/effects/crop.xml:20
 #, kde-format
 msgid "Automatic center-crop"
 msgstr "Pangkas tengah otomatis"
 
-#: data/effects/crop.xml:22
+#: data/effects/crop.xml:23
 #, kde-format
 msgid "Center balance"
 msgstr "Keseimbangan tengah"
 
-#: data/effects/crop.xml:25
+#: data/effects/crop.xml:26
 #, kde-format
 msgid "Use project resolution"
 msgstr "Gunakan resolusi proyek"
 
-#: data/effects/dance.xml:3
+#: data/effects/dance.xml:4
 #, kde-format
 msgid "Dance"
 msgstr "Dansa"
 
-#: data/effects/dance.xml:4
+#: data/effects/dance.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that moves the image around proportional to "
@@ -716,164 +716,164 @@ msgstr ""
 "Sebuah filter visualisasi audio yang menggerakkan citra secara proporsional "
 "dengan besarnya spektrum audio."
 
-#: data/effects/dance.xml:16 data/effects/lightshow.xml:16
+#: data/effects/dance.xml:17 data/effects/lightshow.xml:17
 #, kde-format
 msgid "Oscillation"
 msgstr "Osilasi"
 
-#: data/effects/dance.xml:19
+#: data/effects/dance.xml:20
 #, kde-format
 msgid "Initial Zoom"
 msgstr "Inisial Zoom"
 
-#: data/effects/dance.xml:22 data/effects/vidstab.xml:39
+#: data/effects/dance.xml:23 data/effects/vidstab.xml:40
 #: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
 
-#: data/effects/dance.xml:31
+#: data/effects/dance.xml:32
 #, kde-format
 msgid "Up"
 msgstr "Naik"
 
-#: data/effects/dance.xml:37 data/effects/dance.xml:40
+#: data/effects/dance.xml:38 data/effects/dance.xml:41
 #, kde-format
 msgid "Clockwise"
 msgstr "Searah jarum jam"
 
-#: data/effects/dust.xml:3
+#: data/effects/dust.xml:4
 #, kde-format
 msgid "Dust"
 msgstr "Debu"
 
-#: data/effects/dust.xml:4
+#: data/effects/dust.xml:5
 #, kde-format
 msgid "Add dust and specks to the video, as in old movies"
 msgstr "Tambahkan debu dan bintik-bintik ke video, seperti di film lawas"
 
-#: data/effects/dust.xml:7
+#: data/effects/dust.xml:8
 #, kde-format
 msgid "Maximal Diameter"
 msgstr "Diameter Maksimal"
 
-#: data/effects/dust.xml:10
+#: data/effects/dust.xml:11
 #, kde-format
 msgid "Maximal number of dust"
 msgstr "Jumlah maksimal debu"
 
-#: data/effects/dynamic_loudness.xml:3
+#: data/effects/dynamic_loudness.xml:4
 #, kde-format
 msgctxt "Normalize Effect Name"
 msgid "Normalize"
 msgstr "Normalkan"
 
-#: data/effects/dynamic_loudness.xml:4
+#: data/effects/dynamic_loudness.xml:5
 #, kde-format
 msgid "Dynamically correct audio loudness as recommended by EBU R128"
 msgstr ""
 "Kenyaringan audio yang benar secara dinamis seperti yang direkomendasikan "
 "oleh EBU R128"
 
-#: data/effects/dynamic_loudness.xml:7 data/effects/loudness.xml:7
+#: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
 msgid "Target Program Loudness"
 msgstr "Kenyaringan Program Target"
 
-#: data/effects/dynamic_loudness.xml:10
+#: data/effects/dynamic_loudness.xml:11
 #, kde-format
 msgid "Measurement Window"
 msgstr "Jendela Pengukuran"
 
-#: data/effects/dynamic_loudness.xml:13
+#: data/effects/dynamic_loudness.xml:14
 #, kde-format
 msgid "Maximum Gain Increase"
 msgstr "Penambahan Gain Maksimum"
 
-#: data/effects/dynamic_loudness.xml:16
+#: data/effects/dynamic_loudness.xml:17
 #, kde-format
 msgid "Maximum Gain Decrease"
 msgstr "Pengurangan Gain Maksimum"
 
-#: data/effects/dynamic_loudness.xml:19
+#: data/effects/dynamic_loudness.xml:20
 #, kde-format
 msgid "Maximum Rate Change"
 msgstr "Perubahan Rate Maksimum"
 
-#: data/effects/dynamictext.xml:3
+#: data/effects/dynamictext.xml:4
 #, kde-format
 msgid "Dynamic Text"
 msgstr "Teks Dinamis"
 
-#: data/effects/dynamictext.xml:4
+#: data/effects/dynamictext.xml:5
 #, kde-format
 msgid "Overlay text with keywords replaced"
 msgstr "Teks hamparan dengan kata kunci yang diganti"
 
-#: data/effects/dynamictext.xml:7
+#: data/effects/dynamictext.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:370
 #, kde-format
 msgid "Geometry"
 msgstr "Geometri"
 
-#: data/effects/dynamictext.xml:10
+#: data/effects/dynamictext.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr "Keluarga Font"
 
-#: data/effects/dynamictext.xml:13
+#: data/effects/dynamictext.xml:14
 #, kde-format
 msgid "Font Size"
 msgstr "Ukuran Font"
 
-#: data/effects/dynamictext.xml:16
+#: data/effects/dynamictext.xml:17
 #, kde-format
 msgid "Font Weight"
 msgstr "Berat Font"
 
-#: data/effects/dynamictext.xml:25
+#: data/effects/dynamictext.xml:26
 #, kde-format
 msgid "Outline Color"
 msgstr "Warna Kerangka"
 
-#: data/effects/dynamictext.xml:28
+#: data/effects/dynamictext.xml:29
 #, kde-format
 msgid "Outline Width"
 msgstr "Lebar Kerangka"
 
-#: data/effects/dynamictext.xml:31
+#: data/effects/dynamictext.xml:32
 #, kde-format
 msgid "Padding"
 msgstr "Padding"
 
-#: data/effects/dynamictext.xml:34 data/transitions/composite.xml:20
+#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Kiri,Pusat,Kanan"
 
-#: data/effects/dynamictext.xml:35
+#: data/effects/dynamictext.xml:36
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Kesejajaran Horisontal"
 
-#: data/effects/dynamictext.xml:38 data/transitions/composite.xml:24
+#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Atas,Tengah,Bawah"
 
-#: data/effects/dynamictext.xml:39
+#: data/effects/dynamictext.xml:40
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Kesejajaran Vertikal"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
-#: data/effects/dynamictext.xml:42 data/effects/gpstext.xml:7
+#: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
 #: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:34
 #, kde-format
 msgid "Text"
 msgstr "Teks"
 
-#: data/effects/dynamictext.xml:43
+#: data/effects/dynamictext.xml:44
 #, kde-format
 msgid ""
 "timecode,frame,file date,local file date,source frame rate,source codec,"
@@ -882,20 +882,20 @@ msgstr ""
 "kode waktu,frame,tanggal file,tanggal file lokal,kecepatan frame sumber, "
 "kodek sumber,kecepatan bit sumber,lebar sumber,tinggi sumber, komentar sumber"
 
-#: data/effects/fade_from_black.xml:3
+#: data/effects/fade_from_black.xml:4
 #, kde-format
 msgctxt "Image Fade In Effect Name"
 msgid "Fade in"
 msgstr "Lesap in"
 
-#: data/effects/fade_from_black.xml:4
+#: data/effects/fade_from_black.xml:5
 #, kde-format
 msgid "Fade video from black"
 msgstr "Lesapkan video dari hitam"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
-#: data/effects/fade_from_black.xml:7 data/effects/fade_to_black.xml:7
-#: data/effects/fadein.xml:10 data/effects/fadeout.xml:7 src/bin/bin.cpp:1270
+#: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
+#: data/effects/fadein.xml:11 data/effects/fadeout.xml:8 src/bin/bin.cpp:1270
 #: src/bin/projectitemmodel.cpp:311
 #: src/timeline2/view/dialogs/speeddialog.cpp:51
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
@@ -904,7 +904,7 @@ msgstr "Lesapkan video dari hitam"
 msgid "Duration"
 msgstr "Durasi"
 
-#: data/effects/fade_from_black.xml:10
+#: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:151
 #: src/monitor/view/kdenlivemonitortrimming.qml:105
 #: src/timeline2/view/qml/Track.qml:355
@@ -912,140 +912,140 @@ msgstr "Durasi"
 msgid "In"
 msgstr "Masuk"
 
-#: data/effects/fade_from_black.xml:13
+#: data/effects/fade_from_black.xml:14
 #, kde-format
 msgid "Fade from Black"
 msgstr "Lesap dari Hitam"
 
-#: data/effects/fade_to_black.xml:3
+#: data/effects/fade_to_black.xml:4
 #, kde-format
 msgctxt "Image Fade Out Effect Name"
 msgid "Fade out"
 msgstr "Lesap out"
 
-#: data/effects/fade_to_black.xml:4
+#: data/effects/fade_to_black.xml:5
 #, kde-format
 msgid "Fade video to black"
 msgstr "Lesapkan video ke hitam"
 
-#: data/effects/fade_to_black.xml:10
+#: data/effects/fade_to_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:154
 #: src/monitor/view/kdenlivemonitortrimming.qml:139
 #, kde-format
 msgid "Out"
 msgstr "Keluar"
 
-#: data/effects/fade_to_black.xml:13
+#: data/effects/fade_to_black.xml:14
 #, kde-format
 msgid "Fade to Black"
 msgstr "Lesap ke Hitam"
 
-#: data/effects/fadein.xml:3
+#: data/effects/fadein.xml:4
 #, kde-format
 msgctxt "Audio Fade In Effect Name"
 msgid "Fade in"
 msgstr "Lesap bising"
 
-#: data/effects/fadein.xml:4
+#: data/effects/fadein.xml:5
 #, kde-format
 msgid "Fade in audio track"
 msgstr "Pudar awal trek audio"
 
-#: data/effects/fadein.xml:13 data/effects/fadeout.xml:13
+#: data/effects/fadein.xml:14 data/effects/fadeout.xml:14
 #, kde-format
 msgid "Start Gain"
 msgstr "Awal Gain"
 
-#: data/effects/fadein.xml:16 data/effects/fadeout.xml:16
+#: data/effects/fadein.xml:17 data/effects/fadeout.xml:17
 #, kde-format
 msgid "End Gain"
 msgstr "Akhir Gain"
 
-#: data/effects/fadeout.xml:3
+#: data/effects/fadeout.xml:4
 #, kde-format
 msgctxt "Audio Fade Out Effect Name"
 msgid "Fade out"
 msgstr "Lesap senyap"
 
-#: data/effects/fadeout.xml:4
+#: data/effects/fadeout.xml:5
 #, kde-format
 msgid "Fade out audio track"
 msgstr "Pudar akhir track audio"
 
-#: data/effects/freeze.xml:3
+#: data/effects/freeze.xml:4
 #, kde-format
 msgctxt "Freeze Effect Name"
 msgid "Freeze"
 msgstr "Beku"
 
-#: data/effects/freeze.xml:4
+#: data/effects/freeze.xml:5
 #, kde-format
 msgid "Freeze video on a chosen frame"
 msgstr "Bekukan video pada frame yang dipilih"
 
-#: data/effects/freeze.xml:7
+#: data/effects/freeze.xml:8
 #, kde-format
 msgid "Freeze at"
 msgstr "Beku di"
 
-#: data/effects/freeze.xml:10
+#: data/effects/freeze.xml:11
 #, kde-format
 msgid "Freeze Before"
 msgstr "Beku Sebelum"
 
-#: data/effects/freeze.xml:13
+#: data/effects/freeze.xml:14
 #, kde-format
 msgid "Freeze After"
 msgstr "Beku Sesudah"
 
-#: data/effects/gain.xml:3
+#: data/effects/gain.xml:4
 #, kde-format
 msgctxt "Gain Effect Name"
 msgid "Gain"
 msgstr "Gain"
 
-#: data/effects/gain.xml:4
+#: data/effects/gain.xml:5
 #, kde-format
 msgid "Adjust the audio volume without keyframes"
 msgstr "Sesuaikan volume audio tanpa keyframe"
 
-#: data/effects/gain.xml:7 data/effects/lumaliftgaingamma.xml:10
-#: data/effects/mute.xml:7 data/effects/normalise.xml:7
-#: data/effects/volume.xml:7 src/assets/view/widgets/lumaliftgainparam.cpp:32
+#: data/effects/gain.xml:8 data/effects/lumaliftgaingamma.xml:11
+#: data/effects/mute.xml:8 data/effects/normalise.xml:8
+#: data/effects/volume.xml:8 src/assets/view/widgets/lumaliftgainparam.cpp:32
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:80
 #, kde-format
 msgid "Gain"
 msgstr "Gain"
 
-#: data/effects/gamma.xml:3
+#: data/effects/gamma.xml:4
 #, kde-format
 msgctxt "Gamma Effect Name"
 msgid "Gamma (keyframable)"
 msgstr "Gamma (keyframable)"
 
-#: data/effects/gamma.xml:4
+#: data/effects/gamma.xml:5
 #, kde-format
 msgid "Change gamma color value"
 msgstr "Ubah nilai warna gamma"
 
-#: data/effects/gamma.xml:7 data/effects/lumaliftgaingamma.xml:13
+#: data/effects/gamma.xml:8 data/effects/lumaliftgaingamma.xml:14
 #: src/assets/view/widgets/lumaliftgainparam.cpp:29
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:63
 #, kde-format
 msgid "Gamma"
 msgstr "Gamma"
 
-#: data/effects/gpstext.xml:3
+#: data/effects/gpstext.xml:4
 #, kde-format
 msgid "GPS Text"
 msgstr "Teks GPS"
 
-#: data/effects/gpstext.xml:4
+#: data/effects/gpstext.xml:5
 #, kde-format
 msgid "Overlay GPS-related text onto the video."
 msgstr "Teks hamparan terkait GPS ke dalam video."
 
-#: data/effects/gpstext.xml:8
+#: data/effects/gpstext.xml:9
 #, kde-format
 msgid ""
 "GPS latitude,GPS longitude,GPS altitude,GPS speed,distance so far,date and "
@@ -1061,43 +1061,43 @@ msgstr ""
 "jarak yang ditempuh menanjak sejauh ini,jarak yang ditempuh menuruni bukit "
 "sejauh ini,jarak yang ditempuh di daerah datar sejauh ini"
 
-#: data/effects/gpstext.xml:11
+#: data/effects/gpstext.xml:12
 #, kde-format
 msgid "GPS File"
 msgstr "File GPS"
 
-#: data/effects/gpstext.xml:14
+#: data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
 msgstr "Ofset waktu dalam detikan"
 
-#: data/effects/gpstext.xml:17
+#: data/effects/gpstext.xml:18
 #, kde-format
 msgid "Smoothing level"
 msgstr "Level kehalusan"
 
-#: data/effects/gpstext.xml:20
+#: data/effects/gpstext.xml:21
 #, kde-format
 msgid "GPS processing start time"
 msgstr "Waktu awal pemprosesan GPS"
 
-#: data/effects/gpstext.xml:23
+#: data/effects/gpstext.xml:24
 #, kde-format
 msgid "Updates per second"
 msgstr "Memperbarui tiap detik"
 
-#: data/effects/grain.xml:3
+#: data/effects/grain.xml:4
 #, kde-format
 msgctxt "Grain Effect Name"
 msgid "Grain"
 msgstr "Bulir"
 
-#: data/effects/grain.xml:4
+#: data/effects/grain.xml:5
 #, kde-format
 msgid "Grain over the image"
 msgstr "Buliran melintasi citra"
 
-#: data/effects/grain.xml:7 plugins/sampleplugin/sampleplugin.cpp:23
+#: data/effects/grain.xml:8 plugins/sampleplugin/sampleplugin.cpp:23
 #: plugins/sampleplugin/sampleplugin.cpp:32
 #: plugins/sampleplugin/sampleplugin.cpp:46
 #: plugins/sampleplugin/sampleplugin.cpp:70
@@ -1105,94 +1105,94 @@ msgstr "Buliran melintasi citra"
 msgid "Noise"
 msgstr "Renyek"
 
-#: data/effects/grain.xml:10
+#: data/effects/grain.xml:11
 #, kde-format
 msgid "Contrast"
 msgstr "Kontras"
 
-#: data/effects/grain.xml:13
+#: data/effects/grain.xml:14
 #, kde-format
 msgid "Brightness"
 msgstr "Kecerahan"
 
-#: data/effects/greyscale.xml:3
+#: data/effects/greyscale.xml:4
 #, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Greyscale"
 msgstr "Skala abu"
 
-#: data/effects/greyscale.xml:4
+#: data/effects/greyscale.xml:5
 #, kde-format
 msgid "Discard color information"
 msgstr "Buang informasi warna"
 
-#: data/effects/invert.xml:3
+#: data/effects/invert.xml:4
 #, kde-format
 msgctxt "Invert Effect Name"
 msgid "Invert"
 msgstr "Kebalikan"
 
-#: data/effects/invert.xml:4
+#: data/effects/invert.xml:5
 #, kde-format
 msgid "Invert colors"
 msgstr "Warna kebalikan"
 
-#: data/effects/lift_gamma_gain.xml:3
+#: data/effects/lift_gamma_gain.xml:4
 #, kde-format
 msgid "Lift/gamma/gain"
 msgstr "Lift/gamma/gain"
 
-#: data/effects/lift_gamma_gain.xml:6
+#: data/effects/lift_gamma_gain.xml:7
 #, kde-format
 msgid "Lift: Red"
 msgstr "Lift: Merah"
 
-#: data/effects/lift_gamma_gain.xml:9
+#: data/effects/lift_gamma_gain.xml:10
 #, kde-format
 msgid "Lift: Green"
 msgstr "Lift: Hijau"
 
-#: data/effects/lift_gamma_gain.xml:12
+#: data/effects/lift_gamma_gain.xml:13
 #, kde-format
 msgid "Lift: Blue"
 msgstr "Lift: Biru"
 
-#: data/effects/lift_gamma_gain.xml:15
+#: data/effects/lift_gamma_gain.xml:16
 #, kde-format
 msgid "Gamma: Red"
 msgstr "Gamma: Merah"
 
-#: data/effects/lift_gamma_gain.xml:18
+#: data/effects/lift_gamma_gain.xml:19
 #, kde-format
 msgid "Gamma: Green"
 msgstr "Gamma: Hijau"
 
-#: data/effects/lift_gamma_gain.xml:21
+#: data/effects/lift_gamma_gain.xml:22
 #, kde-format
 msgid "Gamma: Blue"
 msgstr "Gamma: Biru"
 
-#: data/effects/lift_gamma_gain.xml:24
+#: data/effects/lift_gamma_gain.xml:25
 #, kde-format
 msgid "Gain: Red"
 msgstr "Gain: Merah"
 
-#: data/effects/lift_gamma_gain.xml:27
+#: data/effects/lift_gamma_gain.xml:28
 #, kde-format
 msgid "Gain: Green"
 msgstr "Gain: Hijau"
 
-#: data/effects/lift_gamma_gain.xml:30
+#: data/effects/lift_gamma_gain.xml:31
 #, kde-format
 msgid "Gain: Blue"
 msgstr "Gain: Biru"
 
-#: data/effects/lightshow.xml:3
+#: data/effects/lightshow.xml:4
 #, kde-format
 msgid "Light Show"
 msgstr "Tampilan Terang"
 
-#: data/effects/lightshow.xml:4
+#: data/effects/lightshow.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that colors the image proportional to the "
@@ -1201,54 +1201,54 @@ msgstr ""
 "Sebuah filter visualisasi audio yang mewarnai citra sepadan dengan besarnya "
 "spektrum audio."
 
-#: data/effects/lightshow.xml:7
+#: data/effects/lightshow.xml:8
 #, kde-format
 msgid "Low frequency"
 msgstr "Frekuensi rendah"
 
-#: data/effects/lightshow.xml:10
+#: data/effects/lightshow.xml:11
 #, kde-format
 msgid "High frequency"
 msgstr "Frekuensi tinggi"
 
-#: data/effects/lightshow.xml:13 data/effects/mask_start_shape.xml:13
-#: data/effects/shape.xml:10
+#: data/effects/lightshow.xml:14 data/effects/mask_start_shape.xml:14
+#: data/effects/shape.xml:11
 #, kde-format
 msgid "Threshold"
 msgstr "Ambang Batas"
 
-#: data/effects/lightshow.xml:19
+#: data/effects/lightshow.xml:20
 #, kde-format
 msgid "1st Color"
 msgstr "Warna pertama"
 
-#: data/effects/lightshow.xml:22
+#: data/effects/lightshow.xml:23
 #, kde-format
 msgid "2nd Color"
 msgstr "Warna kedua"
 
-#: data/effects/loudness.xml:3
+#: data/effects/loudness.xml:4
 #, kde-format
 msgid "Normalize (2 pass)"
 msgstr "Normalkan (2 lampau)"
 
-#: data/effects/loudness.xml:4
+#: data/effects/loudness.xml:5
 #, kde-format
 msgid "Correct audio loudness as recommended by EBU R128"
 msgstr ""
 "Kenyaringan audio yang benar seperti yang direkomendasikan oleh EBU R128"
 
-#: data/effects/loudness.xml:10 data/effects/tracker.xml:40
+#: data/effects/loudness.xml:11 data/effects/tracker.xml:41
 #, kde-format
 msgid "Analyse"
 msgstr "Analisa"
 
-#: data/effects/lumaliftgaingamma.xml:3
+#: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
 msgid "LumaLiftGainGamma"
 msgstr "LumaLiftGainGamma"
 
-#: data/effects/lumaliftgaingamma.xml:4
+#: data/effects/lumaliftgaingamma.xml:5
 #, kde-format
 msgid ""
 "Filter can be used to apply lift, gain and gamma correction to luma values "
@@ -1257,30 +1257,30 @@ msgstr ""
 "Filter bisa digunakan untuk menerapkan koreksi lift, gain, dan gamma ke "
 "nilai luma citra."
 
-#: data/effects/lumaliftgaingamma.xml:7
+#: data/effects/lumaliftgaingamma.xml:8
 #: src/assets/view/widgets/lumaliftgainparam.cpp:26
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
 msgstr "Lift"
 
-#: data/effects/mask_apply.xml:3
+#: data/effects/mask_apply.xml:4
 #, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
 msgstr "Terapkan Mask"
 
-#: data/effects/mask_apply.xml:4
+#: data/effects/mask_apply.xml:5
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr "Terapkan efek sebelumnya di zona yang ditentukan oleh efek Mask Start."
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:3
+#: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
 msgid "Alpha shapes (Mask)"
 msgstr "Bentuk alfa (Mask)"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:4
+#: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before it draws simple shapes into "
@@ -1295,13 +1295,13 @@ msgstr ""
 "snapshot. Kasus penggunaan yang umum adalah menambahkan efek di rentetan "
 "berikut: efek ini, nol atau lebih banyak efek, mask_apply."
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:7
+#: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
 msgstr "Persegi,Jorong,Segitiga,Wajik"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:8
-#: data/effects/mask_start_frei0r_select0r.xml:24
+#: data/effects/mask_start_frei0r_alphaspot.xml:9
+#: data/effects/mask_start_frei0r_select0r.xml:22
 #, kde-format
 msgid "Shape"
 msgstr "Bentuk"
@@ -1311,59 +1311,59 @@ msgstr "Bentuk"
 msgid "Position X"
 msgstr "Posisi X"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:16
+#: data/effects/mask_start_frei0r_alphaspot.xml:15
 #, kde-format
 msgid "Position Y"
 msgstr "Posisi Y"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:20
+#: data/effects/mask_start_frei0r_alphaspot.xml:18
 #, kde-format
 msgid "Size X"
 msgstr "Ukuran X"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:24
+#: data/effects/mask_start_frei0r_alphaspot.xml:21
 #, kde-format
 msgid "Size Y"
 msgstr "Ukuran Y"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:28
+#: data/effects/mask_start_frei0r_alphaspot.xml:24
 #, fuzzy, kde-format
 msgid "Tilt"
 msgstr "Miring"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:32
+#: data/effects/mask_start_frei0r_alphaspot.xml:27
 #, kde-format
 msgid "Transition width"
 msgstr "Lebar transisi"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_alphaspot.xml:30
 #, kde-format
 msgid "Min"
 msgstr "Min"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:40
+#: data/effects/mask_start_frei0r_alphaspot.xml:33
 #, kde-format
 msgid "Max"
 msgstr "Maks"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:44
-#: data/effects/mask_start_frei0r_select0r.xml:49
+#: data/effects/mask_start_frei0r_alphaspot.xml:36
+#: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Write on clear,Max,Min,Add,Subtract"
 msgstr "Tulis dengan jelas,Maks,Min, Tambahi,Kurangi"
 
-#: data/effects/mask_start_frei0r_alphaspot.xml:45
-#: data/effects/mask_start_frei0r_select0r.xml:50
+#: data/effects/mask_start_frei0r_alphaspot.xml:37
+#: data/effects/mask_start_frei0r_select0r.xml:42
 #, kde-format
 msgid "Operation"
 msgstr "Operasi"
 
-#: data/effects/mask_start_frei0r_select0r.xml:3
+#: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
 msgid "Secondary Color Correction Area Selection (Mask)"
 msgstr "Pemilihan Area Koreksi Warna Sekunder (Mask)"
 
-#: data/effects/mask_start_frei0r_select0r.xml:4
+#: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before a keyframable Chroma Key "
@@ -1380,15 +1380,15 @@ msgstr ""
 "penggunaan tipikal adalah menambahkan efek dalam rentetan berikut: efek ini, "
 "nol atau efek selebihnya, mask_apply."
 
-#: data/effects/mask_start_frei0r_select0r.xml:7
-#: data/effects/mask_start_rotoscoping.xml:7
-#: data/effects/mask_start_shape.xml:7 src/bin/bin.cpp:1365
+#: data/effects/mask_start_frei0r_select0r.xml:8
+#: data/effects/mask_start_rotoscoping.xml:8
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1365
 #: src/bin/bin.cpp:1370 src/bin/bin.cpp:2118
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
 
-#: data/effects/mask_start_frei0r_select0r.xml:10
+#: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
 msgid "Color to select"
 msgstr "Warna untuk dipilih"
@@ -1398,57 +1398,57 @@ msgstr "Warna untuk dipilih"
 msgid "Invert selection"
 msgstr "Kebalikan pilihan"
 
-#: data/effects/mask_start_frei0r_select0r.xml:18
+#: data/effects/mask_start_frei0r_select0r.xml:17
 #, kde-format
 msgid "RGB,ABI,HCI"
 msgstr "RGB,ABI,HCI"
 
-#: data/effects/mask_start_frei0r_select0r.xml:19
+#: data/effects/mask_start_frei0r_select0r.xml:18
 #, kde-format
 msgid "Color Model"
 msgstr "Model Warna"
 
-#: data/effects/mask_start_frei0r_select0r.xml:23
+#: data/effects/mask_start_frei0r_select0r.xml:21
 #, kde-format
 msgid "Box,Ellipsoid,Diamond"
 msgstr "Kotak,Jorong,Wajik"
 
-#: data/effects/mask_start_frei0r_select0r.xml:28
+#: data/effects/mask_start_frei0r_select0r.xml:25
 #, kde-format
 msgid "Hard,Fat,Normal,Skinny,Slope"
 msgstr "Keras,Gemuk,Normal,Kurus,Lereng"
 
-#: data/effects/mask_start_frei0r_select0r.xml:29
+#: data/effects/mask_start_frei0r_select0r.xml:26
 #, kde-format
 msgid "Edge mode"
 msgstr "Mode tepi"
 
-#: data/effects/mask_start_frei0r_select0r.xml:33
+#: data/effects/mask_start_frei0r_select0r.xml:29
 #, kde-format
 msgid "Red / Hue Delta"
 msgstr "Merah / Delta Corak"
 
-#: data/effects/mask_start_frei0r_select0r.xml:37
+#: data/effects/mask_start_frei0r_select0r.xml:32
 #, kde-format
 msgid "Green / Chroma Delta"
 msgstr "Hijau / Delta Kroma"
 
-#: data/effects/mask_start_frei0r_select0r.xml:41
+#: data/effects/mask_start_frei0r_select0r.xml:35
 #, kde-format
 msgid "Blue / Intensity Delta"
 msgstr "Biru / Delta Intensitas"
 
-#: data/effects/mask_start_frei0r_select0r.xml:45
+#: data/effects/mask_start_frei0r_select0r.xml:38
 #, kde-format
 msgid "Soften"
 msgstr "Kelembutan"
 
-#: data/effects/mask_start_rotoscoping.xml:3
+#: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping (Mask)"
 msgstr "Rotoscoping (Mask)"
 
-#: data/effects/mask_start_rotoscoping.xml:4
+#: data/effects/mask_start_rotoscoping.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before a keyframable vector based "
@@ -1473,37 +1473,37 @@ msgstr "Alfa,Luma,RGB"
 msgid "Mode"
 msgstr "Mode"
 
-#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
+#: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
 msgid "Write on clear,Maximum,Minimum,Add,Subtract"
 msgstr "Tulis saat hapus,Maksimum,Minimum,Tambah,Kurang"
 
-#: data/effects/mask_start_rotoscoping.xml:18 data/effects/rotoscoping.xml:15
+#: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
 msgid "Alpha Operation"
 msgstr "Operasi Alfa"
 
-#: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
+#: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
 msgid "Track"
 msgstr "Trek"
 
-#: data/effects/mask_start_rotoscoping.xml:30 data/effects/rotoscoping.xml:27
+#: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
 #, kde-format
 msgid "Feather width"
 msgstr "Lebar bulu"
 
-#: data/effects/mask_start_rotoscoping.xml:34 data/effects/rotoscoping.xml:31
+#: data/effects/mask_start_rotoscoping.xml:29 data/effects/rotoscoping.xml:26
 #, kde-format
 msgid "Feathering passes"
 msgstr "Pass pembuluan"
 
-#: data/effects/mask_start_shape.xml:3
+#: data/effects/mask_start_shape.xml:4
 #, kde-format
 msgid "Shape Alpha (Mask)"
 msgstr "Alfa Bentuk (Mask)"
 
-#: data/effects/mask_start_shape.xml:4
+#: data/effects/mask_start_shape.xml:5
 #, kde-format
 msgid ""
 "This filter makes a snapshot of the frame before an alpha channel "
@@ -1518,12 +1518,12 @@ msgstr ""
 "snapshot. Kasus penggunaan tipikal adalah menambahkan efek dalam rentetan "
 "berikut: efek ini, nol atau efek selebihnya, mask_apply."
 
-#: data/effects/mask_start_shape.xml:10 data/effects/shape.xml:7
+#: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
 msgid "Image or video resource"
 msgstr "Sumberdaya video atau citra"
 
-#: data/effects/mask_start_shape.xml:14 data/effects/shape.xml:11
+#: data/effects/mask_start_shape.xml:15 data/effects/shape.xml:12
 #, kde-format
 msgid ""
 "Convert alpha or luma values below this level as opaque and above this level "
@@ -1532,15 +1532,15 @@ msgstr ""
 "Ubah nilai alfa atau luma di bawah level ini sebagai buram dan di atas level "
 "ini sebagai transparan. Ini sebagian besar berguna untuk luma wipe citra."
 
-#: data/effects/mask_start_shape.xml:17 data/effects/shape.xml:14
-#: data/transitions/composite.xml:31 data/transitions/dissolve.xml:9
-#: data/transitions/luma.xml:10 data/transitions/region.xml:29
-#: data/transitions/wipe.xml:10
+#: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
+#: data/transitions/composite.xml:32 data/transitions/dissolve.xml:10
+#: data/transitions/luma.xml:11 data/transitions/region.xml:30
+#: data/transitions/wipe.xml:11
 #, kde-format
 msgid "Softness"
 msgstr "Kelembutan"
 
-#: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
+#: data/effects/mask_start_shape.xml:19 data/effects/shape.xml:16
 #, kde-format
 msgid ""
 "When using mix (threshold) how soft to make the edge around the threshold. "
@@ -1549,27 +1549,27 @@ msgstr ""
 "Ketika menggunakan campuran (ambang batas) seberapa lembut untuk membuat "
 "sekitar tepi ambang batas. 0.0 = tanpa kelembutan, 1.0 = terlalu lembut."
 
-#: data/effects/mask_start_shape.xml:22 data/effects/shape.xml:19
+#: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, kde-format
 msgid "Use the inverse of the alpha or luma value."
 msgstr "Gunakan kebalikan alfa atau nilai luma."
 
-#: data/effects/mask_start_shape.xml:25 data/effects/shape.xml:22
+#: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
 msgid "Use Luma"
 msgstr "Gunakan Luma"
 
-#: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
+#: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
 msgid "Use the image luma instead of the alpha channel."
 msgstr "Gunakan luma citra sebagai gantinya kanal alfa."
 
-#: data/effects/mask_start_shape.xml:29 data/effects/shape.xml:26
+#: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
 #, kde-format
 msgid "Use Threshold"
 msgstr "Gunakan Batas Ambang"
 
-#: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
+#: data/effects/mask_start_shape.xml:31 data/effects/shape.xml:28
 #, kde-format
 msgid ""
 "Whether to apply a threshold filter to the luma or alpha or not. If not, "
@@ -1579,204 +1579,204 @@ msgstr ""
 "Jika tidak, nilai luma atau alfa sumberdaya (File) adalah disalin ke kanal "
 "alfa."
 
-#: data/effects/mirror.xml:3
+#: data/effects/mirror.xml:4
 #, kde-format
 msgctxt "Mirror Effect Name"
 msgid "Mirror"
 msgstr "Cermin"
 
-#: data/effects/mirror.xml:4
+#: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
 msgstr "Jungkirkan citra Anda dalam berbagai arah"
 
-#: data/effects/mirror.xml:7
+#: data/effects/mirror.xml:8
 #, kde-format
 msgid "Horizontal,Vertical,Diagonal,X Diagonal,Flip,Flop"
 msgstr "Horizontal,Vertikal,Diagonal,Diagonal X,Jungkir,Balik"
 
-#: data/effects/mirror.xml:8
+#: data/effects/mirror.xml:9
 #, kde-format
 msgid "Mirroring direction"
 msgstr "Arah cermin"
 
-#: data/effects/mono.xml:3
+#: data/effects/mono.xml:4
 #, kde-format
 msgid "Mixdown"
 msgstr "Campur bawah"
 
-#: data/effects/mono.xml:4
+#: data/effects/mono.xml:5
 #, kde-format
 msgid ""
 "Mix all channels of audio into a mono signal and output it as N channels"
 msgstr ""
 "Campur semua kanal audio ke dalam sinyal mono dan keluarannya sebagai kanal N"
 
-#: data/effects/mono.xml:7
+#: data/effects/mono.xml:8
 #, kde-format
 msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
 msgstr "Mono,Stereo,2.1,4 kanal,5.1,7.1"
 
-#: data/effects/mono.xml:8
+#: data/effects/mono.xml:9
 #, kde-format
 msgid "number of output channels"
 msgstr "jumlah kanal output"
 
-#: data/effects/mute.xml:3
+#: data/effects/mute.xml:4
 #, kde-format
 msgctxt "Mute Effect Name"
 msgid "Mute"
 msgstr "Senyapkan"
 
-#: data/effects/mute.xml:4
+#: data/effects/mute.xml:5
 #, kde-format
 msgid "Mute clip"
 msgstr "Senyapkan klip"
 
-#: data/effects/normalise.xml:3
+#: data/effects/normalise.xml:4
 #, kde-format
 msgid "Normalise (deprecated)"
 msgstr "Normalisasi (tidak digunakan lagi)"
 
-#: data/effects/normalise.xml:4
+#: data/effects/normalise.xml:5
 #, kde-format
 msgid "Dynamically normalise the audio volume"
 msgstr "Menormalkan volume audio secara dinamis"
 
-#: data/effects/normalise.xml:10
+#: data/effects/normalise.xml:11
 #, kde-format
 msgid "Maximum gain"
 msgstr "Gain maksimum"
 
-#: data/effects/normalise.xml:13
+#: data/effects/normalise.xml:14
 #, kde-format
 msgid "Window"
 msgstr "Jendela"
 
-#: data/effects/obscure.xml:3
+#: data/effects/obscure.xml:4
 #, kde-format
 msgctxt "Obscure Effect Name"
 msgid "Obscure"
 msgstr "Samar"
 
-#: data/effects/obscure.xml:4
+#: data/effects/obscure.xml:5
 #, kde-format
 msgid "Hide a region of the clip"
 msgstr "Sembunyikan region pada klip"
 
-#: data/effects/obscure.xml:7
+#: data/effects/obscure.xml:8
 #, kde-format
 msgid "Region"
 msgstr "Region"
 
-#: data/effects/oldfilm.xml:3
+#: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Oldfilm"
 msgstr "Film lawas"
 
-#: data/effects/oldfilm.xml:4
+#: data/effects/oldfilm.xml:5
 #, kde-format
 msgid "Moves the Picture up and down and random brightness change"
 msgstr "Pindahkan Gambar naik dan turun dan ubah kecerahan secara acak"
 
-#: data/effects/oldfilm.xml:7
+#: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Y-Delta"
 msgstr "Delta-Y"
 
-#: data/effects/oldfilm.xml:10
+#: data/effects/oldfilm.xml:11
 #, no-c-format, kde-format
 msgid "% of picture have a delta"
 msgstr "% gambar memiliki sebuah delta"
 
-#: data/effects/oldfilm.xml:13
+#: data/effects/oldfilm.xml:14
 #, kde-format
 msgid "Brightness up"
 msgstr "Kecerahan naik"
 
-#: data/effects/oldfilm.xml:16
+#: data/effects/oldfilm.xml:17
 #, kde-format
 msgid "Brightness down"
 msgstr "Kecerahan turun"
 
-#: data/effects/oldfilm.xml:19
+#: data/effects/oldfilm.xml:20
 #, kde-format
 msgid "Brightness every"
 msgstr "Kecerahan setiap"
 
-#: data/effects/oldfilm.xml:22
+#: data/effects/oldfilm.xml:23
 #, kde-format
 msgid "Unevendevelop up"
 msgstr "Unevendevelop naik"
 
-#: data/effects/oldfilm.xml:25
+#: data/effects/oldfilm.xml:26
 #, kde-format
 msgid "Unevendevelop down"
 msgstr "Unevendevelop turun"
 
-#: data/effects/oldfilm.xml:28
+#: data/effects/oldfilm.xml:29
 #, kde-format
 msgid "Unevendevelop Duration"
 msgstr "Durasi Unevendevelop"
 
-#: data/effects/pan_zoom.xml:3
+#: data/effects/pan_zoom.xml:4
 #, kde-format
 msgid "Position and Zoom"
 msgstr "Posisi dan Zoom "
 
-#: data/effects/pan_zoom.xml:4
+#: data/effects/pan_zoom.xml:5
 #, kde-format
 msgid "Adjust size and position of clip"
 msgstr "Setel ukuran dan posisi klip"
 
-#: data/effects/pan_zoom.xml:10 data/effects/qtblend.xml:18
-#: data/effects/qtblend.xml:36 data/transitions/affine.xml:19
-#: data/transitions/composite.xml:10 data/transitions/qtblend.xml:17
-#: data/transitions/region.xml:23
+#: data/effects/pan_zoom.xml:11 data/effects/qtblend.xml:19
+#: data/effects/qtblend.xml:37 data/transitions/affine.xml:20
+#: data/transitions/composite.xml:11 data/transitions/qtblend.xml:18
+#: data/transitions/region.xml:24
 #, kde-format
 msgid "Distort"
 msgstr "Distorsi"
 
-#: data/effects/pan_zoom.xml:13
+#: data/effects/pan_zoom.xml:14
 #, kde-format
 msgid "Normalise"
 msgstr "Normalisasi"
 
-#: data/effects/pillar_echo.xml:3
+#: data/effects/pillar_echo.xml:4
 #, kde-format
 msgid "Pillar Echo"
 msgstr "Gema Pilar"
 
-#: data/effects/pillar_echo.xml:4
+#: data/effects/pillar_echo.xml:5
 #, kde-format
 msgid "Create an echo effect (blur) outside of an area of interest."
 msgstr "Buat sebuah efek gema (buram) sisi luar pada area yang diminati."
 
-#: data/effects/pillar_echo.xml:10 data/effects/tracker.xml:29
+#: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:30
 #, kde-format
 msgid "Blur"
 msgstr "Buram"
 
-#: data/effects/qtblend.xml:4
+#: data/effects/qtblend.xml:5
 #, kde-format
 msgctxt "Qtblend Transform Effect Name"
 msgid "Transform"
 msgstr "Transformasi"
 
-#: data/effects/qtblend.xml:5 data/effects/qtblend.xml:23
+#: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
 #, kde-format
 msgid "Position, scale and opacity."
 msgstr "Posisi, skala dan opasitas."
 
-#: data/effects/qtblend.xml:11 data/effects/qtblend.xml:29
-#: data/transitions/qtblend.xml:10
+#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:30
+#: data/transitions/qtblend.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:356
 #, kde-format
 msgid "Rotation"
 msgstr "Perotasian"
 
-#: data/effects/qtblend.xml:14 data/effects/qtblend.xml:32
-#: data/transitions/qtblend.xml:13
+#: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
+#: data/transitions/qtblend.xml:14
 #, fuzzy, kde-format
 msgid ""
 "Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
@@ -1789,28 +1789,28 @@ msgstr ""
 "Bitwise atau, Bitwise dan,Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not "
 "xor,Tujuan masuk,Tujuan keluar"
 
-#: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
-#: data/transitions/qtblend.xml:14
+#: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
+#: data/transitions/qtblend.xml:15
 #, kde-format
 msgid "Compositing"
 msgstr "Pengomposisian"
 
-#: data/effects/qtblend.xml:22
+#: data/effects/qtblend.xml:23
 #, kde-format
 msgid "Transform"
 msgstr "Transformasi"
 
-#: data/effects/qtblend.xml:39 data/transitions/qtblend.xml:20
+#: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
 msgstr "Rotasikan dari tengah"
 
-#: data/effects/qtcrop.xml:3
+#: data/effects/qtcrop.xml:4
 #, kde-format
 msgid "Crop by padding"
 msgstr "Pangkas berdasarkan padding"
 
-#: data/effects/qtcrop.xml:4
+#: data/effects/qtcrop.xml:5
 #, kde-format
 msgid ""
 "This filter crops the image to a rounded rectangle or circle by padding it "
@@ -1819,37 +1819,37 @@ msgstr ""
 "Filter ini memangkas citra ke sebuah persegi panjang bulat atau lingkaran "
 "berdasarkan bantalannya dengan warna."
 
-#: data/effects/qtcrop.xml:10
+#: data/effects/qtcrop.xml:11
 #, kde-format
 msgid "Radius"
 msgstr "Radius"
 
-#: data/effects/qtcrop.xml:13
+#: data/effects/qtcrop.xml:14
 #, kde-format
 msgid "Circle"
 msgstr "Lingkaran"
 
-#: data/effects/qtcrop.xml:16
+#: data/effects/qtcrop.xml:17
 #, kde-format
 msgid "Padding Color"
 msgstr "Warna Padding"
 
-#: data/effects/rboctaveshift.xml:3
+#: data/effects/rboctaveshift.xml:4
 #, kde-format
 msgid "Rubberband Octave Shift"
 msgstr "Pergeseran Oktaf Rubberband"
 
-#: data/effects/rboctaveshift.xml:4 data/effects/rbpitchscale.xml:4
+#: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
 msgstr "Setel nada audio menggunakan pustaka Rubberband"
 
-#: data/effects/rboctaveshift.xml:7
+#: data/effects/rboctaveshift.xml:8
 #, kde-format
 msgid "Octave Shift"
 msgstr "Pergeseran Oktaf"
 
-#: data/effects/rboctaveshift.xml:8
+#: data/effects/rboctaveshift.xml:9
 #, kde-format
 msgid ""
 "The octave shift. This is the octave shift of the source frequency. For "
@@ -1866,12 +1866,12 @@ msgstr ""
 "pergeseran ke atas dan kurang dari satu untuk ke bawah) adalah: o = log(f) / "
 "log(2). Diabaikan jika skala nada diatur."
 
-#: data/effects/rboctaveshift.xml:11 data/effects/rbpitchscale.xml:11
+#: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, kde-format
 msgid "Stretch"
 msgstr "Peregangan"
 
-#: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
+#: data/effects/rboctaveshift.xml:13 data/effects/rbpitchscale.xml:13
 #, kde-format
 msgid ""
 "Stretch the audio to fill the requested samples. This option will have no "
@@ -1881,27 +1881,27 @@ msgstr ""
 "pengaruh jika ukuran sample yang diminta ukurannya sama dengan sample yang "
 "diminta."
 
-#: data/effects/rboctaveshift.xml:15 data/effects/rbpitchscale.xml:15
+#: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
 #, kde-format
 msgid "Latency"
 msgstr "Latensi"
 
-#: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
+#: data/effects/rboctaveshift.xml:17 data/effects/rbpitchscale.xml:17
 #, kde-format
 msgid "The amount of delay for each sample from the input to the output."
 msgstr "Jumlah delay untuk setiap sample dari input ke output."
 
-#: data/effects/rbpitchscale.xml:3
+#: data/effects/rbpitchscale.xml:4
 #, kde-format
 msgid "Rubberband Pitch Scale"
 msgstr "Skala Nada Rubberband"
 
-#: data/effects/rbpitchscale.xml:7
+#: data/effects/rbpitchscale.xml:8
 #, kde-format
 msgid "Pitch Scale"
 msgstr "Skala Nada"
 
-#: data/effects/rbpitchscale.xml:8
+#: data/effects/rbpitchscale.xml:9
 #, kde-format
 msgid ""
 "The pitch scaling ratio. This is the ratio of target frequency to source "
@@ -1918,188 +1918,188 @@ msgstr ""
 "oktaf di mana o positif untuk pergeseran ke atas dan negatif untuk "
 "pergeseran ke bawah) adalah: f = pow(2.0, o). Menggantikan pergeseran oktaf."
 
-#: data/effects/region.xml:3
+#: data/effects/region.xml:4
 #, kde-format
 msgid "Regionalize"
 msgstr "Regionalkan"
 
-#: data/effects/region.xml:4
+#: data/effects/region.xml:5
 #, kde-format
 msgid "Apply sub-effects to a region defined by a clip's alpha channel"
 msgstr "Terapkan sub efek untuk region yang ditetapkan oleh kanal alfa si klip"
 
-#: data/effects/region.xml:7
+#: data/effects/region.xml:8
 #, kde-format
 msgid "Url"
 msgstr "Url"
 
-#: data/effects/region.xml:10 data/effects/rotation.xml:37
+#: data/effects/region.xml:11 data/effects/rotation.xml:38
 #, kde-format
 msgid "Pan and Zoom"
 msgstr "Pan dan Zoom"
 
-#: data/effects/rotation.xml:3
+#: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
 msgstr "Rotasi dan Genjang"
 
-#: data/effects/rotation.xml:4 data/effects/rotation_keyframable.xml:4
+#: data/effects/rotation.xml:5 data/effects/rotation_keyframable.xml:5
 #, kde-format
 msgid "Rotate clip in any 3 directions"
 msgstr "Rotasikan klip dalam 3 arah manapun"
 
-#: data/effects/rotation.xml:7 data/effects/rotation_keyframable.xml:7
-#: data/transitions/affine.xml:10
+#: data/effects/rotation.xml:8 data/effects/rotation_keyframable.xml:8
+#: data/transitions/affine.xml:11
 #, kde-format
 msgid "Rotate X"
 msgstr "Rotasi X"
 
-#: data/effects/rotation.xml:10 data/effects/rotation_keyframable.xml:10
-#: data/transitions/affine.xml:13
+#: data/effects/rotation.xml:11 data/effects/rotation_keyframable.xml:11
+#: data/transitions/affine.xml:14
 #, kde-format
 msgid "Rotate Y"
 msgstr "Rotasi Y"
 
-#: data/effects/rotation.xml:13 data/effects/rotation_keyframable.xml:13
-#: data/transitions/affine.xml:16
+#: data/effects/rotation.xml:14 data/effects/rotation_keyframable.xml:14
+#: data/transitions/affine.xml:17
 #, kde-format
 msgid "Rotate Z"
 msgstr "Rotasi Z"
 
-#: data/effects/rotation.xml:16
+#: data/effects/rotation.xml:17
 #, kde-format
 msgid "Animate Rotate X"
 msgstr "Animasikan Rotasi X"
 
-#: data/effects/rotation.xml:19
+#: data/effects/rotation.xml:20
 #, kde-format
 msgid "Animate Rotate Y"
 msgstr "Animasikan Rotasi Y"
 
-#: data/effects/rotation.xml:22
+#: data/effects/rotation.xml:23
 #, kde-format
 msgid "Animate Rotate Z"
 msgstr "Animasikan Rotasi Z"
 
-#: data/effects/rotation.xml:25
+#: data/effects/rotation.xml:26
 #, kde-format
 msgid "Shear X"
 msgstr "Genjang X"
 
-#: data/effects/rotation.xml:28
+#: data/effects/rotation.xml:29
 #, kde-format
 msgid "Shear Y"
 msgstr "Genjang Y"
 
-#: data/effects/rotation.xml:31
+#: data/effects/rotation.xml:32
 #, kde-format
 msgid "Animate Shear X"
 msgstr "Animasikan Genjang X"
 
-#: data/effects/rotation.xml:34
+#: data/effects/rotation.xml:35
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Animasikan Genjang Y"
 
-#: data/effects/rotation_keyframable.xml:3
+#: data/effects/rotation_keyframable.xml:4
 #, kde-format
 msgid "Rotate (keyframable)"
 msgstr "Rotasikan (keyframable)"
 
-#: data/effects/rotation_keyframable.xml:16
+#: data/effects/rotation_keyframable.xml:17
 #, kde-format
 msgid "Offset X"
 msgstr "Ofset X"
 
-#: data/effects/rotation_keyframable.xml:19
+#: data/effects/rotation_keyframable.xml:20
 #, kde-format
 msgid "Offset Y"
 msgstr "Ofset Y"
 
-#: data/effects/rotation_keyframable.xml:26 data/transitions/affine.xml:23
+#: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
 msgstr "Nonfungsikan pengulangan"
 
-#: data/effects/rotation_keyframable.xml:29 data/transitions/affine.xml:26
+#: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
 msgstr "Dinonfungsikan cermin"
 
-#: data/effects/rotoscoping.xml:3
+#: data/effects/rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping"
 msgstr "Rotoscoping"
 
-#: data/effects/rotoscoping.xml:4
+#: data/effects/rotoscoping.xml:5
 #, kde-format
 msgid "Keyframable vector based rotoscoping"
 msgstr "Vektor keyframable berdasarkan rotoscoping"
 
-#: data/effects/scratchlines.xml:3
+#: data/effects/scratchlines.xml:4
 #, kde-format
 msgid "Scratchlines"
 msgstr "Goresan"
 
-#: data/effects/scratchlines.xml:4
+#: data/effects/scratchlines.xml:5
 #, kde-format
 msgid "Scratchlines over the picture"
 msgstr "Goresan di atas gambar"
 
-#: data/effects/scratchlines.xml:7
+#: data/effects/scratchlines.xml:8
 #, kde-format
 msgid "Width of line"
 msgstr "Lebar garis"
 
-#: data/effects/scratchlines.xml:10
+#: data/effects/scratchlines.xml:11
 #, kde-format
 msgid "Max number of lines"
 msgstr "Jumlah maksimal garis"
 
-#: data/effects/scratchlines.xml:13
+#: data/effects/scratchlines.xml:14
 #, kde-format
 msgid "Max darker"
 msgstr "Maks penggelap"
 
-#: data/effects/scratchlines.xml:16
+#: data/effects/scratchlines.xml:17
 #, kde-format
 msgid "Max lighter"
 msgstr "Maks penerang"
 
-#: data/effects/sepia.xml:3
+#: data/effects/sepia.xml:4
 #, kde-format
 msgctxt "Sepia Effect Name"
 msgid "Sepia"
 msgstr "Sepia"
 
-#: data/effects/sepia.xml:4
+#: data/effects/sepia.xml:5
 #, kde-format
 msgid "Turn clip colors to sepia"
 msgstr "Bikin warna klip ke sepia"
 
-#: data/effects/sepia.xml:7
+#: data/effects/sepia.xml:8
 #, kde-format
 msgid "Chrominance U"
 msgstr "Chrominance U"
 
-#: data/effects/sepia.xml:10
+#: data/effects/sepia.xml:11
 #, kde-format
 msgid "Chrominance V"
 msgstr "Chrominance V"
 
-#: data/effects/shape.xml:3
+#: data/effects/shape.xml:4
 #, kde-format
 msgid "Shape Alpha"
 msgstr "Alfa Bentuk"
 
-#: data/effects/shape.xml:4
+#: data/effects/shape.xml:5
 #, kde-format
 msgid "Create an alpha channel (transparency) based on another resource"
 msgstr ""
 "Buat sebuah kanal alfa (transparan) berdasarkan pada sumberdaya lainnya"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: data/effects/speed.xml:3 data/effects/speed.xml:7 data/effects/wave.xml:16
+#: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
 #: src/timeline2/view/qml/Track.qml:330 src/timeline2/view/qml/Track.qml:404
 #: src/ui/clipspeed_ui.ui:43
@@ -2107,17 +2107,17 @@ msgstr ""
 msgid "Speed"
 msgstr "Kecepatan"
 
-#: data/effects/speed.xml:4
+#: data/effects/speed.xml:5
 #, kde-format
 msgid "Make clip play faster or slower"
 msgstr "Membuat pemutaran klip lebih cepat atau lebih lambat"
 
-#: data/effects/spot_remover.xml:3
+#: data/effects/spot_remover.xml:4
 #, kde-format
 msgid "Spot Remover"
 msgstr "Penghapus Poin"
 
-#: data/effects/spot_remover.xml:4
+#: data/effects/spot_remover.xml:5
 #, kde-format
 msgid ""
 "Replace an area with interpolated pixels. The new pixel values are "
@@ -2127,82 +2127,82 @@ msgstr ""
 "Ganti area dengan piksel yang diinterpolasi. Nilai piksel baru diinterpolasi "
 "dari piksel terdekat segera di luar area yang ditentukan."
 
-#: data/effects/spot_remover.xml:8
+#: data/effects/spot_remover.xml:9
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr "Menentukan persegi pada area yang akan dihapus."
 
-#: data/effects/swapchannels.xml:4
+#: data/effects/swapchannels.xml:5
 #, kde-format
 msgid "Move the left channel to the right and right-to-left"
 msgstr "Pindahkan kanal kiri ke kanan dan kanan ke kiri"
 
-#: data/effects/tcolor.xml:3
+#: data/effects/tcolor.xml:4
 #, kde-format
 msgid "Technicolor"
 msgstr "Technicolor"
 
-#: data/effects/tcolor.xml:4
+#: data/effects/tcolor.xml:5
 #, kde-format
 msgid "Oversaturate the color in video, like in old Technicolor movies"
 msgstr "Warna sangat saturasi di video, seperti dalam film Technicolor lawas"
 
-#: data/effects/tcolor.xml:7
+#: data/effects/tcolor.xml:8
 #, kde-format
 msgid "Blue/Yellow axis"
 msgstr "Poros biru/kuning"
 
-#: data/effects/tcolor.xml:10
+#: data/effects/tcolor.xml:11
 #, kde-format
 msgid "Red/Green axis"
 msgstr "Poros merah/hijau"
 
-#: data/effects/threshold.xml:3
+#: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
 msgstr "Binerkan"
 
-#: data/effects/threshold.xml:4
+#: data/effects/threshold.xml:5
 #, kde-format
 msgid "Make monochrome clip"
 msgstr "Membuat klip monokrom"
 
-#: data/effects/threshold.xml:7
+#: data/effects/threshold.xml:8
 #, kde-format
 msgid "Threshold value"
 msgstr "Nilai ambang batas"
 
-#: data/effects/threshold.xml:10 data/transitions/luma.xml:13
+#: data/effects/threshold.xml:11 data/transitions/luma.xml:14
 #, kde-format
 msgid "Use transparency"
 msgstr "Gunakan transparensi"
 
-#: data/effects/tracker.xml:3
+#: data/effects/tracker.xml:4
 #, kde-format
 msgid "Motion Tracker"
 msgstr "Pelacak Gerakan"
 
-#: data/effects/tracker.xml:4
+#: data/effects/tracker.xml:5
 #, kde-format
 msgid "Select a zone to follow its movements"
 msgstr "Pilih zona untuk mengikuti pergerakannya"
 
-#: data/effects/tracker.xml:10
+#: data/effects/tracker.xml:11
 #, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
 msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM"
 
-#: data/effects/tracker.xml:11
+#: data/effects/tracker.xml:12
 #, kde-format
 msgid "Tracker algorithm"
 msgstr "Algoritma pelacak"
 
-#: data/effects/tracker.xml:15
+#: data/effects/tracker.xml:16
 #, kde-format
 msgid "Keyframes spacing"
 msgstr "Penyepasian keyframe"
 
-#: data/effects/tracker.xml:16
+#: data/effects/tracker.xml:17
 #, kde-format
 msgid ""
 "Defines the frequency of stored keyframes. A keyframe is created every steps "
@@ -2211,304 +2211,304 @@ msgstr ""
 "Menentukan frekuensi keyframe yang disimpan. Sebuah keyframe yang telah "
 "dibuat setiap langkah-langkah frame."
 
-#: data/effects/tracker.xml:19
+#: data/effects/tracker.xml:20
 #, kde-format
 msgid "Rectangle,Ellipse,Arrow"
 msgstr "Persegi,Jorong,Panah"
 
-#: data/effects/tracker.xml:20
+#: data/effects/tracker.xml:21
 #, kde-format
 msgid "Frame shape"
 msgstr "Bentuk frame"
 
-#: data/effects/tracker.xml:23
+#: data/effects/tracker.xml:24
 #, kde-format
 msgid "Shape width"
 msgstr "Lebar bentuk"
 
-#: data/effects/tracker.xml:26
+#: data/effects/tracker.xml:27
 #, kde-format
 msgid "Shape color"
 msgstr "Warna bentuk"
 
-#: data/effects/tracker.xml:32
+#: data/effects/tracker.xml:33
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
 msgstr "Median Buram,Gaussian Buram,Pixelate,Isi Kusam,Nihil"
 
-#: data/effects/tracker.xml:33
+#: data/effects/tracker.xml:34
 #, kde-format
 msgid "Blur type"
 msgstr "Tipe buram"
 
-#: data/effects/typewriter.xml:3
+#: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
 msgstr "Tulis Mesin Ketik (untuk klip judul)"
 
-#: data/effects/typewriter.xml:4
+#: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
 msgstr "Efek tulis mesin ketik v0.3.3 Untuk diterapkan pada klip judul saja."
 
-#: data/effects/typewriter.xml:7
+#: data/effects/typewriter.xml:8
 #, kde-format
 msgid "Frames step"
 msgstr "Langkah frame"
 
-#: data/effects/typewriter.xml:10
+#: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr "Sigma"
 
-#: data/effects/typewriter.xml:13
+#: data/effects/typewriter.xml:14
 #, kde-format
 msgid "Random Seed"
 msgstr "Acak Benih"
 
-#: data/effects/typewriter.xml:16
+#: data/effects/typewriter.xml:17
 #, kde-format
 msgid "Char by char,Word by word,Line by line,Custom macro"
 msgstr "Karakter demi karakter,Kata demi kata,Garis demi garis, Makro kustom"
 
-#: data/effects/typewriter.xml:17
+#: data/effects/typewriter.xml:18
 #, kde-format
 msgid "Macro type"
 msgstr "Tipe makro"
 
-#: data/effects/vidstab.xml:3
+#: data/effects/vidstab.xml:4
 #, kde-format
 msgctxt "Stabilize Effect Name"
 msgid "Stabilize"
 msgstr "Stabilkan"
 
-#: data/effects/vidstab.xml:4
+#: data/effects/vidstab.xml:5
 #, kde-format
 msgid "Stabilize Video (for wiggly/rolling video)"
 msgstr "Stabilkan video (untuk video yang bergoyang/berguncang)"
 
-#: data/effects/vidstab.xml:7
+#: data/effects/vidstab.xml:8
 #, kde-format
 msgid "Accuracy"
 msgstr "Akurasi"
 
-#: data/effects/vidstab.xml:8
+#: data/effects/vidstab.xml:9
 #, kde-format
 msgid "Accuracy of Shakiness detection"
 msgstr "Akurasi deteksi Kegoyahan"
 
-#: data/effects/vidstab.xml:11
+#: data/effects/vidstab.xml:12
 #, kde-format
 msgid "Shakiness"
 msgstr "Kegoyahan"
 
-#: data/effects/vidstab.xml:12
+#: data/effects/vidstab.xml:13
 #, kde-format
 msgid "How shaky is the Video"
 msgstr "Seberapa goyah Videonya"
 
-#: data/effects/vidstab.xml:15
+#: data/effects/vidstab.xml:16
 #, kde-format
 msgid "Stepsize"
 msgstr "Ukuran Langkah"
 
-#: data/effects/vidstab.xml:16
+#: data/effects/vidstab.xml:17
 #, kde-format
 msgid "Stepsize of Detection process minimum around"
 msgstr "Ukuran langkah pada proses Deteksi minimum di sekitar"
 
-#: data/effects/vidstab.xml:19
+#: data/effects/vidstab.xml:20
 #, kde-format
 msgid "Min. contrast"
 msgstr "Min. kontras"
 
-#: data/effects/vidstab.xml:20
+#: data/effects/vidstab.xml:21
 #, kde-format
 msgid "Below this Contrast Field is discarded"
 msgstr "Bawah Bidang Kontras ini terah dibuang"
 
-#: data/effects/vidstab.xml:23
+#: data/effects/vidstab.xml:24
 #, kde-format
 msgid "Smoothing"
 msgstr "Kehalusan"
 
-#: data/effects/vidstab.xml:24
+#: data/effects/vidstab.xml:25
 #, kde-format
 msgid "Number of frames for lowpass filtering"
 msgstr "Jumlah frame untuk pemfilteran lowpass"
 
-#: data/effects/vidstab.xml:27
+#: data/effects/vidstab.xml:28
 #, kde-format
 msgid "Max shift"
 msgstr "Maks pergeseran"
 
-#: data/effects/vidstab.xml:28
+#: data/effects/vidstab.xml:29
 #, kde-format
 msgid "Max number of pixels to shift (-1 = no limit)"
 msgstr "Maks jumlah pixel untuk penggeseran (-1 = tanpa batas)"
 
-#: data/effects/vidstab.xml:31
+#: data/effects/vidstab.xml:32
 #, kde-format
 msgid "Max angle"
 msgstr "Maks sudut pandang"
 
-#: data/effects/vidstab.xml:32
+#: data/effects/vidstab.xml:33
 #, kde-format
 msgid "Max angle to rotate (in rad)"
 msgstr "Maks sudut pandang untuk rotasi (dalam rad)"
 
-#: data/effects/vidstab.xml:35
+#: data/effects/vidstab.xml:36
 #, kde-format
 msgid "Crop"
 msgstr "Pangkas"
 
-#: data/effects/vidstab.xml:36
+#: data/effects/vidstab.xml:37
 #, kde-format
 msgid "Disabled = keep border, enabled = black background"
 msgstr "Dinonfungsikan = jaga bingkai, difungsikan = latar belakang hitam"
 
-#: data/effects/vidstab.xml:40
+#: data/effects/vidstab.xml:41
 #, kde-format
 msgid "Additional zoom during transform"
 msgstr "Zoom tambahan selagi transformasi"
 
-#: data/effects/vidstab.xml:43
+#: data/effects/vidstab.xml:44
 #, kde-format
 msgid "Optimal Zoom"
 msgstr "Zoom Optimal"
 
-#: data/effects/vidstab.xml:44
+#: data/effects/vidstab.xml:45
 #, kde-format
 msgid ""
 "Automatically determine optimal zoom. 1 - static zoom, 2 - adaptive zoom"
 msgstr ""
 "Secara otomatis menentukan zoom optimal. 1 - zoom statik, 2 - zoom adaptif"
 
-#: data/effects/vidstab.xml:47
+#: data/effects/vidstab.xml:48
 #, kde-format
 msgid "Optimal Zoom Speed"
 msgstr "Kecepatan Zoom Optimal"
 
-#: data/effects/vidstab.xml:48
+#: data/effects/vidstab.xml:49
 #, kde-format
 msgid "Zoom per frame (used when optimal zoom = 2)"
 msgstr "Perbesaran per frame (digunakan ketika perbesaran optimal = 2)"
 
-#: data/effects/vidstab.xml:51
+#: data/effects/vidstab.xml:52
 #, kde-format
 msgid "Sharpen"
 msgstr "Ketajaman"
 
-#: data/effects/vidstab.xml:52
+#: data/effects/vidstab.xml:53
 #, kde-format
 msgid "Sharpen transformed image"
 msgstr "Ketajaman citra yang ditransformasikan"
 
-#: data/effects/vidstab.xml:55
+#: data/effects/vidstab.xml:56
 #, kde-format
 msgid "Show fields"
 msgstr "Tampilkan bidang"
 
-#: data/effects/vidstab.xml:56
+#: data/effects/vidstab.xml:57
 #, kde-format
 msgid "0 = draw nothing 1 or 2 = show fields and transforms"
 msgstr "0 = tidak ada gambar 1 atau 2 = tampilkan bidang dan transformasi"
 
-#: data/effects/vidstab.xml:59
+#: data/effects/vidstab.xml:60
 #, kde-format
 msgid "Tripod"
 msgstr "Tripod"
 
-#: data/effects/vidstab.xml:60
+#: data/effects/vidstab.xml:61
 #, kde-format
 msgid "Reference frame"
 msgstr "Frame referensi"
 
-#: data/effects/vignette.xml:3
+#: data/effects/vignette.xml:4
 #, kde-format
 msgid "Vignette Effect"
 msgstr "Efek Vignette"
 
-#: data/effects/vignette.xml:4
+#: data/effects/vignette.xml:5
 #, kde-format
 msgid "Adjustable Vignette"
 msgstr "Vignette Yang Bisa Disetel"
 
-#: data/effects/vignette.xml:7
+#: data/effects/vignette.xml:8
 #, kde-format
 msgid "smooth"
 msgstr "mulus"
 
-#: data/effects/vignette.xml:10
+#: data/effects/vignette.xml:11
 #, kde-format
 msgid "radius"
 msgstr "radius"
 
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: data/effects/vignette.xml:13 src/ui/profiledialog_ui.ui:203
-#: src/ui/renderwidget_ui.ui:524
+#: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:203
+#: src/ui/renderwidget_ui.ui:533
 #, kde-format
 msgid "x"
 msgstr "x"
 
-#: data/effects/vignette.xml:16
+#: data/effects/vignette.xml:17
 #, kde-format
 msgid "y"
 msgstr "y"
 
-#: data/effects/vignette.xml:19
+#: data/effects/vignette.xml:20
 #, kde-format
 msgid "opacity"
 msgstr "opasitas"
 
-#: data/effects/vignette.xml:22
+#: data/effects/vignette.xml:23
 #, kde-format
 msgid "use cos instead of linear"
 msgstr "gunakan cos daripada linier"
 
-#: data/effects/volume.xml:3
+#: data/effects/volume.xml:4
 #, kde-format
 msgid "Volume (keyframable)"
 msgstr "Volume (keyframable)"
 
-#: data/effects/volume.xml:4
+#: data/effects/volume.xml:5
 #, kde-format
 msgid "Adjust audio volume with keyframes"
 msgstr "Setel volume audio dengan keyframe"
 
-#: data/effects/wave.xml:3
+#: data/effects/wave.xml:4
 #, kde-format
 msgctxt "Wave Effect Name"
 msgid "Wave"
 msgstr "Gelombang"
 
-#: data/effects/wave.xml:4
+#: data/effects/wave.xml:5
 #, kde-format
 msgid "Make waves on your clip with keyframes"
 msgstr "Membuat gelombang pada klip Anda dengan keyframe"
 
-#: data/effects/wave.xml:7
+#: data/effects/wave.xml:8
 #, kde-format
 msgid "Amplitude"
 msgstr "Amplitudo"
 
-#: data/effects/wave.xml:10
+#: data/effects/wave.xml:11
 #, kde-format
 msgid "End Amplitude"
 msgstr "Akhir Amplitude"
 
-#: data/effects/wave.xml:13
+#: data/effects/wave.xml:14
 #, kde-format
 msgid "Wave Amplitude"
 msgstr "Gelombang Amplitude"
 
-#: data/effects/wave.xml:19
+#: data/effects/wave.xml:20
 #, kde-format
 msgid "Horizontal"
 msgstr "Horisontal"
 
-#: data/effects/wave.xml:22
+#: data/effects/wave.xml:23
 #, kde-format
 msgid "Vertical"
 msgstr "Vertikal"
@@ -2657,7 +2657,7 @@ msgid "Motion"
 msgstr "Gerakan"
 
 #: data/kdenliveeffectscategory.rc:54
-#: src/effects/effectlist/model/effecttreemodel.cpp:52
+#: src/effects/effectlist/model/effecttreemodel.cpp:49
 #, kde-format
 msgid "GPU effects"
 msgstr "Efek GPU"
@@ -2769,7 +2769,7 @@ msgid "Calf  Plugins"
 msgstr "Plugin Calf"
 
 #: data/kdenliveeffectscategory.rc:138
-#: src/effects/effectlist/model/effecttreemodel.cpp:97
+#: src/effects/effectlist/model/effecttreemodel.cpp:94
 #, kde-format
 msgid "Deprecated"
 msgstr "Usang"
@@ -2804,30 +2804,30 @@ msgstr "Plugin VCO"
 msgid "MLT ladspa"
 msgstr "Ladspa MLT"
 
-#: data/transitions/affine.xml:3
+#: data/transitions/affine.xml:4
 #, kde-format
 msgctxt "Affine Transform Transition Name"
 msgid "Transform"
 msgstr "Transformasi"
 
-#: data/transitions/affine.xml:4
+#: data/transitions/affine.xml:5
 #, kde-format
 msgid "Perform an affine transform on for compositing."
 msgstr "Lakukan transformasi affine on untuk pengomposisian."
 
-#: data/transitions/composite.xml:3
+#: data/transitions/composite.xml:4
 #, kde-format
 msgctxt "Composite Transition Name"
 msgid "Composite"
 msgstr "Komposit"
 
-#: data/transitions/composite.xml:4
+#: data/transitions/composite.xml:5
 #, kde-format
 msgid "A key-framable alpha-channel compositor for two frames."
 msgstr ""
 "Sebuah pengomposisi kanal alfa yang dapat di-keyframe-kan untuk dua frame."
 
-#: data/transitions/composite.xml:11
+#: data/transitions/composite.xml:12
 #, kde-format
 msgid ""
 "When set, causes the B frame image to fill the WxH completely with no regard "
@@ -2836,94 +2836,94 @@ msgstr ""
 "Saat diatur, menyebabkan citra frame B mengisi WxH sepenuhnya tanpa "
 "memperhatikan rasio aspek B."
 
-#: data/transitions/composite.xml:14
+#: data/transitions/composite.xml:15
 #, kde-format
 msgid "Crop to fill"
 msgstr "Pangkas ke isian"
 
-#: data/transitions/composite.xml:17 data/transitions/region.xml:17
+#: data/transitions/composite.xml:18 data/transitions/region.xml:18
 #, kde-format
 msgid "Align"
 msgstr "Sejajar"
 
-#: data/transitions/composite.xml:21
+#: data/transitions/composite.xml:22
 #, kde-format
 msgid "H align"
 msgstr "Sejajar H"
 
-#: data/transitions/composite.xml:25
+#: data/transitions/composite.xml:26
 #, kde-format
 msgid "V align"
 msgstr "Sejajar V"
 
-#: data/transitions/composite.xml:28
+#: data/transitions/composite.xml:29
 #, kde-format
 msgid "Composite Method"
 msgstr "Metode Komposit"
 
-#: data/transitions/composite.xml:34 data/transitions/region.xml:35
+#: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
 msgstr "Paksa Progresif Rendering"
 
-#: data/transitions/dissolve.xml:3
+#: data/transitions/dissolve.xml:4
 #, kde-format
 msgctxt "Dissolve Transition Name"
 msgid "Dissolve"
 msgstr "Larut"
 
-#: data/transitions/dissolve.xml:4
+#: data/transitions/dissolve.xml:5
 #, kde-format
 msgid "Fade out one video while fading in the other video."
 msgstr "Lesapkan keluar satu video selagi video lainnya sedang melesap masuk."
 
-#: data/transitions/dissolve.xml:6
+#: data/transitions/dissolve.xml:7
 #, kde-format
 msgid "Luma Map"
 msgstr "Peta Luma"
 
-#: data/transitions/luma.xml:3
+#: data/transitions/luma.xml:4
 #, kde-format
 msgctxt "Luma Transition Name"
 msgid "Luma"
 msgstr "Luma"
 
-#: data/transitions/luma.xml:4 data/transitions/mix.xml:4
-#: data/transitions/wipe.xml:4
+#: data/transitions/luma.xml:5 data/transitions/mix.xml:5
+#: data/transitions/wipe.xml:5
 #, kde-format
 msgid "Applies a stationary transition between the current and next frames."
 msgstr "Menerapkan transisi stasioner antara frame saat ini dan berikutnya."
 
-#: data/transitions/luma.xml:7 data/transitions/region.xml:26
-#: data/transitions/wipe.xml:7
+#: data/transitions/luma.xml:8 data/transitions/region.xml:27
+#: data/transitions/wipe.xml:8
 #, kde-format
 msgid "Wipe Method"
 msgstr "Metode Usap"
 
-#: data/transitions/matte.xml:3
+#: data/transitions/matte.xml:4
 #, fuzzy, kde-format
 #| msgid "Add marker"
 #| msgid_plural "Add markers"
 msgid "Matte"
 msgstr "Tambahkan penanda"
 
-#: data/transitions/matte.xml:4
+#: data/transitions/matte.xml:5
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
 msgstr ""
 
-#: data/transitions/mix.xml:3
+#: data/transitions/mix.xml:4
 #, kde-format
 msgid "Audio Mix"
 msgstr "Campur Audio"
 
-#: data/transitions/qtblend.xml:3
+#: data/transitions/qtblend.xml:4
 #, kde-format
 msgid "Composite and transform"
 msgstr "Komposit dan transmormasi"
 
-#: data/transitions/qtblend.xml:4
+#: data/transitions/qtblend.xml:5
 #, kde-format
 msgid ""
 "Composites second input on the first input with user-defined blend mode, "
@@ -2932,59 +2932,59 @@ msgstr ""
 "Mengompositkan input kedua pada input pertama dengan opasitas, skala dan "
 "mode padu yang ditentukan pengguna."
 
-#: data/transitions/region.xml:3
+#: data/transitions/region.xml:4
 #, kde-format
 msgctxt "Regionalize Transition Name"
 msgid "Regionalize"
 msgstr "Regionalkan"
 
-#: data/transitions/region.xml:4
+#: data/transitions/region.xml:5
 #, kde-format
 msgid "Use alpha channel of another clip to create a transition."
 msgstr "Gunakan kanal alfa pada klip lainnya untuk membuat sebuah transisi."
 
-#: data/transitions/region.xml:7
+#: data/transitions/region.xml:8
 #, kde-format
 msgid "Mask clip"
 msgstr "Klip mask"
 
-#: data/transitions/region.xml:13
+#: data/transitions/region.xml:14
 #, kde-format
 msgid "Over,And,Or,Xor"
 msgstr "Over,And,Or,Xor"
 
-#: data/transitions/region.xml:14
+#: data/transitions/region.xml:15
 #, kde-format
 msgid "Alpha Channel Operation"
 msgstr "Operasi Kanal Alfa"
 
-#: data/transitions/region.xml:38
+#: data/transitions/region.xml:39
 #, kde-format
 msgid "Force Deinterlace Overlay"
 msgstr "Paksa Overlay Deinterlace"
 
-#: data/transitions/slide.xml:3
+#: data/transitions/slide.xml:4
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
 msgstr "Slide"
 
-#: data/transitions/slide.xml:4
+#: data/transitions/slide.xml:5
 #, kde-format
 msgid "Slide image from one side to another."
 msgstr "Geserkan citra dari satu sisi ke lainnya."
 
-#: data/transitions/slide.xml:7
+#: data/transitions/slide.xml:8
 #, kde-format
 msgid "Direction"
 msgstr "Arah"
 
-#: data/transitions/vqm.xml:3
+#: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
 msgstr ""
 
-#: data/transitions/vqm.xml:4
+#: data/transitions/vqm.xml:5
 #, kde-format
 msgid ""
 "This performs the PSNR and SSIM video quality measurements by comparing the "
@@ -2993,25 +2993,25 @@ msgid ""
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
 
-#: data/transitions/vqm.xml:7
+#: data/transitions/vqm.xml:8
 #, fuzzy, kde-format
 #| msgid "Render Time"
 msgid "Render line"
 msgstr "Waktu Render"
 
-#: data/transitions/vqm.xml:8
+#: data/transitions/vqm.xml:9
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
 
-#: data/transitions/wipe.xml:3
+#: data/transitions/wipe.xml:4
 #, kde-format
 msgctxt "Wipe Transition Name"
 msgid "Wipe"
 msgstr "Usap"
 
-#: data/transitions/wipe.xml:16
+#: data/transitions/wipe.xml:17
 #, kde-format
 msgid "Revert"
 msgstr "Kebalikan"
@@ -3423,20 +3423,20 @@ msgid "Update current preset"
 msgstr "Perbarui preset saat ini"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:289
+#: src/assets/view/assetparameterview.cpp:56 src/ui/renderwidget_ui.ui:298
 #, kde-format
 msgid "Delete preset"
 msgstr "Hapus preset"
 
 #: src/assets/view/assetparameterview.cpp:337
-#: src/dialogs/kdenlivesettingsdialog.cpp:1346
+#: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Masukkan Nama Preset"
 
 #: src/assets/view/assetparameterview.cpp:337
-#: src/dialogs/kdenlivesettingsdialog.cpp:1346
+#: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Masukkan nama preset ini:"
@@ -3767,17 +3767,17 @@ msgstr "<PIlih sebuah Kata Kunci>"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:171
 #: src/assets/view/widgets/listparamwidget.cpp:95
-#: src/assets/view/widgets/urllistparamwidget.cpp:135
+#: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, kde-format
 msgid "None (Dissolve)"
 msgstr "Nihil (Larut)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:211
+#: src/assets/view/widgets/urllistparamwidget.cpp:205
 #, kde-format
 msgid "Custom…"
 msgstr "Kustom..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:260
+#: src/assets/view/widgets/urllistparamwidget.cpp:254
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "LUT file %1 tidak valid"
@@ -3865,7 +3865,7 @@ msgstr "Tampilkan kanal"
 msgid "Open Effect Stack"
 msgstr "Buka Tumpukan Efek"
 
-#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4061
+#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4062
 #: src/mltcontroller/clipcontroller.cpp:612
 #: src/onlineresources/resourcewidget.cpp:258
 #: src/onlineresources/resourcewidget.cpp:549
@@ -4043,15 +4043,15 @@ msgstr "Hapus Klip bin"
 msgid "Missing source clip"
 msgstr "Klip sumber hilang"
 
-#: src/bin/bin.cpp:1850 src/bin/bin.cpp:2243
+#: src/bin/bin.cpp:1850 src/bin/bin.cpp:2244
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
-#: src/renderpresets/renderpresetrepository.cpp:430
+#: src/renderpresets/renderpresetrepository.cpp:433
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Tidak dapat menulis ke file %1"
 
-#: src/bin/bin.cpp:1860 src/bin/bin.cpp:2252 src/doc/kdenlivedoc.cpp:655
+#: src/bin/bin.cpp:1860 src/bin/bin.cpp:2253 src/doc/kdenlivedoc.cpp:655
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4157,12 +4157,12 @@ msgstr "Senyapkan Video"
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2193 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:2193 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:33 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:539
 #: src/ui/configcapture_ui.ui:521 src/ui/cutjobdialog_ui.ui:57
 #: src/ui/editrenderpreset_ui.ui:840 src/ui/projectsettings_ui.ui:168
-#: src/ui/renderwidget_ui.ui:596
+#: src/ui/renderwidget_ui.ui:605
 #, kde-format
 msgid "Audio"
 msgstr "Audio"
@@ -4199,214 +4199,214 @@ msgid "Color"
 msgstr "Warna"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2273 src/ui/managecache_ui.ui:318
+#: src/bin/bin.cpp:2274 src/ui/managecache_ui.ui:318
 #, kde-format
 msgid "Folder"
 msgstr "Folder"
 
-#: src/bin/bin.cpp:2274
+#: src/bin/bin.cpp:2275
 #, kde-format
 msgid "Create bin folder"
 msgstr "Buat folder bin"
 
-#: src/bin/bin.cpp:2406 src/bin/bin.cpp:2417 src/bin/bin.cpp:3340
+#: src/bin/bin.cpp:2407 src/bin/bin.cpp:2418 src/bin/bin.cpp:3341
 #: src/timeline2/model/timelinemodel.cpp:1986
 #, kde-format
 msgid "Delete Clip"
 msgstr "Hapus Klip"
 
-#: src/bin/bin.cpp:2407 src/bin/bin.cpp:2418 src/bin/bin.cpp:3320
+#: src/bin/bin.cpp:2408 src/bin/bin.cpp:2419 src/bin/bin.cpp:3321
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Klip Proxy"
 
-#: src/bin/bin.cpp:2411
+#: src/bin/bin.cpp:2412
 #, kde-format
 msgid "Delete Folder"
 msgstr "Hapus Folder"
 
-#: src/bin/bin.cpp:2412
+#: src/bin/bin.cpp:2413
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Folder Proxy"
 
-#: src/bin/bin.cpp:2641
+#: src/bin/bin.cpp:2642
 #, kde-format
 msgid "Edit rating"
 msgstr "Edit peringkat"
 
-#: src/bin/bin.cpp:2643
+#: src/bin/bin.cpp:2644
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Tidak bisa mengatur peringkat pada item ini"
 
-#: src/bin/bin.cpp:3275
+#: src/bin/bin.cpp:3276
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Tambah Klip atau Folder..."
 
-#: src/bin/bin.cpp:3279
+#: src/bin/bin.cpp:3280
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Tambahkan Klip Warna..."
 
-#: src/bin/bin.cpp:3281
+#: src/bin/bin.cpp:3282
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Tambahkan Rentetan Citra..."
 
-#: src/bin/bin.cpp:3283
+#: src/bin/bin.cpp:3284
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Tambahkan Klip Judul..."
 
-#: src/bin/bin.cpp:3285
+#: src/bin/bin.cpp:3286
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Tambahkan Templat Judul..."
 
-#: src/bin/bin.cpp:3287
+#: src/bin/bin.cpp:3288
 #, kde-format
 msgid "Create Animation…"
 msgstr "Buat Animasi..."
 
-#: src/bin/bin.cpp:3290 src/mainwindow.cpp:356
+#: src/bin/bin.cpp:3291 src/mainwindow.cpp:356
 #, kde-format
 msgid "Online Resources"
 msgstr "Sumberdaya Online"
 
-#: src/bin/bin.cpp:3294
+#: src/bin/bin.cpp:3295
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Tempatkan Klip..."
 
-#: src/bin/bin.cpp:3299
+#: src/bin/bin.cpp:3300
 #, kde-format
 msgid "Reload Clip"
 msgstr "Muat Ulang Klip"
 
-#: src/bin/bin.cpp:3305
+#: src/bin/bin.cpp:3306
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transkode untuk Mengedit Format Secara Mudah..."
 
-#: src/bin/bin.cpp:3310
+#: src/bin/bin.cpp:3311
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Ganti Klip..."
 
-#: src/bin/bin.cpp:3315
+#: src/bin/bin.cpp:3316
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplikat Klip"
 
-#: src/bin/bin.cpp:3327 src/bin/bin.cpp:3376
+#: src/bin/bin.cpp:3328 src/bin/bin.cpp:3377
 #, kde-format
 msgid "Clip Properties"
 msgstr "Properti Klip"
 
-#: src/bin/bin.cpp:3332 src/mltcontroller/clippropertiescontroller.cpp:308
+#: src/bin/bin.cpp:3333 src/mltcontroller/clippropertiescontroller.cpp:308
 #, kde-format
 msgid "Edit Clip"
 msgstr "Edit Klip"
 
-#: src/bin/bin.cpp:3345
+#: src/bin/bin.cpp:3346
 #, kde-format
 msgid "Open in new bin"
 msgstr "Buka di bin baru"
 
-#: src/bin/bin.cpp:3356
+#: src/bin/bin.cpp:3357
 #, kde-format
 msgid "Create Folder"
 msgstr "Ciptakan Folder"
 
-#: src/bin/bin.cpp:3420 src/dialogs/textbasededit.cpp:623
+#: src/bin/bin.cpp:3421 src/dialogs/textbasededit.cpp:623
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Tampilkan log"
 
-#: src/bin/bin.cpp:3423 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3424 src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Detailed log"
 msgstr "Log detail"
 
-#: src/bin/bin.cpp:3485
+#: src/bin/bin.cpp:3486
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Pindah Klip"
 msgstr[1] "Pindah Klip"
 
-#: src/bin/bin.cpp:3522
+#: src/bin/bin.cpp:3523
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Tidak ada klip yang valid untuk menyisipkan"
 
-#: src/bin/bin.cpp:3546 src/timeline2/view/timelinecontroller.cpp:1361
+#: src/bin/bin.cpp:3547 src/timeline2/view/timelinecontroller.cpp:1361
 #: src/timeline2/view/timelinecontroller.cpp:3268
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Pilih klip untuk menerapkan efek"
 
-#: src/bin/bin.cpp:3555
+#: src/bin/bin.cpp:3556
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Tidak bisa menerapkan efek di folder"
 
-#: src/bin/bin.cpp:3580 src/effects/effectstack/model/effectstackmodel.cpp:496
+#: src/bin/bin.cpp:3581 src/effects/effectstack/model/effectstackmodel.cpp:496
 #: src/effects/effectstack/model/effectstackmodel.cpp:501
 #: src/mainwindow.cpp:3006
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tidak bisa menambahkan efek ke klip"
 
-#: src/bin/bin.cpp:3626 src/bin/bin.cpp:3633
+#: src/bin/bin.cpp:3627 src/bin/bin.cpp:3634
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Pilih klip untuk menambahkan tag"
 
-#: src/bin/bin.cpp:3772
+#: src/bin/bin.cpp:3773
 #, kde-format
 msgid "Edit Tags"
 msgstr "Edit Tag"
 
-#: src/bin/bin.cpp:4114
+#: src/bin/bin.cpp:4115
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Masukkan jalur ke aplikasi pengeditan gambar Anda"
 
-#: src/bin/bin.cpp:4126
+#: src/bin/bin.cpp:4127
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Silakan atur aplikasi default untuk membuka file citra"
 
-#: src/bin/bin.cpp:4131
+#: src/bin/bin.cpp:4132
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Masukkan jalur ke aplikasi pengeditan audio Anda"
 
-#: src/bin/bin.cpp:4143
+#: src/bin/bin.cpp:4144
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Silakan atur aplikasi default untuk membuka file audio"
 
-#: src/bin/bin.cpp:4148 src/dialogs/kdenlivesettingsdialog.cpp:871
+#: src/bin/bin.cpp:4149 src/dialogs/kdenlivesettingsdialog.cpp:870
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Masukkan alur path ke aplikasi Glaxnimate"
 
-#: src/bin/bin.cpp:4160
+#: src/bin/bin.cpp:4161
 #, kde-format
 msgid "Please set a path for the Glaxnimate application"
 msgstr "Silakan setel alur path untuk aplikasi Glaxnimate"
 
-#: src/bin/bin.cpp:4355 src/dialogs/profilesdialog.cpp:211
+#: src/bin/bin.cpp:4356 src/dialogs/profilesdialog.cpp:211
 #, kde-format
 msgid "(copy)"
 msgstr "(salin)"
 
-#: src/bin/bin.cpp:4365
+#: src/bin/bin.cpp:4366
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4415,75 +4415,75 @@ msgstr ""
 "Anda mengedit judul eksternal klip (%1). Apakah Anda ingin menyimpan "
 "perubahan Anda ke file judul atau menyimpan perubahan untuk proyek ini saja?"
 
-#: src/bin/bin.cpp:4368 src/titler/titlewidget.cpp:2186
+#: src/bin/bin.cpp:4369 src/titler/titlewidget.cpp:2178
 #, kde-format
 msgid "Save Title"
 msgstr "Simpan Judul"
 
-#: src/bin/bin.cpp:4368
+#: src/bin/bin.cpp:4369
 #, kde-format
 msgid "Save to title file"
 msgstr "Simpan ke file judul"
 
-#: src/bin/bin.cpp:4369
+#: src/bin/bin.cpp:4370
 #, kde-format
 msgid "Save in project only"
 msgstr "Simpan di proyek saja"
 
-#: src/bin/bin.cpp:4387 src/dialogs/clipcreationdialog.cpp:373
+#: src/bin/bin.cpp:4388 src/dialogs/clipcreationdialog.cpp:373
 #, kde-format
 msgid "Title clip"
 msgstr "Klip judul"
 
-#: src/bin/bin.cpp:4437
+#: src/bin/bin.cpp:4438
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip tidak valid, akan disingkirkan dari pojek."
 
-#: src/bin/bin.cpp:4441
+#: src/bin/bin.cpp:4442
 #, kde-format
 msgid "Invalid clip"
 msgstr "Klip tidak valid"
 
-#: src/bin/bin.cpp:4578
+#: src/bin/bin.cpp:4579
 #, kde-format
 msgid "Enable proxies"
 msgstr "Fungsikan proxy"
 
-#: src/bin/bin.cpp:4578
+#: src/bin/bin.cpp:4579
 #, kde-format
 msgid "Disable proxies"
 msgstr "Nonfungsikan proxy"
 
-#: src/bin/bin.cpp:4753
+#: src/bin/bin.cpp:4754
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Bangun ulang proxy"
 
-#: src/bin/bin.cpp:4993
+#: src/bin/bin.cpp:4994
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Bin Proyek"
 
-#: src/bin/bin.cpp:5009
+#: src/bin/bin.cpp:5010
 #, kde-format
 msgid "Add Tracks"
 msgstr "Tambahka Trek"
 
-#: src/bin/bin.cpp:5011
+#: src/bin/bin.cpp:5012
 #, kde-format
 msgid "Edit Streams"
 msgstr "Edit Stream"
 
-#: src/bin/bin.cpp:5026
+#: src/bin/bin.cpp:5027
 #, kde-format
 msgid "Don't ask again"
 msgstr "Jangan tanya lagi"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5030
+#: src/bin/bin.cpp:5031
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -4492,45 +4492,45 @@ msgstr ""
 "Proyek Anda membutuhkan lebih banyak trek audio untuk menangani semua kanal. "
 "Tambahkan %1 trek audio?"
 
-#: src/bin/bin.cpp:5042 src/mainwindow.cpp:2595
+#: src/bin/bin.cpp:5043 src/mainwindow.cpp:2595
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Tidak bisa menemukan klip untuk menambahkan penanda"
 
-#: src/bin/bin.cpp:5140
+#: src/bin/bin.cpp:5141
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Tidak bisa menemukan klip master"
 
-#: src/bin/bin.cpp:5323 src/bin/clipcreator.cpp:145
+#: src/bin/bin.cpp:5324 src/bin/clipcreator.cpp:145
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Tambahkan klip"
 
-#: src/bin/bin.cpp:5345
+#: src/bin/bin.cpp:5346
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:5347
+#: src/bin/bin.cpp:5348
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 terpilih) | "
 
-#: src/bin/bin.cpp:5412 src/bin/bin.cpp:5486
+#: src/bin/bin.cpp:5413 src/bin/bin.cpp:5487
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Tambahkan stream tambahan untuk klip"
 msgstr[1] "Tambahkan stream-stream tambahan untuk klip"
 
-#: src/bin/bin.cpp:5433
+#: src/bin/bin.cpp:5434
 #, kde-format
 msgid "Import selected clips"
 msgstr "Impor klip yang dipilih"
 
-#: src/bin/bin.cpp:5435
+#: src/bin/bin.cpp:5436
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4539,12 +4539,12 @@ msgstr ""
 "Stream tambahan untuk klip\n"
 "%1"
 
-#: src/bin/bin.cpp:5445 src/mltcontroller/clippropertiescontroller.cpp:654
+#: src/bin/bin.cpp:5446 src/mltcontroller/clippropertiescontroller.cpp:654
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video stream %1"
 
-#: src/bin/bin.cpp:5460
+#: src/bin/bin.cpp:5461
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Stream audio %1"
@@ -4782,13 +4782,13 @@ msgstr "Ubah ukuran subtitel"
 msgid "Move subtitle"
 msgstr "Pindahkan subtitel"
 
-#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:821
+#: src/bin/model/subtitlemodel.cpp:1101 src/dialogs/renderwidget.cpp:805
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:498
 #: src/effects/effectstack/view/effectstackview.cpp:558
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:830
-#: src/project/dialogs/archivewidget.cpp:843
-#: src/project/dialogs/archivewidget.cpp:859
-#: src/project/dialogs/archivewidget.cpp:872
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:829
+#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:858
+#: src/project/dialogs/archivewidget.cpp:871
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5360,7 +5360,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Kelola Profil Pengenkodean"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
-#: src/dialogs/kdenlivesettingsdialog.cpp:299
+#: src/dialogs/kdenlivesettingsdialog.cpp:298
 #: src/project/dialogs/archivewidget.cpp:91
 #, kde-format
 msgid "Proxy Clips"
@@ -5425,17 +5425,17 @@ msgstr "Tampilkan Parameter Profil"
 #: src/dialogs/encodingprofilesdialog.cpp:257
 #: src/dialogs/encodingprofilesdialog.cpp:343
 #: src/dialogs/encodingprofilesdialog.cpp:345
-#: src/dialogs/kdenlivesettingsdialog.cpp:667
-#: src/project/dialogs/projectsettings.cpp:858
-#: src/project/dialogs/projectsettings.cpp:860
+#: src/dialogs/kdenlivesettingsdialog.cpp:666
+#: src/project/dialogs/projectsettings.cpp:853
+#: src/project/dialogs/projectsettings.cpp:855
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "Otomatis"
 
 #: src/dialogs/encodingprofilesdialog.cpp:325
-#: src/project/dialogs/projectsettings.cpp:890
-#: src/project/dialogs/projectsettings.cpp:921
+#: src/project/dialogs/projectsettings.cpp:885
+#: src/project/dialogs/projectsettings.cpp:916
 #, kde-format
 msgid "Current Settings"
 msgstr "Pengaturan Saat Ini"
@@ -5454,7 +5454,7 @@ msgid "Export guides as chapters description"
 msgstr "Ekspor panduan sebagai deskripsi bab"
 
 #: src/dialogs/exportguidesdialog.cpp:46 src/dialogs/markerdialog.cpp:37
-#: src/dialogs/renderwidget.cpp:520 src/jobs/scenesplittask.cpp:60
+#: src/dialogs/renderwidget.cpp:504 src/jobs/scenesplittask.cpp:60
 #, kde-format
 msgid "Category %1"
 msgstr "Kategori %1"
@@ -5508,224 +5508,224 @@ msgstr "Posisi pandu di frame"
 msgid "Guide comment"
 msgstr "Komentar pandu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3624
+#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3624
 #, kde-format
 msgid "Timeline"
 msgstr "Linimasa"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:120
+#: src/dialogs/kdenlivesettingsdialog.cpp:119
 #, kde-format
 msgid "Colors"
 msgstr "Warna"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:124
+#: src/dialogs/kdenlivesettingsdialog.cpp:123
 #, kde-format
 msgid "Speech To Text"
 msgstr "Lisankan Teks"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:128
+#: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
 msgid "Playback"
 msgstr "Pemutaran"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:138
+#: src/dialogs/kdenlivesettingsdialog.cpp:137
 #, kde-format
 msgid "Capture"
 msgstr "Tangkap"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:216
-#: src/effects/effectlist/model/effecttreemodel.cpp:62
+#: src/dialogs/kdenlivesettingsdialog.cpp:215
+#: src/effects/effectlist/model/effecttreemodel.cpp:59
 #, kde-format
 msgid "Misc"
 msgstr "Aneka"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:240
-#: src/dialogs/kdenlivesettingsdialog.cpp:777
+#: src/dialogs/kdenlivesettingsdialog.cpp:239
+#: src/dialogs/kdenlivesettingsdialog.cpp:776
 #: src/doc/documentvalidator.cpp:2213
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
 msgstr "otomatis"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:271
+#: src/dialogs/kdenlivesettingsdialog.cpp:270
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Pilih Profil Default (preset)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:290
+#: src/dialogs/kdenlivesettingsdialog.cpp:289
 #, kde-format
 msgid "Project Defaults"
 msgstr "Proyek Default"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:323
-#: src/dialogs/kdenlivesettingsdialog.cpp:347
+#: src/dialogs/kdenlivesettingsdialog.cpp:322
+#: src/dialogs/kdenlivesettingsdialog.cpp:346
 #, fuzzy, kde-format
 #| msgid "Use default folder"
 msgid "Use default folder: %1"
 msgstr "Gunakan folder default"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:325
-#: src/dialogs/kdenlivesettingsdialog.cpp:349
+#: src/dialogs/kdenlivesettingsdialog.cpp:324
+#: src/dialogs/kdenlivesettingsdialog.cpp:348
+#: src/dialogs/kdenlivesettingsdialog.cpp:1015
 #: src/dialogs/kdenlivesettingsdialog.cpp:1016
-#: src/dialogs/kdenlivesettingsdialog.cpp:1017
+#: src/dialogs/kdenlivesettingsdialog.cpp:1025
 #: src/dialogs/kdenlivesettingsdialog.cpp:1026
-#: src/dialogs/kdenlivesettingsdialog.cpp:1027
 #, fuzzy, kde-format
 #| msgid "Always use project folder"
 msgid "Always use project folder: %1"
 msgstr "Selalu gunakan folder proyek"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:327
-#: src/dialogs/kdenlivesettingsdialog.cpp:351
+#: src/dialogs/kdenlivesettingsdialog.cpp:326
+#: src/dialogs/kdenlivesettingsdialog.cpp:350
+#: src/dialogs/kdenlivesettingsdialog.cpp:1022
 #: src/dialogs/kdenlivesettingsdialog.cpp:1023
-#: src/dialogs/kdenlivesettingsdialog.cpp:1024
 #, fuzzy, kde-format
 #| msgid "Always use project folder"
 msgid "Always use active project folder"
 msgstr "Selalu gunakan folder proyek"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:364
+#: src/dialogs/kdenlivesettingsdialog.cpp:363
 #, kde-format
 msgid "Environment"
 msgstr "Lingkungan"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:400
+#: src/dialogs/kdenlivesettingsdialog.cpp:399
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Tangkapan belum tersedia di Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:410
+#: src/dialogs/kdenlivesettingsdialog.cpp:409
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:411
+#: src/dialogs/kdenlivesettingsdialog.cpp:410
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:418
+#: src/dialogs/kdenlivesettingsdialog.cpp:417
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:419
+#: src/dialogs/kdenlivesettingsdialog.cpp:418
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:468
+#: src/dialogs/kdenlivesettingsdialog.cpp:467
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:475 src/dialogs/timeremap.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:474 src/dialogs/timeremap.cpp:1658
 #: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:997
 #: src/project/transcodeseek.cpp:37 src/project/transcodeseek.cpp:50
 #, kde-format
 msgid "Transcode"
 msgstr "Transkode"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:505
+#: src/dialogs/kdenlivesettingsdialog.cpp:504
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "Pemprosesan GPU membutuhkan MLT yang dikompilasi dengan modul Movit dan "
 "Rtaudio "
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:674
+#: src/dialogs/kdenlivesettingsdialog.cpp:673
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:675
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:674
+#: src/dialogs/kdenlivesettingsdialog.cpp:727
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:676
+#: src/dialogs/kdenlivesettingsdialog.cpp:675
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:677
+#: src/dialogs/kdenlivesettingsdialog.cpp:676
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:679
+#: src/dialogs/kdenlivesettingsdialog.cpp:678
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Daemon Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:680
+#: src/dialogs/kdenlivesettingsdialog.cpp:679
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Daemon ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:692
-#: src/dialogs/kdenlivesettingsdialog.cpp:693 src/mainwindow.cpp:185
+#: src/dialogs/kdenlivesettingsdialog.cpp:691
+#: src/dialogs/kdenlivesettingsdialog.cpp:692 src/mainwindow.cpp:185
 #: src/ui/configproject_ui.ui:44
 #, kde-format
 msgid "Default"
 msgstr "Default"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:744
+#: src/dialogs/kdenlivesettingsdialog.cpp:743
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:756
+#: src/dialogs/kdenlivesettingsdialog.cpp:755
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:780 src/mainwindow.cpp:327
+#: src/dialogs/kdenlivesettingsdialog.cpp:779 src/mainwindow.cpp:327
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:855
+#: src/dialogs/kdenlivesettingsdialog.cpp:854
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Masukkan jalur ke aplikasi pengeditan audio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:863
+#: src/dialogs/kdenlivesettingsdialog.cpp:862
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Masukkan jalur ke aplikasi pengeditan gambar"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:954
-#: src/dialogs/kdenlivesettingsdialog.cpp:972
+#: src/dialogs/kdenlivesettingsdialog.cpp:953
+#: src/dialogs/kdenlivesettingsdialog.cpp:971
 #: src/project/dialogs/projectsettings.cpp:500
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Silakan pilih profil sebuah profil video"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1227
+#: src/dialogs/kdenlivesettingsdialog.cpp:1226
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive harus dimulai ulang untuk mengubah pengaturan ini"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1349
+#: src/dialogs/kdenlivesettingsdialog.cpp:1348
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Sebuah profil dengan nama yang sudah ada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1483
+#: src/dialogs/kdenlivesettingsdialog.cpp:1482
 #, kde-format
 msgid "Current settings"
 msgstr "Pengesetan saat ini"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1521
-#: src/dialogs/kdenlivesettingsdialog.cpp:1557
-#: src/dialogs/kdenlivesettingsdialog.cpp:1574
+#: src/dialogs/kdenlivesettingsdialog.cpp:1520
+#: src/dialogs/kdenlivesettingsdialog.cpp:1556
+#: src/dialogs/kdenlivesettingsdialog.cpp:1573
 #: src/mltcontroller/clippropertiescontroller.cpp:559
 #: src/mltcontroller/clippropertiescontroller.cpp:1358
 #: src/project/dialogs/profilewidget.cpp:108 src/ui/editrenderpreset_ui.ui:222
@@ -5734,20 +5734,20 @@ msgstr "Pengesetan saat ini"
 msgid "Progressive"
 msgstr "Progresif"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1667
-#: src/dialogs/kdenlivesettingsdialog.cpp:1848
+#: src/dialogs/kdenlivesettingsdialog.cpp:1666
+#: src/dialogs/kdenlivesettingsdialog.cpp:1847
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Mohon tambahkan model lisan."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1672
+#: src/dialogs/kdenlivesettingsdialog.cpp:1671
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Instal dependensi yang hilang"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1703
+#: src/dialogs/kdenlivesettingsdialog.cpp:1702
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -5756,30 +5756,30 @@ msgstr ""
 "Unduh model lisan dari: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1731
+#: src/dialogs/kdenlivesettingsdialog.cpp:1730
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Masukkan url untuk kamus baru"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1737
+#: src/dialogs/kdenlivesettingsdialog.cpp:1736
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model pengunduhan..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1747
+#: src/dialogs/kdenlivesettingsdialog.cpp:1746
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Kami tidak mengizinkan penghapusan model folder khusus, harap lakukan secara "
 "manual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1753
-#: src/dialogs/kdenlivesettingsdialog.cpp:1811
+#: src/dialogs/kdenlivesettingsdialog.cpp:1752
+#: src/dialogs/kdenlivesettingsdialog.cpp:1810
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Tidak bisa mengakses folder kamus."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1762
+#: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -5788,22 +5788,22 @@ msgstr ""
 "Hapus folder:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1785
+#: src/dialogs/kdenlivesettingsdialog.cpp:1784
 #, kde-format
 msgid "Download error"
 msgstr "Unduhan galat"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1790
+#: src/dialogs/kdenlivesettingsdialog.cpp:1789
 #, kde-format
 msgid "Download error %1"
 msgstr "Unduhan galat %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1818
+#: src/dialogs/kdenlivesettingsdialog.cpp:1817
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Mengekstrak arsip..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1825
+#: src/dialogs/kdenlivesettingsdialog.cpp:1824
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Kamus baru terinstal."
@@ -5948,68 +5948,63 @@ msgstr ""
 "Parameter berikut tidak akan berpengaruh, karena ditimpa oleh opsi antarmuka "
 "pengguna yang setara: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1775
+#: src/dialogs/renderwidget.cpp:106 src/dialogs/renderwidget.cpp:1759
 #, kde-format
 msgid "Waiting…"
 msgstr "Menunggu..."
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:109
 #, kde-format
 msgid "Rendering finished"
 msgstr "Perenderan selesai"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:114
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Perenderan mogok"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:119
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Perenderan digugurkan"
 
-#: src/dialogs/renderwidget.cpp:197
-#, kde-format
-msgid "Download New Render Presets…"
-msgstr "Unduh Preset Render Baru..."
-
-#: src/dialogs/renderwidget.cpp:220 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:204 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Nihil"
 
-#: src/dialogs/renderwidget.cpp:221
+#: src/dialogs/renderwidget.cpp:205
 #, kde-format
 msgid "Timecode"
 msgstr "Kode waktu"
 
-#: src/dialogs/renderwidget.cpp:222
+#: src/dialogs/renderwidget.cpp:206
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Kode-Waktu Frame Tidak Dijatuhkan"
 
-#: src/dialogs/renderwidget.cpp:223
+#: src/dialogs/renderwidget.cpp:207
 #, kde-format
 msgid "Frame Number"
 msgstr "Jumlah Frame"
 
-#: src/dialogs/renderwidget.cpp:227
+#: src/dialogs/renderwidget.cpp:211
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Perenderan menggunakan proxy kualitas rendah"
 
-#: src/dialogs/renderwidget.cpp:294
+#: src/dialogs/renderwidget.cpp:278
 #, kde-format
 msgid "File"
 msgstr "File"
 
-#: src/dialogs/renderwidget.cpp:303
+#: src/dialogs/renderwidget.cpp:287
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Playlist Yang Disimpan"
 
-#: src/dialogs/renderwidget.cpp:320 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:304 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6018,68 +6013,68 @@ msgstr ""
 "Tidak dapat menemukan aplikasi kdenlive_render, ada yang salah dengan "
 "instalasi Anda. Render tidak akan berfungsi"
 
-#: src/dialogs/renderwidget.cpp:343
+#: src/dialogs/renderwidget.cpp:327
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Hanya bekerja untuk format matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:351
+#: src/dialogs/renderwidget.cpp:335
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Ada masalah berbagi dengan dokumen: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:351 src/dialogs/renderwidget.cpp:359
-#: src/ui/renderwidget_ui.ui:882
+#: src/dialogs/renderwidget.cpp:335 src/dialogs/renderwidget.cpp:343
+#: src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Share"
 msgstr "Bagikan"
 
-#: src/dialogs/renderwidget.cpp:356
+#: src/dialogs/renderwidget.cpp:340
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Dokumen berhasil dibagikan"
 
-#: src/dialogs/renderwidget.cpp:359
+#: src/dialogs/renderwidget.cpp:343
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Anda bisa menemukan dokumen yang dibagikan di: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:495
+#: src/dialogs/renderwidget.cpp:479
 #, kde-format
 msgid "Beginning"
 msgstr "Permulaan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:502 src/ui/wipeval_ui.ui:167
+#: src/dialogs/renderwidget.cpp:486 src/ui/wipeval_ui.ui:167
 #, kde-format
 msgid "End"
 msgstr "Akhir"
 
-#: src/dialogs/renderwidget.cpp:515
+#: src/dialogs/renderwidget.cpp:499
 #, kde-format
 msgid "All Categories"
 msgstr "Semua Kategori"
 
-#: src/dialogs/renderwidget.cpp:634
+#: src/dialogs/renderwidget.cpp:618
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Tambahkan klip ke linimasa sebelum merender"
 
-#: src/dialogs/renderwidget.cpp:640
+#: src/dialogs/renderwidget.cpp:624
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Tidak dapat menemukan program pencairan yang diperlukan untuk rendering "
 "(bagian dari MLT)"
 
-#: src/dialogs/renderwidget.cpp:646 src/dialogs/renderwidget.cpp:1750
-#: src/project/dialogs/archivewidget.cpp:885
+#: src/dialogs/renderwidget.cpp:630 src/dialogs/renderwidget.cpp:1734
+#: src/project/dialogs/archivewidget.cpp:884
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "File keluaran sudah ada. Apakah Anda ingin menimpanya?"
 
-#: src/dialogs/renderwidget.cpp:653 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:637 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6088,33 +6083,33 @@ msgstr ""
 "Direktori %1, tidak dapat dibuat.\n"
 "Pastikan Anda memiliki izin yang diperlukan"
 
-#: src/dialogs/renderwidget.cpp:697 src/dialogs/renderwidget.cpp:772
+#: src/dialogs/renderwidget.cpp:681 src/dialogs/renderwidget.cpp:756
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Tidak bisa membuat file subtitel temporer"
 
-#: src/dialogs/renderwidget.cpp:742
+#: src/dialogs/renderwidget.cpp:726
 #, kde-format
 msgid "begin"
 msgstr "awal"
 
-#: src/dialogs/renderwidget.cpp:797
+#: src/dialogs/renderwidget.cpp:781
 #, kde-format
 msgid "export"
 msgstr "ekspor"
 
-#: src/dialogs/renderwidget.cpp:812
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Perenderan Tertunda"
 
-#: src/dialogs/renderwidget.cpp:812
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Pilih nama untuk perenderan ini."
 
-#: src/dialogs/renderwidget.cpp:907
+#: src/dialogs/renderwidget.cpp:891
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
@@ -6124,34 +6119,34 @@ msgstr ""
 "sama.\n"
 "Skrip akan disimpan tanpa ekspor multi trek."
 
-#: src/dialogs/renderwidget.cpp:946 src/dialogs/renderwidget.cpp:951
-#: src/dialogs/renderwidget.cpp:1004 src/dialogs/renderwidget.cpp:1009
-#: src/dialogs/renderwidget.cpp:1950 src/dialogs/renderwidget.cpp:1977
+#: src/dialogs/renderwidget.cpp:930 src/dialogs/renderwidget.cpp:935
+#: src/dialogs/renderwidget.cpp:988 src/dialogs/renderwidget.cpp:993
+#: src/dialogs/renderwidget.cpp:1934 src/dialogs/renderwidget.cpp:1961
 #: src/doc/kdenlivedoc.cpp:672 src/doc/kdenlivedoc.cpp:680
 #: src/doc/kdenlivedoc.cpp:1047
-#: src/effects/effectlist/model/effecttreemodel.cpp:253
-#: src/effects/effectlist/model/effecttreemodel.cpp:269
+#: src/effects/effectlist/model/effecttreemodel.cpp:250
+#: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #: src/effects/effectstack/view/effectstackview.cpp:595
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:667
 #: src/project/dialogs/archivewidget.cpp:671
-#: src/project/dialogs/archivewidget.cpp:850
-#: src/project/dialogs/archivewidget.cpp:865
-#: src/project/dialogs/archivewidget.cpp:878
-#: src/project/dialogs/archivewidget.cpp:890
-#: src/project/dialogs/archivewidget.cpp:896
-#: src/project/projectmanager.cpp:1285
-#: src/renderpresets/renderpresetrepository.cpp:380
-#: src/renderpresets/renderpresetrepository.cpp:439
+#: src/project/dialogs/archivewidget.cpp:849
+#: src/project/dialogs/archivewidget.cpp:864
+#: src/project/dialogs/archivewidget.cpp:877
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:895
+#: src/project/projectmanager.cpp:1287
+#: src/renderpresets/renderpresetrepository.cpp:383
+#: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4940
-#: src/titler/titlewidget.cpp:2202
+#: src/titler/titlewidget.cpp:2194
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Tidak bisa menulis ke file %1"
 
-#: src/dialogs/renderwidget.cpp:1047 src/dialogs/renderwidget.cpp:1762
+#: src/dialogs/renderwidget.cpp:1031 src/dialogs/renderwidget.cpp:1746
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6160,47 +6155,47 @@ msgstr ""
 "Sudah ada file penulisan tugas:<br /><b>%1</b><br />Gugurkan tugas jika Anda "
 "ingin menimpanya..."
 
-#: src/dialogs/renderwidget.cpp:1048 src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1032 src/dialogs/renderwidget.cpp:1747
 #, kde-format
 msgid "Already running"
 msgstr "Sudah berjalan"
 
-#: src/dialogs/renderwidget.cpp:1077
+#: src/dialogs/renderwidget.cpp:1061
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video tanpa trek audio"
 
-#: src/dialogs/renderwidget.cpp:1079
+#: src/dialogs/renderwidget.cpp:1063
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio tanpa trek video"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1127
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Perenderan <i>%1</i> dimulai"
 
-#: src/dialogs/renderwidget.cpp:1209 src/monitor/monitor.cpp:1128
+#: src/dialogs/renderwidget.cpp:1193 src/monitor/monitor.cpp:1128
 #, kde-format
 msgid "untitled"
 msgstr "tidak berjudul"
 
-#: src/dialogs/renderwidget.cpp:1247
+#: src/dialogs/renderwidget.cpp:1231
 #, kde-format
 msgid "No preset selected"
 msgstr "Tidak ada preset yang dipilih"
 
-#: src/dialogs/renderwidget.cpp:1249
+#: src/dialogs/renderwidget.cpp:1233
 #, kde-format
 msgid "No matching preset"
 msgstr "Tidak ada preset yang cocok"
 
-#: src/dialogs/renderwidget.cpp:1261
+#: src/dialogs/renderwidget.cpp:1245
 #, kde-format
 msgid "Invalid preset"
 msgstr "Preset tidak valid"
 
-#: src/dialogs/renderwidget.cpp:1365
+#: src/dialogs/renderwidget.cpp:1349
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6209,50 +6204,50 @@ msgstr ""
 "Perenderan tanpa audio dan video tidak akan bekerja. Harap aktifkan "
 "setidaknya satu dari keduanya."
 
-#: src/dialogs/renderwidget.cpp:1524
+#: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Remaining time "
 msgstr "Waktu tersisa"
 
-#: src/dialogs/renderwidget.cpp:1526 src/dialogs/renderwidget.cpp:1558
+#: src/dialogs/renderwidget.cpp:1510 src/dialogs/renderwidget.cpp:1542
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 hari "
 msgstr[1] "%1 hari "
 
-#: src/dialogs/renderwidget.cpp:1530
+#: src/dialogs/renderwidget.cpp:1514
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (frame %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1560
+#: src/dialogs/renderwidget.cpp:1544
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Perenderan selesai dalam %1"
 
-#: src/dialogs/renderwidget.cpp:1569
+#: src/dialogs/renderwidget.cpp:1553
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Perenderan %1 selesai dalam %2"
 
-#: src/dialogs/renderwidget.cpp:1593
+#: src/dialogs/renderwidget.cpp:1577
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Perenderan %1 mogok</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1636 src/ui/renderwidget_ui.ui:875
+#: src/dialogs/renderwidget.cpp:1620 src/ui/renderwidget_ui.ui:884
 #, kde-format
 msgid "Abort Job"
 msgstr "Gugurkan Tugas"
 
-#: src/dialogs/renderwidget.cpp:1639
+#: src/dialogs/renderwidget.cpp:1623
 #, kde-format
 msgid "Remove Job"
 msgstr "Singkirkan Tugas"
 
-#: src/dialogs/renderwidget.cpp:2080
+#: src/dialogs/renderwidget.cpp:2064
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6261,7 +6256,7 @@ msgstr ""
 "Parameter kecepatan kodek:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2100
+#: src/dialogs/renderwidget.cpp:2084
 #, kde-format
 msgid "Add to current project"
 msgstr "Tambahkan ke proyek saat ini"
@@ -6524,66 +6519,66 @@ msgstr "Pemetaan ulang waktu belum bekerja pada klip dengan frame B"
 msgid "Edit Timeremap keyframes"
 msgstr "Edit keyframe Pemetaan Waktu"
 
-#: src/dialogs/wizard.cpp:70
+#: src/dialogs/wizard.cpp:69
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
 msgstr "Selamat Datang di Kdenlive"
 
-#: src/dialogs/wizard.cpp:76
+#: src/dialogs/wizard.cpp:75
 #, kde-format
 msgid "Welcome to Kdenlive %1"
 msgstr "Selamat Datang di Kdenlive %1"
 
-#: src/dialogs/wizard.cpp:77
+#: src/dialogs/wizard.cpp:76
 #, kde-format
 msgid "Using MLT %1"
 msgstr "Menggunakan MLT %1"
 
-#: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:192
+#: src/dialogs/wizard.cpp:86 src/project/cliptranscode.cpp:192
 #: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:756
-#: src/project/dialogs/archivewidget.cpp:1165
+#: src/project/dialogs/archivewidget.cpp:1164
 #, kde-format
 msgid "Abort"
 msgstr "Gugurkan"
 
-#: src/dialogs/wizard.cpp:88
+#: src/dialogs/wizard.cpp:87
 #, kde-format
 msgid "OK"
 msgstr "Oke"
 
-#: src/dialogs/wizard.cpp:97
+#: src/dialogs/wizard.cpp:96
 #, kde-format
 msgid "Converting old custom effects successful:"
 msgstr "Pengkonversian efek kustom lawas yang berhasil:"
 
-#: src/dialogs/wizard.cpp:105
+#: src/dialogs/wizard.cpp:104
 #, kde-format
 msgid "Converting old custom effects failed:"
 msgstr "Pengkonversian efek kustom lawas yang gagal:"
 
-#: src/dialogs/wizard.cpp:114
+#: src/dialogs/wizard.cpp:113
 #, kde-format
 msgid "Startup error or warning, check our <a href='#'>online manual</a>."
 msgstr ""
 "Galat pemulaian atau peringatan, periksa <a href='#'>manual online</a> kita."
 
-#: src/dialogs/wizard.cpp:135
+#: src/dialogs/wizard.cpp:134
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
 msgstr "Kodek telah diperbarui, semuanya baik-baik saja."
 
-#: src/dialogs/wizard.cpp:140
+#: src/dialogs/wizard.cpp:139
 #, kde-format
 msgid "VAAPI hardware acceleration"
 msgstr "Akselerasi perangkat keras VAAPI"
 
-#: src/dialogs/wizard.cpp:143
+#: src/dialogs/wizard.cpp:142
 #, kde-format
 msgid "NVIDIA hardware acceleration"
 msgstr "Akselerasi perangkat keras NVIDIA"
 
-#: src/dialogs/wizard.cpp:146
+#: src/dialogs/wizard.cpp:145
 #, kde-format
 msgid "Check hardware acceleration"
 msgstr "Periksa akselerasi perangkat keras"
@@ -6591,25 +6586,25 @@ msgstr "Periksa akselerasi perangkat keras"
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
-#: src/dialogs/wizard.cpp:169 src/project/cliptranscode.cpp:268
-#: src/ui/renderwidget_ui.ui:350 src/ui/renderwidget_ui.ui:918
-#: src/ui/renderwidget_ui.ui:1076
+#: src/dialogs/wizard.cpp:168 src/project/cliptranscode.cpp:268
+#: src/ui/renderwidget_ui.ui:359 src/ui/renderwidget_ui.ui:927
+#: src/ui/renderwidget_ui.ui:1085
 #, kde-format
 msgid "Close"
 msgstr "Tutup"
 
-#: src/dialogs/wizard.cpp:193
+#: src/dialogs/wizard.cpp:192
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
 msgstr "<li>Tidak bisa memulai backend MLT, periksalah instalasi Anda</li>"
 
-#: src/dialogs/wizard.cpp:199
+#: src/dialogs/wizard.cpp:198
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
 msgstr ""
 "<li>Versi MLT tidak didukung<br/>Mohon <b>mutakhirkan</b> ke %1.%2.%3</li>"
 
-#: src/dialogs/wizard.cpp:226
+#: src/dialogs/wizard.cpp:225
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
@@ -6618,7 +6613,7 @@ msgstr ""
 "<li>Paket yang hilang: Efek <b>Frei0r</b> (plugin frei0r)<br/>menyediakan "
 "banyak efek dan transisi. Dianjurkan untuk menginstalnya</li>"
 
-#: src/dialogs/wizard.cpp:241
+#: src/dialogs/wizard.cpp:240
 #, kde-format
 msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
@@ -6627,7 +6622,7 @@ msgstr ""
 "<li>Paket yang hilang: <b>AVFilter</b><br/>menyediakan banyak efek. "
 "Dianjurkan untuk menginstalnya</li>"
 
-#: src/dialogs/wizard.cpp:255
+#: src/dialogs/wizard.cpp:254
 #, kde-format
 msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
@@ -6636,7 +6631,7 @@ msgstr ""
 "<li>Filter yang hilang: <b>avfilter.subtitles</b><br/>diperlukan untuk fitur "
 "subtitel. Dianjurkan untuk menginstalnya</li>"
 
-#: src/dialogs/wizard.cpp:275
+#: src/dialogs/wizard.cpp:274
 #, kde-format
 msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
@@ -6646,7 +6641,7 @@ msgstr ""
 ">menyediakan banyak ikon yang digunakan di Kdenlive. Dianjurkan untuk "
 "menginstalnya</li>"
 
-#: src/dialogs/wizard.cpp:304
+#: src/dialogs/wizard.cpp:303
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
@@ -6655,13 +6650,13 @@ msgstr ""
 "<li>Modul MLT yang hilang: <b>sdl</b> atau <b>rtaudio</b><br/>diperlukan "
 "untuk output audio</li>"
 
-#: src/dialogs/wizard.cpp:316
+#: src/dialogs/wizard.cpp:315
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
 msgstr ""
 "<li>Modul MLT yang hilang: <b>xml</b><br/>diperlukan untuk video/audio</li>"
 
-#: src/dialogs/wizard.cpp:326
+#: src/dialogs/wizard.cpp:325
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
@@ -6670,7 +6665,7 @@ msgstr ""
 "<li>Modul MLT yang hilang: <b>avformat</b> (FFmpeg)<br/>diperlukan untuk "
 "audio/video</li>"
 
-#: src/dialogs/wizard.cpp:335
+#: src/dialogs/wizard.cpp:334
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
@@ -6679,7 +6674,7 @@ msgstr ""
 "<li>Modul MLT yang hilang: <b>qimage</b> atau <b>pixbuf</b><br/>diperlukan "
 "untuk citra dan judul</li>"
 
-#: src/dialogs/wizard.cpp:342
+#: src/dialogs/wizard.cpp:341
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
@@ -6688,7 +6683,7 @@ msgstr ""
 "<li>Modul MLT yang hilang: <b>kdenlivetitle</b><br/>diperlukan untuk membuat "
 "judul</li>"
 
-#: src/dialogs/wizard.cpp:348
+#: src/dialogs/wizard.cpp:347
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
@@ -6697,7 +6692,7 @@ msgstr ""
 "<li>Modul MLT yang hilang: <b>glaxnimate</b><br/>diperlukan untuk memuat "
 "animasi Lottie</li>"
 
-#: src/dialogs/wizard.cpp:381
+#: src/dialogs/wizard.cpp:380
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
@@ -6706,7 +6701,7 @@ msgstr ""
 "<li>Aplikasi yang hilang: <b>ffmpeg</b><br/>diperlukan untuk klip proxy dan "
 "transcoding</li>"
 
-#: src/dialogs/wizard.cpp:395
+#: src/dialogs/wizard.cpp:394
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
@@ -6714,7 +6709,7 @@ msgstr ""
 "<li>Aplikasi yang hilang: <b>ffplay</b><br/>dianjurkan untuk beberapa job "
 "pratinjau</li>"
 
-#: src/dialogs/wizard.cpp:409
+#: src/dialogs/wizard.cpp:408
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"
@@ -6722,7 +6717,7 @@ msgstr ""
 "<li>Aplikasi yang hilang: <b>ffprobe</b><br/>dianjurkan untuk analisis klip "
 "ekstra</li>"
 
-#: src/dialogs/wizard.cpp:479
+#: src/dialogs/wizard.cpp:478
 #, kde-format
 msgid ""
 "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
@@ -6731,7 +6726,7 @@ msgstr ""
 "<li>Aplikasi yang hilang: <b>mediainfo</b><br/>opsional untuk informasi klip "
 "teknikal</li>"
 
-#: src/dialogs/wizard.cpp:584
+#: src/dialogs/wizard.cpp:583
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
@@ -6739,22 +6734,22 @@ msgstr ""
 "Penginstalan MLT Anda tidak bisa ditemukan. Instal MLT dan jalankan ulang "
 "Kdenlive.\n"
 
-#: src/dialogs/wizard.cpp:588
+#: src/dialogs/wizard.cpp:587
 #, kde-format
 msgid "Fatal Error"
 msgstr "Galat Fatal"
 
-#: src/dialogs/wizard.cpp:766
+#: src/dialogs/wizard.cpp:765
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "Tidak ada enkoder perangkat keras yang ditemukan."
 
-#: src/dialogs/wizard.cpp:769
+#: src/dialogs/wizard.cpp:768
 #, kde-format
 msgid "NVIDIA hardware encoders found and enabled."
 msgstr "Enkoder perangkat keras NVIDIA ditemukan dan difungsikan."
 
-#: src/dialogs/wizard.cpp:772
+#: src/dialogs/wizard.cpp:771
 #, kde-format
 msgid "VAAPI hardware encoders found and enabled."
 msgstr "Enkoder perangkat keras VAAPI ditemukan dan difungsikan."
@@ -7040,13 +7035,13 @@ msgstr "Filter/transisi berikut terdeteksi dari proyek:"
 msgid "Invalid file path"
 msgstr "Alur file tidak valid"
 
-#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:486
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:484
 #: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
 #: src/mltcontroller/clippropertiescontroller.cpp:1484
 #: src/mltcontroller/clippropertiescontroller.cpp:1509
 #: src/profiles/profilerepository.cpp:173
-#: src/renderpresets/renderpresetrepository.cpp:371
+#: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
 msgid "Cannot open file %1"
 msgstr "Tidak bisa membuka file %1"
@@ -7288,33 +7283,33 @@ msgstr "Sian"
 msgid "Show Title Bars"
 msgstr "Tampilkan Bilah Judul"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:48
+#: src/effects/effectlist/model/effecttreemodel.cpp:45
 #, kde-format
 msgid "Legacy"
 msgstr "Lawasan"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:64
+#: src/effects/effectlist/model/effecttreemodel.cpp:61
 #: src/profiles/tree/profiletreemodel.cpp:56
 #, kde-format
 msgid "Custom"
 msgstr "Kustom"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:65
+#: src/effects/effectlist/model/effecttreemodel.cpp:62
 #, kde-format
 msgid "Templates"
 msgstr "Templat"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:98
+#: src/effects/effectlist/model/effecttreemodel.cpp:95
 #, kde-format
 msgid " - deprecated"
 msgstr " - usang"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:230
+#: src/effects/effectlist/model/effecttreemodel.cpp:227
 #, kde-format
 msgid "Error"
 msgstr "Galat"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:230
+#: src/effects/effectlist/model/effecttreemodel.cpp:227
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -7583,17 +7578,17 @@ msgstr "Thumb audio: panjang file tidak diketahui untuk %1"
 msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
 msgstr "Playlist %1 memiliki laju frame  (%2/%3fps), yang tidak didukung."
 
-#: src/jobs/cliploadtask.cpp:514
+#: src/jobs/cliploadtask.cpp:512
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Durasi pada file <b>%1</b> tidak bisa ditentukan."
 
-#: src/jobs/cliploadtask.cpp:656
+#: src/jobs/cliploadtask.cpp:654
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "File <b>%1</b> bukanlah file yang dapat dijangka."
 
-#: src/jobs/cliploadtask.cpp:717
+#: src/jobs/cliploadtask.cpp:715
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> memiliki laju frame yang dapat bervariasi"
@@ -7681,7 +7676,7 @@ msgstr "Tidak bisa membuat konsumen."
 msgid "Cannot create filter %1"
 msgstr "Tidak bisa membuat filter %1"
 
-#: src/jobs/filtertask.cpp:233
+#: src/jobs/filtertask.cpp:232
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Gagal memfilter sumber."
@@ -8375,35 +8370,24 @@ msgstr "Wantoyèk"
 msgid "EMAIL OF TRANSLATORS"
 msgstr "wantoyek@gmail.com"
 
-#: src/main.cpp:257
-#, kde-format
-msgid ""
-"Using:\n"
-"<a href=\"https://mltframework.org\">MLT</a> version %1\n"
-"<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
-msgstr ""
-"Menggunakan:\n"
-"<a href=\"https://mltframework.org\">MLT</a> versi %1\n"
-"Pustaka lib <a href=\"https://ffmpeg.org\">FFmpeg</a>"
-
-#: src/main.cpp:260
+#: src/main.cpp:256
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:260
+#: src/main.cpp:256
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Kerangka kerja multimedia sumber terbuka."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:262 src/ui/configcapture_ui.ui:26 src/ui/configcapture_ui.ui:49
+#: src/main.cpp:258 src/ui/configcapture_ui.ui:26 src/ui/configcapture_ui.ui:49
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:262
+#: src/main.cpp:258
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -8412,27 +8396,27 @@ msgstr ""
 "Sebuah solusi lengkap lintas platform untuk merekam, mengonversi, dan stream "
 "audio dan video."
 
-#: src/main.cpp:283
+#: src/main.cpp:279
 #, kde-format
 msgid "Set a custom config file name"
 msgstr "Atur nama file konfig kustom"
 
-#: src/main.cpp:284
+#: src/main.cpp:280
 #, kde-format
 msgid "Set the path for MLT environment"
 msgstr "Atur alur untuk lingkungan MLT"
 
-#: src/main.cpp:285
+#: src/main.cpp:281
 #, kde-format
 msgid "MLT log level"
 msgstr "Level catatan MLT"
 
-#: src/main.cpp:286
+#: src/main.cpp:282
 #, kde-format
 msgid "Comma separated list of clips to add"
 msgstr "Daftar yang dipisahkan dengan koma pada klip untuk menambahkan"
 
-#: src/main.cpp:287
+#: src/main.cpp:283
 #, kde-format
 msgid "Document to open"
 msgstr "Dokumen untuk dibuka"
@@ -8832,7 +8816,7 @@ msgstr "Alat aktif dan mode pengeditan"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow.cpp:1360 src/ui/editrenderpreset_ui.ui:414
-#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:737
+#: src/ui/editrenderpreset_ui.ui:596 src/ui/renderwidget_ui.ui:746
 #, kde-format
 msgid "Auto"
 msgstr "Auto"
@@ -9748,38 +9732,38 @@ msgstr "File proyek tidak bisa disimpan untuk pengarsipan."
 msgid "Archiving project"
 msgstr "Mengarsipkan proyek"
 
-#: src/mainwindow.cpp:4048
+#: src/mainwindow.cpp:4015
 #, kde-format
 msgid "Icon Size"
 msgstr "Ukuran Ikon"
 
-#: src/mainwindow.cpp:4052
+#: src/mainwindow.cpp:4019
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Default"
 
-#: src/mainwindow.cpp:4073 src/mainwindow.cpp:4101
+#: src/mainwindow.cpp:4040 src/mainwindow.cpp:4068
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Kecil (%1x%2)"
 
-#: src/mainwindow.cpp:4075 src/mainwindow.cpp:4103
+#: src/mainwindow.cpp:4042 src/mainwindow.cpp:4070
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Sedang (%1x%2)"
 
-#: src/mainwindow.cpp:4077 src/mainwindow.cpp:4105
+#: src/mainwindow.cpp:4044 src/mainwindow.cpp:4072
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Besar (%1x%2)"
 
-#: src/mainwindow.cpp:4079 src/mainwindow.cpp:4107
+#: src/mainwindow.cpp:4046 src/mainwindow.cpp:4074
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Besar Banget (%1x%2)"
 
-#: src/mainwindow.cpp:4164
+#: src/mainwindow.cpp:4131
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -9788,12 +9772,12 @@ msgstr ""
 "Ini akan menyembunyikan seluruh bilah menu. Anda bisa menampilkannya kembali "
 "dengan mengetik Ctrl+M."
 
-#: src/mainwindow.cpp:4164
+#: src/mainwindow.cpp:4131
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Sembunyikan bilah menu"
 
-#: src/mainwindow.cpp:4179
+#: src/mainwindow.cpp:4146
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -9801,17 +9785,17 @@ msgstr ""
 "Kdenlive perlu dijalankan ulang untuk menerapkan perubahan tema ikon. "
 "Jalankan ulang sekarang?"
 
-#: src/mainwindow.cpp:4378 src/timeline2/view/timelinecontroller.cpp:4923
+#: src/mainwindow.cpp:4345 src/timeline2/view/timelinecontroller.cpp:4923
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Tidak ada subtitel dalam proyek saat ini"
 
-#: src/mainwindow.cpp:4465
+#: src/mainwindow.cpp:4432
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bin Proyek %1"
 
-#: src/mainwindow.cpp:4566
+#: src/mainwindow.cpp:4533
 #, fuzzy, kde-format
 #| msgid "Selected cached data:"
 msgid "Checking cached data size"
@@ -10094,7 +10078,7 @@ msgstr "Properti Audio"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1036
-#: src/project/dialogs/projectsettings.cpp:824 src/ui/projectsettings_ui.ui:517
+#: src/project/dialogs/projectsettings.cpp:819 src/ui/projectsettings_ui.ui:517
 #, kde-format
 msgid "Metadata"
 msgstr "Metadata"
@@ -10248,17 +10232,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Buka Data Analisis"
 
-#: src/monitor/glwidget.cpp:1625
+#: src/monitor/glwidget.cpp:1632
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Pilih zona untuk diputar"
 
-#: src/monitor/glwidget.cpp:1661
+#: src/monitor/glwidget.cpp:1668
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Pilih sebuah klip untuk diputar"
 
-#: src/monitor/glwidget.cpp:1733
+#: src/monitor/glwidget.cpp:1740
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -10681,7 +10665,7 @@ msgstr "Rekam"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:541
 #: src/ui/cutjobdialog_ui.ui:103 src/ui/editrenderpreset_ui.ui:118
-#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:469
+#: src/ui/projectsettings_ui.ui:161 src/ui/renderwidget_ui.ui:478
 #, kde-format
 msgid "Video"
 msgstr "Video"
@@ -11363,8 +11347,8 @@ msgstr[0] "Anda memiliki %1 klip yang hilang di proyek Anda."
 msgstr[1] "Anda memiliki %1 klip yang hilang di proyek Anda."
 
 #: src/project/dialogs/archivewidget.cpp:209
-#: src/project/dialogs/archivewidget.cpp:1311
-#: src/project/dialogs/archivewidget.cpp:1353
+#: src/project/dialogs/archivewidget.cpp:1310
+#: src/project/dialogs/archivewidget.cpp:1352
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -11372,8 +11356,8 @@ msgstr[0] "(%1 item)"
 msgstr[1] "(%1 item)"
 
 #: src/project/dialogs/archivewidget.cpp:215
-#: src/project/dialogs/archivewidget.cpp:1313
-#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1312
+#: src/project/dialogs/archivewidget.cpp:1354
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -11388,7 +11372,7 @@ msgstr "Arsip"
 
 #: src/project/dialogs/archivewidget.cpp:227
 #: src/project/dialogs/archivewidget.cpp:775
-#: src/project/dialogs/archivewidget.cpp:1136
+#: src/project/dialogs/archivewidget.cpp:1135
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Ada sebuah galat pemprosesan file proyek"
@@ -11471,7 +11455,7 @@ msgstr "Pengarsipan..."
 #: src/project/dialogs/archivewidget.cpp:628
 #: src/project/dialogs/archivewidget.cpp:662
 #: src/project/dialogs/archivewidget.cpp:748
-#: src/project/dialogs/archivewidget.cpp:1162
+#: src/project/dialogs/archivewidget.cpp:1161
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Tidak bisa membuat direktori %1"
@@ -11483,7 +11467,7 @@ msgid "Copying %1"
 msgstr "Penyalinan %1"
 
 #: src/project/dialogs/archivewidget.cpp:654
-#: src/project/dialogs/archivewidget.cpp:819
+#: src/project/dialogs/archivewidget.cpp:818
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Tidak bisa membuat file temporer"
@@ -11498,12 +11482,12 @@ msgstr "Proyek telah berhasil diarsipkan."
 msgid "There was an error while copying the files: %1"
 msgstr "Ada sebuah galat selagi menyalin file: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1097
+#: src/project/dialogs/archivewidget.cpp:1096
 #, kde-format
 msgid "Archiving %1"
 msgstr "Pengarsipan %1"
 
-#: src/project/dialogs/archivewidget.cpp:1133
+#: src/project/dialogs/archivewidget.cpp:1132
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -11512,17 +11496,17 @@ msgstr ""
 "Proyek berhasil diarsipkan.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1164
+#: src/project/dialogs/archivewidget.cpp:1163
 #, kde-format
 msgid "Extracting…"
 msgstr "Pengekstrakan..."
 
-#: src/project/dialogs/archivewidget.cpp:1230
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Tidak bisa membuka file proyek %1"
 
-#: src/project/dialogs/archivewidget.cpp:1230
+#: src/project/dialogs/archivewidget.cpp:1229
 #, kde-format
 msgid "Cannot open file"
 msgstr "Tak bisa membuka file"
@@ -11792,8 +11776,8 @@ msgstr ""
 "mungkin menyebabkan beberapa kerusakan dalam transisi.\n"
 "Apakah Anda yakin ingin memprosesnya?"
 
-#: src/project/dialogs/projectsettings.cpp:737
-#: src/project/dialogs/projectsettings.cpp:752
+#: src/project/dialogs/projectsettings.cpp:732
+#: src/project/dialogs/projectsettings.cpp:747
 #: src/project/dialogs/slideshowclip.cpp:321
 #, kde-format
 msgid "1 image found"
@@ -11801,22 +11785,22 @@ msgid_plural "%1 images found"
 msgstr[0] "1 citra ditemukan"
 msgstr[1] "%1 citra ditemukan"
 
-#: src/project/dialogs/projectsettings.cpp:768
+#: src/project/dialogs/projectsettings.cpp:763
 #, kde-format
 msgid "Project folder: %1"
 msgstr "Folder proyek: %1"
 
-#: src/project/dialogs/projectsettings.cpp:769
+#: src/project/dialogs/projectsettings.cpp:764
 #, kde-format
 msgid "Project profile: %1"
 msgstr "Profile proyek: %1"
 
-#: src/project/dialogs/projectsettings.cpp:770
+#: src/project/dialogs/projectsettings.cpp:765
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr "Total klip: %1 (%2 digunakan di linimasa)."
 
-#: src/project/dialogs/projectsettings.cpp:824
+#: src/project/dialogs/projectsettings.cpp:819
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -12255,7 +12239,14 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Perubahan profil proyek digugurkan"
 
-#: src/project/projectmanager.cpp:1270
+#: src/project/projectmanager.cpp:1198
+#: src/renderpresets/renderpresetrepository.cpp:313
+#, fuzzy, kde-format
+#| msgid "Cannot create filter %1"
+msgid "Cannot read file %1"
+msgstr "Tidak bisa membuat filter %1"
+
+#: src/project/projectmanager.cpp:1272
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -12264,7 +12255,7 @@ msgstr ""
 "File output %1 sudah ada.\n"
 "Apakah Anda ingin menimpanya?"
 
-#: src/project/projectmanager.cpp:1295
+#: src/project/projectmanager.cpp:1297
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil proyek diubah"
@@ -12570,12 +12561,12 @@ msgctxt "Category Name"
 msgid "Images sequence"
 msgstr "Rentetan citra"
 
-#: src/renderpresets/renderpresetrepository.cpp:346
+#: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
 msgid "Preset already exists"
 msgstr "Preset sudah ada"
 
-#: src/renderpresets/renderpresetrepository.cpp:347
+#: src/renderpresets/renderpresetrepository.cpp:350
 #, kde-format
 msgid ""
 "This preset name already exists. Change the name if you do not want to "
@@ -14259,7 +14250,7 @@ msgid "No available stream"
 msgstr "Tidak ada aliran yang tersedia"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3249 src/titler/titlewidget.cpp:3252
+#: src/titler/titlewidget.cpp:3231 src/titler/titlewidget.cpp:3234
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradien %1"
@@ -14497,7 +14488,7 @@ msgid "Add Ellipse"
 msgstr "Tambahkan Jorong"
 
 #: src/titler/titlewidget.cpp:394 src/titler/titlewidget.cpp:397
-#: src/titler/titlewidget.cpp:818
+#: src/titler/titlewidget.cpp:810
 #, kde-format
 msgid "Add Image"
 msgstr "Tambahkan Citra"
@@ -14512,23 +14503,22 @@ msgstr "Buka Dokumen"
 msgid "Save As"
 msgstr "Simpan Sebagai"
 
-#: src/titler/titlewidget.cpp:415 src/titler/titlewidget.cpp:418
-#: src/titler/titlewidget.cpp:421 src/titler/titlewidget.cpp:423
+#: src/titler/titlewidget.cpp:414 src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Unduh Templat Judul Baru..."
 
-#: src/titler/titlewidget.cpp:549
+#: src/titler/titlewidget.cpp:541
 #, kde-format
 msgid "Save and add to project"
 msgstr "Simpan dan tambahkan ke proyek"
 
-#: src/titler/titlewidget.cpp:550
+#: src/titler/titlewidget.cpp:542
 #, kde-format
 msgid "Create Title"
 msgstr "Buat Judul"
 
-#: src/titler/titlewidget.cpp:699
+#: src/titler/titlewidget.cpp:691
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -14537,100 +14527,100 @@ msgstr ""
 "Apakah Anda yakin ingin memuat templat baru? Perubahan pada judul ini akan "
 "hilang!"
 
-#: src/titler/titlewidget.cpp:806
+#: src/titler/titlewidget.cpp:798
 #, kde-format
 msgid "All Images"
 msgstr "Semua Citra"
 
-#: src/titler/titlewidget.cpp:808
+#: src/titler/titlewidget.cpp:800
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Citra"
 
-#: src/titler/titlewidget.cpp:1642
+#: src/titler/titlewidget.cpp:1634
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1644 src/ui/titlewidget_ui.ui:256
+#: src/titler/titlewidget.cpp:1636 src/ui/titlewidget_ui.ui:256
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1666
+#: src/titler/titlewidget.cpp:1658
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1668 src/ui/titlewidget_ui.ui:286
+#: src/titler/titlewidget.cpp:1660 src/ui/titlewidget_ui.ui:286
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2135
+#: src/titler/titlewidget.cpp:2127
 #, kde-format
 msgid "Load Title"
 msgstr "Muat Judul"
 
-#: src/titler/titlewidget.cpp:2136
+#: src/titler/titlewidget.cpp:2128
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Judul Kdenlive (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2182
+#: src/titler/titlewidget.cpp:2174
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr "Apakah Anda ingin menanamkan Citra ke dalam TitleDocument ini?"
 
-#: src/titler/titlewidget.cpp:2249
+#: src/titler/titlewidget.cpp:2231
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Judul ini memiliki 1 unsur yang hilang"
 msgstr[1] "Judul ini memiliki %1 unsur yang hilang"
 
-#: src/titler/titlewidget.cpp:2250 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2232 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Perincian"
 
-#: src/titler/titlewidget.cpp:2253
+#: src/titler/titlewidget.cpp:2235
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Hapus unsur yang hilang"
 
-#: src/titler/titlewidget.cpp:2313
+#: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Update Title"
 msgstr "Perbarui Judul"
 
-#: src/titler/titlewidget.cpp:2316
+#: src/titler/titlewidget.cpp:2298
 #, kde-format
 msgid "Add as new Title"
 msgstr "Tambahkan sebagai Judul baru"
 
-#: src/titler/titlewidget.cpp:2370
+#: src/titler/titlewidget.cpp:2352
 #, kde-format
 msgid "The following files are missing:"
 msgstr "File berikut ini yang hilang:"
 
-#: src/titler/titlewidget.cpp:2564
+#: src/titler/titlewidget.cpp:2546
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Awal Viewport"
 
-#: src/titler/titlewidget.cpp:2565
+#: src/titler/titlewidget.cpp:2547
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Akhir Viewport"
 
-#: src/titler/titlewidget.cpp:3282
+#: src/titler/titlewidget.cpp:3264
 #, kde-format
 msgid "Gradient"
 msgstr "Gradien"
@@ -15141,8 +15131,8 @@ msgstr "Hapus poin saat ini."
 #: src/ui/manageencodingprofile_ui.ui:80 src/ui/projectsettings_ui.ui:264
 #: src/ui/projectsettings_ui.ui:271 src/ui/projectsettings_ui.ui:281
 #: src/ui/projectsettings_ui.ui:554 src/ui/projectsettings_ui.ui:561
-#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:544
-#: src/ui/renderwidget_ui.ui:978 src/ui/resourcewidget_ui.ui:210
+#: src/ui/qtextclip_ui.ui:90 src/ui/renderwidget_ui.ui:553
+#: src/ui/renderwidget_ui.ui:987 src/ui/resourcewidget_ui.ui:210
 #: src/ui/resourcewidget_ui.ui:277 src/ui/speechdialog_ui.ui:95
 #: src/ui/textbasededit_ui.ui:57 src/ui/textbasededit_ui.ui:90
 #: src/ui/textbasededit_ui.ui:110 src/ui/textbasededit_ui.ui:184
@@ -17601,160 +17591,172 @@ msgstr "Buat preset baru"
 msgid "&Save"
 msgstr "&Simpan"
 
+#. i18n: ectx: property (toolTip), widget (KNSWidgets::Button, m_knsbutton)
+#: src/ui/renderwidget_ui.ui:232
+#, kde-format
+msgid "Download New Render Presets…"
+msgstr "Unduh Preset Render Baru..."
+
+#. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
+#: src/ui/renderwidget_ui.ui:241
+#, kde-format
+msgid ":data/kdenlive_renderprofiles.knsrc"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:249
+#: src/ui/renderwidget_ui.ui:258
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr "Simpan preset saat ini sebagai preset kustom baru"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:252
+#: src/ui/renderwidget_ui.ui:261
 #, kde-format
 msgid "&Favorite"
 msgstr "&Favorit"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:269
+#: src/ui/renderwidget_ui.ui:278
 #, kde-format
 msgid "Edit preset"
 msgstr "Edit preset"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:272
+#: src/ui/renderwidget_ui.ui:281
 #, kde-format
 msgid "&Edit"
 msgstr "&Edit"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:292
+#: src/ui/renderwidget_ui.ui:301
 #, kde-format
 msgid "&Delete"
 msgstr "&Hapus"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:323
+#: src/ui/renderwidget_ui.ui:332
 #, kde-format
 msgid "Render to File"
 msgstr "Render ke File"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:330
+#: src/ui/renderwidget_ui.ui:339
 #, kde-format
 msgid "Generate Script"
 msgstr "Skrip Hasil"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:361
+#: src/ui/renderwidget_ui.ui:370
 #, kde-format
 msgid "Fu&ll project"
 msgstr "Proyek &lengkap"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:371
+#: src/ui/renderwidget_ui.ui:380
 #, kde-format
 msgid "Selected &zone"
 msgstr "&Zona yang dipilih"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:378
+#: src/ui/renderwidget_ui.ui:387
 #, kde-format
 msgid "&Guide zone"
 msgstr "Zona &pandu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_multi)
-#: src/ui/renderwidget_ui.ui:385
+#: src/ui/renderwidget_ui.ui:394
 #, kde-format
 msgid "Guide Multi-Export"
 msgstr "Pandu Multi Ekspor"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:410
+#: src/ui/renderwidget_ui.ui:419
 #, kde-format
 msgid "Guides to use as separator:"
 msgstr "Pandu untuk digunakan sebagai pemisah:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:478
+#: src/ui/renderwidget_ui.ui:487
 #, kde-format
 msgid "Render at Preview Resolution"
 msgstr "Render di Resolusi Pratinjau"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:485
+#: src/ui/renderwidget_ui.ui:494
 #, kde-format
 msgid "Use Proxy Clips"
 msgstr "Gunakan Klip Proxy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:492
+#: src/ui/renderwidget_ui.ui:501
 #, kde-format
 msgid "Enabled"
 msgstr "Fungsikan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:499
+#: src/ui/renderwidget_ui.ui:508
 #, kde-format
 msgid "Rescale:"
 msgstr "Skala ulang:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, rescale_keep)
 #. i18n: ectx: property (text), widget (QCheckBox, preserveAspectRatio)
-#: src/ui/renderwidget_ui.ui:541 src/ui/titlewidget_ui.ui:1381
+#: src/ui/renderwidget_ui.ui:550 src/ui/titlewidget_ui.ui:1381
 #, kde-format
 msgid "Preserve aspect ratio"
 msgstr "Pertahankan aspek rasio"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:586
+#: src/ui/renderwidget_ui.ui:595
 #, kde-format
 msgid "Overlay:"
 msgstr "Overlay:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:605
+#: src/ui/renderwidget_ui.ui:614
 #, kde-format
 msgid "Separate file for each audio track"
 msgstr "File terpisah untuk setiap trek audio"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:615
+#: src/ui/renderwidget_ui.ui:624
 #, kde-format
 msgid "Custom Quality"
 msgstr "Kualitas Kustom"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:629
+#: src/ui/renderwidget_ui.ui:638
 #, kde-format
 msgid "Low"
 msgstr "Rendah"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:642
+#: src/ui/renderwidget_ui.ui:651
 #, kde-format
 msgid "Compromise file size versus quality."
 msgstr "Kompromi kuran file lawan kualitas"
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:661
+#: src/ui/renderwidget_ui.ui:670
 #, no-c-format, kde-format
 msgid "75%"
 msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:668
+#: src/ui/renderwidget_ui.ui:677
 #, kde-format
 msgid "High"
 msgstr "Tinggi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:680
+#: src/ui/renderwidget_ui.ui:689
 #, kde-format
 msgid "Encoder"
 msgstr "Pengenkode"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:686 src/ui/renderwidget_ui.ui:702
+#: src/ui/renderwidget_ui.ui:695 src/ui/renderwidget_ui.ui:711
 #, kde-format
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
@@ -17765,116 +17767,116 @@ msgstr ""
 "yang lebih besar)."
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:689
+#: src/ui/renderwidget_ui.ui:698
 #, kde-format
 msgid "Speed:"
 msgstr "Kecepatan:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:721 src/ui/renderwidget_ui.ui:756
+#: src/ui/renderwidget_ui.ui:730 src/ui/renderwidget_ui.ui:765
 #, kde-format
 msgid "Threads:"
 msgstr "Utas:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:734
+#: src/ui/renderwidget_ui.ui:743
 #, kde-format
 msgid "Encoding threads"
 msgstr "Utas pengenkodean"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:747
+#: src/ui/renderwidget_ui.ui:756
 #, kde-format
 msgid "Parallel Processing"
 msgstr "Pemprosesan Paralel"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:770
+#: src/ui/renderwidget_ui.ui:779
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
 msgstr "Pemprosesan paralel menyebabkan artefak render"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:789
+#: src/ui/renderwidget_ui.ui:798
 #, kde-format
 msgid "2 pass"
 msgstr "2 pass"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:798
+#: src/ui/renderwidget_ui.ui:807
 #, kde-format
 msgid "Export metadata"
 msgstr "Ekspor metadata"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:805
+#: src/ui/renderwidget_ui.ui:814
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:830
+#: src/ui/renderwidget_ui.ui:839
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr "Sematkan subtitle daripada membakarnya"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:837
+#: src/ui/renderwidget_ui.ui:846
 #, kde-format
 msgid "Open folder after export"
 msgstr "Buka folder setelah ekspor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:844
+#: src/ui/renderwidget_ui.ui:853
 #, kde-format
 msgid "Play after render"
 msgstr "Putar sesudah render"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:866
+#: src/ui/renderwidget_ui.ui:875
 #, kde-format
 msgid "Job Queue"
 msgstr "Antrean Tugas"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:901
+#: src/ui/renderwidget_ui.ui:910
 #, kde-format
 msgid "Start Job"
 msgstr "Jalankan Tugas"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:911
+#: src/ui/renderwidget_ui.ui:920
 #, kde-format
 msgid "Clean Up"
 msgstr "Bersihkan"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:971
+#: src/ui/renderwidget_ui.ui:980
 #, kde-format
 msgid "Error Log"
 msgstr "Galat Log"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1006
+#: src/ui/renderwidget_ui.ui:1015
 #, kde-format
 msgid "Shutdown computer after renderings"
 msgstr "Matikan komputer sesudah perenderan"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1021
+#: src/ui/renderwidget_ui.ui:1030
 #, kde-format
 msgid "Scripts"
 msgstr "Skrip"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1049
+#: src/ui/renderwidget_ui.ui:1058
 #, kde-format
 msgid "Start Script"
 msgstr "Jalankan Skrip"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1056
+#: src/ui/renderwidget_ui.ui:1065
 #, kde-format
 msgid "Delete Script"
 msgstr "Hapus Skrip"
@@ -18722,6 +18724,15 @@ msgstr "%1mnt"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1jm"
+
+#~ msgid ""
+#~ "Using:\n"
+#~ "<a href=\"https://mltframework.org\">MLT</a> version %1\n"
+#~ "<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
+#~ msgstr ""
+#~ "Menggunakan:\n"
+#~ "<a href=\"https://mltframework.org\">MLT</a> versi %1\n"
+#~ "Pustaka lib <a href=\"https://ffmpeg.org\">FFmpeg</a>"
 
 #~ msgid "Properties of transition %1"
 #~ msgstr "Properti transisi %1"
