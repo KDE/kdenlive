@@ -464,8 +464,8 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     if (moveGuides) {
         GenTime fromPos(startPosition, pCore->getCurrentFps());
         GenTime toPos(endPosition, pCore->getCurrentFps());
-        QList<CommentedTime> guides = pCore->projectManager()->getGuideModel()->getMarkersInRange(startPosition, -1);
-        pCore->projectManager()->getGuideModel()->moveMarkers(guides, fromPos, toPos, undo, redo);
+        QList<CommentedTime> guides = pCore->projectManager()->getGuideModel(timeline->uuid())->getMarkersInRange(startPosition, -1);
+        pCore->projectManager()->getGuideModel(timeline->uuid())->moveMarkers(guides, fromPos, toPos, undo, redo);
     }
 
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);

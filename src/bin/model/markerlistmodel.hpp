@@ -11,6 +11,7 @@
 
 #include <QAbstractListModel>
 #include <QReadWriteLock>
+#include <QUuid>
 
 #include <array>
 #include <map>
@@ -35,8 +36,8 @@ public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    /** @brief Construct a guide list (bound to the timeline) */
-    MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    /** @brief Construct a guide list (bound to the timeline by uuid) */
+    MarkerListModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole };
 
@@ -138,6 +139,7 @@ public:
      */
     bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
     void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
+    const QUuid uuid() const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -184,6 +186,8 @@ private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     /** @brief whether this model represents timeline-wise guides */
     bool m_guide;
+    /** @brief uuid of the reference timeline */
+    QUuid m_uuid;
     /** @brief the Id of the clip this model corresponds to, if any. */
     QString m_clipId;
 

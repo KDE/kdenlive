@@ -1313,7 +1313,6 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
             return;
         }
         GenTime pos(frame, pCore->getCurrentFps());
-
         if (showGui) {
             pCore->currentDoc()->getGuideModel(m_model->uuid())->editMarkerGui(pos, qApp->activeWindow(), true);
         } else {

@@ -72,7 +72,7 @@ public:
     /** @brief Retrieve the current Guide Model
         The method is virtual to allow mocking
      */
-    virtual std::shared_ptr<MarkerListModel> getGuideModel();
+    virtual std::shared_ptr<MarkerListModel> getGuideModel(const QUuid &uuid);
 
     /** @brief Return the current undo stack
         The method is virtual to allow mocking

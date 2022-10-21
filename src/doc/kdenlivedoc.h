@@ -143,8 +143,8 @@ public:
     QPoint zone() const;
     /** @brief Returns target tracks (video, audio). */
     QPair<int, int> targetTracks() const;
-    /** @brief Load document guides from properties. */
-    void loadDocumentGuides();
+    /** @brief Load document guides for uuids timelines */
+    void loadDocumentGuides(QStringList uuids);
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
@@ -237,7 +237,7 @@ public:
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
     void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
-    void addTimeline(const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel);
+    void addTimeline(const QUuid uuid, std::shared_ptr<MarkerListModel> guideModel);
     int timelineCount() const;
     const QString projectName() const;
 
@@ -326,7 +326,7 @@ private slots:
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
-    void guidesChanged();
+    void guidesChanged(const QUuid &uuid);
     /** @brief Display error message on failed move. */
     void slotMoveFinished(KJob *job);
 

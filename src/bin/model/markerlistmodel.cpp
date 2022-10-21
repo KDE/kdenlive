@@ -35,10 +35,11 @@ MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> und
     setup();
 }
 
-MarkerListModel::MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+MarkerListModel::MarkerListModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
     , m_guide(true)
+    , m_uuid(uuid)
     , m_lock(QReadWriteLock::Recursive)
 {
     setup();
@@ -323,7 +324,7 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
 {
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
-    auto clipId = m_clipId;
+    auto clipId = m_guide ? m_uuid.toString() : m_clipId;
     return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
         Q_ASSERT(model->hasMarker(pos));
@@ -340,7 +341,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
 {
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
-    auto clipId = m_clipId;
+    auto clipId = m_guide ? m_uuid.toString() : m_clipId;
     return [guide, clipId, pos, comment, type]() {
         auto model = getModel(guide, clipId);
         Q_ASSERT(model->hasMarker(pos) == false);
@@ -360,7 +361,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
-    auto clipId = m_clipId;
+    auto clipId = m_guide ? m_uuid.toString() : m_clipId;
     return [guide, clipId, pos]() {
         auto model = getModel(guide, clipId);
         Q_ASSERT(model->hasMarker(pos));
@@ -378,7 +379,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QString &clipId)
 {
     if (guide) {
-        return pCore->projectManager()->getGuideModel();
+        return pCore->projectManager()->getGuideModel(clipId);
     }
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }
@@ -688,4 +689,9 @@ void MarkerListModel::exportGuidesGui(QWidget *parent, GenTime projectDuration) 
 {
     QScopedPointer<ExportGuidesDialog> dialog(new ExportGuidesDialog(this, projectDuration, parent));
     dialog->exec();
+}
+
+const QUuid MarkerListModel::uuid() const
+{
+    return m_uuid;
 }

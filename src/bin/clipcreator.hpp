@@ -6,6 +6,7 @@
 #pragma once
 
 #include "definitions.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "undohelper.hpp"
 #include <QString>
 #include <memory>

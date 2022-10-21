@@ -80,12 +80,31 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 
 QString ClipCreator::createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
 {
-    QDomDocument xml = pCore->currentDoc()->createEmptyDocument(2, 2, false);
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
     const QUuid uuid = QUuid::createUuid();
+    /*QDomDocument xml = pCore->currentDoc()->createEmptyDocument(2, 2, false);
+    std::shared_ptr<Mlt::Producer> timeline2(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", xml.toString().toUtf8().constData()));
+    Mlt::Service service(timeline2->get_service());
+    Mlt::Tractor tc1(service);
+    tc1.lock();*/
+    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getCurrentProfile()->profile()));
+    timeline->lock();
+    // Audio tracks
+    for (int ix = 0; ix < 2; ix++) {
+        Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
+        timeline->insert_track(pl, ix);
+        timeline->track(ix)->set("kdenlive:audio_track", 1);
+    }
+    for (int ix = 2; ix < 4; ix++) {
+        Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
+        timeline->insert_track(pl, ix);
+        // Audio tracks
+    }
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
+    prod->set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", name.toUtf8().constData());
     prod->set("kdenlive:duration", 1);
+    prod->set("kdenlive:clip_type", ClipType::Timeline);
     QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -104,7 +123,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     if (!res) {
         folderId = parentFolder;
     }
-    res = model->requestAddBinClip(id, prod, folderId, undo, redo);
+    res = model->requestAddBinClip(id, std::move(prod), folderId, undo, redo);
     if (res) {
         // Open playlist timeline
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;

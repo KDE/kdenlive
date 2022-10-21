@@ -260,9 +260,17 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
-        m_clipType = ClipType::Playlist;
-    } else if (m_service == QLatin1String("tractor")) {
-        m_clipType = ClipType::Timeline;
+        if (m_properties->property_exists("kdenlive:clip_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        } else {
+            m_clipType = ClipType::Playlist;
+        }
+    } else if (m_service == QLatin1String("tractor") || m_service == QLatin1String("xml-string")) {
+        if (m_properties->property_exists("kdenlive:clip_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        } else {
+            m_clipType = ClipType::Timeline;
+        }
     } else if (m_service == QLatin1String("webvfx")) {
         m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
@@ -276,7 +284,11 @@ void ClipController::getInfoForProducer()
         // Mostly used for testing
         m_clipType = ClipType::Animation;
     } else {
-        m_clipType = ClipType::Unknown;
+        if (m_properties->property_exists("kdenlive:clip_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        } else {
+            m_clipType = ClipType::Unknown;
+        }
     }
     if (audioIndex > -1 || m_clipType == ClipType::Playlist) {
         m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist);

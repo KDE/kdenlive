@@ -29,7 +29,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Q
     setWindowTitle(caption);
 
     // Set  up categories
-    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
+    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel(QUuid())->markerTypes;
     QPixmap pixmap(32, 32);
     for (uint i = 0; i < markerTypes.size(); ++i) {
         pixmap.fill(markerTypes[size_t(i)]);

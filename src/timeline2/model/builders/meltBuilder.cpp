@@ -50,7 +50,7 @@ bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<Timel
     m_notesLog.clear();
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
-    if (projectModel) {
+    if (projectModel && timeline->uuid() == pCore->currentTimelineId()) {
         projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog, timelines);
     }
     pCore->bin()->checkMissingProxies();
@@ -267,7 +267,9 @@ bool constructTimelineFromMelt(const QUuid &uuid, const std::shared_ptr<Timeline
     m_notesLog.clear();
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
-    pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    if (uuid == pCore->currentTimelineId()) {
+        pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+    }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
     for (const QString &folderId : expandedFolders) {
@@ -658,10 +660,6 @@ bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineIte
                     clipId = clip->get("kdenlive:id");
                 }
                 QString resource = clip->parent().get("resource");
-                if (resource.endsWith(QLatin1String("<tractor>")) || resource.endsWith(QLatin1String("<tractor>\\"))) {
-                    // This is a bogus internal clip
-                    continue;
-                }
                 if (binIdCorresp.size() == 0) {
                     binId = clipId;
                 } else if (binIdCorresp.count(clipId) == 0) {

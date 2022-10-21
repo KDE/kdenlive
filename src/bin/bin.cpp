@@ -5521,9 +5521,7 @@ void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &curre
 {
     if (m_openedPlaylists.contains(uuid)) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
-        qDebug() << "==== ADJUSTING CLIP DURATION: " << duration << " FOR: " << clip->clipId() << ", " << clip->clipType()
-                 << ", UUID: " << clip->getProducerProperty(QStringLiteral("kdenlive:uuid"));
-        ;
+        Q_ASSERT(clip != nullptr);
         clip->setProducerProperty(QStringLiteral("length"), duration);
         clip->setProducerProperty(QStringLiteral("out"), duration - 1);
         clip->setProducerProperty(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));

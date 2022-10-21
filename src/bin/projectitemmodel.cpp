@@ -1149,18 +1149,34 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
                     if (prod->parent().type() == mlt_service_tractor_type) {
-                        // This is the entry for the main playlist
-                        std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>((mlt_tractor)prod->parent().get_producer());
-                        // m_binPlaylist->setRetainIn(trac.get());
+                        std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
+                        QString uuid = prod->parent().get("kdenlive:uuid");
+                        int id(prod->parent().get_int("kdenlive:id"));
+                        trac->set("kdenlive:id", id);
+                        trac->set("kdenlive:uuid", uuid.toUtf8().constData());
+                        trac->set("length", prod->parent().get("length"));
+                        trac->set("out", prod->parent().get("out"));
+                        trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
+                        trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
+                        trac->set("kdenlive:clip_type", ClipType::Timeline);
+                        trac->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
+                        std::shared_ptr<Mlt::Producer> prod2(trac->cut());
+
+                        prod2->set("kdenlive:id", id);
+                        prod2->set("kdenlive:uuid", uuid.toUtf8().constData());
+                        prod2->set("length", prod->parent().get("length"));
+                        prod2->set("out", prod->parent().get("out"));
+                        prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
+                        prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
+                        prod2->set("kdenlive:clip_type", ClipType::Timeline);
+                        prod2->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
                         m_extraPlaylists.insert({QString(prod->parent().get("kdenlive:uuid")), trac});
-                        producer.reset(new Mlt::Producer(trac.get()));
-                        producer->set("kdenlive:id", prod->parent().get("kdenlive:id"));
-                        producer->set("length", prod->parent().get("length"));
-                        producer->set("out", prod->parent().get("out"));
-                        producer->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
-                        qDebug() << "==========================\n********************\n\nINSERTED PLAYLIST CLIP: " << prod->parent().get("kdenlive:uuid")
-                                 << ", LENGTH: " << prod->parent().get("length") << "\n\n**********************";
+                        binProducers.insert(id, prod2);
                         continue;
+
+                        // QString retain = QStringLiteral("xml_retain %1").arg(prod->parent().get("kdenlive:uuid"));
+                        // modelTractor->set(retain.toUtf8().constData(), dest->get_service(), 0);
+                        // continue;
                     } else {
                         QString resource = prod->parent().get("resource");
                         if (resource.endsWith(QLatin1String("<tractor>"))) {
@@ -1193,28 +1209,51 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
         qDebug() << "===========CHKING EXTRA PLAYLISTS \n" << timelines << "\n\nTTTTTTTTTTTTTTT";
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        /*
         for (const auto &t : timelines) {
+            if (m_extraPlaylists.find(t) != m_extraPlaylists.end()) {
+                // Playlist already imported
+                qDebug() << "===========PLAYLIST: "<<t<<" ALREADY IMPORTED!!!!!";
+                continue;
+            }
             std::shared_ptr<Mlt::Tractor> playlist(new Mlt::Tractor(mlt_tractor(retainList.get_data(t.toUtf8().constData()))));
-            qDebug() << "=== FOUND TYPE: " << playlist->type();
-            if (playlist->is_valid() && playlist->type() == mlt_service_tractor_type) {
+            qDebug() << "=== LOADING UUID PLAYLIST TYPE: " << playlist->type()<<", SERVICE: "<<playlist->get("mlt_service")<<", TRACKS:
+        "<<playlist->count()<<"\nzzzzzzzzzzzzzzzzzzzzzzzzzz"; if (playlist->is_valid()) { //&& playlist->type() == mlt_service_tractor_type) {
                 m_extraPlaylists.insert({t, playlist});
+                //QString retain = QStringLiteral("xml_retain %1").arg(t);
+                //modelTractor->set(retain.toUtf8().constData(), playlist->parent().get_service(), 0);
                 QString currId = playlist->get("kdenlive:id");
                 QString newId = QString::number(getFreeClipId());
                 QString parentId = qstrdup(playlist->get("kdenlive:folderid"));
                 if (parentId.isEmpty()) {
                     parentId = QStringLiteral("-1");
                 }
-                std::shared_ptr<Mlt::Producer> prod(playlist);
-                requestAddBinClip(newId, std::move(prod), parentId, undo, redo);
+                std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(pCore->getCurrentProfile()->profile()));
+                trac->connect(*playlist->multitrack());
+                //std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(playlist->get_producer()));
+                trac->set("kdenlive:id", QString(playlist->get("kdenlive:id")).toUtf8().constData());
+                trac->set("kdenlive:clipname", playlist->get("kdenlive:clipname"));
+                trac->set("kdenlive:duration", playlist->get("kdenlive:duration"));
+                trac->set("kdenlive:maxduration", playlist->get("kdenlive:maxduration"));
+                trac->set("kdenlive:clip_type", ClipType::Timeline);
+                trac->set("length", playlist->get("length"));
+                trac->set("out", playlist->get("out"));
+                trac->set("kdenlive:uuid", t.toUtf8().constData());
+                trac->set("id", t.toUtf8().constData());
+
+                //std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(playlist->parent()));
+                //QString retain = QStringLiteral("xml_retain %1").arg(t);
+                //modelTractor->set(retain.toUtf8().constData(), producer->get_service(), 0);
+                requestAddBinClip(newId, std::move(trac), parentId, undo, redo);
                 binIdCorresp[currId] = newId;
-                std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(newId);
-                std::shared_ptr<Mlt::Producer> prod2 = std::make_shared<Mlt::Producer>(*playlist.get());
-                clip->setProducer(prod2);
+                //std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(newId);
+                //std::shared_ptr<Mlt::Producer> prod2 = std::make_shared<Mlt::Producer>(*playlist.get());
+                //clip->setProducer(playlist);
             } else {
-                qDebug() << "::: FOUND EXTERNAL TIMELINE: " << playlist->type() << " = " << t;
+                qDebug() << "::: FOUND INVALID EXTERNAL TIMELINE: " << playlist->type() << " = " << t;
                 exit(1);
             }
-        }
+        }*/
     }
     m_binPlaylist->setRetainIn(modelTractor);
 }

@@ -68,9 +68,9 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     , m_documentOpenStatus(CleanProject)
     , m_url(QUrl())
     , m_projectFolder(std::move(projectFolder))
-    , m_guideModel(new MarkerListModel(m_commandStack, this))
+    , m_guideModel(new MarkerListModel(QUuid(), m_commandStack, this))
 {
-    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, [this, uuid = m_guideModel->uuid()]() { guidesChanged(uuid); });
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -113,8 +113,8 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
     : QObject(parent)
-    , m_uuid(QUuid::createUuid())
     , m_autosave(nullptr)
+    , m_uuid(QUuid::createUuid())
     , m_document(newDom)
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
@@ -122,9 +122,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectF
     , m_documentOpenStatus(CleanProject)
     , m_url(url)
     , m_projectFolder(std::move(projectFolder))
-    , m_guideModel(new MarkerListModel(m_commandStack, this))
+    , m_guideModel(new MarkerListModel(QUuid(), m_commandStack, this))
 {
-    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, [this, uuid = m_guideModel->uuid()]() { guidesChanged(uuid); });
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -138,8 +138,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectF
 
 KdenliveDoc::KdenliveDoc(MainWindow *parent)
     : QObject(parent)
-    , m_uuid(QUuid::createUuid())
     , m_autosave(nullptr)
+    , m_uuid(QUuid::createUuid())
     , m_clipsCount(0)
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
@@ -1413,11 +1413,24 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
     return m_documentProperties;
 }
 
-void KdenliveDoc::loadDocumentGuides()
+void KdenliveDoc::loadDocumentGuides(QStringList uuids)
 {
     QString guides = m_documentProperties.value(QStringLiteral("guides"));
     if (!guides.isEmpty()) {
         m_guideModel->importFromJson(guides, true, false);
+    }
+    for (const QString &uuid : uuids) {
+        if (QUuid(uuid) == m_uuid) {
+            // This is the master guides model, already loadded
+            continue;
+        }
+        guides = m_documentProperties.value(QStringLiteral("guides.%1").arg(uuid));
+        if (guides.isEmpty()) {
+            continue;
+        }
+        std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(QUuid(uuid), m_commandStack, this));
+        m_timelineGuides.insert(uuid, std::move(guideModel));
+        guideModel->importFromJson(guides, true, false);
     }
 }
 
@@ -1647,9 +1660,13 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
     }
 }
 
-void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<MarkerListModel> guideModel)
+void KdenliveDoc::addTimeline(const QUuid uuid, std::shared_ptr<MarkerListModel> guideModel)
 {
-    m_timelineGuides.insert(uuid, std::move(guideModel));
+    if (m_timelineGuides.find(uuid) == m_timelineGuides.end()) {
+        qDebug() << ":::: INSERTING NEW TIMELINE GUIDE MODEL: " << uuid;
+        m_timelineGuides.insert(uuid, std::move(guideModel));
+        connect(guideModel.get(), &MarkerListModel::modelChanged, this, [this, uuid]() { guidesChanged(uuid); });
+    }
     QStringList timelines;
     QMapIterator<QUuid, std::shared_ptr<MarkerListModel>> i(m_timelineGuides);
     while (i.hasNext()) {
@@ -1874,18 +1891,30 @@ QStringList KdenliveDoc::getProxyHashList()
 
 std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid &uuid) const
 {
-    if (uuid == QUuid() || uuid == m_uuid) {
+    if (uuid.isNull() || uuid == m_uuid) {
+        qDebug() << "::::: USING MAIN TIMELINE MODEL!!!!!!!!!!!!" << uuid << " / " << m_uuid;
         return m_guideModel;
     }
-    qDebug() << "=== RETURNING SECONDARY GUIDE MODEL: " << uuid;
+    if (m_timelineGuides.find(uuid) == m_timelineGuides.end()) {
+        qDebug() << "::::: NO TIMELINE MODEL FOUND FOR: " << uuid;
+        return nullptr;
+    }
     return m_timelineGuides.value(uuid);
-
-    return m_guideModel;
 }
 
-void KdenliveDoc::guidesChanged()
+void KdenliveDoc::guidesChanged(const QUuid &uuid)
 {
-    m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
+    std::shared_ptr<MarkerListModel> model = getGuideModel(uuid);
+    if (model == nullptr) {
+        qDebug() << "/// GUIDE MODEL FOR: " << uuid << " NOT found";
+        return;
+    }
+    qDebug() << ":::: GUIDES CHANGED FOR MODEL: " << uuid;
+    if (uuid.isNull() || uuid == m_uuid) {
+        m_documentProperties[QStringLiteral("guides")] = model->toJson();
+    } else {
+        m_documentProperties[QStringLiteral("guides.%1").arg(uuid.toString())] = model->toJson();
+    }
 }
 
 void KdenliveDoc::groupsChanged(const QString &groups)
