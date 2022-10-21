@@ -9,4 +9,11 @@ xml_lint:
   tags:
     - Linux
   script:
-    - xmllint --noout data/effects/*.xml data/effects/*/*.xml data/transitions/*.xml data/transitions/*/*.xml
+    # enable globstar to be able to use ** as recursive wildcard
+    - shopt -s globstar
+    # exit shell on non-zero exit code
+    - set -e 
+    # execute xmllint for all xml files
+    - for x in **/*.xml; do echo "Processing $x"; xmllint -noout "$x"; done
+  rules:
+    - changes: [ "**/*.xml" ]
