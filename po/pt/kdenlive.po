@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:46+0000\n"
-"PO-Revision-Date: 2022-10-11 17:05+0100\n"
+"PO-Revision-Date: 2022-10-21 23:38+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -107,7 +107,7 @@ msgstr ""
 "X-POFile-SpellExtra: LSP Guitarix MVC VCO LUT AVFilter glaxnimate\n"
 "X-POFile-SpellExtra: mediainfo Otio ns vtt sbv Matroska mkv HH SS PipeWire\n"
 "X-POFile-IgnoreConsistency: Show\n"
-"X-POFile-SpellExtra: PSNR SSIM stdout MiB\n"
+"X-POFile-SpellExtra: PSNR SSIM stdout MiB kdenliverenderprofiles knsrc\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12397,10 +12397,9 @@ msgstr "Mudança de perfil do projecto interrompida"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "Não é possível criar o filtro %1"
+msgstr "Não é possível ler o ficheiro %1"
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -17723,7 +17722,7 @@ msgstr "Obter Novos Perfis de Desenho…"
 #: src/ui/renderwidget_ui.ui:241
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:258
@@ -18843,18 +18842,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "Using:\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> version %1\n"
-#~ "<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
-#~ msgstr ""
-#~ "A usar:\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> na versão %1\n"
-#~ "Bibliotecas do <a href=\"https://ffmpeg.org\">FFmpeg</a>"
-
-#~ msgid "Properties of transition %1"
-#~ msgstr "Propriedades da transição %1"
-
-#~ msgid "&Download"
-#~ msgstr "O&bter"

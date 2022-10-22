@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:46+0000\n"
-"PO-Revision-Date: 2022-10-09 15:16+0200\n"
+"PO-Revision-Date: 2022-10-21 13:08+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -12271,10 +12271,9 @@ msgstr "Projectprofiel wijzigen afgebroken"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "Kan filter %1 niet aanmaken"
+msgstr "Kan bestand %1 niet lezen"
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -17571,7 +17570,7 @@ msgstr "Nieuwe voorinstellingen voor renderen downloaden…"
 #: src/ui/renderwidget_ui.ui:241
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:258

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:46+0000\n"
-"PO-Revision-Date: 2022-10-20 12:13+0300\n"
+"PO-Revision-Date: 2022-10-21 10:55+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12222,10 +12222,9 @@ msgstr "Proje profil değişimi iptal edildi"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "%1 süzgeci oluşturulamıyor"
+msgstr "%1 dosyası okunamıyor"
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -17517,7 +17516,7 @@ msgstr "Yeni Görüntü Dokuma Profilleri İndir…"
 #: src/ui/renderwidget_ui.ui:241
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:258

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:46+0000\n"
-"PO-Revision-Date: 2022-10-09 08:36+0300\n"
+"PO-Revision-Date: 2022-10-21 09:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -12391,10 +12391,9 @@ msgstr "Перервано зміну профілю проєкту"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "Не вдалося створити фільтр %1"
+msgstr "Не вдалося прочитати файл %1"
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -17730,7 +17729,7 @@ msgstr "Отримати нові набори параметрів обробк
 #: src/ui/renderwidget_ui.ui:241
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:258
