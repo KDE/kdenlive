@@ -45,6 +45,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectsubclip.h"
 #include "tagwidget.hpp"
 #include "titler/titlewidget.h"
+#include "ui_newtimeline_ui.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
 #include "utils/thumbnailcache.hpp"
@@ -3291,7 +3292,7 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Create Animation…"),
                        QIcon::fromTheme(QStringLiteral("motion_path_animations")));
-    setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Playlist"),
+    setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Timeline…"),
                        QIcon::fromTheme(QStringLiteral("list-add")));
 
     QAction *downloadResourceAction =
@@ -3475,8 +3476,18 @@ void Bin::slotCreateProjectClip()
         ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
         break;
     case ClipType::Timeline: {
-        int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
-        ClipCreationDialog::createPlaylistClip(i18n("Playlist %1", timelinesCount), m_doc, parentFolder, m_itemModel);
+        QScopedPointer<QDialog> dia(new QDialog(this));
+        Ui::NewTimeline_UI dia_ui;
+        dia_ui.setupUi(dia.data());
+        dia->setWindowTitle(i18nc("@title:window", "Create New Timeline"));
+        dia_ui.video_tracks->setValue(2);
+        dia_ui.audio_tracks->setValue(2);
+        if (dia->exec() == QDialog::Accepted) {
+            int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+            int vTracks = dia_ui.video_tracks->value();
+            int aTracks = dia_ui.audio_tracks->value();
+            ClipCreationDialog::createPlaylistClip(i18n("Playlist %1", timelinesCount), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
+        }
         break;
     }
     default:
@@ -5522,10 +5533,12 @@ void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &curre
     if (m_openedPlaylists.contains(uuid)) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
         Q_ASSERT(clip != nullptr);
-        clip->setProducerProperty(QStringLiteral("length"), duration);
-        clip->setProducerProperty(QStringLiteral("out"), duration - 1);
-        clip->setProducerProperty(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
-        clip->setProducerProperty(QStringLiteral("kdenlive:maxduration"), duration);
+        QMap<QString, QString> properties;
+        properties.insert(QStringLiteral("length"), QString::number(duration));
+        properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+        properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
+        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
+        clip->setProperties(properties);
         clip->reloadPlaylist();
     }
     // Hide bin item for current playlist

@@ -4601,6 +4601,7 @@ void MainWindow::connectTimeline()
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getGuideModel(uuid));
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
+    emit m_timelineTabs->changeZoom(m_zoomSlider->value(), false);
     if (m_renderWidget) {
         slotCheckRenderStatus();
         m_renderWidget->setGuides(project->getGuideModel(uuid));

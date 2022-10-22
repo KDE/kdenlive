@@ -78,7 +78,8 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     return res ? id : QStringLiteral("-1");
 }
 
-QString ClipCreator::createPlaylistClip(const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
+QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
+                                        const std::shared_ptr<ProjectItemModel> &model)
 {
     const QUuid uuid = QUuid::createUuid();
     /*QDomDocument xml = pCore->currentDoc()->createEmptyDocument(2, 2, false);
@@ -89,12 +90,12 @@ QString ClipCreator::createPlaylistClip(const QString &name, const QString &pare
     std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getCurrentProfile()->profile()));
     timeline->lock();
     // Audio tracks
-    for (int ix = 0; ix < 2; ix++) {
+    for (int ix = 0; ix < tracks.first; ix++) {
         Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
         timeline->insert_track(pl, ix);
         timeline->track(ix)->set("kdenlive:audio_track", 1);
     }
-    for (int ix = 2; ix < 4; ix++) {
+    for (int ix = tracks.first; ix < (tracks.first + tracks.second); ix++) {
         Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
         timeline->insert_track(pl, ix);
         // Audio tracks
