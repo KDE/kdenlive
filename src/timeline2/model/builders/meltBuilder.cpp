@@ -39,8 +39,8 @@ bool constructTrackFromMelt(const QUuid &uuid, const std::shared_ptr<TimelineIte
                             QProgressDialog *progressDialog = nullptr);
 
 bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel,
-                                  Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, QStringList timelines,
-                                  const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview, bool *projectErrors)
+                                  Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, const QString &chunks,
+                                  const QString &dirty, const QDateTime &documentDate, int enablePreview, bool *projectErrors)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -51,7 +51,7 @@ bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<Timel
     std::unordered_map<QString, QString> binIdCorresp;
     QStringList expandedFolders;
     if (projectModel && timeline->uuid() == pCore->currentTimelineId()) {
-        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog, timelines);
+        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
     }
     pCore->bin()->checkMissingProxies();
     QStringList foldersToExpand;

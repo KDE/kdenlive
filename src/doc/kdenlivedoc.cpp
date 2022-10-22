@@ -1425,12 +1425,12 @@ void KdenliveDoc::loadDocumentGuides(QStringList uuids)
             continue;
         }
         guides = m_documentProperties.value(QStringLiteral("guides.%1").arg(uuid));
-        if (guides.isEmpty()) {
-            continue;
-        }
         std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(QUuid(uuid), m_commandStack, this));
         m_timelineGuides.insert(uuid, std::move(guideModel));
-        guideModel->importFromJson(guides, true, false);
+        if (!guides.isEmpty()) {
+            // Load saved guides
+            guideModel->importFromJson(guides, true, false);
+        }
     }
 }
 
@@ -2107,7 +2107,6 @@ const QUuid &KdenliveDoc::uuid() const
 
 const QStringList KdenliveDoc::getSecondaryTimelines() const
 {
-    qDebug() << "::: GOT DOCUMENT TIMELINES: " << getDocumentProperty(QStringLiteral("timelines")) << "\n\n__________________";
     QString timelines = getDocumentProperty(QStringLiteral("timelines"));
     if (timelines.isEmpty()) {
         return QStringList();

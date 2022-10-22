@@ -1316,8 +1316,8 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         // doc->setModels(documentTimeline, pCore->getProjectItemModel(uuid));
     }
     pCore->projectItemModel()->buildPlaylist(uuid);
-    if (!constructTimelineFromTractor(uuid, timelineModel, pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint(),
-                                      m_project->getSecondaryTimelines(), chunks, dirty, documentDate, enablePreview, &projectErrors)) {
+    if (!constructTimelineFromTractor(uuid, timelineModel, pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks,
+                                      dirty, documentDate, enablePreview, &projectErrors)) {
 
         // if (!constructTimelineFromTractor(uuid, timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint(),
         // m_project->getSecondaryTimelines(), chunks, dirty, documentDate, enablePreview, &projectErrors)) {

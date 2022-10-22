@@ -104,7 +104,7 @@ public:
 
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
     void loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
-                         QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr, QStringList timelines = {});
+                         QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);

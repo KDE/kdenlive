@@ -1105,7 +1105,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 }
 
 void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
-                                       QStringList &expandedFolders, QProgressDialog *progressDialog, QStringList timelines)
+                                       QStringList &expandedFolders, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1206,7 +1206,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 binIdCorresp[QString::number(i.key())] = newId;
             }
         }
-        qDebug() << "===========CHKING EXTRA PLAYLISTS \n" << timelines << "\n\nTTTTTTTTTTTTTTT";
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         /*

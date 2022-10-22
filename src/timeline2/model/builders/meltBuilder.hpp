@@ -18,9 +18,9 @@ class ProjectItemModel;
 class QProgressDialog;
 
 bool constructTimelineFromTractor(const QUuid &uuid, const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel,
-                                  Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint,
-                                  QStringList timelines = QStringList(), const QString &chunks = QString(), const QString &dirty = QString(),
-                                  const QDateTime &documentDate = QDateTime(), int enablePreview = 0, bool *projectErrors = nullptr);
+                                  Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, const QString &chunks = QString(),
+                                  const QString &dirty = QString(), const QDateTime &documentDate = QDateTime(), int enablePreview = 0,
+                                  bool *projectErrors = nullptr);
 
 /** @brief This function can be used to construct a TimelineModel object from a Mlt object hierarchy
  */
