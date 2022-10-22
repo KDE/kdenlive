@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:46+0000\n"
-"PO-Revision-Date: 2022-10-19 13:22\n"
+"PO-Revision-Date: 2022-10-22 05:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -12021,10 +12021,9 @@ msgstr "项目编码方案更改已中止"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "无法创建滤镜 %1"
+msgstr ""
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -18352,12 +18351,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid ""
-#~ "Using:\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> version %1\n"
-#~ "<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
-#~ msgstr ""
-#~ "使用程序库：\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> 版本 %1\n"
-#~ "<a href=\"https://ffmpeg.org\">FFmpeg</a> 程序库集合"

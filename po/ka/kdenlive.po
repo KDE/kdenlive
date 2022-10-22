@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:46+0000\n"
-"PO-Revision-Date: 2022-10-10 03:53+0200\n"
+"PO-Revision-Date: 2022-10-22 07:25+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -522,7 +522,7 @@ msgstr "დაწყებული"
 #: data/effects/channelcopy.xml:13
 #, kde-format
 msgid "To"
-msgstr ""
+msgstr "სადამდე"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
@@ -539,7 +539,7 @@ msgstr "ნახშირი"
 #: data/effects/charcoal.xml:5
 #, kde-format
 msgid "Charcoal drawing effect"
-msgstr ""
+msgstr "ნახშირით ხატვის ეფექტი"
 
 #: data/effects/charcoal.xml:8
 #, kde-format
@@ -825,7 +825,7 @@ msgstr ""
 #: data/effects/dynamictext.xml:36
 #, kde-format
 msgid "Horizontal Alignment"
-msgstr ""
+msgstr "ჰორიზონტალური  შეთანხმება"
 
 #: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
 #, kde-format
@@ -835,7 +835,7 @@ msgstr ""
 #: data/effects/dynamictext.xml:40
 #, kde-format
 msgid "Vertical Alignment"
-msgstr ""
+msgstr "ვერტიკალური სწორება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
@@ -1082,7 +1082,7 @@ msgstr "სიკაშკაშე"
 #, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Greyscale"
-msgstr ""
+msgstr "Greyscale"
 
 #: data/effects/greyscale.xml:5
 #, kde-format
@@ -1957,12 +1957,12 @@ msgstr ""
 #: data/effects/scratchlines.xml:8
 #, kde-format
 msgid "Width of line"
-msgstr ""
+msgstr "ხაზის სიგანე"
 
 #: data/effects/scratchlines.xml:11
 #, kde-format
 msgid "Max number of lines"
-msgstr ""
+msgstr "ხაზების მაქს. რაოდენობა"
 
 #: data/effects/scratchlines.xml:14
 #, kde-format
@@ -2022,7 +2022,7 @@ msgstr ""
 #: data/effects/spot_remover.xml:4
 #, kde-format
 msgid "Spot Remover"
-msgstr ""
+msgstr "ადგილის წამშლელი"
 
 #: data/effects/spot_remover.xml:5
 #, kde-format
@@ -2045,7 +2045,7 @@ msgstr ""
 #: data/effects/tcolor.xml:4
 #, kde-format
 msgid "Technicolor"
-msgstr ""
+msgstr "Technicolor"
 
 #: data/effects/tcolor.xml:5
 #, kde-format
@@ -2142,7 +2142,7 @@ msgstr ""
 #: data/effects/tracker.xml:34
 #, kde-format
 msgid "Blur type"
-msgstr ""
+msgstr "ბუნდოვნების ტიპი"
 
 #: data/effects/typewriter.xml:4
 #, kde-format
@@ -2157,12 +2157,12 @@ msgstr ""
 #: data/effects/typewriter.xml:8
 #, kde-format
 msgid "Frames step"
-msgstr ""
+msgstr "კადრების ბიჯი"
 
 #: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
-msgstr ""
+msgstr "სიგმა"
 
 #: data/effects/typewriter.xml:14
 #, kde-format
@@ -2253,7 +2253,7 @@ msgstr ""
 #: data/effects/vidstab.xml:32
 #, kde-format
 msgid "Max angle"
-msgstr ""
+msgstr "მაქსიმალური კუთხე"
 
 #: data/effects/vidstab.xml:33
 #, kde-format
@@ -2329,7 +2329,7 @@ msgstr ""
 #: data/effects/vignette.xml:4
 #, kde-format
 msgid "Vignette Effect"
-msgstr ""
+msgstr "ვინიეტის ეფექტი"
 
 #: data/effects/vignette.xml:5
 #, kde-format
@@ -2619,32 +2619,32 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:98
 #, kde-format
 msgid "CAPS Plugins"
-msgstr ""
+msgstr "CAPS დამატებები"
 
 #: data/kdenliveeffectscategory.rc:102
 #, kde-format
 msgid "TAP Plugins"
-msgstr ""
+msgstr "TAP დამატებები"
 
 #: data/kdenliveeffectscategory.rc:106
 #, kde-format
 msgid "Invada Plugins"
-msgstr ""
+msgstr "Invada დამატებები"
 
 #: data/kdenliveeffectscategory.rc:110
 #, kde-format
 msgid "Ambisonic Plugins"
-msgstr ""
+msgstr "Ambisonic დამატებები"
 
 #: data/kdenliveeffectscategory.rc:114
 #, kde-format
 msgid "ZAM Plugins"
-msgstr ""
+msgstr "ZAM დამატებები"
 
 #: data/kdenliveeffectscategory.rc:118
 #, kde-format
 msgid "BLOP Plugins"
-msgstr ""
+msgstr "BLOP დამატებები"
 
 #: data/kdenliveeffectscategory.rc:122
 #, kde-format
@@ -2654,48 +2654,48 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:126
 #, kde-format
 msgid "CMT Plugins"
-msgstr ""
+msgstr "CMT დამატებები"
 
 #: data/kdenliveeffectscategory.rc:130
 #, kde-format
 msgid "DPF Plugins"
-msgstr ""
+msgstr "DPF დამატებები"
 
 #: data/kdenliveeffectscategory.rc:134
 #, kde-format
 msgid "Calf  Plugins"
-msgstr ""
+msgstr "Calf  დამატებები"
 
 #: data/kdenliveeffectscategory.rc:138
 #: src/effects/effectlist/model/effecttreemodel.cpp:94
 #, kde-format
 msgid "Deprecated"
-msgstr ""
+msgstr "მოძველებულია"
 
 #: data/kdenliveeffectscategory.rc:142
 #, kde-format
 msgid "LSP plugins"
-msgstr ""
+msgstr "LSP დამატებები"
 
 #: data/kdenliveeffectscategory.rc:146
 #, kde-format
 msgid "LADSPA Plugins"
-msgstr ""
+msgstr "LADSPA დამატებები"
 
 #: data/kdenliveeffectscategory.rc:150
 #, kde-format
 msgid "Guitarix Plugins"
-msgstr ""
+msgstr "Guitarix დამატებები"
 
 #: data/kdenliveeffectscategory.rc:154
 #, kde-format
 msgid "Mvc Plugins"
-msgstr ""
+msgstr "Mvc დამატებები"
 
 #: data/kdenliveeffectscategory.rc:158
 #, kde-format
 msgid "VCO Plugins"
-msgstr ""
+msgstr "VCO დამატებები"
 
 #: data/kdenliveeffectscategory.rc:162
 #, kde-format
@@ -2744,12 +2744,12 @@ msgstr "სწორება"
 #: data/transitions/composite.xml:22
 #, kde-format
 msgid "H align"
-msgstr ""
+msgstr "H სწორება"
 
 #: data/transitions/composite.xml:26
 #, kde-format
 msgid "V align"
-msgstr ""
+msgstr "V სწორება"
 
 #: data/transitions/composite.xml:29
 #, kde-format
@@ -2858,7 +2858,7 @@ msgstr ""
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
-msgstr ""
+msgstr "სლაიდი"
 
 #: data/transitions/slide.xml:5
 #, kde-format
@@ -3389,7 +3389,7 @@ msgstr "ზედა მარჯვენა"
 #: src/assets/view/widgets/keyframeimport.cpp:222
 #, kde-format
 msgid "Left center"
-msgstr ""
+msgstr "მარცხენა ცენტრი"
 
 #: src/assets/view/widgets/keyframeimport.cpp:213
 #: src/assets/view/widgets/keyframeimport.cpp:223
@@ -3402,7 +3402,7 @@ msgstr "ცენტრი"
 #: src/assets/view/widgets/keyframeimport.cpp:224
 #, kde-format
 msgid "Right center"
-msgstr ""
+msgstr "მარჯვენა ცენტრი"
 
 #: src/assets/view/widgets/keyframeimport.cpp:215
 #: src/assets/view/widgets/keyframeimport.cpp:225
@@ -3425,7 +3425,7 @@ msgstr "ქვედა მარჯვენა"
 #: src/assets/view/widgets/keyframeimport.cpp:230
 #, kde-format
 msgid "Map "
-msgstr ""
+msgstr "რუკა "
 
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label1)
 #: src/assets/view/widgets/keyframeimport.cpp:231
@@ -3437,7 +3437,7 @@ msgstr " სადამდე "
 #: src/assets/view/widgets/keyframeimport.cpp:272
 #, kde-format
 msgid "Position offset:"
-msgstr ""
+msgstr "მდებარეობის წანაცვლება:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:279
 #: src/assets/view/widgets/keyframeimport.cpp:414
@@ -3456,7 +3456,7 @@ msgstr ""
 #: src/assets/view/widgets/keyframeimport.cpp:288
 #, kde-format
 msgid "Destination range:"
-msgstr ""
+msgstr "დანიშნულების დიაპაზონი:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:296
 #, kde-format
@@ -5260,7 +5260,7 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:200
 #, kde-format
 msgid "Manage Encoding Profiles"
-msgstr ""
+msgstr "კოდირების პროფილების მართვა"
 
 #: src/dialogs/encodingprofilesdialog.cpp:204
 #, kde-format
@@ -6137,7 +6137,7 @@ msgstr ""
 #: src/dialogs/splash.cpp:35
 #, kde-format
 msgid "Made by KDE"
-msgstr ""
+msgstr "შეიქმნა KDE-ის მიერ"
 
 #: src/dialogs/subtitleedit.cpp:105
 #, kde-format
@@ -11788,8 +11788,7 @@ msgstr ""
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot write to file %1"
+#, kde-format
 msgid "Cannot read file %1"
 msgstr "ფაილში ჩაწერის შეცდომა: %1"
 
@@ -17685,7 +17684,7 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:934
 #, kde-format
 msgid "Variation:"
-msgstr ""
+msgstr "ვარიაცია:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/titlewidget_ui.ui:941
@@ -17697,25 +17696,25 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:953
 #, kde-format
 msgid "By &char"
-msgstr ""
+msgstr "&სიმბოლოთი"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
 #: src/ui/titlewidget_ui.ui:963
 #, kde-format
 msgid "By &word"
-msgstr ""
+msgstr "&სიტყვით"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_line)
 #: src/ui/titlewidget_ui.ui:970
 #, kde-format
 msgid "By &line"
-msgstr ""
+msgstr "&ხაზით"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_custom)
 #: src/ui/titlewidget_ui.ui:977
 #, kde-format
 msgid "Custo&m"
-msgstr ""
+msgstr "&ხელით მითითება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
 #: src/ui/titlewidget_ui.ui:987
@@ -17757,7 +17756,7 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:1316
 #, kde-format
 msgid "Border "
-msgstr ""
+msgstr "საზღვარი "
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
 #: src/ui/titlewidget_ui.ui:1467
@@ -17817,13 +17816,13 @@ msgstr "შაბლონები"
 #: src/ui/titlewidget_ui.ui:1587
 #, kde-format
 msgid "Add pattern."
-msgstr ""
+msgstr "შაბლონის დამატება."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
 #: src/ui/titlewidget_ui.ui:1604
 #, kde-format
 msgid "Delete pattern."
-msgstr ""
+msgstr "შაბლონის წაშლა."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
 #: src/ui/titlewidget_ui.ui:1618
@@ -17904,7 +17903,7 @@ msgstr "გაშვება"
 #: src/ui/wipeval_ui.ui:136 src/ui/wipeval_ui.ui:281
 #, kde-format
 msgid "Transparency:"
-msgstr ""
+msgstr "გამჭვირვალობა:"
 
 #: src/widgets/colorpickerwidget.cpp:55
 #, kde-format
