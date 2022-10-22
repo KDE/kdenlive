@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   widgets/doublewidget.cpp
   widgets/dragvalue.cpp
   widgets/geometrywidget.cpp
+  widgets/markercategorychooser.cpp
   widgets/positionwidget.cpp
   widgets/progressbutton.cpp
   widgets/timecodedisplay.cpp
@@ -32,12 +33,19 @@ if (BUILD_DESIGNERPLUGIN)
         GROUP "Kdenlive Widgets"
     )
 
+    ecm_qtdesignerplugin_widget(MarkerCategoryChooser
+        INCLUDE_FILE widgets/markercategorychooser.h
+        TOOLTIP "A QComboBox that can be used to select a marker category (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
     ecm_add_qtdesignerplugin(kdenlivewidgets
         NAME KdenliveWidgets
         WIDGETS
             TimecodeDisplay
             ColorPickerWidget
             ChooseColorWidget
+            MarkerCategoryChooser
         LINK_LIBRARIES
             kdenliveLib
         INSTALL_DESTINATION "${KDE_INSTALL_QTPLUGINDIR}/designer"
