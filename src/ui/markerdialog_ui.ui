@@ -73,9 +73,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="marker_type"/>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="clip_filesize_3">
        <property name="text">
@@ -98,6 +95,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="2" column="1">
+      <widget class="MarkerCategoryChooser" name="marker_category">
+       <property name="allowAll">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -131,6 +135,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>TimecodeDisplay</class>
    <extends>QWidget</extends>
    <header>widgets/timecodedisplay.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MarkerCategoryChooser</class>
+   <extends>QComboBox</extends>
+   <header>widgets/markercategorychooser.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

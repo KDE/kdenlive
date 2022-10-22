@@ -15,32 +15,29 @@ MarkerCategoryChooser::MarkerCategoryChooser(QWidget *parent)
 
 void MarkerCategoryChooser::refresh()
 {
-    QList<CommentedTime> markers;
     clear();
-    if (m_markerListModel) {
-        markers = m_markerListModel->getAllMarkers();
-    }
-    if (!m_markerListModel || (m_onlyUsed && markers.isEmpty())) {
-        setEnabled(false);
-        setPlaceholderText(i18n("Nothing to select"));
-        return;
-    }
-    setPlaceholderText(QString());
-    setEnabled(true);
-    if (m_allowAll) {
-        addItem(i18n("All Categories"), -1);
-    }
     // Set up guide categories
-    static std::array<QColor, 9> markerTypes = m_markerListModel->markerTypes;
+    static std::array<QColor, 9> markerTypes = MarkerListModel::markerTypes;
     QPixmap pixmap(32, 32);
 
     for (uint i = 0; i < markerTypes.size(); ++i) {
-        if (m_onlyUsed && m_markerListModel->getAllMarkers(i).isEmpty()) {
+        if (m_onlyUsed && m_markerListModel && m_markerListModel->getAllMarkers(i).isEmpty()) {
             continue;
         }
         pixmap.fill(markerTypes[size_t(i)]);
         QIcon colorIcon(pixmap);
         addItem(colorIcon, i18n("Category %1", i), i);
+    }
+    if (count() == 0) {
+        setEnabled(false);
+        setPlaceholderText(i18n("Nothing to select"));
+        return;
+    }
+    setEnabled(true);
+    setPlaceholderText(QString());
+    if (m_allowAll) {
+        insertItem(0, i18n("All Categories"), -1);
+        setCurrentIndex(0);
     }
 }
 

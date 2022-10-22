@@ -18,6 +18,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <string>Scene Cut</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0" colspan="2">
+    <widget class="QCheckBox" name="add_markers">
+     <property name="text">
+      <string>Add clip markers:</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QSpinBox" name="threshold"/>
+   </item>
    <item row="4" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -25,23 +38,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Change threshold</string>
+   <item row="6" column="0" colspan="5">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QSpinBox" name="threshold"/>
-   </item>
-   <item row="1" column="2" colspan="3">
-    <widget class="QComboBox" name="marker_type">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -58,20 +61,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
-   <item row="6" column="0" colspan="5">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="4" column="2">
+    <widget class="QSpinBox" name="minDuration">
+     <property name="suffix">
+      <string> frames</string>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     <property name="maximum">
+      <number>99999999</number>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="5">
-    <widget class="QCheckBox" name="cut_scenes">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Cut scenes</string>
+      <string>Change threshold</string>
      </property>
     </widget>
    </item>
@@ -88,28 +91,29 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
-    <widget class="QSpinBox" name="minDuration">
-     <property name="suffix">
-      <string> frames</string>
-     </property>
-     <property name="maximum">
-      <number>99999999</number>
+   <item row="2" column="0" colspan="5">
+    <widget class="QCheckBox" name="cut_scenes">
+     <property name="text">
+      <string>Cut scenes</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QCheckBox" name="add_markers">
-     <property name="text">
-      <string>Add clip markers:</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
+   <item row="1" column="2" colspan="2">
+    <widget class="MarkerCategoryChooser" name="marker_category">
+     <property name="allowAll">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MarkerCategoryChooser</class>
+   <extends>QComboBox</extends>
+   <header>widgets/markercategorychooser.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
@@ -173,6 +177,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <hint type="destinationlabel">
      <x>208</x>
      <y>21</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>add_markers</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>marker_category</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>77</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>256</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>

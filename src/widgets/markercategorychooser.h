@@ -14,10 +14,17 @@ class MarkerCategoryChooser : public QComboBox
 
 public:
     MarkerCategoryChooser(QWidget *parent = nullptr);
+    /** @brief Set currently selected category by its number. */
     void setCurrentCategory(int category);
+    /** @brief get the number of the currently selected category. */
     int currentCategory();
+    /** @brief Set the marker model of the chooser. Only needed if @property onlyUsed is true.*/
     void setMarkerModel(const MarkerListModel *model);
+    /** @brief Whether the user should be able to select "All Categories" */
     void setAllowAll(bool allowAll);
+    /** @brief Show only categories that are used by markers in the model.
+     *  If no model is set, all categories will be show. @see setMarkerModel
+     */
     void setOnlyUsed(bool onlyUsed);
 
 private:

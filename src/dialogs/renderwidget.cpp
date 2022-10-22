@@ -468,9 +468,9 @@ void RenderWidget::reloadGuides()
     QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
     m_view.guide_end->clear();
-    m_view.guideCategoryCombo->clear();
 
     if (auto ptr = m_guidesModel.lock()) {
+        m_view.guideCategoryChooser->setMarkerModel(ptr.get());
         QList<CommentedTime> markers = ptr->getAllMarkers();
         double fps = pCore->getCurrentFps();
         m_view.render_guide->setEnabled(!markers.isEmpty());
@@ -491,18 +491,6 @@ void RenderWidget::reloadGuides()
             if (!endData.isNull()) {
                 int ix = qMax(m_view.guide_start->currentIndex() + 1, m_view.guide_end->findData(endData));
                 m_view.guide_end->setCurrentIndex(ix);
-            }
-
-            // Set up guide categories
-            static std::array<QColor, 9> markerTypes = ptr->markerTypes;
-            QPixmap pixmap(32, 32);
-            m_view.guideCategoryCombo->addItem(i18n("All Categories"), -1);
-            for (uint i = 0; i < markerTypes.size(); ++i) {
-                if (!ptr->getAllMarkers(i).isEmpty()) {
-                    pixmap.fill(markerTypes[size_t(i)]);
-                    QIcon colorIcon(pixmap);
-                    m_view.guideCategoryCombo->addItem(colorIcon, i18n("Category %1", i), i);
-                }
             }
         } else {
             if (m_view.render_guide->isChecked() || m_view.render_multi->isChecked()) {
@@ -710,7 +698,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_multi->isChecked()) {
         if (auto ptr = m_guidesModel.lock()) {
-            int category = m_view.guideCategoryCombo->currentData().toInt();
+            int category = m_view.guideCategoryChooser->currentCategory();
             QList<CommentedTime> markers = ptr->getAllMarkers(category);
             if (!markers.isEmpty()) {
                 bool beginParsed = false;
