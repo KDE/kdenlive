@@ -779,10 +779,7 @@ KdenliveDoc *Core::currentDoc()
 
 Timecode Core::timecode() const
 {
-    if (this) {
-        return m_timecode;
-    }
-    return Timecode();
+    return m_timecode;
 }
 
 void Core::setDocumentModified()

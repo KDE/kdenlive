@@ -34,9 +34,9 @@ QValidator::State TimecodeValidator::validate(QString &str, int &) const
 }
 
 TimecodeDisplay::TimecodeDisplay(QWidget *parent, bool autoAdjust)
-    : TimecodeDisplay(parent, autoAdjust ? pCore->timecode() : Timecode())
+    : TimecodeDisplay(parent, (pCore && autoAdjust) ? pCore->timecode() : Timecode())
 {
-    if (autoAdjust) {
+    if (pCore && autoAdjust) {
         connect(pCore.get(), &Core::updateProjectTimecode, this, &TimecodeDisplay::refreshTimeCode);
     }
 }
