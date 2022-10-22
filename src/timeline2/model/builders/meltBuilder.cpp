@@ -258,7 +258,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     // load locked state as last step
     for (int tid : qAsConst(lockedTracksIndexes)) {
-        timeline->setTrackLockedState(tid, true);
+        timeline->lockTrack(tid, true);
     }
 
     if (!ok) {

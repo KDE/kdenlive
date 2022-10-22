@@ -459,6 +459,10 @@ public:
      */
     const QString sceneList(const QString &root, const QString &fullPath = QString(), const QString &filterData = QString());
 
+    /**  @brief Lock or unlock a track
+     */
+    void lockTrack(int trackId, bool lock);
+
 protected:
     /** @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success

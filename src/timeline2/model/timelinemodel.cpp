@@ -6060,6 +6060,15 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids, Fun 
     return false;
 }
 
+void TimelineModel::lockTrack(int trackId, bool lock)
+{
+    if (lock) {
+        getTrackById(trackId)->lock();
+    } else {
+        getTrackById(trackId)->unlock();
+    }
+}
+
 void TimelineModel::setTrackLockedState(int trackId, bool lock)
 {
     QWriteLocker locker(&m_lock);
@@ -6068,11 +6077,11 @@ void TimelineModel::setTrackLockedState(int trackId, bool lock)
     Fun redo = []() { return true; };
 
     Fun lock_lambda = [this, trackId]() {
-        getTrackById(trackId)->lock();
+        lockTrack(trackId, true);
         return true;
     };
     Fun unlock_lambda = [this, trackId]() {
-        getTrackById(trackId)->unlock();
+        lockTrack(trackId, false);
         return true;
     };
     if (lock) {
