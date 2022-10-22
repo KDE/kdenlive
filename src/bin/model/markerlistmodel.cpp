@@ -669,7 +669,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
     }
 
     if (!exists && createIfNotFound) {
-        marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString());
+        marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString(), KdenliveSettings::default_marker_type());
     }
 
     QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), parent));
