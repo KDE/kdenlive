@@ -502,7 +502,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             emit m_mainWindow->updateRenderWidgetProfile();
             m_monitorManager->resetProfiles();
             emit m_monitorManager->updatePreviewScaling();
-            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
+            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
                 m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
                 m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
                 checkProfileValidity();
