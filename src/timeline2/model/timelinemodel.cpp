@@ -155,7 +155,7 @@ void TimelineModel::prepareClose()
 
 TimelineModel::~TimelineModel()
 {
-    prepareClose();
+    m_closing = true;
     std::vector<int> all_ids;
     for (auto tracks : m_iteratorTable) {
         all_ids.push_back(tracks.first);
