@@ -1725,7 +1725,9 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("insert_space"), i18n("Insert Space…"), this, SLOT(slotInsertSpace()));
     addAction(QStringLiteral("delete_space"), i18n("Remove Space"), this, SLOT(slotRemoveSpace()));
-    addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space in All Tracks"), this, SLOT(slotRemoveAllSpace()));
+    addAction(QStringLiteral("delete_all_spaces"), i18n("Remove All Spaces After Cursor"), this, SLOT(slotRemoveAllSpacesInTrack()));
+    addAction(QStringLiteral("delete_all_clips"), i18n("Remove All Clips After Cursor"), this, SLOT(slotRemoveAllClipsInTrack()));
+    addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space in All Tracks"), this, SLOT(slotRemoveSpaceInAllTracks()));
 
     KActionCategory *timelineActions = new KActionCategory(i18n("Tracks"), actionCollection());
     QAction *insertTrack = new QAction(QIcon(), i18nc("@action", "Insert Track…"), this);
@@ -2710,9 +2712,19 @@ void MainWindow::slotRemoveSpace()
     getMainTimeline()->controller()->removeSpace(-1, -1, false);
 }
 
-void MainWindow::slotRemoveAllSpace()
+void MainWindow::slotRemoveSpaceInAllTracks()
 {
     getMainTimeline()->controller()->removeSpace(-1, -1, true);
+}
+
+void MainWindow::slotRemoveAllSpacesInTrack()
+{
+    getMainTimeline()->controller()->removeTrackSpaces(-1, -1);
+}
+
+void MainWindow::slotRemoveAllClipsInTrack()
+{
+    getMainTimeline()->controller()->removeTrackClips(-1, -1);
 }
 
 void MainWindow::slotSeparateAudioChannel()

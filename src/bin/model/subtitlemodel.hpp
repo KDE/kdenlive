@@ -134,6 +134,10 @@ public:
     QDomElement toXml(int sid, QDomDocument &document);
     /** @brief Returns the position of the first blank frame before a position */
     int getBlankStart(int pos) const;
+    /** @brief Returns the position of the first subtitle after the blank at @position */
+    int getBlankEnd(int pos) const;
+    /** @brief If pos is blank, returns the position of the blank start. Otherwise returns the position of the next blank frame */
+    int getNextBlankStart(int pos) const;
     /** @brief Returns true is track is empty at pos */
     bool isBlankAt(int pos) const;
     /** @brief Switch a subtitle's grab state */

@@ -71,6 +71,20 @@ struct TimelineFunctions
     */
     static bool requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks);
 
+    /** @brief This function will delete all blanks on the given track after the given position
+        @returns true on success, false otherwise
+        @param trackId id of the track to search in
+        @param position of the blank
+    */
+    static bool requestDeleteAllBlanksFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position);
+
+    /** @brief This function will delete all clips on the given track after the given position
+        @returns true on success, false otherwise
+        @param trackId id of the track to search in
+        @param position start position for the operation
+    */
+    static bool requestDeleteAllClipsFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position);
+
     /** @brief Starts a spacer operation. Should be used together with requestSpacerEndOperation
         @returns clipId of the position-wise first clip in the temporary group
         @param timeline TimelineItemModel where the operation should be performed on

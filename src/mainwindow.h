@@ -436,7 +436,9 @@ private slots:
 
     void slotInsertSpace();
     void slotRemoveSpace();
-    void slotRemoveAllSpace();
+    void slotRemoveSpaceInAllTracks();
+    void slotRemoveAllSpacesInTrack();
+    void slotRemoveAllClipsInTrack();
     void slotAddGuide();
     void slotEditGuide();
     void slotExportGuides();

@@ -424,6 +424,12 @@ public:
      */
     Q_INVOKABLE void insertSpace(int trackId = -1, int frame = -1);
     Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
+    /** @brief Remove all spaces in a @trackId track after @frame position
+     */
+    void removeTrackSpaces(int trackId, int frame);
+    /** @brief Remove all clips in a @trackId track after @frame position
+     */
+    void removeTrackClips(int trackId, int frame);
     /** @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});

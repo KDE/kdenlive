@@ -221,6 +221,7 @@ protected:
     int getBlankSizeNearClip(int clipId, bool after);
     int getBlankSizeNearComposition(int compoId, bool after);
     int getBlankStart(int position);
+    int getNextBlankStart(int position);
     /** @brief Returns the start of the blank on a specific playlist */
     int getBlankStart(int position, int track);
     int getBlankSizeAtPos(int frame);

@@ -22,6 +22,7 @@ set(KdenliveTest_SOURCES
     cachetest.cpp
     movetest.cpp
     subtitlestest.cpp
+    spacertest.cpp
 )
 
 include(ECMAddTests)

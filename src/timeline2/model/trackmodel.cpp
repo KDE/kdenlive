@@ -1175,6 +1175,23 @@ bool TrackModel::isBlankAt(int position, int playlist)
     return m_playlists[playlist].is_blank_at(position);
 }
 
+int TrackModel::getNextBlankStart(int position)
+{
+    while (!isBlankAt(position)) {
+        int end1 = getClipEnd(position, 0);
+        int end2 = getClipEnd(position, 1);
+        if (end1 > position) {
+            position = end1;
+        } else if (end2 > position) {
+            position = end2;
+        } else {
+            // We reached playlist end
+            return -1;
+        }
+    }
+    return getBlankStart(position);
+}
+
 int TrackModel::getBlankStart(int position)
 {
     READ_LOCK();

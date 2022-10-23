@@ -2645,6 +2645,34 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
     }
 }
 
+void TimelineController::removeTrackSpaces(int trackId, int frame)
+{
+    if (frame == -1) {
+        frame = getMenuOrTimelinePos();
+    }
+    if (trackId == -1) {
+        trackId = m_activeTrack;
+    }
+    bool res = TimelineFunctions::requestDeleteAllBlanksFrom(m_model, trackId, frame);
+    if (!res) {
+        pCore->displayMessage(i18n("Cannot remove all spaces"), ErrorMessage, 500);
+    }
+}
+
+void TimelineController::removeTrackClips(int trackId, int frame)
+{
+    if (frame == -1) {
+        frame = getMenuOrTimelinePos();
+    }
+    if (trackId == -1) {
+        trackId = m_activeTrack;
+    }
+    bool res = TimelineFunctions::requestDeleteAllClipsFrom(m_model, trackId, frame);
+    if (!res) {
+        pCore->displayMessage(i18n("Cannot remove all clips"), ErrorMessage, 500);
+    }
+}
+
 void TimelineController::invalidateItem(int cid)
 {
     if (!m_timelinePreview || !m_model->isItem(cid)) {

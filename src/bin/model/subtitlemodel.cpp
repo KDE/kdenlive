@@ -1375,6 +1375,20 @@ bool SubtitleModel::isBlankAt(int pos) const
     ;
 }
 
+int SubtitleModel::getBlankEnd(int pos) const
+{
+    GenTime matchPos(pos, pCore->getCurrentFps());
+    bool found = false;
+    GenTime min;
+    for (const auto &subtitles : m_subtitleList) {
+        if (subtitles.first > matchPos && (min == GenTime() || subtitles.first < min)) {
+            min = subtitles.first;
+            found = true;
+        }
+    }
+    return found ? min.frames(pCore->getCurrentFps()) : 0;
+}
+
 int SubtitleModel::getBlankStart(int pos) const
 {
     GenTime matchPos(pos, pCore->getCurrentFps());
@@ -1387,4 +1401,24 @@ int SubtitleModel::getBlankStart(int pos) const
         }
     }
     return found ? min.frames(pCore->getCurrentFps()) : 0;
+}
+
+int SubtitleModel::getNextBlankStart(int pos) const
+{
+    while (!isBlankAt(pos)) {
+        std::unordered_set<int> matches = getItemsInRange(pos, pos);
+        if (matches.size() == 0) {
+            if (isBlankAt(pos)) {
+                break;
+            } else {
+                // We are at the end of the track, abort
+                return -1;
+            }
+        } else {
+            for (int id : matches) {
+                pos = qMax(pos, getSubtitleEnd(id));
+            }
+        }
+    }
+    return getBlankStart(pos);
 }

@@ -2202,6 +2202,140 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     return true;
 }
 
+bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
+{
+    // Abort if track is locked
+    if (timeline->isSubtitleTrack(trackId) && timeline->getSubtitleModel() && timeline->getSubtitleModel()->isLocked()) {
+        return false;
+    }
+    if (timeline->isTrack(trackId) && timeline->getTrackById_const(trackId)->isLocked()) {
+        return false;
+    }
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    if (timeline->isSubtitleTrack(trackId)) {
+        // Subtitle track
+        int blankStart = timeline->getSubtitleModel()->getNextBlankStart(position);
+        if (blankStart == -1) {
+            return false;
+        }
+        while (blankStart != -1) {
+            int cid = requestSpacerStartOperation(timeline, trackId, blankStart, true);
+            if (cid == -1) {
+                break;
+            }
+            int start = timeline->getItemPosition(cid);
+            // Start undoable command
+            std::function<bool(void)> local_undo = []() { return true; };
+            std::function<bool(void)> local_redo = []() { return true; };
+            if (blankStart < start) {
+                if (!requestSpacerEndOperation(timeline, cid, start, blankStart, trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false)) {
+                    // Failed to remove blank, maybe blocked because of a group. Pass to the next one
+                    blankStart = start;
+                } else {
+                    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+                }
+            } else {
+                if (timeline->getSubtitleModel()->isBlankAt(blankStart)) {
+                    blankStart = timeline->getSubtitleModel()->getBlankEnd(blankStart) + 1;
+                    if (blankStart == 1) {
+                        break;
+                    }
+                } else {
+                    blankStart = start + timeline->getItemPlaytime(cid) + 1;
+                }
+            }
+            int nextBlank = timeline->getSubtitleModel()->getNextBlankStart(blankStart);
+            if (nextBlank == blankStart) {
+                blankStart = timeline->getSubtitleModel()->getBlankEnd(blankStart) + 1;
+                nextBlank = timeline->getSubtitleModel()->getNextBlankStart(blankStart);
+                if (nextBlank == blankStart) {
+                    break;
+                }
+            }
+            if (nextBlank < blankStart) {
+                // Done
+                break;
+            }
+            blankStart = nextBlank;
+        }
+    } else {
+        int blankStart = timeline->getTrackById_const(trackId)->getNextBlankStart(position);
+        if (blankStart == -1) {
+            return false;
+        }
+        while (blankStart != -1) {
+            int cid = requestSpacerStartOperation(timeline, trackId, blankStart, true);
+            if (cid == -1) {
+                break;
+            }
+            int start = timeline->getItemPosition(cid);
+            // Start undoable command
+            std::function<bool(void)> local_undo = []() { return true; };
+            std::function<bool(void)> local_redo = []() { return true; };
+            if (blankStart < start) {
+                if (!requestSpacerEndOperation(timeline, cid, start, blankStart, trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false)) {
+                    // Failed to remove blank, maybe blocked because of a group. Pass to the next one
+                    blankStart = start;
+                } else {
+                    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+                }
+            } else {
+                if (timeline->getTrackById_const(trackId)->isBlankAt(blankStart)) {
+                    blankStart = timeline->getTrackById_const(trackId)->getBlankEnd(blankStart) + 1;
+                } else {
+                    blankStart = start + timeline->getItemPlaytime(cid);
+                }
+            }
+            int nextBlank = timeline->getTrackById_const(trackId)->getNextBlankStart(blankStart);
+            if (nextBlank == blankStart) {
+                blankStart = timeline->getTrackById_const(trackId)->getBlankEnd(blankStart) + 1;
+                nextBlank = timeline->getTrackById_const(trackId)->getNextBlankStart(blankStart);
+                if (nextBlank == blankStart) {
+                    break;
+                }
+            }
+            if (nextBlank < blankStart) {
+                // Done
+                break;
+            }
+            blankStart = nextBlank;
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Remove space on track"));
+    return true;
+}
+
+bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
+{
+    // Abort if track is locked
+    if (timeline->isSubtitleTrack(trackId) && timeline->getSubtitleModel() && timeline->getSubtitleModel()->isLocked()) {
+        return false;
+    }
+    if (timeline->isTrack(trackId) && timeline->getTrackById_const(trackId)->isLocked()) {
+        return false;
+    }
+    // Start undoable command
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    std::unordered_set<int> items;
+    if (timeline->isSubtitleTrack(trackId)) {
+        // Subtitle track
+        items = timeline->getSubtitleModel()->getItemsInRange(position, -1);
+    } else {
+        items = timeline->getTrackById_const(trackId)->getClipsInRange(position, -1);
+    }
+    if (items.size() == 0) {
+        return false;
+    }
+    for (int id : items) {
+        timeline->requestItemDeletion(id, undo, redo);
+    }
+    pCore->pushUndo(undo, redo, i18n("Delete clips on track"));
+    return true;
+}
+
 QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId)
 {
     int tid = timeline->getClipTrackId(cid);
