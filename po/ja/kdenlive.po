@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:46+0000\n"
+"POT-Creation-Date: 2022-10-23 00:43+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4764,7 +4764,7 @@ msgstr ""
 "ファイル %1 は既に存在しています。\n"
 "上書きしてよろしいですか？"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:843
+#: src/bin/clipcreator.cpp:238 src/core.cpp:840
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -14307,51 +14307,51 @@ msgstr "キャプチャ済みファイル"
 msgid "Change clip speed"
 msgstr "クリップタイプの変更"
 
-#: src/timeline2/model/timelinemodel.cpp:6081
+#: src/timeline2/model/timelinemodel.cpp:6090
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Lock track"
 msgstr "トラックの施錠"
 
-#: src/timeline2/model/timelinemodel.cpp:6086
+#: src/timeline2/model/timelinemodel.cpp:6095
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Unlock track"
 msgstr "トラックの解錠"
 
-#: src/timeline2/model/timelinemodel.cpp:6120
-#: src/timeline2/model/timelinemodel.cpp:6182
+#: src/timeline2/model/timelinemodel.cpp:6129
+#: src/timeline2/model/timelinemodel.cpp:6191
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change composition"
 msgstr "中央位置 (X)"
 
-#: src/timeline2/model/timelinemodel.cpp:6134
+#: src/timeline2/model/timelinemodel.cpp:6143
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "遷移をグループで行うことはできません、グループ解除してください"
 
-#: src/timeline2/model/timelinemodel.cpp:6327
-#: src/timeline2/model/timelinemodel.cpp:6364
-#: src/timeline2/model/timelinemodel.cpp:6397
-#: src/timeline2/model/timelinemodel.cpp:6478
+#: src/timeline2/model/timelinemodel.cpp:6336
+#: src/timeline2/model/timelinemodel.cpp:6373
+#: src/timeline2/model/timelinemodel.cpp:6406
+#: src/timeline2/model/timelinemodel.cpp:6487
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "クリップを位置 %1 に移動できません"
 
-#: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/model/timelinemodel.cpp:6372
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6502
+#: src/timeline2/model/timelinemodel.cpp:6347
+#: src/timeline2/model/timelinemodel.cpp:6381
+#: src/timeline2/model/timelinemodel.cpp:6425
+#: src/timeline2/model/timelinemodel.cpp:6511
 #, fuzzy, kde-format
 #| msgid "Cannot create clip"
 msgid "Cannot resize mix"
 msgstr "クリップを作成できません"
 
-#: src/timeline2/model/timelinemodel.cpp:6516
+#: src/timeline2/model/timelinemodel.cpp:6525
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"

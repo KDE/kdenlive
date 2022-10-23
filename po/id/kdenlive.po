@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:46+0000\n"
+"POT-Creation-Date: 2022-10-23 00:43+0000\n"
 "PO-Revision-Date: 2022-09-27 18:00+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4604,7 +4604,7 @@ msgstr ""
 "Klip berikut ini telah dimasukkan dalam proyek. Apakah Anda ingin "
 "menyalinkannya?"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:843
+#: src/bin/clipcreator.cpp:238 src/core.cpp:840
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -13547,49 +13547,49 @@ msgstr "Gagal mengubah kecepatan"
 msgid "Change clip speed"
 msgstr "Ubah kecepatan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:6081
+#: src/timeline2/model/timelinemodel.cpp:6090
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Lock track"
 msgstr "Kunci trek"
 
-#: src/timeline2/model/timelinemodel.cpp:6086
+#: src/timeline2/model/timelinemodel.cpp:6095
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Unlock track"
 msgstr "Lepas kunci trek"
 
-#: src/timeline2/model/timelinemodel.cpp:6120
-#: src/timeline2/model/timelinemodel.cpp:6182
+#: src/timeline2/model/timelinemodel.cpp:6129
+#: src/timeline2/model/timelinemodel.cpp:6191
 #, kde-format
 msgid "Change composition"
 msgstr "Ubah komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:6134
+#: src/timeline2/model/timelinemodel.cpp:6143
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Tidak bisa beroperasi saat komposisi dikelompokkan, silakan nonkelompokkan"
 
-#: src/timeline2/model/timelinemodel.cpp:6327
-#: src/timeline2/model/timelinemodel.cpp:6364
-#: src/timeline2/model/timelinemodel.cpp:6397
-#: src/timeline2/model/timelinemodel.cpp:6478
+#: src/timeline2/model/timelinemodel.cpp:6336
+#: src/timeline2/model/timelinemodel.cpp:6373
+#: src/timeline2/model/timelinemodel.cpp:6406
+#: src/timeline2/model/timelinemodel.cpp:6487
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Tidak bisa mengubah ukuran mix kurang dari 1 frame"
 
-#: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/model/timelinemodel.cpp:6372
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6502
+#: src/timeline2/model/timelinemodel.cpp:6347
+#: src/timeline2/model/timelinemodel.cpp:6381
+#: src/timeline2/model/timelinemodel.cpp:6425
+#: src/timeline2/model/timelinemodel.cpp:6511
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Tidak bisa mengubah ukuran mix"
 
-#: src/timeline2/model/timelinemodel.cpp:6516
+#: src/timeline2/model/timelinemodel.cpp:6525
 #, kde-format
 msgid "Resize mix"
 msgstr "Ubah ukuran mix"
