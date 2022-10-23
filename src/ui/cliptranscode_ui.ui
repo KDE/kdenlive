@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ClipTranscode_UI</class>
+ <author>
+SPDX-FileCopyrightText: none
+SPDX-License-Identifier: GPL-3.0-or-later
+ </author>
  <widget class="QDialog" name="ClipTranscode_UI">
   <property name="geometry">
    <rect>
