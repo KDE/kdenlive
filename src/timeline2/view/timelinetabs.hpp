@@ -33,8 +33,6 @@ public:
     /** @brief Construct the tabs as well as the widget for the main timeline */
     TimelineTabs(QWidget *parent);
     ~TimelineTabs() override;
-    /** @brief Returns a pointer to the main timeline */
-    TimelineWidget *getMainTimeline() const;
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;

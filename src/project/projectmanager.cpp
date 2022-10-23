@@ -327,7 +327,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (!quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-        pCore->window()->getMainTimeline()->unsetModel();
+        pCore->window()->getCurrentTimeline()->unsetModel();
         pCore->window()->resetSubtitles();
         if (m_mainTimelineModel) {
             m_mainTimelineModel->prepareClose();
@@ -374,7 +374,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
-    std::unordered_map<QString, std::vector<int>> thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
+    std::unordered_map<QString, std::vector<int>> thumbKeys = pCore->window()->getCurrentTimeline()->controller()->getThumbKeys();
     pCore->projectItemModel()->updateCacheThumbnail(thumbKeys);
     // Remove duplicates
     for (auto p : thumbKeys) {
@@ -825,28 +825,28 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
-    bool hasPreview = pCore->window()->getMainTimeline()->controller()->hasPreviewTrack();
+    bool hasPreview = pCore->window()->getCurrentTimeline()->controller()->hasPreviewTrack();
     bool isTrimming = pCore->monitorManager()->isTrimming();
     if (isMultiTrack) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(false, false);
+        pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(false, false);
     }
     if (hasPreview) {
-        pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(false);
+        pCore->window()->getCurrentTimeline()->controller()->updatePreviewConnection(false);
     }
     if (isTrimming) {
-        pCore->window()->getMainTimeline()->controller()->requestEndTrimmingMode();
+        pCore->window()->getCurrentTimeline()->controller()->requestEndTrimmingMode();
     }
     pCore->mixer()->pauseMonitoring(true);
     QString scene = m_mainTimelineModel->sceneList(outputFolder, QString(), overlayData);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
+        pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
     }
     if (hasPreview) {
-        pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(true);
+        pCore->window()->getCurrentTimeline()->controller()->updatePreviewConnection(true);
     }
     if (isTrimming) {
-        pCore->window()->getMainTimeline()->controller()->requestStartTrimmingMode();
+        pCore->window()->getCurrentTimeline()->controller()->requestStartTrimmingMode();
     }
     return scene;
 }
@@ -883,7 +883,7 @@ void ProjectManager::slotAddTextNote(const QString &text)
 
 void ProjectManager::prepareSave()
 {
-    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getMainTimeline()->controller()->documentProperties(), m_project->metadata(),
+    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getCurrentTimeline()->controller()->documentProperties(), m_project->metadata(),
                                                       m_project->getGuideModel());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
@@ -929,42 +929,42 @@ void ProjectManager::slotDisableTimelineEffects(bool disable)
 
 void ProjectManager::slotSwitchTrackDisabled()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackDisabled();
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackDisabled();
 }
 
 void ProjectManager::slotSwitchTrackLock()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackLock();
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackLock();
 }
 
 void ProjectManager::slotSwitchTrackActive()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackActive();
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackActive();
 }
 
 void ProjectManager::slotSwitchAllTrackActive()
 {
-    pCore->window()->getMainTimeline()->controller()->switchAllTrackActive();
+    pCore->window()->getCurrentTimeline()->controller()->switchAllTrackActive();
 }
 
 void ProjectManager::slotMakeAllTrackActive()
 {
-    pCore->window()->getMainTimeline()->controller()->makeAllTrackActive();
+    pCore->window()->getCurrentTimeline()->controller()->makeAllTrackActive();
 }
 
 void ProjectManager::slotRestoreTargetTracks()
 {
-    pCore->window()->getMainTimeline()->controller()->restoreTargetTracks();
+    pCore->window()->getCurrentTimeline()->controller()->restoreTargetTracks();
 }
 
 void ProjectManager::slotSwitchAllTrackLock()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTrackLock(true);
+    pCore->window()->getCurrentTimeline()->controller()->switchTrackLock(true);
 }
 
 void ProjectManager::slotSwitchTrackTarget()
 {
-    pCore->window()->getMainTimeline()->controller()->switchTargetTrack();
+    pCore->window()->getCurrentTimeline()->controller()->switchTargetTrack();
 }
 
 QString ProjectManager::getDefaultProjectFormat()
@@ -1033,7 +1033,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 void ProjectManager::requestBackup(const QString &errorMessage)
 {
     KMessageBox::ButtonCode res = KMessageBox::warningContinueCancel(qApp->activeWindow(), errorMessage);
-    pCore->window()->getMainTimeline()->loading = false;
+    pCore->window()->getCurrentTimeline()->loading = false;
     m_project->setModified(false);
     if (res == KMessageBox::Continue) {
         // Try opening backup
@@ -1062,7 +1062,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
     // Add snap point at project start
     m_mainTimelineModel->addSnap(0);
     if (pCore->window()) {
-        pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+        pCore->window()->getCurrentTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     }
     bool projectErrors = false;
     m_project->cleanupTimelinePreview(documentDate);
@@ -1109,7 +1109,7 @@ void ProjectManager::activateAsset(const QVariantMap &effectData)
     if (effectData.contains(QStringLiteral("kdenlive/effect"))) {
         pCore->window()->addEffect(effectData.value(QStringLiteral("kdenlive/effect")).toString());
     } else {
-        pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
+        pCore->window()->getCurrentTimeline()->controller()->addAsset(effectData);
     }
 }
 
@@ -1265,7 +1265,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
         if (ok && length > 0) {
             // calculate updated length
-            Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getMainTimeline()->controller()->framesToClock(length));
+            Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getCurrentTimeline()->controller()->framesToClock(length));
         }
     }
     if (QFile::exists(convertedFile)) {
@@ -1299,10 +1299,10 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 
 QPair<int, int> ProjectManager::avTracksCount()
 {
-    return pCore->window()->getMainTimeline()->controller()->getAvTracksCount();
+    return pCore->window()->getCurrentTimeline()->controller()->getAvTracksCount();
 }
 
 void ProjectManager::addAudioTracks(int tracksCount)
 {
-    pCore->window()->getMainTimeline()->controller()->addTracks(0, tracksCount);
+    pCore->window()->getCurrentTimeline()->controller()->addTracks(0, tracksCount);
 }

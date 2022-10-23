@@ -1171,7 +1171,7 @@ bool Core::enableMultiTrack(bool enable)
     }
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
     if (isMultiTrack || enable) {
-        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, true);
+        pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(enable, true);
         return true;
     }
     return false;
@@ -1197,7 +1197,7 @@ void Core::addGuides(const QList<int> &guides)
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
 {
-    window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
+    window()->getCurrentTimeline()->controller()->temporaryUnplug(clipIds, hide);
 }
 
 void Core::transcodeFile(const QString &url)
@@ -1258,10 +1258,10 @@ void Core::cleanup()
     if (timeRemapWidget()) {
         timeRemapWidget()->selectedClip(-1);
     }
-    if (m_mainWindow && m_mainWindow->getMainTimeline()) {
-        disconnect(m_mainWindow->getMainTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,
+    if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
+        disconnect(m_mainWindow->getCurrentTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,
                    &ProjectManager::adjustProjectDuration);
-        m_mainWindow->getMainTimeline()->controller()->clipActions.clear();
+        m_mainWindow->getCurrentTimeline()->controller()->clipActions.clear();
     }
 }
 
@@ -1283,5 +1283,5 @@ void Core::addBin(const QString &id)
 
 void Core::loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist)
 {
-    pCore->window()->getMainTimeline()->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+    pCore->window()->getCurrentTimeline()->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
 }

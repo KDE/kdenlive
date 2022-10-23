@@ -249,7 +249,7 @@ void KdenliveSettingsDialog::initMiscPage()
         if (m_configMisc.preferredcomposite->currentText() != KdenliveSettings::preferredcomposite()) {
             KdenliveSettings::setPreferredcomposite(m_configMisc.preferredcomposite->currentText());
             int mode = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing")).toInt();
-            pCore->window()->getMainTimeline()->controller()->switchCompositing(mode);
+            pCore->window()->getCurrentTimeline()->controller()->switchCompositing(mode);
             pCore->currentDoc()->setModified();
         }
     });
@@ -1179,7 +1179,7 @@ void KdenliveSettingsDialog::updateSettings()
         m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
-        emit pCore->window()->getMainTimeline()->controller()->colorsChanged();
+        emit pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
@@ -1250,7 +1250,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
         KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
-        emit pCore->window()->getMainTimeline()->controller()->scrollVerticallyChanged();
+        emit pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
     }
 
     // Mimes
