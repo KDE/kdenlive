@@ -155,6 +155,7 @@ void TimelineModel::prepareClose()
 
 TimelineModel::~TimelineModel()
 {
+    prepareClose();
     std::vector<int> all_ids;
     for (auto tracks : m_iteratorTable) {
         all_ids.push_back(tracks.first);
@@ -4380,17 +4381,19 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         }
         auto it = m_iteratorTable[id];    // iterator to the element
         int index = getTrackPosition(id); // compute index in list
-        // send update to the model
-        beginRemoveRows(QModelIndex(), index, index);
+        if (!m_closing) {
+            // send update to the model
+            beginRemoveRows(QModelIndex(), index, index);
+        }
         // melt operation, add 1 to account for black background track
         m_tractor->remove_track(static_cast<int>(index + 1));
         // actual deletion of object
         m_allTracks.erase(it);
         // clean table
         m_iteratorTable.erase(id);
-        // Finish operation
-        endRemoveRows();
         if (!m_closing) {
+            // Finish operation
+            endRemoveRows();
             int cache = int(QThread::idealThreadCount()) + int(m_allTracks.size() + 1) * 2;
             mlt_service_cache_set_size(nullptr, "producer_avformat", qMax(4, cache));
         }
