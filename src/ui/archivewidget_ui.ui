@@ -2,7 +2,7 @@
 <ui version="4.0">
  <author>
 SPDX-FileCopyrightText: none
-SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-KDE-Accepted-GPL
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </author>
  <class>ArchiveWidget_UI</class>
  <widget class="QDialog" name="ArchiveWidget_UI">
