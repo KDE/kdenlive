@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:46+0000\n"
+"POT-Creation-Date: 2022-10-23 00:43+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4613,7 +4613,7 @@ msgid ""
 "duplicate them?"
 msgstr "다음 클립이 이미 프로젝트에 삽입되어 있습니다. 복제하시겠습니까?"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:843
+#: src/bin/clipcreator.cpp:238 src/core.cpp:840
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -13728,48 +13728,48 @@ msgstr "클립 속도 변경 실패"
 msgid "Change clip speed"
 msgstr "클립 속도 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:6081
+#: src/timeline2/model/timelinemodel.cpp:6090
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Lock track"
 msgstr "트랙 잠금"
 
-#: src/timeline2/model/timelinemodel.cpp:6086
+#: src/timeline2/model/timelinemodel.cpp:6095
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Unlock track"
 msgstr "트랙 잠금 해제"
 
-#: src/timeline2/model/timelinemodel.cpp:6120
-#: src/timeline2/model/timelinemodel.cpp:6182
+#: src/timeline2/model/timelinemodel.cpp:6129
+#: src/timeline2/model/timelinemodel.cpp:6191
 #, kde-format
 msgid "Change composition"
 msgstr "합성 변경"
 
-#: src/timeline2/model/timelinemodel.cpp:6134
+#: src/timeline2/model/timelinemodel.cpp:6143
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "그룹화된 합성에서 작업할 수 없습니다. 그룹을 해제하십시오"
 
-#: src/timeline2/model/timelinemodel.cpp:6327
-#: src/timeline2/model/timelinemodel.cpp:6364
-#: src/timeline2/model/timelinemodel.cpp:6397
-#: src/timeline2/model/timelinemodel.cpp:6478
+#: src/timeline2/model/timelinemodel.cpp:6336
+#: src/timeline2/model/timelinemodel.cpp:6373
+#: src/timeline2/model/timelinemodel.cpp:6406
+#: src/timeline2/model/timelinemodel.cpp:6487
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "믹스 크기를 1프레임 미만으로 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/model/timelinemodel.cpp:6372
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6502
+#: src/timeline2/model/timelinemodel.cpp:6347
+#: src/timeline2/model/timelinemodel.cpp:6381
+#: src/timeline2/model/timelinemodel.cpp:6425
+#: src/timeline2/model/timelinemodel.cpp:6511
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "믹스의 크기를 조정할 수 없음"
 
-#: src/timeline2/model/timelinemodel.cpp:6516
+#: src/timeline2/model/timelinemodel.cpp:6525
 #, kde-format
 msgid "Resize mix"
 msgstr "믹스 크기 조정"

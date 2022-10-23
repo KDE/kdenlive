@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:46+0000\n"
+"POT-Creation-Date: 2022-10-23 00:43+0000\n"
 "PO-Revision-Date: 2022-10-09 15:37+0200\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4622,7 +4622,7 @@ msgid ""
 msgstr ""
 "La seguenti clip sono già state inserite nel progetto. Vuoi duplicarle?"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:843
+#: src/bin/clipcreator.cpp:238 src/core.cpp:840
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -13664,50 +13664,50 @@ msgstr "Modifica della velocità non riuscita"
 msgid "Change clip speed"
 msgstr "Cambia la velocità della clip"
 
-#: src/timeline2/model/timelinemodel.cpp:6081
+#: src/timeline2/model/timelinemodel.cpp:6090
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Lock track"
 msgstr "Blocca traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:6086
+#: src/timeline2/model/timelinemodel.cpp:6095
 #: src/timeline2/view/qml/timeline.qml:1141
 #: src/timeline2/view/qml/TrackHead.qml:498
 #, kde-format
 msgid "Unlock track"
 msgstr "Sblocca traccia"
 
-#: src/timeline2/model/timelinemodel.cpp:6120
-#: src/timeline2/model/timelinemodel.cpp:6182
+#: src/timeline2/model/timelinemodel.cpp:6129
+#: src/timeline2/model/timelinemodel.cpp:6191
 #, kde-format
 msgid "Change composition"
 msgstr "Modifica composizione"
 
-#: src/timeline2/model/timelinemodel.cpp:6134
+#: src/timeline2/model/timelinemodel.cpp:6143
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Impossibile operare sulle composizioni raggruppate, annulla il raggruppamento"
 
 # , kde-format
-#: src/timeline2/model/timelinemodel.cpp:6327
-#: src/timeline2/model/timelinemodel.cpp:6364
-#: src/timeline2/model/timelinemodel.cpp:6397
-#: src/timeline2/model/timelinemodel.cpp:6478
+#: src/timeline2/model/timelinemodel.cpp:6336
+#: src/timeline2/model/timelinemodel.cpp:6373
+#: src/timeline2/model/timelinemodel.cpp:6406
+#: src/timeline2/model/timelinemodel.cpp:6487
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Impossibile ridimensionare il mescolamento a meno di un fotogramma"
 
-#: src/timeline2/model/timelinemodel.cpp:6338
-#: src/timeline2/model/timelinemodel.cpp:6372
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6502
+#: src/timeline2/model/timelinemodel.cpp:6347
+#: src/timeline2/model/timelinemodel.cpp:6381
+#: src/timeline2/model/timelinemodel.cpp:6425
+#: src/timeline2/model/timelinemodel.cpp:6511
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Impossibile ridimensionare il mescolamento"
 
-#: src/timeline2/model/timelinemodel.cpp:6516
+#: src/timeline2/model/timelinemodel.cpp:6525
 #, kde-format
 msgid "Resize mix"
 msgstr "Ridimensiona mescolamento"
