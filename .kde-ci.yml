@@ -38,6 +38,6 @@ Dependencies:
     #'plasma/drkonqi' : '@stable'
 
 Options:
-  require-passing-tests-on: [ 'Linux' ]
+  require-passing-tests-on: [ 'Linux', 'FreeBSD' ]
   cppcheck-arguments: '--suppress="*:tests/fakeit.hpp" --suppress="*:tests/catch.hpp" --suppress="*:fuzzer/fakeit_standalone.hpp"'
 
