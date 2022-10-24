@@ -532,7 +532,7 @@ void PreviewManager::startPreviewRender()
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
-            const QString playlist = pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath());
+            const QString playlist = pCore->window()->getCurrentTimeline()->model()->sceneList(m_cacheDir.absolutePath());
             QDomDocument doc;
             doc.setContent(playlist);
             pCore->currentDoc()->useOriginals(doc);
@@ -548,7 +548,7 @@ void PreviewManager::startPreviewRender()
                 return;
             }
         } else {
-            pCore->window()->getMainTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
+            pCore->window()->getCurrentTimeline()->model()->sceneList(m_cacheDir.absolutePath(), sceneList);
         }
         m_previewTimer.stop();
         doPreviewRender(sceneList);

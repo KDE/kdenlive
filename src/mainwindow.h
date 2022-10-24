@@ -125,9 +125,6 @@ public:
     /** @brief Returns true if mixer widget is tabbed */
     bool isMixedTabbed() const;
 
-    /** @brief Returns a ptr to the main timeline widget of the project */
-    TimelineWidget *getMainTimeline() const;
-
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
 

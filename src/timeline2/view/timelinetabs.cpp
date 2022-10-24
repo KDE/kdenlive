@@ -48,14 +48,9 @@ TimelineTabs::~TimelineTabs()
     m_mainTimeline->setSource(QUrl());
 }
 
-TimelineWidget *TimelineTabs::getMainTimeline() const
-{
-    return m_mainTimeline;
-}
-
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
 {
-    return static_cast<TimelineWidget *>(currentWidget());
+    return m_mainTimeline;
 }
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
