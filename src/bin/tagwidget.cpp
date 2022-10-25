@@ -186,7 +186,11 @@ void TagWidget::showTagsConfig()
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
         ix++;
     }
-    d.connect(&list, &QListWidget::itemDoubleClicked, &d, [&d, &list, &colors = existingTagColors, &existingTagColors](QListWidgetItem *item) {
+    Fun editItem = [&d, &list, &colors = existingTagColors, &existingTagColors]() {
+        QListWidgetItem *item = list.currentItem();
+        if (!item) {
+            return false;
+        }
         // Edit an existing tag
         QDialog d2(&d);
         d2.setWindowTitle(i18n("Edit Tag"));
@@ -248,7 +252,12 @@ void TagWidget::showTagsConfig()
             existingTagColors.removeAll(originalColor);
             existingTagColors << cb.color();
         }
-    });
+        return true;
+    };
+    // set the editable triggers for the list widget
+    QAction *a = KStandardAction::renameFile(this, editItem, &d);
+    list.addAction(a);
+    d.connect(&list, &QListWidget::itemDoubleClicked, &d, [=]() { editItem(); });
     QToolButton *tb = new QToolButton(&d);
     tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     lay->addWidget(tb);
