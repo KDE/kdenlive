@@ -320,11 +320,15 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     return count > 0;
 }
 
-int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups,
-                                                   bool allowGroupBreaking)
+std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position,
+                                                                   bool ignoreMultiTrackGroups, bool allowGroupBreaking)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
+    // Find the first clip on each track to calculate the minimum space operation
+    QMap<int, int> firstClipOnTrack;
+    // Find the maximum space allowed by grouped clips placed before the operation start {trackid,blank_duration}
+    QMap<int, int> relatedMaxSpace;
     spacerMinPosition = -1;
     if (!clips.empty()) {
         // Remove grouped items that are before the click position
@@ -335,8 +339,14 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         std::unordered_set<int> groupsToRemove;
         int firstCid = -1;
         int firstPosition = -1;
-        QMap<int, int> firstPositions;
+        int spaceDuration = -1;
         std::unordered_set<int> toSelect;
+        //  List all clips involved in the spacer operation
+        std::unordered_set<int> allClips;
+        for (int r : roots) {
+            std::unordered_set<int> children = timeline->m_groups->getLeaves(r);
+            allClips.insert(children.begin(), children.end());
+        }
         for (int r : roots) {
             if (timeline->isGroup(r)) {
                 std::unordered_set<int> leaves = timeline->m_groups->getLeaves(r);
@@ -344,7 +354,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
-                    bool outOfRange = pos + timeline->getItemPlaytime(l) < position;
+                    bool outOfRange = timeline->getItemEnd(l) < position;
                     int tid = timeline->getItemTrackId(l);
                     bool unaffectedTrack = ignoreMultiTrackGroups && trackId > -1 && tid != trackId;
                     if (allowGroupBreaking) {
@@ -353,20 +363,37 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                         } else {
                             leavesToKeep.insert(l);
                         }
-                    }
-                    if (!outOfRange && !unaffectedTrack) {
-                        // Check space in all tracks
-                        if (!firstPositions.contains(tid)) {
-                            firstPositions.insert(tid, pos);
-                        } else {
-                            if (pos < firstPositions.value(tid)) {
-                                firstPositions.insert(tid, pos);
+                    } else if (outOfRange) {
+                        // This is a grouped clip positionned before the spacer operation position, check maximum space before
+                        std::unordered_set<int> beforeOnTrack = timeline->getItemsInRange(tid, 0, pos - 1);
+                        for (auto &c : allClips) {
+                            beforeOnTrack.erase(c);
+                        }
+                        int lastPos = 0;
+                        for (int c : beforeOnTrack) {
+                            int p = timeline->getClipEnd(c);
+                            if (p >= pos - 1) {
+                                lastPos = pos;
+                                break;
+                            }
+                            if (p > lastPos) {
+                                lastPos = p;
                             }
                         }
+                        if (relatedMaxSpace.contains(trackId)) {
+                            if (relatedMaxSpace.value(trackId) > (pos - lastPos)) {
+                                relatedMaxSpace.insert(trackId, pos - lastPos);
+                            }
+                        } else {
+                            relatedMaxSpace.insert(trackId, pos - lastPos);
+                        }
+                    }
+                    if (!outOfRange && !unaffectedTrack) {
                         // Find first item
-                        if (firstPosition == -1 || pos < firstPosition) {
-                            firstCid = l;
-                            firstPosition = pos;
+                        if (!firstClipOnTrack.contains(tid)) {
+                            firstClipOnTrack.insert(tid, l);
+                        } else if (timeline->getItemPosition(firstClipOnTrack.value(tid)) > pos) {
+                            firstClipOnTrack.insert(tid, l);
                         }
                     }
                 }
@@ -382,16 +409,8 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
                     groupsToRemove.insert(r);
                 }
             } else {
+                // Find first clip on track
                 int pos = timeline->getItemPosition(r);
-                int tid = timeline->getItemTrackId(r);
-                // Check space in all tracks
-                if (!firstPositions.contains(tid)) {
-                    firstPositions.insert(tid, pos);
-                } else {
-                    if (pos < firstPositions.value(tid)) {
-                        firstPositions.insert(tid, pos);
-                    }
-                }
                 if (firstPosition == -1 || pos < firstPosition) {
                     firstCid = r;
                     firstPosition = pos;
@@ -412,38 +431,40 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
         }
 
         timeline->requestSetSelection(toSelect);
-        if (!firstPositions.isEmpty()) {
-            // Find minimum position, parse all tracks
+
+        QMapIterator<int, int> it(firstClipOnTrack);
+        int firstPos = -1;
+        while (it.hasNext()) {
+            it.next();
+            int clipPos = timeline->getItemPosition(it.value());
             if (trackId > -1) {
-                // Easy, check blank size
-                int spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(firstPosition - 1);
-                if (spaceDuration > 0) {
-                    spacerMinPosition = firstPosition - spaceDuration;
+                if (it.key() == trackId) {
+                    firstCid = it.value();
                 }
             } else {
-                // Check space in all tracks
-                auto it = timeline->m_allTracks.cbegin();
-                int space = -1;
-                while (it != timeline->m_allTracks.cend()) {
-                    int tid = (*it)->getId();
-                    if (!firstPositions.contains(tid)) {
-                        ++it;
-                        continue;
-                    }
-                    int spaceDuration = (*it)->getBlankSizeAtPos(firstPositions.value(tid) - 1);
-                    if (space == -1 || spaceDuration < space) {
-                        space = spaceDuration;
-                    }
-                    ++it;
-                }
-                if (space > -1) {
-                    spacerMinPosition = firstPosition - space;
+                if (firstPos == -1) {
+                    firstCid = it.value();
+                    firstPos = clipPos;
+                } else if (firstPos < clipPos) {
+                    firstCid = it.value();
                 }
             }
+            if (timeline->getTrackById_const(it.key())->isBlankAt(clipPos - 1)) {
+                if (spaceDuration == -1) {
+                    spaceDuration = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
+                } else {
+                    int blank = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
+                    spaceDuration = qMin(blank, spaceDuration);
+                }
+            }
+            if (relatedMaxSpace.contains(it.key())) {
+                spaceDuration = qMin(spaceDuration, relatedMaxSpace.value(it.key()));
+            }
         }
-        return (firstCid);
+        spacerMinPosition = timeline->getItemPosition(firstCid) - spaceDuration;
+        return {firstCid, spaceDuration};
     }
-    return -1;
+    return {-1, -1};
 }
 
 bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition,
@@ -2151,50 +2172,102 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
 
 bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks)
 {
-    // find blank duration
-    int spaceStart = 0;
+    // Check we have blank at position
+    int startPos = -1;
+    int endPos = -1;
     if (affectAllTracks) {
-        int lastFrame = 0;
         for (const auto &track : timeline->m_allTracks) {
             if (!track->isLocked()) {
                 if (!track->isBlankAt(position)) {
                     return false;
                 }
-                lastFrame = track->getBlankStart(position);
-                if (lastFrame > spaceStart) {
-                    spaceStart = lastFrame;
+                startPos = track->getBlankStart(position) - 1;
+                endPos = track->getBlankEnd(position) + 2;
+                if (startPos > -1) {
+                    std::unordered_set<int> clips = timeline->getItemsInRange(trackId, startPos, endPos);
+                    if (clips.size() == 2) {
+                        auto it = clips.begin();
+                        int firstCid = *it;
+                        ++it;
+                        int lastCid = *it;
+                        if (timeline->m_groups->isInGroup(firstCid)) {
+                            int groupId = timeline->m_groups->getRootId(firstCid);
+                            std::unordered_set<int> all_children = timeline->m_groups->getLeaves(groupId);
+                            if (all_children.find(lastCid) != all_children.end()) {
+                                return false;
+                            }
+                        }
+                    }
                 }
             }
         }
         // check subtitle track
         if (timeline->getSubtitleModel() && !timeline->getSubtitleModel()->isLocked()) {
-            lastFrame = timeline->getSubtitleModel()->getBlankStart(position);
-            if (lastFrame > spaceStart) {
-                spaceStart = lastFrame;
+            if (!timeline->getSubtitleModel()->isBlankAt(position)) {
+                return false;
+            }
+            startPos = timeline->getSubtitleModel()->getBlankStart(position) - 1;
+            endPos = timeline->getSubtitleModel()->getBlankEnd(position) + 1;
+            if (startPos > -1) {
+                std::unordered_set<int> clips = timeline->getItemsInRange(trackId, startPos, endPos);
+                if (clips.size() == 2) {
+                    auto it = clips.begin();
+                    int firstCid = *it;
+                    ++it;
+                    int lastCid = *it;
+                    if (timeline->m_groups->isInGroup(firstCid)) {
+                        int groupId = timeline->m_groups->getRootId(firstCid);
+                        std::unordered_set<int> all_children = timeline->m_groups->getLeaves(groupId);
+                        if (all_children.find(lastCid) != all_children.end()) {
+                            return false;
+                        }
+                    }
+                }
             }
         }
     } else {
+        // Check we have a blank and that it is in not between 2 grouped clips
         if (timeline->isSubtitleTrack(trackId)) {
             // Subtitle track
             if (!timeline->getSubtitleModel()->isBlankAt(position)) {
                 return false;
             }
-            spaceStart = timeline->getSubtitleModel()->getBlankStart(position);
+            startPos = timeline->getSubtitleModel()->getBlankStart(position) - 1;
+            endPos = timeline->getSubtitleModel()->getBlankEnd(position) + 1;
         } else {
             if (!timeline->getTrackById_const(trackId)->isBlankAt(position)) {
                 return false;
             }
-            spaceStart = timeline->getTrackById_const(trackId)->getBlankStart(position);
+            startPos = timeline->getTrackById_const(trackId)->getBlankStart(position) - 1;
+            endPos = timeline->getTrackById_const(trackId)->getBlankEnd(position) + 2;
+        }
+        if (startPos > -1) {
+            std::unordered_set<int> clips = timeline->getItemsInRange(trackId, startPos, endPos);
+            if (clips.size() == 2) {
+                auto it = clips.begin();
+                int firstCid = *it;
+                ++it;
+                int lastCid = *it;
+                if (timeline->m_groups->isInGroup(firstCid)) {
+                    int groupId = timeline->m_groups->getRootId(firstCid);
+                    std::unordered_set<int> all_children = timeline->m_groups->getLeaves(groupId);
+                    if (all_children.find(lastCid) != all_children.end()) {
+                        return false;
+                    }
+                }
+            }
         }
     }
-    if (spaceStart > position) {
-        return false;
-    }
-    int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
-    if (cid == -1) {
+    std::pair<int, int> spacerOp = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
+    int cid = spacerOp.first;
+    if (cid == -1 || spacerOp.second == -1) {
         return false;
     }
     int start = timeline->getItemPosition(cid);
+    int spaceStart = start - spacerOp.second;
+    if (spaceStart >= start) {
+        return false;
+    }
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -2221,7 +2294,8 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
             return false;
         }
         while (blankStart != -1) {
-            int cid = requestSpacerStartOperation(timeline, trackId, blankStart, true);
+            std::pair<int, int> spacerOp = requestSpacerStartOperation(timeline, trackId, blankStart, true);
+            int cid = spacerOp.first;
             if (cid == -1) {
                 break;
             }
@@ -2266,7 +2340,8 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
             return false;
         }
         while (blankStart != -1) {
-            int cid = requestSpacerStartOperation(timeline, trackId, blankStart, true);
+            std::pair<int, int> spacerOp = requestSpacerStartOperation(timeline, trackId, blankStart, true);
+            int cid = spacerOp.first;
             if (cid == -1) {
                 break;
             }

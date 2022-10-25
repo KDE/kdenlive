@@ -211,13 +211,16 @@ public:
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     int getSubtitlePosition(int subId) const;
     int getCompositionPlaytime(int compoId) const;
+    int getCompositionEnd(int compoId) const;
     std::pair<int, int> getMixInOut(int cid) const;
     int getMixDuration(int cid) const;
 
-    /** @brief Returns an item position, item can be clip or composition */
+    /** @brief Returns an item position, item can be clip, subtitle or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;
-    /** @brief Returns an item duration, item can be clip or composition */
+    /** @brief Returns an item duration, item can be clip, subtitle or composition */
     int getItemPlaytime(int itemId) const;
+    /** @brief Returns an item's out point on its track, item can be clip, subtitle or composition */
+    int getItemEnd(int itemId) const;
 
     /** @brief Returns the subplaylist index of a clip in a track */
     int getClipSubPlaylistIndex(int cid) const;
@@ -307,6 +310,11 @@ public:
        @param clipId Id of the clip to test
     */
     int getClipPlaytime(int clipId) const;
+
+    /** @brief Returns the out point of a clip in its track
+       @param clipId Id of the clip to test
+    */
+    int getClipEnd(int clipId) const;
 
     /** @brief Returns the size of the clip's frame (widthxheight)
        @param clipId Id of the clip to test

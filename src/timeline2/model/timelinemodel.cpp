@@ -284,6 +284,15 @@ int TimelineModel::getClipPosition(int clipId) const
     return pos;
 }
 
+int TimelineModel::getClipEnd(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(m_allClips.count(clipId) > 0);
+    const auto clip = m_allClips.at(clipId);
+    int pos = clip->getPosition() + clip->getPlaytime();
+    return pos;
+}
+
 double TimelineModel::getClipSpeed(int clipId) const
 {
     READ_LOCK();
@@ -2105,7 +2114,7 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
     Q_UNUSED(listCompositions)
 
     std::unordered_set<int> allClips;
-    if (trackId < 0) {
+    if (isSubtitleTrack(trackId)) {
         // Subtitles
         if (m_subtitleModel) {
             std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(start, end);
@@ -3794,7 +3803,8 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
             }
-            int cid = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position + 1, true, true);
+            std::pair<int, int> spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position + 1, true, true);
+            int cid = spacerOp.first;
             if (cid == -1) {
                 return false;
             }
@@ -4888,6 +4898,13 @@ int TimelineModel::getCompositionPosition(int compoId) const
     return trans->getPosition();
 }
 
+int TimelineModel::getCompositionEnd(int compoId) const
+{
+    Q_ASSERT(m_allCompositions.count(compoId) > 0);
+    const auto trans = m_allCompositions.at(compoId);
+    return trans->getPosition() + trans->getPlaytime();
+}
+
 int TimelineModel::getCompositionPlaytime(int compoId) const
 {
     READ_LOCK();
@@ -4921,6 +4938,20 @@ const QString TimelineModel::getClipName(int cid) const
 {
     Q_ASSERT(isClip(cid));
     return m_allClips.at(cid)->clipName();
+}
+
+int TimelineModel::getItemEnd(int itemId) const
+{
+    if (isClip(itemId)) {
+        return getClipEnd(itemId);
+    }
+    if (isComposition(itemId)) {
+        return getCompositionEnd(itemId);
+    }
+    if (isSubTitle(itemId)) {
+        return m_subtitleModel->getSubtitleEnd(itemId);
+    }
+    return -1;
 }
 
 int TimelineModel::getItemPlaytime(int itemId) const

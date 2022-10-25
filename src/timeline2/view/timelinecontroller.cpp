@@ -1761,7 +1761,8 @@ void TimelineController::cutAllClipsUnderCursor(int position)
 int TimelineController::requestSpacerStartOperation(int trackId, int position)
 {
     QMutexLocker lk(&m_metaMutex);
-    int itemId = TimelineFunctions::requestSpacerStartOperation(m_model, trackId, position);
+    std::pair<int, int> spacerOp = TimelineFunctions::requestSpacerStartOperation(m_model, trackId, position);
+    int itemId = spacerOp.first;
     return itemId;
 }
 

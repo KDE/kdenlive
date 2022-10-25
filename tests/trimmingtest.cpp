@@ -609,7 +609,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         };
         state();
 
-        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5).first;
         REQUIRE(spacerIid > -1);
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
@@ -634,7 +634,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         state1();
 
         int startPos = timeline->getClipPosition(cid3) + l / 2;
-        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos).first;
         REQUIRE(spacerIid > -1);
         undo = []() { return true; };
         redo = []() { return true; };
@@ -700,7 +700,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         };
         state();
 
-        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5).first;
         REQUIRE(spacerIid > -1);
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
@@ -726,7 +726,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         state1();
 
         int startPos = timeline->getClipPosition(cid3) + l / 2;
-        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos).first;
         REQUIRE(spacerIid > -1);
         undo = []() { return true; };
         redo = []() { return true; };
@@ -788,7 +788,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         };
         state();
 
-        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5);
+        int spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, l + 5).first;
         REQUIRE(spacerIid > -1);
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
@@ -814,7 +814,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         state1();
 
         int startPos = timeline->getClipPosition(cid3) + l / 2;
-        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos);
+        spacerIid = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, startPos).first;
         REQUIRE(spacerIid > -1);
         undo = []() { return true; };
         redo = []() { return true; };

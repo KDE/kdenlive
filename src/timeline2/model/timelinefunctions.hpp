@@ -86,7 +86,7 @@ struct TimelineFunctions
     static bool requestDeleteAllClipsFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position);
 
     /** @brief Starts a spacer operation. Should be used together with requestSpacerEndOperation
-        @returns clipId of the position-wise first clip in the temporary group
+        @returns {clipId, max blank duration} of the position-wise first clip in the temporary group
         @param timeline TimelineItemModel where the operation should be performed on
         @param trackId
         @param position
@@ -94,8 +94,8 @@ struct TimelineFunctions
         @param allowGroupBreaking Whether independant move of grouped items is allowed
         @see requestSpacerEndOperation
     */
-    static int requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool ignoreMultiTrackGroups = false,
-                                           bool allowGroupBreaking = false);
+    static std::pair<int, int> requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position,
+                                                           bool ignoreMultiTrackGroups = false, bool allowGroupBreaking = false);
     /**
         @see requestSpacerStartOperation
      */
