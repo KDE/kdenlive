@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Kdenlive
+Upstream-Contact: kdenlive@kde.org
+Source: https://invent.kde.org/multimedia/kdenlive
+
+
+Files: data/effects/*.xml data/transitions/*.xml data/generators/*.xml
+Copyright: none
+License: CC0-1.0

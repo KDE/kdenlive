@@ -37,15 +37,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 
     const QString defaultFormat(YT_FORMAT);
     formatEdit->setText(KdenliveSettings::exportGuidesFormat().isEmpty() ? defaultFormat : KdenliveSettings::exportGuidesFormat());
-
-    static std::array<QColor, 9> markerTypes = model->markerTypes;
-    QPixmap pixmap(32, 32);
-    for (uint i = 1; i <= markerTypes.size(); ++i) {
-        pixmap.fill(markerTypes[size_t(i - 1)]);
-        QIcon colorIcon(pixmap);
-        markerTypeComboBox->addItem(colorIcon, i18n("Category %1", i - 1));
-    }
-    markerTypeComboBox->setCurrentIndex(0);
+    categoryChooser->setMarkerModel(m_markerListModel);
     messageWidget->setText(i18n("If you are using the exported text for YouTube, you might want to check:\n"
                                 "1. The start time of 00:00 must have a chapter.\n"
                                 "2. There must be at least three timestamps in ascending order.\n"
@@ -57,7 +49,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     QPushButton *btn = buttonBox->addButton(i18n("Copy to Clipboard"), QDialogButtonBox::ActionRole);
     btn->setIcon(QIcon::fromTheme("edit-copy"));
 
-    connect(markerTypeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() { updateContentByModel(); });
+    connect(categoryChooser, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() { updateContentByModel(); });
 
     connect(offsetTimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int newIndex) {
         offsetTimeSpinbox->setEnabled(newIndex != 0);
@@ -137,7 +129,7 @@ QString chapterTimeStringFromMs(double timeMs)
 void ExportGuidesDialog::updateContentByModel() const
 {
     const QString format(formatEdit->text());
-    const int markerIndex = markerTypeComboBox->currentIndex() - 1;
+    const int markerIndex = categoryChooser->currentCategory();
     const GenTime offset(offsetTime());
 
     QStringList chapterTexts;

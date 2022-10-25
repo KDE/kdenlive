@@ -29,14 +29,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Q
     setWindowTitle(caption);
 
     // Set  up categories
-    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
-    QPixmap pixmap(32, 32);
-    for (uint i = 0; i < markerTypes.size(); ++i) {
-        pixmap.fill(markerTypes[size_t(i)]);
-        QIcon colorIcon(pixmap);
-        marker_type->addItem(colorIcon, i18n("Category %1", i));
-    }
-    marker_type->setCurrentIndex(t.markerType());
+    marker_category->setCurrentCategory(t.markerType());
 
     m_in->setValue(t.time());
 
@@ -110,6 +103,6 @@ QImage MarkerDialog::markerImage() const
 
 CommentedTime MarkerDialog::newMarker()
 {
-    KdenliveSettings::setDefault_marker_type(marker_type->currentIndex());
-    return CommentedTime(m_in->gentime(), marker_comment->text(), marker_type->currentIndex());
+    KdenliveSettings::setDefault_marker_type(marker_category->currentCategory());
+    return CommentedTime(m_in->gentime(), marker_comment->text(), marker_category->currentCategory());
 }

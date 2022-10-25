@@ -52,13 +52,7 @@ void SceneSplitTask::start(QObject *object, bool force)
     view.add_markers->setChecked(KdenliveSettings::scenesplitmarkers());
     view.cut_scenes->setChecked(KdenliveSettings::scenesplitsubclips());
     // Set  up categories
-    static std::array<QColor, 9> markerTypes = pCore->projectManager()->getGuideModel()->markerTypes;
-    QPixmap pixmap(32, 32);
-    for (uint i = 0; i < markerTypes.size(); ++i) {
-        pixmap.fill(markerTypes[size_t(i)]);
-        QIcon colorIcon(pixmap);
-        view.marker_type->addItem(colorIcon, i18n("Category %1", i));
-    }
+    view.marker_category->setMarkerModel(pCore->projectManager()->getGuideModel().get());
     d->setWindowTitle(i18nc("@title:window", "Scene Detection"));
     if (d->exec() != QDialog::Accepted) {
         return;
@@ -66,7 +60,7 @@ void SceneSplitTask::start(QObject *object, bool force)
     int threshold = view.threshold->value();
     bool addMarkers = view.add_markers->isChecked();
     bool addSubclips = view.cut_scenes->isChecked();
-    int markersCategory = addMarkers ? view.marker_type->currentIndex() : -1;
+    int markersCategory = addMarkers ? view.marker_category->currentCategory() : -1;
     int minDuration = view.minDuration->value();
     KdenliveSettings::setScenesplitthreshold(threshold);
     KdenliveSettings::setScenesplitmarkers(view.add_markers->isChecked());

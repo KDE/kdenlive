@@ -425,12 +425,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="guideCategoryCombo">
+              <widget class="MarkerCategoryChooser" name="guideCategoryChooser">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="onlyUsed">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -1103,6 +1106,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
+   <class>MarkerCategoryChooser</class>
+   <extends>QComboBox</extends>
+   <header>widgets/markercategorychooser.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
@@ -1140,7 +1148,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>render_multi</tabstop>
   <tabstop>guide_start</tabstop>
   <tabstop>guide_end</tabstop>
-  <tabstop>guideCategoryCombo</tabstop>
   <tabstop>options</tabstop>
   <tabstop>buttonRender</tabstop>
   <tabstop>buttonGenerateScript</tabstop>
