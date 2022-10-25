@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-24 00:48+0000\n"
-"PO-Revision-Date: 2022-10-21 23:38+0100\n"
+"PO-Revision-Date: 2022-10-24 11:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -7987,10 +7987,9 @@ msgstr "'Clip' actual"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "'Clip' actual"
+msgstr "Faixa a&ctual"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9389,16 +9388,14 @@ msgid "Remove Space"
 msgstr "Remover o Espaço"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Remover Todas as Imagens-Chave após o Cursor"
+msgstr "Remover Todos os Espaços Após o Cursor"
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Remover Todas as Imagens-Chave após o Cursor"
+msgstr "Remover Todos os 'Clips' Após o Cursor"
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -13498,16 +13495,14 @@ msgid "Paste timeline clips"
 msgstr "Colar os 'clips' da linha temporal"
 
 #: src/timeline2/model/timelinefunctions.cpp:2306
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Remover o Espaço em Todas as Faixas"
+msgstr "Remover o espaço na faixa"
 
 #: src/timeline2/model/timelinefunctions.cpp:2335
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Apagar a Faixa"
+msgstr "Apagar os 'clips' na faixa"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4081
@@ -14252,16 +14247,14 @@ msgid "Cannot remove space at given position"
 msgstr "Não é possível remover o espaço na posição indicada"
 
 #: src/timeline2/view/timelinecontroller.cpp:2658
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Não é possível remover o espaço na posição indicada"
+msgstr "Não é possível remover todos os espaços"
 
 #: src/timeline2/view/timelinecontroller.cpp:2672
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "Não é possível criar o 'clip'"
+msgstr "Não é possível remover todos os 'clips'"
 
 #: src/timeline2/view/timelinecontroller.cpp:2715
 #: src/timeline2/view/timelinecontroller.cpp:2720

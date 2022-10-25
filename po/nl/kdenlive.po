@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-24 00:48+0000\n"
-"PO-Revision-Date: 2022-10-21 13:08+0200\n"
+"PO-Revision-Date: 2022-10-24 10:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7880,10 +7880,9 @@ msgstr "Huidige clip"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Huidige clip"
+msgstr "&Huidige track"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9276,16 +9275,14 @@ msgid "Remove Space"
 msgstr "Ruimte verwijderen"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Alle keyframes na de cursor verwijderen"
+msgstr "Alle spaties na de cursor verwijderen"
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Alle keyframes na de cursor verwijderen"
+msgstr "Alle clips na de cursor verwijderen"
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -13356,16 +13353,14 @@ msgid "Paste timeline clips"
 msgstr "Tijdlijnclips plakken"
 
 #: src/timeline2/model/timelinefunctions.cpp:2306
-#, fuzzy, kde-format
-#| msgid "Remove Space On Active Track"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Ruimte op actieve track verwijderen"
+msgstr "Ruimte op de track verwijderen"
 
 #: src/timeline2/model/timelinefunctions.cpp:2335
-#, fuzzy, kde-format
-#| msgid "Delete track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Track verwijderen"
+msgstr "Clips op de track verwijderen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4081
@@ -14109,16 +14104,14 @@ msgid "Cannot remove space at given position"
 msgstr "Kan ruimte op de gegeven positie niet verwijderen"
 
 #: src/timeline2/view/timelinecontroller.cpp:2658
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Kan ruimte op de gegeven positie niet verwijderen"
+msgstr "Alle ruimtes verwijderen kan niet"
 
 #: src/timeline2/view/timelinecontroller.cpp:2672
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "Kan clip niet aanmaken"
+msgstr "Alle clips verwijderen kan niet"
 
 #: src/timeline2/view/timelinecontroller.cpp:2715
 #: src/timeline2/view/timelinecontroller.cpp:2720

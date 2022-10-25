@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-24 00:48+0000\n"
-"PO-Revision-Date: 2022-10-21 09:47+0300\n"
+"PO-Revision-Date: 2022-10-24 13:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7950,10 +7950,9 @@ msgstr "Поточний кліп"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Поточний кліп"
+msgstr "&Поточна композиція"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9359,16 +9358,14 @@ msgid "Remove Space"
 msgstr "Вилучити пробіл"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Вилучити усі ключові кадри за курсором"
+msgstr "Вилучити усі пробіли після курсора"
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Вилучити усі ключові кадри за курсором"
+msgstr "Вилучити усі кліпи після курсора"
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -13486,16 +13483,14 @@ msgid "Paste timeline clips"
 msgstr "Вставити кліпи монтажного стола"
 
 #: src/timeline2/model/timelinefunctions.cpp:2306
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Вилучити розпірки в усіх доріжках"
+msgstr "Вилучити пробіл на доріжці"
 
 #: src/timeline2/model/timelinefunctions.cpp:2335
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Вилучити доріжку"
+msgstr "Вилучити кліпи на доріжці"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4081
@@ -14244,16 +14239,14 @@ msgid "Cannot remove space at given position"
 msgstr "Не вдалося вилучити розпірку у вказаній позиції"
 
 #: src/timeline2/view/timelinecontroller.cpp:2658
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Не вдалося вилучити розпірку у вказаній позиції"
+msgstr "Не вдалося вилучити усі пробіли"
 
 #: src/timeline2/view/timelinecontroller.cpp:2672
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "Не вдалося створити кліп"
+msgstr "Не вдалося вилучити усі кліпи"
 
 #: src/timeline2/view/timelinecontroller.cpp:2715
 #: src/timeline2/view/timelinecontroller.cpp:2720

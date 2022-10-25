@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-24 00:48+0000\n"
-"PO-Revision-Date: 2022-10-21 10:55+0300\n"
+"PO-Revision-Date: 2022-10-24 16:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1608,12 +1608,13 @@ msgstr "Karıştırın (Mixdown)"
 msgid ""
 "Mix all channels of audio into a mono signal and output it as N channels"
 msgstr ""
-"Tüm ses kanallarını bir mono sinyale karıştırın ve N kanal olarak çıkarın"
+"Tüm ses kanallarını bir tek sinyale olarak karıştırın ve N kanal olarak "
+"çıkarın"
 
 #: data/effects/mono.xml:8
 #, kde-format
 msgid "Mono,Stereo,2.1,4 channels,5.1,7.1"
-msgstr "Tek kanallı,Çift Kanallı,2.1,4 kanallı,5.1,7.1"
+msgstr "Tek kanallı,Çift kanallı,2.1,4 kanallı,5.1,7.1"
 
 #: data/effects/mono.xml:9
 #, kde-format
@@ -5889,7 +5890,7 @@ msgstr "VBR – Değişken Bit Oranı"
 #: src/dialogs/renderpresetdialog.cpp:96
 #, kde-format
 msgid "1 (mono)"
-msgstr "1 (tek kanal)"
+msgstr "1 (tek kanallı)"
 
 #: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format
@@ -7838,10 +7839,9 @@ msgstr "Geçerli Klip"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Geçerli Klip"
+msgstr "&Geçerli iz"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -8057,7 +8057,7 @@ msgstr "Veri analizi yapılıyor"
 #: src/lib/audio/audioStreamInfo.cpp:44
 #, kde-format
 msgid "Mono "
-msgstr "Mono "
+msgstr "Tek kanallı"
 
 #: src/lib/audio/audioStreamInfo.cpp:47
 #, kde-format
@@ -8291,7 +8291,7 @@ msgstr "Jason Wood"
 #: src/main.cpp:245
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
-msgstr "Asıl KDE 3 sürümünün yazarı (artık aktif değil)"
+msgstr "Özgün KDE 3 sürümünün yazarı (artık etkin değil)"
 
 #: src/main.cpp:247
 #, kde-format
@@ -9233,16 +9233,14 @@ msgid "Remove Space"
 msgstr "Boşluğu Kaldır"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "İmleçten Sonraki Tüm Anahtar Kareleri Sil"
+msgstr "İmleçten Sonraki Tüm Boşlukları Sil"
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "İmleçten Sonraki Tüm Anahtar Kareleri Sil"
+msgstr "İmleçten Sonraki Tüm Klipleri Sil"
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -13300,16 +13298,14 @@ msgid "Paste timeline clips"
 msgstr "Zaman akışı kliplerini yapıştır"
 
 #: src/timeline2/model/timelinefunctions.cpp:2306
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Tüm İzlerden Boşlukları Kaldır"
+msgstr "İzdeki boşluğu kaldır"
 
 #: src/timeline2/model/timelinefunctions.cpp:2335
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "İzi Sil"
+msgstr "İzdeki klipleri sil"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4081
@@ -14050,16 +14046,14 @@ msgid "Cannot remove space at given position"
 msgstr "Verilen konumdaki boşluk kaldırılamıyor"
 
 #: src/timeline2/view/timelinecontroller.cpp:2658
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Verilen konumdaki boşluk kaldırılamıyor"
+msgstr "Tüm boşluklar kaldırılamıyor"
 
 #: src/timeline2/view/timelinecontroller.cpp:2672
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "Klip oluşturulamıyor"
+msgstr "Tüm klipler kaldırılamıyor"
 
 #: src/timeline2/view/timelinecontroller.cpp:2715
 #: src/timeline2/view/timelinecontroller.cpp:2720
@@ -15909,7 +15903,7 @@ msgstr "Başlangıçta son projeyi aç"
 #: src/ui/configmisc_ui.ui:35
 #, kde-format
 msgid "Activate crash recovery (auto save)"
-msgstr "Otomatik kurtarmayı aktifleştir (otomatik saklama)"
+msgstr "Otomatik kurtarmayı etkinleştir (otomatik saklama)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:49

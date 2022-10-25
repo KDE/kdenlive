@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-24 00:48+0000\n"
-"PO-Revision-Date: 2022-10-09 11:51+0200\n"
+"PO-Revision-Date: 2022-10-24 10:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -7892,10 +7892,9 @@ msgstr "Clip actual"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Clip actual"
+msgstr "Pista a&ctual"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9291,16 +9290,14 @@ msgid "Remove Space"
 msgstr "Elimina l'espai"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Elimina tots els fotogrames clau després del cursor"
+msgstr "Elimina tots els espais després del cursor"
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Elimina tots els fotogrames clau després del cursor"
+msgstr "Elimina tots els clips després del cursor"
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -12326,10 +12323,9 @@ msgstr "S'ha interromput el canvi del perfil del projecte"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "No s'ha pogut crear el filtre %1"
+msgstr "No s'ha pogut llegir el fitxer %1"
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -13413,16 +13409,14 @@ msgid "Paste timeline clips"
 msgstr "Apega clips en la línia de temps"
 
 #: src/timeline2/model/timelinefunctions.cpp:2306
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Elimina l'espai en totes les pistes"
+msgstr "Elimina l'espai a la pista"
 
 #: src/timeline2/model/timelinefunctions.cpp:2335
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Suprimix la pista"
+msgstr "Suprimix els clips en la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4081
@@ -14168,16 +14162,14 @@ msgid "Cannot remove space at given position"
 msgstr "No es pot suprimir espai en la posició indicada"
 
 #: src/timeline2/view/timelinecontroller.cpp:2658
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "No es pot suprimir espai en la posició indicada"
+msgstr "No s'han pogut suprimir tots els espais"
 
 #: src/timeline2/view/timelinecontroller.cpp:2672
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "No s'ha pogut crear el clip"
+msgstr "No s'han pogut eliminar tots els clips"
 
 #: src/timeline2/view/timelinecontroller.cpp:2715
 #: src/timeline2/view/timelinecontroller.cpp:2720
@@ -17682,7 +17674,7 @@ msgstr "Baixa valors predefinits de renderització nous…"
 #: src/ui/renderwidget_ui.ui:245
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:262
@@ -18805,12 +18797,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "Using:\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> version %1\n"
-#~ "<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
-#~ msgstr ""
-#~ "Utilitza:\n"
-#~ "El <a href=\"https://mltframework.org\">MLT</a> versió %1\n"
-#~ "de les biblioteques <a href=\"https://ffmpeg.org\">FFmpeg</a>"
