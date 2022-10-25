@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
+ * SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+ */
 #ifndef MARKERCATEGORYCHOOSER_H
 #define MARKERCATEGORYCHOOSER_H
 
