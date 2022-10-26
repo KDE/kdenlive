@@ -21,6 +21,7 @@ Item {
     property int itemType: 0
     property point profile: controller.profile
     property double zoom
+    property point center
     property double scalex
     property double scaley
     property bool captureRightClick: false
@@ -32,6 +33,8 @@ Item {
     // The pixel height of zoom bar, used to offset markers info
     property int zoomOffset: 0
     property bool showZoomBar: false
+    property double offsetx : 0
+    property double offsety : 0
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
@@ -179,8 +182,8 @@ Item {
             objectName: "referenceframe"
             width: root.profile.x * root.scalex
             height: root.profile.y * root.scaley
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset : (root.permanentAudiothumb && audioThumb.visible) ? -(audioThumb.height + root.zoomOffset) / 2 : -root.zoomOffset / 2
+            x: root.center.x - width / 2 - root.offsetx;
+            y: root.center.y - height / 2 - root.offsety;
 
             Loader {
                 anchors.fill: parent
