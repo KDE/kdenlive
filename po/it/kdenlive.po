@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
-"PO-Revision-Date: 2022-10-09 15:37+0200\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"PO-Revision-Date: 2022-10-18 17:17+0200\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4085,10 +4085,9 @@ msgstr ""
 "sicurezza, chiamata %1."
 
 #: src/bin/bin.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "Impossibile scrivere sul file %1"
+msgstr "Impossibile analizzare il file %1"
 
 #: src/bin/bin.cpp:1877
 #, kde-format
@@ -10827,7 +10826,7 @@ msgstr "Rimpicciolisci"
 msgid "Move Toolbar"
 msgstr "Sposta barra degli strumenti"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10842,25 +10841,25 @@ msgstr ""
 "<shortcut>frecce</shortcut> per saltare, <shortcut>Ctrl rotellina</shortcut> "
 "per ingrandire"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Inizio selezione"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Fine selezione"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
 "PO-Revision-Date: 2022-10-25 15:52+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -10852,7 +10852,7 @@ msgstr "Zoom arrière"
 msgid "Move Toolbar"
 msgstr "Déplacer la barre d'outils"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10866,25 +10866,25 @@ msgstr ""
 "la barre d'outils, <shortcut>Molette</shortcut> ou <shortcut>flèches</"
 "shortcut> pour rechercher, <shortcut>CTRL + molette</shortcut> pour zoomer."
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1 i/s"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Point d'entrée"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Point de sortie"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "

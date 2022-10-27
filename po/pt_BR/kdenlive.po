@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
 "PO-Revision-Date: 2022-10-19 14:34-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -11043,7 +11043,7 @@ msgstr "Reduzir"
 msgid "Move Toolbar"
 msgstr "Mover barra de ferramentas"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
@@ -11061,25 +11061,25 @@ msgstr ""
 "ou as <b>setas</b> para buscar, <b>use a roda do mouse pressionando ctrl</b> "
 "para ampliar"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Ponto de Entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Ponto de Saída"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "

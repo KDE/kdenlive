@@ -6,16 +6,18 @@
 <book id="kdenlive" lang="&language;">
 <bookinfo>
 <title
->Guida rapida all'uso di Kdenlive</title>
+>Guida rapida all'uso di Kdenlive (deprecata)</title>
 <authorgroup>
 <author>
 <personname
 ><firstname
->Questa documentazione è stata convertita dalla pagina <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
->Kdenlive/Manual/QuickStart</ulink
-> di KDE UserBase.</firstname
+>Questa documentazione è attualmente deprecata, guarda piuttosto il nuovo <ulink url="https://docs.kdenlive.org/"
+>manuale di Kdenlive</ulink
+>.</firstname
 > <surname
-></surname
+>Questa documentazione era stata convertita dalla pagina <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+> di KDE UserBase.</surname
 > </personname>
     </author>
 <othercredit role="translator"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
-"PO-Revision-Date: 2022-10-24 10:46+0200\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"PO-Revision-Date: 2022-10-26 07:15+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -10807,7 +10807,7 @@ msgstr "Allunya"
 msgid "Move Toolbar"
 msgstr "Barra d'eines de moviments"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10822,25 +10822,25 @@ msgstr ""
 "<shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
 "<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Punt d'eixida"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -18766,10 +18766,9 @@ msgid "Category %1"
 msgstr "Categoria %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Color que s'ha de seleccionar"
+msgstr "No hi ha res que es puga seleccionar"
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format
@@ -18793,6 +18792,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Form"
-#~ msgstr "Formulari"

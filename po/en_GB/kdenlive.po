@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
 "PO-Revision-Date: 2022-09-18 12:10+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -10723,7 +10723,7 @@ msgstr "Zoom out"
 msgid "Move Toolbar"
 msgstr "Move Toolbar"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10737,25 +10737,25 @@ msgstr ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "In Point"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Out Point"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
