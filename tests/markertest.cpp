@@ -5,6 +5,7 @@
 */
 #include "test_utils.hpp"
 
+#include "core.h"
 #include "kdenlivesettings.h"
 #define private public
 #define protected public
@@ -36,7 +37,7 @@ void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::v
         REQUIRE(qAbs(std::get<0>(m).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps);
         REQUIRE(std::get<1>(m) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
         REQUIRE(std::get<2>(m) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
-        REQUIRE(MarkerListModel::markerTypes[std::get<2>(m)] == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
+        REQUIRE(pCore->markerTypes.value(std::get<2>(m)).first == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
 
         // check for marker existence
         int frame = std::get<0>(m).frames(fps);

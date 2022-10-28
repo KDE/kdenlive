@@ -10,6 +10,7 @@
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
@@ -31,6 +32,7 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
+#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
@@ -72,6 +74,7 @@ TimelineController::TimelineController(QObject *parent)
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
     connect(pCore.get(), &Core::recordAudio, this, &TimelineController::switchRecording);
+    connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
 }
 
 TimelineController::~TimelineController() {}
@@ -848,7 +851,8 @@ void TimelineController::gotoNextSnap()
         m_activeSnaps.push_back(m_zone.x());
         m_activeSnaps.push_back(m_zone.y() - 1);
     }
-    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), m_activeSnaps);
+    std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
+    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), m_activeSnaps, canceled);
     if (nextSnap > pCore->getTimelinePosition()) {
         setPosition(nextSnap);
     }
@@ -864,7 +868,8 @@ void TimelineController::gotoPreviousSnap()
             m_activeSnaps.push_back(m_zone.x());
             m_activeSnaps.push_back(m_zone.y() - 1);
         }
-        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), m_activeSnaps));
+        std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
+        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), m_activeSnaps, canceled));
     }
 }
 

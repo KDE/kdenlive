@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/binplaylist.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
@@ -78,6 +79,11 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
+    m_guidesFilterModel.reset(new MarkerSortModel(this));
+    m_guidesFilterModel->setSourceModel(m_guideModel.get());
+    m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
+    m_guidesFilterModel->sort(0, Qt::AscendingOrder);
+
     initializeProperties();
     // video tracks are after audio tracks, and the UI shows them from highest position to lowest position
     m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
@@ -103,7 +109,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
         j.next();
         m_documentMetadata[j.key()] = j.value();
     }
-
+    m_guideModel->loadCategories(KdenliveSettings::guidesCategories());
     pCore->setCurrentProfile(profileName);
     m_document = createEmptyDocument(tracks.first, tracks.second);
     updateProjectProfile(false);
@@ -132,6 +138,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
 
     initializeProperties();
+    m_guidesFilterModel.reset(new MarkerSortModel(this));
+    m_guidesFilterModel->setSourceModel(m_guideModel.get());
+    m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
+    m_guidesFilterModel->sort(0, Qt::AscendingOrder);
 
     updateClipsCount();
 }
@@ -350,6 +360,21 @@ void KdenliveDoc::initializeProperties() {
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
+    m_documentProperties[QStringLiteral("guidesCategories")] = KdenliveSettings::guidesCategories().join(QLatin1Char('\n'));
+}
+
+const QStringList KdenliveDoc::guidesCategories() const
+{
+    if (!m_documentProperties.contains(QStringLiteral("guidesCategories"))) {
+        return KdenliveSettings::guidesCategories();
+    }
+    return m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
+}
+
+void KdenliveDoc::updateGuideCategories(const QStringList &categories)
+{
+    m_guideModel->loadCategories(categories);
+    m_documentProperties[QStringLiteral("guidesCategories")] = categories.join(QLatin1Char('\n'));
 }
 
 int KdenliveDoc::updateClipsCount()
@@ -1414,6 +1439,7 @@ void KdenliveDoc::loadDocumentGuides()
     if (!guides.isEmpty()) {
         m_guideModel->importFromJson(guides, true, false);
     }
+    m_guideModel->loadCategories(m_documentProperties.value(QStringLiteral("guides")).split(QLatin1Char('\n')));
 }
 
 void KdenliveDoc::loadDocumentProperties()
@@ -1836,6 +1862,11 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
+MarkerSortModel *KdenliveDoc::getFilteredGuideModel() const
+{
+    return m_guidesFilterModel.get();
+}
+
 std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
 {
     return m_guideModel;
@@ -2027,4 +2058,9 @@ void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
             }
         }
     }
+}
+
+void KdenliveDoc::setGuidesFilter(const QList<int> filter)
+{
+    m_guidesFilterModel->slotSetFilters(filter);
 }

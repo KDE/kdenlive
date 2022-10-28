@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
+#include "project/dialogs/guidecategories.h"
 #include "project/dialogs/profilewidget.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
@@ -116,7 +117,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     QWidget *p10 = new QWidget;
     m_configColors.setupUi(p10);
-    m_page10 = addPage(p10, i18n("Colors"), QStringLiteral("color-management"));
+    m_page10 = addPage(p10, i18n("Colors and Guides"), QStringLiteral("color-management"));
+    m_guidesCategories = new GuideCategories(nullptr, this);
+    QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
+    guidesLayout->addWidget(m_guidesCategories);
 
     QWidget *p11 = new QWidget;
     m_configSpeech.setupUi(p11);
@@ -1003,6 +1007,12 @@ void KdenliveSettingsDialog::updateSettings()
     bool resetConsumer = false;
     bool fullReset = false;
     bool updateLibrary = false;
+
+    // Guide categories
+    const QStringList updatedGuides = m_guidesCategories->updatedGuides();
+    if (KdenliveSettings::guidesCategories() != updatedGuides) {
+        KdenliveSettings::setGuidesCategories(updatedGuides);
+    }
 
     /*if (m_configShuttle.shuttledevicelist->count() > 0) {
     QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();

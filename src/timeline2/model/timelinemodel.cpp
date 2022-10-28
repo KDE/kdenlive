@@ -4714,7 +4714,7 @@ int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> p
     return closest;
 }
 
-int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
+int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps, std::vector<int> &ignored)
 {
     QVector<int> tracks;
     // Get active tracks
@@ -4735,7 +4735,13 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
     }
     if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getNextPoint(pos);
+        m_snaps->ignore(ignored);
+        int next = m_snaps->getNextPoint(pos);
+        m_snaps->unIgnore();
+        return next;
+    }
+    for (auto num : ignored) {
+        snaps.erase(std::remove(snaps.begin(), snaps.end(), num), snaps.end());
     }
     // Build snap points for selected tracks
     for (const auto &cp : m_allClips) {
@@ -4760,7 +4766,7 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
     return pos;
 }
 
-int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
+int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps, std::vector<int> &ignored)
 {
     QVector<int> tracks;
     // Get active tracks
@@ -4781,9 +4787,15 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
     }
     if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getPreviousPoint(int(pos));
+        m_snaps->ignore(ignored);
+        int previous = m_snaps->getPreviousPoint(pos);
+        m_snaps->unIgnore();
+        return previous;
     }
     // Build snap points for selected tracks
+    for (auto num : ignored) {
+        snaps.erase(std::remove(snaps.begin(), snaps.end(), num), snaps.end());
+    }
     for (const auto &cp : m_allClips) {
         // Check if clip is on a target track
         if (tracks.contains(cp.second->getCurrentTrackId())) {
