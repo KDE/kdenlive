@@ -50,6 +50,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "project/cliptranscode.h"
 #include "project/dialogs/archivewidget.h"
+#include "project/dialogs/guideslist.h"
 #include "project/dialogs/projectsettings.h"
 #include "project/dialogs/temporarydata.h"
 #include "project/projectmanager.h"
@@ -272,6 +273,7 @@ void MainWindow::init(const QString &mltPath)
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
     QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
+    QDockWidget *guidesDock = addDock(i18n("Guides"), QStringLiteral("guides"), pCore->guidesList());
     connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock](int id) {
         if (id > -1) {
             timeRemapDock->show();
@@ -371,6 +373,7 @@ void MainWindow::init(const QString &mltPath)
     timeRemapDock->close();
     spectrumDock->close();
     clipDockWidget->close();
+    guidesDock->close();
     m_onlineResourcesDock->close();
 
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
@@ -1962,6 +1965,16 @@ bool MainWindow::readOptions()
         }
     }
     initialGroup.writeEntry("version", version);
+    if (KdenliveSettings::guidesCategories().isEmpty()) {
+        QStringList colors = {QLatin1String("#9b59b6"), QLatin1String("#3daee9"), QLatin1String("#1abc9c"), QLatin1String("#1cdc9a"), QLatin1String("#c9ce3b"),
+                              QLatin1String("#fdbc4b"), QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
+        QStringList guidesCategories;
+        for (int i = 0; i < 9; i++) {
+            guidesCategories << i18n("Category %1:%2:%3", QString::number(i + 1), QString::number(i), colors.at(i));
+        }
+        qDebug() << "::: GOT GUIDES CAT:\n" << guidesCategories;
+        KdenliveSettings::setGuidesCategories(guidesCategories);
+    }
     return firstRun;
 }
 
@@ -2001,6 +2014,10 @@ void MainWindow::slotEditProjectSettings(int ix)
         bool modified = false;
         if (m_renderWidget) {
             m_renderWidget->updateDocumentPath();
+        }
+        const QStringList guidesCat = w->guidesCategories();
+        if (guidesCat != project->guidesCategories()) {
+            project->updateGuideCategories(guidesCat);
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();
@@ -2369,6 +2386,7 @@ void MainWindow::connectDocument()
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
+    pCore->guidesList()->setModel(project->getGuideModel(), project->getFilteredGuideModel());
     getCurrentTimeline()->focusTimeline();
 }
 

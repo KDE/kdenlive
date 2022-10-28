@@ -635,6 +635,11 @@
       <default></default>
     </entry>
 
+    <entry name="multipleguidesinterval" type="Double">
+      <label>Default interval to insert multiple guides</label>
+      <default>30</default>
+    </entry>
+
   </group>
 
 
@@ -913,6 +918,11 @@
     <entry name="lockedGuides" type="Bool">
       <label>Lock guides on spacer movements (insert/remove space).</label>
       <default>true</default>
+    </entry>
+
+    <entry name="guidesCategories" type="StringList">
+      <label>The default guide categories.</label>
+      <default></default>
     </entry>
 
     <entry name="tagsintimeline" type="Bool">

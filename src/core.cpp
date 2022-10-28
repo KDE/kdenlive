@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
+#include "project/dialogs/guideslist.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
@@ -152,6 +153,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_textEditWidget = new TextBasedEdit(m_mainWindow);
     m_timeRemapWidget = new TimeRemap(m_mainWindow);
+    m_guidesList = new GuidesList(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin(), SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     m_monitorManager = new MonitorManager(this);
@@ -386,6 +388,11 @@ std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 LibraryWidget *Core::library()
 {
     return m_library;
+}
+
+GuidesList *Core::guidesList()
+{
+    return m_guidesList;
 }
 
 TextBasedEdit *Core::textEditWidget()

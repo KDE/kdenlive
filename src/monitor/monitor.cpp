@@ -1337,7 +1337,7 @@ void Monitor::checkOverlay(int pos)
         if (mid > -1) {
             CommentedTime marker = model->markerById(mid);
             overlayText = marker.comment();
-            color = model->markerTypes.at(marker.markerType());
+            color = pCore->markerTypes.value(marker.markerType()).first;
         }
     }
     m_glMonitor->getControllerProxy()->setMarker(overlayText, color);

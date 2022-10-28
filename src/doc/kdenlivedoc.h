@@ -35,6 +35,7 @@ class MarkerListModel;
 class Render;
 class ProfileParam;
 class SubtitleModel;
+class MarkerSortModel;
 
 class QUndoGroup;
 class QUndoCommand;
@@ -195,6 +196,7 @@ public:
 
     /** @brief Returns a pointer to the guide model */
     std::shared_ptr<MarkerListModel> getGuideModel() const;
+    MarkerSortModel *getFilteredGuideModel() const;
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -213,7 +215,12 @@ public:
     int audioChannels() const;
     /** @brief Ensure we don't have leftover preview chunks (created after last save */
     void cleanupTimelinePreview(const QDateTime &documentDate);
-
+    /** @brief Returns the guides categories for the project in format {name:index:#color} */
+    const QStringList guidesCategories() const;
+    /** @brief Set the guides categories for the project in format {name:index:#color} */
+    void updateGuideCategories(const QStringList &categories);
+    /** @brief Setup a filter to visible guides */
+    void setGuidesFilter(const QList<int> filter);
 
     /**
      * If the document used a decimal point different than “.”, it is stored in this property.
@@ -272,6 +279,7 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
     std::shared_ptr<MarkerListModel> m_guideModel;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
 

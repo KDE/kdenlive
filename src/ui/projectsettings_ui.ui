@@ -6,6 +6,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </author>
  <class>ProjectSettings_UI</class>
  <widget class="QDialog" name="ProjectSettings_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>510</width>
+    <height>687</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Project Settings</string>
   </property>
@@ -515,6 +523,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>Guides</string>
+      </attribute>
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">

@@ -41,6 +41,7 @@ class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
+class GuidesList;
 class TimeRemap;
 
 namespace Mlt {
@@ -124,6 +125,8 @@ public:
     SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the text based editing widget. */
     TextBasedEdit *textEditWidget();
+    /** @brief Returns a pointer to the guides list widget. */
+    GuidesList *guidesList();
     /** @brief Returns a pointer to the time remapping widget. */
     TimeRemap *timeRemapWidget();
     /** @brief Returns true if clip displayed in remap widget is the bin clip with id clipId. */
@@ -288,6 +291,8 @@ public:
     QString packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
+    /** @brief A list of markers type categories {marker type, {color, category name}} */
+    QMap<int, std::pair<QColor, QString>> markerTypes;
 
 private:
     explicit Core(const QString &packageType);
@@ -303,6 +308,7 @@ private:
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
+    GuidesList *m_guidesList{nullptr};
     TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
 
@@ -396,4 +402,6 @@ signals:
     void recordAudio(int tid, bool record);
     /** @brief Inform widgets that the project profile (and possibly fps) changed */
     void updateProjectTimecode();
+    /** @brief Visible guide categories changed, reload snaps in timeline */
+    void refreshActiveGuides();
 };
