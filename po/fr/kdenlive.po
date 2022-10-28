@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-27 00:45+0000\n"
-"PO-Revision-Date: 2022-10-25 15:52+0200\n"
+"PO-Revision-Date: 2022-10-26 20:49+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -18844,10 +18844,9 @@ msgid "Category %1"
 msgstr "Catégorie %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Couleur à supprimer"
+msgstr "Rien à sélectionner"
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format
