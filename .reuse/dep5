@@ -7,3 +7,8 @@ Source: https://invent.kde.org/multimedia/kdenlive
 Files: data/effects/*.xml data/transitions/*.xml data/generators/*.xml
 Copyright: none
 License: CC0-1.0
+
+Files: dev-docs/*.md
+Copyright: 2020 Kdenlive contributors
+License: CC-BY-SA-4.0
+
