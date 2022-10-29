@@ -8,6 +8,13 @@
  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
+/*
+    SPDX-FileCopyrightText: 2021 Two Blue Cubes Ltd. All rights reserved.
+    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
+    SPDX-FileCopyrightText: 2018 Nicolas Carion
+    SPDX-License-Identifier: BSL-1.0
+*/
+
 #ifndef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 #define TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 // start catch.hpp
