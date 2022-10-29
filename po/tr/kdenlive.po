@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-27 00:45+0000\n"
-"PO-Revision-Date: 2022-10-26 10:07+0300\n"
+"PO-Revision-Date: 2022-10-28 13:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5449,7 +5449,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:33
 #, kde-format
 msgid "Export guides as chapters description"
-msgstr "Kılavuzları, bölüm açıklaması olarak dışa aktar"
+msgstr "Kılavuzları, fasıl açıklaması olarak dışa aktar"
 
 #: src/dialogs/exportguidesdialog.cpp:41
 #, kde-format
@@ -5461,9 +5461,9 @@ msgid ""
 msgstr ""
 "YouTube için dışa aktarılmış metni kullanıyorsanız şunları denetlemek "
 "isteyebilirsiniz:\n"
-"1. 00:00 başlangıç zamanının bir bölümü olmalıdır.\n"
+"1. 00:00 başlangıç zamanının bir faslı olmalıdır.\n"
 "2. Artan sırada en az üç zaman damgası olmalıdır.\n"
-"3. Video bölümleri en kısa uzunluğu on saniyedir."
+"3. Video faslı en kısa uzunluğu on saniyedir."
 
 #: src/dialogs/exportguidesdialog.cpp:49
 #, kde-format
@@ -16789,7 +16789,7 @@ msgstr "Dışa Aktarıldı:"
 #: src/ui/exportguidesdialog_ui.ui:137
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Biçimlendirilmiş bölüm imleyicisi metin burada oluşturulacak."
+msgstr "Biçimlendirilmiş fasıl imleyicisi metin burada oluşturulacak."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
