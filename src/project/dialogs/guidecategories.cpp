@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "guidecategories.h"
 #include "bin/bin.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "core.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
@@ -14,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconEffect>
 #include <KLineEdit>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KStandardAction>
 
 #include <QDialog>
@@ -92,6 +94,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         return true;
     };
     QStringList guidesCategories = doc ? doc->guidesCategories() : KdenliveSettings::guidesCategories();
+    QList<int> existingCategories;
     for (auto &g : guidesCategories) {
         if (g.count(QLatin1Char(':')) < 2) {
             // Invalid guide data found
@@ -101,12 +104,20 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         const QColor color(g.section(QLatin1Char(':'), -1));
         const QString name = g.section(QLatin1Char(':'), 0, -3);
         int ix = g.section(QLatin1Char(':'), -2, -2).toInt();
+        existingCategories << ix;
         QIcon ic = buildIcon(color);
         auto *item = new QListWidgetItem(ic, name);
         item->setData(Qt::UserRole, color);
         item->setData(Qt::UserRole + 1, ix);
+        // Check usage
+        if (doc) {
+            int count = doc->getGuideModel()->getAllMarkers(ix).count();
+            item->setData(Qt::UserRole + 2, count);
+        }
         guides_list->addItem(item);
     }
+    std::sort(existingCategories.begin(), existingCategories.end());
+    m_categoryIndex = existingCategories.last() + 1;
     QAction *a = KStandardAction::renameFile(this, editItem, this);
     guides_list->addAction(a);
     connect(guides_list, &QListWidget::itemDoubleClicked, this, [=]() { editItem(); });
@@ -114,15 +125,24 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     connect(guide_add, &QPushButton::clicked, this, [=]() {
         QIcon ic = buildIcon(Qt::white);
         auto *item = new QListWidgetItem(ic, i18n("Category %1", guides_list->count() + 1));
+        item->setData(Qt::UserRole + 1, m_categoryIndex++);
         guides_list->addItem(item);
         guides_list->setCurrentItem(item);
         editItem();
     });
     connect(guide_delete, &QPushButton::clicked, this, [=]() {
         auto *item = guides_list->currentItem();
-        if (item) {
-            delete item;
+        if (!item) {
+            return;
         }
+        int count = item->data(Qt::UserRole + 2).toInt();
+        if (count > 0) {
+            // There are existing guides in this category, warn
+            if (KMessageBox::warningContinueCancel(this, i18n("This will delete the %1 guides using this category", count)) != KMessageBox::Continue) {
+                return;
+            }
+        }
+        delete item;
     });
 }
 
@@ -148,7 +168,8 @@ const QStringList GuideCategories::updatedGuides() const
         auto item = guides_list->item(i);
         QString color = item->data(Qt::UserRole).toString();
         QString name = item->text();
-        categories << QString("%1:%2:%3").arg(name, QString::number(i + 1), color);
+        int ix = item->data(Qt::UserRole + 1).toInt();
+        categories << QString("%1:%2:%3").arg(name, QString::number(ix), color);
     }
     return categories;
 }

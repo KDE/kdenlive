@@ -27,6 +27,8 @@ public slots:
 private:
     /** @brief Create a colored guide icon. */
     QIcon buildIcon(const QColor &col);
+    /** @brief The incremental index for newly created categories. */
+    int m_categoryIndex;
 
 signals:
 };

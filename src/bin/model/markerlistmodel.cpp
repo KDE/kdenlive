@@ -54,8 +54,9 @@ void MarkerListModel::setup()
     connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
 }
 
-void MarkerListModel::loadCategories(const QStringList &categories)
+QList<int> MarkerListModel::loadCategories(const QStringList &categories)
 {
+    QList<int> previousCategories = pCore->markerTypes.keys();
     pCore->markerTypes.clear();
     for (const QString &cat : categories) {
         if (cat.count(QLatin1Char(':')) < 2) {
@@ -66,10 +67,11 @@ void MarkerListModel::loadCategories(const QStringList &categories)
         const QColor color(cat.section(QLatin1Char(':'), -1));
         const QString name = cat.section(QLatin1Char(':'), 0, -3);
         int ix = cat.section(QLatin1Char(':'), -2, -2).toInt();
+        previousCategories.removeAll(ix);
         pCore->markerTypes.insert(ix, {color, name});
     }
     emit categoriesChanged();
-    // TODO: delete markers if their category was deleted
+    return previousCategories;
 }
 
 int MarkerListModel::markerIdAtFrame(int pos) const
