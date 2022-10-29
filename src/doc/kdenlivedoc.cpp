@@ -373,8 +373,31 @@ const QStringList KdenliveDoc::guidesCategories() const
 
 void KdenliveDoc::updateGuideCategories(const QStringList &categories)
 {
-    m_guideModel->loadCategories(categories);
-    m_documentProperties[QStringLiteral("guidesCategories")] = categories.join(QLatin1Char('\n'));
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    const QStringList currentCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
+    QList<int> deletedCategories = m_guideModel->loadCategories(categories);
+    // Remove all markers of deleted category
+    while (!deletedCategories.isEmpty()) {
+        int ix = deletedCategories.takeFirst();
+        QList<CommentedTime> toDelete = m_guideModel->getAllMarkers(ix);
+        for (CommentedTime c : toDelete) {
+            m_guideModel->removeMarker(c.time(), local_undo, local_redo);
+        }
+    }
+    Fun undo = [this, currentCategories]() {
+        m_guideModel->loadCategories(currentCategories);
+        m_documentProperties[QStringLiteral("guidesCategories")] = currentCategories.join(QLatin1Char('\n'));
+        return true;
+    };
+    Fun redo = [this, categories]() {
+        m_guideModel->loadCategories(categories);
+        m_documentProperties[QStringLiteral("guidesCategories")] = categories.join(QLatin1Char('\n'));
+        return true;
+    };
+    PUSH_FRONT_LAMBDA(local_redo, redo);
+    PUSH_LAMBDA(local_undo, undo);
+    pCore->pushUndo(undo, redo, i18n("Update guides categories"));
 }
 
 int KdenliveDoc::updateClipsCount()
@@ -1439,7 +1462,6 @@ void KdenliveDoc::loadDocumentGuides()
     if (!guides.isEmpty()) {
         m_guideModel->importFromJson(guides, true, false);
     }
-    m_guideModel->loadCategories(m_documentProperties.value(QStringLiteral("guides")).split(QLatin1Char('\n')));
 }
 
 void KdenliveDoc::loadDocumentProperties()
@@ -1520,6 +1542,8 @@ void KdenliveDoc::loadDocumentProperties()
     if (!profileFound) {
         qDebug() << "ERROR, no matching profile found";
     }
+    const QStringList guideCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
+    m_guideModel->loadCategories(guideCategories);
     updateProjectProfile(false);
 }
 

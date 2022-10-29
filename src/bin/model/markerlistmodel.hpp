@@ -144,8 +144,10 @@ public:
      */
     bool addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr);
     void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
-    /** @brief Load the marker categories from a stringList */
-    void loadCategories(const QStringList &categories);
+    /** @brief Load the marker categories from a stringList
+     *  @return the list of deleted categories ids (if any)
+     */
+    QList<int> loadCategories(const QStringList &categories);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
