@@ -2989,7 +2989,7 @@ msgstr "Lliscament"
 #: data/transitions/slide.xml:5
 #, kde-format
 msgid "Slide image from one side to another."
-msgstr "Llisca la imatge d'una banda a l'altra."
+msgstr "Llisca la imatge d'una banda fins a l'altra."
 
 #: data/transitions/slide.xml:8
 #, kde-format
@@ -12550,7 +12550,7 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:20
 #, kde-format
 msgid "speech features"
-msgstr "funcions de veu"
+msgstr "característiques de veu"
 
 #: src/pythoninterfaces/speechtotext.cpp:21
 #, kde-format
