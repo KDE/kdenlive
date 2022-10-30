@@ -54,6 +54,32 @@ void MarkerListModel::setup()
     connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
 }
 
+void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories)
+{
+    // Remove all markers of deleted category
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    QList<int> deletedCategories = loadCategories(categories);
+    while (!deletedCategories.isEmpty()) {
+        int ix = deletedCategories.takeFirst();
+        QList<CommentedTime> toDelete = getAllMarkers(ix);
+        for (CommentedTime c : toDelete) {
+            removeMarker(c.time(), local_undo, local_redo);
+        }
+    }
+    Fun undo = [this, currentCategories]() {
+        loadCategories(currentCategories);
+        return true;
+    };
+    Fun redo = [this, categories]() {
+        loadCategories(categories);
+        return true;
+    };
+    PUSH_FRONT_LAMBDA(local_redo, redo);
+    PUSH_LAMBDA(local_undo, undo);
+    pCore->pushUndo(undo, redo, i18n("Update guides categories"));
+}
+
 QList<int> MarkerListModel::loadCategories(const QStringList &categories)
 {
     QList<int> previousCategories = pCore->markerTypes.keys();
@@ -72,6 +98,17 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories)
     }
     emit categoriesChanged();
     return previousCategories;
+}
+
+const QStringList MarkerListModel::categoriesToStringList() const
+{
+    QStringList categories;
+    QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
+    while (i.hasNext()) {
+        i.next();
+        categories << QString("%1:%2:%3").arg(i.value().displayName, QString::number(i.key()), i.value().color.name());
+    }
+    return categories;
 }
 
 int MarkerListModel::markerIdAtFrame(int pos) const
@@ -463,7 +500,7 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->second.time().frames(pCore->getCurrentFps());
     case ColorRole:
     case Qt::DecorationRole:
-        return pCore->markerTypes.value(it->second.markerType()).first;
+        return pCore->markerTypes.value(it->second.markerType()).color;
     case TypeRole:
         return it->second.markerType();
     case IdRole:
@@ -583,31 +620,6 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
         while (i != m_markerPositions.constEnd()) {
             ptr->addPoint(i.key());
             ++i;
-        }
-    } else {
-        qDebug() << "Error: added snapmodel is null";
-        Q_ASSERT(false);
-    }
-}
-
-void MarkerListModel::unregisterSnapModel(const std::weak_ptr<SnapInterface> &snapModel)
-{
-    READ_LOCK();
-    // make sure ptr is valid
-    if (auto ptr = snapModel.lock()) {
-
-        // we now remove the already existing markers to the snap
-        QMap<int, int>::const_iterator i = m_markerPositions.constBegin();
-        while (i != m_markerPositions.constEnd()) {
-            ptr->removePoint(i.key());
-            ++i;
-        }
-        auto copySnaps = m_registeredSnaps;
-        m_registeredSnaps.clear();
-        for (auto &c : copySnaps) {
-            if (c.lock() != ptr) {
-                m_registeredSnaps.push_back(c);
-            }
         }
     } else {
         qDebug() << "Error: added snapmodel is null";

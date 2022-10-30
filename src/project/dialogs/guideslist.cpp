@@ -158,12 +158,12 @@ void GuidesList::rebuildCategories()
     catGroup = new QButtonGroup(this);
     catGroup->setExclusive(false);
     QPixmap pixmap(32, 32);
-    QMapIterator<int, std::pair<QColor, QString>> i(pCore->markerTypes);
+    QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
     while (i.hasNext()) {
         i.next();
-        pixmap.fill(i.value().first);
+        pixmap.fill(i.value().color);
         QIcon colorIcon(pixmap);
-        QCheckBox *cb = new QCheckBox(i.value().second, this);
+        QCheckBox *cb = new QCheckBox(i.value().displayName, this);
         cb->setProperty("index", i.key());
         cb->setIcon(colorIcon);
         catGroup->addButton(cb);

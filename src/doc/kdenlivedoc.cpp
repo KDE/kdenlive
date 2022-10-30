@@ -72,6 +72,8 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+    connect(m_guideModel.get(), &MarkerListModel::categoriesChanged, this, &KdenliveDoc::saveGuideCategories);
+
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -131,6 +133,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+    connect(m_guideModel.get(), &MarkerListModel::categoriesChanged, this, &KdenliveDoc::saveGuideCategories);
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -373,31 +376,14 @@ const QStringList KdenliveDoc::guidesCategories() const
 
 void KdenliveDoc::updateGuideCategories(const QStringList &categories)
 {
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
     const QStringList currentCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
-    QList<int> deletedCategories = m_guideModel->loadCategories(categories);
-    // Remove all markers of deleted category
-    while (!deletedCategories.isEmpty()) {
-        int ix = deletedCategories.takeFirst();
-        QList<CommentedTime> toDelete = m_guideModel->getAllMarkers(ix);
-        for (CommentedTime c : toDelete) {
-            m_guideModel->removeMarker(c.time(), local_undo, local_redo);
-        }
-    }
-    Fun undo = [this, currentCategories]() {
-        m_guideModel->loadCategories(currentCategories);
-        m_documentProperties[QStringLiteral("guidesCategories")] = currentCategories.join(QLatin1Char('\n'));
-        return true;
-    };
-    Fun redo = [this, categories]() {
-        m_guideModel->loadCategories(categories);
-        m_documentProperties[QStringLiteral("guidesCategories")] = categories.join(QLatin1Char('\n'));
-        return true;
-    };
-    PUSH_FRONT_LAMBDA(local_redo, redo);
-    PUSH_LAMBDA(local_undo, undo);
-    pCore->pushUndo(undo, redo, i18n("Update guides categories"));
+    m_guideModel->loadCategoriesWithUndo(categories, currentCategories);
+}
+
+void KdenliveDoc::saveGuideCategories()
+{
+    const QStringList categories = m_guideModel->categoriesToStringList();
+    m_documentProperties[QStringLiteral("guidesCategories")] = categories.join(QLatin1Char('\n'));
 }
 
 int KdenliveDoc::updateClipsCount()

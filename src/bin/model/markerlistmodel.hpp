@@ -122,7 +122,6 @@ public:
        Note that no deregistration is necessary, the weak_ptr will be discarded as soon as it becomes invalid.
     */
     void registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel);
-    void unregisterSnapModel(const std::weak_ptr<SnapInterface> &snapModel);
 
     /** @brief Exports the model to json using format above */
     QString toJson() const;
@@ -147,7 +146,10 @@ public:
     /** @brief Load the marker categories from a stringList
      *  @return the list of deleted categories ids (if any)
      */
+    void loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories);
     QList<int> loadCategories(const QStringList &categories);
+    /** @brief Returns the marker categories in the form of a stringList for saving */
+    const QStringList categoriesToStringList() const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

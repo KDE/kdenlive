@@ -90,8 +90,9 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
             item->setIcon(icon);
             item->setText(le.text());
             item->setData(Qt::UserRole, cb.color());
+            return true;
         }
-        return true;
+        return false;
     };
     QStringList guidesCategories = doc ? doc->guidesCategories() : KdenliveSettings::guidesCategories();
     QList<int> existingCategories;
@@ -128,7 +129,9 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         item->setData(Qt::UserRole + 1, m_categoryIndex++);
         guides_list->addItem(item);
         guides_list->setCurrentItem(item);
-        editItem();
+        if (!editItem()) {
+            delete item;
+        }
     });
     connect(guide_delete, &QPushButton::clicked, this, [=]() {
         auto *item = guides_list->currentItem();
