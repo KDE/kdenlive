@@ -331,6 +331,8 @@ private slots:
     void guidesChanged();
     /** @brief Display error message on failed move. */
     void slotMoveFinished(KJob *job);
+    /** @brief Save the project guide categories in the document properties. */
+    void saveGuideCategories();
 
 signals:
     void resetProjectList();

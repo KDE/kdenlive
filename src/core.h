@@ -292,7 +292,12 @@ public:
     /** @brief Start / stop audio capture */
     void switchCapture();
     /** @brief A list of markers type categories {marker type, {color, category name}} */
-    QMap<int, std::pair<QColor, QString>> markerTypes;
+    struct MarkerCategory
+    {
+        QColor color;
+        QString displayName;
+    };
+    QMap<int, MarkerCategory> markerTypes;
 
 private:
     explicit Core(const QString &packageType);

@@ -23,15 +23,15 @@ void MarkerCategoryChooser::refresh()
     clear();
     // Set up guide categories
     QPixmap pixmap(32, 32);
-    QMapIterator<int, std::pair<QColor, QString>> i(pCore->markerTypes);
+    QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
     while (i.hasNext()) {
         i.next();
         if (m_onlyUsed && m_markerListModel && m_markerListModel->getAllMarkers(i.key()).isEmpty()) {
             continue;
         }
-        pixmap.fill(i.value().first);
+        pixmap.fill(i.value().color);
         QIcon colorIcon(pixmap);
-        addItem(colorIcon, i.value().second, i.key());
+        addItem(colorIcon, i.value().displayName, i.key());
     }
     if (count() == 0) {
         setEnabled(false);
