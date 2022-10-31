@@ -34,7 +34,7 @@ public:
             return QString("%1 %2").arg(QIdentityProxyModel::data(index, MarkerListModel::TCRole).toString(),
                                         QIdentityProxyModel::data(index, role).toString());
         }
-        return sourceModel()->data(index, role);
+        return sourceModel()->data(mapToSource(index), role);
     }
 };
 
@@ -74,7 +74,7 @@ void GuidesList::saveGuides()
 void GuidesList::editGuide(const QModelIndex &ix)
 {
     if (!ix.isValid()) return;
-    int frame = m_sortModel->data(ix, MarkerListModel::FrameRole).toInt();
+    int frame = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
     GenTime pos(frame, pCore->getCurrentFps());
     if (auto markerModel = m_model.lock()) {
         markerModel->editMarkerGui(pos, qApp->activeWindow(), false);
@@ -88,7 +88,7 @@ void GuidesList::removeGuide()
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         for (auto &ix : selection) {
-            int frame = m_sortModel->data(ix, MarkerListModel::FrameRole).toInt();
+            int frame = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
             GenTime pos(frame, pCore->getCurrentFps());
             markerModel->removeMarker(pos, undo, redo);
         }
@@ -126,8 +126,10 @@ void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSel
         return;
     }
     const QModelIndex ix = selected.indexes().first();
-    if (!ix.isValid()) return;
-    int pos = m_sortModel->data(ix, MarkerListModel::FrameRole).toInt();
+    if (!ix.isValid()) {
+        return;
+    }
+    int pos = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
     pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
 }
 
@@ -137,8 +139,8 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, MarkerSortModel 
 {
     m_model = std::move(model);
     if (auto markerModel = m_model.lock()) {
-        m_sortModel = viewModel;
-        guides_list->setModel(viewModel);
+        m_proxy->setSourceModel(viewModel);
+        guides_list->setModel(m_proxy);
         guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
         connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);

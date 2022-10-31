@@ -42,7 +42,6 @@ private:
     /** @brief Set the marker model that will be displayed. */
     std::weak_ptr<MarkerListModel> m_model;
     QIdentityProxyModel *m_proxy;
-    MarkerSortModel *m_sortModel;
     QVBoxLayout m_categoriesLayout;
     QButtonGroup *catGroup{nullptr};
 
