@@ -54,7 +54,6 @@ qtblend.xml
 qtcrop.xml
 rboctaveshift.xml
 rbpitchscale.xml
-region.xml
 rotation_keyframable.xml
 rotation.xml
 rotoscoping.xml
