@@ -76,8 +76,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim ||
-                                     type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
+        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
             // Keyframe widget can have some extra params that shouldn't build a new widget
             qDebug() << "// FOUND ADDED PARAM";
             if (type != ParamType::ColorWheel) {

@@ -27,11 +27,8 @@ enum class ParamType {
     Bool,
     Switch,
     MultiSwitch,
-    RestrictedAnim, // animated 1 dimensional param with linear support only
-    Animated,
     AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
     Geometry,
-    Addedgeometry,
     KeyframeParam,
     Color,
     ColorWheel,

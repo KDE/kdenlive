@@ -218,10 +218,6 @@ You can set `default` to `"adjustcenter"`  to adjust the geometry to the frame s
 * special GUI for the wipe transition makes it possible to select a direction of a slide
 
 
-##### `"addedgeometry"`
-* parameter linked to a "geometry" parameter
-
-
 ##### `"curve"`
 * cubic curve editor for the frei0r color curves filter (old version)
 

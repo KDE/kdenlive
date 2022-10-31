@@ -73,7 +73,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
             int spaces = first.count(QLatin1Char(' '));
             switch (spaces) {
             case 0:
-                currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::Animated)));
+                currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::Hidden)));
                 break;
             default:
                 currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));

@@ -140,9 +140,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new KeywordParamWidget(model, index, parent);
         break;
     }
-    case ParamType::Animated:
-    case ParamType::RestrictedAnim:
-    case ParamType::Addedgeometry:
     default:
         // not reimplemented
         widget = new Unsupported(model, index, parent);
