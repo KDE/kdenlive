@@ -34,7 +34,7 @@
     <parameter type="constant" name="transition.shear_y" max="200" min="-200" default="0" factor="10">
         <name>Animate Shear Y</name>
     </parameter>
-    <parameter type="geometry" name="transition.geometry" default="0 0:100% 100%" fixed="1" opacity="false">
+    <parameter type="animatedrect" name="transition.rect" default="0 0 100% 100%" fixed="1" opacity="false">
         <name>Pan and Zoom</name>
     </parameter>
     <parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
