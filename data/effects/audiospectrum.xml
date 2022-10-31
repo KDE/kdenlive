@@ -26,7 +26,7 @@
             <name>Angle</name>
             <comment>The rotation angle to be applied to the waveform.</comment>
         </parameter>
-        <parameter type="geometry" name="rect" default="0 0:100% 100%" fixed="1" opacity="false">
+        <parameter type="animatedrect" name="rect" default="0 0 100% 100%" fixed="1" opacity="false">
             <name>Rectangle</name>
             <comment>Defines the rectangle that the waveform(s) should be drawn in.</comment>
         </parameter>

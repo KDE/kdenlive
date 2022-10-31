@@ -4,7 +4,7 @@
     <name>Dynamic Text</name>
     <description>Overlay text with keywords replaced</description>
     <author>Brian Matherly</author>
-    <parameter type="geometry" name="geometry" default="0 0:%width %height:100" fixed="0">
+    <parameter type="animatedrect" name="geometry" default="0 0 100% 100%" fixed="0">
         <name>Geometry</name>
     </parameter>
     <parameter type="fontfamily" name="family" default="DejaVu Sans">
