@@ -94,19 +94,25 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 setFixedHeight(contentHeight());
                 emit updateHeight();
             });
-            m_lay->addWidget(w);
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
             } else {
+                m_lay->addWidget(w);
                 minHeight += w->minimumHeight();
             }
             m_widgets.push_back(w);
         }
     }
-    setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
+    if (m_mainKeyframeWidget) {
+        // Add keyframe widget to the bottom to have a clear seperation
+        // between animated an non-animated params
+        m_lay->addWidget(m_mainKeyframeWidget);
+        minHeight += m_mainKeyframeWidget->minimumHeight();
+    }
+    setMinimumHeight(minHeight);
     if (addSpacer) {
         m_lay->addStretch();
     }
