@@ -67,8 +67,7 @@ public:
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);
-    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr,
-                   MonitorManager *manager = nullptr);
+    void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
     const QString activeClipId();
     int position();
     void updateTimecodeFormat();
@@ -236,6 +235,9 @@ private:
     void buildSplitEffect(Mlt::Producer *original);
     /** @brief Returns true if monitor is currently visible (not in a tab or hidden)*/
     bool monitorVisible() const;
+    /** To easily get them when creating the right click menu */
+    QAction *m_markIn;
+    QAction *m_markOut;
 
 private slots:
     void slotSetThumbFrame();

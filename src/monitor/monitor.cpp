@@ -298,15 +298,15 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         // connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
 
-    QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
-    QAction *markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
-    m_toolbar->addAction(markIn);
-    m_toolbar->addAction(markOut);
-    connect(markIn, &QAction::triggered, this, [&, manager]() {
+    m_markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
+    m_markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
+    m_toolbar->addAction(m_markIn);
+    m_toolbar->addAction(m_markOut);
+    connect(m_markIn, &QAction::triggered, this, [&, manager]() {
         m_monitorManager->activateMonitor(m_id);
         manager->getAction(QStringLiteral("mark_in"))->trigger();
     });
-    connect(markOut, &QAction::triggered, this, [&, manager]() {
+    connect(m_markOut, &QAction::triggered, this, [&, manager]() {
         m_monitorManager->activateMonitor(m_id);
         manager->getAction(QStringLiteral("mark_out"))->trigger();
     });
@@ -557,7 +557,7 @@ void Monitor::slotLockMonitor(bool lock)
     m_monitorManager->lockMonitor(m_id, lock);
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip, MonitorManager *manager)
+void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
 {
     delete m_contextMenu;
     m_contextMenu = new QMenu(this);
@@ -597,18 +597,8 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("add_project_note")));
 
-    QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
-    QAction *markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
-    m_contextMenu->addAction(markIn);
-    m_contextMenu->addAction(markOut);
-    connect(markIn, &QAction::triggered, this, [&, manager]() {
-        m_monitorManager->activateMonitor(m_id);
-        manager->getAction(QStringLiteral("mark_in"))->trigger();
-    });
-    connect(markOut, &QAction::triggered, this, [&, manager]() {
-        m_monitorManager->activateMonitor(m_id);
-        manager->getAction(QStringLiteral("mark_out"))->trigger();
-    });
+    m_contextMenu->addAction(m_markIn);
+    m_contextMenu->addAction(m_markOut);
 
     if (m_id == Kdenlive::ProjectMonitor) {
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("monitor_multitrack")));
