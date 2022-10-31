@@ -76,7 +76,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
+        if (m_mainKeyframeWidget && (AssetParameterModel::isAnimated(type) || type == ParamType::Geometry)) {
             // Keyframe widget can have some extra params that shouldn't build a new widget
             qDebug() << "// FOUND ADDED PARAM";
             if (type != ParamType::ColorWheel) {
@@ -263,21 +263,6 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
     }
     return MonitorSceneDefault;
 }
-
-/*void AssetParameterView::initKeyframeView()
-{
-    if (m_mainKeyframeWidget) {
-        m_mainKeyframeWidget->initMonitor();
-    } else {
-        for (int i = 0; i < m_model->rowCount(); ++i) {
-        QModelIndex index = m_model->index(i, 0);
-        auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::Geometry) {
-            return MonitorSceneGeometry;
-        }
-    }
-    }
-}*/
 
 void AssetParameterView::slotRefresh()
 {
