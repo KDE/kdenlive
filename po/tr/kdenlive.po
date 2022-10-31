@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
-"PO-Revision-Date: 2022-10-24 16:56+0300\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"PO-Revision-Date: 2022-10-28 13:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5449,7 +5449,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:33
 #, kde-format
 msgid "Export guides as chapters description"
-msgstr "Kılavuzları, bölüm açıklaması olarak dışa aktar"
+msgstr "Kılavuzları, fasıl açıklaması olarak dışa aktar"
 
 #: src/dialogs/exportguidesdialog.cpp:41
 #, kde-format
@@ -5461,9 +5461,9 @@ msgid ""
 msgstr ""
 "YouTube için dışa aktarılmış metni kullanıyorsanız şunları denetlemek "
 "isteyebilirsiniz:\n"
-"1. 00:00 başlangıç zamanının bir bölümü olmalıdır.\n"
+"1. 00:00 başlangıç zamanının bir faslı olmalıdır.\n"
 "2. Artan sırada en az üç zaman damgası olmalıdır.\n"
-"3. Video bölümleri en kısa uzunluğu on saniyedir."
+"3. Video faslı en kısa uzunluğu on saniyedir."
 
 #: src/dialogs/exportguidesdialog.cpp:49
 #, kde-format
@@ -10742,7 +10742,7 @@ msgstr "Uzaklaştır"
 msgid "Move Toolbar"
 msgstr "Araç Çubuğunu Taşı"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10757,25 +10757,25 @@ msgstr ""
 "<shortcut>ok düğmelerini</shortcut> kullanın, yakınlaştırmak için "
 "<shortcut>Ctrl+fare tekerleği</shortcut> kullanın"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Noktada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Çıkış noktası"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -16789,7 +16789,7 @@ msgstr "Dışa Aktarıldı:"
 #: src/ui/exportguidesdialog_ui.ui:137
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "Biçimlendirilmiş bölüm imleyicisi metin burada oluşturulacak."
+msgstr "Biçimlendirilmiş fasıl imleyicisi metin burada oluşturulacak."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
@@ -18642,10 +18642,9 @@ msgid "Category %1"
 msgstr "Kategori %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Seçilecek renk"
+msgstr "Seçilecek bir şey yok"
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
-"PO-Revision-Date: 2022-10-22 05:28\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"PO-Revision-Date: 2022-10-30 07:47\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -7702,10 +7702,9 @@ msgstr "当前剪辑"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "当前剪辑"
+msgstr ""
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9093,16 +9092,14 @@ msgid "Remove Space"
 msgstr "移除空白区域"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "移除光标之后的所有关键帧"
+msgstr ""
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "移除光标之后的所有关键帧"
+msgstr ""
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -10587,7 +10584,7 @@ msgstr "缩小"
 msgid "Move Toolbar"
 msgstr "移动工具栏"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10600,25 +10597,25 @@ msgstr ""
 "悬停</shortcut>显示工具栏，<shortcut>鼠标滚轮</shortcut>或<shortcut>方向键</"
 "shortcut>进行时移，<shortcut>Ctrl 鼠标滚轮</shortcut>进行缩放"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "入点"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "出点"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -13065,16 +13062,14 @@ msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
 #: src/timeline2/model/timelinefunctions.cpp:2381
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "移除所有轨道中的空白区域"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2410
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "删除轨道"
+msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4091
@@ -13799,16 +13794,14 @@ msgid "Cannot remove space at given position"
 msgstr "无法移除指定位置的空白区域"
 
 #: src/timeline2/view/timelinecontroller.cpp:2659
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "无法移除指定位置的空白区域"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2673
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "无法创建剪辑"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2716
 #: src/timeline2/view/timelinecontroller.cpp:2721
@@ -18363,10 +18356,9 @@ msgid "Category %1"
 msgstr "类别 %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "选择的颜色"
+msgstr ""
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format
@@ -18390,6 +18382,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Form"
-#~ msgstr "表单"

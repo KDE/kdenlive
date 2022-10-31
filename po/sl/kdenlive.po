@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-26 00:45+0000\n"
-"PO-Revision-Date: 2022-10-25 09:17+0200\n"
+"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"PO-Revision-Date: 2022-10-29 07:52+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -3633,7 +3633,7 @@ msgstr "Višina"
 #: src/assets/view/widgets/keyframeimport.cpp:449
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
-msgstr "Izvorni obseg: (%1 - %2), (%3 - %4)"
+msgstr "Izvorni obseg: (%1-%2), (%3-%4)"
 
 #: src/assets/view/widgets/keyframeimport.cpp:746
 #, kde-format
@@ -9784,22 +9784,22 @@ msgstr "Privzeta"
 #: src/mainwindow.cpp:4053 src/mainwindow.cpp:4081
 #, kde-format
 msgid "Small (%1x%2)"
-msgstr "Majhna (%1 × %2)"
+msgstr "Majhna (%1x%2)"
 
 #: src/mainwindow.cpp:4055 src/mainwindow.cpp:4083
 #, kde-format
 msgid "Medium (%1x%2)"
-msgstr "Srednja (%1 × %2)"
+msgstr "Srednja (%1x%2)"
 
 #: src/mainwindow.cpp:4057 src/mainwindow.cpp:4085
 #, kde-format
 msgid "Large (%1x%2)"
-msgstr "Velika (%1 × %2)"
+msgstr "Velika (%1x%2)"
 
 #: src/mainwindow.cpp:4059 src/mainwindow.cpp:4087
 #, kde-format
 msgid "Huge (%1x%2)"
-msgstr "Velikanska (%1 × %2)"
+msgstr "Velikanska (%1x%2)"
 
 #: src/mainwindow.cpp:4144
 #, kde-format
@@ -10796,7 +10796,7 @@ msgstr "Oddalji"
 msgid "Move Toolbar"
 msgstr "Premakni orodno letvico"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:156
+#: src/monitor/view/kdenliveclipmonitor.qml:159
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10810,25 +10810,25 @@ msgstr ""
 "<shortcut>kolešček miške</shortcut> ali <shortcut>smerne tipke</shortcut> za "
 "iskanje, <shortcut>krmilka+kolešček</shortcut> za povečavo"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:455
-#: src/monitor/view/kdenlivemonitor.qml:191
+#: src/monitor/view/kdenliveclipmonitor.qml:458
+#: src/monitor/view/kdenlivemonitor.qml:195
 #, kde-format
 msgid "%1fps"
 msgstr "%1sl/s"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:488
-#: src/monitor/view/kdenlivemonitor.qml:224
+#: src/monitor/view/kdenliveclipmonitor.qml:491
+#: src/monitor/view/kdenlivemonitor.qml:228
 #, kde-format
 msgid "In Point"
 msgstr "Vhodna točka"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:510
-#: src/monitor/view/kdenlivemonitor.qml:241
+#: src/monitor/view/kdenliveclipmonitor.qml:513
+#: src/monitor/view/kdenlivemonitor.qml:245
 #, kde-format
 msgid "Out Point"
 msgstr "Izhodna točka"
 
-#: src/monitor/view/kdenlivemonitor.qml:90
+#: src/monitor/view/kdenlivemonitor.qml:93
 #, kde-format
 msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
@@ -18720,10 +18720,9 @@ msgid "Category %1"
 msgstr "Kategorija %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Barva za izbor"
+msgstr "Nič ni za izbrati"
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format
@@ -18747,6 +18746,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Form"
-#~ msgstr "Oblika"
