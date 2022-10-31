@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-27 00:45+0000\n"
-"PO-Revision-Date: 2022-10-22 05:28\n"
+"PO-Revision-Date: 2022-10-30 07:47\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -7702,10 +7702,9 @@ msgstr "当前剪辑"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "当前剪辑"
+msgstr ""
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9093,16 +9092,14 @@ msgid "Remove Space"
 msgstr "移除空白区域"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "移除光标之后的所有关键帧"
+msgstr ""
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "移除光标之后的所有关键帧"
+msgstr ""
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -13065,16 +13062,14 @@ msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
 #: src/timeline2/model/timelinefunctions.cpp:2381
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "移除所有轨道中的空白区域"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2410
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "删除轨道"
+msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4091
@@ -13799,16 +13794,14 @@ msgid "Cannot remove space at given position"
 msgstr "无法移除指定位置的空白区域"
 
 #: src/timeline2/view/timelinecontroller.cpp:2659
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "无法移除指定位置的空白区域"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2673
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "无法创建剪辑"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2716
 #: src/timeline2/view/timelinecontroller.cpp:2721
@@ -18363,10 +18356,9 @@ msgid "Category %1"
 msgstr "类别 %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "选择的颜色"
+msgstr ""
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format
@@ -18390,6 +18382,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Form"
-#~ msgstr "表单"
