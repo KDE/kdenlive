@@ -51,8 +51,8 @@ void FilterTask::start(const ObjectId &owner, const QString &binId, const std::w
 
 void FilterTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -68,7 +68,6 @@ void FilterTask::run()
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         if (KdenliveSettings::gpu_accel()) {
@@ -85,7 +84,6 @@ void FilterTask::run()
                 QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open file %1", binClip->url())),
                                           Q_ARG(int, int(KMessageWidget::Warning)));
             }
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         if (m_outPoint == -1) {
@@ -111,7 +109,6 @@ void FilterTask::run()
         // Clip was removed or something went wrong, Notify user?
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot open source.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     length = producer->get_playtime();
@@ -136,7 +133,6 @@ void FilterTask::run()
     if (!consumer->is_valid()) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create consumer.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
 
@@ -149,7 +145,6 @@ void FilterTask::run()
         if (!filter.is_valid()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create filter %1", m_filterName)),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
 
@@ -226,7 +221,6 @@ void FilterTask::run()
     if (auto ptr = m_model.lock()) {
         QMetaObject::invokeMethod(ptr.get(), "setProgress", Q_ARG(int, 100));
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to filter source.")),

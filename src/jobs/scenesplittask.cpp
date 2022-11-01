@@ -101,8 +101,8 @@ void SceneSplitTask::start(QObject *object, bool force)
 
 void SceneSplitTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -115,7 +115,6 @@ void SceneSplitTask::run()
         // This job can only process video files
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot analyse this clip type.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         qDebug() << "=== ABORT 1";
         return;
     }
@@ -124,7 +123,6 @@ void SceneSplitTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         qDebug() << "=== ABORT 2";
         return;
     }
@@ -165,7 +163,6 @@ void SceneSplitTask::run()
 
     // remove temporary playlist if it exists
     m_progress = 100;
-    pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (result && !m_isCanceled) {
         qDebug() << "========================\n\nGOR RESULTS: " << m_results << "\n\n=========";

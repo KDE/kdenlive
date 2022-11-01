@@ -56,8 +56,8 @@ void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QS
 
 void TranscodeTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -90,7 +90,6 @@ void TranscodeTask::run()
     if (transcoderExt.isEmpty()) {
         qDebug() << "// INVALID TRANSCODING PROFILE";
         m_progress = 100;
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QFileInfo finfo(source);
@@ -182,7 +181,6 @@ void TranscodeTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                       Q_ARG(QString, i18n("FFmpeg not found, please set path in Kdenlive's settings Environment")),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         m_jobDuration = int(binClip->duration().seconds());
@@ -224,7 +222,6 @@ void TranscodeTask::run()
     destUrl.append(transcoderExt);
     // remove temporary playlist if it exists
     m_progress = 100;
-    pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     if (result) {
         if (QFileInfo(destUrl).size() == 0) {

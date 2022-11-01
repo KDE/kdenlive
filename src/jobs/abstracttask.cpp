@@ -120,3 +120,7 @@ void AbstractTask::setPreferredPriority(qint64 pid)
     }
 #endif
 }
+
+AbstractTaskDone::~AbstractTaskDone() {
+    pCore->taskManager.taskDone(m_cid, m_task);
+}

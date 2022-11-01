@@ -58,7 +58,21 @@ private:
     JOBTYPE m_type;
     int m_priority;
     void cancelJob(bool softDelete = false);
-    
+
 signals:
     void jobCanceled();
+};
+
+/**
+ * @brief When destroyed, notifies the taskManager that this task is done.
+ */
+class AbstractTaskDone {
+public:
+    AbstractTaskDone(int cid, AbstractTask *task)
+        : m_cid(cid)
+        , m_task(task) {}
+    ~AbstractTaskDone();
+private:
+    int m_cid;
+    AbstractTask *m_task;
 };

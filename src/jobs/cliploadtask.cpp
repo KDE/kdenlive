@@ -307,6 +307,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
 
 void ClipLoadTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
         abort();
         return;
@@ -324,8 +325,6 @@ void ClipLoadTask::run()
         }
         if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
             abort();
-        } else {
-            pCore->taskManager.taskDone(m_owner.second, this);
         }
         return;
     }
@@ -745,7 +744,6 @@ void ClipLoadTask::run()
         abort();
         return;
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
 }
 
 void ClipLoadTask::abort()
@@ -754,7 +752,6 @@ void ClipLoadTask::abort()
     if (pCore->taskManager.isBlocked()) {
         return;
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (!m_softDelete) {

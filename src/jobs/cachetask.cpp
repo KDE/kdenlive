@@ -97,8 +97,8 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
 
 void CacheTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -106,6 +106,5 @@ void CacheTask::run()
     if (binClip) {
         generateThumbnail(binClip);
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
     return;
 }

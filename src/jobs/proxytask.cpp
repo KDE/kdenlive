@@ -42,8 +42,8 @@ void ProxyTask::start(const ObjectId &owner, QObject *object, bool force)
 
 void ProxyTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -57,7 +57,6 @@ void ProxyTask::run()
     if (binClip->getProducerIntProperty(QStringLiteral("_overwriteproxy")) == 0 && fInfo.exists() && fInfo.size() > 0) {
         // Proxy clip already created
         m_progress = 100;
-        pCore->taskManager.taskDone(m_owner.second, this);
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
         QMetaObject::invokeMethod(binClip.get(), "updateProxyProducer", Qt::QueuedConnection, Q_ARG(QString, dest));
         return;
@@ -192,7 +191,6 @@ void ProxyTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot load image %1.", source)),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
             m_progress = 100;
-            pCore->taskManager.taskDone(m_owner.second, this);
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             return;
         }
@@ -242,7 +240,6 @@ void ProxyTask::run()
         }
         result = true;
         m_progress = 100;
-        pCore->taskManager.taskDone(m_owner.second, this);
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
         return;
     } else {
@@ -254,7 +251,6 @@ void ProxyTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)));
             result = true;
             m_progress = 100;
-            pCore->taskManager.taskDone(m_owner.second, this);
             QMetaObject::invokeMethod(m_object, "updateJobProgress");
             return;
         }
@@ -370,7 +366,6 @@ void ProxyTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     return;
 }

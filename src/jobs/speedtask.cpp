@@ -165,13 +165,13 @@ void SpeedTask::start(QObject *object, bool force)
 
 void SpeedTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
     m_running = true;
-    qDebug() << " + + + + + + + + STARTING STAB TASK";
+    qDebug() << " + + + + + + + + STARTING SPEED TASK";
 
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
@@ -182,7 +182,6 @@ void SpeedTask::run()
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         producerArgs << QString("timewarp:%1:%2").arg(m_speed).arg(url);
@@ -195,7 +194,6 @@ void SpeedTask::run()
     } else {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
         // Filter applied on a track of master producer, leave config to source job
         // We are on master or track, configure producer accordingly
@@ -208,7 +206,6 @@ void SpeedTask::run()
         if ((producer == nullptr) || !producer->is_valid()) {
             // Clip was removed or something went wrong, Notify user?
             m_errorMessage.append(i18n("Invalid clip"));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }*/
     }
@@ -241,7 +238,6 @@ void SpeedTask::run()
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
-    pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to create speed clip.")),
