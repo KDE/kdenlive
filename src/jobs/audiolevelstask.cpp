@@ -52,8 +52,8 @@ void AudioLevelsTask::start(const ObjectId &owner, QObject *object, bool force)
 
 void AudioLevelsTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -62,12 +62,10 @@ void AudioLevelsTask::run()
     auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     if (binClip == nullptr) {
         // Clip was deleted
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     if (binClip->audioChannels() == 0 || binClip->audioThumbCreated()) {
         // nothing to do
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     std::shared_ptr<Mlt::Producer> producer = binClip->originalProducer();
@@ -75,7 +73,6 @@ void AudioLevelsTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", QFileInfo(binClip->url()).fileName())),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     int lengthInFrames = producer->get_length(); // Multiply this if we want more than 1 sample per frame
@@ -84,7 +81,6 @@ void AudioLevelsTask::run()
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                   Q_ARG(QString, i18n("Audio thumbs: unknown file length for %1", QFileInfo(binClip->url()).fileName())),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     int frequency = binClip->audioInfo()->samplingRate();
@@ -140,7 +136,6 @@ void AudioLevelsTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
                                       Q_ARG(QString, i18n("Audio thumbs: cannot open file %1", producer->get("resource"))),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         audioProducer->set("video_index", "-1");
@@ -243,6 +238,5 @@ void AudioLevelsTask::run()
         // Audio was cached, ensure the bin thumbnail is loaded
         QMetaObject::invokeMethod(m_object, "updateAudioThumbnail", Q_ARG(bool, true));
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
 }

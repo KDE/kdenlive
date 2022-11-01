@@ -95,8 +95,8 @@ void StabilizeTask::start(QObject *, bool force)
 
 void StabilizeTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -112,7 +112,6 @@ void StabilizeTask::run()
         if (url.isEmpty()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         producerArgs << url;
@@ -130,7 +129,6 @@ void StabilizeTask::run()
         // TODO
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                   Q_ARG(int, int(KMessageWidget::Warning)));
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
         /*if (m_owner.first == ObjectType::Master) {
             producer = pCore->getMasterProducerInstance();
@@ -140,7 +138,6 @@ void StabilizeTask::run()
         if ((producer == nullptr) || !producer->is_valid()) {
             // Clip was removed or something went wrong, Notify user?
             m_errorMessage.append(i18n("Invalid clip"));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }*/
     }
@@ -183,7 +180,6 @@ void StabilizeTask::run()
     bool result = m_jobProcess->exitStatus() == QProcess::NormalExit;
     m_progress = 100;
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
-    pCore->taskManager.taskDone(m_owner.second, this);
     if (m_isCanceled || !result) {
         if (!m_isCanceled) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinLogMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Failed to stabilize.")),

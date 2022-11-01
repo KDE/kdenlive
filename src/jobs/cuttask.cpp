@@ -186,8 +186,8 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
 
 void CutTask::run()
 {
+    AbstractTaskDone whenFinished(m_owner.second, this);
     if (m_isCanceled || pCore->taskManager.isBlocked()) {
-        pCore->taskManager.taskDone(m_owner.second, this);
         return;
     }
     QMutexLocker lock(&m_runMutex);
@@ -208,14 +208,12 @@ void CutTask::run()
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
             m_errorMessage.append(i18n("No producer for this clip."));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         if (QFileInfo(m_destination).absoluteFilePath() == QFileInfo(url).absoluteFilePath()) {
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("You cannot overwrite original clip.")),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
             m_errorMessage.append(i18n("You cannot overwrite original clip."));
-            pCore->taskManager.taskDone(m_owner.second, this);
             return;
         }
         QStringList params = {QStringLiteral("-y"),
@@ -263,7 +261,6 @@ void CutTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)), Q_ARG(QString, m_logDetails));
         }
     }
-    pCore->taskManager.taskDone(m_owner.second, this);
 }
 
 void CutTask::processLogInfo()
