@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -1913,26 +1913,6 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Piirkonnastamine"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr "Allefektide rakendamine piirkonnale, mille määratleb klipi alfakanal"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "URL"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "Paanimine ja suurendus"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -1995,6 +1975,11 @@ msgstr "X nihke animeerimine"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Y nihke animeerimine"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "Paanimine ja suurendus"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3444,8 +3429,8 @@ msgstr "Muuda %1 võtmekaadrit"
 msgid "Update %1"
 msgstr "Uuenda %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Valmisseadistuse faili %1 avamine nurjus"
@@ -3472,7 +3457,7 @@ msgstr "Uuenda aktiivset valmisseadistust"
 msgid "Delete preset"
 msgstr "Kustuta valmisseadistus"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
@@ -3480,7 +3465,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Kirjuta valmisseadistuse nimi"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
@@ -19487,6 +19472,16 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Regionalize"
+#~ msgstr "Piirkonnastamine"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr ""
+#~ "Allefektide rakendamine piirkonnale, mille määratleb klipi alfakanal"
+
+#~ msgid "Url"
+#~ msgstr "URL"
 
 #~ msgid "Form"
 #~ msgstr "Vorm"

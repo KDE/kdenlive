@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -1895,26 +1895,6 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "加網址"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr ""
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr ""
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "平移和縮放"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -1977,6 +1957,11 @@ msgstr "沿 X 軸動畫傾斜"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "沿 Y 軸動畫傾斜"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "平移和縮放"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3458,8 +3443,8 @@ msgstr "編輯關鍵幀"
 msgid "Update %1"
 msgstr "儲存編碼方案"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, fuzzy, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入檔案 %1"
@@ -3487,14 +3472,14 @@ msgstr "移除目前的按鈕"
 msgid "Delete preset"
 msgstr "刪除預設"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "輸入資料夾名稱"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -19133,6 +19118,9 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#~ msgid "Regionalize"
+#~ msgstr "加網址"
 
 #, fuzzy
 #~| msgid "Format"

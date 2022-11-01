@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -1873,26 +1873,6 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:4
-#, fuzzy, kde-format
-msgid "Regionalize"
-msgstr "Oblast"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr ""
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr ""
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, fuzzy, kde-format
-msgid "Pan and Zoom"
-msgstr "Paniraj i uvećaj"
-
 #: data/effects/rotation.xml:4
 #, fuzzy, kde-format
 msgid "Rotate and Shear"
@@ -1955,6 +1935,11 @@ msgstr "Popravi smicanje X"
 #, fuzzy, kde-format
 msgid "Animate Shear Y"
 msgstr "Popravi smicanje Y"
+
+#: data/effects/rotation.xml:38
+#, fuzzy, kde-format
+msgid "Pan and Zoom"
+msgstr "Paniraj i uvećaj"
 
 #: data/effects/rotation_keyframable.xml:4
 #, fuzzy, kde-format
@@ -3437,8 +3422,8 @@ msgstr "Uredi glavni okvir"
 msgid "Update %1"
 msgstr "Ažuriraj profil"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -3468,7 +3453,7 @@ msgstr "Trenutna podešavanja"
 msgid "Delete preset"
 msgstr "Izbriši proxies"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
@@ -3476,7 +3461,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unesi ime sekvence"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -19750,6 +19735,10 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Regionalize"
+#~ msgstr "Oblast"
 
 #, fuzzy
 #~| msgid "Formats"

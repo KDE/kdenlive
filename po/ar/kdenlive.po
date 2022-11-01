@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2022-10-27 10:32+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1887,26 +1887,6 @@ msgstr ""
 "الحدة المقابلة لتحول o -octaves (حيث o إيجابية لتحول صعودًا وسلبيًا لأسفل) هي: "
 "F = pow (2.0 ، o). يتجاوز Octaveshift."
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "أقلم"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr "طبق تأثيرات فرعية على منطقة محددة بواسطة قناة ألفا لمقطع"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "العنوان"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "وزع وكبر"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -1969,6 +1949,11 @@ msgstr "حرك قطع س"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "حرك قطع ص"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "وزع وكبر"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3373,8 +3358,8 @@ msgstr "حرّر الإطار الرئيس %1"
 msgid "Update %1"
 msgstr "حدّث %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "تعذّر فتح ملفّ المعد مسبقا %1"
@@ -3400,14 +3385,14 @@ msgstr "حدث الإعداد المسبق الحالي"
 msgid "Delete preset"
 msgstr "احذف الإعداد المسبق"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "أدخل اسم الإعداد المسبق"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -18639,6 +18624,15 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Regionalize"
+#~ msgstr "أقلم"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr "طبق تأثيرات فرعية على منطقة محددة بواسطة قناة ألفا لمقطع"
+
+#~ msgid "Url"
+#~ msgstr "العنوان"
 
 #~ msgid "Form"
 #~ msgstr "استمارة"

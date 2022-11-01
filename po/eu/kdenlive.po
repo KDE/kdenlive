@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
-"PO-Revision-Date: 2022-10-27 05:12+0200\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
+"PO-Revision-Date: 2022-10-31 07:17+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1922,28 +1922,6 @@ msgstr ""
 "eskalaren ratioa (o positiboa izanik igoeran eta negatiboa jaitsieran) "
 "honakoa da: f= pow (2.0, o). zortzikoaldaketa indargabetzen du. "
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Eskualdetu"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr ""
-"Aplikatu azpi-efektuak definitutako eskualdean klip baten alfa kanalean "
-"zehar "
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "Url"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "Panorama eta Zooma"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -2006,6 +1984,11 @@ msgstr "Animatu Zizailatu X"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Animatu Zizailatu Y"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "Panorama eta Zooma"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3414,8 +3397,8 @@ msgstr "Editatu %1 fotograma-gakoa"
 msgid "Update %1"
 msgstr "%1 eguneratu"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 aurrezarpen-fitxategia ezin da ireki"
@@ -3441,14 +3424,14 @@ msgstr "Eguneratu momentuko aurrezarpena"
 msgid "Delete preset"
 msgstr "Ezabatu aurrezarpena"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Sartu Aurrezarpen Izena"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -3818,7 +3801,7 @@ msgid ""
 "end."
 msgstr ""
 "Audioa monitorizatzen. Sakatu <b>Zuriunea</b> grabazioa hasi/pausatzeko, "
-"<b>Esc to end."
+"<b>Ihes</b> amaitzeko."
 
 #: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:922
 #, kde-format
@@ -6617,7 +6600,7 @@ msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
 "recommended</li>"
 msgstr ""
-"<li>Paketea falta da: <b>AVFIlter</b></br> efektu asko eskaintzen ditu. "
+"<li>Paketea falta da: <b>AVFIlter</b><br/> efektu asko eskaintzen ditu. "
 "Instalatzea gomendatzen da</li>"
 
 #: src/dialogs/wizard.cpp:254
@@ -18718,6 +18701,17 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Regionalize"
+#~ msgstr "Eskualdetu"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr ""
+#~ "Aplikatu azpi-efektuak definitutako eskualdean klip baten alfa kanalean "
+#~ "zehar "
+
+#~ msgid "Url"
+#~ msgstr "Url"
 
 #~ msgid "Form"
 #~ msgstr "Inprimakia"

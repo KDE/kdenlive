@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2022-10-30 07:47\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1875,26 +1875,6 @@ msgstr ""
 "偏移为 o 的音调缩放比率 (o 为正值时向上偏移，o 为负值时向下偏移) 为 f = "
 "pow(2.0, o)。此选项将覆盖八度偏移选项。"
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Regionalize - 区域化"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr "应用子效果到剪辑的透明度通道定义的区域"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "URL"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "平移和缩放"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -1957,6 +1937,11 @@ msgstr "沿 X 轴动画斜切"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "沿 Y 轴动画斜切"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "平移和缩放"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3343,8 +3328,8 @@ msgstr "编辑 %1 关键帧"
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "无法打开预设文件 %1"
@@ -3370,14 +3355,14 @@ msgstr "更新当前预设"
 msgid "Delete preset"
 msgstr "删除预设"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "输入预设名称"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -18382,3 +18367,12 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "Regionalize"
+#~ msgstr "Regionalize - 区域化"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr "应用子效果到剪辑的透明度通道定义的区域"
+
+#~ msgid "Url"
+#~ msgstr "URL"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2022-10-26 16:32+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -1931,26 +1931,6 @@ msgstr ""
 "від'ємним для зсувів униз) дорівнює: f = pow(2.0, o). Має пріоритет над "
 "зсувом за октавами."
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Поділити на області"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr "Застосувати підефекти до ділянки, визначеної каналом прозорості кліпу"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "Адреса"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "Панорамування і зміна масштабу"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -2013,6 +1993,11 @@ msgstr "Анімація перекошування за X"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Анімація перекошування за Y"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "Панорамування і зміна масштабу"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3429,8 +3414,8 @@ msgstr "Зміна ключового кадру %1"
 msgid "Update %1"
 msgstr "Оновити %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не вдалося відкрити файл шаблона %1"
@@ -3456,14 +3441,14 @@ msgstr "Оновити поточний шаблон"
 msgid "Delete preset"
 msgstr "Вилучити шаблон"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Введіть назву шаблона"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -18880,6 +18865,16 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Regionalize"
+#~ msgstr "Поділити на області"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr ""
+#~ "Застосувати підефекти до ділянки, визначеної каналом прозорості кліпу"
+
+#~ msgid "Url"
+#~ msgstr "Адреса"
 
 #~ msgid "Form"
 #~ msgstr "Форма"

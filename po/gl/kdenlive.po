@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -1949,27 +1949,6 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Rexionalizar"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr ""
-"Aplicar sub-efectos a unha rexión definida pola canle alfa dun fragmento"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "URL"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "Panorámica e ampliación"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -2032,6 +2011,11 @@ msgstr "Animar Tensionar X"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Animar Tensionar Y"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "Panorámica e ampliación"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3494,8 +3478,8 @@ msgstr "Editar o fotograma clave %1"
 msgid "Update %1"
 msgstr "Actualizar %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -3523,7 +3507,7 @@ msgstr "Actualizar a predefinición actual"
 msgid "Delete preset"
 msgstr "Eliminar a predefinición"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
@@ -3531,7 +3515,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Insira o nome da predefinición"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
@@ -19726,6 +19710,16 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Regionalize"
+#~ msgstr "Rexionalizar"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr ""
+#~ "Aplicar sub-efectos a unha rexión definida pola canle alfa dun fragmento"
+
+#~ msgid "Url"
+#~ msgstr "URL"
 
 #, fuzzy
 #~| msgid "Formats"

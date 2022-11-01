@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -1894,27 +1894,6 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:4
-#, fuzzy, kde-format
-#| msgid "Region"
-msgid "Regionalize"
-msgstr "विभाग"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr ""
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "Url"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr ""
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -1976,6 +1955,11 @@ msgstr ""
 #: data/effects/rotation.xml:35
 #, kde-format
 msgid "Animate Shear Y"
+msgstr ""
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
 msgstr ""
 
 #: data/effects/rotation_keyframable.xml:4
@@ -3421,8 +3405,8 @@ msgstr ""
 msgid "Update %1"
 msgstr ""
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, fuzzy, kde-format
 msgid "Cannot open preset file %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
@@ -3449,14 +3433,14 @@ msgstr "वर्तमान टॅब बंद करा"
 msgid "Delete preset"
 msgstr "रूपरेषा नष्ट करा (&D)"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr ""
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -18712,6 +18696,14 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Region"
+#~ msgid "Regionalize"
+#~ msgstr "विभाग"
+
+#~ msgid "Url"
+#~ msgstr "Url"
 
 #, fuzzy
 #~| msgid "Normal"

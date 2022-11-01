@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -1922,26 +1922,6 @@ msgid ""
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Vytvoriť región"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr "Aplikovať čiastkové efekty na región definovaný alfa kanálom klipu"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "Url"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "Panorámovať a priblížiť"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -2004,6 +1984,11 @@ msgstr "Animovať skosenie X"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Animovať skosenie Y"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "Panorámovať a priblížiť"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3477,8 +3462,8 @@ msgstr "Upraviť kľúčovú snímku %1"
 msgid "Update %1"
 msgstr "Aktualizovať %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -3507,7 +3492,7 @@ msgstr "Aktuálne nastavenie"
 msgid "Delete preset"
 msgstr "Vymazať predvoľbu"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
@@ -3515,7 +3500,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Zadať názov predvoľby"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
@@ -19643,6 +19628,15 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Regionalize"
+#~ msgstr "Vytvoriť región"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr "Aplikovať čiastkové efekty na región definovaný alfa kanálom klipu"
+
+#~ msgid "Url"
+#~ msgstr "Url"
 
 #, fuzzy
 #~| msgid "Format"

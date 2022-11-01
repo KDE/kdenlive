@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-27 00:45+0000\n"
-"PO-Revision-Date: 2022-10-13 01:22-0300\n"
+"POT-Creation-Date: 2022-11-01 00:46+0000\n"
+"PO-Revision-Date: 2022-10-31 10:48-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1932,27 +1932,6 @@ msgstr ""
 "para un desplazamiento ascendente y negativo para uno descendente) es: f = "
 "pow(2.0, o). Tiene precedencia frente al Desplazamiento de octava."
 
-#: data/effects/region.xml:4
-#, kde-format
-msgid "Regionalize"
-msgstr "Regionalizar"
-
-#: data/effects/region.xml:5
-#, kde-format
-msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-msgstr ""
-"Permite aplicar sub efectos a una región definida por el canal alfa del clip"
-
-#: data/effects/region.xml:8
-#, kde-format
-msgid "Url"
-msgstr "Url"
-
-#: data/effects/region.xml:11 data/effects/rotation.xml:38
-#, kde-format
-msgid "Pan and Zoom"
-msgstr "Paneo y zoom"
-
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
@@ -2015,6 +1994,11 @@ msgstr "Animar inclinación X"
 #, kde-format
 msgid "Animate Shear Y"
 msgstr "Animar inclinación Y"
+
+#: data/effects/rotation.xml:38
+#, kde-format
+msgid "Pan and Zoom"
+msgstr "Paneo y zoom"
 
 #: data/effects/rotation_keyframable.xml:4
 #, kde-format
@@ -3433,8 +3417,8 @@ msgstr "Editar clave de %1"
 msgid "Update %1"
 msgstr "Actualizar %1"
 
-#: src/assets/model/assetparametermodel.cpp:1187
-#: src/assets/model/assetparametermodel.cpp:1234
+#: src/assets/model/assetparametermodel.cpp:1180
+#: src/assets/model/assetparametermodel.cpp:1227
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No es posible abrir el archivo de ajuste prestablecido %1"
@@ -3460,14 +3444,14 @@ msgstr "Actualizar ajuste actual"
 msgid "Delete preset"
 msgstr "Borrar ajuste"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ingresar nombre del ajuste"
 
-#: src/assets/view/assetparameterview.cpp:337
+#: src/assets/view/assetparameterview.cpp:327
 #: src/dialogs/kdenlivesettingsdialog.cpp:1345
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -7890,10 +7874,9 @@ msgstr "Clip actual"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Clip actual"
+msgstr "Pista a&ctual"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -9287,16 +9270,14 @@ msgid "Remove Space"
 msgstr "Eliminar espacio"
 
 #: src/mainwindow.cpp:1728
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Eliminar todos los claves posteriores al cursor"
+msgstr "Eliminar todos los espacios posteriores al cursor"
 
 #: src/mainwindow.cpp:1729
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Eliminar todos los claves posteriores al cursor"
+msgstr "Eliminar todos los clips posteriores al cursor"
 
 #: src/mainwindow.cpp:1730
 #, kde-format
@@ -11750,7 +11731,7 @@ msgid ""
 "This action cannot be undone, only use if you know what you are doing.\n"
 "Are you sure you want to continue?"
 msgstr ""
-"Se removerán los siguientes archivos del disco.\n"
+"Se eliminarán los siguientes archivos del disco.\n"
 "Esta acción no puede ser deshecha, usarla sólo si se está seguro.\n"
 "¿Continuar?"
 
@@ -12308,10 +12289,9 @@ msgstr "Cambio del perfil del proyecto cancelado"
 
 #: src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "No es posible crear el filtro %1"
+msgstr "No es posible leer el archivo %1"
 
 #: src/project/projectmanager.cpp:1272
 #, kde-format
@@ -13391,16 +13371,14 @@ msgid "Paste timeline clips"
 msgstr "Pegar clips de la línea de tiempo"
 
 #: src/timeline2/model/timelinefunctions.cpp:2381
-#, fuzzy, kde-format
-#| msgid "Remove Space On Active Track"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Eliminar espacio en la pista activa"
+msgstr "Eliminar espacio en la pista"
 
 #: src/timeline2/model/timelinefunctions.cpp:2410
-#, fuzzy, kde-format
-#| msgid "Delete track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Borrar pista"
+msgstr "Borrar clips en la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4091
@@ -14145,19 +14123,17 @@ msgstr "No se encontró ningún clip para insertar espacio"
 #: src/timeline2/view/timelinecontroller.cpp:2645
 #, kde-format
 msgid "Cannot remove space at given position"
-msgstr "No es posible remover espacio en la posición indicada"
+msgstr "No es posible eliminar espacio en la posición indicada"
 
 #: src/timeline2/view/timelinecontroller.cpp:2659
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "No es posible remover espacio en la posición indicada"
+msgstr "No es posible eliminar todos los espacios"
 
 #: src/timeline2/view/timelinecontroller.cpp:2673
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "No es posible crear un clip"
+msgstr "No es posible eliminar todos los clips"
 
 #: src/timeline2/view/timelinecontroller.cpp:2716
 #: src/timeline2/view/timelinecontroller.cpp:2721
@@ -14269,7 +14245,7 @@ msgid ""
 "clips after the current position or choose a different track"
 msgstr ""
 "No es posible capturar aquí: la captura podría sobrescribir algunos clips. "
-"Por favor remover los clips hacia adelante de la posición actual o escoger "
+"Por favor eliminar los clips hacia adelante de la posición actual o escoger "
 "otra pista"
 
 #: src/timeline2/view/timelinecontroller.cpp:4625
@@ -17665,7 +17641,7 @@ msgstr "Descargar nuevos ajustes de procesamiento…"
 #: src/ui/renderwidget_ui.ui:245
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:262
@@ -18770,10 +18746,9 @@ msgid "Category %1"
 msgstr "Categoría %1"
 
 #: src/widgets/markercategorychooser.cpp:37
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Color a seleccionar"
+msgstr "Nada que seleccionar"
 
 #: src/widgets/markercategorychooser.cpp:43
 #, kde-format
@@ -18797,6 +18772,17 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Regionalize"
+#~ msgstr "Regionalizar"
+
+#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
+#~ msgstr ""
+#~ "Permite aplicar sub efectos a una región definida por el canal alfa del "
+#~ "clip"
+
+#~ msgid "Url"
+#~ msgstr "Url"
 
 #~ msgid "Form"
 #~ msgstr "Forma"
