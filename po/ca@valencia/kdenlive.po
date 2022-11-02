@@ -14155,7 +14155,8 @@ msgstr "No hi ha cap element que s'haja d'editar"
 #: src/timeline2/view/timelinecontroller.cpp:5136
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
-msgstr "Activeu una pista per a esta operació fent clic sobre la seua etiqueta"
+msgstr ""
+"Activeu una pista per a esta operació fent clic damunt de la seua etiqueta"
 
 #: src/timeline2/view/timelinecontroller.cpp:3066
 #, kde-format
@@ -18777,12 +18778,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Regionalize"
-#~ msgstr "Regionalitza"
-
-#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-#~ msgstr "Aplica subefectes a una regió definida per un canal alfa de retall"
-
-#~ msgid "Url"
-#~ msgstr "URL"
