@@ -4,7 +4,6 @@ set(kdenlive_SRCS
   dialogs/encodingprofilesdialog.cpp
   dialogs/kdenlivesettingsdialog.cpp
   dialogs/markerdialog.cpp
-  dialogs/multiplemarkerdialog.cpp
   dialogs/exportguidesdialog.cpp
   dialogs/profilesdialog.cpp
   dialogs/proxytest.cpp

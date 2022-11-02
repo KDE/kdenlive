@@ -85,7 +85,8 @@
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="view-sort"/>
+      <iconset theme="view-sort">
+       <normaloff>.</normaloff>.</iconset>
      </property>
      <property name="popupMode">
       <enum>QToolButton::InstantPopup</enum>
@@ -119,13 +120,10 @@
        <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
      </property>
      <property name="popupMode">
-      <enum>QToolButton::MenuButtonPopup</enum>
+      <enum>QToolButton::DelayedPopup</enum>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
-     </property>
-     <property name="arrowType">
-      <enum>Qt::NoArrow</enum>
      </property>
     </widget>
    </item>

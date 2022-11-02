@@ -53,11 +53,6 @@ GuidesList::GuidesList(QWidget *parent)
     connect(guide_save, &QToolButton::clicked, this, &GuidesList::saveGuides);
     connect(configure, &QToolButton::clicked, this, &GuidesList::configureGuides);
     connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
-    QMenu *menu = new QMenu(this);
-    QAction *ac = new QAction(i18n("add multiple guides"), this);
-    connect(ac, &QAction::triggered, this, &GuidesList::addMutipleGuides);
-    menu->addAction(ac);
-    guide_add->setMenu(menu);
 
     // Sort menu
     m_filterGroup = new QActionGroup(this);
@@ -147,18 +142,7 @@ void GuidesList::addGuide()
     if (frame >= 0) {
         GenTime pos(frame, pCore->getCurrentFps());
         if (auto markerModel = m_model.lock()) {
-            markerModel->addMarker(pos, i18n("guide"));
-        }
-    }
-}
-
-void GuidesList::addMutipleGuides()
-{
-    int frame = pCore->getTimelinePosition();
-    if (frame >= 0) {
-        GenTime pos(frame, pCore->getCurrentFps());
-        if (auto markerModel = m_model.lock()) {
-            markerModel->addMultipleMarkersGui(pos, qApp->activeWindow(), true);
+            markerModel->addMultipleMarkersGui(pos, this, true);
         }
     }
 }

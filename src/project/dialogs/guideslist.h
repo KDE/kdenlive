@@ -34,7 +34,6 @@ private slots:
     void selectionChanged(const QItemSelection &selected, const QItemSelection &);
     void removeGuide();
     void addGuide();
-    void addMutipleGuides();
     void configureGuides();
     void rebuildCategories();
     void updateFilter(QAbstractButton *, bool);

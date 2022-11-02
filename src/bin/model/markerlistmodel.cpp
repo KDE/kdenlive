@@ -9,7 +9,6 @@
 #include "core.h"
 #include "dialogs/exportguidesdialog.h"
 #include "dialogs/markerdialog.h"
-#include "dialogs/multiplemarkerdialog.h"
 #include "doc/docundostack.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -802,7 +801,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
         marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString(), KdenliveSettings::default_marker_type());
     }
 
-    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), parent));
+    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), false, parent));
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
@@ -826,12 +825,12 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
         marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString(), KdenliveSettings::default_marker_type());
     }
 
-    QScopedPointer<MultipleMarkerDialog> dialog(new MultipleMarkerDialog(clip, marker, m_guide ? i18n("Add Guides") : i18n("Add Markers"), parent));
+    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Add Guides") : i18n("Add Markers"), true, parent));
     if (dialog->exec() == QDialog::Accepted) {
-        int max = dialog->getOccurrences();
+        int max = dialog->addMultiMarker() ? dialog->getOccurrences() : 1;
         GenTime interval = dialog->getInterval();
         KdenliveSettings::setMultipleguidesinterval(interval.seconds());
-        marker = dialog->startMarker();
+        marker = dialog->newMarker();
         GenTime startTime = marker.time();
         QWriteLocker locker(&m_lock);
         Fun undo = []() { return true; };
