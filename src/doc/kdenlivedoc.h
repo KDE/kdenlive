@@ -243,14 +243,18 @@ public:
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
     void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
+    /** @brief Returns the dafult definition  for guide categories.*/
+    static const QStringList getDefaultGuideCategories();
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
      * existing project file), used by the Open() named constructor. */
     KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup,
         MainWindow *parent = nullptr);
-    /** @brief Set document default properties using hard-coded values and KdenliveSettings. */
-    void initializeProperties();
+    /** @brief Set document default properties using hard-coded values and KdenliveSettings.
+     *  @param newDocument true if we are creating a new document, false when opening an existing one
+     */
+    void initializeProperties(bool newDocument = true);
     QDomDocument m_document;
     int m_clipsCount;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */

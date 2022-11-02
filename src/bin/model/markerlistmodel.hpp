@@ -123,8 +123,10 @@ public:
     */
     void registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel);
 
-    /** @brief Exports the model to json using format above */
-    QString toJson() const;
+    /** @brief Exports the model to json using format above
+     *  @param categories will only export selected categories. If param is empty, all categories will be exported
+     */
+    QString toJson(QList<int> categories = {}) const;
 
     /** @brief Shows a dialog to edit a marker/guide
        @param pos: position of the marker to edit, or new position for a marker
@@ -167,6 +169,7 @@ public slots:
  */
     bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
     bool importFromJson(const QString &data, bool ignoreConflicts, Fun &undo, Fun &redo);
+    bool importFromTxt(const QString &fileName, Fun &undo, Fun &redo);
 
 protected:
     /** @brief Adds a snap point at marker position in the registered snap models

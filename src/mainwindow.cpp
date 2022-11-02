@@ -1966,14 +1966,7 @@ bool MainWindow::readOptions()
     }
     initialGroup.writeEntry("version", version);
     if (KdenliveSettings::guidesCategories().isEmpty()) {
-        QStringList colors = {QLatin1String("#9b59b6"), QLatin1String("#3daee9"), QLatin1String("#1abc9c"), QLatin1String("#1cdc9a"), QLatin1String("#c9ce3b"),
-                              QLatin1String("#fdbc4b"), QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
-        QStringList guidesCategories;
-        for (int i = 0; i < 9; i++) {
-            guidesCategories << i18n("Category %1:%2:%3", QString::number(i + 1), QString::number(i), colors.at(i));
-        }
-        qDebug() << "::: GOT GUIDES CAT:\n" << guidesCategories;
-        KdenliveSettings::setGuidesCategories(guidesCategories);
+        KdenliveSettings::setGuidesCategories(KdenliveDoc::getDefaultGuideCategories());
     }
     return firstRun;
 }

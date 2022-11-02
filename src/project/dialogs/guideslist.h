@@ -13,6 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSortFilterProxyModel>
 
 class MarkerSortModel;
+class QActionGroup;
 
 /** @class GuidesList
     @brief A widget listing project guides and allowing some advanced editing.
@@ -37,13 +38,18 @@ private slots:
     void configureGuides();
     void rebuildCategories();
     void updateFilter(QAbstractButton *, bool);
+    void filterView(const QString &text);
+    void sortView(QAction *ac);
+    void changeSortOrder(bool descending);
 
 private:
     /** @brief Set the marker model that will be displayed. */
     std::weak_ptr<MarkerListModel> m_model;
-    QIdentityProxyModel *m_proxy;
+    QIdentityProxyModel *m_proxy{nullptr};
+    MarkerSortModel *m_sortModel{nullptr};
     QVBoxLayout m_categoriesLayout;
     QButtonGroup *catGroup{nullptr};
+    QActionGroup *m_filterGroup;
 
 signals:
 };

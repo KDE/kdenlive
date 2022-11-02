@@ -26,6 +26,9 @@ public slots:
     void slotSetFilters(const QList<int> filter);
     /** @brief Reset search filters */
     void slotClearSearchFilters();
+    void slotSetFilterString(const QString &filter);
+    void slotSetSortColumn(int column);
+    void slotSetSortOrder(bool descending);
     std::vector<int> getIgnoredSnapPoints() const;
 
 protected:
@@ -33,8 +36,14 @@ protected:
     // cppcheck-suppress unusedFunction
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
     bool filterAcceptsRowItself(int source_row, const QModelIndex &source_parent) const;
+    bool filterString(int sourceRow, const QModelIndex &sourceParent) const;
+    /** @brief Reimplemented to allow sorting by category, time or comment  */
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 
 private:
     QList<int> m_filterList;
     mutable QList<int> m_ignoredPositions;
+    QString m_searchString;
+    int m_sortColumn;
+    int m_sortOrder;
 };

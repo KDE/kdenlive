@@ -140,7 +140,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
 
-    initializeProperties();
+    initializeProperties(false);
     m_guidesFilterModel.reset(new MarkerSortModel(this));
     m_guidesFilterModel->setSourceModel(m_guideModel.get());
     m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
@@ -340,7 +340,8 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
-void KdenliveDoc::initializeProperties() {
+void KdenliveDoc::initializeProperties(bool newDocument)
+{
     // init default document properties
     m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
@@ -363,13 +364,16 @@ void KdenliveDoc::initializeProperties() {
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
-    m_documentProperties[QStringLiteral("guidesCategories")] = KdenliveSettings::guidesCategories().join(QLatin1Char('\n'));
+    if (newDocument) {
+        // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
+        m_documentProperties[QStringLiteral("guidesCategories")] = KdenliveSettings::guidesCategories().join(QLatin1Char('\n'));
+    }
 }
 
 const QStringList KdenliveDoc::guidesCategories() const
 {
     if (!m_documentProperties.contains(QStringLiteral("guidesCategories"))) {
-        return KdenliveSettings::guidesCategories();
+        return getDefaultGuideCategories();
     }
     return m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
 }
@@ -2073,4 +2077,17 @@ void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
 void KdenliveDoc::setGuidesFilter(const QList<int> filter)
 {
     m_guidesFilterModel->slotSetFilters(filter);
+}
+
+// static
+const QStringList KdenliveDoc::getDefaultGuideCategories()
+{
+    // Don't change this or it will break compatibility for projects created with Kdenlive < 22.12
+    QStringList colors = {QLatin1String("#9b59b6"), QLatin1String("#3daee9"), QLatin1String("#1abc9c"), QLatin1String("#1cdc9a"), QLatin1String("#c9ce3b"),
+                          QLatin1String("#fdbc4b"), QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
+    QStringList guidesCategories;
+    for (int i = 0; i < 9; i++) {
+        guidesCategories << i18n("Category %1:%2:%3", QString::number(i + 1), QString::number(i), colors.at(i));
+    }
+    return guidesCategories;
 }

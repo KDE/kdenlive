@@ -1505,6 +1505,11 @@ void ClipPropertiesController::slotLoadMarkers()
         return;
     }
     QFile file(url);
+    if (file.size() > 1048576 &&
+        KMessageBox::warningContinueCancel(this, i18n("Marker file is larger than 1MB, are you sure you want to import ?")) != KMessageBox::Continue) {
+        // If marker file is larger than 1MB, ask for confirmation
+        return;
+    }
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         KMessageBox::error(this, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
         return;

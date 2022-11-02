@@ -52,11 +52,54 @@ GuidesList::GuidesList(QWidget *parent)
     connect(guide_add, &QToolButton::clicked, this, &GuidesList::addGuide);
     connect(guide_save, &QToolButton::clicked, this, &GuidesList::saveGuides);
     connect(configure, &QToolButton::clicked, this, &GuidesList::configureGuides);
+    connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
     QMenu *menu = new QMenu(this);
     QAction *ac = new QAction(i18n("add multiple guides"), this);
     connect(ac, &QAction::triggered, this, &GuidesList::addMutipleGuides);
     menu->addAction(ac);
     guide_add->setMenu(menu);
+
+    // Sort menu
+    m_filterGroup = new QActionGroup(this);
+    QMenu *sortMenu = new QMenu(this);
+    QAction *sort1 = new QAction(i18n("Sort by Category"), this);
+    sort1->setCheckable(true);
+    QAction *sort2 = new QAction(i18n("Sort by Time"), this);
+    sort2->setCheckable(true);
+    QAction *sort3 = new QAction(i18n("Sort by Comment"), this);
+    sort3->setCheckable(true);
+    QAction *sortDescending = new QAction(i18n("Descending"), this);
+    sortDescending->setCheckable(true);
+
+    sort1->setData(0);
+    sort2->setData(1);
+    sort3->setData(2);
+    m_filterGroup->addAction(sort1);
+    m_filterGroup->addAction(sort2);
+    m_filterGroup->addAction(sort3);
+    sortMenu->addAction(sort1);
+    sortMenu->addAction(sort2);
+    sortMenu->addAction(sort3);
+    sortMenu->addSeparator();
+    sortMenu->addAction(sortDescending);
+    sort2->setChecked(true);
+    sort_guides->setMenu(sortMenu);
+    connect(m_filterGroup, &QActionGroup::triggered, this, &GuidesList::sortView);
+    connect(sortDescending, &QAction::triggered, this, &GuidesList::changeSortOrder);
+
+    guide_add->setToolTip(i18n("Add new guide."));
+    guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
+    guide_delete->setToolTip(i18n("Dereturn leftTime < rightTime;lete guide."));
+    guide_delete->setWhatsThis(xi18nc("@info:whatsi18nthis", "Delete guide. This will erase all selected guides."));
+    guide_save->setToolTip(i18n("Export guides."));
+    guide_save->setWhatsThis(
+        xi18nc("@info:whatsthis", "Export guide. This allows you to copy the guides data in a text format for use in web platforms for example."));
+    configure->setToolTip(i18n("Configure project guide categories."));
+    configure->setWhatsThis(xi18nc(
+        "@info:whatsthis", "Configure guide categories. This allows you to customize the guide categories used in this project (add, remove, rename, ...)."));
+    show_categories->setToolTip(i18n("Filter guide categories."));
+    show_categories->setWhatsThis(
+        xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
 }
 
 void GuidesList::configureGuides()
@@ -139,6 +182,7 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, MarkerSortModel 
 {
     m_model = std::move(model);
     if (auto markerModel = m_model.lock()) {
+        m_sortModel = viewModel;
         m_proxy->setSourceModel(viewModel);
         guides_list->setModel(m_proxy);
         guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -188,4 +232,25 @@ void GuidesList::updateFilter(QAbstractButton *, bool)
     }
     emit pCore->refreshActiveGuides();
     qDebug() << "::: GOT FILTERS: " << filters;
+}
+
+void GuidesList::filterView(const QString &text)
+{
+    if (m_sortModel) {
+        m_sortModel->slotSetFilterString(text);
+    }
+}
+
+void GuidesList::sortView(QAction *ac)
+{
+    if (m_sortModel) {
+        m_sortModel->slotSetSortColumn(ac->data().toInt());
+    }
+}
+
+void GuidesList::changeSortOrder(bool descending)
+{
+    if (m_sortModel) {
+        m_sortModel->slotSetSortOrder(descending);
+    }
 }

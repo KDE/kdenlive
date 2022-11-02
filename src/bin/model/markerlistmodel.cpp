@@ -632,6 +632,10 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = importFromJson(data, ignoreConflicts, undo, redo);
+    /*if (!result) {
+        // Import failed, try to import as txt data
+        result = importFromTxt(data, ignoreConflicts, undo, redo);
+    }*/
     if (pushUndo) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     }
@@ -678,20 +682,87 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
             return false;
         }
     }
-
     return true;
 }
 
-QString MarkerListModel::toJson() const
+bool MarkerListModel::importFromTxt(const QString &fileName, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    QFile inputFile(fileName);
+    bool res = true;
+    bool lineRead = false;
+    // TODO: ask for a category
+    int type = 0;
+    if (inputFile.open(QIODevice::ReadOnly)) {
+        QTextStream in(&inputFile);
+        while (!in.atEnd()) {
+            QString line = in.readLine().simplified();
+            if (line.isEmpty()) {
+                continue;
+            }
+            QString pos = line.section(QLatin1Char(' '), 0, 0);
+            GenTime position;
+            // Try to read timecode
+            bool ok = false;
+            int separatorsCount = pos.count(QLatin1Char(':'));
+            switch (separatorsCount) {
+            case 0:
+                // assume we are dealing with seconds
+                position = GenTime(pos.toDouble(&ok));
+                break;
+            case 1: {
+                // assume min:sec
+                QString sec = pos.section(QLatin1Char(':'), 1);
+                QString min = pos.section(QLatin1Char(':'), 0, 0);
+                double seconds = sec.toDouble(&ok);
+                int minutes = ok ? min.toInt(&ok) : 0;
+                position = GenTime(seconds + 60 * minutes);
+                break;
+            }
+            case 2:
+            default: {
+                // assume hh:min:sec
+                QString sec = pos.section(QLatin1Char(':'), 2);
+                QString min = pos.section(QLatin1Char(':'), 1, 1);
+                QString hours = pos.section(QLatin1Char(':'), 0, 0);
+                double seconds = sec.toDouble(&ok);
+                int minutes = ok ? min.toInt(&ok) : 0;
+                int h = ok ? hours.toInt(&ok) : 0;
+                position = GenTime(seconds + (60 * minutes) + (3600 * h));
+                break;
+            }
+            }
+            if (!ok) {
+                // Could not read timecode
+                qDebug() << "::: Could not read timecode from line: " << line;
+                continue;
+            }
+            QString comment = line.section(QLatin1Char(' '), 1);
+            bool res = addMarker(position, comment, type, undo, redo);
+            if (!res) {
+                break;
+            } else if (!lineRead) {
+                lineRead = true;
+            }
+        }
+        inputFile.close();
+    }
+    return res && lineRead;
+}
+
+QString MarkerListModel::toJson(QList<int> categories) const
 {
     READ_LOCK();
     QJsonArray list;
+    bool exportAllCategories = categories.isEmpty() || categories == (QList<int>() << -1);
     for (const auto &marker : m_markerList) {
         QJsonObject currentMarker;
         currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.second.time().frames(pCore->getCurrentFps())));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.comment()));
         currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.markerType()));
-        list.push_back(currentMarker);
+        if (exportAllCategories || categories.contains(marker.second.markerType())) {
+            list.push_back(currentMarker);
+        }
     }
     QJsonDocument json(list);
     return QString::fromUtf8(json.toJson());
