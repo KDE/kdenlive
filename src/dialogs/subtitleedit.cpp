@@ -346,7 +346,7 @@ void SubtitleEdit::goToPrevious()
             id = m_model->getPreviousSub(m_activeSub);
         } else {
             // Start from timeline cursor position
-            int cursorPos = pCore->getTimelinePosition();
+            int cursorPos = pCore->getMonitorPosition();
             std::unordered_set<int> sids = m_model->getItemsInRange(cursorPos, cursorPos);
             if (sids.empty()) {
                 sids = m_model->getItemsInRange(0, cursorPos);
@@ -378,7 +378,7 @@ void SubtitleEdit::goToNext()
             id = m_model->getNextSub(m_activeSub);
         } else {
             // Start from timeline cursor position
-            int cursorPos = pCore->getTimelinePosition();
+            int cursorPos = pCore->getMonitorPosition();
             std::unordered_set<int> sids = m_model->getItemsInRange(cursorPos, cursorPos);
             if (sids.empty()) {
                 sids = m_model->getItemsInRange(cursorPos, -1);

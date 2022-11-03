@@ -217,8 +217,8 @@ public:
     int projectDuration() const;
     /** @brief Returns true if current project has some rendered timeline preview  */
     bool hasTimelinePreview() const;
-    /** @brief Returns current timeline cursor position  */
-    int getTimelinePosition() const;
+    /** @brief Returns monitor position  */
+    int getMonitorPosition(Kdenlive::MonitorId id = Kdenlive::ProjectMonitor) const;
     /** @brief Handles audio and video capture **/
     void startMediaCapture(int tid, bool, bool);
     void stopMediaCapture(int tid, bool, bool);

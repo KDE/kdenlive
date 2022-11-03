@@ -939,7 +939,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         }
         if (previousClip > -1 && nextClip > -1) {
             // We have a clip before and a clip after, check timeline cursor position to decide where to mix
-            int cursor = pCore->getTimelinePosition();
+            int cursor = pCore->getMonitorPosition();
             if (cursor < mixPosition + clipDuration / 2) {
                 nextClip = -1;
             } else {
@@ -3041,7 +3041,7 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     }
     int proposed_size = size;
     if (!skipSnaps) {
-        int timelinePos = pCore->getTimelinePosition();
+        int timelinePos = pCore->getMonitorPosition();
         m_snaps->addPoint(timelinePos);
         proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
         m_snaps->removePoint(timelinePos);
@@ -3116,7 +3116,7 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
             size = out - getTrackById_const(trackId)->getBlankStart(in - 1);
         }
     }
-    int timelinePos = pCore->getTimelinePosition();
+    int timelinePos = pCore->getMonitorPosition();
     m_snaps->addPoint(timelinePos);
     int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
     m_snaps->removePoint(timelinePos);
@@ -4674,7 +4674,7 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 
 int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
 {
-    int cursorPosition = pCore->getTimelinePosition();
+    int cursorPosition = pCore->getMonitorPosition();
     m_snaps->addPoint(cursorPosition);
     int snapped = m_snaps->getClosestPoint(pos);
     m_snaps->removePoint(cursorPosition);

@@ -530,12 +530,12 @@ void AssetPanel::updateAssetPosition(int itemId)
     if (m_effectStackWidget->isVisible()) {
         ObjectId id = {ObjectType::TimelineClip, itemId};
         if (m_effectStackWidget->stackOwner() == id) {
-            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getTimelinePosition());
+            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     } else if (m_transitionWidget->isVisible()) {
         ObjectId id = {ObjectType::TimelineComposition, itemId};
         if (m_transitionWidget->stackOwner() == id) {
-            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getTimelinePosition());
+            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     }
 }

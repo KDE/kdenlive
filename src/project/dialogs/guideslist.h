@@ -50,6 +50,7 @@ private:
     std::weak_ptr<MarkerListModel> m_model;
     QIdentityProxyModel *m_proxy{nullptr};
     MarkerSortModel *m_sortModel{nullptr};
+    std::shared_ptr<ProjectClip> m_clip;
     QVBoxLayout m_categoriesLayout;
     QButtonGroup *catGroup{nullptr};
     QActionGroup *m_filterGroup;

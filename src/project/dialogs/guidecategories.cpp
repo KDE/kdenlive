@@ -132,10 +132,11 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         if (!editItem()) {
             delete item;
         }
+        guide_delete->setEnabled(guides_list->count() > 1);
     });
     connect(guide_delete, &QPushButton::clicked, this, [=]() {
         auto *item = guides_list->currentItem();
-        if (!item) {
+        if (!item || guides_list->count() == 1) {
             return;
         }
         int count = item->data(Qt::UserRole + 2).toInt();
@@ -146,6 +147,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
             }
         }
         delete item;
+        guide_delete->setEnabled(guides_list->count() > 1);
     });
 }
 

@@ -987,10 +987,15 @@ Mlt::Profile *Core::thumbProfile()
     return m_thumbProfile.get();
 }
 
-int Core::getTimelinePosition() const
+int Core::getMonitorPosition(Kdenlive::MonitorId id) const
 {
     if (m_guiConstructed) {
-        return m_monitorManager->projectMonitor()->position();
+        switch (id) {
+        case Kdenlive::ClipMonitor:
+            return m_monitorManager->clipMonitor()->position();
+        default:
+            return m_monitorManager->projectMonitor()->position();
+        }
     }
     return 0;
 }

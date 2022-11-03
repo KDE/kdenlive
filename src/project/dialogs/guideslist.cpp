@@ -188,7 +188,7 @@ void GuidesList::editGuide(const QModelIndex &ix)
     int frame = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
     GenTime pos(frame, pCore->getCurrentFps());
     if (auto markerModel = m_model.lock()) {
-        markerModel->editMarkerGui(pos, qApp->activeWindow(), false);
+        markerModel->editMarkerGui(pos, qApp->activeWindow(), false, m_clip.get());
     }
 }
 
@@ -211,18 +211,18 @@ void GuidesList::removeGuide()
 
 void GuidesList::addGuide()
 {
-    int frame = pCore->getTimelinePosition();
+    int frame = pCore->getMonitorPosition(m_markerMode ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor);
     if (frame >= 0) {
         GenTime pos(frame, pCore->getCurrentFps());
         if (auto markerModel = m_model.lock()) {
-            markerModel->addMultipleMarkersGui(pos, this, true);
+            markerModel->addMultipleMarkersGui(pos, this, true, m_clip.get());
         }
     }
 }
 
 void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSelection &)
 {
-    if (selected.isEmpty()) {
+    if (selected.indexes().isEmpty()) {
         return;
     }
     const QModelIndex ix = selected.indexes().first();
@@ -230,13 +230,18 @@ void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSel
         return;
     }
     int pos = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
-    pCore->seekMonitor(Kdenlive::ProjectMonitor, pos);
+    pCore->seekMonitor(m_markerMode ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor, pos);
 }
 
 GuidesList::~GuidesList() = default;
 
 void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
 {
+    m_markerMode = true;
+    if (clip == m_clip) {
+        return;
+    }
+    m_clip = clip;
     if (clip == nullptr) {
         m_sortModel = nullptr;
         m_proxy->setSourceModel(m_sortModel);
@@ -246,7 +251,6 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
         return;
     }
     setEnabled(true);
-    m_markerMode = true;
     guideslist_label->setText(i18n("Markers for %1", clip->clipName()));
     m_sortModel = clip->getFilteredMarkerModel().get();
     m_model = clip->getMarkerModel();
@@ -262,6 +266,8 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
 
 void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel)
 {
+    m_clip = nullptr;
+    m_markerMode = false;
     if (viewModel.get() == m_sortModel) {
         // already displayed
         return;
@@ -307,6 +313,7 @@ void GuidesList::rebuildCategories()
     }
 
     QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
+    bool defaultCategoryFound = false;
     while (i.hasNext()) {
         i.next();
         pixmap.fill(i.value().color);
@@ -319,9 +326,18 @@ void GuidesList::rebuildCategories()
         markerDefaultMenu->addAction(ac);
         if (i.key() == KdenliveSettings::default_marker_type()) {
             default_category->setIcon(colorIcon);
+            defaultCategoryFound = true;
         }
         catGroup->addButton(cb);
         m_categoriesLayout.addWidget(cb);
+    }
+    if (!defaultCategoryFound) {
+        // Default marker category not found. set it to first one
+        QAction *ac = markerDefaultMenu->actions().first();
+        if (ac) {
+            default_category->setIcon(ac->icon());
+            KdenliveSettings::setDefault_marker_type(ac->data().toInt());
+        }
     }
     connect(catGroup, &QButtonGroup::buttonToggled, this, &GuidesList::updateFilter);
 }
@@ -352,7 +368,6 @@ void GuidesList::updateFilter(QAbstractButton *, bool)
     }
     pCore->currentDoc()->setGuidesFilter(filters);
     emit pCore->refreshActiveGuides();
-    qDebug() << "::: GOT FILTERS: " << filters;
 }
 
 void GuidesList::filterView(const QString &text)

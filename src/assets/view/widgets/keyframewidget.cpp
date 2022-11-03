@@ -465,7 +465,7 @@ void KeyframeWidget::slotRefresh()
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
     if (m_model->monitorId == Kdenlive::ProjectMonitor) {
-        monitorSeek(pCore->getTimelinePosition());
+        monitorSeek(pCore->getMonitorPosition());
     } else {
         int pos = m_time->getValue();
         bool isInRange = pos >= in && pos < out;
