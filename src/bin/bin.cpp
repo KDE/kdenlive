@@ -5488,3 +5488,35 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
         pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", importedStreams));
     }
 }
+
+int Bin::getAllClipMarkers(int category) const
+{
+    int markersCount = 0;
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        markersCount += clip->getMarkerModel()->getAllMarkers(category).count();
+    }
+    return markersCount;
+}
+
+void Bin::removeMarkerCategories(QList<int> toRemove)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool found = false;
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        for (int i : toRemove) {
+            QList<CommentedTime> toDelete = clip->getMarkerModel()->getAllMarkers(i);
+            if (!found && toDelete.count() > 0) {
+                found = true;
+            }
+            for (CommentedTime c : toDelete) {
+                clip->getMarkerModel()->removeMarker(c.time(), undo, redo);
+            }
+        }
+    }
+    if (found) {
+        pCore->pushUndo(undo, redo, i18n("Remove clip markers"));
+    }
+}

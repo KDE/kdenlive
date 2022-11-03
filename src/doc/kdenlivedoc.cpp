@@ -381,6 +381,22 @@ const QStringList KdenliveDoc::guidesCategories() const
 void KdenliveDoc::updateGuideCategories(const QStringList &categories)
 {
     const QStringList currentCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
+    // Check if a guide category was removed
+    QList<int> currentIndexes;
+    QList<int> updatedIndexes;
+    for (auto &cat : currentCategories) {
+        currentIndexes << cat.section(QLatin1Char(':'), -2, -2).toInt();
+    }
+    for (auto &cat : categories) {
+        updatedIndexes << cat.section(QLatin1Char(':'), -2, -2).toInt();
+    }
+    for (auto &i : updatedIndexes) {
+        currentIndexes.removeAll(i);
+    }
+    if (!currentIndexes.isEmpty()) {
+        // A marker category was removed, delete all Bin clip markers using it
+        pCore->bin()->removeMarkerCategories(currentIndexes);
+    }
     m_guideModel->loadCategoriesWithUndo(categories, currentCategories);
 }
 

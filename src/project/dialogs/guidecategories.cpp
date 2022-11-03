@@ -113,6 +113,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         // Check usage
         if (doc) {
             int count = doc->getGuideModel()->getAllMarkers(ix).count();
+            count += pCore->bin()->getAllClipMarkers(ix);
             item->setData(Qt::UserRole + 2, count);
         }
         guides_list->addItem(item);
