@@ -626,16 +626,26 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
     }
 }
 
+bool MarkerListModel::importFromFile(const QString &fileData, bool ignoreConflicts)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = importFromJson(fileData, ignoreConflicts, undo, redo);
+    if (!res) {
+        res = importFromTxt(fileData, undo, redo);
+    }
+    if (res) {
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
+    }
+    return res;
+}
+
 bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = importFromJson(data, ignoreConflicts, undo, redo);
-    /*if (!result) {
-        // Import failed, try to import as txt data
-        result = importFromTxt(data, ignoreConflicts, undo, redo);
-    }*/
-    if (pushUndo) {
+    if (result && pushUndo) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     }
     return result;
@@ -684,67 +694,61 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
     return true;
 }
 
-bool MarkerListModel::importFromTxt(const QString &fileName, Fun &undo, Fun &redo)
+bool MarkerListModel::importFromTxt(const QString &fileData, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    QFile inputFile(fileName);
-    bool res = true;
+    bool res = false;
     bool lineRead = false;
-    // TODO: ask for a category
-    int type = 0;
-    if (inputFile.open(QIODevice::ReadOnly)) {
-        QTextStream in(&inputFile);
-        while (!in.atEnd()) {
-            QString line = in.readLine().simplified();
-            if (line.isEmpty()) {
-                continue;
-            }
-            QString pos = line.section(QLatin1Char(' '), 0, 0);
-            GenTime position;
-            // Try to read timecode
-            bool ok = false;
-            int separatorsCount = pos.count(QLatin1Char(':'));
-            switch (separatorsCount) {
-            case 0:
-                // assume we are dealing with seconds
-                position = GenTime(pos.toDouble(&ok));
-                break;
-            case 1: {
-                // assume min:sec
-                QString sec = pos.section(QLatin1Char(':'), 1);
-                QString min = pos.section(QLatin1Char(':'), 0, 0);
-                double seconds = sec.toDouble(&ok);
-                int minutes = ok ? min.toInt(&ok) : 0;
-                position = GenTime(seconds + 60 * minutes);
-                break;
-            }
-            case 2:
-            default: {
-                // assume hh:min:sec
-                QString sec = pos.section(QLatin1Char(':'), 2);
-                QString min = pos.section(QLatin1Char(':'), 1, 1);
-                QString hours = pos.section(QLatin1Char(':'), 0, 0);
-                double seconds = sec.toDouble(&ok);
-                int minutes = ok ? min.toInt(&ok) : 0;
-                int h = ok ? hours.toInt(&ok) : 0;
-                position = GenTime(seconds + (60 * minutes) + (3600 * h));
-                break;
-            }
-            }
-            if (!ok) {
-                // Could not read timecode
-                qDebug() << "::: Could not read timecode from line: " << line;
-                continue;
-            }
-            QString comment = line.section(QLatin1Char(' '), 1);
-            bool res = addMarker(position, comment, type, undo, redo);
-            if (!res) {
-                break;
-            } else if (!lineRead) {
-                lineRead = true;
-            }
+    int type = KdenliveSettings::default_marker_type();
+    const QStringList lines = fileData.split(QLatin1Char('\n'));
+    for (auto &line : lines) {
+        if (line.isEmpty()) {
+            continue;
         }
-        inputFile.close();
+        QString pos = line.section(QLatin1Char(' '), 0, 0);
+        GenTime position;
+        // Try to read timecode
+        bool ok = false;
+        int separatorsCount = pos.count(QLatin1Char(':'));
+        switch (separatorsCount) {
+        case 0:
+            // assume we are dealing with seconds
+            position = GenTime(pos.toDouble(&ok));
+            break;
+        case 1: {
+            // assume min:sec
+            QString sec = pos.section(QLatin1Char(':'), 1);
+            QString min = pos.section(QLatin1Char(':'), 0, 0);
+            double seconds = sec.toDouble(&ok);
+            int minutes = ok ? min.toInt(&ok) : 0;
+            position = GenTime(seconds + 60 * minutes);
+            break;
+        }
+        case 2:
+        default: {
+            // assume hh:min:sec
+            QString sec = pos.section(QLatin1Char(':'), 2);
+            QString min = pos.section(QLatin1Char(':'), 1, 1);
+            QString hours = pos.section(QLatin1Char(':'), 0, 0);
+            double seconds = sec.toDouble(&ok);
+            int minutes = ok ? min.toInt(&ok) : 0;
+            int h = ok ? hours.toInt(&ok) : 0;
+            position = GenTime(seconds + (60 * minutes) + (3600 * h));
+            break;
+        }
+        }
+        if (!ok) {
+            // Could not read timecode
+            qDebug() << "::: Could not read timecode from line: " << line;
+            continue;
+        }
+        QString comment = line.section(QLatin1Char(' '), 1);
+        res = addMarker(position, comment, type, undo, redo);
+        if (!res) {
+            break;
+        } else if (!lineRead) {
+            lineRead = true;
+        }
     }
     return res && lineRead;
 }
@@ -843,6 +847,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
+        emit pCore->updateDefaultMarkerCategory();
         if (exists && !createOnly) {
             return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
         }
@@ -869,6 +874,7 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
         GenTime interval = dialog->getInterval();
         KdenliveSettings::setMultipleguidesinterval(interval.seconds());
         marker = dialog->newMarker();
+        emit pCore->updateDefaultMarkerCategory();
         GenTime startTime = marker.time();
         QWriteLocker locker(&m_lock);
         Fun undo = []() { return true; };

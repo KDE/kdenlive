@@ -73,7 +73,8 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="document-edit"/>
+        <iconset theme="document-edit">
+         <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -88,6 +89,19 @@
        <property name="icon">
         <iconset theme="edit-delete">
          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="default_category">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
        </property>
        <property name="autoRaise">
         <bool>true</bool>

@@ -176,6 +176,7 @@ public slots:
     bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
     bool importFromJson(const QString &data, bool ignoreConflicts, Fun &undo, Fun &redo);
     bool importFromTxt(const QString &fileName, Fun &undo, Fun &redo);
+    bool importFromFile(const QString &fileData, bool ignoreConflicts);
 
 protected:
     /** @brief Adds a snap point at marker position in the registered snap models

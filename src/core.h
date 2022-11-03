@@ -409,4 +409,6 @@ signals:
     void updateProjectTimecode();
     /** @brief Visible guide categories changed, reload snaps in timeline */
     void refreshActiveGuides();
+    /** @brief The default marker category was changed, update guides list button */
+    void updateDefaultMarkerCategory();
 };

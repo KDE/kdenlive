@@ -11,13 +11,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "project/projectmanager.h"
 
 #include <KLocalizedString>
+#include <KMessageBox>
 
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QDialog>
+#include <QFileDialog>
 #include <QFontDatabase>
 #include <QMenu>
 #include <QPainter>
@@ -54,11 +58,12 @@ GuidesList::GuidesList(QWidget *parent)
     connect(guide_add, &QToolButton::clicked, this, &GuidesList::addGuide);
     connect(guide_edit, &QToolButton::clicked, this, &GuidesList::editGuides);
     connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
+    connect(pCore.get(), &Core::updateDefaultMarkerCategory, this, &GuidesList::refreshDefaultCategory);
 
     //  Settings menu
     QMenu *settingsMenu = new QMenu(this);
     QAction *importGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Import..."), this);
-    connect(importGuides, &QAction::triggered, this, &GuidesList::configureGuides);
+    connect(importGuides, &QAction::triggered, this, &GuidesList::importGuides);
     settingsMenu->addAction(importGuides);
     QAction *exportGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("Export..."), this);
     connect(exportGuides, &QAction::triggered, this, &GuidesList::saveGuides);
@@ -105,11 +110,47 @@ GuidesList::GuidesList(QWidget *parent)
     show_categories->setToolTip(i18n("Filter guide categories."));
     show_categories->setWhatsThis(
         xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
+    default_category->setToolTip(i18n("Default guide category."));
+    default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created markers."));
 }
 
 void GuidesList::configureGuides()
 {
     pCore->window()->slotEditProjectSettings(2);
+}
+
+void GuidesList::importGuides()
+{
+    if (auto markerModel = m_model.lock()) {
+        QScopedPointer<QFileDialog> fd(
+            new QFileDialog(this, i18nc("@title:window", "Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
+        fd->setMimeTypeFilters({QStringLiteral("application/json"), QStringLiteral("text/plain")});
+        fd->setFileMode(QFileDialog::ExistingFile);
+        if (fd->exec() != QDialog::Accepted) {
+            return;
+        }
+        QStringList selection = fd->selectedFiles();
+        QString url;
+        if (!selection.isEmpty()) {
+            url = selection.first();
+        }
+        if (url.isEmpty()) {
+            return;
+        }
+        QFile file(url);
+        if (file.size() > 1048576 &&
+            KMessageBox::warningContinueCancel(this, i18n("Marker file is larger than 1MB, are you sure you want to import ?")) != KMessageBox::Continue) {
+            // If marker file is larger than 1MB, ask for confirmation
+            return;
+        }
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            KMessageBox::error(this, i18n("Cannot read file %1", QUrl::fromLocalFile(url).fileName()));
+            return;
+        }
+        QString fileContent = QString::fromUtf8(file.readAll());
+        file.close();
+        markerModel->importFromFile(fileContent, true);
+    }
 }
 
 void GuidesList::saveGuides()
@@ -251,6 +292,20 @@ void GuidesList::rebuildCategories()
     catGroup = new QButtonGroup(this);
     catGroup->setExclusive(false);
     QPixmap pixmap(32, 32);
+    // Cleanup default marker category menu
+    QMenu *markerDefaultMenu = default_category->menu();
+    if (markerDefaultMenu) {
+        markerDefaultMenu->clear();
+    } else {
+        markerDefaultMenu = new QMenu(this);
+        connect(markerDefaultMenu, &QMenu::triggered, this, [this](QAction *ac) {
+            int val = ac->data().toInt();
+            KdenliveSettings::setDefault_marker_type(val);
+            default_category->setIcon(ac->icon());
+        });
+        default_category->setMenu(markerDefaultMenu);
+    }
+
     QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
     while (i.hasNext()) {
         i.next();
@@ -259,10 +314,31 @@ void GuidesList::rebuildCategories()
         QCheckBox *cb = new QCheckBox(i.value().displayName, this);
         cb->setProperty("index", i.key());
         cb->setIcon(colorIcon);
+        QAction *ac = new QAction(colorIcon, i.value().displayName);
+        ac->setData(i.key());
+        markerDefaultMenu->addAction(ac);
+        if (i.key() == KdenliveSettings::default_marker_type()) {
+            default_category->setIcon(colorIcon);
+        }
         catGroup->addButton(cb);
         m_categoriesLayout.addWidget(cb);
     }
     connect(catGroup, &QButtonGroup::buttonToggled, this, &GuidesList::updateFilter);
+}
+
+void GuidesList::refreshDefaultCategory()
+{
+    int ix = KdenliveSettings::default_marker_type();
+    QMenu *menu = default_category->menu();
+    if (menu) {
+        QList<QAction *> actions = menu->actions();
+        for (auto *ac : actions) {
+            if (ac->data() == ix) {
+                default_category->setIcon(ac->icon());
+                break;
+            }
+        }
+    }
 }
 
 void GuidesList::updateFilter(QAbstractButton *, bool)

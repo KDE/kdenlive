@@ -32,6 +32,7 @@ public:
 private slots:
     void saveGuides();
     void editGuides();
+    void importGuides();
     void editGuide(const QModelIndex &ix);
     void selectionChanged(const QItemSelection &selected, const QItemSelection &);
     void removeGuide();
@@ -42,6 +43,7 @@ private slots:
     void filterView(const QString &text);
     void sortView(QAction *ac);
     void changeSortOrder(bool descending);
+    void refreshDefaultCategory();
 
 private:
     /** @brief Set the marker model that will be displayed. */
