@@ -6,7 +6,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "clippropertiescontroller.h"
-#include "bin/model/markerlistmodel.hpp"
 #include "clipcontroller.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
@@ -228,7 +227,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     auto *forcePage = new QScrollArea(this);
     auto *forceAudioPage = new QScrollArea(this);
     m_propertiesPage = new QWidget(this);
-    m_markersPage = new QWidget(this);
     m_metaPage = new QWidget(this);
     m_analysisPage = new QWidget(this);
 
@@ -243,33 +241,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     propsBox->addWidget(m_propertiesTree);
     fillProperties();
     m_propertiesPage->setLayout(propsBox);
-
-    // Clip markers
-    auto *mBox = new QVBoxLayout;
-    m_markerTree = new QTreeView;
-    m_markerTree->setRootIsDecorated(false);
-    m_markerTree->setAlternatingRowColors(true);
-    m_markerTree->setHeaderHidden(true);
-    m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    m_markerTree->setObjectName("markers_list");
-    mBox->addWidget(m_markerTree);
-    m_sortMarkers = std::make_unique<QSortFilterProxyModel>(this);
-    m_sortMarkers->setSourceModel(controller->getMarkerModel().get());
-    m_sortMarkers->setSortRole(MarkerListModel::PosRole);
-    m_sortMarkers->sort(0, Qt::AscendingOrder);
-    m_markerTree->setModel(m_sortMarkers.get());
-    auto *bar = new QToolBar;
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker…"), this, SLOT(slotAddMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete marker"), this, SLOT(slotDeleteMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit marker…"), this, SLOT(slotEditMarker()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export markers…"), this, SLOT(slotSaveMarkers()));
-    bar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import markers…"), this, SLOT(slotLoadMarkers()));
-    mBox->addWidget(bar);
-
-    m_markersPage->setLayout(mBox);
-    connect(m_markerTree, &QAbstractItemView::activated, this, &ClipPropertiesController::slotSeekToMarker);
-    connect(m_markerTree, &QAbstractItemView::clicked, this, &ClipPropertiesController::slotSeekToMarker);
-    connect(m_markerTree, &QAbstractItemView::doubleClicked, this, &ClipPropertiesController::slotEditMarker);
 
     // metadata
     auto *m2Box = new QVBoxLayout;
@@ -1021,7 +992,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->addTab(m_propertiesPage, QString());
     m_tabWidget->addTab(forcePage, QString());
     m_tabWidget->addTab(forceAudioPage, QString());
-    m_tabWidget->addTab(m_markersPage, QString());
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
     m_tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("edit-find")));
@@ -1030,12 +1000,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->setTabToolTip(1, i18n("Properties"));
     m_tabWidget->setTabIcon(2, QIcon::fromTheme(QStringLiteral("audio-volume-high")));
     m_tabWidget->setTabToolTip(2, i18n("Audio Properties"));
-    m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("bookmark-new")));
-    m_tabWidget->setTabToolTip(3, i18n("Markers"));
-    m_tabWidget->setTabIcon(4, QIcon::fromTheme(QStringLiteral("view-grid")));
-    m_tabWidget->setTabToolTip(4, i18n("Metadata"));
-    m_tabWidget->setTabIcon(5, QIcon::fromTheme(QStringLiteral("visibility")));
-    m_tabWidget->setTabToolTip(5, i18n("Analysis"));
+    m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
+    m_tabWidget->setTabToolTip(3, i18n("Metadata"));
+    m_tabWidget->setTabIcon(4, QIcon::fromTheme(QStringLiteral("visibility")));
+    m_tabWidget->setTabToolTip(4, i18n("Analysis"));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == ClipType::Color) {
         m_tabWidget->setTabEnabled(0, false);
@@ -1412,116 +1380,6 @@ void ClipPropertiesController::fillProperties()
     m_propertiesTree->resizeColumnToContents(0);
 }
 
-void ClipPropertiesController::slotSeekToMarker()
-{
-    auto markerModel = m_controller->getMarkerModel();
-    auto current = m_sortMarkers->mapToSource(m_markerTree->currentIndex());
-    if (!current.isValid()) return;
-    GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
-    emit seekToFrame(pos.frames(pCore->getCurrentFps()));
-}
-
-void ClipPropertiesController::slotEditMarker()
-{
-    auto markerModel = m_controller->getMarkerModel();
-    auto current = m_sortMarkers->mapToSource(m_markerTree->currentIndex());
-    if (!current.isValid()) return;
-    GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
-    markerModel->editMarkerGui(pos, this, false, m_controller);
-}
-
-void ClipPropertiesController::slotDeleteMarker()
-{
-    auto markerModel = m_controller->getMarkerModel();
-    QModelIndexList indexes = m_markerTree->selectionModel()->selectedIndexes();
-    QModelIndexList mapped;
-    for (auto &ix : indexes) {
-        mapped << m_sortMarkers->mapToSource(ix);
-    }
-    QList<GenTime> positions;
-    for (auto &ix : mapped) {
-        if (ix.isValid()) {
-            positions << GenTime(markerModel->data(ix, MarkerListModel::PosRole).toDouble());
-        }
-    }
-    if (!positions.isEmpty()) {
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
-
-        for (GenTime pos : qAsConst(positions)) {
-            markerModel->removeMarker(pos, undo, redo);
-        }
-        pCore->pushUndo(undo, redo, i18n("Delete marker"));
-    }
-}
-
-void ClipPropertiesController::slotAddMarker()
-{
-    auto markerModel = m_controller->getMarkerModel();
-    GenTime pos(m_controller->originalProducer()->position(), pCore->getCurrentFps());
-    markerModel->editMarkerGui(pos, this, true, m_controller, true);
-}
-
-void ClipPropertiesController::slotSaveMarkers()
-{
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters({QStringLiteral("application/json"), QStringLiteral("text/plain")});
-    fd->setFileMode(QFileDialog::AnyFile);
-    fd->setAcceptMode(QFileDialog::AcceptSave);
-    if (fd->exec() != QDialog::Accepted) {
-        return;
-    }
-    QStringList selection = fd->selectedFiles();
-    QString url;
-    if (!selection.isEmpty()) {
-        url = selection.first();
-    }
-    if (url.isEmpty()) {
-        return;
-    }
-    QFile file(url);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        KMessageBox::error(this, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
-        return;
-    }
-    file.write(m_controller->getMarkerModel()->toJson().toUtf8());
-    file.close();
-}
-
-void ClipPropertiesController::slotLoadMarkers()
-{
-    QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18nc("@title:window", "Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters({QStringLiteral("application/json"), QStringLiteral("text/plain")});
-    fd->setFileMode(QFileDialog::ExistingFile);
-    if (fd->exec() != QDialog::Accepted) {
-        return;
-    }
-    QStringList selection = fd->selectedFiles();
-    QString url;
-    if (!selection.isEmpty()) {
-        url = selection.first();
-    }
-    if (url.isEmpty()) {
-        return;
-    }
-    QFile file(url);
-    if (file.size() > 1048576 &&
-        KMessageBox::warningContinueCancel(this, i18n("Marker file is larger than 1MB, are you sure you want to import ?")) != KMessageBox::Continue) {
-        // If marker file is larger than 1MB, ask for confirmation
-        return;
-    }
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        KMessageBox::error(this, i18n("Cannot open file %1", QUrl::fromLocalFile(url).fileName()));
-        return;
-    }
-    QString fileContent = QString::fromUtf8(file.readAll());
-    file.close();
-    bool res = m_controller->getMarkerModel()->importFromJson(fileContent, false);
-    if (!res) {
-        KMessageBox::error(this, i18n("An error occurred while parsing the marker file"));
-    }
-}
-
 void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
 {
     tree->clear();
@@ -1726,20 +1584,6 @@ void ClipPropertiesController::slotTextChanged()
 void ClipPropertiesController::activatePage(int ix)
 {
     m_tabWidget->setCurrentIndex(ix);
-}
-
-void ClipPropertiesController::slotDeleteSelectedMarkers()
-{
-    if (m_tabWidget->currentIndex() == 3) {
-        slotDeleteMarker();
-    }
-}
-
-void ClipPropertiesController::slotSelectAllMarkers()
-{
-    if (m_tabWidget->currentIndex() == 3) {
-        m_markerTree->selectAll();
-    }
 }
 
 void ClipPropertiesController::updateStreamInfo(int streamIndex)

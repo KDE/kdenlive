@@ -3027,8 +3027,6 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         m_propertiesPanel->setLayout(lay);
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
-    connect(this, &Bin::deleteMarkers, panel, &ClipPropertiesController::slotDeleteSelectedMarkers);
-    connect(this, &Bin::selectMarkers, panel, &ClipPropertiesController::slotSelectAllMarkers);
     connect(panel, &ClipPropertiesController::updateClipProperties, this, &Bin::slotEditClipCommand);
     connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void (Monitor::*)(int)>(&Monitor::slotSeek));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
@@ -4548,20 +4546,6 @@ void Bin::setBinEffectsEnabled(bool enabled, bool refreshMonitor)
 
 void Bin::slotRenameItem()
 {
-    if (!hasFocus() && !m_itemView->hasFocus()) {
-        QWidget *widget = QApplication::focusWidget();
-        while ((widget != nullptr) && widget != pCore->window()) {
-            if (widget == pCore->bin()->clipPropertiesDock()) {
-                foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-                    static_cast<ClipPropertiesController *>(w)->slotEditMarker();
-                    break;
-                }
-                return;
-            }
-            widget = widget->parentWidget();
-        }
-        return;
-    }
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {

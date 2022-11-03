@@ -80,21 +80,13 @@ public slots:
     void slotReloadProperties();
     void slotFillMeta(QTreeWidget *tree);
     void slotFillAnalysisData();
-    void slotDeleteSelectedMarkers();
-    void slotSelectAllMarkers();
     void updateStreamInfo(int streamIndex);
-    void slotEditMarker();
 
 private slots:
     void slotColorModified(const QColor &newcolor);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotValueChanged(double);
-    void slotSeekToMarker();
-    void slotDeleteMarker();
-    void slotAddMarker();
-    void slotLoadMarkers();
-    void slotSaveMarkers();
     void slotDeleteAnalysis();
     void slotSaveAnalysis();
     void slotLoadAnalysis();
@@ -119,12 +111,9 @@ private:
     QList<int> m_videoStreams;
     QTreeWidget *m_propertiesTree;
     QWidget *m_propertiesPage;
-    QWidget *m_markersPage;
     QWidget *m_metaPage;
     QWidget *m_analysisPage;
     QComboBox *m_audioStream;
-    QTreeView *m_markerTree;
-    std::unique_ptr<QSortFilterProxyModel>m_sortMarkers;
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
     QListWidget *m_audioStreamsView;

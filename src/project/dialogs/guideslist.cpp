@@ -59,6 +59,8 @@ GuidesList::GuidesList(QWidget *parent)
     connect(guide_edit, &QToolButton::clicked, this, &GuidesList::editGuides);
     connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
     connect(pCore.get(), &Core::updateDefaultMarkerCategory, this, &GuidesList::refreshDefaultCategory);
+    QAction *a = KStandardAction::renameFile(this, &GuidesList::editGuides, this);
+    guides_list->addAction(a);
 
     //  Settings menu
     QMenu *settingsMenu = new QMenu(this);
@@ -192,14 +194,22 @@ void GuidesList::editGuide(const QModelIndex &ix)
     }
 }
 
+void GuidesList::selectAll()
+{
+    guides_list->selectAll();
+}
+
 void GuidesList::removeGuide()
 {
     QModelIndexList selection = guides_list->selectionModel()->selectedIndexes();
     if (auto markerModel = m_model.lock()) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        QList<int> frames;
         for (auto &ix : selection) {
-            int frame = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
+            frames << m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
+        }
+        for (auto &frame : frames) {
             GenTime pos(frame, pCore->getCurrentFps());
             markerModel->removeMarker(pos, undo, redo);
         }

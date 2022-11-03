@@ -29,13 +29,16 @@ public:
     void setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel);
     void setClipMarkerModel(std::shared_ptr<ProjectClip> clip);
 
+public slots:
+    void removeGuide();
+    void selectAll();
+
 private slots:
     void saveGuides();
     void editGuides();
     void importGuides();
     void editGuide(const QModelIndex &ix);
     void selectionChanged(const QItemSelection &selected, const QItemSelection &);
-    void removeGuide();
     void addGuide();
     void configureGuides();
     void rebuildCategories();

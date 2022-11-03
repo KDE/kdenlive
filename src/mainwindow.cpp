@@ -2573,7 +2573,6 @@ void MainWindow::slotDeleteItem()
         }
     }
     if (QApplication::focusWidget() != nullptr && pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
-        qDebug() << "===============\nDELETE TEXT BASED ITEM";
         pCore->textEditWidget()->deleteItem();
     } else {
         QWidget *widget = QApplication::focusWidget();
@@ -2582,8 +2581,8 @@ void MainWindow::slotDeleteItem()
                 m_assetPanel->deleteCurrentEffect();
                 return;
             }
-            if (widget == pCore->bin()->clipPropertiesDock()) {
-                emit pCore->bin()->deleteMarkers();
+            if (widget == pCore->guidesList()) {
+                pCore->guidesList()->removeGuide();
                 return;
             }
             widget = widget->parentWidget();
@@ -2799,8 +2798,8 @@ void MainWindow::slotSelectAllTracks()
                 }
             }
         }
-        if (QApplication::focusWidget()->objectName() == QLatin1String("markers_list")) {
-            emit pCore->bin()->selectMarkers();
+        if (QApplication::focusWidget()->objectName() == QLatin1String("guides_list")) {
+            pCore->guidesList()->selectAll();
             return;
         }
     }
