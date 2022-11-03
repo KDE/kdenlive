@@ -168,7 +168,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getFilteredGuideModel());
+    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getFilteredGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());

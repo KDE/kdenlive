@@ -789,6 +789,44 @@ bool MarkerListModel::removeAllMarkers()
     return true;
 }
 
+bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWidget *parent)
+{
+    bool exists;
+    auto marker = getMarker(positions.first(), &exists);
+    if (!exists) {
+        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+    }
+    QDialog d(parent);
+    d.setWindowTitle(m_guide ? i18n("Edit Guides Category") : i18n("Edit Markers Category"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    QLabel lab(m_guide ? i18n("Guides Category") : i18n("Markers Category"), &d);
+    MarkerCategoryChooser chooser(&d);
+    chooser.setMarkerModel(this);
+    chooser.setAllowAll(false);
+    chooser.setCurrentCategory(marker.markerType());
+    l->addWidget(&lab);
+    l->addWidget(&chooser);
+    l->addWidget(buttonBox);
+    if (d.exec() == QDialog::Accepted) {
+        int category = chooser.currentCategory();
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        for (auto &pos : positions) {
+            marker = getMarker(positions.first(), &exists);
+            if (exists) {
+                addMarker(pos, marker.comment(), category, undo, redo);
+            }
+        }
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Edit guides") : i18n("Edit markers"));
+        return true;
+    }
+    return false;
+}
+
 bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip, bool createOnly)
 {
     bool exists;

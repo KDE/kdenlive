@@ -196,7 +196,7 @@ public:
 
     /** @brief Returns a pointer to the guide model */
     std::shared_ptr<MarkerListModel> getGuideModel() const;
-    MarkerSortModel *getFilteredGuideModel() const;
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel() const;
 
     // TODO REFAC: delete */
     Render *renderer();

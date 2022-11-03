@@ -1876,9 +1876,9 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-MarkerSortModel *KdenliveDoc::getFilteredGuideModel() const
+std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel() const
 {
-    return m_guidesFilterModel.get();
+    return m_guidesFilterModel;
 }
 
 std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const

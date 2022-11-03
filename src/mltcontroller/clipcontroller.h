@@ -23,6 +23,7 @@ class Bin;
 class AudioStreamInfo;
 class EffectStackModel;
 class MarkerListModel;
+class MarkerSortModel;
 
 /** @class ClipController
  *  @brief Provides a convenience wrapper around the project Bin clip producers.
@@ -156,6 +157,7 @@ public:
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
+    std::shared_ptr<MarkerSortModel> getFilteredMarkerModel() const;
 
     void setZone(const QPoint &zone);
     QPoint zone() const;
@@ -239,6 +241,7 @@ protected:
     // void rebuildEffectList(ProfileInfo info);
     std::shared_ptr<EffectStackModel> m_effectStack;
     std::shared_ptr<MarkerListModel> m_markerModel;
+    std::shared_ptr<MarkerSortModel> m_markerFilterModel;
     bool m_hasAudio;
     bool m_hasVideo;
     QMap<int, QStringList> m_streamEffects;

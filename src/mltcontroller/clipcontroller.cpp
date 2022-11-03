@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "clipcontroller.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/markersortmodel.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
@@ -1080,4 +1081,9 @@ bool ClipController::hasProxy() const
     QString proxy = getProducerProperty(QStringLiteral("kdenlive:proxy"));
     // qDebug()<<"::: PROXY: "<<proxy<<" = "<<getProducerProperty(QStringLiteral("resource"));
     return proxy.size() > 2 && proxy == getProducerProperty(QStringLiteral("resource"));
+}
+
+std::shared_ptr<MarkerSortModel> ClipController::getFilteredMarkerModel() const
+{
+    return m_markerFilterModel;
 }

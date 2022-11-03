@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "lib/localeHandling.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
+#include "project/dialogs/guideslist.h"
 
 #include "monitormanager.h"
 #include "monitorproxy.h"
@@ -1776,6 +1777,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (m_controller->statusReady()) {
             m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
             m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getMarkerModel());
+            pCore->guidesList()->setClipMarkerModel(m_controller);
             loadQmlScene(MonitorSceneDefault);
             updateMarkers();
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
@@ -1821,6 +1823,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
+        pCore->guidesList()->setClipMarkerModel(nullptr);
         // m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
         if (monitorVisible()) {
@@ -2480,6 +2483,17 @@ void Monitor::slotSwitchAudioMonitor()
         slotActivateMonitor();
     }
     displayAudioMonitor(isActive());
+}
+
+void Monitor::updateGuidesList()
+{
+    if (m_id == Kdenlive::ProjectMonitor) {
+        if (pCore->currentDoc()) {
+            pCore->guidesList()->setModel(pCore->currentDoc()->getGuideModel(), pCore->currentDoc()->getFilteredGuideModel());
+        }
+    } else if (m_id == Kdenlive::ClipMonitor) {
+        pCore->guidesList()->setClipMarkerModel(m_controller);
+    }
 }
 
 void Monitor::displayAudioMonitor(bool isActive)

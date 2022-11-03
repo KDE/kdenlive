@@ -311,7 +311,7 @@ void AssetPanel::clear()
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
-    m_assetTitle->setText(QString());
+    m_assetTitle->clear();
 }
 
 void AssetPanel::updatePalette()

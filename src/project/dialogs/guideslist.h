@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 class MarkerSortModel;
 class QActionGroup;
+class ProjectClip;
 
 /** @class GuidesList
     @brief A widget listing project guides and allowing some advanced editing.
@@ -25,11 +26,12 @@ class GuidesList : public QWidget, public Ui::GuidesList_UI
 public:
     explicit GuidesList(QWidget *parent = nullptr);
     ~GuidesList() override;
-    void setModel(std::weak_ptr<MarkerListModel> model, MarkerSortModel *viewModel);
+    void setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel);
+    void setClipMarkerModel(std::shared_ptr<ProjectClip> clip);
 
-protected:
 private slots:
     void saveGuides();
+    void editGuides();
     void editGuide(const QModelIndex &ix);
     void selectionChanged(const QItemSelection &selected, const QItemSelection &);
     void removeGuide();
@@ -49,6 +51,7 @@ private:
     QVBoxLayout m_categoriesLayout;
     QButtonGroup *catGroup{nullptr};
     QActionGroup *m_filterGroup;
+    bool m_markerMode;
 
 signals:
 };

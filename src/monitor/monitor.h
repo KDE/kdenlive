@@ -110,6 +110,8 @@ public:
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);
     void displayAudioMonitor(bool isActive);
+    /** @brief Set the guides list model to currently active item (bin clip or timeline) **/
+    void updateGuidesList();
     /** @brief Prepare split effect from timeline clip producer **/
     void activateSplit();
     /** @brief Clear monitor display **/

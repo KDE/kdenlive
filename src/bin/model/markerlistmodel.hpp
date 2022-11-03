@@ -136,6 +136,12 @@ public:
        @return true if dialog was accepted and modification successful
      */
     bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
+    /** @brief Shows a dialog to change the category of multiple markers/guides
+       @param positions: List of the markers positions to edit
+       @param widget: qt widget that will be the parent of the dialog
+       @return true if dialog was accepted and modification successful
+     */
+    bool editMultipleMarkersGui(const QList<GenTime> positions, QWidget *parent);
     /** @brief Shows a dialog to add multiple markers/guide
        @param pos: position of the marker to edit, or new position for a marker
        @param widget: qt widget that will be the parent of the dialog

@@ -34,6 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
+#include "project/dialogs/guideslist.h"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
 #include "project/projectmanager.h"

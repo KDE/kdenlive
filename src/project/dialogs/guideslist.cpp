@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "guideslist.h"
 #include "bin/bin.h"
 #include "bin/model/markersortmodel.h"
+#include "bin/projectclip.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
@@ -40,6 +41,7 @@ public:
 
 GuidesList::GuidesList(QWidget *parent)
     : QWidget(parent)
+    , m_markerMode(false)
 {
     setupUi(this);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -50,9 +52,21 @@ GuidesList::GuidesList(QWidget *parent)
     connect(guides_list, &QListView::doubleClicked, this, &GuidesList::editGuide);
     connect(guide_delete, &QToolButton::clicked, this, &GuidesList::removeGuide);
     connect(guide_add, &QToolButton::clicked, this, &GuidesList::addGuide);
-    connect(guide_save, &QToolButton::clicked, this, &GuidesList::saveGuides);
-    connect(configure, &QToolButton::clicked, this, &GuidesList::configureGuides);
+    connect(guide_edit, &QToolButton::clicked, this, &GuidesList::editGuides);
     connect(filter_line, &QLineEdit::textChanged, this, &GuidesList::filterView);
+
+    //  Settings menu
+    QMenu *settingsMenu = new QMenu(this);
+    QAction *importGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("Import..."), this);
+    connect(importGuides, &QAction::triggered, this, &GuidesList::configureGuides);
+    settingsMenu->addAction(importGuides);
+    QAction *exportGuides = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("Export..."), this);
+    connect(exportGuides, &QAction::triggered, this, &GuidesList::saveGuides);
+    settingsMenu->addAction(exportGuides);
+    QAction *categories = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Categories"), this);
+    connect(categories, &QAction::triggered, this, &GuidesList::configureGuides);
+    settingsMenu->addAction(categories);
+    guides_settings->setMenu(settingsMenu);
 
     // Sort menu
     m_filterGroup = new QActionGroup(this);
@@ -86,12 +100,8 @@ GuidesList::GuidesList(QWidget *parent)
     guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
     guide_delete->setToolTip(i18n("Dereturn leftTime < rightTime;lete guide."));
     guide_delete->setWhatsThis(xi18nc("@info:whatsi18nthis", "Delete guide. This will erase all selected guides."));
-    guide_save->setToolTip(i18n("Export guides."));
-    guide_save->setWhatsThis(
-        xi18nc("@info:whatsthis", "Export guide. This allows you to copy the guides data in a text format for use in web platforms for example."));
-    configure->setToolTip(i18n("Configure project guide categories."));
-    configure->setWhatsThis(xi18nc(
-        "@info:whatsthis", "Configure guide categories. This allows you to customize the guide categories used in this project (add, remove, rename, ...)."));
+    guide_edit->setToolTip(i18n("Edit selected guide."));
+    guide_edit->setWhatsThis(xi18nc("@info:whatsthis", "Edit selected guide. Selecting multiple guides allows changing their category."));
     show_categories->setToolTip(i18n("Filter guide categories."));
     show_categories->setWhatsThis(
         xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
@@ -106,6 +116,28 @@ void GuidesList::saveGuides()
 {
     if (auto markerModel = m_model.lock()) {
         markerModel->exportGuidesGui(this, GenTime());
+    }
+}
+
+void GuidesList::editGuides()
+{
+    QModelIndexList selectedIndexes = guides_list->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        return;
+    }
+    if (selectedIndexes.size() == 1) {
+        editGuide(selectedIndexes.first());
+        return;
+    }
+    QList<GenTime> timeList;
+    for (auto &ix : selectedIndexes) {
+        int frame = m_proxy->data(ix, MarkerListModel::FrameRole).toInt();
+        GenTime pos(frame, pCore->getCurrentFps());
+        timeList << pos;
+    }
+    std::sort(timeList.begin(), timeList.end());
+    if (auto markerModel = m_model.lock()) {
+        markerModel->editMultipleMarkersGui(timeList, qApp->activeWindow());
     }
 }
 
@@ -162,12 +194,43 @@ void GuidesList::selectionChanged(const QItemSelection &selected, const QItemSel
 
 GuidesList::~GuidesList() = default;
 
-void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, MarkerSortModel *viewModel)
+void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
 {
-    m_model = std::move(model);
+    if (clip == nullptr) {
+        m_sortModel = nullptr;
+        m_proxy->setSourceModel(m_sortModel);
+        guides_list->setModel(m_proxy);
+        guideslist_label->clear();
+        setEnabled(false);
+        return;
+    }
+    setEnabled(true);
+    m_markerMode = true;
+    guideslist_label->setText(i18n("Markers for %1", clip->clipName()));
+    m_sortModel = clip->getFilteredMarkerModel().get();
+    m_model = clip->getMarkerModel();
+    m_proxy->setSourceModel(m_sortModel);
+    guides_list->setModel(m_proxy);
+    guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
     if (auto markerModel = m_model.lock()) {
-        m_sortModel = viewModel;
-        m_proxy->setSourceModel(viewModel);
+        connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
+    }
+    rebuildCategories();
+}
+
+void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel)
+{
+    if (viewModel.get() == m_sortModel) {
+        // already displayed
+        return;
+    }
+    m_model = std::move(model);
+    setEnabled(true);
+    guideslist_label->setText(i18n("Timeline Guides"));
+    if (auto markerModel = m_model.lock()) {
+        m_sortModel = viewModel.get();
+        m_proxy->setSourceModel(m_sortModel);
         guides_list->setModel(m_proxy);
         guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
         connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
@@ -211,9 +274,7 @@ void GuidesList::updateFilter(QAbstractButton *, bool)
             filters << b->property("index").toInt();
         }
     }
-    if (auto markerModel = m_model.lock()) {
-        pCore->currentDoc()->setGuidesFilter(filters);
-    }
+    pCore->currentDoc()->setGuidesFilter(filters);
     emit pCore->refreshActiveGuides();
     qDebug() << "::: GOT FILTERS: " << filters;
 }
