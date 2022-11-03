@@ -98,7 +98,7 @@ GuidesList::GuidesList(QWidget *parent)
 
     guide_add->setToolTip(i18n("Add new guide."));
     guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
-    guide_delete->setToolTip(i18n("Dereturn leftTime < rightTime;lete guide."));
+    guide_delete->setToolTip(i18n("Delete guide."));
     guide_delete->setWhatsThis(xi18nc("@info:whatsi18nthis", "Delete guide. This will erase all selected guides."));
     guide_edit->setToolTip(i18n("Edit selected guide."));
     guide_edit->setWhatsThis(xi18nc("@info:whatsthis", "Edit selected guide. Selecting multiple guides allows changing their category."));
