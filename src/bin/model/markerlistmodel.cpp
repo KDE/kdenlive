@@ -10,6 +10,7 @@
 #include "dialogs/exportguidesdialog.h"
 #include "dialogs/markerdialog.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "project/projectmanager.h"
@@ -674,8 +675,15 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
         if (!pCore->markerTypes.contains(type)) {
-            qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
-            type = 0;
+            qDebug() << "Warning : invalid type found:" << type << " Recovering category";
+            type = type % 9;
+            if (!pCore->markerTypes.contains(type)) {
+                QString originalCategory = KdenliveDoc::getDefaultGuideCategories().at(type);
+                QColor color(originalCategory.section(QLatin1Char(':'), -1));
+                pCore->markerTypes.insert(type, {color, i18n("Recovered %1", type)});
+                emit categoriesChanged();
+                emit pCore->updateDefaultMarkerCategory();
+            }
         }
         bool res = true;
         if (!ignoreConflicts && hasMarker(GenTime(pos, pCore->getCurrentFps()))) {
