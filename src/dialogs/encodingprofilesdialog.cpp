@@ -404,7 +404,7 @@ void EncodingTimelinePreviewProfilesChooser::filterPreviewProfiles(const QString
         item->setFlags(item->flags() | Qt::ItemIsEnabled);
     }
     QStandardItem *item = model->item(current);
-    if (!(item->flags() & Qt::ItemIsEnabled)) {
+    if (!item || !(item->flags() & Qt::ItemIsEnabled)) {
         // Currently selected profile is not usable, switch back to automatic
         for (int i = 0; i < max; i++) {
             if (m_profilesCombo->itemData(i).isNull()) {
