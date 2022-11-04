@@ -89,4 +89,7 @@ public:
 
 private slots:
     void loadEncodingProfiles() override;
+
+signals:
+    void currentIndexChanged();
 };

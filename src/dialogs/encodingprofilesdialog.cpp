@@ -331,6 +331,7 @@ EncodingTimelinePreviewProfilesChooser::EncodingTimelinePreviewProfilesChooser(Q
         }
     }
     connect(m_profilesCombo, &KComboBox::currentIndexChanged, m_messageWidget, &KMessageWidget::hide);
+    connect(m_profilesCombo, &KComboBox::currentIndexChanged, this, &EncodingTimelinePreviewProfilesChooser::currentIndexChanged);
 }
 
 void EncodingTimelinePreviewProfilesChooser::loadEncodingProfiles()
@@ -394,13 +395,12 @@ void EncodingTimelinePreviewProfilesChooser::filterPreviewProfiles(const QString
             // This profile has a hardcoded framerate, chack if same as project
             fps = fpsString.toDouble();
         }
+        QStandardItem *item = model->item(i);
         if (fps > 0. && qAbs(fps - projectFps) > 0.01) {
             // Fps does not match, disable
-            QStandardItem *item = model->item(i);
             item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
             continue;
         }
-        QStandardItem *item = model->item(i);
         item->setFlags(item->flags() | Qt::ItemIsEnabled);
     }
     QStandardItem *item = model->item(current);
