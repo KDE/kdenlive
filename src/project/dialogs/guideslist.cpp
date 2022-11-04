@@ -23,8 +23,28 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QKeyEvent>
 #include <QMenu>
 #include <QPainter>
+
+GuideFilterEventEater::GuideFilterEventEater(QObject *parent)
+    : QObject(parent)
+{
+}
+
+bool GuideFilterEventEater::eventFilter(QObject *obj, QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::ShortcutOverride:
+        if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+            emit clearSearchLine();
+        }
+        break;
+    default:
+        break;
+    }
+    return QObject::eventFilter(obj, event);
+}
 
 class GuidesProxyModel : public QIdentityProxyModel
 {
@@ -106,6 +126,11 @@ GuidesList::GuidesList(QWidget *parent)
     show_categories->setOnlyUsed(true);
     connect(show_categories, &QToolButton::toggled, this, &GuidesList::switchFilter);
     connect(show_categories, &MarkerCategoryButton::categoriesChanged, this, &GuidesList::updateFilter);
+
+    auto *leventEater = new GuideFilterEventEater(this);
+    filter_line->installEventFilter(leventEater);
+    connect(leventEater, &GuideFilterEventEater::clearSearchLine, filter_line, &QLineEdit::clear);
+    connect(filter_line, &QLineEdit::returnPressed, filter_line, &QLineEdit::clear);
 
     guide_add->setToolTip(i18n("Add new guide."));
     guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
@@ -272,11 +297,12 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
     guides_list->setModel(m_proxy);
     guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
     connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
+    rebuildCategories();
     if (auto markerModel = m_model.lock()) {
         show_categories->setMarkerModel(markerModel.get());
+        switchFilter(true);
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
     }
-    rebuildCategories();
 }
 
 void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel)
@@ -290,13 +316,14 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
     m_model = std::move(model);
     setEnabled(true);
     guideslist_label->setText(i18n("Timeline Guides"));
+    m_sortModel = viewModel.get();
+    m_proxy->setSourceModel(m_sortModel);
+    guides_list->setModel(m_proxy);
+    guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
     if (auto markerModel = m_model.lock()) {
         show_categories->setMarkerModel(markerModel.get());
-        m_sortModel = viewModel.get();
-        m_proxy->setSourceModel(m_sortModel);
-        guides_list->setModel(m_proxy);
-        guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
+        switchFilter(true);
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
     }
     rebuildCategories();
@@ -383,6 +410,13 @@ void GuidesList::filterView(const QString &text)
 {
     if (m_sortModel) {
         m_sortModel->slotSetFilterString(text);
+        if (!text.isEmpty() && guides_list->model()->rowCount() > 0) {
+            guides_list->setCurrentIndex(guides_list->model()->index(0, 0));
+        }
+        QModelIndex current = guides_list->currentIndex();
+        if (current.isValid()) {
+            guides_list->scrollTo(current);
+        }
     }
 }
 
