@@ -42,11 +42,12 @@ private slots:
     void addGuide();
     void configureGuides();
     void rebuildCategories();
-    void updateFilter(QAbstractButton *, bool);
+    void updateFilter(QList<int> categories);
     void filterView(const QString &text);
     void sortView(QAction *ac);
     void changeSortOrder(bool descending);
     void refreshDefaultCategory();
+    void switchFilter(bool enable);
 
 private:
     /** @brief Set the marker model that will be displayed. */
@@ -54,9 +55,8 @@ private:
     QIdentityProxyModel *m_proxy{nullptr};
     MarkerSortModel *m_sortModel{nullptr};
     std::shared_ptr<ProjectClip> m_clip;
-    QVBoxLayout m_categoriesLayout;
     QButtonGroup *catGroup{nullptr};
-    QActionGroup *m_filterGroup;
+    QActionGroup *m_sortGroup;
     bool m_markerMode;
 
 signals:

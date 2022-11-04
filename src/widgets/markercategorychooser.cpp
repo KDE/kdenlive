@@ -14,7 +14,9 @@ MarkerCategoryChooser::MarkerCategoryChooser(QWidget *parent)
     , m_allowAll(true)
     , m_onlyUsed(false)
 {
-    refresh();
+    if (pCore) {
+        refresh();
+    }
     connect(this, &MarkerCategoryChooser::changed, this, &MarkerCategoryChooser::refresh);
 }
 

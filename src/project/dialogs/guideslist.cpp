@@ -49,9 +49,6 @@ GuidesList::GuidesList(QWidget *parent)
 {
     setupUi(this);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    categoryContent->setLayout(&m_categoriesLayout);
-    category_frame->setVisible(false);
-    connect(show_categories, &QToolButton::toggled, category_frame, &QFrame::setVisible);
     m_proxy = new GuidesProxyModel(this);
     connect(guides_list, &QListView::doubleClicked, this, &GuidesList::editGuide);
     connect(guide_delete, &QToolButton::clicked, this, &GuidesList::removeGuide);
@@ -76,7 +73,7 @@ GuidesList::GuidesList(QWidget *parent)
     guides_settings->setMenu(settingsMenu);
 
     // Sort menu
-    m_filterGroup = new QActionGroup(this);
+    m_sortGroup = new QActionGroup(this);
     QMenu *sortMenu = new QMenu(this);
     QAction *sort1 = new QAction(i18n("Sort by Category"), this);
     sort1->setCheckable(true);
@@ -90,9 +87,9 @@ GuidesList::GuidesList(QWidget *parent)
     sort1->setData(0);
     sort2->setData(1);
     sort3->setData(2);
-    m_filterGroup->addAction(sort1);
-    m_filterGroup->addAction(sort2);
-    m_filterGroup->addAction(sort3);
+    m_sortGroup->addAction(sort1);
+    m_sortGroup->addAction(sort2);
+    m_sortGroup->addAction(sort3);
     sortMenu->addAction(sort1);
     sortMenu->addAction(sort2);
     sortMenu->addAction(sort3);
@@ -100,8 +97,14 @@ GuidesList::GuidesList(QWidget *parent)
     sortMenu->addAction(sortDescending);
     sort2->setChecked(true);
     sort_guides->setMenu(sortMenu);
-    connect(m_filterGroup, &QActionGroup::triggered, this, &GuidesList::sortView);
+    connect(m_sortGroup, &QActionGroup::triggered, this, &GuidesList::sortView);
     connect(sortDescending, &QAction::triggered, this, &GuidesList::changeSortOrder);
+
+    // Filtering
+    show_categories->enableFilterMode();
+    show_categories->setAllowAll(true);
+    connect(show_categories, &QToolButton::toggled, this, &GuidesList::switchFilter);
+    connect(show_categories, &MarkerCategoryButton::categoriesChanged, this, &GuidesList::updateFilter);
 
     guide_add->setToolTip(i18n("Add new guide."));
     guide_add->setWhatsThis(xi18nc("@info:whatsthis", "Add new guide. This will add a guide at the current frame position."));
@@ -269,6 +272,7 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
     guides_list->setSelectionMode(QAbstractItemView::ExtendedSelection);
     connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
     if (auto markerModel = m_model.lock()) {
+        show_categories->setMarkerModel(markerModel.get());
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
     }
     rebuildCategories();
@@ -286,6 +290,7 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
     setEnabled(true);
     guideslist_label->setText(i18n("Timeline Guides"));
     if (auto markerModel = m_model.lock()) {
+        show_categories->setMarkerModel(markerModel.get());
         m_sortModel = viewModel.get();
         m_proxy->setSourceModel(m_sortModel);
         guides_list->setModel(m_proxy);
@@ -298,15 +303,6 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
 
 void GuidesList::rebuildCategories()
 {
-    // Clean up categories
-    QLayoutItem *item;
-    while ((item = m_categoriesLayout.takeAt(0)) != nullptr) {
-        delete item->widget();
-        delete item;
-    }
-    delete catGroup;
-    catGroup = new QButtonGroup(this);
-    catGroup->setExclusive(false);
     QPixmap pixmap(32, 32);
     // Cleanup default marker category menu
     QMenu *markerDefaultMenu = default_category->menu();
@@ -328,9 +324,6 @@ void GuidesList::rebuildCategories()
         i.next();
         pixmap.fill(i.value().color);
         QIcon colorIcon(pixmap);
-        QCheckBox *cb = new QCheckBox(i.value().displayName, this);
-        cb->setProperty("index", i.key());
-        cb->setIcon(colorIcon);
         QAction *ac = new QAction(colorIcon, i.value().displayName);
         ac->setData(i.key());
         markerDefaultMenu->addAction(ac);
@@ -338,8 +331,6 @@ void GuidesList::rebuildCategories()
             default_category->setIcon(colorIcon);
             defaultCategoryFound = true;
         }
-        catGroup->addButton(cb);
-        m_categoriesLayout.addWidget(cb);
     }
     if (!defaultCategoryFound) {
         // Default marker category not found. set it to first one
@@ -349,7 +340,6 @@ void GuidesList::rebuildCategories()
             KdenliveSettings::setDefault_marker_type(ac->data().toInt());
         }
     }
-    connect(catGroup, &QButtonGroup::buttonToggled, this, &GuidesList::updateFilter);
 }
 
 void GuidesList::refreshDefaultCategory()
@@ -367,16 +357,20 @@ void GuidesList::refreshDefaultCategory()
     }
 }
 
-void GuidesList::updateFilter(QAbstractButton *, bool)
+void GuidesList::switchFilter(bool enable)
 {
-    QList<int> filters;
-    QList<QAbstractButton *> buttons = catGroup->buttons();
-    for (auto &b : buttons) {
-        if (b->isChecked()) {
-            filters << b->property("index").toInt();
-        }
+    if (enable) {
+        QList<int> cats = show_categories->currentCategories();
+        cats.removeAll(-1);
+        updateFilter(cats);
+    } else {
+        updateFilter({});
     }
-    pCore->currentDoc()->setGuidesFilter(filters);
+}
+
+void GuidesList::updateFilter(QList<int> categories)
+{
+    pCore->currentDoc()->setGuidesFilter(categories);
     emit pCore->refreshActiveGuides();
 }
 
