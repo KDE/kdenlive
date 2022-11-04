@@ -124,7 +124,7 @@ void MarkerCategoryButton::refresh()
         ac->setChecked(selected.contains(i.key()));
         m_menu->addAction(ac);
     }
-    if (m_menu->actions().count() == 0) {
+    if (m_menu->actions().count() == 0 && !m_allowAll) {
         setEnabled(false);
         setText(i18n("Nothing to select"));
         return;
@@ -134,7 +134,11 @@ void MarkerCategoryButton::refresh()
         QAction *ac = new QAction(i18n("All Categories"), m_menu);
         ac->setData(-1);
         ac->setCheckable(true);
-        m_menu->insertAction(m_menu->actions().first(), ac);
+        if (m_menu->actions().isEmpty()) {
+            m_menu->addAction(ac);
+        } else {
+            m_menu->insertAction(m_menu->actions().first(), ac);
+        }
         if (selected.isEmpty() || selected.contains(-1)) {
             ac->setChecked(true);
         }
@@ -195,5 +199,8 @@ void MarkerCategoryButton::setAllowAll(bool allowAll)
 void MarkerCategoryButton::setOnlyUsed(bool onlyUsed)
 {
     m_onlyUsed = onlyUsed;
+    if (m_onlyUsed) {
+        connect(m_menu, &QMenu::aboutToShow, this, &MarkerCategoryButton::changed);
+    }
     emit changed();
 }

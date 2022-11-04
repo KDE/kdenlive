@@ -103,6 +103,7 @@ GuidesList::GuidesList(QWidget *parent)
     // Filtering
     show_categories->enableFilterMode();
     show_categories->setAllowAll(true);
+    show_categories->setOnlyUsed(true);
     connect(show_categories, &QToolButton::toggled, this, &GuidesList::switchFilter);
     connect(show_categories, &MarkerCategoryButton::categoriesChanged, this, &GuidesList::updateFilter);
 
@@ -370,8 +371,12 @@ void GuidesList::switchFilter(bool enable)
 
 void GuidesList::updateFilter(QList<int> categories)
 {
-    pCore->currentDoc()->setGuidesFilter(categories);
-    emit pCore->refreshActiveGuides();
+    if (m_markerMode) {
+        m_clip->getFilteredMarkerModel()->slotSetFilters(categories);
+    } else {
+        pCore->currentDoc()->setGuidesFilter(categories);
+        emit pCore->refreshActiveGuides();
+    }
 }
 
 void GuidesList::filterView(const QString &text)

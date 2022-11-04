@@ -1084,7 +1084,7 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
         emit pCore->monitorManager()->updatePreviewScaling();
         pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
         pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
-        pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
+        pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getFilteredGuideModel());
     }
 
     m_mainTimelineModel->setUndoStack(m_project->commandStack());

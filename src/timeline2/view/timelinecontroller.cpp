@@ -876,11 +876,17 @@ void TimelineController::gotoPreviousSnap()
 void TimelineController::gotoNextGuide()
 {
     QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
+    std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
     int pos = pCore->getMonitorPosition();
     double fps = pCore->getCurrentFps();
+    int guidePos = 0;
     for (auto &guide : guides) {
-        if (guide.time().frames(fps) > pos) {
-            setPosition(guide.time().frames(fps));
+        guidePos = guide.time().frames(fps);
+        if (std::find(canceled.begin(), canceled.end(), guidePos) != canceled.end()) {
+            continue;
+        }
+        if (guidePos > pos) {
+            setPosition(guidePos);
             return;
         }
     }
@@ -891,15 +897,21 @@ void TimelineController::gotoPreviousGuide()
 {
     if (pCore->getMonitorPosition() > 0) {
         QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
+        std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
         int pos = pCore->getMonitorPosition();
         double fps = pCore->getCurrentFps();
         int lastGuidePos = 0;
+        int guidePos = 0;
         for (auto &guide : guides) {
-            if (guide.time().frames(fps) >= pos) {
+            guidePos = guide.time().frames(fps);
+            if (std::find(canceled.begin(), canceled.end(), guidePos) != canceled.end()) {
+                continue;
+            }
+            if (guidePos >= pos) {
                 setPosition(lastGuidePos);
                 return;
             }
-            lastGuidePos = guide.time().frames(fps);
+            lastGuidePos = guidePos;
         }
         setPosition(lastGuidePos);
     }
@@ -1257,25 +1269,28 @@ void TimelineController::editGuide(int frame)
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
 }
 
-void TimelineController::moveGuide(int frame, int newFrame)
+void TimelineController::moveGuideById(int id, int newFrame)
 {
     if (newFrame < 0) {
         return;
     }
     auto guideModel = pCore->currentDoc()->getGuideModel();
-    GenTime pos(frame, pCore->getCurrentFps());
     GenTime newPos(newFrame, pCore->getCurrentFps());
-    guideModel->editMarker(pos, newPos);
+    GenTime oldPos = guideModel->markerById(id).time();
+    guideModel->editMarker(oldPos, newPos);
 }
 
-void TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
+int TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
 {
     if (newFrame < 0) {
-        return;
+        return -1;
     }
     auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime newPos(newFrame, pCore->getCurrentFps());
-    guideModel->moveMarker(mid, newPos);
+    if (guideModel->moveMarker(mid, newPos)) {
+        return newFrame;
+    }
+    return -1;
 }
 
 bool TimelineController::moveGuidesInRange(int start, int end, int offset)

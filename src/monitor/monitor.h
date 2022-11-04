@@ -36,6 +36,7 @@ class QLabel;
 class GLWidget;
 class MonitorAudioLevel;
 class MonitorProxy;
+class MarkerSortModel;
 
 namespace Mlt {
 class Profile;
@@ -318,7 +319,7 @@ public slots:
     void slotLoadClipZone(const QPoint &zone);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
-    void adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel = nullptr);
+    void adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
     void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, const QVariant &sceneData = QVariant());
