@@ -2011,7 +2011,7 @@ void MainWindow::slotEditProjectSettings(int ix)
         }
         const QStringList guidesCat = w->guidesCategories();
         if (guidesCat != project->guidesCategories()) {
-            project->updateGuideCategories(guidesCat);
+            project->updateGuideCategories(guidesCat, w->remapGuidesCategories());
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();

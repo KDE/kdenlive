@@ -20,6 +20,7 @@ public:
     explicit GuideCategories(KdenliveDoc *doc, QWidget *parent = nullptr);
     ~GuideCategories() override;
     const QStringList updatedGuides() const;
+    const QMap<int, int> remapedGuides() const;
 
 protected:
 public slots:
@@ -29,6 +30,7 @@ private:
     QIcon buildIcon(const QColor &col);
     /** @brief The incremental index for newly created categories. */
     int m_categoryIndex;
+    QMap<int, int> m_remapCategories;
 
 signals:
 };

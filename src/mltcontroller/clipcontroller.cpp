@@ -1087,3 +1087,30 @@ std::shared_ptr<MarkerSortModel> ClipController::getFilteredMarkerModel() const
 {
     return m_markerFilterModel;
 }
+
+bool ClipController::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo)
+{
+    bool found = false;
+    if (m_markerModel->rowCount() == 0) {
+        return false;
+    }
+    for (int i : toRemove) {
+        QList<CommentedTime> toDelete = m_markerModel->getAllMarkers(i);
+        if (!found && toDelete.count() > 0) {
+            found = true;
+        }
+        if (remapCategories.contains(i)) {
+            // Move markers to another category
+            int newType = remapCategories.value(i);
+            for (CommentedTime c : toDelete) {
+                m_markerModel->addMarker(c.time(), c.comment(), newType, undo, redo);
+            }
+        } else {
+            // Delete markers
+            for (CommentedTime c : toDelete) {
+                m_markerModel->removeMarker(c.time(), undo, redo);
+            }
+        }
+    }
+    return found;
+}

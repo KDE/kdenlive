@@ -31,6 +31,8 @@ class MarkerListModel : public QAbstractListModel
 {
     Q_OBJECT
 
+    friend class ClipController;
+
 public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
@@ -154,7 +156,7 @@ public:
     /** @brief Load the marker categories from a stringList
      *  @return the list of deleted categories ids (if any)
      */
-    void loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories);
+    void loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories, const QMap<int, int> remapCategories = {});
     QList<int> loadCategories(const QStringList &categories);
     /** @brief Returns the marker categories in the form of a stringList for saving */
     const QStringList categoriesToStringList() const;

@@ -247,7 +247,7 @@ public:
     int getAllClipMarkers(int category) const;
 
     /** @brief Remove all clip markers using a category */
-    void removeMarkerCategories(QList<int> toRemove);
+    void removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories);
 
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"

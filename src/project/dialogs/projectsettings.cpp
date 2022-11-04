@@ -546,6 +546,11 @@ const QStringList ProjectSettings::guidesCategories() const
     return m_guidesCategories->updatedGuides();
 }
 
+const QMap<int, int> ProjectSettings::remapGuidesCategories() const
+{
+    return m_guidesCategories->remapedGuides();
+}
+
 QString ProjectSettings::selectedProfile() const
 {
     return m_pw->selectedProfile();

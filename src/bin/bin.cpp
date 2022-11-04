@@ -5483,21 +5483,16 @@ int Bin::getAllClipMarkers(int category) const
     return markersCount;
 }
 
-void Bin::removeMarkerCategories(QList<int> toRemove)
+void Bin::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool found = false;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
-        for (int i : toRemove) {
-            QList<CommentedTime> toDelete = clip->getMarkerModel()->getAllMarkers(i);
-            if (!found && toDelete.count() > 0) {
-                found = true;
-            }
-            for (CommentedTime c : toDelete) {
-                clip->getMarkerModel()->removeMarker(c.time(), undo, redo);
-            }
+        bool res = clip->removeMarkerCategories(toRemove, remapCategories, undo, redo);
+        if (!found && res) {
+            found = true;
         }
     }
     if (found) {
