@@ -76,8 +76,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (m_mainKeyframeWidget && (type == ParamType::Geometry || type == ParamType::Animated || type == ParamType::RestrictedAnim ||
-                                     type == ParamType::KeyframeParam || type == ParamType::ColorWheel)) {
+        if (m_mainKeyframeWidget && (AssetParameterModel::isAnimated(type) || type == ParamType::Geometry)) {
             // Keyframe widget can have some extra params that shouldn't build a new widget
             qDebug() << "// FOUND ADDED PARAM";
             if (type != ParamType::ColorWheel) {
@@ -94,19 +93,25 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 setFixedHeight(contentHeight());
                 emit updateHeight();
             });
-            m_lay->addWidget(w);
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
             } else {
+                m_lay->addWidget(w);
                 minHeight += w->minimumHeight();
             }
             m_widgets.push_back(w);
         }
     }
-    setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
+    if (m_mainKeyframeWidget) {
+        // Add keyframe widget to the bottom to have a clear seperation
+        // between animated an non-animated params
+        m_lay->addWidget(m_mainKeyframeWidget);
+        minHeight += m_mainKeyframeWidget->minimumHeight();
+    }
+    setMinimumHeight(minHeight);
     if (addSpacer) {
         m_lay->addStretch();
     }
@@ -258,21 +263,6 @@ MonitorSceneType AssetParameterView::needsMonitorEffectScene() const
     }
     return MonitorSceneDefault;
 }
-
-/*void AssetParameterView::initKeyframeView()
-{
-    if (m_mainKeyframeWidget) {
-        m_mainKeyframeWidget->initMonitor();
-    } else {
-        for (int i = 0; i < m_model->rowCount(); ++i) {
-        QModelIndex index = m_model->index(i, 0);
-        auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::Geometry) {
-            return MonitorSceneGeometry;
-        }
-    }
-    }
-}*/
 
 void AssetParameterView::slotRefresh()
 {

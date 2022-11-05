@@ -2099,15 +2099,16 @@ void MainWindow::slotEditProjectSettings(int ix)
             KMessageBox::ButtonCode answer;
             // Project folder changed:
             if (project->isModified()) {
-                answer = KMessageBox::warningContinueCancel(this, i18n("The current project has not been saved. This will first save the project, then move "
-                                                                       "all temporary files from <b>%1</b> to <b>%2</b>, and the project file will be reloaded",
-                                                                       project->projectTempFolder(), newProjectFolder));
+                answer = KMessageBox::warningContinueCancel(
+                    this, i18n("The current project has not been saved.<br/>This will first save the project, then move "
+                               "all temporary files from <br/><b>%1</b> to <b>%2</b>,<br>and the project file will be reloaded",
+                               project->projectTempFolder(), newProjectFolder));
                 if (answer == KMessageBox::Continue) {
                     pCore->projectManager()->saveFile();
                 }
             } else {
                 answer = KMessageBox::warningContinueCancel(
-                    this, i18n("This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
+                    this, i18n("This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the project file will then be reloaded",
                                project->projectTempFolder(), newProjectFolder));
             }
             if (answer == KMessageBox::Continue) {

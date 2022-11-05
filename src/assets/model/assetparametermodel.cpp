@@ -158,9 +158,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             case ParamType::Fontfamily:
             case ParamType::Keywords:
             case ParamType::Readonly:
-            case ParamType::RestrictedAnim: // Fine because unsupported
-            case ParamType::Animated:       // Fine because unsupported
-            case ParamType::Addedgeometry:  // Fine because unsupported
             case ParamType::Url:
             case ParamType::UrlList:
                 // All fine
@@ -665,8 +662,6 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::AnimatedRect;
     } else if (type == QLatin1String("geometry")) {
         return ParamType::Geometry;
-    } else if (type == QLatin1String("addedgeometry")) {
-        return ParamType::Addedgeometry;
     } else if (type == QLatin1String("keyframe") || type == QLatin1String("animated")) {
         return ParamType::KeyframeParam;
     } else if (type == QLatin1String("color")) {
@@ -837,9 +832,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         return converted;
     }
     if (attribute == QLatin1String("default")) {
-        if (type == ParamType::RestrictedAnim) {
-            content = getDefaultKeyframes(0, content, true);
-        } else if (type == ParamType::KeyframeParam) {
+        if (type == ParamType::KeyframeParam) {
             return content.toDouble();
         } else if (type == ParamType::List) {
             bool ok;

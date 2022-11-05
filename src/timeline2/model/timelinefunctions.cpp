@@ -434,6 +434,10 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
 
         QMapIterator<int, int> it(firstClipOnTrack);
         int firstPos = -1;
+        if (firstClipOnTrack.isEmpty() && firstCid > -1) {
+            int clipPos = timeline->getItemPosition(firstCid);
+            spaceDuration = timeline->getTrackById_const(timeline->getItemTrackId(firstCid))->getBlankSizeAtPos(clipPos - 1);
+        }
         while (it.hasNext()) {
             it.next();
             int clipPos = timeline->getItemPosition(it.value());

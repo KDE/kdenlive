@@ -5,7 +5,7 @@
     <description>Apply average blur filter. </description>
     <author>libavfilter</author>
     <parameter type="constant" name="av.sizeX" default="0" min="0" max="500" factor="1">
-        <name>X Size</name>
+        <name>X size</name>
     </parameter>
     <parameter type="constant" name="av.sizeY" default="0" min="0" max="500" factor="1">
         <name>Y size</name>

@@ -12,7 +12,7 @@
     <parameter type="constant" name="thickness" max="20" min="0" default="0">
         <name>Line Thickness</name>
     </parameter>
-    <parameter type="geometry" name="rect" default="0 0:100% 100%" fixed="1" opacity="false">
+    <parameter type="animatedrect" name="rect" default="0 0 100% 100%" fixed="1" opacity="false">
         <name>Rectangle</name>
     </parameter>
     <parameter type="bool" name="fill" default="0">

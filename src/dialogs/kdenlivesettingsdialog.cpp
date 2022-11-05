@@ -264,7 +264,9 @@ void KdenliveSettingsDialog::initProjectPage()
     QWidget *p8 = new QWidget;
     m_configProject.setupUi(p8);
     // Timeline preview
-    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p8, true, QStringLiteral("preview_profile"), true);
+    QString currentPreviewData =
+        KdenliveSettings::previewparams().isEmpty() ? QString() : QString("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p8, true, currentPreviewData, false);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
@@ -275,6 +277,7 @@ void KdenliveSettingsDialog::initProjectPage()
     // Select profile
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
     m_tlPreviewProfiles->filterPreviewProfiles(m_pw->selectedProfile());
+    connect(m_tlPreviewProfiles, &EncodingTimelinePreviewProfilesChooser::currentIndexChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
