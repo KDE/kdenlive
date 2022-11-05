@@ -117,7 +117,7 @@ GuidesList::GuidesList(QWidget *parent)
     show_categories->setWhatsThis(
         xi18nc("@info:whatsthis", "Filter guide categories. This allows you to show or hide selected guide categories in this dialog and in the timeline."));
     default_category->setToolTip(i18n("Default guide category."));
-    default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created markers."));
+    default_category->setWhatsThis(xi18nc("@info:whatsthis", "Default guide category. The category used for newly created guides."));
 }
 
 void GuidesList::configureGuides()
