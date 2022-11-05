@@ -21,6 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QPainter>
+#include <QRadioButton>
 
 GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     : QWidget(parent)
@@ -39,46 +40,46 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         // Edit an existing tag
         QDialog d2(this);
         d2.setWindowTitle(i18n("Edit Guide Category"));
-        QDialogButtonBox *buttonBox2 = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
+        QDialogButtonBox buttonBox2(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, &d2);
         auto *l2 = new QVBoxLayout;
         d2.setLayout(l2);
         auto *l3 = new QHBoxLayout;
-        KColorCombo cb;
+        KColorCombo cb(&d2);
         l3->addWidget(&cb);
-        KLineEdit le;
+        KLineEdit le(&d2);
         le.setText(item->text());
         QColor originalColor(item->data(Qt::UserRole).toString());
         categoriesColor.removeAll(originalColor);
         cb.setColor(originalColor);
         l3->addWidget(&le);
         l2->addLayout(l3);
-        KMessageWidget mw;
+        KMessageWidget mw(&d2);
         mw.setText(i18n("This color is already used in another category"));
         mw.setMessageType(KMessageWidget::Warning);
         mw.setCloseButtonVisible(false);
         mw.hide();
         l2->addWidget(&mw);
-        l2->addWidget(buttonBox2);
-        d2.connect(buttonBox2, &QDialogButtonBox::rejected, &d2, &QDialog::reject);
-        d2.connect(buttonBox2, &QDialogButtonBox::accepted, &d2, &QDialog::accept);
-        connect(&le, &KLineEdit::textChanged, &d2, [buttonBox2, &le, &cb, &categoriesColor]() {
+        l2->addWidget(&buttonBox2);
+        d2.connect(&buttonBox2, &QDialogButtonBox::rejected, &d2, &QDialog::reject);
+        d2.connect(&buttonBox2, &QDialogButtonBox::accepted, &d2, &QDialog::accept);
+        connect(&le, &KLineEdit::textChanged, &d2, [&buttonBox2, &le, &cb, &categoriesColor]() {
             if (le.text().isEmpty()) {
-                buttonBox2->button(QDialogButtonBox::Ok)->setEnabled(false);
+                buttonBox2.button(QDialogButtonBox::Ok)->setEnabled(false);
             } else {
-                buttonBox2->button(QDialogButtonBox::Ok)->setEnabled(!categoriesColor.contains(cb.color()));
+                buttonBox2.button(QDialogButtonBox::Ok)->setEnabled(!categoriesColor.contains(cb.color()));
             }
         });
-        connect(&cb, &KColorCombo::activated, &d2, [buttonBox2, &categoriesColor, &mw, &le](const QColor &selectedColor) {
+        connect(&cb, &KColorCombo::activated, &d2, [&buttonBox2, &categoriesColor, &mw, &le](const QColor &selectedColor) {
             if (categoriesColor.contains(selectedColor)) {
-                buttonBox2->button(QDialogButtonBox::Ok)->setEnabled(false);
+                buttonBox2.button(QDialogButtonBox::Ok)->setEnabled(false);
                 mw.animatedShow();
             } else {
-                buttonBox2->button(QDialogButtonBox::Ok)->setEnabled(!le.text().isEmpty());
+                buttonBox2.button(QDialogButtonBox::Ok)->setEnabled(!le.text().isEmpty());
                 mw.animatedHide();
             }
         });
         if (categoriesColor.contains(cb.color())) {
-            buttonBox2->button(QDialogButtonBox::Ok)->setEnabled(false);
+            buttonBox2.button(QDialogButtonBox::Ok)->setEnabled(false);
             mw.animatedShow();
         }
         le.setFocus();
@@ -143,7 +144,36 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         int count = item->data(Qt::UserRole + 2).toInt();
         if (count > 0) {
             // There are existing guides in this category, warn
-            if (KMessageBox::warningContinueCancel(this, i18n("This will delete the %1 guides using this category", count)) != KMessageBox::Continue) {
+            int category = item->data(Qt::UserRole + 1).toInt();
+            QDialog d(this);
+            d.setWindowTitle(i18n("Delete Guide Category"));
+            QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, &d);
+            auto *l2 = new QVBoxLayout;
+            d.setLayout(l2);
+            auto *l3 = new QHBoxLayout;
+            QRadioButton cb(i18n("Delete the %1 markers using this category", count), &d);
+            QRadioButton cb2(i18n("Reassign the markers to :"), &d);
+            cb2.setChecked(true);
+            QComboBox combobox(&d);
+            for (int i = 0; i < guides_list->count(); i++) {
+                QListWidgetItem *cat = guides_list->item(i);
+                int ix = cat->data(Qt::UserRole + 1).toInt();
+                if (ix != category) {
+                    combobox.addItem(cat->icon(), cat->text(), ix);
+                }
+            }
+            l3->addWidget(&cb2);
+            l3->addWidget(&combobox);
+            l2->addWidget(&cb);
+            l2->addLayout(l3);
+            l2->addWidget(&buttonBox);
+            d.connect(&buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+            d.connect(&buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+            if (d.exec() == QDialog::Accepted) {
+                if (cb2.isChecked()) {
+                    m_remapCategories.insert(category, combobox.currentData().toInt());
+                }
+            } else {
                 return;
             }
         }
@@ -178,4 +208,9 @@ const QStringList GuideCategories::updatedGuides() const
         categories << QString("%1:%2:%3").arg(name, QString::number(ix), color);
     }
     return categories;
+}
+
+const QMap<int, int> GuideCategories::remapedGuides() const
+{
+    return m_remapCategories;
 }

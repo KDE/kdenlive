@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "definitions.h"
+#include "undohelper.hpp"
 
 #include <QDateTime>
 #include <QDir>
@@ -211,6 +212,8 @@ public:
     const QString getOriginalUrl();
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
+    /** @brief Delete or re-assign all markers in a category. */
+    bool removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo);
 
 protected:
     /** @brief Mutex to protect the producer properties on read/write */

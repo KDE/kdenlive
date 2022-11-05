@@ -175,7 +175,7 @@ Item {
                         }
                         onPositionChanged: {
                             if (pressed) {
-                                var newFrame = Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor)
+                                var newFrame = Math.max(0, Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor))
                                 newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
                                 if (newFrame != destFrame) {
                                     var frame = timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)

@@ -218,7 +218,7 @@ public:
     /** @brief Returns the guides categories for the project in format {name:index:#color} */
     const QStringList guidesCategories() const;
     /** @brief Set the guides categories for the project in format {name:index:#color} */
-    void updateGuideCategories(const QStringList &categories);
+    void updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories = {});
     /** @brief Setup a filter to visible guides */
     void setGuidesFilter(const QList<int> filter);
 

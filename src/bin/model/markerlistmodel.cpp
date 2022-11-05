@@ -54,7 +54,7 @@ void MarkerListModel::setup()
     connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
 }
 
-void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories)
+void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories, const QMap<int, int> remapCategories)
 {
     // Remove all markers of deleted category
     Fun local_undo = []() { return true; };
@@ -63,8 +63,15 @@ void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, cons
     while (!deletedCategories.isEmpty()) {
         int ix = deletedCategories.takeFirst();
         QList<CommentedTime> toDelete = getAllMarkers(ix);
-        for (CommentedTime c : toDelete) {
-            removeMarker(c.time(), local_undo, local_redo);
+        if (remapCategories.contains(ix)) {
+            int newType = remapCategories.value(ix);
+            for (CommentedTime c : toDelete) {
+                addMarker(c.time(), c.comment(), newType, local_undo, local_redo);
+            }
+        } else {
+            for (CommentedTime c : toDelete) {
+                removeMarker(c.time(), local_undo, local_redo);
+            }
         }
     }
     Fun undo = [this, currentCategories]() {

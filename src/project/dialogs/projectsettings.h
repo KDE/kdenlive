@@ -27,6 +27,7 @@ public:
     QString selectedProfile() const;
     QPair<int, int> tracks() const;
     const QStringList guidesCategories() const;
+    const QMap<int, int> remapGuidesCategories() const;
     int audioChannels() const;
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;

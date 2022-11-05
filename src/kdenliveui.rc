@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="211" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="212" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -144,6 +144,7 @@
       <Menu name="guide_menu" ><text>&amp;Guides</text>
         <Action name="add_guide" />
         <Action name="edit_guide" />
+        <Action name="search_guide" />
         <Action name="delete_guide" />
         <Action name="delete_all_guides" />
         <Action name="export_guides" />

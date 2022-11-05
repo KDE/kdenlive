@@ -154,16 +154,27 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MarkerCategoryButton</class>
-   <extends>QToolButton</extends>
-   <header>widgets/markercategorybutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KSqueezedTextLabel</class>
    <extends>QLabel</extends>
    <header>ksqueezedtextlabel.h</header>
   </customwidget>
+  <customwidget>
+   <class>MarkerCategoryButton</class>
+   <extends>QToolButton</extends>
+   <header>widgets/markercategorybutton.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>filter_line</tabstop>
+  <tabstop>show_categories</tabstop>
+  <tabstop>sort_guides</tabstop>
+  <tabstop>guides_list</tabstop>
+  <tabstop>guide_add</tabstop>
+  <tabstop>guide_edit</tabstop>
+  <tabstop>guide_delete</tabstop>
+  <tabstop>default_category</tabstop>
+  <tabstop>guides_settings</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

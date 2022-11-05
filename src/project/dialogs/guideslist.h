@@ -16,6 +16,23 @@ class MarkerSortModel;
 class QActionGroup;
 class ProjectClip;
 
+/** @class GuideFilterEventEater
+    @brief \@todo Describe class LineEventEater
+    @todo Describe class LineEventEater
+ */
+class GuideFilterEventEater : public QObject
+{
+    Q_OBJECT
+public:
+    explicit GuideFilterEventEater(QObject *parent = nullptr);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
+signals:
+    void clearSearchLine();
+};
+
 /** @class GuidesList
     @brief A widget listing project guides and allowing some advanced editing.
     @author Jean-Baptiste Mardelle

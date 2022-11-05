@@ -378,7 +378,7 @@ const QStringList KdenliveDoc::guidesCategories() const
     return m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
 }
 
-void KdenliveDoc::updateGuideCategories(const QStringList &categories)
+void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories)
 {
     const QStringList currentCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
     // Check if a guide category was removed
@@ -395,9 +395,9 @@ void KdenliveDoc::updateGuideCategories(const QStringList &categories)
     }
     if (!currentIndexes.isEmpty()) {
         // A marker category was removed, delete all Bin clip markers using it
-        pCore->bin()->removeMarkerCategories(currentIndexes);
+        pCore->bin()->removeMarkerCategories(currentIndexes, remapCategories);
     }
-    m_guideModel->loadCategoriesWithUndo(categories, currentCategories);
+    m_guideModel->loadCategoriesWithUndo(categories, currentCategories, remapCategories);
 }
 
 void KdenliveDoc::saveGuideCategories()
