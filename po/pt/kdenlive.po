@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-05 00:45+0000\n"
-"PO-Revision-Date: 2022-10-26 21:56+0100\n"
+"POT-Creation-Date: 2022-11-06 00:46+0000\n"
+"PO-Revision-Date: 2022-11-05 13:11+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -7129,8 +7129,8 @@ msgstr "Foram removidos os seguintes filtros/transições do projecto:"
 msgid "Invalid file path"
 msgstr "Localização do ficheiro inválida"
 
-#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:484
-#: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:483
+#: src/jobs/filtertask.cpp:84 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
 #: src/mltcontroller/clippropertiescontroller.cpp:1484
 #: src/mltcontroller/clippropertiescontroller.cpp:1509
@@ -7656,12 +7656,12 @@ msgstr ""
 "Não foi indicada nenhuma descrição.\n"
 "Deseja gravar o efeito sem qualquer descrição?"
 
-#: src/jobs/audiolevelstask.cpp:76 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Miniaturas de áudio: não é possível aceder ao ficheiro %1"
 
-#: src/jobs/audiolevelstask.cpp:85
+#: src/jobs/audiolevelstask.cpp:82
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Miniaturas de áudio: o tamanho do ficheiro %1 é desconhecido"
@@ -7673,17 +7673,17 @@ msgstr ""
 "A lista de reprodução %1 tem uma taxa de imagens diferente (%2/%3ips), que "
 "não é suportada."
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:511
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Não é possível determinar a duração do ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:654
+#: src/jobs/cliploadtask.cpp:653
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Não é possível efectuar uma mudança de posição no ficheiro <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:715
+#: src/jobs/cliploadtask.cpp:714
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "O ficheiro <b>%1</b> tem uma taxa de dados variável."
@@ -7736,54 +7736,54 @@ msgid "Extracting %1 out of %2"
 msgstr "A extrair o %1 de %2"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:69
-#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:131
+#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
+#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:130
 #, kde-format
 msgid "No producer for this clip."
 msgstr "Não existe o produtor deste 'clip'."
 
-#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
+#: src/jobs/cuttask.cpp:214 src/jobs/cuttask.cpp:216
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr "Não pode sobrepor o 'clip' original."
 
-#: src/jobs/cuttask.cpp:251 src/jobs/transcodetask.cpp:233
-#: src/jobs/transcodetask.cpp:269
+#: src/jobs/cuttask.cpp:249 src/jobs/transcodetask.cpp:230
+#: src/jobs/transcodetask.cpp:266
 #, kde-format
 msgid "Failed to create file."
 msgstr "Não foi possível criar o ficheiro."
 
-#: src/jobs/cuttask.cpp:262
+#: src/jobs/cuttask.cpp:260
 #, kde-format
 msgid "Cut job failed."
 msgstr "A tarefa de corte foi mal-sucedida."
 
-#: src/jobs/filtertask.cpp:112
+#: src/jobs/filtertask.cpp:110
 #, kde-format
 msgid "Cannot open source."
 msgstr "Não é possível aceder à origem."
 
-#: src/jobs/filtertask.cpp:137
+#: src/jobs/filtertask.cpp:134
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Não é possível criar o consumidor."
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:146
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Não é possível criar o filtro %1"
 
-#: src/jobs/filtertask.cpp:232
+#: src/jobs/filtertask.cpp:226
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Não foi possível filtrar a origem."
 
-#: src/jobs/proxytask.cpp:192
+#: src/jobs/proxytask.cpp:191
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Não é possível carregar a imagem %1."
 
-#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -7791,7 +7791,7 @@ msgstr ""
 "O FFmpeg não foi encontrado; defina por favor a localização na configuração "
 "do Ambiente do Kdenlive"
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:352 src/jobs/proxytask.cpp:365
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Não foi possível criar o 'clip' indirecto."
@@ -7807,20 +7807,20 @@ msgstr "Detecção da Cena"
 msgid "Cannot analyse this clip type."
 msgstr "Não é possível analisar este tipo de 'clip'."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "O FFmpeg não foi encontrado; defina por favor a localização na configuração "
 "do Ambiente do Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:186 src/jobs/scenesplittask.cpp:206
-#: src/jobs/scenesplittask.cpp:215
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Cena %1"
 
-#: src/jobs/scenesplittask.cpp:229
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Não foi possível analisar o 'clip'."
@@ -7832,7 +7832,7 @@ msgid "Clip Speed"
 msgstr "Velocidade do 'Clip'"
 
 #: src/jobs/speedtask.cpp:57 src/jobs/speedtask.cpp:58
-#: src/jobs/speedtask.cpp:254
+#: src/jobs/speedtask.cpp:250
 #, kde-format
 msgid "Speed Change"
 msgstr "Mudança de Velocidade"
@@ -7865,17 +7865,17 @@ msgstr "Compensação da frequência"
 msgid "Add clip to \"Speed Change\" folder"
 msgstr "Adicionar um 'clip' à pasta de \"Mudança da Velocidade\""
 
-#: src/jobs/speedtask.cpp:247
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Não foi possível criar o 'clip' de velocidade."
 
-#: src/jobs/stabilizetask.cpp:189
+#: src/jobs/stabilizetask.cpp:185
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Não foi possível estabilizar."
 
-#: src/jobs/stabilizetask.cpp:196
+#: src/jobs/stabilizetask.cpp:192
 #, kde-format
 msgid "Stabilized"
 msgstr "Estabilizado"
@@ -9587,36 +9587,29 @@ msgstr ""
 "os 'clips' indirectos deste projecto?"
 
 #: src/mainwindow.cpp:2092
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"O projecto actual não foi gravado. Em primeiro lugar, o projecto será "
-"gravado, depois serão movidos todos os ficheiros temporários de <b>%1</b> "
-"para <b>%2</b> e finalmente o ficheiro do projecto será recarregado"
+"O projecto actual não foi gravado.<br/>Em primeiro lugar, o projecto será "
+"gravado, depois serão movidos todos os ficheiros temporários de<br/><b>%1</"
+"b> para <b>%2</b><br/>e finalmente o ficheiro do projecto será recarregado"
 
 #: src/mainwindow.cpp:2100
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"Isto irá mover todos os ficheiros temporários de <b>%1</b> para <b>%2</b>, "
-"sendo que o projecto será depois carregado"
+"Isto irá mover todos os ficheiros temporários de<br/><b>%1</b> para <b>%2</"
+"b>,<br/>sendo que o projecto será depois carregado"
 
 #: src/mainwindow.cpp:2109 src/project/projectmanager.cpp:427
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
-msgstr "Não é possível efectuar a operação - o ID do documento é invaĺido: %1"
+msgstr "Não é possível efectuar a operação - o ID do documento é inválido: %1"
 
 #: src/mainwindow.cpp:2114 src/project/projectmanager.cpp:433
 #, kde-format
@@ -18864,13 +18857,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Regionalize"
-#~ msgstr "Regionalizar"
-
-#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-#~ msgstr ""
-#~ "Aplicar sub-efeitos a uma região, definida pelo canal alfa de um 'clip'"
-
-#~ msgid "Url"
-#~ msgstr "URL"

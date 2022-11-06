@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-05 00:45+0000\n"
+"POT-Creation-Date: 2022-11-06 00:46+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -7001,8 +7001,8 @@ msgstr "Följande filter och övertoningar togs bort från projektet:"
 msgid "Invalid file path"
 msgstr "Ogiltig filsökväg"
 
-#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:484
-#: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:483
+#: src/jobs/filtertask.cpp:84 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
 #: src/mltcontroller/clippropertiescontroller.cpp:1484
 #: src/mltcontroller/clippropertiescontroller.cpp:1509
@@ -7529,12 +7529,12 @@ msgstr ""
 "Ingen beskrivning angiven. \n"
 "Spara effekt utan beskrivning?"
 
-#: src/jobs/audiolevelstask.cpp:76 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Ljudminiatyrer: kan inte öppna filen %1"
 
-#: src/jobs/audiolevelstask.cpp:85
+#: src/jobs/audiolevelstask.cpp:82
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Ljudminiatyrer: okänd fillängd för %1"
@@ -7544,17 +7544,17 @@ msgstr "Ljudminiatyrer: okänd fillängd för %1"
 msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
 msgstr "Spellistan %1 har en annan bildfrekvens (%2/%3 b/s), som inte stöds."
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:511
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "Längden av filen <b>%1</b> kan inte avgöras."
 
-#: src/jobs/cliploadtask.cpp:654
+#: src/jobs/cliploadtask.cpp:653
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "Filen <b>%1</b> går inte att söka i."
 
-#: src/jobs/cliploadtask.cpp:715
+#: src/jobs/cliploadtask.cpp:714
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Filen <b>%1</b> har en variabel bildfrekvens."
@@ -7605,60 +7605,60 @@ msgid "Extracting %1 out of %2"
 msgstr "Packar up %1 av %2"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:69
-#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:131
+#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
+#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:130
 #, kde-format
 msgid "No producer for this clip."
 msgstr "Ingen producent för det här klippet."
 
-#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
+#: src/jobs/cuttask.cpp:214 src/jobs/cuttask.cpp:216
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr "Du kan inte skriva över originalklippet."
 
-#: src/jobs/cuttask.cpp:251 src/jobs/transcodetask.cpp:233
-#: src/jobs/transcodetask.cpp:269
+#: src/jobs/cuttask.cpp:249 src/jobs/transcodetask.cpp:230
+#: src/jobs/transcodetask.cpp:266
 #, kde-format
 msgid "Failed to create file."
 msgstr "Misslyckades skapa fil."
 
-#: src/jobs/cuttask.cpp:262
+#: src/jobs/cuttask.cpp:260
 #, kde-format
 msgid "Cut job failed."
 msgstr "Skärningsjobb misslyckades"
 
-#: src/jobs/filtertask.cpp:112
+#: src/jobs/filtertask.cpp:110
 #, kde-format
 msgid "Cannot open source."
 msgstr "Kan inte öppna källa."
 
-#: src/jobs/filtertask.cpp:137
+#: src/jobs/filtertask.cpp:134
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Kan inte skapa konsument."
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:146
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Kan inte skapa filter %1"
 
-#: src/jobs/filtertask.cpp:232
+#: src/jobs/filtertask.cpp:226
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Misslyckades filtrera källa."
 
-#: src/jobs/proxytask.cpp:192
+#: src/jobs/proxytask.cpp:191
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Kan inte läsa in bild %1."
 
-#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg hittades inte, ställ in sökvägen i Kdenlives miljöinställningar"
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:352 src/jobs/proxytask.cpp:365
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Misslyckades skapa ersättningsklipp."
@@ -7674,18 +7674,18 @@ msgstr "Scendetektering"
 msgid "Cannot analyse this clip type."
 msgstr "Kan inte analysera den här klipptypen."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr "FFmpeg hittades inte, ställ in sökvägen i Kdenlives inställning Miljö."
 
-#: src/jobs/scenesplittask.cpp:186 src/jobs/scenesplittask.cpp:206
-#: src/jobs/scenesplittask.cpp:215
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Scen %1"
 
-#: src/jobs/scenesplittask.cpp:229
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Misslyckades analysera klipp."
@@ -7697,7 +7697,7 @@ msgid "Clip Speed"
 msgstr "Klipphastighet"
 
 #: src/jobs/speedtask.cpp:57 src/jobs/speedtask.cpp:58
-#: src/jobs/speedtask.cpp:254
+#: src/jobs/speedtask.cpp:250
 #, kde-format
 msgid "Speed Change"
 msgstr "Hastighetsändring"
@@ -7730,17 +7730,17 @@ msgstr "Tonhöjdskompensation"
 msgid "Add clip to \"Speed Change\" folder"
 msgstr "Lägg till klipp i katalogen \"Hastighetsändring\""
 
-#: src/jobs/speedtask.cpp:247
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Misslyckades skapa hastighetsklipp."
 
-#: src/jobs/stabilizetask.cpp:189
+#: src/jobs/stabilizetask.cpp:185
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Misslyckades stabilisera."
 
-#: src/jobs/stabilizetask.cpp:196
+#: src/jobs/stabilizetask.cpp:192
 #, kde-format
 msgid "Stabilized"
 msgstr "Stabiliserat"

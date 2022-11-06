@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-05 00:45+0000\n"
+"POT-Creation-Date: 2022-11-06 00:46+0000\n"
 "PO-Revision-Date: 2022-10-27 10:32+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -6993,8 +6993,8 @@ msgstr "المرشّحات/الانتقالات الآتية حُذفت من ا�
 msgid "Invalid file path"
 msgstr "مسار الملف غير صالح"
 
-#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:484
-#: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:483
+#: src/jobs/filtertask.cpp:84 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
 #: src/mltcontroller/clippropertiescontroller.cpp:1484
 #: src/mltcontroller/clippropertiescontroller.cpp:1509
@@ -7520,12 +7520,12 @@ msgstr ""
 "لم يعطَ وصف.\n"
 "هل أحفظ التأثير بدون وصف؟"
 
-#: src/jobs/audiolevelstask.cpp:76 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "مصغرة الصوت: تعذّر فتح الملفّ %1"
 
-#: src/jobs/audiolevelstask.cpp:85
+#: src/jobs/audiolevelstask.cpp:82
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "مصغرة الصوت: طول ملفّ مجهول لـ %1"
@@ -7535,17 +7535,17 @@ msgstr "مصغرة الصوت: طول ملفّ مجهول لـ %1"
 msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
 msgstr "قائمة التشغيل %1 تحوي معطل أطر مختلف (%2/%3إطا/ث)، وغير مدعو."
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:511
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "لا يمكن تحديد مدة ملف <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:654
+#: src/jobs/cliploadtask.cpp:653
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "الملف <b>%1</b> لا يمكن القصد فيه."
 
-#: src/jobs/cliploadtask.cpp:715
+#: src/jobs/cliploadtask.cpp:714
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "الملف <b>%1</b> يحوي معدل أطر متغير."
@@ -7596,60 +7596,60 @@ msgid "Extracting %1 out of %2"
 msgstr "يستخرج %1 من %2"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:69
-#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:131
+#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
+#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:130
 #, kde-format
 msgid "No producer for this clip."
 msgstr "لا يوجد مُنِتج لهذا المقطع."
 
-#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
+#: src/jobs/cuttask.cpp:214 src/jobs/cuttask.cpp:216
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr "لا يمكنك الكتابة فوق المقطع الأصلي."
 
-#: src/jobs/cuttask.cpp:251 src/jobs/transcodetask.cpp:233
-#: src/jobs/transcodetask.cpp:269
+#: src/jobs/cuttask.cpp:249 src/jobs/transcodetask.cpp:230
+#: src/jobs/transcodetask.cpp:266
 #, kde-format
 msgid "Failed to create file."
 msgstr "فشل إنشاء الملفّ."
 
-#: src/jobs/cuttask.cpp:262
+#: src/jobs/cuttask.cpp:260
 #, kde-format
 msgid "Cut job failed."
 msgstr "فشلت مهمّة القص."
 
-#: src/jobs/filtertask.cpp:112
+#: src/jobs/filtertask.cpp:110
 #, kde-format
 msgid "Cannot open source."
 msgstr "تعذّر فتح المصدر"
 
-#: src/jobs/filtertask.cpp:137
+#: src/jobs/filtertask.cpp:134
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "تعذّر إنشاء مستهلك."
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:146
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "تعذّر إنشاء المرشح %1"
 
-#: src/jobs/filtertask.cpp:232
+#: src/jobs/filtertask.cpp:226
 #, kde-format
 msgid "Failed to filter source."
 msgstr "فشل ترشيح المصدر."
 
-#: src/jobs/proxytask.cpp:192
+#: src/jobs/proxytask.cpp:191
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "تعذّر تحميل الصّورة %1."
 
-#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كدينلايف"
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:352 src/jobs/proxytask.cpp:365
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "فشل إنشاء المقطع الوسيط."
@@ -7665,18 +7665,18 @@ msgstr "اكتشاف المناظر"
 msgid "Cannot analyse this clip type."
 msgstr "تعذّرت تحليل نوع المقطع هذا."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كدينلايف."
 
-#: src/jobs/scenesplittask.cpp:186 src/jobs/scenesplittask.cpp:206
-#: src/jobs/scenesplittask.cpp:215
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "مشهد %1"
 
-#: src/jobs/scenesplittask.cpp:229
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "أخفق في تحلل المقطع."
@@ -7688,7 +7688,7 @@ msgid "Clip Speed"
 msgstr "سرعة المقطع"
 
 #: src/jobs/speedtask.cpp:57 src/jobs/speedtask.cpp:58
-#: src/jobs/speedtask.cpp:254
+#: src/jobs/speedtask.cpp:250
 #, kde-format
 msgid "Speed Change"
 msgstr "تغيير السرعة"
@@ -7721,17 +7721,17 @@ msgstr "تعويض الحدة"
 msgid "Add clip to \"Speed Change\" folder"
 msgstr "أضف مقطع إلى مجلد \"تغيير السرعة\""
 
-#: src/jobs/speedtask.cpp:247
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "فشل إنشاء مقطع سرعة."
 
-#: src/jobs/stabilizetask.cpp:189
+#: src/jobs/stabilizetask.cpp:185
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "أخفق في الموازنة."
 
-#: src/jobs/stabilizetask.cpp:196
+#: src/jobs/stabilizetask.cpp:192
 #, kde-format
 msgid "Stabilized"
 msgstr "موازن"

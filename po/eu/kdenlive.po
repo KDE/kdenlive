@@ -1,6 +1,5 @@
 # Translation for kdenlive.po to Euskara/Basque (eu).
-# Copyright (C) 2017-2018, This file is copyright:
-# Copyright (C) 2019-2022, This file is copyright:
+# Copyright (C) 2017-2022 This file is copyright:
 # This file is distributed under the same license as the kdenlive package.
 # KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
 #
@@ -12,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-05 00:45+0000\n"
-"PO-Revision-Date: 2022-10-31 07:17+0100\n"
+"POT-Creation-Date: 2022-11-06 00:46+0000\n"
+"PO-Revision-Date: 2022-11-05 10:49+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -7021,8 +7020,8 @@ msgstr "Ondorengo iragazki/trantsizioak proiektutik ezabatu dira:"
 msgid "Invalid file path"
 msgstr "Fitxategi-bide baliogabea"
 
-#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:484
-#: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
+#: src/doc/kdenlivedoc.cpp:165 src/jobs/cliploadtask.cpp:483
+#: src/jobs/filtertask.cpp:84 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509
 #: src/mltcontroller/clippropertiescontroller.cpp:1484
 #: src/mltcontroller/clippropertiescontroller.cpp:1509
@@ -7542,12 +7541,12 @@ msgid ""
 "Save effect with no description?"
 msgstr "Ez da deskribapenik eman. Gorde efektua deskribapenik gabe?"
 
-#: src/jobs/audiolevelstask.cpp:76 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Audio koadro txikiak: %1 fitxategia ezin da ireki"
 
-#: src/jobs/audiolevelstask.cpp:85
+#: src/jobs/audiolevelstask.cpp:82
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Audio koadro-txikiak: %1 fitxategiaren iraupen ezezaguna"
@@ -7559,17 +7558,17 @@ msgstr ""
 "%1 Erreprodukzio-zerrendak fotograma-tasa ezberdina dauka (%2/%3fps), ez da "
 "onartzen."
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:511
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "<b>%1</b> fitxategiaren iraupena ezin da zehaztu."
 
-#: src/jobs/cliploadtask.cpp:654
+#: src/jobs/cliploadtask.cpp:653
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "<b>%1</b> fitxategian ezin da bilaketarik egin."
 
-#: src/jobs/cliploadtask.cpp:715
+#: src/jobs/cliploadtask.cpp:714
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "<b>%1</b> fitxategiak fotograma-emari aldakorra darabil."
@@ -7620,61 +7619,61 @@ msgid "Extracting %1 out of %2"
 msgstr "%1, %2tik erauzten"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:69
-#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:131
+#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
+#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:130
 #, kde-format
 msgid "No producer for this clip."
 msgstr "Ez dago klip honentzako ekoizlerik."
 
-#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
+#: src/jobs/cuttask.cpp:214 src/jobs/cuttask.cpp:216
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr "Ezin duzu jatorrizko klipa gainidatzi"
 
-#: src/jobs/cuttask.cpp:251 src/jobs/transcodetask.cpp:233
-#: src/jobs/transcodetask.cpp:269
+#: src/jobs/cuttask.cpp:249 src/jobs/transcodetask.cpp:230
+#: src/jobs/transcodetask.cpp:266
 #, kde-format
 msgid "Failed to create file."
 msgstr "Fitxategia sortzeak huts egin du."
 
-#: src/jobs/cuttask.cpp:262
+#: src/jobs/cuttask.cpp:260
 #, kde-format
 msgid "Cut job failed."
 msgstr "Mozte lanak huts egin du."
 
-#: src/jobs/filtertask.cpp:112
+#: src/jobs/filtertask.cpp:110
 #, kde-format
 msgid "Cannot open source."
 msgstr "Ezin da iturburua ireki."
 
-#: src/jobs/filtertask.cpp:137
+#: src/jobs/filtertask.cpp:134
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Ezin da kontsumitzailea sortu"
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:146
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Ezin da %1 iragazkia sortu"
 
-#: src/jobs/filtertask.cpp:232
+#: src/jobs/filtertask.cpp:226
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Iturburuaren iragazteak huts egin du."
 
-#: src/jobs/proxytask.cpp:192
+#: src/jobs/proxytask.cpp:191
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "%1 irudia ezin da kargatu."
 
-#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 "FFmpeg ez da aurkitu, mesedez ezarri bidea Kdenliveren ingurumen ezarpenetan"
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:352 src/jobs/proxytask.cpp:365
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Huts egin du bitartekari-klipa sortzeak."
@@ -7690,19 +7689,19 @@ msgstr "Esznenen Antzematea"
 msgid "Cannot analyse this clip type."
 msgstr "Ezin zaio da klip mota aztertu."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
 msgstr ""
 "FFmpeg ez da aurkitu, mesedez ezarri bidea Kdenliveren ingurumen ezarpenetan."
 
-#: src/jobs/scenesplittask.cpp:186 src/jobs/scenesplittask.cpp:206
-#: src/jobs/scenesplittask.cpp:215
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "%1 eszena"
 
-#: src/jobs/scenesplittask.cpp:229
+#: src/jobs/scenesplittask.cpp:226
 #, kde-format
 msgid "Failed to analyse clip."
 msgstr "Huts egin du klipa aztertzeak."
@@ -7714,7 +7713,7 @@ msgid "Clip Speed"
 msgstr "Kliparen Abiadura"
 
 #: src/jobs/speedtask.cpp:57 src/jobs/speedtask.cpp:58
-#: src/jobs/speedtask.cpp:254
+#: src/jobs/speedtask.cpp:250
 #, kde-format
 msgid "Speed Change"
 msgstr "Aldatu abiadura"
@@ -7747,17 +7746,17 @@ msgstr "Tonu konpentsatzea"
 msgid "Add clip to \"Speed Change\" folder"
 msgstr "Gehitu klipa \"Abiadura aldaketa\" karpetan"
 
-#: src/jobs/speedtask.cpp:247
+#: src/jobs/speedtask.cpp:243
 #, kde-format
 msgid "Failed to create speed clip."
 msgstr "Huts egin du abiadura-klipa sortzeak."
 
-#: src/jobs/stabilizetask.cpp:189
+#: src/jobs/stabilizetask.cpp:185
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "Egonkortzeak huts egin du."
 
-#: src/jobs/stabilizetask.cpp:196
+#: src/jobs/stabilizetask.cpp:192
 #, kde-format
 msgid "Stabilized"
 msgstr "Egonkortua"
@@ -9460,31 +9459,24 @@ msgstr ""
 "honetako bitartekari-klip guztiak?"
 
 #: src/mainwindow.cpp:2092
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"Uneko proiektua ez da orain arte gorde. Honek lehenik proiektua gordeko du, "
-"gero aldi-baterako fitxategiak <b>%1</b>-tik <b>%2</b>-ra mugituko ditu eta "
-"proiektua birkargatu egingo da"
+"Uneko proiektua ez da gorde.<br/>Honek lehenik proiektua gordeko du, gero "
+"aldi-baterako fitxategiak <br/><b>%1</b>(e)tik <b>%2</b>(e)ra mugituko ditu,"
+"<br>eta proiektua birkargatu egingo da"
 
 #: src/mainwindow.cpp:2100
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"Honek aldi-baterako fitxategiak <b>%1</b>-tik <b>%2</b>-ra mugituko ditu eta "
-"proiektua birkargatu egingo da gero"
+"Honek aldi-baterako fitxategi guztiak <br/><b>%1</b>(e)tik <b>%2</b>(e)ra "
+"mugituko ditu eta,<br/>gero proiektua birkargatu egingo da"
 
 #: src/mainwindow.cpp:2109 src/project/projectmanager.cpp:427
 #, kde-format
