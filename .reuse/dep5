@@ -8,9 +8,30 @@ Files: data/effects/*.xml data/transitions/*.xml data/generators/*.xml
 Copyright: none
 License: CC0-1.0
 
+Files: data/effects/**/CMakeLists.txt data/effects/CMakeLists.txt
+Copyright: none
+License: CC0-1.0
+
+Files: data/icons/breeze/*
+Copyright: KDE
+License: LGPL-3.0-or-later
+
+Files: data/resourceproviders/*
+Copyright: 2021 Julius Künzel
+License: CC0-1.0
+
+
 Files: dev-docs/*.md
 Copyright: 2020 Kdenlive contributors
 License: CC-BY-SA-4.0
+
+Files: doc/*
+Copyright: 2020 Kdenlive contributors
+License: CC-BY-SA-4.0
+
+Files:src/lib/external/kiss_fft/*
+Copyright: 2003-2004 Mark Borgerding <Mark@Borgerding.net>
+License: BSD-3-Clause
 
 Files: po/it/*
 Copyright: Salvatore Brigaglia <opensourcecat@gmail.com>, 2008, 2009, 2010, 2011.

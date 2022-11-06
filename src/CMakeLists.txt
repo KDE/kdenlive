@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2007 Kdenlive contributors
+# SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
+
 ### Find packages files
 find_package(LibV4L2)
 set_package_properties(LibV4L2 PROPERTIES

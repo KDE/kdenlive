@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2012 Simon A. Eugster (Granjow) <simon.eu@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+
 # Create a static library from kiss_fft
 find_package(Qt${QT_MAJOR_VERSION}Core REQUIRED)
 include_directories(${CMAKE_BINARY_DIR})
