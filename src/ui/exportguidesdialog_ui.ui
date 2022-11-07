@@ -76,8 +76,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      <property name="flat">
       <bool>false</bool>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
        <widget class="QLabel" name="label_4">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -90,46 +90,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QComboBox" name="offsetTimeComboBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <item>
-           <property name="text">
-            <string>Disabled</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Add</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Subtract</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item>
-         <widget class="TimecodeDisplay" name="offsetTimeSpinbox"/>
-        </item>
-       </layout>
-      </item>
-      <item>
+      <item row="2" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Format:</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLineEdit" name="formatEdit"/>
@@ -164,6 +132,38 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
           </property>
          </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QComboBox" name="offsetTimeComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>Disabled</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Subtract</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="TimecodeDisplay" name="offsetTimeSpinbox"/>
         </item>
        </layout>
       </item>
@@ -212,7 +212,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="onlyUsed">
+     <property name="onlyUsed" stdset="0">
       <bool>true</bool>
      </property>
     </widget>
@@ -226,15 +226,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <header>widgets/timecodedisplay.h</header>
   </customwidget>
   <customwidget>
-   <class>MarkerCategoryChooser</class>
-   <extends>QComboBox</extends>
-   <header>widgets/markercategorychooser.h</header>
-  </customwidget>
-  <customwidget>
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MarkerCategoryChooser</class>
+   <extends>QComboBox</extends>
+   <header>widgets/markercategorychooser.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

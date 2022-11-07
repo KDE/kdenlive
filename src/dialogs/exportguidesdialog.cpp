@@ -100,6 +100,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 
     // fill info button menu
     QMap<QString, QString> infoMenu;
+    infoMenu.insert(QStringLiteral("{{category}}"), i18n("Category name"));
     infoMenu.insert(QStringLiteral("{{index}}"), i18n("Guide number"));
     infoMenu.insert(QStringLiteral("{{realtimecode}}"), i18n("Guide position in HH:MM:SS:FF"));
     infoMenu.insert(QStringLiteral("{{timecode}}"), i18n("Guide position in (HH:)MM.SS"));
@@ -158,6 +159,7 @@ void ExportGuidesDialog::updateContentByModel() const
 {
     const int markerIndex = categoryChooser->currentCategory();
     if (format_json->isChecked()) {
+        messageWidget->setVisible(false);
         generatedContent->setPlainText(m_markerListModel->toJson({markerIndex}));
         return;
     }
@@ -183,7 +185,7 @@ void ExportGuidesDialog::updateContentByModel() const
             needShowInfoMsg = true;
         }
 
-        if (needCheck && (nextTime.seconds() - currentTime.seconds()) < 10) {
+        if (needCheck && std::abs(nextTime.seconds() - currentTime.seconds()) < 10) {
             needShowInfoMsg = true;
         }
 
@@ -193,6 +195,7 @@ void ExportGuidesDialog::updateContentByModel() const
         line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
         line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
         line.replace("{{comment}}", currentMarker.comment());
+        line.replace("{{category}}", pCore->markerTypes[currentMarker.markerType()].displayName);
         chapterTexts.append(line);
     }
 
