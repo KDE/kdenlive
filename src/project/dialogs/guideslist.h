@@ -45,6 +45,8 @@ public:
     ~GuidesList() override;
     void setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<MarkerSortModel> viewModel);
     void setClipMarkerModel(std::shared_ptr<ProjectClip> clip);
+    /** @brief Reset all filters. */
+    void reset();
 
 public slots:
     void removeGuide();
@@ -74,6 +76,8 @@ private:
     std::shared_ptr<ProjectClip> m_clip;
     QButtonGroup *catGroup{nullptr};
     QActionGroup *m_sortGroup;
+    QList<int> m_lastSelectedGuideCategories;
+    QList<int> m_lastSelectedMarkerCategories;
     bool m_markerMode;
 
 signals:

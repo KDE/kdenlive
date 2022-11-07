@@ -301,7 +301,8 @@ void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
     rebuildCategories();
     if (auto markerModel = m_model.lock()) {
         show_categories->setMarkerModel(markerModel.get());
-        switchFilter(true);
+        show_categories->setCurrentCategories(m_lastSelectedMarkerCategories);
+        switchFilter(!m_lastSelectedMarkerCategories.isEmpty() && !m_lastSelectedMarkerCategories.contains(-1));
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
     }
 }
@@ -329,7 +330,8 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
     connect(guides_list->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GuidesList::selectionChanged);
     if (auto markerModel = m_model.lock()) {
         show_categories->setMarkerModel(markerModel.get());
-        switchFilter(true);
+        show_categories->setCurrentCategories(m_lastSelectedGuideCategories);
+        switchFilter(!m_lastSelectedGuideCategories.isEmpty() && !m_lastSelectedGuideCategories.contains(-1));
         connect(markerModel.get(), &MarkerListModel::categoriesChanged, this, &GuidesList::rebuildCategories);
     }
     rebuildCategories();
@@ -393,12 +395,13 @@ void GuidesList::refreshDefaultCategory()
 
 void GuidesList::switchFilter(bool enable)
 {
-    if (enable) {
-        QList<int> cats = show_categories->currentCategories();
-        cats.removeAll(-1);
+    QList<int> cats = m_markerMode ? m_lastSelectedMarkerCategories : m_lastSelectedGuideCategories; // show_categories->currentCategories();
+    if (enable && !cats.contains(-1)) {
         updateFilter(cats);
+        show_categories->setChecked(true);
     } else {
         updateFilter({});
+        show_categories->setChecked(false);
     }
 }
 
@@ -406,8 +409,10 @@ void GuidesList::updateFilter(QList<int> categories)
 {
     if (m_markerMode) {
         m_clip->getFilteredMarkerModel()->slotSetFilters(categories);
+        m_lastSelectedMarkerCategories = categories;
     } else {
         pCore->currentDoc()->setGuidesFilter(categories);
+        m_lastSelectedGuideCategories = categories;
         emit pCore->refreshActiveGuides();
     }
 }
@@ -438,4 +443,12 @@ void GuidesList::changeSortOrder(bool descending)
     if (m_sortModel) {
         m_sortModel->slotSetSortOrder(descending);
     }
+}
+
+void GuidesList::reset()
+{
+    m_lastSelectedGuideCategories.clear();
+    m_lastSelectedMarkerCategories.clear();
+    show_categories->setCurrentCategories({-1});
+    filter_line->clear();
 }
