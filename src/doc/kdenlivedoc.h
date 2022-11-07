@@ -35,6 +35,7 @@ class MarkerListModel;
 class Render;
 class ProfileParam;
 class SubtitleModel;
+class MarkerSortModel;
 
 class QUndoGroup;
 class QUndoCommand;
@@ -195,6 +196,7 @@ public:
 
     /** @brief Returns a pointer to the guide model */
     std::shared_ptr<MarkerListModel> getGuideModel() const;
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel() const;
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -213,7 +215,12 @@ public:
     int audioChannels() const;
     /** @brief Ensure we don't have leftover preview chunks (created after last save */
     void cleanupTimelinePreview(const QDateTime &documentDate);
-
+    /** @brief Returns the guides categories for the project in format {name:index:#color} */
+    const QStringList guidesCategories() const;
+    /** @brief Set the guides categories for the project in format {name:index:#color} */
+    void updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories = {});
+    /** @brief Setup a filter to visible guides */
+    void setGuidesFilter(const QList<int> filter);
 
     /**
      * If the document used a decimal point different than “.”, it is stored in this property.
@@ -236,14 +243,18 @@ public:
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
     void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
+    /** @brief Returns the dafult definition  for guide categories.*/
+    static const QStringList getDefaultGuideCategories();
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
      * existing project file), used by the Open() named constructor. */
     KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup,
         MainWindow *parent = nullptr);
-    /** @brief Set document default properties using hard-coded values and KdenliveSettings. */
-    void initializeProperties();
+    /** @brief Set document default properties using hard-coded values and KdenliveSettings.
+     *  @param newDocument true if we are creating a new document, false when opening an existing one
+     */
+    void initializeProperties(bool newDocument = true);
     QDomDocument m_document;
     int m_clipsCount;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */
@@ -272,6 +283,7 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
     std::shared_ptr<MarkerListModel> m_guideModel;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
 
@@ -323,6 +335,8 @@ private slots:
     void guidesChanged();
     /** @brief Display error message on failed move. */
     void slotMoveFinished(KJob *job);
+    /** @brief Save the project guide categories in the document properties. */
+    void saveGuideCategories();
 
 signals:
     void resetProjectList();

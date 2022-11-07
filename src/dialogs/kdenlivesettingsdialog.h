@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "encodingprofilesdialog.h"
 
 class ProfileWidget;
+class GuideCategories;
 class KJob;
 
 class SpeechList : public QListWidget
@@ -123,6 +124,7 @@ private:
     Ui::ConfigProxy_UI m_configProxy;
     Ui::ConfigSpeech_UI m_configSpeech;
     SpeechList *m_speechListWidget;
+    GuideCategories *m_guidesCategories;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     QAction *m_voskAction;

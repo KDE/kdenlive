@@ -243,6 +243,12 @@ public:
     /** @brief Add markers on clip \@param binId at \@param positions with @comments text if given */
     void addClipMarker(const QString &binId, const QList<int> &positions, const QStringList &comments = {});
 
+    /** @brief Get the count of all markers in all clips using this category */
+    int getAllClipMarkers(int category) const;
+
+    /** @brief Remove all clip markers using a category */
+    void removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories);
+
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
      */
@@ -608,9 +614,5 @@ signals:
     void setupTargets(bool hasVideo, QMap <int, QString> audioStreams);
     /** @brief A drag event ended, inform timeline. */
     void processDragEnd();
-    /** @brief Delete selected markers in clip properties dialog. */
-    void deleteMarkers();
-    /** @brief Selected all markers in clip properties dialog. */
-    void selectMarkers();
     void requestBinClose();
 };

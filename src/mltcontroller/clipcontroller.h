@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "definitions.h"
+#include "undohelper.hpp"
 
 #include <QDateTime>
 #include <QDir>
@@ -23,6 +24,7 @@ class Bin;
 class AudioStreamInfo;
 class EffectStackModel;
 class MarkerListModel;
+class MarkerSortModel;
 
 /** @class ClipController
  *  @brief Provides a convenience wrapper around the project Bin clip producers.
@@ -156,6 +158,7 @@ public:
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
+    std::shared_ptr<MarkerSortModel> getFilteredMarkerModel() const;
 
     void setZone(const QPoint &zone);
     QPoint zone() const;
@@ -209,6 +212,8 @@ public:
     const QString getOriginalUrl();
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;
+    /** @brief Delete or re-assign all markers in a category. */
+    bool removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo);
 
 protected:
     /** @brief Mutex to protect the producer properties on read/write */
@@ -239,6 +244,7 @@ protected:
     // void rebuildEffectList(ProfileInfo info);
     std::shared_ptr<EffectStackModel> m_effectStack;
     std::shared_ptr<MarkerListModel> m_markerModel;
+    std::shared_ptr<MarkerSortModel> m_markerFilterModel;
     bool m_hasAudio;
     bool m_hasVideo;
     QMap<int, QStringList> m_streamEffects;

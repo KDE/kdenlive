@@ -20,7 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "klocalizedstring.h"
 
-MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, QWidget *parent)
+MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, bool allowMultipleMarksers, QWidget *parent)
     : QDialog(parent)
     , m_clip(clip)
 {
@@ -32,7 +32,10 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Q
     marker_category->setCurrentCategory(t.markerType());
 
     m_in->setValue(t.time());
-
+    if (!allowMultipleMarksers) {
+        multimarker_box->setVisible(false);
+    }
+    interval->setValue(GenTime(KdenliveSettings::multipleguidesinterval()));
     m_previewTimer = new QTimer(this);
 
     if (m_clip != nullptr) {
@@ -105,4 +108,19 @@ CommentedTime MarkerDialog::newMarker()
 {
     KdenliveSettings::setDefault_marker_type(marker_category->currentCategory());
     return CommentedTime(m_in->gentime(), marker_comment->text(), marker_category->currentCategory());
+}
+
+GenTime MarkerDialog::getInterval() const
+{
+    return interval->gentime();
+}
+
+int MarkerDialog::getOccurrences() const
+{
+    return occurrences->value();
+}
+
+bool MarkerDialog::addMultiMarker() const
+{
+    return multimarker_box->isExpanded();
 }

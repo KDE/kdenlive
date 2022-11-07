@@ -29,6 +29,7 @@
 #include <QQuickItem>
 #include <memory>
 
+#include "bin/model/markersortmodel.h"
 #include "core.h"
 #include "glwidget.h"
 #include "monitorproxy.h"
@@ -1704,7 +1705,7 @@ int GLWidget::getCurrentPos() const
     return m_proxy->getPosition();
 }
 
-void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model)
+void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model)
 {
     m_maxProducerPosition = duration;
     rootObject()->setProperty("duration", duration);

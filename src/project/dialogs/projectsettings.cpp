@@ -264,12 +264,18 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     add_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     delete_metadata->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
 
+    // Guides categories
+    QWidget *guidesPage = tabWidget->widget(2);
+    m_guidesCategories = new GuideCategories(doc, this);
+    QVBoxLayout *guidesLayout = new QVBoxLayout(guidesPage);
+    guidesLayout->addWidget(m_guidesCategories);
+
     if (!m_newProject) {
         slotUpdateFiles();
         connect(delete_unused, &QAbstractButton::clicked, this, &ProjectSettings::slotDeleteUnused);
     } else {
         // Hide project files tab since its an empty new project
-        tabWidget->removeTab(3);
+        tabWidget->removeTab(4);
     }
     connect(project_folder, &KUrlRequester::textChanged, this, &ProjectSettings::slotUpdateButton);
     connect(button_export, &QAbstractButton::clicked, this, &ProjectSettings::slotExportToText);
@@ -533,6 +539,16 @@ void ProjectSettings::slotUpdateButton(const QString &path)
         m_buttonOk->setEnabled(true);
         slotUpdateFiles(true);
     }
+}
+
+const QStringList ProjectSettings::guidesCategories() const
+{
+    return m_guidesCategories->updatedGuides();
+}
+
+const QMap<int, int> ProjectSettings::remapGuidesCategories() const
+{
+    return m_guidesCategories->remapedGuides();
 }
 
 QString ProjectSettings::selectedProfile() const

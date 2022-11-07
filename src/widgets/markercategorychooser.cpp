@@ -4,6 +4,7 @@
  */
 #include "markercategorychooser.h"
 #include "../bin/model/markerlistmodel.hpp"
+#include "core.h"
 
 #include <KLocalizedString>
 
@@ -13,7 +14,9 @@ MarkerCategoryChooser::MarkerCategoryChooser(QWidget *parent)
     , m_allowAll(true)
     , m_onlyUsed(false)
 {
-    refresh();
+    if (pCore) {
+        refresh();
+    }
     connect(this, &MarkerCategoryChooser::changed, this, &MarkerCategoryChooser::refresh);
 }
 
@@ -21,16 +24,16 @@ void MarkerCategoryChooser::refresh()
 {
     clear();
     // Set up guide categories
-    static std::array<QColor, 9> markerTypes = MarkerListModel::markerTypes;
     QPixmap pixmap(32, 32);
-
-    for (uint i = 0; i < markerTypes.size(); ++i) {
-        if (m_onlyUsed && m_markerListModel && m_markerListModel->getAllMarkers(i).isEmpty()) {
+    QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
+    while (i.hasNext()) {
+        i.next();
+        if (m_onlyUsed && m_markerListModel && m_markerListModel->getAllMarkers(i.key()).isEmpty()) {
             continue;
         }
-        pixmap.fill(markerTypes[size_t(i)]);
+        pixmap.fill(i.value().color);
         QIcon colorIcon(pixmap);
-        addItem(colorIcon, i18n("Category %1", i), i);
+        addItem(colorIcon, i.value().displayName, i.key());
     }
     if (count() == 0) {
         setEnabled(false);

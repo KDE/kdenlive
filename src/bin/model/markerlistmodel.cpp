@@ -10,6 +10,7 @@
 #include "dialogs/exportguidesdialog.h"
 #include "dialogs/markerdialog.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "project/projectmanager.h"
@@ -20,10 +21,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <utility>
-
-std::array<QColor, 9> MarkerListModel::markerTypes{{QColor(QLatin1String("#9b59b6")), QColor(QLatin1String("#3daee9")), QColor(QLatin1String("#1abc9c")),
-                                                    QColor(QLatin1String("#1cdc9a")), QColor(QLatin1String("#c9ce3b")), QColor(QLatin1String("#fdbc4b")),
-                                                    QColor(QLatin1String("#f39c1f")), QColor(QLatin1String("#f47750")), QColor(QLatin1String("#da4453"))}};
 
 MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
@@ -55,6 +52,70 @@ void MarkerListModel::setup()
     connect(this, &MarkerListModel::rowsInserted, this, &MarkerListModel::modelChanged);
     connect(this, &MarkerListModel::modelReset, this, &MarkerListModel::modelChanged);
     connect(this, &MarkerListModel::dataChanged, this, &MarkerListModel::modelChanged);
+}
+
+void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories, const QMap<int, int> remapCategories)
+{
+    // Remove all markers of deleted category
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    QList<int> deletedCategories = loadCategories(categories);
+    while (!deletedCategories.isEmpty()) {
+        int ix = deletedCategories.takeFirst();
+        QList<CommentedTime> toDelete = getAllMarkers(ix);
+        if (remapCategories.contains(ix)) {
+            int newType = remapCategories.value(ix);
+            for (CommentedTime c : toDelete) {
+                addMarker(c.time(), c.comment(), newType, local_undo, local_redo);
+            }
+        } else {
+            for (CommentedTime c : toDelete) {
+                removeMarker(c.time(), local_undo, local_redo);
+            }
+        }
+    }
+    Fun undo = [this, currentCategories]() {
+        loadCategories(currentCategories);
+        return true;
+    };
+    Fun redo = [this, categories]() {
+        loadCategories(categories);
+        return true;
+    };
+    PUSH_FRONT_LAMBDA(local_redo, redo);
+    PUSH_LAMBDA(local_undo, undo);
+    pCore->pushUndo(undo, redo, i18n("Update guides categories"));
+}
+
+QList<int> MarkerListModel::loadCategories(const QStringList &categories)
+{
+    QList<int> previousCategories = pCore->markerTypes.keys();
+    pCore->markerTypes.clear();
+    for (const QString &cat : categories) {
+        if (cat.count(QLatin1Char(':')) < 2) {
+            // Invalid guide data found
+            qDebug() << "Invalid guide data found: " << cat;
+            continue;
+        }
+        const QColor color(cat.section(QLatin1Char(':'), -1));
+        const QString name = cat.section(QLatin1Char(':'), 0, -3);
+        int ix = cat.section(QLatin1Char(':'), -2, -2).toInt();
+        previousCategories.removeAll(ix);
+        pCore->markerTypes.insert(ix, {color, name});
+    }
+    emit categoriesChanged();
+    return previousCategories;
+}
+
+const QStringList MarkerListModel::categoriesToStringList() const
+{
+    QStringList categories;
+    QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
+    while (i.hasNext()) {
+        i.next();
+        categories << QString("%1:%2:%3").arg(i.value().displayName, QString::number(i.key()), i.value().color.name());
+    }
+    return categories;
 }
 
 int MarkerListModel::markerIdAtFrame(int pos) const
@@ -101,7 +162,7 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     if (type == -1) type = KdenliveSettings::default_marker_type();
-    Q_ASSERT(type >= 0 && type < int(markerTypes.size()));
+    Q_ASSERT(pCore->markerTypes.contains(type));
 
     if (hasMarker(pos)) {
         // In this case we simply change the comment and type
@@ -207,7 +268,10 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     if (oldPos == pos && current.comment() == comment && current.markerType() == type) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = removeMarker(oldPos, undo, redo);
+    bool res = true;
+    if (oldPos != pos) {
+        res = removeMarker(oldPos, undo, redo);
+    }
     if (res) {
         res = addMarker(pos, comment, type, undo, redo);
     }
@@ -443,11 +507,13 @@ QVariant MarkerListModel::data(const QModelIndex &index, int role) const
         return it->second.time().frames(pCore->getCurrentFps());
     case ColorRole:
     case Qt::DecorationRole:
-        return markerTypes[size_t(it->second.markerType())];
+        return pCore->markerTypes.value(it->second.markerType()).color;
     case TypeRole:
         return it->second.markerType();
     case IdRole:
         return it->first;
+    case TCRole:
+        return pCore->timecode().getDisplayTimecode(it->second.time(), false);
     }
     return QVariant();
 }
@@ -568,12 +634,26 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
     }
 }
 
+bool MarkerListModel::importFromFile(const QString &fileData, bool ignoreConflicts)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = importFromJson(fileData, ignoreConflicts, undo, redo);
+    if (!res) {
+        res = importFromTxt(fileData, undo, redo);
+    }
+    if (res) {
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
+    }
+    return res;
+}
+
 bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = importFromJson(data, ignoreConflicts, undo, redo);
-    if (pushUndo) {
+    if (result && pushUndo) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     }
     return result;
@@ -601,9 +681,16 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         int pos = entryObj[QLatin1String("pos")].toInt();
         QString comment = entryObj[QLatin1String("comment")].toString(i18n("Marker"));
         int type = entryObj[QLatin1String("type")].toInt(0);
-        if (type < 0 || type >= int(markerTypes.size())) {
-            qDebug() << "Warning : invalid type found:" << type << " Defaulting to 0";
-            type = 0;
+        if (!pCore->markerTypes.contains(type)) {
+            qDebug() << "Warning : invalid type found:" << type << " Recovering category";
+            type = type % 9;
+            if (!pCore->markerTypes.contains(type)) {
+                QString originalCategory = KdenliveDoc::getDefaultGuideCategories().at(type);
+                QColor color(originalCategory.section(QLatin1Char(':'), -1));
+                pCore->markerTypes.insert(type, {color, i18n("Recovered %1", type)});
+                emit categoriesChanged();
+                emit pCore->updateDefaultMarkerCategory();
+            }
         }
         bool res = true;
         if (!ignoreConflicts && hasMarker(GenTime(pos, pCore->getCurrentFps()))) {
@@ -619,20 +706,81 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
             return false;
         }
     }
-
     return true;
 }
 
-QString MarkerListModel::toJson() const
+bool MarkerListModel::importFromTxt(const QString &fileData, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    bool res = false;
+    bool lineRead = false;
+    int type = KdenliveSettings::default_marker_type();
+    const QStringList lines = fileData.split(QLatin1Char('\n'));
+    for (auto &line : lines) {
+        if (line.isEmpty()) {
+            continue;
+        }
+        QString pos = line.section(QLatin1Char(' '), 0, 0);
+        GenTime position;
+        // Try to read timecode
+        bool ok = false;
+        int separatorsCount = pos.count(QLatin1Char(':'));
+        switch (separatorsCount) {
+        case 0:
+            // assume we are dealing with seconds
+            position = GenTime(pos.toDouble(&ok));
+            break;
+        case 1: {
+            // assume min:sec
+            QString sec = pos.section(QLatin1Char(':'), 1);
+            QString min = pos.section(QLatin1Char(':'), 0, 0);
+            double seconds = sec.toDouble(&ok);
+            int minutes = ok ? min.toInt(&ok) : 0;
+            position = GenTime(seconds + 60 * minutes);
+            break;
+        }
+        case 2:
+        default: {
+            // assume hh:min:sec
+            QString sec = pos.section(QLatin1Char(':'), 2, 2);
+            QString min = pos.section(QLatin1Char(':'), 1, 1);
+            QString hours = pos.section(QLatin1Char(':'), 0, 0);
+            double seconds = sec.toDouble(&ok);
+            int minutes = ok ? min.toInt(&ok) : 0;
+            int h = ok ? hours.toInt(&ok) : 0;
+            position = GenTime(seconds + (60 * minutes) + (3600 * h));
+            break;
+        }
+        }
+        if (!ok) {
+            // Could not read timecode
+            qDebug() << "::: Could not read timecode from line: " << line;
+            continue;
+        }
+        QString comment = line.section(QLatin1Char(' '), 1);
+        res = addMarker(position, comment, type, undo, redo);
+        if (!res) {
+            break;
+        } else if (!lineRead) {
+            lineRead = true;
+        }
+    }
+    return res && lineRead;
+}
+
+QString MarkerListModel::toJson(QList<int> categories) const
 {
     READ_LOCK();
     QJsonArray list;
+    bool exportAllCategories = categories.isEmpty() || categories == (QList<int>() << -1);
     for (const auto &marker : m_markerList) {
         QJsonObject currentMarker;
         currentMarker.insert(QLatin1String("pos"), QJsonValue(marker.second.time().frames(pCore->getCurrentFps())));
         currentMarker.insert(QLatin1String("comment"), QJsonValue(marker.second.comment()));
         currentMarker.insert(QLatin1String("type"), QJsonValue(marker.second.markerType()));
-        list.push_back(currentMarker);
+        if (exportAllCategories || categories.contains(marker.second.markerType())) {
+            list.push_back(currentMarker);
+        }
     }
     QJsonDocument json(list);
     return QString::fromUtf8(json.toJson());
@@ -660,6 +808,44 @@ bool MarkerListModel::removeAllMarkers()
     return true;
 }
 
+bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWidget *parent)
+{
+    bool exists;
+    auto marker = getMarker(positions.first(), &exists);
+    if (!exists) {
+        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+    }
+    QDialog d(parent);
+    d.setWindowTitle(m_guide ? i18n("Edit Guides Category") : i18n("Edit Markers Category"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    QLabel lab(m_guide ? i18n("Guides Category") : i18n("Markers Category"), &d);
+    MarkerCategoryChooser chooser(&d);
+    chooser.setMarkerModel(this);
+    chooser.setAllowAll(false);
+    chooser.setCurrentCategory(marker.markerType());
+    l->addWidget(&lab);
+    l->addWidget(&chooser);
+    l->addWidget(buttonBox);
+    if (d.exec() == QDialog::Accepted) {
+        int category = chooser.currentCategory();
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        for (auto &pos : positions) {
+            marker = getMarker(positions.first(), &exists);
+            if (exists) {
+                addMarker(pos, marker.comment(), category, undo, redo);
+            }
+        }
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Edit guides") : i18n("Edit markers"));
+        return true;
+    }
+    return false;
+}
+
 bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip, bool createOnly)
 {
     bool exists;
@@ -672,14 +858,47 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
         marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString(), KdenliveSettings::default_marker_type());
     }
 
-    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), parent));
+    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Edit Guide") : i18n("Edit Marker"), false, parent));
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
+        emit pCore->updateDefaultMarkerCategory();
         if (exists && !createOnly) {
             return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
         }
         return addMarker(marker.time(), marker.comment(), marker.markerType());
+    }
+    return false;
+}
+
+bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip)
+{
+    bool exists;
+    auto marker = getMarker(pos, &exists);
+    if (!exists && !createIfNotFound) {
+        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+    }
+
+    if (!exists && createIfNotFound) {
+        marker = CommentedTime(pos, clip == nullptr ? i18n("guide") : QString(), KdenliveSettings::default_marker_type());
+    }
+
+    QScopedPointer<MarkerDialog> dialog(new MarkerDialog(clip, marker, m_guide ? i18n("Add Guides") : i18n("Add Markers"), true, parent));
+    if (dialog->exec() == QDialog::Accepted) {
+        int max = dialog->addMultiMarker() ? dialog->getOccurrences() : 1;
+        GenTime interval = dialog->getInterval();
+        KdenliveSettings::setMultipleguidesinterval(interval.seconds());
+        marker = dialog->newMarker();
+        emit pCore->updateDefaultMarkerCategory();
+        GenTime startTime = marker.time();
+        QWriteLocker locker(&m_lock);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        for (int i = 0; i < max; i++) {
+            addMarker(startTime, marker.comment(), marker.markerType(), undo, redo);
+            startTime += interval;
+        }
+        PUSH_UNDO(undo, redo, m_guide ? i18n("Add guides") : i18n("Add markers"));
     }
     return false;
 }

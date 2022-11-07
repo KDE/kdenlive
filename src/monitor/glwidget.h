@@ -38,6 +38,7 @@ class Consumer;
 class RenderThread;
 class FrameRenderer;
 class MonitorProxy;
+class MarkerSortModel;
 
 using thread_function_t = void *(*)(void *);
 
@@ -100,7 +101,7 @@ public:
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
     void requestRefresh();
-    void setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model = nullptr);
+    void setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
     bool loopClip(QPoint inOut);

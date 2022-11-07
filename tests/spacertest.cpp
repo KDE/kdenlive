@@ -190,6 +190,72 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         REQUIRE(TimelineFunctions::requestDeleteBlankAt(timeline, tid1, 100, false) == false);
         undoStack->undo();
     }
+    SECTION("Ensure delete blank works correctly with ungrouped clips")
+    {
+        // We have clips at 10, 80, 101 on track 1 (length 20 frames each)
+        // One clip at 20 on track 2
+        REQUIRE(TimelineFunctions::requestDeleteBlankAt(timeline, tid1, 5, false));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(timeline->getClipPosition(cid2) == 70);
+        REQUIRE(timeline->getClipPosition(cid3) == 91);
+        REQUIRE(timeline->getClipPosition(cid4) == 20);
+        undoStack->undo();
+        REQUIRE(TimelineFunctions::requestDeleteBlankAt(timeline, tid1, 5, true));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+        REQUIRE(timeline->getClipPosition(cid1) == 0);
+        REQUIRE(timeline->getClipPosition(cid2) == 70);
+        REQUIRE(timeline->getClipPosition(cid3) == 91);
+        REQUIRE(timeline->getClipPosition(cid4) == 10);
+        undoStack->undo();
+        REQUIRE(TimelineFunctions::requestDeleteBlankAt(timeline, tid1, 60, false));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+        REQUIRE(timeline->getClipPosition(cid1) == 10);
+        REQUIRE(timeline->getClipPosition(cid2) == 30);
+        REQUIRE(timeline->getClipPosition(cid3) == 51);
+        REQUIRE(timeline->getClipPosition(cid4) == 20);
+        undoStack->undo();
+        state1();
+    }
+    SECTION("Insert space test with ungrouped clips")
+    {
+        // We have clips at 10, 80, 101 on track 1 (length 20 frames each)
+        // One clip at 20 on track 2
+        // operation on one track (tid1)
+        std::pair<int, int> spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, 40);
+        int cid = spacerOp.first;
+        REQUIRE(cid > -1);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        int start = timeline->getItemPosition(cid);
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, cid, start, start + 100, tid1, false, undo, redo));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+        REQUIRE(timeline->getClipPosition(cid1) == 10);
+        REQUIRE(timeline->getClipPosition(cid2) == 180);
+        REQUIRE(timeline->getClipPosition(cid3) == 201);
+        REQUIRE(timeline->getClipPosition(cid4) == 20);
+        undoStack->undo();
+        state1();
+        // operation on all tracks
+        /*spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, -1, 35);
+        cid = spacerOp.first;
+        REQUIRE(cid > -1);
+        start = timeline->getItemPosition(cid);
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, cid, start, start + 100, -1, false, undo, redo));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+        REQUIRE(timeline->getClipPosition(cid1) == 10);
+        REQUIRE(timeline->getClipPosition(cid2) == 180);
+        REQUIRE(timeline->getClipPosition(cid3) == 201);
+        REQUIRE(timeline->getClipPosition(cid4) == 120);
+        undoStack->undo();
+        state1();*/
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }

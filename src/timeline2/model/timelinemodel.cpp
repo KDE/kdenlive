@@ -939,7 +939,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         }
         if (previousClip > -1 && nextClip > -1) {
             // We have a clip before and a clip after, check timeline cursor position to decide where to mix
-            int cursor = pCore->getTimelinePosition();
+            int cursor = pCore->getMonitorPosition();
             if (cursor < mixPosition + clipDuration / 2) {
                 nextClip = -1;
             } else {
@@ -3041,7 +3041,7 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     }
     int proposed_size = size;
     if (!skipSnaps) {
-        int timelinePos = pCore->getTimelinePosition();
+        int timelinePos = pCore->getMonitorPosition();
         m_snaps->addPoint(timelinePos);
         proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
         m_snaps->removePoint(timelinePos);
@@ -3116,7 +3116,7 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
             size = out - getTrackById_const(trackId)->getBlankStart(in - 1);
         }
     }
-    int timelinePos = pCore->getTimelinePosition();
+    int timelinePos = pCore->getMonitorPosition();
     m_snaps->addPoint(timelinePos);
     int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
     m_snaps->removePoint(timelinePos);
@@ -4674,7 +4674,7 @@ void TimelineModel::setUndoStack(std::weak_ptr<DocUndoStack> undo_stack)
 
 int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
 {
-    int cursorPosition = pCore->getTimelinePosition();
+    int cursorPosition = pCore->getMonitorPosition();
     m_snaps->addPoint(cursorPosition);
     int snapped = m_snaps->getClosestPoint(pos);
     m_snaps->removePoint(cursorPosition);
@@ -4714,7 +4714,7 @@ int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> p
     return closest;
 }
 
-int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
+int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps, std::vector<int> &ignored)
 {
     QVector<int> tracks;
     // Get active tracks
@@ -4735,7 +4735,13 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
     }
     if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getNextPoint(pos);
+        m_snaps->ignore(ignored);
+        int next = m_snaps->getNextPoint(pos);
+        m_snaps->unIgnore();
+        return next;
+    }
+    for (auto num : ignored) {
+        snaps.erase(std::remove(snaps.begin(), snaps.end(), num), snaps.end());
     }
     // Build snap points for selected tracks
     for (const auto &cp : m_allClips) {
@@ -4760,7 +4766,7 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
     return pos;
 }
 
-int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
+int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps, std::vector<int> &ignored)
 {
     QVector<int> tracks;
     // Get active tracks
@@ -4781,9 +4787,15 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
     }
     if ((tracks.isEmpty() || tracks.count() == int(m_allTracks.size())) && !filterOutSubtitles) {
         // No active track, use all possible snap points
-        return m_snaps->getPreviousPoint(int(pos));
+        m_snaps->ignore(ignored);
+        int previous = m_snaps->getPreviousPoint(pos);
+        m_snaps->unIgnore();
+        return previous;
     }
     // Build snap points for selected tracks
+    for (auto num : ignored) {
+        snaps.erase(std::remove(snaps.begin(), snaps.end(), num), snaps.end());
+    }
     for (const auto &cp : m_allClips) {
         // Check if clip is on a target track
         if (tracks.contains(cp.second->getCurrentTrackId())) {

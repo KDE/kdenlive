@@ -147,7 +147,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         if (m_model->getOwnerId().first == ObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
-            m_inPos->setValue(pCore->getTimelinePosition());
+            m_inPos->setValue(pCore->getMonitorPosition());
         }
         updateEffectZone();
     });
@@ -155,7 +155,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         if (m_model->getOwnerId().first == ObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
-            m_outPos->setValue(pCore->getTimelinePosition());
+            m_outPos->setValue(pCore->getMonitorPosition());
         }
         updateEffectZone();
     });
@@ -931,7 +931,7 @@ void CollapsibleEffectView::switchInOut(bool checked)
             if (!checked) {
                 inOut = {0, 0};
             } else {
-                int in = pCore->getTimelinePosition();
+                int in = pCore->getMonitorPosition();
                 inOut = {in, in + pCore->getDurationFromString(KdenliveSettings::transition_duration())};
             }
             break;

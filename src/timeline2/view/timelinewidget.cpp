@@ -9,6 +9,7 @@
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/markersortmodel.h"
 #include "capture/mediacapture.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -167,7 +168,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getGuideModel().get());
+    rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getFilteredGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());

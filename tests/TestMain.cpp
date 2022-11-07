@@ -32,6 +32,10 @@ int main(int argc, char *argv[])
     pCore->projectItemModel()->buildPlaylist();
     // if Kdenlive is not installed, ensure we have one keyframable effect
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());
+    // init markers
+    for (int i = 0; i < 5; i++) {
+        pCore->markerTypes.insert(i, {QColor(30 * i, 30 * i, 30 * i), QString("cat %1").arg(i)});
+    }
 
     int result = Catch::Session().run(argc, argv);
     pCore->cleanup();

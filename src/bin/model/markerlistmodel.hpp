@@ -31,6 +31,8 @@ class MarkerListModel : public QAbstractListModel
 {
     Q_OBJECT
 
+    friend class ClipController;
+
 public:
     /** @brief Construct a marker list bound to the bin clip with given id */
     explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
@@ -38,7 +40,7 @@ public:
     /** @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
-    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole };
+    enum { CommentRole = Qt::UserRole + 1, PosRole, FrameRole, ColorRole, TypeRole, IdRole, TCRole };
 
     /** @brief Adds a marker at the given position. If there is already one, the comment will be overridden
        @param pos defines the position of the marker, relative to the clip
@@ -83,9 +85,6 @@ public:
     bool moveMarker(int mid, GenTime pos);
     void moveMarkersWithoutUndo(const QVector<int> &markersId, int offset, bool updateView = true);
 
-    /** @brief This describes the available markers type and their corresponding colors */
-    static std::array<QColor, 9> markerTypes;
-
     /** @brief Returns a marker data at given pos */
     CommentedTime getMarker(const GenTime &pos, bool *ok) const;
     CommentedTime getMarker(int frame, bool *ok) const;
@@ -126,8 +125,10 @@ public:
     */
     void registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel);
 
-    /** @brief Exports the model to json using format above */
-    QString toJson() const;
+    /** @brief Exports the model to json using format above
+     *  @param categories will only export selected categories. If param is empty, all categories will be exported
+     */
+    QString toJson(QList<int> categories = {}) const;
 
     /** @brief Shows a dialog to edit a marker/guide
        @param pos: position of the marker to edit, or new position for a marker
@@ -137,7 +138,28 @@ public:
        @return true if dialog was accepted and modification successful
      */
     bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
+    /** @brief Shows a dialog to change the category of multiple markers/guides
+       @param positions: List of the markers positions to edit
+       @param widget: qt widget that will be the parent of the dialog
+       @return true if dialog was accepted and modification successful
+     */
+    bool editMultipleMarkersGui(const QList<GenTime> positions, QWidget *parent);
+    /** @brief Shows a dialog to add multiple markers/guide
+       @param pos: position of the marker to edit, or new position for a marker
+       @param widget: qt widget that will be the parent of the dialog
+       @param createIfNotFound: if true, we create a marker if none is found at pos
+       @param clip: pointer to the clip if we are editing a marker
+       @return true if dialog was accepted and modification successful
+     */
+    bool addMultipleMarkersGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr);
     void exportGuidesGui(QWidget *parent, GenTime projectDuration) const;
+    /** @brief Load the marker categories from a stringList
+     *  @return the list of deleted categories ids (if any)
+     */
+    void loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories, const QMap<int, int> remapCategories = {});
+    QList<int> loadCategories(const QStringList &categories);
+    /** @brief Returns the marker categories in the form of a stringList for saving */
+    const QStringList categoriesToStringList() const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
@@ -155,6 +177,8 @@ public slots:
  */
     bool importFromJson(const QString &data, bool ignoreConflicts, bool pushUndo = true);
     bool importFromJson(const QString &data, bool ignoreConflicts, Fun &undo, Fun &redo);
+    bool importFromTxt(const QString &fileName, Fun &undo, Fun &redo);
+    bool importFromFile(const QString &fileData, bool ignoreConflicts);
 
 protected:
     /** @brief Adds a snap point at marker position in the registered snap models
@@ -193,6 +217,7 @@ private:
     std::map<int, CommentedTime> m_markerList;
     /** @brief A list of {marker frame,marker id}, useful to quickly find a marker */
     QMap<int, int> m_markerPositions;
+
     std::vector<std::weak_ptr<SnapInterface>> m_registeredSnaps;
     int getRowfromId(int mid) const;
     int getIdFromPos(const GenTime &pos) const;
@@ -200,5 +225,6 @@ private:
 
 signals:
     void modelChanged();
+    void categoriesChanged();
 };
 Q_DECLARE_METATYPE(MarkerListModel *)
