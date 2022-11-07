@@ -277,6 +277,7 @@ GuidesList::~GuidesList() = default;
 void GuidesList::setClipMarkerModel(std::shared_ptr<ProjectClip> clip)
 {
     m_markerMode = true;
+    guides_lock->setVisible(false);
     if (clip == m_clip) {
         return;
     }
@@ -316,6 +317,11 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
     m_model = std::move(model);
     setEnabled(true);
     guideslist_label->setText(i18n("Timeline Guides"));
+    if (!guides_lock->defaultAction()) {
+        QAction *action = pCore->window()->actionCollection()->action("lock_guides");
+        guides_lock->setDefaultAction(action);
+    }
+    guides_lock->setVisible(true);
     m_sortModel = viewModel.get();
     m_proxy->setSourceModel(m_sortModel);
     guides_list->setModel(m_proxy);
