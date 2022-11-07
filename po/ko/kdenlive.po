@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-06 00:46+0000\n"
+"POT-Creation-Date: 2022-11-07 00:44+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -139,18 +139,19 @@ msgstr "알파 또는 광도 값의 역수를 사용하십시오."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
-#: src/ui/gradientedit_ui.ui:100
+#: data/effects/audiowaveform.xml:16 src/ui/gradientedit_ui.ui:100
 #, kde-format
 msgid "Angle"
 msgstr "각도"
 
 #: data/effects/audiolevelgraph.xml:34 data/effects/audiospectrum.xml:27
+#: data/effects/audiowaveform.xml:17
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
 msgstr "파형을 회전할 각도입니다."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
-#: data/effects/audiowaveform.xml:16 data/effects/lightshow.xml:26
+#: data/effects/audiowaveform.xml:20 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
 #: data/effects/qtblend.xml:9 data/effects/qtblend.xml:27
 #: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
@@ -353,7 +354,7 @@ msgstr ""
 "선 그래프의 파형을 그리는 데 사용되는 선의 두께입니다. 막대 그래프의 막대 두"
 "께입니다."
 
-#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:19
+#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
@@ -475,12 +476,12 @@ msgstr "오디오 파형 필터"
 msgid "Foreground Color"
 msgstr "전경색"
 
-#: data/effects/audiowaveform.xml:22
+#: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
 msgstr "병합,모두,1,2,3,4,5,6,7,8,9,10"
 
-#: data/effects/audiowaveform.xml:23
+#: data/effects/audiowaveform.xml:27
 #, kde-format
 msgid "Channel to draw"
 msgstr "그릴 채널"

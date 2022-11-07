@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-06 00:46+0000\n"
-"PO-Revision-Date: 2022-10-26 23:04+0200\n"
+"POT-Creation-Date: 2022-11-07 00:44+0000\n"
+"PO-Revision-Date: 2022-11-06 15:48-0400\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -130,18 +130,19 @@ msgstr "De dikte van de balk of segmenten."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
-#: src/ui/gradientedit_ui.ui:100
+#: data/effects/audiowaveform.xml:16 src/ui/gradientedit_ui.ui:100
 #, kde-format
 msgid "Angle"
 msgstr "Hoek"
 
 #: data/effects/audiolevelgraph.xml:34 data/effects/audiospectrum.xml:27
+#: data/effects/audiowaveform.xml:17
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
 msgstr "De draaihoek toe te passen op de golfvorm."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
-#: data/effects/audiowaveform.xml:16 data/effects/lightshow.xml:26
+#: data/effects/audiowaveform.xml:20 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
 #: data/effects/qtblend.xml:9 data/effects/qtblend.xml:27
 #: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
@@ -343,7 +344,7 @@ msgstr ""
 "De dikte van de lijn gebruikt om de golfvorm te tekenen voor lijngrafiek. De "
 "dikte van de balk voor de staafgrafiek."
 
-#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:19
+#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
@@ -471,12 +472,12 @@ msgstr "Filter voor geluidsgolf"
 msgid "Foreground Color"
 msgstr "Voorgrondkleur"
 
-#: data/effects/audiowaveform.xml:22
+#: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
 msgstr "Samenvoegen,alles,1,2,3,4,5,6,7,8,9,10"
 
-#: data/effects/audiowaveform.xml:23
+#: data/effects/audiowaveform.xml:27
 #, kde-format
 msgid "Channel to draw"
 msgstr "Te tekenen kanaal"
@@ -9473,31 +9474,24 @@ msgstr ""
 "project opnieuw aanmaken?"
 
 #: src/mainwindow.cpp:2092
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"Het huidige project is niet opgeslagen. Dit zal eerst het project opslaan, "
-"daarna alle tijdelijke bestanden verplaatsen van <b>%1</b> naar <b>%2</b> en "
-"het projectbestand zal herladen worden"
+"Het huidige project is niet opgeslagen.<br/>Dit zal eerst het project "
+"opslaan, daarna alle tijdelijke bestanden verplaatsen van <br/><b>%1</b> "
+"naar <b>%2</b><br/> en het projectbestand zal herladen worden"
 
 #: src/mainwindow.cpp:2100
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"Dit zal alle tijdelijke bestanden van <b>%1</b> naar <b>%2</b> verplaatsen, "
-"het projectbestand zal dan herladen worden"
+"Dit zal alle tijdelijke bestanden van<br/><b>%1</b> naar <b>%2</b> "
+"verplaatsen,br/>, het projectbestand zal dan herladen worden"
 
 #: src/mainwindow.cpp:2109 src/project/projectmanager.cpp:427
 #, kde-format

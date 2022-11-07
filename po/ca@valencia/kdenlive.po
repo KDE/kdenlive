@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-06 00:46+0000\n"
-"PO-Revision-Date: 2022-10-26 07:15+0200\n"
+"POT-Creation-Date: 2022-11-07 00:44+0000\n"
+"PO-Revision-Date: 2022-11-05 11:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -132,18 +132,19 @@ msgstr "El gruix de la barra o segments."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
-#: src/ui/gradientedit_ui.ui:100
+#: data/effects/audiowaveform.xml:16 src/ui/gradientedit_ui.ui:100
 #, kde-format
 msgid "Angle"
 msgstr "Angle"
 
 #: data/effects/audiolevelgraph.xml:34 data/effects/audiospectrum.xml:27
+#: data/effects/audiowaveform.xml:17
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
 msgstr "L'angle de gir que s'aplicarà a la forma d'ona."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
-#: data/effects/audiowaveform.xml:16 data/effects/lightshow.xml:26
+#: data/effects/audiowaveform.xml:20 data/effects/lightshow.xml:26
 #: data/effects/pan_zoom.xml:8 data/effects/pillar_echo.xml:8
 #: data/effects/qtblend.xml:9 data/effects/qtblend.xml:27
 #: data/effects/qtcrop.xml:8 data/effects/spot_remover.xml:8
@@ -345,7 +346,7 @@ msgstr ""
 "El gruix de la línia utilitzada per a dibuixar la forma d'ona del gràfic de "
 "línies. El gruix de la barra per al gràfic de barres."
 
-#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:19
+#: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
@@ -428,8 +429,8 @@ msgid ""
 "The minimum amplitude of sound that must occur within the frequency range to "
 "cause the value to be applied."
 msgstr ""
-"L'amplitud mínima del so que s'ha de produir a l'interval de freqüències per "
-"a provocar que s'aplique el valor."
+"L'amplitud mínima del so que s'ha de produir en l'interval de freqüències "
+"per a provocar que s'aplique el valor."
 
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, kde-format
@@ -473,12 +474,12 @@ msgstr "Filtre de forma d'ona d'àudio"
 msgid "Foreground Color"
 msgstr "Color de primer pla"
 
-#: data/effects/audiowaveform.xml:22
+#: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
 msgstr "Fusiona,Tot,1,2,3,4,5,6,7,8,9,10"
 
-#: data/effects/audiowaveform.xml:23
+#: data/effects/audiowaveform.xml:27
 #, kde-format
 msgid "Channel to draw"
 msgstr "Canal que s'ha de dibuixar"
@@ -6993,7 +6994,7 @@ msgstr ""
 "Alguns dels vostres clips de text s'han guardat amb la mida en punts, la "
 "qual cosa significa que tindran mides diferents en pantalles diferents. "
 "Voleu convertir-los a mida en píxels, fent-los portables? Es recomana que ho "
-"feu a l'ordinador on van ser creats inicialment o, possiblement, haureu "
+"feu en l'ordinador on van ser creats inicialment o, possiblement, haureu "
 "d'ajustar la seua mida."
 
 #: src/doc/documentvalidator.cpp:690
@@ -9490,31 +9491,24 @@ msgstr ""
 "clips intermediaris per a este projecte?"
 
 #: src/mainwindow.cpp:2092
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"El projecte actual no s'ha guardat. Açò, primer guardarà el projecte, "
-"després mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es "
-"tornarà a carregar el fitxer del projecte"
+"El projecte actual no s'ha guardat.<br/>Açò, primer guardarà el projecte, "
+"després mourà tots els fitxers temporals des de <br/><b>%1</b> a <b>%2</b>, "
+"<br>i es tornarà a carregar el fitxer del projecte"
 
 #: src/mainwindow.cpp:2100
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"Mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà "
-"a carregar el fitxer del projecte"
+"Mourà tots els fitxers temporals des de<br/><b>%1</b> a <b>%2</b>,<br/> i es "
+"tornarà a carregar el fitxer del projecte"
 
 #: src/mainwindow.cpp:2109 src/project/projectmanager.cpp:427
 #, kde-format
