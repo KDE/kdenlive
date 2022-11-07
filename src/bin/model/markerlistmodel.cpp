@@ -742,7 +742,7 @@ bool MarkerListModel::importFromTxt(const QString &fileData, Fun &undo, Fun &red
         case 2:
         default: {
             // assume hh:min:sec
-            QString sec = pos.section(QLatin1Char(':'), 2);
+            QString sec = pos.section(QLatin1Char(':'), 2, 2);
             QString min = pos.section(QLatin1Char(':'), 1, 1);
             QString hours = pos.section(QLatin1Char(':'), 0, 0);
             double seconds = sec.toDouble(&ok);
