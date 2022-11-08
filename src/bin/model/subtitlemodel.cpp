@@ -236,9 +236,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug() << "ass File";
         QString startTime, endTime;
-        QString EventFormat, section;
+        QString eventFormat, section;
         turn = 0;
-        int maxSplit = 0;
+        int numEventFields = 0;
         QFile assFile(filePath);
         if (!assFile.exists() || !assFile.open(QIODevice::ReadOnly)) {
             qDebug() << " Failed attempt on opening " << filePath;
@@ -306,17 +306,13 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     QStringList format;
                     if (line.contains("Format:")) {
                         eventSection += line + "\n";
-                        EventFormat += line.toLower().simplified().remove(QLatin1Char(' '));
-                        format = EventFormat.split(":")[1].split(QLatin1Char(','));
+                        eventFormat += line.toLower().simplified().remove(QLatin1Char(' '));
+                        format = eventFormat.split(":")[1].split(QLatin1Char(','));
                         // qDebug() << format << format.count();
-                        maxSplit = format.count();
+                        numEventFields = format.count();
                         // TIME
-                        if (maxSplit > 2) startTime = format.at(1);
-                        if (maxSplit > 3) endTime = format.at(2);
-                        // Text
-                        if (format.contains(QStringLiteral("text"))) {
-                            textIndex = format.indexOf(QStringLiteral("text"));
-                        }
+                        if (numEventFields > 2) startTime = format.at(1);
+                        if (numEventFields > 3) endTime = format.at(2);
                     } else {
                         start.clear();
                         end.clear();
@@ -328,8 +324,8 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                             startPos = stringtoTime(start)/transformMult;
                             end = dialogue.at(2);
                             endPos = stringtoTime(end)/transformMult;
-                            // Text
-                            comment = dialogue.at(textIndex);
+                            // Text field is always the last field, since it can have commas
+                            comment = line.section(",", numEventFields-1);
                             // qDebug()<<"Start: "<< start << "End: "<<end << comment;
                             if (endPos > startPos) {
                                 addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
