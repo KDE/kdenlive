@@ -4498,7 +4498,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 "Este projecte necessita més pistes d'àudio per a gestionar tots els fluxos. "
-"Afig %1 pistes d'àudio?"
+"Voleu afegir %1 pistes d'àudio?"
 
 #: src/bin/bin.cpp:5043 src/mainwindow.cpp:2599
 #, kde-format
@@ -12805,7 +12805,7 @@ msgstr "%1 px"
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
 #, kde-format
 msgid "File has no extension. Add extension (%1)?"
-msgstr "El fitxer no té cap extensió. Afig una extensió (%1)?"
+msgstr "El fitxer no té cap extensió. Voleu afegir una extensió (%1)?"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:196

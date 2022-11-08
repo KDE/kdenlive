@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-07 00:44+0000\n"
-"PO-Revision-Date: 2022-10-26 20:49+0200\n"
+"PO-Revision-Date: 2022-11-07 14:36+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -9536,31 +9536,24 @@ msgstr ""
 "les clips intermédiaires pour ce projet ?"
 
 #: src/mainwindow.cpp:2092
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"Le projet courant n'a pas été enregistré. Ceci va d'abord enregistrer le "
-"projet, ensuite déplacer tous les fichiers temporaires depuis <b>%1</b> vers "
-"<b>%2</b>, et le projet sera rechargé"
+"Le projet courant n'a pas été enregistré. <br/> Ceci enregistrera d'abord le "
+"projet, ensuite déplacera tous les fichiers temporaires depuis <br/><b>%1</"
+"b> vers <b>%2</b>, </b>,<br> et enfin, le projet sera rechargé."
 
 #: src/mainwindow.cpp:2100
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"Ceci va déplacer tous les fichiers temporaires depuis <b>%1</b> vers <b>%2</"
-"b>, le projet sera ensuite rechargé"
+"Ceci déplacera tous les fichiers temporaires de <br/> <b>%1</b> vers <b>%2</"
+"br/> et enfin, le fichier du projet sera ensuite rechargé."
 
 #: src/mainwindow.cpp:2109 src/project/projectmanager.cpp:427
 #, kde-format

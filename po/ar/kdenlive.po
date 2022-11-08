@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-07 00:44+0000\n"
-"PO-Revision-Date: 2022-10-27 10:32+0400\n"
+"PO-Revision-Date: 2022-11-07 19:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -9440,30 +9440,24 @@ msgstr ""
 "المشروع؟"
 
 #: src/mainwindow.cpp:2092
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"لم يحفظ المشروع الحالي. سيؤدي هذا أولاً إلى حفظ المشروع، ثم نقل جميع الملفات "
-"المؤقتة من <b>%1</b> إلى <b>%2</b> ، و إعادة تحميل ملف المشروع"
+"لم يحفظ المشروع الحالي.<br/> سيؤدي هذا أولاً إلى حفظ المشروع، ثم نقل جميع "
+"الملفات المؤقتة من <br/><b>%1</b> إلى <b>%2</b>،<br> و إعادة تحميل ملف "
+"المشروع"
 
 #: src/mainwindow.cpp:2100
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"سيؤدي إلى نقل جميع الملفات المؤقتة من <b>%1</b> إلى <b>%2</b> ، و إعادة "
-"تحميل ملف المشروع"
+"سيؤدي إلى نقل جميع الملفات المؤقتة من<br/> <b>%1</b> إلى <b>%2</b> ،<br/> و "
+"إعادة تحميل ملف المشروع"
 
 #: src/mainwindow.cpp:2109 src/project/projectmanager.cpp:427
 #, kde-format
