@@ -660,12 +660,12 @@ public:
     /** @brief Requests the next snapped point
        @param pos is the current position
      */
-    int getNextSnapPos(int pos, std::vector<int> &snaps);
+    int getNextSnapPos(int pos, std::vector<int> &snaps, std::vector<int> &ignored);
 
     /** @brief Requests the previous snapped point
        @param pos is the current position
      */
-    int getPreviousSnapPos(int pos, std::vector<int> &snaps);
+    int getPreviousSnapPos(int pos, std::vector<int> &snaps, std::vector<int> &ignored);
 
     /** @brief Add a new snap point
        @param pos is the current position

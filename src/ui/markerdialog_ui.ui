@@ -10,33 +10,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>164</height>
+    <width>389</width>
+    <height>210</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Marker</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QLabel" name="clip_thumb">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>Image preview</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
+  <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="1">
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
@@ -105,20 +92,92 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </layout>
    </item>
-   <item row="1" column="1">
+   <item row="1" column="0" colspan="2">
+    <widget class="KCollapsibleGroupBox" name="multimarker_box">
+     <property name="title">
+      <string>Add multiple markers</string>
+     </property>
+     <property name="expanded">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="clip_filesize_5">
+          <property name="text">
+           <string>Count</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="occurrences">
+          <property name="minimum">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="clip_filesize_4">
+          <property name="text">
+           <string>Interval</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="TimecodeDisplay" name="interval"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="clip_thumb">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Image preview</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>218</width>
-       <height>1</height>
+       <width>20</width>
+       <height>8</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="2" column="1">
+   <item row="3" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -140,6 +199,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>MarkerCategoryChooser</class>
    <extends>QComboBox</extends>
    <header>widgets/markercategorychooser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KCollapsibleGroupBox</class>
+   <extends>QWidget</extends>
+   <header>kcollapsiblegroupbox.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

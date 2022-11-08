@@ -23,14 +23,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "macros.hpp"
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
+#include "model/markersortmodel.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
 #include "projectitemmodel.h"
 #include "projectsubclip.h"
 #include "timeline2/model/snapmodel.hpp"
-#include "utils/timecode.h"
 #include "utils/thumbnailcache.hpp"
+#include "utils/timecode.h"
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
@@ -76,6 +77,10 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     , m_uuid(QUuid::createUuid())
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
+    m_markerFilterModel.reset(new MarkerSortModel(this));
+    m_markerFilterModel->setSourceModel(m_markerModel.get());
+    m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
+    m_markerFilterModel->sort(0, Qt::AscendingOrder);
     if (producer->get_int("_placeholder") == 1) {
         m_clipStatus = FileStatus::StatusMissing;
     } else if (producer->get_int("_missingsource") == 1) {
@@ -150,6 +155,10 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     m_clipStatus = FileStatus::StatusWaiting;
     m_thumbnail = thumb;
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
+    m_markerFilterModel.reset(new MarkerSortModel(this));
+    m_markerFilterModel->setSourceModel(m_markerModel.get());
+    m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
+    m_markerFilterModel->sort(0, Qt::AscendingOrder);
     if (description.hasAttribute(QStringLiteral("type"))) {
         m_clipType = ClipType::ProducerType(description.attribute(QStringLiteral("type")).toInt());
         if (m_clipType == ClipType::Audio) {

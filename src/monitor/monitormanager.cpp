@@ -183,6 +183,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             } else {
                 m_clipMonitor->fixFocus();
             }
+            // Set guides list to show guides
+            m_clipMonitor->updateGuidesList();
             if (!m_clipMonitor->isVisible()) {
                 pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"),
                                       MessageType::InformationMessage);
@@ -193,6 +195,8 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
         } else if (name == Kdenlive::ProjectMonitor) {
+            // Set guides list to show guides
+            m_projectMonitor->updateGuidesList();
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_projectMonitor->parentWidget()->raise();

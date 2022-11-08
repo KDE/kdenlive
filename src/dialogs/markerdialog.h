@@ -27,11 +27,14 @@ class MarkerDialog : public QDialog, public Ui::MarkerDialog_UI
     Q_OBJECT
 
 public:
-    explicit MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, QWidget *parent = nullptr);
+    explicit MarkerDialog(ClipController *clip, const CommentedTime &t, const QString &caption, bool allowMultipleMarksers = false, QWidget *parent = nullptr);
     ~MarkerDialog() override;
 
     CommentedTime newMarker();
     QImage markerImage() const;
+    bool addMultiMarker() const;
+    GenTime getInterval() const;
+    int getOccurrences() const;
 
 private slots:
     void slotUpdateThumb();

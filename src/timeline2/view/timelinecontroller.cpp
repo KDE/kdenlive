@@ -10,6 +10,7 @@
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
@@ -31,6 +32,7 @@
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
+#include "timeline2/model/snapmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
@@ -72,6 +74,7 @@ TimelineController::TimelineController(QObject *parent)
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
     connect(pCore.get(), &Core::recordAudio, this, &TimelineController::switchRecording);
+    connect(pCore.get(), &Core::refreshActiveGuides, this, [this]() { m_activeSnaps.clear(); });
 }
 
 TimelineController::~TimelineController() {}
@@ -316,20 +319,20 @@ bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
 {
     int currentClip = -1;
     if (type == ObjectType::TimelineClip) {
-        currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getTimelinePosition())
-                                                              : m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
+        currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getMonitorPosition())
+                                                              : m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
     } else if (type == ObjectType::TimelineComposition) {
-        currentClip = m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
+        currentClip = m_model->getCompositionByPosition(m_activeTrack, pCore->getMonitorPosition());
     } else if (type == ObjectType::TimelineMix) {
         if (m_activeTrack >= 0) {
-            currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition());
+            currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
         }
         if (currentClip > -1) {
             if (m_model->hasClipEndMix(currentClip)) {
                 int mixPartner = m_model->getTrackById_const(m_activeTrack)->getSecondMixPartner(currentClip);
                 int clipEnd = m_model->getClipPosition(currentClip) + m_model->getClipPlaytime(currentClip);
                 int mixStart = clipEnd - m_model->getMixDuration(mixPartner);
-                if (mixStart < pCore->getTimelinePosition() && pCore->getTimelinePosition() < clipEnd) {
+                if (mixStart < pCore->getMonitorPosition() && pCore->getMonitorPosition() < clipEnd) {
                     if (select) {
                         m_model->requestMixSelection(mixPartner);
                         return true;
@@ -339,7 +342,7 @@ bool TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
                     }
                 }
             }
-            int delta = pCore->getTimelinePosition() - m_model->getClipPosition(currentClip);
+            int delta = pCore->getMonitorPosition() - m_model->getClipPosition(currentClip);
             if (m_model->getMixDuration(currentClip) >= delta) {
                 if (select) {
                     m_model->requestMixSelection(currentClip);
@@ -434,7 +437,7 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = pCore->getMonitorPosition();
     }
     if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo, refreshView, useTargets)) {
         id = -1;
@@ -449,7 +452,7 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = pCore->getMonitorPosition();
     }
     TimelineFunctions::requestMultipleClipsInsertion(m_model, binIds, tid, position, clipIds, logUndo, refreshView);
     // we don't need to check the return value of the above function, in case of failure it will return an empty list of ids.
@@ -645,7 +648,7 @@ int TimelineController::getMainSelectedItem(bool restrictToCurrentPos, bool allo
         }
     }
     if (m_model->isClip(itemId)) {
-        int position = pCore->getTimelinePosition();
+        int position = pCore->getMonitorPosition();
         int start = m_model->getClipPosition(itemId);
         int end = start + m_model->getClipPlaytime(itemId);
         if (position >= start && position <= end) {
@@ -848,15 +851,16 @@ void TimelineController::gotoNextSnap()
         m_activeSnaps.push_back(m_zone.x());
         m_activeSnaps.push_back(m_zone.y() - 1);
     }
-    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), m_activeSnaps);
-    if (nextSnap > pCore->getTimelinePosition()) {
+    std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
+    int nextSnap = m_model->getNextSnapPos(pCore->getMonitorPosition(), m_activeSnaps, canceled);
+    if (nextSnap > pCore->getMonitorPosition()) {
         setPosition(nextSnap);
     }
 }
 
 void TimelineController::gotoPreviousSnap()
 {
-    if (pCore->getTimelinePosition() > 0) {
+    if (pCore->getMonitorPosition() > 0) {
         if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
             m_snapStackIndex = pCore->undoIndex();
             m_activeSnaps.clear();
@@ -864,18 +868,25 @@ void TimelineController::gotoPreviousSnap()
             m_activeSnaps.push_back(m_zone.x());
             m_activeSnaps.push_back(m_zone.y() - 1);
         }
-        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), m_activeSnaps));
+        std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
+        setPosition(m_model->getPreviousSnapPos(pCore->getMonitorPosition(), m_activeSnaps, canceled));
     }
 }
 
 void TimelineController::gotoNextGuide()
 {
     QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
-    int pos = pCore->getTimelinePosition();
+    std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
+    int pos = pCore->getMonitorPosition();
     double fps = pCore->getCurrentFps();
+    int guidePos = 0;
     for (auto &guide : guides) {
-        if (guide.time().frames(fps) > pos) {
-            setPosition(guide.time().frames(fps));
+        guidePos = guide.time().frames(fps);
+        if (std::find(canceled.begin(), canceled.end(), guidePos) != canceled.end()) {
+            continue;
+        }
+        if (guidePos > pos) {
+            setPosition(guidePos);
             return;
         }
     }
@@ -884,17 +895,23 @@ void TimelineController::gotoNextGuide()
 
 void TimelineController::gotoPreviousGuide()
 {
-    if (pCore->getTimelinePosition() > 0) {
+    if (pCore->getMonitorPosition() > 0) {
         QList<CommentedTime> guides = pCore->currentDoc()->getGuideModel()->getAllMarkers();
-        int pos = pCore->getTimelinePosition();
+        std::vector<int> canceled = pCore->currentDoc()->getFilteredGuideModel()->getIgnoredSnapPoints();
+        int pos = pCore->getMonitorPosition();
         double fps = pCore->getCurrentFps();
         int lastGuidePos = 0;
+        int guidePos = 0;
         for (auto &guide : guides) {
-            if (guide.time().frames(fps) >= pos) {
+            guidePos = guide.time().frames(fps);
+            if (std::find(canceled.begin(), canceled.end(), guidePos) != canceled.end()) {
+                continue;
+            }
+            if (guidePos >= pos) {
                 setPosition(lastGuidePos);
                 return;
             }
-            lastGuidePos = guide.time().frames(fps);
+            lastGuidePos = guidePos;
         }
         setPosition(lastGuidePos);
     }
@@ -964,7 +981,7 @@ void TimelineController::setInPoint(bool ripple)
             m_model->requestItemResize(id, size, false, true, 0, false);
         }
     };
-    int cursorPos = pCore->getTimelinePosition();
+    int cursorPos = pCore->getMonitorPosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
     if (!selection.empty()) {
@@ -1043,7 +1060,7 @@ void TimelineController::setOutPoint(bool ripple)
             m_model->requestItemResize(id, size, true, true, 0, false);
         }
     };
-    int cursorPos = pCore->getTimelinePosition();
+    int cursorPos = pCore->getMonitorPosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
     if (!selection.empty()) {
@@ -1121,7 +1138,7 @@ void TimelineController::editMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getMonitorPosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -1150,7 +1167,7 @@ void TimelineController::addMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getMonitorPosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -1190,7 +1207,7 @@ void TimelineController::addQuickMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid);
+        position = pCore->getMonitorPosition() - m_model->getClipPosition(cid);
         position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > ((m_model->getClipIn(cid) + m_model->getClipPlaytime(cid) * speed))) {
@@ -1216,7 +1233,7 @@ void TimelineController::deleteMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getMonitorPosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = int(position * speed);
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -1245,32 +1262,35 @@ void TimelineController::deleteAllMarkers(int cid)
 void TimelineController::editGuide(int frame)
 {
     if (frame == -1) {
-        frame = pCore->getTimelinePosition();
+        frame = pCore->getMonitorPosition();
     }
     auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
     guideModel->editMarkerGui(pos, qApp->activeWindow(), false);
 }
 
-void TimelineController::moveGuide(int frame, int newFrame)
+void TimelineController::moveGuideById(int id, int newFrame)
 {
     if (newFrame < 0) {
         return;
     }
     auto guideModel = pCore->currentDoc()->getGuideModel();
-    GenTime pos(frame, pCore->getCurrentFps());
     GenTime newPos(newFrame, pCore->getCurrentFps());
-    guideModel->editMarker(pos, newPos);
+    GenTime oldPos = guideModel->markerById(id).time();
+    guideModel->editMarker(oldPos, newPos);
 }
 
-void TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
+int TimelineController::moveGuideWithoutUndo(int mid, int newFrame)
 {
     if (newFrame < 0) {
-        return;
+        return -1;
     }
     auto guideModel = pCore->currentDoc()->getGuideModel();
     GenTime newPos(newFrame, pCore->getCurrentFps());
-    guideModel->moveMarker(mid, newPos);
+    if (guideModel->moveMarker(mid, newPos)) {
+        return newFrame;
+    }
+    return -1;
 }
 
 bool TimelineController::moveGuidesInRange(int start, int end, int offset)
@@ -1304,7 +1324,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
 {
     bool markerFound = false;
     if (frame == -1) {
-        frame = pCore->getTimelinePosition();
+        frame = pCore->getMonitorPosition();
     }
     CommentedTime marker = pCore->currentDoc()->getGuideModel()->getMarker(frame, &markerFound);
     if (!markerFound) {
@@ -1352,7 +1372,7 @@ void TimelineController::addAsset(const QVariantMap &data)
             // Move timeline cursor inside clip if it is not
             int in = m_model->getClipPosition(cid);
             int out = in + m_model->getClipPlaytime(cid);
-            int position = pCore->getTimelinePosition();
+            int position = pCore->getMonitorPosition();
             if (position < in || position > out) {
                 emit seeked(in);
             }
@@ -1662,7 +1682,7 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
 void TimelineController::requestClipCut(int clipId, int position)
 {
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = pCore->getMonitorPosition();
     }
     TimelineFunctions::requestClipCut(m_model, clipId, position);
 }
@@ -1670,7 +1690,7 @@ void TimelineController::requestClipCut(int clipId, int position)
 void TimelineController::cutClipUnderCursor(int position, int track)
 {
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = pCore->getMonitorPosition();
     }
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
@@ -1719,7 +1739,7 @@ void TimelineController::cutSubtitle(int id, int cursorPos)
         return requestClipCut(id, -1);
     }
     // Cut subtitle at edit position
-    int timelinePos = pCore->getTimelinePosition();
+    int timelinePos = pCore->getMonitorPosition();
     GenTime position(timelinePos, pCore->getCurrentFps());
     GenTime start = m_model->m_allSubtitles.at(id);
     auto subtitleModel = pCore->getSubtitleModel();
@@ -1752,7 +1772,7 @@ void TimelineController::cutSubtitle(int id, int cursorPos)
 void TimelineController::cutAllClipsUnderCursor(int position)
 {
     if (position == -1) {
-        position = pCore->getTimelinePosition();
+        position = pCore->getMonitorPosition();
     }
     QMutexLocker lk(&m_metaMutex);
     TimelineFunctions::requestClipCutAll(m_model, position);
@@ -1798,7 +1818,8 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
         pCore->currentDoc()->getGuideModel()->moveMarkersWithoutUndo(selectedGuides, startPosition - endPosition, false);
         moveGuidesInRange(guideStart, -1, endPosition - startPosition, undo, redo);
     }
-    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, false, undo, redo);
+    bool result =
+        TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, !KdenliveSettings::lockedGuides(), undo, redo);
     return result;
 }
 
@@ -1809,7 +1830,7 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
     if (!selection.empty()) {
         cid = *selection.begin();
     } else {
-        int cursorPos = pCore->getTimelinePosition();
+        int cursorPos = pCore->getMonitorPosition();
         cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
         if (cid < 0) {
             /* If the cursor is at the clip end it is one frame after the clip,
@@ -1859,7 +1880,7 @@ int TimelineController::getMouseTrack()
 bool TimelineController::positionIsInItem(int id)
 {
     int in = m_model->getItemPosition(id);
-    int position = pCore->getTimelinePosition();
+    int position = pCore->getMonitorPosition();
     if (in > position) {
         return false;
     }
@@ -1899,7 +1920,7 @@ void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
     QList<int> activeClips;
     for (int track = m_model->getTracksCount() - 1; track >= 0; track--) {
         int trackIx = m_model->getTrackIndexFromPosition(track);
-        int cid = m_model->getClipByPosition(trackIx, pCore->getTimelinePosition());
+        int cid = m_model->getClipByPosition(trackIx, pCore->getMonitorPosition());
         if (cid > -1) {
             activeClips << cid;
         }
@@ -2582,7 +2603,7 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("audioTarget"), QString::number(audioTarget));
     props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
     props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
-    props.insert(QStringLiteral("position"), QString::number(pCore->getTimelinePosition()));
+    props.insert(QStringLiteral("position"), QString::number(pCore->getMonitorPosition()));
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
@@ -2602,7 +2623,7 @@ int TimelineController::getMenuOrTimelinePos() const
 {
     int frame = m_root->property("clickFrame").toInt();
     if (frame == -1) {
-        frame = pCore->getTimelinePosition();
+        frame = pCore->getMonitorPosition();
     }
     return frame;
 }
@@ -2832,8 +2853,8 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     }
     if (m_zone.isNull()) {
         // Use current timeline position and clip zone length
-        zone.setY(pCore->getTimelinePosition() + zone.y() - zone.x());
-        zone.setX(pCore->getTimelinePosition());
+        zone.setY(pCore->getMonitorPosition() + zone.y() - zone.x());
+        zone.setX(pCore->getMonitorPosition());
     }
     TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, liftOnly);
     if (!liftOnly && !m_zone.isNull()) {
@@ -2999,7 +3020,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     bool res = TimelineFunctions::insertZone(m_model, target_tracks, binId, position, zone, overwrite, false, undo, redo);
     if (res) {
         int newPos = position + (zone.y() - zone.x());
-        int currentPos = pCore->getTimelinePosition();
+        int currentPos = pCore->getMonitorPosition();
         Fun redoPos = [this, newPos]() {
             Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
             pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
@@ -3052,7 +3073,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         sourceZone = QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x());
     } else {
         // Use current timeline pos and clip zone for in/out
-        insertPoint = pCore->getTimelinePosition();
+        insertPoint = pCore->getMonitorPosition();
         sourceZone = zone;
     }
     QList<int> target_tracks;
@@ -3071,7 +3092,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     bool res = TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite, true, undo, redo);
     if (res) {
         int newPos = insertPoint + (sourceZone.y() - sourceZone.x());
-        int currentPos = pCore->getTimelinePosition();
+        int currentPos = pCore->getMonitorPosition();
         Fun redoPos = [this, newPos]() {
             setPosition(newPos);
             pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitorIfActive();
@@ -3164,7 +3185,7 @@ void TimelineController::addEffectToClip(const QString &assetId, int clipId)
         // Move timeline cursor inside clip if it is not
         int in = m_model->getClipPosition(clipId);
         int out = in + m_model->getClipPlaytime(clipId);
-        int position = pCore->getTimelinePosition();
+        int position = pCore->getMonitorPosition();
         if (position < in || position > out) {
             emit seeked(in);
         }
@@ -4539,7 +4560,7 @@ void TimelineController::switchRecording(int trackId, bool record)
             pCore->displayMessage(i18n("Impossible to capture on a locked track"), ErrorMessage, 500);
             return;
         }
-        m_recordStart.first = pCore->getTimelinePosition();
+        m_recordStart.first = pCore->getMonitorPosition();
         m_recordTrack = trackId;
         int maximumSpace = m_model->getTrackById_const(trackId)->getBlankEnd(m_recordStart.first);
         if (maximumSpace == INT_MAX) {
@@ -4675,7 +4696,7 @@ bool TimelineController::refreshIfVisible(int cid)
             ++it;
             continue;
         }
-        int child = m_model->getClipByPosition(target_track, pCore->getTimelinePosition());
+        int child = m_model->getClipByPosition(target_track, pCore->getMonitorPosition());
         if (child > 0) {
             if (m_model->m_allClips[child]->binId().toInt() == cid) {
                 return true;
@@ -4878,7 +4899,7 @@ void TimelineController::resizeSubtitle(int startFrame, int endFrame, int oldEnd
 void TimelineController::addSubtitle(int startframe, QString text)
 {
     if (startframe == -1) {
-        startframe = pCore->getTimelinePosition();
+        startframe = pCore->getMonitorPosition();
     }
     int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
     auto subtitleModel = pCore->getSubtitleModel(true);
@@ -4927,7 +4948,7 @@ void TimelineController::importSubtitle(const QString &path)
         auto subtitleModel = pCore->getSubtitleModel(true);
         int offset = 0, startFramerate = 30.00, targetFramerate = 30.00;
         if (view.cursor_pos->isChecked()) {
-            offset = pCore->getTimelinePosition();
+            offset = pCore->getMonitorPosition();
         }
         if (view.transform_framerate_check_box->isChecked()) {
             startFramerate = view.caption_original_framerate->value();
@@ -5117,7 +5138,7 @@ MixAlignment TimelineController::getMixAlign(int cid) const
 
 void TimelineController::processMultitrackOperation(int tid, int in)
 {
-    int out = pCore->getTimelinePosition();
+    int out = pCore->getMonitorPosition();
     if (out == in) {
         // Simply change the reference track, nothing to do here
         return;

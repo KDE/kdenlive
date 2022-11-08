@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   widgets/dragvalue.cpp
   widgets/geometrywidget.cpp
   widgets/markercategorychooser.cpp
+  widgets/markercategorybutton.cpp
   widgets/positionwidget.cpp
   widgets/progressbutton.cpp
   widgets/timecodedisplay.cpp
@@ -39,6 +40,12 @@ if (BUILD_DESIGNERPLUGIN)
         GROUP "Kdenlive Widgets"
     )
 
+    ecm_qtdesignerplugin_widget(MarkerCategoryButton
+        INCLUDE_FILE widgets/markercategorybutton.h
+        TOOLTIP "A QToolButton that can be used to select one or several marker categories (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
     ecm_add_qtdesignerplugin(kdenlivewidgets
         NAME KdenliveWidgets
         WIDGETS
@@ -46,6 +53,7 @@ if (BUILD_DESIGNERPLUGIN)
             ColorPickerWidget
             ChooseColorWidget
             MarkerCategoryChooser
+            MarkerCategoryButton
         LINK_LIBRARIES
             kdenliveLib
         INSTALL_DESTINATION "${KDE_INSTALL_QTPLUGINDIR}/designer"

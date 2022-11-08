@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GuidesList_UI</class>
+ <widget class="QWidget" name="GuidesList_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>263</width>
+    <height>288</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="guide_add">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="list-add">
+         <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::DelayedPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="guide_edit">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="document-edit">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="guide_delete">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-delete">
+         <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="default_category">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="guides_lock">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>77</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="guides_settings">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="application-menu">
+         <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" colspan="3">
+    <widget class="KSqueezedTextLabel" name="guideslist_label">
+     <property name="text">
+      <string>KSqueezedTextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QToolButton" name="sort_guides">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset theme="view-sort">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+     <property name="popupMode">
+      <enum>QToolButton::InstantPopup</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QListView" name="guides_list">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLineEdit" name="filter_line">
+     <property name="placeholderText">
+      <string>Search</string>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="MarkerCategoryButton" name="show_categories"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MarkerCategoryButton</class>
+   <extends>QToolButton</extends>
+   <header>widgets/markercategorybutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KSqueezedTextLabel</class>
+   <extends>QLabel</extends>
+   <header>ksqueezedtextlabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>filter_line</tabstop>
+  <tabstop>show_categories</tabstop>
+  <tabstop>sort_guides</tabstop>
+  <tabstop>guides_list</tabstop>
+  <tabstop>guide_add</tabstop>
+  <tabstop>guide_edit</tabstop>
+  <tabstop>guide_delete</tabstop>
+  <tabstop>default_category</tabstop>
+  <tabstop>guides_settings</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

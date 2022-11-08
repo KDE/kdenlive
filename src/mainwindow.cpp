@@ -50,6 +50,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 #include "project/cliptranscode.h"
 #include "project/dialogs/archivewidget.h"
+#include "project/dialogs/guideslist.h"
 #include "project/dialogs/projectsettings.h"
 #include "project/dialogs/temporarydata.h"
 #include "project/projectmanager.h"
@@ -272,6 +273,7 @@ void MainWindow::init(const QString &mltPath)
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
     QDockWidget *textEditingDock = addDock(i18n("Speech Editor"), QStringLiteral("textedit"), pCore->textEditWidget());
     QDockWidget *timeRemapDock = addDock(i18n("Time Remapping"), QStringLiteral("timeremap"), pCore->timeRemapWidget());
+    QDockWidget *guidesDock = addDock(i18n("Guides"), QStringLiteral("guides"), pCore->guidesList());
     connect(pCore.get(), &Core::remapClip, this, [&, timeRemapDock](int id) {
         if (id > -1) {
             timeRemapDock->show();
@@ -371,6 +373,7 @@ void MainWindow::init(const QString &mltPath)
     timeRemapDock->close();
     spectrumDock->close();
     clipDockWidget->close();
+    guidesDock->close();
     m_onlineResourcesDock->close();
 
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
@@ -1784,12 +1787,16 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::Key_G);
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide…"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
+    addAction(QStringLiteral("search_guide"), i18n("Search Guide…"), this, SLOT(slotSearchGuide()), QIcon::fromTheme(QStringLiteral("edit-find")));
     addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
 
     QAction *lockGuides =
         addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     lockGuides->setCheckable(true);
     lockGuides->setChecked(KdenliveSettings::lockedGuides());
+    lockGuides->setToolTip(i18n("Lock guides"));
+    lockGuides->setWhatsThis(
+        xi18nc("@info:whatsthis", "Lock guides. When locked, the guides won't move when using the spacer tool or inserting/removing blank in tracks."));
 
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
@@ -1962,6 +1969,9 @@ bool MainWindow::readOptions()
         }
     }
     initialGroup.writeEntry("version", version);
+    if (KdenliveSettings::guidesCategories().isEmpty()) {
+        KdenliveSettings::setGuidesCategories(KdenliveDoc::getDefaultGuideCategories());
+    }
     return firstRun;
 }
 
@@ -2001,6 +2011,10 @@ void MainWindow::slotEditProjectSettings(int ix)
         bool modified = false;
         if (m_renderWidget) {
             m_renderWidget->updateDocumentPath();
+        }
+        const QStringList guidesCat = w->guidesCategories();
+        if (guidesCat != project->guidesCategories()) {
+            project->updateGuideCategories(guidesCat, w->remapGuidesCategories());
         }
         if (KdenliveSettings::videothumbnails() != w->enableVideoThumbs()) {
             slotSwitchVideoThumbs();
@@ -2370,6 +2384,8 @@ void MainWindow::connectDocument()
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
+    pCore->guidesList()->reset();
+    pCore->guidesList()->setModel(project->getGuideModel(), project->getFilteredGuideModel());
     getCurrentTimeline()->focusTimeline();
 }
 
@@ -2563,7 +2579,6 @@ void MainWindow::slotDeleteItem()
         }
     }
     if (QApplication::focusWidget() != nullptr && pCore->textEditWidget()->isAncestorOf(QApplication::focusWidget())) {
-        qDebug() << "===============\nDELETE TEXT BASED ITEM";
         pCore->textEditWidget()->deleteItem();
     } else {
         QWidget *widget = QApplication::focusWidget();
@@ -2572,8 +2587,8 @@ void MainWindow::slotDeleteItem()
                 m_assetPanel->deleteCurrentEffect();
                 return;
             }
-            if (widget == pCore->bin()->clipPropertiesDock()) {
-                emit pCore->bin()->deleteMarkers();
+            if (widget == pCore->guidesList()) {
+                pCore->guidesList()->removeGuide();
                 return;
             }
             widget = widget->parentWidget();
@@ -2789,8 +2804,8 @@ void MainWindow::slotSelectAllTracks()
                 }
             }
         }
-        if (QApplication::focusWidget()->objectName() == QLatin1String("markers_list")) {
-            emit pCore->bin()->selectMarkers();
+        if (QApplication::focusWidget()->objectName() == QLatin1String("guides_list")) {
+            pCore->guidesList()->selectAll();
             return;
         }
     }
@@ -2805,6 +2820,11 @@ void MainWindow::slotUnselectAllTracks()
 void MainWindow::slotEditGuide()
 {
     getCurrentTimeline()->controller()->editGuide();
+}
+
+void MainWindow::slotSearchGuide()
+{
+    pCore->guidesList()->filter_line->setFocus();
 }
 
 void MainWindow::slotExportGuides()

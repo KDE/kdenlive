@@ -5,6 +5,7 @@
 */
 #include "test_utils.hpp"
 
+#include "core.h"
 #include "kdenlivesettings.h"
 #define private public
 #define protected public
@@ -36,7 +37,7 @@ void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::v
         REQUIRE(qAbs(std::get<0>(m).seconds() - model->data(model->index(i), MarkerListModel::PosRole).toDouble()) < 0.9 / fps);
         REQUIRE(std::get<1>(m) == model->data(model->index(i), MarkerListModel::CommentRole).toString());
         REQUIRE(std::get<2>(m) == model->data(model->index(i), MarkerListModel::TypeRole).toInt());
-        REQUIRE(MarkerListModel::markerTypes[std::get<2>(m)] == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
+        REQUIRE(pCore->markerTypes.value(std::get<2>(m)).color == model->data(model->index(i), MarkerListModel::ColorRole).value<QColor>());
 
         // check for marker existence
         int frame = std::get<0>(m).frames(fps);
@@ -78,6 +79,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
 
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, getGuideModel)).AlwaysReturn(model);
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     ProjectManager &mocked = pmMock.get();
@@ -166,6 +168,38 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         REQUIRE(model->removeAllMarkers());
         checkMarkerList(model, {}, snaps);
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6, state7, state8, state9, {}}, snaps);
+    }
+
+    SECTION("Test Categories")
+    {
+        std::vector<Marker> list;
+        checkMarkerList(model, list, snaps);
+
+        // add markers
+        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
+        REQUIRE(model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3));
+        REQUIRE(model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0));
+
+        QStringList categories = model->categoriesToStringList();
+        // We instanciated 5 marker categories in TestMain
+        Q_ASSERT(categories.count() == 5);
+
+        QStringList newCategories = categories;
+        newCategories.removeFirst();
+
+        REQUIRE(model->rowCount() == int(snaps->_snaps().size()));
+        REQUIRE(model->rowCount() == 2);
+        model->loadCategoriesWithUndo(newCategories, categories);
+        REQUIRE(model->rowCount() == int(snaps->_snaps().size()));
+        REQUIRE(model->rowCount() == 1);
+
+        // Reset to default categories
+        undoStack->undo();
+        REQUIRE(model->rowCount() == int(snaps->_snaps().size()));
+        REQUIRE(model->rowCount() == 2);
+
+        REQUIRE(model->removeAllMarkers());
+        checkMarkerList(model, {}, snaps);
     }
 
     SECTION("Json identity test")

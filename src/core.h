@@ -41,6 +41,7 @@ class ProjectManager;
 class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
+class GuidesList;
 class TimeRemap;
 
 namespace Mlt {
@@ -124,6 +125,8 @@ public:
     SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the text based editing widget. */
     TextBasedEdit *textEditWidget();
+    /** @brief Returns a pointer to the guides list widget. */
+    GuidesList *guidesList();
     /** @brief Returns a pointer to the time remapping widget. */
     TimeRemap *timeRemapWidget();
     /** @brief Returns true if clip displayed in remap widget is the bin clip with id clipId. */
@@ -214,8 +217,8 @@ public:
     int projectDuration() const;
     /** @brief Returns true if current project has some rendered timeline preview  */
     bool hasTimelinePreview() const;
-    /** @brief Returns current timeline cursor position  */
-    int getTimelinePosition() const;
+    /** @brief Returns monitor position  */
+    int getMonitorPosition(Kdenlive::MonitorId id = Kdenlive::ProjectMonitor) const;
     /** @brief Handles audio and video capture **/
     void startMediaCapture(int tid, bool, bool);
     void stopMediaCapture(int tid, bool, bool);
@@ -288,6 +291,13 @@ public:
     QString packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
+    /** @brief A list of markers type categories {marker type, {color, category name}} */
+    struct MarkerCategory
+    {
+        QColor color;
+        QString displayName;
+    };
+    QMap<int, MarkerCategory> markerTypes;
 
 private:
     explicit Core(const QString &packageType);
@@ -303,6 +313,7 @@ private:
     LibraryWidget *m_library{nullptr};
     SubtitleEdit *m_subtitleWidget{nullptr};
     TextBasedEdit *m_textEditWidget{nullptr};
+    GuidesList *m_guidesList{nullptr};
     TimeRemap *m_timeRemapWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
 
@@ -396,4 +407,8 @@ signals:
     void recordAudio(int tid, bool record);
     /** @brief Inform widgets that the project profile (and possibly fps) changed */
     void updateProjectTimecode();
+    /** @brief Visible guide categories changed, reload snaps in timeline */
+    void refreshActiveGuides();
+    /** @brief The default marker category was changed, update guides list button */
+    void updateDefaultMarkerCategory();
 };

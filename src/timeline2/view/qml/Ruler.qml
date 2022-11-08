@@ -154,26 +154,35 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
                         property int prevFrame
+                        property int destFrame
+                        property int movingMarkerId
                         property int xOffset: 0
                         drag.axis: Drag.XAxis
                         onPressed: {
                             prevFrame = model.frame
+                            destFrame = prevFrame
                             xOffset = mouseX
                             anchors.left = undefined
+                            movingMarkerId = markerBase.markerId
                         }
                         onReleased: {
-                            if (prevFrame != model.frame) {
-                                var newFrame = model.frame
-                                timeline.moveGuideWithoutUndo(markerBase.markerId,  prevFrame)
-                                timeline.moveGuide(prevFrame, newFrame)
+                            if (prevFrame != destFrame) {
+                                timeline.moveGuideWithoutUndo(movingMarkerId, prevFrame)
+                                timeline.moveGuideById(movingMarkerId, destFrame)
                             }
+                            movingMarkerId = -1
                             anchors.left = parent.left
                         }
                         onPositionChanged: {
                             if (pressed) {
-                                var newFrame = Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor)
+                                var newFrame = Math.max(0, Math.round(model.frame + (mouseX - xOffset) / timeline.scaleFactor))
                                 newFrame = controller.suggestSnapPoint(newFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : root.snapping)
-                                timeline.moveGuideWithoutUndo(markerBase.markerId,  newFrame)
+                                if (newFrame != destFrame) {
+                                    var frame = timeline.moveGuideWithoutUndo(movingMarkerId, newFrame)
+                                    if (frame > -1) {
+                                        destFrame = frame
+                                    }
+                                }
                             }
                         }
                         drag.smoothed: false

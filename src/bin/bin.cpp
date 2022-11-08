@@ -34,6 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "profiles/profilemodel.hpp"
+#include "project/dialogs/guideslist.h"
 #include "project/dialogs/slideshowclip.h"
 #include "project/invaliddialog.h"
 #include "project/projectmanager.h"
@@ -3026,8 +3027,6 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         m_propertiesPanel->setLayout(lay);
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
-    connect(this, &Bin::deleteMarkers, panel, &ClipPropertiesController::slotDeleteSelectedMarkers);
-    connect(this, &Bin::selectMarkers, panel, &ClipPropertiesController::slotSelectAllMarkers);
     connect(panel, &ClipPropertiesController::updateClipProperties, this, &Bin::slotEditClipCommand);
     connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void (Monitor::*)(int)>(&Monitor::slotSeek));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
@@ -4547,20 +4546,6 @@ void Bin::setBinEffectsEnabled(bool enabled, bool refreshMonitor)
 
 void Bin::slotRenameItem()
 {
-    if (!hasFocus() && !m_itemView->hasFocus()) {
-        QWidget *widget = QApplication::focusWidget();
-        while ((widget != nullptr) && widget != pCore->window()) {
-            if (widget == pCore->bin()->clipPropertiesDock()) {
-                foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
-                    static_cast<ClipPropertiesController *>(w)->slotEditMarker();
-                    break;
-                }
-                return;
-            }
-            widget = widget->parentWidget();
-        }
-        return;
-    }
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
@@ -5485,5 +5470,32 @@ void Bin::processMultiStream(const QString &clipId, QList<int> videoStreams, QLi
             }
         }
         pCore->pushUndo(undo, redo, i18np("Add additional stream for clip", "Add additional streams for clip", importedStreams));
+    }
+}
+
+int Bin::getAllClipMarkers(int category) const
+{
+    int markersCount = 0;
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        markersCount += clip->getMarkerModel()->getAllMarkers(category).count();
+    }
+    return markersCount;
+}
+
+void Bin::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool found = false;
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        bool res = clip->removeMarkerCategories(toRemove, remapCategories, undo, redo);
+        if (!found && res) {
+            found = true;
+        }
+    }
+    if (found) {
+        pCore->pushUndo(undo, redo, i18n("Remove clip markers"));
     }
 }

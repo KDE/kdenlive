@@ -19,7 +19,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "lib/localeHandling.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
+#include "project/dialogs/guideslist.h"
 
+#include "bin/model/markersortmodel.h"
 #include "monitormanager.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
@@ -1337,7 +1339,7 @@ void Monitor::checkOverlay(int pos)
         if (mid > -1) {
             CommentedTime marker = model->markerById(mid);
             overlayText = marker.comment();
-            color = model->markerTypes.at(marker.markerType());
+            color = pCore->markerTypes.value(marker.markerType()).color;
         }
     }
     m_glMonitor->getControllerProxy()->setMarker(overlayText, color);
@@ -1439,7 +1441,7 @@ void Monitor::slotForwardOneFrame(int diff)
     }
 }
 
-void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel)
+void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel> &markerModel)
 {
     if (m_controller != nullptr) {
         m_glMonitor->setRulerInfo(length);
@@ -1447,10 +1449,12 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel>
         m_glMonitor->setRulerInfo(length, markerModel);
     }
     m_timePos->setRange(0, length);
+
     if (markerModel) {
-        connect(markerModel.get(), SIGNAL(dataChanged(QModelIndex, QModelIndex, QVector<int>)), this, SLOT(checkOverlay()));
-        connect(markerModel.get(), SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(checkOverlay()));
-        connect(markerModel.get(), SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(checkOverlay()));
+        QAbstractItemModel *sourceModel = markerModel->sourceModel();
+        connect(sourceModel, SIGNAL(dataChanged(QModelIndex, QModelIndex, QVector<int>)), this, SLOT(checkOverlay()));
+        connect(sourceModel, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(checkOverlay()));
+        connect(sourceModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(checkOverlay()));
     } else {
         // Project simply changed length, update display
         emit durationChanged(length);
@@ -1775,7 +1779,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         }
         if (m_controller->statusReady()) {
             m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
-            m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getMarkerModel());
+            m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getFilteredMarkerModel());
+            pCore->guidesList()->setClipMarkerModel(m_controller);
             loadQmlScene(MonitorSceneDefault);
             updateMarkers();
             connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
@@ -1821,6 +1826,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
+        pCore->guidesList()->setClipMarkerModel(nullptr);
         // m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
         if (monitorVisible()) {
@@ -2305,7 +2311,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     delete original;
     m_splitProducer = std::make_shared<Mlt::Producer>(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
-    m_glMonitor->setRulerInfo(int(m_controller->frameDuration()), m_controller->getMarkerModel());
+    m_glMonitor->setRulerInfo(int(m_controller->frameDuration()), m_controller->getFilteredMarkerModel());
     loadQmlScene(MonitorSceneSplit);
 }
 
@@ -2480,6 +2486,17 @@ void Monitor::slotSwitchAudioMonitor()
         slotActivateMonitor();
     }
     displayAudioMonitor(isActive());
+}
+
+void Monitor::updateGuidesList()
+{
+    if (m_id == Kdenlive::ProjectMonitor) {
+        if (pCore->currentDoc()) {
+            pCore->guidesList()->setModel(pCore->currentDoc()->getGuideModel(), pCore->currentDoc()->getFilteredGuideModel());
+        }
+    } else if (m_id == Kdenlive::ClipMonitor) {
+        pCore->guidesList()->setClipMarkerModel(m_controller);
+    }
 }
 
 void Monitor::displayAudioMonitor(bool isActive)

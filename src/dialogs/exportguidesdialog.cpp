@@ -8,13 +8,16 @@
 
 #include "bin/model/markerlistmodel.hpp"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "project/projectmanager.h"
 
 #include "kdenlive_debug.h"
 #include <KMessageWidget>
 #include <QAction>
 #include <QClipboard>
 #include <QDateTimeEdit>
+#include <QFileDialog>
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QTime>
@@ -48,6 +51,8 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 
     QPushButton *btn = buttonBox->addButton(i18n("Copy to Clipboard"), QDialogButtonBox::ActionRole);
     btn->setIcon(QIcon::fromTheme("edit-copy"));
+    QPushButton *btn2 = buttonBox->addButton(i18n("Save"), QDialogButtonBox::ActionRole);
+    btn2->setIcon(QIcon::fromTheme("document-save"));
 
     connect(categoryChooser, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() { updateContentByModel(); });
 
@@ -65,6 +70,29 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
         clipboard->setText(this->generatedContent->toPlainText());
     });
 
+    connect(btn2, &QAbstractButton::clicked, this, [this]() {
+        QString filter = format_text->isChecked() ? QString("%1 (*.txt)").arg(i18n("Text File")) : QString("%1 (*.json)").arg(i18n("JSON File"));
+        const QString startFolder = pCore->projectManager()->current()->projectDataFolder();
+        QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Guides Data"), startFolder, filter);
+        QFile file(filename);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            messageWidget->setText(i18n("Cannot write to file %1", QUrl::fromLocalFile(filename).fileName()));
+            messageWidget->setMessageType(KMessageWidget::Warning);
+            messageWidget->animatedShow();
+            return;
+        }
+        file.write(generatedContent->toPlainText().toUtf8());
+        file.close();
+        messageWidget->setText(i18n("Guides saved to %1", QUrl::fromLocalFile(filename).fileName()));
+        messageWidget->setMessageType(KMessageWidget::Positive);
+        messageWidget->animatedShow();
+    });
+
+    connect(format_json, &QRadioButton::toggled, this, [this](bool jsonFormat) {
+        textOptions->setEnabled(!jsonFormat);
+        updateContentByModel();
+    });
+
     connect(buttonReset, &QAbstractButton::clicked, [this, defaultFormat]() {
         formatEdit->setText(defaultFormat);
         updateContentByModel();
@@ -72,6 +100,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
 
     // fill info button menu
     QMap<QString, QString> infoMenu;
+    infoMenu.insert(QStringLiteral("{{category}}"), i18n("Category name"));
     infoMenu.insert(QStringLiteral("{{index}}"), i18n("Guide number"));
     infoMenu.insert(QStringLiteral("{{realtimecode}}"), i18n("Guide position in HH:MM:SS:FF"));
     infoMenu.insert(QStringLiteral("{{timecode}}"), i18n("Guide position in (HH:)MM.SS"));
@@ -128,8 +157,13 @@ QString chapterTimeStringFromMs(double timeMs)
 
 void ExportGuidesDialog::updateContentByModel() const
 {
-    const QString format(formatEdit->text());
     const int markerIndex = categoryChooser->currentCategory();
+    if (format_json->isChecked()) {
+        messageWidget->setVisible(false);
+        generatedContent->setPlainText(m_markerListModel->toJson({markerIndex}));
+        return;
+    }
+    const QString format(formatEdit->text());
     const GenTime offset(offsetTime());
 
     QStringList chapterTexts;
@@ -151,7 +185,7 @@ void ExportGuidesDialog::updateContentByModel() const
             needShowInfoMsg = true;
         }
 
-        if (needCheck && (nextTime.seconds() - currentTime.seconds()) < 10) {
+        if (needCheck && std::abs(nextTime.seconds() - currentTime.seconds()) < 10) {
             needShowInfoMsg = true;
         }
 
@@ -161,6 +195,7 @@ void ExportGuidesDialog::updateContentByModel() const
         line.replace("{{nexttimecode}}", chapterTimeStringFromMs(nextTime.ms()));
         line.replace("{{frame}}", QString::number(currentTime.frames(currentFps)));
         line.replace("{{comment}}", currentMarker.comment());
+        line.replace("{{category}}", pCore->markerTypes[currentMarker.markerType()].displayName);
         chapterTexts.append(line);
     }
 

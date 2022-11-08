@@ -571,6 +571,8 @@ private slots:
     /** @brief Copy debug information like lib versions, gpu mode state,... to clipboard */
     void slotCopyDebugInfo();
     void slotRemoveBinDock(const QString &name);
+    /** @brief Focus the guides list search line */
+    void slotSearchGuide();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

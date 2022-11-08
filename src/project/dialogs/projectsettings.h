@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "dialogs/encodingprofilesdialog.h"
+#include "guidecategories.h"
 
 #include <QDialog>
 #include <QPushButton>
@@ -25,6 +26,8 @@ public:
                     bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
     QPair<int, int> tracks() const;
+    const QStringList guidesCategories() const;
+    const QMap<int, int> remapGuidesCategories() const;
     int audioChannels() const;
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
@@ -93,6 +96,7 @@ private:
     QString m_previewextension;
     QString m_initialExternalProxyProfile;
     EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;
+    GuideCategories *m_guidesCategories;
     /** @brief Fill the proxy profiles combobox. */
     // void loadPreviewProfiles();
 
