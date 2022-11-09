@@ -370,10 +370,11 @@ void KdenliveDoc::initializeProperties(bool newDocument)
     }
 }
 
-const QStringList KdenliveDoc::guidesCategories() const
+const QStringList KdenliveDoc::guidesCategories()
 {
     if (!m_documentProperties.contains(QStringLiteral("guidesCategories")) || m_documentProperties.value(QStringLiteral("guidesCategories")).isEmpty()) {
-        return getDefaultGuideCategories();
+        const QString defaultCategories = getDefaultGuideCategories().join(QLatin1Char('\n'));
+        m_documentProperties[QStringLiteral("guidesCategories")] = defaultCategories;
     }
     return m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
 }
@@ -1548,8 +1549,7 @@ void KdenliveDoc::loadDocumentProperties()
     if (!profileFound) {
         qDebug() << "ERROR, no matching profile found";
     }
-    const QStringList guideCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
-    m_guideModel->loadCategories(guideCategories);
+    m_guideModel->loadCategories(guidesCategories());
     updateProjectProfile(false);
 }
 

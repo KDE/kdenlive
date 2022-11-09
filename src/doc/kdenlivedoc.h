@@ -216,7 +216,7 @@ public:
     /** @brief Ensure we don't have leftover preview chunks (created after last save */
     void cleanupTimelinePreview(const QDateTime &documentDate);
     /** @brief Returns the guides categories for the project in format {name:index:#color} */
-    const QStringList guidesCategories() const;
+    const QStringList guidesCategories();
     /** @brief Set the guides categories for the project in format {name:index:#color} */
     void updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories = {});
     /** @brief Setup a filter to visible guides */
