@@ -63,6 +63,8 @@ public:
      */
     void slotGoToKeyframe(bool next);
     void addRemoveKeyframe();
+    /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
+    void sendStandardCommand(int command);
 
 public slots:
     /** @brief Save current effect stack

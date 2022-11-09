@@ -149,8 +149,11 @@ public:
     QVector<QPair<QString, QVariant>> getAllParameters() const;
     /** @brief Get a parameter value from its name */
     const QVariant getParamFromName(const QString &paramName);
-    /** @brief Returns a json definition of the effect with all param values */
-    QJsonDocument toJson(bool includeFixed = true) const;
+    /** @brief Returns a json definition of the effect with all param values
+     *  @param selection only export keyframes matching the selected index, or all keyframes if empty
+     *  @param includeFixed if true, also export the fixed (non user editable) parameters for this effect
+     */
+    QJsonDocument toJson(QVector<int> selection = {}, bool includeFixed = true) const;
     /** @brief Returns the interpolated value at the given position with all param values as json*/
     QJsonDocument valueAsJson(int pos, bool includeFixed = true) const;
 
@@ -179,7 +182,7 @@ public:
     void resetAsset(std::unique_ptr<Mlt::Properties> asset);
     /** @brief Returns true if the effect has more than one keyframe */
     bool hasMoreThanOneKeyframe() const;
-    int time_to_frames(const QString &time);
+    int time_to_frames(const QString &time) const;
     void passProperties(Mlt::Properties &target);
     /** @brief Returns a list of the parameter names that are keyframable */
     QStringList getKeyframableParameters() const;

@@ -991,3 +991,8 @@ void CollapsibleEffectView::slotHideKeyframes(bool hide)
 {
     m_model->setKeyframesHidden(hide);
 }
+
+void CollapsibleEffectView::sendStandardCommand(int command)
+{
+    m_view->sendStandardCommand(command);
+}

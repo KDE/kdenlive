@@ -111,6 +111,11 @@ void KeyframeView::initKeyframePos()
     emit atKeyframe(m_model->hasKeyframe(m_position), m_model->singleKeyframe());
 }
 
+const QVector<int> KeyframeView::selectedKeyframesIndexes()
+{
+    return m_model->selectedKeyframes();
+}
+
 void KeyframeView::slotDuplicateKeyframe()
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());

@@ -52,6 +52,8 @@ public slots:
     /** @brief initialize qml overlay
      */
     void slotInitMonitor(bool active) override;
+    /** @brief Activate a standard action passed from the mainwindow, like copy or paste */
+    void sendStandardCommand(int command);
 
 public slots:
     void slotSetPosition(int pos = -1, bool update = true);
@@ -62,6 +64,9 @@ private slots:
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
     void slotEditKeyframeType(QAction *action);
     void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
+    /** @brief Paste a keyframe from clipboard */
+    void slotPasteKeyframeFromClipBoard();
+    void slotCopySelectedKeyframes();
     void slotCopyKeyframes();
     void slotCopyValueAtCursorPos();
     void slotImportKeyframes();
@@ -79,6 +84,7 @@ private:
     KDualAction *m_addDeleteAction;
     QAction *m_centerAction;
     QAction *m_copyAction;
+    QAction *m_pasteAction;
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;

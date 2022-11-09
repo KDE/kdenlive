@@ -904,7 +904,7 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
     return res;
 }
 
-QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
+QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed) const
 {
     QJsonArray list;
     if (includeFixed) {
@@ -965,15 +965,33 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
-        currentParam.insert(QLatin1String("value"),
+        if (
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                            param.second.value.type() == QVariant::Double
+            param.second.value.type() == QVariant::Double
 
 #else
-                            param.second.value.typeId() == QMetaType::Double
+            param.second.value.typeId() == QMetaType::Double
 #endif
-                                ? QJsonValue(param.second.value.toDouble())
-                                : QJsonValue(param.second.value.toString()));
+        ) {
+            currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toDouble()));
+        } else {
+            QString resultValue = param.second.value.toString();
+            if (selection.isEmpty()) {
+                currentParam.insert(QLatin1String("value"), QJsonValue(resultValue));
+            } else {
+                // Filter out unwanted keyframes
+                QStringList values = resultValue.split(QLatin1Char(';'));
+                QStringList remainingValues;
+                int ix = 0;
+                for (auto &val : values) {
+                    if (selection.contains(ix)) {
+                        remainingValues << val;
+                    }
+                    ix++;
+                }
+                currentParam.insert(QLatin1String("value"), QJsonValue(remainingValues.join(QLatin1Char(';'))));
+            }
+        }
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -999,6 +1017,9 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         int size = x.split(";").length();
         QString value;
         for (int i = 0; i < size; i++) {
+            if (!selection.isEmpty() && !selection.contains(i)) {
+                continue;
+            }
             QSize frameSize = pCore->getCurrentFrameSize();
             QString pos = x.split(";").at(i).split("=").at(0);
             double xval = x.split(";").at(i).split("=").at(1).toDouble();
@@ -1358,7 +1379,7 @@ bool AssetParameterModel::hasMoreThanOneKeyframe() const
     return false;
 }
 
-int AssetParameterModel::time_to_frames(const QString &time)
+int AssetParameterModel::time_to_frames(const QString &time) const
 {
     return m_asset->time_to_frames(time.toUtf8().constData());
 }

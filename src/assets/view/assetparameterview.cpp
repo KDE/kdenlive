@@ -98,6 +98,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
+                connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
             } else {
                 m_lay->addWidget(w);
                 minHeight += w->minimumHeight();
