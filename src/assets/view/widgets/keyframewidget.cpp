@@ -28,11 +28,15 @@
 #include <KDualAction>
 #include <KLocalizedString>
 #include <KSelectAction>
+#include <KStandardAction>
 #include <QApplication>
 #include <QCheckBox>
 #include <QClipboard>
 #include <QDialogButtonBox>
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
 #include <QMenu>
 #include <QPointer>
 #include <QStyle>
@@ -80,14 +84,22 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // Move keyframe to cursor
     m_centerAction = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-center")), i18n("Move selected keyframe to cursor"), this);
 
-    // Duplicate selected keyframe at cursor pos
-    m_copyAction = new QAction(QIcon::fromTheme(QStringLiteral("keyframe-duplicate")), i18n("Duplicate selected keyframe"), this);
-
     // Apply current value to selected keyframes
+    m_copyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy keyframes"), this);
+    connect(m_copyAction, &QAction::triggered, this, &KeyframeWidget::slotCopySelectedKeyframes);
+    m_copyAction->setToolTip(i18n("Copy keyframes"));
+    m_copyAction->setWhatsThis(
+        xi18nc("@info:whatsthis", "Copy keyframes. Copy the selected keyframes, or current parameters values if no keyframe is selected."));
+
+    m_pasteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Paste keyframe"), this);
+    connect(m_pasteAction, &QAction::triggered, this, &KeyframeWidget::slotPasteKeyframeFromClipBoard);
+    m_pasteAction->setToolTip(i18n("Paste keyframes"));
+    m_pasteAction->setWhatsThis(xi18nc("@info:whatsthis", "Paste keyframes. Paste clipboard data as keyframes at current position."));
+
     auto *applyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Apply current position value to selected keyframes"), this);
 
     // Keyframe type widget
-    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
+    m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), this);
     QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
     linear->setData(int(mlt_keyframe_linear));
     linear->setCheckable(true);
@@ -102,7 +114,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_selectType->addAction(curve);
     m_selectType->setCurrentAction(linear);
     connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
-    m_selectType->setToolBarMode(KSelectAction::ComboBoxMode);
+    m_selectType->setToolBarMode(KSelectAction::MenuMode);
+    m_selectType->setToolTip(i18n("Keyframe interpolation"));
+    m_selectType->setWhatsThis(xi18nc("@info:whatsthis", "Keyframe interpolation. This defines which interpolation will be used for the current keyframe."));
+
     m_toolbar = new QToolBar(this);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
@@ -120,7 +135,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->addAction(nextKFAction);
     m_toolbar->addAction(m_centerAction);
     m_toolbar->addAction(m_copyAction);
-    m_toolbar->addAction(applyAction);
+    m_toolbar->addAction(m_pasteAction);
     m_toolbar->addAction(m_selectType);
 
     QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), this);
@@ -128,16 +143,13 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     seekKeyframe->setChecked(KdenliveSettings::keyframeseek());
     connect(seekKeyframe, &QAction::triggered, [&](bool selected) { KdenliveSettings::setKeyframeseek(selected); });
     // copy/paste keyframes from clipboard
-    QAction *copy = new QAction(i18n("Copy Keyframes to Clipboard"), this);
+    QAction *copy = new QAction(i18n("Copy All Keyframes to Clipboard"), this);
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
-    QAction *copyValue = new QAction(i18n("Copy Value at Cursor Position to Clipboard"), this);
-    connect(copyValue, &QAction::triggered, this, &KeyframeWidget::slotCopyValueAtCursorPos);
     QAction *paste = new QAction(i18n("Import Keyframes from Clipboard…"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
     if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::ColorWheel) {
         // TODO color wheel doesn't support keyframe import/export yet
         copy->setVisible(false);
-        copyValue->setVisible(false);
         paste->setVisible(false);
     }
     // Remove keyframes
@@ -185,8 +197,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     menuAction->setPopupMode(QToolButton::InstantPopup);
     menuAction->addAction(seekKeyframe);
     menuAction->addAction(copy);
-    menuAction->addAction(copyValue);
     menuAction->addAction(paste);
+    menuAction->addAction(applyAction);
     menuAction->addSeparator();
     menuAction->addAction(kfType);
     menuAction->addAction(removeNext);
@@ -220,7 +232,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
 
     connect(m_centerAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotCenterKeyframe);
-    connect(m_copyAction, &QAction::triggered, m_keyframeview, &KeyframeView::slotDuplicateKeyframe);
     connect(applyAction, &QAction::triggered, this, [this]() {
         QMultiMap<QPersistentModelIndex, QString> paramList;
         QList<QPersistentModelIndex> rectParams;
@@ -374,6 +385,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 {
     int type = action->data().toInt();
     m_keyframeview->slotEditType(type, m_index);
+    m_selectType->setIcon(action->icon());
     emit activateEffect();
 }
 
@@ -385,6 +397,7 @@ void KeyframeWidget::slotRefreshParams()
     while (auto ac = m_selectType->action(i)) {
         if (ac->data().toInt() == int(keyType)) {
             m_selectType->setCurrentItem(i);
+            m_selectType->setIcon(ac->icon());
             break;
         }
         i++;
@@ -444,7 +457,6 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe);
-    m_copyAction->setEnabled(!atKeyframe);
     emit updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
@@ -550,7 +562,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         });
         connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
             setFixedHeight(m_baseHeight + m_addedHeight + h);
-            emit updateHeight();
+            ColorWheel emit updateHeight();
         });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
@@ -703,12 +715,97 @@ void KeyframeWidget::showKeyframes(bool enable)
 
 void KeyframeWidget::slotCopyKeyframes()
 {
-    QJsonDocument effectDoc = m_model->toJson(false);
+    QJsonDocument effectDoc = m_model->toJson({}, false);
     if (effectDoc.isEmpty()) {
         return;
     }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(QString(effectDoc.toJson()));
+    pCore->displayMessage(i18n("Keyframes copied"), InformationMessage);
+}
+
+void KeyframeWidget::slotPasteKeyframeFromClipBoard()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    QString values = clipboard->text();
+    auto json = QJsonDocument::fromJson(values.toLocal8Bit());
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (!json.isArray()) {
+        pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+        return;
+    }
+    auto list = json.array();
+    QMap<QString, QMap<int, QString>> storedValues;
+    for (const auto &entry : qAsConst(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid marker data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("name"))) {
+            qDebug() << "Warning : Skipping invalid marker data (does not contain name)";
+            continue;
+        }
+        QString value = entryObj[QLatin1String("value")].toString();
+        ParamType kfrType = entryObj[QLatin1String("type")].toVariant().value<ParamType>();
+        if (m_model->isAnimated(kfrType)) {
+            QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+            QMap<int, QString> values;
+            for (auto &val : stringVals) {
+                int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
+                values.insert(position, val.section(QLatin1Char('='), 1));
+            }
+            storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
+        } else {
+            QMap<int, QString> values;
+            values.insert(0, value);
+            storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
+        }
+    }
+    int destPos = getPosition();
+
+    std::vector<QPersistentModelIndex> indexes = m_keyframes->getIndexes();
+    for (const auto &ix : indexes) {
+        auto paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
+        if (storedValues.contains(paramName)) {
+            KeyframeModel *km = m_keyframes->getKeyModel(ix);
+            QMap<int, QString> values = storedValues.value(paramName);
+            int offset = values.keys().first();
+            QMapIterator<int, QString> i(values);
+            while (i.hasNext()) {
+                i.next();
+                km->addKeyframe(GenTime(destPos + i.key() - offset, pCore->getCurrentFps()), KeyframeType::Linear, i.value(), true, undo, redo);
+            }
+        } else {
+            qDebug() << "::: NOT FOUND PARAM: " << paramName << " in list: " << storedValues.keys();
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Paste keyframe"));
+}
+
+void KeyframeWidget::slotCopySelectedKeyframes()
+{
+    const QVector<int> results = m_keyframeview->selectedKeyframesIndexes();
+    if (results.isEmpty()) {
+        // No keyframes selected, use current position values
+        QJsonDocument effectDoc = m_model->valueAsJson(getPosition(), false);
+        if (effectDoc.isEmpty()) {
+            pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);
+            return;
+        }
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(QString(effectDoc.toJson()));
+        pCore->displayMessage(i18n("Current values copied"), InformationMessage);
+    } else {
+        QJsonDocument effectDoc = m_model->toJson(results, false);
+        if (effectDoc.isEmpty()) {
+            return;
+        }
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(QString(effectDoc.toJson()));
+        pCore->displayMessage(i18n("Current values copied"), InformationMessage);
+    }
 }
 
 void KeyframeWidget::slotCopyValueAtCursorPos()
@@ -719,6 +816,7 @@ void KeyframeWidget::slotCopyValueAtCursorPos()
     }
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(QString(effectDoc.toJson()));
+    pCore->displayMessage(i18n("Current values copied"), InformationMessage);
 }
 
 void KeyframeWidget::slotImportKeyframes()
@@ -748,4 +846,19 @@ void KeyframeWidget::slotSeekToKeyframe(int ix)
 {
     int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps());
     slotSetPosition(pos, true);
+}
+
+void KeyframeWidget::sendStandardCommand(int command)
+{
+    switch (command) {
+    case KStandardAction::Copy:
+        m_copyAction->trigger();
+        break;
+    case KStandardAction::Paste:
+        m_pasteAction->trigger();
+        break;
+    default:
+        qDebug() << ":::: UNKNOWN COMMAND: " << command;
+        break;
+    }
 }

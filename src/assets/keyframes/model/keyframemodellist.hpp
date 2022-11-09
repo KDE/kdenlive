@@ -159,6 +159,8 @@ public:
     /** @brief Check that all keyframable parameters have the same keyframes on loading
      *  (that's how our model works) */
     void checkConsistency();
+    /** @brief Returns the indexes of all parameters */
+    std::vector<QPersistentModelIndex> getIndexes();
 
 protected:
     /** @brief Helper function to apply a given operation on all parameters */

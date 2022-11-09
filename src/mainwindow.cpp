@@ -3306,11 +3306,27 @@ void MainWindow::showKeyBinding(const QString &text)
 
 void MainWindow::slotCopy()
 {
+    QWidget *widget = QApplication::focusWidget();
+    while ((widget != nullptr) && widget != this) {
+        if (widget == m_effectStackDock) {
+            m_assetPanel->sendStandardCommand(KStandardAction::Copy);
+            return;
+        }
+        widget = widget->parentWidget();
+    }
     getCurrentTimeline()->controller()->copyItem();
 }
 
 void MainWindow::slotPaste()
 {
+    QWidget *widget = QApplication::focusWidget();
+    while ((widget != nullptr) && widget != this) {
+        if (widget == m_effectStackDock) {
+            m_assetPanel->sendStandardCommand(KStandardAction::Paste);
+            return;
+        }
+        widget = widget->parentWidget();
+    }
     getCurrentTimeline()->controller()->pasteItem();
 }
 

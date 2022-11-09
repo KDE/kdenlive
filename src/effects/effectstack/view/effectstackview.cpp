@@ -635,3 +635,15 @@ void EffectStackView::addRemoveKeyframe()
         w->addRemoveKeyframe();
     }
 }
+
+void EffectStackView::sendStandardCommand(int command)
+{
+    int max = m_model->rowCount();
+    int currentActive = m_model->getActiveEffect();
+    if (currentActive < max && currentActive > -1) {
+        auto item = m_model->getEffectStackRow(currentActive);
+        QModelIndex ix = m_model->getIndexFromItem(item);
+        auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        w->sendStandardCommand(command);
+    }
+}

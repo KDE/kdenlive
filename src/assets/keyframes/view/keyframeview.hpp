@@ -24,6 +24,8 @@ public:
     const QString getAssetId();
     /** @brief Copy a keyframe parameter to selected keyframes. */
     void copyCurrentValue(const QModelIndex &ix, const QString &paramName);
+    /** @brief Returns the index (position in model) of the currently selected keyframes. */
+    const QVector<int> selectedKeyframesIndexes();
 
 public slots:
     /** @brief moves the current position*/

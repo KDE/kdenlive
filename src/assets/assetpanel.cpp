@@ -539,3 +539,12 @@ void AssetPanel::updateAssetPosition(int itemId)
         }
     }
 }
+
+void AssetPanel::sendStandardCommand(int command)
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->sendStandardCommand(command);
+    } else if (m_transitionWidget->isVisible()) {
+        m_transitionWidget->sendStandardCommand(command);
+    }
+}

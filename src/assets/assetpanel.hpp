@@ -54,6 +54,8 @@ public:
     ObjectId effectStackOwner();
     /** @brief Add an effect to the current stack owner */
     bool addEffect(const QString &effectId);
+    /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
+    void sendStandardCommand(int command);
 
 public slots:
     /** @brief Clear panel if displaying itemId */
