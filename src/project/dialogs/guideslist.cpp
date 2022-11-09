@@ -339,6 +339,10 @@ void GuidesList::setModel(std::weak_ptr<MarkerListModel> model, std::shared_ptr<
 
 void GuidesList::rebuildCategories()
 {
+    if (pCore->markerTypes.isEmpty()) {
+        // Categories are not ready, abort
+        return;
+    }
     QPixmap pixmap(32, 32);
     // Cleanup default marker category menu
     QMenu *markerDefaultMenu = default_category->menu();
