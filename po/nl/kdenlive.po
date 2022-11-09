@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-08 02:24+0000\n"
-"PO-Revision-Date: 2022-11-07 07:15-0400\n"
+"PO-Revision-Date: 2022-11-08 10:01-0400\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4544,8 +4544,7 @@ msgid "Audio stream %1"
 msgstr "Audiostream %1"
 
 #: src/bin/bin.cpp:5499
-#, fuzzy, kde-format
-#| msgid "Delete clip markers"
+#, kde-format
 msgid "Remove clip markers"
 msgstr "Markeerpunten van clip verwijderen"
 
@@ -4659,10 +4658,9 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-afspeellijst (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "Update values in timeline."
+#, kde-format
 msgid "Update guides categories"
-msgstr "Waarden in tijdlijn bijwerken."
+msgstr "Categorieën van hulplijnen bijwerken"
 
 #: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
 #, kde-format
@@ -4725,10 +4723,9 @@ msgid "Marker"
 msgstr "Markeerpunt"
 
 #: src/bin/model/markerlistmodel.cpp:690
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Hersteld item"
+msgstr "Hersteld %1"
 
 #: src/bin/model/markerlistmodel.cpp:807
 #, kde-format
@@ -4748,40 +4745,34 @@ msgid "No guide found at current position"
 msgstr "Geen hulplijn op huidige positie gevonden"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Hulplijn bewerken"
+msgstr "Categorie van hulplijn bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Markeerpunt bewerken"
+msgstr "Categorie van markeerpunt bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Categorie"
+msgstr "Categorie van hulplijnen"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Categorie"
+msgstr "Categorie van markeerpunten"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Hulplijn bewerken"
+msgstr "Hulplijnen bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Markeerpunt bewerken"
+msgstr "Markeerpunten bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
 #: src/timeline2/view/timelinecontroller.cpp:1340
@@ -4800,10 +4791,9 @@ msgid "Edit Marker"
 msgstr "Markeerpunt bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Hulplijn toevoegen"
+msgstr "Hulplijnen toevoegen"
 
 #: src/bin/model/markerlistmodel.cpp:886
 #, kde-format
@@ -4811,16 +4801,14 @@ msgid "Add Markers"
 msgstr "Markeringen toevoegen"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Hulplijn toevoegen"
+msgstr "Hulplijnen toevoegen"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Markeerpunt toevoegen"
+msgstr "Markeerpunten toevoegen"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -5553,23 +5541,20 @@ msgstr "Opslaan"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Tekstbestand (*.txt)"
+msgstr "Tekstbestand"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "GPS-bestand"
+msgstr "JSON-bestand"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Hulplijnen exporteren…"
+msgstr "Hulplijngegevens exporteren"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
@@ -5599,16 +5584,14 @@ msgid "Cannot write to file %1"
 msgstr "Kan niet naar bestand %1 schrijven"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Hulpbron opgeslagen naar %1"
+msgstr "Hulplijnen opgeslagen naar %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Categorie"
+msgstr "Categorienaam"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5646,10 +5629,9 @@ msgid "Timeline"
 msgstr "Tijdlijn"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Kleurbereik"
+msgstr "Kleuren en hulplijnen"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -7386,10 +7368,9 @@ msgid "Cyan"
 msgstr "Cyaan"
 
 #: src/doc/kdenlivedoc.cpp:2106
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Categorie %1"
+msgstr "Categorie %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -8579,10 +8560,9 @@ msgstr "Snelheid van video wijzigen (time remapping)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:276 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "&Hulplijnen"
+msgstr "Hulplijnen"
 
 #: src/mainwindow.cpp:339 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9444,10 +9424,9 @@ msgid "Edit Guide…"
 msgstr "Hulplijn bewerken…"
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Zoeken…"
+msgstr "Hulplijn zoeken…"
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9460,10 +9439,9 @@ msgid "Guides Locked"
 msgstr "Hulplijnen vergrendeld"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Hulplijnen tonen:"
+msgstr "Hulplijnen vergrendelen"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -9472,6 +9450,9 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Hulplijnen vergrendelen. Indien vergrendeld zullen de hulplijnen niet zich "
+"verplaatsen wanneer het hulpmiddel Ruimte maken wordt gebruikt of lege "
+"ruimte in tracks wordt ingevoegd of verwijderd."
 
 #: src/mainwindow.cpp:1801
 #, kde-format
@@ -11641,16 +11622,14 @@ msgid "Showing backup files for %1"
 msgstr "Back-up-bestanden voor %1 tonen"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Hulplijn bewerken"
+msgstr "Categorie van hulplijn bewerken"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Deze kleur wordt al in een andere tag gebruikt"
+msgstr "Deze kleur wordt al in een andere categorie gebruikt"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11658,86 +11637,79 @@ msgid "Category %1"
 msgstr "Categorie %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Hulplijn verwijderen"
+msgstr "Hulplijncategorie verwijderen"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "De %1 markeerpunten die deze categorie gebruiken verwijderen"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Ken de markeerpunten opnieuw toe aan :"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Importeren"
+msgstr "Importeren..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Geëxporteerd:"
+msgstr "Exporteren..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Profielen instellen"
+msgstr "Categorieën configureren"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Sort by type"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Op type sorteren"
+msgstr "Op categorie sorteren"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort by type"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Op type sorteren"
+msgstr "Op tijd sorteren"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Sort by type"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Op type sorteren"
+msgstr "Op commentaar sorteren"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Hulplijn toevoegen"
+msgstr "Nieuwe hulplijn toevoegen."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Een nieuwe hulplijn toevoegen. Dit zal een hulplijn toevoegen op de huidige "
+"framepositie."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Hulplijn verwijderen"
+msgstr "Hulplijn verwijderen."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsi18nthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr ""
+"Hulplijn verwijderen. Dit zal alle geselecteerde hulplijnen verwijderen."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Hulplijn verwijderen"
+msgstr "Geselecteerde hulplijn bewerken."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11746,11 +11718,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Geselecteerde hulplijn bewerken. Meerdere hulplijnen selecteren biedt het "
+"wijzigen van hun categorie."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Categorieën van hulplijn filteren."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11759,18 +11733,21 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Categorieën van hulplijn filteren. Dit biedt u het tonen of verbergen van "
+"geselecteerde categorieën van hulplijnen in deze dialoog in de tijdlijn."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default quality"
+#, kde-format
 msgid "Default guide category."
-msgstr "Standaard kwaliteit"
+msgstr "Standaard categorie van hulplijn."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"Standaard categorie van hulplijn. De categorie gebruikt voor nieuw "
+"aangemaakte hulplijnen."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11781,7 +11758,7 @@ msgstr "Markeerpunten van clip laden"
 #: src/project/dialogs/guideslist.cpp:173
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
-msgstr ""
+msgstr "Bestand met markeerpunten is groter dan 1 MB, wilt u deze importeren?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -11790,22 +11767,19 @@ msgid "Cannot read file %1"
 msgstr "Kan bestand %1 niet lezen"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Hulplijn verwijderen"
+msgstr "Hulplijnen verwijderen"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Marker %1"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Markeerpunt %1"
+msgstr "Markeerpunten voor %1"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Bewerkingsmodus van tijdlijn"
+msgstr "Hulplijnen van tijdlijn"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -17072,24 +17046,21 @@ msgstr "Markeertype:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Opslaan als"
+msgstr "Opslaan als:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "Kdenlive JSON"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Opties"
+msgstr "Tekstopties"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17149,30 +17120,27 @@ msgstr "Form"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Patroon verwijderen."
+msgstr "Categorie verwijderen"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add category"
-msgstr "Hoofdstuk toevoegen"
+msgstr "Categorie toevoegen"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Categorie"
+msgstr "Categorie bewerken"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Categorieën van hulplijnen en markeerpunten"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
@@ -17530,17 +17498,15 @@ msgstr "Commentaar"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Markeringen aan clip toevoegen:"
+msgstr "Meerdere markeerpunten toevoegen"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Teller"
+msgstr "Aantal"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
@@ -17598,10 +17564,9 @@ msgstr "Handmatig zoeken"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Herkenning starten"
+msgstr "Startpositie"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
