@@ -372,7 +372,7 @@ void KdenliveDoc::initializeProperties(bool newDocument)
 
 const QStringList KdenliveDoc::guidesCategories() const
 {
-    if (!m_documentProperties.contains(QStringLiteral("guidesCategories"))) {
+    if (!m_documentProperties.contains(QStringLiteral("guidesCategories")) || m_documentProperties.value(QStringLiteral("guidesCategories")).isEmpty()) {
         return getDefaultGuideCategories();
     }
     return m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
