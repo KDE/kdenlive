@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-08 02:24+0000\n"
-"PO-Revision-Date: 2022-11-05 11:20+0100\n"
+"PO-Revision-Date: 2022-11-08 10:31+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4556,10 +4556,9 @@ msgid "Audio stream %1"
 msgstr "Flux d'àudio %1"
 
 #: src/bin/bin.cpp:5499
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Elimina clips"
+msgstr "Elimina els marcadors dels clips"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4672,7 +4671,7 @@ msgstr "Llista de reproducció MLT (*.mlt)"
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
 msgid "Update guides categories"
-msgstr ""
+msgstr "Actualitza les categories de les guies"
 
 #: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
 #, kde-format
@@ -4735,10 +4734,9 @@ msgid "Marker"
 msgstr "Marcador"
 
 #: src/bin/model/markerlistmodel.cpp:690
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Element recuperat"
+msgstr "S'ha recuperat %1"
 
 #: src/bin/model/markerlistmodel.cpp:807
 #, kde-format
@@ -4758,40 +4756,34 @@ msgid "No guide found at current position"
 msgstr "No hi ha cap guia a la posició actual"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Edita la guia"
+msgstr "Edició de la categoria de les guies"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Edita un marcador"
+msgstr "Edició de la categoria dels marcadors"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Categoria"
+msgstr "Categoria de les guies"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Categoria"
+msgstr "Categoria dels marcadors"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Edita guia"
+msgstr "Edita les guies"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Edita un marcador"
+msgstr "Edita els marcadors"
 
 #: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
 #: src/timeline2/view/timelinecontroller.cpp:1340
@@ -4810,28 +4802,24 @@ msgid "Edit Marker"
 msgstr "Edita un marcador"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Afegeix una guia"
+msgstr "Afegeix guies"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Marker"
+#, kde-format
 msgid "Add Markers"
-msgstr "Afegeix un marcador"
+msgstr "Afegeix marcadors"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Afegeix una guia"
+msgstr "Afegeix guies"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Afegeix un marcador"
+msgstr "Afegeix marcadors"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -5557,30 +5545,26 @@ msgid "Copy to Clipboard"
 msgstr "Copia al porta-retalls"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Save"
+#, kde-format
 msgid "Save"
-msgstr "De&sa"
+msgstr "Desa"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Fitxer de text (*.txt)"
+msgstr "Fitxer de text"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "Fitxer de GPS"
+msgstr "Fitxer JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Exporta les guies…"
+msgstr "Exportació de les dades de guies"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
@@ -5610,16 +5594,14 @@ msgid "Cannot write to file %1"
 msgstr "No es pot escriure al fitxer %1"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Recurs desat a %1"
+msgstr "Les guies s'han desat a %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Categoria"
+msgstr "Nom de la categoria"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5659,7 +5641,7 @@ msgstr "Línia de temps"
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
 #, kde-format
 msgid "Colors and Guides"
-msgstr ""
+msgstr "Colors i guies"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -7398,10 +7380,9 @@ msgid "Cyan"
 msgstr "Cian"
 
 #: src/doc/kdenlivedoc.cpp:2106
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Categoria %1"
+msgstr "Categoria %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -8598,10 +8579,9 @@ msgstr "Reassignació del temps"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:276 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "&Guies"
+msgstr "Guies"
 
 #: src/mainwindow.cpp:339 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9460,10 +9440,9 @@ msgid "Edit Guide…"
 msgstr "Edita la guia…"
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Cerca…"
+msgstr "Cerca una guia…"
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9476,10 +9455,9 @@ msgid "Guides Locked"
 msgstr "Guies blocades"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Mostra les guies:"
+msgstr "Bloqueja les guies"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -9488,6 +9466,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Bloqueja les guies. Quan estan bloquejades, les guies no es mouran en usar "
+"l'eina espaiadora o en inserir/eliminar blancs a les pistes."
 
 #: src/mainwindow.cpp:1801
 #, kde-format
@@ -11672,16 +11652,14 @@ msgid "Showing backup files for %1"
 msgstr "Es mostren els fitxers de còpia de seguretat de %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Edita la guia"
+msgstr "Edita la categoria de la guia"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Aquest color ja s'empra en una altra etiqueta"
+msgstr "Aquest color ja s'empra en una altra categoria"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11689,86 +11667,78 @@ msgid "Category %1"
 msgstr "Categoria %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Suprimeix la guia"
+msgstr "Suprimeix la categoria de la guia"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Suprimeix els %1 marcadors que empren aquesta categoria"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Reassigna els marcadors a:"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Importa"
+msgstr "Importa..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Exportat:"
+msgstr "Exporta..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Configura els perfils"
+msgstr "Configura les categories"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Categoria"
+msgstr "Ordena per categoria"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Ordena per"
+msgstr "Ordena per data i hora"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Comentari"
+msgstr "Ordena per comentari"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Afegeix una guia"
+msgstr "Afegeix una guia nova."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Afegeix una guia nova. Això afegirà una guia en la posició del fotograma "
+"actual."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Suprimeix la guia"
+msgstr "Suprimeix la guia."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsi18nthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Suprimeix la guia. Això esborrarà totes les guies seleccionades."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Suprimeix la guia"
+msgstr "Edita la guia seleccionada."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11777,11 +11747,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Edita la guia seleccionada. Seleccionant diverses guies es permet canviar la "
+"seva categoria."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Filtra les categories de les guies."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11790,18 +11762,22 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Filtra les categories de les guies. Això permet mostrar o ocultar les "
+"categories de les guies seleccionades en aquest diàleg i en la línia de "
+"temps."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default Durations"
+#, kde-format
 msgid "Default guide category."
-msgstr "Durades predeterminades"
+msgstr "Categoria predeterminada de les guies."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"Categoria predeterminada de les guies. La categoria emprada per les guies "
+"creades de nou."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11813,6 +11789,7 @@ msgstr "Carrega els marcadors del clip"
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
+"El fitxer de marcadors és superior a 1 MB. Segur que el voleu importar?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -11821,22 +11798,19 @@ msgid "Cannot read file %1"
 msgstr "No s'ha pogut llegir el fitxer %1"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Elimina la guia"
+msgstr "Elimina les guies"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Marcadors"
+msgstr "Marcadors de %1"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Mode d'edició de la línia de temps"
+msgstr "Guies de la línia de temps"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -17142,24 +17116,21 @@ msgstr "Tipus de marcador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Desa com a"
+msgstr "Desa com a:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "JSON del Kdenlive"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Opcions"
+msgstr "Opcions de text"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17213,44 +17184,39 @@ msgstr "Color 1"
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuideCategories_UI)
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuidesList_UI)
 #: src/ui/guidecategories_ui.ui:14 src/ui/guideslist_ui.ui:14
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Form"
-msgstr "Format:"
+msgstr "Formulari"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Suprimeix el patró."
+msgstr "Suprimeix la categoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Add category"
-msgstr "Categoria"
+msgstr "Afegeix una categoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Categoria"
+msgstr "Edita la categoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Categories de guies i marcadors"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "Etiqueta de text"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
@@ -17602,24 +17568,21 @@ msgstr "Comentari"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Afegeix marcadors de clip:"
+msgstr "Afegeix marcadors múltiples"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
 msgstr "Comptador"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interval"
-msgstr "Interfície"
+msgstr "Interval"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
@@ -17671,10 +17634,9 @@ msgstr "Cerca manualment"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Inicia el reconeixement"
+msgstr "Posició d'inici"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -19146,25 +19108,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Colors"
-#~ msgstr "Colors"
-
-#~ msgid "Add marker…"
-#~ msgstr "Afegeix un marcador…"
-
-#~ msgid "Edit marker…"
-#~ msgstr "Edita un marcador…"
-
-#~ msgid "Export markers…"
-#~ msgstr "Exporta els marcadors…"
-
-#~ msgid "Import markers…"
-#~ msgstr "Importa marcadors…"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Clip Markers"
-#~ msgstr "Desa els marcadors del clip"
-
-#~ msgid "An error occurred while parsing the marker file"
-#~ msgstr "S'ha produït un error en analitzar el fitxer marcador"
