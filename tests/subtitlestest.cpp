@@ -105,6 +105,26 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     }
 #endif
 
+    SECTION("Load ASS file with commas")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/subs-with-commas.ass";
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        qDebug() << "Guessed encoding: " << guessedEncoding;
+        subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
+        // Ensure all 2 lines are loaded
+        REQUIRE(subtitleModel->rowCount() == 2);
+        QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
+        QStringList subtitlesText;
+        QStringList control = {
+            QStringLiteral("Line with one comma, second part."),
+            QStringLiteral("Line with two commas, second part, third part.")};
+        for (const auto &s : qAsConst(allSubs)) {
+            subtitlesText << s.subtitle();
+        }
+        // Ensure that non-ASCII characters are read correctly
+        CHECK(subtitlesText == control);
+    }
+
     SECTION("Load a broken subtitle file")
     {
         QString subtitleFile = sourcesPath + "/dataset/02.srt";
