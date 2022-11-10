@@ -224,7 +224,6 @@ void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pat
     const QString folderInfo = pathInfo.at(2);
     QSize finalSize = pCore->getCurrentFrameDisplaySize();
     QSize size = pCore->getCurrentFrameSize();
-    QImage img;
     int height = size.height();
     int width = size.width();
     if (path.isEmpty()) {

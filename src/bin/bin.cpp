@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "glaxnimateluncher.h"
 #include "jobs/abstracttask.h"
 #include "jobs/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
@@ -4126,7 +4127,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultimageapp().isEmpty()) {
-            openExternalApp(KdenliveSettings::defaultimageapp(), clip->url());
+            pCore->openExternalApp(KdenliveSettings::defaultimageapp(), {clip->url()});
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
         }
@@ -4143,42 +4144,17 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
-            openExternalApp(KdenliveSettings::defaultaudioapp(), clip->url());
+            pCore->openExternalApp(KdenliveSettings::defaultaudioapp(), {clip->url()});
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
         }
     } break;
     case ClipType::Animation: {
-        if (KdenliveSettings::glaxnimatePath().isEmpty()) {
-            QUrl url = KUrlRequesterDialog::getUrl(QUrl(), this, i18n("Enter path to the Glaxnimate application"));
-            if (!url.isEmpty()) {
-                KdenliveSettings::setGlaxnimatePath(url.toLocalFile());
-                KdenliveSettingsDialog *d = static_cast<KdenliveSettingsDialog *>(KConfigDialog::exists(QStringLiteral("settings")));
-                if (d) {
-                    d->updateExternalApps();
-                }
-            }
-        }
-        if (!KdenliveSettings::glaxnimatePath().isEmpty()) {
-            openExternalApp(KdenliveSettings::glaxnimatePath(), clip->url());
-        } else {
-            KMessageBox::error(QApplication::activeWindow(), i18n("Please set a path for the Glaxnimate application"));
-        }
+        GlaxnimateLuncher::instance().openFile(clip->url());
     } break;
     default:
         break;
     }
-}
-
-void Bin::openExternalApp(QString appPath, QString url)
-{
-    QStringList args;
-#if defined(Q_OS_MACOS)
-    args << QStringLiteral("-a") << appPath << QStringLiteral("--args");
-    appPath = QStringLiteral("open");
-#endif
-    args << url;
-    QProcess::startDetached(appPath, args);
 }
 
 /*
