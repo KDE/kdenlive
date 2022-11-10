@@ -81,6 +81,8 @@ private:
     void fixMissingSource(const QString &id, const QDomNodeList &producers);
     /** @brief Check for various missing elements */
     QString getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList missingPaths, const QStringList &serviceToCheck, const QString &root, const QString &storageFolder);
+    /** @brief If project path changed, try to relocate its resources */
+    const QString relocateResource(QString sourceResource);
 
 signals:
     void showScanning(const QString);

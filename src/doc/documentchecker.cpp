@@ -366,13 +366,12 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, typeRole, status);
             item->setData(0, typeOriginalResource, e.attribute(QStringLiteral("resource")));
             if (!m_rootReplacement.first.isEmpty()) {
-                if (imageResource.startsWith(m_rootReplacement.first)) {
-                    imageResource.replace(m_rootReplacement.first, m_rootReplacement.second);
-                    if (QFile::exists(imageResource)) {
-                        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
-                        item->setData(0, statusRole, CLIPOK);
-                        item->setToolTip(0, i18n("Relocated item"));
-                    }
+                const QString relocated = relocateResource(imageResource);
+                if (!relocated.isEmpty()) {
+                    item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+                    item->setData(0, statusRole, CLIPOK);
+                    item->setToolTip(0, i18n("Relocated item"));
+                    imageResource = relocated;
                 }
             }
             item->setText(1, imageResource);
@@ -384,13 +383,12 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, hashRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash")));
             item->setData(0, sizeRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_size")));
             if (!m_rootReplacement.first.isEmpty()) {
-                if (resource.startsWith(m_rootReplacement.first)) {
-                    resource.replace(m_rootReplacement.first, m_rootReplacement.second);
-                    if (QFile::exists(resource)) {
-                        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
-                        item->setData(0, statusRole, CLIPOK);
-                        item->setToolTip(0, i18n("Relocated item"));
-                    }
+                const QString relocated = relocateResource(resource);
+                if (!relocated.isEmpty()) {
+                    item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
+                    item->setData(0, statusRole, CLIPOK);
+                    item->setToolTip(0, i18n("Relocated item"));
+                    resource = relocated;
                 }
             }
             item->setText(1, resource);
@@ -606,6 +604,49 @@ bool DocumentChecker::hasErrorInClips()
 DocumentChecker::~DocumentChecker()
 {
     delete m_dialog;
+}
+
+const QString DocumentChecker::relocateResource(QString sourceResource)
+{
+    if (sourceResource.startsWith(m_rootReplacement.first)) {
+        sourceResource.replace(m_rootReplacement.first, m_rootReplacement.second);
+        if (QFile::exists(sourceResource)) {
+            return sourceResource;
+        }
+        return QString();
+    }
+    // Check if we have a common root, if file has a common ancestor in its path
+    QStringList replacedRoot = m_rootReplacement.second.split(QLatin1Char('/'));
+    QStringList cutRoot = m_rootReplacement.first.split(QLatin1Char('/'));
+    QStringList cutResource = sourceResource.split(QLatin1Char('/'));
+    // Find common ancestor
+    int ix = 0;
+    for (auto &cut : cutRoot) {
+        if (ix < cutResource.size()) {
+            if (cutResource.first() != cut) {
+                break;
+            }
+        } else {
+            break;
+        }
+        cutResource.takeFirst();
+        ix++;
+    }
+    int diff = cutRoot.size() - ix;
+    if (diff < replacedRoot.size()) {
+        while (diff > 0) {
+            replacedRoot.removeLast();
+            diff--;
+        }
+    }
+    QString basePath = replacedRoot.join(QLatin1Char('/'));
+    basePath.append(QLatin1Char('/'));
+    basePath.append(cutResource.join(QLatin1Char('/')));
+    qDebug() << "/// RESULTING PATH: " << basePath;
+    if (QFile::exists(basePath)) {
+        return basePath;
+    }
+    return QString();
 }
 
 QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNodeList &entries, const QStringList &verifiedPaths, QStringList missingPaths,
