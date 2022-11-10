@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-08 02:24+0000\n"
+"POT-Creation-Date: 2022-11-10 02:29+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -3350,7 +3350,7 @@ msgstr "Utwiedern anmaken"
 #: src/assets/keyframes/model/keyframemodel.cpp:110
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
-#: src/assets/view/widgets/keyframewidget.cpp:65 src/dialogs/timeremap.cpp:1690
+#: src/assets/view/widgets/keyframewidget.cpp:69 src/dialogs/timeremap.cpp:1690
 #: src/dialogs/timeremap.cpp:1709
 #, kde-format
 msgid "Add keyframe"
@@ -3366,7 +3366,7 @@ msgstr "Füllklöör"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:200
 #: src/assets/keyframes/model/keyframemodellist.cpp:181
-#: src/assets/view/widgets/keyframewidget.cpp:67 src/dialogs/timeremap.cpp:1706
+#: src/assets/view/widgets/keyframewidget.cpp:71 src/dialogs/timeremap.cpp:1706
 #, kde-format
 msgid "Delete keyframe"
 msgstr ""
@@ -3381,7 +3381,7 @@ msgstr " Biller"
 #: src/assets/keyframes/model/keyframemodel.cpp:416
 #: src/assets/keyframes/model/keyframemodellist.cpp:225
 #: src/assets/keyframes/model/keyframemodellist.cpp:269
-#: src/assets/keyframes/view/keyframeview.cpp:290
+#: src/assets/keyframes/view/keyframeview.cpp:295
 #, fuzzy, kde-format
 #| msgid " frames"
 msgctxt "@action"
@@ -3430,19 +3430,19 @@ msgstr " Biller"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 
-#: src/assets/keyframes/view/keyframeview.cpp:125
+#: src/assets/keyframes/view/keyframeview.cpp:130
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Duplicate keyframe"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:178
+#: src/assets/keyframes/view/keyframeview.cpp:183
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/assets/keyframes/view/keyframeview.cpp:191
+#: src/assets/keyframes/view/keyframeview.cpp:196
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove keyframe"
@@ -3450,7 +3450,7 @@ msgid_plural "Remove keyframes"
 msgstr[0] " Biller"
 msgstr[1] " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:639
+#: src/assets/keyframes/view/keyframeview.cpp:644
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Move keyframe"
@@ -3458,44 +3458,44 @@ msgid_plural "Move keyframes"
 msgstr[0] " Biller"
 msgstr[1] " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:895
+#: src/assets/keyframes/view/keyframeview.cpp:900
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframes X position"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:903
+#: src/assets/keyframes/view/keyframeview.cpp:908
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframes Y position"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:911
+#: src/assets/keyframes/view/keyframeview.cpp:916
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframes width"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:919
+#: src/assets/keyframes/view/keyframeview.cpp:924
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframes height"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:927
+#: src/assets/keyframes/view/keyframeview.cpp:932
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframes opacity"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
-#: src/assets/keyframes/view/keyframeview.cpp:934
+#: src/assets/keyframes/view/keyframeview.cpp:937
+#: src/assets/keyframes/view/keyframeview.cpp:939
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframes value"
 msgstr " Biller"
 
-#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:943
 #, fuzzy, kde-format
 msgid "Keyframe value copied"
 msgstr "Interpolater"
@@ -3508,7 +3508,7 @@ msgid "Edit %1"
 msgstr "Profil bewerken"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:541
+#: src/assets/view/widgets/keyframewidget.cpp:553
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Edit %1 keyframe"
@@ -3520,8 +3520,8 @@ msgstr " Biller"
 msgid "Update %1"
 msgstr "Profil opfrischen"
 
-#: src/assets/model/assetparametermodel.cpp:1180
-#: src/assets/model/assetparametermodel.cpp:1227
+#: src/assets/model/assetparametermodel.cpp:1201
+#: src/assets/model/assetparametermodel.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot open preset file %1"
@@ -3552,7 +3552,7 @@ msgstr "Aktuell Instellen"
 msgid "Delete preset"
 msgstr "Profil wegmaken"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, fuzzy, kde-format
 #| msgid "Insert Unicode character"
@@ -3560,7 +3560,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unikode-Teken infögen"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -3749,16 +3749,16 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframeimport.cpp:377
 #: src/assets/view/widgets/keyframeimport.cpp:764
-#: src/assets/view/widgets/keyframewidget.cpp:234
-#: src/assets/view/widgets/keyframewidget.cpp:295
+#: src/assets/view/widgets/keyframewidget.cpp:245
+#: src/assets/view/widgets/keyframewidget.cpp:306
 #, kde-format
 msgid "Width"
 msgstr ""
 
 #: src/assets/view/widgets/keyframeimport.cpp:380
 #: src/assets/view/widgets/keyframeimport.cpp:772
-#: src/assets/view/widgets/keyframewidget.cpp:233
-#: src/assets/view/widgets/keyframewidget.cpp:289
+#: src/assets/view/widgets/keyframewidget.cpp:244
+#: src/assets/view/widgets/keyframewidget.cpp:300
 #, kde-format
 msgid "Height"
 msgstr ""
@@ -3787,130 +3787,186 @@ msgstr ""
 msgid "Import keyframes from clipboard"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1694
+#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1694
 #: src/mainwindow.cpp:1717
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1692
+#: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1692
 #: src/mainwindow.cpp:1715
 #, kde-format
 msgid "Go to next keyframe"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1698
+#: src/assets/view/widgets/keyframewidget.cpp:85 src/dialogs/timeremap.cpp:1698
 #: src/dialogs/timeremap.cpp:1699
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Move selected keyframe to cursor"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:84
+#: src/assets/view/widgets/keyframewidget.cpp:88
+#: src/assets/view/widgets/keyframewidget.cpp:90
 #, fuzzy, kde-format
 #| msgid " frames"
-msgid "Duplicate selected keyframe"
+msgid "Copy keyframes"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:87
+#: src/assets/view/widgets/keyframewidget.cpp:92
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:94
+#: src/assets/view/widgets/keyframewidget.cpp:784
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Paste keyframe"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframewidget.cpp:96
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "Paste keyframes"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframewidget.cpp:97
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:99
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Apply current position value to selected keyframes"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:90
+#: src/assets/view/widgets/keyframewidget.cpp:102
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, fuzzy, kde-format
 msgid "Keyframe interpolation"
 msgstr "Interpolater"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/view/widgets/keyframewidget.cpp:91
-#: src/assets/view/widgets/keyframewidget.cpp:153 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:103
+#: src/assets/view/widgets/keyframewidget.cpp:165 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:149
+#: src/assets/view/widgets/keyframewidget.cpp:107
+#: src/assets/view/widgets/keyframewidget.cpp:161
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Discrete"
 msgstr "Afkoppeln"
 
-#: src/assets/view/widgets/keyframewidget.cpp:99
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:111
+#: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Smooth"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:126
+#: src/assets/view/widgets/keyframewidget.cpp:119
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:141
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Seek to Keyframe on Select"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:131
+#: src/assets/view/widgets/keyframewidget.cpp:146
 #, fuzzy, kde-format
 #| msgid " frames"
-msgid "Copy Keyframes to Clipboard"
+msgid "Copy All Keyframes to Clipboard"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:133
-#, kde-format
-msgid "Copy Value at Cursor Position to Clipboard"
-msgstr ""
-
-#: src/assets/view/widgets/keyframewidget.cpp:135
+#: src/assets/view/widgets/keyframewidget.cpp:148
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Import Keyframes from Clipboard…"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:144
+#: src/assets/view/widgets/keyframewidget.cpp:156
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove all Keyframes After Cursor"
 msgstr " Biller"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:160
 #, fuzzy, kde-format
 #| msgid "Frame Duration"
 msgid "Default Keyframe Type"
 msgstr "Bildduer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1320
+#: src/assets/view/widgets/keyframewidget.cpp:196 src/bin/bin.cpp:1320
 #: src/ui/clipstabilize_ui.ui:34
 #, kde-format
 msgid "Options"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/assets/view/widgets/keyframewidget.cpp:242
+#: src/assets/view/widgets/keyframewidget.cpp:294
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:246
+#: src/assets/view/widgets/keyframewidget.cpp:318
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Y position"
 msgstr "Övergäng"
 
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
+#: src/assets/view/widgets/keyframewidget.cpp:247
+#: src/assets/view/widgets/keyframewidget.cpp:312
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "X position"
 msgstr "Övergäng"
 
-#: src/assets/view/widgets/keyframewidget.cpp:255
+#: src/assets/view/widgets/keyframewidget.cpp:266
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "Select parameters to copy"
 msgstr "Parameters"
+
+#: src/assets/view/widgets/keyframewidget.cpp:724
+#, fuzzy, kde-format
+msgid "Keyframes copied"
+msgstr "Interpolater"
+
+#: src/assets/view/widgets/keyframewidget.cpp:735
+#, fuzzy, kde-format
+#| msgid " frames"
+msgid "No valid keyframe data in clipboard"
+msgstr " Biller"
+
+#: src/assets/view/widgets/keyframewidget.cpp:794
+#, fuzzy, kde-format
+#| msgid "Opening file %1"
+msgid "Cannot copy current parameter values"
+msgstr "Datei \"%1\" warrt opmaakt"
+
+#: src/assets/view/widgets/keyframewidget.cpp:799
+#: src/assets/view/widgets/keyframewidget.cpp:807
+#: src/assets/view/widgets/keyframewidget.cpp:819
+#, fuzzy, kde-format
+msgid "Current values copied"
+msgstr "Interpolater"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -5645,7 +5701,7 @@ msgstr ""
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3737 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3753 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "All Dateien"
@@ -5883,7 +5939,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3658
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3674
 #, kde-format
 msgid "Timeline"
 msgstr ""
@@ -8183,13 +8239,13 @@ msgid "Markers"
 msgstr ""
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3613
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3629
 #, kde-format
 msgid "Extract Audio"
 msgstr ""
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3581
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3597
 #, fuzzy, kde-format
 #| msgid "Align top"
 msgid "Clip Jobs"
@@ -10194,124 +10250,124 @@ msgstr "Inföögbedrief"
 msgid "Overwrite"
 msgstr "Överschrievbedrief"
 
-#: src/mainwindow.cpp:3586
+#: src/mainwindow.cpp:3602
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Stabilize"
 msgstr "Profil bewerken"
 
-#: src/mainwindow.cpp:3591
+#: src/mainwindow.cpp:3607
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic Scene Split…"
 msgstr "Automaatsch"
 
-#: src/mainwindow.cpp:3596
+#: src/mainwindow.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Profil bewerken"
 
-#: src/mainwindow.cpp:3612
+#: src/mainwindow.cpp:3628
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Ümkoderen"
 
-#: src/mainwindow.cpp:3657
+#: src/mainwindow.cpp:3673
 #, kde-format
 msgid "Interface"
 msgstr ""
 
-#: src/mainwindow.cpp:3673
+#: src/mainwindow.cpp:3689
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Raise %1"
 msgstr "Keen Effekt"
 
-#: src/mainwindow.cpp:3739
+#: src/mainwindow.cpp:3755
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ümkoderen"
 
-#: src/mainwindow.cpp:3887
+#: src/mainwindow.cpp:3903
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:3893
+#: src/mainwindow.cpp:3909
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Archiving project"
 msgstr "Projekt warrt laadt"
 
-#: src/mainwindow.cpp:4049
+#: src/mainwindow.cpp:4065
 #, fuzzy, kde-format
 #| msgid "Font"
 msgid "Icon Size"
 msgstr "Schriftoort"
 
-#: src/mainwindow.cpp:4053
+#: src/mainwindow.cpp:4069
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Standard"
 
-#: src/mainwindow.cpp:4074 src/mainwindow.cpp:4102
+#: src/mainwindow.cpp:4090 src/mainwindow.cpp:4118
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4076 src/mainwindow.cpp:4104
+#: src/mainwindow.cpp:4092 src/mainwindow.cpp:4120
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4078 src/mainwindow.cpp:4106
+#: src/mainwindow.cpp:4094 src/mainwindow.cpp:4122
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4080 src/mainwindow.cpp:4108
+#: src/mainwindow.cpp:4096 src/mainwindow.cpp:4124
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Hide menu bar"
 msgstr " Biller"
 
-#: src/mainwindow.cpp:4180
+#: src/mainwindow.cpp:4196
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4374 src/timeline2/view/timelinecontroller.cpp:4973
+#: src/mainwindow.cpp:4390 src/timeline2/view/timelinecontroller.cpp:4973
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "No subtitles in current project"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:4461
+#: src/mainwindow.cpp:4477
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:4562
+#: src/mainwindow.cpp:4578
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Checking cached data size"
@@ -19721,6 +19777,11 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid " frames"
+#~ msgid "Duplicate selected keyframe"
+#~ msgstr " Biller"
 
 #, fuzzy
 #~| msgid "Colour"

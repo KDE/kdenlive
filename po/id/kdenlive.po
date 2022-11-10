@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-08 02:24+0000\n"
+"POT-Creation-Date: 2022-11-10 02:29+0000\n"
 "PO-Revision-Date: 2022-09-27 18:00+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -3237,7 +3237,7 @@ msgstr "Efek %1 bin"
 #: src/assets/keyframes/model/keyframemodel.cpp:110
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
-#: src/assets/view/widgets/keyframewidget.cpp:65 src/dialogs/timeremap.cpp:1690
+#: src/assets/view/widgets/keyframewidget.cpp:69 src/dialogs/timeremap.cpp:1690
 #: src/dialogs/timeremap.cpp:1709
 #, kde-format
 msgid "Add keyframe"
@@ -3252,7 +3252,7 @@ msgstr "Ubah tipe keyframe"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:200
 #: src/assets/keyframes/model/keyframemodellist.cpp:181
-#: src/assets/view/widgets/keyframewidget.cpp:67 src/dialogs/timeremap.cpp:1706
+#: src/assets/view/widgets/keyframewidget.cpp:71 src/dialogs/timeremap.cpp:1706
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Hapus keyframe"
@@ -3266,7 +3266,7 @@ msgstr "Pindah keyframes"
 #: src/assets/keyframes/model/keyframemodel.cpp:416
 #: src/assets/keyframes/model/keyframemodellist.cpp:225
 #: src/assets/keyframes/model/keyframemodellist.cpp:269
-#: src/assets/keyframes/view/keyframeview.cpp:290
+#: src/assets/keyframes/view/keyframeview.cpp:295
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3309,62 +3309,62 @@ msgstr "Hapus keyframe"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "Keyframe hilang terdeteksi di %1, secara otomatis ditambahkan ulang"
 
-#: src/assets/keyframes/view/keyframeview.cpp:125
+#: src/assets/keyframes/view/keyframeview.cpp:130
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Duplikat keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:178
+#: src/assets/keyframes/view/keyframeview.cpp:183
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Tidak bisa menghapus keyframe yang terakhir"
 
-#: src/assets/keyframes/view/keyframeview.cpp:191
+#: src/assets/keyframes/view/keyframeview.cpp:196
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "Singkirkan keyframe"
 msgstr[1] "Singkirkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:639
+#: src/assets/keyframes/view/keyframeview.cpp:644
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Pindahkan keyframe"
 msgstr[1] "Pindahkan keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:895
+#: src/assets/keyframes/view/keyframeview.cpp:900
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Perbarui posisi X keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:903
+#: src/assets/keyframes/view/keyframeview.cpp:908
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Perbarui posisi Y keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:911
+#: src/assets/keyframes/view/keyframeview.cpp:916
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Perbarui lebar keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:919
+#: src/assets/keyframes/view/keyframeview.cpp:924
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Perbarui tinggi keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:927
+#: src/assets/keyframes/view/keyframeview.cpp:932
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Perbarui opasitas keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
-#: src/assets/keyframes/view/keyframeview.cpp:934
+#: src/assets/keyframes/view/keyframeview.cpp:937
+#: src/assets/keyframes/view/keyframeview.cpp:939
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Perbarui nilai keyframe"
 
-#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:943
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Nilai keyframe disalin"
@@ -3376,7 +3376,7 @@ msgid "Edit %1"
 msgstr "Edit %1"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:541
+#: src/assets/view/widgets/keyframewidget.cpp:553
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Edit keyframe %1"
@@ -3386,8 +3386,8 @@ msgstr "Edit keyframe %1"
 msgid "Update %1"
 msgstr "Perbarui %1"
 
-#: src/assets/model/assetparametermodel.cpp:1180
-#: src/assets/model/assetparametermodel.cpp:1227
+#: src/assets/model/assetparametermodel.cpp:1201
+#: src/assets/model/assetparametermodel.cpp:1248
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Tak bisa membuka file preset %1"
@@ -3413,14 +3413,14 @@ msgstr "Perbarui preset saat ini"
 msgid "Delete preset"
 msgstr "Hapus preset"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Masukkan Nama Preset"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -3595,16 +3595,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:377
 #: src/assets/view/widgets/keyframeimport.cpp:764
-#: src/assets/view/widgets/keyframewidget.cpp:234
-#: src/assets/view/widgets/keyframewidget.cpp:295
+#: src/assets/view/widgets/keyframewidget.cpp:245
+#: src/assets/view/widgets/keyframewidget.cpp:306
 #, kde-format
 msgid "Width"
 msgstr "Lebar "
 
 #: src/assets/view/widgets/keyframeimport.cpp:380
 #: src/assets/view/widgets/keyframeimport.cpp:772
-#: src/assets/view/widgets/keyframewidget.cpp:233
-#: src/assets/view/widgets/keyframewidget.cpp:289
+#: src/assets/view/widgets/keyframewidget.cpp:244
+#: src/assets/view/widgets/keyframewidget.cpp:300
 #, kde-format
 msgid "Height"
 msgstr "Tinggi"
@@ -3632,118 +3632,179 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "Impor keyframe dari papan klip"
 
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1694
+#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1694
 #: src/mainwindow.cpp:1717
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Menuju ke keyframe sebelumnya"
 
-#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1692
+#: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1692
 #: src/mainwindow.cpp:1715
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Menuju ke keyframe berikutnya"
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1698
+#: src/assets/view/widgets/keyframewidget.cpp:85 src/dialogs/timeremap.cpp:1698
 #: src/dialogs/timeremap.cpp:1699
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Pindahkan keyframe yang dipilih ke kursor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:84
-#, kde-format
-msgid "Duplicate selected keyframe"
-msgstr "Duplikatkan keyframe yang dipilih"
+#: src/assets/view/widgets/keyframewidget.cpp:88
+#: src/assets/view/widgets/keyframewidget.cpp:90
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Move keyframes"
+msgid "Copy keyframes"
+msgstr "Pindah keyframes"
 
-#: src/assets/view/widgets/keyframewidget.cpp:87
+#: src/assets/view/widgets/keyframewidget.cpp:92
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:94
+#: src/assets/view/widgets/keyframewidget.cpp:784
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Paste keyframe"
+msgstr "Perbarui keyframe"
+
+#: src/assets/view/widgets/keyframewidget.cpp:96
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Paste keyframes"
+msgstr "Perbarui keyframe"
+
+#: src/assets/view/widgets/keyframewidget.cpp:97
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Terapkan nilai posisi saat ini ke keyframe yang dipilih"
 
-#: src/assets/view/widgets/keyframewidget.cpp:90
+#: src/assets/view/widgets/keyframewidget.cpp:102
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Penyisipan keyframe"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/view/widgets/keyframewidget.cpp:91
-#: src/assets/view/widgets/keyframewidget.cpp:153 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:103
+#: src/assets/view/widgets/keyframewidget.cpp:165 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Linier"
 
-#: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:149
+#: src/assets/view/widgets/keyframewidget.cpp:107
+#: src/assets/view/widgets/keyframewidget.cpp:161
 #, kde-format
 msgid "Discrete"
 msgstr "Diskrit"
 
-#: src/assets/view/widgets/keyframewidget.cpp:99
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:111
+#: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Smooth"
 msgstr "Halus"
 
-#: src/assets/view/widgets/keyframewidget.cpp:126
+#: src/assets/view/widgets/keyframewidget.cpp:119
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Jangkakan ke Keyframe saat Pilih"
 
-#: src/assets/view/widgets/keyframewidget.cpp:131
-#, kde-format
-msgid "Copy Keyframes to Clipboard"
+#: src/assets/view/widgets/keyframewidget.cpp:146
+#, fuzzy, kde-format
+#| msgid "Copy Keyframes to Clipboard"
+msgid "Copy All Keyframes to Clipboard"
 msgstr "Salin Keyframe ke Papan Klip"
 
-#: src/assets/view/widgets/keyframewidget.cpp:133
-#, kde-format
-msgid "Copy Value at Cursor Position to Clipboard"
-msgstr "Salin Nilai pada Posisi Kursor ke Papan Klip"
-
-#: src/assets/view/widgets/keyframewidget.cpp:135
+#: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Impor Keyframe dari Papan Klip..."
 
-#: src/assets/view/widgets/keyframewidget.cpp:144
+#: src/assets/view/widgets/keyframewidget.cpp:156
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Singkirkan semua Keyframe Setelah Kursor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:160
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Tipe Keyframe Default"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1320
+#: src/assets/view/widgets/keyframewidget.cpp:196 src/bin/bin.cpp:1320
 #: src/ui/clipstabilize_ui.ui:34
 #, kde-format
 msgid "Options"
 msgstr "Opsi"
 
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/assets/view/widgets/keyframewidget.cpp:242
+#: src/assets/view/widgets/keyframewidget.cpp:294
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Opasitas"
 
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:246
+#: src/assets/view/widgets/keyframewidget.cpp:318
 #, kde-format
 msgid "Y position"
 msgstr "Posisi Y"
 
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
+#: src/assets/view/widgets/keyframewidget.cpp:247
+#: src/assets/view/widgets/keyframewidget.cpp:312
 #, kde-format
 msgid "X position"
 msgstr "Posisi X"
 
-#: src/assets/view/widgets/keyframewidget.cpp:255
+#: src/assets/view/widgets/keyframewidget.cpp:266
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Pilih parameter untuk salin"
+
+#: src/assets/view/widgets/keyframewidget.cpp:724
+#, fuzzy, kde-format
+#| msgid "Keyframe value copied"
+msgid "Keyframes copied"
+msgstr "Nilai keyframe disalin"
+
+#: src/assets/view/widgets/keyframewidget.cpp:735
+#, fuzzy, kde-format
+#| msgid "No valid data in clipboard"
+msgid "No valid keyframe data in clipboard"
+msgstr "Tidak ada data yang valid di papan klip"
+
+#: src/assets/view/widgets/keyframewidget.cpp:794
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary files"
+msgid "Cannot copy current parameter values"
+msgstr "Tidak bisa membuat file temporer"
+
+#: src/assets/view/widgets/keyframewidget.cpp:799
+#: src/assets/view/widgets/keyframewidget.cpp:807
+#: src/assets/view/widgets/keyframewidget.cpp:819
+#, fuzzy, kde-format
+#| msgid "Keyframe value copied"
+msgid "Current values copied"
+msgstr "Nilai keyframe disalin"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -5399,7 +5460,7 @@ msgstr "Templat klip judul"
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3737 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3753 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Semua File"
@@ -5629,7 +5690,7 @@ msgstr "Posisi pandu di frame"
 msgid "Guide comment"
 msgstr "Komentar pandu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3658
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3674
 #, kde-format
 msgid "Timeline"
 msgstr "Linimasa"
@@ -7907,13 +7968,13 @@ msgid "Markers"
 msgstr "Penanda"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3613
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3629
 #, kde-format
 msgid "Extract Audio"
 msgstr "Ekstrak Audio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3581
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3597
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Tugas Klip"
@@ -9832,84 +9893,84 @@ msgstr "Sisipkan"
 msgid "Overwrite"
 msgstr "Timpa"
 
-#: src/mainwindow.cpp:3586
+#: src/mainwindow.cpp:3602
 #, kde-format
 msgid "Stabilize"
 msgstr "Stabilkan"
 
-#: src/mainwindow.cpp:3591
+#: src/mainwindow.cpp:3607
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Belah Adegan Otomatis..."
 
-#: src/mainwindow.cpp:3596
+#: src/mainwindow.cpp:3612
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Diplikatkan Klip dengan Ubahan Kecepatan..."
 
-#: src/mainwindow.cpp:3612
+#: src/mainwindow.cpp:3628
 #, kde-format
 msgid "Transcoders"
 msgstr "Pentranskode"
 
-#: src/mainwindow.cpp:3657
+#: src/mainwindow.cpp:3673
 #, kde-format
 msgid "Interface"
 msgstr "Antarmuka"
 
-#: src/mainwindow.cpp:3673
+#: src/mainwindow.cpp:3689
 #, kde-format
 msgid "Raise %1"
 msgstr "Naikkan %1"
 
-#: src/mainwindow.cpp:3739
+#: src/mainwindow.cpp:3755
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "File untuk Ditranskode"
 
-#: src/mainwindow.cpp:3887
+#: src/mainwindow.cpp:3903
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "File proyek tidak bisa disimpan untuk pengarsipan."
 
-#: src/mainwindow.cpp:3893
+#: src/mainwindow.cpp:3909
 #, kde-format
 msgid "Archiving project"
 msgstr "Mengarsipkan proyek"
 
-#: src/mainwindow.cpp:4049
+#: src/mainwindow.cpp:4065
 #, kde-format
 msgid "Icon Size"
 msgstr "Ukuran Ikon"
 
-#: src/mainwindow.cpp:4053
+#: src/mainwindow.cpp:4069
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Default"
 
-#: src/mainwindow.cpp:4074 src/mainwindow.cpp:4102
+#: src/mainwindow.cpp:4090 src/mainwindow.cpp:4118
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Kecil (%1x%2)"
 
-#: src/mainwindow.cpp:4076 src/mainwindow.cpp:4104
+#: src/mainwindow.cpp:4092 src/mainwindow.cpp:4120
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Sedang (%1x%2)"
 
-#: src/mainwindow.cpp:4078 src/mainwindow.cpp:4106
+#: src/mainwindow.cpp:4094 src/mainwindow.cpp:4122
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Besar (%1x%2)"
 
-#: src/mainwindow.cpp:4080 src/mainwindow.cpp:4108
+#: src/mainwindow.cpp:4096 src/mainwindow.cpp:4124
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Besar Banget (%1x%2)"
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -9918,12 +9979,12 @@ msgstr ""
 "Ini akan menyembunyikan seluruh bilah menu. Anda bisa menampilkannya kembali "
 "dengan mengetik Ctrl+M."
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Sembunyikan bilah menu"
 
-#: src/mainwindow.cpp:4180
+#: src/mainwindow.cpp:4196
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -9931,17 +9992,17 @@ msgstr ""
 "Kdenlive perlu dijalankan ulang untuk menerapkan perubahan tema ikon. "
 "Jalankan ulang sekarang?"
 
-#: src/mainwindow.cpp:4374 src/timeline2/view/timelinecontroller.cpp:4973
+#: src/mainwindow.cpp:4390 src/timeline2/view/timelinecontroller.cpp:4973
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Tidak ada subtitel dalam proyek saat ini"
 
-#: src/mainwindow.cpp:4461
+#: src/mainwindow.cpp:4477
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bin Proyek %1"
 
-#: src/mainwindow.cpp:4562
+#: src/mainwindow.cpp:4578
 #, fuzzy, kde-format
 #| msgid "Selected cached data:"
 msgid "Checking cached data size"
@@ -19123,6 +19184,12 @@ msgstr "%1mnt"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1jm"
+
+#~ msgid "Duplicate selected keyframe"
+#~ msgstr "Duplikatkan keyframe yang dipilih"
+
+#~ msgid "Copy Value at Cursor Position to Clipboard"
+#~ msgstr "Salin Nilai pada Posisi Kursor ke Papan Klip"
 
 #~ msgid "Colors"
 #~ msgstr "Warna"

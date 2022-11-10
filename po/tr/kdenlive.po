@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-08 02:24+0000\n"
-"PO-Revision-Date: 2022-11-05 20:29+0300\n"
+"POT-Creation-Date: 2022-11-10 02:29+0000\n"
+"PO-Revision-Date: 2022-11-09 11:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -373,10 +373,10 @@ msgid ""
 "Values < 0 and > 100 will cause loops in the lines. Only applies to line "
 "graph type."
 msgstr ""
-"Noktalar arasındaki çizgi enterpolasyonundaki eğri miktarını etkiler. 0.0 = "
+"Noktalar arasında çizgi aradeğerindeki eğri miktarını etkiler. 0,0 = "
 "noktalar arasında düz bir çizgi. 100 = noktalar arasında çok kavisli "
-"çizgiler. < 0 ve > 100 değerleri satırlarda döngülere neden olur. Sadece "
-"satır için geçerlidir grafik türü."
+"çizgiler. 0'dan büyük ve 100'den küçük değerler, çizgilerde döngülere neden "
+"olur. Yalnızca çizgi grafik türüne için geçerlidir."
 
 #: data/effects/audiospectrum.xml:50
 #, kde-format
@@ -3242,7 +3242,7 @@ msgstr "%1 efekti kovaya at"
 #: src/assets/keyframes/model/keyframemodel.cpp:110
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
-#: src/assets/view/widgets/keyframewidget.cpp:65 src/dialogs/timeremap.cpp:1690
+#: src/assets/view/widgets/keyframewidget.cpp:69 src/dialogs/timeremap.cpp:1690
 #: src/dialogs/timeremap.cpp:1709
 #, kde-format
 msgid "Add keyframe"
@@ -3257,7 +3257,7 @@ msgstr "Anahtar kare türünü değiştir"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:200
 #: src/assets/keyframes/model/keyframemodellist.cpp:181
-#: src/assets/view/widgets/keyframewidget.cpp:67 src/dialogs/timeremap.cpp:1706
+#: src/assets/view/widgets/keyframewidget.cpp:71 src/dialogs/timeremap.cpp:1706
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Anahtar kare sil"
@@ -3271,7 +3271,7 @@ msgstr "Anahtar kareleri taşı"
 #: src/assets/keyframes/model/keyframemodel.cpp:416
 #: src/assets/keyframes/model/keyframemodellist.cpp:225
 #: src/assets/keyframes/model/keyframemodellist.cpp:269
-#: src/assets/keyframes/view/keyframeview.cpp:290
+#: src/assets/keyframes/view/keyframeview.cpp:295
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3315,62 +3315,62 @@ msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 "%1 konumunda eksik anahtar kare algılandı, otomatik olarak yeniden eklendi"
 
-#: src/assets/keyframes/view/keyframeview.cpp:125
+#: src/assets/keyframes/view/keyframeview.cpp:130
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Anahtar kareyi yinele"
 
-#: src/assets/keyframes/view/keyframeview.cpp:178
+#: src/assets/keyframes/view/keyframeview.cpp:183
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Son anahtar kare kaldırılamıyor"
 
-#: src/assets/keyframes/view/keyframeview.cpp:191
+#: src/assets/keyframes/view/keyframeview.cpp:196
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "Anahtar kareyi kaldır"
 msgstr[1] "Anahtar kareleri kaldır"
 
-#: src/assets/keyframes/view/keyframeview.cpp:639
+#: src/assets/keyframes/view/keyframeview.cpp:644
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Anahtar kareyi taşı"
 msgstr[1] "Anahtar kareleri taşı"
 
-#: src/assets/keyframes/view/keyframeview.cpp:895
+#: src/assets/keyframes/view/keyframeview.cpp:900
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Anahtar kare X konumunu güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:903
+#: src/assets/keyframes/view/keyframeview.cpp:908
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Anahtar kare Y konumunu güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:911
+#: src/assets/keyframes/view/keyframeview.cpp:916
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Anahtar kare genişliğini güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:919
+#: src/assets/keyframes/view/keyframeview.cpp:924
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Anahtar kare yüksekliğini güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:927
+#: src/assets/keyframes/view/keyframeview.cpp:932
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Anahtar kare matlığını güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
-#: src/assets/keyframes/view/keyframeview.cpp:934
+#: src/assets/keyframes/view/keyframeview.cpp:937
+#: src/assets/keyframes/view/keyframeview.cpp:939
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Anahtar kare değerini güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:943
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Anahtar kare değeri kopyalandı"
@@ -3382,7 +3382,7 @@ msgid "Edit %1"
 msgstr "%1 Düzenle"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:541
+#: src/assets/view/widgets/keyframewidget.cpp:553
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "%1 anahtar kareyi düzenle"
@@ -3392,8 +3392,8 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1180
-#: src/assets/model/assetparametermodel.cpp:1227
+#: src/assets/model/assetparametermodel.cpp:1201
+#: src/assets/model/assetparametermodel.cpp:1248
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 önayar dosyası açılamıyor"
@@ -3419,14 +3419,14 @@ msgstr "Geçerli önayarı güncelleştir"
 msgid "Delete preset"
 msgstr "Önayarı sil"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Önayar Adı Gir"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -3601,16 +3601,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:377
 #: src/assets/view/widgets/keyframeimport.cpp:764
-#: src/assets/view/widgets/keyframewidget.cpp:234
-#: src/assets/view/widgets/keyframewidget.cpp:295
+#: src/assets/view/widgets/keyframewidget.cpp:245
+#: src/assets/view/widgets/keyframewidget.cpp:306
 #, kde-format
 msgid "Width"
 msgstr "Genişlik"
 
 #: src/assets/view/widgets/keyframeimport.cpp:380
 #: src/assets/view/widgets/keyframeimport.cpp:772
-#: src/assets/view/widgets/keyframewidget.cpp:233
-#: src/assets/view/widgets/keyframewidget.cpp:289
+#: src/assets/view/widgets/keyframewidget.cpp:244
+#: src/assets/view/widgets/keyframewidget.cpp:300
 #, kde-format
 msgid "Height"
 msgstr "Yükseklik"
@@ -3638,118 +3638,178 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "Panodan anahtar kareleri içe aktar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1694
+#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1694
 #: src/mainwindow.cpp:1717
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Önceki anahtar kareye git"
 
-#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1692
+#: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1692
 #: src/mainwindow.cpp:1715
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Sonraki anahtar kareye git"
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1698
+#: src/assets/view/widgets/keyframewidget.cpp:85 src/dialogs/timeremap.cpp:1698
 #: src/dialogs/timeremap.cpp:1699
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Seçili anahtar kareyi imlece taşı"
 
-#: src/assets/view/widgets/keyframewidget.cpp:84
-#, kde-format
-msgid "Duplicate selected keyframe"
-msgstr "Seçili anahtar kareyi yinele"
+#: src/assets/view/widgets/keyframewidget.cpp:88
+#: src/assets/view/widgets/keyframewidget.cpp:90
+#, fuzzy, kde-format
+#| msgid "Show keyframes"
+msgid "Copy keyframes"
+msgstr "Anahtar Kareleri Göster"
 
-#: src/assets/view/widgets/keyframewidget.cpp:87
+#: src/assets/view/widgets/keyframewidget.cpp:92
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:94
+#: src/assets/view/widgets/keyframewidget.cpp:784
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Paste keyframe"
+msgstr "Anahtar kareyi güncelle"
+
+#: src/assets/view/widgets/keyframewidget.cpp:96
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Paste keyframes"
+msgstr "Anahtar kareyi güncelle"
+
+#: src/assets/view/widgets/keyframewidget.cpp:97
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Geçerli konum değerini seçili anahtar karelere uygula"
 
-#: src/assets/view/widgets/keyframewidget.cpp:90
+#: src/assets/view/widgets/keyframewidget.cpp:102
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Anahtar Kare Aradeğerlemesi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/view/widgets/keyframewidget.cpp:91
-#: src/assets/view/widgets/keyframewidget.cpp:153 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:103
+#: src/assets/view/widgets/keyframewidget.cpp:165 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Doğrusal"
 
-#: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:149
+#: src/assets/view/widgets/keyframewidget.cpp:107
+#: src/assets/view/widgets/keyframewidget.cpp:161
 #, kde-format
 msgid "Discrete"
 msgstr "Soyut"
 
-#: src/assets/view/widgets/keyframewidget.cpp:99
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:111
+#: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Smooth"
 msgstr "Pürüzsüz"
 
-#: src/assets/view/widgets/keyframewidget.cpp:126
+#: src/assets/view/widgets/keyframewidget.cpp:119
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Seçili Anahtar Kareye Git"
 
-#: src/assets/view/widgets/keyframewidget.cpp:131
-#, kde-format
-msgid "Copy Keyframes to Clipboard"
+#: src/assets/view/widgets/keyframewidget.cpp:146
+#, fuzzy, kde-format
+#| msgid "Copy Keyframes to Clipboard"
+msgid "Copy All Keyframes to Clipboard"
 msgstr "Anahtar Kareleri Panoya Kopyala"
 
-#: src/assets/view/widgets/keyframewidget.cpp:133
-#, kde-format
-msgid "Copy Value at Cursor Position to Clipboard"
-msgstr "İmleç Konumundaki Değeri Panoya Kopyala"
-
-#: src/assets/view/widgets/keyframewidget.cpp:135
+#: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Panodan Anahtar Kareler İçe Aktar…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:144
+#: src/assets/view/widgets/keyframewidget.cpp:156
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "İmleçten Sonraki Tüm Anahtar Kareleri Sil"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:160
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Öntanımlı Anahtar Kare Türü"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1320
+#: src/assets/view/widgets/keyframewidget.cpp:196 src/bin/bin.cpp:1320
 #: src/ui/clipstabilize_ui.ui:34
 #, kde-format
 msgid "Options"
 msgstr "Seçenekler"
 
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/assets/view/widgets/keyframewidget.cpp:242
+#: src/assets/view/widgets/keyframewidget.cpp:294
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Matlık"
 
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:246
+#: src/assets/view/widgets/keyframewidget.cpp:318
 #, kde-format
 msgid "Y position"
 msgstr "Y konumu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
+#: src/assets/view/widgets/keyframewidget.cpp:247
+#: src/assets/view/widgets/keyframewidget.cpp:312
 #, kde-format
 msgid "X position"
 msgstr "X konumu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:255
+#: src/assets/view/widgets/keyframewidget.cpp:266
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Kopyalanacak parametreleri seçin"
+
+#: src/assets/view/widgets/keyframewidget.cpp:724
+#, fuzzy, kde-format
+#| msgid "Keyframe value copied"
+msgid "Keyframes copied"
+msgstr "Anahtar kare değeri kopyalandı"
+
+#: src/assets/view/widgets/keyframewidget.cpp:735
+#, fuzzy, kde-format
+#| msgid "No valid data in clipboard"
+msgid "No valid keyframe data in clipboard"
+msgstr "Panoda geçerli veri yok"
+
+#: src/assets/view/widgets/keyframewidget.cpp:794
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary files"
+msgid "Cannot copy current parameter values"
+msgstr "Geçici dosyalar oluşturulamıyor"
+
+#: src/assets/view/widgets/keyframewidget.cpp:799
+#: src/assets/view/widgets/keyframewidget.cpp:807
+#: src/assets/view/widgets/keyframewidget.cpp:819
+#, fuzzy, kde-format
+#| msgid "Keyframe value copied"
+msgid "Current values copied"
+msgstr "Anahtar kare değeri kopyalandı"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4532,10 +4592,9 @@ msgid "Audio stream %1"
 msgstr "Ses akışı %1"
 
 #: src/bin/bin.cpp:5499
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Klipleri kaldır"
+msgstr "Klip imleyicilerini kaldır"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4648,7 +4707,7 @@ msgstr "MLT Çalma Listesi (*.mlt)"
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
 msgid "Update guides categories"
-msgstr ""
+msgstr "Kılavuzlar kategorilerini güncelle"
 
 #: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
 #, kde-format
@@ -4711,10 +4770,9 @@ msgid "Marker"
 msgstr "İmleyici"
 
 #: src/bin/model/markerlistmodel.cpp:690
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Kurtarılan öge"
+msgstr "%1 kurtarıldı"
 
 #: src/bin/model/markerlistmodel.cpp:807
 #, kde-format
@@ -4734,40 +4792,34 @@ msgid "No guide found at current position"
 msgstr "Geçerli konumda bir kılavuz bulunamadı"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Kılavuzu Düzenle"
+msgstr "Kılavuzlar Kategorilerini Düzenle"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "İmleyiciyi Düzenle"
+msgstr "İmleyici Kategorilerini Düzenle"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Kategori"
+msgstr "Kılavuzlar Kategorisi"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Kategori"
+msgstr "İmleyiciler Kategorisi"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Kılavuzu düzenle"
+msgstr "Kılavuzları düzenle"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "İmleyiciyi düzenle"
+msgstr "İmleyicileri düzenle"
 
 #: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
 #: src/timeline2/view/timelinecontroller.cpp:1340
@@ -4786,28 +4838,24 @@ msgid "Edit Marker"
 msgstr "İmleyiciyi Düzenle"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Kılavuz Ekle"
+msgstr "Kılavuzlar Ekle"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Marker"
+#, kde-format
 msgid "Add Markers"
-msgstr "İmleyici Ekle"
+msgstr "İmleyiciler Ekle"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Kılavuz ekle"
+msgstr "Kılavuzlar ekle"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "İmleyici ekle"
+msgstr "İmleyiciler ekle"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -5394,7 +5442,7 @@ msgstr "Şablon başlık klibi"
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3737 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3753 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Tüm Dosyalar"
@@ -5533,30 +5581,26 @@ msgid "Copy to Clipboard"
 msgstr "Panoya Kopyala"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Save"
+#, kde-format
 msgid "Save"
-msgstr "&Kaydet"
+msgstr "Kaydet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Metin Dosyası (*.txt)"
+msgstr "Metin Dosyası"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "GPS Dosyası"
+msgstr "JSON Dosyası"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Kılavuzları Dışa Aktar…"
+msgstr "Kılavuzlar Verisini Dışa Aktar"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
@@ -5586,16 +5630,14 @@ msgid "Cannot write to file %1"
 msgstr "Dosyaya yazılamadı: %1"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Özkaynaklar %1 konumuna kaydedildi"
+msgstr "Kılavuzlar, %1 konumuna kaydedildi"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Kategori"
+msgstr "Kategori adı"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5627,7 +5669,7 @@ msgstr "Karelerdeki kılavuz konumu"
 msgid "Guide comment"
 msgstr "Kılavuz açıklaması"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3658
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3674
 #, kde-format
 msgid "Timeline"
 msgstr "Zaman Akışı"
@@ -5635,7 +5677,7 @@ msgstr "Zaman Akışı"
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
 #, kde-format
 msgid "Colors and Guides"
-msgstr ""
+msgstr "Renkler ve Kılavuzlar"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -7348,10 +7390,9 @@ msgid "Cyan"
 msgstr "Turkuaz"
 
 #: src/doc/kdenlivedoc.cpp:2106
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Kategori %1"
+msgstr "Kategori %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -7882,13 +7923,13 @@ msgid "Markers"
 msgstr "İmleyiciler"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3613
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3629
 #, kde-format
 msgid "Extract Audio"
 msgstr "Sesi Ayır"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3581
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3597
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klip Görevleri"
@@ -8540,10 +8581,9 @@ msgstr "Zaman Yeniden Eşlemlemesi"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:276 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "Kı&lavuzlar"
+msgstr "Kılavuzlar"
 
 #: src/mainwindow.cpp:339 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9404,10 +9444,9 @@ msgid "Edit Guide…"
 msgstr "Kılavuzu Düzenle…"
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Ara…"
+msgstr "Kılavuz Ara…"
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9420,10 +9459,9 @@ msgid "Guides Locked"
 msgstr "Kılavuzlar Kilitli"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Kılavuzları göster:"
+msgstr "Kılavuzları kilitle"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -9432,6 +9470,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Kılavuzları kilitle. Kilitlendiğinde, kılavuzlar, boşluk aracı "
+"kullanıldığında veya izlere boş alan eklerken/kaldırırken hareket etmezler."
 
 #: src/mainwindow.cpp:1801
 #, kde-format
@@ -9799,84 +9839,84 @@ msgstr "Ekle"
 msgid "Overwrite"
 msgstr "Üzerine Yaz"
 
-#: src/mainwindow.cpp:3586
+#: src/mainwindow.cpp:3602
 #, kde-format
 msgid "Stabilize"
 msgstr "Sabitleştirme"
 
-#: src/mainwindow.cpp:3591
+#: src/mainwindow.cpp:3607
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Otomatik Sahne Bölme…"
 
-#: src/mainwindow.cpp:3596
+#: src/mainwindow.cpp:3612
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Klibi Hız Değiştir ile Çoğalt…"
 
-#: src/mainwindow.cpp:3612
+#: src/mainwindow.cpp:3628
 #, kde-format
 msgid "Transcoders"
 msgstr "Arakodlayıcılar"
 
-#: src/mainwindow.cpp:3657
+#: src/mainwindow.cpp:3673
 #, kde-format
 msgid "Interface"
 msgstr "Arayüz"
 
-#: src/mainwindow.cpp:3673
+#: src/mainwindow.cpp:3689
 #, kde-format
 msgid "Raise %1"
 msgstr "%1 Yükselt"
 
-#: src/mainwindow.cpp:3739
+#: src/mainwindow.cpp:3755
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Arakodlanacak Dosyalar"
 
-#: src/mainwindow.cpp:3887
+#: src/mainwindow.cpp:3903
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Proje dosyası arşivleme için kaydedilemedi."
 
-#: src/mainwindow.cpp:3893
+#: src/mainwindow.cpp:3909
 #, kde-format
 msgid "Archiving project"
 msgstr "Proje arşivleniyor"
 
-#: src/mainwindow.cpp:4049
+#: src/mainwindow.cpp:4065
 #, kde-format
 msgid "Icon Size"
 msgstr "Simge Boyutu"
 
-#: src/mainwindow.cpp:4053
+#: src/mainwindow.cpp:4069
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: src/mainwindow.cpp:4074 src/mainwindow.cpp:4102
+#: src/mainwindow.cpp:4090 src/mainwindow.cpp:4118
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Küçük (%1x%2)"
 
-#: src/mainwindow.cpp:4076 src/mainwindow.cpp:4104
+#: src/mainwindow.cpp:4092 src/mainwindow.cpp:4120
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Orta (%1x%2)"
 
-#: src/mainwindow.cpp:4078 src/mainwindow.cpp:4106
+#: src/mainwindow.cpp:4094 src/mainwindow.cpp:4122
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Büyük (%1x%2)"
 
-#: src/mainwindow.cpp:4080 src/mainwindow.cpp:4108
+#: src/mainwindow.cpp:4096 src/mainwindow.cpp:4124
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Çok Büyük (%1x%2)"
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -9885,12 +9925,12 @@ msgstr ""
 "Bu, menü çubuğunu tümüyle gizleyecektir. Ctrl+M ile yeniden "
 "gösterebilirsiniz."
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menü çubuğunu gizle"
 
-#: src/mainwindow.cpp:4180
+#: src/mainwindow.cpp:4196
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -9898,17 +9938,17 @@ msgstr ""
 "Simge temasını değişikliğini uygulamak için Kdenlive yeniden "
 "başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
 
-#: src/mainwindow.cpp:4374 src/timeline2/view/timelinecontroller.cpp:4973
+#: src/mainwindow.cpp:4390 src/timeline2/view/timelinecontroller.cpp:4973
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Geçerli projede altyazı yok"
 
-#: src/mainwindow.cpp:4461
+#: src/mainwindow.cpp:4477
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
 
-#: src/mainwindow.cpp:4562
+#: src/mainwindow.cpp:4578
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Önbelleklenmiş veri boyutu denetleniyor"
@@ -11238,7 +11278,7 @@ msgstr "Veri Yüklenirken Hata"
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Resource saved to %1"
-msgstr "Özkaynaklar %1 konumuna kaydedildi"
+msgstr "Özkaynaklar, %1 konumuna kaydedildi"
 
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -11602,16 +11642,14 @@ msgid "Showing backup files for %1"
 msgstr "%1 için yedek dosyalar gösteriliyor"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Kılavuzu Düzenle"
+msgstr "Kılavuz Kategorisini Düzenle"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Bu renk başka bir etikette halihazırda kullanılıyor"
+msgstr "Bu renk, başka bir kılavuzda halihazırda kullanılıyor"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11619,86 +11657,77 @@ msgid "Category %1"
 msgstr "Kategori %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Kılavuzu Sil"
+msgstr "Kılavuz Kategorisini Sil"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Bu kategoriyi kullanarak %1 imleyiciyi sil"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "İmleyicileri şuraya yeniden ata:"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "İçe Aktar"
+msgstr "İçe Aktar..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Dışa Aktarıldı:"
+msgstr "Dışa Aktar..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Profili yapılandır"
+msgstr "Kategorileri Yapılandır"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Kategori"
+msgstr "Kategoriye Göre Sırala"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Sırala"
+msgstr "Zamana Göre Sırala"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Açıklama"
+msgstr "Açıklamaya Göre Sırala"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Kılavuz ekle"
+msgstr "Yeni kılavuz ekleyin."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Yeni kılavuz ekle. Bu, geçerli kare konumunda yeni bir kılavuz ekleyecektir."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Kılavuzu sil"
+msgstr "Kılavuzu silin."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsi18nthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Kılavuzu sil. Bu, seçili tüm kılavuzları siler."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Kılavuzu sil"
+msgstr "Seçili kılavuzu düzenleyin."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11707,11 +11736,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Seçili kılavuzu düzenle. Birden çok kılavuzu seçmek, onların kategorisini "
+"düzenlemeye izin verir."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Kılavuz kategorilerini sil."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11720,18 +11751,20 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Kılavuz kategorilerini süz. Bu, bu iletişim kutusunda ve zaman akışında, "
+"seçili kılavuz kategorilerini göstermenize veya gizlemenize izin verir."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default Durations"
+#, kde-format
 msgid "Default guide category."
-msgstr "Öntanımlı Gecikmeler"
+msgstr "Öntanımlı kılavuz kategorisi."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"Öntanımlı kılavuz kategorisi. Yeni oluşturulan kılavuzlar için kullanılır."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11743,6 +11776,7 @@ msgstr "Klip İmleyicileri Yükle"
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
+"İmleyici dosyası 1MB'den büyük, içe aktarmak istediğinize emin misiniz?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -11751,22 +11785,19 @@ msgid "Cannot read file %1"
 msgstr "%1 dosyası okunamıyor"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Kılavuzu Kaldır"
+msgstr "Kılavuzları kaldır"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "İmleyiciler"
+msgstr "%1 için imleyiciler"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Zaman Akışı Düzenleme Kipi"
+msgstr "Zaman Akışı Kılavuzları"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -15435,7 +15466,7 @@ msgid ""
 "Increases the number of lines in the grid.<br />After 8 lines it will begin "
 "from 0 again."
 msgstr ""
-"Izgaradaki satır sayısını artırır.<br />8 satırdan sonra yeniden 0'dan "
+"Izgaradaki çizgi sayısını artırır.<br />8 satırdan sonra yeniden 0'dan "
 "başlayacaktır."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
@@ -17020,24 +17051,21 @@ msgstr "İmleyici Türü:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Farklı Kaydet"
+msgstr "Farklı Kaydet:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "Kdenlive JSON"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Seçenekler"
+msgstr "Metin Seçenekleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17091,44 +17119,39 @@ msgstr "Renk 1"
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuideCategories_UI)
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuidesList_UI)
 #: src/ui/guidecategories_ui.ui:14 src/ui/guideslist_ui.ui:14
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Form"
-msgstr "Biçim:"
+msgstr "Biçim"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Kalıbı sil."
+msgstr "Kategoriyi sil"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Add category"
-msgstr "Kategori"
+msgstr "Kategori ekle"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Kategori"
+msgstr "Kategoriyi düzenle"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Kılavuzlar ve İmleyiciler Kategorileri"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "MetinEtiketi"
+msgstr "KSıkıştırılmışMetinEtiketi"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
@@ -17480,24 +17503,21 @@ msgstr "Açıklama"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Klip imleyicileri ekle:"
+msgstr "Birden çok imleyici ekle"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Sayaç"
+msgstr "Sayım"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interval"
-msgstr "Arayüz"
+msgstr "Aralık"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
@@ -17549,10 +17569,9 @@ msgstr "Elle ara"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Tanımlamayı başlat"
+msgstr "Başlangıç Konumu"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -19021,6 +19040,12 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "Duplicate selected keyframe"
+#~ msgstr "Seçili anahtar kareyi yinele"
+
+#~ msgid "Copy Value at Cursor Position to Clipboard"
+#~ msgstr "İmleç Konumundaki Değeri Panoya Kopyala"
 
 #~ msgid "Colors"
 #~ msgstr "Renkler"
