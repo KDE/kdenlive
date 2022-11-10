@@ -259,6 +259,20 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
+QString Core::openExternalApp(const QString &appPath, QStringList args)
+{
+#if defined(Q_OS_MACOS)
+    args.prepend({QStringLiteral("-a"), appPath, QStringLiteral("--args")});
+    appPath = QStringLiteral("open");
+#endif
+    QProcess process;
+    qDebug() << "Starting external app" << appPath << "with arguments" << args;
+    if (!process.startDetached(appPath, args)) {
+        return process.errorString();
+    }
+    return QString();
+}
+
 const QString Core::nameForLumaFile(const QString &filename)
 {
     static QMap<QString, QString> names;

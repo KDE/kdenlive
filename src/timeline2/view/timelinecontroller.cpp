@@ -23,6 +23,7 @@
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "glaxnimateluncher.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioEnvelope.h"
 #include "mainwindow.h"
@@ -3809,6 +3810,24 @@ void TimelineController::editTitleClip(int id)
     }
     seekToMouse();
     pCore->bin()->showTitleWidget(binClip);
+}
+
+void TimelineController::editAnimationClip(int id)
+{
+    if (id == -1) {
+        id = m_root->property("mainItemId").toInt();
+        if (id == -1) {
+            std::unordered_set<int> sel = m_model->getCurrentSelection();
+            if (!sel.empty()) {
+                id = *sel.begin();
+            }
+            if (id == -1 || !m_model->isItem(id) || !m_model->isClip(id)) {
+                pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
+                return;
+            }
+        }
+    }
+    GlaxnimateLuncher::instance().openClip(id);
 }
 
 QPoint TimelineController::selectionInOut() const

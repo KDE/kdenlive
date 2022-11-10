@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "glaxnimateluncher.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
@@ -156,8 +157,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 
 void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId)
 {
-    if (KdenliveSettings::glaxnimatePath().isEmpty()) {
-        KMessageBox::error(QApplication::activeWindow(), i18n("Please install Glaxnimate to edit Lottie animations."));
+    if (!GlaxnimateLuncher::instance().checkInstalled()) {
         return;
     }
     QDir dir(doc->projectDataFolder());
@@ -227,7 +227,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     QTextStream out(&file);
     out << templateJson;
     file.close();
-    QProcess::startDetached(KdenliveSettings::glaxnimatePath(), {fileName});
+    GlaxnimateLuncher::instance().openFile(fileName);
     // Add clip to project
     QDomDocument xml;
     QDomElement prod = xml.createElement(QStringLiteral("producer"));

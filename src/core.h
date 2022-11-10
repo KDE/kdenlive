@@ -101,6 +101,9 @@ public:
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
 
+    /** @brief Open a file using an external app. */
+    QString openExternalApp(const QString &appPath, const QStringList args);
+
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
     /** @brief Returns a pointer to the current project. */
