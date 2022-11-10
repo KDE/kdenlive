@@ -325,7 +325,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                             end = dialogue.at(2);
                             endPos = stringtoTime(end)/transformMult;
                             // Text field is always the last field, since it can have commas
-                            comment = line.section(",", numEventFields-1);
+                            comment = line.section(",", numEventFields - 1);
                             // qDebug()<<"Start: "<< start << "End: "<<end << comment;
                             if (endPos > startPos) {
                                 addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);

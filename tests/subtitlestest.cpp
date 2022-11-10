@@ -115,9 +115,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         REQUIRE(subtitleModel->rowCount() == 2);
         QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
         QStringList subtitlesText;
-        QStringList control = {
-            QStringLiteral("Line with one comma, second part."),
-            QStringLiteral("Line with two commas, second part, third part.")};
+        QStringList control = {QStringLiteral("Line with one comma, second part."), QStringLiteral("Line with two commas, second part, third part.")};
         for (const auto &s : qAsConst(allSubs)) {
             subtitlesText << s.subtitle();
         }
