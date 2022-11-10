@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2022 Jean-Baptiste Mardelle <jb.kdenlive@org>
  * SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  */
-#ifndef MARKERCATEGORYBUTTON_H
-#define MARKERCATEGORYBUTTON_H
+
+#pragma once
 
 #include <QToolButton>
 #include <QWidget>
@@ -52,4 +52,3 @@ signals:
     void categoriesChanged(const QList<int> categories);
 };
 
-#endif // MARKERCATEGORYBUTTON_H
