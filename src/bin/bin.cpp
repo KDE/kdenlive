@@ -2439,6 +2439,11 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 if (clip->hasUrl()) {
                     isImported = true;
                 }
+            } else if (clip && clip->clipStatus() == FileStatus::StatusMissing) {
+                if (isClip) {
+                    emit findInTimeline(clip->clipId(), clip->timelineInstances());
+                }
+                m_openAction->setEnabled(false);
             } else {
                 // Disable find in timeline option
                 emit findInTimeline(QString());
