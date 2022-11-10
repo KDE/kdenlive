@@ -235,6 +235,9 @@ private:
     void buildSplitEffect(Mlt::Producer *original);
     /** @brief Returns true if monitor is currently visible (not in a tab or hidden)*/
     bool monitorVisible() const;
+    /** To easily get them when creating the right click menu */
+    QAction *m_markIn;
+    QAction *m_markOut;
 
 private slots:
     void slotSetThumbFrame();
