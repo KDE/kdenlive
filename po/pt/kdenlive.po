@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-09 00:46+0000\n"
-"PO-Revision-Date: 2022-11-05 13:11+0000\n"
+"POT-Creation-Date: 2022-11-10 00:45+0000\n"
+"PO-Revision-Date: 2022-11-09 22:20+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -108,6 +108,7 @@ msgstr ""
 "X-POFile-SpellExtra: mediainfo Otio ns vtt sbv Matroska mkv HH SS PipeWire\n"
 "X-POFile-IgnoreConsistency: Show\n"
 "X-POFile-SpellExtra: PSNR SSIM stdout MiB kdenliverenderprofiles knsrc\n"
+"X-POFile-SpellExtra: JSON KSqueezedTextLabel\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3343,7 +3344,7 @@ msgstr "Efeitos do grupo %1"
 #: src/assets/keyframes/model/keyframemodel.cpp:110
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
-#: src/assets/view/widgets/keyframewidget.cpp:65 src/dialogs/timeremap.cpp:1690
+#: src/assets/view/widgets/keyframewidget.cpp:69 src/dialogs/timeremap.cpp:1690
 #: src/dialogs/timeremap.cpp:1709
 #, kde-format
 msgid "Add keyframe"
@@ -3358,7 +3359,7 @@ msgstr "Mudar o tipo de imagem-chave"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:200
 #: src/assets/keyframes/model/keyframemodellist.cpp:181
-#: src/assets/view/widgets/keyframewidget.cpp:67 src/dialogs/timeremap.cpp:1706
+#: src/assets/view/widgets/keyframewidget.cpp:71 src/dialogs/timeremap.cpp:1706
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Apagar a imagem-chave"
@@ -3372,7 +3373,7 @@ msgstr "Mover as imagens-chave"
 #: src/assets/keyframes/model/keyframemodel.cpp:416
 #: src/assets/keyframes/model/keyframemodellist.cpp:225
 #: src/assets/keyframes/model/keyframemodellist.cpp:269
-#: src/assets/keyframes/view/keyframeview.cpp:290
+#: src/assets/keyframes/view/keyframeview.cpp:295
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3417,62 +3418,62 @@ msgstr ""
 "Foi detectada uma imagem-chave em falta em %1; foi adicionada de novo "
 "automaticamente"
 
-#: src/assets/keyframes/view/keyframeview.cpp:125
+#: src/assets/keyframes/view/keyframeview.cpp:130
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Imagem-chave duplicada"
 
-#: src/assets/keyframes/view/keyframeview.cpp:178
+#: src/assets/keyframes/view/keyframeview.cpp:183
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Não é possível remover a última imagem-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:191
+#: src/assets/keyframes/view/keyframeview.cpp:196
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "Apagar a imagem-chave"
 msgstr[1] "Apagar as imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:639
+#: src/assets/keyframes/view/keyframeview.cpp:644
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Mover a imagem-chave"
 msgstr[1] "Mover as imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:895
+#: src/assets/keyframes/view/keyframeview.cpp:900
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Actualizar a posição X das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:903
+#: src/assets/keyframes/view/keyframeview.cpp:908
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Actualizar a posição Y das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:911
+#: src/assets/keyframes/view/keyframeview.cpp:916
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Actualizar a largura das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:919
+#: src/assets/keyframes/view/keyframeview.cpp:924
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Actualizar a altura das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:927
+#: src/assets/keyframes/view/keyframeview.cpp:932
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Actualizar a opacidade das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:932
-#: src/assets/keyframes/view/keyframeview.cpp:934
+#: src/assets/keyframes/view/keyframeview.cpp:937
+#: src/assets/keyframes/view/keyframeview.cpp:939
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Actualizar o valor das imagens-chave"
 
-#: src/assets/keyframes/view/keyframeview.cpp:938
+#: src/assets/keyframes/view/keyframeview.cpp:943
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "O valor da imagem-chave foi copiado"
@@ -3484,7 +3485,7 @@ msgid "Edit %1"
 msgstr "Editar o %1"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:541
+#: src/assets/view/widgets/keyframewidget.cpp:553
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Editar a imagem-chave %1"
@@ -3494,8 +3495,8 @@ msgstr "Editar a imagem-chave %1"
 msgid "Update %1"
 msgstr "Actualizar o %1"
 
-#: src/assets/model/assetparametermodel.cpp:1180
-#: src/assets/model/assetparametermodel.cpp:1227
+#: src/assets/model/assetparametermodel.cpp:1201
+#: src/assets/model/assetparametermodel.cpp:1248
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Não é possível aceder ao ficheiro de predefinições %1"
@@ -3521,14 +3522,14 @@ msgstr "Actualizar a predefinição actual"
 msgid "Delete preset"
 msgstr "Apagar a predefinição"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Indique o Nome da Predefinição"
 
-#: src/assets/view/assetparameterview.cpp:327
+#: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1358
 #, kde-format
 msgid "Enter the name of this preset:"
@@ -3703,16 +3704,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:377
 #: src/assets/view/widgets/keyframeimport.cpp:764
-#: src/assets/view/widgets/keyframewidget.cpp:234
-#: src/assets/view/widgets/keyframewidget.cpp:295
+#: src/assets/view/widgets/keyframewidget.cpp:245
+#: src/assets/view/widgets/keyframewidget.cpp:306
 #, kde-format
 msgid "Width"
 msgstr "Largura"
 
 #: src/assets/view/widgets/keyframeimport.cpp:380
 #: src/assets/view/widgets/keyframeimport.cpp:772
-#: src/assets/view/widgets/keyframewidget.cpp:233
-#: src/assets/view/widgets/keyframewidget.cpp:289
+#: src/assets/view/widgets/keyframewidget.cpp:244
+#: src/assets/view/widgets/keyframewidget.cpp:300
 #, kde-format
 msgid "Height"
 msgstr "Altura"
@@ -3740,118 +3741,178 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "Importar as imagens-chave da área de transferência"
 
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1694
+#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1694
 #: src/mainwindow.cpp:1717
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Ir para a imagem-chave anterior"
 
-#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1692
+#: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1692
 #: src/mainwindow.cpp:1715
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Ir para a imagem-chave seguinte"
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1698
+#: src/assets/view/widgets/keyframewidget.cpp:85 src/dialogs/timeremap.cpp:1698
 #: src/dialogs/timeremap.cpp:1699
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Mover a imagem-chave seleccionada para o cursor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:84
-#, kde-format
-msgid "Duplicate selected keyframe"
-msgstr "Duplicar a imagem-chave seleccionada"
+#: src/assets/view/widgets/keyframewidget.cpp:88
+#: src/assets/view/widgets/keyframewidget.cpp:90
+#, fuzzy, kde-format
+#| msgid "Show keyframes"
+msgid "Copy keyframes"
+msgstr "Mostrar as imagens-chave"
 
-#: src/assets/view/widgets/keyframewidget.cpp:87
+#: src/assets/view/widgets/keyframewidget.cpp:92
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:94
+#: src/assets/view/widgets/keyframewidget.cpp:784
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Paste keyframe"
+msgstr "Actualizar a imagem-chave"
+
+#: src/assets/view/widgets/keyframewidget.cpp:96
+#, fuzzy, kde-format
+#| msgid "Update keyframe"
+msgid "Paste keyframes"
+msgstr "Actualizar a imagem-chave"
+
+#: src/assets/view/widgets/keyframewidget.cpp:97
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Aplicar o valor da posição actual às imagens-chave seleccionadas"
 
-#: src/assets/view/widgets/keyframewidget.cpp:90
+#: src/assets/view/widgets/keyframewidget.cpp:102
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Interpolação de imagens-chave"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/view/widgets/keyframewidget.cpp:91
-#: src/assets/view/widgets/keyframewidget.cpp:153 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:103
+#: src/assets/view/widgets/keyframewidget.cpp:165 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Linear"
 
-#: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:149
+#: src/assets/view/widgets/keyframewidget.cpp:107
+#: src/assets/view/widgets/keyframewidget.cpp:161
 #, kde-format
 msgid "Discrete"
 msgstr "Discreta"
 
-#: src/assets/view/widgets/keyframewidget.cpp:99
-#: src/assets/view/widgets/keyframewidget.cpp:157
+#: src/assets/view/widgets/keyframewidget.cpp:111
+#: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Smooth"
 msgstr "Suave"
 
-#: src/assets/view/widgets/keyframewidget.cpp:126
+#: src/assets/view/widgets/keyframewidget.cpp:119
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Ir para a Imagem-Chave ao Seleccionar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:131
-#, kde-format
-msgid "Copy Keyframes to Clipboard"
+#: src/assets/view/widgets/keyframewidget.cpp:146
+#, fuzzy, kde-format
+#| msgid "Copy Keyframes to Clipboard"
+msgid "Copy All Keyframes to Clipboard"
 msgstr "Copiar as Imagens-Chave para a Área de Transferência"
 
-#: src/assets/view/widgets/keyframewidget.cpp:133
-#, kde-format
-msgid "Copy Value at Cursor Position to Clipboard"
-msgstr "Copiar o Valor na Posição do Cursor para a Área de Transferência"
-
-#: src/assets/view/widgets/keyframewidget.cpp:135
+#: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Importar as Imagens-Chave da Área de Transferência…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:144
+#: src/assets/view/widgets/keyframewidget.cpp:156
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Remover Todas as Imagens-Chave após o Cursor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:160
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Tipo de Imagem-Chave Predefinido"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:184 src/bin/bin.cpp:1320
+#: src/assets/view/widgets/keyframewidget.cpp:196 src/bin/bin.cpp:1320
 #: src/ui/clipstabilize_ui.ui:34
 #, kde-format
 msgid "Options"
 msgstr "Opções"
 
-#: src/assets/view/widgets/keyframewidget.cpp:231
-#: src/assets/view/widgets/keyframewidget.cpp:283
+#: src/assets/view/widgets/keyframewidget.cpp:242
+#: src/assets/view/widgets/keyframewidget.cpp:294
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Opacidade"
 
-#: src/assets/view/widgets/keyframewidget.cpp:235
-#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:246
+#: src/assets/view/widgets/keyframewidget.cpp:318
 #, kde-format
 msgid "Y position"
 msgstr "Posição em Y"
 
-#: src/assets/view/widgets/keyframewidget.cpp:236
-#: src/assets/view/widgets/keyframewidget.cpp:301
+#: src/assets/view/widgets/keyframewidget.cpp:247
+#: src/assets/view/widgets/keyframewidget.cpp:312
 #, kde-format
 msgid "X position"
 msgstr "Posição em X"
 
-#: src/assets/view/widgets/keyframewidget.cpp:255
+#: src/assets/view/widgets/keyframewidget.cpp:266
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Seleccione os parâmetros a copiar"
+
+#: src/assets/view/widgets/keyframewidget.cpp:724
+#, fuzzy, kde-format
+#| msgid "Keyframe value copied"
+msgid "Keyframes copied"
+msgstr "O valor da imagem-chave foi copiado"
+
+#: src/assets/view/widgets/keyframewidget.cpp:735
+#, fuzzy, kde-format
+#| msgid "No valid data in clipboard"
+msgid "No valid keyframe data in clipboard"
+msgstr "Nenhuns dados válidos na área de transferência"
+
+#: src/assets/view/widgets/keyframewidget.cpp:794
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary files"
+msgid "Cannot copy current parameter values"
+msgstr "Não é possível criar os ficheiros temporários"
+
+#: src/assets/view/widgets/keyframewidget.cpp:799
+#: src/assets/view/widgets/keyframewidget.cpp:807
+#: src/assets/view/widgets/keyframewidget.cpp:819
+#, fuzzy, kde-format
+#| msgid "Keyframe value copied"
+msgid "Current values copied"
+msgstr "O valor da imagem-chave foi copiado"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4145,7 +4206,7 @@ msgstr "Falta o 'clip' original"
 msgid "Unable to write to file %1"
 msgstr "Não é possível gravar no ficheiro %1"
 
-#: src/bin/bin.cpp:1861 src/bin/bin.cpp:2254 src/doc/kdenlivedoc.cpp:709
+#: src/bin/bin.cpp:1861 src/bin/bin.cpp:2254 src/doc/kdenlivedoc.cpp:710
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4640,10 +4701,9 @@ msgid "Audio stream %1"
 msgstr "Sequência de áudio %1"
 
 #: src/bin/bin.cpp:5499
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Remover os 'clips'"
+msgstr "Remover os marcadores dos 'clips'"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4756,7 +4816,7 @@ msgstr "Lista de Reprodução MLT (*.mlt)"
 #: src/bin/model/markerlistmodel.cpp:87
 #, kde-format
 msgid "Update guides categories"
-msgstr ""
+msgstr "Actualizar as categorias das guias"
 
 #: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
 #, kde-format
@@ -4819,10 +4879,9 @@ msgid "Marker"
 msgstr "Marcador"
 
 #: src/bin/model/markerlistmodel.cpp:690
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Item recuperado"
+msgstr "O %1 foi recuperado"
 
 #: src/bin/model/markerlistmodel.cpp:807
 #, kde-format
@@ -4842,40 +4901,34 @@ msgid "No guide found at current position"
 msgstr "Não foi encontrado nenhum guia na posição actual"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Editar a Guia"
+msgstr "Editar a Categoria das Guias"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Editar o Marcador"
+msgstr "Editar a Categoria dos Marcadores"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Categoria"
+msgstr "Categoria das Guias"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Categoria"
+msgstr "Categoria dos Marcadores"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Editar a guia"
+msgstr "Editar as guias"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Editar o marcador"
+msgstr "Editar os marcadores"
 
 #: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
 #: src/timeline2/view/timelinecontroller.cpp:1340
@@ -4894,28 +4947,24 @@ msgid "Edit Marker"
 msgstr "Editar o Marcador"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Adicionar uma Guia"
+msgstr "Adicionar Guias"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Marker"
+#, kde-format
 msgid "Add Markers"
-msgstr "Adicionar um Marcador"
+msgstr "Adicionar Marcadores"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Adicionar uma guia"
+msgstr "Adicionar guias"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Adicionar um marcador"
+msgstr "Adicionar marcadores"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -4963,7 +5012,7 @@ msgstr ""
 "O ficheiro %1 já existe.\n"
 "Deseja sobrepô-lo?"
 
-#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:953
+#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:954
 #: src/project/dialogs/archivewidget.cpp:213
 #: src/project/projectmanager.cpp:1138
 #, kde-format
@@ -5494,7 +5543,7 @@ msgstr "'Clip' de Texto"
 msgid "Create Text clip"
 msgstr "Criar um 'clip' de texto"
 
-#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1025
+#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1026
 #, kde-format
 msgid "Template title clip"
 msgstr "Modelo do 'clip' do título"
@@ -5503,7 +5552,7 @@ msgstr "Modelo do 'clip' do título"
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:286
-#: src/mainwindow.cpp:3737 src/onlineresources/resourcewidget.cpp:545
+#: src/mainwindow.cpp:3753 src/onlineresources/resourcewidget.cpp:545
 #, kde-format
 msgid "All Files"
 msgstr "Todos os Ficheiros"
@@ -5642,36 +5691,32 @@ msgid "Copy to Clipboard"
 msgstr "Copiar para a Área de Transferência"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Save"
+#, kde-format
 msgid "Save"
-msgstr "&Gravar"
+msgstr "Gravar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Ficheiro de Texto (*.txt)"
+msgstr "Ficheiro de Texto"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "Ficheiro de GPS"
+msgstr "Ficheiro JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Exportar as Guias…"
+msgstr "Exportar os Dados das Guias"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1922
-#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:726
-#: src/doc/kdenlivedoc.cpp:734 src/doc/kdenlivedoc.cpp:1101
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:727
+#: src/doc/kdenlivedoc.cpp:735 src/doc/kdenlivedoc.cpp:1102
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -5695,16 +5740,14 @@ msgid "Cannot write to file %1"
 msgstr "Não é possível gravar no ficheiro %1"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "O recurso foi gravado em %1"
+msgstr "As guias foram gravadas em %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Categoria"
+msgstr "Nome da categoria"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5736,7 +5779,7 @@ msgstr "Posição da guia em imagens"
 msgid "Guide comment"
 msgstr "Comentário da guia"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3658
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3674
 #, kde-format
 msgid "Timeline"
 msgstr "Linha Temporal"
@@ -5744,7 +5787,7 @@ msgstr "Linha Temporal"
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
 #, kde-format
 msgid "Colors and Guides"
-msgstr ""
+msgstr "Cores e Guias"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -7304,18 +7347,18 @@ msgstr ""
 "A pasta de projecto do documento é inválida; a mudá-la para as pastas por "
 "omissão do sistema"
 
-#: src/doc/kdenlivedoc.cpp:557 src/doc/kdenlivedoc.cpp:567
+#: src/doc/kdenlivedoc.cpp:558 src/doc/kdenlivedoc.cpp:568
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Não é possível criar o ficheiro de gravação automática %1"
 
-#: src/doc/kdenlivedoc.cpp:562 src/doc/kdenlivedoc.cpp:687
+#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:688
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
 "Não é possível escrever no ficheiro %1; a lista de cenas está corrompida."
 
-#: src/doc/kdenlivedoc.cpp:705
+#: src/doc/kdenlivedoc.cpp:706
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7326,7 +7369,7 @@ msgstr ""
 "Para se certificar que não perde dados, foi criada uma cópia de segurança "
 "chamada %1."
 
-#: src/doc/kdenlivedoc.cpp:719
+#: src/doc/kdenlivedoc.cpp:720
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7335,28 +7378,28 @@ msgstr ""
 "O seu ficheiro de projecto foi actualizado para a última versão do documento "
 "do Kdenlive, mas não foi possível criar a cópia de segurança %1."
 
-#: src/doc/kdenlivedoc.cpp:863 src/project/projectmanager.cpp:1029
+#: src/doc/kdenlivedoc.cpp:864 src/project/projectmanager.cpp:1029
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Erro ao mover a pasta do projecto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1011
+#: src/doc/kdenlivedoc.cpp:1012
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Indique a Localização do Modelo"
 
-#: src/doc/kdenlivedoc.cpp:1108
+#: src/doc/kdenlivedoc.cpp:1109
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Foram importados os seguintes efeitos do projecto:"
 
-#: src/doc/kdenlivedoc.cpp:1141 src/doc/kdenlivedoc.cpp:1155
+#: src/doc/kdenlivedoc.cpp:1142 src/doc/kdenlivedoc.cpp:1156
 #, kde-format
 msgid "Project Folder"
 msgstr "Pasta do Projecto"
 
-#: src/doc/kdenlivedoc.cpp:1199 src/doc/kdenlivedoc.cpp:1207
+#: src/doc/kdenlivedoc.cpp:1200 src/doc/kdenlivedoc.cpp:1208
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7365,21 +7408,21 @@ msgstr ""
 "Não é possível criar a cópia de segurança:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1352
+#: src/doc/kdenlivedoc.cpp:1353
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Adicionar um 'clip' indirecto"
 msgstr[1] "Adicionar os 'clips' indirectos"
 
-#: src/doc/kdenlivedoc.cpp:1354
+#: src/doc/kdenlivedoc.cpp:1355
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Remover o 'clip' indirecto"
 msgstr[1] "Remover os 'clips' indirectos"
 
-#: src/doc/kdenlivedoc.cpp:1398 src/doc/kdenlivedoc.cpp:1432
+#: src/doc/kdenlivedoc.cpp:1399 src/doc/kdenlivedoc.cpp:1433
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "O tipo de 'clip' não suporta 'clips' indirectos"
@@ -7490,10 +7533,9 @@ msgid "Cyan"
 msgstr "Cíano"
 
 #: src/doc/kdenlivedoc.cpp:2106
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Categoria %1"
+msgstr "Categoria %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -8030,13 +8072,13 @@ msgid "Markers"
 msgstr "Marcadores"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3613
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3629
 #, kde-format
 msgid "Extract Audio"
 msgstr "Extrair o Áudio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3581
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3597
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Tarefas do 'Clip'"
@@ -8694,10 +8736,9 @@ msgstr "Reconfiguração do Tempo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:276 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "&Guias"
+msgstr "Guias"
 
 #: src/mainwindow.cpp:339 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9559,10 +9600,9 @@ msgid "Edit Guide…"
 msgstr "Editar a Guia…"
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Procurar…"
+msgstr "Procurar uma Guia…"
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9575,10 +9615,9 @@ msgid "Guides Locked"
 msgstr "Guias Bloqueadas"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Mostrar as guias:"
+msgstr "Bloquear as guias"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -9587,6 +9626,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Bloqueia as guias. Quando estão bloqueadas, não se movem quando usar a "
+"ferramenta de espaços ou quando inserir/remover espaços em branco nas faixas."
 
 #: src/mainwindow.cpp:1801
 #, kde-format
@@ -9954,84 +9995,84 @@ msgstr "Inserir"
 msgid "Overwrite"
 msgstr "Sobrepor"
 
-#: src/mainwindow.cpp:3586
+#: src/mainwindow.cpp:3602
 #, kde-format
 msgid "Stabilize"
 msgstr "Estabilizar"
 
-#: src/mainwindow.cpp:3591
+#: src/mainwindow.cpp:3607
 #, kde-format
 msgid "Automatic Scene Split…"
 msgstr "Divisão de Cenas Automática…"
 
-#: src/mainwindow.cpp:3596
+#: src/mainwindow.cpp:3612
 #, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplicar o 'Clip' com Mudança de Velocidade…"
 
-#: src/mainwindow.cpp:3612
+#: src/mainwindow.cpp:3628
 #, kde-format
 msgid "Transcoders"
 msgstr "Conversores"
 
-#: src/mainwindow.cpp:3657
+#: src/mainwindow.cpp:3673
 #, kde-format
 msgid "Interface"
 msgstr "Interface"
 
-#: src/mainwindow.cpp:3673
+#: src/mainwindow.cpp:3689
 #, kde-format
 msgid "Raise %1"
 msgstr "Elevar o %1"
 
-#: src/mainwindow.cpp:3739
+#: src/mainwindow.cpp:3755
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ficheiros a Converter"
 
-#: src/mainwindow.cpp:3887
+#: src/mainwindow.cpp:3903
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Não foi possível gravar o ficheiro do projecto para o arquivar."
 
-#: src/mainwindow.cpp:3893
+#: src/mainwindow.cpp:3909
 #, kde-format
 msgid "Archiving project"
 msgstr "A arquivar o projecto"
 
-#: src/mainwindow.cpp:4049
+#: src/mainwindow.cpp:4065
 #, kde-format
 msgid "Icon Size"
 msgstr "Tamanho dos Ícones"
 
-#: src/mainwindow.cpp:4053
+#: src/mainwindow.cpp:4069
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Predefinição"
 
-#: src/mainwindow.cpp:4074 src/mainwindow.cpp:4102
+#: src/mainwindow.cpp:4090 src/mainwindow.cpp:4118
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Pequena (%1x%2)"
 
-#: src/mainwindow.cpp:4076 src/mainwindow.cpp:4104
+#: src/mainwindow.cpp:4092 src/mainwindow.cpp:4120
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Média (%1x%2)"
 
-#: src/mainwindow.cpp:4078 src/mainwindow.cpp:4106
+#: src/mainwindow.cpp:4094 src/mainwindow.cpp:4122
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Grande (%1x%2)"
 
-#: src/mainwindow.cpp:4080 src/mainwindow.cpp:4108
+#: src/mainwindow.cpp:4096 src/mainwindow.cpp:4124
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Enorme (%1x%2)"
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -10040,12 +10081,12 @@ msgstr ""
 "Isto irá esconder o menu por completo; podê-lo-á voltar a mostrar se "
 "carregar em Ctrl+M."
 
-#: src/mainwindow.cpp:4165
+#: src/mainwindow.cpp:4181
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Esconder o menu"
 
-#: src/mainwindow.cpp:4180
+#: src/mainwindow.cpp:4196
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -10053,17 +10094,17 @@ msgstr ""
 "O Kdenlive tem de ser reiniciado para aplicar a mudança do tema de ícones. "
 "Deseja reiniciar agora?"
 
-#: src/mainwindow.cpp:4374 src/timeline2/view/timelinecontroller.cpp:4973
+#: src/mainwindow.cpp:4390 src/timeline2/view/timelinecontroller.cpp:4973
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Não existem legendas no projecto actual"
 
-#: src/mainwindow.cpp:4461
+#: src/mainwindow.cpp:4477
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Grupo do Projecto %1"
 
-#: src/mainwindow.cpp:4562
+#: src/mainwindow.cpp:4578
 #, kde-format
 msgid "Checking cached data size"
 msgstr "A verificar o tamanho dos dados em 'cache'"
@@ -11761,16 +11802,14 @@ msgid "Showing backup files for %1"
 msgstr "A mostrar os ficheiros de cópias de segurança de %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Editar a Guia"
+msgstr "Editar a Categoria da Guia"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Esta cor já está a ser usada noutra marca"
+msgstr "Esta cor já está a ser usada noutra categoria"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11778,86 +11817,78 @@ msgid "Category %1"
 msgstr "Categoria %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Apagar a Guia"
+msgstr "Apagar a Categoria da Guia"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Apagar os %1 marcadores com esta categoria"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Atribuir os marcadores a :"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Importar"
+msgstr "Importar..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Exportado:"
+msgstr "Exportar..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Configurar os perfis"
+msgstr "Configurar as Categorias"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Categoria"
+msgstr "Ordenar por Categoria"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Ordenar Por"
+msgstr "Ordenar pelo Tempo"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Comentário"
+msgstr "Ordenar pelo Comentário"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Adicionar uma guia"
+msgstr "Adicionar uma nova guia."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Adiciona uma nova guia. Isto irá adicionar uma guia à posição actual da "
+"imagem."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Apagar a guia"
+msgstr "Apagar a guia."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsi18nthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Apaga a guia. Isto irá apagar todas as guias seleccionadas."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Apagar a guia"
+msgstr "Editar a guia seleccionada."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11866,11 +11897,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Edita a guia seleccionada. A selecção de várias guias permite a alteração da "
+"categoria das mesmas."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Filtrar as categorias das guias."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11879,18 +11912,21 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Filtra as categorias das guias. Isto permite-lhe mostrar ou esconder as "
+"categorias das guias seleccionadas nesta janela e na linha temporal."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default Durations"
+#, kde-format
 msgid "Default guide category."
-msgstr "Durações Predefinidas"
+msgstr "A categoria predefinida das guias."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"A categoria de guias predefinida. A categoria usada para as guias acabadas "
+"de criar."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11902,6 +11938,8 @@ msgstr "Carregar os Marcadores do 'Clip'"
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
+"O ficheiro de marcadores tem mais de 1MB; tem a certeza que o deseja "
+"importar ?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -11910,22 +11948,19 @@ msgid "Cannot read file %1"
 msgstr "Não é possível ler o ficheiro %1"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Remover a Guia"
+msgstr "Remover as guias"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Marcadores"
+msgstr "Marcadores do %1"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Modo de Edição da Linha Temporal"
+msgstr "Guias da Linha Temporal"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -17226,24 +17261,21 @@ msgstr "Tipo de Marcador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Gravar Como"
+msgstr "Gravar Como:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "JSON do Kdenlive"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Opções"
+msgstr "Opções do Texto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17297,44 +17329,39 @@ msgstr "Cor 1"
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuideCategories_UI)
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuidesList_UI)
 #: src/ui/guidecategories_ui.ui:14 src/ui/guideslist_ui.ui:14
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Form"
-msgstr "Formato:"
+msgstr "Formulário"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Apagar o padrão."
+msgstr "Apagar a categoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Add category"
-msgstr "Categoria"
+msgstr "Adicionar uma categoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Categoria"
+msgstr "Editar a categoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Categorias das Guias e dos Marcadores"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "TextLabel"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
@@ -17686,24 +17713,21 @@ msgstr "Comentário"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Adicionar os marcadores do 'clip':"
+msgstr "Adicionar vários marcadores"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Contador"
+msgstr "Quantidade"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interval"
-msgstr "Interface"
+msgstr "Intervalo"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
@@ -17755,10 +17779,9 @@ msgstr "Procurar manualmente"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Iniciar o reconhecimento"
+msgstr "Posição Inicial"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -19227,24 +19250,8 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
-#~ msgid "Colors"
-#~ msgstr "Cores"
+#~ msgid "Duplicate selected keyframe"
+#~ msgstr "Duplicar a imagem-chave seleccionada"
 
-#~ msgid "Add marker…"
-#~ msgstr "Adicionar um marcador…"
-
-#~ msgid "Edit marker…"
-#~ msgstr "Editar o marcador…"
-
-#~ msgid "Export markers…"
-#~ msgstr "Exportar os marcadores…"
-
-#~ msgid "Import markers…"
-#~ msgstr "Importar marcadores…"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Clip Markers"
-#~ msgstr "Gravar os Marcadores do 'Clip'"
-
-#~ msgid "An error occurred while parsing the marker file"
-#~ msgstr "Ocorreu um erro ao processar o ficheiro de marcadores"
+#~ msgid "Copy Value at Cursor Position to Clipboard"
+#~ msgstr "Copiar o Valor na Posição do Cursor para a Área de Transferência"
