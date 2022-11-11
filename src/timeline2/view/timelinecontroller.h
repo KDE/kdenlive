@@ -92,6 +92,9 @@ public:
     /** @brief Edit a title clip with a title widget
      */
     Q_INVOKABLE void editTitleClip(int itemId = -1);
+    /** @brief Edit an animation with Glaxnimate
+     */
+    Q_INVOKABLE void editAnimationClip(int itemId = -1);
 
     /** @brief Returns the topmost track containing a selected item (-1 if selection is embty) */
     Q_INVOKABLE int selectedTrack() const;

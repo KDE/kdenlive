@@ -586,8 +586,6 @@ private:
     void showBinInfo();
     /** @brief Find all clip Ids that have a specific tag. */
     const QList<QString> getAllClipsWithTag(const QString &tag);
-    /** @brief Open a file using an external app. */
-    void openExternalApp(const QString appPath, const QString url);
 
 signals:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);

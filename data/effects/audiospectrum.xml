@@ -18,11 +18,11 @@
             <name>Foreground color</name>
             <comment>The color of the waveform.</comment>
         </parameter>
-        <parameter type="constant" name="thickness" default="0" min="0" max="20">
+        <parameter type="animated" name="thickness" default="0" min="0" max="20">
             <name>Line Thickness</name>
             <comment>The thickness of the line used to draw the waveform for line graph. The thickness of the bar for bar graph.</comment>
         </parameter>
-        <parameter type="constant" name="angle" default="0" min="0" max="360">
+        <parameter type="animated" name="angle" default="0" min="0" max="360">
             <name>Angle</name>
             <comment>The rotation angle to be applied to the waveform.</comment>
         </parameter>
@@ -46,19 +46,19 @@
             <name>Line Tension</name>
             <comment>Affects the amount of curve in the line interpolating between points. 0.0 = a straight line between points. 100 = very curved lines between points. Values &lt; 0 and &gt; 100 will cause loops in the lines. Only applies to line graph type.</comment>
         </parameter>
-        <parameter type="constant" name="bands" default="31" min="0" max="1000">
+        <parameter type="animated" name="bands" default="31" min="0" max="1000">
             <name>Points</name>
             <comment>The number of bands to draw in the spectrum. Each band shows up as a data point in the graph.</comment>
         </parameter>
-        <parameter type="constant" name="frequency_low" default="20" min="0" max="30000">
+        <parameter type="animated" name="frequency_low" default="20" min="0" max="30000">
             <name>Low Frequency</name>
             <comment>The low end of the frequency range to be used for the graph.</comment>
         </parameter>
-        <parameter type="constant" name="frequency_high" default="20000" min="0" max="30000">
+        <parameter type="animated" name="frequency_high" default="20000" min="0" max="30000">
             <name>High Frequency</name>
             <comment>The high end of the frequency range to be used for the graph.</comment>
         </parameter>
-        <parameter type="constant" name="threshold" default="-30" min="-100" max="0" suffix="dB">
+        <parameter type="animated" name="threshold" default="-30" min="-100" max="0" suffix="dB">
             <name>Level Threshold</name>
             <comment>The minimum amplitude of sound that must occur within the frequency range to cause the value to be applied.</comment>
         </parameter>
