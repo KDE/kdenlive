@@ -338,7 +338,6 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
         std::transform(clips.begin(), clips.end(), std::inserter(roots, roots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
         std::unordered_set<int> groupsToRemove;
         int firstCid = -1;
-        int firstPosition = -1;
         int spaceDuration = -1;
         std::unordered_set<int> toSelect;
         //  List all clips involved in the spacer operation
@@ -411,9 +410,11 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
             } else {
                 // Find first clip on track
                 int pos = timeline->getItemPosition(r);
-                if (firstPosition == -1 || pos < firstPosition) {
-                    firstCid = r;
-                    firstPosition = pos;
+                int tid = timeline->getItemTrackId(r);
+                if (!firstClipOnTrack.contains(tid)) {
+                    firstClipOnTrack.insert(tid, r);
+                } else if (timeline->getItemPosition(firstClipOnTrack.value(tid)) > pos) {
+                    firstClipOnTrack.insert(tid, r);
                 }
             }
         }
