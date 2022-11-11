@@ -59,7 +59,7 @@ void GlaxnimateLuncher::openFile(const QString &filename)
 {
     QString error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), {filename});
     if (!error.isEmpty()) {
-        KMessageBox::detailedError(QApplication::activeWindow(), i18n("Failed to lunch Glaxnimate application"), error);
+        KMessageBox::detailedError(QApplication::activeWindow(), i18n("Failed to launch Glaxnimate application"), error);
         return;
     }
 }
@@ -124,7 +124,7 @@ void GlaxnimateLuncher::openClip(int clipId)
         }
     }
     if (!error.isEmpty()) {
-        KMessageBox::detailedError(QApplication::activeWindow(), i18n("Failed to lunch Glaxnimate application"), error);
+        KMessageBox::detailedError(QApplication::activeWindow(), i18n("Failed to launch Glaxnimate application"), error);
         return;
     }
 }
