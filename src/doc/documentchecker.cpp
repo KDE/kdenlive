@@ -383,12 +383,24 @@ bool DocumentChecker::hasErrorInClips()
             item->setData(0, hashRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash")));
             item->setData(0, sizeRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_size")));
             if (!m_rootReplacement.first.isEmpty()) {
-                const QString relocated = relocateResource(resource);
+                QString relocated;
+                if (type == ClipType::SlideShow) {
+                    // Strip filename
+                    relocated = QFileInfo(resource).absolutePath();
+                } else {
+                    relocated = resource;
+                }
+
+                relocated = relocateResource(relocated);
                 if (!relocated.isEmpty()) {
                     item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                     item->setData(0, statusRole, CLIPOK);
                     item->setToolTip(0, i18n("Relocated item"));
-                    resource = relocated;
+                    if (type == ClipType::SlideShow) {
+                        resource = QDir(relocated).absoluteFilePath(QFileInfo(resource).fileName());
+                    } else {
+                        resource = relocated;
+                    }
                 }
             }
             item->setText(1, resource);
@@ -610,7 +622,8 @@ const QString DocumentChecker::relocateResource(QString sourceResource)
 {
     if (sourceResource.startsWith(m_rootReplacement.first)) {
         sourceResource.replace(m_rootReplacement.first, m_rootReplacement.second);
-        if (QFile::exists(sourceResource)) {
+        // Use QFileInfo to ensure we also handle directories (for slideshows)
+        if (QFileInfo::exists(sourceResource)) {
             return sourceResource;
         }
         return QString();
@@ -622,7 +635,7 @@ const QString DocumentChecker::relocateResource(QString sourceResource)
     // Find common ancestor
     int ix = 0;
     for (auto &cut : cutRoot) {
-        if (ix < cutResource.size()) {
+        if (!cutResource.isEmpty()) {
             if (cutResource.first() != cut) {
                 break;
             }
@@ -643,7 +656,8 @@ const QString DocumentChecker::relocateResource(QString sourceResource)
     basePath.append(QLatin1Char('/'));
     basePath.append(cutResource.join(QLatin1Char('/')));
     qDebug() << "/// RESULTING PATH: " << basePath;
-    if (QFile::exists(basePath)) {
+    // Use QFileInfo to ensure we also handle directories (for slideshows)
+    if (QFileInfo::exists(basePath)) {
         return basePath;
     }
     return QString();
@@ -769,6 +783,7 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
         if (QFileInfo(original).isRelative()) {
             original.prepend(root);
         }
+
         // Check for slideshows
         bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QStringLiteral("\\.all.")) || original.contains(QLatin1Char('?')) ||
                          original.contains(QLatin1Char('%'));
@@ -776,9 +791,25 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
             original = QFileInfo(original).absolutePath();
         }
         if (!QFile::exists(original)) {
+            bool resourceFixed = false;
+            if (!m_rootReplacement.first.isEmpty()) {
+                QString movedOriginal = relocateResource(original);
+                if (!movedOriginal.isEmpty()) {
+                    if (slideshow) {
+                        movedOriginal = QDir(movedOriginal).absoluteFilePath(QFileInfo(original).fileName());
+                    }
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), movedOriginal);
+                    resourceFixed = true;
+                    if (proxyFound) {
+                        return QString();
+                    }
+                }
+            }
             if (!proxyFound) {
                 // Neither proxy nor original file found
-                m_missingClips.append(e);
+                if (!resourceFixed) {
+                    m_missingClips.append(e);
+                }
                 m_missingProxies.append(e);
             } else {
                 // clip has proxy but original clip is missing
@@ -1353,7 +1384,6 @@ void DocumentChecker::fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeLi
 {
     QDomElement e, property;
     QDomNodeList properties;
-    // int t = child->data(0, typeRole).toInt();
     if (child->data(0, statusRole).toInt() == CLIPOK) {
         QString id = child->data(0, idRole).toString();
         for (int i = 0; i < producers.count(); ++i) {
