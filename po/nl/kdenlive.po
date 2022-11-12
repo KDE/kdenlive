@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-11 02:31+0000\n"
+"POT-Creation-Date: 2022-11-12 02:29+0000\n"
 "PO-Revision-Date: 2022-11-10 18:36-0400\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -4099,7 +4099,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Bin-clips verwijderen"
 
-#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:560
+#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:572
 #, kde-format
 msgid "Missing source clip"
 msgstr "Ontbrekende oorspronkelijke clip"
@@ -6921,50 +6921,50 @@ msgstr "Titel afbeelding"
 msgid "Missing item"
 msgstr "Ontbrekend item"
 
-#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:390
-#: src/doc/documentchecker.cpp:1234
+#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:398
+#: src/doc/documentchecker.cpp:1265
 #, kde-format
 msgid "Relocated item"
 msgstr "Herplaatst item"
 
-#: src/doc/documentchecker.cpp:399
+#: src/doc/documentchecker.cpp:411
 #, kde-format
 msgid "Title Font"
 msgstr "Titel lettertype"
 
-#: src/doc/documentchecker.cpp:404
+#: src/doc/documentchecker.cpp:416
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 wordt vervangen door %2"
 
-#: src/doc/documentchecker.cpp:409
+#: src/doc/documentchecker.cpp:421
 #, kde-format
 msgid "Modified Clips"
 msgstr "Gewijzigde clips"
 
-#: src/doc/documentchecker.cpp:413
+#: src/doc/documentchecker.cpp:425
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "Clip %1 zal opnieuw geladen worden"
 
-#: src/doc/documentchecker.cpp:419
+#: src/doc/documentchecker.cpp:431
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Het projectbestand bevat ontbrekende clips of bestanden."
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:437
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Ontbrekend effect: %2 zal uit het project verwijderd worden."
 msgstr[1] "Ontbrekende effecten: %2 zal uit het project verwijderd worden."
 
-#: src/doc/documentchecker.cpp:432
+#: src/doc/documentchecker.cpp:444
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Ontbrekende proxies kunnen opnieuw aangemaakt worden bij het openen"
 
-#: src/doc/documentchecker.cpp:450
+#: src/doc/documentchecker.cpp:462
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -6978,7 +6978,7 @@ msgstr[1] ""
 "Dit project heeft %1 clips die worden vermist, maar met de proxies daarvan "
 "kan nog steeds worden gewerkt."
 
-#: src/doc/documentchecker.cpp:457
+#: src/doc/documentchecker.cpp:469
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -6989,13 +6989,13 @@ msgstr[1] ""
 "Het projectbestand bevat %1 gewijzigde clips, ze zullen opnieuw geladen "
 "worden."
 
-#: src/doc/documentchecker.cpp:538
+#: src/doc/documentchecker.cpp:550
 #: src/mltcontroller/clippropertiescontroller.cpp:415
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxy-clip"
 
-#: src/doc/documentchecker.cpp:541
+#: src/doc/documentchecker.cpp:553
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7006,68 +7006,68 @@ msgstr[1] ""
 "%1 ontbrekende proxy-clips, deze worden opnieuw aangemaakt bij het openen "
 "van het project"
 
-#: src/doc/documentchecker.cpp:544
+#: src/doc/documentchecker.cpp:556
 #, kde-format
 msgid "Missing proxy"
 msgstr "Ontbrekende proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:555 src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:567 src/doc/documentchecker.cpp:581
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Oorspronkelijke clip"
 
-#: src/doc/documentchecker.cpp:557
+#: src/doc/documentchecker.cpp:569
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 ontbrekende clips, alleen de proxies kunnen nog gebruikt worden."
 
-#: src/doc/documentchecker.cpp:911
+#: src/doc/documentchecker.cpp:942
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Clipmap"
 
-#: src/doc/documentchecker.cpp:942 src/doc/documentchecker.cpp:966
-#: src/doc/documentchecker.cpp:976 src/doc/documentchecker.cpp:988
+#: src/doc/documentchecker.cpp:973 src/doc/documentchecker.cpp:997
+#: src/doc/documentchecker.cpp:1007 src/doc/documentchecker.cpp:1019
 #, kde-format
 msgid "Recovered item"
 msgstr "Hersteld item"
 
-#: src/doc/documentchecker.cpp:1001
+#: src/doc/documentchecker.cpp:1032
 #, kde-format
 msgid "Search aborted"
 msgstr "Zoeken afgebroken"
 
-#: src/doc/documentchecker.cpp:1003
+#: src/doc/documentchecker.cpp:1034
 #, kde-format
 msgid "Search done"
 msgstr "Zoeken gedaan"
 
-#: src/doc/documentchecker.cpp:1099
+#: src/doc/documentchecker.cpp:1130
 #, kde-format
 msgid "Scanning %1"
 msgstr "Scant %1"
 
-#: src/doc/documentchecker.cpp:1196
+#: src/doc/documentchecker.cpp:1227
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Nieuwe locatie voor map invoeren"
 
-#: src/doc/documentchecker.cpp:1222
+#: src/doc/documentchecker.cpp:1253
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Geef nieuwe locatie voor bestand op"
 
-#: src/doc/documentchecker.cpp:1567
+#: src/doc/documentchecker.cpp:1597
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "De gemarkeerde clip zal verwijderd worden van het project"
 msgstr[1] "De gemarkeerde clips zullen verwijderd worden van het project"
 
-#: src/doc/documentchecker.cpp:1569
+#: src/doc/documentchecker.cpp:1599
 #, kde-format
 msgid "Remove clips"
 msgstr "Verwijder clips"
@@ -7357,7 +7357,7 @@ msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1908
+#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
@@ -9302,7 +9302,7 @@ msgstr "Verwijder markeerpunt"
 msgid "Edit Marker…"
 msgstr "Markering bewerken…"
 
-#: src/mainwindow.cpp:1605 src/timeline2/model/timelinefunctions.cpp:1053
+#: src/mainwindow.cpp:1605 src/timeline2/model/timelinefunctions.cpp:1054
 #, kde-format
 msgid "Restore Audio"
 msgstr "Geluid terugzetten"
@@ -13439,161 +13439,161 @@ msgstr "Geen clips om te knippen"
 msgid "Cut all clips"
 msgstr "Alle clips knippen"
 
-#: src/timeline2/model/timelinefunctions.cpp:539
+#: src/timeline2/model/timelinefunctions.cpp:540
 #: src/timeline2/view/timelinecontroller.cpp:1305
 #, kde-format
 msgid "Insert space"
 msgstr "Ruimte invoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:541
+#: src/timeline2/model/timelinefunctions.cpp:542
 #: src/timeline2/view/timelinecontroller.cpp:1307
 #, kde-format
 msgid "Remove space"
 msgstr "Verwijder ruimte"
 
-#: src/timeline2/model/timelinefunctions.cpp:621
+#: src/timeline2/model/timelinefunctions.cpp:622
 #, kde-format
 msgid "Lift zone"
 msgstr "Zone omhoog brengen"
 
-#: src/timeline2/model/timelinefunctions.cpp:621
+#: src/timeline2/model/timelinefunctions.cpp:622
 #, kde-format
 msgid "Extract zone"
 msgstr "Zone extraheren"
 
-#: src/timeline2/model/timelinefunctions.cpp:632
+#: src/timeline2/model/timelinefunctions.cpp:633
 #: src/timeline2/view/timelinecontroller.cpp:3043
 #: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Zone overschrijven"
 
-#: src/timeline2/model/timelinefunctions.cpp:632
+#: src/timeline2/model/timelinefunctions.cpp:633
 #: src/timeline2/view/timelinecontroller.cpp:3043
 #: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "Insert zone"
 msgstr "Zone invoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:634
+#: src/timeline2/model/timelinefunctions.cpp:635
 #: src/timeline2/view/timelinecontroller.cpp:3045
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Kon zone niet invoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:667
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Een track activeren door op een tracklabel te klikken"
 
-#: src/timeline2/model/timelinefunctions.cpp:854
+#: src/timeline2/model/timelinefunctions.cpp:855
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Kan geselecteerde groep niet verplaatsen"
 
-#: src/timeline2/model/timelinefunctions.cpp:955
-#: src/timeline2/model/timelinefunctions.cpp:959
-#: src/timeline2/model/timelinefunctions.cpp:966
+#: src/timeline2/model/timelinefunctions.cpp:956
+#: src/timeline2/model/timelinefunctions.cpp:960
+#: src/timeline2/model/timelinefunctions.cpp:967
 #: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "Enable clip"
 msgstr "Clip inschakelen"
 
-#: src/timeline2/model/timelinefunctions.cpp:955
-#: src/timeline2/model/timelinefunctions.cpp:959
-#: src/timeline2/model/timelinefunctions.cpp:966
+#: src/timeline2/model/timelinefunctions.cpp:956
+#: src/timeline2/model/timelinefunctions.cpp:960
+#: src/timeline2/model/timelinefunctions.cpp:967
 #: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "Disable clip"
 msgstr "Clip uitschakelen"
 
-#: src/timeline2/model/timelinefunctions.cpp:1008
+#: src/timeline2/model/timelinefunctions.cpp:1009
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Een of meer clips hebben geen audio of zijn al audio"
 
-#: src/timeline2/model/timelinefunctions.cpp:1025
+#: src/timeline2/model/timelinefunctions.cpp:1026
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Geen beschikbare audiotrack voor terugzetoperatie"
 
-#: src/timeline2/model/timelinefunctions.cpp:1033
-#: src/timeline2/model/timelinefunctions.cpp:1046
+#: src/timeline2/model/timelinefunctions.cpp:1034
+#: src/timeline2/model/timelinefunctions.cpp:1047
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Audio terugzetten is mislukt"
 
-#: src/timeline2/model/timelinefunctions.cpp:1085
+#: src/timeline2/model/timelinefunctions.cpp:1086
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Geen beschikbare videotrack voor terugzetoperatie"
 
-#: src/timeline2/model/timelinefunctions.cpp:1093
-#: src/timeline2/model/timelinefunctions.cpp:1106
+#: src/timeline2/model/timelinefunctions.cpp:1094
+#: src/timeline2/model/timelinefunctions.cpp:1107
 #, kde-format
 msgid "Video restore failed"
 msgstr "Video terugzetten is mislukt"
 
-#: src/timeline2/model/timelinefunctions.cpp:1112
+#: src/timeline2/model/timelinefunctions.cpp:1113
 #, kde-format
 msgid "Restore Video"
 msgstr "Video terugzetten"
 
-#: src/timeline2/model/timelinefunctions.cpp:1159
+#: src/timeline2/model/timelinefunctions.cpp:1160
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Compositietrack wijzigen"
 
-#: src/timeline2/model/timelinefunctions.cpp:1174
+#: src/timeline2/model/timelinefunctions.cpp:1175
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Kan multitrackview op een enkele track niet inschakelen"
 
-#: src/timeline2/model/timelinefunctions.cpp:1328
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Clip aan bibliotheek toevoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:1328
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Een naam voor de clip in de bibliotheek invoeren"
 
-#: src/timeline2/model/timelinefunctions.cpp:1650
+#: src/timeline2/model/timelinefunctions.cpp:1651
 #, kde-format
 msgid "Paste clips"
 msgstr "Clips plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:1661
+#: src/timeline2/model/timelinefunctions.cpp:1662
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Een andere plakbewerking is al gaande"
 
-#: src/timeline2/model/timelinefunctions.cpp:1673
+#: src/timeline2/model/timelinefunctions.cpp:1674
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Geen geldige gegevens in klembord"
 
-#: src/timeline2/model/timelinefunctions.cpp:1699
-#: src/timeline2/model/timelinefunctions.cpp:1757
-#: src/timeline2/model/timelinefunctions.cpp:1786
-#: src/timeline2/model/timelinefunctions.cpp:1817
-#: src/timeline2/model/timelinefunctions.cpp:1856
-#: src/timeline2/model/timelinefunctions.cpp:2007
+#: src/timeline2/model/timelinefunctions.cpp:1700
+#: src/timeline2/model/timelinefunctions.cpp:1758
+#: src/timeline2/model/timelinefunctions.cpp:1787
+#: src/timeline2/model/timelinefunctions.cpp:1818
+#: src/timeline2/model/timelinefunctions.cpp:1857
+#: src/timeline2/model/timelinefunctions.cpp:2008
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Niet genoeg tracks om klembord te plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:1887
-#: src/timeline2/model/timelinefunctions.cpp:1915
-#: src/timeline2/model/timelinefunctions.cpp:1920
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1888
+#: src/timeline2/model/timelinefunctions.cpp:1916
+#: src/timeline2/model/timelinefunctions.cpp:1921
 #, kde-format
 msgid "Pasted clips"
 msgstr "Geplakte clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1906
+#: src/timeline2/model/timelinefunctions.cpp:1907
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13602,43 +13602,43 @@ msgstr ""
 "Het bronproject heeft een andere framesnelheid (%1fps) dan uw huidige "
 "project.<br/>Clips of keyframes kunnen verstoord raken."
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1909
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Waarschuwing voor plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1909
 #, kde-format
 msgid "Paste"
 msgstr "Plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:1950
+#: src/timeline2/model/timelinefunctions.cpp:1951
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Kon bin-clip niet toevoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:1999
+#: src/timeline2/model/timelinefunctions.cpp:2000
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Niet alle clips zijn met succes gekopieerd"
 
-#: src/timeline2/model/timelinefunctions.cpp:2030
-#: src/timeline2/model/timelinefunctions.cpp:2151
+#: src/timeline2/model/timelinefunctions.cpp:2031
+#: src/timeline2/model/timelinefunctions.cpp:2152
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kon items niet in de tijdlijn plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2171
+#: src/timeline2/model/timelinefunctions.cpp:2172
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Tijdlijnclips plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2385
+#: src/timeline2/model/timelinefunctions.cpp:2386
 #, kde-format
 msgid "Remove space on track"
 msgstr "Ruimte op de track verwijderen"
 
-#: src/timeline2/model/timelinefunctions.cpp:2414
+#: src/timeline2/model/timelinefunctions.cpp:2415
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Clips op de track verwijderen"

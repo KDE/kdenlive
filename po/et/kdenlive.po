@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-11 02:31+0000\n"
+"POT-Creation-Date: 2022-11-12 02:29+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4162,7 +4162,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr ""
 
-#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:560
+#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:572
 #, kde-format
 msgid "Missing source clip"
 msgstr "Lähteklipp puudub"
@@ -7171,54 +7171,54 @@ msgstr "Tiitripilt"
 msgid "Missing item"
 msgstr "Üksus puudub"
 
-#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:390
-#: src/doc/documentchecker.cpp:1234
+#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:398
+#: src/doc/documentchecker.cpp:1265
 #, kde-format
 msgid "Relocated item"
 msgstr "Ümber tõstetud üksus"
 
-#: src/doc/documentchecker.cpp:399
+#: src/doc/documentchecker.cpp:411
 #, kde-format
 msgid "Title Font"
 msgstr "Tiitrifont"
 
-#: src/doc/documentchecker.cpp:404
+#: src/doc/documentchecker.cpp:416
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 asendatakse %2-ga "
 
-#: src/doc/documentchecker.cpp:409
+#: src/doc/documentchecker.cpp:421
 #, fuzzy, kde-format
 #| msgid "Move Clip"
 #| msgid_plural "Move Clips"
 msgid "Modified Clips"
 msgstr "Klipi liigutamine"
 
-#: src/doc/documentchecker.cpp:413
+#: src/doc/documentchecker.cpp:425
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be reloaded"
 msgstr "%1 asendatakse %2-ga "
 
-#: src/doc/documentchecker.cpp:419
+#: src/doc/documentchecker.cpp:431
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektifail sisaldab puuduvaid klippe või faile."
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:437
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Puuduv efekt: %2 eemaldatakse projektist."
 msgstr[1] "Puuduvad efektid: %2 eemaldatakse projektist."
 
-#: src/doc/documentchecker.cpp:432
+#: src/doc/documentchecker.cpp:444
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "Puuduvad asendusfailid luuakse uuesti pärast avamist."
 
-#: src/doc/documentchecker.cpp:450
+#: src/doc/documentchecker.cpp:462
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7232,7 +7232,7 @@ msgstr[1] ""
 "Projektifail sisaldab %1 puuduvat klippi, aga töötada võib siiski nende "
 "asendusklippidega."
 
-#: src/doc/documentchecker.cpp:457
+#: src/doc/documentchecker.cpp:469
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files."
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7241,87 +7241,87 @@ msgid_plural ""
 msgstr[0] "Projektifail sisaldab puuduvaid klippe või faile."
 msgstr[1] "Projektifail sisaldab puuduvaid klippe või faile."
 
-#: src/doc/documentchecker.cpp:538
+#: src/doc/documentchecker.cpp:550
 #: src/mltcontroller/clippropertiescontroller.cpp:415
 #, kde-format
 msgid "Proxy clip"
 msgstr "Asendusklipp"
 
-#: src/doc/documentchecker.cpp:541
+#: src/doc/documentchecker.cpp:553
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "%1 asendusklipp puudub, see luuakse uuesti projekti avamisel"
 msgstr[1] "%1 asendusklippi puudub, need luuakse uuesti projekti avamisel"
 
-#: src/doc/documentchecker.cpp:544
+#: src/doc/documentchecker.cpp:556
 #, kde-format
 msgid "Missing proxy"
 msgstr "Asendusklipp puudub"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:555 src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:567 src/doc/documentchecker.cpp:581
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Lähteklipp"
 
-#: src/doc/documentchecker.cpp:557
+#: src/doc/documentchecker.cpp:569
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 lähteklippi puudub, kasutada saab ainult asendusklippe"
 
-#: src/doc/documentchecker.cpp:911
+#: src/doc/documentchecker.cpp:942
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klippide kataloog"
 
-#: src/doc/documentchecker.cpp:942 src/doc/documentchecker.cpp:966
-#: src/doc/documentchecker.cpp:976 src/doc/documentchecker.cpp:988
+#: src/doc/documentchecker.cpp:973 src/doc/documentchecker.cpp:997
+#: src/doc/documentchecker.cpp:1007 src/doc/documentchecker.cpp:1019
 #, fuzzy, kde-format
 #| msgid "Relocated item"
 msgid "Recovered item"
 msgstr "Ümber tõstetud üksus"
 
-#: src/doc/documentchecker.cpp:1001
+#: src/doc/documentchecker.cpp:1032
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search aborted"
 msgstr "Otsingu skaleerimine"
 
-#: src/doc/documentchecker.cpp:1003
+#: src/doc/documentchecker.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Otsi"
 
-#: src/doc/documentchecker.cpp:1099
+#: src/doc/documentchecker.cpp:1130
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Realaotus"
 
-#: src/doc/documentchecker.cpp:1196
+#: src/doc/documentchecker.cpp:1227
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Sisesta faili uus asukoht"
 
-#: src/doc/documentchecker.cpp:1222
+#: src/doc/documentchecker.cpp:1253
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Sisesta faili uus asukoht"
 
-#: src/doc/documentchecker.cpp:1567
+#: src/doc/documentchecker.cpp:1597
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "See eemaldab valitud klipi sellest projektist"
 msgstr[1] "See eemaldab valitud klipid sellest projektist"
 
-#: src/doc/documentchecker.cpp:1569
+#: src/doc/documentchecker.cpp:1599
 #, kde-format
 msgid "Remove clips"
 msgstr "Eemalda klipid"
@@ -7611,7 +7611,7 @@ msgid "Switch"
 msgstr "Lülitu"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1908
+#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
@@ -9664,7 +9664,7 @@ msgstr "Kustuta marker"
 msgid "Edit Marker…"
 msgstr "Muuda markerit"
 
-#: src/mainwindow.cpp:1605 src/timeline2/model/timelinefunctions.cpp:1053
+#: src/mainwindow.cpp:1605 src/timeline2/model/timelinefunctions.cpp:1054
 #, fuzzy, kde-format
 #| msgid "RtAudio"
 msgid "Restore Audio"
@@ -13899,211 +13899,211 @@ msgstr "Pole klippe, mida lõigata"
 msgid "Cut all clips"
 msgstr "Lõika kõik klipid"
 
-#: src/timeline2/model/timelinefunctions.cpp:539
+#: src/timeline2/model/timelinefunctions.cpp:540
 #: src/timeline2/view/timelinecontroller.cpp:1305
 #, kde-format
 msgid "Insert space"
 msgstr "Vahe sisestamine"
 
-#: src/timeline2/model/timelinefunctions.cpp:541
+#: src/timeline2/model/timelinefunctions.cpp:542
 #: src/timeline2/view/timelinecontroller.cpp:1307
 #, kde-format
 msgid "Remove space"
 msgstr "Vahe eemaldamine"
 
-#: src/timeline2/model/timelinefunctions.cpp:621
+#: src/timeline2/model/timelinefunctions.cpp:622
 #, kde-format
 msgid "Lift zone"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:621
+#: src/timeline2/model/timelinefunctions.cpp:622
 #, kde-format
 msgid "Extract zone"
 msgstr "Hangi tsoon"
 
-#: src/timeline2/model/timelinefunctions.cpp:632
+#: src/timeline2/model/timelinefunctions.cpp:633
 #: src/timeline2/view/timelinecontroller.cpp:3043
 #: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Kirjuta tsoon üle"
 
-#: src/timeline2/model/timelinefunctions.cpp:632
+#: src/timeline2/model/timelinefunctions.cpp:633
 #: src/timeline2/view/timelinecontroller.cpp:3043
 #: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "Insert zone"
 msgstr "Lisa tsoon"
 
-#: src/timeline2/model/timelinefunctions.cpp:634
+#: src/timeline2/model/timelinefunctions.cpp:635
 #: src/timeline2/view/timelinecontroller.cpp:3045
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Ei saa tsooni sisestada."
 
-#: src/timeline2/model/timelinefunctions.cpp:667
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Palun aktiveeri rada klõpsuga raja pealdisele"
 
-#: src/timeline2/model/timelinefunctions.cpp:854
+#: src/timeline2/model/timelinefunctions.cpp:855
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Valitud rühma ei saa liigutada"
 
-#: src/timeline2/model/timelinefunctions.cpp:955
-#: src/timeline2/model/timelinefunctions.cpp:959
-#: src/timeline2/model/timelinefunctions.cpp:966
+#: src/timeline2/model/timelinefunctions.cpp:956
+#: src/timeline2/model/timelinefunctions.cpp:960
+#: src/timeline2/model/timelinefunctions.cpp:967
 #: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "Enable clip"
 msgstr "Klipi "
 
-#: src/timeline2/model/timelinefunctions.cpp:955
-#: src/timeline2/model/timelinefunctions.cpp:959
-#: src/timeline2/model/timelinefunctions.cpp:966
+#: src/timeline2/model/timelinefunctions.cpp:956
+#: src/timeline2/model/timelinefunctions.cpp:960
+#: src/timeline2/model/timelinefunctions.cpp:967
 #: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "Disable clip"
 msgstr "Klipi keelamine"
 
-#: src/timeline2/model/timelinefunctions.cpp:1008
+#: src/timeline2/model/timelinefunctions.cpp:1009
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1025
+#: src/timeline2/model/timelinefunctions.cpp:1026
 #, fuzzy, kde-format
 #| msgid "No available track for insert operation"
 msgid "No available audio track for restore operation"
 msgstr "Lisamiseks pole ühtegi rada"
 
-#: src/timeline2/model/timelinefunctions.cpp:1033
-#: src/timeline2/model/timelinefunctions.cpp:1046
+#: src/timeline2/model/timelinefunctions.cpp:1034
+#: src/timeline2/model/timelinefunctions.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Audio stream"
 msgid "Audio restore failed"
 msgstr "Helivoog"
 
-#: src/timeline2/model/timelinefunctions.cpp:1085
+#: src/timeline2/model/timelinefunctions.cpp:1086
 #, fuzzy, kde-format
 #| msgid "No available track for insert operation"
 msgid "No available video track for restore operation"
 msgstr "Lisamiseks pole ühtegi rada"
 
-#: src/timeline2/model/timelinefunctions.cpp:1093
-#: src/timeline2/model/timelinefunctions.cpp:1106
+#: src/timeline2/model/timelinefunctions.cpp:1094
+#: src/timeline2/model/timelinefunctions.cpp:1107
 #, fuzzy, kde-format
 #| msgid "Video Profile"
 msgid "Video restore failed"
 msgstr "Videoprofiil"
 
-#: src/timeline2/model/timelinefunctions.cpp:1112
+#: src/timeline2/model/timelinefunctions.cpp:1113
 #, fuzzy, kde-format
 #| msgid "Mute Video"
 msgid "Restore Video"
 msgstr "Vaigista video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1159
+#: src/timeline2/model/timelinefunctions.cpp:1160
 #, kde-format
 msgid "Change Composition Track"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1174
+#: src/timeline2/model/timelinefunctions.cpp:1175
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1328
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Klipi lisamine videoteeki"
 
-#: src/timeline2/model/timelinefunctions.cpp:1328
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Kirjuta videoteegi klipi nimi"
 
-#: src/timeline2/model/timelinefunctions.cpp:1650
+#: src/timeline2/model/timelinefunctions.cpp:1651
 #, kde-format
 msgid "Paste clips"
 msgstr "Klippide asetamine"
 
-#: src/timeline2/model/timelinefunctions.cpp:1661
+#: src/timeline2/model/timelinefunctions.cpp:1662
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1673
+#: src/timeline2/model/timelinefunctions.cpp:1674
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid data in clipboard"
 msgstr "Lõikepuhvris teavet ei leidu"
 
-#: src/timeline2/model/timelinefunctions.cpp:1699
-#: src/timeline2/model/timelinefunctions.cpp:1757
-#: src/timeline2/model/timelinefunctions.cpp:1786
-#: src/timeline2/model/timelinefunctions.cpp:1817
-#: src/timeline2/model/timelinefunctions.cpp:1856
-#: src/timeline2/model/timelinefunctions.cpp:2007
+#: src/timeline2/model/timelinefunctions.cpp:1700
+#: src/timeline2/model/timelinefunctions.cpp:1758
+#: src/timeline2/model/timelinefunctions.cpp:1787
+#: src/timeline2/model/timelinefunctions.cpp:1818
+#: src/timeline2/model/timelinefunctions.cpp:1857
+#: src/timeline2/model/timelinefunctions.cpp:2008
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Lõikepuhvri asetamiseks pole piisavalt radu"
 
-#: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:1887
-#: src/timeline2/model/timelinefunctions.cpp:1915
-#: src/timeline2/model/timelinefunctions.cpp:1920
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1888
+#: src/timeline2/model/timelinefunctions.cpp:1916
+#: src/timeline2/model/timelinefunctions.cpp:1921
 #, kde-format
 msgid "Pasted clips"
 msgstr "Klipid asetatud"
 
-#: src/timeline2/model/timelinefunctions.cpp:1906
+#: src/timeline2/model/timelinefunctions.cpp:1907
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1909
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1909
 #, kde-format
 msgid "Paste"
 msgstr "Aseta"
 
-#: src/timeline2/model/timelinefunctions.cpp:1950
+#: src/timeline2/model/timelinefunctions.cpp:1951
 #, kde-format
 msgid "Could not add bin clip"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1999
+#: src/timeline2/model/timelinefunctions.cpp:2000
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2030
-#: src/timeline2/model/timelinefunctions.cpp:2151
+#: src/timeline2/model/timelinefunctions.cpp:2031
+#: src/timeline2/model/timelinefunctions.cpp:2152
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Elementide asetamine ajateljele nurjus"
 
-#: src/timeline2/model/timelinefunctions.cpp:2171
+#: src/timeline2/model/timelinefunctions.cpp:2172
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Aseta ajatelje klipid"
 
-#: src/timeline2/model/timelinefunctions.cpp:2385
+#: src/timeline2/model/timelinefunctions.cpp:2386
 #, fuzzy, kde-format
 #| msgid "Remove Space On Active Track"
 msgid "Remove space on track"
 msgstr "Eemalda vahe aktiivselt rajalt"
 
-#: src/timeline2/model/timelinefunctions.cpp:2414
+#: src/timeline2/model/timelinefunctions.cpp:2415
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"

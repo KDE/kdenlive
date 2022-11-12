@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-11 02:31+0000\n"
-"PO-Revision-Date: 2022-11-05 19:25+0200\n"
+"POT-Creation-Date: 2022-11-12 02:29+0000\n"
+"PO-Revision-Date: 2022-11-12 02:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3681,10 +3681,9 @@ msgstr "Пересунути позначений ключовий кадр до
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgid "Show keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Показати ключові кадри"
+msgstr "Копіювати ключові кадри"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3693,25 +3692,27 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"Копіювати ключові кадри. Копіювати позначені ключові кадри або поточні "
+"значення параметрів, якщо не позначено жодного ключового кадру."
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:784
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Оновити ключовий кадр"
+msgstr "Вставити ключовий кадр"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Оновити ключовий кадр"
+msgstr "Вставити ключові кадри"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
+"Вставити ключові кадри, Вставити дані з буфер обміну даними як ключові кадри "
+"у поточну позицію."
 
 #: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
@@ -3750,6 +3751,8 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
+"Інтерполяція ключових кадрів. Це визначає, яку інтерполяцію буде використано "
+"для поточного ключового кадру."
 
 #: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
@@ -3757,10 +3760,9 @@ msgid "Seek to Keyframe on Select"
 msgstr "Позиціювання на ключовий кадр при позначенні"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Копіювати ключові кадри до буфера обміну даними"
+msgstr "Копіювати усі ключові кадри до буфера обміну"
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -3809,30 +3811,26 @@ msgid "Select parameters to copy"
 msgstr "Виберіть параметри для копіювання"
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "Значення ключового кадру скопійовано"
+msgstr "Ключові кадри скопійовано"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
-#, fuzzy, kde-format
-#| msgid "No valid data in clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "У буфері обміну даними немає придатних даних"
+msgstr "У буфері обміну даними немає коректних ключових кадрів"
 
 #: src/assets/view/widgets/keyframewidget.cpp:794
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Не вдалося створити тимчасові файли"
+msgstr "Не вдалося скопіювати поточні значення параметрів"
 
 #: src/assets/view/widgets/keyframewidget.cpp:799
 #: src/assets/view/widgets/keyframewidget.cpp:807
 #: src/assets/view/widgets/keyframewidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Current values copied"
-msgstr "Значення ключового кадру скопійовано"
+msgstr "Поточні значення скопійовано"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4119,7 +4117,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Вилучити кліп контейнера"
 
-#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:560
+#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:572
 #, kde-format
 msgid "Missing source clip"
 msgstr "Не вистачає початкового кліпу"
@@ -4619,10 +4617,9 @@ msgid "Audio stream %1"
 msgstr "Потік звукових даних %1"
 
 #: src/bin/bin.cpp:5480
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Вилучити кліпи"
+msgstr "Вилучити позначки кліпів"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4735,10 +4732,9 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "список відтворення MLT (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "Update values in timeline."
+#, kde-format
 msgid "Update guides categories"
-msgstr "Оновити значення на монтажному столі."
+msgstr "Оновити категорії напрямних"
 
 #: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
 #, kde-format
@@ -4801,10 +4797,9 @@ msgid "Marker"
 msgstr "Позначка"
 
 #: src/bin/model/markerlistmodel.cpp:690
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Відновлений запис"
+msgstr "Відновлено %1"
 
 #: src/bin/model/markerlistmodel.cpp:807
 #, kde-format
@@ -4824,40 +4819,34 @@ msgid "No guide found at current position"
 msgstr "У поточній позиції не виявлено напрямних"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Змінити напрямну"
+msgstr "Редагування категорії напрямних"
 
 #: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Змінити позначку"
+msgstr "Редагування категорії позначок"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Категорія"
+msgstr "Категорія напрямних"
 
 #: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Категорія"
+msgstr "Категорія позначок"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Змінити напрямну"
+msgstr "Змінити напрямні"
 
 #: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Змінити позначку"
+msgstr "Зміна маркерів"
 
 #: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
 #: src/timeline2/view/timelinecontroller.cpp:1341
@@ -4876,28 +4865,24 @@ msgid "Edit Marker"
 msgstr "Змінити позначку"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Додати напрямну"
+msgstr "Додавання напрямних"
 
 #: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Marker"
+#, kde-format
 msgid "Add Markers"
-msgstr "Додати позначку"
+msgstr "Додати позначки"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Додати напрямну"
+msgstr "Додати напрямні"
 
 #: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Додати позначку"
+msgstr "Додати позначки"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -5630,23 +5615,20 @@ msgstr "Зберегти"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "текстовий файл (*.txt)"
+msgstr "Текстовий файл"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "Файл GPS"
+msgstr "Файл JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Експортувати напрямні…"
+msgstr "Експортування даних напрямних"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
@@ -5676,16 +5658,14 @@ msgid "Cannot write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Ресурс збережено до %1"
+msgstr "Напрямні збережено до %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Категорія"
+msgstr "Назва категорії"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5723,10 +5703,9 @@ msgid "Timeline"
 msgstr "Монтажний стіл"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Діапазон кольорів"
+msgstr "Кольори і напрямні"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -6979,38 +6958,38 @@ msgstr "Зображення титрів"
 msgid "Missing item"
 msgstr "Не знайдено об’єкта"
 
-#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:390
-#: src/doc/documentchecker.cpp:1234
+#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:398
+#: src/doc/documentchecker.cpp:1265
 #, kde-format
 msgid "Relocated item"
 msgstr "Пересунутий запис"
 
-#: src/doc/documentchecker.cpp:399
+#: src/doc/documentchecker.cpp:411
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титрів"
 
-#: src/doc/documentchecker.cpp:404
+#: src/doc/documentchecker.cpp:416
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1 буде замінено на %2"
 
-#: src/doc/documentchecker.cpp:409
+#: src/doc/documentchecker.cpp:421
 #, kde-format
 msgid "Modified Clips"
 msgstr "Змінені кліпи"
 
-#: src/doc/documentchecker.cpp:413
+#: src/doc/documentchecker.cpp:425
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "Кліп %1 буде перезавантажено"
 
-#: src/doc/documentchecker.cpp:419
+#: src/doc/documentchecker.cpp:431
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:437
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
@@ -7019,14 +6998,14 @@ msgstr[1] "Немає ефектів: %2 буде вилучено з проєк
 msgstr[2] "Немає ефектів: %2 буде вилучено з проєкту."
 msgstr[3] "Немає ефекту: %2 буде вилучено з проєкту."
 
-#: src/doc/documentchecker.cpp:432
+#: src/doc/documentchecker.cpp:444
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
 "Проміжні кліпи, яких не вистачатиме, може бути повторно створено після "
 "відкриття."
 
-#: src/doc/documentchecker.cpp:450
+#: src/doc/documentchecker.cpp:462
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7046,7 +7025,7 @@ msgstr[3] ""
 "У файлі проєкту не вистачає початкового кліпу, ви можете працювати лише з "
 "проміжним кліпом."
 
-#: src/doc/documentchecker.cpp:457
+#: src/doc/documentchecker.cpp:469
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -7059,13 +7038,13 @@ msgstr[2] ""
 "Файл проєкту містить %1 змінених кліпів. Ці кліпи буде перезавантажено."
 msgstr[3] "Файл проєкту містить змінений кліп. Цей кліп буде перезавантажено."
 
-#: src/doc/documentchecker.cpp:538
+#: src/doc/documentchecker.cpp:550
 #: src/mltcontroller/clippropertiescontroller.cpp:415
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
 
-#: src/doc/documentchecker.cpp:541
+#: src/doc/documentchecker.cpp:553
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
@@ -7082,62 +7061,62 @@ msgstr[3] ""
 "У %1 немає частини проміжного кліпу, ці кліпи буде повторно створено після "
 "відкриття."
 
-#: src/doc/documentchecker.cpp:544
+#: src/doc/documentchecker.cpp:556
 #, kde-format
 msgid "Missing proxy"
 msgstr "Пропущено проміжний кліп"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:555 src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:567 src/doc/documentchecker.cpp:581
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Початковий кліп"
 
-#: src/doc/documentchecker.cpp:557
+#: src/doc/documentchecker.cpp:569
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 "У %1 не вистачає початкових кліпів, ви можете скористатися лише проміжними"
 
-#: src/doc/documentchecker.cpp:911
+#: src/doc/documentchecker.cpp:942
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Тека кліпів"
 
-#: src/doc/documentchecker.cpp:942 src/doc/documentchecker.cpp:966
-#: src/doc/documentchecker.cpp:976 src/doc/documentchecker.cpp:988
+#: src/doc/documentchecker.cpp:973 src/doc/documentchecker.cpp:997
+#: src/doc/documentchecker.cpp:1007 src/doc/documentchecker.cpp:1019
 #, kde-format
 msgid "Recovered item"
 msgstr "Відновлений запис"
 
-#: src/doc/documentchecker.cpp:1001
+#: src/doc/documentchecker.cpp:1032
 #, kde-format
 msgid "Search aborted"
 msgstr "Пошук перервано"
 
-#: src/doc/documentchecker.cpp:1003
+#: src/doc/documentchecker.cpp:1034
 #, kde-format
 msgid "Search done"
 msgstr "Пошук виконано"
 
-#: src/doc/documentchecker.cpp:1099
+#: src/doc/documentchecker.cpp:1130
 #, kde-format
 msgid "Scanning %1"
 msgstr "Шукаємо у %1"
 
-#: src/doc/documentchecker.cpp:1196
+#: src/doc/documentchecker.cpp:1227
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Введіть нову адресу теки"
 
-#: src/doc/documentchecker.cpp:1222
+#: src/doc/documentchecker.cpp:1253
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Введіть нову адресу файла"
 
-#: src/doc/documentchecker.cpp:1567
+#: src/doc/documentchecker.cpp:1597
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
@@ -7150,7 +7129,7 @@ msgstr[2] ""
 msgstr[3] ""
 "У результаті виконання цієї дії позначений кліп буде вилучено з цього проєкту"
 
-#: src/doc/documentchecker.cpp:1569
+#: src/doc/documentchecker.cpp:1599
 #, kde-format
 msgid "Remove clips"
 msgstr "Вилучити кліпи"
@@ -7446,7 +7425,7 @@ msgid "Switch"
 msgstr "Перемкнутися"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1908
+#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
@@ -7506,10 +7485,9 @@ msgid "Cyan"
 msgstr "Блакитний"
 
 #: src/doc/kdenlivedoc.cpp:2106
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Категорія %1"
+msgstr "Категорія %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -7791,22 +7769,20 @@ msgstr ""
 "Зберегти ефект без опису?"
 
 #: src/glaxnimateluncher.cpp:32
-#, fuzzy, kde-format
-#| msgid "Please install Glaxnimate to edit Lottie animations."
+#, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
-msgstr "Будь ласка, встановіть Glaxnimate, щоб редагувати анімації Lottie."
+msgstr ""
+"Вам слід вказати коректний шлях, щоб мати змогу редагувати анімації Lottie."
 
 #: src/glaxnimateluncher.cpp:62 src/glaxnimateluncher.cpp:127
-#, fuzzy, kde-format
-#| msgid "Enter path to the Glaxnimate application"
+#, kde-format
 msgid "Failed to lunch Glaxnimate application"
-msgstr "Введіть шлях до програми Glaxnimate"
+msgstr "Не вдалося запустити програму Glaxnimate"
 
 #: src/glaxnimateluncher.cpp:76
-#, fuzzy, kde-format
-#| msgid "Item is not a title clip"
+#, kde-format
 msgid "Item is not an animation clip"
-msgstr "Запис не є кліпом із титрами"
+msgstr "Запис не є кліпом анімації"
 
 #: src/jobs/audiolevelstask.cpp:76 src/jobs/audiolevelstask.cpp:141
 #, kde-format
@@ -8727,10 +8703,9 @@ msgstr "Переприв'язка за часом"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:276 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "&Напрямні"
+msgstr "Напрямні"
 
 #: src/mainwindow.cpp:339 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9410,7 +9385,7 @@ msgstr "Вилучити позначку"
 msgid "Edit Marker…"
 msgstr "Змінити позначку…"
 
-#: src/mainwindow.cpp:1605 src/timeline2/model/timelinefunctions.cpp:1053
+#: src/mainwindow.cpp:1605 src/timeline2/model/timelinefunctions.cpp:1054
 #, kde-format
 msgid "Restore Audio"
 msgstr "Відновити звук"
@@ -9599,10 +9574,9 @@ msgid "Edit Guide…"
 msgstr "Змінити напрямну…"
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Шукати…"
+msgstr "Шукати напрямну…"
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9615,10 +9589,9 @@ msgid "Guides Locked"
 msgstr "Напрямні заблоковано"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Показати напрямні:"
+msgstr "Заблокувати напрямні"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -9627,6 +9600,9 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Заблокувати напрямні. Якщо напрямну заблоковано, вона не пересуватиметься "
+"при використанні інструмента інтервалів або вставлянні чи вилучанні пробілів "
+"на доріжках."
 
 #: src/mainwindow.cpp:1801
 #, kde-format
@@ -11820,16 +11796,14 @@ msgid "Showing backup files for %1"
 msgstr "Показ файлів резервних копій %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Змінити напрямну"
+msgstr "Категорія редагування напрямних"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Колір вже використано для іншої мітки"
+msgstr "Колір вже використано для іншої категорії"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11837,86 +11811,77 @@ msgid "Category %1"
 msgstr "Категорія %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Вилучити напрямну"
+msgstr "Вилучити категорію напрямних"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Вилучити позначки %1 за допомогою цієї категорії"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Перепризначити позначки до:"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Імпортувати"
+msgstr "Імпортувати…"
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Експортоване:"
+msgstr "Експортувати…"
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Налаштувати профілі"
+msgstr "Налаштувати категорії"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Категорія"
+msgstr "Упорядкувати за категорією"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Критерій впорядкування"
+msgstr "Впорядкувати за часом"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Коментар"
+msgstr "Упорядкувати за коментарем"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Додати напрямну"
+msgstr "Додати нову напрямну."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Додати нову напрямну. Програма додасть напрямну у поточній позиції кадру."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Вилучити напрямну"
+msgstr "Вилучити напрямну."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsi18nthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Вилучити напрямну. Програма вилучить усі позначені напрямні."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Вилучити напрямну"
+msgstr "Редагувати позначені напрямні."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11925,11 +11890,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Редагувати позначену напрямну. Позначення декількох напрямних надає змогу "
+"змінити їхню категорію."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Фільтрувати за категоріями напрямних."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11938,18 +11905,21 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Фільтрувати категорії напрямних. Надає змогу показувати або ховати вибрані "
+"категорії напрямних у цьому вікні і на монтажному столі."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default quality"
+#, kde-format
 msgid "Default guide category."
-msgstr "Типова якість"
+msgstr "Типова категорія напрямних."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"Типова категорія напрямних. Категорія, яку буде використано для "
+"новостворених напрямних."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11961,6 +11931,7 @@ msgstr "Завантаження позначок кліпів"
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
+"Розмір файла позначок перевищує 1 МБ. Ви справді хочете його імпортувати?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -11969,22 +11940,19 @@ msgid "Cannot read file %1"
 msgstr "Не вдалося прочитати файл %1"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Вилучити напрямну"
+msgstr "Вилучити напрямні"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Позначки"
+msgstr "Позначки для %1"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Режим редагування на монтажному столі"
+msgstr "Напрямні монтажного столу"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -13599,161 +13567,161 @@ msgstr "Немає кліпів для розрізання"
 msgid "Cut all clips"
 msgstr "Розрізати усі кліпи"
 
-#: src/timeline2/model/timelinefunctions.cpp:539
+#: src/timeline2/model/timelinefunctions.cpp:540
 #: src/timeline2/view/timelinecontroller.cpp:1305
 #, kde-format
 msgid "Insert space"
 msgstr "Вставити пробіл"
 
-#: src/timeline2/model/timelinefunctions.cpp:541
+#: src/timeline2/model/timelinefunctions.cpp:542
 #: src/timeline2/view/timelinecontroller.cpp:1307
 #, kde-format
 msgid "Remove space"
 msgstr "Вилучити пробіл"
 
-#: src/timeline2/model/timelinefunctions.cpp:621
+#: src/timeline2/model/timelinefunctions.cpp:622
 #, kde-format
 msgid "Lift zone"
 msgstr "Підняти ділянку"
 
-#: src/timeline2/model/timelinefunctions.cpp:621
+#: src/timeline2/model/timelinefunctions.cpp:622
 #, kde-format
 msgid "Extract zone"
 msgstr "Видобути ділянку"
 
-#: src/timeline2/model/timelinefunctions.cpp:632
+#: src/timeline2/model/timelinefunctions.cpp:633
 #: src/timeline2/view/timelinecontroller.cpp:3043
 #: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Перезаписати ділянку"
 
-#: src/timeline2/model/timelinefunctions.cpp:632
+#: src/timeline2/model/timelinefunctions.cpp:633
 #: src/timeline2/view/timelinecontroller.cpp:3043
 #: src/timeline2/view/timelinecontroller.cpp:3109
 #, kde-format
 msgid "Insert zone"
 msgstr "Вставити ділянку"
 
-#: src/timeline2/model/timelinefunctions.cpp:634
+#: src/timeline2/model/timelinefunctions.cpp:635
 #: src/timeline2/view/timelinecontroller.cpp:3045
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Не вдалося вставити ділянку"
 
-#: src/timeline2/model/timelinefunctions.cpp:667
+#: src/timeline2/model/timelinefunctions.cpp:668
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Будь ласка, активуйте доріжку клацанням на мітці доріжки"
 
-#: src/timeline2/model/timelinefunctions.cpp:854
+#: src/timeline2/model/timelinefunctions.cpp:855
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Не вдалося пересунути позначену групу"
 
-#: src/timeline2/model/timelinefunctions.cpp:955
-#: src/timeline2/model/timelinefunctions.cpp:959
-#: src/timeline2/model/timelinefunctions.cpp:966
+#: src/timeline2/model/timelinefunctions.cpp:956
+#: src/timeline2/model/timelinefunctions.cpp:960
+#: src/timeline2/model/timelinefunctions.cpp:967
 #: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "Enable clip"
 msgstr "Увімкнути кліп"
 
-#: src/timeline2/model/timelinefunctions.cpp:955
-#: src/timeline2/model/timelinefunctions.cpp:959
-#: src/timeline2/model/timelinefunctions.cpp:966
+#: src/timeline2/model/timelinefunctions.cpp:956
+#: src/timeline2/model/timelinefunctions.cpp:960
+#: src/timeline2/model/timelinefunctions.cpp:967
 #: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "Disable clip"
 msgstr "Вимкнути кліп"
 
-#: src/timeline2/model/timelinefunctions.cpp:1008
+#: src/timeline2/model/timelinefunctions.cpp:1009
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "У одному або декількох кліпах немає звуку або вони вже є звуковими"
 
-#: src/timeline2/model/timelinefunctions.cpp:1025
+#: src/timeline2/model/timelinefunctions.cpp:1026
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Немає доступної звукової доріжки для відновлення"
 
-#: src/timeline2/model/timelinefunctions.cpp:1033
-#: src/timeline2/model/timelinefunctions.cpp:1046
+#: src/timeline2/model/timelinefunctions.cpp:1034
+#: src/timeline2/model/timelinefunctions.cpp:1047
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Не вдалося відновити звук"
 
-#: src/timeline2/model/timelinefunctions.cpp:1085
+#: src/timeline2/model/timelinefunctions.cpp:1086
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Немає відеодоріжки для відновлення"
 
-#: src/timeline2/model/timelinefunctions.cpp:1093
-#: src/timeline2/model/timelinefunctions.cpp:1106
+#: src/timeline2/model/timelinefunctions.cpp:1094
+#: src/timeline2/model/timelinefunctions.cpp:1107
 #, kde-format
 msgid "Video restore failed"
 msgstr "Не вдалося відновити відео"
 
-#: src/timeline2/model/timelinefunctions.cpp:1112
+#: src/timeline2/model/timelinefunctions.cpp:1113
 #, kde-format
 msgid "Restore Video"
 msgstr "Відновити відео"
 
-#: src/timeline2/model/timelinefunctions.cpp:1159
+#: src/timeline2/model/timelinefunctions.cpp:1160
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Зміна доріжки композиції"
 
-#: src/timeline2/model/timelinefunctions.cpp:1174
+#: src/timeline2/model/timelinefunctions.cpp:1175
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Неможливо увімкнути багатодоріжковий перегляд для окремої доріжки"
 
-#: src/timeline2/model/timelinefunctions.cpp:1328
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Додати до бібліотеки"
 
-#: src/timeline2/model/timelinefunctions.cpp:1328
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Введіть назву кліпу у бібліотеці"
 
-#: src/timeline2/model/timelinefunctions.cpp:1650
+#: src/timeline2/model/timelinefunctions.cpp:1651
 #, kde-format
 msgid "Paste clips"
 msgstr "Вставити кліпи"
 
-#: src/timeline2/model/timelinefunctions.cpp:1661
+#: src/timeline2/model/timelinefunctions.cpp:1662
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Вже виконується інша дія зі вставлення"
 
-#: src/timeline2/model/timelinefunctions.cpp:1673
+#: src/timeline2/model/timelinefunctions.cpp:1674
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "У буфері обміну даними немає придатних даних"
 
-#: src/timeline2/model/timelinefunctions.cpp:1699
-#: src/timeline2/model/timelinefunctions.cpp:1757
-#: src/timeline2/model/timelinefunctions.cpp:1786
-#: src/timeline2/model/timelinefunctions.cpp:1817
-#: src/timeline2/model/timelinefunctions.cpp:1856
-#: src/timeline2/model/timelinefunctions.cpp:2007
+#: src/timeline2/model/timelinefunctions.cpp:1700
+#: src/timeline2/model/timelinefunctions.cpp:1758
+#: src/timeline2/model/timelinefunctions.cpp:1787
+#: src/timeline2/model/timelinefunctions.cpp:1818
+#: src/timeline2/model/timelinefunctions.cpp:1857
+#: src/timeline2/model/timelinefunctions.cpp:2008
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Недостатньо доріжок для вставлення з буфера обміну даними"
 
-#: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:1887
-#: src/timeline2/model/timelinefunctions.cpp:1915
-#: src/timeline2/model/timelinefunctions.cpp:1920
+#: src/timeline2/model/timelinefunctions.cpp:1874
+#: src/timeline2/model/timelinefunctions.cpp:1888
+#: src/timeline2/model/timelinefunctions.cpp:1916
+#: src/timeline2/model/timelinefunctions.cpp:1921
 #, kde-format
 msgid "Pasted clips"
 msgstr "Вставлені кліпи"
 
-#: src/timeline2/model/timelinefunctions.cpp:1906
+#: src/timeline2/model/timelinefunctions.cpp:1907
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13763,43 +13731,43 @@ msgstr ""
 "вашого поточного проєкту.<br/>Може виникнути проблема із узгодженням кліпів "
 "або ключових кадрів."
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1909
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Попередження щодо вставлення"
 
-#: src/timeline2/model/timelinefunctions.cpp:1908
+#: src/timeline2/model/timelinefunctions.cpp:1909
 #, kde-format
 msgid "Paste"
 msgstr "Вставити"
 
-#: src/timeline2/model/timelinefunctions.cpp:1950
+#: src/timeline2/model/timelinefunctions.cpp:1951
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Не вдалося додати кліп контейнера"
 
-#: src/timeline2/model/timelinefunctions.cpp:1999
+#: src/timeline2/model/timelinefunctions.cpp:2000
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Успішно скопійовано не усі кліпи"
 
-#: src/timeline2/model/timelinefunctions.cpp:2030
-#: src/timeline2/model/timelinefunctions.cpp:2151
+#: src/timeline2/model/timelinefunctions.cpp:2031
+#: src/timeline2/model/timelinefunctions.cpp:2152
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Не вдалося вставити записи на монтажний стіл"
 
-#: src/timeline2/model/timelinefunctions.cpp:2171
+#: src/timeline2/model/timelinefunctions.cpp:2172
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Вставити кліпи монтажного стола"
 
-#: src/timeline2/model/timelinefunctions.cpp:2385
+#: src/timeline2/model/timelinefunctions.cpp:2386
 #, kde-format
 msgid "Remove space on track"
 msgstr "Вилучити пробіл на доріжці"
 
-#: src/timeline2/model/timelinefunctions.cpp:2414
+#: src/timeline2/model/timelinefunctions.cpp:2415
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Вилучити кліпи на доріжці"
@@ -17304,24 +17272,21 @@ msgstr "Тип позначки:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Зберегти як"
+msgstr "Зберегти як:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "JSON Kdenlive"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Параметри"
+msgstr "Параметри тексту"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17381,30 +17346,27 @@ msgstr "Форма"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Вилучити взірець."
+msgstr "Вилучити категорію"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add category"
-msgstr "Додати розділ"
+msgstr "Додати категорію"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Категорія"
+msgstr "Змінити категорію"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Категорії напрямних і позначок"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
@@ -17762,17 +17724,15 @@ msgstr "Коментар"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Додавати позначки кліпів:"
+msgstr "Додати декілька позначок"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Відлік"
+msgstr "Кількість"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
@@ -17830,10 +17790,9 @@ msgstr "Пошук вручну"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Розпочати розпізнавання"
+msgstr "Початкова позиція"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
