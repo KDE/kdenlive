@@ -754,7 +754,7 @@ void ClipLoadTask::abort()
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    if (!m_softDelete) {
+    if (!m_softDelete && !m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
         if (binClip) {
             QMetaObject::invokeMethod(binClip.get(), "setInvalid", Qt::QueuedConnection);
