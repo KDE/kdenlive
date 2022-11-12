@@ -118,6 +118,66 @@ const QStringList MarkerListModel::categoriesToStringList() const
     return categories;
 }
 
+QStringList MarkerListModel::guideCategoriesToStringList(const QString &categoriesData)
+{
+    QStringList categories;
+    auto json = QJsonDocument::fromJson(categoriesData.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return categories;
+    }
+    auto list = json.array();
+    for (const auto &entry : qAsConst(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid category data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("index"))) {
+            qDebug() << "Warning : Skipping invalid category data (does not contain index)";
+            continue;
+        }
+        int ix = entryObj[QLatin1String("index")].toInt();
+        QString comment = entryObj[QLatin1String("comment")].toString();
+        QString color = entryObj[QLatin1String("color")].toString();
+        categories << QString("%1:%2:%3").arg(comment, QString::number(ix), color);
+    }
+    return categories;
+}
+
+const QString MarkerListModel::categoriesListToJSon(const QStringList categories) const
+{
+    QJsonArray list;
+    for (auto &cat : categories) {
+        QJsonObject currentMarker;
+        const QColor color(cat.section(QLatin1Char(':'), -1));
+        const QString name = cat.section(QLatin1Char(':'), 0, -3);
+        int ix = cat.section(QLatin1Char(':'), -2, -2).toInt();
+        currentMarker.insert(QLatin1String("index"), QJsonValue(ix));
+        currentMarker.insert(QLatin1String("comment"), QJsonValue(name));
+        currentMarker.insert(QLatin1String("color"), QJsonValue(color.name()));
+        list.push_back(currentMarker);
+    }
+    QJsonDocument json(list);
+    return QString::fromUtf8(json.toJson());
+}
+
+const QString MarkerListModel::categoriesToJSon() const
+{
+    QJsonArray list;
+    QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
+    while (i.hasNext()) {
+        i.next();
+        QJsonObject currentMarker;
+        currentMarker.insert(QLatin1String("index"), QJsonValue(i.key()));
+        currentMarker.insert(QLatin1String("comment"), QJsonValue(i.value().displayName));
+        currentMarker.insert(QLatin1String("color"), QJsonValue(i.value().color.name()));
+        list.push_back(currentMarker);
+    }
+    QJsonDocument json(list);
+    return QString::fromUtf8(json.toJson());
+}
+
 int MarkerListModel::markerIdAtFrame(int pos) const
 {
     if (m_markerPositions.contains(pos)) {

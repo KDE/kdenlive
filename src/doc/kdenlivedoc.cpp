@@ -366,22 +366,23 @@ void KdenliveDoc::initializeProperties(bool newDocument)
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
     if (newDocument) {
         // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
-        m_documentProperties[QStringLiteral("guidesCategories")] = KdenliveSettings::guidesCategories().join(QLatin1Char('\n'));
+        m_documentProperties[QStringLiteral("guidesCategories")] = m_guideModel->categoriesListToJSon(KdenliveSettings::guidesCategories());
     }
 }
 
 const QStringList KdenliveDoc::guidesCategories()
 {
     if (!m_documentProperties.contains(QStringLiteral("guidesCategories")) || m_documentProperties.value(QStringLiteral("guidesCategories")).isEmpty()) {
-        const QString defaultCategories = getDefaultGuideCategories().join(QLatin1Char('\n'));
-        m_documentProperties[QStringLiteral("guidesCategories")] = defaultCategories;
+        const QStringList defaultCategories = getDefaultGuideCategories();
+        m_documentProperties[QStringLiteral("guidesCategories")] = m_guideModel->categoriesListToJSon(defaultCategories);
+        return defaultCategories;
     }
-    return m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
+    return m_guideModel->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
 }
 
 void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories)
 {
-    const QStringList currentCategories = m_documentProperties.value(QStringLiteral("guidesCategories")).split(QLatin1Char('\n'));
+    const QStringList currentCategories = m_guideModel->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
     // Check if a guide category was removed
     QList<int> currentIndexes;
     QList<int> updatedIndexes;
@@ -403,8 +404,8 @@ void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMa
 
 void KdenliveDoc::saveGuideCategories()
 {
-    const QStringList categories = m_guideModel->categoriesToStringList();
-    m_documentProperties[QStringLiteral("guidesCategories")] = categories.join(QLatin1Char('\n'));
+    const QString categories = m_guideModel->categoriesToJSon();
+    m_documentProperties[QStringLiteral("guidesCategories")] = categories;
 }
 
 int KdenliveDoc::updateClipsCount()
