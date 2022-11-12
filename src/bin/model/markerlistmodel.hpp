@@ -158,8 +158,11 @@ public:
      */
     void loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories, const QMap<int, int> remapCategories = {});
     QList<int> loadCategories(const QStringList &categories);
+    QStringList guideCategoriesToStringList(const QString &categoriesData);
     /** @brief Returns the marker categories in the form of a stringList for saving */
     const QStringList categoriesToStringList() const;
+    const QString categoriesToJSon() const;
+    const QString categoriesListToJSon(const QStringList categories) const;
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;
