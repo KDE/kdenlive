@@ -795,7 +795,7 @@ void Monitor::slotSetZoneStart()
     int currentIn = m_glMonitor->getCurrentPos();
     int updatedZoneOut = -1;
     if (currentIn > oldZone.y()) {
-        updatedZoneOut = qMin(m_glMonitor->duration(), currentIn + (oldZone.y() - oldZone.x()));
+        updatedZoneOut = qMin(m_glMonitor->duration() - 1, currentIn + (oldZone.y() - oldZone.x()));
     }
 
     Fun undo_zone = [this, oldZone, updatedZoneOut]() {
