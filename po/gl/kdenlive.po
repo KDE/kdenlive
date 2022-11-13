@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-12 02:29+0000\n"
+"POT-Creation-Date: 2022-11-13 02:27+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -4231,7 +4231,7 @@ msgstr "Fragmento orixinal ausente"
 msgid "Unable to write to file %1"
 msgstr "Non se pode escribir no ficheiro %1"
 
-#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:710
+#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:711
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4891,52 +4891,52 @@ msgstr "Lista de reprodución de MLT (*.mlt)"
 msgid "Update guides categories"
 msgstr "actualizar valores na liña de tempo"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename guide"
 msgstr "Cambiar de nome a guía"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename marker"
 msgstr "Cambiar de nome o marcador"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add guide"
 msgstr "Engadir guía"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add marker"
 msgstr "Engadir un marcador"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete guide"
 msgstr "Eliminar guía"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete marker"
 msgstr "Eliminar o marcador"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit guide"
 msgstr "Editar guía"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit marker"
 msgstr "Editar o marcador"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import guides"
 msgstr "Importar guías"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import markers"
 msgstr "Importar marcadores"
@@ -4944,106 +4944,106 @@ msgstr "Importar marcadores"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:682 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:742 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Marcador"
 
-#: src/bin/model/markerlistmodel.cpp:690
+#: src/bin/model/markerlistmodel.cpp:750
 #, fuzzy, kde-format
 #| msgid "Relocated item"
 msgid "Recovered %1"
 msgstr "Elemento recolocado"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all guides"
 msgstr "Eliminar todas as guías"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all markers"
 msgstr "Eliminar todos os marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:816 src/bin/model/markerlistmodel.cpp:854
-#: src/bin/model/markerlistmodel.cpp:879
+#: src/bin/model/markerlistmodel.cpp:876 src/bin/model/markerlistmodel.cpp:914
+#: src/bin/model/markerlistmodel.cpp:939
 #: src/timeline2/view/timelinecontroller.cpp:1333
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Non se atopou ningunha guía na posición actual"
 
-#: src/bin/model/markerlistmodel.cpp:819
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guides Category"
 msgstr "Editar a guía"
 
-#: src/bin/model/markerlistmodel.cpp:819
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "Editar o marcador"
 
-#: src/bin/model/markerlistmodel.cpp:825
+#: src/bin/model/markerlistmodel.cpp:885
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Guides Category"
 msgstr "Categoría"
 
-#: src/bin/model/markerlistmodel.cpp:825
+#: src/bin/model/markerlistmodel.cpp:885
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "Categoría"
 
-#: src/bin/model/markerlistmodel.cpp:843
+#: src/bin/model/markerlistmodel.cpp:903
 #, fuzzy, kde-format
 #| msgid "Edit guide"
 msgid "Edit guides"
 msgstr "Editar guía"
 
-#: src/bin/model/markerlistmodel.cpp:843
+#: src/bin/model/markerlistmodel.cpp:903
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "Editar o marcador"
 
-#: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
+#: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #, kde-format
 msgid "guide"
 msgstr "guía"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Guide"
 msgstr "Editar a guía"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Marker"
 msgstr "Editar o marcador"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, fuzzy, kde-format
 #| msgid "Add Guide"
 msgid "Add Guides"
 msgstr "Engadir unha guía"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
 msgid "Add Markers"
 msgstr "Engadir marcadores"
 
-#: src/bin/model/markerlistmodel.cpp:901
+#: src/bin/model/markerlistmodel.cpp:961
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add guides"
 msgstr "Engadir guía"
 
-#: src/bin/model/markerlistmodel.cpp:901
+#: src/bin/model/markerlistmodel.cpp:961
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add markers"
@@ -5100,7 +5100,7 @@ msgstr ""
 "O ficheiro %1 xa existe.\n"
 "Quéreo substituír?"
 
-#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:954
+#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:955
 #: src/project/dialogs/archivewidget.cpp:213
 #: src/project/projectmanager.cpp:1138
 #, kde-format
@@ -5658,7 +5658,7 @@ msgstr "Fragmento de texto"
 msgid "Create Text clip"
 msgstr "Crear un fragmento de título"
 
-#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1026
+#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1027
 #, kde-format
 msgid "Template title clip"
 msgstr "Fragmento de título de modelo"
@@ -5832,8 +5832,8 @@ msgstr "Importar guías"
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1922
-#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:727
-#: src/doc/kdenlivedoc.cpp:735 src/doc/kdenlivedoc.cpp:1102
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:728
+#: src/doc/kdenlivedoc.cpp:736 src/doc/kdenlivedoc.cpp:1103
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -7501,8 +7501,8 @@ msgstr "Os seguintes filtros e transicións elimináronse do proxecto:"
 msgid "Invalid file path"
 msgstr "Perfil incorrecto"
 
-#: src/doc/kdenlivedoc.cpp:178 src/jobs/cliploadtask.cpp:484
-#: src/jobs/filtertask.cpp:85 src/layoutmanagement.cpp:448
+#: src/doc/kdenlivedoc.cpp:178 src/jobs/cliploadtask.cpp:483
+#: src/jobs/filtertask.cpp:84 src/layoutmanagement.cpp:448
 #: src/layoutmanagement.cpp:509 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
@@ -7559,18 +7559,18 @@ msgstr ""
 "O cartafol de documentos do proxecto é incorrecto, usaranse os cartafoles "
 "predeterminados do sistema."
 
-#: src/doc/kdenlivedoc.cpp:558 src/doc/kdenlivedoc.cpp:568
+#: src/doc/kdenlivedoc.cpp:559 src/doc/kdenlivedoc.cpp:569
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Non se pode crear o ficheiro de garda automática %1"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:688
+#: src/doc/kdenlivedoc.cpp:564 src/doc/kdenlivedoc.cpp:689
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
 "Non se pode escribir no ficheiro %1; a lista de escenas está corrompida."
 
-#: src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:707
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7580,7 +7580,7 @@ msgstr ""
 "Para estar seguro de que non perde datos, creouse unha copia de seguranza "
 "chamada %1."
 
-#: src/doc/kdenlivedoc.cpp:720
+#: src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7589,29 +7589,29 @@ msgstr ""
 "O ficheiro do proxecto anovouse para usar a última versión de documento de "
 "Kdenlive, pero non foi posíbel crear a copia de seguranza %1."
 
-#: src/doc/kdenlivedoc.cpp:864 src/project/projectmanager.cpp:1029
+#: src/doc/kdenlivedoc.cpp:865 src/project/projectmanager.cpp:1029
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Produciuse un erro ao mover o cartafol do proxecto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1012
+#: src/doc/kdenlivedoc.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Inserir a ruta ao modelo"
 
-#: src/doc/kdenlivedoc.cpp:1109
+#: src/doc/kdenlivedoc.cpp:1110
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Importáronse os efectos seguintes do proxecto:"
 
-#: src/doc/kdenlivedoc.cpp:1142 src/doc/kdenlivedoc.cpp:1156
+#: src/doc/kdenlivedoc.cpp:1143 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Project Folder"
 msgstr "Cartafol do proxecto"
 
-#: src/doc/kdenlivedoc.cpp:1200 src/doc/kdenlivedoc.cpp:1208
+#: src/doc/kdenlivedoc.cpp:1201 src/doc/kdenlivedoc.cpp:1209
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7620,26 +7620,26 @@ msgstr ""
 "Non se pode crear unha copia de seguranza:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1353
+#: src/doc/kdenlivedoc.cpp:1354
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Engadir un fragmento proxy"
 msgstr[1] "Engadir fragmentos proxy"
 
-#: src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1356
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Retirar o fragmento proxy"
 msgstr[1] "Retirar os fragmentos proxy"
 
-#: src/doc/kdenlivedoc.cpp:1399 src/doc/kdenlivedoc.cpp:1433
+#: src/doc/kdenlivedoc.cpp:1400 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "O tipo do fragmento non é compatíbel con proxys."
 
-#: src/doc/kdenlivedoc.cpp:1616
+#: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid ""
 "\n"
@@ -7649,7 +7649,7 @@ msgstr ""
 "Aviso: FPS non enteiro descoñecido, podería facer que se mostre unha "
 "duración incorrecta."
 
-#: src/doc/kdenlivedoc.cpp:1635
+#: src/doc/kdenlivedoc.cpp:1636
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -7662,45 +7662,45 @@ msgstr ""
 "%2.\n"
 "Quere cambiar o perfil predeterminado para futuros proxectos?"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default project profile"
 msgstr "Cambiar o perfil de proxecto predeterminado"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default to %1"
 msgstr "Cambiar o predeterminado a %1"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Manter o predeterminado actual %1"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Ask me later"
 msgstr "Preguntarme máis tarde"
 
-#: src/doc/kdenlivedoc.cpp:1658
+#: src/doc/kdenlivedoc.cpp:1659
 #, kde-format
 msgid "Switch"
 msgstr "Cambiar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
+#: src/doc/kdenlivedoc.cpp:1661 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/doc/kdenlivedoc.cpp:1662
+#: src/doc/kdenlivedoc.cpp:1663
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Quere cambiar ao perfil de fragmento %1?"
 
-#: src/doc/kdenlivedoc.cpp:1667
+#: src/doc/kdenlivedoc.cpp:1668
 #, kde-format
 msgid ""
 "\n"
@@ -7709,7 +7709,7 @@ msgstr ""
 "\n"
 "Os FPS do perfil axustáronse do %1 orixinal."
 
-#: src/doc/kdenlivedoc.cpp:1669
+#: src/doc/kdenlivedoc.cpp:1670
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -7721,13 +7721,13 @@ msgstr ""
 "Non se atopou ningún perfil para o fragmento.\n"
 "Quere crear un novo perfil (%1×%2, %3fps) e cambiar a el?%4"
 
-#: src/doc/kdenlivedoc.cpp:1949 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Vermello"
 
-#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7735,23 +7735,23 @@ msgstr "Vermello"
 msgid "Green"
 msgstr "Verde"
 
-#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Azul"
 
-#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:1953 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Amarelo"
 
-#: src/doc/kdenlivedoc.cpp:1953
+#: src/doc/kdenlivedoc.cpp:1954
 #, kde-format
 msgid "Cyan"
 msgstr "Ciano"
 
-#: src/doc/kdenlivedoc.cpp:2106
+#: src/doc/kdenlivedoc.cpp:2107
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -8078,12 +8078,12 @@ msgstr "Insira un nome para o fragmento na biblioteca"
 msgid "Item is not an animation clip"
 msgstr "Fragmento de título de modelo"
 
-#: src/jobs/audiolevelstask.cpp:76 src/jobs/audiolevelstask.cpp:141
+#: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
 msgstr "Miniaturas de son: non se pode abrir o ficheiro %1"
 
-#: src/jobs/audiolevelstask.cpp:85
+#: src/jobs/audiolevelstask.cpp:82
 #, fuzzy, kde-format
 #| msgid "Audio thumbs: cannot open file %1"
 msgid "Audio thumbs: unknown file length for %1"
@@ -8097,17 +8097,17 @@ msgstr ""
 "A lista de reprodución ten unha frecuencia de fotogramas distinta (%1/"
 "%2fps), non se recomenda."
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:511
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:654
+#: src/jobs/cliploadtask.cpp:653
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:715
+#: src/jobs/cliploadtask.cpp:714
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -8163,57 +8163,57 @@ msgid "Extracting %1 out of %2"
 msgstr "Extraendo %1 de %2"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:69
-#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:196
-#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:131
+#: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
+#: src/jobs/stabilizetask.cpp:113 src/jobs/stabilizetask.cpp:130
 #, kde-format
 msgid "No producer for this clip."
 msgstr "Este fragmento non ten produtor."
 
-#: src/jobs/cuttask.cpp:215 src/jobs/cuttask.cpp:217
+#: src/jobs/cuttask.cpp:214 src/jobs/cuttask.cpp:216
 #, kde-format
 msgid "You cannot overwrite original clip."
 msgstr "Non se pode substituír o fragmento orixinal."
 
-#: src/jobs/cuttask.cpp:251 src/jobs/transcodetask.cpp:233
-#: src/jobs/transcodetask.cpp:269
+#: src/jobs/cuttask.cpp:249 src/jobs/transcodetask.cpp:230
+#: src/jobs/transcodetask.cpp:266
 #, kde-format
 msgid "Failed to create file."
 msgstr "Non se puido crear o ficheiro."
 
-#: src/jobs/cuttask.cpp:262
+#: src/jobs/cuttask.cpp:260
 #, fuzzy, kde-format
 #| msgid "Output file"
 msgid "Cut job failed."
 msgstr "Ficheiro de saída"
 
-#: src/jobs/filtertask.cpp:112
+#: src/jobs/filtertask.cpp:110
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot open source."
 msgstr "Non se pode abrir o ficheiro"
 
-#: src/jobs/filtertask.cpp:137
+#: src/jobs/filtertask.cpp:134
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Non se pode crear o consumidor."
 
-#: src/jobs/filtertask.cpp:150
+#: src/jobs/filtertask.cpp:146
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Non se pode crear o filtro %1"
 
-#: src/jobs/filtertask.cpp:232
+#: src/jobs/filtertask.cpp:226
 #, fuzzy, kde-format
 #| msgid "Failed to start capture"
 msgid "Failed to filter source."
 msgstr "Non se puido iniciar a captura"
 
-#: src/jobs/proxytask.cpp:192
+#: src/jobs/proxytask.cpp:191
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Non se pode cargar a imaxe %1."
 
-#: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:183
+#: src/jobs/proxytask.cpp:250 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:122
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
@@ -8221,7 +8221,7 @@ msgstr ""
 "Non se atopou FFmpeg, defina a súa ruta no ambiente de configuración de "
 "Kdenlive."
 
-#: src/jobs/proxytask.cpp:356 src/jobs/proxytask.cpp:369
+#: src/jobs/proxytask.cpp:352 src/jobs/proxytask.cpp:365
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "Non se puido crear o fragmento proxy."
@@ -8239,7 +8239,7 @@ msgstr "Detección de escenas"
 msgid "Cannot analyse this clip type."
 msgstr "Non se pode procesar este tipo de fragmento."
 
-#: src/jobs/scenesplittask.cpp:125
+#: src/jobs/scenesplittask.cpp:124
 #, fuzzy, kde-format
 #| msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
@@ -8247,13 +8247,13 @@ msgstr ""
 "Non se atopou FFmpeg, defina a súa ruta no ambiente de configuración de "
 "Kdenlive."
 
-#: src/jobs/scenesplittask.cpp:186 src/jobs/scenesplittask.cpp:206
-#: src/jobs/scenesplittask.cpp:215
+#: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
+#: src/jobs/scenesplittask.cpp:212
 #, kde-format
 msgid "Scene %1"
 msgstr "Escena %1"
 
-#: src/jobs/scenesplittask.cpp:229
+#: src/jobs/scenesplittask.cpp:226
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to analyse clip."
@@ -8267,7 +8267,7 @@ msgid "Clip Speed"
 msgstr "Velocidade do fragmento"
 
 #: src/jobs/speedtask.cpp:57 src/jobs/speedtask.cpp:58
-#: src/jobs/speedtask.cpp:254
+#: src/jobs/speedtask.cpp:250
 #, kde-format
 msgid "Speed Change"
 msgstr "Cambio de velocidade"
@@ -8302,19 +8302,19 @@ msgstr "Atopar unha composición"
 msgid "Add clip to \"Speed Change\" folder"
 msgstr "Prema para abrir o cartafol da caché"
 
-#: src/jobs/speedtask.cpp:247
+#: src/jobs/speedtask.cpp:243
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to create speed clip."
 msgstr "Non se puido crear o fragmento proxy."
 
-#: src/jobs/stabilizetask.cpp:189
+#: src/jobs/stabilizetask.cpp:185
 #, fuzzy, kde-format
 #| msgid "Failed to start device"
 msgid "Failed to stabilize."
 msgstr "Fallou o inicio do dispositivo"
 
-#: src/jobs/stabilizetask.cpp:196
+#: src/jobs/stabilizetask.cpp:192
 #, kde-format
 msgid "Stabilized"
 msgstr "Estabilizado"
