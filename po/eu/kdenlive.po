@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-12 00:46+0000\n"
-"PO-Revision-Date: 2022-11-05 10:49+0100\n"
+"POT-Creation-Date: 2022-11-13 00:45+0000\n"
+"PO-Revision-Date: 2022-11-12 08:14+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3586,12 +3586,12 @@ msgstr "Posizioa"
 #: src/assets/view/widgets/keyframeimport.cpp:372
 #, kde-format
 msgid "Inverted Position"
-msgstr "Alderantzikatutako Posizioa"
+msgstr "Alderantzikatutako posizioa"
 
 #: src/assets/view/widgets/keyframeimport.cpp:373
 #, kde-format
 msgid "Offset Position"
-msgstr "Jatorri-aldaketaren Posizioa"
+msgstr "Jatorri-aldaketaren posizioa"
 
 #: src/assets/view/widgets/keyframeimport.cpp:374
 #, kde-format
@@ -3663,10 +3663,9 @@ msgstr "Mugitu hautatutako gako-fotograma kurtsorera"
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgid "Show keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Erakutsi gako-fotogramak"
+msgstr "Kopiatu gako-fotogramak"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3675,25 +3674,27 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"Kopiatu gako-fotogramak. Kopiatu hautatutako gako-fotogramak, edo uneko "
+"parametroak gako-fotogramarik hautatuta ez badago."
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:784
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Eguneratu gako-fotograma"
+msgstr "Itsatsi gako-fotograma"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Eguneratu gako-fotograma"
+msgstr "Itsatsi gako-fotogramak"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
+"Itsatsi gako-fotogramak. Itsatsi arbeleko datuak gako-fotograma gisa uneko "
+"posizioan."
 
 #: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
@@ -3732,6 +3733,8 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
+"Gako-fotogramaren interpolazioa. Horrek definitzen du uneko gako-"
+"fotogramarekin erabiliko den interpolazioa."
 
 #: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
@@ -3739,10 +3742,9 @@ msgid "Seek to Keyframe on Select"
 msgstr "Jauzi Gako-fotogramara Hautapenean"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Kopiatu Gako-fotogramak Arbelera"
+msgstr "Kopiatu Gako-fotograma guztiak Arbelera"
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -3791,30 +3793,26 @@ msgid "Select parameters to copy"
 msgstr "Hautatu parametroak kopiatzeko"
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "Fotograma-gakoaren balioa kopiatu da"
+msgstr "Gako-fotogramak kopiatu dira"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
-#, fuzzy, kde-format
-#| msgid "No valid data in clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "Datu onargarririk ez arbelean"
+msgstr "Arbelean ez dago gako-fotograma datu baliozkorik"
 
 #: src/assets/view/widgets/keyframewidget.cpp:794
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Ezin izan dira aldi baterako fitxategiak sortu"
+msgstr "Ezin dira uneko parametroaren balioak kopiatu"
 
 #: src/assets/view/widgets/keyframewidget.cpp:799
 #: src/assets/view/widgets/keyframewidget.cpp:807
 #: src/assets/view/widgets/keyframewidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Current values copied"
-msgstr "Fotograma-gakoaren balioa kopiatu da"
+msgstr "Uneko balioak kopiatu dira"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4108,7 +4106,7 @@ msgstr "Jatorrizko klipa falta da"
 msgid "Unable to write to file %1"
 msgstr "Ezin du %1 fitxategian idatzi "
 
-#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:710
+#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:711
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4590,10 +4588,9 @@ msgid "Audio stream %1"
 msgstr "%1 audio korrontea"
 
 #: src/bin/bin.cpp:5480
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Ezabatu klipak "
+msgstr "Kendu klip-markatzaileak"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4703,57 +4700,56 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT erreprodukzio-zerrenda (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "update values in timeline"
+#, kde-format
 msgid "Update guides categories"
-msgstr "eguneratu balioak denbora-lerroan"
+msgstr "Eguneratu gidalerroen kategoriak"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename guide"
 msgstr "Berrizendatu gidalerroa"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename marker"
 msgstr "Berrizendatu markatzailea"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add guide"
 msgstr "Gehitu gidalerroa"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add marker"
 msgstr "Gehitu markatzailea"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete guide"
 msgstr "Ezabatu gidalerroa"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete marker"
 msgstr "Ezabatu markatzailea"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit guide"
 msgstr "Editatu gidalerroa"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit marker"
 msgstr "Editatu markatzailea"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import guides"
-msgstr "Inportatu gida-lerroak"
+msgstr "Inportatu gidalerroak"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import markers"
 msgstr "Inportatu markatzaileak"
@@ -4761,110 +4757,100 @@ msgstr "Inportatu markatzaileak"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:682 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:742 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Markatzailea"
 
-#: src/bin/model/markerlistmodel.cpp:690
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#: src/bin/model/markerlistmodel.cpp:750
+#, kde-format
 msgid "Recovered %1"
-msgstr "Berreskuratutako itema"
+msgstr "%1 berreskuratua"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all guides"
 msgstr "Ezabatu gidalerro guztiak"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all markers"
 msgstr "Ezabatu markatzaile guztiak"
 
-#: src/bin/model/markerlistmodel.cpp:816 src/bin/model/markerlistmodel.cpp:854
-#: src/bin/model/markerlistmodel.cpp:879
+#: src/bin/model/markerlistmodel.cpp:876 src/bin/model/markerlistmodel.cpp:914
+#: src/bin/model/markerlistmodel.cpp:939
 #: src/timeline2/view/timelinecontroller.cpp:1333
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Ez da gidalerrorik topatu uneko posizioan"
 
-#: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#: src/bin/model/markerlistmodel.cpp:879
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Editatu gidalerroa"
+msgstr "Editatu gidalerroen kategoria"
 
-#: src/bin/model/markerlistmodel.cpp:819
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#: src/bin/model/markerlistmodel.cpp:879
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Editatu markatzailea"
+msgstr "Editatu markatzaileen kategoria"
 
-#: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#: src/bin/model/markerlistmodel.cpp:885
+#, kde-format
 msgid "Guides Category"
-msgstr "Kategoria"
+msgstr "Gidalerroen kategoria"
 
-#: src/bin/model/markerlistmodel.cpp:825
-#, fuzzy, kde-format
-#| msgid "Category"
+#: src/bin/model/markerlistmodel.cpp:885
+#, kde-format
 msgid "Markers Category"
-msgstr "Kategoria"
+msgstr "Markatzaileen kategoria"
 
-#: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#: src/bin/model/markerlistmodel.cpp:903
+#, kde-format
 msgid "Edit guides"
-msgstr "Editatu gidalerroa"
+msgstr "Editatu gidalerroak"
 
-#: src/bin/model/markerlistmodel.cpp:843
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#: src/bin/model/markerlistmodel.cpp:903
+#, kde-format
 msgid "Edit markers"
-msgstr "Editatu markatzailea"
+msgstr "Editatu markatzaileak"
 
-#: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
+#: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #, kde-format
 msgid "guide"
 msgstr "gidalerroa"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Guide"
 msgstr "Editatu gidalerroa"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Marker"
 msgstr "Editatu markatzailea"
 
-#: src/bin/model/markerlistmodel.cpp:886
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#: src/bin/model/markerlistmodel.cpp:946
+#, kde-format
 msgid "Add Guides"
-msgstr "Gehitu gidalerroa"
+msgstr "Gehitu gidalerroak"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
 msgid "Add Markers"
 msgstr "Gehitu markatzaileak"
 
-#: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#: src/bin/model/markerlistmodel.cpp:961
+#, kde-format
 msgid "Add guides"
-msgstr "Gehitu gidalerroa"
+msgstr "Gehitu gidalerroak"
 
-#: src/bin/model/markerlistmodel.cpp:901
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#: src/bin/model/markerlistmodel.cpp:961
+#, kde-format
 msgid "Add markers"
-msgstr "Gehitu markatzailea"
+msgstr "Gehitu markatzaileak"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -4912,7 +4898,7 @@ msgstr ""
 "%1 fitxategia jadanik existitzen da.\n"
 "Gainidatzi nahi duzu?"
 
-#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:954
+#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:955
 #: src/project/dialogs/archivewidget.cpp:213
 #: src/project/projectmanager.cpp:1138
 #, kde-format
@@ -5437,7 +5423,7 @@ msgstr "Testu klipa"
 msgid "Create Text clip"
 msgstr "Sortu Testu-klipa"
 
-#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1026
+#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1027
 #, kde-format
 msgid "Template title clip"
 msgstr "Txantiloi izenburu klipa"
@@ -5592,29 +5578,26 @@ msgstr "Gorde"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Testu fitxategia (*.txt)"
+msgstr "Testu-fitxategia"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "GPS Fitxategiak"
+msgstr "JSON fitxategia"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Esportatu Gida-lerroak…"
+msgstr "Esportatu Gidalerroen datuak"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1922
-#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:727
-#: src/doc/kdenlivedoc.cpp:735 src/doc/kdenlivedoc.cpp:1102
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:728
+#: src/doc/kdenlivedoc.cpp:736 src/doc/kdenlivedoc.cpp:1103
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -5638,16 +5621,14 @@ msgid "Cannot write to file %1"
 msgstr "Ezin da %1 fitxategian idatzi "
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Baliabidea %1-(e)ra gorde da"
+msgstr "Gidalerroak %1(e)ra gorde dira"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Kategoria"
+msgstr "Kategoriaren izena"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5685,10 +5666,9 @@ msgid "Timeline"
 msgstr "Denbora-lerroa"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Kolore-barrutia"
+msgstr "Koloreak eta gidalerroak"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -7243,17 +7223,17 @@ msgstr ""
 "Proiektuaren dokumentuen karpeta ez da baliozkoa, sistemaren karpeta "
 "lehenetsiak erabiliko dira."
 
-#: src/doc/kdenlivedoc.cpp:558 src/doc/kdenlivedoc.cpp:568
+#: src/doc/kdenlivedoc.cpp:559 src/doc/kdenlivedoc.cpp:569
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ezin da %1 auto-gordetze fitxategia sortu"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:688
+#: src/doc/kdenlivedoc.cpp:564 src/doc/kdenlivedoc.cpp:689
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Ezin da %1 fitxategian idatzi, eszenen zerrenda hondatuta dago."
 
-#: src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:707
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7263,7 +7243,7 @@ msgstr ""
 "Daturik galtzen ez duzula ziurtatzeko %1 izeneko babes-kopia fitxategia "
 "sortu da."
 
-#: src/doc/kdenlivedoc.cpp:720
+#: src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7272,28 +7252,28 @@ msgstr ""
 "Zure proiektuaren fitxategia Kdenlive-ren azken bertsiora eguneratu da, "
 "baina ezin izan da %1 babes-kopia sortu. "
 
-#: src/doc/kdenlivedoc.cpp:864 src/project/projectmanager.cpp:1029
+#: src/doc/kdenlivedoc.cpp:865 src/project/projectmanager.cpp:1029
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Errorea proiektuaren karpeta mugitzerakoan: %1"
 
-#: src/doc/kdenlivedoc.cpp:1012
+#: src/doc/kdenlivedoc.cpp:1013
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Sartu Txantiloiaren Bidea"
 
-#: src/doc/kdenlivedoc.cpp:1109
+#: src/doc/kdenlivedoc.cpp:1110
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Honako efektuak inportatu dira proiektutik: "
 
-#: src/doc/kdenlivedoc.cpp:1142 src/doc/kdenlivedoc.cpp:1156
+#: src/doc/kdenlivedoc.cpp:1143 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Project Folder"
 msgstr "Proiektu karpeta"
 
-#: src/doc/kdenlivedoc.cpp:1200 src/doc/kdenlivedoc.cpp:1208
+#: src/doc/kdenlivedoc.cpp:1201 src/doc/kdenlivedoc.cpp:1209
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7302,26 +7282,26 @@ msgstr ""
 "Ezin da babeskopia sortu:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1353
+#: src/doc/kdenlivedoc.cpp:1354
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Gehitu bitartekari-klipa"
 msgstr[1] "Gehitu bitartekari klipak"
 
-#: src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1356
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Kendu bitartekari-klipa"
 msgstr[1] "Kendu bitartekari klipak"
 
-#: src/doc/kdenlivedoc.cpp:1399 src/doc/kdenlivedoc.cpp:1433
+#: src/doc/kdenlivedoc.cpp:1400 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Klip mota honek ez ditu bitartekariak onartzen"
 
-#: src/doc/kdenlivedoc.cpp:1616
+#: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid ""
 "\n"
@@ -7331,7 +7311,7 @@ msgstr ""
 "Abisua: ez osoko f/s zenbaki ezezaguna, iraupen okerreko erakustea ekar "
 "dezake."
 
-#: src/doc/kdenlivedoc.cpp:1635
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7341,44 +7321,44 @@ msgstr ""
 "%3 da.\n"
 "Nahi duzu zure profila lehenetsia aldatu etorkizuneko proiektuetarako?"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default project profile"
 msgstr "Aukeratu proiektuaren profil lehenetsia"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default to %1"
 msgstr "Aldatu lehenetsia %1-era"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Keep current default %1"
 msgstr " Mantendu uneko %1 lehenetsia"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Ask me later"
 msgstr "Galdetu beranduago"
 
-#: src/doc/kdenlivedoc.cpp:1658
+#: src/doc/kdenlivedoc.cpp:1659
 #, kde-format
 msgid "Switch"
 msgstr "Aldatu"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
+#: src/doc/kdenlivedoc.cpp:1661 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Ezeztatu"
 
-#: src/doc/kdenlivedoc.cpp:1662
+#: src/doc/kdenlivedoc.cpp:1663
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Kliparen (%1) %2 profilera aldatu?"
 
-#: src/doc/kdenlivedoc.cpp:1667
+#: src/doc/kdenlivedoc.cpp:1668
 #, kde-format
 msgid ""
 "\n"
@@ -7387,7 +7367,7 @@ msgstr ""
 "\n"
 "fps profila %1 jatorrizkotik doitua "
 
-#: src/doc/kdenlivedoc.cpp:1669
+#: src/doc/kdenlivedoc.cpp:1670
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7396,13 +7376,13 @@ msgstr ""
 "Ez da zure %1 kliparentzako profilik aurkitu.\n"
 "Sortu eta aldatu profil berrira (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:1949 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Gorria"
 
-#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7410,27 +7390,26 @@ msgstr "Gorria"
 msgid "Green"
 msgstr "Berdea"
 
-#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Urdina"
 
-#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:1953 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Horia"
 
-#: src/doc/kdenlivedoc.cpp:1953
+#: src/doc/kdenlivedoc.cpp:1954
 #, kde-format
 msgid "Cyan"
 msgstr "Zian"
 
-#: src/doc/kdenlivedoc.cpp:2106
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#: src/doc/kdenlivedoc.cpp:2107
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "%1 Kategoria"
+msgstr "Kategoria %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -7711,22 +7690,20 @@ msgid ""
 msgstr "Ez da deskribapenik eman. Gorde efektua deskribapenik gabe?"
 
 #: src/glaxnimateluncher.cpp:32
-#, fuzzy, kde-format
-#| msgid "Please install Glaxnimate to edit Lottie animations."
+#, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
-msgstr "Mesedez, instalatu Glaxnimate Lottie animazioak editatzeko."
+msgstr ""
+"«Lottie» animazioak editatzeko balio duen bide-izen bat sartu behar duzu."
 
 #: src/glaxnimateluncher.cpp:62 src/glaxnimateluncher.cpp:127
-#, fuzzy, kde-format
-#| msgid "Enter path to the Glaxnimate application"
+#, kde-format
 msgid "Failed to launch Glaxnimate application"
-msgstr "Sartu bidea Glaxnimate aplikaziorako"
+msgstr "«Glaxnimate» aplikazioa abiaraztea huts egin du"
 
 #: src/glaxnimateluncher.cpp:76
-#, fuzzy, kde-format
-#| msgid "Item is not a title clip"
+#, kde-format
 msgid "Item is not an animation clip"
-msgstr "Elementua ez da titulu klipa"
+msgstr "Elementua ez da animazio klip bat"
 
 #: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
@@ -8635,10 +8612,9 @@ msgstr "Denbora bermapeatzea"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:276 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "&Gidalerroak"
+msgstr "Gidalerroak"
 
 #: src/mainwindow.cpp:339 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9499,10 +9475,9 @@ msgid "Edit Guide…"
 msgstr "Editatu Gidalerroa…"
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Bilatu…"
+msgstr "Bilatu gidalerroa..."
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9515,10 +9490,9 @@ msgid "Guides Locked"
 msgstr "Gidak giltzatuta"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Erakutsi gidak:"
+msgstr "Giltzatu gidak"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -9527,6 +9501,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Giltzatu gidak. Giltzatuta daudenean, gidalerroak ez dira mugituko "
+"bereizgailu-tresna erabiltzean edo pistetan zuria txertatzean/kentzean."
 
 #: src/mainwindow.cpp:1801
 #, kde-format
@@ -11693,16 +11669,14 @@ msgid "Showing backup files for %1"
 msgstr "Babes-kopia fitxategiak erakusten %1entzako"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Editatu gidalerroa"
+msgstr "Editatu gidalerro-kategoria"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Kolore hau beste etiketa batean erabiltzen da"
+msgstr "Kolore hau dagoeneko beste kategoria batean erabiltzen da"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11710,86 +11684,78 @@ msgid "Category %1"
 msgstr "%1 Kategoria"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Ezabatu gidalerroa"
+msgstr "Ezabatu gidalerro-kategoria"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Ezabatu %1 markatzaileak kategoria hau erabiliz"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Markatzaileak honi berresleitu:"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Inportatu"
+msgstr "Inportatu..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Esportatuta:"
+msgstr "Esportatu..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Konfiguratu profilak"
+msgstr "Konfiguratu kategoriak"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Kategoria"
+msgstr "Sailkatu kategoriaren arabera"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Ordenatu honen arabera"
+msgstr "Sailkatu orduaren arabera"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Iruzkina"
+msgstr "Sailkatu iruzkinaren arabera"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Gehitu gidalerroa"
+msgstr "Gehitu gidalerro berria."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
+"Gehitu gidalerro berria. Horrek gidalerro bat gehituko du uneko gako-"
+"fotogramaren posizioan."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Ezabatu gidalerroa"
+msgstr "Ezabatu gidalerroa."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsi18nthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Ezabatu gidalerroa. Horrek hautatutako gidalerro guztiak kenduko ditu."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Ezabatu gidalerroa"
+msgstr "Editatu hautatutako gidalerroa."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11798,11 +11764,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Editatu hautatutako gidalerroa. Hainbat gidalerro hautatuz gero, haien "
+"kategoria alda daiteke."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Gidalerro-kategoriak iragazten ditu."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11811,18 +11779,22 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Gidalerro-kategoriak iragazten ditu. Horri esker, hautatutako gida-"
+"kategoriak erakutsi edo ezkutatu ditzakezu elkarrizketa-koadro honetan eta "
+"denbora-lerroan."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default quality"
+#, kde-format
 msgid "Default guide category."
-msgstr "Kalitate lehenetsia"
+msgstr "Gidalerro-kategoria lehenetsia."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"Gidalerro-kategoria lehenetsia. Berriki sortutako gidalerroetarako "
+"erabilitako kategoria."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11834,6 +11806,8 @@ msgstr "Kargatu Kliparen Markatzaileak"
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
+"Markatzailearen fitxategia 1MB baina handiagoa da, ziur zaude inportatu nahi "
+"duzula?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1198
 #: src/renderpresets/renderpresetrepository.cpp:313
@@ -11842,22 +11816,19 @@ msgid "Cannot read file %1"
 msgstr "Ezin du %1 fitxategia irakurri"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Ezabatu gidalerroa"
+msgstr "Kendu gidalerroak"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Markatzaileak"
+msgstr "%1(e)rako markatzaileak"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Denbora-lerro editatze modua"
+msgstr "Denbora-lerroko gidalerroak"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -14040,7 +14011,7 @@ msgstr "%1 (%2-%3), Posizioa: %4, Iraupena: %5"
 #: src/timeline2/view/qml/SubTitle.qml:155
 #, kde-format
 msgid "Position: %1"
-msgstr "Kokalekua: %1"
+msgstr "Posizioa: %1"
 
 #: src/timeline2/view/qml/Clip.qml:448
 #, kde-format
@@ -16325,7 +16296,7 @@ msgstr "Ezgaitu parametroak efektua ezgaituta dagoenean"
 #: src/ui/configmisc_ui.ui:112
 #, kde-format
 msgid "Tab position:"
-msgstr "Fitxaren kokapena:"
+msgstr "Fitxaren posizioa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configmisc_ui.ui:150
@@ -17101,7 +17072,7 @@ msgstr "Letra-kolore pertsonalizatua"
 #: src/ui/editsub_ui.ui:327
 #, kde-format
 msgid "Custom Position"
-msgstr "Posizio Pertsonalizatua"
+msgstr "Posizio pertsonalizatua"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
 #: src/ui/editsub_ui.ui:334
@@ -17135,24 +17106,21 @@ msgstr "Markatzaile mota:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Gorde honela"
+msgstr "Gorde honela:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "Kdenlive JSON"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Aukerak"
+msgstr "Testu-aukerak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17212,37 +17180,33 @@ msgstr "Inprimakia"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Ezabatu eredua."
+msgstr "Ezabatu kategoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add category"
-msgstr "Gehitu atala"
+msgstr "Gehitu kategoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Kategoria"
+msgstr "Editatu kategoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Gidalerroen eta markatzaileen kategoriak"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "Testu-etiketa"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
@@ -17595,17 +17559,15 @@ msgstr "Iruzkina"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Gehitu klip markatzaileak:"
+msgstr "Gehitu markatzaile anizkoitzak"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Atzera-zenbaketa"
+msgstr "Kopurua"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
@@ -17663,10 +17625,9 @@ msgstr "Bilatu eskuz"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Hasi ezagutza"
+msgstr "Hasierako posizioa"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18

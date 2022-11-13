@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-12 00:46+0000\n"
-"PO-Revision-Date: 2022-11-10 09:04+0100\n"
+"POT-Creation-Date: 2022-11-13 00:45+0000\n"
+"PO-Revision-Date: 2022-11-12 10:18+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4105,7 +4105,7 @@ msgstr "Manjkajoči izvorni posnetek"
 msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
-#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:710
+#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:711
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4709,52 +4709,52 @@ msgstr "Seznam predvajanja MLT (*.mlt)"
 msgid "Update guides categories"
 msgstr "Posodobi kategorije vodil"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename guide"
 msgstr "Preimenuj vodilo"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename marker"
 msgstr "Preimenuj označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add guide"
 msgstr "Dodaj vodilo"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add marker"
 msgstr "Dodaj označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete guide"
 msgstr "Izbriši vodilo"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete marker"
 msgstr "Izbriši označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit guide"
 msgstr "Uredi vodilo"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import guides"
 msgstr "Uvozi vodila"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import markers"
 msgstr "Uvozi označevalnike"
@@ -4762,97 +4762,97 @@ msgstr "Uvozi označevalnike"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:682 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:742 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:690
+#: src/bin/model/markerlistmodel.cpp:750
 #, kde-format
 msgid "Recovered %1"
 msgstr "Obnovljeno: %1"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all guides"
 msgstr "Izbriši vsa vodila"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all markers"
 msgstr "Izbriši vse označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:816 src/bin/model/markerlistmodel.cpp:854
-#: src/bin/model/markerlistmodel.cpp:879
+#: src/bin/model/markerlistmodel.cpp:876 src/bin/model/markerlistmodel.cpp:914
+#: src/bin/model/markerlistmodel.cpp:939
 #: src/timeline2/view/timelinecontroller.cpp:1333
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Na položaju kazalke ni vodila"
 
-#: src/bin/model/markerlistmodel.cpp:819
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Edit Guides Category"
 msgstr "Uredi kategorijo vodil"
 
-#: src/bin/model/markerlistmodel.cpp:819
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "Uredi kategorijo označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:825
+#: src/bin/model/markerlistmodel.cpp:885
 #, kde-format
 msgid "Guides Category"
 msgstr "Kategorija vodil"
 
-#: src/bin/model/markerlistmodel.cpp:825
+#: src/bin/model/markerlistmodel.cpp:885
 #, kde-format
 msgid "Markers Category"
 msgstr "Kategorija označevalnikov"
 
-#: src/bin/model/markerlistmodel.cpp:843
+#: src/bin/model/markerlistmodel.cpp:903
 #, kde-format
 msgid "Edit guides"
 msgstr "Uredi vodila"
 
-#: src/bin/model/markerlistmodel.cpp:843
+#: src/bin/model/markerlistmodel.cpp:903
 #, kde-format
 msgid "Edit markers"
 msgstr "Uredite označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
+#: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #, kde-format
 msgid "guide"
 msgstr "vodilo"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Guide"
 msgstr "Uredi vodilo"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Marker"
 msgstr "Uredi označevalnik"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
 msgid "Add Guides"
 msgstr "Dodaj vodila"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
 msgid "Add Markers"
 msgstr "Dodaj označevalnike"
 
-#: src/bin/model/markerlistmodel.cpp:901
+#: src/bin/model/markerlistmodel.cpp:961
 #, kde-format
 msgid "Add guides"
 msgstr "Dodaj vodila"
 
-#: src/bin/model/markerlistmodel.cpp:901
+#: src/bin/model/markerlistmodel.cpp:961
 #, kde-format
 msgid "Add markers"
 msgstr "Dodaj označevalnike"
@@ -4903,7 +4903,7 @@ msgstr ""
 "Datoteka %1 že obstaja.\n"
 "Ali jo želite prepisati?"
 
-#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:954
+#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:955
 #: src/project/dialogs/archivewidget.cpp:213
 #: src/project/projectmanager.cpp:1138
 #, kde-format
@@ -5430,7 +5430,7 @@ msgstr "Posnetek iz besedila"
 msgid "Create Text clip"
 msgstr "Ustvari besedilni posnetek"
 
-#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1026
+#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1027
 #, kde-format
 msgid "Template title clip"
 msgstr "Predloga posnetka napisa"
@@ -5602,8 +5602,8 @@ msgstr "Izvozi podatke vodil"
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1922
-#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:727
-#: src/doc/kdenlivedoc.cpp:735 src/doc/kdenlivedoc.cpp:1102
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:728
+#: src/doc/kdenlivedoc.cpp:736 src/doc/kdenlivedoc.cpp:1103
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -7242,17 +7242,17 @@ msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Mapa dokumenta projekta ni veljavna, uporabljene bodo privzete sistemske mape"
 
-#: src/doc/kdenlivedoc.cpp:558 src/doc/kdenlivedoc.cpp:568
+#: src/doc/kdenlivedoc.cpp:559 src/doc/kdenlivedoc.cpp:569
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ni mogoče ustvariti samoshranjevalne datoteke %1"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:688
+#: src/doc/kdenlivedoc.cpp:564 src/doc/kdenlivedoc.cpp:689
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "V datoteko %1 ni mogoče pisati. Seznam prizorov je pokvarjen."
 
-#: src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:707
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7263,7 +7263,7 @@ msgstr ""
 "Da se izognete izgubi podatkov, je bila ustvarjena varnostna kopija "
 "imenovana %1."
 
-#: src/doc/kdenlivedoc.cpp:720
+#: src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7272,28 +7272,28 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo mogoče ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:864 src/project/projectmanager.cpp:1029
+#: src/doc/kdenlivedoc.cpp:865 src/project/projectmanager.cpp:1029
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1012
+#: src/doc/kdenlivedoc.cpp:1013
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Vnesite pot do predloge"
 
-#: src/doc/kdenlivedoc.cpp:1109
+#: src/doc/kdenlivedoc.cpp:1110
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Naslednji učinki so bili uvoženi iz projekta:"
 
-#: src/doc/kdenlivedoc.cpp:1142 src/doc/kdenlivedoc.cpp:1156
+#: src/doc/kdenlivedoc.cpp:1143 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Project Folder"
 msgstr "Mapa projekta"
 
-#: src/doc/kdenlivedoc.cpp:1200 src/doc/kdenlivedoc.cpp:1208
+#: src/doc/kdenlivedoc.cpp:1201 src/doc/kdenlivedoc.cpp:1209
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7302,7 +7302,7 @@ msgstr ""
 "Ni mogoče ustvariti varnostne kopije:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1353
+#: src/doc/kdenlivedoc.cpp:1354
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -7311,7 +7311,7 @@ msgstr[1] "Dodaj posredna posnetka"
 msgstr[2] "Dodaj posredne posnetke"
 msgstr[3] "Dodaj posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1356
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -7320,12 +7320,12 @@ msgstr[1] "Odstrani posredna posnetka"
 msgstr[2] "Odstrani posredne posnetke"
 msgstr[3] "Odstrani posredne posnetke"
 
-#: src/doc/kdenlivedoc.cpp:1399 src/doc/kdenlivedoc.cpp:1433
+#: src/doc/kdenlivedoc.cpp:1400 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Vrsta posnetka ne podpira posrednih posnetkov"
 
-#: src/doc/kdenlivedoc.cpp:1616
+#: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid ""
 "\n"
@@ -7335,7 +7335,7 @@ msgstr ""
 "Opozorilo: število sličic na sekundo, ki ni celoštevilčno. Morda bo prišlo "
 "do napačnega prikaza trajanja."
 
-#: src/doc/kdenlivedoc.cpp:1635
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7344,44 +7344,44 @@ msgstr ""
 "Privzeti profil za vaš projekt je %1, za vaše posnetke (%2) pa %3.\n"
 "Ali želite spremeniti privzeti profil za prihodnje projekte?"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default project profile"
 msgstr "Spremeni privzeti profil projekta"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default to %1"
 msgstr "Spremeni privzeti profil v %1"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ohrani trenutno privzetega %1"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Ask me later"
 msgstr "Vprašaj kasneje"
 
-#: src/doc/kdenlivedoc.cpp:1658
+#: src/doc/kdenlivedoc.cpp:1659
 #, kde-format
 msgid "Switch"
 msgstr "Preklopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
+#: src/doc/kdenlivedoc.cpp:1661 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/doc/kdenlivedoc.cpp:1662
+#: src/doc/kdenlivedoc.cpp:1663
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Ali želite preklopiti na posnetkov (%1) profil %2?"
 
-#: src/doc/kdenlivedoc.cpp:1667
+#: src/doc/kdenlivedoc.cpp:1668
 #, kde-format
 msgid ""
 "\n"
@@ -7390,7 +7390,7 @@ msgstr ""
 "\n"
 "Sličice na sekundo profila prilagojene iz izvornega %1"
 
-#: src/doc/kdenlivedoc.cpp:1669
+#: src/doc/kdenlivedoc.cpp:1670
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7399,13 +7399,13 @@ msgstr ""
 "Za vaš posnetek %1 ni zadetkov med profili.\n"
 "Ali želite ustvariti nov profil (%2x%3, %4 sl/s) in preklopiti nanj?%5"
 
-#: src/doc/kdenlivedoc.cpp:1949 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Rdeča"
 
-#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7413,23 +7413,23 @@ msgstr "Rdeča"
 msgid "Green"
 msgstr "Zelena"
 
-#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Modra"
 
-#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:1953 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Rumena"
 
-#: src/doc/kdenlivedoc.cpp:1953
+#: src/doc/kdenlivedoc.cpp:1954
 #, kde-format
 msgid "Cyan"
 msgstr "Sinja"
 
-#: src/doc/kdenlivedoc.cpp:2106
+#: src/doc/kdenlivedoc.cpp:2107
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategorija %1:%2:%3"
@@ -7715,22 +7715,19 @@ msgstr ""
 "Ali želite shraniti učinek brez opisa?"
 
 #: src/glaxnimateluncher.cpp:32
-#, fuzzy, kde-format
-#| msgid "Please install Glaxnimate to edit Lottie animations."
+#, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
-msgstr "Prosimo, namestite Glaxnimate za montažo animacij Lottie."
+msgstr "Če želite montirati animacije Lottie, morate vnesti veljavno pot."
 
 #: src/glaxnimateluncher.cpp:62 src/glaxnimateluncher.cpp:127
-#, fuzzy, kde-format
-#| msgid "Enter path to the Glaxnimate application"
+#, kde-format
 msgid "Failed to launch Glaxnimate application"
-msgstr "Vnesite pot do programa Glaxnimate"
+msgstr "Zagon programa Glaxnimate ni uspel"
 
 #: src/glaxnimateluncher.cpp:76
-#, fuzzy, kde-format
-#| msgid "Item is not a title clip"
+#, kde-format
 msgid "Item is not an animation clip"
-msgstr "Predmet ni posnetek napisa"
+msgstr "Predmet ni posnetek animacije"
 
 #: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
@@ -19128,6 +19125,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Please set a path for the Glaxnimate application"
-#~ msgstr "Nastavite pot za program Glaxnimate"

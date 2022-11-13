@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-12 00:46+0000\n"
+"POT-Creation-Date: 2022-11-13 00:45+0000\n"
 "PO-Revision-Date: 2022-04-28 19:14+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4095,7 +4095,7 @@ msgstr "Lähdeleike puuttuu"
 msgid "Unable to write to file %1"
 msgstr "Tiedostoa %1 ei voitu kirjoittaa"
 
-#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:710
+#: src/bin/bin.cpp:1862 src/bin/bin.cpp:2255 src/doc/kdenlivedoc.cpp:711
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4711,52 +4711,52 @@ msgstr "MLT-soittolista (*.mlt)"
 msgid "Update guides categories"
 msgstr "Virkistä aikajanan arvot."
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename guide"
 msgstr "Nimeä opaste uudelleen"
 
-#: src/bin/model/markerlistmodel.cpp:202 src/bin/model/markerlistmodel.cpp:220
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
 msgid "Rename marker"
 msgstr "Nimeä merkintä uudelleen"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add guide"
 msgstr "Lisää opaste"
 
-#: src/bin/model/markerlistmodel.cpp:204 src/bin/model/markerlistmodel.cpp:222
+#: src/bin/model/markerlistmodel.cpp:264 src/bin/model/markerlistmodel.cpp:282
 #, kde-format
 msgid "Add marker"
 msgstr "Lisää merkintä"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete guide"
 msgstr "Poista opaste"
 
-#: src/bin/model/markerlistmodel.cpp:252
+#: src/bin/model/markerlistmodel.cpp:312
 #, kde-format
 msgid "Delete marker"
 msgstr "Poista merkintä"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit guide"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:279
+#: src/bin/model/markerlistmodel.cpp:339
 #, kde-format
 msgid "Edit marker"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import guides"
 msgstr "Tuo opasteet"
 
-#: src/bin/model/markerlistmodel.cpp:646 src/bin/model/markerlistmodel.cpp:657
+#: src/bin/model/markerlistmodel.cpp:706 src/bin/model/markerlistmodel.cpp:717
 #, kde-format
 msgid "Import markers"
 msgstr "Tuo merkinnät"
@@ -4764,106 +4764,106 @@ msgstr "Tuo merkinnät"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:682 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:742 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Merkintä"
 
-#: src/bin/model/markerlistmodel.cpp:690
+#: src/bin/model/markerlistmodel.cpp:750
 #, fuzzy, kde-format
 #| msgid "Recovered item"
 msgid "Recovered %1"
 msgstr "Palautettu kohde"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all guides"
 msgstr "Poista opasteet"
 
-#: src/bin/model/markerlistmodel.cpp:807
+#: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
 msgid "Delete all markers"
 msgstr "Poista merkinnät"
 
-#: src/bin/model/markerlistmodel.cpp:816 src/bin/model/markerlistmodel.cpp:854
-#: src/bin/model/markerlistmodel.cpp:879
+#: src/bin/model/markerlistmodel.cpp:876 src/bin/model/markerlistmodel.cpp:914
+#: src/bin/model/markerlistmodel.cpp:939
 #: src/timeline2/view/timelinecontroller.cpp:1333
 #, kde-format
 msgid "No guide found at current position"
 msgstr "Kohdalla ei ole opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:819
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guides Category"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:819
+#: src/bin/model/markerlistmodel.cpp:879
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Markers Category"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:825
+#: src/bin/model/markerlistmodel.cpp:885
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Guides Category"
 msgstr "Luokka"
 
-#: src/bin/model/markerlistmodel.cpp:825
+#: src/bin/model/markerlistmodel.cpp:885
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Category"
 msgstr "Luokka"
 
-#: src/bin/model/markerlistmodel.cpp:843
+#: src/bin/model/markerlistmodel.cpp:903
 #, fuzzy, kde-format
 #| msgid "Edit guide"
 msgid "Edit guides"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:843
+#: src/bin/model/markerlistmodel.cpp:903
 #, fuzzy, kde-format
 #| msgid "Edit marker"
 msgid "Edit markers"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:858 src/bin/model/markerlistmodel.cpp:883
+#: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #, kde-format
 msgid "guide"
 msgstr "opaste"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Guide"
 msgstr "Muokkaa opastetta"
 
-#: src/bin/model/markerlistmodel.cpp:861
+#: src/bin/model/markerlistmodel.cpp:921
 #, kde-format
 msgid "Edit Marker"
 msgstr "Muokkaa merkintää"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, fuzzy, kde-format
 #| msgid "Add Guide"
 msgid "Add Guides"
 msgstr "Lisää opaste"
 
-#: src/bin/model/markerlistmodel.cpp:886
+#: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
 msgid "Add Markers"
 msgstr "Lisää merkintöjä"
 
-#: src/bin/model/markerlistmodel.cpp:901
+#: src/bin/model/markerlistmodel.cpp:961
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add guides"
 msgstr "Lisää opaste"
 
-#: src/bin/model/markerlistmodel.cpp:901
+#: src/bin/model/markerlistmodel.cpp:961
 #, fuzzy, kde-format
 #| msgid "Add marker"
 msgid "Add markers"
@@ -4916,7 +4916,7 @@ msgstr ""
 "Tiedosto %1 on jo olemassa.\n"
 "Korvataanko?"
 
-#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:954
+#: src/bin/projectclip.cpp:175 src/doc/kdenlivedoc.cpp:955
 #: src/project/dialogs/archivewidget.cpp:213
 #: src/project/projectmanager.cpp:1138
 #, kde-format
@@ -5448,7 +5448,7 @@ msgstr "Tekstileike"
 msgid "Create Text clip"
 msgstr "Luo tekstileike"
 
-#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1026
+#: src/dialogs/clipcreationdialog.cpp:385 src/doc/kdenlivedoc.cpp:1027
 #, kde-format
 msgid "Template title clip"
 msgstr "Tekstileikkeen mallipohja"
@@ -5617,8 +5617,8 @@ msgstr "Tuo opasteet"
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1922
-#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:727
-#: src/doc/kdenlivedoc.cpp:735 src/doc/kdenlivedoc.cpp:1102
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:728
+#: src/doc/kdenlivedoc.cpp:736 src/doc/kdenlivedoc.cpp:1103
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -7253,17 +7253,17 @@ msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Asiakirjan projektikansio on virheellinen, käytetään järjestelmän oletusta"
 
-#: src/doc/kdenlivedoc.cpp:558 src/doc/kdenlivedoc.cpp:568
+#: src/doc/kdenlivedoc.cpp:559 src/doc/kdenlivedoc.cpp:569
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Ei voida luoda automaattista tallennusta %1"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:688
+#: src/doc/kdenlivedoc.cpp:564 src/doc/kdenlivedoc.cpp:689
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Tiedostoon %1 ei voi kirjoittaa, kohtausluettelo on vioittunut."
 
-#: src/doc/kdenlivedoc.cpp:706
+#: src/doc/kdenlivedoc.cpp:707
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7273,7 +7273,7 @@ msgstr ""
 "Jotta varmistettaisiin, ettei tietoja menetetä, luotiin varmuuskopio nimelle "
 "%1."
 
-#: src/doc/kdenlivedoc.cpp:720
+#: src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7282,28 +7282,28 @@ msgstr ""
 "Projekti päivitettiin Kdenliven uusimpaan versioon, mutta varmuuskopiota %1 "
 "ei ollut mahdollista luoda."
 
-#: src/doc/kdenlivedoc.cpp:864 src/project/projectmanager.cpp:1029
+#: src/doc/kdenlivedoc.cpp:865 src/project/projectmanager.cpp:1029
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Virhe siirrettäessä projektin kansiota: %1"
 
-#: src/doc/kdenlivedoc.cpp:1012
+#: src/doc/kdenlivedoc.cpp:1013
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Anna mallipohjan sijainti"
 
-#: src/doc/kdenlivedoc.cpp:1109
+#: src/doc/kdenlivedoc.cpp:1110
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Seuraavat tehosteet tuotiin projektista:"
 
-#: src/doc/kdenlivedoc.cpp:1142 src/doc/kdenlivedoc.cpp:1156
+#: src/doc/kdenlivedoc.cpp:1143 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Project Folder"
 msgstr "Projektin kansio"
 
-#: src/doc/kdenlivedoc.cpp:1200 src/doc/kdenlivedoc.cpp:1208
+#: src/doc/kdenlivedoc.cpp:1201 src/doc/kdenlivedoc.cpp:1209
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7312,26 +7312,26 @@ msgstr ""
 "Varmuuskopiota ei voi luoda:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1353
+#: src/doc/kdenlivedoc.cpp:1354
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Lisää leike puskuriin"
 msgstr[1] "Lisää leikkeet puskuriin"
 
-#: src/doc/kdenlivedoc.cpp:1355
+#: src/doc/kdenlivedoc.cpp:1356
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Poista leike puskurista"
 msgstr[1] "Poista leikkeet puskurista"
 
-#: src/doc/kdenlivedoc.cpp:1399 src/doc/kdenlivedoc.cpp:1433
+#: src/doc/kdenlivedoc.cpp:1400 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Leikkeen tyyppi ei tue puskuria"
 
-#: src/doc/kdenlivedoc.cpp:1616
+#: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
 msgid ""
 "\n"
@@ -7340,7 +7340,7 @@ msgstr ""
 "\n"
 "Varoitus: muu kuin kokonaisluku fps, saattaa aiheuttaa virheellisen keston."
 
-#: src/doc/kdenlivedoc.cpp:1635
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7349,44 +7349,44 @@ msgstr ""
 "Projektin oletusprofiili on %1 mutta leikkeen profiili (%2) on %3.\n"
 "Haluatko vaihtaa tulevien projektien oletusprofiilia?"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default project profile"
 msgstr "Vaihda profiilin oletusta"
 
-#: src/doc/kdenlivedoc.cpp:1637
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Change default to %1"
 msgstr "Muuta oletukseksi %1"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Säilytä nykyinen oletus %1"
 
-#: src/doc/kdenlivedoc.cpp:1638
+#: src/doc/kdenlivedoc.cpp:1639
 #, kde-format
 msgid "Ask me later"
 msgstr "Kysy myöhemmin"
 
-#: src/doc/kdenlivedoc.cpp:1658
+#: src/doc/kdenlivedoc.cpp:1659
 #, kde-format
 msgid "Switch"
 msgstr "Vaihda"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1660 src/timeline2/model/timelinefunctions.cpp:1909
+#: src/doc/kdenlivedoc.cpp:1661 src/timeline2/model/timelinefunctions.cpp:1909
 #: src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/doc/kdenlivedoc.cpp:1662
+#: src/doc/kdenlivedoc.cpp:1663
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Vaihdetaanko leikkeen (%1) profiiliksi %2?"
 
-#: src/doc/kdenlivedoc.cpp:1667
+#: src/doc/kdenlivedoc.cpp:1668
 #, kde-format
 msgid ""
 "\n"
@@ -7395,7 +7395,7 @@ msgstr ""
 "\n"
 "Profiilin fps säädetty alkuperäisestä %1"
 
-#: src/doc/kdenlivedoc.cpp:1669
+#: src/doc/kdenlivedoc.cpp:1670
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7404,13 +7404,13 @@ msgstr ""
 "Leikkeelle %1 ei löytynyt profiilia.\n"
 "Luodaanko ja vaihdetaanko uuteen profiiliin (%2×%3, %4 fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:1949 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Punainen"
 
-#: src/doc/kdenlivedoc.cpp:1950 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7418,23 +7418,23 @@ msgstr "Punainen"
 msgid "Green"
 msgstr "Vihreä"
 
-#: src/doc/kdenlivedoc.cpp:1951 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Sininen"
 
-#: src/doc/kdenlivedoc.cpp:1952 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:1953 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Keltainen"
 
-#: src/doc/kdenlivedoc.cpp:1953
+#: src/doc/kdenlivedoc.cpp:1954
 #, kde-format
 msgid "Cyan"
 msgstr "Syaani"
 
-#: src/doc/kdenlivedoc.cpp:2106
+#: src/doc/kdenlivedoc.cpp:2107
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
