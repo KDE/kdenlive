@@ -4955,7 +4955,8 @@ msgid "Add Guides"
 msgstr "Hilfslinie hinzufügen"
 
 #: src/bin/model/markerlistmodel.cpp:946
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Add Markers"
 msgid "Add Markers"
 msgstr "Markierungen hinzufügen"
 
@@ -5724,7 +5725,8 @@ msgid "Copy to Clipboard"
 msgstr "Keyframes in Zwischenablage kopieren"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save"
 msgid "Save"
 msgstr "Speichern"
 
