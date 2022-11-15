@@ -197,28 +197,9 @@ bool DocumentChecker::hasErrorInClips()
                 continue;
             }
             // Check Kdenlive folder
-            if (lumaPath.isEmpty()) {
-                QDir dir(QCoreApplication::applicationDirPath());
-                dir.cdUp();
-                dir.cd(QStringLiteral("share/kdenlive/lumas/"));
-                lumaPath = dir.absolutePath() + QStringLiteral("/");
-            }
-            lumaName = filePath.section(QLatin1Char('/'), -2);
-            lumaName.prepend(lumaPath);
-            if (QFile::exists(lumaName)) {
-                autoFixLuma.insert(filePath, lumaName);
-                continue;
-            }
-            // Check MLT folder
-            if (lumaMltPath.isEmpty()) {
-                QDir dir(KdenliveSettings::mltpath());
-                dir.cd(QStringLiteral("../lumas/"));
-                lumaMltPath = dir.absolutePath() + QStringLiteral("/");
-            }
-            lumaName = filePath.section(QLatin1Char('/'), -2);
-            lumaName.prepend(lumaMltPath);
-            if (QFile::exists(lumaName)) {
-                autoFixLuma.insert(filePath, lumaName);
+            QString res = fixLuma(filePath);
+            if (!res.isEmpty() && QFile::exists(res)) {
+                autoFixLuma.insert(filePath, res);
                 continue;
             }
 
@@ -1038,10 +1019,10 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
     m_checkRunning = false;
 }
 
-QString DocumentChecker::searchLuma(const QDir &dir, const QString &file)
+QString DocumentChecker::fixLuma(const QString &file)
 {
     QDir searchPath(KdenliveSettings::mltpath());
-    QString fname = QUrl::fromLocalFile(file).fileName();
+    QString fname = QFileInfo(file).fileName();
     if (file.contains(QStringLiteral("PAL"))) {
         searchPath.cd(QStringLiteral("../lumas/PAL"));
     } else {
@@ -1054,21 +1035,41 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file)
     // try to find luma in application path
     searchPath.setPath(QCoreApplication::applicationDirPath());
 #ifdef Q_OS_WIN
-    searchPath.cd(QStringLiteral("data/lumas"));
+    searchPath.cd(QStringLiteral("data/"));
 #else
-    searchPath.cd(QStringLiteral("../share/apps/kdenlive/lumas"));
+    searchPath.cd(QStringLiteral("../share/kdenlive/"));
 #endif
+    if (file.contains(QStringLiteral("/PAL"))) {
+        searchPath.cd(QStringLiteral("lumas/PAL/"));
+    } else {
+        searchPath.cd(QStringLiteral("lumas/HD/"));
+    }
     result.setFile(searchPath, fname);
     if (result.exists()) {
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    QString res = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("lumas/") + fname);
+    QString res = QStandardPaths::locate(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
     if (!res.isEmpty()) {
-        return res;
+        searchPath.setPath(res);
+        if (file.contains(QStringLiteral("/PAL"))) {
+            searchPath.cd(QStringLiteral("PAL"));
+        } else {
+            searchPath.cd(QStringLiteral("HD"));
+        }
+        result.setFile(searchPath, fname);
+        if (result.exists()) {
+            return result.filePath();
+        }
     }
+    return QString();
+}
+
+QString DocumentChecker::searchLuma(const QDir &dir, const QString &file)
+{
     // Try in user's chosen folder
-    return searchPathRecursively(dir, fname);
+    QString result = fixLuma(file);
+    return result.isEmpty() ? searchPathRecursively(dir, QFileInfo(file).fileName()) : result;
 }
 
 QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType::ProducerType type)
