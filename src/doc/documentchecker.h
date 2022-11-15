@@ -28,6 +28,7 @@ public:
      * @return
      */
     bool hasErrorInClips();
+    QString fixLuma(const QString &file);
     QString searchLuma(const QDir &dir, const QString &file);
 
 private slots:
