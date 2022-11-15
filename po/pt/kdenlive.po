@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:45+0000\n"
-"PO-Revision-Date: 2022-11-09 22:20+0000\n"
+"POT-Creation-Date: 2022-11-15 00:45+0000\n"
+"PO-Revision-Date: 2022-11-14 01:59+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -3761,10 +3761,9 @@ msgstr "Mover a imagem-chave seleccionada para o cursor"
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgid "Show keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Mostrar as imagens-chave"
+msgstr "Copiar as imagens-chave"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3773,25 +3772,27 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"Copiar as imagens-chave. Copia as imagens-chave seleccionadas ou os valores "
+"actuais dos parâmetros se não estiver seleccionada nenhuma imagem-chave."
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:784
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Actualizar a imagem-chave"
+msgstr "Colar a imagem-chave"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Actualizar a imagem-chave"
+msgstr "Colar as imagens-chave"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
+"Colar as imagens-chave. Cola os dados da área de transferência como imagens-"
+"chave na posição actual."
 
 #: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
@@ -3830,6 +3831,8 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
+"Interpolação das imagens-chave. Isto define qual a interpolação que será "
+"usada para a imagem-chave actual."
 
 #: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
@@ -3837,10 +3840,9 @@ msgid "Seek to Keyframe on Select"
 msgstr "Ir para a Imagem-Chave ao Seleccionar"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Copiar as Imagens-Chave para a Área de Transferência"
+msgstr "Copiar Todas as Imagens-Chave para a Área de Transferência"
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -3889,30 +3891,26 @@ msgid "Select parameters to copy"
 msgstr "Seleccione os parâmetros a copiar"
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "O valor da imagem-chave foi copiado"
+msgstr "As imagens-chave foram copiadas"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
-#, fuzzy, kde-format
-#| msgid "No valid data in clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "Nenhuns dados válidos na área de transferência"
+msgstr "Nenhuns dados de imagens-chave válidos na área de transferência"
 
 #: src/assets/view/widgets/keyframewidget.cpp:794
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Não é possível criar os ficheiros temporários"
+msgstr "Não é possível copiar os valores actuais dos parâmetros"
 
 #: src/assets/view/widgets/keyframewidget.cpp:799
 #: src/assets/view/widgets/keyframewidget.cpp:807
 #: src/assets/view/widgets/keyframewidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Current values copied"
-msgstr "O valor da imagem-chave foi copiado"
+msgstr "Os valores actuais foram copiados"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4749,7 +4747,7 @@ msgid ""
 msgstr ""
 "Os seguintes 'clips' já foram inseridos no projecto. Deseja duplicá-los?"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:861
+#: src/bin/clipcreator.cpp:238 src/core.cpp:866
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -5215,254 +5213,254 @@ msgstr ""
 msgid "Loading project…"
 msgstr "A carregar o projecto…"
 
-#: src/core.cpp:279
+#: src/core.cpp:284
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Quadrado 2 Barras"
 
-#: src/core.cpp:280
+#: src/core.cpp:285
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Xadrez Pequeno"
 
-#: src/core.cpp:281
+#: src/core.cpp:286
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Estores Horizontais"
 
-#: src/core.cpp:282
+#: src/core.cpp:287
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:283
+#: src/core.cpp:288
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear em X"
 
-#: src/core.cpp:284
+#: src/core.cpp:289
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilinear em X"
 
-#: src/core.cpp:285
+#: src/core.cpp:290
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear em Y"
 
-#: src/core.cpp:286
+#: src/core.cpp:291
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilinear em Y"
 
-#: src/core.cpp:287
+#: src/core.cpp:292
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Quadrado"
 
-#: src/core.cpp:288
+#: src/core.cpp:293
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Quadrado 2"
 
-#: src/core.cpp:289
+#: src/core.cpp:294
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Nuvem"
 
-#: src/core.cpp:290
+#: src/core.cpp:295
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Relógio Simétrico"
 
-#: src/core.cpp:291
+#: src/core.cpp:296
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barras Radiais"
 
-#: src/core.cpp:292
+#: src/core.cpp:297
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Espiral"
 
-#: src/core.cpp:293
+#: src/core.cpp:298
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Espiral 2"
 
-#: src/core.cpp:294
+#: src/core.cpp:299
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Cortina"
 
-#: src/core.cpp:295
+#: src/core.cpp:300
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Explosão"
 
-#: src/core.cpp:296
+#: src/core.cpp:301
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Relógio"
 
-#: src/core.cpp:298
+#: src/core.cpp:303
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barras Horizontais"
 
-#: src/core.cpp:299
+#: src/core.cpp:304
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barras Verticais"
 
-#: src/core.cpp:300
+#: src/core.cpp:305
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Portão Horizontal"
 
-#: src/core.cpp:301
+#: src/core.cpp:306
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Portão Vertical"
 
-#: src/core.cpp:302
+#: src/core.cpp:307
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Portão Diagonal SO-NE"
 
-#: src/core.cpp:303
+#: src/core.cpp:308
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Portão Diagonal NO-SE"
 
-#: src/core.cpp:304
+#: src/core.cpp:309
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal Superior-Esquerdo"
 
-#: src/core.cpp:305
+#: src/core.cpp:310
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal Superior-Direito"
 
-#: src/core.cpp:306
+#: src/core.cpp:311
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Queda de Letras Matrix Horizontal"
 
-#: src/core.cpp:307
+#: src/core.cpp:312
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Queda de Letras Matrix Vertical"
 
-#: src/core.cpp:308
+#: src/core.cpp:313
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Cobra Matriz Horizontal"
 
-#: src/core.cpp:309
+#: src/core.cpp:314
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Cobra Matrix Paralela Horizontal"
 
-#: src/core.cpp:310
+#: src/core.cpp:315
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Cobra Matrix Vertical"
 
-#: src/core.cpp:311
+#: src/core.cpp:316
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Cobra Matrix Paralela Vertical"
 
-#: src/core.cpp:312
+#: src/core.cpp:317
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "V de Portão para Cima"
 
-#: src/core.cpp:313
+#: src/core.cpp:318
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Círculo em Íris"
 
-#: src/core.cpp:314
+#: src/core.cpp:319
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Dupla Íris"
 
-#: src/core.cpp:315
+#: src/core.cpp:320
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Caixa em Íris"
 
-#: src/core.cpp:316
+#: src/core.cpp:321
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Caixa Inferior Direita"
 
-#: src/core.cpp:317
+#: src/core.cpp:322
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Caixa Inferior Esquerda"
 
-#: src/core.cpp:318
+#: src/core.cpp:323
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Caixa ao Centro-Direita"
 
-#: src/core.cpp:319
+#: src/core.cpp:324
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Relógio ao Topo"
 
-#: src/core.cpp:541
+#: src/core.cpp:546
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "O perfil do seu projecto é inválido; a geração do desenho poderá falhar."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:596 src/kdenliveui.rc:28 src/mainwindow.cpp:273
+#: src/core.cpp:601 src/kdenliveui.rc:28 src/mainwindow.cpp:273
 #: src/timeline2/view/qml/timeline.qml:1014
 #, kde-format
 msgid "Subtitles"
@@ -7808,22 +7806,20 @@ msgstr ""
 "Deseja gravar o efeito sem qualquer descrição?"
 
 #: src/glaxnimateluncher.cpp:32
-#, fuzzy, kde-format
-#| msgid "Please install Glaxnimate to edit Lottie animations."
+#, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
-msgstr "Por favor instale o Glaxnimate para editar as animações do Lottie."
+msgstr ""
+"Precisa de indicar uma localização válida para editar as animações do Lottie."
 
 #: src/glaxnimateluncher.cpp:62 src/glaxnimateluncher.cpp:127
-#, fuzzy, kde-format
-#| msgid "Enter path to the Glaxnimate application"
+#, kde-format
 msgid "Failed to launch Glaxnimate application"
-msgstr "Defina a localização do executável Glaxnimate"
+msgstr "Não foi possível invocar a aplicação Glaxnimate"
 
 #: src/glaxnimateluncher.cpp:76
-#, fuzzy, kde-format
-#| msgid "Item is not a title clip"
+#, kde-format
 msgid "Item is not an animation clip"
-msgstr "O item não é um 'clip' do título"
+msgstr "O item não é um 'clip' de animação"
 
 #: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
@@ -19258,12 +19254,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Please set a path for the Glaxnimate application"
-#~ msgstr "Por favor, indique a localização da aplicação Glaxnimate"
-
-#~ msgid "Duplicate selected keyframe"
-#~ msgstr "Duplicar a imagem-chave seleccionada"
-
-#~ msgid "Copy Value at Cursor Position to Clipboard"
-#~ msgstr "Copiar o Valor na Posição do Cursor para a Área de Transferência"

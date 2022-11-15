@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-13 00:45+0000\n"
+"POT-Creation-Date: 2022-11-15 00:45+0000\n"
 "PO-Revision-Date: 2022-04-28 19:14+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4651,7 +4651,7 @@ msgid ""
 "duplicate them?"
 msgstr "Seuraavat leikkeet on jo lisätty projektiin. Haluatko monistaa ne?"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:861
+#: src/bin/clipcreator.cpp:238 src/core.cpp:866
 #: src/project/projectmanager.cpp:702
 #, kde-format
 msgid "Loading clips"
@@ -5131,253 +5131,253 @@ msgstr ""
 msgid "Loading project…"
 msgstr "Avataan projektia…"
 
-#: src/core.cpp:279
+#: src/core.cpp:284
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Neliö 2 palkkia"
 
-#: src/core.cpp:280
+#: src/core.cpp:285
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Shakkiruudut pienet"
 
-#: src/core.cpp:281
+#: src/core.cpp:286
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Vaakakaihtimet"
 
-#: src/core.cpp:282
+#: src/core.cpp:287
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Keskipisteestä"
 
-#: src/core.cpp:283
+#: src/core.cpp:288
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Pyyhkäisy >X"
 
-#: src/core.cpp:284
+#: src/core.cpp:289
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Pyyhkäisy  -X-"
 
-#: src/core.cpp:285
+#: src/core.cpp:290
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Pyyhkäisy >Y"
 
-#: src/core.cpp:286
+#: src/core.cpp:291
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Pyyhkäisy -Y-"
 
-#: src/core.cpp:287
+#: src/core.cpp:292
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Neliö"
 
-#: src/core.cpp:288
+#: src/core.cpp:293
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Neliö 2"
 
-#: src/core.cpp:289
+#: src/core.cpp:294
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Pilvi"
 
-#: src/core.cpp:290
+#: src/core.cpp:295
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Kello V-auki"
 
-#: src/core.cpp:291
+#: src/core.cpp:296
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Hypnoosi"
 
-#: src/core.cpp:292
+#: src/core.cpp:297
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spiraali"
 
-#: src/core.cpp:293
+#: src/core.cpp:298
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spiraali 2"
 
-#: src/core.cpp:294
+#: src/core.cpp:299
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Verho"
 
-#: src/core.cpp:295
+#: src/core.cpp:300
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Räjähdys"
 
-#: src/core.cpp:296
+#: src/core.cpp:301
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Kello"
 
-#: src/core.cpp:298
+#: src/core.cpp:303
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Vaakapalkki"
 
-#: src/core.cpp:299
+#: src/core.cpp:304
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Pystypalkki"
 
-#: src/core.cpp:300
+#: src/core.cpp:305
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Sulku vaaka"
 
-#: src/core.cpp:301
+#: src/core.cpp:306
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Sulku pysty"
 
-#: src/core.cpp:302
+#: src/core.cpp:307
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Sulku vasemmalle"
 
-#: src/core.cpp:303
+#: src/core.cpp:308
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Sulku oikealle"
 
-#: src/core.cpp:304
+#: src/core.cpp:309
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Vino vasemmalla"
 
-#: src/core.cpp:305
+#: src/core.cpp:310
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Vino oikealle"
 
-#: src/core.cpp:306
+#: src/core.cpp:311
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Vesiputous vaaka"
 
-#: src/core.cpp:307
+#: src/core.cpp:312
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Vesiputous pysty"
 
-#: src/core.cpp:308
+#: src/core.cpp:313
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Käärme vaaka"
 
-#: src/core.cpp:309
+#: src/core.cpp:314
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Käärme sulku vaaka"
 
-#: src/core.cpp:310
+#: src/core.cpp:315
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Käärme pysty"
 
-#: src/core.cpp:311
+#: src/core.cpp:316
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Käärme sulku pysty"
 
-#: src/core.cpp:312
+#: src/core.cpp:317
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Sulku V ylös"
 
-#: src/core.cpp:313
+#: src/core.cpp:318
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris kehä O"
 
-#: src/core.cpp:314
+#: src/core.cpp:319
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Iris kehä O O"
 
-#: src/core.cpp:315
+#: src/core.cpp:320
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris laatikko"
 
-#: src/core.cpp:316
+#: src/core.cpp:321
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Laatikko viisto vasen"
 
-#: src/core.cpp:317
+#: src/core.cpp:322
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Laatikko viisto oikea"
 
-#: src/core.cpp:318
+#: src/core.cpp:323
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Laatikko - keskelle"
 
-#: src/core.cpp:319
+#: src/core.cpp:324
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Kello myötäpäivään"
 
-#: src/core.cpp:541
+#: src/core.cpp:546
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Projektin profiili on virheellinen: hahmonnus voi epäonnistua."
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:596 src/kdenliveui.rc:28 src/mainwindow.cpp:273
+#: src/core.cpp:601 src/kdenliveui.rc:28 src/mainwindow.cpp:273
 #: src/timeline2/view/qml/timeline.qml:1014
 #, kde-format
 msgid "Subtitles"
