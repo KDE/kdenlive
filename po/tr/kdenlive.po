@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-15 02:43+0000\n"
-"PO-Revision-Date: 2022-11-11 20:03+0300\n"
+"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"PO-Revision-Date: 2022-11-15 05:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1346,7 +1346,7 @@ msgstr "Azami"
 #: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Write on clear,Max,Min,Add,Subtract"
-msgstr "Temize yaz,Azami,Asgari,Ekle,Çıkart"
+msgstr "Temize yaz,Azami,Asgari,Ekle,Çıkar"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_select0r.xml:42
@@ -4087,7 +4087,7 @@ msgstr "Bazı ögeler silinemedi. Kilitli izlerde örnekler olabilir mi?"
 msgid "Delete bin Clips"
 msgstr "Kovadaki Kliplerini Sil"
 
-#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:572
+#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:553
 #, kde-format
 msgid "Missing source clip"
 msgstr "Eksik kaynak klip"
@@ -4976,7 +4976,7 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Kullanım"
 
-#: src/bin/projectitemmodel.cpp:323 src/doc/documentchecker.cpp:337
+#: src/bin/projectitemmodel.cpp:323 src/doc/documentchecker.cpp:318
 #: src/mltcontroller/clipcontroller.cpp:434 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6863,85 +6863,85 @@ msgstr "NVIDIA donanım kodlayıcıları bulundu ve etkinleştirildi."
 msgid "VAAPI hardware encoders found and enabled."
 msgstr "VAAPI donanım kodlayıcıları bulundu ve etkinleştirildi."
 
-#: src/doc/documentchecker.cpp:293
+#: src/doc/documentchecker.cpp:274
 #, kde-format
 msgid "Luma file"
 msgstr "Luma dosyası"
 
-#: src/doc/documentchecker.cpp:319
+#: src/doc/documentchecker.cpp:300
 #, kde-format
 msgid "Video clip"
 msgstr "Video klibi"
 
-#: src/doc/documentchecker.cpp:323
+#: src/doc/documentchecker.cpp:304
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Sunu klibi"
 
-#: src/doc/documentchecker.cpp:326
+#: src/doc/documentchecker.cpp:307
 #, kde-format
 msgid "Image clip"
 msgstr "Görsel klibi"
 
-#: src/doc/documentchecker.cpp:330
+#: src/doc/documentchecker.cpp:311
 #, kde-format
 msgid "Playlist clip"
 msgstr "Oynatma listesi klibi"
 
-#: src/doc/documentchecker.cpp:333
+#: src/doc/documentchecker.cpp:314
 #, kde-format
 msgid "Title Image"
 msgstr "Başlık Resmi"
 
-#: src/doc/documentchecker.cpp:360
+#: src/doc/documentchecker.cpp:341
 #, kde-format
 msgid "Missing item"
 msgstr "Eksik öge"
 
-#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:398
-#: src/doc/documentchecker.cpp:1265
+#: src/doc/documentchecker.cpp:354 src/doc/documentchecker.cpp:379
+#: src/doc/documentchecker.cpp:1266
 #, kde-format
 msgid "Relocated item"
 msgstr "Taşınmış öge"
 
-#: src/doc/documentchecker.cpp:411
+#: src/doc/documentchecker.cpp:392
 #, kde-format
 msgid "Title Font"
 msgstr "Başlık Yazıtipi"
 
-#: src/doc/documentchecker.cpp:416
+#: src/doc/documentchecker.cpp:397
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "%1, %2 ile değiştirilecek"
 
-#: src/doc/documentchecker.cpp:421
+#: src/doc/documentchecker.cpp:402
 #, kde-format
 msgid "Modified Clips"
 msgstr "Değiştirilmiş Klipler"
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:406
 #, kde-format
 msgid "Clip %1 will be reloaded"
 msgstr "%1 klibi yeniden yüklenecek"
 
-#: src/doc/documentchecker.cpp:431
+#: src/doc/documentchecker.cpp:412
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proje dosyası eksik klipler veya dosyalar içeriyor."
 
-#: src/doc/documentchecker.cpp:437
+#: src/doc/documentchecker.cpp:418
 #, kde-format
 msgid "Missing effect: %2 will be removed from project."
 msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Eksik efekt: %2, projeden kaldırılacak."
 msgstr[1] "Eksik efektler: %2, projeden kaldırılacak."
 
-#: src/doc/documentchecker.cpp:444
+#: src/doc/documentchecker.cpp:425
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Eksik vekiller program açılırken yeniden oluşturulabilir."
 
-#: src/doc/documentchecker.cpp:462
+#: src/doc/documentchecker.cpp:443
 #, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -6953,7 +6953,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Proje dosyası %1 eksik klip içeriyor, hala vekilleri ile çalışabilirsiniz."
 
-#: src/doc/documentchecker.cpp:469
+#: src/doc/documentchecker.cpp:450
 #, kde-format
 msgid "The project file contains one modified clip, it will be reloaded."
 msgid_plural ""
@@ -6961,81 +6961,81 @@ msgid_plural ""
 msgstr[0] "Proje dosyası bir değiştirilimiş klip içeriyor, yeniden yüklenecek."
 msgstr[1] "Proje dosyası %1 değiştirilmiş klip içeriyor, yeniden yüklenecek."
 
-#: src/doc/documentchecker.cpp:550
+#: src/doc/documentchecker.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:415
 #, kde-format
 msgid "Proxy clip"
 msgstr "Vekil klibi"
 
-#: src/doc/documentchecker.cpp:553
+#: src/doc/documentchecker.cpp:534
 #, kde-format
 msgid "%1 missing proxy clip, will be recreated on project opening"
 msgid_plural "%1 missing proxy clips, will be recreated on project opening"
 msgstr[0] "proje açılırken eksik olan %1 vekil klip yeniden oluşturulacak"
 msgstr[1] "proje açılırken eksik olan %1 vekil klip yeniden oluşturulacak"
 
-#: src/doc/documentchecker.cpp:556
+#: src/doc/documentchecker.cpp:537
 #, kde-format
 msgid "Missing proxy"
 msgstr "Kayıp vekil"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:567 src/doc/documentchecker.cpp:581
+#: src/doc/documentchecker.cpp:548 src/doc/documentchecker.cpp:562
 #: src/ui/timeremap_ui.ui:90
 #, kde-format
 msgid "Source clip"
 msgstr "Kaynak klip"
 
-#: src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:550
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr "%1 kayıp kaynak klibi, sadece vekillerini kullanabilirsiniz"
 
-#: src/doc/documentchecker.cpp:942
+#: src/doc/documentchecker.cpp:923
 #, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klipler Klasörü"
 
-#: src/doc/documentchecker.cpp:973 src/doc/documentchecker.cpp:997
-#: src/doc/documentchecker.cpp:1007 src/doc/documentchecker.cpp:1019
+#: src/doc/documentchecker.cpp:954 src/doc/documentchecker.cpp:978
+#: src/doc/documentchecker.cpp:988 src/doc/documentchecker.cpp:1000
 #, kde-format
 msgid "Recovered item"
 msgstr "Kurtarılan öge"
 
-#: src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1013
 #, kde-format
 msgid "Search aborted"
 msgstr "Arama iptal edildi"
 
-#: src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:1015
 #, kde-format
 msgid "Search done"
 msgstr "Arama bitti"
 
-#: src/doc/documentchecker.cpp:1130
+#: src/doc/documentchecker.cpp:1131
 #, kde-format
 msgid "Scanning %1"
 msgstr "%1 taranıyor"
 
-#: src/doc/documentchecker.cpp:1227
+#: src/doc/documentchecker.cpp:1228
 #, kde-format
 msgid "Enter new location for folder"
 msgstr "Klasör için yeni konum girin"
 
-#: src/doc/documentchecker.cpp:1253
+#: src/doc/documentchecker.cpp:1254
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Dosya için yeni bir konum girin"
 
-#: src/doc/documentchecker.cpp:1597
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Bu, seçilen klipleri bu projeden kaldıracak"
 msgstr[1] "Bu, seçilen klipleri bu projeden kaldıracak"
 
-#: src/doc/documentchecker.cpp:1599
+#: src/doc/documentchecker.cpp:1600
 #, kde-format
 msgid "Remove clips"
 msgstr "Klipleri kaldır"

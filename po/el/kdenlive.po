@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-15 02:43+0000\n"
+"POT-Creation-Date: 2022-11-16 02:51+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4230,7 +4230,7 @@ msgstr ""
 msgid "Delete bin Clips"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:572
+#: src/bin/bin.cpp:1836 src/doc/documentchecker.cpp:553
 #, fuzzy, kde-format
 msgid "Missing source clip"
 msgstr "Κλιπ που δεν έχει βρεθεί"
@@ -5199,7 +5199,7 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:323 src/doc/documentchecker.cpp:337
+#: src/bin/projectitemmodel.cpp:323 src/doc/documentchecker.cpp:318
 #: src/mltcontroller/clipcontroller.cpp:434 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7176,76 +7176,76 @@ msgstr ""
 msgid "VAAPI hardware encoders found and enabled."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:293
+#: src/doc/documentchecker.cpp:274
 #, kde-format
 msgid "Luma file"
 msgstr "Αρχείο luma"
 
-#: src/doc/documentchecker.cpp:319
+#: src/doc/documentchecker.cpp:300
 #, kde-format
 msgid "Video clip"
 msgstr "Βιντεοκλίπ"
 
-#: src/doc/documentchecker.cpp:323
+#: src/doc/documentchecker.cpp:304
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Κλιπ προβολής διαφανειών"
 
-#: src/doc/documentchecker.cpp:326
+#: src/doc/documentchecker.cpp:307
 #, kde-format
 msgid "Image clip"
 msgstr "Εικονοκλίπ"
 
-#: src/doc/documentchecker.cpp:330
+#: src/doc/documentchecker.cpp:311
 #, kde-format
 msgid "Playlist clip"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/doc/documentchecker.cpp:333
+#: src/doc/documentchecker.cpp:314
 #, kde-format
 msgid "Title Image"
 msgstr "Εικόνα τίτλου"
 
-#: src/doc/documentchecker.cpp:360
+#: src/doc/documentchecker.cpp:341
 #, kde-format
 msgid "Missing item"
 msgstr "Μη διαθέσιμο αντικείμενο"
 
-#: src/doc/documentchecker.cpp:373 src/doc/documentchecker.cpp:398
-#: src/doc/documentchecker.cpp:1265
+#: src/doc/documentchecker.cpp:354 src/doc/documentchecker.cpp:379
+#: src/doc/documentchecker.cpp:1266
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Relocated item"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/doc/documentchecker.cpp:411
+#: src/doc/documentchecker.cpp:392
 #, kde-format
 msgid "Title Font"
 msgstr "Γραμματοσειρά τίτλου"
 
-#: src/doc/documentchecker.cpp:416
+#: src/doc/documentchecker.cpp:397
 #, kde-format
 msgid "%1 will be replaced by %2"
 msgstr "Το %1 θα αντικατασταθεί με το %2"
 
-#: src/doc/documentchecker.cpp:421
+#: src/doc/documentchecker.cpp:402
 #, fuzzy, kde-format
 msgid "Modified Clips"
 msgstr "Μετακίνηση κλιπ"
 
-#: src/doc/documentchecker.cpp:425
+#: src/doc/documentchecker.cpp:406
 #, fuzzy, kde-format
 #| msgid "%1 will be replaced by %2"
 msgid "Clip %1 will be reloaded"
 msgstr "Το %1 θα αντικατασταθεί με το %2"
 
-#: src/doc/documentchecker.cpp:431
+#: src/doc/documentchecker.cpp:412
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 
-#: src/doc/documentchecker.cpp:437
+#: src/doc/documentchecker.cpp:418
 #, fuzzy, kde-format
 #| msgid "Clip is invalid, will be removed from project."
 msgid "Missing effect: %2 will be removed from project."
@@ -7253,13 +7253,13 @@ msgid_plural "Missing effects: %2 will be removed from project."
 msgstr[0] "Το κλιπ δεν είναι έγκυρο, θα αφαιρεθεί από το έργο."
 msgstr[1] "Το κλιπ δεν είναι έγκυρο, θα αφαιρεθεί από το έργο."
 
-#: src/doc/documentchecker.cpp:444
+#: src/doc/documentchecker.cpp:425
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
 msgstr "Οι διαμεσολαβητές που λείπουν θα αναδημιουργηθούν μετά από το άνοιγμα."
 
-#: src/doc/documentchecker.cpp:462
+#: src/doc/documentchecker.cpp:443
 #, fuzzy, kde-format
 msgid ""
 "The project file contains a missing clip, you can still work with its proxy."
@@ -7269,7 +7269,7 @@ msgid_plural ""
 msgstr[0] "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 msgstr[1] "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 
-#: src/doc/documentchecker.cpp:469
+#: src/doc/documentchecker.cpp:450
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains one modified clip, it will be reloaded."
@@ -7278,13 +7278,13 @@ msgid_plural ""
 msgstr[0] "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 msgstr[1] "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 
-#: src/doc/documentchecker.cpp:550
+#: src/doc/documentchecker.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:415
 #, kde-format
 msgid "Proxy clip"
 msgstr "Κλιπ διαμεσολάβησης"
 
-#: src/doc/documentchecker.cpp:553
+#: src/doc/documentchecker.cpp:534
 #, fuzzy, kde-format
 #| msgid "%1 missing proxy clips, will be recreated on project opening"
 msgid "%1 missing proxy clip, will be recreated on project opening"
@@ -7294,74 +7294,74 @@ msgstr[0] ""
 msgstr[1] ""
 "%1 κλιπ διαμεσολάβησης λείπουν, θα αναδημιουργηθούν στο άνοιγμα του έργου"
 
-#: src/doc/documentchecker.cpp:556
+#: src/doc/documentchecker.cpp:537
 #, kde-format
 msgid "Missing proxy"
 msgstr "Μη διαθέσιμος διαμεσολαβητής"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/doc/documentchecker.cpp:567 src/doc/documentchecker.cpp:581
+#: src/doc/documentchecker.cpp:548 src/doc/documentchecker.cpp:562
 #: src/ui/timeremap_ui.ui:90
 #, fuzzy, kde-format
 msgid "Source clip"
 msgstr "Πηγή"
 
-#: src/doc/documentchecker.cpp:569
+#: src/doc/documentchecker.cpp:550
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:942
+#: src/doc/documentchecker.cpp:923
 #, fuzzy, kde-format
 #| msgid "Clips folder"
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Φάκελος κλιπ"
 
-#: src/doc/documentchecker.cpp:973 src/doc/documentchecker.cpp:997
-#: src/doc/documentchecker.cpp:1007 src/doc/documentchecker.cpp:1019
+#: src/doc/documentchecker.cpp:954 src/doc/documentchecker.cpp:978
+#: src/doc/documentchecker.cpp:988 src/doc/documentchecker.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Recovered item"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/doc/documentchecker.cpp:1032
+#: src/doc/documentchecker.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Search scale"
 msgid "Search aborted"
 msgstr "Κλίμακα αναζήτησης"
 
-#: src/doc/documentchecker.cpp:1034
+#: src/doc/documentchecker.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search done"
 msgstr "Αναζήτηση"
 
-#: src/doc/documentchecker.cpp:1130
+#: src/doc/documentchecker.cpp:1131
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Scanning %1"
 msgstr "Σάρωση"
 
-#: src/doc/documentchecker.cpp:1227
+#: src/doc/documentchecker.cpp:1228
 #, fuzzy, kde-format
 #| msgid "Enter new location for file"
 msgid "Enter new location for folder"
 msgstr "Εισάγετε μία νέα τοποθεσία αρχείου"
 
-#: src/doc/documentchecker.cpp:1253
+#: src/doc/documentchecker.cpp:1254
 #, kde-format
 msgid "Enter new location for file"
 msgstr "Εισάγετε μία νέα τοποθεσία αρχείου"
 
-#: src/doc/documentchecker.cpp:1597
+#: src/doc/documentchecker.cpp:1598
 #, kde-format
 msgid "This will remove the selected clip from this project"
 msgid_plural "This will remove the selected clips from this project"
 msgstr[0] "Αυτή η ενέργεια θα απομακρύνει το επιλεγμένο κλιπ από το παρόν έργο"
 msgstr[1] "Αυτή η ενέργεια θα απομακρύνει τα επιλεγμένα κλιπ από το παρόν έργο"
 
-#: src/doc/documentchecker.cpp:1599
+#: src/doc/documentchecker.cpp:1600
 #, kde-format
 msgid "Remove clips"
 msgstr "Αφαίρεση κλιπ"
