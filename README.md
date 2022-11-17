@@ -7,6 +7,8 @@
 | MinGW64 | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/) |
 | macOS | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/) |
 
+For macOS builds with Apple Silicon, watch progress at https://bugs.kde.org/show_bug.cgi?id=443871
+
 # About Kdenlive
 
 [Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or any later version that is accepted by the KDE project.
