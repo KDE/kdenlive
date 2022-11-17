@@ -1778,6 +1778,7 @@ void TimeRemap::selectedClip(int cid)
     connect(pCore->getMonitor(Kdenlive::ClipMonitor), &Monitor::seekRemap, m_view, &RemapView::slotSetPosition, Qt::UniqueConnection);
     std::shared_ptr<TimelineItemModel> model = pCore->window()->getCurrentTimeline()->model();
     disconnect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
+    m_cid = cid;
     if (cid == -1) {
         m_binId.clear();
         m_view->setDuration(nullptr, -1);
@@ -1802,7 +1803,6 @@ void TimeRemap::selectedClip(int cid)
     m_lastLength = pCore->getItemDuration({ObjectType::TimelineClip, cid});
     m_view->m_startPos = pCore->getItemPosition({ObjectType::TimelineClip, cid});
     model->requestClipTimeRemap(cid);
-    m_cid = cid;
     connect(model.get(), &TimelineItemModel::dataChanged, this, &TimeRemap::checkClipUpdate);
     m_view->m_maxLength = prod->get_length();
     m_in->setRange(0, m_view->m_maxLength - prod->get_in());
