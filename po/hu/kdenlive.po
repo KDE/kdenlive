@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
 "PO-Revision-Date: 2014-12-09 21:11+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -7047,7 +7047,7 @@ msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióba"
 msgid "Cannot move first source keyframe before clip start"
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, fuzzy, kde-format
 #| msgid "Make waves on your clip with keyframes"
 msgid "Time remap does not work on clip with B frames."

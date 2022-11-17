@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
 "PO-Revision-Date: 2022-11-07 19:09+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -6631,7 +6631,7 @@ msgstr "لا يمكن تحريك الإطار الرئيس الأخير للمص
 msgid "Cannot move first source keyframe before clip start"
 msgstr "لا يمكن نقل الإطار الرئيس المصدر الأول قبل بداية المقطع"
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "إعادة تعيين الوقت لا تعمل على مقاطع بأطر ثنائية الاتجاه المتوقع B"

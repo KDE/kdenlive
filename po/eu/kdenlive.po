@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
 "PO-Revision-Date: 2022-11-12 08:15+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -6633,7 +6633,7 @@ msgstr ""
 "Ezin da lehenengo iturri gako-fotograma kliparen hasiera baino lehen dagoen "
 "puntura mugitu"
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "Denbora birmapatzeak ez dabiltza B fotogramak dituzten klipekin."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
 "PO-Revision-Date: 2022-08-24 17:38+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -6658,7 +6658,7 @@ msgstr "Son mənbə əsas kadrını klipin sonuna əlavə etmək olmur"
 msgid "Cannot move first source keyframe before clip start"
 msgstr "Birinci mənbə əsas kadrını klipin sonuna əlavə etmək olmur"
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "Vaxtın dəyişdirilməsi B kadrlar olan klipdə işləmir."

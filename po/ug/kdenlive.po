@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -6895,7 +6895,7 @@ msgstr "ھۆججەت ئېچىش خاتالىقى"
 msgid "Cannot move first source keyframe before clip start"
 msgstr ""
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr ""

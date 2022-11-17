@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
 "PO-Revision-Date: 2022-11-11 09:14+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -6652,7 +6652,7 @@ msgstr ""
 "No s'ha pogut moure el primer fotograma clau de l'origen abans de l'inici "
 "del clip"
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "La reassignació de temps no funciona en els clips amb fotogrames B."

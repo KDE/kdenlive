@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 02:51+0000\n"
-"PO-Revision-Date: 2022-11-15 09:24+0100\n"
+"POT-Creation-Date: 2022-11-17 02:25+0000\n"
+"PO-Revision-Date: 2022-11-16 11:27+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6635,7 +6635,7 @@ msgstr "Ni mogoče premakniti zadnje ključne sličice čez konec posnetka"
 msgid "Cannot move first source keyframe before clip start"
 msgstr "Ni mogoče premakniti prve ključne sličice pred začetek posnetka"
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "Časovna preslikava ne deluje na posnetku z B-sličicami."
