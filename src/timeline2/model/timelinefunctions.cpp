@@ -454,12 +454,23 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                     firstCid = it.value();
                 }
             }
-            if (timeline->getTrackById_const(it.key())->isBlankAt(clipPos - 1)) {
-                if (spaceDuration == -1) {
-                    spaceDuration = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
-                } else {
-                    int blank = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
-                    spaceDuration = qMin(blank, spaceDuration);
+            if (timeline->isSubtitleTrack(it.key())) {
+                if (timeline->getSubtitleModel()->isBlankAt(clipPos - 1)) {
+                    if (spaceDuration == -1) {
+                        spaceDuration = timeline->getSubtitleModel()->getBlankSizeAtPos(clipPos - 1);
+                    } else {
+                        int blank = timeline->getSubtitleModel()->getBlankSizeAtPos(clipPos - 1);
+                        spaceDuration = qMin(blank, spaceDuration);
+                    }
+                }
+            } else {
+                if (timeline->getTrackById_const(it.key())->isBlankAt(clipPos - 1)) {
+                    if (spaceDuration == -1) {
+                        spaceDuration = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
+                    } else {
+                        int blank = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
+                        spaceDuration = qMin(blank, spaceDuration);
+                    }
                 }
             }
             if (relatedMaxSpace.contains(it.key())) {

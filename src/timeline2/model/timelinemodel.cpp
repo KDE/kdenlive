@@ -263,6 +263,10 @@ int TimelineModel::getItemTrackId(int itemId) const
     if (isComposition(itemId)) {
         return getCompositionTrackId(itemId);
     }
+    if (isSubTitle(itemId)) {
+        // TODO: fix when introducing multiple subtitle tracks
+        return -2;
+    }
     return -1;
 }
 
@@ -2114,7 +2118,7 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
     Q_UNUSED(listCompositions)
 
     std::unordered_set<int> allClips;
-    if (isSubtitleTrack(trackId)) {
+    if (isSubtitleTrack(trackId) || trackId == -1) {
         // Subtitles
         if (m_subtitleModel) {
             std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(start, end);
