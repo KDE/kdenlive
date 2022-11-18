@@ -263,7 +263,7 @@
 
     <entry name="parallelrender" type="Bool">
       <label>Enable parallel processing for rendering.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="vaapiEnabled" type="Bool">
