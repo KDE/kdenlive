@@ -14,15 +14,16 @@ MarkerCategoryChooser::MarkerCategoryChooser(QWidget *parent)
     , m_allowAll(true)
     , m_onlyUsed(false)
 {
-    if (pCore) {
-        refresh();
-    }
+    refresh();
     connect(this, &MarkerCategoryChooser::changed, this, &MarkerCategoryChooser::refresh);
 }
 
 void MarkerCategoryChooser::refresh()
 {
     clear();
+    if (pCore == nullptr) {
+        return;
+    }
     // Set up guide categories
     QPixmap pixmap(32, 32);
     QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
