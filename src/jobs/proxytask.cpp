@@ -242,7 +242,7 @@ void ProxyTask::run()
             result = true;
         } else {
             // Image is too small to be proxied
-            m_logDetails = i18n("Clip type does not support proxies");
+            m_logDetails = i18n("Image too small to be proxied.");
             result = false;
         }
     } else {
