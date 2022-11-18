@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-16 00:46+0000\n"
+"POT-Creation-Date: 2022-11-18 00:44+0000\n"
 "PO-Revision-Date: 2022-11-15 05:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -6619,7 +6619,7 @@ msgstr "Kaynak anahtar kare klip sonu ötesine taşınamıyor"
 msgid "Cannot move first source keyframe before clip start"
 msgstr "Klip başlangıcından önce ilk kaynak anahtar kare taşınamıyor"
 
-#: src/dialogs/timeremap.cpp:1793
+#: src/dialogs/timeremap.cpp:1794
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "B kareli bir klip üzerinde zaman yeniden eşlemleme çalışmıyor."
