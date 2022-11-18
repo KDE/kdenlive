@@ -780,6 +780,9 @@ QString DocumentChecker::getMissingProducers(const QDomElement &e, const QDomNod
                         movedOriginal = QDir(movedOriginal).absoluteFilePath(QFileInfo(original).fileName());
                     }
                     Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), movedOriginal);
+                    if (!QFile::exists(producerResource)) {
+                        Xml::setXmlProperty(e, QStringLiteral("resource"), movedOriginal);
+                    }
                     resourceFixed = true;
                     if (proxyFound) {
                         return QString();
