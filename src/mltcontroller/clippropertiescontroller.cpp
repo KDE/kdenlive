@@ -423,7 +423,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             bool proxyReady = (QFileInfo(proxy).fileName() == QFileInfo(m_properties->get("resource")).fileName());
             if (proxyReady) {
                 pbox->setCheckState(Qt::Checked);
-                lab->setText(m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
+                if (!m_properties->property_exists("video_index")) {
+                    // Probable an image proxy
+                    lab->setText(i18n("Image"));
+                } else {
+                    lab->setText(m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
+                }
             } else {
                 pbox->setCheckState(Qt::PartiallyChecked);
             }
