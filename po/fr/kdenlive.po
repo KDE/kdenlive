@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-17 02:25+0000\n"
-"PO-Revision-Date: 2022-11-07 14:36+0100\n"
+"PO-Revision-Date: 2022-11-17 07:42+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.11.80\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3688,10 +3688,9 @@ msgstr "Déplacer l'image clé sélectionné à la position du curseur"
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgid "Show keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Afficher les trames clé"
+msgstr "Copier des trames clé"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3703,16 +3702,14 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:784
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Actualiser l'image clé"
+msgstr "Coller une trame clé"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Actualiser l'image clé"
+msgstr "Copier des trames clé"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
@@ -3765,10 +3762,9 @@ msgid "Seek to Keyframe on Select"
 msgstr "Rechercher la trame clé sur sélection"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Copier les trames clé dans le presse-papier"
+msgstr "Copier toutes les trames clé dans le presse-papier"
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -3817,30 +3813,26 @@ msgid "Select parameters to copy"
 msgstr "Sélectionner les paramètres à copier"
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "Copie de la valeur de l'image clé"
+msgstr "Trames clé copiées"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
-#, fuzzy, kde-format
-#| msgid "No valid data in clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "Aucune information valable dans le presse-papier"
+msgstr "Aucune donnée valable de trames clé dans le presse-papier"
 
 #: src/assets/view/widgets/keyframewidget.cpp:794
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Impossible de créer des fichiers temporaires"
+msgstr "Impossible de copier les valeurs des paramètres"
 
 #: src/assets/view/widgets/keyframewidget.cpp:799
 #: src/assets/view/widgets/keyframewidget.cpp:807
 #: src/assets/view/widgets/keyframewidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Current values copied"
-msgstr "Copie de la valeur de l'image clé"
+msgstr "Valeurs courantes copiées"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4618,10 +4610,9 @@ msgid "Audio stream %1"
 msgstr "Flux audio %1"
 
 #: src/bin/bin.cpp:5480
-#, fuzzy, kde-format
-#| msgid "Delete clip markers"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Supprimer les repères de clip"
+msgstr "Supprimer les repères de vidéos"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4734,10 +4725,9 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Liste de lecture MLT (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "Update values in timeline."
+#, kde-format
 msgid "Update guides categories"
-msgstr "Mettre à jour les valeurs dans la frise chronologique."
+msgstr "Mettre à jour les catégories de guide"
 
 #: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
@@ -4800,10 +4790,9 @@ msgid "Marker"
 msgstr "Repère"
 
 #: src/bin/model/markerlistmodel.cpp:750
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Élément retrouvé"
+msgstr "%1 retrouvé"
 
 #: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
@@ -4823,40 +4812,34 @@ msgid "No guide found at current position"
 msgstr "Aucun guide à l'emplacement du curseur"
 
 #: src/bin/model/markerlistmodel.cpp:879
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Modifier le guide"
+msgstr "Modifier une catégorie de guides"
 
 #: src/bin/model/markerlistmodel.cpp:879
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Modifier le repère"
+msgstr "Modifier une catégorie de repères"
 
 #: src/bin/model/markerlistmodel.cpp:885
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Catégorie"
+msgstr "Catégorie de guides"
 
 #: src/bin/model/markerlistmodel.cpp:885
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Catégorie"
+msgstr "Catégories de repères"
 
 #: src/bin/model/markerlistmodel.cpp:903
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Modifier le guide"
+msgstr "Modifier des guides"
 
 #: src/bin/model/markerlistmodel.cpp:903
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Modifier le repère"
+msgstr "Modifier des repères"
 
 #: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1341
@@ -4875,10 +4858,9 @@ msgid "Edit Marker"
 msgstr "Modifier le repère"
 
 #: src/bin/model/markerlistmodel.cpp:946
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Ajouter un guide"
+msgstr "Ajouter des guides"
 
 #: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
@@ -4886,16 +4868,14 @@ msgid "Add Markers"
 msgstr "Ajouter un repère"
 
 #: src/bin/model/markerlistmodel.cpp:961
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Ajouter un guide"
+msgstr "Ajouter des guides"
 
 #: src/bin/model/markerlistmodel.cpp:961
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Ajouter un repère"
+msgstr "Ajouter des repères"
 
 #: src/bin/model/subtitlemodel.cpp:84
 #, kde-format
@@ -5622,23 +5602,20 @@ msgstr "Enregistrer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Fichier texte (*.txt)"
+msgstr "Fichier « Texte »"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "Fichiers GPS"
+msgstr "Fichier « JSON »"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Exporter des guides..."
+msgstr "Exporter des données de guides"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
@@ -5668,16 +5645,14 @@ msgid "Cannot write to file %1"
 msgstr "Impossible d'écrire dans le fichier %1"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Ressource enregistrée vers %1"
+msgstr "Guides enregistrés dans %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Catégorie"
+msgstr "Nom de catégorie"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5715,10 +5690,9 @@ msgid "Timeline"
 msgstr "Montage"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Intervalle de couleurs"
+msgstr "Couleurs et guides"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:127
 #, kde-format
@@ -7483,10 +7457,9 @@ msgid "Cyan"
 msgstr "Cyan"
 
 #: src/doc/kdenlivedoc.cpp:2107
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Catégorie %1"
+msgstr "Catégorie %1 :%2 : %3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -7769,24 +7742,21 @@ msgstr ""
 "Voulez-vous vraiment enregistrer un effet sans description ?"
 
 #: src/glaxnimateluncher.cpp:32
-#, fuzzy, kde-format
-#| msgid "Please install Glaxnimate to edit Lottie animations."
+#, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
 msgstr ""
-"Veuillez installer le logiciel « Glaxnimate » pour modifier les animations "
-"« Lottie »"
+"Vous devez saisir un emplacement valable pour pouvoir modifier des "
+"animations « Lottie »."
 
 #: src/glaxnimateluncher.cpp:62 src/glaxnimateluncher.cpp:127
-#, fuzzy, kde-format
-#| msgid "Enter path to the Glaxnimate application"
+#, kde-format
 msgid "Failed to lunch Glaxnimate application"
-msgstr "Saisissez l'emplacement vers l'application « Glaxnimate »"
+msgstr "Impossible de lancer l'application « Glaxnimate »"
 
 #: src/glaxnimateluncher.cpp:76
-#, fuzzy, kde-format
-#| msgid "Item is not a title clip"
+#, kde-format
 msgid "Item is not an animation clip"
-msgstr "L'élément n'est pas une vidéo de titre"
+msgstr "L'élément n'est pas une vidéo d'animation."
 
 #: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
@@ -9573,10 +9543,9 @@ msgid "Edit Guide…"
 msgstr "Modifier un guide..."
 
 #: src/mainwindow.cpp:1790
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Rechercher..."
+msgstr "Rechercher un guide..."
 
 #: src/mainwindow.cpp:1791
 #, kde-format
@@ -9589,10 +9558,9 @@ msgid "Guides Locked"
 msgstr "Guides verrouillés"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Afficher les guides :"
+msgstr "Verrouiller les guides"
 
 #: src/mainwindow.cpp:1799
 #, kde-kuit-format
@@ -11787,16 +11755,14 @@ msgid "Showing backup files for %1"
 msgstr "Afficher les fichiers de sauvegarde pour %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Modifier le guide"
+msgstr "Modifier une catégorie de guide"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "Cette couleur est déjà utilisée dans une autre étiquette"
+msgstr "Cette couleur est déjà utilisée par une autre catégorie."
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11804,10 +11770,9 @@ msgid "Category %1"
 msgstr "Catégorie %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Supprimer le guide"
+msgstr "Supprimer une catégorie de guide"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
@@ -11820,46 +11785,39 @@ msgid "Reassign the markers to :"
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Importer"
+msgstr "Importer..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Exporté :"
+msgstr "Exporter..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Configurer les profils"
+msgstr "Configurer les catégories"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Catégorie"
+msgstr "Trier par catégorie"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Trier par"
+msgstr "Trier par heure"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Commentaire"
+msgstr "Trier par commentaire"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Ajouter un guide"
+msgstr "Ajouter un nouveau guide."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
@@ -11868,10 +11826,9 @@ msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Supprimer le guide"
+msgstr "Supprimer un guide."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
@@ -11880,10 +11837,9 @@ msgid "Delete guide. This will erase all selected guides."
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Supprimer le guide"
+msgstr "Modifier le guide sélectionné."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11907,10 +11863,9 @@ msgid ""
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default quality"
+#, kde-format
 msgid "Default guide category."
-msgstr "Qualité par défaut"
+msgstr "Catégorie de guide par défaut."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
@@ -11936,22 +11891,19 @@ msgid "Cannot read file %1"
 msgstr "Impossible de lire le filtre %1"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Supprimer le guide"
+msgstr "Supprimer des guides"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Repères"
+msgstr "Repères pour %1"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Mode d'édition du montage"
+msgstr "Guides de frise chronologique"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -17288,24 +17240,21 @@ msgstr "Type de marqueur :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Enregistrer sous"
+msgstr "Enregistrer sous :"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "Kdenlive JSON"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Options"
+msgstr "Options de texte"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17365,24 +17314,21 @@ msgstr "Formulaire"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Supprimer un motif."
+msgstr "Supprimer une catégorie"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add category"
-msgstr "Ajouter un chapitre"
+msgstr "Ajouter une catégorie"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Catégorie"
+msgstr "Modifier une catégorie"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
@@ -17746,15 +17692,13 @@ msgstr "Commentaire"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Ajouter un marqueur de vidéo :"
+msgstr "Ajouter plusieurs repères"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
 msgstr "Compteur"
 
@@ -17814,10 +17758,9 @@ msgstr "Recherche manuelle"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Démarrer la reconnaissance"
+msgstr "Position de démarrage"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
