@@ -136,6 +136,8 @@ public:
     int getBlankStart(int pos) const;
     /** @brief Returns the position of the first subtitle after the blank at @position */
     int getBlankEnd(int pos) const;
+    /** @brief Returns the duration of the blank at @position */
+    int getBlankSizeAtPos(int frame) const;
     /** @brief If pos is blank, returns the position of the blank start. Otherwise returns the position of the next blank frame */
     int getNextBlankStart(int pos) const;
     /** @brief Returns true is track is empty at pos */

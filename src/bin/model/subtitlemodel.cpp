@@ -1385,6 +1385,13 @@ int SubtitleModel::getBlankEnd(int pos) const
     return found ? min.frames(pCore->getCurrentFps()) : 0;
 }
 
+int SubtitleModel::getBlankSizeAtPos(int frame) const
+{
+    int bkStart = getBlankStart(frame);
+    int bkEnd = getBlankEnd(frame);
+    return bkEnd - bkStart;
+}
+
 int SubtitleModel::getBlankStart(int pos) const
 {
     GenTime matchPos(pos, pCore->getCurrentFps());
