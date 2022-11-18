@@ -196,52 +196,55 @@ void ProxyTask::run()
         }
 
         QImage proxy;
-        // Images are scaled to profile size.
-        // TODO: Make it be configurable?
-        if (i.width() > i.height()) {
-            proxy = i.scaledToWidth(KdenliveSettings::proxyimagesize());
-        } else {
-            proxy = i.scaledToHeight(KdenliveSettings::proxyimagesize());
-        }
-        if (exif > 1) {
-            // Rotate image according to exif data
-            QImage processed;
-            QTransform matrix;
-
-            switch (exif) {
-            case 2:
-                matrix.scale(-1, 1);
-                break;
-            case 3:
-                matrix.rotate(180);
-                break;
-            case 4:
-                matrix.scale(1, -1);
-                break;
-            case 5:
-                matrix.rotate(270);
-                matrix.scale(-1, 1);
-                break;
-            case 6:
-                matrix.rotate(90);
-                break;
-            case 7:
-                matrix.rotate(90);
-                matrix.scale(-1, 1);
-                break;
-            case 8:
-                matrix.rotate(270);
-                break;
+        // Images are scaled to predefined size.
+        int maxSize = qMax(i.width(), i.height());
+        if (KdenliveSettings::proxyimagesize() < maxSize) {
+            if (i.width() > i.height()) {
+                proxy = i.scaledToWidth(KdenliveSettings::proxyimagesize());
+            } else {
+                proxy = i.scaledToHeight(KdenliveSettings::proxyimagesize());
             }
-            processed = proxy.transformed(matrix);
-            processed.save(dest);
+            if (exif > 1) {
+                // Rotate image according to exif data
+                QImage processed;
+                QTransform matrix;
+
+                switch (exif) {
+                case 2:
+                    matrix.scale(-1, 1);
+                    break;
+                case 3:
+                    matrix.rotate(180);
+                    break;
+                case 4:
+                    matrix.scale(1, -1);
+                    break;
+                case 5:
+                    matrix.rotate(270);
+                    matrix.scale(-1, 1);
+                    break;
+                case 6:
+                    matrix.rotate(90);
+                    break;
+                case 7:
+                    matrix.rotate(90);
+                    matrix.scale(-1, 1);
+                    break;
+                case 8:
+                    matrix.rotate(270);
+                    break;
+                }
+                processed = proxy.transformed(matrix);
+                processed.save(dest);
+            } else {
+                proxy.save(dest);
+            }
+            result = true;
         } else {
-            proxy.save(dest);
+            // Image is too small to be proxied
+            m_logDetails = i18n("Clip type does not support proxies");
+            result = false;
         }
-        result = true;
-        m_progress = 100;
-        QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        return;
     } else {
         m_isFfmpegJob = true;
         if (!QFileInfo(KdenliveSettings::ffmpegpath()).isFile()) {
