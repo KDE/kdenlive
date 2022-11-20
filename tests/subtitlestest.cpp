@@ -28,9 +28,9 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     // We mock the project class so that the undoStack function returns our undoStack
     Mock<KdenliveDoc> docMock;
     When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        Q_UNUSED(name)
+        // Q_UNUSED(name)
         Q_UNUSED(defaultValue)
-        qDebug() << "Intercepted call";
+        qDebug() << "Intercepted call:" << name;
         return QStringLiteral("");
     });
     KdenliveDoc &mockedDoc = docMock.get();
@@ -154,6 +154,38 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         subtitleModel->importSubtitle(subtitleFile);
         const QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
         CHECK(allSubs.at(0).subtitle().toStdString() == "three   spaces");
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
+    SECTION("Load SBV subtitle file")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/01.sbv";
+        subtitleModel->importSubtitle(subtitleFile);
+        // Ensure the 3 dialogues are loaded
+        REQUIRE(subtitleModel->rowCount() == 3);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
+    SECTION("Load VTT subtitle file")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/01.vtt";
+        subtitleModel->importSubtitle(subtitleFile);
+        // Ensure the 2 dialogues are loaded
+        REQUIRE(subtitleModel->rowCount() == 2);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
+    SECTION("Load SRT subtitle file with two dots")
+    {
+        QString subtitleFile = sourcesPath + "/dataset/subs-with-two-dots.srt";
+        subtitleModel->importSubtitle(subtitleFile);
+        // Ensure the 2 dialogues are loaded
+        REQUIRE(subtitleModel->rowCount() == 2);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
     }
 
     binModel->clean();
