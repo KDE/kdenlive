@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-19 00:44+0000\n"
-"PO-Revision-Date: 2022-11-15 05:05+0300\n"
+"PO-Revision-Date: 2022-11-19 12:55+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7805,7 +7805,7 @@ msgstr "%1 görseli yüklenemedi."
 #: src/jobs/proxytask.cpp:245
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr ""
+msgstr "Görsel, vekile aktarılmak için pek küçük."
 
 #: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:122
