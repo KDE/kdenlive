@@ -61,6 +61,7 @@ private:
     QColor grabColor(const QPoint &p, bool destroyImage = true);
 
     bool m_filterActive{false};
+    bool m_useDBus{true};
     QRect m_grabRect;
     QPoint m_clickPoint;
     QFrame *m_grabRectFrame;
@@ -77,6 +78,11 @@ private slots:
 
     /** @brief Calculates the average color for the pixels in the rect m_grabRect and emits colorPicked. */
     void slotGetAverageColor();
+
+    /** @brief Send a DBus message to the Freedesktop portal to request a color picker operation */
+    void grabColorDBus();
+    /** @brief To be called by the DBus connection when a response comes in */
+    void gotColorResponse(uint response, const QVariantMap &results);
 
 signals:
     /** @brief Signal fired when a new color has been picked */
