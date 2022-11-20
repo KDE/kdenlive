@@ -38,6 +38,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #else
 #include <KIO/JobUiDelegate>
 #endif
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/OpenUrlJob>
 #include <KLineEdit>
 #include <KMessageBox>
@@ -1771,7 +1772,8 @@ void KdenliveSettingsDialog::removeDictionary()
     }
     QString currentModel = m_speechListWidget->currentItem()->text();
     if (!currentModel.isEmpty() && dir.cd(currentModel)) {
-        if (KMessageBox::questionYesNo(this, i18n("Delete folder:\n%1", dir.absolutePath())) == KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(this, i18n("Delete folder:\n%1", dir.absolutePath()), {}, KStandardGuiItem::del(), KStandardGuiItem::cancel()) ==
+            KMessageBox::PrimaryAction) {
             // Make sure we don't accidentally delete a folder that is not ours
             if (dir.absolutePath().contains(QLatin1String("speechmodels"))) {
                 dir.removeRecursively();

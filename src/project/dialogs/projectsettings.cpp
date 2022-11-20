@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -372,10 +373,11 @@ void ProjectSettings::slotDeleteUnused()
         slotUpdateFiles();
         return;
     }
-    if (KMessageBox::warningYesNoList(this,
-                                      i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know "
-                                           "what you are doing.\nAre you sure you want to continue?"),
-                                      toDelete, i18n("Delete unused clips")) != KMessageBox::Yes)
+    if (KMessageBox::warningTwoActionsList(
+            this,
+            i18n("This will remove the following files from your hard drive.\nThis action cannot be undone, only use if you know "
+                 "what you are doing.\nAre you sure you want to continue?"),
+            toDelete, i18n("Delete unused clips"), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction)
         return;
     pCore->projectItemModel()->requestTrashClips(idsToDelete, toDelete);
     slotUpdateFiles();

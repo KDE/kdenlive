@@ -69,6 +69,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -932,18 +933,18 @@ bool MainWindow::queryClose()
     if (m_renderWidget) {
         int waitingJobs = m_renderWidget->waitingJobsCount();
         if (waitingJobs > 0) {
-            switch (
-                KMessageBox::warningYesNoCancel(this,
-                                                i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
-                                                      "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs),
-                                                QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
-            case KMessageBox::Yes:
+            switch (KMessageBox::warningTwoActionsCancel(this,
+                                                         i18np("You have 1 rendering job waiting in the queue.\nWhat do you want to do with this job?",
+                                                               "You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?",
+                                                               waitingJobs),
+                                                         QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
+            case KMessageBox::PrimaryAction:
                 // create script with waiting jobs and start it
                 if (!m_renderWidget->startWaitingRenderJobs()) {
                     return false;
                 }
                 break;
-            case KMessageBox::No:
+            case KMessageBox::SecondaryAction:
                 // Don't do anything, jobs will be deleted
                 break;
             default:
