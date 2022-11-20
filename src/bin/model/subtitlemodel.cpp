@@ -191,14 +191,15 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         while (stream.readLineInto(&line)) {
             line = line.trimmed();
             // qDebug()<<"Turn: "<<turn;
-            // qDebug()<<"Line: "<<line<<"\n";
+            // qDebug()<<"Line: "<<line;
             if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
                     turn++;
                     continue;
                 }
-                if (line.contains(QLatin1String("-->")) || line.contains(rx)) {
+                // Check if position has already been read
+                if (endPos == startPos && (line.contains(QLatin1String("-->")) || line.contains(rx))) {
                     timeLine += line;
                     srtTime = timeLine.split(separator);
                     if (srtTime.count() > endIndex) {
@@ -221,16 +222,21 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             } else {
                 if (endPos > startPos) {
                     addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
-                    // qDebug()<<"Adding Subtitle: \n  Start time: "<<start<<"\n  End time: "<<end<<"\n  Text: "<<comment;
+                    // qDebug() << "Adding Subtitle: \n  Start time: " << start << "\n  End time: " << end << "\n  Text: " << comment;
                 } else {
                     qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
                 }
                 // reinitialize
                 comment.clear();
                 timeLine.clear();
+                startPos = endPos;
                 r = 0;
                 turn = defaultTurn;
             }
+        }
+        // Ensure last subtitle is read
+        if (endPos > startPos && !comment.isEmpty()) {
+            addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
         }
         srtFile.close();
     } else if (filePath.endsWith(QLatin1String(".ass"))) {
