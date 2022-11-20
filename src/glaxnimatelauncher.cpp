@@ -69,6 +69,12 @@ void GlaxnimateLauncher::openClip(int clipId)
     if (!checkInstalled()) {
         return;
     }
+    if ((m_server && m_socket && m_stream && QLocalSocket::ConnectedState == m_socket->state()) || (m_parent && m_parent->m_clipId != -1)) {
+        // There is already an open connection, it is only supported to send the background to one Glaxnimate instance at the time
+        // Open the clip without sending the background
+        openFile(pCore->projectItemModel()->getClipByBinID(pCore->window()->getCurrentTimeline()->model()->getClipBinId(clipId))->clipUrl());
+        return;
+    }
     m_parent.reset(new ParentResources);
 
     m_parent->m_binClip = pCore->projectItemModel()->getClipByBinID(pCore->window()->getCurrentTimeline()->model()->getClipBinId(clipId));
@@ -78,15 +84,6 @@ void GlaxnimateLauncher::openClip(int clipId)
     }
 
     QString filename = m_parent->m_binClip->clipUrl();
-
-    if (m_server && m_socket && m_stream && QLocalSocket::ConnectedState == m_socket->state()) {
-        auto s = QString("open ").append(filename);
-        qDebug() << s;
-        *m_stream << s;
-        m_socket->flush();
-        m_parent->m_frameNum = -1;
-        return;
-    }
     m_parent->m_clipId = clipId;
     m_server.reset(new QLocalServer);
     connect(m_server.get(), &QLocalServer::newConnection, this, &GlaxnimateLauncher::onConnect);
@@ -187,6 +184,7 @@ void GlaxnimateLauncher::onSocketError(QLocalSocket::LocalSocketError socketErro
     switch (socketError) {
     case QLocalSocket::PeerClosedError:
         qDebug() << "Glaxnimate closed the connection";
+        m_parent->m_clipId = -1;
         m_stream.reset();
         m_sharedMemory.reset();
         break;
