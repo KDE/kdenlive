@@ -73,6 +73,7 @@ protected:
     QString m_apiroot;
     QJsonObject m_search;
     QJsonObject m_download;
+    QNetworkAccessManager *m_networkManager;
 
 private:
     void validate();
