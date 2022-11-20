@@ -798,58 +798,93 @@ int ProjectClip::getRecordTime()
             // Cannot read record date on this clip, abort
             return 0;
         }
-        // Try to get record date metadata
-        if (KdenliveSettings::mediainfopath().isEmpty()) {
-        }
-        QProcess extractInfo;
-        extractInfo.start(KdenliveSettings::mediainfopath(), {url(), QStringLiteral("--output=XML")});
-        extractInfo.waitForFinished();
-        if (extractInfo.exitStatus() != QProcess::NormalExit || extractInfo.exitCode() != 0) {
-            KMessageBox::error(QApplication::activeWindow(), i18n("Cannot extract metadata from %1\n%2", url(), QString(extractInfo.readAllStandardError())));
-            return 0;
-        }
-        QDomDocument doc;
-        doc.setContent(extractInfo.readAllStandardOutput());
-        bool dateFormat = false;
-        QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
-        if (nodes.isEmpty()) {
-            nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
-            dateFormat = true;
-        }
-        if (!nodes.isEmpty()) {
-            // Parse recorded time (HH:MM:SS)
-            QString recInfo = nodes.at(0).toElement().text();
-            if (!recInfo.isEmpty()) {
-                if (dateFormat) {
-                    if (recInfo.contains(QLatin1Char('+'))) {
-                        recInfo = recInfo.section(QLatin1Char('+'), 0, 0);
-                    } else if (recInfo.contains(QLatin1Char('-'))) {
-                        recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
-                    }
-                    QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
-                    recTime = date.time().msecsSinceStartOfDay();
-                } else {
-                    // Timecode Format HH:MM:SS:FF
-                    // Check if we have a different fps
-                    double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
-                    if (!qFuzzyCompare(producerFps, pCore->getCurrentFps())) {
-                        // Producer and project have a different fps
-                        bool ok;
-                        int frames = recInfo.section(QLatin1Char(':'), -1).toInt(&ok);
-                        if (ok) {
-                            frames *= int(pCore->getCurrentFps() / producerFps);
-                            recInfo.chop(2);
-                            recInfo.append(QString::number(frames).rightJustified(1, QChar('0')));
-                        }
-                    }
-                    recTime = int(1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps());
+        QString timecode = m_masterProducer->get("meta.attr.timecode.markup");
+        // First try to get timecode from MLT metadata
+        if (!timecode.isEmpty()) {
+            // Timecode Format HH:MM:SS:FF
+            // Check if we have a different fps
+            double producerFps = m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
+            if (!qFuzzyCompare(producerFps, pCore->getCurrentFps())) {
+                // Producer and project have a different fps
+                bool ok;
+                int frames = timecode.section(QLatin1Char(':'), -1).toInt(&ok);
+                if (ok) {
+                    frames *= int(pCore->getCurrentFps() / producerFps);
+                    timecode.chop(2);
+                    timecode.append(QString::number(frames).rightJustified(1, QChar('0')));
                 }
-                m_masterProducer->set("kdenlive:record_date", recTime);
-                return recTime;
             }
+            recTime = int(1000 * pCore->timecode().getFrameCount(timecode) / pCore->getCurrentFps());
+            m_masterProducer->set("kdenlive:record_date", recTime);
+            return recTime;
         } else {
-            m_masterProducer->set("kdenlive:record_date", -1);
-            return 0;
+            if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
+                // Try to find binary
+                const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
+                QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
+                if (mediainfopath.isEmpty()) {
+                    mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
+                }
+                if (!mediainfopath.isEmpty()) {
+                    KdenliveSettings::setMediainfopath(mediainfopath);
+                }
+            }
+            if (!KdenliveSettings::mediainfopath().isEmpty()) {
+                // Getting the timecode was not successfull yet,
+                // but mediainfo is available so try to get it with mediainfo
+                QProcess extractInfo;
+                extractInfo.start(KdenliveSettings::mediainfopath(), {url(), QStringLiteral("--output=XML")});
+                extractInfo.waitForFinished();
+                if (extractInfo.exitStatus() != QProcess::NormalExit || extractInfo.exitCode() != 0) {
+                    KMessageBox::error(QApplication::activeWindow(),
+                                       i18n("Cannot extract metadata from %1\n%2", url(), QString(extractInfo.readAllStandardError())));
+                    return 0;
+                }
+                QDomDocument doc;
+                doc.setContent(extractInfo.readAllStandardOutput());
+                bool dateFormat = false;
+                QDomNodeList nodes = doc.documentElement().elementsByTagName(QStringLiteral("TimeCode_FirstFrame"));
+                if (nodes.isEmpty()) {
+                    nodes = doc.documentElement().elementsByTagName(QStringLiteral("Recorded_Date"));
+                    dateFormat = true;
+                }
+                if (!nodes.isEmpty()) {
+                    // Parse recorded time (HH:MM:SS)
+                    QString recInfo = nodes.at(0).toElement().text();
+                    if (!recInfo.isEmpty()) {
+                        if (dateFormat) {
+                            if (recInfo.contains(QLatin1Char('+'))) {
+                                recInfo = recInfo.section(QLatin1Char('+'), 0, 0);
+                            } else if (recInfo.contains(QLatin1Char('-'))) {
+                                recInfo = recInfo.section(QLatin1Char('-'), 0, 0);
+                            }
+                            QDateTime date = QDateTime::fromString(recInfo, "yyyy-MM-dd hh:mm:ss");
+                            recTime = date.time().msecsSinceStartOfDay();
+                        } else {
+                            // Timecode Format HH:MM:SS:FF
+                            // Check if we have a different fps
+                            double producerFps =
+                                m_masterProducer->get_double("meta.media.frame_rate_num") / m_masterProducer->get_double("meta.media.frame_rate_den");
+                            if (!qFuzzyCompare(producerFps, pCore->getCurrentFps())) {
+                                // Producer and project have a different fps
+                                bool ok;
+                                int frames = recInfo.section(QLatin1Char(':'), -1).toInt(&ok);
+                                if (ok) {
+                                    frames *= int(pCore->getCurrentFps() / producerFps);
+                                    recInfo.chop(2);
+                                    recInfo.append(QString::number(frames).rightJustified(1, QChar('0')));
+                                }
+                            }
+                            recTime = int(1000 * pCore->timecode().getFrameCount(recInfo) / pCore->getCurrentFps());
+                        }
+                        m_masterProducer->set("kdenlive:record_date", recTime);
+                        return recTime;
+                    }
+                }
+                // set record date to -1 to avoid trying with mediainfo again and again
+                m_masterProducer->set("kdenlive:record_date", -1);
+                return 0;
+            }
         }
     }
     return 0;
