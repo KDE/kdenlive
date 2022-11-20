@@ -52,6 +52,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KActionMenu>
 #include <KColorScheme>
 #include <KIO/ApplicationLauncherJob>
@@ -4342,12 +4343,12 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
         newprops.insert(QStringLiteral("force_reload"), QStringLiteral("2"));
         if (!path.isEmpty()) {
             // we are editing an external file, asked if we want to detach from that file or save the result to that title file.
-            if (KMessageBox::questionYesNo(pCore->window(),
-                                           i18n("You are editing an external title clip (%1). Do you want to save your changes to the title "
-                                                "file or save the changes for this project only?",
-                                                path),
-                                           i18n("Save Title"), KGuiItem(i18n("Save to title file")),
-                                           KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
+            if (KMessageBox::questionTwoActions(pCore->window(),
+                                                i18n("You are editing an external title clip (%1). Do you want to save your changes to the title "
+                                                     "file or save the changes for this project only?",
+                                                     path),
+                                                i18n("Save Title"), KGuiItem(i18n("Save to title file")),
+                                                KGuiItem(i18n("Save in project only"))) == KMessageBox::PrimaryAction) {
                 // save to external file
                 dia_ui.saveTitle(QUrl::fromLocalFile(path));
                 return;

@@ -25,6 +25,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -1913,11 +1914,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         QString sourceFps = copiedItems.documentElement().attribute(QStringLiteral("fps"));
         double ratio = 1.;
         if (currentFps != sourceFps && !sourceFps.isEmpty()) {
-            if (KMessageBox::questionYesNo(
+            if (KMessageBox::questionTwoActions(
                     pCore->window(),
                     i18n("The source project has a different framerate (%1fps) than your current project.<br/>Clips or keyframes might be messed up.",
                          sourceFps),
-                    i18n("Pasting Warning"), KGuiItem(i18n("Paste")), KGuiItem(i18n("Cancel"))) != KMessageBox::Yes) {
+                    i18n("Pasting Warning"), KGuiItem(i18n("Paste")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
                 semaphore.release(1);
                 return false;
             }

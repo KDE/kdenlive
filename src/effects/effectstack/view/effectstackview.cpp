@@ -28,6 +28,7 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <utility>
 
@@ -544,7 +545,8 @@ void EffectStackView::slotSaveStack()
         QString effectfilename = name + QStringLiteral(".xml");
 
         if (description.trimmed().isEmpty()) {
-            if (KMessageBox::questionYesNo(this, i18n("No description provided. \nSave effect with no description?")) == KMessageBox::No) {
+            if (KMessageBox::questionTwoActions(this, i18n("No description provided. \nSave effect with no description?"), {}, KStandardGuiItem::save(),
+                                                KStandardGuiItem::dontSave()) == KMessageBox::SecondaryAction) {
                 return;
             }
         }
@@ -555,7 +557,8 @@ void EffectStackView::slotSaveStack()
         }
 
         if (dir.exists(effectfilename)) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", effectfilename)) == KMessageBox::No) {
+            if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", effectfilename), {},
+                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 return;
             }
         }

@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFontDatabase>
 #include <QStandardPaths>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -150,7 +151,8 @@ void ClipTranscode::slotStartTransCode()
             KMessageBox::error(this, i18n("Source and destination file can't be the same"));
             return;
         }
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
+        if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension), {},
+                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             // Abort operation
             if (m_automaticMode) {
                 // inform caller that we aborted

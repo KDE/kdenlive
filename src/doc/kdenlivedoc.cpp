@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <config-kdenlive.h>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KBookmark>
 #include <KBookmarkManager>
 #include <KIO/CopyJob>
@@ -1631,7 +1632,7 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
         if (KdenliveSettings::default_profile().isEmpty()) {
             // Default project format not yet confirmed, propose
             QString currentProfileDesc = pCore->getCurrentProfile()->description();
-            KMessageBox::ButtonCode answer = KMessageBox::questionYesNoCancel(
+            KMessageBox::ButtonCode answer = KMessageBox::questionTwoActionsCancel(
                 QApplication::activeWindow(),
                 i18n("Your default project profile is %1, but your clip's profile (%2) is %3.\nDo you want to change default profile for future projects?",
                      currentProfileDesc, clipName, profile->description()),

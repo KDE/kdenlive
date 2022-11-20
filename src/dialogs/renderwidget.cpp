@@ -31,6 +31,7 @@
 #else
 #include <KIO/JobUiDelegate>
 #endif
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
@@ -615,7 +616,8 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
     }
     m_view.infoMessage->hide();
     if (QFile::exists(m_view.out_file->url().toLocalFile())) {
-        if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+        if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
+                                           KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
     }
@@ -790,7 +792,8 @@ QString RenderWidget::generatePlaylistFile(bool delayedRendering)
             filename.append(fileExtension);
         }
         if (projectFolder.exists(newFilename)) {
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", filename)) == KMessageBox::No) {
+            if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", filename), {},
+                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
                 return {};
             }
         }
@@ -1719,7 +1722,8 @@ void RenderWidget::slotStartScript()
         QString destination = item->data(1, Qt::UserRole).toString();
         int out = item->data(1, Qt::UserRole + 2).toInt();
         if (QFile::exists(destination)) {
-            if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+            if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
+                                               KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
                 return;
             }
         }

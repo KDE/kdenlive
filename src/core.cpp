@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinewidget.h"
 #include <mlt++/MltRepository.h>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <QCoreApplication>
 #include <QDir>
@@ -96,8 +97,9 @@ bool Core::build(const QString &packageType, bool testMode)
         QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
         if (lockFile.exists()) {
             // a previous instance crashed, propose to delete config files
-            if (KMessageBox::questionYesNo(QApplication::activeWindow(),
-                                           i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?")) == KMessageBox::Yes) {
+            if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                                i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?"), {},
+                                                KStandardGuiItem::reset(), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
                 // Release startup crash lock file
                 QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
                 lockFile.remove();

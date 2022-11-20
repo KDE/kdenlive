@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 
 #include "klocalizedstring.h"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <KMessageWidget>
 
@@ -195,7 +196,8 @@ bool ProfilesDialog::askForSave()
     if (!m_profileIsModified) {
         return true;
     }
-    if (KMessageBox::questionYesNo(this, i18n("The custom profile was modified, do you want to save it?")) != KMessageBox::Yes) {
+    if (KMessageBox::questionTwoActions(this, i18n("The custom profile was modified, do you want to save it?"), {}, KStandardGuiItem::save(),
+                                        KStandardGuiItem::discard()) != KMessageBox::PrimaryAction) {
         return true;
     }
     return slotSaveProfile();

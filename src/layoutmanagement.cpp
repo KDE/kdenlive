@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layoutmanagement.h"
 #include "core.h"
 #include "mainwindow.h"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <QButtonGroup>
 #include <QDialog>
@@ -278,8 +279,9 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
 
     if (layouts.hasKey(saveName)) {
         // Layout already exists
-        int res = KMessageBox::questionYesNo(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName));
-        if (res != KMessageBox::ButtonCode::Yes) {
+        int res = KMessageBox::questionTwoActions(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName), {},
+                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel());
+        if (res != KMessageBox::ButtonCode::PrimaryAction) {
             return {nullptr, nullptr};
         }
     }
