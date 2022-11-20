@@ -18,6 +18,7 @@
 #include <mlt++/Mlt.h>
 #include <mlt++/MltProperties.h>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KEncodingProber>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -1100,8 +1101,8 @@ void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
         QFile prev(path);
         if (prev.exists()) {
             if (checkOverwrite || !path.endsWith(QStringLiteral(".srt"))) {
-                if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", path)) ==
-                    KMessageBox::No) {
+                if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
+                                                    KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                     return;
                 }
             }

@@ -30,6 +30,7 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KDualAction>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -495,8 +496,8 @@ void CollapsibleEffectView::slotSaveEffect()
         }
 
         if (dir.exists(name + QStringLiteral(".xml")))
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) ==
-                KMessageBox::No) {
+            if (KMessageBox::questionTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml")), {},
+                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 return;
             }
 

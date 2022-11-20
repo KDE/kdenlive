@@ -5,9 +5,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "colorpickerwidget.h"
+#include "core.h"
+#include "mainwindow.h"
 
 #include <KLocalizedString>
 #include <QApplication>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusMetaType>
+#include <QDBusObjectPath>
+#include <QDBusPendingCall>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
+#include <QDebug>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QScreen>
@@ -20,6 +30,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <X11/Xutil.h>
 #include <fixx11h.h>
 #endif
+
+QDBusArgument &operator<<(QDBusArgument &arg, const QColor &color)
+{
+    arg.beginStructure();
+    arg << color.redF() << color.greenF() << color.blueF();
+    arg.endStructure();
+    return arg;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &arg, QColor &color)
+{
+    double red, green, blue;
+    arg.beginStructure();
+    arg >> red >> green >> blue;
+    color.setRedF(red);
+    color.setGreenF(green);
+    color.setBlueF(blue);
+    arg.endStructure();
+
+    return arg;
+}
 
 MyFrame::MyFrame(QWidget *parent)
     : QFrame(parent)
@@ -50,19 +81,36 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
+    // Check wether grabWindow() works. On some systems like with Wayland it does.
+    // We fallback to the Freedesktop portal with DBus which has less features than
+    // our custom implementation (eg. preview and avarage color are missing)
+    QPoint p(pCore->window()->geometry().center());
+    foreach (QScreen *screen, QGuiApplication::screens()) {
+        QRect screenRect = screen->geometry();
+        if (screenRect.contains(p)) {
+            QPixmap pm = screen->grabWindow(pCore->window()->winId(), p.x(), p.y(), 1, 1);
+            qDebug() << "got pixmap that is not null";
+            m_useDBus = pm.isNull();
+            break;
+        }
+    }
+
     auto *button = new QToolButton(this);
     button->setIcon(QIcon::fromTheme(QStringLiteral("color-picker")));
     button->setToolTip(i18n("Pick a color on the screen."));
-    button->setWhatsThis(xi18nc("@info:whatsthis", "Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a "
-                                                   "section of the screen from which to get an average color."));
-
     button->setAutoRaise(true);
-    connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::slotSetupEventFilter);
+    if (!m_useDBus) {
+        button->setWhatsThis(xi18nc("@info:whatsthis", "Pick a color on the screen. By pressing the mouse button and then moving your mouse you can select a "
+                                                       "section of the screen from which to get an average color."));
+        connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::slotSetupEventFilter);
+        setFocusPolicy(Qt::StrongFocus);
+        setMouseTracking(true);
+    } else {
+        qDBusRegisterMetaType<QColor>();
+        connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::grabColorDBus);
+    }
 
     layout->addWidget(button);
-    setFocusPolicy(Qt::StrongFocus);
-    setMouseTracking(true);
-
     m_grabRectFrame = new MyFrame();
     m_grabRectFrame->hide();
 }
@@ -265,4 +313,37 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
     return m_image.pixel(p.x(), p.y());
 
 #endif
+}
+
+void ColorPickerWidget::grabColorDBus()
+{
+    QDBusMessage message = QDBusMessage::createMethodCall(QLatin1String("org.freedesktop.portal.Desktop"), QLatin1String("/org/freedesktop/portal/desktop"),
+                                                          QLatin1String("org.freedesktop.portal.Screenshot"), QLatin1String("PickColor"));
+    message << QLatin1String("x11:") << QVariantMap{};
+    QDBusPendingCall pendingCall = QDBusConnection::sessionBus().asyncCall(message);
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall);
+    connect(watcher, &QDBusPendingCallWatcher::finished, [this](QDBusPendingCallWatcher *watcher) {
+        QDBusPendingReply<QDBusObjectPath> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Couldn't get reply";
+            qWarning() << "Error: " << reply.error().message();
+        } else {
+            QDBusConnection::sessionBus().connect(QString(), reply.value().path(), QLatin1String("org.freedesktop.portal.Request"), QLatin1String("Response"),
+                                                  this, SLOT(gotColorResponse(uint, QVariantMap)));
+        }
+    });
+}
+
+void ColorPickerWidget::gotColorResponse(uint response, const QVariantMap &results)
+{
+    if (!response) {
+        if (results.contains(QLatin1String("color"))) {
+            const QColor color = qdbus_cast<QColor>(results.value(QLatin1String("color")));
+            qDebug() << "picked" << color;
+            m_mouseColor = color;
+            emit colorPicked(m_mouseColor);
+        }
+    } else {
+        qWarning() << "Failed to take screenshot" << response << results;
+    }
 }

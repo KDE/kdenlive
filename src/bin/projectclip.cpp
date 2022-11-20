@@ -35,6 +35,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KImageCache>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -1803,8 +1804,8 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
     }
     QString current = getProducerProperty("kdenlive:clipanalysis." + name);
     if (!current.isEmpty()) {
-        if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(), KGuiItem(i18n("Merge")),
-                                       KGuiItem(i18n("Add"))) == KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(),
+                                            KGuiItem(i18n("Merge")), KStandardGuiItem::add()) == KMessageBox::Yes) {
             // Merge data
             // TODO MLT7: convert to Mlt::Animation
             /*auto &profile = pCore->getCurrentProfile();

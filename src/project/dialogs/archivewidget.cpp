@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KDiskFreeSpaceInfo>
 #include <KGuiItem>
 #include <KLocalizedString>
@@ -826,7 +827,8 @@ bool ArchiveWidget::processProjectFile()
             m_archiveName.append(QStringLiteral(".tar.gz"));
         };
         if (QFile::exists(m_archiveName) &&
-            KMessageBox::questionYesNo(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
+            KMessageBox::questionTwoActions(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName), {},
+                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return false;
         }
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -839,7 +841,8 @@ bool ArchiveWidget::processProjectFile()
 
     // Make a copy of original project file for extra safety
     QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
-    if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+    if (QFile::exists(path) && KMessageBox::warningTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
+                                                              KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
         return false;
     }
     QFile::remove(path);
@@ -855,7 +858,8 @@ bool ArchiveWidget::processProjectFile()
     if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
         QFile subFile(sub + QStringLiteral(".srt"));
         path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+        if (QFile::exists(path) && KMessageBox::warningTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
+                                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return false;
         }
         QFile::remove(path);
@@ -868,7 +872,8 @@ bool ArchiveWidget::processProjectFile()
     if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
         QFile subFile(sub + QStringLiteral(".ass"));
         path = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
-        if (QFile::exists(path) && KMessageBox::warningYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path)) != KMessageBox::Yes) {
+        if (QFile::exists(path) && KMessageBox::warningTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
+                                                                  KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return false;
         }
         QFile::remove(path);
@@ -881,7 +886,8 @@ bool ArchiveWidget::processProjectFile()
 
     path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
     QFile file(path);
-    if (file.exists() && KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
+    if (file.exists() && KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {},
+                                                        KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
         return false;
     }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

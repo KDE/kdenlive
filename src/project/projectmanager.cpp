@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KJob>
@@ -307,8 +308,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName());
         }
 
-        switch (KMessageBox::warningYesNoCancel(pCore->window(), message)) {
-        case KMessageBox::Yes:
+        switch (KMessageBox::warningTwoActionsCancel(pCore->window(), message, {}, KStandardGuiItem::save(), KStandardGuiItem::dontSave())) {
+        case KMessageBox::PrimaryAction:
             // save document here. If saving fails, return false;
             if (!saveFile()) {
                 return false;
@@ -554,8 +555,8 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     }
 
     if (orphanedFile) {
-        if (KMessageBox::questionYesNo(nullptr, i18n("Auto-saved file exist. Do you want to recover now?"), i18n("File Recovery"), KGuiItem(i18n("Recover")),
-                                       KGuiItem(i18n("Do not recover"))) == KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(nullptr, i18n("Auto-saved file exist. Do you want to recover now?"), i18n("File Recovery"),
+                                            KGuiItem(i18n("Recover")), KGuiItem(i18n("Do not recover"))) == KMessageBox::PrimaryAction) {
             doOpenFile(url, orphanedFile);
             return true;
         }
@@ -637,12 +638,12 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     KdenliveDoc *doc;
     if (!openResult.isSuccessful() && !openResult.isAborted()) {
         if (!isBackup) {
-            int answer = KMessageBox::warningYesNoCancel(
-                        pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
-                        i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
-            if (answer == KMessageBox::ButtonCode::Yes) { // Open Backup
+            int answer = KMessageBox::warningTwoActionsCancel(
+                pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
+                i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
+            if (answer == KMessageBox::ButtonCode::PrimaryAction) { // Open Backup
                 slotOpenBackup(url);
-            } else if (answer == KMessageBox::ButtonCode::No) { // Recover
+            } else if (answer == KMessageBox::ButtonCode::SecondaryAction) { // Recover
                 // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
                 openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
                     QString(), pCore->window()->m_commandStack, true, pCore->window());
@@ -1133,10 +1134,11 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     // First backup current project with fps appended
     bool saveInTempFile = false;
     if (m_project && m_project->isModified()) {
-        switch (
-            KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?",
-                                                                  m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()))) {
-        case KMessageBox::Yes:
+        switch (KMessageBox::warningTwoActionsCancel(pCore->window(),
+                                                     i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?",
+                                                          m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()),
+                                                     {}, KStandardGuiItem::save(), KStandardGuiItem::dontSave())) {
+        case KMessageBox::PrimaryAction:
             // save document here. If saving fails, return false;
             if (!saveFile()) {
                 pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
@@ -1269,8 +1271,8 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         }
     }
     if (QFile::exists(convertedFile)) {
-        if (KMessageBox::warningYesNo(qApp->activeWindow(), i18n("Output file %1 already exists.\nDo you want to overwrite it?", convertedFile)) !=
-            KMessageBox::Yes) {
+        if (KMessageBox::warningTwoActions(qApp->activeWindow(), i18n("Output file %1 already exists.\nDo you want to overwrite it?", convertedFile), {},
+                                           KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
     }
