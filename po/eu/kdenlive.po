@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-19 02:29+0000\n"
-"PO-Revision-Date: 2022-11-12 08:15+0100\n"
+"PO-Revision-Date: 2022-11-19 07:13+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -4486,17 +4486,17 @@ msgstr "Baliogabeko klipa"
 #: src/bin/bin.cpp:4545
 #, kde-format
 msgid "Enable proxies"
-msgstr "Gaitu ordezkoak"
+msgstr "Gaitu bitartekariak"
 
 #: src/bin/bin.cpp:4545
 #, kde-format
 msgid "Disable proxies"
-msgstr "Ezgaitu ordezkoak"
+msgstr "Ezgaitu bitartekariak"
 
 #: src/bin/bin.cpp:4720
 #, kde-format
 msgid "Rebuild proxies"
-msgstr "Ordezkoak berreraiki"
+msgstr "Berreraiki bitartekariak"
 
 #: src/bin/bin.cpp:4960
 #, kde-format
@@ -6956,7 +6956,7 @@ msgstr[1] "Efektuak falta dira: %2 proiektutik kenduko da."
 #: src/doc/documentchecker.cpp:425
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
-msgstr "Falta diren bitartekariak berriro sor daitezke irekitzeko momentuan."
+msgstr "Falta diren bitartekariak irekitzeko momentuan birsortu daitezke."
 
 #: src/doc/documentchecker.cpp:443
 #, kde-format
@@ -6969,8 +6969,8 @@ msgstr[0] ""
 "Proiektuaren fitxategiak klip bat falta du, hala ere haren bitartekariarekin "
 "lan egin dezakezu."
 msgstr[1] ""
-"Proiektuaren fitxategiak %1 klip bat falta ditu, hala ere haren "
-"bitartekariekin lan egin dezakezu."
+"Proiektuaren fitxategiak %1 klip falta ditu, hala ere haren bitartekariekin "
+"lan egin dezakezu."
 
 #: src/doc/documentchecker.cpp:450
 #, kde-format
@@ -7013,7 +7013,7 @@ msgstr "Jatorrizko klipa"
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
 msgstr ""
-"%1 iturburu-fitxategia falta da, bitartekari-klipak bakarrik erabil ditzakezu"
+"%1(r)en sorburu-klipak falta dira, bakarrik bitartekariak erabil ditzakezu"
 
 #: src/doc/documentchecker.cpp:926
 #, kde-format
@@ -7300,7 +7300,7 @@ msgstr[1] "Kendu bitartekari klipak"
 #: src/jobs/proxytask.cpp:245
 #, kde-format
 msgid "Clip type does not support proxies"
-msgstr "Klip mota honek ez ditu bitartekariak onartzen"
+msgstr "Klip motak ez ditu bitartekaririk onartzen"
 
 #: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
@@ -12244,7 +12244,7 @@ msgstr ""
 #: src/project/dialogs/temporarydata.cpp:431
 #, kde-format
 msgid "No proxies found in the current project."
-msgstr "Ez da bitartekaririk topatu uneko proiektuan."
+msgstr "Uneko proiektuan ez da bitartekaririk aurkitu."
 
 #: src/project/dialogs/temporarydata.cpp:442
 #, kde-format
@@ -12254,10 +12254,10 @@ msgid ""
 "Proxy folder contains the proxy clips for all your projects. This proxies "
 "can be recreated from the source clips."
 msgstr ""
-"Ezabatu datu guztiak bitartekarien karpetatik:\n"
+"Ezabatu bitartekari-karpetako proiektu guztien datuak:\n"
 "%1\n"
-"Bitartekarien karpetak zure proiektuentzako bitartekari-klip guztiak ditu. "
-"Bitartekari hauek iturri-fitxategietatik berreraiki daitezke."
+"Bitartekari-karpetak zure proiektu guztietarako bitartekari-klip guztiak "
+"ditu. Bitartekari hauek sorburu klipetatik berreraiki daitezke."
 
 #: src/project/dialogs/temporarydata.cpp:463
 #, kde-format
@@ -17804,13 +17804,13 @@ msgstr "pixelak"
 #: src/ui/projectsettings_ui.ui:382
 #, kde-format
 msgid "Suffix of proxy:"
-msgstr "Proxiaren atzizkia:"
+msgstr "bitartekariaren atzizkia:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
 #: src/ui/projectsettings_ui.ui:399
 #, kde-format
 msgid "Prefix of proxy:"
-msgstr "Proxiaren aurrizkia:"
+msgstr "bitartekariaren aurrizkia:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathProxyToOrig)
 #: src/ui/projectsettings_ui.ui:416
