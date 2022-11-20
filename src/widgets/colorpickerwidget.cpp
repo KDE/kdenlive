@@ -328,7 +328,6 @@ void ColorPickerWidget::grabColorDBus()
             qWarning() << "Couldn't get reply";
             qWarning() << "Error: " << reply.error().message();
         } else {
-            qDebug() << reply.value() << reply.value().path() << reply.error();
             QDBusConnection::sessionBus().connect(QString(), reply.value().path(), QLatin1String("org.freedesktop.portal.Request"), QLatin1String("Response"),
                                                   this, SLOT(gotColorResponse(uint, QVariantMap)));
         }
