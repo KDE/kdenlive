@@ -16,7 +16,7 @@
 
 class ProjectClip;
 
-class GlaxnimateLuncher : public QObject
+class GlaxnimateLauncher : public QObject
 {
     Q_OBJECT
 
@@ -29,7 +29,7 @@ class GlaxnimateLuncher : public QObject
     };
 
 public:
-    static GlaxnimateLuncher &instance();
+    static GlaxnimateLauncher &instance();
     bool checkInstalled();
     void openFile(const QString &url);
     void openClip(int clipId);

@@ -14,7 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "glaxnimateluncher.h"
+#include "glaxnimatelauncher.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "project/dialogs/slideshowclip.h"
@@ -157,7 +157,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
 
 void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &parentId)
 {
-    if (!GlaxnimateLuncher::instance().checkInstalled()) {
+    if (!GlaxnimateLauncher::instance().checkInstalled()) {
         return;
     }
     QDir dir(doc->projectDataFolder());
@@ -227,7 +227,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
     QTextStream out(&file);
     out << templateJson;
     file.close();
-    GlaxnimateLuncher::instance().openFile(fileName);
+    GlaxnimateLauncher::instance().openFile(fileName);
     // Add clip to project
     QDomDocument xml;
     QDomElement prod = xml.createElement(QStringLiteral("producer"));

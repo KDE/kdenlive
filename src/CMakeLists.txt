@@ -78,7 +78,7 @@ list(APPEND kdenlive_SRCS
     mltconnection.cpp
     statusbarmessagelabel.cpp
     undohelper.cpp
-    glaxnimateluncher.cpp
+    glaxnimatelauncher.cpp
 )
 
 if(CRASH_AUTO_TEST)

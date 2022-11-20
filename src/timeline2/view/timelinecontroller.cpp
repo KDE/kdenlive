@@ -23,7 +23,7 @@
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "glaxnimateluncher.h"
+#include "glaxnimatelauncher.h"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioEnvelope.h"
 #include "mainwindow.h"
@@ -3827,7 +3827,7 @@ void TimelineController::editAnimationClip(int id)
             }
         }
     }
-    GlaxnimateLuncher::instance().openClip(id);
+    GlaxnimateLauncher::instance().openClip(id);
 }
 
 QPoint TimelineController::selectionInOut() const
