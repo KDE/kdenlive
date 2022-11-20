@@ -2697,29 +2697,11 @@ void Monitor::updateMultiTrackView(int tid)
 void Monitor::slotSwitchRecTimecode(bool enable)
 {
     qDebug() << "=== SLOT SWITCH REC: " << enable;
+    KdenliveSettings::setRectimecode(enable);
     if (!enable) {
         m_timePos->setOffset(0);
-        KdenliveSettings::setRectimecode(false);
         return;
     }
-    if (KdenliveSettings::mediainfopath().isEmpty() || !QFileInfo::exists(KdenliveSettings::mediainfopath())) {
-        // Try to find binary
-        const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
-        QString mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"), mltpath);
-        if (mediainfopath.isEmpty()) {
-            mediainfopath = QStandardPaths::findExecutable(QStringLiteral("mediainfo"));
-        }
-        if (mediainfopath.isEmpty()) {
-            // TODO: propose to install mediainfo
-            KMessageBox::error(
-                this,
-                i18n("The MediaInfo application is required for the recording timecode feature, please install it and re-enable the feature in Kdenlive"));
-            return;
-        }
-        KdenliveSettings::setMediainfopath(mediainfopath);
-    }
-    qDebug() << "========== READY TO READ OFFSET\n\n.............::";
-    KdenliveSettings::setRectimecode(true);
     if (m_controller) {
         qDebug() << "=== GOT TIMECODE OFFSET: " << m_controller->getRecordTime();
         m_timePos->setOffset(m_controller->getRecordTime());
