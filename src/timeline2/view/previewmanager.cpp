@@ -614,7 +614,7 @@ void PreviewManager::processEnded(int, QProcess::ExitStatus status)
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
     if (status == QProcess::QProcess::CrashExit) {
-        pCore->currentDoc()->previewProgress(-1);
+        emit previewRender(0, m_errorLog, -1);
         if (workingPreview >= 0) {
             const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
             if (m_cacheDir.exists(fileName)) {

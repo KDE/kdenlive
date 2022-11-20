@@ -19,7 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "glaxnimateluncher.h"
+#include "glaxnimatelauncher.h"
 #include "jobs/abstracttask.h"
 #include "jobs/audiolevelstask.h"
 #include "jobs/cliploadtask.h"
@@ -4151,7 +4151,7 @@ void Bin::slotOpenClipExtern()
         }
     } break;
     case ClipType::Animation: {
-        GlaxnimateLuncher::instance().openFile(clip->url());
+        GlaxnimateLauncher::instance().openFile(clip->url());
     } break;
     default:
         break;

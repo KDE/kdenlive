@@ -5,7 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "glaxnimateluncher.h"
+#include "glaxnimatelauncher.h"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
@@ -22,7 +22,7 @@
 #include <QLocalSocket>
 #include <QSharedMemory>
 
-bool GlaxnimateLuncher::checkInstalled()
+bool GlaxnimateLauncher::checkInstalled()
 {
     if (!KdenliveSettings::glaxnimatePath().isEmpty() && QFile(KdenliveSettings::glaxnimatePath()).exists()) {
         return true;
@@ -40,13 +40,13 @@ bool GlaxnimateLuncher::checkInstalled()
     return true;
 }
 
-GlaxnimateLuncher &GlaxnimateLuncher::instance()
+GlaxnimateLauncher &GlaxnimateLauncher::instance()
 {
-    static GlaxnimateLuncher instance;
+    static GlaxnimateLauncher instance;
     return instance;
 }
 
-void GlaxnimateLuncher::reset()
+void GlaxnimateLauncher::reset()
 {
     if (m_stream && m_socket && m_stream && QLocalSocket::ConnectedState == m_socket->state()) {
         *m_stream << QString("clear");
@@ -55,7 +55,7 @@ void GlaxnimateLuncher::reset()
     m_parent.reset();
 }
 
-void GlaxnimateLuncher::openFile(const QString &filename)
+void GlaxnimateLauncher::openFile(const QString &filename)
 {
     QString error = pCore->openExternalApp(KdenliveSettings::glaxnimatePath(), {filename});
     if (!error.isEmpty()) {
@@ -64,9 +64,15 @@ void GlaxnimateLuncher::openFile(const QString &filename)
     }
 }
 
-void GlaxnimateLuncher::openClip(int clipId)
+void GlaxnimateLauncher::openClip(int clipId)
 {
     if (!checkInstalled()) {
+        return;
+    }
+    if ((m_server && m_socket && m_stream && QLocalSocket::ConnectedState == m_socket->state()) || (m_parent && m_parent->m_clipId != -1)) {
+        // There is already an open connection, it is only supported to send the background to one Glaxnimate instance at the time
+        // Open the clip without sending the background
+        openFile(pCore->projectItemModel()->getClipByBinID(pCore->window()->getCurrentTimeline()->model()->getClipBinId(clipId))->clipUrl());
         return;
     }
     m_parent.reset(new ParentResources);
@@ -78,18 +84,9 @@ void GlaxnimateLuncher::openClip(int clipId)
     }
 
     QString filename = m_parent->m_binClip->clipUrl();
-
-    if (m_server && m_socket && m_stream && QLocalSocket::ConnectedState == m_socket->state()) {
-        auto s = QString("open ").append(filename);
-        qDebug() << s;
-        *m_stream << s;
-        m_socket->flush();
-        m_parent->m_frameNum = -1;
-        return;
-    }
     m_parent->m_clipId = clipId;
     m_server.reset(new QLocalServer);
-    connect(m_server.get(), &QLocalServer::newConnection, this, &GlaxnimateLuncher::onConnect);
+    connect(m_server.get(), &QLocalServer::newConnection, this, &GlaxnimateLauncher::onConnect);
     QString name = QString("kdenlive-%1").arg(QCoreApplication::applicationPid());
     QStringList args = {"--ipc", name, filename};
     /*QProcess childProcess;
@@ -129,11 +126,11 @@ void GlaxnimateLuncher::openClip(int clipId)
     }
 }
 
-void GlaxnimateLuncher::onConnect()
+void GlaxnimateLauncher::onConnect()
 {
     m_socket = m_server->nextPendingConnection();
-    connect(m_socket, &QLocalSocket::readyRead, this, &GlaxnimateLuncher::onReadyRead);
-    connect(m_socket, &QLocalSocket::errorOccurred, this, &GlaxnimateLuncher::onSocketError);
+    connect(m_socket, &QLocalSocket::readyRead, this, &GlaxnimateLauncher::onReadyRead);
+    connect(m_socket, &QLocalSocket::errorOccurred, this, &GlaxnimateLauncher::onSocketError);
     m_stream.reset(new QDataStream(m_socket));
     m_stream->setVersion(QDataStream::Qt_5_15);
     *m_stream << QString("hello");
@@ -142,7 +139,7 @@ void GlaxnimateLuncher::onConnect()
     m_isProtocolValid = false;
 }
 
-void GlaxnimateLuncher::onReadyRead()
+void GlaxnimateLauncher::onReadyRead()
 {
     if (!m_isProtocolValid) {
         QString message;
@@ -182,11 +179,12 @@ void GlaxnimateLuncher::onReadyRead()
     }
 }
 
-void GlaxnimateLuncher::onSocketError(QLocalSocket::LocalSocketError socketError)
+void GlaxnimateLauncher::onSocketError(QLocalSocket::LocalSocketError socketError)
 {
     switch (socketError) {
     case QLocalSocket::PeerClosedError:
         qDebug() << "Glaxnimate closed the connection";
+        m_parent->m_clipId = -1;
         m_stream.reset();
         m_sharedMemory.reset();
         break;
@@ -195,7 +193,7 @@ void GlaxnimateLuncher::onSocketError(QLocalSocket::LocalSocketError socketError
     }
 }
 
-bool GlaxnimateLuncher::copyToShared(const QImage &image)
+bool GlaxnimateLauncher::copyToShared(const QImage &image)
 {
     if (!m_sharedMemory) {
         return false;

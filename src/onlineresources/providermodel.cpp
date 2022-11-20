@@ -30,6 +30,8 @@ ProviderModel::ProviderModel(const QString &path)
     QFile file(path);
     QJsonParseError jsonError;
 
+    m_networkManager = new QNetworkAccessManager(this);
+
     if (!file.exists()) {
         qCWarning(KDENLIVE_LOG) << "WARNING, can not find provider configuration file at" << path << ".";
         m_invalid = true;
@@ -388,9 +390,6 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
     QUrl uri = getSearchUrl(searchText, page);
 
     if (m_search["req"].toObject()["method"].toString() == "GET") {
-
-        auto *manager = new QNetworkAccessManager(this);
-
         QNetworkRequest request(uri);
 
         if (m_search["req"].toObject()["header"].isArray()) {
@@ -399,7 +398,7 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
                                      replacePlaceholders(header.toObject()["value"].toString(), searchText, page).toUtf8());
             }
         }
-        QNetworkReply *reply = manager->get(request);
+        QNetworkReply *reply = m_networkManager->get(request);
 
         connect(reply, &QNetworkReply::finished, this, [=]() {
             if (reply->error() == QNetworkReply::NoError) {
@@ -539,8 +538,6 @@ void ProviderModel::slotFetchFiles(const QString &id)
 
     if (m_download["req"].toObject()["method"].toString() == "GET") {
 
-        auto *manager = new QNetworkAccessManager(this);
-
         QNetworkRequest request(uri);
 
         if (m_download["req"].toObject()["header"].isArray()) {
@@ -548,7 +545,7 @@ void ProviderModel::slotFetchFiles(const QString &id)
                 request.setRawHeader(header.toObject()["key"].toString().toUtf8(), replacePlaceholders(header.toObject()["value"].toString()).toUtf8());
             }
         }
-        QNetworkReply *reply = manager->get(request);
+        QNetworkReply *reply = m_networkManager->get(request);
 
         connect(reply, &QNetworkReply::finished, this, [=]() {
             if (reply->error() == QNetworkReply::NoError) {
