@@ -174,7 +174,7 @@ bool DocumentChecker::hasErrorInClips()
             filePath.prepend(root);
         }
         if (!QFile::exists(filePath)) {
-            QString lumaName = filePath.section(QLatin1Char('/'), -1);
+            QString lumaName = QFileInfo(filePath).fileName();
             // MLT 7 now generates lumas on the fly for files named luma01.pgm to luma22.pgm, so don't detect these as missing
             if (lumaName.length() == 10 && lumaName.startsWith(QLatin1String("luma")) && lumaName.endsWith(QLatin1String(".pgm"))) {
                 bool ok;
