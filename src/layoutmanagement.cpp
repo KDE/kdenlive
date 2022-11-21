@@ -281,7 +281,7 @@ std::pair<QString, QString> LayoutManagement::saveLayout(const QString &layout, 
         // Layout already exists
         int res = KMessageBox::questionTwoActions(pCore->window(), i18n("The layout %1 already exists. Do you want to replace it?", layoutName), {},
                                                   KStandardGuiItem::overwrite(), KStandardGuiItem::cancel());
-        if (res != KMessageBox::ButtonCode::PrimaryAction) {
+        if (res != KMessageBox::PrimaryAction) {
             return {nullptr, nullptr};
         }
     }

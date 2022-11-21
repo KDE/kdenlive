@@ -641,9 +641,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
             int answer = KMessageBox::warningTwoActionsCancel(
                 pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
                 i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
-            if (answer == KMessageBox::ButtonCode::PrimaryAction) { // Open Backup
+            if (answer == KMessageBox::PrimaryAction) { // Open Backup
                 slotOpenBackup(url);
-            } else if (answer == KMessageBox::ButtonCode::SecondaryAction) { // Recover
+            } else if (answer == KMessageBox::SecondaryAction) { // Recover
                 // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
                 openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
                     QString(), pCore->window()->m_commandStack, true, pCore->window());
