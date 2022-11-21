@@ -248,7 +248,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(); });
     connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(true); });
     updateMetadataToolTip();
-    connect(m_view.edit_metadata, &QLabel::linkActivated, []() { pCore->window()->slotEditProjectSettings(2); });
+    connect(m_view.edit_metadata, &QLabel::linkActivated, []() { pCore->window()->slotEditProjectSettings(3); });
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
