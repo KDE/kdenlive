@@ -336,6 +336,8 @@ protected:
     QDomElement mixXml(QDomDocument &document, int cid) const;
     /** @brief Check if a mix is reversed (moslty used in tests) */
     bool mixIsReversed(int cid) const;
+    /** @brief Adjust effect stack length to current track duration */
+    void adjustStackLength(int duration, int newDuration, Fun &undo, Fun &redo);
 
 public slots:
     /** Delete the current track and all its associated clips */
