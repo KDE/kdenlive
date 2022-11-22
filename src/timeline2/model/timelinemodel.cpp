@@ -6684,3 +6684,12 @@ QByteArray TimelineModel::timelineHash()
     QByteArray fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
     return fileHash;
 }
+
+bool TimelineModel::trackIsLocked(int trackId) const
+{
+    Q_ASSERT(isTrack(trackId));
+    if (isSubtitleTrack(trackId)) {
+        return m_subtitleModel->isLocked();
+    }
+    return getTrackById_const(trackId)->isLocked();
+}
