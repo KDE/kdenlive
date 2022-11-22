@@ -363,9 +363,14 @@ bool ArchiveWidget::closeAccepted()
                                                KGuiItem(i18n("Stop Archiving"))) != KMessageBox::Continue) {
             return false;
         }
+        m_infoMessage->setMessageType(KMessageWidget::Information);
+        m_infoMessage->setText(i18n("Abort processing"));
+        m_infoMessage->animatedShow();
+        m_abortArchive = true;
         if (m_copyJob) {
             m_copyJob->kill();
         }
+        m_archiveThread.waitForFinished();
     }
     return true;
 }
@@ -584,6 +589,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     proxy_only->setEnabled(false);
     timeline_archive->setEnabled(false);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Close)->setText(i18n("Abort"));
 
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
@@ -775,6 +781,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
             } else {
                 slotJobResult(false, i18n("There was an error processing project file"));
             }
+            buttonBox->button(QDialogButtonBox::Close)->setText(i18n("Close"));
         } else {
             processProjectFile();
         }
@@ -1103,9 +1110,12 @@ void ArchiveWidget::createArchive()
         success = archive->addLocalFile(i.key(), i.value());
         emit archiveProgress(100 * ix / max);
         ix++;
-        if (!success) {
+        if (!success || m_abortArchive) {
             break;
         }
+    }
+    if (m_abortArchive) {
+        return;
     }
 
     // Add project file
@@ -1147,6 +1157,7 @@ void ArchiveWidget::slotArchivingBoolFinished(bool result)
             files_list->topLevelItem(i)->child(j)->setDisabled(false);
         }
     }
+    buttonBox->button(QDialogButtonBox::Close)->setText(i18n("Close"));
 }
 
 void ArchiveWidget::slotArchivingIntProgress(int p)
