@@ -2983,17 +2983,47 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
         }
         // First delete clip, then timewarp, resize and reinsert
         int pos = getItemPosition(id);
+        int invalidateIn = pos;
+        int invalidateOut = invalidateIn + getClipPlaytime(id);
         if (!right) {
             pos += getItemPlaytime(id) - size;
         }
-        result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, false);
+        bool hasVideo = false;
+        if (tid != -1 && !getTrackById_const(tid)->isAudioTrack()) {
+            hasVideo = true;
+        }
+        int trackDuration = getTrackById_const(tid)->trackDuration();
+        result = getTrackById(tid)->requestClipDeletion(id, true, false, undo, redo, false, false);
         bool pitchCompensate = m_allClips[id]->getIntProperty(QStringLiteral("warp_pitch"));
         result = result && requestClipTimeWarp(id, speed, pitchCompensate, true, undo, redo);
         result = result && requestItemResize(id, size, true, true, undo, redo);
-        result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo, false, false);
+        result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, false, undo, redo, false, false);
         if (!result) {
             break;
         }
+        bool durationChanged = false;
+        if (trackDuration != getTrackById_const(tid)->trackDuration()) {
+            durationChanged = true;
+            getTrackById(tid)->adjustStackLength(trackDuration, getTrackById_const(tid)->trackDuration(), undo, redo);
+        }
+        if (right) {
+            invalidateOut = qMax(invalidateOut, invalidateIn + getClipPlaytime(id));
+        } else {
+            invalidateIn = qMin(invalidateIn, invalidateOut - getClipPlaytime(id));
+        }
+        Fun view_redo = [this, invalidateIn, invalidateOut, hasVideo, durationChanged]() {
+            if (hasVideo) {
+                emit invalidateZone(invalidateIn, invalidateOut);
+            }
+            if (durationChanged) {
+                // last clip in playlist updated
+                updateDuration();
+            }
+            return true;
+        };
+        view_redo();
+        PUSH_LAMBDA(view_redo, redo);
+        PUSH_LAMBDA(view_redo, undo);
     }
     if (!result) {
         bool undone = undo();
@@ -5640,10 +5670,10 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
 bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    std::function<bool(void)> local_undo = []() { return true; };
-    std::function<bool(void)> local_redo = []() { return true; };
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     int oldPos = getClipPosition(clipId);
-    // in order to make the producer change effective, we need to unplant / replant the clip in int track
+    // in order to make the producer change effective, we need to unplant / replant the clip in its track
     bool success = true;
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {

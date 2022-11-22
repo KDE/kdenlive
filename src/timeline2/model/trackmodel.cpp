@@ -313,6 +313,11 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
     return false;
 }
 
+void TrackModel::adjustStackLength(int duration, int newDuration, Fun &undo, Fun &redo)
+{
+    m_effectStack->adjustStackLength(true, 0, duration, 0, newDuration, 0, undo, redo, true);
+}
+
 void TrackModel::temporaryUnplugClip(int clipId)
 {
     QWriteLocker locker(&m_lock);
