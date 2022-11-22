@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-21 00:46+0000\n"
-"PO-Revision-Date: 2022-11-07 19:09+0400\n"
+"PO-Revision-Date: 2022-11-21 19:18+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -3625,10 +3625,9 @@ msgstr "انقل الإطار الرئيس إلى المؤشّر"
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgid "Show keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "أظهر الأطر الرئيسة"
+msgstr "انسخ الأطر الرئيسة"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3640,16 +3639,14 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:784
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "حدث الإطار الرئيس"
+msgstr "ألصق الإطار الرئيس"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "حدث الإطار الرئيس"
+msgstr "ألصق الأطر الرئيسة"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
@@ -3753,10 +3750,9 @@ msgid "Select parameters to copy"
 msgstr "حدد المعاملات لنسخها"
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "نسخت قيمة الإطار الرئيس"
+msgstr "نسخت الأطر الرئيسة"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
 #, fuzzy, kde-format

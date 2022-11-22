@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-21 00:46+0000\n"
-"PO-Revision-Date: 2022-11-18 07:21+0100\n"
+"PO-Revision-Date: 2022-11-21 12:23+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -7885,7 +7885,7 @@ msgstr "Impossible de charger l'image %1."
 #: src/jobs/proxytask.cpp:245
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr ""
+msgstr "Image trop petite pour être placée en cache."
 
 #: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:123

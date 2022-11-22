@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-21 00:46+0000\n"
-"PO-Revision-Date: 2022-11-19 11:55+0100\n"
+"PO-Revision-Date: 2022-11-21 11:12+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11753,9 +11753,7 @@ msgid "Delete guide."
 msgstr "Hulplijn verwijderen."
 
 #: src/project/dialogs/guideslist.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsi18nthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr ""

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-21 00:46+0000\n"
-"PO-Revision-Date: 2022-11-19 12:55+0300\n"
+"PO-Revision-Date: 2022-11-21 20:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -11713,9 +11713,7 @@ msgid "Delete guide."
 msgstr "Kılavuzu silin."
 
 #: src/project/dialogs/guideslist.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsi18nthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr "Kılavuzu sil. Bu, seçili tüm kılavuzları siler."
