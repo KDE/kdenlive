@@ -822,6 +822,8 @@ public:
     /** @brief returns the position of the clip start on a playlist */
     int getClipStartAt(int tid, int pos, int playlist) const;
     int getClipEndAt(int tid, int pos, int playlist) const;
+    /** @brief returns true if the track trackId is Locked */
+    bool trackIsLocked(int trackid) const;
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -929,6 +931,8 @@ signals:
     void checkTrackDeletion(int tid);
     /** @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
     void checkItemDeletion(int cid);
+    /** @brief request animation of the track tid lock icon */
+    void flashLock(int tid);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

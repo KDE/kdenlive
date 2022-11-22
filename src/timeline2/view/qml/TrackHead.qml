@@ -7,6 +7,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtGraphicalEffects 1.15
 
 Rectangle {
     id: trackHeadRoot
@@ -33,7 +34,7 @@ Rectangle {
         nameEdit.selectAll()
     }
 
-    onIsLockedChanged: {
+    function animateLock() {
         flashLock.restart();
     }
     
@@ -474,7 +475,10 @@ Rectangle {
                 width: root.collapsedHeight
                 height: root.collapsedHeight
                 focusPolicy: Qt.NoFocus
-                contentItem: Item {
+                contentItem: Rectangle {
+                    id: bgRect
+                    color: 'transparent'
+                    anchors.fill: parent
                     Image {
                         source: trackHeadRoot.isLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
                         anchors.centerIn: parent
@@ -498,23 +502,18 @@ Rectangle {
                         text: isLocked? i18n("Unlock track") : i18n("Lock track")
                     }
                 }
-
                 SequentialAnimation {
                     id: flashLock
-                    loops: 1
-                    ScaleAnimator {
-                        target: lockButton
-                        from: 1
-                        to: 1.6
-                        duration: 200
+                    loops: 3
+                    ParallelAnimation {
+                        ScaleAnimator {target: lockButton; from: 1; to: 1.2; duration: 120}
+                        PropertyAnimation {target: bgRect;property: "color"; from: "transparent"; to: "darkred"; duration: 100}
                     }
-                    ScaleAnimator {
-                        target: lockButton
-                        from: 1.6
-                        to: 1
-                        duration: 200
+                    ParallelAnimation {
+                        ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
+                        PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
                     }
-                 }
+                }
             }
         }
         Item {

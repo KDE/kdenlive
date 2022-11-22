@@ -133,6 +133,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
     connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::checkClipPosition);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
+    connect(m_model.get(), &TimelineModel::flashLock, this, &TimelineController::slotFlashLock);
 }
 
 void TimelineController::restoreTargetTracks()
@@ -604,6 +605,11 @@ int TimelineController::insertComposition(int tid, int position, const QString &
     return id;
 }
 
+void TimelineController::slotFlashLock(int trackId)
+{
+    QMetaObject::invokeMethod(m_root, "animateLockButton", Qt::QueuedConnection, Q_ARG(QVariant, trackId));
+}
+
 void TimelineController::deleteSelectedClips()
 {
     if (dragOperationRunning()) {
@@ -612,6 +618,19 @@ void TimelineController::deleteSelectedClips()
         return;
     }
     auto sel = m_model->getCurrentSelection();
+    // Check if we are operating on a locked track
+    std::unordered_set<int> trackIds;
+    for (auto &id : sel) {
+        if (m_model->isItem(id)) {
+            trackIds.insert(m_model->getItemTrackId(id));
+        }
+    }
+    for (auto &tid : trackIds) {
+        if (m_model->trackIsLocked(tid)) {
+            m_model->flashLock(tid);
+            return;
+        }
+    }
     if (sel.empty()) {
         // Check if a mix is selected
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {

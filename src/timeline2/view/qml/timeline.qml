@@ -400,6 +400,15 @@ Rectangle {
         return audioCount;
     }
 
+    function animateLockButton(trackId){
+        // TODO: fix then multiple subtitles track is implemented
+        if (trackId == -2) {
+            flashLock.restart()
+        } else {
+            Logic.getTrackHeaderById(trackId).animateLock()
+        }
+    }
+
     function getItemAtPos(tk, posx, compositionWanted) {
         var track = Logic.getTrackById(tk)
         if (track == undefined || track.children == undefined) {
@@ -1117,7 +1126,10 @@ Rectangle {
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             focusPolicy: Qt.NoFocus
-                            contentItem: Item {
+                            contentItem: Rectangle {
+                                id: bgRect
+                                anchors.fill: parent
+                                color: "transparent"
                                 Image {
                                     source: root.subtitlesLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
                                     anchors.centerIn: parent
@@ -1143,18 +1155,14 @@ Rectangle {
                             }
                             SequentialAnimation {
                                 id: flashLock
-                                loops: 1
-                                ScaleAnimator {
-                                    target: lockButton
-                                    from: 1
-                                    to: 1.6
-                                    duration: 200
+                                loops: 3
+                                ParallelAnimation {
+                                    ScaleAnimator {target: lockButton; from: 1; to: 1.2; duration: 120}
+                                    PropertyAnimation {target: bgRect;property: "color"; from: "transparent"; to: "darkred"; duration: 100}
                                 }
-                                ScaleAnimator {
-                                    target: lockButton
-                                    from: 1.6
-                                    to: 1
-                                    duration: 200
+                                ParallelAnimation {
+                                    ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
+                                    PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
                                 }
                             }
                         }

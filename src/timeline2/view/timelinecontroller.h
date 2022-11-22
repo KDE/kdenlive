@@ -717,6 +717,8 @@ private slots:
     void updateAudioTarget();
     /** @brief Dis / enable multi track view. */
     void updateMultiTrack();
+    /** @brief An operation was attempted on a locked track, animate lock icon to make user aware */
+    void slotFlashLock(int trackId);
 
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */

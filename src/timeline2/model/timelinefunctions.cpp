@@ -324,6 +324,10 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
 std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position,
                                                                    bool ignoreMultiTrackGroups, bool allowGroupBreaking)
 {
+    if (trackId != -1 && timeline->trackIsLocked(trackId)) {
+        timeline->flashLock(trackId);
+        return {-1, -1};
+    }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     timeline->requestClearSelection();
     // Find the first clip on each track to calculate the minimum space operation
@@ -2244,6 +2248,10 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
         }
     } else {
         // Check we have a blank and that it is in not between 2 grouped clips
+        if (timeline->trackIsLocked(trackId)) {
+            timeline->flashLock(trackId);
+            return false;
+        }
         if (timeline->isSubtitleTrack(trackId)) {
             // Subtitle track
             if (!timeline->getSubtitleModel()->isBlankAt(position)) {
@@ -2295,10 +2303,8 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
 bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
 {
     // Abort if track is locked
-    if (timeline->isSubtitleTrack(trackId) && timeline->getSubtitleModel() && timeline->getSubtitleModel()->isLocked()) {
-        return false;
-    }
-    if (timeline->isTrack(trackId) && timeline->getTrackById_const(trackId)->isLocked()) {
+    if (timeline->trackIsLocked(trackId)) {
+        timeline->flashLock(trackId);
         return false;
     }
     // Start undoable command
@@ -2402,10 +2408,8 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
 bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
 {
     // Abort if track is locked
-    if (timeline->isSubtitleTrack(trackId) && timeline->getSubtitleModel() && timeline->getSubtitleModel()->isLocked()) {
-        return false;
-    }
-    if (timeline->isTrack(trackId) && timeline->getTrackById_const(trackId)->isLocked()) {
+    if (timeline->trackIsLocked(trackId)) {
+        timeline->flashLock(trackId);
         return false;
     }
     // Start undoable command
