@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-21 02:27+0000\n"
-"PO-Revision-Date: 2022-11-11 09:14+0100\n"
+"PO-Revision-Date: 2022-11-21 09:09+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -10021,7 +10021,7 @@ msgstr ""
 #: src/mltconnection.cpp:234
 #, kde-format
 msgid "Cannot find your MLT profiles, please give the path"
-msgstr "No es poden trobar els perfils del MLT. Indiqueu el camí"
+msgstr "No es troben els perfils del MLT. Indiqueu el camí"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:176
 #: src/mltcontroller/clippropertiescontroller.cpp:1327
@@ -11781,9 +11781,7 @@ msgid "Delete guide."
 msgstr "Suprimix la guia."
 
 #: src/project/dialogs/guideslist.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsi18nthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr "Suprimix la guia. Açò esborrarà totes les guies seleccionades."
@@ -13712,7 +13710,7 @@ msgstr ""
 #: src/timeline2/model/timelinemodel.cpp:1021
 #, kde-format
 msgid "Select a clip to apply the mix"
-msgstr "Seleccioneu un clip per aplicar a la mescla"
+msgstr "Seleccioneu un clip per a aplicar a la mescla"
 
 #: src/timeline2/model/timelinemodel.cpp:1017
 #, kde-format
@@ -19167,11 +19165,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "The MediaInfo application is required for the recording timecode feature, "
-#~ "please install it and re-enable the feature in Kdenlive"
-#~ msgstr ""
-#~ "Es requerix l'aplicació «MediaInfo» per a la característica codi de temps "
-#~ "de la gravació. Instal·leu-la i torneu a habilitar la característica en "
-#~ "Kdenlive"
