@@ -52,6 +52,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     lay->addLayout(l1);
     int in = -1;
     int out = -1;
+    std::pair<int, int> sourceInOut = {-1, -1};
     // Set  up data
     auto json = QJsonDocument::fromJson(animData.toUtf8());
     if (!json.isArray()) {
@@ -67,6 +68,19 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         if (!ok) {
             firstFrame.chop(1);
             in = firstFrame.toInt(&ok);
+        }
+        if (ok && sourceInOut.first == -1) {
+            sourceInOut.first = in;
+        }
+        QString lastFrame = animData.section(QLatin1Char(';'), -1);
+        lastFrame = lastFrame.section(QLatin1Char('='), 0, 0);
+        int lastPos = lastFrame.toInt(&ok);
+        if (!ok) {
+            lastFrame.chop(1);
+            lastPos = lastFrame.toInt(&ok);
+        }
+        if (ok && sourceInOut.second == -1) {
+            sourceInOut.second = lastPos;
         }
         QString first = animData.section(QLatin1Char('='), 1, 1);
         if (!first.isEmpty()) {
@@ -110,6 +124,12 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         int type = entryObj[QLatin1String("type")].toInt(0);
         double min = entryObj[QLatin1String("min")].toDouble(0);
         double max = entryObj[QLatin1String("max")].toDouble(0);
+        if (sourceInOut.first == -1) {
+            sourceInOut.first = entryObj[QLatin1String("in")].toInt(0);
+        }
+        if (sourceInOut.second == -1) {
+            sourceInOut.second = entryObj[QLatin1String("out")].toInt(0);
+        }
         if (in == -1) {
             in = entryObj[QLatin1String("in")].toInt(0);
         }
@@ -143,15 +163,11 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     lay->addWidget(m_previewLabel);
     // Zone in / out
     in = qMax(0, in);
-    if (out <= 0) {
-        out = in + parentDuration;
-    }
-    out = qMin(out, m_model->data(m_indexes.first(), AssetParameterModel::ParentInRole).toInt() +
-                        m_model->data(m_indexes.first(), AssetParameterModel::ParentDurationRole).toInt() - 1);
+    out = qMin(sourceInOut.first + parentDuration - 1, sourceInOut.second);
     m_inPoint = new PositionWidget(i18n("In"), in, 0, out, QString(), this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
-    m_outPoint = new PositionWidget(i18n("Out"), out, in, out, QString(), this);
+    m_outPoint = new PositionWidget(i18n("Duration"), out, in, out, QString(), this);
     connect(m_outPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_outPoint);
 
@@ -702,7 +718,7 @@ QString KeyframeImport::selectedTarget() const
 
 void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int limitKeyframes, const QColor &textColor)
 {
-    qDebug() << "============= DRAWING KFR CHANNS: " << m_dataCombo->currentData().toString();
+    // qDebug() << "============= DRAWING KFR CHANNS: " << m_dataCombo->currentData().toString();
     std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
     QRect br(0, 0, pix.width(), pix.height());
     double frameFactor = double(out - in) / br.width();
@@ -778,7 +794,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (xDist > 0) {
             painter.setPen(cX);
             int val = int((rect.x - xOffset) * maxHeight / xDist);
-            qDebug() << "// DRAWINC CURVE : " << rect.x << ", POS: " << (int(i * frameFactor) + in) << ", RESULT: " << val;
+            // qDebug() << "// DRAWINC CURVE : " << rect.x << ", POS: " << (int(i * frameFactor) + in) << ", RESULT: " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (yDist > 0) {
@@ -851,14 +867,13 @@ void KeyframeImport::importSelectedData()
     int targetAlign = m_alignTargetCombo->currentData().toInt();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    // wether we are mapping to a fake rectangle
+    bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
+    bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
     for (const auto &ix : qAsConst(m_indexes)) {
         // update keyframes in other indexes
         KeyframeModel *km = kfrModel->getKeyModel(ix);
         qDebug() << "== " << ix << " = " << m_targetCombo->currentData().toModelIndex();
-
-        // wether we are mapping to a fake rectangle
-        bool fakeRect = m_targetCombo->currentData().isNull() && m_targetCombo->currentText() == i18n("Rectangle");
-        bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
         if (ix == m_targetCombo->currentData().toModelIndex() || fakeRect) {
             // Import our keyframes
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles>(m_sourceCombo->currentData().toInt());
@@ -1134,13 +1149,16 @@ void KeyframeImport::updateView()
     KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles>(m_sourceCombo->currentData().toInt());
     mlt_keyframe_type type;
     mlt_rect firstRect = animData->anim_get_rect("key", anim->key_get_frame(0));
+    bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
     for (int i = 0; i < anim->key_count(); i++) {
         int error = anim->key_get(i, frame, type);
         if (error) {
             continue;
         }
-        // QVariant current = km->getInterpolatedValue(frame);
         mlt_rect sourceRect = animData->anim_get_rect("original", frame);
+        if (!useOpacity) {
+            sourceRect.o = 1;
+        }
         QStringList kfrData = {QString::number(sourceRect.x), QString::number(sourceRect.y), QString::number(sourceRect.w), QString::number(sourceRect.h),
                                QString::number(sourceRect.o)};
         // Safety check
@@ -1173,6 +1191,10 @@ void KeyframeImport::updateView()
             break;
         }
         mlt_rect rect = animData->anim_get_rect("key", frame);
+        mlt_keyframe_type kfrType = anim->keyframe_type(frame);
+        if (!useOpacity) {
+            rect.o = 1;
+        }
         if (convertMode == ImportRoles::Position || convertMode == ImportRoles::InvertedPosition) {
             switch (sourceAlign) {
             case 1:
@@ -1296,31 +1318,47 @@ void KeyframeImport::updateView()
         // map the fake rectangle internaly to the right params
         QString name = ix.data(AssetParameterModel::NameRole).toString();
         QSize frameSize = pCore->getCurrentFrameSize();
-        QString current;
+        bool doubleParameter = false;
+        double val;
         if (name.contains("Position X") &&
             !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::YOnly)) {
-            current = QString::number(kfrData[0].toDouble() / frameSize.width());
+            val = kfrData[0].toDouble() / frameSize.width();
             if (convertMode == ImportRoles::FullGeometry) {
-                current = QString::number(current.toDouble() + rect.w / frameSize.width() / 2);
+                val += rect.w / frameSize.width() / 2;
             }
+            doubleParameter = true;
         } else if (name.contains("Position Y") &&
                    !(convertMode == ImportRoles::WidthOnly || convertMode == ImportRoles::HeightOnly || convertMode == ImportRoles::XOnly)) {
-            current = QString::number(kfrData[1].toDouble() / frameSize.height());
+            val = kfrData[1].toDouble() / frameSize.height();
             if (convertMode == ImportRoles::FullGeometry) {
-                current = QString::number(current.toDouble() + rect.h / frameSize.height() / 2);
+                val += rect.h / frameSize.height() / 2;
             }
+            doubleParameter = true;
         } else if (name.contains("Size X") && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition ||
                                                convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::WidthOnly)) {
-            current = QString::number(kfrData[2].toDouble() / frameSize.width() / 2);
+            val = kfrData[2].toDouble() / frameSize.width() / 2;
+            doubleParameter = true;
         } else if (name.contains("Size Y") && (convertMode == ImportRoles::FullGeometry || convertMode == ImportRoles::InvertedPosition ||
                                                convertMode == ImportRoles::OffsetPosition || convertMode == ImportRoles::HeightOnly)) {
-            current = QString::number(kfrData[3].toDouble() / frameSize.height() / 2);
+            val = kfrData[3].toDouble() / frameSize.height() / 2;
+            doubleParameter = true;
         } else if (fakeRect) {
-            current = QString::number(animData->anim_get_double("original", frame));
+            val = animData->anim_get_double("original", frame);
+            doubleParameter = true;
         } else {
-            current = kfrData.join(QLatin1Char(' '));
+            mlt_rect resultRect;
+            resultRect.x = kfrData.at(0).toInt();
+            resultRect.y = kfrData.at(1).toInt();
+            resultRect.w = kfrData.at(2).toInt();
+            resultRect.h = kfrData.at(3).toInt();
+            resultRect.o = kfrData.at(4).toDouble();
+            animData->anim_set("key2", resultRect, frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(),
+                               m_outPoint->getPosition() - m_inPoint->getPosition(), kfrType);
         }
-        animData->anim_set("key2", current.toUtf8().constData(), frame - m_inPoint->getPosition() + m_offsetPoint->getPosition());
+        if (doubleParameter) {
+            animData->anim_set("key2", val, frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(),
+                               m_outPoint->getPosition() - m_inPoint->getPosition(), kfrType);
+        }
     }
     std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData->get_animation("key2")));
     anim2->interpolate();
