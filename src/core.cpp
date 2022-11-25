@@ -261,20 +261,27 @@ void Core::buildLumaThumbs(const QStringList &values)
     }
 }
 
-QString Core::openExternalApp(const QString &appPath, QStringList args)
+QString Core::openExternalApp(QString appPath, QStringList args)
 {
     QProcess process;
+    if (QFileInfo(appPath).isRelative()) {
+        QString updatedPath = QStandardPaths::findExecutable(appPath);
+        if (updatedPath.isEmpty()) {
+            return i18n("Cannot open file %1", appPath);
+        }
+        appPath = updatedPath;
+    }
 #if defined(Q_OS_MACOS)
     args.prepend(QStringLiteral("--args"));
     args.prepend(appPath);
     args.prepend(QStringLiteral("-a"));
-    if (!process.startDetached(QStringLiteral("open"), args)) {
-        return process.errorString();
-    }
-    return QString();
+    process.setProgram("open");
+#else
+    process.setProgram(appPath);
 #endif
+    process.setArguments(args);
     qDebug() << "Starting external app" << appPath << "with arguments" << args;
-    if (!process.startDetached(appPath, args)) {
+    if (!process.startDetached()) {
         return process.errorString();
     }
     return QString();

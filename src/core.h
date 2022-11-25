@@ -102,7 +102,7 @@ public:
     MainWindow *window();
 
     /** @brief Open a file using an external app. */
-    QString openExternalApp(const QString &appPath, const QStringList args);
+    QString openExternalApp(QString appPath, const QStringList args);
 
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
