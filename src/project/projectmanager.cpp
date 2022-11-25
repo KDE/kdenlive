@@ -651,11 +651,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                     doc = openResult.getDocument().release();
                     doc->requestBackup();
                 } else {
-                    KMessageBox::error(pCore->window(), "Could not recover corrupted file.");
+                    KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
                 }
             }
         } else {
-            KMessageBox::detailedError(pCore->window(), "Could not open the backup project file.", openResult.getError());
+            KMessageBox::detailedError(pCore->window(), i18n("Could not open the backup project file."), openResult.getError());
         }
     } else {
         doc = openResult.getDocument().release();
