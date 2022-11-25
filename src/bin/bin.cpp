@@ -4111,6 +4111,7 @@ void Bin::slotOpenClipExtern()
     if (!clip) {
         return;
     }
+    QString errorString;
     switch (clip->clipType()) {
     case ClipType::Text:
     case ClipType::TextTemplate:
@@ -4128,7 +4129,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultimageapp().isEmpty()) {
-            pCore->openExternalApp(KdenliveSettings::defaultimageapp(), {clip->url()});
+            errorString = pCore->openExternalApp(KdenliveSettings::defaultimageapp(), {clip->url()});
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open image files"));
         }
@@ -4145,7 +4146,7 @@ void Bin::slotOpenClipExtern()
             }
         }
         if (!KdenliveSettings::defaultaudioapp().isEmpty()) {
-            pCore->openExternalApp(KdenliveSettings::defaultaudioapp(), {clip->url()});
+            errorString = pCore->openExternalApp(KdenliveSettings::defaultaudioapp(), {clip->url()});
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Please set a default application to open audio files"));
         }
@@ -4155,6 +4156,9 @@ void Bin::slotOpenClipExtern()
     } break;
     default:
         break;
+    }
+    if (!errorString.isEmpty()) {
+        KMessageBox::detailedError(QApplication::activeWindow(), i18n("Cannot open file %1", clip->url()), errorString);
     }
 }
 
