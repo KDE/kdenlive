@@ -786,9 +786,8 @@ Rectangle {
                 // If we exit on top, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
                 clearDropData()
-            } else if (clipBeingDroppedId > -1) {
+            } else if (clipBeingDroppedId > -1 && fakeTrack > -1) {
                 // Clip is dropped
-                //console.log('Dragging on left side!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                 var moveData = controller.suggestClipMove(clipBeingDroppedId, fakeTrack, 0, root.consumerPosition, root.snapping)
                 fakeFrame = moveData[0]
                 fakeTrack = moveData[1]
@@ -803,7 +802,6 @@ Rectangle {
                 }
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    //timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var targetTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
                     if (clipBeingDroppedId > -1) {
