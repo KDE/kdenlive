@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-23 00:46+0000\n"
+"POT-Creation-Date: 2022-11-25 00:45+0000\n"
 "PO-Revision-Date: 2022-11-21 13:22+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -150,10 +150,10 @@ msgstr "Кут обертання форми хвилі."
 #: data/effects/tracker.xml:8 data/transitions/affine.xml:8
 #: data/transitions/composite.xml:8 data/transitions/qtblend.xml:8
 #: data/transitions/region.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:249
-#: src/assets/view/widgets/keyframeimport.cpp:384
-#: src/assets/view/widgets/keyframeimport.cpp:860
-#: src/assets/view/widgets/keyframeimport.cpp:1131
+#: src/assets/view/widgets/keyframeimport.cpp:265
+#: src/assets/view/widgets/keyframeimport.cpp:400
+#: src/assets/view/widgets/keyframeimport.cpp:871
+#: src/assets/view/widgets/keyframeimport.cpp:1146
 #, kde-format
 msgid "Rectangle"
 msgstr "Прямокутник"
@@ -813,7 +813,7 @@ msgid "Overlay text with keywords replaced"
 msgstr "Текст накладки з заміною ключових слів"
 
 #: data/effects/dynamictext.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:370
+#: src/assets/view/widgets/keyframeimport.cpp:386
 #, kde-format
 msgid "Geometry"
 msgstr "Позиція і розміри"
@@ -899,7 +899,8 @@ msgstr "Світлішання зображення з суцільного чо
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
-#: data/effects/fadein.xml:11 data/effects/fadeout.xml:8 src/bin/bin.cpp:1273
+#: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
+#: src/assets/view/widgets/keyframeimport.cpp:170 src/bin/bin.cpp:1273
 #: src/bin/projectitemmodel.cpp:311
 #: src/timeline2/view/dialogs/speeddialog.cpp:51
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
@@ -909,7 +910,7 @@ msgid "Duration"
 msgstr "Тривалість"
 
 #: data/effects/fade_from_black.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:151
+#: src/assets/view/widgets/keyframeimport.cpp:167
 #: src/monitor/view/kdenlivemonitortrimming.qml:105
 #: src/timeline2/view/qml/Track.qml:355
 #, kde-format
@@ -933,7 +934,6 @@ msgid "Fade video to black"
 msgstr "Тьмянішання зображення до суцільного чорного"
 
 #: data/effects/fade_to_black.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:154
 #: src/monitor/view/kdenlivemonitortrimming.qml:139
 #, kde-format
 msgid "Out"
@@ -1783,7 +1783,7 @@ msgstr "Позиціювання, зміна масштабу і непрозо�
 
 #: data/effects/qtblend.xml:12 data/effects/qtblend.xml:30
 #: data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:356
+#: src/assets/view/widgets/keyframeimport.cpp:372
 #, kde-format
 msgid "Rotation"
 msgstr "Обертання"
@@ -3481,183 +3481,183 @@ msgstr "С: "
 msgid "Data to import:"
 msgstr "Дані, які слід імпортувати:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:160
+#: src/assets/view/widgets/keyframeimport.cpp:176
 #, kde-format
 msgid "Time offset:"
 msgstr "Зсув часу:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:174
-#: src/assets/view/widgets/keyframeimport.cpp:365
-#: src/assets/view/widgets/keyframeimport.cpp:460
-#: src/assets/view/widgets/keyframeimport.cpp:865
+#: src/assets/view/widgets/keyframeimport.cpp:190
+#: src/assets/view/widgets/keyframeimport.cpp:381
+#: src/assets/view/widgets/keyframeimport.cpp:476
+#: src/assets/view/widgets/keyframeimport.cpp:880
 #, kde-format
 msgid "Rotoscoping shape"
 msgstr "Форма ротоскопа"
 
-#: src/assets/view/widgets/keyframeimport.cpp:209
-#: src/assets/view/widgets/keyframeimport.cpp:219
+#: src/assets/view/widgets/keyframeimport.cpp:225
+#: src/assets/view/widgets/keyframeimport.cpp:235
 #, kde-format
 msgid "Top left"
 msgstr "Вгорі ліворуч"
 
-#: src/assets/view/widgets/keyframeimport.cpp:210
-#: src/assets/view/widgets/keyframeimport.cpp:220
+#: src/assets/view/widgets/keyframeimport.cpp:226
+#: src/assets/view/widgets/keyframeimport.cpp:236
 #, kde-format
 msgid "Top center"
 msgstr "Вгорі за центром"
 
-#: src/assets/view/widgets/keyframeimport.cpp:211
-#: src/assets/view/widgets/keyframeimport.cpp:221
+#: src/assets/view/widgets/keyframeimport.cpp:227
+#: src/assets/view/widgets/keyframeimport.cpp:237
 #, kde-format
 msgid "Top right"
 msgstr "Вгорі праворуч"
 
-#: src/assets/view/widgets/keyframeimport.cpp:212
-#: src/assets/view/widgets/keyframeimport.cpp:222
+#: src/assets/view/widgets/keyframeimport.cpp:228
+#: src/assets/view/widgets/keyframeimport.cpp:238
 #, kde-format
 msgid "Left center"
 msgstr "Ліворуч за центром"
 
-#: src/assets/view/widgets/keyframeimport.cpp:213
-#: src/assets/view/widgets/keyframeimport.cpp:223
+#: src/assets/view/widgets/keyframeimport.cpp:229
+#: src/assets/view/widgets/keyframeimport.cpp:239
 #: src/dialogs/subtitleedit.cpp:132 src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "За центром"
 
-#: src/assets/view/widgets/keyframeimport.cpp:214
-#: src/assets/view/widgets/keyframeimport.cpp:224
+#: src/assets/view/widgets/keyframeimport.cpp:230
+#: src/assets/view/widgets/keyframeimport.cpp:240
 #, kde-format
 msgid "Right center"
 msgstr "Праворуч за центром"
 
-#: src/assets/view/widgets/keyframeimport.cpp:215
-#: src/assets/view/widgets/keyframeimport.cpp:225
+#: src/assets/view/widgets/keyframeimport.cpp:231
+#: src/assets/view/widgets/keyframeimport.cpp:241
 #, kde-format
 msgid "Bottom left"
 msgstr "Внизу ліворуч"
 
-#: src/assets/view/widgets/keyframeimport.cpp:216
-#: src/assets/view/widgets/keyframeimport.cpp:226
+#: src/assets/view/widgets/keyframeimport.cpp:232
+#: src/assets/view/widgets/keyframeimport.cpp:242
 #, kde-format
 msgid "Bottom center"
 msgstr "Внизу за центром"
 
-#: src/assets/view/widgets/keyframeimport.cpp:217
-#: src/assets/view/widgets/keyframeimport.cpp:227
+#: src/assets/view/widgets/keyframeimport.cpp:233
+#: src/assets/view/widgets/keyframeimport.cpp:243
 #, kde-format
 msgid "Bottom right"
 msgstr "Внизу праворуч"
 
-#: src/assets/view/widgets/keyframeimport.cpp:230
+#: src/assets/view/widgets/keyframeimport.cpp:246
 #, kde-format
 msgid "Map "
 msgstr "Відобразити "
 
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label1)
-#: src/assets/view/widgets/keyframeimport.cpp:231
+#: src/assets/view/widgets/keyframeimport.cpp:247
 #: src/ui/import_subtitle_ui.ui:91
 #, kde-format
 msgid " to "
 msgstr " на "
 
-#: src/assets/view/widgets/keyframeimport.cpp:272
+#: src/assets/view/widgets/keyframeimport.cpp:288
 #, kde-format
 msgid "Position offset:"
 msgstr "Зсув позиції:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:279
-#: src/assets/view/widgets/keyframeimport.cpp:414
-#: src/assets/view/widgets/keyframeimport.cpp:417
-#: src/assets/view/widgets/keyframeimport.cpp:420
-#: src/assets/view/widgets/keyframeimport.cpp:423
-#: src/assets/view/widgets/keyframeimport.cpp:434
-#: src/assets/view/widgets/keyframeimport.cpp:437
-#: src/assets/view/widgets/keyframeimport.cpp:440
-#: src/assets/view/widgets/keyframeimport.cpp:443
-#: src/assets/view/widgets/keyframeimport.cpp:446
+#: src/assets/view/widgets/keyframeimport.cpp:295
+#: src/assets/view/widgets/keyframeimport.cpp:430
+#: src/assets/view/widgets/keyframeimport.cpp:433
+#: src/assets/view/widgets/keyframeimport.cpp:436
+#: src/assets/view/widgets/keyframeimport.cpp:439
+#: src/assets/view/widgets/keyframeimport.cpp:450
+#: src/assets/view/widgets/keyframeimport.cpp:453
+#: src/assets/view/widgets/keyframeimport.cpp:456
+#: src/assets/view/widgets/keyframeimport.cpp:459
+#: src/assets/view/widgets/keyframeimport.cpp:462
 #, kde-format
 msgid "Source range %1 to %2"
 msgstr "Діапазон джерела %1 на %2"
 
-#: src/assets/view/widgets/keyframeimport.cpp:288
+#: src/assets/view/widgets/keyframeimport.cpp:304
 #, kde-format
 msgid "Destination range:"
 msgstr "Діапазон призначення:"
 
-#: src/assets/view/widgets/keyframeimport.cpp:296
+#: src/assets/view/widgets/keyframeimport.cpp:312
 #, kde-format
 msgid "Actual range only"
 msgstr "Лише поточний діапазон"
 
-#: src/assets/view/widgets/keyframeimport.cpp:303
+#: src/assets/view/widgets/keyframeimport.cpp:319
 #, kde-format
 msgid "Limit keyframe number"
 msgstr "Обмежити кількість ключових кадрів"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
-#: src/assets/view/widgets/keyframeimport.cpp:371
+#: src/assets/view/widgets/keyframeimport.cpp:387
 #: src/transitions/view/mixstackview.cpp:26 src/ui/markerdialog_ui.ui:32
 #, kde-format
 msgid "Position"
 msgstr "Позиція"
 
-#: src/assets/view/widgets/keyframeimport.cpp:372
+#: src/assets/view/widgets/keyframeimport.cpp:388
 #, kde-format
 msgid "Inverted Position"
 msgstr "Інвертована позиція"
 
-#: src/assets/view/widgets/keyframeimport.cpp:373
+#: src/assets/view/widgets/keyframeimport.cpp:389
 #, kde-format
 msgid "Offset Position"
 msgstr "Позиція зсуву"
 
-#: src/assets/view/widgets/keyframeimport.cpp:374
+#: src/assets/view/widgets/keyframeimport.cpp:390
 #, kde-format
 msgid "X"
 msgstr "X"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbY)
-#: src/assets/view/widgets/keyframeimport.cpp:375 src/ui/histogram_ui.ui:54
+#: src/assets/view/widgets/keyframeimport.cpp:391 src/ui/histogram_ui.ui:54
 #, kde-format
 msgid "Y"
 msgstr "Y"
 
-#: src/assets/view/widgets/keyframeimport.cpp:377
-#: src/assets/view/widgets/keyframeimport.cpp:764
+#: src/assets/view/widgets/keyframeimport.cpp:393
+#: src/assets/view/widgets/keyframeimport.cpp:780
 #: src/assets/view/widgets/keyframewidget.cpp:245
 #: src/assets/view/widgets/keyframewidget.cpp:306
 #, kde-format
 msgid "Width"
 msgstr "Ширина"
 
-#: src/assets/view/widgets/keyframeimport.cpp:380
-#: src/assets/view/widgets/keyframeimport.cpp:772
+#: src/assets/view/widgets/keyframeimport.cpp:396
+#: src/assets/view/widgets/keyframeimport.cpp:788
 #: src/assets/view/widgets/keyframewidget.cpp:244
 #: src/assets/view/widgets/keyframewidget.cpp:300
 #, kde-format
 msgid "Height"
 msgstr "Висота"
 
-#: src/assets/view/widgets/keyframeimport.cpp:426
-#: src/assets/view/widgets/keyframeimport.cpp:449
+#: src/assets/view/widgets/keyframeimport.cpp:442
+#: src/assets/view/widgets/keyframeimport.cpp:465
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
 msgstr "Діапазон джерела: (%1-%2), (%3-%4)"
 
-#: src/assets/view/widgets/keyframeimport.cpp:746
+#: src/assets/view/widgets/keyframeimport.cpp:762
 #, kde-format
 msgctxt "X as in x coordinate"
 msgid "X"
 msgstr "X"
 
-#: src/assets/view/widgets/keyframeimport.cpp:755
+#: src/assets/view/widgets/keyframeimport.cpp:771
 #, kde-format
 msgctxt "Y as in y coordinate"
 msgid "Y"
 msgstr "Y"
 
-#: src/assets/view/widgets/keyframeimport.cpp:1098
+#: src/assets/view/widgets/keyframeimport.cpp:1113
 #, kde-format
 msgid "Import keyframes from clipboard"
 msgstr "Імпортувати ключові кадри з буфера обміну даними"
