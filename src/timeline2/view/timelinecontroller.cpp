@@ -798,6 +798,8 @@ void TimelineController::deleteMultipleTracks(int tid)
         }
         if (result) {
             pCore->pushUndo(undo, redo, allIds.count() > 1 ? i18n("Delete Tracks") : i18n("Delete Track"));
+        } else {
+            undo();
         }
     }
 }

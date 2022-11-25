@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 
 #include <QIcon>
+#include <QPushButton>
 #include <utility>
 
 TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode, int activeTrackId)
@@ -85,6 +86,18 @@ void TrackDialog::buildCombo()
     }
     if (m_deleteMode) {
         deleteTracks->setMinimumWidth(deleteTracks->sizeHintForColumn(0));
+        connect(deleteTracks, &QListWidget::itemChanged, this, [=]() {
+            // Ensure we cannot check all tracks
+            int count = deleteTracks->count();
+            for (int i = 0; i < count; i++) {
+                if (deleteTracks->item(i)->checkState() == Qt::Unchecked) {
+                    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+                    return true;
+                }
+            }
+            buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+            return true;
+        });
     }
 }
 
