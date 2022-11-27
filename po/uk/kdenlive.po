@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 00:45+0000\n"
-"PO-Revision-Date: 2022-11-21 13:22+0200\n"
+"PO-Revision-Date: 2022-11-26 10:56+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -12618,10 +12618,9 @@ msgid "Open Backup"
 msgstr "Відкрити резервну копію"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Не вдалося відкрити файл проєкту %1"
+msgstr "Не вдалося відкрити резервну копію файла проєкту."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format

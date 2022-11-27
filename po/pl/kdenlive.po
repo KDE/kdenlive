@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 00:45+0000\n"
-"PO-Revision-Date: 2022-11-25 21:46+0100\n"
+"PO-Revision-Date: 2022-11-26 10:44+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -12510,10 +12510,9 @@ msgid "Open Backup"
 msgstr "Otwórz kopię zapasową"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Nie można otworzyć pliku projektu %1"
+msgstr "Nie można otworzyć kopii zapasowej pliku projektu."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
