@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 02:27+0000\n"
-"PO-Revision-Date: 2022-11-24 04:56+0100\n"
+"PO-Revision-Date: 2022-11-26 09:23+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -12480,10 +12480,9 @@ msgid "Open Backup"
 msgstr " Ireki babeskopia"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Ezin da %1 proiektu fitxategia ireki"
+msgstr "Ezin izan du proiektuaren babeskopia fitxategia ireki."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format

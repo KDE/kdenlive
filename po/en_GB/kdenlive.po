@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 02:27+0000\n"
-"PO-Revision-Date: 2022-09-18 12:10+0100\n"
+"PO-Revision-Date: 2022-11-26 15:03+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
 "Language: en_GB\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2876,16 +2876,16 @@ msgid "Wipe Method"
 msgstr "Wipe Method"
 
 #: data/transitions/matte.xml:4
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Matte"
-msgstr "Patterns"
+msgstr "Matte"
 
 #: data/transitions/matte.xml:5
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
 msgstr ""
+"Replace the alpha channel of track A with the luma channel from track B."
 
 #: data/transitions/mix.xml:4
 #, kde-format
@@ -2954,10 +2954,9 @@ msgid "Direction"
 msgstr "Direction"
 
 #: data/transitions/vqm.xml:4
-#, fuzzy, kde-format
-#| msgid "Measurement"
+#, kde-format
 msgid "Video Quality Measurement"
-msgstr "Measurement"
+msgstr "Video Quality Measurement"
 
 #: data/transitions/vqm.xml:5
 #, kde-format
@@ -2967,18 +2966,22 @@ msgid ""
 "delimited format for easy by another tool. The bottom half of the B frame is "
 "placed below the top half of the A frame for visual comparison."
 msgstr ""
+"This performs the PSNR and SSIM video quality measurements by comparing the "
+"B frames to the reference frame A. It outputs the numbers to stdout in space-"
+"delimited format for easy by another tool. The bottom half of the B frame is "
+"placed below the top half of the A frame for visual comparison."
 
 #: data/transitions/vqm.xml:8
-#, fuzzy, kde-format
-#| msgid "Render Time"
+#, kde-format
 msgid "Render line"
-msgstr "Render Time"
+msgstr "Render line"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
+"Render a line between top and bottom halves and the values atop the video."
 
 #: data/transitions/wipe.xml:4
 #, kde-format
@@ -3643,11 +3646,9 @@ msgstr "Move selected keyframe to cursor"
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Move keyframes"
+msgstr "Copy keyframes"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3656,25 +3657,26 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"Copy keyframes. Copy the selected keyframes, or current parameters values if "
+"no keyframe is selected."
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:784
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Update keyframe"
+msgstr "Paste keyframe"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Update keyframe"
+msgstr "Paste keyframes"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
+"Paste keyframes. Paste clipboard data as keyframes at current position."
 
 #: src/assets/view/widgets/keyframewidget.cpp:99
 #, kde-format
@@ -3713,6 +3715,8 @@ msgid ""
 "Keyframe interpolation. This defines which interpolation will be used for "
 "the current keyframe."
 msgstr ""
+"Keyframe interpolation. This defines which interpolation will be used for "
+"the current keyframe."
 
 #: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-format
@@ -3720,10 +3724,9 @@ msgid "Seek to Keyframe on Select"
 msgstr "Seek to Keyframe on Select"
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Copy Keyframes to Clipboard"
+msgstr "Copy All Keyframes to Clipboard"
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -3772,30 +3775,26 @@ msgid "Select parameters to copy"
 msgstr "Select parameters to copy"
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "Keyframe value copied"
+msgstr "Keyframes copied"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
-#, fuzzy, kde-format
-#| msgid "No valid data in clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "No valid data in clipboard"
+msgstr "No valid keyframe data in clipboard"
 
 #: src/assets/view/widgets/keyframewidget.cpp:794
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Cannot create temporary files"
+msgstr "Cannot copy current parameter values"
 
 #: src/assets/view/widgets/keyframewidget.cpp:799
 #: src/assets/view/widgets/keyframewidget.cpp:807
 #: src/assets/view/widgets/keyframewidget.cpp:819
-#, fuzzy, kde-format
-#| msgid "Keyframe value copied"
+#, kde-format
 msgid "Current values copied"
-msgstr "Keyframe value copied"
+msgstr "Current values copied"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4098,20 +4097,14 @@ msgstr ""
 "To make sure you do not lose data, a backup copy called %1 was created."
 
 #: src/bin/bin.cpp:1869
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "Unable to write to file %1"
+msgstr "Unable to parse file %1"
 
 #: src/bin/bin.cpp:1880
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot replace clip with invalid file %1"
-msgstr ""
-"Cannot open archive file:\n"
-" %1"
+msgstr "Cannot replace clip with invalid file %1"
 
 #: src/bin/bin.cpp:1906 src/bin/bin.cpp:1964
 #, kde-format
@@ -4130,10 +4123,9 @@ msgid "The selected file %1 is invalid."
 msgstr "The selected file %1 is invalid."
 
 #: src/bin/bin.cpp:1919
-#, fuzzy, kde-format
-#| msgid "Cannot find clip to edit"
+#, kde-format
 msgid "Cannot find original clip to be replaced"
-msgstr "Cannot find clip to edit"
+msgstr "Cannot find original clip to be replaced"
 
 #: src/bin/bin.cpp:1939
 #, kde-format
@@ -4585,10 +4577,9 @@ msgid "Audio stream %1"
 msgstr "Audio stream %1"
 
 #: src/bin/bin.cpp:5485
-#, fuzzy, kde-format
-#| msgid "Delete clip markers"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Delete clip markers"
+msgstr "Remove clip markers"
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4700,10 +4691,9 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT Playlist (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "Update values in timeline."
+#, kde-format
 msgid "Update guides categories"
-msgstr "Update values in timeline."
+msgstr "Update guides categories"
 
 #: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #, kde-format
@@ -4766,10 +4756,9 @@ msgid "Marker"
 msgstr "Marker"
 
 #: src/bin/model/markerlistmodel.cpp:750
-#, fuzzy, kde-format
-#| msgid "Recovered item"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Recovered item"
+msgstr "Recovered %1"
 
 #: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
@@ -4789,40 +4778,34 @@ msgid "No guide found at current position"
 msgstr "No guide found at current position"
 
 #: src/bin/model/markerlistmodel.cpp:879
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Edit Guide"
+msgstr "Edit Guides Category"
 
 #: src/bin/model/markerlistmodel.cpp:879
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Edit Marker"
+msgstr "Edit Markers Category"
 
 #: src/bin/model/markerlistmodel.cpp:885
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Category"
+msgstr "Guides Category"
 
 #: src/bin/model/markerlistmodel.cpp:885
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Category"
+msgstr "Markers Category"
 
 #: src/bin/model/markerlistmodel.cpp:903
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Edit guide"
+msgstr "Edit guides"
 
 #: src/bin/model/markerlistmodel.cpp:903
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Edit marker"
+msgstr "Edit markers"
 
 #: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1362
@@ -4841,10 +4824,9 @@ msgid "Edit Marker"
 msgstr "Edit Marker"
 
 #: src/bin/model/markerlistmodel.cpp:946
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Add Guide"
+msgstr "Add Guides"
 
 #: src/bin/model/markerlistmodel.cpp:946
 #, kde-format
@@ -4852,16 +4834,14 @@ msgid "Add Markers"
 msgstr "Add Markers"
 
 #: src/bin/model/markerlistmodel.cpp:961
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Add guide"
+msgstr "Add guides"
 
 #: src/bin/model/markerlistmodel.cpp:961
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Add marker"
+msgstr "Add markers"
 
 #: src/bin/model/subtitlemodel.cpp:85
 #, kde-format
@@ -5548,6 +5528,9 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
+"Selected Timeline preview profile is not compatible with the project "
+"framerate,\n"
+"reverting to Automatic."
 
 #: src/dialogs/exportguidesdialog.cpp:36
 #, kde-format
@@ -5579,23 +5562,20 @@ msgstr "Save"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Text File (*.txt)"
+msgstr "Text File"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "GPS File"
+msgstr "JSON File"
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export Guides…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Export Guides…"
+msgstr "Export Guides Data"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:921
 #: src/dialogs/renderwidget.cpp:926 src/dialogs/renderwidget.cpp:979
@@ -5625,16 +5605,14 @@ msgid "Cannot write to file %1"
 msgstr "Cannot write to file %1"
 
 #: src/dialogs/exportguidesdialog.cpp:86
-#, fuzzy, kde-format
-#| msgid "Resource saved to %1"
+#, kde-format
 msgid "Guides saved to %1"
-msgstr "Resource saved to %1"
+msgstr "Guides saved to %1"
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Category"
+msgstr "Category name"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5672,10 +5650,9 @@ msgid "Timeline"
 msgstr "Timeline"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Colour range"
+msgstr "Colours and Guides"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:128
 #, kde-format
@@ -5718,10 +5695,9 @@ msgstr "Project Defaults"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:330
 #: src/dialogs/kdenlivesettingsdialog.cpp:354
-#, fuzzy, kde-format
-#| msgid "Use default folder"
+#, kde-format
 msgid "Use default folder: %1"
-msgstr "Use default folder"
+msgstr "Use default folder: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:332
 #: src/dialogs/kdenlivesettingsdialog.cpp:356
@@ -5729,19 +5705,17 @@ msgstr "Use default folder"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1030
 #: src/dialogs/kdenlivesettingsdialog.cpp:1039
 #: src/dialogs/kdenlivesettingsdialog.cpp:1040
-#, fuzzy, kde-format
-#| msgid "Always use project folder"
+#, kde-format
 msgid "Always use project folder: %1"
-msgstr "Always use project folder"
+msgstr "Always use project folder: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:334
 #: src/dialogs/kdenlivesettingsdialog.cpp:358
 #: src/dialogs/kdenlivesettingsdialog.cpp:1036
 #: src/dialogs/kdenlivesettingsdialog.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Always use project folder"
+#, kde-format
 msgid "Always use active project folder"
-msgstr "Always use project folder"
+msgstr "Always use active project folder"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:371
 #, kde-format
@@ -7384,10 +7358,9 @@ msgid "Cyan"
 msgstr "Cyan"
 
 #: src/doc/kdenlivedoc.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Category %1"
+msgstr "Category %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -7471,11 +7444,9 @@ msgid "Hide keyframes"
 msgstr "Hide keyframes"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show keyframes"
-msgstr "Move keyframes"
+msgstr "Show keyframes"
 
 #: src/effects/effectstack/model/effectitemmodel.cpp:308
 #, kde-format
@@ -7546,17 +7517,14 @@ msgid "Enable Keyframes"
 msgstr "Enable Keyframes"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:93
-#, fuzzy, kde-format
-#| msgid "Hide keyframes"
+#, kde-format
 msgid "Hide Keyframes"
-msgstr "Hide keyframes"
+msgstr "Hide Keyframes"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Show Keyframes"
-msgstr "Move keyframes"
+msgstr "Show Keyframes"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:101
 #, kde-format
@@ -7674,22 +7642,19 @@ msgstr ""
 "Save effect with no description?"
 
 #: src/glaxnimatelauncher.cpp:32
-#, fuzzy, kde-format
-#| msgid "Please install Glaxnimate to edit Lottie animations."
+#, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
-msgstr "Please install Glaxnimate to edit Lottie animations."
+msgstr "You need enter a valid path to be able to edit Lottie animations."
 
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
-#, fuzzy, kde-format
-#| msgid "Enter path to the Glaxnimate application"
+#, kde-format
 msgid "Failed to lunch Glaxnimate application"
-msgstr "Enter path to the Glaxnimate application"
+msgstr "Failed to lunch Glaxnimate application"
 
 #: src/glaxnimatelauncher.cpp:82
-#, fuzzy, kde-format
-#| msgid "Item is not a title clip"
+#, kde-format
 msgid "Item is not an animation clip"
-msgstr "Item is not a title clip"
+msgstr "Item is not an animation clip"
 
 #: src/jobs/audiolevelstask.cpp:74 src/jobs/audiolevelstask.cpp:137
 #, kde-format
@@ -7987,10 +7952,9 @@ msgstr "Current clip"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Current clip"
+msgstr "&Current track"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -8594,10 +8558,9 @@ msgstr "Time Remapping"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:277 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "&Guides"
+msgstr "Guides"
 
 #: src/mainwindow.cpp:340 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9386,16 +9349,14 @@ msgid "Remove Space"
 msgstr "Remove Space"
 
 #: src/mainwindow.cpp:1732
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Remove all Keyframes After Cursor"
+msgstr "Remove All Spaces After Cursor"
 
 #: src/mainwindow.cpp:1733
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Remove all Keyframes After Cursor"
+msgstr "Remove All Clips After Cursor"
 
 #: src/mainwindow.cpp:1734
 #, kde-format
@@ -9460,10 +9421,9 @@ msgid "Edit Guide…"
 msgstr "Edit Guide…"
 
 #: src/mainwindow.cpp:1791
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Search…"
+msgstr "Search Guide…"
 
 #: src/mainwindow.cpp:1792
 #, kde-format
@@ -9476,10 +9436,9 @@ msgid "Guides Locked"
 msgstr "Guides Locked"
 
 #: src/mainwindow.cpp:1798
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Show guides:"
+msgstr "Lock guides"
 
 #: src/mainwindow.cpp:1800
 #, kde-kuit-format
@@ -9488,6 +9447,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"Lock guides. When locked, the guides won't move when using the spacer tool "
+"or inserting/removing blank in tracks."
 
 #: src/mainwindow.cpp:1802
 #, kde-format
@@ -9541,6 +9502,8 @@ msgid ""
 "This switches between having a <emphasis>Menubar</emphasis> and having a "
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button in the main Toolbar."
 
 #: src/mainwindow.cpp:1857
 #, kde-format
@@ -9632,31 +9595,24 @@ msgstr ""
 "clips for this project?"
 
 #: src/mainwindow.cpp:2107
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"The current project has not been saved. This will first save the project, "
-"then move all temporary files from <b>%1</b> to <b>%2</b>, and the project "
-"file will be reloaded"
+"The current project has not been saved.<br/>This will first save the "
+"project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
+"<br>and the project file will be reloaded"
 
 #: src/mainwindow.cpp:2115
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"This will move all temporary files from <b>%1</b> to <b>%2</b>, the project "
-"file will then be reloaded"
+"This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
+"project file will then be reloaded"
 
 #: src/mainwindow.cpp:2124 src/project/projectmanager.cpp:428
 #, kde-format
@@ -9967,10 +9923,9 @@ msgid "Project Bin %1"
 msgstr "Project Bin %1"
 
 #: src/mainwindow.cpp:4579
-#, fuzzy, kde-format
-#| msgid "Selected cached data:"
+#, kde-format
 msgid "Checking cached data size"
-msgstr "Selected cached data:"
+msgstr "Checking cached data size"
 
 #: src/mltconnection.cpp:200
 #, kde-format
@@ -11645,16 +11600,14 @@ msgid "Showing backup files for %1"
 msgstr "Showing backup files for %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Edit Guide"
+msgstr "Edit Guide Category"
 
 #: src/project/dialogs/guidecategories.cpp:57
-#, fuzzy, kde-format
-#| msgid "This color is already used in another tag"
+#, kde-format
 msgid "This color is already used in another category"
-msgstr "This colour is already used in another tag"
+msgstr "This colour is already used in another category"
 
 #: src/project/dialogs/guidecategories.cpp:130
 #, kde-format
@@ -11662,86 +11615,76 @@ msgid "Category %1"
 msgstr "Category %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Delete Guide"
+msgstr "Delete Guide Category"
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
 msgid "Delete the %1 markers using this category"
-msgstr ""
+msgstr "Delete the %1 markers using this category"
 
 #: src/project/dialogs/guidecategories.cpp:155
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "Reassign the markers to :"
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Import"
+msgstr "Import..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "Exported:"
+#, kde-format
 msgid "Export..."
-msgstr "Exported:"
+msgstr "Export..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Configure profiles"
+msgstr "Configure Categories"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Sort By"
+msgstr "Sort by Category"
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Sort By"
+msgstr "Sort by Time"
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Sort By"
+msgstr "Sort by Comment"
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Add guide"
+msgstr "Add new guide."
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
-msgstr ""
+msgstr "Add new guide. This will add a guide at the current frame position."
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Delete guide"
+msgstr "Delete guide."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr ""
+msgstr "Delete guide. This will erase all selected guides."
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Delete guide"
+msgstr "Edit selected guide."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11750,11 +11693,13 @@ msgid ""
 "Edit selected guide. Selecting multiple guides allows changing their "
 "category."
 msgstr ""
+"Edit selected guide. Selecting multiple guides allows changing their "
+"category."
 
 #: src/project/dialogs/guideslist.cpp:141
 #, kde-format
 msgid "Filter guide categories."
-msgstr ""
+msgstr "Filter guide categories."
 
 #: src/project/dialogs/guideslist.cpp:143
 #, kde-kuit-format
@@ -11763,18 +11708,19 @@ msgid ""
 "Filter guide categories. This allows you to show or hide selected guide "
 "categories in this dialog and in the timeline."
 msgstr ""
+"Filter guide categories. This allows you to show or hide selected guide "
+"categories in this dialog and in the timeline."
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default quality"
+#, kde-format
 msgid "Default guide category."
-msgstr "Default quality"
+msgstr "Default guide category."
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
-msgstr ""
+msgstr "Default guide category. The category used for newly created guides."
 
 #: src/project/dialogs/guideslist.cpp:157
 #, kde-format
@@ -11785,32 +11731,28 @@ msgstr "Load Clip Markers"
 #: src/project/dialogs/guideslist.cpp:173
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
-msgstr ""
+msgstr "Marker file is larger than 1MB, are you sure you want to import ?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1200
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "Cannot create filter %1"
+msgstr "Cannot read file %1"
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove Guide"
+#, kde-format
 msgid "Remove guides"
-msgstr "Remove Guide"
+msgstr "Remove guides"
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Markers"
+msgstr "Markers for %1"
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Timeline Edit Mode"
+msgstr "Timeline Guides"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -11921,10 +11863,9 @@ msgid "Select the profile (preset) of the project"
 msgstr "Select the profile (preset) of the project"
 
 #: src/project/dialogs/projectsettings.cpp:73
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default: %1"
-msgstr "Default"
+msgstr "Default: %1"
 
 #: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
@@ -12144,17 +12085,23 @@ msgid ""
 "files used for faster editing. Deleting is safe, proxy clips can be "
 "recreated if you have the original source clips."
 msgstr ""
+"<b>Cached data</b> is composed of clip thumbnails and timeline preview "
+"videos. Deleting is safe, all data can be recreated on project opening.<br/"
+"><b>Backup data</b> is an archive of previous versions of your project "
+"files. Useful if you need to recover a previous version of a project. This "
+"data cannot be recovered.<br/><b>Proxy clips</b> are lower resolution video "
+"files used for faster editing. Deleting is safe, proxy clips can be "
+"recreated if you have the original source clips."
 
 #: src/project/dialogs/temporarydata.cpp:180
-#, fuzzy, kde-format
-#| msgid "Clean"
+#, kde-format
 msgid "Cleanup"
-msgstr "Clean"
+msgstr "Cleanup"
 
 #: src/project/dialogs/temporarydata.cpp:181
 #, kde-format
 msgid "Your cache and backup data exceeds %1, cleanup is recommended."
-msgstr ""
+msgstr "Your cache and backup data exceeds %1, cleanup is recommended."
 
 #: src/project/dialogs/temporarydata.cpp:326
 #, kde-format
@@ -12188,10 +12135,9 @@ msgid "No backup data older than %1 months was found."
 msgstr "No backup data older than %1 months was found."
 
 #: src/project/dialogs/temporarydata.cpp:372
-#, fuzzy, kde-format
-#| msgid "This will delete backup data for projects older than %1 months."
+#, kde-format
 msgid "This will delete backup data (%1) for projects older than %2 months."
-msgstr "This will delete backup data for projects older than %1 months."
+msgstr "This will delete backup data (%1) for projects older than %2 months."
 
 #: src/project/dialogs/temporarydata.cpp:414
 #, kde-format
@@ -12205,6 +12151,9 @@ msgid ""
 "few cached data or older than %2 months. All cached data can be recreated "
 "from the source files on project opening."
 msgstr ""
+"This will delete cache data (%1) for projects that were deleted, have very "
+"few cached data or older than %2 months. All cached data can be recreated "
+"from the source files on project opening."
 
 #: src/project/dialogs/temporarydata.cpp:431
 #, kde-format
@@ -12294,10 +12243,9 @@ msgstr ""
 "Contains proxy clips for all your projects."
 
 #: src/project/dialogs/temporarydata.cpp:743
-#, fuzzy, kde-format
-#| msgid "No proxy clips older than %1 months was found."
+#, kde-format
 msgid "No proxy clip older than %1 months found."
-msgstr "No proxy clips older than %1 months was found."
+msgstr "No proxy clip older than %1 months found."
 
 #: src/project/dialogs/temporarydata.cpp:747
 #, kde-format
@@ -12457,10 +12405,9 @@ msgid "Open Backup"
 msgstr "Open Backup"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Cannot open project file %1"
+msgstr "Could not open the backup project file."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
@@ -13536,11 +13483,13 @@ msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
+"The source project has a different framerate (%1fps) than your current "
+"project.<br/>Clips or keyframes might be messed up."
 
 #: src/timeline2/model/timelinefunctions.cpp:1925
 #, kde-format
 msgid "Pasting Warning"
-msgstr ""
+msgstr "Pasting Warning"
 
 #: src/timeline2/model/timelinefunctions.cpp:1925
 #, kde-format
@@ -13569,16 +13518,14 @@ msgid "Paste timeline clips"
 msgstr "Paste timeline clips"
 
 #: src/timeline2/model/timelinefunctions.cpp:2404
-#, fuzzy, kde-format
-#| msgid "Remove Space On Active Track"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Remove Space On Active Track"
+msgstr "Remove space on track"
 
 #: src/timeline2/model/timelinefunctions.cpp:2431
-#, fuzzy, kde-format
-#| msgid "Delete track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Delete track"
+msgstr "Delete clips on track"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
 #: src/timeline2/model/timelinemodel.cpp:4125
@@ -14315,16 +14262,14 @@ msgid "Cannot remove space at given position"
 msgstr "Cannot remove space at given position"
 
 #: src/timeline2/view/timelinecontroller.cpp:2702
-#, fuzzy, kde-format
-#| msgid "Cannot remove space at given position"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Cannot remove space at given position"
+msgstr "Cannot remove all spaces"
 
 #: src/timeline2/view/timelinecontroller.cpp:2716
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "Cannot create clip"
+msgstr "Cannot remove all clips"
 
 #: src/timeline2/view/timelinecontroller.cpp:2759
 #: src/timeline2/view/timelinecontroller.cpp:2764
@@ -15523,16 +15468,15 @@ msgstr "Put clip in \"Stabilised\" folder"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_add)
 #: src/ui/clipstabilize_ui.ui:51
-#, fuzzy, kde-format
-#| msgid "Add clip to project"
+#, kde-format
 msgid "Add stabilized clip to project"
-msgstr "Add clip to project"
+msgstr "Add stabilised clip to project"
 
 #. i18n: ectx: property (text), widget (QRadioButton, auto_replace)
 #: src/ui/clipstabilize_ui.ui:87
 #, kde-format
 msgid "Replace original clip with stabilized clip"
-msgstr ""
+msgstr "Replace original clip with stabilised clip"
 
 #. i18n: ectx: property (text), widget (QLabel, ffmpeg_label)
 #: src/ui/cliptranscode_ui.ui:57
@@ -15642,17 +15586,15 @@ msgstr "Capture video (Video4Linux2)"
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: src/ui/configcapture_ui.ui:66 src/ui/configcapture_ui.ui:464
-#, fuzzy, kde-format
-#| msgid "Detected devices"
+#, kde-format
 msgid "Detected devices:"
-msgstr "Detected devices"
+msgstr "Detected devices:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configcapture_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Video device"
+#, kde-format
 msgid "Video device:"
-msgstr "Video device"
+msgstr "Video device:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configcapture_ui.ui:90
@@ -15731,24 +15673,21 @@ msgstr "Encoding profile:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Region Capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "Region Capture"
+msgstr "Region to capture:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:269
-#, fuzzy, kde-format
-#| msgid "Switch Full Screen"
+#, kde-format
 msgid "Full Screen"
-msgstr "Switch Full Screen"
+msgstr "Full Screen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Rectangular window"
+#, kde-format
 msgid "Rectangular Region"
-msgstr "Rectangular window"
+msgstr "Rectangular Region"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:293
@@ -15780,10 +15719,9 @@ msgstr "Size"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "Hide cursor"
+msgstr "Mouse cursor:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:458
@@ -15866,10 +15804,9 @@ msgstr "Concurrent threads:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configenv_ui.ui:69
-#, fuzzy, kde-format
-#| msgid "Cache Data"
+#, kde-format
 msgid "Cached Data"
-msgstr "Cache Data"
+msgstr "Cached Data"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/configenv_ui.ui:75
@@ -15878,19 +15815,20 @@ msgid ""
 "Kdenlive will check this limit every 2 weeks. Set to zero to disable "
 "checking."
 msgstr ""
+"Kdenlive will check this limit every 2 weeks. Set to zero to disable "
+"checking."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_maxcachesize)
 #: src/ui/configenv_ui.ui:88
 #, kde-format
 msgid " MiB"
-msgstr ""
+msgstr " MiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Total cached data:"
+#, kde-format
 msgid "Warn if cached data exceeds:"
-msgstr "Total cached data:"
+msgstr "Warn if cached data exceeds:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:115
@@ -16172,10 +16110,9 @@ msgstr "Button 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Project files:"
+#, kde-format
 msgid "Project file:"
-msgstr "Project files:"
+msgstr "Project file:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:28
@@ -16191,10 +16128,9 @@ msgstr "Activate crash recovery (auto save)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Clip color:"
+#, kde-format
 msgid "Clip import:"
-msgstr "Clip colour:"
+msgstr "Clip import:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:56
@@ -16313,21 +16249,21 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
 #: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "Project folder"
+#, kde-format
 msgid "Project folder:"
-msgstr "Project folder"
+msgstr "Project folder:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of project file"
-msgstr "Default folder for project files"
+msgstr "Parent folder of project file"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_customprojectfolder)
 #: src/ui/configproject_ui.ui:67
@@ -16367,10 +16303,9 @@ msgstr "6 channels"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:149
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Delete profile"
+msgstr "Timeline Preview profile:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:32
@@ -16384,10 +16319,9 @@ msgstr "Enable proxy clips"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:99
 #: src/ui/configproxy_ui.ui:118 src/ui/configproxy_ui.ui:195
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid " pixels"
-msgstr "pixels"
+msgstr " pixels"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
@@ -16414,18 +16348,16 @@ msgstr "Proxy image size"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:174 src/ui/configsdl_ui.ui:137
 #: src/ui/projectsettings_ui.ui:482
-#, fuzzy, kde-format
-#| msgid "Enabled"
+#, kde-format
 msgid "Enable"
-msgstr "Enabled"
+msgstr "Enable"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:181 src/ui/projectsettings_ui.ui:489
-#, fuzzy, kde-format
-#| msgid "Use external proxy clips"
+#, kde-format
 msgid "External proxy clips:"
-msgstr "Use external proxy clips"
+msgstr "External proxy clips:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:208
@@ -16445,17 +16377,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:43
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr "Use GPU processing (Movit library) - restart Kdenlive to apply"
+msgstr "GPU processing (Movit library):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Use GPU processing (Movit library) - restart Kdenlive to apply"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr "Use GPU processing (Movit library) - restart Kdenlive to apply"
+msgstr "Enable - restart Kdenlive to apply"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:64
@@ -16483,10 +16413,9 @@ msgstr "Monitor for fullscreen output:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:130
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "Use external display (Blackmagic card)"
+msgstr "External display (Blackmagic card):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:144
@@ -16539,31 +16468,27 @@ msgstr "Thumbnails:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:28
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
-msgstr "Enable video"
+msgstr "Enable for Video"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
-msgstr "Enable audio"
+msgstr "Enable for Audio"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Separate channels"
+#, kde-format
 msgid "Separate audio channels"
-msgstr "Separate channels"
+msgstr "Separate audio channels"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configtimeline_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Pause playback when seeking"
+#, kde-format
 msgid "Playback and Seeking:"
-msgstr "Pause playback when seeking"
+msgstr "Playback and Seeking:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:66
@@ -16586,10 +16511,9 @@ msgstr "Seek to clip when adding effect"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Rolling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "Rolling"
+msgstr "Scrolling:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:101
@@ -16613,10 +16537,9 @@ msgstr "Display clip markers comments"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Track height:"
+#, kde-format
 msgid "Default track height:"
-msgstr "Track height:"
+msgstr "Default track height:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:149
@@ -17064,24 +16987,21 @@ msgstr "Marker Type:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Save As"
+msgstr "Save As:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr "Kdenlive JSON"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Options"
+msgstr "Text Options"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -17147,37 +17067,33 @@ msgstr "Form"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Delete pattern."
+msgstr "Delete category"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add category"
-msgstr "Add chapter"
+msgstr "Add category"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Category"
+msgstr "Edit category"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
 #, kde-format
 msgid "Guides and Markers Categories"
-msgstr ""
+msgstr "Guides and Markers Categories"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "TextLabel"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
@@ -17349,28 +17265,21 @@ msgstr "All Projects"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:268
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete all data in the cache folder:\n"
-#| "%1\n"
-#| "Cache folder contains the audio and video thumbnails, as well as timeline "
-#| "previews. All this data will be recreated on project opening."
+#, kde-format
 msgid ""
 "Cached data is composed of clip thumbnails (audio and video) and timeline "
 "preview videos. Deleting is safe, all data can be recreated on project "
 "opening."
 msgstr ""
-"Delete all data in the cache folder:\n"
-"%1\n"
-"Cache folder contains the audio and video thumbnails, as well as timeline "
-"previews. All this data will be recreated on project opening."
+"Cached data is composed of clip thumbnails (audio and video) and timeline "
+"preview videos. Deleting is safe, all data can be recreated on project "
+"opening."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:271
-#, fuzzy, kde-format
-#| msgid "Cache Data"
+#, kde-format
 msgid "Cache data"
-msgstr "Cache Data"
+msgstr "Cache data"
 
 #. i18n: ectx: property (text), widget (QLabel, gTotalLabel)
 #: src/ui/managecache_ui.ui:344
@@ -17408,18 +17317,16 @@ msgstr "Delete selected cache."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/managecache_ui.ui:448
-#, fuzzy, kde-format
-#| msgid "Total backup data:"
+#, kde-format
 msgid "Backup data"
-msgstr "Total backup data:"
+msgstr "Backup data"
 
 #. i18n: ectx: property (text), widget (QLabel, gBackupLabel)
 #. i18n: ectx: property (text), widget (QLabel, gProxyLabel)
 #: src/ui/managecache_ui.ui:468 src/ui/managecache_ui.ui:565
-#, fuzzy, kde-format
-#| msgid "File size:"
+#, kde-format
 msgid "Total size:"
-msgstr "File size:"
+msgstr "Total size:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:486
@@ -17447,10 +17354,9 @@ msgstr "Delete all backup data."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/managecache_ui.ui:545
-#, fuzzy, kde-format
-#| msgid "Proxy clip"
+#, kde-format
 msgid "Proxy clip data"
-msgstr "Proxy clip"
+msgstr "Proxy clip data"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:583
@@ -17539,17 +17445,15 @@ msgstr "Comment"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Add clip markers:"
+msgstr "Add multiple markers"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Counter"
+msgstr "Count"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
@@ -17607,10 +17511,9 @@ msgstr "Search manually"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Start Position"
-msgstr "Start recognition"
+msgstr "Start Position"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -17701,40 +17604,37 @@ msgstr "Settings"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
-msgstr "Project folder to store proxy clips, thumbnails, previews"
+msgstr " Used to store proxy clips, thumbnails, previews"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Project folder to store proxy clips, thumbnails, previews"
+#, kde-format
 msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
-msgstr "Project folder to store proxy clips, thumbnails, previews"
+msgstr ""
+" The project folder is the place where assets like proxy clips, thumbnails "
+"or previews get stored."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default folder"
-msgstr "Default Folders"
+msgstr "Default folder"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:67
-#, fuzzy, kde-format
-#| msgid "Default folder for project files"
+#, kde-format
 msgid "Parent folder of the project file"
-msgstr "Default folder for project files"
+msgstr "Parent folder of the project file"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "Custom"
+msgstr "Custom:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:148
@@ -17756,10 +17656,9 @@ msgstr "6 Channels"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:193
-#, fuzzy, kde-format
-#| msgid "Image preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "Image preview"
+msgstr "Timeline Preview:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
@@ -17769,10 +17668,9 @@ msgstr "Proxy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Proxy clips:"
+#, kde-format
 msgid "Proxy clips"
-msgstr "Proxy clips:"
+msgstr "Proxy clips"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_minsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -17963,7 +17861,7 @@ msgstr "Download New Render Presets…"
 #: src/ui/renderwidget_ui.ui:245
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:262
@@ -18174,7 +18072,7 @@ msgstr "Export metadata"
 #: src/ui/renderwidget_ui.ui:821
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
-msgstr ""
+msgstr "<a href=\"#\">Edit metadata</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
 #: src/ui/renderwidget_ui.ui:846
@@ -18940,14 +18838,10 @@ msgstr "Transparency:"
 #: src/widgets/colorpickerwidget.cpp:100
 #, kde-format
 msgid "Pick a color on the screen."
-msgstr ""
+msgstr "Pick a colour on the screen."
 
 #: src/widgets/colorpickerwidget.cpp:103
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Pick a color on the screen. By pressing the mouse button and then moving "
-#| "your mouse you can select a section of the screen from which to get an "
-#| "average color."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
@@ -19059,10 +18953,9 @@ msgstr "Align bottom"
 
 #: src/widgets/markercategorybutton.cpp:129
 #: src/widgets/markercategorychooser.cpp:41
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Colour to select"
+msgstr "Nothing to select"
 
 #: src/widgets/markercategorybutton.cpp:134
 #: src/widgets/markercategorychooser.cpp:47

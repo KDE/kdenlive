@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 02:27+0000\n"
-"PO-Revision-Date: 2022-11-21 09:09+0100\n"
+"PO-Revision-Date: 2022-11-26 13:15+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -12532,10 +12532,9 @@ msgid "Open Backup"
 msgstr "Obre una còpia de seguretat"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "No s'ha pogut obrir el fitxer de projecte %1"
+msgstr "No s'ha pogut obrir el fitxer de còpia de seguretat del projecte."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
@@ -19176,14 +19175,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "The MediaInfo application is required for the recording timecode feature, "
-#~ "please install it and re-enable the feature in Kdenlive"
-#~ msgstr ""
-#~ "Es requereix l'aplicació «MediaInfo» per a la característica codi de "
-#~ "temps de l'enregistrament. Si us plau, instal·leu-la i torneu a habilitar "
-#~ "la característica en el Kdenlive"
-
-#~ msgid "Please set a path for the Glaxnimate application"
-#~ msgstr "Establiu el camí a l'aplicació Glaxnimate"

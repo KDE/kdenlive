@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-26 02:27+0000\n"
-"PO-Revision-Date: 2022-11-21 11:10+0100\n"
+"PO-Revision-Date: 2022-11-26 17:33+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
@@ -12495,10 +12495,9 @@ msgid "Open Backup"
 msgstr "Open back-up"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Could not open audio output file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Kon de audio output bestand %1 niet openen"
+msgstr "Kon de reservekopie van het projectbestand niet openen."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
