@@ -828,18 +828,6 @@ void ClipController::setZone(const QPoint &zone)
     setProducerProperty(QStringLiteral("kdenlive:zone_out"), zone.y());
 }
 
-QPoint ClipController::zone() const
-{
-    int in = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
-    int max = getFramePlaytime() - 1;
-    int out = qMin(getProducerIntProperty(QStringLiteral("kdenlive:zone_out")), max);
-    if (out <= in) {
-        out = max;
-    }
-    QPoint zone(in, out);
-    return zone;
-}
-
 const QString ClipController::getClipHash() const
 {
     return getProducerProperty(QStringLiteral("kdenlive:file_hash"));

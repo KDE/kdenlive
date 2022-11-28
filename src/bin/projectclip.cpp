@@ -1322,7 +1322,13 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
 
 QPoint ProjectClip::zone() const
 {
-    return ClipController::zone();
+    int in = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
+    int max = getFramePlaytime() - 1;
+    int out = qMin(getProducerIntProperty(QStringLiteral("kdenlive:zone_out")), max);
+    if (out <= in) {
+        out = max;
+    }
+    return QPoint(in, out);
 }
 
 const QString ProjectClip::hash(bool createIfEmpty)

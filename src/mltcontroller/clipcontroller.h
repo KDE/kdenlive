@@ -161,7 +161,6 @@ public:
     std::shared_ptr<MarkerSortModel> getFilteredMarkerModel() const;
 
     void setZone(const QPoint &zone);
-    QPoint zone() const;
     bool hasLimitedDuration() const;
     void forceLimitedDuration();
     Mlt::Properties &properties();
