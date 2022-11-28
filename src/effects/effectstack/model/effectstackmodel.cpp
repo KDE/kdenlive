@@ -310,12 +310,14 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         QDomElement node = nodeList.item(i).toElement();
         const QString effectId = node.attribute(QStringLiteral("id"));
         bool isAudioEffect = EffectsRepository::get()->isAudioEffect(effectId);
-        if (isAudioEffect) {
-            if (state != PlaylistState::AudioOnly) {
+        if (state == PlaylistState::VideoOnly) {
+            if (isAudioEffect) {
                 continue;
             }
-        } else if (state != PlaylistState::VideoOnly) {
-            continue;
+        } else if (state == PlaylistState::AudioOnly) {
+            if (!isAudioEffect) {
+                continue;
+            }
         }
         if (m_ownerId.first == ObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId)) {
             pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
@@ -414,13 +416,15 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
         return false;
     }
     bool audioEffect = sourceItem->isAudio();
-    if (audioEffect) {
-        if (state == PlaylistState::VideoOnly) {
+    if (state == PlaylistState::VideoOnly) {
+        if (audioEffect) {
             // This effect cannot be used
             return false;
         }
     } else if (state == PlaylistState::AudioOnly) {
-        return false;
+        if (!audioEffect) {
+            return false;
+        }
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
@@ -490,16 +494,18 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     }
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
-    if (effect->isAudio()) {
-        if (state == PlaylistState::VideoOnly) {
+    if (state == PlaylistState::VideoOnly) {
+        if (effect->isAudio()) {
             // Cannot add effect to this clip
             pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
             return false;
         }
     } else if (state == PlaylistState::AudioOnly) {
-        // Cannot add effect to this clip
-        pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
-        return false;
+        if (!effect->isAudio()) {
+            // Cannot add effect to this clip
+            pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
+            return false;
+        }
     }
     Fun undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
@@ -1050,14 +1056,16 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 asset->inherit(*(filter));
                 effect = EffectItemModel::construct(std::move(asset), shared_from_this(), originalDecimalPoint);
             }
-            if (effect->isAudio()) {
-                if (state == PlaylistState::VideoOnly) {
+            if (state == PlaylistState::VideoOnly) {
+                if (effect->isAudio()) {
                     // Don't import effect
                     continue;
                 }
             } else if (state == PlaylistState::AudioOnly) {
-                // Don't import effect
-                continue;
+                if (!effect->isAudio()) {
+                    // Don't import effect
+                    continue;
+                }
             }
             imported++;
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
