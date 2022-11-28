@@ -309,7 +309,7 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool
         dir.mkpath(QStringLiteral("."));
     }
     QString fileName(dir.absoluteFilePath(QStringLiteral("customprofiles.xml")));
-    if (!Xml::docContentFromFile(doc, fileName, false)) {
+    if (dir.exists(QStringLiteral("customprofiles.xml")) && !Xml::docContentFromFile(doc, fileName, false)) {
         KMessageBox::error(nullptr, i18n("Cannot read file %1", fileName));
         return {};
     }
