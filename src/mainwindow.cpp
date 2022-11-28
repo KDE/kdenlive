@@ -3429,7 +3429,7 @@ void MainWindow::slotClipInProjectTree()
                 }
             }
         }
-        QPoint zone(start, start + duration);
+        QPoint zone(start, start + duration - 1);
         if (!containsPos) {
             pos = start;
         }
