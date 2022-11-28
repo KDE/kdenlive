@@ -813,6 +813,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                         content.append(QString("%1 ").arg(val));
                     }
                 }
+                content = content.trimmed();
             }
         } else if (type == ParamType::Double || type == ParamType::Hidden) {
             // Use a Mlt::Properties to parse mathematical operators
