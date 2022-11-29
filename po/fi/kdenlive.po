@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 02:27+0000\n"
+"POT-Creation-Date: 2022-11-29 02:32+0000\n"
 "PO-Revision-Date: 2022-04-28 19:14+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -3383,8 +3383,8 @@ msgstr "Muokkaa %1 leikekehystä"
 msgid "Update %1"
 msgstr "Päivitä %1"
 
-#: src/assets/model/assetparametermodel.cpp:1201
-#: src/assets/model/assetparametermodel.cpp:1248
+#: src/assets/model/assetparametermodel.cpp:1202
+#: src/assets/model/assetparametermodel.cpp:1249
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Projektitiedostoa %1 ei voi avata"
@@ -4400,8 +4400,8 @@ msgstr "Valitse leike tehosteen käyttämiseksi"
 msgid "Cannot apply effects on folders"
 msgstr "Tehosteita ei voi käyttää kansioihin"
 
-#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:496
-#: src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3041
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -4962,22 +4962,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "Virheellinen"
 
-#: src/bin/projectclip.cpp:1842
+#: src/bin/projectclip.cpp:1848
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Leike sisältää jo analyysidatan %1"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1849
 #, kde-format
 msgid "Merge"
 msgstr "Yhdistä"
 
-#: src/bin/projectclip.cpp:2260
+#: src/bin/projectclip.cpp:2266
 #, kde-format
 msgid "Add stream effect"
 msgstr "Lisää video tehoste"
 
-#: src/bin/projectclip.cpp:2285
+#: src/bin/projectclip.cpp:2291
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Poista video tehoste"
@@ -7543,25 +7543,25 @@ msgstr "Poista tehoste %1"
 msgid "Copy effect"
 msgstr "Kopioi tehoste"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:321
-#: src/effects/effectstack/model/effectstackmodel.cpp:428
-#: src/effects/effectstack/model/effectstackmodel.cpp:482
-#: src/effects/effectstack/model/effectstackmodel.cpp:1036
+#: src/effects/effectstack/model/effectstackmodel.cpp:323
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:486
+#: src/effects/effectstack/model/effectstackmodel.cpp:1042
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Tehostetta %1 ei voi lisätä kahdesti."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:472
+#: src/effects/effectstack/model/effectstackmodel.cpp:476
 #, kde-format
 msgid "Paste effect"
 msgstr "Liitä tehoste"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:563
+#: src/effects/effectstack/model/effectstackmodel.cpp:569
 #, kde-format
 msgid "Add effect %1"
 msgstr "Lisää tehoste %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:871
+#: src/effects/effectstack/model/effectstackmodel.cpp:877
 #, kde-format
 msgid "Move effect %1"
 msgstr "Siirrä tehoste %1"

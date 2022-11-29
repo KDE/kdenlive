@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 02:27+0000\n"
+"POT-Creation-Date: 2022-11-29 02:32+0000\n"
 "PO-Revision-Date: 2022-11-26 18:12+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -3415,8 +3415,8 @@ msgstr "Зміна ключового кадру %1"
 msgid "Update %1"
 msgstr "Оновити %1"
 
-#: src/assets/model/assetparametermodel.cpp:1201
-#: src/assets/model/assetparametermodel.cpp:1248
+#: src/assets/model/assetparametermodel.cpp:1202
+#: src/assets/model/assetparametermodel.cpp:1249
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не вдалося відкрити файл шаблона %1"
@@ -4430,8 +4430,8 @@ msgstr "Позначте кліп для застосування ефекту"
 msgid "Cannot apply effects on folders"
 msgstr "Ефекти не можна застосовувати до тек"
 
-#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:496
-#: src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3041
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -4977,22 +4977,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "Некоректний"
 
-#: src/bin/projectclip.cpp:1842
+#: src/bin/projectclip.cpp:1848
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "У кліпі вже містяться дані аналізу %1"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1849
 #, kde-format
 msgid "Merge"
 msgstr "Об’єднати"
 
-#: src/bin/projectclip.cpp:2260
+#: src/bin/projectclip.cpp:2266
 #, kde-format
 msgid "Add stream effect"
 msgstr "Додати ефект потоку"
 
-#: src/bin/projectclip.cpp:2285
+#: src/bin/projectclip.cpp:2291
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Вилучити ефект потоку"
@@ -7588,25 +7588,25 @@ msgstr "Вилучити ефект %1"
 msgid "Copy effect"
 msgstr "Копіювати ефект"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:321
-#: src/effects/effectstack/model/effectstackmodel.cpp:428
-#: src/effects/effectstack/model/effectstackmodel.cpp:482
-#: src/effects/effectstack/model/effectstackmodel.cpp:1036
+#: src/effects/effectstack/model/effectstackmodel.cpp:323
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:486
+#: src/effects/effectstack/model/effectstackmodel.cpp:1042
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Ефект %1 не можна додавати двічі."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:472
+#: src/effects/effectstack/model/effectstackmodel.cpp:476
 #, kde-format
 msgid "Paste effect"
 msgstr "Вставити ефект"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:563
+#: src/effects/effectstack/model/effectstackmodel.cpp:569
 #, kde-format
 msgid "Add effect %1"
 msgstr "Додавання ефекту %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:871
+#: src/effects/effectstack/model/effectstackmodel.cpp:877
 #, kde-format
 msgid "Move effect %1"
 msgstr "Пересування ефекту %1"

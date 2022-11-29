@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 02:27+0000\n"
+"POT-Creation-Date: 2022-11-29 02:32+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -3430,8 +3430,8 @@ msgstr "Muuda %1 võtmekaadrit"
 msgid "Update %1"
 msgstr "Uuenda %1"
 
-#: src/assets/model/assetparametermodel.cpp:1201
-#: src/assets/model/assetparametermodel.cpp:1248
+#: src/assets/model/assetparametermodel.cpp:1202
+#: src/assets/model/assetparametermodel.cpp:1249
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Valmisseadistuse faili %1 avamine nurjus"
@@ -4493,8 +4493,8 @@ msgstr "Efekti rakendamiseks vali klipp"
 msgid "Cannot apply effects on folders"
 msgstr "Efekte ei saa kataloogidele rakendada"
 
-#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:496
-#: src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3041
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -5082,23 +5082,23 @@ msgstr ""
 msgid "Invalid"
 msgstr "Vigane"
 
-#: src/bin/projectclip.cpp:1842
+#: src/bin/projectclip.cpp:1848
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Klipp sisaldab juba analüüsiandmeid %1"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1849
 #, kde-format
 msgid "Merge"
 msgstr "Ühenda"
 
-#: src/bin/projectclip.cpp:2260
+#: src/bin/projectclip.cpp:2266
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Lisa uus efekt"
 
-#: src/bin/projectclip.cpp:2285
+#: src/bin/projectclip.cpp:2291
 #, fuzzy, kde-format
 #| msgid "Remove Bin Effect"
 msgid "Remove stream effect"
@@ -7791,26 +7791,26 @@ msgstr "Kustuta efekt %1"
 msgid "Copy effect"
 msgstr "Kopeeri efekt"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:321
-#: src/effects/effectstack/model/effectstackmodel.cpp:428
-#: src/effects/effectstack/model/effectstackmodel.cpp:482
-#: src/effects/effectstack/model/effectstackmodel.cpp:1036
+#: src/effects/effectstack/model/effectstackmodel.cpp:323
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:486
+#: src/effects/effectstack/model/effectstackmodel.cpp:1042
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:472
+#: src/effects/effectstack/model/effectstackmodel.cpp:476
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "Aseta efektid"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:563
+#: src/effects/effectstack/model/effectstackmodel.cpp:569
 #, kde-format
 msgid "Add effect %1"
 msgstr "Lisa efekt %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:871
+#: src/effects/effectstack/model/effectstackmodel.cpp:877
 #, kde-format
 msgid "Move effect %1"
 msgstr "Liiguta efekti %1"
