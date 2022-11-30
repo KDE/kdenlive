@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-29 02:32+0000\n"
+"POT-Creation-Date: 2022-11-30 02:28+0000\n"
 "PO-Revision-Date: 2022-11-19 14:51\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -13296,20 +13296,20 @@ msgstr "剪贴板中不含有效数据"
 #: src/timeline2/model/timelinefunctions.cpp:1803
 #: src/timeline2/model/timelinefunctions.cpp:1834
 #: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:2024
+#: src/timeline2/model/timelinefunctions.cpp:2029
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "没有足够的轨道来粘贴剪贴板内容"
 
-#: src/timeline2/model/timelinefunctions.cpp:1890
-#: src/timeline2/model/timelinefunctions.cpp:1904
-#: src/timeline2/model/timelinefunctions.cpp:1932
-#: src/timeline2/model/timelinefunctions.cpp:1937
+#: src/timeline2/model/timelinefunctions.cpp:1891
+#: src/timeline2/model/timelinefunctions.cpp:1905
+#: src/timeline2/model/timelinefunctions.cpp:1933
+#: src/timeline2/model/timelinefunctions.cpp:1938
 #, kde-format
 msgid "Pasted clips"
 msgstr "已粘贴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:1923
+#: src/timeline2/model/timelinefunctions.cpp:1924
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13317,43 +13317,43 @@ msgid ""
 msgstr ""
 "源项目与您当前的项目有不同的帧率(%1fps)。<br/>片段或关键帧可能会被发送。"
 
-#: src/timeline2/model/timelinefunctions.cpp:1925
+#: src/timeline2/model/timelinefunctions.cpp:1926
 #, kde-format
 msgid "Pasting Warning"
 msgstr "粘贴警告"
 
-#: src/timeline2/model/timelinefunctions.cpp:1925
+#: src/timeline2/model/timelinefunctions.cpp:1926
 #, kde-format
 msgid "Paste"
 msgstr "粘贴"
 
-#: src/timeline2/model/timelinefunctions.cpp:1967
+#: src/timeline2/model/timelinefunctions.cpp:1968
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "无法添加项目素材箱剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2016
+#: src/timeline2/model/timelinefunctions.cpp:2021
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "未成功复制所有素材"
 
-#: src/timeline2/model/timelinefunctions.cpp:2047
-#: src/timeline2/model/timelinefunctions.cpp:2168
+#: src/timeline2/model/timelinefunctions.cpp:2052
+#: src/timeline2/model/timelinefunctions.cpp:2173
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2188
+#: src/timeline2/model/timelinefunctions.cpp:2193
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴剪辑"
 
-#: src/timeline2/model/timelinefunctions.cpp:2404
+#: src/timeline2/model/timelinefunctions.cpp:2409
 #, kde-format
 msgid "Remove space on track"
 msgstr "删除轨道上的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:2431
+#: src/timeline2/model/timelinefunctions.cpp:2436
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道上的素材"
