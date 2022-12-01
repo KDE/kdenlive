@@ -623,6 +623,31 @@ void Wizard::slotOpenManual()
     //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
 }
 
+bool Wizard::checkHwEncoder(const QString &name, const QStringList &args, const QTemporaryFile &file)
+{
+    QProcess hwEncoders;
+    qDebug() << "Checking" << name << "with FFmpeg args: " << args;
+    hwEncoders.start(KdenliveSettings::ffmpegpath(), args);
+    if (hwEncoders.waitForFinished()) {
+        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
+            qDebug() << "->" << name << "NOT supported";
+            qDebug() << hwEncoders.readAll();
+        } else {
+            if (file.exists() && file.size() > 0) {
+                qDebug() << "->" << name << "SUPPORTED";
+                // sucess
+                return true;
+            } else {
+                qDebug() << "->" << name << "FAILED";
+                //  support not enabled
+                qDebug() << hwEncoders.errorString();
+                qDebug() << hwEncoders.readAll();
+            }
+        }
+    }
+    return false;
+}
+
 void Wizard::testHwEncoders()
 {
     QProcess hwEncoders;
@@ -651,24 +676,7 @@ void Wizard::testHwEncoders()
                      "-f",
                      "mp4",
                      tmp.fileName()};
-    qDebug() << "// FFMPEG ARGS: " << args;
-    hwEncoders.start(KdenliveSettings::ffmpegpath(), args);
-    bool vaapiSupported = false;
-    if (hwEncoders.waitForFinished()) {
-        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
-            qDebug() << "/// ++ VAAPI NOT SUPPORTED";
-        } else {
-            if (tmp.exists() && tmp.size() > 0) {
-                qDebug() << "/// ++ VAAPI YES SUPPORTED ::::::";
-                // vaapi support enabled
-                vaapiSupported = true;
-            } else {
-                qDebug() << "/// ++ VAAPI FAILED ::::::";
-                // vaapi support not enabled
-            }
-        }
-    }
-    KdenliveSettings::setVaapiEnabled(vaapiSupported);
+    KdenliveSettings::setVaapiEnabled(checkHwEncoder(QStringLiteral("VAAPI"), args, tmp));
 
     // VAAPI with scaling support
     QStringList scaleargs{"-hide_banner",
@@ -690,24 +698,8 @@ void Wizard::testHwEncoders()
                           "-f",
                           "mp4",
                           tmp.fileName()};
-    qDebug() << "// FFMPEG ARGS: " << scaleargs;
-    hwEncoders.start(KdenliveSettings::ffmpegpath(), scaleargs);
-    bool vaapiScalingSupported = false;
-    if (hwEncoders.waitForFinished()) {
-        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
-            qDebug() << "/// ++ VAAPI NOT SUPPORTED";
-        } else {
-            if (tmp.exists() && tmp.size() > 0) {
-                qDebug() << "/// ++ VAAPI YES SUPPORTED ::::::";
-                // vaapi support enabled
-                vaapiScalingSupported = true;
-            } else {
-                qDebug() << "/// ++ VAAPI FAILED ::::::";
-                // vaapi support not enabled
-            }
-        }
-    }
-    KdenliveSettings::setVaapiScalingEnabled(vaapiScalingSupported);
+    KdenliveSettings::setVaapiScalingEnabled(checkHwEncoder(QStringLiteral("VAAPI with SCALING"), scaleargs, tmp));
+
     // NVIDIA testing
     QTemporaryFile tmp2(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mp4")));
     if (!tmp2.open()) {
@@ -717,24 +709,7 @@ void Wizard::testHwEncoders()
     tmp2.close();
     QStringList args2{"-hide_banner", "-y",         "-hwaccel", "cuvid", "-f",  "lavfi",        "-i", "smptebars=duration=5:size=1280x720:rate=25",
                       "-c:v",         "h264_nvenc", "-an",      "-f",    "mp4", tmp2.fileName()};
-    qDebug() << "// FFMPEG ARGS: " << args2;
-    hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);
-    bool nvencSupported = false;
-    if (hwEncoders.waitForFinished()) {
-        if (hwEncoders.exitStatus() == QProcess::CrashExit) {
-            qDebug() << "/// ++ NVENC NOT SUPPORTED";
-        } else {
-            if (tmp2.exists() && tmp2.size() > 0) {
-                qDebug() << "/// ++ NVENC YES SUPPORTED ::::::";
-                // vaapi support enabled
-                nvencSupported = true;
-            } else {
-                qDebug() << "/// ++ NVENC FAILED ::::::";
-                // vaapi support not enabled
-            }
-        }
-    }
-    KdenliveSettings::setNvencEnabled(nvencSupported);
+    KdenliveSettings::setNvencEnabled(checkHwEncoder(QStringLiteral("NVENC"), args2, tmp2));
 
     // Testing NVIDIA SCALER
     QStringList args3{"-hide_banner", "-filters"};

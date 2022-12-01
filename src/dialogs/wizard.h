@@ -10,6 +10,7 @@
 #include <QWizardPage>
 
 class KMessageWidget;
+class QTemporaryFile;
 
 class MyWizardPage : public QWizardPage
 {
@@ -29,7 +30,8 @@ public:
     void runUpdateMimeDatabase();
     void adjustSettings();
     bool isOk() const;
-    static void testHwEncoders();
+    bool checkHwEncoder(const QString &name, const QStringList &args, const QTemporaryFile &file);
+    void testHwEncoders();
     static void slotCheckPrograms(QString &infos, QString &warnings);
 
 private:
