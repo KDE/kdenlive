@@ -235,6 +235,7 @@ void LibraryWidget::setupActions()
     m_toolBar->addAction(addFolder);
     QAction *sentToLibrary = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Add Timeline Selection to Library"), this);
     connect(sentToLibrary, &QAction::triggered, this, &LibraryWidget::slotAddToLibrary);
+    pCore->addActionToCollection(QStringLiteral("send_library"), sentToLibrary);
     sentToLibrary->setEnabled(false);
     m_toolBar->addAction(sentToLibrary);
     menuList << sentToLibrary;
