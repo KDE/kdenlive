@@ -345,6 +345,8 @@ public slots:
     void triggerAction(const QString &name);
     /** @brief Get an action's descriptive text by its actionCollection name */
     const QString actionText(const QString &name);
+    /** @brief Add an action to the app's actionCollection */
+    void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);

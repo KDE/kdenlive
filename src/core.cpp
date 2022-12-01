@@ -1073,6 +1073,11 @@ const QString Core::actionText(const QString &name)
     return QString();
 }
 
+void Core::addActionToCollection(const QString &name, QAction *action)
+{
+    m_mainWindow->actionCollection()->addAction(name, action);
+}
+
 void Core::clean()
 {
     m_self.reset();
