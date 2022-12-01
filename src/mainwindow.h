@@ -287,6 +287,8 @@ private:
     /** @brief Store latest mouse position in timeline. */
     int m_mousePosition;
 
+    KHamburgerMenu *m_hamburgerMenu;
+
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
     void saveOptions();

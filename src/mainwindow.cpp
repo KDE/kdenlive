@@ -839,20 +839,24 @@ void MainWindow::init(const QString &mltPath)
     connect(this, &MainWindow::removeBinDock, this, &MainWindow::slotRemoveBinDock);
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 
-    auto hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
-    // hack to be able to insert the hamburger menu at the first position
-    QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
-    QAction *const seperator = toolBar()->insertSeparator(firstChild);
-    toolBar()->insertAction(seperator, hamburgerMenu);
-    hamburgerMenu->hideActionsOf(toolBar());
-
-    // after the QMenuBar has been initialised
-    hamburgerMenu->setMenuBar(menuBar());
     QAction *const showMenuBarAction = actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
     // FIXME: workaround for BUG 171080
     showMenuBarAction->setChecked(!menuBar()->isHidden());
 
-    hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
+    m_hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
+    // after the QMenuBar has been initialised
+    m_hamburgerMenu->setMenuBar(menuBar());
+    m_hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
+
+    connect(toolBar(), &KToolBar::visibilityChanged, this, [&, showMenuBarAction](bool visible) {
+        if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
+            // hack to be able to insert the hamburger menu at the first position
+            QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
+            QAction *const seperator = toolBar()->insertSeparator(firstChild);
+            toolBar()->insertAction(seperator, m_hamburgerMenu);
+            m_hamburgerMenu->hideActionsOf(toolBar());
+        }
+    });
 }
 
 void MainWindow::slotThemeChanged(const QString &name)
@@ -1001,6 +1005,11 @@ void MainWindow::saveNewToolbarConfig()
         m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
                                  static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr, pCore->monitorManager());
     }
+    // hack to be able to insert the hamburger menu at the first position
+    QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
+    QAction *const seperator = toolBar()->insertSeparator(firstChild);
+    toolBar()->insertAction(seperator, m_hamburgerMenu);
+    m_hamburgerMenu->hideActionsOf(toolBar());
 }
 
 void MainWindow::slotReloadEffects(const QStringList &paths)
