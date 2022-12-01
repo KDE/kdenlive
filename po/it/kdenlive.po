@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-29 00:46+0000\n"
-"PO-Revision-Date: 2022-11-13 17:12+0100\n"
+"PO-Revision-Date: 2022-11-27 18:26+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1242,7 +1242,7 @@ msgstr "Normalizza (2 passaggi)"
 #: data/effects/loudness.xml:5
 #, kde-format
 msgid "Correct audio loudness as recommended by EBU R128"
-msgstr "Corregge la rumorosità audio come raccomandato da EBU R128"
+msgstr "Corregge il volume audio come raccomandato da EBU R128"
 
 #: data/effects/loudness.xml:11 data/effects/tracker.xml:41
 #, kde-format
@@ -7869,7 +7869,7 @@ msgstr "Impossibile caricare l'immagine %1."
 #: src/jobs/proxytask.cpp:245
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr ""
+msgstr "Immagine troppo piccola per poter diventare una clip rappresentativa."
 
 #: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:123
@@ -11811,9 +11811,7 @@ msgid "Delete guide."
 msgstr "Elimina guida."
 
 #: src/project/dialogs/guideslist.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsi18nthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr "Elimina la guida. Eliminerà tutte le guide selezionate."
@@ -12567,10 +12565,9 @@ msgid "Open Backup"
 msgstr "Apri copia di sicurezza"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Impossibile aprire il file di progetto %1"
+msgstr "Impossibile aprire la copia di sicurezza del file di progetto."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
