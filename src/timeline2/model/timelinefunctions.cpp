@@ -1883,6 +1883,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
     };
     bool clipsImported = false;
+    int updatedPosition = 0;
     int pasteDuration = copiedItems.documentElement().attribute(QStringLiteral("duration")).toInt();
     if (docId == pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // Check that the bin clips exists in case we try to paste in a copy of original project
@@ -1908,7 +1909,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 pCore->projectItemModel()->requestAddBinClip(updatedId, currentProd, folderId, undo, redo, callBack);
             }
         }
-        pCore->seekMonitor(Kdenlive::ProjectMonitor, position + pasteDuration);
+        updatedPosition = position + pasteDuration;
     }
 
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
@@ -1937,7 +1938,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
         }
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
-        pCore->seekMonitor(Kdenlive::ProjectMonitor, position + (pasteDuration * ratio));
+        updatedPosition = position + (pasteDuration * ratio);
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
             if (ratio != 1.) {
@@ -1974,7 +1975,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
     if (!clipsImported) {
         // Clips from same document, directly proceed to pasting
-        return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false);
+        bool result = TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false);
+        if (result && updatedPosition > 0) {
+            pCore->seekMonitor(Kdenlive::ProjectMonitor, updatedPosition);
+        }
+        return result;
     }
     qDebug() << "++++++++++++\nWAITIND FOR BIN INSERTION: " << waitingBinIds << "\n\n+++++++++++++";
     return true;

@@ -151,25 +151,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     connect(m_projectItemModel.get(), &ProjectItemModel::addTag, m_mainWindow->activeBin(), &Bin::slotTagDropped);
     connect(m_projectItemModel.get(), &QAbstractItemModel::dataChanged, m_mainWindow->activeBin(), &Bin::slotItemEdited);
 
-    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
-    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
-    m_textEditWidget = new TextBasedEdit(m_mainWindow);
-    m_timeRemapWidget = new TimeRemap(m_mainWindow);
-    m_guidesList = new GuidesList(m_mainWindow);
-    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin(), SLOT(droppedUrls(QList<QUrl>)));
-    connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     m_monitorManager = new MonitorManager(this);
-    m_mixerWidget = new MixerManager(m_mainWindow);
-    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
-    connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
-    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
-
-    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, m_mainWindow, &MainWindow::slotAddSubtitle);
-    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, this, [this](int id, int cursorPos) {
-        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
-        }
-    });
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
     if (inSandbox) {
@@ -184,7 +166,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         // Open connection with Mlt
         m_mainWindow->init(MltPath);
     }
-    m_mixerWidget->checkAudioLevelVersion();
+
     m_projectItemModel->buildPlaylist();
     // load the profiles from disk
     ProfileRepository::get()->refresh();
@@ -246,6 +228,41 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     m_mainWindow->show();
     bin->slotUpdatePalette();
     emit m_mainWindow->GUISetupDone();
+}
+
+void Core::buildDocks()
+{
+    // Mixer
+    m_mixerWidget = new MixerManager(m_mainWindow);
+    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
+    connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
+    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
+
+    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, m_mainWindow, &MainWindow::slotAddSubtitle);
+    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, this, [this](int id, int cursorPos) {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+        }
+    });
+    m_mixerWidget->checkAudioLevelVersion();
+
+    // Library
+    m_library = new LibraryWidget(m_projectManager, m_mainWindow);
+    connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_mainWindow->getBin(), SLOT(droppedUrls(QList<QUrl>)));
+    connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
+    m_library->setupActions();
+
+    // Subtitles
+    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
+
+    // Text edit speech
+    m_textEditWidget = new TextBasedEdit(m_mainWindow);
+
+    // Time remap
+    m_timeRemapWidget = new TimeRemap(m_mainWindow);
+
+    // Guides
+    m_guidesList = new GuidesList(m_mainWindow);
 }
 
 void Core::buildLumaThumbs(const QStringList &values)

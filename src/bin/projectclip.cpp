@@ -350,11 +350,6 @@ std::shared_ptr<ProjectClip> ProjectClip::clipAt(int ix)
     return std::shared_ptr<ProjectClip>();
 }
 
-/*bool ProjectClip::isValid() const
-{
-    return m_controller->isValid();
-}*/
-
 bool ProjectClip::hasUrl() const
 {
     if ((m_clipType != ClipType::Color) && (m_clipType != ClipType::Unknown)) {

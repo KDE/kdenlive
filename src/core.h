@@ -280,6 +280,8 @@ public:
     MixAlignment getMixAlign(int cid) const;
     /** @brief Closing current document, do some cleanup */
     void cleanup();
+    /** @brief Create the dock widgets */
+    void buildDocks();
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
      * @param configFile configuration file for KNewStuff
