@@ -215,7 +215,7 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
     connect(m_libraryTree, &LibraryTree::itemChanged, this, &LibraryWidget::slotItemEdited, Qt::UniqueConnection);
 }
 
-void LibraryWidget::setupActions(const QList<QAction *> &list)
+void LibraryWidget::setupActions()
 {
     QList<QAction *> menuList;
     m_addAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
@@ -233,11 +233,12 @@ void LibraryWidget::setupActions(const QList<QAction *> &list)
     m_toolBar->addAction(m_addAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(addFolder);
-    for (QAction *action : list) {
-        m_toolBar->addAction(action);
-        menuList << action;
-        connect(this, &LibraryWidget::enableAddSelection, action, &QAction::setEnabled);
-    }
+    QAction *sentToLibrary = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Add Timeline Selection to Library"), this);
+    connect(sentToLibrary, &QAction::triggered, this, &LibraryWidget::slotAddToLibrary);
+    sentToLibrary->setEnabled(false);
+    m_toolBar->addAction(sentToLibrary);
+    menuList << sentToLibrary;
+    connect(this, &LibraryWidget::enableAddSelection, sentToLibrary, &QAction::setEnabled);
 
     // Create spacer
     QWidget *spacer = new QWidget();

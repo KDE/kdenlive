@@ -269,6 +269,7 @@ void MainWindow::init(const QString &mltPath)
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
     pCore->bin()->setupMenu();
+    pCore->buildDocks();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
@@ -1816,12 +1817,6 @@ void MainWindow::setupActions()
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
-
-    QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()),
-                                       QIcon::fromTheme(QStringLiteral("bookmark-new")));
-    sentToLibrary->setEnabled(false);
-
-    pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
 
     QAction *const showMenuBarAction = KStandardAction::showMenubar(this, &MainWindow::showMenuBar, actionCollection());
     showMenuBarAction->setWhatsThis(xi18nc("@info:whatsthis", "This switches between having a <emphasis>Menubar</emphasis> "

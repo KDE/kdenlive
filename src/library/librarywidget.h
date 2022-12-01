@@ -158,7 +158,7 @@ class LibraryWidget : public QWidget
 
 public:
     explicit LibraryWidget(ProjectManager *m_manager, QWidget *parent = nullptr);
-    void setupActions(const QList<QAction *> &list);
+    void setupActions();
 
 public slots:
     void slotAddToLibrary();
