@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
+#include <KToolBar>
 #include <KXMLGUIFactory>
 
 LayoutManagement::LayoutManagement(QObject *parent)
@@ -57,7 +58,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
         m_layoutActions << layoutActions->addAction("load_layout" + QString::number(i), load);
     }
 
-    // Dock Area Oriantation
+    // Dock Area Orientation
     QAction *rowDockAreaAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
     layoutActions->addAction(QStringLiteral("horizontal_dockareaorientation"), rowDockAreaAction);
     connect(rowDockAreaAction, &QAction::triggered, this, &LayoutManagement::slotDockAreaRows);
@@ -232,7 +233,22 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         state.remove(0, 5);
     }
     pCore->window()->centralWidget()->setHidden(!timelineVisible);
+    // restore state disables all toolbars, so remember state
+    QList<KToolBar *> barsList = pCore->window()->toolBars();
+    QMap<QString, bool> toolbarVisibility;
+    for (auto &tb : barsList) {
+        toolbarVisibility.insert(tb->objectName(), tb->isVisible());
+    }
     pCore->window()->processRestoreState(state);
+    // Restore toolbar status
+    QMapIterator<QString, bool> i(toolbarVisibility);
+    while (i.hasNext()) {
+        i.next();
+        KToolBar *tb = pCore->window()->toolBar(i.key());
+        if (tb) {
+            tb->setVisible(i.value());
+        }
+    }
     pCore->window()->tabifyBins();
     emit connectDocks(true);
     if (selectButton) {
