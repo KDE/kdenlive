@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-26 02:27+0000\n"
-"PO-Revision-Date: 2022-11-13 17:12+0100\n"
+"POT-Creation-Date: 2022-11-30 02:28+0000\n"
+"PO-Revision-Date: 2022-11-27 18:26+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1242,7 +1242,7 @@ msgstr "Normalizza (2 passaggi)"
 #: data/effects/loudness.xml:5
 #, kde-format
 msgid "Correct audio loudness as recommended by EBU R128"
-msgstr "Corregge la rumorosità audio come raccomandato da EBU R128"
+msgstr "Corregge il volume audio come raccomandato da EBU R128"
 
 #: data/effects/loudness.xml:11 data/effects/tracker.xml:41
 #, kde-format
@@ -3415,8 +3415,8 @@ msgstr "Modifica il fotogramma chiave %1"
 msgid "Update %1"
 msgstr "Aggiorna %1"
 
-#: src/assets/model/assetparametermodel.cpp:1201
-#: src/assets/model/assetparametermodel.cpp:1248
+#: src/assets/model/assetparametermodel.cpp:1202
+#: src/assets/model/assetparametermodel.cpp:1249
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
@@ -4424,8 +4424,8 @@ msgstr "Seleziona una clip per applicare un effetto"
 msgid "Cannot apply effects on folders"
 msgstr "Impossibile applicare effetti alle cartelle"
 
-#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:496
-#: src/effects/effectstack/model/effectstackmodel.cpp:501
+#: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3041
 #, kde-format
 msgid "Cannot add effect to clip"
@@ -4967,22 +4967,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "Non valido"
 
-#: src/bin/projectclip.cpp:1842
+#: src/bin/projectclip.cpp:1848
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "La clip contiene già i dati di analisi %1"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1849
 #, kde-format
 msgid "Merge"
 msgstr "Unisci"
 
-#: src/bin/projectclip.cpp:2260
+#: src/bin/projectclip.cpp:2266
 #, kde-format
 msgid "Add stream effect"
 msgstr "Aggiungi effetto del flusso"
 
-#: src/bin/projectclip.cpp:2285
+#: src/bin/projectclip.cpp:2291
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Rimuovi effetto del flusso"
@@ -7548,25 +7548,25 @@ msgstr "Elimina effetto %1"
 msgid "Copy effect"
 msgstr "Copia effetto"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:321
-#: src/effects/effectstack/model/effectstackmodel.cpp:428
-#: src/effects/effectstack/model/effectstackmodel.cpp:482
-#: src/effects/effectstack/model/effectstackmodel.cpp:1036
+#: src/effects/effectstack/model/effectstackmodel.cpp:323
+#: src/effects/effectstack/model/effectstackmodel.cpp:432
+#: src/effects/effectstack/model/effectstackmodel.cpp:486
+#: src/effects/effectstack/model/effectstackmodel.cpp:1042
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "L'effetto %1 non può essere aggiunto due volte."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:472
+#: src/effects/effectstack/model/effectstackmodel.cpp:476
 #, kde-format
 msgid "Paste effect"
 msgstr "Incolla effetto"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:563
+#: src/effects/effectstack/model/effectstackmodel.cpp:569
 #, kde-format
 msgid "Add effect %1"
 msgstr "Aggiungi effetto %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:871
+#: src/effects/effectstack/model/effectstackmodel.cpp:877
 #, kde-format
 msgid "Move effect %1"
 msgstr "Sposta effetto %1"
@@ -11809,9 +11809,7 @@ msgid "Delete guide."
 msgstr "Elimina guida."
 
 #: src/project/dialogs/guideslist.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsi18nthis"
-#| msgid "Delete guide. This will erase all selected guides."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
 msgstr "Elimina la guida. Eliminerà tutte le guide selezionate."
@@ -12565,10 +12563,9 @@ msgid "Open Backup"
 msgstr "Apri copia di sicurezza"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Impossibile aprire il file di progetto %1"
+msgstr "Impossibile aprire la copia di sicurezza del file di progetto."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
@@ -13662,20 +13659,20 @@ msgstr "Nessuna dato valido negli appunti"
 #: src/timeline2/model/timelinefunctions.cpp:1803
 #: src/timeline2/model/timelinefunctions.cpp:1834
 #: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:2024
+#: src/timeline2/model/timelinefunctions.cpp:2029
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Non ci sono abbastanza tracce per incollare gli appunti"
 
-#: src/timeline2/model/timelinefunctions.cpp:1890
-#: src/timeline2/model/timelinefunctions.cpp:1904
-#: src/timeline2/model/timelinefunctions.cpp:1932
-#: src/timeline2/model/timelinefunctions.cpp:1937
+#: src/timeline2/model/timelinefunctions.cpp:1891
+#: src/timeline2/model/timelinefunctions.cpp:1905
+#: src/timeline2/model/timelinefunctions.cpp:1933
+#: src/timeline2/model/timelinefunctions.cpp:1938
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clip incollate"
 
-#: src/timeline2/model/timelinefunctions.cpp:1923
+#: src/timeline2/model/timelinefunctions.cpp:1924
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13685,43 +13682,43 @@ msgstr ""
 "rispetto all'attuale.<br/>Potresti avere dei problemi con le clip o con i "
 "fotogrammi chiave."
 
-#: src/timeline2/model/timelinefunctions.cpp:1925
+#: src/timeline2/model/timelinefunctions.cpp:1926
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Avviso di incollaggio"
 
-#: src/timeline2/model/timelinefunctions.cpp:1925
+#: src/timeline2/model/timelinefunctions.cpp:1926
 #, kde-format
 msgid "Paste"
 msgstr "Incolla"
 
-#: src/timeline2/model/timelinefunctions.cpp:1967
+#: src/timeline2/model/timelinefunctions.cpp:1968
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Impossibile aggiungere contenitore di clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2016
+#: src/timeline2/model/timelinefunctions.cpp:2021
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Non tutte le clip sono state copiate con successo"
 
-#: src/timeline2/model/timelinefunctions.cpp:2047
-#: src/timeline2/model/timelinefunctions.cpp:2168
+#: src/timeline2/model/timelinefunctions.cpp:2052
+#: src/timeline2/model/timelinefunctions.cpp:2173
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Impossibile incollare gli elementi nella linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:2188
+#: src/timeline2/model/timelinefunctions.cpp:2193
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Incolla clip della linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:2404
+#: src/timeline2/model/timelinefunctions.cpp:2409
 #, kde-format
 msgid "Remove space on track"
 msgstr "Rimuovi lo spazio sulla traccia"
 
-#: src/timeline2/model/timelinefunctions.cpp:2431
+#: src/timeline2/model/timelinefunctions.cpp:2436
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Elimina le clip sulla traccia"
