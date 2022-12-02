@@ -157,7 +157,7 @@ public:
      *  @return the list of deleted categories ids (if any)
      */
     void loadCategoriesWithUndo(const QStringList &categories, const QStringList &currentCategories, const QMap<int, int> remapCategories = {});
-    QList<int> loadCategories(const QStringList &categories);
+    QList<int> loadCategories(const QStringList &categories, bool notify = true);
     QStringList guideCategoriesToStringList(const QString &categoriesData);
     /** @brief Returns the marker categories in the form of a stringList for saving */
     const QStringList categoriesToStringList() const;

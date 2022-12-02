@@ -87,7 +87,7 @@ void MarkerListModel::loadCategoriesWithUndo(const QStringList &categories, cons
     pCore->pushUndo(undo, redo, i18n("Update guides categories"));
 }
 
-QList<int> MarkerListModel::loadCategories(const QStringList &categories)
+QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool notify)
 {
     QList<int> previousCategories = pCore->markerTypes.keys();
     pCore->markerTypes.clear();
@@ -105,7 +105,9 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories)
     }
     emit categoriesChanged();
     // Trigger a refresh of all markers
-    emit dataChanged(index(0), index(m_markerList.size() - 1), {{ColorRole}});
+    if (notify) {
+        emit dataChanged(index(0), index(m_markerList.size() - 1), {{ColorRole}});
+    }
     return previousCategories;
 }
 

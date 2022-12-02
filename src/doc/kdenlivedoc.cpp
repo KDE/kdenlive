@@ -1877,10 +1877,10 @@ QStringList KdenliveDoc::getProxyHashList()
 void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
 {
     m_timelines.insert(uuid, model);
+    model->getGuideModel()->loadCategories(guidesCategories(), false);
+    loadDocumentGuides();
     connect(model.get(), &TimelineModel::guidesChanged, this, &KdenliveDoc::guidesChanged);
     connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
-    model->getGuideModel()->loadCategories(guidesCategories());
-    loadDocumentGuides();
 }
 
 std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel(QUuid uuid)
