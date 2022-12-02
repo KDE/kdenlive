@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 02:28+0000\n"
+"POT-Creation-Date: 2022-12-02 03:53+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -2743,7 +2743,7 @@ msgstr ""
 msgid "Noise Reduction and audio Restoration"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1345
+#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1355
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3766,13 +3766,13 @@ msgid "Import keyframes from clipboard"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1694
-#: src/mainwindow.cpp:1718
+#: src/mainwindow.cpp:1728
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1692
-#: src/mainwindow.cpp:1716
+#: src/mainwindow.cpp:1726
 #, kde-format
 msgid "Go to next keyframe"
 msgstr ""
@@ -4355,7 +4355,7 @@ msgstr "سىن"
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2196 src/effects/effectlist/model/effecttreemodel.cpp:60
-#: src/layoutmanagement.cpp:34 src/lib/audio/audioStreamInfo.cpp:24
+#: src/layoutmanagement.cpp:35 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:844 src/ui/projectsettings_ui.ui:180
@@ -4391,7 +4391,7 @@ msgstr "ماۋزۇ"
 msgid "Title Template"
 msgstr "قېلىپ"
 
-#: src/bin/bin.cpp:2220 src/layoutmanagement.cpp:36
+#: src/bin/bin.cpp:2220 src/layoutmanagement.cpp:37
 #: src/mltcontroller/clippropertiescontroller.cpp:342
 #, kde-format
 msgid "Color"
@@ -4478,7 +4478,7 @@ msgstr "ئۈنسىز"
 msgid "Create Animation…"
 msgstr "قىسقۇچ قۇر"
 
-#: src/bin/bin.cpp:3297 src/mainwindow.cpp:359
+#: src/bin/bin.cpp:3297 src/mainwindow.cpp:360
 #, kde-format
 msgid "Online Resources"
 msgstr ""
@@ -4568,7 +4568,7 @@ msgstr "ھۆججەت ئاچالمىدى"
 
 #: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
-#: src/mainwindow.cpp:3041
+#: src/mainwindow.cpp:3045
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot add effect to clip"
@@ -4605,9 +4605,9 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr ""
 
-#: src/bin/bin.cpp:4161 src/core.cpp:270 src/doc/kdenlivedoc.cpp:179
+#: src/bin/bin.cpp:4161 src/core.cpp:286 src/doc/kdenlivedoc.cpp:179
 #: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:84
-#: src/layoutmanagement.cpp:450 src/layoutmanagement.cpp:511
+#: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
@@ -4706,7 +4706,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5014 src/mainwindow.cpp:2615
+#: src/bin/bin.cpp:5014 src/mainwindow.cpp:2619
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
@@ -4828,7 +4828,7 @@ msgid ""
 "duplicate them?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:886
+#: src/bin/clipcreator.cpp:238 src/core.cpp:902
 #: src/project/projectmanager.cpp:703
 #, kde-format
 msgid "Loading clips"
@@ -5106,49 +5106,49 @@ msgstr ""
 msgid "Untitled"
 msgstr "ماۋزۇسىز"
 
-#: src/bin/projectclip.cpp:491
+#: src/bin/projectclip.cpp:486
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:577
+#: src/bin/projectclip.cpp:572
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:840
+#: src/bin/projectclip.cpp:835
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1029 src/jobs/cliploadtask.cpp:292
+#: src/bin/projectclip.cpp:1024 src/jobs/cliploadtask.cpp:292
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/bin/projectclip.cpp:1848
+#: src/bin/projectclip.cpp:1843
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1849
+#: src/bin/projectclip.cpp:1844
 #, kde-format
 msgid "Merge"
 msgstr "بىرىكتۈر"
 
-#: src/bin/projectclip.cpp:2266
+#: src/bin/projectclip.cpp:2261
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Add stream effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/bin/projectclip.cpp:2291
+#: src/bin/projectclip.cpp:2286
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
@@ -5209,7 +5209,7 @@ msgstr "بارلىق ھۆججەتلەر"
 msgid "Rename Folder"
 msgstr "قىسقۇچ قۇر"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1399
+#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1409
 #, kde-format
 msgid "Clean Project"
 msgstr ""
@@ -5265,7 +5265,7 @@ msgid "New tag"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:432
+#: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:448
 #: src/ui/resourcewidget_ui.ui:234
 #, kde-format
 msgid "Import"
@@ -5278,14 +5278,14 @@ msgid ""
 "Do you want to reset the configuration files ?"
 msgstr ""
 
-#: src/core.cpp:201
+#: src/core.cpp:183
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:213
+#: src/core.cpp:195
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgctxt "@title:window"
@@ -5293,282 +5293,282 @@ msgid "Select Default Profile"
 msgstr "سەپلەك ئۆچۈر"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:213 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:195 src/ui/profiledialog_ui.ui:38
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile:"
 msgstr "سەپلىمە ھۆججەت"
 
-#: src/core.cpp:226
+#: src/core.cpp:208
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:238
+#: src/core.cpp:220
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading project…"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/core.cpp:304
+#: src/core.cpp:320
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr ""
 
-#: src/core.cpp:305
+#: src/core.cpp:321
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:306
+#: src/core.cpp:322
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "توغرا"
 
-#: src/core.cpp:307
+#: src/core.cpp:323
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "رادىئۇس"
 
-#: src/core.cpp:308
+#: src/core.cpp:324
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr ""
 
-#: src/core.cpp:309
+#: src/core.cpp:325
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr ""
 
-#: src/core.cpp:310
+#: src/core.cpp:326
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr ""
 
-#: src/core.cpp:311
+#: src/core.cpp:327
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr ""
 
-#: src/core.cpp:312
+#: src/core.cpp:328
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr ""
 
-#: src/core.cpp:313
+#: src/core.cpp:329
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr ""
 
-#: src/core.cpp:314
+#: src/core.cpp:330
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:315
+#: src/core.cpp:331
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:316
+#: src/core.cpp:332
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:317
+#: src/core.cpp:333
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:318
+#: src/core.cpp:334
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:319
+#: src/core.cpp:335
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:320
+#: src/core.cpp:336
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:321
+#: src/core.cpp:337
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:323
+#: src/core.cpp:339
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "توغرا"
 
-#: src/core.cpp:324
+#: src/core.cpp:340
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "تىك"
 
-#: src/core.cpp:325
+#: src/core.cpp:341
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "توغرا"
 
-#: src/core.cpp:326
+#: src/core.cpp:342
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "تىك"
 
-#: src/core.cpp:327
+#: src/core.cpp:343
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:328
+#: src/core.cpp:344
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:329
+#: src/core.cpp:345
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:330
+#: src/core.cpp:346
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:331
+#: src/core.cpp:347
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:332
+#: src/core.cpp:348
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:333
+#: src/core.cpp:349
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "توغرا"
 
-#: src/core.cpp:334
+#: src/core.cpp:350
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:335
+#: src/core.cpp:351
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:336
+#: src/core.cpp:352
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:337
+#: src/core.cpp:353
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:338
+#: src/core.cpp:354
 #, fuzzy, kde-format
 #| msgid "radius"
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "رادىئۇس"
 
-#: src/core.cpp:339
+#: src/core.cpp:355
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "ئۈنۈم يوق"
 
-#: src/core.cpp:340
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:341
+#: src/core.cpp:357
 #, fuzzy, kde-format
 #| msgid "Align right"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "ئوڭغا توغرىلا"
 
-#: src/core.cpp:342
+#: src/core.cpp:358
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr ""
 
-#: src/core.cpp:343
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:344
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:566
+#: src/core.cpp:582
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:621 src/kdenliveui.rc:28 src/mainwindow.cpp:274
+#: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
 #: src/timeline2/view/qml/timeline.qml:1021
 #, fuzzy, kde-format
 #| msgid "untitled"
@@ -5653,7 +5653,7 @@ msgstr ""
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:287
-#: src/mainwindow.cpp:3754 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3758 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "بارلىق ھۆججەتلەر"
@@ -5687,7 +5687,7 @@ msgstr "قىسقۇچ"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:52 src/kdenliveui.rc:116
-#: src/mainwindow.cpp:552
+#: src/mainwindow.cpp:553
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Timeline Preview"
@@ -5886,7 +5886,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "يېتەكچى"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3675
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3679
 #, kde-format
 msgid "Timeline"
 msgstr "ۋاقىت سىزىقى"
@@ -6064,7 +6064,7 @@ msgstr "SDL"
 msgid "RtAudio"
 msgstr "ئۈن"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:787 src/mainwindow.cpp:330
+#: src/dialogs/kdenlivesettingsdialog.cpp:787 src/mainwindow.cpp:331
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor %1"
@@ -8189,14 +8189,14 @@ msgid "Markers"
 msgstr ""
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3630
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3634
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Audio"
 msgstr "ئايرىش"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3598
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3602
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip Jobs"
@@ -8265,14 +8265,14 @@ msgstr "بوشلۇق"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:162 src/mainwindow.cpp:1736
+#: src/kdenliveui.rc:162 src/mainwindow.cpp:1746
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
 msgstr "نەغمىلەر"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:181 src/mainwindow.cpp:491
+#: src/kdenliveui.rc:181 src/mainwindow.cpp:492
 #, kde-format
 msgid "Add Effect"
 msgstr ""
@@ -8304,7 +8304,7 @@ msgid "Current Monitor Overlay"
 msgstr "Laurent Montel"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:237 src/mainwindow.cpp:1460
+#: src/kdenliveui.rc:237 src/mainwindow.cpp:1470
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Preview Resolution"
@@ -8348,121 +8348,121 @@ msgstr "ۋاقىت سىزىقى"
 msgid "Extra Toolbar"
 msgstr "قوشۇمچە قورال بالداق"
 
-#: src/layoutmanagement.cpp:32
+#: src/layoutmanagement.cpp:33
 #, kde-format
 msgid "Logging"
 msgstr ""
 
-#: src/layoutmanagement.cpp:33
+#: src/layoutmanagement.cpp:34
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Editing"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/layoutmanagement.cpp:35 src/mainwindow.cpp:431 src/mainwindow.cpp:492
+#: src/layoutmanagement.cpp:36 src/mainwindow.cpp:432 src/mainwindow.cpp:493
 #, kde-format
 msgid "Effects"
 msgstr "ئۈنۈملەر"
 
-#: src/layoutmanagement.cpp:39
+#: src/layoutmanagement.cpp:40
 #, kde-format
 msgid "Layouts"
 msgstr "جايلاشتۇرۇشلار"
 
-#: src/layoutmanagement.cpp:40
+#: src/layoutmanagement.cpp:41
 #, kde-format
 msgid "Load Layout"
 msgstr ""
 
-#: src/layoutmanagement.cpp:47
+#: src/layoutmanagement.cpp:48
 #, fuzzy, kde-format
 #| msgid "Layouts"
 msgid "Save Layout…"
 msgstr "جايلاشتۇرۇشلار"
 
-#: src/layoutmanagement.cpp:51
+#: src/layoutmanagement.cpp:52
 #, fuzzy, kde-format
 #| msgid "Layouts"
 msgid "Manage Layouts…"
 msgstr "جايلاشتۇرۇشلار"
 
-#: src/layoutmanagement.cpp:61
+#: src/layoutmanagement.cpp:62
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr ""
 
-#: src/layoutmanagement.cpp:65
+#: src/layoutmanagement.cpp:66
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr ""
 
-#: src/layoutmanagement.cpp:170
+#: src/layoutmanagement.cpp:171
 #, fuzzy, kde-format
 #| msgid "Layouts"
 msgid "Layout %1: %2"
 msgstr "جايلاشتۇرۇشلار"
 
-#: src/layoutmanagement.cpp:264
+#: src/layoutmanagement.cpp:280
 #, fuzzy, kde-format
 #| msgid "Layouts"
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "جايلاشتۇرۇشلار"
 
-#: src/layoutmanagement.cpp:264
+#: src/layoutmanagement.cpp:280
 #, kde-format
 msgid "Layout name:"
 msgstr ""
 
-#: src/layoutmanagement.cpp:282
+#: src/layoutmanagement.cpp:298
 #, kde-format
 msgid "The layout %1 already exists. Do you want to replace it?"
 msgstr ""
 
-#: src/layoutmanagement.cpp:337
+#: src/layoutmanagement.cpp:353
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Current Layouts"
 msgstr "ئۈنسىز"
 
-#: src/layoutmanagement.cpp:351
+#: src/layoutmanagement.cpp:367
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete the layout."
 msgstr "%1 ئۆچۈر"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:387 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:403 src/ui/exportguidesdialog_ui.ui:125
 #, kde-format
 msgid "Reset"
 msgstr "ئەسلىگە قايتۇرۇش"
 
-#: src/layoutmanagement.cpp:434
+#: src/layoutmanagement.cpp:450
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "ئۈنسىز"
 
-#: src/layoutmanagement.cpp:473
+#: src/layoutmanagement.cpp:489
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Export selected"
 msgstr "ئۈنسىز"
 
-#: src/layoutmanagement.cpp:477
+#: src/layoutmanagement.cpp:493
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "No layout selected"
 msgstr "قۇرۇلۇشقا قوشىدۇ"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:504
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Cannot find layout %1"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:508
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgctxt "@title:window"
@@ -8512,7 +8512,7 @@ msgstr "Hz"
 msgid "Merged streams"
 msgstr "بايت نىسبىتى"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:486
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:488
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr ""
@@ -8540,73 +8540,79 @@ msgstr "قىسقۇچ قۇر"
 msgid "Rename Library Clip"
 msgstr ""
 
-#: src/library/librarywidget.cpp:308
+#: src/library/librarywidget.cpp:236
+#, fuzzy, kde-format
+#| msgid "Add folder"
+msgid "Add Timeline Selection to Library"
+msgstr "قىسقۇچ قوشۇش"
+
+#: src/library/librarywidget.cpp:310
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:313
+#: src/library/librarywidget.cpp:315
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
 "This cannot be undone"
 msgstr ""
 
-#: src/library/librarywidget.cpp:322
+#: src/library/librarywidget.cpp:324
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
 "%1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:324
+#: src/library/librarywidget.cpp:326
 #, kde-format
 msgid ""
 "This will delete the file:\n"
 "%1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:333
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error removing %1"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/library/librarywidget.cpp:339
+#: src/library/librarywidget.cpp:341
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "قىسقۇچ قوشۇش"
 
-#: src/library/librarywidget.cpp:339
+#: src/library/librarywidget.cpp:341
 #, kde-format
 msgid "Enter a folder name"
 msgstr ""
 
-#: src/library/librarywidget.cpp:361
+#: src/library/librarywidget.cpp:363
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "Folder %1 already exists"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/library/librarywidget.cpp:365
+#: src/library/librarywidget.cpp:367
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error creating folder %1"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/library/librarywidget.cpp:464
+#: src/library/librarywidget.cpp:466
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:470
+#: src/library/librarywidget.cpp:472
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:476
+#: src/library/librarywidget.cpp:478
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr ""
@@ -8858,111 +8864,111 @@ msgstr ""
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr ""
 
-#: src/mainwindow.cpp:273
+#: src/mainwindow.cpp:274
 #, kde-format
 msgid "Library"
 msgstr ""
 
-#: src/mainwindow.cpp:275
+#: src/mainwindow.cpp:276
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Speech Editor"
 msgstr "رەڭ تاللاش"
 
-#: src/mainwindow.cpp:276
+#: src/mainwindow.cpp:277
 #, kde-format
 msgid "Time Remapping"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mainwindow.cpp:277 src/ui/projectsettings_ui.ui:529
+#: src/mainwindow.cpp:278 src/ui/projectsettings_ui.ui:529
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guides"
 msgstr "قوشۇمچە سىزىق"
 
-#: src/mainwindow.cpp:340 src/monitor/recmanager.cpp:104
+#: src/mainwindow.cpp:341 src/monitor/recmanager.cpp:104
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure Recording"
 msgstr "سەپلە"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:95
+#: src/mainwindow.cpp:344 src/monitor/recmanager.cpp:95
 #: src/ui/configcapture_ui.ui:255
 #, kde-format
 msgid "Screen Grab"
 msgstr ""
 
-#: src/mainwindow.cpp:347
+#: src/mainwindow.cpp:348
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio Spectrum"
 msgstr "ئاۋاز كودېك"
 
-#: src/mainwindow.cpp:351
+#: src/mainwindow.cpp:352
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Bin"
 msgstr "قۇرۇلۇش تەڭشىكى"
 
-#: src/mainwindow.cpp:354
+#: src/mainwindow.cpp:355
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Media Browser"
 msgstr "ۋاسىتە قويغۇچ"
 
-#: src/mainwindow.cpp:380
+#: src/mainwindow.cpp:381
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Effect/Composition Stack"
 msgstr "Composite"
 
-#: src/mainwindow.cpp:434
+#: src/mainwindow.cpp:435
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:29
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Compositions"
 msgstr "Composite"
 
-#: src/mainwindow.cpp:437
+#: src/mainwindow.cpp:438
 #, kde-format
 msgid "Clip Monitor"
 msgstr ""
 
-#: src/mainwindow.cpp:438
+#: src/mainwindow.cpp:439
 #, kde-format
 msgid "Project Monitor"
 msgstr ""
 
-#: src/mainwindow.cpp:442
+#: src/mainwindow.cpp:443
 #, kde-format
 msgid "Clean"
 msgstr "پاكىز"
 
-#: src/mainwindow.cpp:444
+#: src/mainwindow.cpp:445
 #, kde-format
 msgid "Undo History"
 msgstr ""
 
-#: src/mainwindow.cpp:450
+#: src/mainwindow.cpp:451
 #, kde-format
 msgid "Force Breeze Icon Theme"
 msgstr ""
 
-#: src/mainwindow.cpp:456 src/mainwindow.cpp:457
+#: src/mainwindow.cpp:457 src/mainwindow.cpp:458
 #, fuzzy, kde-format
 #| msgid "Audio volume"
 msgid "Audio Mixer"
 msgstr "ئۈن ئاۋاز مىقدارى"
 
-#: src/mainwindow.cpp:495
+#: src/mainwindow.cpp:496
 #, kde-format
 msgid "Add Transition"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:496 src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:497 src/mainwindow.cpp:1906
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:30
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -8970,96 +8976,96 @@ msgid "Transitions"
 msgstr "ئالماشتۇر"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:513 src/mainwindow.cpp:524 src/mainwindow.cpp:528
+#: src/mainwindow.cpp:514 src/mainwindow.cpp:525 src/mainwindow.cpp:529
 #, fuzzy, kde-format
 #| msgid "Favorites"
 msgid "Favorite Effects"
 msgstr "يىغقۇچ"
 
-#: src/mainwindow.cpp:536 src/mainwindow.cpp:1393
+#: src/mainwindow.cpp:537 src/mainwindow.cpp:1403
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Render…"
 msgstr "رەڭلە"
 
-#: src/mainwindow.cpp:541
+#: src/mainwindow.cpp:542
 #, fuzzy, kde-format
 #| msgid "Rendering"
 msgid "Render Button"
 msgstr "سىزىۋاتىدۇ"
 
-#: src/mainwindow.cpp:547
+#: src/mainwindow.cpp:548
 #, fuzzy, kde-format
 #| msgid "Rendering"
 msgid "Rendering preview"
 msgstr "سىزىۋاتىدۇ"
 
-#: src/mainwindow.cpp:623 src/monitor/monitor.cpp:355
+#: src/mainwindow.cpp:624 src/monitor/monitor.cpp:355
 #, kde-format
 msgid "Go to Guide…"
 msgstr ""
 
-#: src/mainwindow.cpp:649
+#: src/mainwindow.cpp:650
 #, fuzzy, kde-format
 #| msgid "Channels"
 msgid "Separate Channels"
 msgstr "قانال"
 
-#: src/mainwindow.cpp:656
+#: src/mainwindow.cpp:657
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Normalize Audio Thumbnails"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/mainwindow.cpp:663
+#: src/mainwindow.cpp:664
 #, kde-format
 msgid "Thumbnails"
 msgstr "كىچىك سۈرەت"
 
-#: src/mainwindow.cpp:665
+#: src/mainwindow.cpp:666
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "In Frame"
 msgstr " كاندۇك"
 
-#: src/mainwindow.cpp:669
+#: src/mainwindow.cpp:670
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "In/Out Frames"
 msgstr " كاندۇك"
 
-#: src/mainwindow.cpp:673
+#: src/mainwindow.cpp:674
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "All Frames"
 msgstr " كاندۇك"
 
-#: src/mainwindow.cpp:677
+#: src/mainwindow.cpp:678
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "No Thumbnails"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/mainwindow.cpp:686
+#: src/mainwindow.cpp:687
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to change this setting. Do you want to "
 "proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:748
+#: src/mainwindow.cpp:749
 #, fuzzy, kde-format
 #| msgid "Folder"
 msgid "Preview Using Proxy Clips"
 msgstr "قىسقۇچ"
 
-#: src/mainwindow.cpp:755
+#: src/mainwindow.cpp:756
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic Preview"
 msgstr "ئاپتوماتىك"
 
-#: src/mainwindow.cpp:937
+#: src/mainwindow.cpp:942
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -9069,122 +9075,122 @@ msgid_plural ""
 "What do you want to do with these jobs?"
 msgstr[0] ""
 
-#: src/mainwindow.cpp:940
+#: src/mainwindow.cpp:945
 #, kde-format
 msgid "Start them now"
 msgstr ""
 
-#: src/mainwindow.cpp:940
+#: src/mainwindow.cpp:945
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete them"
 msgstr "%1 ئۆچۈر"
 
-#: src/mainwindow.cpp:1039 src/timeline2/view/timelinecontroller.cpp:2028
+#: src/mainwindow.cpp:1049 src/timeline2/view/timelinecontroller.cpp:2028
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr ""
 
-#: src/mainwindow.cpp:1086
+#: src/mainwindow.cpp:1096
 #, fuzzy, kde-format
 #| msgid "Normal mode"
 msgid "Normal Mode"
 msgstr "ئادەتتىكى ھالەت"
 
-#: src/mainwindow.cpp:1090
+#: src/mainwindow.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite Mode"
 msgstr "قاپلاش مودېلى"
 
-#: src/mainwindow.cpp:1094
+#: src/mainwindow.cpp:1104
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert Mode"
 msgstr "قىستۇر"
 
-#: src/mainwindow.cpp:1098
+#: src/mainwindow.cpp:1108
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Timeline Edit Mode"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1117
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1117
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Use Timeline Zone for Insert"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1114
+#: src/mainwindow.cpp:1124
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Enable Track Compositing"
 msgstr "Composite"
 
-#: src/mainwindow.cpp:1120
+#: src/mainwindow.cpp:1130
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Split Audio Tracks"
 msgstr "بايت نىسبىتى"
 
-#: src/mainwindow.cpp:1126
+#: src/mainwindow.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Split Audio Tracks (reverse)"
 msgstr "بايت نىسبىتى"
 
-#: src/mainwindow.cpp:1132
+#: src/mainwindow.cpp:1142
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Mixed Audio tracks"
 msgstr "بايت نىسبىتى"
 
-#: src/mainwindow.cpp:1157
+#: src/mainwindow.cpp:1167
 #, fuzzy, kde-format
 #| msgid "Track mouse"
 msgid "Track menu"
 msgstr "چاشقىنەكنى ئىزلا"
 
-#: src/mainwindow.cpp:1162 src/project/dialogs/slideshowclip.cpp:86
+#: src/mainwindow.cpp:1172 src/project/dialogs/slideshowclip.cpp:86
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr ""
 
-#: src/mainwindow.cpp:1163 src/project/dialogs/slideshowclip.cpp:87
+#: src/mainwindow.cpp:1173 src/project/dialogs/slideshowclip.cpp:87
 #, kde-format
 msgid "Frames"
 msgstr "كاندۇكلار"
 
-#: src/mainwindow.cpp:1175
+#: src/mainwindow.cpp:1185
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Edit Subtitle Tool"
 msgstr "سەپلىمە ھۆججەت قوش"
 
-#: src/mainwindow.cpp:1182 src/titler/titlewidget.cpp:370
+#: src/mainwindow.cpp:1192 src/titler/titlewidget.cpp:370
 #: src/titler/titlewidget.cpp:373
 #, kde-format
 msgid "Selection Tool"
 msgstr ""
 
-#: src/mainwindow.cpp:1187
+#: src/mainwindow.cpp:1197
 #, kde-format
 msgid "Razor Tool"
 msgstr ""
 
-#: src/mainwindow.cpp:1192
+#: src/mainwindow.cpp:1202
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer Tool"
 msgstr "بوشلۇق"
 
-#: src/mainwindow.cpp:1197
+#: src/mainwindow.cpp:1207
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "Ripple Tool"
@@ -9194,74 +9200,74 @@ msgstr "ھۆججەت چوڭلۇقى"
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1208
+#: src/mainwindow.cpp:1218
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "Slip Tool"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/mainwindow.cpp:1212
+#: src/mainwindow.cpp:1222
 #, kde-format
 msgid "Multicam Tool"
 msgstr ""
 
-#: src/mainwindow.cpp:1234
+#: src/mainwindow.cpp:1244
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1238
+#: src/mainwindow.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Mix Clips"
 msgstr "ئىلغۇچ"
 
-#: src/mainwindow.cpp:1246
+#: src/mainwindow.cpp:1256
 #, fuzzy, kde-format
 #| msgid "Thumbnails"
 msgid "Show Video Thumbnails"
 msgstr "كىچىك سۈرەت"
 
-#: src/mainwindow.cpp:1252
+#: src/mainwindow.cpp:1262
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Show Audio Thumbnails"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/mainwindow.cpp:1258
+#: src/mainwindow.cpp:1268
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Markers Comments"
 msgstr "ئۈنئالغۇ كۆزەتكۈچ"
 
-#: src/mainwindow.cpp:1264
+#: src/mainwindow.cpp:1274
 #, kde-format
 msgid "Snap"
 msgstr "توغرىلا"
 
-#: src/mainwindow.cpp:1270
+#: src/mainwindow.cpp:1280
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Show Color Tags in Timeline"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1276
+#: src/mainwindow.cpp:1286
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Fit Zoom to Project"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1301
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1311 src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:1321 src/mainwindow.cpp:3277
 #, kde-format
 msgid "Multicam"
 msgstr ""
 
-#: src/mainwindow.cpp:1313
+#: src/mainwindow.cpp:1323
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr ""
@@ -9269,578 +9275,578 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1364 src/ui/editrenderpreset_ui.ui:418
+#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:418
 #: src/ui/editrenderpreset_ui.ui:600 src/ui/renderwidget_ui.ui:753
 #, kde-format
 msgid "Auto"
 msgstr "ئاپتوماتىك"
 
-#: src/mainwindow.cpp:1369
+#: src/mainwindow.cpp:1379
 #, fuzzy, kde-format
 #| msgid "OpenGL"
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1374
+#: src/mainwindow.cpp:1384
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr ""
 
-#: src/mainwindow.cpp:1379
+#: src/mainwindow.cpp:1389
 #, kde-format
 msgid "Software OpenGL"
 msgstr ""
 
-#: src/mainwindow.cpp:1389
+#: src/mainwindow.cpp:1399
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr ""
 
-#: src/mainwindow.cpp:1390
+#: src/mainwindow.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Settings…"
 msgstr "قۇرۇلۇش تەڭشىكى"
 
-#: src/mainwindow.cpp:1396
+#: src/mainwindow.cpp:1406
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Stop Render"
 msgstr "ئالدىن كۆزەت"
 
-#: src/mainwindow.cpp:1401
+#: src/mainwindow.cpp:1411
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Reset Configuration…"
 msgstr "سەپلە"
 
-#: src/mainwindow.cpp:1405
+#: src/mainwindow.cpp:1415
 #, kde-format
 msgid "Play Zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1407
+#: src/mainwindow.cpp:1417
 #, kde-format
 msgid "Loop Zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1409
+#: src/mainwindow.cpp:1419
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Loop Selected Clip"
 msgstr "ئۈنسىز"
 
-#: src/mainwindow.cpp:1413
+#: src/mainwindow.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transcode Clips…"
 msgstr "ئالماشتۇر"
 
-#: src/mainwindow.cpp:1414
+#: src/mainwindow.cpp:1424
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO E&xport…"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1427
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "OpenTimelineIO &Import…"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1421
+#: src/mainwindow.cpp:1431
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Archive Project…"
 msgstr "ئۈنسىز"
 
-#: src/mainwindow.cpp:1423
+#: src/mainwindow.cpp:1433
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Switch Monitor"
 msgstr "ئېكران"
 
-#: src/mainwindow.cpp:1424
+#: src/mainwindow.cpp:1434
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Focus Timecode"
 msgstr "ۋاقىت"
 
-#: src/mainwindow.cpp:1425
+#: src/mainwindow.cpp:1435
 #, kde-format
 msgid "Expand Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1427
+#: src/mainwindow.cpp:1437
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr ""
 
-#: src/mainwindow.cpp:1432
+#: src/mainwindow.cpp:1442
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr ""
 
-#: src/mainwindow.cpp:1437
+#: src/mainwindow.cpp:1447
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr ""
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1452
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr ""
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1457
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr ""
 
-#: src/mainwindow.cpp:1464
+#: src/mainwindow.cpp:1474
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Full Resolution (1:1)"
 msgstr "ئېنىقلىق"
 
-#: src/mainwindow.cpp:1468 src/monitor/monitor.cpp:177
+#: src/mainwindow.cpp:1478 src/monitor/monitor.cpp:177
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1472 src/monitor/monitor.cpp:177
+#: src/mainwindow.cpp:1482 src/monitor/monitor.cpp:177
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1476 src/monitor/monitor.cpp:178
+#: src/mainwindow.cpp:1486 src/monitor/monitor.cpp:178
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1480 src/monitor/monitor.cpp:178
+#: src/mainwindow.cpp:1490 src/monitor/monitor.cpp:178
 #, kde-format
 msgid "270p"
 msgstr ""
 
-#: src/mainwindow.cpp:1511
+#: src/mainwindow.cpp:1521
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr ""
 
-#: src/mainwindow.cpp:1517
+#: src/mainwindow.cpp:1527
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor Gamma"
 msgstr "ئېكران"
 
-#: src/mainwindow.cpp:1518
+#: src/mainwindow.cpp:1528
 #, kde-format
 msgid "sRGB (computer)"
 msgstr ""
 
-#: src/mainwindow.cpp:1519
+#: src/mainwindow.cpp:1529
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr ""
 
-#: src/mainwindow.cpp:1525
+#: src/mainwindow.cpp:1535
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr ""
 
-#: src/mainwindow.cpp:1528
+#: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr ""
 
-#: src/mainwindow.cpp:1530
+#: src/mainwindow.cpp:1540
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr ""
 
-#: src/mainwindow.cpp:1532
+#: src/mainwindow.cpp:1542
 #, kde-format
 msgid "Go to Clip Start"
 msgstr ""
 
-#: src/mainwindow.cpp:1534
+#: src/mainwindow.cpp:1544
 #, kde-format
 msgid "Go to Clip End"
 msgstr ""
 
-#: src/mainwindow.cpp:1536
+#: src/mainwindow.cpp:1546
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr ""
 
-#: src/mainwindow.cpp:1538
+#: src/mainwindow.cpp:1548
 #, kde-format
 msgid "Go to Next Guide"
 msgstr ""
 
-#: src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:1550
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr ""
 
-#: src/mainwindow.cpp:1543
+#: src/mainwindow.cpp:1553
 #, kde-format
 msgid "Grab Current Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1546
+#: src/mainwindow.cpp:1556
 #, kde-format
 msgid "Automatic Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:1553
+#: src/mainwindow.cpp:1563
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1555
+#: src/mainwindow.cpp:1565
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Insert Clip Zone in Timeline"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1557
+#: src/mainwindow.cpp:1567
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1559
+#: src/mainwindow.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Lift Timeline Zone"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1561
+#: src/mainwindow.cpp:1571
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Add Preview Zone"
 msgstr "ئالدىن كۆزەت"
 
-#: src/mainwindow.cpp:1563
+#: src/mainwindow.cpp:1573
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove Preview Zone"
 msgstr "ئالدىن كۆزەت"
 
-#: src/mainwindow.cpp:1565
+#: src/mainwindow.cpp:1575
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Remove All Preview Zones"
 msgstr "ئالدىن كۆزەت"
 
-#: src/mainwindow.cpp:1567
+#: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Start Preview Render"
 msgstr ""
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1579
 #, fuzzy, kde-format
 #| msgid "Preview"
 msgid "Stop Preview Render"
 msgstr "ئالدىن كۆزەت"
 
-#: src/mainwindow.cpp:1572
+#: src/mainwindow.cpp:1582
 #, kde-format
 msgid "Select Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1574
+#: src/mainwindow.cpp:1584
 #, kde-format
 msgid "Deselect Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1586
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add Clip to Selection"
 msgstr "قۇرۇلۇشقا قوشىدۇ"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1588
 #, kde-format
 msgid "Select Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1590
 #, kde-format
 msgid "Deselect Transition"
 msgstr ""
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Add folder"
 msgid "Add Transition to Selection"
 msgstr "قىسقۇچ قوشۇش"
 
-#: src/mainwindow.cpp:1585
+#: src/mainwindow.cpp:1595
 #, kde-format
 msgid "Delete All Markers"
 msgstr ""
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1597
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr ""
 
-#: src/mainwindow.cpp:1591
+#: src/mainwindow.cpp:1601
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Current Selection"
 msgstr "رەڭ تاللاش"
 
-#: src/mainwindow.cpp:1593 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1603 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr ""
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1607
 #, kde-format
 msgid "Delete Marker"
 msgstr ""
 
-#: src/mainwindow.cpp:1601
+#: src/mainwindow.cpp:1611
 #, fuzzy, kde-format
 #| msgid "Marker"
 msgid "Edit Marker…"
 msgstr "بەلگە قەلىمى"
 
-#: src/mainwindow.cpp:1606 src/timeline2/model/timelinefunctions.cpp:1070
+#: src/mainwindow.cpp:1616 src/timeline2/model/timelinefunctions.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Restore Audio"
 msgstr "ئايرىش"
 
-#: src/mainwindow.cpp:1612
+#: src/mainwindow.cpp:1622
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Clip"
 msgstr "ئايرىش"
 
-#: src/mainwindow.cpp:1618
+#: src/mainwindow.cpp:1628
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Save Clip Part to Bin"
 msgstr "رەڭ تاللاش"
 
-#: src/mainwindow.cpp:1623
+#: src/mainwindow.cpp:1633
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable Clip"
 msgstr "ئۈنۈم يوق"
 
-#: src/mainwindow.cpp:1628
+#: src/mainwindow.cpp:1638
 #, kde-format
 msgid "Set Audio Reference"
 msgstr ""
 
-#: src/mainwindow.cpp:1635
+#: src/mainwindow.cpp:1645
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr ""
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1650
 #, kde-format
 msgid "Edit Duration"
 msgstr ""
 
-#: src/mainwindow.cpp:1644
+#: src/mainwindow.cpp:1654
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Change Speed"
 msgstr "نىشان"
 
-#: src/mainwindow.cpp:1650
+#: src/mainwindow.cpp:1660
 #, kde-format
 msgid "Time Remap"
 msgstr ""
 
-#: src/mainwindow.cpp:1657
+#: src/mainwindow.cpp:1667
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Clip in Project Bin"
 msgstr "قۇرۇلۇش تەڭشىكى"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1663 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1673 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr ""
 
-#: src/mainwindow.cpp:1666
+#: src/mainwindow.cpp:1676
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Cut All Clips"
 msgstr "بارلىق ھۆججەتلەر"
 
-#: src/mainwindow.cpp:1669
+#: src/mainwindow.cpp:1679
 #, kde-format
 msgid "Delete Selected Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1672
+#: src/mainwindow.cpp:1682
 #, kde-format
 msgid "Resize Item Start"
 msgstr ""
 
-#: src/mainwindow.cpp:1676
+#: src/mainwindow.cpp:1686
 #, kde-format
 msgid "Resize Item End"
 msgstr ""
 
-#: src/mainwindow.cpp:1680
+#: src/mainwindow.cpp:1690
 #, kde-format
 msgid "Paste Effects"
 msgstr ""
 
-#: src/mainwindow.cpp:1686
+#: src/mainwindow.cpp:1696
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete Effects"
 msgstr "%1 ئۆچۈر"
 
-#: src/mainwindow.cpp:1693
+#: src/mainwindow.cpp:1703
 #, kde-format
 msgid "Group Clips"
 msgstr ""
 
-#: src/mainwindow.cpp:1699
+#: src/mainwindow.cpp:1709
 #, kde-format
 msgid "Ungroup Clips"
 msgstr ""
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1723
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Effect Keyframes"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/mainwindow.cpp:1714 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1724 src/monitor/view/EffectToolBar.qml:89
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Add/Remove Keyframe"
 msgstr " كاندۇك"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1740
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert Space…"
 msgstr "قىستۇر"
 
-#: src/mainwindow.cpp:1731
+#: src/mainwindow.cpp:1741
 #, kde-format
 msgid "Remove Space"
 msgstr ""
 
-#: src/mainwindow.cpp:1732
+#: src/mainwindow.cpp:1742
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove All Spaces After Cursor"
 msgstr " كاندۇك"
 
-#: src/mainwindow.cpp:1733
+#: src/mainwindow.cpp:1743
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Remove All Clips After Cursor"
 msgstr " كاندۇك"
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:1737
+#: src/mainwindow.cpp:1747
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "قىستۇر"
 
-#: src/mainwindow.cpp:1741 src/timeline2/view/timelinecontroller.cpp:4727
+#: src/mainwindow.cpp:1751 src/timeline2/view/timelinecontroller.cpp:4727
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Master effects"
 msgstr "ئۈنۈم"
 
-#: src/mainwindow.cpp:1748
+#: src/mainwindow.cpp:1758
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1753 src/timeline2/model/timelinemodel.cpp:4234
+#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4234
 #: src/timeline2/view/timelinecontroller.cpp:800
 #, kde-format
 msgid "Delete Track"
 msgstr ""
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1768
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Record Controls"
 msgstr "ئۈنئالغۇ كۆزەتكۈچ"
 
-#: src/mainwindow.cpp:1764
+#: src/mainwindow.cpp:1774
 #, kde-format
 msgid "Select All in Current Track"
 msgstr ""
 
-#: src/mainwindow.cpp:1781
+#: src/mainwindow.cpp:1791
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr ""
 
-#: src/mainwindow.cpp:1784
+#: src/mainwindow.cpp:1794
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Disable Timeline Preview"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1798
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Add/Remove Guide"
 msgstr "قىسقۇچ قۇر"
 
-#: src/mainwindow.cpp:1789
+#: src/mainwindow.cpp:1799
 #, kde-format
 msgid "Delete Guide"
 msgstr ""
 
-#: src/mainwindow.cpp:1790
+#: src/mainwindow.cpp:1800
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Edit Guide…"
 msgstr "سەپلەك تەھرىرلەش"
 
-#: src/mainwindow.cpp:1791
+#: src/mainwindow.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search Guide…"
 msgstr "ئىزدە"
 
-#: src/mainwindow.cpp:1792
+#: src/mainwindow.cpp:1802
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Export Guides…"
 msgstr "ئىمپورت قىل"
 
-#: src/mainwindow.cpp:1795
+#: src/mainwindow.cpp:1805
 #, fuzzy, kde-format
 #| msgid "Guide"
 msgid "Guides Locked"
 msgstr "يېتەكچى"
 
-#: src/mainwindow.cpp:1798
+#: src/mainwindow.cpp:1808
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Lock guides"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/mainwindow.cpp:1800
+#: src/mainwindow.cpp:1810
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9848,60 +9854,54 @@ msgid ""
 "or inserting/removing blank in tracks."
 msgstr ""
 
-#: src/mainwindow.cpp:1802
+#: src/mainwindow.cpp:1812
 #, kde-format
 msgid "Delete All Guides"
 msgstr ""
 
-#: src/mainwindow.cpp:1804
+#: src/mainwindow.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Add Subtitle"
 msgstr "سەپلىمە ھۆججەت قوش"
 
-#: src/mainwindow.cpp:1806
+#: src/mainwindow.cpp:1816
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Disable Subtitle"
 msgstr "%1 ئۆچۈر"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1817
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock Subtitle"
 msgstr "ماۋزۇسىز"
 
-#: src/mainwindow.cpp:1809
+#: src/mainwindow.cpp:1819
 #, fuzzy, kde-format
 #| msgid "Import"
 msgid "Import Subtitle File…"
 msgstr "ئىمپورت قىل"
 
-#: src/mainwindow.cpp:1811
+#: src/mainwindow.cpp:1821
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Export Subtitle File…"
 msgstr "سەپلىمە ھۆججەت قوش"
 
-#: src/mainwindow.cpp:1813 src/timeline2/model/timelinemodel.cpp:2004
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2004
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete Subtitle"
 msgstr "%1 ئۆچۈر"
 
-#: src/mainwindow.cpp:1814
+#: src/mainwindow.cpp:1824
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Speech Recognition…"
 msgstr "رەڭ تاللاش"
 
-#: src/mainwindow.cpp:1820
-#, fuzzy, kde-format
-#| msgid "Add folder"
-msgid "Add Timeline Selection to Library"
-msgstr "قىسقۇچ قوشۇش"
-
-#: src/mainwindow.cpp:1827
+#: src/mainwindow.cpp:1831
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9909,102 +9909,102 @@ msgid ""
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
 
-#: src/mainwindow.cpp:1857
+#: src/mainwindow.cpp:1861
 #, kde-format
 msgid "Copy Debug Information"
 msgstr ""
 
-#: src/mainwindow.cpp:1859
+#: src/mainwindow.cpp:1863
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable Timeline Effects"
 msgstr "ئۈنۈم يوق"
 
-#: src/mainwindow.cpp:1865
+#: src/mainwindow.cpp:1869
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Toggle Track Disabled"
 msgstr "ئۈنۈم يوق"
 
-#: src/mainwindow.cpp:1867
+#: src/mainwindow.cpp:1871
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr ""
 
-#: src/mainwindow.cpp:1869
+#: src/mainwindow.cpp:1873
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr ""
 
-#: src/mainwindow.cpp:1871
+#: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Toggle Track Target"
 msgstr ""
 
-#: src/mainwindow.cpp:1873
+#: src/mainwindow.cpp:1877
 #, kde-format
 msgid "Toggle Track Active"
 msgstr ""
 
-#: src/mainwindow.cpp:1875
+#: src/mainwindow.cpp:1879
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr ""
 
-#: src/mainwindow.cpp:1877
+#: src/mainwindow.cpp:1881
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr ""
 
-#: src/mainwindow.cpp:1879
+#: src/mainwindow.cpp:1883
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:1881
+#: src/mainwindow.cpp:1885
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add Project Note"
 msgstr "قۇرۇلۇشقا قوشىدۇ"
 
-#: src/mainwindow.cpp:1887
+#: src/mainwindow.cpp:1891
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Select Audio Track %1"
 msgstr "بايت نىسبىتى"
 
-#: src/mainwindow.cpp:1891
+#: src/mainwindow.cpp:1895
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Select Video Track %1"
 msgstr "بايت نىسبىتى"
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Select Target %1"
 msgstr "%1 ئۆچۈر"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1917
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Frame…"
 msgstr "ئايرىش"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1920
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Extract Frame to Project…"
 msgstr "سۈرەت"
 
-#: src/mainwindow.cpp:2039 src/mainwindow.cpp:2049
+#: src/mainwindow.cpp:2043 src/mainwindow.cpp:2053
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
 
-#: src/mainwindow.cpp:2107
+#: src/mainwindow.cpp:2111
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -10012,79 +10012,79 @@ msgid ""
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2115
+#: src/mainwindow.cpp:2119
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2124 src/project/projectmanager.cpp:428
+#: src/mainwindow.cpp:2128 src/project/projectmanager.cpp:428
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2129 src/project/projectmanager.cpp:434
+#: src/mainwindow.cpp:2133 src/project/projectmanager.cpp:434
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2274
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr ""
 
-#: src/mainwindow.cpp:2274
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "Clean up project"
 msgstr ""
 
-#: src/mainwindow.cpp:2399 src/mainwindow.cpp:2427
+#: src/mainwindow.cpp:2403 src/mainwindow.cpp:2431
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr ""
 
-#: src/mainwindow.cpp:2414
+#: src/mainwindow.cpp:2418
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Current scheme:"
 msgstr "ئۈنسىز"
 
-#: src/mainwindow.cpp:2424
+#: src/mainwindow.cpp:2428
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "More Actions"
 msgstr "تاللانما"
 
-#: src/mainwindow.cpp:2436
+#: src/mainwindow.cpp:2440
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "ئادەتتىكى"
 
-#: src/mainwindow.cpp:2500
+#: src/mainwindow.cpp:2504
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2633 src/mainwindow.cpp:2660
+#: src/mainwindow.cpp:2637 src/mainwindow.cpp:2664
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr ""
 
-#: src/mainwindow.cpp:2643 src/mainwindow.cpp:2689
+#: src/mainwindow.cpp:2647 src/mainwindow.cpp:2693
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr ""
 
-#: src/mainwindow.cpp:2665
+#: src/mainwindow.cpp:2669
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2682 src/timeline2/view/timelinecontroller.cpp:1167
+#: src/mainwindow.cpp:2686 src/timeline2/view/timelinecontroller.cpp:1167
 #: src/timeline2/view/timelinecontroller.cpp:1175
 #: src/timeline2/view/timelinecontroller.cpp:1196
 #: src/timeline2/view/timelinecontroller.cpp:1236
@@ -10094,23 +10094,23 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/mainwindow.cpp:2877
+#: src/mainwindow.cpp:2881
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "No clip selected in project bin"
 msgstr "قۇرۇلۇشقا قوشىدۇ"
 
-#: src/mainwindow.cpp:3044
+#: src/mainwindow.cpp:3048
 #, kde-format
 msgid "Select an item to add effect"
 msgstr ""
 
-#: src/mainwindow.cpp:3100
+#: src/mainwindow.cpp:3104
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3241
+#: src/mainwindow.cpp:3245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10119,7 +10119,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3245
+#: src/mainwindow.cpp:3249
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10129,24 +10129,24 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3248
+#: src/mainwindow.cpp:3252
 #, fuzzy, kde-format
 #| msgid "Color Selection"
 msgid "Select"
 msgstr "رەڭ تاللاش"
 
-#: src/mainwindow.cpp:3250
+#: src/mainwindow.cpp:3254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
-#: src/mainwindow.cpp:3251
+#: src/mainwindow.cpp:3255
 #, kde-format
 msgid "Razor"
 msgstr ""
 
-#: src/mainwindow.cpp:3255
+#: src/mainwindow.cpp:3259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10154,13 +10154,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3256
+#: src/mainwindow.cpp:3260
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "بوشلۇق"
 
-#: src/mainwindow.cpp:3258
+#: src/mainwindow.cpp:3262
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10168,14 +10168,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3259
+#: src/mainwindow.cpp:3263
 #, fuzzy, kde-format
 #| msgid "File size"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/mainwindow.cpp:3264
+#: src/mainwindow.cpp:3268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10184,14 +10184,14 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3266
+#: src/mainwindow.cpp:3270
 #, fuzzy, kde-format
 #| msgid "File size"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/mainwindow.cpp:3272
+#: src/mainwindow.cpp:3276
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10199,134 +10199,134 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3284
+#: src/mainwindow.cpp:3288
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "قىستۇر"
 
-#: src/mainwindow.cpp:3287
+#: src/mainwindow.cpp:3291
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "قاپلاش مودېلى"
 
-#: src/mainwindow.cpp:3603
+#: src/mainwindow.cpp:3607
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Stabilize"
 msgstr "ئۈنۈم يوق"
 
-#: src/mainwindow.cpp:3608
+#: src/mainwindow.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Automatic"
 msgid "Automatic Scene Split…"
 msgstr "ئاپتوماتىك"
 
-#: src/mainwindow.cpp:3613
+#: src/mainwindow.cpp:3617
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Duplicate Clip with Speed Change…"
 msgstr "ئۈنسىز"
 
-#: src/mainwindow.cpp:3629
+#: src/mainwindow.cpp:3633
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgid "Transcoders"
 msgstr "ئالماشتۇر"
 
-#: src/mainwindow.cpp:3674
+#: src/mainwindow.cpp:3678
 #, kde-format
 msgid "Interface"
 msgstr "ئارايۈز"
 
-#: src/mainwindow.cpp:3690
+#: src/mainwindow.cpp:3694
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Raise %1"
 msgstr "ئۈنۈم يوق"
 
-#: src/mainwindow.cpp:3756
+#: src/mainwindow.cpp:3760
 #, fuzzy, kde-format
 #| msgid "Transitions"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "ئالماشتۇر"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3908
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:3910
+#: src/mainwindow.cpp:3914
 #, kde-format
 msgid "Archiving project"
 msgstr ""
 
-#: src/mainwindow.cpp:4066
+#: src/mainwindow.cpp:4070
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Icon Size"
 msgstr "خەت چوڭلۇقى"
 
-#: src/mainwindow.cpp:4070
+#: src/mainwindow.cpp:4074
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "كۆڭۈلدىكى"
 
-#: src/mainwindow.cpp:4091 src/mainwindow.cpp:4119
+#: src/mainwindow.cpp:4095 src/mainwindow.cpp:4123
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4093 src/mainwindow.cpp:4121
+#: src/mainwindow.cpp:4097 src/mainwindow.cpp:4125
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4095 src/mainwindow.cpp:4123
+#: src/mainwindow.cpp:4099 src/mainwindow.cpp:4127
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4097 src/mainwindow.cpp:4125
+#: src/mainwindow.cpp:4101 src/mainwindow.cpp:4129
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4182
+#: src/mainwindow.cpp:4186
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4182
+#: src/mainwindow.cpp:4186
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
 
-#: src/mainwindow.cpp:4197
+#: src/mainwindow.cpp:4201
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4391 src/timeline2/view/timelinecontroller.cpp:5013
+#: src/mainwindow.cpp:4395 src/timeline2/view/timelinecontroller.cpp:5013
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "No subtitles in current project"
 msgstr "ئۈنسىز"
 
-#: src/mainwindow.cpp:4478
+#: src/mainwindow.cpp:4482
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Bin %1"
 msgstr "قۇرۇلۇش تەڭشىكى"
 
-#: src/mainwindow.cpp:4579
+#: src/mainwindow.cpp:4583
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Checking cached data size"
