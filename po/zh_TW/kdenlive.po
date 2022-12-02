@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-29 00:46+0000\n"
+"POT-Creation-Date: 2022-12-02 00:45+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -2687,7 +2687,7 @@ msgstr ""
 msgid "Noise Reduction and audio Restoration"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1345
+#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1355
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, fuzzy, kde-format
 msgid "Tools"
@@ -3707,13 +3707,13 @@ msgid "Import keyframes from clipboard"
 msgstr "從素材匯入關鍵影格"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1694
-#: src/mainwindow.cpp:1718
+#: src/mainwindow.cpp:1728
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "跳轉到上一個關鍵幀"
 
 #: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1692
-#: src/mainwindow.cpp:1716
+#: src/mainwindow.cpp:1726
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "跳轉到下一個關鍵幀"
@@ -4286,7 +4286,7 @@ msgstr "分離聲訊"
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/bin/bin.cpp:2196 src/effects/effectlist/model/effecttreemodel.cpp:60
-#: src/layoutmanagement.cpp:34 src/lib/audio/audioStreamInfo.cpp:24
+#: src/layoutmanagement.cpp:35 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
 #: src/ui/editrenderpreset_ui.ui:844 src/ui/projectsettings_ui.ui:180
@@ -4322,7 +4322,7 @@ msgstr "字幕 / 標題"
 msgid "Title Template"
 msgstr "樣板"
 
-#: src/bin/bin.cpp:2220 src/layoutmanagement.cpp:36
+#: src/bin/bin.cpp:2220 src/layoutmanagement.cpp:37
 #: src/mltcontroller/clippropertiescontroller.cpp:342
 #, kde-format
 msgid "Color"
@@ -4408,7 +4408,7 @@ msgstr "添加字幕 / 標題樣板"
 msgid "Create Animation…"
 msgstr "建立群組"
 
-#: src/bin/bin.cpp:3297 src/mainwindow.cpp:359
+#: src/bin/bin.cpp:3297 src/mainwindow.cpp:360
 #, kde-format
 msgid "Online Resources"
 msgstr "線上資源"
@@ -4500,7 +4500,7 @@ msgstr "無法添加視訊濾鏡​​到這個素材"
 
 #: src/bin/bin.cpp:3587 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
-#: src/mainwindow.cpp:3041
+#: src/mainwindow.cpp:3045
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
@@ -4543,9 +4543,9 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr "請在 Kdenlive 配置視窗中指定用於開啟聲訊的程式"
 
-#: src/bin/bin.cpp:4161 src/core.cpp:270 src/doc/kdenlivedoc.cpp:179
+#: src/bin/bin.cpp:4161 src/core.cpp:286 src/doc/kdenlivedoc.cpp:179
 #: src/jobs/cliploadtask.cpp:483 src/jobs/filtertask.cpp:84
-#: src/layoutmanagement.cpp:450 src/layoutmanagement.cpp:511
+#: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, fuzzy, kde-format
@@ -4643,7 +4643,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5014 src/mainwindow.cpp:2615
+#: src/bin/bin.cpp:5014 src/mainwindow.cpp:2619
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要添加記號的素材"
@@ -4769,7 +4769,7 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/clipcreator.cpp:238 src/core.cpp:886
+#: src/bin/clipcreator.cpp:238 src/core.cpp:902
 #: src/project/projectmanager.cpp:703
 #, kde-format
 msgid "Loading clips"
@@ -5045,49 +5045,49 @@ msgstr ""
 msgid "Untitled"
 msgstr "無標題"
 
-#: src/bin/projectclip.cpp:491
+#: src/bin/projectclip.cpp:486
 #, fuzzy, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:577
+#: src/bin/projectclip.cpp:572
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:840
+#: src/bin/projectclip.cpp:835
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1029 src/jobs/cliploadtask.cpp:292
+#: src/bin/projectclip.cpp:1024 src/jobs/cliploadtask.cpp:292
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "無效的素材"
 
-#: src/bin/projectclip.cpp:1848
+#: src/bin/projectclip.cpp:1843
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1849
+#: src/bin/projectclip.cpp:1844
 #, kde-format
 msgid "Merge"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2266
+#: src/bin/projectclip.cpp:2261
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "編輯特效 %1"
 
-#: src/bin/projectclip.cpp:2291
+#: src/bin/projectclip.cpp:2286
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -5145,7 +5145,7 @@ msgstr "添加素材"
 msgid "Rename Folder"
 msgstr "重命名檔案夾"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1399
+#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1409
 #, kde-format
 msgid "Clean Project"
 msgstr "清理無使用的素材"
@@ -5199,7 +5199,7 @@ msgid "New tag"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_import)
-#: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:432
+#: src/capture/managecapturesdialog.cpp:27 src/layoutmanagement.cpp:448
 #: src/ui/resourcewidget_ui.ui:234
 #, fuzzy, kde-format
 msgid "Import"
@@ -5212,14 +5212,14 @@ msgid ""
 "Do you want to reset the configuration files ?"
 msgstr ""
 
-#: src/core.cpp:201
+#: src/core.cpp:183
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
 
-#: src/core.cpp:213
+#: src/core.cpp:195
 #, fuzzy, kde-format
 #| msgid "Default Profile"
 msgctxt "@title:window"
@@ -5227,281 +5227,281 @@ msgid "Select Default Profile"
 msgstr "預設編碼方案"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:213 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:195 src/ui/profiledialog_ui.ui:38
 #, fuzzy, kde-format
 #| msgid "Profile"
 msgid "Profile:"
 msgstr "項目"
 
-#: src/core.cpp:226
+#: src/core.cpp:208
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:238
+#: src/core.cpp:220
 #, fuzzy, kde-format
 msgid "Loading project…"
 msgstr "清理本項目"
 
-#: src/core.cpp:304
+#: src/core.cpp:320
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "方塊模糊"
 
-#: src/core.cpp:305
+#: src/core.cpp:321
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr ""
 
-#: src/core.cpp:306
+#: src/core.cpp:322
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "水平"
 
-#: src/core.cpp:307
+#: src/core.cpp:323
 #, fuzzy, kde-format
 #| msgid "Radius"
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "半徑"
 
-#: src/core.cpp:308
+#: src/core.cpp:324
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "線性"
 
-#: src/core.cpp:309
+#: src/core.cpp:325
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "線性"
 
-#: src/core.cpp:310
+#: src/core.cpp:326
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "線性"
 
-#: src/core.cpp:311
+#: src/core.cpp:327
 #, fuzzy, kde-format
 #| msgid "Linear"
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "線性"
 
-#: src/core.cpp:312
+#: src/core.cpp:328
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "方塊模糊"
 
-#: src/core.cpp:313
+#: src/core.cpp:329
 #, fuzzy, kde-format
 #| msgid "Square Blur"
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "方塊模糊"
 
-#: src/core.cpp:314
+#: src/core.cpp:330
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr ""
 
-#: src/core.cpp:315
+#: src/core.cpp:331
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr ""
 
-#: src/core.cpp:316
+#: src/core.cpp:332
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr ""
 
-#: src/core.cpp:317
+#: src/core.cpp:333
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr ""
 
-#: src/core.cpp:318
+#: src/core.cpp:334
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr ""
 
-#: src/core.cpp:319
+#: src/core.cpp:335
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr ""
 
-#: src/core.cpp:320
+#: src/core.cpp:336
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr ""
 
-#: src/core.cpp:321
+#: src/core.cpp:337
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr ""
 
-#: src/core.cpp:323
+#: src/core.cpp:339
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "水平"
 
-#: src/core.cpp:324
+#: src/core.cpp:340
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "垂直"
 
-#: src/core.cpp:325
+#: src/core.cpp:341
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "水平"
 
-#: src/core.cpp:326
+#: src/core.cpp:342
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "垂直"
 
-#: src/core.cpp:327
+#: src/core.cpp:343
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr ""
 
-#: src/core.cpp:328
+#: src/core.cpp:344
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr ""
 
-#: src/core.cpp:329
+#: src/core.cpp:345
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr ""
 
-#: src/core.cpp:330
+#: src/core.cpp:346
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr ""
 
-#: src/core.cpp:331
+#: src/core.cpp:347
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:332
+#: src/core.cpp:348
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:333
+#: src/core.cpp:349
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "水平"
 
-#: src/core.cpp:334
+#: src/core.cpp:350
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:335
+#: src/core.cpp:351
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:336
+#: src/core.cpp:352
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:337
+#: src/core.cpp:353
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:338
+#: src/core.cpp:354
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "半徑"
 
-#: src/core.cpp:339
+#: src/core.cpp:355
 #, fuzzy, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "關閉素材"
 
-#: src/core.cpp:340
+#: src/core.cpp:356
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr ""
 
-#: src/core.cpp:341
+#: src/core.cpp:357
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "底部先"
 
-#: src/core.cpp:342
+#: src/core.cpp:358
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "底部先"
 
-#: src/core.cpp:343
+#: src/core.cpp:359
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:344
+#: src/core.cpp:360
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:566
+#: src/core.cpp:582
 #, fuzzy, kde-format
 #| msgid ""
 #| "Document project folder is invalid, setting it to the default one: %1"
@@ -5509,7 +5509,7 @@ msgid "Your project profile is invalid, rendering might fail."
 msgstr "項目檔案夾無效，將其設定為預設檔案夾：%1"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/core.cpp:621 src/kdenliveui.rc:28 src/mainwindow.cpp:274
+#: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
 #: src/timeline2/view/qml/timeline.qml:1021
 #, fuzzy, kde-format
 #| msgid "untitled"
@@ -5592,7 +5592,7 @@ msgstr "字幕 / 標題樣板素材"
 #: src/dialogs/clipcreationdialog.cpp:556
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:287
-#: src/mainwindow.cpp:3754 src/onlineresources/resourcewidget.cpp:553
+#: src/mainwindow.cpp:3758 src/onlineresources/resourcewidget.cpp:553
 #, kde-format
 msgid "All Files"
 msgstr "所有檔案"
@@ -5625,7 +5625,7 @@ msgstr "代理剪輯"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:52 src/kdenliveui.rc:116
-#: src/mainwindow.cpp:552
+#: src/mainwindow.cpp:553
 #, kde-format
 msgid "Timeline Preview"
 msgstr "時間軸預覽"
@@ -5815,7 +5815,7 @@ msgstr ""
 msgid "Guide comment"
 msgstr "參照線區段"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3675
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3679
 #, kde-format
 msgid "Timeline"
 msgstr "時間軸"
@@ -5989,7 +5989,7 @@ msgstr ""
 msgid "RtAudio"
 msgstr "音訊"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:787 src/mainwindow.cpp:330
+#: src/dialogs/kdenlivesettingsdialog.cpp:787 src/mainwindow.cpp:331
 #, fuzzy, kde-format
 msgid "Monitor %1"
 msgstr "預覽視窗"
@@ -7026,17 +7026,17 @@ msgstr "找不到您的 MLT。請裝載 MLT 並重新啟動 Kdenlive。\n"
 msgid "Fatal Error"
 msgstr "嚴重錯誤"
 
-#: src/dialogs/wizard.cpp:765
+#: src/dialogs/wizard.cpp:740
 #, kde-format
 msgid "No hardware encoders found."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:768
+#: src/dialogs/wizard.cpp:743
 #, kde-format
 msgid "NVIDIA hardware encoders found and enabled."
 msgstr ""
 
-#: src/dialogs/wizard.cpp:771
+#: src/dialogs/wizard.cpp:746
 #, kde-format
 msgid "VAAPI hardware encoders found and enabled."
 msgstr ""
@@ -8124,13 +8124,13 @@ msgid "Markers"
 msgstr "記號"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:74 src/mainwindow.cpp:3630
+#: src/kdenliveui.rc:74 src/mainwindow.cpp:3634
 #, kde-format
 msgid "Extract Audio"
 msgstr "提取音訊"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:77 src/mainwindow.cpp:3598
+#: src/kdenliveui.rc:77 src/mainwindow.cpp:3602
 #, kde-format
 msgid "Clip Jobs"
 msgstr "剪輯工作"
@@ -8194,14 +8194,14 @@ msgstr "空白空間"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:162 src/mainwindow.cpp:1736
+#: src/kdenliveui.rc:162 src/mainwindow.cpp:1746
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
 msgstr "軌道"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:181 src/mainwindow.cpp:491
+#: src/kdenliveui.rc:181 src/mainwindow.cpp:492
 #, kde-format
 msgid "Add Effect"
 msgstr "添加特效"
@@ -8231,7 +8231,7 @@ msgid "Current Monitor Overlay"
 msgstr "當前預覽視窗顯示..."
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:237 src/mainwindow.cpp:1460
+#: src/kdenliveui.rc:237 src/mainwindow.cpp:1470
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "Preview Resolution"
@@ -8274,69 +8274,69 @@ msgstr "時間軸"
 msgid "Extra Toolbar"
 msgstr "延伸工具軸"
 
-#: src/layoutmanagement.cpp:32
+#: src/layoutmanagement.cpp:33
 #, kde-format
 msgid "Logging"
 msgstr ""
 
-#: src/layoutmanagement.cpp:33
+#: src/layoutmanagement.cpp:34
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Editing"
 msgstr "持續時間"
 
-#: src/layoutmanagement.cpp:35 src/mainwindow.cpp:431 src/mainwindow.cpp:492
+#: src/layoutmanagement.cpp:36 src/mainwindow.cpp:432 src/mainwindow.cpp:493
 #, kde-format
 msgid "Effects"
 msgstr "特效"
 
-#: src/layoutmanagement.cpp:39
+#: src/layoutmanagement.cpp:40
 #, fuzzy, kde-format
 msgid "Layouts"
 msgstr "儲存工作版面"
 
-#: src/layoutmanagement.cpp:40
+#: src/layoutmanagement.cpp:41
 #, kde-format
 msgid "Load Layout"
 msgstr "讀取工作版面"
 
-#: src/layoutmanagement.cpp:47
+#: src/layoutmanagement.cpp:48
 #, fuzzy, kde-format
 msgid "Save Layout…"
 msgstr "儲存工作版面"
 
-#: src/layoutmanagement.cpp:51
+#: src/layoutmanagement.cpp:52
 #, fuzzy, kde-format
 msgid "Manage Layouts…"
 msgstr "儲存工作版面"
 
-#: src/layoutmanagement.cpp:61
+#: src/layoutmanagement.cpp:62
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
 msgstr ""
 
-#: src/layoutmanagement.cpp:65
+#: src/layoutmanagement.cpp:66
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
 msgstr ""
 
-#: src/layoutmanagement.cpp:170
+#: src/layoutmanagement.cpp:171
 #, fuzzy, kde-format
 msgid "Layout %1: %2"
 msgstr "儲存工作版面"
 
-#: src/layoutmanagement.cpp:264
+#: src/layoutmanagement.cpp:280
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
 msgstr "儲存工作版面"
 
-#: src/layoutmanagement.cpp:264
+#: src/layoutmanagement.cpp:280
 #, kde-format
 msgid "Layout name:"
 msgstr ""
 
-#: src/layoutmanagement.cpp:282
+#: src/layoutmanagement.cpp:298
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -8346,46 +8346,46 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/layoutmanagement.cpp:337
+#: src/layoutmanagement.cpp:353
 #, fuzzy, kde-format
 #| msgid "Current Project"
 msgid "Current Layouts"
 msgstr "當前的專案"
 
-#: src/layoutmanagement.cpp:351
+#: src/layoutmanagement.cpp:367
 #, fuzzy, kde-format
 msgid "Delete the layout."
 msgstr "儲存工作版面"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonReset)
-#: src/layoutmanagement.cpp:387 src/ui/exportguidesdialog_ui.ui:125
+#: src/layoutmanagement.cpp:403 src/ui/exportguidesdialog_ui.ui:125
 #, kde-format
 msgid "Reset"
 msgstr "重設"
 
-#: src/layoutmanagement.cpp:434
+#: src/layoutmanagement.cpp:450
 #, fuzzy, kde-format
 #| msgid "Load Layout"
 msgctxt "@title:window"
 msgid "Load Layout"
 msgstr "讀取工作版面"
 
-#: src/layoutmanagement.cpp:473
+#: src/layoutmanagement.cpp:489
 #, fuzzy, kde-format
 msgid "Export selected"
 msgstr "移除所選素材"
 
-#: src/layoutmanagement.cpp:477
+#: src/layoutmanagement.cpp:493
 #, fuzzy, kde-format
 msgid "No layout selected"
 msgstr "沒有複製任何素材"
 
-#: src/layoutmanagement.cpp:488
+#: src/layoutmanagement.cpp:504
 #, fuzzy, kde-format
 msgid "Cannot find layout %1"
 msgstr "無法寫入檔案 %1"
 
-#: src/layoutmanagement.cpp:492
+#: src/layoutmanagement.cpp:508
 #, fuzzy, kde-format
 #| msgid "Export audio"
 msgctxt "@title:window"
@@ -8433,7 +8433,7 @@ msgstr "H"
 msgid "Merged streams"
 msgstr "聲訊軌"
 
-#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:486
+#: src/library/librarywidget.cpp:196 src/library/librarywidget.cpp:488
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
 msgstr ""
@@ -8458,26 +8458,31 @@ msgstr "建立檔案夾"
 msgid "Rename Library Clip"
 msgstr ""
 
-#: src/library/librarywidget.cpp:308
+#: src/library/librarywidget.cpp:236
+#, fuzzy, kde-format
+msgid "Add Timeline Selection to Library"
+msgstr "儲存選擇區段到資料庫"
+
+#: src/library/librarywidget.cpp:310
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:313
+#: src/library/librarywidget.cpp:315
 #, kde-format
 msgid ""
 "This will delete the folder %1, including all playlists in it.\n"
 "This cannot be undone"
 msgstr ""
 
-#: src/library/librarywidget.cpp:322
+#: src/library/librarywidget.cpp:324
 #, kde-format
 msgid ""
 "This will delete the MLT playlist:\n"
 "%1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:324
+#: src/library/librarywidget.cpp:326
 #, fuzzy, kde-format
 #| msgid "This will remove the selected clip from this project"
 #| msgid_plural "This will remove the selected clips from this project"
@@ -8486,45 +8491,45 @@ msgid ""
 "%1"
 msgstr "將從該項目中移除所選素材"
 
-#: src/library/librarywidget.cpp:331
+#: src/library/librarywidget.cpp:333
 #, fuzzy, kde-format
 msgid "Error removing %1"
 msgstr "移除軌道 %2 的 %1 上的素材時發生錯誤"
 
-#: src/library/librarywidget.cpp:339
+#: src/library/librarywidget.cpp:341
 #, fuzzy, kde-format
 #| msgid "Add Folder to Library"
 msgctxt "@title:window"
 msgid "Add Folder to Library"
 msgstr "新增資料夾到資料庫"
 
-#: src/library/librarywidget.cpp:339
+#: src/library/librarywidget.cpp:341
 #, kde-format
 msgid "Enter a folder name"
 msgstr "輸入資料夾名稱"
 
-#: src/library/librarywidget.cpp:361
+#: src/library/librarywidget.cpp:363
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Folder %1 already exists"
 msgstr "編碼方案已經存在"
 
-#: src/library/librarywidget.cpp:365
+#: src/library/librarywidget.cpp:367
 #, kde-format
 msgid "Error creating folder %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:464
+#: src/library/librarywidget.cpp:466
 #, kde-format
 msgid "Library path set to default: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:470
+#: src/library/librarywidget.cpp:472
 #, kde-format
 msgid "Library path set to custom: %1"
 msgstr ""
 
-#: src/library/librarywidget.cpp:476
+#: src/library/librarywidget.cpp:478
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr ""
@@ -8777,107 +8782,107 @@ msgstr "介面樣式"
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr ""
 
-#: src/mainwindow.cpp:273
+#: src/mainwindow.cpp:274
 #, kde-format
 msgid "Library"
 msgstr "資料庫"
 
-#: src/mainwindow.cpp:275
+#: src/mainwindow.cpp:276
 #, fuzzy, kde-format
 msgid "Speech Editor"
 msgstr "更多選項"
 
-#: src/mainwindow.cpp:276
+#: src/mainwindow.cpp:277
 #, kde-format
 msgid "Time Remapping"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mainwindow.cpp:277 src/ui/projectsettings_ui.ui:529
+#: src/mainwindow.cpp:278 src/ui/projectsettings_ui.ui:529
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guides"
 msgstr "參照線"
 
-#: src/mainwindow.cpp:340 src/monitor/recmanager.cpp:104
+#: src/mainwindow.cpp:341 src/monitor/recmanager.cpp:104
 #, fuzzy, kde-format
 msgid "Configure Recording"
 msgstr "配置軌道"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:343 src/monitor/recmanager.cpp:95
+#: src/mainwindow.cpp:344 src/monitor/recmanager.cpp:95
 #: src/ui/configcapture_ui.ui:255
 #, kde-format
 msgid "Screen Grab"
 msgstr "擷取螢幕"
 
-#: src/mainwindow.cpp:347
+#: src/mainwindow.cpp:348
 #, kde-format
 msgid "Audio Spectrum"
 msgstr "音波譜"
 
-#: src/mainwindow.cpp:351
+#: src/mainwindow.cpp:352
 #, kde-format
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/mainwindow.cpp:354
+#: src/mainwindow.cpp:355
 #, fuzzy, kde-format
 #| msgid "Medians"
 msgid "Media Browser"
 msgstr "重疊殘影"
 
-#: src/mainwindow.cpp:380
+#: src/mainwindow.cpp:381
 #, fuzzy, kde-format
 #| msgid "Compositing"
 msgid "Effect/Composition Stack"
 msgstr "混合方式"
 
-#: src/mainwindow.cpp:434
+#: src/mainwindow.cpp:435
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:29
 #, fuzzy, kde-format
 #| msgid "Compositing"
 msgid "Compositions"
 msgstr "混合方式"
 
-#: src/mainwindow.cpp:437
+#: src/mainwindow.cpp:438
 #, kde-format
 msgid "Clip Monitor"
 msgstr "素材預覽視窗"
 
-#: src/mainwindow.cpp:438
+#: src/mainwindow.cpp:439
 #, kde-format
 msgid "Project Monitor"
 msgstr "項目預覽視窗"
 
-#: src/mainwindow.cpp:442
+#: src/mainwindow.cpp:443
 #, kde-format
 msgid "Clean"
 msgstr "清除"
 
-#: src/mainwindow.cpp:444
+#: src/mainwindow.cpp:445
 #, kde-format
 msgid "Undo History"
 msgstr "歷史記錄"
 
-#: src/mainwindow.cpp:450
+#: src/mainwindow.cpp:451
 #, kde-format
 msgid "Force Breeze Icon Theme"
 msgstr "強制使用Breeze圖示主題"
 
-#: src/mainwindow.cpp:456 src/mainwindow.cpp:457
+#: src/mainwindow.cpp:457 src/mainwindow.cpp:458
 #, fuzzy, kde-format
 #| msgid "Audio driver:"
 msgid "Audio Mixer"
 msgstr "聲訊驅動:"
 
-#: src/mainwindow.cpp:495
+#: src/mainwindow.cpp:496
 #, kde-format
 msgid "Add Transition"
 msgstr "添加轉場特效"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:496 src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:497 src/mainwindow.cpp:1906
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:30
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -8885,92 +8890,92 @@ msgid "Transitions"
 msgstr "轉場特效"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:513 src/mainwindow.cpp:524 src/mainwindow.cpp:528
+#: src/mainwindow.cpp:514 src/mainwindow.cpp:525 src/mainwindow.cpp:529
 #, kde-format
 msgid "Favorite Effects"
 msgstr "最愛的特效"
 
-#: src/mainwindow.cpp:536 src/mainwindow.cpp:1393
+#: src/mainwindow.cpp:537 src/mainwindow.cpp:1403
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Render…"
 msgstr "匯出專案"
 
-#: src/mainwindow.cpp:541
+#: src/mainwindow.cpp:542
 #, fuzzy, kde-format
 msgid "Render Button"
 msgstr "渲染（導出）為檔案"
 
-#: src/mainwindow.cpp:547
+#: src/mainwindow.cpp:548
 #, fuzzy, kde-format
 msgid "Rendering preview"
 msgstr "渲染（導出）已中止"
 
-#: src/mainwindow.cpp:623 src/monitor/monitor.cpp:355
+#: src/mainwindow.cpp:624 src/monitor/monitor.cpp:355
 #, fuzzy, kde-format
 #| msgid "Go to guide..."
 msgid "Go to Guide…"
 msgstr "去引導"
 
-#: src/mainwindow.cpp:649
+#: src/mainwindow.cpp:650
 #, fuzzy, kde-format
 msgid "Separate Channels"
 msgstr "交換聲道"
 
-#: src/mainwindow.cpp:656
+#: src/mainwindow.cpp:657
 #, fuzzy, kde-format
 #| msgid "Audio Thumbnails"
 msgid "Normalize Audio Thumbnails"
 msgstr "音訊縮略圖"
 
-#: src/mainwindow.cpp:663
+#: src/mainwindow.cpp:664
 #, kde-format
 msgid "Thumbnails"
 msgstr "縮略圖"
 
-#: src/mainwindow.cpp:665
+#: src/mainwindow.cpp:666
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "In Frame"
 msgstr "影格"
 
-#: src/mainwindow.cpp:669
+#: src/mainwindow.cpp:670
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "In/Out Frames"
 msgstr "影格"
 
-#: src/mainwindow.cpp:673
+#: src/mainwindow.cpp:674
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "All Frames"
 msgstr "影格"
 
-#: src/mainwindow.cpp:677
+#: src/mainwindow.cpp:678
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "No Thumbnails"
 msgstr "察看縮略圖"
 
-#: src/mainwindow.cpp:686
+#: src/mainwindow.cpp:687
 #, fuzzy, kde-format
 msgid ""
 "Kdenlive needs to be restarted to change this setting. Do you want to "
 "proceed?"
 msgstr "Kdenlive需要重新啟動套用主題圖示.現在重新啟動?"
 
-#: src/mainwindow.cpp:748
+#: src/mainwindow.cpp:749
 #, fuzzy, kde-format
 #| msgid "Proxy Clips"
 msgid "Preview Using Proxy Clips"
 msgstr "代理剪輯"
 
-#: src/mainwindow.cpp:755
+#: src/mainwindow.cpp:756
 #, kde-format
 msgid "Automatic Preview"
 msgstr "自動預覽區段"
 
-#: src/mainwindow.cpp:937
+#: src/mainwindow.cpp:942
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -8982,121 +8987,121 @@ msgstr[0] ""
 "目前有 %1 項渲染（導出）工作在佇列中等待執行。\n"
 "對於這些工作您想怎麼做？"
 
-#: src/mainwindow.cpp:940
+#: src/mainwindow.cpp:945
 #, kde-format
 msgid "Start them now"
 msgstr "立刻開始"
 
-#: src/mainwindow.cpp:940
+#: src/mainwindow.cpp:945
 #, kde-format
 msgid "Delete them"
 msgstr "移除它們"
 
-#: src/mainwindow.cpp:1039 src/timeline2/view/timelinecontroller.cpp:2028
+#: src/mainwindow.cpp:1049 src/timeline2/view/timelinecontroller.cpp:2028
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to compare effect"
 msgstr "如果您想使用特效請選取一個素材"
 
-#: src/mainwindow.cpp:1086
+#: src/mainwindow.cpp:1096
 #, fuzzy, kde-format
 #| msgid "Normal mode"
 msgid "Normal Mode"
 msgstr "普通型態"
 
-#: src/mainwindow.cpp:1090
+#: src/mainwindow.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite Mode"
 msgstr "改寫型態"
 
-#: src/mainwindow.cpp:1094
+#: src/mainwindow.cpp:1104
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert Mode"
 msgstr "插入型態"
 
-#: src/mainwindow.cpp:1098
+#: src/mainwindow.cpp:1108
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "時間軸編緝模式"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1117
 #, fuzzy, kde-format
 #| msgid "Don't Use Timeline Zone for Insert"
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "不使用區段插入"
 
-#: src/mainwindow.cpp:1107
+#: src/mainwindow.cpp:1117
 #, fuzzy, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "不使用區段插入"
 
-#: src/mainwindow.cpp:1114
+#: src/mainwindow.cpp:1124
 #, fuzzy, kde-format
 #| msgid "Track compositing"
 msgid "Enable Track Compositing"
 msgstr "軌道合成"
 
-#: src/mainwindow.cpp:1120
+#: src/mainwindow.cpp:1130
 #, fuzzy, kde-format
 #| msgid "Split Audio"
 msgid "Split Audio Tracks"
 msgstr "分離聲訊"
 
-#: src/mainwindow.cpp:1126
+#: src/mainwindow.cpp:1136
 #, fuzzy, kde-format
 #| msgid "Split Audio"
 msgid "Split Audio Tracks (reverse)"
 msgstr "分離聲訊"
 
-#: src/mainwindow.cpp:1132
+#: src/mainwindow.cpp:1142
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Mixed Audio tracks"
 msgstr "聲訊軌"
 
-#: src/mainwindow.cpp:1157
+#: src/mainwindow.cpp:1167
 #, fuzzy, kde-format
 #| msgid "Track name"
 msgid "Track menu"
 msgstr "軌道名稱"
 
-#: src/mainwindow.cpp:1162 src/project/dialogs/slideshowclip.cpp:86
+#: src/mainwindow.cpp:1172 src/project/dialogs/slideshowclip.cpp:86
 #, fuzzy, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "時 : 分 : 秒 : 幀"
 
-#: src/mainwindow.cpp:1163 src/project/dialogs/slideshowclip.cpp:87
+#: src/mainwindow.cpp:1173 src/project/dialogs/slideshowclip.cpp:87
 #, kde-format
 msgid "Frames"
 msgstr "幀數"
 
-#: src/mainwindow.cpp:1175
+#: src/mainwindow.cpp:1185
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit Subtitle Tool"
 msgstr "添加參照線"
 
-#: src/mainwindow.cpp:1182 src/titler/titlewidget.cpp:370
+#: src/mainwindow.cpp:1192 src/titler/titlewidget.cpp:370
 #: src/titler/titlewidget.cpp:373
 #, kde-format
 msgid "Selection Tool"
 msgstr "選取工具"
 
-#: src/mainwindow.cpp:1187
+#: src/mainwindow.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor Tool"
 msgstr "分割工具"
 
-#: src/mainwindow.cpp:1192
+#: src/mainwindow.cpp:1202
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Spacer Tool"
 msgstr "移動工具"
 
-#: src/mainwindow.cpp:1197
+#: src/mainwindow.cpp:1207
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Ripple Tool"
@@ -9106,73 +9111,73 @@ msgstr "移動工具"
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1208
+#: src/mainwindow.cpp:1218
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Slip Tool"
 msgstr "移動工具"
 
-#: src/mainwindow.cpp:1212
+#: src/mainwindow.cpp:1222
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Multicam Tool"
 msgstr "移動工具"
 
-#: src/mainwindow.cpp:1234
+#: src/mainwindow.cpp:1244
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1238
+#: src/mainwindow.cpp:1248
 #, fuzzy, kde-format
 msgid "Mix Clips"
 msgstr "素材"
 
-#: src/mainwindow.cpp:1246
+#: src/mainwindow.cpp:1256
 #, fuzzy, kde-format
 #| msgid "Show video thumbnails"
 msgid "Show Video Thumbnails"
 msgstr "察看視訊縮略圖"
 
-#: src/mainwindow.cpp:1252
+#: src/mainwindow.cpp:1262
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Show Audio Thumbnails"
 msgstr "察看聲訊縮略圖"
 
-#: src/mainwindow.cpp:1258
+#: src/mainwindow.cpp:1268
 #, fuzzy, kde-format
 #| msgid "Show markers comments"
 msgid "Show Markers Comments"
 msgstr "察看記號 / 參照線的註釋"
 
-#: src/mainwindow.cpp:1264
+#: src/mainwindow.cpp:1274
 #, kde-format
 msgid "Snap"
 msgstr "吸附並對齊"
 
-#: src/mainwindow.cpp:1270
+#: src/mainwindow.cpp:1280
 #, fuzzy, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "時間軸上察看關鍵幀"
 
-#: src/mainwindow.cpp:1276
+#: src/mainwindow.cpp:1286
 #, fuzzy, kde-format
 #| msgid "Fit zoom to project"
 msgid "Fit Zoom to Project"
 msgstr "完整察看"
 
-#: src/mainwindow.cpp:1301
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1311 src/mainwindow.cpp:3273
+#: src/mainwindow.cpp:1321 src/mainwindow.cpp:3277
 #, kde-format
 msgid "Multicam"
 msgstr ""
 
-#: src/mainwindow.cpp:1313
+#: src/mainwindow.cpp:1323
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr ""
@@ -9180,560 +9185,560 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1364 src/ui/editrenderpreset_ui.ui:418
+#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:418
 #: src/ui/editrenderpreset_ui.ui:600 src/ui/renderwidget_ui.ui:753
 #, kde-format
 msgid "Auto"
 msgstr "自動"
 
-#: src/mainwindow.cpp:1369
+#: src/mainwindow.cpp:1379
 #, fuzzy, kde-format
 msgid "OpenGL"
 msgstr "開啟備份檔"
 
-#: src/mainwindow.cpp:1374
+#: src/mainwindow.cpp:1384
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr ""
 
-#: src/mainwindow.cpp:1379
+#: src/mainwindow.cpp:1389
 #, kde-format
 msgid "Software OpenGL"
 msgstr ""
 
-#: src/mainwindow.cpp:1389
+#: src/mainwindow.cpp:1399
 #, fuzzy, kde-format
 #| msgid "Run Config Wizard"
 msgid "Run Config Wizard…"
 msgstr "執行設定向導"
 
-#: src/mainwindow.cpp:1390
+#: src/mainwindow.cpp:1400
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Settings…"
 msgstr "項目設定"
 
-#: src/mainwindow.cpp:1396
+#: src/mainwindow.cpp:1406
 #, kde-format
 msgid "Stop Render"
 msgstr "停止匯出專案"
 
-#: src/mainwindow.cpp:1401
+#: src/mainwindow.cpp:1411
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Reset Configuration…"
 msgstr "裝置配置"
 
-#: src/mainwindow.cpp:1405
+#: src/mainwindow.cpp:1415
 #, kde-format
 msgid "Play Zone"
 msgstr "播放區段"
 
-#: src/mainwindow.cpp:1407
+#: src/mainwindow.cpp:1417
 #, kde-format
 msgid "Loop Zone"
 msgstr "循環播放區段"
 
-#: src/mainwindow.cpp:1409
+#: src/mainwindow.cpp:1419
 #, fuzzy, kde-format
 #| msgid "Loop selected clip"
 msgid "Loop Selected Clip"
 msgstr "循環預覽"
 
-#: src/mainwindow.cpp:1413
+#: src/mainwindow.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Transcode Clips"
 msgid "Transcode Clips…"
 msgstr "轉換素材編碼"
 
-#: src/mainwindow.cpp:1414
+#: src/mainwindow.cpp:1424
 #, fuzzy, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "時間軸"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1427
 #, fuzzy, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "時間軸"
 
-#: src/mainwindow.cpp:1421
+#: src/mainwindow.cpp:1431
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archive Project…"
 msgstr "專案封存"
 
-#: src/mainwindow.cpp:1423
+#: src/mainwindow.cpp:1433
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgid "Switch Monitor"
 msgstr "切換預覽視窗"
 
-#: src/mainwindow.cpp:1424
+#: src/mainwindow.cpp:1434
 #, fuzzy, kde-format
 #| msgid "Time"
 msgid "Focus Timecode"
 msgstr "時間"
 
-#: src/mainwindow.cpp:1425
+#: src/mainwindow.cpp:1435
 #, kde-format
 msgid "Expand Clip"
 msgstr "展開剪輯"
 
-#: src/mainwindow.cpp:1427
+#: src/mainwindow.cpp:1437
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "顯示信息"
 
-#: src/mainwindow.cpp:1432
+#: src/mainwindow.cpp:1442
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "顯示時間"
 
-#: src/mainwindow.cpp:1437
+#: src/mainwindow.cpp:1447
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "顯示播放Fps"
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1452
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "顯示標記/參照線"
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1457
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "顯示音訊波形(素材預覽)"
 
-#: src/mainwindow.cpp:1464
+#: src/mainwindow.cpp:1474
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Full Resolution (1:1)"
 msgstr "解析度"
 
-#: src/mainwindow.cpp:1468 src/monitor/monitor.cpp:177
+#: src/mainwindow.cpp:1478 src/monitor/monitor.cpp:177
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1472 src/monitor/monitor.cpp:177
+#: src/mainwindow.cpp:1482 src/monitor/monitor.cpp:177
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1476 src/monitor/monitor.cpp:178
+#: src/mainwindow.cpp:1486 src/monitor/monitor.cpp:178
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1480 src/monitor/monitor.cpp:178
+#: src/mainwindow.cpp:1490 src/monitor/monitor.cpp:178
 #, kde-format
 msgid "270p"
 msgstr ""
 
-#: src/mainwindow.cpp:1511
+#: src/mainwindow.cpp:1521
 #, fuzzy, kde-format
 msgid "Real Time (drop frames)"
 msgstr "實時（啟用丟幀）"
 
-#: src/mainwindow.cpp:1517
+#: src/mainwindow.cpp:1527
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "預覽視窗Gamma"
 
-#: src/mainwindow.cpp:1518
+#: src/mainwindow.cpp:1528
 #, kde-format
 msgid "sRGB (computer)"
 msgstr ""
 
-#: src/mainwindow.cpp:1519
+#: src/mainwindow.cpp:1529
 #, fuzzy, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709"
 
-#: src/mainwindow.cpp:1525
+#: src/mainwindow.cpp:1535
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "插入區段到專案素材庫"
 
-#: src/mainwindow.cpp:1528
+#: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "跳轉到上一個對齊點"
 
-#: src/mainwindow.cpp:1530
+#: src/mainwindow.cpp:1540
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "跳轉到下一個對齊點"
 
-#: src/mainwindow.cpp:1532
+#: src/mainwindow.cpp:1542
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "跳轉到素材起點"
 
-#: src/mainwindow.cpp:1534
+#: src/mainwindow.cpp:1544
 #, kde-format
 msgid "Go to Clip End"
 msgstr "跳轉到素材末尾"
 
-#: src/mainwindow.cpp:1536
+#: src/mainwindow.cpp:1546
 #, fuzzy, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Go to Previous Guide"
 msgstr "跳轉到上一個關鍵幀"
 
-#: src/mainwindow.cpp:1538
+#: src/mainwindow.cpp:1548
 #, fuzzy, kde-format
 #| msgid "Go to guide..."
 msgid "Go to Next Guide"
 msgstr "去引導"
 
-#: src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:1550
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr ""
 
-#: src/mainwindow.cpp:1543
+#: src/mainwindow.cpp:1553
 #, kde-format
 msgid "Grab Current Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1546
+#: src/mainwindow.cpp:1556
 #, kde-format
 msgid "Automatic Transition"
 msgstr "自動轉場特效"
 
-#: src/mainwindow.cpp:1553
+#: src/mainwindow.cpp:1563
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "覆蓋素材區段"
 
-#: src/mainwindow.cpp:1555
+#: src/mainwindow.cpp:1565
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "插入素材區段"
 
-#: src/mainwindow.cpp:1557
+#: src/mainwindow.cpp:1567
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "切除選取區段後前移"
 
-#: src/mainwindow.cpp:1559
+#: src/mainwindow.cpp:1569
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "切除選取區段"
 
-#: src/mainwindow.cpp:1561
+#: src/mainwindow.cpp:1571
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "添加預覽區段"
 
-#: src/mainwindow.cpp:1563
+#: src/mainwindow.cpp:1573
 #, fuzzy, kde-format
 msgid "Remove Preview Zone"
 msgstr "取消預覽區段"
 
-#: src/mainwindow.cpp:1565
+#: src/mainwindow.cpp:1575
 #, fuzzy, kde-format
 msgid "Remove All Preview Zones"
 msgstr "添加預覽區段"
 
-#: src/mainwindow.cpp:1567
+#: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Start Preview Render"
 msgstr "開始運算預覽"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "停止運算預覽"
 
-#: src/mainwindow.cpp:1572
+#: src/mainwindow.cpp:1582
 #, kde-format
 msgid "Select Clip"
 msgstr "選取素材"
 
-#: src/mainwindow.cpp:1574
+#: src/mainwindow.cpp:1584
 #, kde-format
 msgid "Deselect Clip"
 msgstr "取消選取素材"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1586
 #, fuzzy, kde-format
 #| msgid "Add Clip To Selection"
 msgid "Add Clip to Selection"
 msgstr "添加素材到所選範圍"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1588
 #, kde-format
 msgid "Select Transition"
 msgstr "選取轉場特效"
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1590
 #, kde-format
 msgid "Deselect Transition"
 msgstr "取消選取轉場特效"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Add Transition To Selection"
 msgid "Add Transition to Selection"
 msgstr "添加轉場特效到所選範圍"
 
-#: src/mainwindow.cpp:1585
+#: src/mainwindow.cpp:1595
 #, kde-format
 msgid "Delete All Markers"
 msgstr "移除所有記號"
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1597
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr "添加標記/參照線"
 
-#: src/mainwindow.cpp:1591
+#: src/mainwindow.cpp:1601
 #, fuzzy, kde-format
 msgid "Current Selection"
 msgstr "項目設定"
 
-#: src/mainwindow.cpp:1593 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1603 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "添加記號"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1607
 #, kde-format
 msgid "Delete Marker"
 msgstr "移除記號"
 
-#: src/mainwindow.cpp:1601
+#: src/mainwindow.cpp:1611
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Marker…"
 msgstr "編輯記號"
 
-#: src/mainwindow.cpp:1606 src/timeline2/model/timelinefunctions.cpp:1070
+#: src/mainwindow.cpp:1616 src/timeline2/model/timelinefunctions.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "Restore Audio"
 msgstr "提取音訊"
 
-#: src/mainwindow.cpp:1612
+#: src/mainwindow.cpp:1622
 #, fuzzy, kde-format
 msgid "Extract Clip"
 msgstr "截取畫面"
 
-#: src/mainwindow.cpp:1618
+#: src/mainwindow.cpp:1628
 #, fuzzy, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "不使用區段插入"
 
-#: src/mainwindow.cpp:1623
+#: src/mainwindow.cpp:1633
 #, fuzzy, kde-format
 msgid "Disable Clip"
 msgstr "關閉素材"
 
-#: src/mainwindow.cpp:1628
+#: src/mainwindow.cpp:1638
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "設置音訊參考"
 
-#: src/mainwindow.cpp:1635
+#: src/mainwindow.cpp:1645
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "音訊對齊到參考"
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1650
 #, kde-format
 msgid "Edit Duration"
 msgstr "持續時間"
 
-#: src/mainwindow.cpp:1644
+#: src/mainwindow.cpp:1654
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change Speed"
 msgstr "修改素材類別"
 
-#: src/mainwindow.cpp:1650
+#: src/mainwindow.cpp:1660
 #, kde-format
 msgid "Time Remap"
 msgstr ""
 
-#: src/mainwindow.cpp:1657
+#: src/mainwindow.cpp:1667
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "專案素材庫位置"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1663 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1673 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "分割素材"
 
-#: src/mainwindow.cpp:1666
+#: src/mainwindow.cpp:1676
 #, fuzzy, kde-format
 #| msgid "Cut Clip"
 msgid "Cut All Clips"
 msgstr "分割素材"
 
-#: src/mainwindow.cpp:1669
+#: src/mainwindow.cpp:1679
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "移除所選項目"
 
-#: src/mainwindow.cpp:1672
+#: src/mainwindow.cpp:1682
 #, kde-format
 msgid "Resize Item Start"
 msgstr "調整項目起點位置"
 
-#: src/mainwindow.cpp:1676
+#: src/mainwindow.cpp:1686
 #, kde-format
 msgid "Resize Item End"
 msgstr "調整項目終點位置"
 
-#: src/mainwindow.cpp:1680
+#: src/mainwindow.cpp:1690
 #, kde-format
 msgid "Paste Effects"
 msgstr "黏貼特效"
 
-#: src/mainwindow.cpp:1686
+#: src/mainwindow.cpp:1696
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete Effects"
 msgstr "移除特效"
 
-#: src/mainwindow.cpp:1693
+#: src/mainwindow.cpp:1703
 #, kde-format
 msgid "Group Clips"
 msgstr "組合素材"
 
-#: src/mainwindow.cpp:1699
+#: src/mainwindow.cpp:1709
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "取消組合"
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1723
 #, fuzzy, kde-format
 #| msgid "Edit Keyframe"
 msgid "Effect Keyframes"
 msgstr "編輯關鍵幀"
 
-#: src/mainwindow.cpp:1714 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1724 src/monitor/view/EffectToolBar.qml:89
 #, fuzzy, kde-format
 #| msgid "Remove keyframe"
 msgid "Add/Remove Keyframe"
 msgstr "刪除關鍵影格"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1740
 #, fuzzy, kde-format
 #| msgid "Insert Space"
 msgid "Insert Space…"
 msgstr "插入空白空間"
 
-#: src/mainwindow.cpp:1731
+#: src/mainwindow.cpp:1741
 #, kde-format
 msgid "Remove Space"
 msgstr "移除空白空間"
 
-#: src/mainwindow.cpp:1732
+#: src/mainwindow.cpp:1742
 #, fuzzy, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "重置游標之後的關鍵影格"
 
-#: src/mainwindow.cpp:1733
+#: src/mainwindow.cpp:1743
 #, fuzzy, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "重置游標之後的關鍵影格"
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1744
 #, fuzzy, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "移除空白空間"
 
-#: src/mainwindow.cpp:1737
+#: src/mainwindow.cpp:1747
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "添加軌道"
 
-#: src/mainwindow.cpp:1741 src/timeline2/view/timelinecontroller.cpp:4727
+#: src/mainwindow.cpp:1751 src/timeline2/view/timelinecontroller.cpp:4727
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Master effects"
 msgstr "黏貼特效"
 
-#: src/mainwindow.cpp:1748
+#: src/mainwindow.cpp:1758
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1753 src/timeline2/model/timelinemodel.cpp:4234
+#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4234
 #: src/timeline2/view/timelinecontroller.cpp:800
 #, kde-format
 msgid "Delete Track"
 msgstr "移除軌道"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1768
 #, fuzzy, kde-format
 #| msgid "Show Record Control"
 msgid "Show Record Controls"
 msgstr "顯示錄制按鈕"
 
-#: src/mainwindow.cpp:1764
+#: src/mainwindow.cpp:1774
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "選取軌道所有素材"
 
-#: src/mainwindow.cpp:1781
+#: src/mainwindow.cpp:1791
 #, fuzzy, kde-format
 #| msgid "Manage Cached Data"
 msgid "Manage Cached Data…"
 msgstr "管理緩存的數據"
 
-#: src/mainwindow.cpp:1784
+#: src/mainwindow.cpp:1794
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "關閉預覽"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1798
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Add/Remove Guide"
 msgstr "移除檔案"
 
-#: src/mainwindow.cpp:1789
+#: src/mainwindow.cpp:1799
 #, kde-format
 msgid "Delete Guide"
 msgstr "移除參照線"
 
-#: src/mainwindow.cpp:1790
+#: src/mainwindow.cpp:1800
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guide…"
 msgstr "編輯參照線"
 
-#: src/mainwindow.cpp:1791
+#: src/mainwindow.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search Guide…"
 msgstr "搜索"
 
-#: src/mainwindow.cpp:1792
+#: src/mainwindow.cpp:1802
 #, fuzzy, kde-format
 msgid "Export Guides…"
 msgstr "匯入標記"
 
-#: src/mainwindow.cpp:1795
+#: src/mainwindow.cpp:1805
 #, fuzzy, kde-format
 msgid "Guides Locked"
 msgstr "參照線區段"
 
-#: src/mainwindow.cpp:1798
+#: src/mainwindow.cpp:1808
 #, fuzzy, kde-format
 #| msgid "Show date"
 msgid "Lock guides"
 msgstr "顯示日期"
 
-#: src/mainwindow.cpp:1800
+#: src/mainwindow.cpp:1810
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9741,57 +9746,52 @@ msgid ""
 "or inserting/removing blank in tracks."
 msgstr ""
 
-#: src/mainwindow.cpp:1802
+#: src/mainwindow.cpp:1812
 #, kde-format
 msgid "Delete All Guides"
 msgstr "移除所有參照線"
 
-#: src/mainwindow.cpp:1804
+#: src/mainwindow.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add Subtitle"
 msgstr "添加參照線"
 
-#: src/mainwindow.cpp:1806
+#: src/mainwindow.cpp:1816
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Disable Subtitle"
 msgstr "移除參照線"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1817
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock Subtitle"
 msgstr "無字幕 / 標題"
 
-#: src/mainwindow.cpp:1809
+#: src/mainwindow.cpp:1819
 #, fuzzy, kde-format
 msgid "Import Subtitle File…"
 msgstr "匯入標記"
 
-#: src/mainwindow.cpp:1811
+#: src/mainwindow.cpp:1821
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export Subtitle File…"
 msgstr "添加參照線"
 
-#: src/mainwindow.cpp:1813 src/timeline2/model/timelinemodel.cpp:2004
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2004
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete Subtitle"
 msgstr "移除參照線"
 
-#: src/mainwindow.cpp:1814
+#: src/mainwindow.cpp:1824
 #, fuzzy, kde-format
 msgid "Speech Recognition…"
 msgstr "更多選項"
 
-#: src/mainwindow.cpp:1820
-#, fuzzy, kde-format
-msgid "Add Timeline Selection to Library"
-msgstr "儲存選擇區段到資料庫"
-
-#: src/mainwindow.cpp:1827
+#: src/mainwindow.cpp:1831
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9799,95 +9799,95 @@ msgid ""
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
 
-#: src/mainwindow.cpp:1857
+#: src/mainwindow.cpp:1861
 #, kde-format
 msgid "Copy Debug Information"
 msgstr ""
 
-#: src/mainwindow.cpp:1859
+#: src/mainwindow.cpp:1863
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "關閉所有特效"
 
-#: src/mainwindow.cpp:1865
+#: src/mainwindow.cpp:1869
 #, fuzzy, kde-format
 #| msgid "Toggle Track Target"
 msgid "Toggle Track Disabled"
 msgstr "切換軌道目標"
 
-#: src/mainwindow.cpp:1867
+#: src/mainwindow.cpp:1871
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "鎖定軌道"
 
-#: src/mainwindow.cpp:1869
+#: src/mainwindow.cpp:1873
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "鎖定全部軌道"
 
-#: src/mainwindow.cpp:1871
+#: src/mainwindow.cpp:1875
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "切換軌道目標"
 
-#: src/mainwindow.cpp:1873
+#: src/mainwindow.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Toggle Track Lock"
 msgid "Toggle Track Active"
 msgstr "鎖定軌道"
 
-#: src/mainwindow.cpp:1875
+#: src/mainwindow.cpp:1879
 #, fuzzy, kde-format
 #| msgid "Toggle Track Lock"
 msgid "Toggle All Tracks Active"
 msgstr "鎖定軌道"
 
-#: src/mainwindow.cpp:1877
+#: src/mainwindow.cpp:1881
 #, fuzzy, kde-format
 #| msgid "Toggle Track Lock"
 msgid "Switch All Tracks Active"
 msgstr "鎖定軌道"
 
-#: src/mainwindow.cpp:1879
+#: src/mainwindow.cpp:1883
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:1881
+#: src/mainwindow.cpp:1885
 #, fuzzy, kde-format
 #| msgid "Project Notes"
 msgid "Add Project Note"
 msgstr "專案備註"
 
-#: src/mainwindow.cpp:1887
+#: src/mainwindow.cpp:1891
 #, fuzzy, kde-format
 #| msgid "Split Audio"
 msgid "Select Audio Track %1"
 msgstr "分離聲訊"
 
-#: src/mainwindow.cpp:1891
+#: src/mainwindow.cpp:1895
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Select Video Track %1"
 msgstr "移除軌道"
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Select Target %1"
 msgstr "移除特效"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1917
 #, fuzzy, kde-format
 msgid "Extract Frame…"
 msgstr "截取畫面"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1920
 #, fuzzy, kde-format
 msgid "Extract Frame to Project…"
 msgstr "截取畫面"
 
-#: src/mainwindow.cpp:2039 src/mainwindow.cpp:2049
+#: src/mainwindow.cpp:2043 src/mainwindow.cpp:2053
 #, fuzzy, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -9895,7 +9895,7 @@ msgid ""
 msgstr ""
 "您已經修改了項目的檔案夾。您是否要將緩衝區資料從 %1 複製到新檔案夾 %2？"
 
-#: src/mainwindow.cpp:2107
+#: src/mainwindow.cpp:2111
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -9903,80 +9903,80 @@ msgid ""
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2115
+#: src/mainwindow.cpp:2119
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2124 src/project/projectmanager.cpp:428
+#: src/mainwindow.cpp:2128 src/project/projectmanager.cpp:428
 #, fuzzy, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "無法在已鎖定的軌道中使用調整工具"
 
-#: src/mainwindow.cpp:2129 src/project/projectmanager.cpp:434
+#: src/mainwindow.cpp:2133 src/project/projectmanager.cpp:434
 #, fuzzy, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "無法在已鎖定的軌道中使用調整工具"
 
-#: src/mainwindow.cpp:2274
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "這會從您的項目中移除所有沒用到的素材。"
 
-#: src/mainwindow.cpp:2274
+#: src/mainwindow.cpp:2278
 #, kde-format
 msgid "Clean up project"
 msgstr "清理本項目"
 
-#: src/mainwindow.cpp:2399 src/mainwindow.cpp:2427
+#: src/mainwindow.cpp:2403 src/mainwindow.cpp:2431
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Keyboard Schemes…"
 msgstr "下載新字幕/標題樣板..."
 
-#: src/mainwindow.cpp:2414
+#: src/mainwindow.cpp:2418
 #, fuzzy, kde-format
 #| msgid "Current clip"
 msgid "Current scheme:"
 msgstr "當前剪輯"
 
-#: src/mainwindow.cpp:2424
+#: src/mainwindow.cpp:2428
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "More Actions"
 msgstr "更多選項"
 
-#: src/mainwindow.cpp:2436
+#: src/mainwindow.cpp:2440
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "常規"
 
-#: src/mainwindow.cpp:2500
+#: src/mainwindow.cpp:2504
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2633 src/mainwindow.cpp:2660
+#: src/mainwindow.cpp:2637 src/mainwindow.cpp:2664
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "無法找到要移除記號的素材"
 
-#: src/mainwindow.cpp:2643 src/mainwindow.cpp:2689
+#: src/mainwindow.cpp:2647 src/mainwindow.cpp:2693
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "遊標時間上找不到記號"
 
-#: src/mainwindow.cpp:2665
+#: src/mainwindow.cpp:2669
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2682 src/timeline2/view/timelinecontroller.cpp:1167
+#: src/mainwindow.cpp:2686 src/timeline2/view/timelinecontroller.cpp:1167
 #: src/timeline2/view/timelinecontroller.cpp:1175
 #: src/timeline2/view/timelinecontroller.cpp:1196
 #: src/timeline2/view/timelinecontroller.cpp:1236
@@ -9986,24 +9986,24 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "無法找到要添加記號的素材"
 
-#: src/mainwindow.cpp:2877
+#: src/mainwindow.cpp:2881
 #, fuzzy, kde-format
 msgid "No clip selected in project bin"
 msgstr "沒有複製任何素材"
 
-#: src/mainwindow.cpp:3044
+#: src/mainwindow.cpp:3048
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to add effect"
 msgid "Select an item to add effect"
 msgstr "無法找到要添加特效的素材"
 
-#: src/mainwindow.cpp:3100
+#: src/mainwindow.cpp:3104
 #, fuzzy, kde-format
 #| msgid "Zoom Level: %1/13"
 msgid "Zoom Level: %1/%2"
 msgstr "縮放等級: %1/13"
 
-#: src/mainwindow.cpp:3241
+#: src/mainwindow.cpp:3245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10012,7 +10012,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3245
+#: src/mainwindow.cpp:3249
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10022,25 +10022,25 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3248
+#: src/mainwindow.cpp:3252
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Select"
 msgstr "選取"
 
-#: src/mainwindow.cpp:3250
+#: src/mainwindow.cpp:3254
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
-#: src/mainwindow.cpp:3251
+#: src/mainwindow.cpp:3255
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "分割工具"
 
-#: src/mainwindow.cpp:3255
+#: src/mainwindow.cpp:3259
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10048,13 +10048,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3256
+#: src/mainwindow.cpp:3260
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "空白空間"
 
-#: src/mainwindow.cpp:3258
+#: src/mainwindow.cpp:3262
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10062,14 +10062,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3259
+#: src/mainwindow.cpp:3263
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "移動工具"
 
-#: src/mainwindow.cpp:3264
+#: src/mainwindow.cpp:3268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10078,13 +10078,13 @@ msgid ""
 "pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3266
+#: src/mainwindow.cpp:3270
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr ""
 
-#: src/mainwindow.cpp:3272
+#: src/mainwindow.cpp:3276
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10092,111 +10092,111 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3284
+#: src/mainwindow.cpp:3288
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "插入"
 
-#: src/mainwindow.cpp:3287
+#: src/mainwindow.cpp:3291
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "改寫型態"
 
-#: src/mainwindow.cpp:3603
+#: src/mainwindow.cpp:3607
 #, fuzzy, kde-format
 msgid "Stabilize"
 msgstr "關閉素材"
 
-#: src/mainwindow.cpp:3608
+#: src/mainwindow.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Automatic scene split"
 msgid "Automatic Scene Split…"
 msgstr "自動場景分割"
 
-#: src/mainwindow.cpp:3613
+#: src/mainwindow.cpp:3617
 #, fuzzy, kde-format
 msgid "Duplicate Clip with Speed Change…"
 msgstr "無法找到要修改速度的素材"
 
-#: src/mainwindow.cpp:3629
+#: src/mainwindow.cpp:3633
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "轉換編碼"
 
-#: src/mainwindow.cpp:3674
+#: src/mainwindow.cpp:3678
 #, fuzzy, kde-format
 msgid "Interface"
 msgstr "交錯式"
 
-#: src/mainwindow.cpp:3690
+#: src/mainwindow.cpp:3694
 #, fuzzy, kde-format
 msgid "Raise %1"
 msgstr "關閉素材"
 
-#: src/mainwindow.cpp:3756
+#: src/mainwindow.cpp:3760
 #, fuzzy, kde-format
 #| msgid "Close after transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "轉換編碼後結束 Kdenlive"
 
-#: src/mainwindow.cpp:3904
+#: src/mainwindow.cpp:3908
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:3910
+#: src/mainwindow.cpp:3914
 #, fuzzy, kde-format
 msgid "Archiving project"
 msgstr "專案封存"
 
-#: src/mainwindow.cpp:4066
+#: src/mainwindow.cpp:4070
 #, fuzzy, kde-format
 msgid "Icon Size"
 msgstr "預覽視窗尺寸"
 
-#: src/mainwindow.cpp:4070
+#: src/mainwindow.cpp:4074
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "預設"
 
-#: src/mainwindow.cpp:4091 src/mainwindow.cpp:4119
+#: src/mainwindow.cpp:4095 src/mainwindow.cpp:4123
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4093 src/mainwindow.cpp:4121
+#: src/mainwindow.cpp:4097 src/mainwindow.cpp:4125
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4095 src/mainwindow.cpp:4123
+#: src/mainwindow.cpp:4099 src/mainwindow.cpp:4127
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4097 src/mainwindow.cpp:4125
+#: src/mainwindow.cpp:4101 src/mainwindow.cpp:4129
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4182
+#: src/mainwindow.cpp:4186
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4182
+#: src/mainwindow.cpp:4186
 #, fuzzy, kde-format
 msgid "Hide menu bar"
 msgstr "隱藏幀"
 
-#: src/mainwindow.cpp:4197
+#: src/mainwindow.cpp:4201
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive needs to be restarted to apply icon theme change. Restart now ?"
@@ -10204,19 +10204,19 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive需要重新啟動套用主題圖示.現在重新啟動?"
 
-#: src/mainwindow.cpp:4391 src/timeline2/view/timelinecontroller.cpp:5013
+#: src/mainwindow.cpp:4395 src/timeline2/view/timelinecontroller.cpp:5013
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "遊標時間上沒有參照線"
 
-#: src/mainwindow.cpp:4478
+#: src/mainwindow.cpp:4482
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
 msgstr "專案素材庫"
 
-#: src/mainwindow.cpp:4579
+#: src/mainwindow.cpp:4583
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -13753,65 +13753,65 @@ msgstr "關鍵影格與素材同步"
 #: src/timeline2/model/timelinefunctions.cpp:1803
 #: src/timeline2/model/timelinefunctions.cpp:1834
 #: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:2024
+#: src/timeline2/model/timelinefunctions.cpp:2029
 #, fuzzy, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "關鍵影格與素材同步"
 
-#: src/timeline2/model/timelinefunctions.cpp:1890
-#: src/timeline2/model/timelinefunctions.cpp:1904
-#: src/timeline2/model/timelinefunctions.cpp:1932
-#: src/timeline2/model/timelinefunctions.cpp:1937
+#: src/timeline2/model/timelinefunctions.cpp:1891
+#: src/timeline2/model/timelinefunctions.cpp:1905
+#: src/timeline2/model/timelinefunctions.cpp:1933
+#: src/timeline2/model/timelinefunctions.cpp:1938
 #, fuzzy, kde-format
 msgid "Pasted clips"
 msgstr "素材播放清單"
 
-#: src/timeline2/model/timelinefunctions.cpp:1923
+#: src/timeline2/model/timelinefunctions.cpp:1924
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1925
+#: src/timeline2/model/timelinefunctions.cpp:1926
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1925
+#: src/timeline2/model/timelinefunctions.cpp:1926
 #, fuzzy, kde-format
 msgid "Paste"
 msgstr "素材播放清單"
 
-#: src/timeline2/model/timelinefunctions.cpp:1967
+#: src/timeline2/model/timelinefunctions.cpp:1968
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "添加素材"
 
-#: src/timeline2/model/timelinefunctions.cpp:2016
+#: src/timeline2/model/timelinefunctions.cpp:2021
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2047
-#: src/timeline2/model/timelinefunctions.cpp:2168
+#: src/timeline2/model/timelinefunctions.cpp:2052
+#: src/timeline2/model/timelinefunctions.cpp:2173
 #, fuzzy, kde-format
 msgid "Could not paste items in timeline"
 msgstr "以時間軸更新數值"
 
-#: src/timeline2/model/timelinefunctions.cpp:2188
+#: src/timeline2/model/timelinefunctions.cpp:2193
 #, fuzzy, kde-format
 msgid "Paste timeline clips"
 msgstr "素材播放清單"
 
-#: src/timeline2/model/timelinefunctions.cpp:2404
+#: src/timeline2/model/timelinefunctions.cpp:2409
 #, fuzzy, kde-format
 msgid "Remove space on track"
 msgstr "移除空白空間"
 
-#: src/timeline2/model/timelinefunctions.cpp:2431
+#: src/timeline2/model/timelinefunctions.cpp:2436
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"
