@@ -104,6 +104,8 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories)
         pCore->markerTypes.insert(ix, {color, name});
     }
     emit categoriesChanged();
+    // Trigger a refresh of all markers
+    emit dataChanged(index(0), index(m_markerList.size() - 1), {{ColorRole}});
     return previousCategories;
 }
 
