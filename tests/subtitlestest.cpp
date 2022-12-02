@@ -20,9 +20,9 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -44,13 +44,12 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
     pCore->m_projectManager->m_project = &mockedDoc;
-    pCore->m_projectManager->m_project->m_guideModel = guideModel;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_subs, undoStack);
+    TimelineItemModel tim(uuid, &profile_subs, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     // Initialize subtitle model
     std::shared_ptr<SubtitleModel> subtitleModel(new SubtitleModel(timeline->tractor(), timeline));

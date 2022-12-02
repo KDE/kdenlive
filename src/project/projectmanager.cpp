@@ -246,10 +246,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     ThumbnailCache::get()->clearCache();
     pCore->bin()->setDocument(doc);
     m_project = doc;
-    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     updateTimeline(0, QString(), QString(), QDateTime(), 0);
     pCore->window()->connectDocument();
     pCore->mixer()->setModel(m_mainTimelineModel);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
@@ -266,6 +266,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline)
 {
     m_project = doc;
+    m_project->addTimeline(doc->uuid(), timeline);
     m_mainTimelineModel = timeline;
 }
 
@@ -710,7 +711,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
-    m_project->loadDocumentGuides();
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
 
     if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), m_project->getDocumentProperty(QStringLiteral("previewchunks")),
@@ -1059,8 +1059,10 @@ bool ProjectManager::updateTimeline(int pos, const QString &chunks, const QStrin
         requestBackup(i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
         return false;
     }
-    m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
+    QUuid uuid = m_project->uuid();
+    m_mainTimelineModel = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
     // Add snap point at project start
+    m_project->addTimeline(uuid, m_mainTimelineModel);
     m_mainTimelineModel->addSnap(0);
     if (pCore->window()) {
         pCore->window()->getCurrentTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());

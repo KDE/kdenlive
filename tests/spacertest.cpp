@@ -20,7 +20,6 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -33,10 +32,11 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_spacer, undoStack);
+    QUuid uuid = QUuid::createUuid();
+    TimelineItemModel tim(uuid, &profile_spacer, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     // Create a basic timeline
     int tid1, tid2, tid3;

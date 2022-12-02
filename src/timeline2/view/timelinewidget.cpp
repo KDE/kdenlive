@@ -166,7 +166,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("proxy", proxy);
     // Create a unique id for this timeline to prevent thumbnails
     // leaking from one project to another because of qml's image caching
-    rootContext()->setContextProperty("documentId", pCore->currentDoc()->uuid);
+    rootContext()->setContextProperty("documentId", model->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("guidesModel", pCore->currentDoc()->getFilteredGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));

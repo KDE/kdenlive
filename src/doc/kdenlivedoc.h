@@ -104,7 +104,6 @@ public:
     int width() const;
     int height() const;
     QUrl url() const;
-    QUuid uuid;
     KAutoSaveFile *m_autosave;
     /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
     bool m_sameProjectFolder;
@@ -194,9 +193,9 @@ public:
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
 
-    /** @brief Returns a pointer to the guide model */
-    std::shared_ptr<MarkerListModel> getGuideModel() const;
-    std::shared_ptr<MarkerSortModel> getFilteredGuideModel() const;
+    /** @brief Returns a pointer to the guide model of timeline uuid */
+    std::shared_ptr<MarkerListModel> getGuideModel(QUuid uuid = QUuid()) const;
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(QUuid uuid = QUuid());
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -219,8 +218,6 @@ public:
     const QStringList guidesCategories();
     /** @brief Set the guides categories for the project in format {name:index:#color} */
     void updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories = {});
-    /** @brief Setup a filter to visible guides */
-    void setGuidesFilter(const QList<int> filter);
 
     /**
      * If the document used a decimal point different than “.”, it is stored in this property.
@@ -243,8 +240,13 @@ public:
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
     void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
-    /** @brief Returns the dafult definition  for guide categories.*/
+    /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
+    void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Returns the number of timelines in this project.*/
+    int timelineCount() const;
+    /** @brief Returns the project's main uuid .*/
+    const QUuid uuid() const;
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
@@ -255,6 +257,7 @@ private:
      *  @param newDocument true if we are creating a new document, false when opening an existing one
      */
     void initializeProperties(bool newDocument = true);
+    QUuid m_uuid;
     QDomDocument m_document;
     int m_clipsCount;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */
@@ -283,11 +286,12 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
-    std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
-    std::shared_ptr<MarkerListModel> m_guideModel;
+    QUuid m_filteredTimelineUuid;
     std::weak_ptr<SubtitleModel> m_subtitleModel;
 
     QString m_modifiedDecimalPoint;
+    /** @brief A list of guide models for this project (one for each timeline). */
+    QMap<QUuid, std::shared_ptr<TimelineItemModel>> m_timelines;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
@@ -332,7 +336,7 @@ private slots:
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
-    void guidesChanged();
+    void guidesChanged(const QUuid &uuid);
     /** @brief Display error message on failed move. */
     void slotMoveFinished(KJob *job);
     /** @brief Save the project guide categories in the document properties. */

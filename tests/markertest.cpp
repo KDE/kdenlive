@@ -6,11 +6,14 @@
 #include "test_utils.hpp"
 
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #define private public
 #define protected public
 #include "bin/model/markerlistmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"
+
+Mlt::Profile profile_marker;
 
 using Marker = std::tuple<GenTime, QString, int>;
 double fps;
@@ -68,22 +71,27 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     fps = pCore->getCurrentFps();
     GenTime::setFps(fps);
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-
-    std::shared_ptr<MarkerListModel> model = std::make_shared<MarkerListModel>(undoStack, nullptr);
-
-    std::shared_ptr<SnapModel> snaps = std::make_shared<SnapModel>();
-    model->registerSnapModel(snaps);
-
-    // Here we do some trickery to enable testing.
-    // We mock the project class so that the getGuideModel function returns this model
-
+    KdenliveDoc document(nullptr);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
-    When(Method(pmMock, getGuideModel)).AlwaysReturn(model);
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(mockedDoc.uuid(), &profile_marker, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline);
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
+
+    std::shared_ptr<MarkerListModel> model = mockedDoc.getGuideModel();
+    std::shared_ptr<SnapModel> snaps = std::make_shared<SnapModel>();
+    model->registerSnapModel(snaps);
 
     SECTION("Basic Manipulation")
     {
@@ -181,8 +189,8 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         REQUIRE(model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0));
 
         QStringList categories = model->categoriesToStringList();
-        // We instanciated 5 marker categories in TestMain
-        Q_ASSERT(categories.count() == 5);
+        // We have 9 marker categories by default
+        Q_ASSERT(categories.count() == 9);
 
         QStringList newCategories = categories;
         newCategories.removeFirst();

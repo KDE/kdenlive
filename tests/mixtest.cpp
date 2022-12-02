@@ -28,9 +28,8 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
     // Create timeline
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
-
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
 
@@ -42,10 +41,10 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_mix, undoStack);
+    TimelineItemModel tim(uuid, &profile_mix, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     // Create a request
     int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);

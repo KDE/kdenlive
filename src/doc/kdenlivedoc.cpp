@@ -25,9 +25,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clipcontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "titler/titlewidget.h"
 #include "transitions/transitionsrepository.hpp"
-
 #include <config-kdenlive.h>
 
 #include "utils/KMessageBox_KdenliveCompat.h"
@@ -62,30 +62,21 @@ const double DOCUMENTVERSION = 1.04;
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, MainWindow *parent)
     : QObject(parent)
-    , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
+    , m_uuid(QUuid::createUuid())
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
     , m_url(QUrl())
     , m_projectFolder(std::move(projectFolder))
-    , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
-    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
-    connect(m_guideModel.get(), &MarkerListModel::categoriesChanged, this, &KdenliveDoc::saveGuideCategories);
-
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
-
-    m_guidesFilterModel.reset(new MarkerSortModel(this));
-    m_guidesFilterModel->setSourceModel(m_guideModel.get());
-    m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
-    m_guidesFilterModel->sort(0, Qt::AscendingOrder);
 
     initializeProperties();
     // video tracks are after audio tracks, and the UI shows them from highest position to lowest position
@@ -112,7 +103,6 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
         j.next();
         m_documentMetadata[j.key()] = j.value();
     }
-    m_guideModel->loadCategories(KdenliveSettings::guidesCategories());
     pCore->setCurrentProfile(profileName);
     m_document = createEmptyDocument(tracks.first, tracks.second);
     updateProjectProfile(false);
@@ -120,10 +110,10 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     initCacheDirs();
 }
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
+KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent)
     : QObject(parent)
-    , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
+    , m_uuid(QUuid::createUuid())
     , m_document(newDom)
     , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
@@ -131,10 +121,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     , m_documentOpenStatus(CleanProject)
     , m_url(url)
     , m_projectFolder(std::move(projectFolder))
-    , m_guideModel(new MarkerListModel(m_commandStack, this))
 {
-    connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
-    connect(m_guideModel.get(), &MarkerListModel::categoriesChanged, this, &KdenliveDoc::saveGuideCategories);
     if (parent) {
         connect(this, &KdenliveDoc::updateCompositionMode, parent, &MainWindow::slotUpdateCompositeAction);
     }
@@ -142,18 +129,13 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectF
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
 
     initializeProperties(false);
-    m_guidesFilterModel.reset(new MarkerSortModel(this));
-    m_guidesFilterModel->setSourceModel(m_guideModel.get());
-    m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
-    m_guidesFilterModel->sort(0, Qt::AscendingOrder);
-
     updateClipsCount();
 }
 
 KdenliveDoc::KdenliveDoc(MainWindow *parent)
     : QObject(parent)
-    , uuid(QUuid::createUuid())
     , m_autosave(nullptr)
+    , m_uuid(QUuid::createUuid())
     , m_clipsCount(0)
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
@@ -330,8 +312,7 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
-    // Clean up guide model
-    m_guideModel.reset();
+    m_timelines.clear();
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
     if (m_autosave) {
         if (!m_autosave->fileName().isEmpty()) {
@@ -365,9 +346,9 @@ void KdenliveDoc::initializeProperties(bool newDocument)
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
     m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
-    if (newDocument) {
+    if (newDocument && m_timelines.contains(m_uuid)) {
         // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
-        m_documentProperties[QStringLiteral("guidesCategories")] = m_guideModel->categoriesListToJSon(KdenliveSettings::guidesCategories());
+        m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(m_uuid)->categoriesListToJSon(KdenliveSettings::guidesCategories());
     }
 }
 
@@ -375,15 +356,15 @@ const QStringList KdenliveDoc::guidesCategories()
 {
     if (!m_documentProperties.contains(QStringLiteral("guidesCategories")) || m_documentProperties.value(QStringLiteral("guidesCategories")).isEmpty()) {
         const QStringList defaultCategories = getDefaultGuideCategories();
-        m_documentProperties[QStringLiteral("guidesCategories")] = m_guideModel->categoriesListToJSon(defaultCategories);
+        m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(m_uuid)->categoriesListToJSon(defaultCategories);
         return defaultCategories;
     }
-    return m_guideModel->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
+    return getGuideModel(m_uuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
 }
 
 void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories)
 {
-    const QStringList currentCategories = m_guideModel->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
+    const QStringList currentCategories = getGuideModel(m_uuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
     // Check if a guide category was removed
     QList<int> currentIndexes;
     QList<int> updatedIndexes;
@@ -400,12 +381,12 @@ void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMa
         // A marker category was removed, delete all Bin clip markers using it
         pCore->bin()->removeMarkerCategories(currentIndexes, remapCategories);
     }
-    m_guideModel->loadCategoriesWithUndo(categories, currentCategories, remapCategories);
+    getGuideModel(m_uuid)->loadCategoriesWithUndo(categories, currentCategories, remapCategories);
 }
 
 void KdenliveDoc::saveGuideCategories()
 {
-    const QString categories = m_guideModel->categoriesToJSon();
+    const QString categories = getGuideModel(m_uuid)->categoriesToJSon();
     m_documentProperties[QStringLiteral("guidesCategories")] = categories;
 }
 
@@ -1469,7 +1450,7 @@ void KdenliveDoc::loadDocumentGuides()
 {
     QString guides = m_documentProperties.value(QStringLiteral("guides"));
     if (!guides.isEmpty()) {
-        m_guideModel->importFromJson(guides, true, false);
+        getGuideModel(m_uuid)->importFromJson(guides, true, false);
     }
 }
 
@@ -1551,7 +1532,6 @@ void KdenliveDoc::loadDocumentProperties()
     if (!profileFound) {
         qDebug() << "ERROR, no matching profile found";
     }
-    m_guideModel->loadCategories(guidesCategories());
     updateProjectProfile(false);
 }
 
@@ -1894,19 +1874,45 @@ QStringList KdenliveDoc::getProxyHashList()
     return pCore->bin()->getProxyHashList();
 }
 
-std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel() const
+void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
 {
-    return m_guidesFilterModel;
+    m_timelines.insert(uuid, model);
+    connect(model.get(), &TimelineModel::guidesChanged, this, &KdenliveDoc::guidesChanged);
+    connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
+    model->getGuideModel()->loadCategories(guidesCategories());
+    loadDocumentGuides();
 }
 
-std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel() const
+std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel(QUuid uuid)
 {
-    return m_guideModel;
+    if (uuid.isNull()) {
+        uuid = m_uuid;
+    }
+    Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
+    return m_timelines.value(uuid)->getFilteredGuideModel();
 }
 
-void KdenliveDoc::guidesChanged()
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(QUuid uuid) const
 {
-    m_documentProperties[QStringLiteral("guides")] = m_guideModel->toJson();
+    if (uuid.isNull()) {
+        uuid = m_uuid;
+    }
+    Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
+    return m_timelines.value(uuid)->getGuideModel();
+}
+
+int KdenliveDoc::timelineCount() const
+{
+    return m_timelines.size();
+}
+
+void KdenliveDoc::guidesChanged(const QUuid &uuid)
+{
+    if (uuid.isNull() || uuid == m_uuid) {
+        m_documentProperties[QStringLiteral("guides")] = getGuideModel(m_uuid)->toJson();
+    } else {
+        m_documentProperties[QStringLiteral("guides.%1").arg(uuid.toString())] = getGuideModel(uuid)->toJson();
+    }
 }
 
 void KdenliveDoc::groupsChanged(const QString &groups)
@@ -2092,11 +2098,6 @@ void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
     }
 }
 
-void KdenliveDoc::setGuidesFilter(const QList<int> filter)
-{
-    m_guidesFilterModel->slotSetFilters(filter);
-}
-
 // static
 const QStringList KdenliveDoc::getDefaultGuideCategories()
 {
@@ -2108,4 +2109,9 @@ const QStringList KdenliveDoc::getDefaultGuideCategories()
         guidesCategories << i18n("Category %1:%2:%3", QString::number(i + 1), QString::number(i), colors.at(i));
     }
     return guidesCategories;
+}
+
+const QUuid KdenliveDoc::uuid() const
+{
+    return m_uuid;
 }

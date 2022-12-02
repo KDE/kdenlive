@@ -5,6 +5,8 @@
 
 #include "timelinemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/model/markerlistmodel.hpp"
+#include "bin/model/markersortmodel.h"
 #include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
@@ -17,14 +19,10 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
-#include "snapmodel.hpp"
-#include "timelinefunctions.hpp"
-// TODO
-//#include "mainwindow.h"
-//#include "timeline2/view/timelinewidget.h"
-//#include "timeline2/view/timelinecontroller.h"
 #include "profiles/profilemodel.hpp"
+#include "snapmodel.hpp"
 #include "timeline2/model/timelinefunctions.hpp"
+#include "timelinefunctions.hpp"
 
 #include "monitor/monitormanager.h"
 
@@ -108,9 +106,10 @@ RTTR_REGISTRATION
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 
-TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
+TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
     , m_blockRefresh(false)
+    , m_uuid(uuid)
     , m_tractor(new Mlt::Tractor(*profile))
     , m_masterStack(nullptr)
     , m_snaps(new SnapModel())
@@ -124,7 +123,16 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_videoTarget(-1)
     , m_editMode(TimelineMode::NormalEdit)
     , m_closing(false)
+    , m_guidesModel(new MarkerListModel(m_undoStack, this))
 {
+    connect(m_guidesModel.get(), &MarkerListModel::modelChanged, this, [this]() { emit guidesChanged(m_uuid); });
+    connect(m_guidesModel.get(), &MarkerListModel::categoriesChanged, this, &TimelineModel::saveGuideCategories);
+    m_guidesFilterModel.reset(new MarkerSortModel(this));
+    m_guidesFilterModel->setSourceModel(m_guidesModel.get());
+    m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
+    m_guidesFilterModel->sort(0, Qt::AscendingOrder);
+    m_guidesModel->loadCategories(KdenliveSettings::guidesCategories());
+
     // Create black background track
     m_blackClip->set("id", "black_track");
     m_blackClip->set("mlt_type", "producer");
@@ -6709,10 +6717,20 @@ QByteArray TimelineModel::timelineHash()
         fileData.append(compoData.toLatin1());
     }
     // Guides
-    QString guidesData = pCore->currentDoc()->getGuideModel()->toJson();
+    QString guidesData = m_guidesModel->toJson();
     fileData.append(guidesData.toUtf8().constData());
     QByteArray fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
     return fileHash;
+}
+
+std::shared_ptr<MarkerListModel> TimelineModel::getGuideModel()
+{
+    return m_guidesModel;
+}
+
+std::shared_ptr<MarkerSortModel> TimelineModel::getFilteredGuideModel()
+{
+    return m_guidesFilterModel;
 }
 
 bool TimelineModel::trackIsLocked(int trackId) const
@@ -6722,4 +6740,9 @@ bool TimelineModel::trackIsLocked(int trackId) const
         return m_subtitleModel->isLocked();
     }
     return getTrackById_const(trackId)->isLocked();
+}
+
+const QUuid TimelineModel::uuid() const
+{
+    return m_uuid;
 }

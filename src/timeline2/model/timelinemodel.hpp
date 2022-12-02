@@ -10,6 +10,7 @@
 #include "undohelper.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
+#include <QUuid>
 #include <cassert>
 #include <memory>
 #include <mlt++/MltTractor.h>
@@ -28,6 +29,8 @@ class SubtitleModel;
 class TimelineItemModel;
 class TrackModel;
 class ProfileModel;
+class MarkerListModel;
+class MarkerSortModel;
 
 /** @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -85,7 +88,7 @@ class TimelineModel : public QAbstractItemModel_shared_from_this<TimelineModel>
 protected:
     /** @brief this constructor should not be called. Call the static construct instead
      */
-    TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
+    TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
     friend class TrackModel;
@@ -470,6 +473,9 @@ public:
     /**  @brief Lock or unlock a track
      */
     void lockTrack(int trackId, bool lock);
+    /**  @brief Returns this timeline's uuid
+     */
+    const QUuid uuid() const;
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -824,6 +830,9 @@ public:
     int getClipEndAt(int tid, int pos, int playlist) const;
     /** @brief returns true if the track trackId is Locked */
     bool trackIsLocked(int trackid) const;
+    /** @brief returns this timeline's guide model */
+    std::shared_ptr<MarkerListModel> getGuideModel();
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
 
 protected:
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -933,8 +942,13 @@ signals:
     void checkItemDeletion(int cid);
     /** @brief request animation of the track tid lock icon */
     void flashLock(int tid);
+    /** @brief Guides changed, save in document properties */
+    void guidesChanged(const QUuid &uuid);
+    /** @brief Save guide categories in document properties */
+    void saveGuideCategories();
 
 protected:
+    QUuid m_uuid;
     std::unique_ptr<Mlt::Tractor> m_tractor;
     std::shared_ptr<EffectStackModel> m_masterStack;
     std::shared_ptr<Mlt::Service> m_masterService;
@@ -989,6 +1003,8 @@ protected:
     /// Timeline editing mode
     TimelineMode::EditMode m_editMode;
     bool m_closing;
+    std::shared_ptr<MarkerListModel> m_guidesModel;
+    std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:

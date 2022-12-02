@@ -414,8 +414,8 @@ void GuidesList::updateFilter(QList<int> categories)
     if (m_markerMode) {
         m_clip->getFilteredMarkerModel()->slotSetFilters(categories);
         m_lastSelectedMarkerCategories = categories;
-    } else {
-        pCore->currentDoc()->setGuidesFilter(categories);
+    } else if (m_sortModel) {
+        m_sortModel->slotSetFilters(categories);
         m_lastSelectedGuideCategories = categories;
         emit pCore->refreshActiveGuides();
     }

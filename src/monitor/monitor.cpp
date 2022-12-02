@@ -745,7 +745,7 @@ void Monitor::updateMarkers()
 
 void Monitor::updateDocumentUuid()
 {
-    m_glMonitor->rootObject()->setProperty("documentId", pCore->currentDoc()->uuid);
+    m_glMonitor->rootObject()->setProperty("documentId", pCore->currentDoc()->uuid());
 }
 
 void Monitor::slotSeekToPreviousSnap()
@@ -1723,7 +1723,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
             m_glMonitor->rootObject()->setProperty("baseThumbPath",
-                                                   QString("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid.toString()));
+                                                   QString("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
         } else {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }

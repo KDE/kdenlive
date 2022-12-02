@@ -25,8 +25,8 @@ TEST_CASE("Cache insert-remove", "[Cache]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -39,10 +39,10 @@ TEST_CASE("Cache insert-remove", "[Cache]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_cache, undoStack);
+    TimelineItemModel tim(uuid, &profile_cache, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     // Create bin clip
     QString binId = createProducer(profile_cache, "red", binModel, 20, false);
@@ -63,8 +63,8 @@ TEST_CASE("Cache insert-remove", "[Cache]")
 TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     // Create timeline
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -76,10 +76,10 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&profile_cache, undoStack);
+    TimelineItemModel tim(uuid, &profile_cache, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     // Create bin clip
     QString binId = createProducer(profile_cache, "red", binModel, 20, false);

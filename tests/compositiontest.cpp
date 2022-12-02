@@ -36,8 +36,8 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(mlt_transition->is_valid());
 
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(undoStack));
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(&profile_composition, guideModel, undoStack);
+    QUuid uuid = QUuid::createUuid();
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, &profile_composition, undoStack);
 
     REQUIRE(timeline->getCompositionsCount() == 0);
     int id1 = CompositionModel::construct(timeline, aCompo, QString());
@@ -61,8 +61,8 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
 TEST_CASE("Composition manipulation", "[CompositionModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel(new MarkerListModel(undoStack));
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(&profile_composition, guideModel, undoStack);
+    QUuid uuid = QUuid::createUuid();
+    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, &profile_composition, undoStack);
 
     QString aCompo = getACompo();
 

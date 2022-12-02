@@ -23,7 +23,6 @@ TEST_CASE("Save File", "[SF]")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
 
@@ -46,16 +45,14 @@ TEST_CASE("Save File", "[SF]")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline, guideModel);
+        TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
         std::unordered_map<QString, QString> binIdCorresp;
@@ -127,13 +124,12 @@ TEST_CASE("Save File", "[SF]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline, guideModel);
+        TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
         RESET(timMock)
@@ -196,13 +192,12 @@ TEST_CASE("Save File", "[SF]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline, guideModel);
+        TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
         RESET(timMock)
@@ -257,9 +252,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     // be checked for.
 
     const QString emojiTestString = QString::fromUtf8("test\xF0\x9F\x8D\x99test");
-
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     QTemporaryFile saveFile(QDir::temp().filePath("kdenlive_test_XXXXXX.kdenlive"));
     qDebug() << "Choosing temp file with template" << (QDir::temp().filePath("kdenlive_test_XXXXXX.kdenlive"));
@@ -288,13 +281,12 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        mockedDoc.m_guideModel = guideModel;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline, guideModel);
+        TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
         std::unordered_map<QString, QString> binIdCorresp;
@@ -388,14 +380,13 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        mockedDoc.m_guideModel = guideModel;
         pCore->setCurrentProfile("atsc_1080p_25");
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(&profile_file, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
         Mock<TimelineItemModel> timMock(tim);
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline, guideModel);
+        TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
         std::unordered_map<QString, QString> binIdCorresp;
@@ -446,7 +437,6 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
     const QString emojiTestString = QString::fromUtf8("test\xF0\x9F\x8D\x99test");
 
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     SECTION("Load file with a mix")
     {
@@ -469,14 +459,8 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
         When(Method(pmMock, current)).AlwaysReturn(openedDoc.get());
-        /*TimelineItemModel tim(&profile_file, undoStack);
-        Mock<TimelineItemModel> timMock(tim);
-        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline, guideModel);
-        mocked.testSetActiveDocument(openedDoc.get(), timeline);*/
         pCore->m_projectManager = &mocked;
         pCore->m_projectManager->m_project = openedDoc.get();
-        pCore->m_projectManager->m_project->m_guideModel = guideModel;
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->m_projectManager->updateTimeline(0, QString(), QString(), documentDate, 0);
 

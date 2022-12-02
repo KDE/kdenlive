@@ -9,9 +9,9 @@ Mlt::Profile reg_profile;
 TEST_CASE("Regression")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -24,10 +24,10 @@ TEST_CASE("Regression")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&reg_profile, undoStack);
+    TimelineItemModel tim(uuid, &reg_profile, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     RESET(timMock);
     TimelineModel::next_id = 0;
@@ -75,9 +75,9 @@ TEST_CASE("Regression")
 TEST_CASE("Regression2")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -90,10 +90,10 @@ TEST_CASE("Regression2")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(&reg_profile, undoStack);
+    TimelineItemModel tim(uuid, &reg_profile, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline, guideModel);
+    TimelineItemModel::finishConstruct(timeline);
 
     RESET(timMock);
     TimelineModel::next_id = 0;
@@ -426,8 +426,8 @@ TEST_CASE("Regression 4")
 TEST_CASE("FuzzBug1")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -435,10 +435,10 @@ TEST_CASE("FuzzBug1")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -567,9 +567,9 @@ TEST_CASE("FuzzBug1")
 TEST_CASE("FuzzBug2")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -577,10 +577,10 @@ TEST_CASE("FuzzBug2")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -651,9 +651,9 @@ TEST_CASE("FuzzBug2")
 TEST_CASE("FuzzBug3")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -661,10 +661,10 @@ TEST_CASE("FuzzBug3")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
 
         createProducerWithSound(reg_profile, binModel);
@@ -701,9 +701,9 @@ TEST_CASE("FuzzBug3")
 TEST_CASE("FuzzBug4")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -711,10 +711,10 @@ TEST_CASE("FuzzBug4")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -777,9 +777,9 @@ TEST_CASE("FuzzBug4")
 TEST_CASE("FuzzBug5")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -787,10 +787,10 @@ TEST_CASE("FuzzBug5")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -803,10 +803,11 @@ TEST_CASE("FuzzBug5")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        TimelineItemModel tim_1(&reg_profile, undoStack);
+        QUuid uuid2 = QUuid::createUuid();
+        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_1, guideModel);
+        TimelineItemModel::finishConstruct(timeline_1);
         Fake(Method(timMock_1, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
@@ -922,9 +923,9 @@ TEST_CASE("FuzzBug5")
 TEST_CASE("FuzzBug6")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -932,10 +933,10 @@ TEST_CASE("FuzzBug6")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -948,10 +949,11 @@ TEST_CASE("FuzzBug6")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        TimelineItemModel tim_1(&reg_profile, undoStack);
+        QUuid uuid2 = QUuid::createUuid();
+        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_1, guideModel);
+        TimelineItemModel::finishConstruct(timeline_1);
         Fake(Method(timMock_1, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
@@ -991,9 +993,9 @@ TEST_CASE("FuzzBug6")
 TEST_CASE("FuzzBug7")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -1001,10 +1003,10 @@ TEST_CASE("FuzzBug7")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1017,10 +1019,11 @@ TEST_CASE("FuzzBug7")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        TimelineItemModel tim_1(&reg_profile, undoStack);
+        QUuid uuid2 = QUuid::createUuid();
+        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_1, guideModel);
+        TimelineItemModel::finishConstruct(timeline_1);
         Fake(Method(timMock_1, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
@@ -1110,9 +1113,9 @@ TEST_CASE("FuzzBug7")
 TEST_CASE("FuzzBug8")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -1120,10 +1123,10 @@ TEST_CASE("FuzzBug8")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1173,9 +1176,9 @@ TEST_CASE("FuzzBug8")
 TEST_CASE("FuzzBug9")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -1183,10 +1186,10 @@ TEST_CASE("FuzzBug9")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1227,9 +1230,9 @@ TEST_CASE("FuzzBug9")
 TEST_CASE("FuzzBug10")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -1237,10 +1240,10 @@ TEST_CASE("FuzzBug10")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1275,9 +1278,9 @@ TEST_CASE("FuzzBug10")
 TEST_CASE("FuzzBug11")
 {
     auto binModel = pCore->projectItemModel();
+    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
@@ -1285,10 +1288,10 @@ TEST_CASE("FuzzBug11")
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        TimelineItemModel tim_0(&reg_profile, undoStack);
+        TimelineItemModel tim_0(uuid, &reg_profile, undoStack);
         Mock<TimelineItemModel> timMock_0(tim_0);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        TimelineItemModel::finishConstruct(timeline_0);
         Fake(Method(timMock_0, adjustAssetRange));
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
