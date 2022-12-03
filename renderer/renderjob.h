@@ -45,7 +45,6 @@ private:
     QString m_dest;
     int m_progress;
     QString m_prog;
-    QString m_player;
 #ifdef NODBUS
     QLocalSocket* m_kdenlivesocket;
 #else

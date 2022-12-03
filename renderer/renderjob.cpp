@@ -34,7 +34,6 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_dest(target)
     , m_progress(0)
     , m_prog(render)
-    , m_player()
 #ifndef NODBUS
     , m_jobUiserver(nullptr)
     , m_kdenliveinterface(nullptr)
@@ -346,17 +345,6 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
     } else {
         m_logstream << "Rendering of " << m_dest << " finished"
                     << "\n";
-        /*
-            // Deprecated, we now play the rendering from Kdenlive's main application
-            if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
-            QStringList args = m_player.split(QLatin1Char(' '));
-            QString exec = args.takeFirst();
-            // Decode url
-            QString url = QUrl::fromEncoded(args.takeLast().toUtf8()).toLocalFile();
-            args << url;
-            QProcess::startDetached(exec, args);
-            }*/
-
         m_logstream.flush();
         if (m_dualpass) {
             deleteLater();
