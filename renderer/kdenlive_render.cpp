@@ -196,21 +196,14 @@ int main(int argc, char **argv)
         }
         QString subtitleFile = parser.value(subtitleOption);
 
-        // older MLT version, does not support embedded consumer in/out in xml, and current
-        // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
         LocaleHandling::resetAllLocale();
-        QFile f(playlist);
+        /*QFile f(playlist);
         QDomDocument doc;
         doc.setContent(&f, false);
         f.close();
         QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
         if (!consumer.isNull()) {
-            if (consumer.hasAttribute(QLatin1String("s")) || consumer.hasAttribute(QLatin1String("r"))) {
-                // Workaround MLT embedded consumer resize (MLT issue #453)
-                playlist.prepend(QStringLiteral("xml:"));
-                playlist.append(QStringLiteral("?multi=1"));
-            }
-        }
+        }*/
         int in = -1;
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
