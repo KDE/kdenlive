@@ -110,10 +110,11 @@ void RenderJob::sendFinish(int status, const QString &error)
         method["setRenderingFinished"] = args;
         m_kdenlivesocket->write(QJsonDocument(method).toJson());
         m_kdenlivesocket->flush();
-    } else {
-        qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
     }
 #endif
+    else {
+        qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
+    }
 }
 
 void RenderJob::slotAbort()
@@ -194,11 +195,12 @@ void RenderJob::updateProgress(int speed)
         method["setRenderingProgress"] = args;
         m_kdenlivesocket->write(QJsonDocument(method).toJson());
         m_kdenlivesocket->flush();
-    } else {
+    }
+#endif
+    else {
         qDebug() << "Progress:" << m_progress << "%,"
                  << "frame" << m_frame;
     }
-#endif
     m_logstream << QStringLiteral("%1\t%2\t%3\n").arg(m_seconds).arg(m_frame).arg(m_progress);
 }
 
