@@ -159,12 +159,6 @@ int main(int argc, char **argv)
         QCommandLineOption pidOption("pid", "Process ID to send back progress.", "pid");
         parser.addOption(pidOption);
 
-        QCommandLineOption inOption("in", "Start rendering at frame pos", "frame");
-        parser.addOption(inOption);
-
-        QCommandLineOption outOption("out", "End rendering at frame pos.", "frame");
-        parser.addOption(outOption);
-
         QCommandLineOption subtitleOption("subtitle", "Subtitle file.", "file");
         parser.addOption(subtitleOption);
 
@@ -190,21 +184,22 @@ int main(int argc, char **argv)
         args.removeFirst();
 
         int pid = parser.value(pidOption).toInt();
-        int out = parser.value(outOption).toInt();
-        if (out == 0) {
-            out = -1;
-        }
         QString subtitleFile = parser.value(subtitleOption);
 
         LocaleHandling::resetAllLocale();
-        /*QFile f(playlist);
+        QFile f(playlist);
         QDomDocument doc;
         doc.setContent(&f, false);
         f.close();
         QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
-        if (!consumer.isNull()) {
-        }*/
         int in = -1;
+        int out = -1;
+        // get in and out point, we need them to calculate the progress in some cases
+        if (!consumer.isNull()) {
+            in = consumer.attribute(QStringLiteral("in"), "-1").toInt();
+            out = consumer.attribute(QStringLiteral("out"), "-1").toInt();
+        }
+        qDebug() << "Start renderjob in out" << in << out;
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();

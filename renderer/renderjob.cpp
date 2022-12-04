@@ -58,12 +58,6 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
     m_args << "-progress" << scenelist;
-    if (in != -1) {
-        m_args << QStringLiteral("in=") + QString::number(in);
-    }
-    if (out != -1) {
-        m_args << QStringLiteral("out=") + QString::number(out);
-    }
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {

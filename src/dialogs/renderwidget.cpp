@@ -996,7 +996,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     QList<RenderJobItem *> jobList;
     QMap<QString, QString>::const_iterator i = renderFiles.constBegin();
     while (i != renderFiles.constEnd()) {
-        RenderJobItem *renderItem = createRenderJob(i.key(), i.value(), in, out, subtitleFile);
+        RenderJobItem *renderItem = createRenderJob(i.key(), i.value(), subtitleFile);
         if (renderItem != nullptr) {
             jobList << renderItem;
         }
@@ -1010,7 +1010,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     checkRenderStatus();
 }
 
-RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, int in, int out, const QString &subtitleFile)
+RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile)
 {
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(outputFile, Qt::MatchExactly, 1);
     RenderJobItem *renderItem = nullptr;
@@ -1034,15 +1034,13 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
     QDateTime t = QDateTime::currentDateTime();
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
-    renderItem->setData(1, LastFrameRole, in);
+    renderItem->setData(1, LastFrameRole, 0);
     QStringList argsJob = {QStringLiteral("delivery"),
                            KdenliveSettings::rendererpath(),
                            playlist,
                            outputFile,
                            QStringLiteral("--pid"),
-                           QString::number(QCoreApplication::applicationPid()),
-                           QStringLiteral("--out"),
-                           QString::number(out)};
+                           QString::number(QCoreApplication::applicationPid())};
     if (!subtitleFile.isEmpty()) {
         argsJob << QStringLiteral("--subtitle") << subtitleFile;
     }
@@ -1679,7 +1677,6 @@ void RenderWidget::parseScriptFiles()
             continue;
         }
         QString target = consumer.attribute(QStringLiteral("target"));
-        int out = consumer.attribute(QStringLiteral("out"), QStringLiteral("0")).toInt();
         if (target.isEmpty()) {
             continue;
         }
@@ -1690,7 +1687,6 @@ void RenderWidget::parseScriptFiles()
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
         item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
-        item->setData(1, Qt::UserRole + 2, out);
     }
     QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
     if (script) {
@@ -1722,7 +1718,6 @@ void RenderWidget::slotStartScript()
     auto *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
     if (item) {
         QString destination = item->data(1, Qt::UserRole).toString();
-        int out = item->data(1, Qt::UserRole + 2).toInt();
         if (QFile::exists(destination)) {
             if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
                                                KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
@@ -1759,9 +1754,7 @@ void RenderWidget::slotStartScript()
                                path,
                                destination,
                                QStringLiteral("--pid"),
-                               QString::number(QCoreApplication::applicationPid()),
-                               QStringLiteral("--out"),
-                               QString::number(out)};
+                               QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
         m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);

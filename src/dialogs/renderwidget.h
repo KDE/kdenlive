@@ -231,7 +231,7 @@ private:
     /** @brief Create a new empty playlist (*.mlt) file and @returns the filename of the created file */
     QString generatePlaylistFile(bool delayedRendering);
     void generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering, const QString &subtitleFile = QString());
-    RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, int in, int out, const QString &subtitleFile = QString());
+    RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
 
 signals:
     void abortProcess(const QString &url);
