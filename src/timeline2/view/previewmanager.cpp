@@ -592,10 +592,9 @@ void PreviewManager::doPreviewRender(const QString &scene)
     m_chunksToRender = m_dirtyChunks.count();
     m_processedChunks = 0;
     int chunkSize = KdenliveSettings::timelinechunks();
-    QStringList args{KdenliveSettings::rendererpath(),
+    QStringList args{QStringLiteral("preview-chunks"),
                      scene,
                      m_cacheDir.absolutePath(),
-                     QStringLiteral("-split"),
                      dirtyChunks.join(QLatin1Char(',')),
                      QString::number(chunkSize - 1),
                      pCore->getCurrentProfilePath(),
@@ -609,11 +608,11 @@ void PreviewManager::doPreviewRender(const QString &scene)
     }
 }
 
-void PreviewManager::processEnded(int, QProcess::ExitStatus status)
+void PreviewManager::processEnded(int exitCode, QProcess::ExitStatus status)
 {
     const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
     QFile::remove(sceneList);
-    if (status == QProcess::QProcess::CrashExit) {
+    if (status == QProcess::QProcess::CrashExit || exitCode != 0) {
         emit previewRender(0, m_errorLog, -1);
         if (workingPreview >= 0) {
             const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
@@ -622,6 +621,7 @@ void PreviewManager::processEnded(int, QProcess::ExitStatus status)
             }
         }
     } else {
+        // Normal exit and exit code 0: everything okay
         pCore->currentDoc()->previewProgress(1000);
     }
     workingPreview = -1;

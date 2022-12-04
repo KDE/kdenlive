@@ -1035,14 +1035,16 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, in);
-    QStringList argsJob = {KdenliveSettings::rendererpath(),
+    QStringList argsJob = {QStringLiteral("delivery"),
+                           KdenliveSettings::rendererpath(),
                            playlist,
                            outputFile,
-                           QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),
-                           QStringLiteral("-out"),
+                           QStringLiteral("--pid"),
+                           QString::number(QCoreApplication::applicationPid()),
+                           QStringLiteral("--out"),
                            QString::number(out)};
     if (!subtitleFile.isEmpty()) {
-        argsJob << QStringLiteral("-subtitle") << subtitleFile;
+        argsJob << QStringLiteral("--subtitle") << subtitleFile;
     }
     renderItem->setData(1, ParametersRole, argsJob);
     qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
@@ -1752,11 +1754,13 @@ void RenderWidget::slotStartScript()
         QDateTime t = QDateTime::currentDateTime();
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);
-        QStringList argsJob = {KdenliveSettings::rendererpath(),
+        QStringList argsJob = {QStringLiteral("delivery"),
+                               KdenliveSettings::rendererpath(),
                                path,
                                destination,
-                               QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid()),
-                               QStringLiteral("-out"),
+                               QStringLiteral("--pid"),
+                               QString::number(QCoreApplication::applicationPid()),
+                               QStringLiteral("--out"),
                                QString::number(out)};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
