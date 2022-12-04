@@ -57,27 +57,19 @@ int main(int argc, char **argv)
         // mode
         args.removeFirst();
         // Source playlist path
-        QString playlist = args.at(0);
-        args.removeFirst();
+        QString playlist = args.takeFirst();
         // destination - where to save result
-        QDir baseFolder(args.at(0));
-        args.removeFirst();
+        QDir baseFolder(args.takeFirst());
         // chunks to render
-        QStringList chunks = args.at(0).split(QLatin1Char(','), Qt::SkipEmptyParts);
-        args.removeFirst();
+        QStringList chunks = args.takeFirst().split(QLatin1Char(','), Qt::SkipEmptyParts);
         // chunk size in frames
-        int chunkSize = args.at(0).toInt();
-        args.removeFirst();
+        int chunkSize = args.takeFirst().toInt();
         // path to profile
-        Mlt::Profile profile(args.at(0).toUtf8().constData());
-
-        args.removeFirst();
+        Mlt::Profile profile(args.takeFirst().toUtf8().constData());
         // rendered file extension
-        QString extension = args.at(0);
-        args.removeFirst();
+        QString extension = args.takeFirst();
         // avformat consumer params
-        QStringList consumerParams = args.at(0).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-        args.removeFirst();
+        QStringList consumerParams = args.takeFirst().split(QLatin1Char(' '), Qt::SkipEmptyParts);
 
         profile.set_explicit(1);
         Mlt::Producer prod(profile, nullptr, playlist.toUtf8().constData());
@@ -174,14 +166,11 @@ int main(int argc, char **argv)
         // mode
         args.removeFirst();
         // renderer path (melt)
-        QString render = args.at(0);
-        args.removeFirst();
+        QString render = args.takeFirst();
         // Source playlist path
-        QString playlist = args.at(0);
-        args.removeFirst();
+        QString playlist = args.takeFirst();
         // target - where to save result
-        QString target = args.at(0);
-        args.removeFirst();
+        QString target = args.takeFirst();
 
         int pid = parser.value(pidOption).toInt();
         QString subtitleFile = parser.value(subtitleOption);
@@ -199,7 +188,6 @@ int main(int argc, char **argv)
             in = consumer.attribute(QStringLiteral("in"), "-1").toInt();
             out = consumer.attribute(QStringLiteral("out"), "-1").toInt();
         }
-        qDebug() << "Start renderjob in out" << in << out;
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
