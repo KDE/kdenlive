@@ -40,7 +40,6 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 #else
     , m_kdenlivesocket(new QLocalSocket(this))
 #endif
-    , m_usekuiserver(true)
     , m_logfile(m_dest + QStringLiteral(".log"))
     , m_erase(scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath())))
     , m_seconds(0)
@@ -209,7 +208,7 @@ void RenderJob::start()
     m_startTime = QDateTime::currentDateTime();
 #ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface != nullptr) && m_usekuiserver) {
+    if ((interface != nullptr)) {
         if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
             qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
             if (QProcess::startDetached(QStringLiteral("kuiserver"), QStringList())) {
@@ -271,12 +270,6 @@ void RenderJob::start()
         m_kdenlivesocket->connectToServer(servername);
     }
 #endif
-
-    // Make sure the destination directory is writable
-    /*QFileInfo checkDestination(QFileInfo(m_dest).absolutePath());
-    if (!checkDestination.isWritable()) {
-        slotIsOver(QProcess::NormalExit, false);
-    }*/
 
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);

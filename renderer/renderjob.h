@@ -51,7 +51,6 @@ private:
     QDBusInterface *m_jobUiserver;
     QDBusInterface *m_kdenliveinterface;
 #endif
-    bool m_usekuiserver;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
     bool m_erase;
