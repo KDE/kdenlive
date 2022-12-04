@@ -178,7 +178,15 @@ int main(int argc, char **argv)
         LocaleHandling::resetAllLocale();
         QFile f(playlist);
         QDomDocument doc;
-        doc.setContent(&f, false);
+        if (!f.open(QIODevice::ReadOnly)) {
+            qWarning() << "Failed to open file" << f.fileName() << "for reading";
+            return 1;
+        }
+        if (!doc.setContent(&f, false)) {
+            qWarning() << "Failed to parse file" << f.fileName() << "to QDomDocument";
+            f.close();
+            return 1;
+        }
         f.close();
         QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
         int in = -1;
