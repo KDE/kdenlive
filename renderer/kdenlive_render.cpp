@@ -148,7 +148,7 @@ int main(int argc, char **argv)
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
         parser.addPositionalArgument("destination", "Destination file.");
 
-        QCommandLineOption pidOption("pid", "Process ID to send back progress.", "pid");
+        QCommandLineOption pidOption("pid", "Process ID to send back progress.", "pid", QString::number(-1));
         parser.addOption(pidOption);
 
         QCommandLineOption subtitleOption("subtitle", "Subtitle file.", "file");
@@ -185,8 +185,8 @@ int main(int argc, char **argv)
         int out = -1;
         // get in and out point, we need them to calculate the progress in some cases
         if (!consumer.isNull()) {
-            in = consumer.attribute(QStringLiteral("in"), "-1").toInt();
-            out = consumer.attribute(QStringLiteral("out"), "-1").toInt();
+            in = consumer.attribute(QStringLiteral("in"), QString::number(-1)).toInt();
+            out = consumer.attribute(QStringLiteral("out"), QString::number(-1)).toInt();
         }
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {

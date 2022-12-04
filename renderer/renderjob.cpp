@@ -102,13 +102,17 @@ void RenderJob::sendFinish(int status, const QString &error)
         m_jobUiserver->call(QStringLiteral("terminate"), QString());
     }
 #else
-    QJsonObject method, args;
-    args["url"] = m_dest;
-    args["status"] = status;
-    args["error"] = error;
-    method["setRenderingFinished"] = args;
-    m_kdenlivesocket->write(QJsonDocument(method).toJson());
-    m_kdenlivesocket->flush();
+    if (m_kdenlivesocket->state() == QLocalSocket::ConnectedState) {
+        QJsonObject method, args;
+        args["url"] = m_dest;
+        args["status"] = status;
+        args["error"] = error;
+        method["setRenderingFinished"] = args;
+        m_kdenlivesocket->write(QJsonDocument(method).toJson());
+        m_kdenlivesocket->flush();
+    } else {
+        qDebug() << "Rendering to " << m_dest << "finished. Status:" << status << "Errors:" << error;
+    }
 #endif
 }
 
@@ -182,13 +186,18 @@ void RenderJob::updateProgress(int speed)
         m_jobUiserver->call(QStringLiteral("setDescriptionField"), 0, QString(), est);
     }
 #else
-    QJsonObject method, args;
-    args["url"] = m_dest;
-    args["progress"] = m_progress;
-    args["frame"] = m_frame;
-    method["setRenderingProgress"] = args;
-    m_kdenlivesocket->write(QJsonDocument(method).toJson());
-    m_kdenlivesocket->flush();
+    if (m_kdenlivesocket->state() == QLocalSocket::ConnectedState) {
+        QJsonObject method, args;
+        args["url"] = m_dest;
+        args["progress"] = m_progress;
+        args["frame"] = m_frame;
+        method["setRenderingProgress"] = args;
+        m_kdenlivesocket->write(QJsonDocument(method).toJson());
+        m_kdenlivesocket->flush();
+    } else {
+        qDebug() << "Progress:" << m_progress << "%,"
+                 << "frame" << m_frame;
+    }
 #endif
     m_logstream << QStringLiteral("%1\t%2\t%3\n").arg(m_seconds).arg(m_frame).arg(m_progress);
 }
@@ -255,8 +264,10 @@ void RenderJob::start()
             slotAbort();
         }
     });
-    QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
-    m_kdenlivesocket->connectToServer(servername);
+    if (m_pid > -1) {
+        QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
+        m_kdenlivesocket->connectToServer(servername);
+    }
 #endif
 
     // Make sure the destination directory is writable
