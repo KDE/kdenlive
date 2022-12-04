@@ -13,6 +13,8 @@
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
+#include <QTemporaryFile>
+#include <QtGlobal>
 
 int main(int argc, char **argv)
 {
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
     if (mode == "preview-chunks") {
 
         parser.clearPositionalArguments();
-        parser.addPositionalArgument("preview-chunks", "Render splited in to multiple files for timeline preview.");
+        parser.addPositionalArgument("preview-chunks", "Mode: Render splited in to multiple files for timeline preview.");
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
         parser.addPositionalArgument("destination", "Destination directory.");
         parser.addPositionalArgument("chunks", "Chunks to render.");
@@ -143,10 +145,15 @@ int main(int argc, char **argv)
 
     if (mode == "delivery") {
         parser.clearPositionalArguments();
-        parser.addPositionalArgument("delivery", "Render to a final output file.");
+        parser.addPositionalArgument("delivery", "Mode: Render to a final output file.");
         parser.addPositionalArgument("renderer", "Path to MLT melt renderer.");
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
-        parser.addPositionalArgument("destination", "Destination file.");
+
+        QCommandLineOption outputOption({"o", "output"},
+                                        "The destionation file, optional. If no set the destination will be retrieved from the \"target\" property of the "
+                                        "consumer in the source file. If set it overrides the consumers \"taget\" property.",
+                                        "file");
+        parser.addOption(outputOption);
 
         QCommandLineOption pidOption("pid", "Process ID to send back progress.", "pid", QString::number(-1));
         parser.addOption(pidOption);
@@ -157,8 +164,8 @@ int main(int argc, char **argv)
         parser.process(app);
         args = parser.positionalArguments();
 
-        if (args.count() < 4) {
-            qCritical() << "Error: not enough arguments specified\n";
+        if (args.count() != 3) {
+            qCritical() << "Error: wrong number of arguments specified\n";
             parser.showHelp(1);
             // the command above will quit the app with return 1;
         }
@@ -169,11 +176,6 @@ int main(int argc, char **argv)
         QString render = args.takeFirst();
         // Source playlist path
         QString playlist = args.takeFirst();
-        // target - where to save result
-        QString target = args.takeFirst();
-
-        int pid = parser.value(pidOption).toInt();
-        QString subtitleFile = parser.value(subtitleOption);
 
         LocaleHandling::resetAllLocale();
         QFile f(playlist);
@@ -191,11 +193,44 @@ int main(int argc, char **argv)
         QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
         int in = -1;
         int out = -1;
+        QString target;
         // get in and out point, we need them to calculate the progress in some cases
         if (!consumer.isNull()) {
             in = consumer.attribute(QStringLiteral("in"), QString::number(-1)).toInt();
             out = consumer.attribute(QStringLiteral("out"), QString::number(-1)).toInt();
+            target = consumer.attribute(QStringLiteral("target"));
+            QString output = parser.value(outputOption);
+            if (!output.isEmpty()) {
+                // A custom output target was set.
+                // To apply it we store a copy of the source file with the modified target
+                // in a temporary file and use this file instead of the original source file.
+                consumer.setAttribute(QStringLiteral("target"), output);
+                QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+                tmp.setAutoRemove(false);
+                if (tmp.open()) {
+                    tmp.close();
+                    QFile file(tmp.fileName());
+                    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                        qDebug() << "Failed to set custom output destination, falling back to target set in source file: " << target;
+                    } else {
+                        playlist = tmp.fileName();
+                        target = output;
+                        QTextStream outStream(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                        outStream.setCodec("UTF-8");
+#endif
+                        outStream << doc.toString();
+                    }
+                    file.close();
+                } else {
+                    qDebug() << "Failed to set custom output destination, falling back to target set in source file: " << target;
+                }
+                tmp.close();
+            }
         }
+        int pid = parser.value(pidOption).toInt();
+        QString subtitleFile = parser.value(subtitleOption);
+
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();

@@ -1035,11 +1035,7 @@ RenderJobItem *RenderWidget::createRenderJob(const QString &playlist, const QStr
     renderItem->setData(1, StartTimeRole, t);
     renderItem->setData(1, LastTimeRole, t);
     renderItem->setData(1, LastFrameRole, 0);
-    QStringList argsJob = {QStringLiteral("delivery"),
-                           KdenliveSettings::rendererpath(),
-                           playlist,
-                           outputFile,
-                           QStringLiteral("--pid"),
+    QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::rendererpath(), playlist, QStringLiteral("--pid"),
                            QString::number(QCoreApplication::applicationPid())};
     if (!subtitleFile.isEmpty()) {
         argsJob << QStringLiteral("--subtitle") << subtitleFile;
@@ -1749,11 +1745,7 @@ void RenderWidget::slotStartScript()
         QDateTime t = QDateTime::currentDateTime();
         renderItem->setData(1, StartTimeRole, t);
         renderItem->setData(1, LastTimeRole, t);
-        QStringList argsJob = {QStringLiteral("delivery"),
-                               KdenliveSettings::rendererpath(),
-                               path,
-                               destination,
-                               QStringLiteral("--pid"),
+        QStringList argsJob = {QStringLiteral("delivery"), KdenliveSettings::rendererpath(), path, QStringLiteral("--pid"),
                                QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();

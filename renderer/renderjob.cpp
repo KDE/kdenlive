@@ -111,7 +111,7 @@ void RenderJob::sendFinish(int status, const QString &error)
         m_kdenlivesocket->write(QJsonDocument(method).toJson());
         m_kdenlivesocket->flush();
     } else {
-        qDebug() << "Rendering to " << m_dest << "finished. Status:" << status << "Errors:" << error;
+        qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
     }
 #endif
 }
