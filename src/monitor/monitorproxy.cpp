@@ -117,7 +117,7 @@ void MonitorProxy::positionFromConsumer(int pos, bool playing)
 
 void MonitorProxy::setMarker(const QString &comment, const QColor &color)
 {
-    if (m_markerComment == comment) {
+    if (m_markerComment == comment && color == m_markerColor) {
         return;
     }
     m_markerComment = comment;
