@@ -10,8 +10,6 @@
  */
 /*
     SPDX-FileCopyrightText: 2021 Two Blue Cubes Ltd. All rights reserved.
-    SPDX-FileCopyrightText: 2021 Jean-Baptiste Mardelle <jb@kdenlive.org>
-    SPDX-FileCopyrightText: 2018 Nicolas Carion
     SPDX-License-Identifier: BSL-1.0
 */
 
