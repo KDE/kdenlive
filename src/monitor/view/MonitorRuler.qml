@@ -328,6 +328,12 @@ Rectangle {
                 }
             }
         }
+        onEntered: {
+            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</shortcut> to seek while adjusting zone in"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
+        }
         Rectangle {
             id: trimIn
             anchors.fill: parent
@@ -368,6 +374,12 @@ Rectangle {
                     controller.position = controller.zoneOut
                 }
             }
+        }
+        onEntered: {
+            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</shortcut> to seek while adjusting zone out"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
         }
         Rectangle {
             id: trimOut
