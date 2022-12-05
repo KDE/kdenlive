@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-02 03:53+0000\n"
-"PO-Revision-Date: 2022-11-22 11:25+0100\n"
+"PO-Revision-Date: 2022-12-04 07:27+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.11.80\n"
+"X-Generator: Lokalize 22.11.90\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12582,10 +12582,9 @@ msgid "Open Backup"
 msgstr "Ouvrir une sauvegarde"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Impossible d'ouvrir le fichier projet %1"
+msgstr "Impossible d'ouvrir le fichier d'archive du projet."
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
