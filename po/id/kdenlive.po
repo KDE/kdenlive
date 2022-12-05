@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:45+0000\n"
+"POT-Creation-Date: 2022-12-05 00:45+0000\n"
 "PO-Revision-Date: 2022-11-16 23:11+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -5603,8 +5603,8 @@ msgstr "Ekspor Data Panduan"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:921
 #: src/dialogs/renderwidget.cpp:926 src/dialogs/renderwidget.cpp:979
-#: src/dialogs/renderwidget.cpp:984 src/dialogs/renderwidget.cpp:1926
-#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:710
+#: src/dialogs/renderwidget.cpp:984 src/dialogs/renderwidget.cpp:1915
+#: src/dialogs/renderwidget.cpp:1942 src/doc/kdenlivedoc.cpp:710
 #: src/doc/kdenlivedoc.cpp:718 src/doc/kdenlivedoc.cpp:1085
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6111,7 +6111,7 @@ msgstr ""
 "Parameter berikut tidak akan berpengaruh, karena ditimpa oleh opsi antarmuka "
 "pengguna yang setara: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1751
+#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1744
 #, kde-format
 msgid "Waiting…"
 msgstr "Menunggu..."
@@ -6226,7 +6226,7 @@ msgstr ""
 "Tidak dapat menemukan program pencairan yang diperlukan untuk rendering "
 "(bagian dari MLT)"
 
-#: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1725
+#: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1718
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6277,7 +6277,7 @@ msgstr ""
 "sama.\n"
 "Skrip akan disimpan tanpa ekspor multi trek."
 
-#: src/dialogs/renderwidget.cpp:1022 src/dialogs/renderwidget.cpp:1738
+#: src/dialogs/renderwidget.cpp:1022 src/dialogs/renderwidget.cpp:1731
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6286,47 +6286,47 @@ msgstr ""
 "Sudah ada file penulisan tugas:<br /><b>%1</b><br />Gugurkan tugas jika Anda "
 "ingin menimpanya..."
 
-#: src/dialogs/renderwidget.cpp:1023 src/dialogs/renderwidget.cpp:1739
+#: src/dialogs/renderwidget.cpp:1023 src/dialogs/renderwidget.cpp:1732
 #, kde-format
 msgid "Already running"
 msgstr "Sudah berjalan"
 
-#: src/dialogs/renderwidget.cpp:1052
+#: src/dialogs/renderwidget.cpp:1048
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video tanpa trek audio"
 
-#: src/dialogs/renderwidget.cpp:1054
+#: src/dialogs/renderwidget.cpp:1050
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio tanpa trek video"
 
-#: src/dialogs/renderwidget.cpp:1118
+#: src/dialogs/renderwidget.cpp:1114
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Perenderan <i>%1</i> dimulai"
 
-#: src/dialogs/renderwidget.cpp:1184 src/monitor/monitor.cpp:1133
+#: src/dialogs/renderwidget.cpp:1180 src/monitor/monitor.cpp:1133
 #, kde-format
 msgid "untitled"
 msgstr "tidak berjudul"
 
-#: src/dialogs/renderwidget.cpp:1222
+#: src/dialogs/renderwidget.cpp:1218
 #, kde-format
 msgid "No preset selected"
 msgstr "Tidak ada preset yang dipilih"
 
-#: src/dialogs/renderwidget.cpp:1224
+#: src/dialogs/renderwidget.cpp:1220
 #, kde-format
 msgid "No matching preset"
 msgstr "Tidak ada preset yang cocok"
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1232
 #, kde-format
 msgid "Invalid preset"
 msgstr "Preset tidak valid"
 
-#: src/dialogs/renderwidget.cpp:1340
+#: src/dialogs/renderwidget.cpp:1336
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6335,50 +6335,50 @@ msgstr ""
 "Perenderan tanpa audio dan video tidak akan bekerja. Harap aktifkan "
 "setidaknya satu dari keduanya."
 
-#: src/dialogs/renderwidget.cpp:1499
+#: src/dialogs/renderwidget.cpp:1495
 #, kde-format
 msgid "Remaining time "
 msgstr "Waktu tersisa"
 
-#: src/dialogs/renderwidget.cpp:1501 src/dialogs/renderwidget.cpp:1533
+#: src/dialogs/renderwidget.cpp:1497 src/dialogs/renderwidget.cpp:1529
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 hari "
 msgstr[1] "%1 hari "
 
-#: src/dialogs/renderwidget.cpp:1505
+#: src/dialogs/renderwidget.cpp:1501
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (frame %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1535
+#: src/dialogs/renderwidget.cpp:1531
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Perenderan selesai dalam %1"
 
-#: src/dialogs/renderwidget.cpp:1544
+#: src/dialogs/renderwidget.cpp:1540
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Perenderan %1 selesai dalam %2"
 
-#: src/dialogs/renderwidget.cpp:1568
+#: src/dialogs/renderwidget.cpp:1564
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Perenderan %1 mogok</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1611 src/ui/renderwidget_ui.ui:891
+#: src/dialogs/renderwidget.cpp:1607 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
 msgstr "Gugurkan Tugas"
 
-#: src/dialogs/renderwidget.cpp:1614
+#: src/dialogs/renderwidget.cpp:1610
 #, kde-format
 msgid "Remove Job"
 msgstr "Singkirkan Tugas"
 
-#: src/dialogs/renderwidget.cpp:2056
+#: src/dialogs/renderwidget.cpp:2045
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6387,7 +6387,7 @@ msgstr ""
 "Parameter kecepatan kodek:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2065
 #, kde-format
 msgid "Add to current project"
 msgstr "Tambahkan ke proyek saat ini"

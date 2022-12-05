@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:45+0000\n"
+"POT-Creation-Date: 2022-12-05 00:45+0000\n"
 "PO-Revision-Date: 2022-11-26 09:23+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -5599,8 +5599,8 @@ msgstr "Esportatu Gidalerroen datuak"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:921
 #: src/dialogs/renderwidget.cpp:926 src/dialogs/renderwidget.cpp:979
-#: src/dialogs/renderwidget.cpp:984 src/dialogs/renderwidget.cpp:1926
-#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:710
+#: src/dialogs/renderwidget.cpp:984 src/dialogs/renderwidget.cpp:1915
+#: src/dialogs/renderwidget.cpp:1942 src/doc/kdenlivedoc.cpp:710
 #: src/doc/kdenlivedoc.cpp:718 src/doc/kdenlivedoc.cpp:1085
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6108,7 +6108,7 @@ msgstr ""
 "Ondorengo parametroek ez dute eraginik izango, gainidatziak izango baitira "
 "interfazeko aukera baliokideengatik: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1751
+#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1744
 #, kde-format
 msgid "Waiting…"
 msgstr "Zain…"
@@ -6221,7 +6221,7 @@ msgstr "Gehitu klip bat denbora-lerron errendatu aurretik"
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Ezin da aurkitu errendatzeko behar den «melt» programa (MLTren zatia)"
 
-#: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1725
+#: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1718
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6272,7 +6272,7 @@ msgstr ""
 "batera erabili.\n"
 "Scripta pista anitzeko audio esportatzerik gabe gordeko da."
 
-#: src/dialogs/renderwidget.cpp:1022 src/dialogs/renderwidget.cpp:1738
+#: src/dialogs/renderwidget.cpp:1022 src/dialogs/renderwidget.cpp:1731
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6281,47 +6281,47 @@ msgstr ""
 "Dagoeneko lan bat ari da fitxategia idazten: <br /><b>%1</b><br />Ezeztatu "
 "lan hori gainidatzi nahi baduzu…"
 
-#: src/dialogs/renderwidget.cpp:1023 src/dialogs/renderwidget.cpp:1739
+#: src/dialogs/renderwidget.cpp:1023 src/dialogs/renderwidget.cpp:1732
 #, kde-format
 msgid "Already running"
 msgstr " Dagoeneko martxan"
 
-#: src/dialogs/renderwidget.cpp:1052
+#: src/dialogs/renderwidget.cpp:1048
 #, kde-format
 msgid "Video without audio track"
 msgstr "Bideoa audio-pistarik gabe"
 
-#: src/dialogs/renderwidget.cpp:1054
+#: src/dialogs/renderwidget.cpp:1050
 #, kde-format
 msgid "Audio without video track"
 msgstr "Bideoa-pistarik gabeko audioa"
 
-#: src/dialogs/renderwidget.cpp:1118
+#: src/dialogs/renderwidget.cpp:1114
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rendering %1 started"
 
-#: src/dialogs/renderwidget.cpp:1184 src/monitor/monitor.cpp:1133
+#: src/dialogs/renderwidget.cpp:1180 src/monitor/monitor.cpp:1133
 #, kde-format
 msgid "untitled"
 msgstr "izengabea"
 
-#: src/dialogs/renderwidget.cpp:1222
+#: src/dialogs/renderwidget.cpp:1218
 #, kde-format
 msgid "No preset selected"
 msgstr "Ez da aurrezarpenik hautatu"
 
-#: src/dialogs/renderwidget.cpp:1224
+#: src/dialogs/renderwidget.cpp:1220
 #, kde-format
 msgid "No matching preset"
 msgstr "Ez dago bat datorren aurrezarpenik"
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1232
 #, kde-format
 msgid "Invalid preset"
 msgstr "Aurrezarpen baliogabea"
 
-#: src/dialogs/renderwidget.cpp:1340
+#: src/dialogs/renderwidget.cpp:1336
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6330,50 +6330,50 @@ msgstr ""
 "Bideorik eta audiorik gabe errendatzeak ez du funtzionatzen. Mesedez, gaitu "
 "behintzat bietako bat."
 
-#: src/dialogs/renderwidget.cpp:1499
+#: src/dialogs/renderwidget.cpp:1495
 #, kde-format
 msgid "Remaining time "
 msgstr "Geratzen den denbora"
 
-#: src/dialogs/renderwidget.cpp:1501 src/dialogs/renderwidget.cpp:1533
+#: src/dialogs/renderwidget.cpp:1497 src/dialogs/renderwidget.cpp:1529
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 egun"
 msgstr[1] "%1 egun"
 
-#: src/dialogs/renderwidget.cpp:1505
+#: src/dialogs/renderwidget.cpp:1501
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr "(%1 @ %2 fps framea)"
 
-#: src/dialogs/renderwidget.cpp:1535
+#: src/dialogs/renderwidget.cpp:1531
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "%1 -n errendatzea amaituta"
 
-#: src/dialogs/renderwidget.cpp:1544
+#: src/dialogs/renderwidget.cpp:1540
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 -n errendatzea amaituta %2 -n "
 
-#: src/dialogs/renderwidget.cpp:1568
+#: src/dialogs/renderwidget.cpp:1564
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 renderra kraskatu egin da</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1611 src/ui/renderwidget_ui.ui:891
+#: src/dialogs/renderwidget.cpp:1607 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
 msgstr "Lana eten"
 
-#: src/dialogs/renderwidget.cpp:1614
+#: src/dialogs/renderwidget.cpp:1610
 #, kde-format
 msgid "Remove Job"
 msgstr "Lana ezabatu"
 
-#: src/dialogs/renderwidget.cpp:2056
+#: src/dialogs/renderwidget.cpp:2045
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6382,7 +6382,7 @@ msgstr ""
 "Kodek-abiaduraren parametroak:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2076
+#: src/dialogs/renderwidget.cpp:2065
 #, kde-format
 msgid "Add to current project"
 msgstr "Gehitu uneko proiektuari"
