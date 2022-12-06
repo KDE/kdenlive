@@ -92,6 +92,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("scalex", scalex);
         root->setProperty("scaley", scaley);
+        root->setProperty("center", displayRect.center());
         break;
     case MonitorSceneTrimming:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitortrimming.qml")));
@@ -104,6 +105,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("scalex", scalex);
         root->setProperty("scaley", scaley);
+        root->setProperty("center", displayRect.center());
         if (id == Kdenlive::ClipMonitor) {
             // Apply the always show audio setting
             root->setProperty("permanentAudiothumb", KdenliveSettings::alwaysShowMonitorAudio());

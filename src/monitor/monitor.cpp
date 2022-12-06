@@ -2346,6 +2346,9 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
     }
     m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()),
                            m_timePos->maximum());
+    if (m_glMonitor->zoom() != 1.) {
+        m_glMonitor->setZoom(m_glMonitor->zoom(), true);
+    }
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
     case MonitorSceneSplit:

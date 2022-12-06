@@ -143,7 +143,7 @@ protected:
 
 public slots:
     void requestSeek(int position, bool noAudioScrub = false);
-    void setZoom(float zoom);
+    void setZoom(float zoom, bool force = false);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);
     void slotZoom(bool zoomIn);

@@ -1256,9 +1256,9 @@ QPoint GLWidget::offset() const
     return {m_offset.x() - static_cast<int>(width() * m_zoom / 2), m_offset.y() - static_cast<int>(height() * m_zoom / 2)};
 }
 
-void GLWidget::setZoom(float zoom)
+void GLWidget::setZoom(float zoom, bool force)
 {
-    if (m_zoom == zoom) {
+    if (!force && m_zoom == zoom) {
         return;
     }
     double zoomRatio = double(zoom / m_zoom);
