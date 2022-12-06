@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-05 00:45+0000\n"
+"POT-Creation-Date: 2022-12-06 00:45+0000\n"
 "PO-Revision-Date: 2022-11-26 18:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -10978,7 +10978,7 @@ msgstr ""
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/monitor/view/MonitorRuler.qml:262
+#: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10991,6 +10991,36 @@ msgstr ""
 "shortcut>, 1 saniye atlamak için <shortcut>Shift</shortcut>, imleyiciye "
 "gitmek için <shortcut>Alt</shortcut>, ilk/son kareye gitmek için "
 "<shortcut>Home</shortcut>/<shortcut>End</shortcut>"
+
+#: src/monitor/view/MonitorRuler.qml:332
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
+#| "shortcut> for multiple selection"
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone in"
+msgstr ""
+"Sürçmek için bir ögenin üzerine <shortcut>tıklayın</shortcut>, çoklu seçim "
+"için <shortcut>Shift+tıklayın</shortcut>"
+
+#: src/monitor/view/MonitorRuler.qml:379
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
+#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
+#| "modifiers."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone out"
+msgstr ""
+"<shortcut>Ctrl</shortcut>, yalnızca geçerli ize uygulanır, <shortcut>Shift</"
+"shortcut>, ayrıca kılavuzları da taşır. İki değiştiriciyi aynı anda "
+"kullanabilirsiniz."
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format

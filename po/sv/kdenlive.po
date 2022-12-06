@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-05 00:45+0000\n"
+"POT-Creation-Date: 2022-12-06 00:45+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -11017,7 +11017,7 @@ msgstr ""
 msgid "Effect"
 msgstr "Effekt"
 
-#: src/monitor/view/MonitorRuler.qml:262
+#: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11030,6 +11030,36 @@ msgstr ""
 "en bildruta, <shortcut>Skift</shortcut> för att söka en sekund, "
 "<shortcut>Alt</shortcut> för att söka till markör, <shortcut>Home</shortcut> "
 "eller <shortcut>End</shortcut> för att gå till första eller sista bildrutan"
+
+#: src/monitor/view/MonitorRuler.qml:332
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
+#| "shortcut> for multiple selection"
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone in"
+msgstr ""
+"<shortcut>Klicka</shortcut> på ett objekt för att glida, <shortcut>Skift-"
+"klicka</shortcut> för att bara låta det aktuella objektet i gruppen glida."
+
+#: src/monitor/view/MonitorRuler.qml:379
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
+#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
+#| "modifiers."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone out"
+msgstr ""
+"<shortcut>Ctrl</shortcut> för att bara använda med aktuellt spår, "
+"<shortcut>Skift</shortcut> för att också flytta flaggor. Båda väljarna kan "
+"kombineras."
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
