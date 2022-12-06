@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-05 00:45+0000\n"
+"POT-Creation-Date: 2022-12-06 00:45+0000\n"
 "PO-Revision-Date: 2022-12-01 06:52\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -10809,7 +10809,7 @@ msgstr ""
 msgid "Effect"
 msgstr "效果"
 
-#: src/monitor/view/MonitorRuler.qml:262
+#: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10822,6 +10822,35 @@ msgstr ""
 "<shortcut>加 Shift</shortcut> 时移 1 秒，<shortcut>加 Alt</shortcut> 时移到标"
 "记，<shortcut>Home 键</shortcut> / <shortcut>End 键</shortcut>转到第一帧 / 最"
 "后一帧"
+
+#: src/monitor/view/MonitorRuler.qml:332
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
+#| "shortcut> for multiple selection"
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone in"
+msgstr ""
+"<shortcut>点击</shortcut>项目进行外滑，<shortcut>Shift + 点击</shortcut>进行"
+"多选"
+
+#: src/monitor/view/MonitorRuler.qml:379
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
+#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
+#| "modifiers."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone out"
+msgstr ""
+"<shortcut>按住 Ctrl</shortcut> 仅应用到当前轨道，<shortcut>按住 Shift</"
+"shortcut> 同时移动辅助线。两个修饰键可以同时使用。"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format

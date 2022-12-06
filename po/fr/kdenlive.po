@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-05 00:45+0000\n"
+"POT-Creation-Date: 2022-12-06 00:45+0000\n"
 "PO-Revision-Date: 2022-12-04 07:27+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -11086,7 +11086,7 @@ msgstr ""
 msgid "Effect"
 msgstr "Effet"
 
-#: src/monitor/view/MonitorRuler.qml:262
+#: src/monitor/view/MonitorRuler.qml:263
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11100,6 +11100,35 @@ msgstr ""
 "une seconde, <shortcut>ALT</shortcut> pour se positionner sur le marqueur, "
 "<shortcut>Accueil</shortcut> / <shortcut>Fin</shortcut> pour se positionner, "
 "respectivement, sur les première et dernière trames."
+
+#: src/monitor/view/MonitorRuler.qml:332
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
+#| "shortcut> for multiple selection"
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone in"
+msgstr ""
+"<shortcut>Cliquez</shortcut> sur un élément à déplacer, <shortcut>cliquez "
+"avec « Maj » </shortcut> pour des sélections multiples."
+
+#: src/monitor/view/MonitorRuler.qml:379
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
+#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
+#| "modifiers."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone out"
+msgstr ""
+"<b>CTRL</b> pour application uniquement sur la piste courante, <b>Maj</b> "
+"pour aussi déplacer les guides. Vous pouvez combiner les deux modificateurs."
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format

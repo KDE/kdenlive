@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-05 00:45+0000\n"
+"POT-Creation-Date: 2022-12-06 00:45+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -11652,7 +11652,7 @@ msgstr ""
 msgid "Effect"
 msgstr "効果"
 
-#: src/monitor/view/MonitorRuler.qml:262
+#: src/monitor/view/MonitorRuler.qml:263
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Wheel</b> or <b>arrows</b> to seek 1 frame, <b>Shift</b> to seek 1 "
@@ -11667,6 +11667,33 @@ msgid ""
 msgstr ""
 "<b>ホイール</b>や<b>矢印</b>でコマ送り、<b>シフト</b>で1秒送り/戻し、<b>Alt</"
 "b> でマーカーに移動、<b>Home</b> / <b>End</b> で最初/最後のフレームに移動"
+
+#: src/monitor/view/MonitorRuler.qml:332
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Click</shortcut> to add points, <shortcut>Right click</"
+#| "shortcut> to close shape."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone in"
+msgstr ""
+"<shortcut>クリック</shortcut> でポイントを追加、<shortcut>右クリック</"
+"shortcut> でシェイプを閉じる。"
+
+#: src/monitor/view/MonitorRuler.qml:379
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "<b>Ctrl</b> to apply on current track only, <b>Shift</b> to also move "
+#| "guides. You can combine both modifiers."
+msgctxt "@info:whatsthis"
+msgid ""
+"<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
+"shortcut> to seek while adjusting zone out"
+msgstr ""
+"<b>Ctrl</b> で現在のトラックのみに適用、<b>シフト</b>でガイドも移動。両方を組"
+"み合わせることもできます。"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
