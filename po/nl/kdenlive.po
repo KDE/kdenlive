@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-06 00:45+0000\n"
-"PO-Revision-Date: 2022-11-26 17:36+0100\n"
+"PO-Revision-Date: 2022-12-06 15:02+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11032,34 +11032,24 @@ msgstr ""
 "<shortcut>End</shortcut> om naar eerste / laatste frame te gaan"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Klik</shortcut> om een item te slippen, <shortcut>Shift-klik</"
-"shortcut> voor meerdere selecties."
+"<shortcut>Sleep</shortcut> om punt  in zone te zetten, <shortcut>Shift-"
+"slepen</shortcut> om te positioneren tijdens het aanpassen van de in-zone"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut> om alleen op de huidig track toe te passen, "
-"<shortcut>Shift</shortcut> om ook geleiders te verplaatsen. U kunt beide "
-"modificatoren combineren."
+"<shortcut>Sleep</shortcut> om het zone uit-punt te zetten, <shortcut>Shift"
+"+Slepen</shortcut> om te positioneren tijdens aanpassen van de uit-zone"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
