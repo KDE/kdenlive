@@ -409,6 +409,9 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    if (m_showSlider) {
+        setToolTip(xi18n("Shift + Drag to adjust value one by one."));
+    }
     if (showSlider) {
         setRange(0, 1000);
     } else {
@@ -476,6 +479,14 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                         int diff = (nv - current) / m_step;
                         setNewValue(current + diff * m_step, true);
                     } else {
+                        if (e->modifiers() == Qt::ShiftModifier) {
+                            double current = value();
+                            if (e->pos().x() > m_dragLastPosition.x()) {
+                                nv = qMin(current + 1, (double)maximum());
+                            } else {
+                                nv = qMax((double)minimum(), current - 1);
+                            }
+                        }
                         setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
                     }
                 }
