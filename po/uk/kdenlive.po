@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-06 00:45+0000\n"
-"PO-Revision-Date: 2022-11-26 10:56+0200\n"
+"PO-Revision-Date: 2022-12-06 18:37+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -11130,34 +11130,26 @@ msgstr ""
 "або останнього кадру"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Клацніть</shortcut> на пункті для зсування, <shortcut>Shift + "
-"клацання</shortcut> — позначення декількох пунктів"
+"<shortcut>Перетягніть</shortcut>, щоб встановити вхідну точку зони, "
+"<shortcut>Shift+перетягніть</shortcut> для позиціювання разом із "
+"коригуванням входу до зони"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut>, щоб застосувати лише до поточної доріжки, "
-"<shortcut>Shift</shortcut>, щоб також посунути напрямні. Ви можете "
-"поєднувати клавіші-модифікатори."
+"<shortcut>Перетягніть</shortcut>, щоб встановити точку виходу з зони, "
+"<shortcut>Shift+перетягніть</shortcut> для позиціювання разом із "
+"коригуванням виходу з зони"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format

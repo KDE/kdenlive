@@ -6,16 +6,18 @@
 <book id="kdenlive" lang="&language;">
 <bookinfo>
 <title
->Kurzanleitung zu Kdenlive</title>
+>Kurzanleitung zu Kdenlive (veraltet)</title>
 <authorgroup>
 <author>
 <personname
 ><firstname
->Dieses Handbuch wurde aus der <ulink url=" http://userbase.kde.org/Kdenlive/Manual/QuickStart"
->Kdenlive/Manual/QuickStart</ulink
->-Webseite der &kde;-Userbase erstellt.</firstname
+>Diese Dokumentation ist veraltet, bitte gehen Sie stattdessen zur neuen <ulink url=" https://docs.kdenlive.org/"
+>Kdenlive-Dokumentation</ulink
+>.</firstname
 > <surname
-></surname
+>Dieses Handbuch wurde aus der <ulink url="http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+>-Webseite der &kde;-Userbase erstellt.</surname
 > </personname>
     </author>
 <othercredit role="translator"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-06 00:45+0000\n"
-"PO-Revision-Date: 2022-11-26 09:23+0100\n"
+"PO-Revision-Date: 2022-12-06 09:08+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -11015,34 +11015,26 @@ msgstr ""
 "<shortcut>End</shortcut> lehenengo/azkeneko fotogramara joateko"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Klik egin</shortcut>  item batean higitzeko, <shortcut>maius klik</"
-"shortcut>  hautapen anizkoitzerako."
+"<shortcut>Arrastatu</shortcut>  eskualdearen sarrerako puntua ezartzeko, "
+"<shortcut>Maius+Arrastatu</shortcut> eskualdearen sarrera doitzen den "
+"bitartean bilatzeko."
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut> uneko pistan bakarrik aplikatzeko, "
-"<shortcut>Maius</shortcut> gidak ere mugitzeko. Bi  aldatzaileak konbina "
-"ditzakezu."
+"<shortcut>Arrastatu</shortcut> eskualdearen irteerako puntua ezartzeko, "
+"<shortcut>Maius+Arrastatu</shortcut> eskualdearen irteera doitzen den "
+"bitartean bilatzeko."
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
