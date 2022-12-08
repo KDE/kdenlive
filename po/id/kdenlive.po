@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-06 00:45+0000\n"
+"POT-Creation-Date: 2022-12-08 00:45+0000\n"
 "PO-Revision-Date: 2022-11-16 23:11+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -19029,6 +19029,11 @@ msgstr "Set ulang nilai"
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Tampilkan %1 dalam linimasa"
+
+#: src/widgets/dragvalue.cpp:413
+#, kde-kuit-format
+msgid "Shift + Drag to adjust value one by one."
+msgstr ""
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

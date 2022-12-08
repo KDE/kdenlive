@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-06 00:45+0000\n"
+"POT-Creation-Date: 2022-12-08 00:45+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -19594,6 +19594,11 @@ msgstr "Odaberite zadani video player"
 #| msgid "Show keyframes in timeline"
 msgid "Show %1 in timeline"
 msgstr "Prikaži ključne okvire na vremenskoj liniji"
+
+#: src/widgets/dragvalue.cpp:413
+#, kde-kuit-format
+msgid "Shift + Drag to adjust value one by one."
+msgstr ""
 
 #: src/widgets/geometrywidget.cpp:40
 #, fuzzy, kde-format

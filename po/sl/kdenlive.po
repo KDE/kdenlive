@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-06 00:45+0000\n"
-"PO-Revision-Date: 2022-11-27 07:07+0100\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"PO-Revision-Date: 2022-12-07 16:39+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -11046,34 +11046,26 @@ msgstr ""
 "sličice"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Kliknite</shortcut> posnetek za drsenje, <shortcut>dvigalka+klik</"
-"shortcut> za večkratni izbor"
+"<shortcut>Povlecite</shortcut> za določitev vhodne točke območja, "
+"<shortcut>dvigalka+povlek</shortcut> za iskanje med prilagajanjem vhoda v "
+"območje"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Krmilka</shortcut> za uveljavitev samo na trenutni stezi, "
-"<shortcut>dvigalka</shortcut> tudi za premikanje vodil. Lahko kombinirate "
-"oboje."
+"<shortcut>Povlecite</shortcut> za določitev izhodne točke območja, "
+"<shortcut>dvigalka+povlek</shortcut> za iskanje med prilagajanjem izhoda iz "
+"območja"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -19060,6 +19052,11 @@ msgstr "Ponastavi vrednost"
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Pokaži %1 na časovnici"
+
+#: src/widgets/dragvalue.cpp:413
+#, kde-kuit-format
+msgid "Shift + Drag to adjust value one by one."
+msgstr ""
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
