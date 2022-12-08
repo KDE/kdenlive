@@ -7,13 +7,13 @@
     <parameter type="url" name="av.sofa" filter="*.sofa">
         <name>SOFA file</name>
     </parameter>
-    <parameter type="constant" name="av.gain" default="0" min="-20" max="20" suffix=" dB">
+    <parameter type="constant" name="av.gain" default="0" min="-20" max="20" suffix="dB">
         <name>Gain</name>
     </parameter>
-    <parameter type="constant" name="av.rotation" default="0" min="-360" max="360" suffix=" deg">
+    <parameter type="constant" name="av.rotation" default="0" min="-360" max="360" suffix="°">
         <name>Rotation</name>
     </parameter>
-    <parameter type="constant" name="av.elevation" default="0" min="-360" max="360" suffix=" deg">
+    <parameter type="constant" name="av.elevation" default="0" min="-360" max="360" suffix="°">
         <name>Elevation</name>
     </parameter>
     <parameter type="constant" name="av.radius" default="1" min="0" max="100" decimals="2">
@@ -23,10 +23,10 @@
         <paramlistdisplay>Frequency,Time</paramlistdisplay>
         <name>Type</name>
     </parameter>
-    <parameter type="constant" name="av.lfegain" default="0" min="-20" max="20" suffix=" dB">
+    <parameter type="constant" name="av.lfegain" default="0" min="-20" max="20" suffix="dB">
         <name>LFE Gain</name>
     </parameter>
-    <parameter type="constant" name="av.framesize" default="1024" min="1024" max="96000" suffix=" samples">
+    <parameter type="constant" name="av.framesize" default="1024" min="1024" max="96000" suffix="samples">
         <name>Framesize</name>
         <comment>Use if option ‘type’ is set to freq.</comment>
     </parameter>

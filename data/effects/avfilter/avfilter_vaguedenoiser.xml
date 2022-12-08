@@ -14,7 +14,7 @@
     <parameter type="constant" name="av.nsteps" default="6" min="1" max="32" factor="1">
         <name>Steps</name>
     </parameter>
-    <parameter type="constant" name="av.percent" default="0" min="0" max="100" factor="1" suffix=" %">
+    <parameter type="constant" name="av.percent" default="0" min="0" max="100" factor="1" suffix="%">
         <name>Percentage</name>
     </parameter>
     <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7;8">

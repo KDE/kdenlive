@@ -4,16 +4,16 @@
     <name>VR360 Equirectangular to Rectilinear</name>
     <description>Converts an equirectangular frame (panoramic) to a rectilinear frame (what you're used to seeing). Can be used to preview what will be shown in a 360 video viewer. Delayed frame blitting mapped on a time bitmap</description>
     <author>Leo Sutic</author>
-    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="deg">
+    <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="°">
         <name>yaw</name>
     </parameter>
-    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="deg">
+    <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="°">
         <name>pitch</name>
     </parameter>
-    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="deg">
+    <parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="°">
         <name>roll</name>
     </parameter>
-    <parameter type="animated" name="fov" default="100" min="0" max="180" factor="1" suffix="deg">
+    <parameter type="animated" name="fov" default="100" min="0" max="180" factor="1" suffix="°">
         <name>fov</name>
     </parameter>
     <parameter type="animated" name="fisheye" default="0" min="0" max="100" factor="1" suffix="%">

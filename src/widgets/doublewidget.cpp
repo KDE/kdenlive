@@ -7,7 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doublewidget.h"
 #include "dragvalue.h"
 
-#include <QVBoxLayout>
+#include <KLocalizedString>
+#include <QHBoxLayout>
+#include <QToolButton>
 
 DoubleWidget::DoubleWidget(const QString &name, double value, double min, double max, double factor, double defaultValue, const QString &comment, int id,
                            const QString &suffix, int decimals, bool oddOnly, QWidget *parent)
@@ -15,11 +17,25 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     , m_factor(factor)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    auto *layout = new QVBoxLayout(this);
+    auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-
     m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, true, oddOnly, this);
+    if (suffix == QStringLiteral("°")) {
+        QToolButton *rotationTb = new QToolButton(this);
+        rotationTb->setIcon(QIcon::fromTheme("object-rotate-right"));
+        rotationTb->setToolTip(i18n("Rotate by 90 ° steps"));
+        rotationTb->setAutoRaise(true);
+        layout->addWidget(rotationTb);
+        connect(rotationTb, &QToolButton::clicked, this, [this, min, max]() {
+            int val = m_dragVal->value() / 90;
+            val = (val + 1) * 90;
+            if (val > max) {
+                val = min;
+            }
+            m_dragVal->setValue(val);
+        });
+    }
     layout->addWidget(m_dragVal);
     setMinimumHeight(m_dragVal->height());
 

@@ -7,15 +7,15 @@ For example, you have recorded guitar with two microphones placed in different l
 
 The best result can be reached when you take one track as base and synchronize other tracks one by one with it. Remember that synchronization/delay tolerance depends on sample rate, too. Higher sample rates will give more tolerance. </description>
     <author>libavfilter</author>
-    <parameter type="constant" name="av.mm" default="0" min="0" max="10" suffix=" mm">
+    <parameter type="constant" name="av.mm" default="0" min="0" max="10" suffix="mm">
         <name>Millimiter distance</name>
         <comment>Set millimeters distance. This is compensation distance for fine tuning.</comment>
     </parameter>
-    <parameter type="constant" name="av.cm" default="0" min="0" max="100" suffix=" cm">
+    <parameter type="constant" name="av.cm" default="0" min="0" max="100" suffix="cm">
         <name>Centimeter distance</name>
         <comment>Set cm distance. This is compensation distance for tightening distance setup.</comment>
     </parameter>
-    <parameter type="constant" name="av.m" default="0" min="0" max="100" suffix=" m">
+    <parameter type="constant" name="av.m" default="0" min="0" max="100" suffix="m">
         <name>Meter distance</name>
         <comment>Set meters distance. This is compensation distance for hard distance setup.</comment>
     </parameter>
@@ -27,7 +27,7 @@ The best result can be reached when you take one track as base and synchronize o
         <name>Wet amount</name>
         <comment>Set wet amount. Amount of processed (wet) signal.</comment>
     </parameter>
-    <parameter type="constant" name="av.temp" default="20" min="-50" max="50" suffix=" C°">
+    <parameter type="constant" name="av.temp" default="20" min="-50" max="50" suffix="°C">
         <name>Temperature</name>
         <comment>Set temperature in degrees Celsius. This is the temperature of the environment.</comment>
     </parameter>

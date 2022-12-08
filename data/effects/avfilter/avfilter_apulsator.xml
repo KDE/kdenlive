@@ -30,10 +30,10 @@
         <paramlistdisplay>bpm,ms,Hz</paramlistdisplay>
         <name>Timing</name>
     </parameter>
-    <parameter type="constant" name="av.bpm" default="120" min="30" max="300" suffix=" bpm">
+    <parameter type="constant" name="av.bpm" default="120" min="30" max="300" suffix="bpm">
         <name>BPM</name>
     </parameter>
-    <parameter type="constant" name="av.ms" default="500" min="10" max="2000" suffix=" ms">
+    <parameter type="constant" name="av.ms" default="500" min="10" max="2000" suffix="ms">
         <name>Milliseconds</name>
     </parameter>
     <parameter type="constant" name="av.hz" default="2" min="0.01" max="100" decimals="2">

@@ -19,7 +19,7 @@
         <paramlistdisplay>Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate</paramlistdisplay>
         <name>Flags</name>
     </parameter>
-    <parameter type="constant" name="av.r" max="60" min="1" default="25" factor="1" suffix=" frames">
+    <parameter type="constant" name="av.r" max="60" min="1" default="25" factor="1" suffix="frames">
         <name>Video Ratio</name>
     </parameter>
 </effect>

@@ -4,7 +4,7 @@
     <name>Bass</name>
     <description>Apply a two-pole all-pass filter with central frequency (in Hz) frequency, and filter-width width. Boost or cut lower frequencies.</description>
     <author>libavfilter</author>
-    <parameter type="constant" name="av.g" default="0" min="-20" max="20" suffix=" dB">
+    <parameter type="constant" name="av.g" default="0" min="-20" max="20" suffix="dB">
         <name>Gain</name>
     </parameter>
     <parameter type="constant" name="av.f" default="100" min="20" max="20000" suffix="Hz">

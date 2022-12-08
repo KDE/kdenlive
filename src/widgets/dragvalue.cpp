@@ -57,7 +57,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setObjectName(QStringLiteral("dragBox"));
         m_intEdit->setFocusPolicy(Qt::StrongFocus);
         if (!suffix.isEmpty()) {
-            m_intEdit->setSuffix(suffix);
+            m_intEdit->setSuffix(QLatin1Char(' ') + suffix);
         }
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
@@ -79,7 +79,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
         m_doubleEdit->setObjectName(QStringLiteral("dragBox"));
         if (!suffix.isEmpty()) {
-            m_doubleEdit->setSuffix(suffix);
+            m_doubleEdit->setSuffix(QLatin1Char(' ') + suffix);
         }
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);

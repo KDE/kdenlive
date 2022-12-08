@@ -4,7 +4,7 @@
     <name>Band-pass</name>
     <description>Apply a two-pole Butterworth band-pass filter with central frequency, and (3dB-point) band-width width. The csg option selects a constant skirt gain (peak gain = Q) instead of the default: constant 0dB peak gain. The filter roll off at 6dB per octave (20dB per decade). </description>
     <author>libavfilter</author>
-    <parameter type="constant" name="av.f" default="3000" min="20" max="20000" suffix=" Hz">
+    <parameter type="constant" name="av.f" default="3000" min="20" max="20000" suffix="Hz">
         <name>Central Frequency</name>
     </parameter>
     <parameter type="bool" name="av.csg" default="0">

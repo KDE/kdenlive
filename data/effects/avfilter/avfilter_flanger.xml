@@ -4,11 +4,11 @@
     <name>Flanger</name>
     <description>Apply a flanging effect to the audio. </description>
     <author>libavfilter</author>
-    <parameter type="constant" name="av.delay" default="0" min="0" max="30" suffix=" ms">
+    <parameter type="constant" name="av.delay" default="0" min="0" max="30" suffix="ms">
         <name>Delay</name>
         <comment>Set base delay in milliseconds. Range from 0 to 30.</comment>
     </parameter>
-    <parameter type="constant" name="av.depth" default="2" min="0" max="10" suffix=" ms">
+    <parameter type="constant" name="av.depth" default="2" min="0" max="10" suffix="ms">
         <name>Depth</name>
         <comment>Set added sweep delay in milliseconds. Range from 0 to 10.</comment>
     </parameter>

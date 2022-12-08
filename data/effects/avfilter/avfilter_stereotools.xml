@@ -64,14 +64,14 @@ Allowed range is from 0.015625 to 64.</comment>
         <name>Stereo base</name>
         <comment>Set stereo base between mono and inverted channels. Default is 0. Allowed range is from -1 to 1.</comment>
     </parameter>
-    <parameter type="constant" name="av.delay" default="0" min="-20" max="20" suffix=" ms">
+    <parameter type="constant" name="av.delay" default="0" min="-20" max="20" suffix="ms">
         <name>Delay</name>
         <comment>Set delay in milliseconds how much to delay left from right channel and vice versa. Default is 0. Allowed range is from -20 to 20.</comment>
     </parameter>
     <parameter type="constant" name="av.sclevel" default="1" min="1" max="100">
         <name>S/C level</name>
     </parameter>
-    <parameter type="constant" name="av.phase" default="0" min="0" max="360" suffix=" deg">
+    <parameter type="constant" name="av.phase" default="0" min="0" max="360" suffix="°">
         <name>Stereo phase</name>
         <comment>Set the stereo phase in degrees.</comment>
     </parameter>

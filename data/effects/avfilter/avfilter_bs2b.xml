@@ -8,10 +8,10 @@
         <paramlistdisplay>Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan Meier circuit (fcut=650 feed=95)</paramlistdisplay>
         <name>Pre-defined crossfeed level</name>
     </parameter>
-    <parameter type="constant" name="av.fcut" default="700" min="0" max="2000" suffix=" Hz">
+    <parameter type="constant" name="av.fcut" default="700" min="0" max="2000" suffix="Hz">
         <name>Lowpass Cut frequency</name>
     </parameter>
-    <parameter type="constant" name="av.feed" default="50" min="0" max="150" suffix=" dB">
+    <parameter type="constant" name="av.feed" default="50" min="0" max="150" suffix="dB">
         <name>Feed level</name>
     </parameter>
 </effect>
