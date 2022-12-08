@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-06 00:45+0000\n"
+"POT-Creation-Date: 2022-12-08 00:45+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -20099,6 +20099,11 @@ msgstr "Επαναφορά τιμής"
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Εμφάνιση %1 στο χρονοδιάγραμμα"
+
+#: src/widgets/dragvalue.cpp:413
+#, kde-kuit-format
+msgid "Shift + Drag to adjust value one by one."
+msgstr ""
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

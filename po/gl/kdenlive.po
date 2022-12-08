@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-06 00:45+0000\n"
+"POT-Creation-Date: 2022-12-08 00:45+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -20069,6 +20069,11 @@ msgstr "Reiniciar o valor"
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Mostrar %1 na liña de tempo"
+
+#: src/widgets/dragvalue.cpp:413
+#, kde-kuit-format
+msgid "Shift + Drag to adjust value one by one."
+msgstr ""
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
