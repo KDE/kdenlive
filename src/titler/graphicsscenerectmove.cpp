@@ -370,13 +370,20 @@ void MyTextItem::updateGeometry()
 
 QRectF MyTextItem::baseBoundingRect() const
 {
+    // Ensure text document layout is updated
+    document()->documentLayout();
     QRectF base = QGraphicsTextItem::boundingRect();
     QTextCursor cur(document());
     cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
     int lineHeight = int(format.lineHeight());
     int lineHeight2 = QFontMetrics(font()).lineSpacing();
-    int lines = document()->lineCount();
+    int blkCount = document()->blockCount();
+    int lines = 0;
+    for (int i = 0; i < blkCount; i++) {
+        QTextBlock block = document()->findBlockByNumber(i);
+        lines += block.layout()->lineCount();
+    }
     if (lines > 1) {
         base.setHeight(lines * lineHeight2 + lineHeight * (lines - 1));
     }
