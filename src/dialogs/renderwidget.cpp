@@ -840,13 +840,13 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         }
     }
 
-
-    // insert params from preset
-    QStringList args = renderArgs.split(QLatin1Char(' '));
+    // insert params from preset. Split by space except whe between quotes
+    QStringList args = renderArgs.split(QRegularExpression("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
     for (auto &param : args) {
         if (param.contains(QLatin1Char('='))) {
             QString paramName = param.section(QLatin1Char('='), 0, 0);
-            QString paramValue = param.section(QLatin1Char('='), 1);
+            // Strip quotes
+            QString paramValue = param.section(QLatin1Char('='), 1).remove(QLatin1Char('"'));
             consumer.setAttribute(paramName, paramValue);
         }
     }
