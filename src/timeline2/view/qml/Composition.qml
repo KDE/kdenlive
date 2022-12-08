@@ -268,7 +268,7 @@ Item {
                 x: enabled ? -displayRect.border.width : 0
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: root.activeTool === 0
+                visible: enabled && root.activeTool === 0
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
                 hoverEnabled: true
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
@@ -342,7 +342,7 @@ Item {
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
-                visible: root.activeTool === 0
+                visible: enabled && root.activeTool === 0
                 enabled: !compositionRoot.grouped && (pressed || displayRect.width > 3 * width)
 
                 onPressed: {
