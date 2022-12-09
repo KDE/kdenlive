@@ -2203,7 +2203,7 @@ Rectangle {
                 id: guideBase
                 width: 1
                 height: tracksContainerArea.height
-                x: model.frame * root.timeScale;
+                x: Math.round(model.frame * root.timeScale);
                 color: model.color
             }
         }
