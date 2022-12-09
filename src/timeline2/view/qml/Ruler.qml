@@ -107,7 +107,7 @@ Item {
                 id: markerBase
                 width: 1
                 height: rulerRoot.height
-                x: model.frame * timeline.scaleFactor
+                x: Math.round(model.frame * timeline.scaleFactor)
                 color: guideRoot.activated ? Qt.lighter(model.color, 1.3) : model.color
                 property int markerId: model.id
                 Rectangle {
