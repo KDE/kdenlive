@@ -210,6 +210,7 @@ Rectangle {
                 rubberSelect.width = newX - rubberSelect.originX
             }
         }
+        root.mousePosChanged(getMousePos())
     }
 
     function verticalScroll(wheel) {
@@ -531,6 +532,7 @@ Rectangle {
             // update dragged item pos
             dragProxy.masterObject.updateDrag()
         }
+        root.mousePosChanged(getMousePos())
     }
 
     onConsumerPositionChanged: {
