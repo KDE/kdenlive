@@ -515,7 +515,7 @@ Rectangle {
     //onCurrentTrackChanged: timeline.selection = []
 
     onTimeScaleChanged: {
-        if (scrollView.visibleArea.widthRatio >= 1) {
+        if (timeline.fullDuration * root.timeScale < scrollView.width) {
             scrollView.contentX = 0
             root.zoomOnMouse = -1
         } else if (root.zoomOnMouse >= 0) {
@@ -526,7 +526,6 @@ Rectangle {
         } else {
             scrollView.contentX = Math.max(0, root.consumerPosition * root.timeScale - (scrollView.width / 2))
         }
-        //root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
         if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
             // update dragged item pos
