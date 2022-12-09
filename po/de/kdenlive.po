@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2022-07-14 00:35+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-doc@kde.org>\n"
@@ -752,9 +752,15 @@ msgstr "Zoom"
 msgid "Up"
 msgstr "Hoch"
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr "Im Uhrzeigersinn"
+
+#: data/effects/dance.xml:41
+#, fuzzy, kde-format
+#| msgid "Clockwise"
+msgid "Counter Clockwise"
 msgstr "Im Uhrzeigersinn"
 
 #: data/effects/dust.xml:4
@@ -885,7 +891,7 @@ msgstr "Senkrechte Ausrichtung"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Text"
@@ -19695,6 +19701,11 @@ msgstr ""
 "Wählen Sie eine Farbe auf dem Bildschirm. Drücken Sie die Maustaste und "
 "ziehen Sie die Maus, um einen Bereich auf dem Bildschirm auszuwählen, aus "
 "dem eine durchschnittliche Farbe genommen wird."
+
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format

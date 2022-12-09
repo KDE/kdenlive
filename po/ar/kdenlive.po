@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2022-11-26 10:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -723,9 +723,15 @@ msgstr "تكبير"
 msgid "Up"
 msgstr "أعلى"
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr "مع عقارب السّاعة"
+
+#: data/effects/dance.xml:41
+#, fuzzy, kde-format
+#| msgid "Clockwise"
+msgid "Counter Clockwise"
 msgstr "مع عقارب السّاعة"
 
 #: data/effects/dust.xml:4
@@ -852,7 +858,7 @@ msgstr "محاذاة العموديّة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "النص"
@@ -18914,6 +18920,11 @@ msgid ""
 msgstr ""
 "انتقِ لونا من على الشاشة. بالضغط على زر الفأرة و تحريكها يمكنك تحديد منطقة من "
 "الشاشة التي ستمكنك من الحصول على متوسط اللون ."
+
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format

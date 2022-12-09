@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
-"PO-Revision-Date: 2022-12-06 18:37+0200\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
+"PO-Revision-Date: 2022-12-08 07:01+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -739,9 +739,15 @@ msgstr "Масштабування"
 msgid "Up"
 msgstr "Верх"
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr "За годинниковою стрілкою"
+
+#: data/effects/dance.xml:41
+#, fuzzy, kde-format
+#| msgid "Clockwise"
+msgid "Counter Clockwise"
 msgstr "За годинниковою стрілкою"
 
 #: data/effects/dust.xml:4
@@ -870,7 +876,7 @@ msgstr "Вертикальне вирівнювання"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Текст"
@@ -19157,6 +19163,11 @@ msgstr ""
 "вказівника ви можете вибрати ділянку на екрані, на основі якої буде "
 "визначено середній колір."
 
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
+
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
 msgid "Normal scale"
@@ -19191,6 +19202,7 @@ msgstr "Показувати %1 на монтажному столі"
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
+"Shift + перетягування для послідовного коригування значення на одиницю."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
