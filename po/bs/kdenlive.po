@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -737,9 +737,14 @@ msgstr "Uvećaj"
 msgid "Up"
 msgstr ""
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr ""
+
+#: data/effects/dance.xml:41
+#, kde-format
+msgid "Counter Clockwise"
 msgstr ""
 
 #: data/effects/dust.xml:4
@@ -866,7 +871,7 @@ msgstr "Bez poravnanja"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -20056,6 +20061,11 @@ msgstr ""
 "Odaberi boju na ekranu. Tako što ćete pritisnuti dugme miša, potom "
 "pomijerajući miš, možete odabrati dio ekrana sa kojeg želite uzeti prosječnu "
 "boju."
+
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format

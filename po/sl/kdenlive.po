@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2022-12-07 16:39+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -736,9 +736,15 @@ msgstr "Približanje"
 msgid "Up"
 msgstr "Gor"
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr "V smeri urinega kazalca"
+
+#: data/effects/dance.xml:41
+#, fuzzy, kde-format
+#| msgid "Clockwise"
+msgid "Counter Clockwise"
 msgstr "V smeri urinega kazalca"
 
 #: data/effects/dust.xml:4
@@ -865,7 +871,7 @@ msgstr "Navpična poravnava"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Besedilo"
@@ -19022,6 +19028,11 @@ msgid ""
 msgstr ""
 "Izberite barvo na zaslonu. S pritiskom miškinega gumba in premikanjem lahko "
 "izberete odsek zaslona iz katerega bo pobrana povprečna barva."
+
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format

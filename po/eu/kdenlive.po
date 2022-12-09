@@ -11,10 +11,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
-"PO-Revision-Date: 2022-12-06 09:08+0100\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
+"PO-Revision-Date: 2022-12-08 20:47+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
-"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
+"Language-Team: Basque\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -739,9 +739,15 @@ msgstr "Zoom"
 msgid "Up"
 msgstr "Gora"
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr "erloju-orratzen noranzkoan"
+
+#: data/effects/dance.xml:41
+#, fuzzy, kde-format
+#| msgid "Clockwise"
+msgid "Counter Clockwise"
 msgstr "erloju-orratzen noranzkoan"
 
 #: data/effects/dust.xml:4
@@ -868,7 +874,7 @@ msgstr "Lerrokatze bertikala"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Testua"
@@ -18995,6 +19001,11 @@ msgstr ""
 "sagua mugituz pantailako azalera bat aukeratu dezakezu nondik batezbesteko "
 "kolorea lor dezakezun."
 
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
+
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
 msgid "Normal scale"
@@ -19028,7 +19039,7 @@ msgstr "Erakutsi %1 denbora-lerroan"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "«Maius + Arrastatu» balioak banan-banan doitzeko."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

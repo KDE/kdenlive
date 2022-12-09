@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -745,9 +745,14 @@ msgstr "ズーム"
 msgid "Up"
 msgstr ""
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr ""
+
+#: data/effects/dance.xml:41
+#, kde-format
+msgid "Counter Clockwise"
 msgstr ""
 
 #: data/effects/dust.xml:4
@@ -879,7 +884,7 @@ msgstr "垂直方向を合わせる"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "テキスト"
@@ -20192,6 +20197,11 @@ msgid ""
 msgstr ""
 "画面から色を選択してください。マウスのボタンを押してマウスを動かすことで、色"
 "の平均値を採取する範囲を指定することができます。"
+
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format

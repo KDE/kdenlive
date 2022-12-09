@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-08 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2022-11-27 18:26+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -745,9 +745,15 @@ msgstr "Ingrandimento"
 msgid "Up"
 msgstr "Su"
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr "In senso orario"
+
+#: data/effects/dance.xml:41
+#, fuzzy, kde-format
+#| msgid "Clockwise"
+msgid "Counter Clockwise"
 msgstr "In senso orario"
 
 #: data/effects/dust.xml:4
@@ -874,7 +880,7 @@ msgstr "Allineamento verticale"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Testo"
@@ -19125,6 +19131,11 @@ msgid ""
 msgstr ""
 "Scegli un colore sullo schermo: muovendo il mouse con il pulsante premuto "
 "puoi selezionare una sezione di schermo dalla quale ottenere un colore medio."
+
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
