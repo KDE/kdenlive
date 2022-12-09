@@ -523,6 +523,6 @@ void MonitorProxy::addEffect(const QString &effectData, const QString &effectSou
                                   Q_ARG(QStringList, effectInfo));
     } else {
         // Dropped in project monitor
-        emit addTimelineEffect(effectInfo);
+        QMetaObject::invokeMethod(this, "addTimelineEffect", Qt::QueuedConnection, Q_ARG(QStringList, effectInfo));
     }
 }
