@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-06 00:45+0000\n"
+"POT-Creation-Date: 2022-12-09 00:45+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -710,9 +710,14 @@ msgstr ""
 msgid "Up"
 msgstr ""
 
-#: data/effects/dance.xml:38 data/effects/dance.xml:41
+#: data/effects/dance.xml:38
 #, kde-format
 msgid "Clockwise"
+msgstr ""
+
+#: data/effects/dance.xml:41
+#, kde-format
+msgid "Counter Clockwise"
 msgstr ""
 
 #: data/effects/dust.xml:4
@@ -839,7 +844,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:860 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:867 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr ""
@@ -18313,6 +18318,11 @@ msgid ""
 "average color."
 msgstr ""
 
+#: src/widgets/doublewidget.cpp:27
+#, kde-format
+msgid "Rotate by 90 ° steps"
+msgstr ""
+
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
 msgid "Normal scale"
@@ -18341,6 +18351,11 @@ msgstr ""
 #: src/widgets/dragvalue.cpp:131
 #, kde-format
 msgid "Show %1 in timeline"
+msgstr ""
+
+#: src/widgets/dragvalue.cpp:413
+#, kde-kuit-format
+msgid "Shift + Drag to adjust value one by one."
 msgstr ""
 
 #: src/widgets/geometrywidget.cpp:40
