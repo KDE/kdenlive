@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-09 00:45+0000\n"
-"PO-Revision-Date: 2022-12-04 13:49+0100\n"
+"POT-Creation-Date: 2022-12-10 00:45+0000\n"
+"PO-Revision-Date: 2022-12-10 06:20+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -37,7 +37,7 @@ msgstr "ბალანსი"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr ""
+msgstr "მარჯვენა/მარცხენის ბალანსის შეცვლა"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -52,12 +52,12 @@ msgstr "აუდიოს ამპლიტუდის გამოთვლ�
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "IEC 60268-18 გადიდების გამოყენება "
 
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr ""
+msgstr "აუდიოს დონის ვიზუალიზაციის ფილტრი"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
@@ -68,12 +68,12 @@ msgstr ""
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
-msgstr ""
+msgstr "სეგმენტი, ზოლი"
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "Graph type"
-msgstr ""
+msgstr "გრაფიკის ტიპი"
 
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
@@ -717,10 +717,9 @@ msgid "Clockwise"
 msgstr "საათის ისრის მიმართულებით"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "საათის ისრის მიმართულებით"
+msgstr "საათის ისრის საწინააღმდეგო მიმართულებით"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -1049,7 +1048,7 @@ msgstr ""
 #: data/effects/gpstext.xml:21
 #, kde-format
 msgid "GPS processing start time"
-msgstr ""
+msgstr "GPS დამუშავების დაწყების დრო"
 
 #: data/effects/gpstext.xml:24
 #, kde-format
@@ -1177,7 +1176,7 @@ msgstr "დაბალი სიხშირე"
 #: data/effects/lightshow.xml:11
 #, kde-format
 msgid "High frequency"
-msgstr ""
+msgstr "მაღალი სიხშირე"
 
 #: data/effects/lightshow.xml:14 data/effects/mask_start_shape.xml:14
 #: data/effects/shape.xml:11
@@ -1735,7 +1734,7 @@ msgstr "ტრასფორმირება"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr ""
+msgstr "ცენტრიდან მობრუნება"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -1919,12 +1918,12 @@ msgstr "გადაწევა Y-ით"
 #: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
-msgstr ""
+msgstr "გამეორების გამორთვა"
 
 #: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
-msgstr ""
+msgstr "სარკის გამორთვა"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2580,12 +2579,12 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:75
 #, kde-format
 msgid "EQ and filters"
-msgstr ""
+msgstr "EQ და ფილტრები"
 
 #: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "Modulators"
-msgstr ""
+msgstr "მოდულატორები"
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
@@ -3738,7 +3737,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:929
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:930
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -5206,7 +5205,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
 #: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
-#: src/timeline2/view/qml/timeline.qml:1021
+#: src/timeline2/view/qml/timeline.qml:1022
 #, kde-format
 msgid "Subtitles"
 msgstr "სუბტიტრები"
@@ -7066,7 +7065,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Ask me later"
-msgstr ""
+msgstr "მოგვიანებით მკითხე"
 
 #: src/doc/kdenlivedoc.cpp:1640
 #, kde-format
@@ -9735,7 +9734,7 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:489
 #, kde-format
 msgid "Copy file location to clipboard"
-msgstr ""
+msgstr "ფაილის მდებარეობის ბუფერში კოპირება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -13349,14 +13348,14 @@ msgid "Change clip speed"
 msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:6178
-#: src/timeline2/view/qml/timeline.qml:1151
+#: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
 #: src/timeline2/model/timelinemodel.cpp:6183
-#: src/timeline2/view/qml/timeline.qml:1151
+#: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -13473,7 +13472,7 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2026
+#: src/timeline2/view/qml/timeline.qml:2027
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
@@ -13604,57 +13603,57 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:917
+#: src/timeline2/view/qml/timeline.qml:918
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "მ"
 
-#: src/timeline2/view/qml/timeline.qml:926
+#: src/timeline2/view/qml/timeline.qml:927
 #, kde-format
 msgid "Show master effects"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1057
+#: src/timeline2/view/qml/timeline.qml:1058
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1087
+#: src/timeline2/view/qml/timeline.qml:1088
 #, kde-format
 msgid "Speech recognition"
 msgstr "საუბრის ამოცნობა"
 
-#: src/timeline2/view/qml/timeline.qml:1117
+#: src/timeline2/view/qml/timeline.qml:1118
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1117
+#: src/timeline2/view/qml/timeline.qml:1118
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/timeline.qml:1705
+#: src/timeline2/view/qml/timeline.qml:1706
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1869
+#: src/timeline2/view/qml/timeline.qml:1870
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:2015
-#: src/timeline2/view/qml/timeline.qml:2024
+#: src/timeline2/view/qml/timeline.qml:2016
+#: src/timeline2/view/qml/timeline.qml:2025
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/timeline.qml:2113
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Multicam In"
 msgstr ""
