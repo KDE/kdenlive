@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-10 00:45+0000\n"
-"PO-Revision-Date: 2022-12-07 16:39+0100\n"
+"PO-Revision-Date: 2022-12-10 09:33+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -742,10 +742,9 @@ msgid "Clockwise"
 msgstr "V smeri urinega kazalca"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "V smeri urinega kazalca"
+msgstr "Nasprotno smeri urinega kazalca"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -19032,7 +19031,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "Zasukaj v korakih po 90°"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -19067,7 +19066,7 @@ msgstr "Pokaži %1 na časovnici"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Dvigalka + povlek za prilagoditev vrednosti eno za drugo."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

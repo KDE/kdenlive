@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-10 00:45+0000\n"
-"PO-Revision-Date: 2022-12-04 13:49+0100\n"
+"PO-Revision-Date: 2022-12-10 06:20+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -37,7 +37,7 @@ msgstr "ბალანსი"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr ""
+msgstr "მარჯვენა/მარცხენის ბალანსის შეცვლა"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -52,12 +52,12 @@ msgstr "აუდიოს ამპლიტუდის გამოთვლ�
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "IEC 60268-18 გადიდების გამოყენება "
 
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr ""
+msgstr "აუდიოს დონის ვიზუალიზაციის ფილტრი"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
@@ -68,12 +68,12 @@ msgstr ""
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
-msgstr ""
+msgstr "სეგმენტი, ზოლი"
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "Graph type"
-msgstr ""
+msgstr "გრაფიკის ტიპი"
 
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
@@ -717,10 +717,9 @@ msgid "Clockwise"
 msgstr "საათის ისრის მიმართულებით"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "საათის ისრის მიმართულებით"
+msgstr "საათის ისრის საწინააღმდეგო მიმართულებით"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -1049,7 +1048,7 @@ msgstr ""
 #: data/effects/gpstext.xml:21
 #, kde-format
 msgid "GPS processing start time"
-msgstr ""
+msgstr "GPS დამუშავების დაწყების დრო"
 
 #: data/effects/gpstext.xml:24
 #, kde-format
@@ -1177,7 +1176,7 @@ msgstr "დაბალი სიხშირე"
 #: data/effects/lightshow.xml:11
 #, kde-format
 msgid "High frequency"
-msgstr ""
+msgstr "მაღალი სიხშირე"
 
 #: data/effects/lightshow.xml:14 data/effects/mask_start_shape.xml:14
 #: data/effects/shape.xml:11
@@ -1735,7 +1734,7 @@ msgstr "ტრასფორმირება"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr ""
+msgstr "ცენტრიდან მობრუნება"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -1919,12 +1918,12 @@ msgstr "გადაწევა Y-ით"
 #: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
-msgstr ""
+msgstr "გამეორების გამორთვა"
 
 #: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
-msgstr ""
+msgstr "სარკის გამორთვა"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2580,12 +2579,12 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:75
 #, kde-format
 msgid "EQ and filters"
-msgstr ""
+msgstr "EQ და ფილტრები"
 
 #: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "Modulators"
-msgstr ""
+msgstr "მოდულატორები"
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
@@ -7066,7 +7065,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Ask me later"
-msgstr ""
+msgstr "მოგვიანებით მკითხე"
 
 #: src/doc/kdenlivedoc.cpp:1640
 #, kde-format
@@ -9735,7 +9734,7 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:489
 #, kde-format
 msgid "Copy file location to clipboard"
-msgstr ""
+msgstr "ფაილის მდებარეობის ბუფერში კოპირება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
