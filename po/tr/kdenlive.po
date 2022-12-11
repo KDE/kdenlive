@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-02 03:53+0000\n"
-"PO-Revision-Date: 2022-12-09 19:14+0300\n"
+"PO-Revision-Date: 2022-12-10 17:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2852,7 +2852,7 @@ msgstr "Bileşikleştirme Yöntemi"
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
-msgstr "İlerlemeli Görüntü Dokumayı Zorla"
+msgstr "İlerlemeli Sunumu Zorla"
 
 #: data/transitions/dissolve.xml:4
 #, kde-format
@@ -2987,14 +2987,14 @@ msgstr ""
 #: data/transitions/vqm.xml:8
 #, kde-format
 msgid "Render line"
-msgstr "Dokuma çizgisi"
+msgstr "Sunum çizgisi"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
 msgid ""
 "Render a line between top and bottom halves and the values atop the video."
 msgstr ""
-"Videonun üstündeki değerler ve alt ve üst yarıların arasında bir çizgi doku."
+"Videonun üstündeki değerler ve alt ve üst yarıların arasında bir çizgi sun."
 
 #: data/transitions/wipe.xml:4
 #, kde-format
@@ -3948,15 +3948,15 @@ msgstr "Seçili ögeyi yeniden adlandırmak için <b>F2</b>'ye basın"
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
-msgstr[0] "%1 görev"
-msgstr[1] "%1 görevler"
+msgstr[0] "%1 iş"
+msgstr[1] "%1 iş"
 
 #: src/bin/bin.cpp:1048
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
-msgstr[0] "%1 bekleyen görev"
-msgstr[1] "%1 bekleyen görevler"
+msgstr[0] "%1 bekleyen iş"
+msgstr[1] "%1 bekleyen iş"
 
 #: src/bin/bin.cpp:1173
 #, kde-format
@@ -4055,17 +4055,17 @@ msgstr "Etiketler Paneli"
 #: src/bin/bin.cpp:1479
 #, kde-format
 msgid "Cancel All Jobs"
-msgstr "Tüm Görevleri İptal Et"
+msgstr "Tüm İşleri İptal Et"
 
 #: src/bin/bin.cpp:1481
 #, kde-format
 msgid "Cancel Current Clip Jobs"
-msgstr "Geçerli Klip Görevlerini İptal Et"
+msgstr "Geçerli Klip İşlerini İptal Et"
 
 #: src/bin/bin.cpp:1483
 #, kde-format
 msgid "Cancel Pending Jobs"
-msgstr "Bekleyen Görevleri İptal Et"
+msgstr "Bekleyen İşleri İptal Et"
 
 #: src/bin/bin.cpp:1792
 #, kde-format
@@ -5352,7 +5352,7 @@ msgstr "Üstte Saat"
 #: src/core.cpp:582
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
-msgstr "Proje profiliniz geçersiz, görüntü dokuma başarısız olabilir."
+msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
 
 #. i18n: ectx: Menu (subtitles)
 #: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
@@ -6031,17 +6031,17 @@ msgstr "%1 işleniyor"
 #: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
 msgid "Average Bitrate"
-msgstr "Ortalama Bit Oranı"
+msgstr "Ortalama Bit Hızı"
 
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
-msgstr "CBR – Sabit Bit Oranı"
+msgstr "CBR – Sabit Bit Hızı"
 
 #: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
-msgstr "VBR – Değişken Bit Oranı"
+msgstr "VBR – Değişken Bit Hızı"
 
 #: src/dialogs/renderpresetdialog.cpp:96
 #, kde-format
@@ -6067,7 +6067,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:427
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "Görüntü Dokuma Önayarını Düzenle"
+msgstr "Sunum Önayarını Düzenle"
 
 #: src/dialogs/renderpresetdialog.cpp:170
 #, kde-format
@@ -6104,17 +6104,17 @@ msgstr "Bekliyor…"
 #: src/dialogs/renderwidget.cpp:110
 #, kde-format
 msgid "Rendering finished"
-msgstr "Görüntü dokuma işlemi bitti"
+msgstr "Sunum bitti"
 
 #: src/dialogs/renderwidget.cpp:115
 #, kde-format
 msgid "Rendering crashed"
-msgstr "Görüntü dokuma işlemi çöktü"
+msgstr "Sunum çöktü"
 
 #: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Görüntü dokuma işlemi iptal edildi"
+msgstr "Sunum iptal edildi"
 
 #: src/dialogs/renderwidget.cpp:205 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -6140,7 +6140,7 @@ msgstr "Kare Numarası"
 #: src/dialogs/renderwidget.cpp:212
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Düşük kaliteli vekil kullanarak gerçekle"
+msgstr "Düşük kaliteli vekil kullanarak sunum"
 
 #: src/dialogs/renderwidget.cpp:279
 #, kde-format
@@ -6158,8 +6158,8 @@ msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
-"kdenlive_render uygulaması bulunamadı, kurulumunuzda bir sorun var. Görüntü "
-"dokuma çalışmayacak"
+"kdenlive_render uygulaması bulunamadı, kurulumunuzda bir sorun var. Sunum "
+"çalışmayacak"
 
 #: src/dialogs/renderwidget.cpp:328
 #, kde-format
@@ -6202,13 +6202,12 @@ msgstr "Son"
 #: src/dialogs/renderwidget.cpp:607
 #, kde-format
 msgid "Add a clip to timeline before rendering"
-msgstr "Görüntüyü dokumadan önce zaman akışınıza bir klip ekleyin"
+msgstr "Sunumdan önce zaman akışına bir klip ekle"
 
 #: src/dialogs/renderwidget.cpp:613
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
-msgstr ""
-"Görüntüyü dokuma için gerekli melt yazılımı (MLT'nin bir parçası) bulunamıyor"
+msgstr "Sunum için gerekli melt yazılımı (MLT'nin bir parçası) bulunamıyor"
 
 #: src/dialogs/renderwidget.cpp:619 src/dialogs/renderwidget.cpp:1725
 #: src/project/dialogs/archivewidget.cpp:896
@@ -6244,12 +6243,12 @@ msgstr "dışa aktar"
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
-msgstr "Geciktirilmiş Görüntü Dokuma"
+msgstr "Geciktirilmiş Sunum"
 
 #: src/dialogs/renderwidget.cpp:786
 #, kde-format
 msgid "Select a name for this rendering."
-msgstr "Bu görüntü dokuma için bir ad seçin."
+msgstr "Bu sunum için bir ad seçin."
 
 #: src/dialogs/renderwidget.cpp:882
 #, kde-format
@@ -6257,7 +6256,7 @@ msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
-"Betik görüntüsü dokuma ve çok izli ses dışa aktarımı birlikte kullanılamaz.\n"
+"Betik sunumu ve çok izli ses dışa aktarımı birlikte kullanılamaz.\n"
 "Betik, çoklu iz dışa aktarma desteği olmadan kaydedilecek."
 
 #: src/dialogs/renderwidget.cpp:1022 src/dialogs/renderwidget.cpp:1738
@@ -6287,7 +6286,7 @@ msgstr "Video izi olmayan ses"
 #: src/dialogs/renderwidget.cpp:1118
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr "<i>%1</i>  görüntüsü dokuması başladı"
+msgstr "<i>%1</i> sunumu başladı"
 
 #: src/dialogs/renderwidget.cpp:1184 src/monitor/monitor.cpp:1143
 #, kde-format
@@ -6315,8 +6314,7 @@ msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
-"Ses ve video olmadan görüntü dokuma çalışmaz. İkisinden en az birini "
-"etkinleştirin."
+"Ses ve video olmadan sunum çalışmaz. İkisinden en az birini etkinleştirin."
 
 #: src/dialogs/renderwidget.cpp:1499
 #, kde-format
@@ -6338,28 +6336,28 @@ msgstr " (kare %1 @ %2 fps)"
 #: src/dialogs/renderwidget.cpp:1535
 #, kde-format
 msgid "Rendering finished in %1"
-msgstr "Görüntü dokuma işlemi %1 içinde bitti"
+msgstr "Sunum, %1 içinde bitti"
 
 #: src/dialogs/renderwidget.cpp:1544
 #, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "%1 görüntüsü dokuması %2 içinde bitti"
+msgstr "%1 sunumu %2 içinde bitti"
 
 #: src/dialogs/renderwidget.cpp:1568
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
-msgstr "<strong>%1 görüntüsü dokuması çöktü</strong><br />"
+msgstr "<strong>%1 sunumu çöktü</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
 #: src/dialogs/renderwidget.cpp:1611 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
-msgstr "Görevi İptal Et"
+msgstr "İşi İptal Et"
 
 #: src/dialogs/renderwidget.cpp:1614
 #, kde-format
 msgid "Remove Job"
-msgstr "Görevi Kaldır"
+msgstr "İşi Kaldır"
 
 #: src/dialogs/renderwidget.cpp:2056
 #, kde-format
@@ -7935,7 +7933,7 @@ msgstr "Sesi Ayır"
 #: src/kdenliveui.rc:77 src/mainwindow.cpp:3602
 #, kde-format
 msgid "Clip Jobs"
-msgstr "Klip Görevleri"
+msgstr "Klip İşleri"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:90
@@ -8683,17 +8681,17 @@ msgstr "Sık Kullanılan Efektler"
 #: src/mainwindow.cpp:537 src/mainwindow.cpp:1403
 #, kde-format
 msgid "Render…"
-msgstr "Görüntüyü Doku…"
+msgstr "Sunum…"
 
 #: src/mainwindow.cpp:542
 #, kde-format
 msgid "Render Button"
-msgstr "Tarama düğmesi"
+msgstr "Sunum Düğmesi"
 
 #: src/mainwindow.cpp:548
 #, kde-format
 msgid "Rendering preview"
-msgstr "Tarama önizlemesi"
+msgstr "Sunum önizlemesi"
 
 #: src/mainwindow.cpp:624 src/monitor/monitor.cpp:355
 #, kde-format
@@ -8763,21 +8761,21 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Kuyrukta bekleyen 1 görüntü dokuma işi var.\n"
+"Kuyrukta bekleyen 1 sunum işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 msgstr[1] ""
-"Kuyrukta bekleyen %1 görüntü dokuma işi var.\n"
+"Kuyrukta bekleyen %1 sunum işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 
 #: src/mainwindow.cpp:945
 #, kde-format
 msgid "Start them now"
-msgstr "Görevleri şimdi başlat"
+msgstr "Onları şimdi başlat"
 
 #: src/mainwindow.cpp:945
 #, kde-format
 msgid "Delete them"
-msgstr "Görevleri sil"
+msgstr "Onları sil"
 
 #: src/mainwindow.cpp:1049 src/timeline2/view/timelinecontroller.cpp:2028
 #, kde-format
@@ -8981,7 +8979,7 @@ msgstr "Proje Ayarları…"
 #: src/mainwindow.cpp:1406
 #, kde-format
 msgid "Stop Render"
-msgstr "Taramayı durdur"
+msgstr "Sunumu Durdur"
 
 #: src/mainwindow.cpp:1411
 #, kde-format
@@ -9196,12 +9194,12 @@ msgstr "Tüm Önizleme Bölgelerini Çıkar"
 #: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Önizleme Dokumayı Başlat"
+msgstr "Önizleme Sunumunu Başlat"
 
 #: src/mainwindow.cpp:1579
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "Önizleme Dokumayı Durdur"
+msgstr "Önizleme Sunumunu Durdur"
 
 #: src/mainwindow.cpp:1582
 #, kde-format
@@ -9959,8 +9957,7 @@ msgstr "Önbelleklenmiş veri boyutu denetleniyor"
 #: src/mltconnection.cpp:200
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
-msgstr ""
-"Görüntü dokuma için gerekli melt yazılımı (MLT'nin bir parçası) bulunamıyor"
+msgstr "Sunum için gerekli melt yazılımı (MLT'nin bir parçası) bulunamıyor"
 
 #: src/mltconnection.cpp:234
 #, kde-format
@@ -10051,7 +10048,7 @@ msgstr "Dosya konumunu panoya kopyala"
 #: src/ui/profiledialog_ui.ui:115
 #, kde-format
 msgid "Frame rate:"
-msgstr "Kare oranı:"
+msgstr "Kare hızı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
@@ -10250,7 +10247,7 @@ msgstr "Kare boyutu:"
 #: src/mltcontroller/clippropertiescontroller.cpp:1327
 #, kde-format
 msgid "Video bitrate:"
-msgstr "Video bit oranı:"
+msgstr "Video bit hızı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
@@ -10311,7 +10308,7 @@ msgstr "Hz"
 #: src/mltcontroller/clippropertiescontroller.cpp:1369
 #, kde-format
 msgid "Audio bitrate:"
-msgstr "Ses bit oranı:"
+msgstr "Ses bit hızı:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1377
 #, kde-format
@@ -11380,7 +11377,7 @@ msgstr "Klibi sabitle"
 #: src/project/clipstabilize.cpp:158
 #, kde-format
 msgid "The stabilize job will overwrite the following files:"
-msgstr "Sabitleme görevi aşağıdaki dosyaların üzerine yazacak:"
+msgstr "Sabitleme işi aşağıdaki dosyaların üzerine yazacak:"
 
 #: src/project/cliptranscode.cpp:36 src/project/transcodeseek.cpp:25
 #, kde-format
@@ -11856,7 +11853,7 @@ msgstr "Kare boyutu: %1 x %2 (%3:%4)"
 #: src/project/dialogs/profilewidget.cpp:195
 #, kde-format
 msgid "Frame rate: %1 fps"
-msgstr "Kare oranı: %1 fps"
+msgstr "Kare hızı: %1 fps"
 
 #: src/project/dialogs/profilewidget.cpp:197
 #, kde-format
@@ -12760,12 +12757,12 @@ msgstr "Konuşmadan metne"
 #: src/render/renderserver.cpp:22 src/render/renderserver.cpp:76
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr "%1 görüntü dokuma işi ile iletişim kurulamıyor"
+msgstr "%1 sunumu işi ile iletişim kurulamıyor"
 
 #: src/render/renderserver.cpp:50
 #, kde-format
 msgid "Communication error with render job"
-msgstr "Görüntü dokuma işi ile iletişim hatası"
+msgstr "Sunum işi ile iletişim hatası"
 
 #: src/renderpresets/renderpresetmodel.cpp:38
 #: src/renderpresets/renderpresetmodel.cpp:128
@@ -12783,7 +12780,7 @@ msgstr "standart (%1) proje profilinizle (%2) uyumlu değil"
 #: src/renderpresets/renderpresetmodel.cpp:174
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
-msgstr "Kare oranı (%1) proje profilinizle (%2) uyumlu değil"
+msgstr "Kare hızı (%1) proje profilinizle (%2) uyumlu değil"
 
 #: src/renderpresets/renderpresetmodel.cpp:184
 #, kde-format
@@ -12806,9 +12803,9 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
-"Bu görüntü dokuma profili bir 'profil' parametresi kullanıyor<br />Ne "
-"yaptığınızı biliyorsanız bunu büyük olasılıkla 'mlt_profiler'a değiştirmek "
-"zorunda kalacaksınız."
+"Bu sunum profili bir 'profil' parametresi kullanıyor<br />Ne yaptığınızı "
+"biliyorsanız bunu büyük olasılıkla 'mlt_profiler'a değiştirmek zorunda "
+"kalacaksınız."
 
 #: src/renderpresets/renderpresetrepository.cpp:196
 #, kde-format
@@ -12855,7 +12852,7 @@ msgstr "Eşzamanlı (kesinlik kaybı ile)"
 #: src/scopes/audioscopes/spectrogram.cpp:45
 #, kde-format
 msgid "Reset maximum frequency to sampling rate"
-msgstr "En yüksek frekansı örnekleme oranına sıfırla"
+msgstr "En yüksek frekansı örnekleme hızına sıfırla"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:55
 #: src/scopes/audioscopes/spectrogram.cpp:48
@@ -13936,7 +13933,7 @@ msgstr "Önbellek klasörleri ile ilgili bir şeyler yanlış"
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
-"Önizleme dokuması başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
+"Önizleme sunumu başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
 "göster...%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:22
@@ -15814,7 +15811,7 @@ msgstr "Yakalama ses düzeyi:"
 #: src/ui/configcapture_ui.ui:583
 #, kde-format
 msgid "Sample rate:"
-msgstr "Örnekleme oranı:"
+msgstr "Örnekleme hızı:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelNoAudioDevices)
 #: src/ui/configcapture_ui.ui:611
@@ -15856,7 +15853,7 @@ msgstr "Vekil ve Arakodlama İşleri"
 #: src/ui/configenv_ui.ui:39
 #, kde-format
 msgid "Use lower CPU priority for proxy and transcode tasks"
-msgstr "Vekil ve arakodlama görevleri için düşük CPU önceliği kullan"
+msgstr "Vekil ve arakodlama işleri için düşük CPU önceliği kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configenv_ui.ui:59
@@ -15985,7 +15982,7 @@ msgstr "Kitaplık klasörü:"
 #: src/ui/configenv_ui.ui:257
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "Betikler, başlıklar, görüntü dokuma için klasör:"
+msgstr "Betikler, başlıklar, sunum klasörü:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:313
@@ -16701,7 +16698,7 @@ msgstr "İşi yapılandır."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "Görüntü Dokuma Önayarını Kaydet"
+msgstr "Sunum Önayarını Kaydet"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
@@ -16733,7 +16730,7 @@ msgstr "Kalite:"
 #: src/ui/editrenderpreset_ui.ui:247 src/ui/editrenderpreset_ui.ui:978
 #, kde-format
 msgid "Bitrate:"
-msgstr "Bit oranı:"
+msgstr "Bit hızı:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:254
@@ -16819,7 +16816,7 @@ msgstr "Görüntüleme En-Boy Oranı:"
 #: src/ui/editrenderpreset_ui.ui:625
 #, kde-format
 msgid "Frame Rate:"
-msgstr "Kare Oranı:"
+msgstr "Kare Hızı:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cField)
 #: src/ui/editrenderpreset_ui.ui:746
@@ -16869,7 +16866,7 @@ msgstr "Arabellek Boyutu:"
 #: src/ui/editrenderpreset_ui.ui:880
 #, kde-format
 msgid "Sample Rate:"
-msgstr "Örnekleme Oranı:"
+msgstr "Örnekleme Hızı:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:912
@@ -17874,7 +17871,7 @@ msgstr "Doldurma:"
 #: src/ui/renderwidget_ui.ui:18
 #, kde-format
 msgid "Rendering"
-msgstr "Görüntü Dokuma"
+msgstr "Sunum"
 
 #. i18n: ectx: attribute (title), widget (QWidget, renderTab)
 #: src/ui/renderwidget_ui.ui:43
@@ -17922,7 +17919,7 @@ msgstr "&Kaydet"
 #: src/ui/renderwidget_ui.ui:236
 #, kde-format
 msgid "Download New Render Presets…"
-msgstr "Yeni Görüntü Dokuma Profilleri İndir…"
+msgstr "Yeni Sunum Profilleri İndir…"
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
 #: src/ui/renderwidget_ui.ui:245
@@ -17964,13 +17961,13 @@ msgstr "&Sil"
 #: src/ui/renderwidget_ui.ui:336
 #, kde-format
 msgid "Render to File"
-msgstr "Dosyaya Hazırla"
+msgstr "Dosyaya Sun"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
 #: src/ui/renderwidget_ui.ui:343
 #, kde-format
 msgid "Generate Script"
-msgstr "Betik üret"
+msgstr "Betik Üret"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
 #: src/ui/renderwidget_ui.ui:374
@@ -18006,7 +18003,7 @@ msgstr "Ayırıcı olarak kullanılacak kılavuzlar:"
 #: src/ui/renderwidget_ui.ui:494
 #, kde-format
 msgid "Render at Preview Resolution"
-msgstr "Önizleme Çözünürlüğünde Doku"
+msgstr "Önizleme Çözünürlüğünde Sun"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:501
@@ -18122,7 +18119,7 @@ msgstr "Paralel İşleme"
 #: src/ui/renderwidget_ui.ui:786
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
-msgstr "Paralel işleme, görüntü dokurken bozukluklar oluşturabilir"
+msgstr "Paralel işleme, sunulurken bozukluklar oluşturabilir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
 #: src/ui/renderwidget_ui.ui:805
@@ -18170,7 +18167,7 @@ msgstr "İş Sırası"
 #: src/ui/renderwidget_ui.ui:917
 #, kde-format
 msgid "Start Job"
-msgstr "Görevi Başlat"
+msgstr "İşi Başlat"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
 #: src/ui/renderwidget_ui.ui:927
@@ -18188,7 +18185,7 @@ msgstr "Hata Günlüğü"
 #: src/ui/renderwidget_ui.ui:1022
 #, kde-format
 msgid "Shutdown computer after renderings"
-msgstr "Görüntü dokuma işlemlerinden sonra bilgisayarı kapat"
+msgstr "Sunumlardan sonra bilgisayarı kapat"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
 #: src/ui/renderwidget_ui.ui:1037
@@ -18425,7 +18422,7 @@ msgstr "Şablon:"
 #: src/ui/testproxy_ui.ui:58
 #, kde-format
 msgid "Render Time"
-msgstr "Görüntü Dokuma Süresi"
+msgstr "Sunum Süresi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:63
