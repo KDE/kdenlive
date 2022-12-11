@@ -4437,11 +4437,14 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
                 pCore->switchCapture();
                 return true;
             }
-            if (m_activeTool != ToolType::SelectTool) {
+            if (m_activeTool != ToolType::SelectTool && m_commandStack->activeStack()->canUndo()) {
                 m_buttonSelectTool->trigger();
                 return true;
             } else {
-                getCurrentTimeline()->model()->requestClearSelection();
+                if (m_commandStack->activeStack()->canUndo()) {
+                    // Don't call selection clear if a drag operation is in progress
+                    getCurrentTimeline()->model()->requestClearSelection();
+                }
                 return true;
             }
         }
