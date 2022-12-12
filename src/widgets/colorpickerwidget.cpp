@@ -84,14 +84,16 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     // Check wether grabWindow() works. On some systems like with Wayland it does.
     // We fallback to the Freedesktop portal with DBus which has less features than
     // our custom implementation (eg. preview and avarage color are missing)
-    QPoint p(pCore->window()->geometry().center());
-    foreach (QScreen *screen, QGuiApplication::screens()) {
-        QRect screenRect = screen->geometry();
-        if (screenRect.contains(p)) {
-            QPixmap pm = screen->grabWindow(pCore->window()->winId(), p.x(), p.y(), 1, 1);
-            qDebug() << "got pixmap that is not null";
-            m_useDBus = pm.isNull();
-            break;
+    if (pCore) {
+        QPoint p(pCore->window()->geometry().center());
+        foreach (QScreen *screen, QGuiApplication::screens()) {
+            QRect screenRect = screen->geometry();
+            if (screenRect.contains(p)) {
+                QPixmap pm = screen->grabWindow(pCore->window()->winId(), p.x(), p.y(), 1, 1);
+                qDebug() << "got pixmap that is not null";
+                m_useDBus = pm.isNull();
+                break;
+            }
         }
     }
 
