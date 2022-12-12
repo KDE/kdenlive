@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-02 03:53+0000\n"
-"PO-Revision-Date: 2022-12-10 17:41+0300\n"
+"PO-Revision-Date: 2022-12-11 20:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -804,7 +804,7 @@ msgstr "Hareketli Yazı"
 #: data/effects/dynamictext.xml:5
 #, kde-format
 msgid "Overlay text with keywords replaced"
-msgstr "Değiştirilen anahtar kelimelerle metni üzerine bindir"
+msgstr "Değiştirilen anahtar sözcüklerle metni üzerine bindir"
 
 #: data/effects/dynamictext.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
@@ -9686,7 +9686,7 @@ msgid ""
 "Do you want to proceed?"
 msgstr ""
 "Bu, kdenlive'ın yapılandırma dosyasını silecek ve uygulamayı yeniden "
-"başlatacaktır. Devam etmek istiyor musunuz?"
+"başlatacaktır. Sürdürmek istiyor musunuz?"
 
 #: src/mainwindow.cpp:2637 src/mainwindow.cpp:2664
 #, kde-format
@@ -11531,7 +11531,7 @@ msgstr "Hazır"
 #: src/project/dialogs/archivewidget.cpp:362
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
-msgstr "Arşivleme devam ediyor, durdurmak istiyor musunuz?"
+msgstr "Arşivleme sürüyor, durdurmak istiyor musunuz?"
 
 #: src/project/dialogs/archivewidget.cpp:362
 #: src/project/dialogs/archivewidget.cpp:363
@@ -12471,8 +12471,8 @@ msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
-"Bu, projenizi en son kaydettiğinizden bu ana kadarki değişiklikleri silecek. "
-"Hala devam etmek istiyor musunuz?"
+"Bu, projenizi en son kaydettiğinizden bu yana olan değişiklikleri silecek. "
+"Hâlâ sürdürmek istiyor musunuz?"
 
 #: src/project/projectmanager.cpp:738
 #, kde-format
