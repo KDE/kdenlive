@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-10 00:45+0000\n"
+"POT-Creation-Date: 2022-12-12 00:46+0000\n"
 "PO-Revision-Date: 2022-12-10 09:33+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -9326,7 +9326,7 @@ msgstr "Izbriši označevalnik"
 msgid "Edit Marker…"
 msgstr "Uredi označevalnik …"
 
-#: src/mainwindow.cpp:1616 src/timeline2/model/timelinefunctions.cpp:1070
+#: src/mainwindow.cpp:1616 src/timeline2/model/timelinefunctions.cpp:1063
 #, kde-format
 msgid "Restore Audio"
 msgstr "Obnovi zvok"
@@ -10009,12 +10009,12 @@ msgstr ""
 msgid "No subtitles in current project"
 msgstr "V trenutnem projektu ni podnaslovov"
 
-#: src/mainwindow.cpp:4482
+#: src/mainwindow.cpp:4485
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektna posoda %1"
 
-#: src/mainwindow.cpp:4583
+#: src/mainwindow.cpp:4586
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Preverjanje velikosti predpomnjenih podatkov"
@@ -13486,161 +13486,161 @@ msgstr "Ni posnetka, da bi ga izrezal"
 msgid "Cut all clips"
 msgstr "Odreži vse posnetke"
 
-#: src/timeline2/model/timelinefunctions.cpp:556
+#: src/timeline2/model/timelinefunctions.cpp:549
 #: src/timeline2/view/timelinecontroller.cpp:1326
 #, kde-format
 msgid "Insert space"
 msgstr "Vstavi praznino"
 
-#: src/timeline2/model/timelinefunctions.cpp:558
+#: src/timeline2/model/timelinefunctions.cpp:551
 #: src/timeline2/view/timelinecontroller.cpp:1328
 #, kde-format
 msgid "Remove space"
 msgstr "Odstrani praznino"
 
-#: src/timeline2/model/timelinefunctions.cpp:638
+#: src/timeline2/model/timelinefunctions.cpp:631
 #, kde-format
 msgid "Lift zone"
 msgstr "Dvigni območje"
 
-#: src/timeline2/model/timelinefunctions.cpp:638
+#: src/timeline2/model/timelinefunctions.cpp:631
 #, kde-format
 msgid "Extract zone"
 msgstr "Izlušči območje"
 
-#: src/timeline2/model/timelinefunctions.cpp:649
+#: src/timeline2/model/timelinefunctions.cpp:642
 #: src/timeline2/view/timelinecontroller.cpp:3064
 #: src/timeline2/view/timelinecontroller.cpp:3130
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Prepiši območje"
 
-#: src/timeline2/model/timelinefunctions.cpp:649
+#: src/timeline2/model/timelinefunctions.cpp:642
 #: src/timeline2/view/timelinecontroller.cpp:3064
 #: src/timeline2/view/timelinecontroller.cpp:3130
 #, kde-format
 msgid "Insert zone"
 msgstr "Vstavi območje"
 
-#: src/timeline2/model/timelinefunctions.cpp:651
+#: src/timeline2/model/timelinefunctions.cpp:644
 #: src/timeline2/view/timelinecontroller.cpp:3066
 #: src/timeline2/view/timelinecontroller.cpp:3132
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Območja ni možno vstaviti"
 
-#: src/timeline2/model/timelinefunctions.cpp:684
+#: src/timeline2/model/timelinefunctions.cpp:677
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Aktivirajte steze s klikom na oznako steze"
 
-#: src/timeline2/model/timelinefunctions.cpp:871
+#: src/timeline2/model/timelinefunctions.cpp:864
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Ni mogoče premakniti izbrane grupe"
 
-#: src/timeline2/model/timelinefunctions.cpp:972
+#: src/timeline2/model/timelinefunctions.cpp:965
+#: src/timeline2/model/timelinefunctions.cpp:969
 #: src/timeline2/model/timelinefunctions.cpp:976
-#: src/timeline2/model/timelinefunctions.cpp:983
 #: src/timeline2/view/timelinecontroller.cpp:3981
 #, kde-format
 msgid "Enable clip"
 msgstr "Omogoči posnetek"
 
-#: src/timeline2/model/timelinefunctions.cpp:972
+#: src/timeline2/model/timelinefunctions.cpp:965
+#: src/timeline2/model/timelinefunctions.cpp:969
 #: src/timeline2/model/timelinefunctions.cpp:976
-#: src/timeline2/model/timelinefunctions.cpp:983
 #: src/timeline2/view/timelinecontroller.cpp:3981
 #, kde-format
 msgid "Disable clip"
 msgstr "Onemogoči posnetek"
 
-#: src/timeline2/model/timelinefunctions.cpp:1025
+#: src/timeline2/model/timelinefunctions.cpp:1018
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "En ali več posnetkov nima zvoka ali pa so samo zvok"
 
-#: src/timeline2/model/timelinefunctions.cpp:1042
+#: src/timeline2/model/timelinefunctions.cpp:1035
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Nobene zvočne steze ni na voljo za postopek obnove"
 
-#: src/timeline2/model/timelinefunctions.cpp:1050
-#: src/timeline2/model/timelinefunctions.cpp:1063
+#: src/timeline2/model/timelinefunctions.cpp:1043
+#: src/timeline2/model/timelinefunctions.cpp:1056
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Obnova zvoka ni uspela"
 
-#: src/timeline2/model/timelinefunctions.cpp:1102
+#: src/timeline2/model/timelinefunctions.cpp:1095
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Ni mogoče najti zvočne steze za postopek obnove"
 
-#: src/timeline2/model/timelinefunctions.cpp:1110
-#: src/timeline2/model/timelinefunctions.cpp:1123
+#: src/timeline2/model/timelinefunctions.cpp:1103
+#: src/timeline2/model/timelinefunctions.cpp:1116
 #, kde-format
 msgid "Video restore failed"
 msgstr "Obnova videa ni uspela"
 
-#: src/timeline2/model/timelinefunctions.cpp:1129
+#: src/timeline2/model/timelinefunctions.cpp:1122
 #, kde-format
 msgid "Restore Video"
 msgstr "Obnovi video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1176
+#: src/timeline2/model/timelinefunctions.cpp:1169
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Spremeni stezo sestave"
 
-#: src/timeline2/model/timelinefunctions.cpp:1191
+#: src/timeline2/model/timelinefunctions.cpp:1184
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Ni mogoče omogočiti večsteznega pogleda na enojno stezo"
 
-#: src/timeline2/model/timelinefunctions.cpp:1345
+#: src/timeline2/model/timelinefunctions.cpp:1338
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Dodaj posnetek v knjižnico"
 
-#: src/timeline2/model/timelinefunctions.cpp:1345
+#: src/timeline2/model/timelinefunctions.cpp:1338
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Vnesite ime za posnetek v knjižnici"
 
-#: src/timeline2/model/timelinefunctions.cpp:1667
+#: src/timeline2/model/timelinefunctions.cpp:1660
 #, kde-format
 msgid "Paste clips"
 msgstr "Prilepi posnetke"
 
-#: src/timeline2/model/timelinefunctions.cpp:1678
+#: src/timeline2/model/timelinefunctions.cpp:1671
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "V teku je še ena operacija lepljenja"
 
-#: src/timeline2/model/timelinefunctions.cpp:1690
+#: src/timeline2/model/timelinefunctions.cpp:1683
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Ni veljavnih podatkov na odlagališču"
 
-#: src/timeline2/model/timelinefunctions.cpp:1716
-#: src/timeline2/model/timelinefunctions.cpp:1774
-#: src/timeline2/model/timelinefunctions.cpp:1803
-#: src/timeline2/model/timelinefunctions.cpp:1834
-#: src/timeline2/model/timelinefunctions.cpp:1873
-#: src/timeline2/model/timelinefunctions.cpp:2029
+#: src/timeline2/model/timelinefunctions.cpp:1709
+#: src/timeline2/model/timelinefunctions.cpp:1767
+#: src/timeline2/model/timelinefunctions.cpp:1796
+#: src/timeline2/model/timelinefunctions.cpp:1827
+#: src/timeline2/model/timelinefunctions.cpp:1866
+#: src/timeline2/model/timelinefunctions.cpp:2022
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Ni dovolj stez za lepljenje na odložišče"
 
-#: src/timeline2/model/timelinefunctions.cpp:1891
-#: src/timeline2/model/timelinefunctions.cpp:1905
-#: src/timeline2/model/timelinefunctions.cpp:1933
-#: src/timeline2/model/timelinefunctions.cpp:1938
+#: src/timeline2/model/timelinefunctions.cpp:1884
+#: src/timeline2/model/timelinefunctions.cpp:1898
+#: src/timeline2/model/timelinefunctions.cpp:1926
+#: src/timeline2/model/timelinefunctions.cpp:1931
 #, kde-format
 msgid "Pasted clips"
 msgstr "Prilepljeni posnetki"
 
-#: src/timeline2/model/timelinefunctions.cpp:1924
+#: src/timeline2/model/timelinefunctions.cpp:1917
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -13649,43 +13649,43 @@ msgstr ""
 "Izvorni projekt ima drugačno hitrost sličic (%1 sl/s) kot vaš trenutni "
 "projekt.<br/>Kadri ali ključne sličice so morda zamaknjeni."
 
-#: src/timeline2/model/timelinefunctions.cpp:1926
+#: src/timeline2/model/timelinefunctions.cpp:1919
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Opozorilo ob lepljenju"
 
-#: src/timeline2/model/timelinefunctions.cpp:1926
+#: src/timeline2/model/timelinefunctions.cpp:1919
 #, kde-format
 msgid "Paste"
 msgstr "Prilepi"
 
-#: src/timeline2/model/timelinefunctions.cpp:1968
+#: src/timeline2/model/timelinefunctions.cpp:1961
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Ni bilo mogoče dodati posnetek iz posode"
 
-#: src/timeline2/model/timelinefunctions.cpp:2021
+#: src/timeline2/model/timelinefunctions.cpp:2014
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Vsi posnetki niso bili uspešno kopirani"
 
-#: src/timeline2/model/timelinefunctions.cpp:2052
-#: src/timeline2/model/timelinefunctions.cpp:2173
+#: src/timeline2/model/timelinefunctions.cpp:2045
+#: src/timeline2/model/timelinefunctions.cpp:2166
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ni bilo mogoče prilepiti predmetov v časovnico"
 
-#: src/timeline2/model/timelinefunctions.cpp:2193
+#: src/timeline2/model/timelinefunctions.cpp:2186
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Prilepi časovni posnetek"
 
-#: src/timeline2/model/timelinefunctions.cpp:2409
+#: src/timeline2/model/timelinefunctions.cpp:2402
 #, kde-format
 msgid "Remove space on track"
 msgstr "Odstrani praznino s steze"
 
-#: src/timeline2/model/timelinefunctions.cpp:2436
+#: src/timeline2/model/timelinefunctions.cpp:2429
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
