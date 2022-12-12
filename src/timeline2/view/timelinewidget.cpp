@@ -284,7 +284,7 @@ void TimelineWidget::showTargetMenu(int tid)
             return;
         }
         QVariant returnedValue;
-        QMetaObject::invokeMethod(rootObject(), "getActiveTrackStreamPos", Q_RETURN_ARG(QVariant, returnedValue));
+        QMetaObject::invokeMethod(rootObject(), "getActiveTrackStreamPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
         m_clickPos = mapToGlobal(QPoint(5, y())) + QPoint(0, returnedValue.toInt());
     }
     QMap<int, QString> possibleTargets = m_proxy->getCurrentTargets(tid, currentTargetStream);
@@ -373,9 +373,9 @@ void TimelineWidget::slotFitZoom()
 {
     QVariant returnedValue;
     double prevScale = m_proxy->scaleFactor();
-    QMetaObject::invokeMethod(rootObject(), "fitZoom", Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "fitZoom", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     double scale = returnedValue.toDouble();
-    QMetaObject::invokeMethod(rootObject(), "scrollPos", Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(rootObject(), "scrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
     if (qFuzzyCompare(prevScale, scale) && scrollPos == 0) {
         scale = m_prevScale;

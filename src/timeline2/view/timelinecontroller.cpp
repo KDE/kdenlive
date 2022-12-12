@@ -977,7 +977,7 @@ void TimelineController::unGroupSelection(int cid)
 bool TimelineController::dragOperationRunning()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "isDragging", Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(m_root, "isDragging", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     return returnedValue.toBool();
 }
 
@@ -1888,14 +1888,14 @@ void TimelineController::seekToMouse()
 int TimelineController::getMousePos()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(m_root, "getMousePos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     return returnedValue.toInt();
 }
 
 int TimelineController::getMouseTrack()
 {
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMouseTrack", Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(m_root, "getMouseTrack", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     return returnedValue.toInt();
 }
 
@@ -2627,7 +2627,7 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
     props.insert(QStringLiteral("position"), QString::number(pCore->getMonitorPosition()));
     QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getScrollPos", Q_RETURN_ARG(QVariant, returnedValue));
+    QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
     props.insert(QStringLiteral("scrollPos"), QString::number(scrollPos));
     props.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
