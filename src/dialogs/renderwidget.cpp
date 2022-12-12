@@ -228,20 +228,25 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
     connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
-    m_view.processing_threads->setMaximum(QThread::idealThreadCount() - 1);
+    m_view.processing_threads->setMaximum(QThread::idealThreadCount());
     m_view.processing_threads->setValue(KdenliveSettings::processingthreads());
     connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setProcessingthreads);
     connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::refreshParams);
     m_view.processing_box->setChecked(KdenliveSettings::parallelrender());
-    connect(m_view.processing_box, &QGroupBox::toggled, [&](int state) {
-        KdenliveSettings::setParallelrender(state == Qt::Checked);
-        refreshParams();
-    });
+#if QT_POINTER_SIZE == 4
+    // On 32-bit process, limit multi-threading to mitigate running out of memory.
+    m_view.processing_box->setChecked(false);
+    m_view.processing_box->setEnabled(false);
+#endif
     if (KdenliveSettings::gpu_accel()) {
         // Disable parallel rendering for movit
         m_view.processing_box->setChecked(false);
         m_view.processing_box->setEnabled(false);
     }
+    connect(m_view.processing_box, &QGroupBox::toggled, [&](int state) {
+        KdenliveSettings::setParallelrender(state == Qt::Checked);
+        refreshParams();
+    });
     connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.checkTwoPass, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
 
