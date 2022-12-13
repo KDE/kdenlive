@@ -29,6 +29,7 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
     , m_tractor(tractor)
     , m_previewTrack(nullptr)
     , m_overlayTrack(nullptr)
+    , m_warnOnCrash(true)
     , m_previewTrackIndex(-1)
     , m_initialized(false)
 {
@@ -506,6 +507,8 @@ void PreviewManager::abortRendering()
     if (m_previewProcess.state() == QProcess::NotRunning) {
         return;
     }
+    // Don't display error message on voluntary abort
+    m_warnOnCrash = false;
     emit abortPreview();
     m_previewProcess.waitForFinished();
     if (m_previewProcess.state() != QProcess::NotRunning) {
@@ -619,6 +622,7 @@ void PreviewManager::processEnded(int, QProcess::ExitStatus status)
         pCore->currentDoc()->previewProgress(1000);
     }
     workingPreview = -1;
+    m_warnOnCrash = true;
     emit m_controller->workingPreviewChanged();
 }
 
@@ -757,10 +761,14 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
     if (file.isEmpty() || progress < 0) {
         pCore->currentDoc()->previewProgress(progress);
         if (progress < 0) {
-            pCore->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2",
-                                       QString("<a href=\"" + QString::fromLatin1(QUrl::toPercentEncoding(file)) + QStringLiteral("\">")),
-                                       QStringLiteral("</a>")),
-                                  MltError);
+            if (m_warnOnCrash) {
+                pCore->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2",
+                                           QString("<a href=\"" + QString::fromLatin1(QUrl::toPercentEncoding(file)) + QStringLiteral("\">")),
+                                           QStringLiteral("</a>")),
+                                      MltError);
+            } else {
+                // TODO display info about stopped preview job
+            }
         }
         return;
     }
