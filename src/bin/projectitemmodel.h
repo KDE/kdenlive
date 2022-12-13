@@ -105,7 +105,7 @@ public:
     void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
-    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
+    void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata);
 
     /** @brief Save a property to main bin */
     void saveProperty(const QString &name, const QString &value);

@@ -549,7 +549,7 @@ void KdenliveDoc::slotAutoSave(const QString &scene)
         m_autosave->resize(0);
         if (m_autosave->write(scene.toUtf8()) < 0) {
             pCore->displayMessage(i18n("Cannot create autosave file %1", m_autosave->fileName()), ErrorMessage);
-        };
+        }
         m_autosave->flush();
     }
 }

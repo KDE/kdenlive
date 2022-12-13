@@ -1170,10 +1170,9 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
 }
 
 /** @brief Save document properties in MLT's bin playlist */
-void ProjectItemModel::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
-                                              std::shared_ptr<MarkerListModel> guideModel)
+void ProjectItemModel::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata)
 {
-    m_binPlaylist->saveDocumentProperties(props, metadata, std::move(guideModel));
+    m_binPlaylist->saveDocumentProperties(props, metadata);
 }
 
 void ProjectItemModel::saveProperty(const QString &name, const QString &value)

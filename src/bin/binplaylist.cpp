@@ -104,10 +104,8 @@ void BinPlaylist::setRetainIn(Mlt::Tractor *modelTractor)
     modelTractor->set(retain.toUtf8().constData(), m_binPlaylist->get_service(), 0);
 }
 
-void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
-                                         std::shared_ptr<MarkerListModel> guideModel)
+void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata)
 {
-    Q_UNUSED(guideModel)
     // Clear previous properties
     Mlt::Properties playlistProps(m_binPlaylist->get_properties());
     Mlt::Properties docProperties;
@@ -124,7 +122,6 @@ void BinPlaylist::saveDocumentProperties(const QMap<QString, QString> &props, co
         QString propName = QStringLiteral("kdenlive:docmetadata.%1").arg(docMetadata.get_name(i));
         playlistProps.set(propName.toUtf8().constData(), nullptr);
     }
-
     QMapIterator<QString, QString> i(props);
     while (i.hasNext()) {
         i.next();

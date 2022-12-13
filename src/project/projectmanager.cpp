@@ -280,7 +280,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     QMap<QString, QString> docProperties = m_project->documentProperties();
     docProperties.insert(QStringLiteral("timelineHash"), m_mainTimelineModel->timelineHash().toHex());
-    pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>(), m_project->getGuideModel());
+    pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
     QString scene = m_mainTimelineModel->sceneList(saveFolder);
 
     QSaveFile file(outputFileName);
@@ -884,8 +884,7 @@ void ProjectManager::slotAddTextNote(const QString &text)
 
 void ProjectManager::prepareSave()
 {
-    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getCurrentTimeline()->controller()->documentProperties(), m_project->metadata(),
-                                                      m_project->getGuideModel());
+    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getCurrentTimeline()->controller()->documentProperties(), m_project->metadata());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
