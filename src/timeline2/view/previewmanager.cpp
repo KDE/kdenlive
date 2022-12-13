@@ -450,7 +450,6 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     int startChunk = zone.x() / chunkSize;
     int endChunk = int(rintl(zone.y() / chunkSize));
     QList<int> toRemove;
-    qDebug() << " // / RESUQEST CHUNKS; " << startChunk << " = " << endChunk;
     QMutexLocker lock(&m_dirtyMutex);
     for (int i = startChunk; i <= endChunk; i++) {
         int frame = i * chunkSize;
@@ -468,7 +467,6 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         }
     }
     if (add) {
-        qDebug() << "CHUNKS CHANGED: " << m_dirtyChunks;
         emit m_controller->dirtyChunksChanged();
         if (m_previewProcess.state() == QProcess::NotRunning && KdenliveSettings::autopreview()) {
             m_previewTimer.start();
@@ -569,8 +567,6 @@ void PreviewManager::receivedStderr()
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
             m_processedChunks++;
             QString fileName = QStringLiteral("%1.%2").arg(chunk).arg(m_extension);
-            qDebug() << "---------------\nJOB PROGRRESS: " << m_chunksToRender << ", " << m_processedChunks << " = "
-                     << (100 * m_processedChunks / m_chunksToRender);
             emit previewRender(chunk, m_cacheDir.absoluteFilePath(fileName), 1000 * m_processedChunks / m_chunksToRender);
         } else {
             m_errorLog.append(result);
@@ -587,7 +583,6 @@ void PreviewManager::doPreviewRender(const QString &scene)
     QMutexLocker lock(&m_dirtyMutex);
     Q_ASSERT(m_previewProcess.state() == QProcess::NotRunning);
     std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end(), chunkSort);
-    qDebug() << ":: got dirty chks: " << m_dirtyChunks;
     const QStringList dirtyChunks = getCompressedList(m_dirtyChunks);
     m_chunksToRender = m_dirtyChunks.count();
     m_processedChunks = 0;
@@ -601,7 +596,6 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      pCore->getCurrentProfilePath(),
                      m_extension,
                      m_consumerParams.join(QLatin1Char(' '))};
-    qDebug() << " -  - -STARTING PREVIEW JOBS: " << args;
     pCore->currentDoc()->previewProgress(0);
     m_previewProcess.start(m_renderer, args);
     if (m_previewProcess.waitForStarted()) {
@@ -667,44 +661,63 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     int start = startFrame - startFrame % chunkSize;
     int end = endFrame - endFrame % chunkSize;
 
-    std::sort(m_renderedChunks.begin(), m_renderedChunks.end(), chunkSort);
     m_previewGatherTimer.stop();
-    bool stopPreview = m_previewProcess.state() == QProcess::Running;
-    if (m_renderedChunks.isEmpty() || ((workingPreview < m_renderedChunks.first().toInt() || workingPreview > m_renderedChunks.last().toInt()) &&
-                                       (end < m_renderedChunks.first().toInt() || start > m_renderedChunks.last().toInt()))) {
-        // invalidated zone is not in the preview zone, don't stop process
-        stopPreview = false;
-    }
-    if (stopPreview) {
-        abortRendering();
-    }
-    m_tractor->lock();
-    bool chunksChanged = false;
-    for (int i = start; i <= end; i += chunkSize) {
-        if (m_renderedChunks.contains(i)) {
-            int ix = m_previewTrack->get_clip_index_at(i);
-            if (m_previewTrack->is_blank(ix)) {
-                continue;
-            }
-            Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
-            delete prod;
-            QVariant val(i);
-            m_renderedChunks.removeAll(val);
-            if (!m_dirtyChunks.contains(val)) {
-                QMutexLocker lock(&m_dirtyMutex);
-                m_dirtyChunks << val;
-                chunksChanged = true;
-            }
+    bool previewWasRunning = m_previewProcess.state() == QProcess::Running;
+    bool alreadyRendered = false;
+    bool wasInDirtyZone = false;
+    if (!m_renderedChunks.isEmpty()) {
+        // Check if the invalidated zone was already rendered
+        std::sort(m_renderedChunks.begin(), m_renderedChunks.end(), chunkSort);
+        if (start <= m_renderedChunks.last().toInt() && end >= m_renderedChunks.first().toInt()) {
+            alreadyRendered = true;
+        } else if (workingPreview >= start && workingPreview <= end) {
+            alreadyRendered = true;
         }
     }
-    m_tractor->unlock();
-    if (chunksChanged) {
-        m_previewTrack->consolidate_blanks();
-        emit m_controller->renderedChunksChanged();
-        emit m_controller->dirtyChunksChanged();
+    if (!alreadyRendered && !m_dirtyChunks.isEmpty()) {
+        // Check if the invalidate zone is in the current todo list (dirtychunks)
+        std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end(), chunkSort);
+        if (start <= m_dirtyChunks.last().toInt() && end >= m_dirtyChunks.first().toInt()) {
+            wasInDirtyZone = true;
+        }
     }
-    if (stopPreview) {
-        startPreviewRender();
+    if (alreadyRendered) {
+        if (previewWasRunning) {
+            abortRendering();
+        }
+        m_tractor->lock();
+        bool chunksChanged = false;
+        for (int i = start; i <= end; i += chunkSize) {
+            if (m_renderedChunks.contains(i)) {
+                int ix = m_previewTrack->get_clip_index_at(i);
+                if (m_previewTrack->is_blank(ix)) {
+                    continue;
+                }
+                Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
+                delete prod;
+                QVariant val(i);
+                m_renderedChunks.removeAll(val);
+                if (!m_dirtyChunks.contains(val)) {
+                    QMutexLocker lock(&m_dirtyMutex);
+                    m_dirtyChunks << val;
+                    chunksChanged = true;
+                }
+            }
+        }
+        m_tractor->unlock();
+        if (chunksChanged) {
+            m_previewTrack->consolidate_blanks();
+            emit m_controller->renderedChunksChanged();
+            emit m_controller->dirtyChunksChanged();
+        }
+    } else if (wasInDirtyZone) {
+        // Abort rendering, playlist needs to be recreated
+        if (previewWasRunning) {
+            abortRendering();
+        }
+    } else {
+        // Invalidated zone outside our rendered zones
+        return;
     }
     m_previewGatherTimer.start();
 }
@@ -761,7 +774,6 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             emit m_controller->renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
             prod.set("mute_on_pause", 1);
-            qDebug() << "|||| PLUGGING PREVIEW CHUNK AT: " << frame;
             m_tractor->lock();
             m_previewTrack->insert_at(frame, &prod, 1);
             m_previewTrack->consolidate_blanks();
