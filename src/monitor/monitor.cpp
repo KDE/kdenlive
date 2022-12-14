@@ -1825,7 +1825,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
-            if (monitorVisible()) {
+            if (monitorVisible() && !m_monitorManager->projectMonitor()->isPlaying()) {
                 slotActivateMonitor();
             }
             buildBackgroundedProducer(in);
