@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -14520,7 +14520,7 @@ msgstr "Pašalinti profilį"
 msgid "Something is wrong with cache folders"
 msgstr ""
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

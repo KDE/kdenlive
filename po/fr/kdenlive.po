@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
-"PO-Revision-Date: 2022-12-04 07:27+0100\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
+"PO-Revision-Date: 2022-12-12 20:30+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -27,7 +27,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.11.90\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -754,10 +754,9 @@ msgid "Clockwise"
 msgstr "Horaire"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "Horaire"
+msgstr "Compter en sens horaire"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -11108,33 +11107,26 @@ msgstr ""
 "respectivement, sur les première et dernière trames."
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Cliquez</shortcut> sur un élément à déplacer, <shortcut>cliquez "
-"avec « Maj » </shortcut> pour des sélections multiples."
+"<shortcut>Effectuer un glisser</shortcut> pour définir une zone à pointer, "
+"<shortcut>Effectuer un glisser avec la touche « Maj » enfoncée</shortcut> "
+"pour rechercher le bon ajustement de la zone d'entrée."
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<b>CTRL</b> pour application uniquement sur la piste courante, <b>Maj</b> "
-"pour aussi déplacer les guides. Vous pouvez combiner les deux modificateurs."
+"<shortcut>Effectuer un glisser</shortcut> pour définir une zone de sortie à "
+"pointer, <shortcut>Effectuer un glisser avec la touche « Maj » enfoncée</"
+"shortcut> pour rechercher le bon ajustement de la zone de sortie."
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -14138,7 +14130,7 @@ msgstr "Paramètres d'aperçu du montage non valables"
 msgid "Something is wrong with cache folders"
 msgstr "Quelque chose se passe mal avec les dossiers de cache"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
@@ -19164,7 +19156,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "Faire une rotation par pas de 90 °"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -19200,6 +19192,8 @@ msgstr "Afficher %1 dans le montage"
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""
+"Effectuer un glisser avec la touche « MAJ » enfoncée pour ajuster la valeur "
+"pas à pas"
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

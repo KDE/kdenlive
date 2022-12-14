@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
 "PO-Revision-Date: 2022-06-27 14:38+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -13701,7 +13701,7 @@ msgstr "Neplatné parametry náhledu časové osy"
 msgid "Something is wrong with cache folders"
 msgstr "Něco se složkou mezipaměťi není v pořádku"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

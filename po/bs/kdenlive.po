@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -14685,7 +14685,7 @@ msgstr "Obriši profil"
 msgid "Something is wrong with cache folders"
 msgstr ""
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, fuzzy, kde-format
 #| msgid "Capture crashed, please check your parameters"
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"

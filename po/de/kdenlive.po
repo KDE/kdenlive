@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
 "PO-Revision-Date: 2022-07-14 00:35+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-doc@kde.org>\n"
@@ -14423,7 +14423,7 @@ msgstr "Ungültige Vorschauparameter der Zeitleiste"
 msgid "Something is wrong with cache folders"
 msgstr "Probleme mit den Zwischenspeicherordnern"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""

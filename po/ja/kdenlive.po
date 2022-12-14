@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -14796,7 +14796,7 @@ msgstr "プロファイルの削除"
 msgid "Something is wrong with cache folders"
 msgstr "キャッシュフォルダで問題が発生しています"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, fuzzy, kde-format
 #| msgid "Capture crashed, please check your parameters"
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
@@ -18686,10 +18686,9 @@ msgstr "カウントダウン(C)"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interval"
-msgstr "インターフェース"
+msgstr "間隔"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
@@ -20340,61 +20339,3 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
-
-#~ msgid ""
-#~ "The MediaInfo application is required for the recording timecode feature, "
-#~ "please install it and re-enable the feature in Kdenlive"
-#~ msgstr ""
-#~ "タイムコード記録機能には MediaInfo アプリケーションが必要です、インストー"
-#~ "ルして Kdenlive で機能を再有効化してください。"
-
-#, fuzzy
-#~| msgid "Delete keyframe"
-#~ msgid "Duplicate selected keyframe"
-#~ msgstr "キーフレームの削除"
-
-#, fuzzy
-#~| msgid "Cannot find clip to process filter %1"
-#~ msgid "Copy Value at Cursor Position to Clipboard"
-#~ msgstr "フィルタ %1 を処理すべきクリップが見つかりません"
-
-#~ msgid "Colors"
-#~ msgstr "色"
-
-#, fuzzy
-#~| msgid "Add marker"
-#~ msgid "Add marker…"
-#~ msgstr "マーカーの追加"
-
-#, fuzzy
-#~| msgid "Edit marker"
-#~ msgid "Edit marker…"
-#~ msgstr "マーカーの編集(E)"
-
-#, fuzzy
-#~| msgid "Edit marker"
-#~ msgid "Export markers…"
-#~ msgstr "マーカーの編集(E)"
-
-#, fuzzy
-#~| msgid "Import markers"
-#~ msgid "Import markers…"
-#~ msgstr "マーカーのインポート"
-
-#, fuzzy
-#~| msgid "Add clip markers"
-#~ msgctxt "@title:window"
-#~ msgid "Save Clip Markers"
-#~ msgstr "クリップマーカーを追加"
-
-#~ msgid "An error occurred while parsing the marker file"
-#~ msgstr "マーカーファイルの読み込み中にエラーが発生しました"
-
-#~ msgid "Regionalize"
-#~ msgstr "認識"
-
-#~ msgid "Url"
-#~ msgstr "URL"
-
-#~ msgid "&Download"
-#~ msgstr "&ダウンロード"

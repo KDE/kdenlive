@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
-"PO-Revision-Date: 2022-12-01 06:52\n"
+"POT-Creation-Date: 2022-12-14 00:46+0000\n"
+"PO-Revision-Date: 2022-12-13 12:21\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -728,10 +728,9 @@ msgid "Clockwise"
 msgstr "顺时针"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "顺时针"
+msgstr ""
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -10830,33 +10829,20 @@ msgstr ""
 "后一帧"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>点击</shortcut>项目进行外滑，<shortcut>Shift + 点击</shortcut>进行"
-"多选"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>按住 Ctrl</shortcut> 仅应用到当前轨道，<shortcut>按住 Shift</"
-"shortcut> 同时移动辅助线。两个修饰键可以同时使用。"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -13740,7 +13726,7 @@ msgstr "无效的时间轴预览参数"
 msgid "Something is wrong with cache folders"
 msgstr "缓存文件夹异常"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr "预览导出失败，请检查您的参数。%1 显示详情...%2"
