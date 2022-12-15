@@ -30,7 +30,7 @@ public:
 
     enum InstallType { BuildIn, Custom, Download };
 
-    enum RateControl { Unknown = -1, Average = 0, Constant, Quality, Constrained };
+    enum RateControl { Unknown = 0, Average, Constant, Quality, Constrained };
 
     QDomElement toXml();
 
