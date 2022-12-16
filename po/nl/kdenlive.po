@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-14 03:43+0000\n"
-"PO-Revision-Date: 2022-11-26 17:33+0100\n"
+"POT-Creation-Date: 2022-12-16 02:49+0000\n"
+"PO-Revision-Date: 2022-12-15 11:37+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4831,7 +4831,7 @@ msgstr "Hulplijnen bewerken"
 #: src/bin/model/markerlistmodel.cpp:903
 #, kde-format
 msgid "Edit markers"
-msgstr "Markeerpunten bewerken"
+msgstr "Markeringen bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1362
@@ -4867,7 +4867,7 @@ msgstr "Hulplijnen toevoegen"
 #: src/bin/model/markerlistmodel.cpp:961
 #, kde-format
 msgid "Add markers"
-msgstr "Markeerpunten toevoegen"
+msgstr "Markeringen toevoegen"
 
 #: src/bin/model/subtitlemodel.cpp:85
 #, kde-format
@@ -7961,7 +7961,7 @@ msgstr "&Clip"
 #: src/kdenliveui.rc:65
 #, kde-format
 msgid "Markers"
-msgstr "Markeerpunten"
+msgstr "Markeringen"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:74 src/mainwindow.cpp:3634
@@ -11829,7 +11829,7 @@ msgstr "Hulplijnen verwijderen"
 #: src/project/dialogs/guideslist.cpp:294
 #, kde-format
 msgid "Markers for %1"
-msgstr "Markeerpunten voor %1"
+msgstr "Markeringen voor %1"
 
 #: src/project/dialogs/guideslist.cpp:320
 #, kde-format
@@ -12697,8 +12697,9 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, kde-format
-msgid "OpenTimelineIO convertion"
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO convertion"
+msgid "OpenTimelineIO conversion"
 msgstr "OpenTimelineIO conversie"
 
 #: src/pythoninterfaces/otioconvertions.cpp:26

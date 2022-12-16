@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-14 03:43+0000\n"
+"POT-Creation-Date: 2022-12-16 02:49+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -13145,7 +13145,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:22
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO adapters (%1)"
-msgid "OpenTimelineIO convertion"
+msgid "OpenTimelineIO conversion"
 msgstr "OpenTimelineIO adapterid (%1)"
 
 #: src/pythoninterfaces/otioconvertions.cpp:26
