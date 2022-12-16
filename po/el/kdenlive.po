@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-14 03:43+0000\n"
+"POT-Creation-Date: 2022-12-16 02:49+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -13288,7 +13288,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:22
 #, fuzzy, kde-format
 #| msgid "Timeline"
-msgid "OpenTimelineIO convertion"
+msgid "OpenTimelineIO conversion"
 msgstr "Χρονοδιάγραμμα"
 
 #: src/pythoninterfaces/otioconvertions.cpp:26

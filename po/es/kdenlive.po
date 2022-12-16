@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-14 03:43+0000\n"
+"POT-Creation-Date: 2022-12-16 02:49+0000\n"
 "PO-Revision-Date: 2022-11-22 12:20+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -12731,8 +12731,9 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, kde-format
-msgid "OpenTimelineIO convertion"
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO convertion"
+msgid "OpenTimelineIO conversion"
 msgstr "Conversión de OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:26
