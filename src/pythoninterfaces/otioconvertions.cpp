@@ -19,7 +19,7 @@
 OtioConvertions::OtioConvertions()
     : AbstractPythonInterface()
 {
-    addDependency(QStringLiteral("opentimelineio"), i18n("OpenTimelineIO convertion"));
+    addDependency(QStringLiteral("opentimelineio"), i18n("OpenTimelineIO conversion"));
     addScript(QStringLiteral("otiointerface.py"));
     connect(this, &OtioConvertions::dependenciesAvailable, this, [&]() {
         if (QStandardPaths::findExecutable(QStringLiteral("otioconvert")).isEmpty()) {

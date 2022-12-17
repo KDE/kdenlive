@@ -61,7 +61,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QtConcurrent>
-
 #include <utility>
 
 #define SEEK_INACTIVE (-1)
@@ -1486,7 +1485,7 @@ void Monitor::start()
 
 void Monitor::slotRefreshMonitor(bool visible)
 {
-    if (visible) {
+    if (visible && monitorVisible()) {
         if (slotActivateMonitor()) {
             start();
         }
@@ -1815,7 +1814,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
                 }
             }
-            if (monitorVisible()) {
+            if (monitorVisible() && !m_monitorManager->projectMonitor()->isPlaying()) {
                 slotActivateMonitor();
             }
             buildBackgroundedProducer(in);
@@ -2562,7 +2561,11 @@ void Monitor::processSeek(int pos, bool noAudioScrub)
         return;
     }
     if (KdenliveSettings::pauseonseek()) {
-        pause();
+        if (m_playAction->isActive()) {
+            pause();
+        } else {
+            m_glMonitor->setVolume(KdenliveSettings::volume() / 100.);
+        }
     }
     m_glMonitor->requestSeek(pos, noAudioScrub);
     emit m_monitorManager->cleanMixer();

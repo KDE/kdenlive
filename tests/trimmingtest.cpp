@@ -615,7 +615,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         std::function<bool(void)> redo = []() { return true; };
         int itemPos = timeline->getItemPosition(spacerIid);
         int space = 18;
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, false, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, -1, undo, redo));
         auto state1 = [&]() {
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
@@ -640,7 +640,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         redo = []() { return true; };
         itemPos = timeline->getItemPosition(spacerIid);
         int space2 = 3;
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, false, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, -1, undo, redo));
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
@@ -706,9 +706,9 @@ TEST_CASE("Spacer operations", "[Spacer]")
         std::function<bool(void)> redo = []() { return true; };
         int itemPos = timeline->getItemPosition(spacerIid);
         int space = 18;
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, true, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space, tid1, l + 5, undo, redo));
         auto state1 = [&]() {
-            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l / 2, l + 2, l + 7, p2 + l / 2 + space, p3 + space});
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l / 2, l + 2, l + 7 + space, p2 + l / 2 + space, p3 + space});
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
             REQUIRE(timeline->getClipPlaytime(cid2) == l);
@@ -732,9 +732,9 @@ TEST_CASE("Spacer operations", "[Spacer]")
         redo = []() { return true; };
         itemPos = timeline->getItemPosition(spacerIid);
         int space2 = 3;
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, true, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos + space2, tid1, startPos, undo, redo));
         auto state2 = [&]() {
-            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l / 2, l + 2, l + 7, p2 + l / 2 + space, p3 + space + space2});
+            REQUIRE(guideModel->getSnapPoints() == std::vector<int>{l / 2, l + 2, l + 7 + space, p2 + l / 2 + space, p3 + space + space2});
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
             REQUIRE(timeline->getClipPlaytime(cid2) == l);
@@ -795,7 +795,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         int itemPos = timeline->getItemPosition(spacerIid);
         // space to remove is larger than possible (at the end only 10 frames should be removed)
         int space = 18;
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space, tid1, false, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space, tid1, -1, undo, redo));
         auto state1 = [&]() {
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
@@ -820,7 +820,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
         redo = []() { return true; };
         itemPos = timeline->getItemPosition(spacerIid);
         int space2 = 3;
-        REQUIRE(!TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space2, tid1, false, undo, redo));
+        REQUIRE(!TimelineFunctions::requestSpacerEndOperation(timeline, spacerIid, itemPos, itemPos - space2, tid1, -1, undo, redo));
         state1();
 
         undoStack->undo();
@@ -1709,6 +1709,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;

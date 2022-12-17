@@ -149,10 +149,17 @@ void MonitorManager::refreshMonitors()
             activateMonitor(Kdenlive::ClipMonitor);
             refreshClipMonitor(true);
         } else {
+            bool playing = m_projectMonitor->isPlaying();
+            if (playing) {
+                m_projectMonitor->switchPlay(false);
+            }
             activateMonitor(Kdenlive::ClipMonitor);
             refreshClipMonitor(true);
             activateMonitor(Kdenlive::ProjectMonitor);
             refreshProjectMonitor(true);
+            if (playing) {
+                m_projectMonitor->switchPlay(true);
+            }
         }
     }
 }

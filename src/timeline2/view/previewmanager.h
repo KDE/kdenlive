@@ -81,6 +81,7 @@ private:
     Mlt::Tractor *m_tractor;
     Mlt::Playlist *m_previewTrack;
     Mlt::Playlist *m_overlayTrack;
+    bool m_warnOnCrash;
     int m_previewTrackIndex;
     /** @brief: The kdenlive renderer app. */
     QString m_renderer;

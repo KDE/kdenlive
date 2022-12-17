@@ -98,9 +98,10 @@ struct TimelineFunctions
                                                            bool ignoreMultiTrackGroups = false, bool allowGroupBreaking = false);
     /**
         @see requestSpacerStartOperation
+        @param moveGuidesPosition if > -1, all guides after this position will be moved as well in the operation
      */
     static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack,
-                                          bool moveGuides, Fun &undo, Fun &redo, bool pushUndo = true);
+                                          int moveGuidesPosition, Fun &undo, Fun &redo, bool pushUndo = true);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly);
     static bool liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo,

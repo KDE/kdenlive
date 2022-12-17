@@ -489,8 +489,19 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
 }
 
 bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition,
-                                                  int affectedTrack, bool moveGuides, Fun &undo, Fun &redo, bool pushUndo)
+                                                  int affectedTrack, int moveGuidesPosition, Fun &undo, Fun &redo, bool pushUndo)
 {
+    // Move guides if needed
+    if (moveGuidesPosition > -1) {
+        moveGuidesPosition = qMin(moveGuidesPosition, startPosition);
+        GenTime fromPos(moveGuidesPosition, pCore->getCurrentFps());
+        GenTime toPos(endPosition - startPosition, pCore->getCurrentFps());
+        QList<CommentedTime> guides = pCore->projectManager()->getGuideModel()->getMarkersInRange(moveGuidesPosition, -1);
+        if (!guides.isEmpty()) {
+            pCore->projectManager()->getGuideModel()->moveMarkers(guides, fromPos, fromPos + toPos, undo, redo);
+        }
+    }
+
     // Move group back to original position
     spacerMinPosition = -1;
     int track = timeline->getItemTrackId(itemId);
@@ -2294,7 +2305,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    requestSpacerEndOperation(timeline, cid, start, spaceStart, affectAllTracks ? -1 : trackId, !KdenliveSettings::lockedGuides(), undo, redo);
+    requestSpacerEndOperation(timeline, cid, start, spaceStart, affectAllTracks ? -1 : trackId, KdenliveSettings::lockedGuides() ? -1 : position, undo, redo);
     return true;
 }
 
@@ -2325,7 +2336,8 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
             std::function<bool(void)> local_undo = []() { return true; };
             std::function<bool(void)> local_redo = []() { return true; };
             if (blankStart < start) {
-                if (!requestSpacerEndOperation(timeline, cid, start, blankStart, trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false)) {
+                if (!requestSpacerEndOperation(timeline, cid, start, blankStart, trackId, KdenliveSettings::lockedGuides() ? -1 : position, local_undo,
+                                               local_redo, false)) {
                     // Failed to remove blank, maybe blocked because of a group. Pass to the next one
                     blankStart = start;
                 } else {
@@ -2371,7 +2383,8 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
             std::function<bool(void)> local_undo = []() { return true; };
             std::function<bool(void)> local_redo = []() { return true; };
             if (blankStart < start) {
-                if (!requestSpacerEndOperation(timeline, cid, start, blankStart, trackId, !KdenliveSettings::lockedGuides(), local_undo, local_redo, false)) {
+                if (!requestSpacerEndOperation(timeline, cid, start, blankStart, trackId, KdenliveSettings::lockedGuides() ? -1 : position, local_undo,
+                                               local_redo, false)) {
                     // Failed to remove blank, maybe blocked because of a group. Pass to the next one
                     blankStart = start;
                 } else {

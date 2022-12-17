@@ -722,17 +722,17 @@ bool GLWidget::isReady() const
 
 void GLWidget::requestSeek(int position, bool noAudioScrub)
 {
-    if (KdenliveSettings::audio_scrub() && !noAudioScrub) {
-        m_consumer->set("scrub_audio", 1);
-    } else {
-        m_consumer->set("scrub_audio", 0);
-    }
     m_producer->seek(position);
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
     }
     restartConsumer();
     m_consumer->set("refresh", 1);
+    if (KdenliveSettings::audio_scrub() && !noAudioScrub) {
+        m_consumer->set("scrub_audio", 1);
+    } else {
+        m_consumer->set("scrub_audio", 0);
+    }
 }
 
 void GLWidget::requestRefresh()
@@ -1612,6 +1612,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
         if (qFuzzyIsNull(current_speed)) {
             m_consumer->start();
             m_consumer->set("refresh", 1);
+            m_consumer->set("volume", KdenliveSettings::volume() / 100.);
         } else {
             // Speed change, purge to reduce latency
             m_consumer->purge();
@@ -1620,10 +1621,12 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
     } else {
         emit paused();
         m_producer->set_speed(0);
+        m_consumer->set("volume", 0);
         m_proxy->setSpeed(0);
         m_producer->seek(m_consumer->position() + 1);
         m_consumer->purge();
         m_consumer->start();
+        m_consumer->set("scrub_audio", 0);
     }
 }
 

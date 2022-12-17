@@ -1838,10 +1838,8 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
     if (guideStart > -1) {
         // Move guides back to original position
         pCore->currentDoc()->getGuideModel()->moveMarkersWithoutUndo(selectedGuides, startPosition - endPosition, false);
-        moveGuidesInRange(guideStart, -1, endPosition - startPosition, undo, redo);
     }
-    bool result =
-        TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, !KdenliveSettings::lockedGuides(), undo, redo);
+    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack, guideStart, undo, redo);
     return result;
 }
 
