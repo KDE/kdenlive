@@ -70,6 +70,7 @@ public:
     int estimateFileSize(int length);
 
 private:
+    void setParams(const QString &params);
     void checkPreset();
 
     QString m_presetFile;
@@ -77,7 +78,7 @@ private:
     QString m_name;
     QString m_note;
     QString m_standard;
-    QString m_params;
+    QMap<QString, QString> m_params;
     QString m_extension;
     bool m_manual;
     QString m_groupName;

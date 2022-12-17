@@ -15,13 +15,16 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         CHECK(model->name() == QStringLiteral("GettersTest"));
         CHECK(model->groupName() == QStringLiteral("Test"));
         CHECK(model->extension() == QStringLiteral("mp4"));
+        // we did not set the format parameter, test if it was automatically
+        // set based on the extension
+        CHECK(model->getParam("f") == QStringLiteral("mp4"));
     }
 
     SECTION("Test parameter parsing")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
-                                                                       QStringLiteral("one=first two=second value three=third four=4"), QStringLiteral("mp4"),
-                                                                       QString(), QString(), QString(), QString(), QString(), false));
+                                                                       QStringLiteral("one=first two=second value three=third four=4"), QString(), QString(),
+                                                                       QString(), QString(), QString(), QString(), false));
         // test hasParam
         CHECK(model->hasParam("one"));
         CHECK(model->hasParam("two"));

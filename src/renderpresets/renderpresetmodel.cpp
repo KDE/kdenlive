@@ -38,16 +38,13 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
         m_groupName = i18nc("Category Name", "Custom");
     }
 
-    QTextDocument docConvert;
-    docConvert.setHtml(preset.attribute(QStringLiteral("args")));
-    m_params = docConvert.toPlainText().simplified();
-
     m_extension = preset.attribute(QStringLiteral("extension"));
     m_manual = preset.attribute(QStringLiteral("manual")) == QLatin1String("1");
 
-    if (!hasParam(QStringLiteral("f")) && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
-        m_params.append(QStringLiteral(" f=%1").arg(m_extension));
-    }
+    QTextDocument docConvert;
+    docConvert.setHtml(preset.attribute(QStringLiteral("args")));
+    // setParams after we know the extension to make setting the format automatically work
+    setParams(docConvert.toPlainText().simplified());
 
     if (m_defaultSpeedIndex < 0) {
         m_defaultSpeedIndex = (speeds().count() - 1) * 0.75;
@@ -68,8 +65,8 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
 
 RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &path, QString presetName, const QString &params, bool codecInName)
     : m_editable(false)
-    , m_params(params)
     , m_manual(false)
+    , m_params()
     , m_groupName(groupName)
     , m_renderer(QStringLiteral("avformat"))
     , m_defaultSpeedIndex(-1)
@@ -79,9 +76,8 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     QString vcodec = group.readEntry("vcodec");
     QString acodec = group.readEntry("acodec");
     m_extension = group.readEntry("meta.preset.extension");
-    if (hasParam(QStringLiteral("f")) && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
-        m_params.append(QStringLiteral(" f=%1").arg(m_extension));
-    }
+    // setParams after we know the extension to make setting the format automatically work
+    setParams(params);
     m_note = group.readEntry("meta.preset.note");
 
     if (codecInName && (!vcodec.isEmpty() || !acodec.isEmpty())) {
@@ -108,7 +104,6 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_name(name)
     , m_note()
     , m_standard()
-    , m_params(params)
     , m_extension(extension)
     , m_groupName(groupName)
     , m_renderer(QStringLiteral("avformat"))
@@ -124,6 +119,7 @@ RenderPresetModel::RenderPresetModel(const QString &name, const QString &groupNa
     , m_aQualities()
     , m_defaultAQuality(defaultAQuality)
 {
+    setParams(params);
     if (m_groupName.isEmpty()) {
         m_groupName = i18nc("Category Name", "Custom");
     }
@@ -143,13 +139,13 @@ void RenderPresetModel::checkPreset()
     bool replaceVorbisCodec = acodecs.contains(QStringLiteral("libvorbis"));
     bool replaceLibfaacCodec = acodecs.contains(QStringLiteral("libfaac"));
 
-    if (replaceVorbisCodec && m_params.contains(QStringLiteral("acodec=vorbis"))) {
+    if (replaceVorbisCodec && (m_params.value(QStringLiteral("acodec")) == QStringLiteral("vorbis"))) {
         // replace vorbis with libvorbis
-        m_params = m_params.replace(QLatin1String("=vorbis"), QLatin1String("=libvorbis"));
+        m_params[QStringLiteral("acodec")] = QLatin1String("libvorbis");
     }
-    if (replaceLibfaacCodec && m_params.contains(QStringLiteral("acodec=aac"))) {
-        // replace libfaac with aac
-        m_params = m_params.replace(QLatin1String("aac"), QLatin1String("libfaac"));
+    if (replaceLibfaacCodec && (m_params.value(QStringLiteral("acodec")) == QStringLiteral("aac"))) {
+        // replace aac with libfaac
+        m_params[QStringLiteral("acodec")] = QLatin1String("libfaac");
     }
 
     // We borrow a reference to the profile's pointer to query it more easily
@@ -165,7 +161,7 @@ void RenderPresetModel::checkPreset()
         return;
     }
 
-    if (m_params.contains(QStringLiteral("mlt_profile="))) {
+    if (hasParam(QStringLiteral("mlt_profile"))) {
         QString profile_str = getParam(QStringLiteral("mlt_profile"));
         std::unique_ptr<ProfileModel> &target_profile = ProfileRepository::get()->getProfile(profile_str);
         if (target_profile->frame_rate_den() > 0) {
@@ -254,23 +250,29 @@ QDomElement RenderPresetModel::toXml()
     return doc.documentElement();
 }
 
-QMap<QString, QString> RenderPresetModel::params(QStringList removeParams) const
+void RenderPresetModel::setParams(const QString &params)
 {
-    QMap<QString, QString> params;
-
+    m_params.clear();
     // split only at white spaces followed by a new parameter
     // to avoid spliting values that contain whitespaces
     static const QRegularExpression regexp(R"(\s+(?=\S*=))");
 
-    QStringList paramList = m_params.split(regexp);
+    QStringList paramList = params.split(regexp);
     for (QString param : paramList) {
-        QString key = param.section(QLatin1Char('='), 0, 0);
-        if (!removeParams.contains(key)) {
-            params.insert(key, param.section(QLatin1Char('='), 1));
-        }
+        m_params.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
     }
+    if (!hasParam(QStringLiteral("f")) && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
+        m_params.insert(QStringLiteral("f"), m_extension);
+    }
+}
 
-    return params;
+QMap<QString, QString> RenderPresetModel::params(QStringList removeParams) const
+{
+    QMap<QString, QString> newParams = m_params;
+    for (QString toRemove : removeParams) {
+        newParams.remove(toRemove);
+    }
+    return newParams;
 }
 
 QString RenderPresetModel::paramString(QStringList removeParams) const
