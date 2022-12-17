@@ -45,7 +45,7 @@ RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFi
     m_extension = preset.attribute(QStringLiteral("extension"));
     m_manual = preset.attribute(QStringLiteral("manual")) == QLatin1String("1");
 
-    if (getParam(QStringLiteral("f")).isEmpty() && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
+    if (!hasParam(QStringLiteral("f")) && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
         m_params.append(QStringLiteral(" f=%1").arg(m_extension));
     }
 
@@ -79,7 +79,7 @@ RenderPresetModel::RenderPresetModel(const QString &groupName, const QString &pa
     QString vcodec = group.readEntry("vcodec");
     QString acodec = group.readEntry("acodec");
     m_extension = group.readEntry("meta.preset.extension");
-    if (getParam(QStringLiteral("f")).isEmpty() && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
+    if (hasParam(QStringLiteral("f")) && !m_extension.isEmpty() && RenderPresetRepository::supportedFormats().contains(m_extension)) {
         m_params.append(QStringLiteral(" f=%1").arg(m_extension));
     }
     m_note = group.readEntry("meta.preset.note");
@@ -258,7 +258,7 @@ QString RenderPresetModel::params(QStringList removeParams) const
 {
     QString params = m_params;
     for (auto p : removeParams) {
-        params.remove(QRegularExpression(QStringLiteral("((^|\\s)%1=\\S*)").arg(p)));
+        params.remove(QRegularExpression(QStringLiteral(R"((^|\s)%1=[^=]*(?=\s\S*=|$))").arg(p)));
     }
     return params.simplified();
 }

@@ -8,9 +8,18 @@
 TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
 {
 
+    SECTION("Test getters")
+    {
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("GettersTest"), QStringLiteral("Test"), QString(), QStringLiteral("mp4"),
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
+        CHECK(model->name() == QStringLiteral("GettersTest"));
+        CHECK(model->groupName() == QStringLiteral("Test"));
+        CHECK(model->extension() == QStringLiteral("mp4"));
+    }
+
     SECTION("Test parameter parsing")
     {
-        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("Constant"), QStringLiteral("Test"),
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
                                                                        QStringLiteral("one=first two=second value three=third four=4"), QStringLiteral("mp4"),
                                                                        QString(), QString(), QString(), QString(), QString(), false));
         // test hasParam
@@ -31,6 +40,22 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         CHECK(model->getParam("two") == QStringLiteral("second value"));
         CHECK(model->getParam("three") == QStringLiteral("third"));
         CHECK(model->getParam("four") == QStringLiteral("4"));
+
+        CHECK(model->params() == QStringLiteral("one=first two=second value three=third four=4"));
+        // test removing a normal parameter in the middle
+        CHECK(model->params({QStringLiteral("three")}) == QStringLiteral("one=first two=second value four=4"));
+        // test removing a parameter at the first position
+        CHECK(model->params({QStringLiteral("one")}) == QStringLiteral("two=second value three=third four=4"));
+        // test removing a parameter at the last position
+        CHECK(model->params({QStringLiteral("four")}) == QStringLiteral("one=first two=second value three=third"));
+        // test removing a non-existing parameter
+        CHECK(model->params({QStringLiteral("fifth")}) == QStringLiteral("one=first two=second value three=third four=4"));
+        // test removing a handing a value should do nothing
+        CHECK(model->params({QStringLiteral("first")}) == QStringLiteral("one=first two=second value three=third four=4"));
+        // test removing multiple parameters
+        CHECK(model->params({QStringLiteral("one"), QStringLiteral("three")}) == QStringLiteral("two=second value four=4"));
+        // test removing a parameter with space in value
+        CHECK(model->params({QStringLiteral("two")}) == QStringLiteral("one=first three=third four=4"));
     }
 
     SECTION("Test unknown rate control")
@@ -60,4 +85,14 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     QStringLiteral("mp4"), QString(), QString(), QString(), QString(), QString(), false)); CHECK(model->videoRateControl() ==
     RenderPresetModel::RateControl::Quality);
     }*/
+
+    SECTION("Test error")
+    {
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ErrorTest"), QStringLiteral("Test"),
+                                                                       QStringLiteral("acodec=doesnotexist"), QStringLiteral("mp4"), QString(), QString(),
+                                                                       QString(), QString(), QString(), false));
+
+        // we have a unknown audio codec, the error message should not be empty
+        CHECK_FALSE(model->error().isEmpty());
+    }
 }

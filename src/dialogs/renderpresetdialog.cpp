@@ -309,7 +309,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             }
 
             vCodecCombo->setCurrentText(preset->getParam(QStringLiteral("vcodec")));
-            if (!preset->getParam(QStringLiteral("r")).isEmpty()) {
+            if (preset->hasParam(QStringLiteral("r"))) {
                 cFps->setChecked(true);
                 double val = preset->getParam(QStringLiteral("r")).toDouble();
                 if (val == 23.98 || val == 23.976 || val == (24000 / 1001)) {

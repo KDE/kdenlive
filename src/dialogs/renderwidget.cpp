@@ -1231,7 +1231,6 @@ void RenderWidget::loadProfile()
         return;
     }
     std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
-    QString params = profile->params();
 
     if (profile->extension().isEmpty()) {
         errorMessage(PresetError, i18n("Invalid preset"));
@@ -1259,7 +1258,7 @@ void RenderWidget::loadProfile()
     adjustSpeed(m_view.speed->value());
     bool passes = profile->hasParam(QStringLiteral("passes"));
     m_view.checkTwoPass->setEnabled(passes);
-    m_view.checkTwoPass->setChecked(passes && params.contains(QStringLiteral("passes=2")));
+    m_view.checkTwoPass->setChecked(passes && profile->getParam(QStringLiteral("passes")) == QStringLiteral("2"));
 
     m_view.encoder_threads->setEnabled(!profile->hasParam(QStringLiteral("threads")));
     m_view.embed_subtitles->setEnabled(profile->extension() == QLatin1String("mkv") || profile->extension() == QLatin1String("matroska"));
