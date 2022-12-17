@@ -14,6 +14,7 @@ set(KdenliveTest_SOURCES
     markertest.cpp
     modeltest.cpp
     regressions.cpp
+    rendermodeltest.cpp
     snaptest.cpp
     timewarptest.cpp
     titlertest.cpp
