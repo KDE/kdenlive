@@ -350,10 +350,15 @@ QStringList RenderPresetModel::speeds() const
 
 QString RenderPresetModel::getParam(const QString &name) const
 {
-    if (m_params.startsWith(QStringLiteral("%1=").arg(name))) {
-        return m_params.section(QStringLiteral("%1=").arg(name), 1, 1).section(QLatin1Char(' '), 0, 0);
-    } else if (m_params.contains(QStringLiteral(" %1=").arg(name))) {
-        return m_params.section(QStringLiteral(" %1=").arg(name), 1, 1).section(QLatin1Char(' '), 0, 0);
+    // split only at white spaces followed by a new parameter
+    // to avoid spliting values that contain whitespaces
+    static const QRegularExpression regexp(R"(\s+(?=\S*=))");
+
+    QStringList params = m_params.split(regexp);
+    for (auto param : params) {
+        if (param.startsWith(QStringLiteral("%1=").arg(name))) {
+            return param.section(QLatin1Char('='), 1, 1);
+        }
     }
     return {};
 }
