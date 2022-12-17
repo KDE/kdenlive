@@ -185,11 +185,11 @@ void ResourceWidget::slotChangeProvider()
 
     provider_info->setText(i18n("Media provided by %1", m_currentProvider->get()->name()));
     provider_info->setUrl(m_currentProvider->get()->homepage());
-    connect(m_currentProvider->get(), &ProviderModel::searchDone, this, [this](QList<ResourceItemInfo> &list, const int pageCount) {
+    connect(m_currentProvider->get(), &ProviderModel::searchDone, this, [this](const QList<ResourceItemInfo> &list, int pageCount) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &ResourceWidget::slotSearchFinished, list, pageCount);
 #else
-        QtConcurrent::run(&ResourceWidget::slotSearchFinished, this, list, pageCount);
+            QtConcurrent::run(&ResourceWidget::slotSearchFinished, this, list, pageCount);
 #endif
     });
     connect(m_currentProvider->get(), &ProviderModel::searchError, this, [&](const QString &msg) {
@@ -245,7 +245,7 @@ void ResourceWidget::slotStartSearch()
  * @param pageCount number of found pages
  * Displays the items of list in the search_results ListView
  */
-void ResourceWidget::slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount)
+void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int pageCount)
 {
 
     if (list.isEmpty()) {

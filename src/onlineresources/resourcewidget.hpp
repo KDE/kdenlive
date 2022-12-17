@@ -49,7 +49,7 @@ private slots:
     void slotChangeProvider();
     void slotOpenUrl(const QString &url);
     void slotStartSearch();
-    void slotSearchFinished(QList<ResourceItemInfo> &list, const int pageCount);
+    void slotSearchFinished(const QList<ResourceItemInfo> &list, const int pageCount);
     void slotUpdateCurrentItem();
     void slotSetIconSize(int size);
     void slotPreviewItem();
