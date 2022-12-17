@@ -28,6 +28,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, getGuideModel)).AlwaysReturn(guideModel);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
@@ -231,7 +232,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         int start = timeline->getItemPosition(cid);
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, cid, start, start + 100, tid1, false, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, cid, start, start + 100, tid1, -1, undo, redo));
         REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getClipPosition(cid1) == 10);
@@ -245,7 +246,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         cid = spacerOp.first;
         REQUIRE(cid > -1);
         start = timeline->getItemPosition(cid);
-        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, cid, start, start + 100, -1, false, undo, redo));
+        REQUIRE(TimelineFunctions::requestSpacerEndOperation(timeline, cid, start, start + 100, -1, -1, undo, redo));
         REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getClipPosition(cid1) == 10);

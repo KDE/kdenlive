@@ -3844,8 +3844,8 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             }
             int endPos = getItemPosition(cid) + delta;
             // Start undoable command
-            TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId, moveGuides, local_undo,
-                                                         local_redo, false);
+            TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId,
+                                                         KdenliveSettings::lockedGuides() ? -1 : position, local_undo, local_redo, false);
             return true;
         };
         if (delta > 0) {

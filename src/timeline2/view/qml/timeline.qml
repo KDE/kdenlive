@@ -1348,7 +1348,7 @@ Rectangle {
                             spacerFrame = spacerGroup > -1 ? controller.getItemPosition(spacerGroup) : frame
                             finalSpacerFrame = spacerFrame
                             if (spacerGuides) {
-                                selectedGuides = timeline.spacerSelection(spacerClickFrame)
+                                selectedGuides = timeline.spacerSelection(Math.min(spacerClickFrame, spacerFrame))
                                 if (selectedGuides.length > 0) {
                                     var firstGuidePos = timeline.getGuidePosition(selectedGuides[0])
                                     if (spacerGroup > -1 && firstGuidePos < spacerFrame) {
