@@ -150,7 +150,9 @@ void TagWidget::rebuildTags(const QMap<int, QStringList> &newTags)
         ix++;
     }
     setMinimumWidth(width);
-    setFixedHeight(tags.first()->sizeHint().height());
+    if (!tags.isEmpty()) {
+        setFixedHeight(tags.first()->sizeHint().height());
+    }
     updateGeometry();
 }
 
