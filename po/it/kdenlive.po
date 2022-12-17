@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-16 00:49+0000\n"
-"PO-Revision-Date: 2022-11-27 18:26+0100\n"
+"PO-Revision-Date: 2022-12-13 07:44+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -751,10 +751,9 @@ msgid "Clockwise"
 msgstr "In senso orario"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "In senso orario"
+msgstr "In senso antiorario"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -5730,7 +5729,7 @@ msgstr "Varie"
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
-msgstr "automatico"
+msgstr "automatica"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:277
 #, kde-format
@@ -8062,7 +8061,7 @@ msgstr "Clip corrente"
 #: src/kdenliveui.rc:139
 #, kde-format
 msgid "&Current track"
-msgstr "Tra&ccia attuale"
+msgstr "Tra&ccia corrente"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -8154,7 +8153,7 @@ msgstr "Barra degli strumenti della linea temporale"
 #: src/kdenliveui.rc:317
 #, kde-format
 msgid "Extra Toolbar"
-msgstr "Barra aggiuntiva"
+msgstr "Barra degli strumenti aggiuntiva"
 
 #: src/layoutmanagement.cpp:33
 #, kde-format
@@ -11093,34 +11092,26 @@ msgstr ""
 "fotogramma"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"Fai <shortcut>clic</shortcut> su di un elemento per farlo scivolare, "
-"<shortcut>Maiusc clic</shortcut> per una selezione multipla"
+"<shortcut>>Trascina</shortcut> per impostare il punto di attacco della zona, "
+"<shortcut>Maiusc + trascina</shortcut> per saltare durante la regolazione "
+"dell'inizio della zona"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut> per applicare solo alla traccia corrente, "
-"<shortcut>Maiusc</shortcut> per spostare anche le guide. Puoi combinare "
-"entrambi i modificatori."
+"<shortcut>>Trascina</shortcut> per impostare il punto di stacco della zona, "
+"<shortcut>Maiusc + trascina</shortcut> per saltare durante la regolazione "
+"della fine della zona"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -19140,7 +19131,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "Ruota per passi di 90°"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -19175,7 +19166,7 @@ msgstr "Mostra %1 nella linea temporale"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Maiusc + trascina per regolare il valore a passi di uno."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
