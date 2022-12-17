@@ -89,6 +89,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     vCodecCombo->addItems(RenderPresetRepository::vcodecs());
     aCodecCombo->addItems(RenderPresetRepository::acodecs());
 
+    aRateControlCombo->addItem(i18n("(Not set)"));
     aRateControlCombo->addItem(i18n("Average Bitrate"));
     aRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     aRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
@@ -130,40 +131,39 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         switch (index) {
         case RenderPresetModel::RateControl::Average:
             default_vbitrate->setEnabled(true);
-            cVBitrate->setEnabled(true);
             default_vquality->setEnabled(false);
             vquality_label->setEnabled(false);
             vBuffer->setEnabled(false);
-            cBuffer->setEnabled(false);
             break;
         case RenderPresetModel::RateControl::Constant:
             default_vbitrate->setEnabled(true);
-            cVBitrate->setEnabled(true);
             default_vquality->setEnabled(false);
             vquality_label->setEnabled(false);
             vBuffer->setEnabled(true);
-            cBuffer->setEnabled(true);
             break;
         case RenderPresetModel::RateControl::Constrained:
             default_vbitrate->setEnabled(true);
-            cVBitrate->setEnabled(true);
             default_vquality->setEnabled(true);
             vquality_label->setEnabled(true);
             vBuffer->setEnabled(true);
-            cBuffer->setEnabled(true);
             break;
         case RenderPresetModel::RateControl::Quality:
             default_vbitrate->setEnabled(false);
-            cVBitrate->setEnabled(false);
             default_vquality->setEnabled(true);
             vquality_label->setEnabled(true);
             vBuffer->setEnabled(false);
-            cBuffer->setEnabled(false);
+            break;
+        default:
+            default_vbitrate->setEnabled(false);
+            default_vquality->setEnabled(false);
+            vquality_label->setEnabled(false);
+            vBuffer->setEnabled(false);
             break;
         };
         slotUpdateParams();
     });
 
+    vRateControlCombo->addItem(i18n("(Not set)"));
     vRateControlCombo->addItem(i18n("Average Bitrate"));
     vRateControlCombo->addItem(i18n("CBR – Constant Bitrate"));
     vRateControlCombo->addItem(i18n("VBR – Variable Bitrate"));
@@ -252,7 +252,6 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                 int vbufsize = preset->getParam(QStringLiteral("vbufsize")).toInt(&ok);
                 if (ok) {
                     vBuffer->setValue(vbufsize / 1024 / 8);
-                    cBuffer->setChecked(true);
                 }
             }
             QString vqParam = preset->getParam(QStringLiteral("vq"));
@@ -279,12 +278,8 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             }
             if (vbParam.contains(QStringLiteral("%bitrate"))) {
                 default_vbitrate->setValue(preset->defaultVBitrate().toInt());
-                cVBitrate->setChecked(true);
             } else if (!vbParam.isEmpty()) {
                 default_vbitrate->setValue(vbParam.replace('k', "").replace('M', "000").toInt());
-                cVBitrate->setChecked(true);
-            } else {
-                cVBitrate->setChecked(false);
             }
 
             QString sampAspNum = preset->getParam(QStringLiteral("sample_aspect_num"));
@@ -529,8 +524,6 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     connect(cFps, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
     connect(cScanning, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
     connect(cField, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
-    connect(cVBitrate, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
-    connect(cBuffer, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
     connect(cChannels, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
     connect(cSampleR, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
 
@@ -631,9 +624,7 @@ void RenderPresetDialog::slotUpdateParams()
         case RenderPresetModel::RateControl::Constant: {
             // x265 does not expect bitrate suffixes and requires Kb/s
             params.append(QStringLiteral("vb=%bitrate"));
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         case RenderPresetModel::RateControl::Quality: {
@@ -642,12 +633,8 @@ void RenderPresetDialog::slotUpdateParams()
         }
         case RenderPresetModel::RateControl::Constrained: {
             params.append(QStringLiteral("crf=%quality"));
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
-            if (cVBitrate->isChecked() && cVBitrate->isEnabled()) {
-                params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            }
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
+            params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
             break;
         }
         }
@@ -664,9 +651,7 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         case RenderPresetModel::RateControl::Quality: {
@@ -678,12 +663,8 @@ void RenderPresetDialog::slotUpdateParams()
         case RenderPresetModel::RateControl::Constrained: {
             params.append(QStringLiteral("qmin=%quality"));
             params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
-            if (cVBitrate->isChecked() && cVBitrate->isEnabled()) {
-                params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            }
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         }
@@ -703,9 +684,7 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1 ").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vbufsize=%1 ").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         case RenderPresetModel::RateControl::Quality: {
@@ -720,12 +699,8 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("rc=vbr_peak"));
             params.append(QStringLiteral("qmin=%quality"));
             params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
-            if (cVBitrate->isChecked() && cVBitrate->isEnabled()) {
-                params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            }
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         }
@@ -745,9 +720,7 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         case RenderPresetModel::RateControl::Quality: {
@@ -776,12 +749,8 @@ void RenderPresetDialog::slotUpdateParams()
             } else {
                 params.append(QStringLiteral("qscale=%quality"));
             }
-            if (cVBitrate->isChecked() && cVBitrate->isEnabled()) {
-                params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
-            }
-            if (cBuffer->isChecked() && cBuffer->isEnabled()) {
-                params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
-            }
+            params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
+            params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
         }
@@ -824,6 +793,10 @@ void RenderPresetDialog::slotUpdateParams()
     } else {
         aRateControlCombo->setEnabled(true);
         switch (aRateControlCombo->currentIndex()) {
+        case RenderPresetModel::RateControl::Unknown:
+            aBitrate->setEnabled(false);
+            aQuality->setEnabled(false);
+            break;
         case RenderPresetModel::RateControl::Average:
         case RenderPresetModel::RateControl::Constant:
             aBitrate->setEnabled(true);
@@ -835,8 +808,9 @@ void RenderPresetDialog::slotUpdateParams()
             aQuality->setEnabled(true);
             break;
         };
-        if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Average ||
-            aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
+        switch (aRateControlCombo->currentIndex()) {
+        case RenderPresetModel::RateControl::Average:
+        case RenderPresetModel::RateControl::Constant: {
             params.append(QStringLiteral("ab=%audiobitrate+'k'"));
             if (acodec == "libopus") {
                 if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
@@ -845,11 +819,18 @@ void RenderPresetDialog::slotUpdateParams()
                     params.append(QStringLiteral("vbr=constrained"));
                 }
             }
-        } else if (acodec == "libopus") {
-            params.append(QStringLiteral("vbr=on"));
-            params.append(QStringLiteral("compression_level=%audioquality"));
-        } else {
-            params.append(QStringLiteral("aq=%audioquality"));
+            break;
+        }
+        case RenderPresetModel::RateControl::Quality: {
+            if (acodec == "libopus") {
+                params.append(QStringLiteral("vbr=on"));
+                params.append(QStringLiteral("compression_level=%audioquality"));
+            } else {
+                params.append(QStringLiteral("aq=%audioquality"));
+            }
+        }
+        default:
+            break;
         }
     }
 

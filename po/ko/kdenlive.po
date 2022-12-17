@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
+"POT-Creation-Date: 2022-12-16 00:49+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -6086,45 +6086,50 @@ msgstr "60초 테스트 동영상 %1 생성 중"
 msgid "Processing %1"
 msgstr "%1 처리 중"
 
-#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:167
+#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
+#, kde-format
+msgid "(Not set)"
+msgstr ""
+
+#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, fuzzy, kde-format
 #| msgid "Frame rate"
 msgid "Average Bitrate"
 msgstr "프레임 레이트"
 
-#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:168
+#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:169
+#: src/dialogs/renderpresetdialog.cpp:95 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:96
+#: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format
 msgid "1 (mono)"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:97
+#: src/dialogs/renderpresetdialog.cpp:98
 #, fuzzy, kde-format
 #| msgid "2 channels (stereo)"
 msgid "2 (stereo)"
 msgstr "2채널(스테레오)"
 
-#: src/dialogs/renderpresetdialog.cpp:98
+#: src/dialogs/renderpresetdialog.cpp:99
 #, kde-format
 msgid "4"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:99
+#: src/dialogs/renderpresetdialog.cpp:100
 #, kde-format
 msgid "6"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:120
-#: src/dialogs/renderpresetdialog.cpp:427
+#: src/dialogs/renderpresetdialog.cpp:121
+#: src/dialogs/renderpresetdialog.cpp:422
 #, fuzzy, kde-format
 #| msgid "Render Project"
 msgid "Edit Render Preset"
@@ -6135,19 +6140,19 @@ msgstr "프로젝트 렌더링"
 msgid "Constrained VBR"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:423
-#: src/dialogs/renderpresetdialog.cpp:444
+#: src/dialogs/renderpresetdialog.cpp:418
+#: src/dialogs/renderpresetdialog.cpp:439
 #, kde-format
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "사용자 정의"
 
-#: src/dialogs/renderpresetdialog.cpp:439
+#: src/dialogs/renderpresetdialog.cpp:434
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr ""
 
-#: src/dialogs/renderpresetdialog.cpp:868
+#: src/dialogs/renderpresetdialog.cpp:849
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -9059,8 +9064,8 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:418
-#: src/ui/editrenderpreset_ui.ui:600 src/ui/renderwidget_ui.ui:753
+#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:411
+#: src/ui/editrenderpreset_ui.ui:593 src/ui/renderwidget_ui.ui:753
 #, kde-format
 msgid "Auto"
 msgstr "자동"
@@ -10222,7 +10227,7 @@ msgstr "프레임 레이트:"
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:530
 #: src/mltcontroller/clippropertiescontroller.cpp:1331
-#: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:571
+#: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:564
 #: src/ui/profiledialog_ui.ui:168
 #, fuzzy, kde-format
 #| msgid "Scanning"
@@ -10349,7 +10354,7 @@ msgstr "ms"
 #. i18n: ectx: property (text), widget (QLabel, colorspaceLabel)
 #: src/mltcontroller/clippropertiescontroller.cpp:927
 #: src/mltcontroller/clippropertiescontroller.cpp:1344
-#: src/ui/configcapture_ui.ui:156 src/ui/editrenderpreset_ui.ui:385
+#: src/ui/configcapture_ui.ui:156 src/ui/editrenderpreset_ui.ui:378
 #: src/ui/profiledialog_ui.ui:281
 #, kde-format
 msgid "Colorspace:"
@@ -14218,7 +14223,7 @@ msgstr "잘못된 타임라인 미리 보기 인자"
 msgid "Something is wrong with cache folders"
 msgstr "캐시 폴더에 문제가 있음"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
@@ -15687,7 +15692,7 @@ msgstr "현재 지점 삭제"
 #: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
 #: src/ui/configspeech_ui.ui:37 src/ui/configspeech_ui.ui:81
-#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:707
+#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:700
 #: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
@@ -17090,49 +17095,41 @@ msgstr ""
 msgid "Quality:"
 msgstr "품질"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cVBitrate)
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/ui/editrenderpreset_ui.ui:247 src/ui/editrenderpreset_ui.ui:978
-#, fuzzy, kde-format
-#| msgid "Bitrates"
-msgid "Bitrate:"
-msgstr "전송률"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:254
+#: src/ui/editrenderpreset_ui.ui:247
 #, kde-format
 msgid "GOP = Group of Pictures"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:257
+#: src/ui/editrenderpreset_ui.ui:250
 #, kde-format
 msgid "GOP:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:283
+#: src/ui/editrenderpreset_ui.ui:276
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/editrenderpreset_ui.ui:290 src/ui/editrenderpreset_ui.ui:968
+#: src/ui/editrenderpreset_ui.ui:283 src/ui/editrenderpreset_ui.ui:968
 #, fuzzy, kde-format
 #| msgid "Show Record Control"
 msgid "Rate Control:"
 msgstr "녹화 제어 표시"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/editrenderpreset_ui.ui:392
+#: src/ui/editrenderpreset_ui.ui:385
 #, fuzzy, kde-format
 #| msgid "Fields per second"
 msgid "Fields per Second:"
 msgstr "초당 필드 수"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
-#: src/ui/editrenderpreset_ui.ui:405
+#: src/ui/editrenderpreset_ui.ui:398
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Resolution:"
@@ -17140,7 +17137,7 @@ msgstr "해상도"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
-#: src/ui/editrenderpreset_ui.ui:421 src/ui/editrenderpreset_ui.ui:603
+#: src/ui/editrenderpreset_ui.ui:414 src/ui/editrenderpreset_ui.ui:596
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid " frame(s)"
@@ -17148,20 +17145,20 @@ msgstr " 프레임"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, default_vbitrate)
 #. i18n: ectx: property (suffix), widget (QSpinBox, aBitrate)
-#: src/ui/editrenderpreset_ui.ui:443 src/ui/editrenderpreset_ui.ui:985
+#: src/ui/editrenderpreset_ui.ui:436 src/ui/editrenderpreset_ui.ui:985
 #, kde-format
 msgid "k"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/editrenderpreset_ui.ui:453 src/ui/editrenderpreset_ui.ui:870
+#: src/ui/editrenderpreset_ui.ui:446 src/ui/editrenderpreset_ui.ui:870
 #, kde-format
 msgid "Codec:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:463
+#: src/ui/editrenderpreset_ui.ui:456
 #, kde-format
 msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
@@ -17169,27 +17166,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:466
+#: src/ui/editrenderpreset_ui.ui:459
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
-#: src/ui/editrenderpreset_ui.ui:479
+#: src/ui/editrenderpreset_ui.ui:472
 #, fuzzy, kde-format
 #| msgid "Display aspect ratio:"
 msgid "Display Aspect Ratio:"
 msgstr "디스플레이 종횡비:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
-#: src/ui/editrenderpreset_ui.ui:625
+#: src/ui/editrenderpreset_ui.ui:618
 #, fuzzy, kde-format
 #| msgid "Frame rate:"
 msgid "Frame Rate:"
 msgstr "프레임 레이트:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cField)
-#: src/ui/editrenderpreset_ui.ui:746
+#: src/ui/editrenderpreset_ui.ui:739
 #, fuzzy, kde-format
 #| msgid "Field order"
 msgid "Field Order:"
@@ -17197,39 +17194,47 @@ msgstr "필드 순서"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:766 src/ui/profiledialog_ui.ui:150
+#: src/ui/editrenderpreset_ui.ui:759 src/ui/profiledialog_ui.ui:150
 #, kde-format
 msgid "Bottom Field First"
 msgstr "아래쪽 필드 우선"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:771 src/ui/profiledialog_ui.ui:145
+#: src/ui/editrenderpreset_ui.ui:764 src/ui/profiledialog_ui.ui:145
 #, kde-format
 msgid "Top Field First"
 msgstr "위쪽 필드 우선"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
-#: src/ui/editrenderpreset_ui.ui:788
+#: src/ui/editrenderpreset_ui.ui:781
 #, kde-format
 msgid " KiB"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cPar)
-#: src/ui/editrenderpreset_ui.ui:804
+#: src/ui/editrenderpreset_ui.ui:797
 #, fuzzy, kde-format
 #| msgid "Pixel aspect ratio:"
 msgid "Pixel Aspect Ratio:"
 msgstr "픽셀 종횡비:"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
-#: src/ui/editrenderpreset_ui.ui:821
+#: src/ui/editrenderpreset_ui.ui:814
 #, fuzzy, kde-format
 #| msgid "B frames"
 msgid "B Frames:"
 msgstr "B 프레임"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cBuffer)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
+#: src/ui/editrenderpreset_ui.ui:821 src/ui/editrenderpreset_ui.ui:978
+#, fuzzy, kde-format
+#| msgid "Bitrates"
+msgid "Bitrate:"
+msgstr "전송률"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/editrenderpreset_ui.ui:828
 #, kde-format
 msgid "Buffer Size:"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
-"PO-Revision-Date: 2022-12-01 06:52\n"
+"POT-Creation-Date: 2022-12-16 00:49+0000\n"
+"PO-Revision-Date: 2022-12-13 12:21\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -728,10 +728,9 @@ msgid "Clockwise"
 msgstr "顺时针"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "顺时针"
+msgstr ""
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -5945,43 +5944,48 @@ msgstr "正在生成 60 秒测试视频 %1"
 msgid "Processing %1"
 msgstr "正在处理 %1"
 
-#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:167
+#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
+#, kde-format
+msgid "(Not set)"
+msgstr ""
+
+#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
 msgid "Average Bitrate"
 msgstr "平均码率"
 
-#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:168
+#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
 msgstr "CBR – 固定码率"
 
-#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:169
+#: src/dialogs/renderpresetdialog.cpp:95 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
 msgstr "VBR – 可变码率"
 
-#: src/dialogs/renderpresetdialog.cpp:96
+#: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format
 msgid "1 (mono)"
 msgstr "1 (单声道)"
 
-#: src/dialogs/renderpresetdialog.cpp:97
+#: src/dialogs/renderpresetdialog.cpp:98
 #, kde-format
 msgid "2 (stereo)"
 msgstr "2 (立体声)"
 
-#: src/dialogs/renderpresetdialog.cpp:98
+#: src/dialogs/renderpresetdialog.cpp:99
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/renderpresetdialog.cpp:99
+#: src/dialogs/renderpresetdialog.cpp:100
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/renderpresetdialog.cpp:120
-#: src/dialogs/renderpresetdialog.cpp:427
+#: src/dialogs/renderpresetdialog.cpp:121
+#: src/dialogs/renderpresetdialog.cpp:422
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "编辑渲染器预设"
@@ -5991,19 +5995,19 @@ msgstr "编辑渲染器预设"
 msgid "Constrained VBR"
 msgstr "受限码率 VBR"
 
-#: src/dialogs/renderpresetdialog.cpp:423
-#: src/dialogs/renderpresetdialog.cpp:444
+#: src/dialogs/renderpresetdialog.cpp:418
+#: src/dialogs/renderpresetdialog.cpp:439
 #, kde-format
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "自定义"
 
-#: src/dialogs/renderpresetdialog.cpp:439
+#: src/dialogs/renderpresetdialog.cpp:434
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "预设名称不能为空"
 
-#: src/dialogs/renderpresetdialog.cpp:868
+#: src/dialogs/renderpresetdialog.cpp:849
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -8823,8 +8827,8 @@ msgstr "活动工具和编辑模式"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:418
-#: src/ui/editrenderpreset_ui.ui:600 src/ui/renderwidget_ui.ui:753
+#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:411
+#: src/ui/editrenderpreset_ui.ui:593 src/ui/renderwidget_ui.ui:753
 #, kde-format
 msgid "Auto"
 msgstr "自动"
@@ -9918,7 +9922,7 @@ msgstr "帧速率："
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:530
 #: src/mltcontroller/clippropertiescontroller.cpp:1331
-#: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:571
+#: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:564
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
 msgid "Scanning:"
@@ -10037,7 +10041,7 @@ msgstr "毫秒"
 #. i18n: ectx: property (text), widget (QLabel, colorspaceLabel)
 #: src/mltcontroller/clippropertiescontroller.cpp:927
 #: src/mltcontroller/clippropertiescontroller.cpp:1344
-#: src/ui/configcapture_ui.ui:156 src/ui/editrenderpreset_ui.ui:385
+#: src/ui/configcapture_ui.ui:156 src/ui/editrenderpreset_ui.ui:378
 #: src/ui/profiledialog_ui.ui:281
 #, kde-format
 msgid "Colorspace:"
@@ -10830,33 +10834,20 @@ msgstr ""
 "后一帧"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>点击</shortcut>项目进行外滑，<shortcut>Shift + 点击</shortcut>进行"
-"多选"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>按住 Ctrl</shortcut> 仅应用到当前轨道，<shortcut>按住 Shift</"
-"shortcut> 同时移动辅助线。两个修饰键可以同时使用。"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -13740,7 +13731,7 @@ msgstr "无效的时间轴预览参数"
 msgid "Something is wrong with cache folders"
 msgstr "缓存文件夹异常"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr "预览导出失败，请检查您的参数。%1 显示详情...%2"
@@ -15176,7 +15167,7 @@ msgstr "删除当前点."
 #: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
 #: src/ui/configspeech_ui.ui:37 src/ui/configspeech_ui.ui:81
-#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:707
+#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:700
 #: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
@@ -16492,73 +16483,66 @@ msgstr "容器："
 msgid "Quality:"
 msgstr "品质："
 
-#. i18n: ectx: property (text), widget (QCheckBox, cVBitrate)
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/ui/editrenderpreset_ui.ui:247 src/ui/editrenderpreset_ui.ui:978
-#, kde-format
-msgid "Bitrate:"
-msgstr "码率："
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:254
+#: src/ui/editrenderpreset_ui.ui:247
 #, kde-format
 msgid "GOP = Group of Pictures"
 msgstr "GOP = 图像组"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:257
+#: src/ui/editrenderpreset_ui.ui:250
 #, kde-format
 msgid "GOP:"
 msgstr "GOP："
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:283
+#: src/ui/editrenderpreset_ui.ui:276
 #, kde-format
 msgid "Placeholder"
 msgstr "占位符"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/editrenderpreset_ui.ui:290 src/ui/editrenderpreset_ui.ui:968
+#: src/ui/editrenderpreset_ui.ui:283 src/ui/editrenderpreset_ui.ui:968
 #, kde-format
 msgid "Rate Control:"
 msgstr "码率控制："
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/editrenderpreset_ui.ui:392
+#: src/ui/editrenderpreset_ui.ui:385
 #, kde-format
 msgid "Fields per Second:"
 msgstr "每秒场数："
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
-#: src/ui/editrenderpreset_ui.ui:405
+#: src/ui/editrenderpreset_ui.ui:398
 #, kde-format
 msgid "Resolution:"
 msgstr "分辨率："
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
-#: src/ui/editrenderpreset_ui.ui:421 src/ui/editrenderpreset_ui.ui:603
+#: src/ui/editrenderpreset_ui.ui:414 src/ui/editrenderpreset_ui.ui:596
 #, kde-format
 msgid " frame(s)"
 msgstr " 帧"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, default_vbitrate)
 #. i18n: ectx: property (suffix), widget (QSpinBox, aBitrate)
-#: src/ui/editrenderpreset_ui.ui:443 src/ui/editrenderpreset_ui.ui:985
+#: src/ui/editrenderpreset_ui.ui:436 src/ui/editrenderpreset_ui.ui:985
 #, kde-format
 msgid "k"
 msgstr "k"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/editrenderpreset_ui.ui:453 src/ui/editrenderpreset_ui.ui:870
+#: src/ui/editrenderpreset_ui.ui:446 src/ui/editrenderpreset_ui.ui:870
 #, kde-format
 msgid "Codec:"
 msgstr "编码："
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:463
+#: src/ui/editrenderpreset_ui.ui:456
 #, kde-format
 msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
@@ -16566,62 +16550,69 @@ msgid ""
 msgstr "固定 GOP 意味着该关键帧将不会被插入到检测到的场景变化。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:466
+#: src/ui/editrenderpreset_ui.ui:459
 #, kde-format
 msgid "Fixed"
 msgstr "固定"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
-#: src/ui/editrenderpreset_ui.ui:479
+#: src/ui/editrenderpreset_ui.ui:472
 #, kde-format
 msgid "Display Aspect Ratio:"
 msgstr "显示器宽高比："
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
-#: src/ui/editrenderpreset_ui.ui:625
+#: src/ui/editrenderpreset_ui.ui:618
 #, kde-format
 msgid "Frame Rate:"
 msgstr "帧速率："
 
 #. i18n: ectx: property (text), widget (QCheckBox, cField)
-#: src/ui/editrenderpreset_ui.ui:746
+#: src/ui/editrenderpreset_ui.ui:739
 #, kde-format
 msgid "Field Order:"
 msgstr "场序："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:766 src/ui/profiledialog_ui.ui:150
+#: src/ui/editrenderpreset_ui.ui:759 src/ui/profiledialog_ui.ui:150
 #, kde-format
 msgid "Bottom Field First"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:771 src/ui/profiledialog_ui.ui:145
+#: src/ui/editrenderpreset_ui.ui:764 src/ui/profiledialog_ui.ui:145
 #, kde-format
 msgid "Top Field First"
 msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
-#: src/ui/editrenderpreset_ui.ui:788
+#: src/ui/editrenderpreset_ui.ui:781
 #, kde-format
 msgid " KiB"
 msgstr " KiB"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cPar)
-#: src/ui/editrenderpreset_ui.ui:804
+#: src/ui/editrenderpreset_ui.ui:797
 #, kde-format
 msgid "Pixel Aspect Ratio:"
 msgstr "像素宽高比："
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
-#: src/ui/editrenderpreset_ui.ui:821
+#: src/ui/editrenderpreset_ui.ui:814
 #, kde-format
 msgid "B Frames:"
 msgstr "B 帧："
 
-#. i18n: ectx: property (text), widget (QCheckBox, cBuffer)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
+#: src/ui/editrenderpreset_ui.ui:821 src/ui/editrenderpreset_ui.ui:978
+#, kde-format
+msgid "Bitrate:"
+msgstr "码率："
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/editrenderpreset_ui.ui:828
 #, kde-format
 msgid "Buffer Size:"

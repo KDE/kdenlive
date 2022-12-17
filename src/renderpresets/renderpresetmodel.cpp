@@ -372,17 +372,18 @@ RenderPresetModel::RateControl RenderPresetModel::videoRateControl() const
 {
     QString vbufsize = getParam(QStringLiteral("vbufsize"));
     QString vcodec = getParam(QStringLiteral("vcodec"));
-    if (!getParam(QStringLiteral("crf")).isEmpty()) {
-        return !vbufsize.isEmpty() ? (vcodec.endsWith("_ videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
+    if (hasParam(QStringLiteral("crf"))) {
+        return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
     }
-    if (!getParam(QStringLiteral("vq")).isEmpty() || !getParam(QStringLiteral("vglobal_quality")).isEmpty() || !getParam(QStringLiteral("qscale")).isEmpty()) {
+    if (hasParam(QStringLiteral("vq")) || hasParam(QStringLiteral("vglobal_quality")) || hasParam(QStringLiteral("qscale"))) {
         return vbufsize.isEmpty() ? RateControl::Quality : RateControl::Constrained;
     } else if (!vbufsize.isEmpty()) {
         return RateControl::Constant;
     }
-    QString param = getParam(QStringLiteral("vb"));
+    QString param = getParam(QStringLiteral("vb")).replace('+', "").replace('k', "").replace('k', "").replace('M', "000");
+    qDebug() << "vb param" << param << param.toInt();
     if (!param.isEmpty()) {
-        return param.toInt() > 0 ? RateControl::Average : RateControl::Quality;
+        return (param.contains(QStringLiteral("%bitrate")) || param.toInt() > 0) ? RateControl::Average : RateControl::Quality;
     }
     return RateControl::Unknown;
 }
@@ -400,10 +401,13 @@ RenderPresetModel::RateControl RenderPresetModel::audioRateControl() const
         }
         return RateControl::Quality;
     }
-    if (!getParam(QStringLiteral("aq")).isEmpty() || !getParam(QStringLiteral("compression_level")).isEmpty()) {
+    if (hasParam(QStringLiteral("aq")) || hasParam(QStringLiteral("compression_level"))) {
         return RateControl::Quality;
     }
-    return RateControl::Constant;
+    if (hasParam(QStringLiteral("ab"))) {
+        return RateControl::Constant;
+    }
+    return RateControl::Unknown;
 }
 
 QString RenderPresetModel::x265Params() const

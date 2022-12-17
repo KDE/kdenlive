@@ -160,7 +160,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <x>0</x>
             <y>0</y>
             <width>536</width>
-            <height>501</height>
+            <height>512</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -178,7 +178,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 <x>0</x>
                 <y>0</y>
                 <width>503</width>
-                <height>640</height>
+                <height>580</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout">
@@ -238,13 +238,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-               <item row="12" column="0" colspan="2">
-                <widget class="QCheckBox" name="cVBitrate">
-                 <property name="text">
-                  <string>Bitrate:</string>
                  </property>
                 </widget>
                </item>
@@ -822,8 +815,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </property>
                 </widget>
                </item>
-               <item row="14" column="0" colspan="2">
-                <widget class="QCheckBox" name="cBuffer">
+               <item row="12" column="0">
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>Bitrate:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="0">
+                <widget class="QLabel" name="label_5">
                  <property name="text">
                   <string>Buffer Size:</string>
                  </property>
@@ -1277,38 +1277,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <hint type="destinationlabel">
      <x>380</x>
      <y>320</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cVBitrate</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>default_vbitrate</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>136</x>
-     <y>583</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>401</x>
-     <y>583</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cBuffer</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>vBuffer</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>136</x>
-     <y>631</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>401</x>
-     <y>631</y>
     </hint>
    </hints>
   </connection>

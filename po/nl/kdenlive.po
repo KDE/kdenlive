@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 00:54+0000\n"
-"PO-Revision-Date: 2022-12-09 10:08+0100\n"
+"POT-Creation-Date: 2022-12-16 00:49+0000\n"
+"PO-Revision-Date: 2022-12-16 10:59+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4836,7 +4836,7 @@ msgstr "Hulplijnen bewerken"
 #: src/bin/model/markerlistmodel.cpp:907
 #, kde-format
 msgid "Edit markers"
-msgstr "Markeerpunten bewerken"
+msgstr "Markeringen bewerken"
 
 #: src/bin/model/markerlistmodel.cpp:922 src/bin/model/markerlistmodel.cpp:947
 #: src/timeline2/view/timelinecontroller.cpp:1362
@@ -4872,7 +4872,7 @@ msgstr "Hulplijnen toevoegen"
 #: src/bin/model/markerlistmodel.cpp:965
 #, kde-format
 msgid "Add markers"
-msgstr "Markeerpunten toevoegen"
+msgstr "Markeringen toevoegen"
 
 #: src/bin/model/subtitlemodel.cpp:85
 #, kde-format
@@ -6051,43 +6051,48 @@ msgstr "Een testvideo %1 van 60 seconden wordt gegenereerd"
 msgid "Processing %1"
 msgstr "%1 wordt verwerkt"
 
-#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:167
+#: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
+#, kde-format
+msgid "(Not set)"
+msgstr "(Niet gezet)"
+
+#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
 msgid "Average Bitrate"
 msgstr "Gemiddelde bitrate"
 
-#: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:168
+#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
 msgstr "CBR – Constante Bitsnelheid"
 
-#: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:169
+#: src/dialogs/renderpresetdialog.cpp:95 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
 msgstr "VBR – Variabele Bitsnelheid"
 
-#: src/dialogs/renderpresetdialog.cpp:96
+#: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format
 msgid "1 (mono)"
 msgstr "1 (mono)"
 
-#: src/dialogs/renderpresetdialog.cpp:97
+#: src/dialogs/renderpresetdialog.cpp:98
 #, kde-format
 msgid "2 (stereo)"
 msgstr "2 (stereo)"
 
-#: src/dialogs/renderpresetdialog.cpp:98
+#: src/dialogs/renderpresetdialog.cpp:99
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/renderpresetdialog.cpp:99
+#: src/dialogs/renderpresetdialog.cpp:100
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/renderpresetdialog.cpp:120
-#: src/dialogs/renderpresetdialog.cpp:427
+#: src/dialogs/renderpresetdialog.cpp:121
+#: src/dialogs/renderpresetdialog.cpp:422
 #, kde-format
 msgid "Edit Render Preset"
 msgstr "Voorinstellingen voor renderen bewerken"
@@ -6097,19 +6102,19 @@ msgstr "Voorinstellingen voor renderen bewerken"
 msgid "Constrained VBR"
 msgstr "Beperkte VBR"
 
-#: src/dialogs/renderpresetdialog.cpp:423
-#: src/dialogs/renderpresetdialog.cpp:444
+#: src/dialogs/renderpresetdialog.cpp:418
+#: src/dialogs/renderpresetdialog.cpp:439
 #, kde-format
 msgctxt "Group Name"
 msgid "Custom"
 msgstr "Aangepast"
 
-#: src/dialogs/renderpresetdialog.cpp:439
+#: src/dialogs/renderpresetdialog.cpp:434
 #, kde-format
 msgid "The preset name can't be empty"
 msgstr "De vooraf ingestelde naam kan niet leeg zijn"
 
-#: src/dialogs/renderpresetdialog.cpp:868
+#: src/dialogs/renderpresetdialog.cpp:849
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -7970,7 +7975,7 @@ msgstr "&Clip"
 #: src/kdenliveui.rc:65
 #, kde-format
 msgid "Markers"
-msgstr "Markeerpunten"
+msgstr "Markeringen"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:74 src/mainwindow.cpp:3634
@@ -8995,8 +9000,8 @@ msgstr "Actief hulpmiddel en modus bewerken"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:418
-#: src/ui/editrenderpreset_ui.ui:600 src/ui/renderwidget_ui.ui:753
+#: src/mainwindow.cpp:1374 src/ui/editrenderpreset_ui.ui:411
+#: src/ui/editrenderpreset_ui.ui:593 src/ui/renderwidget_ui.ui:753
 #, kde-format
 msgid "Auto"
 msgstr "Automatisch"
@@ -9405,7 +9410,7 @@ msgstr "Clips groeperen"
 #: src/mainwindow.cpp:1709
 #, kde-format
 msgid "Ungroup Clips"
-msgstr "Hef groeperen clips op"
+msgstr "Hef groepering clips op"
 
 #: src/mainwindow.cpp:1723
 #, kde-format
@@ -10107,7 +10112,7 @@ msgstr "Framesnelheid:"
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
 #: src/mltcontroller/clippropertiescontroller.cpp:530
 #: src/mltcontroller/clippropertiescontroller.cpp:1331
-#: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:571
+#: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:564
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
 msgid "Scanning:"
@@ -10226,7 +10231,7 @@ msgstr "ms"
 #. i18n: ectx: property (text), widget (QLabel, colorspaceLabel)
 #: src/mltcontroller/clippropertiescontroller.cpp:927
 #: src/mltcontroller/clippropertiescontroller.cpp:1344
-#: src/ui/configcapture_ui.ui:156 src/ui/editrenderpreset_ui.ui:385
+#: src/ui/configcapture_ui.ui:156 src/ui/editrenderpreset_ui.ui:378
 #: src/ui/profiledialog_ui.ui:281
 #, kde-format
 msgid "Colorspace:"
@@ -11856,7 +11861,7 @@ msgstr "Hulplijnen verwijderen"
 #: src/project/dialogs/guideslist.cpp:294
 #, kde-format
 msgid "Markers for %1"
-msgstr "Markeerpunten voor %1"
+msgstr "Markeringen voor %1"
 
 #: src/project/dialogs/guideslist.cpp:320
 #, kde-format
@@ -13834,7 +13839,7 @@ msgstr "Clips groeperen"
 #: src/timeline2/model/timelinemodel.cpp:4102
 #, kde-format
 msgid "Ungroup clips"
-msgstr "Hef groeperen clips op"
+msgstr "Hef groepering clips op"
 
 #: src/timeline2/model/timelinemodel.cpp:4252
 #, kde-format
@@ -14015,7 +14020,7 @@ msgstr "Ongeldige vooruitblikparameters van tijdlijn"
 msgid "Something is wrong with cache folders"
 msgstr "Er is iets fout met cachemappen"
 
-#: src/timeline2/view/previewmanager.cpp:747
+#: src/timeline2/view/previewmanager.cpp:760
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
@@ -15479,7 +15484,7 @@ msgstr "Huidige punt verwijderen."
 #: src/ui/collapsiblewidget_ui.ui:198 src/ui/collapsiblewidget_ui.ui:208
 #: src/ui/configjogshuttle_ui.ui:82 src/ui/configsdl_ui.ui:166
 #: src/ui/configspeech_ui.ui:37 src/ui/configspeech_ui.ui:81
-#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:707
+#: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:700
 #: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
 #: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
 #: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
@@ -16809,73 +16814,66 @@ msgstr "Container:"
 msgid "Quality:"
 msgstr "Kwaliteit:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cVBitrate)
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/ui/editrenderpreset_ui.ui:247 src/ui/editrenderpreset_ui.ui:978
-#, kde-format
-msgid "Bitrate:"
-msgstr "Bitsnelheid:"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:254
+#: src/ui/editrenderpreset_ui.ui:247
 #, kde-format
 msgid "GOP = Group of Pictures"
 msgstr "GOP = Groep afbeeldingen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: src/ui/editrenderpreset_ui.ui:257
+#: src/ui/editrenderpreset_ui.ui:250
 #, kde-format
 msgid "GOP:"
 msgstr "GOP:"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/ui/editrenderpreset_ui.ui:283
+#: src/ui/editrenderpreset_ui.ui:276
 #, kde-format
 msgid "Placeholder"
 msgstr "Plaatshouder"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/editrenderpreset_ui.ui:290 src/ui/editrenderpreset_ui.ui:968
+#: src/ui/editrenderpreset_ui.ui:283 src/ui/editrenderpreset_ui.ui:968
 #, kde-format
 msgid "Rate Control:"
 msgstr "Snelheidscontrole:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/editrenderpreset_ui.ui:392
+#: src/ui/editrenderpreset_ui.ui:385
 #, kde-format
 msgid "Fields per Second:"
 msgstr "Velden per seconde:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
-#: src/ui/editrenderpreset_ui.ui:405
+#: src/ui/editrenderpreset_ui.ui:398
 #, kde-format
 msgid "Resolution:"
 msgstr "Resolutie:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
-#: src/ui/editrenderpreset_ui.ui:421 src/ui/editrenderpreset_ui.ui:603
+#: src/ui/editrenderpreset_ui.ui:414 src/ui/editrenderpreset_ui.ui:596
 #, kde-format
 msgid " frame(s)"
 msgstr " frame(s)"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, default_vbitrate)
 #. i18n: ectx: property (suffix), widget (QSpinBox, aBitrate)
-#: src/ui/editrenderpreset_ui.ui:443 src/ui/editrenderpreset_ui.ui:985
+#: src/ui/editrenderpreset_ui.ui:436 src/ui/editrenderpreset_ui.ui:985
 #, kde-format
 msgid "k"
 msgstr "k"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/editrenderpreset_ui.ui:453 src/ui/editrenderpreset_ui.ui:870
+#: src/ui/editrenderpreset_ui.ui:446 src/ui/editrenderpreset_ui.ui:870
 #, kde-format
 msgid "Codec:"
 msgstr "Codec:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:463
+#: src/ui/editrenderpreset_ui.ui:456
 #, kde-format
 msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
@@ -16885,62 +16883,69 @@ msgstr ""
 "gedetecteerde scenewijzigingen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/ui/editrenderpreset_ui.ui:466
+#: src/ui/editrenderpreset_ui.ui:459
 #, kde-format
 msgid "Fixed"
 msgstr "Vastgezet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
-#: src/ui/editrenderpreset_ui.ui:479
+#: src/ui/editrenderpreset_ui.ui:472
 #, kde-format
 msgid "Display Aspect Ratio:"
 msgstr "Beeldverhouding van scherm:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
-#: src/ui/editrenderpreset_ui.ui:625
+#: src/ui/editrenderpreset_ui.ui:618
 #, kde-format
 msgid "Frame Rate:"
 msgstr "Framesnelheid:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cField)
-#: src/ui/editrenderpreset_ui.ui:746
+#: src/ui/editrenderpreset_ui.ui:739
 #, kde-format
 msgid "Field Order:"
 msgstr "Veldvolgorde:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:766 src/ui/profiledialog_ui.ui:150
+#: src/ui/editrenderpreset_ui.ui:759 src/ui/profiledialog_ui.ui:150
 #, kde-format
 msgid "Bottom Field First"
 msgstr "Onderste veld eerst"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:771 src/ui/profiledialog_ui.ui:145
+#: src/ui/editrenderpreset_ui.ui:764 src/ui/profiledialog_ui.ui:145
 #, kde-format
 msgid "Top Field First"
 msgstr "Bovenste veld eerst"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
-#: src/ui/editrenderpreset_ui.ui:788
+#: src/ui/editrenderpreset_ui.ui:781
 #, kde-format
 msgid " KiB"
 msgstr " KiB"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cPar)
-#: src/ui/editrenderpreset_ui.ui:804
+#: src/ui/editrenderpreset_ui.ui:797
 #, kde-format
 msgid "Pixel Aspect Ratio:"
 msgstr "Pixel beeldverhouding:"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
-#: src/ui/editrenderpreset_ui.ui:821
+#: src/ui/editrenderpreset_ui.ui:814
 #, kde-format
 msgid "B Frames:"
 msgstr "B-frames:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, cBuffer)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
+#: src/ui/editrenderpreset_ui.ui:821 src/ui/editrenderpreset_ui.ui:978
+#, kde-format
+msgid "Bitrate:"
+msgstr "Bitsnelheid:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/editrenderpreset_ui.ui:828
 #, kde-format
 msgid "Buffer Size:"
