@@ -496,9 +496,9 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         moveGuidesPosition = qMin(moveGuidesPosition, startPosition);
         GenTime fromPos(moveGuidesPosition, pCore->getCurrentFps());
         GenTime toPos(endPosition - startPosition, pCore->getCurrentFps());
-        QList<CommentedTime> guides = pCore->projectManager()->getGuideModel()->getMarkersInRange(moveGuidesPosition, -1);
+        QList<CommentedTime> guides = timeline->getGuideModel()->getMarkersInRange(moveGuidesPosition, -1);
         if (!guides.isEmpty()) {
-            pCore->projectManager()->getGuideModel()->moveMarkers(guides, fromPos, fromPos + toPos, undo, redo);
+            timeline->getGuideModel()->moveMarkers(guides, fromPos, fromPos + toPos, undo, redo);
         }
     }
 
