@@ -872,7 +872,6 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         }
     }
 
-    QMap<QString, QString> renderFiles;
     if (renderArgs.contains("=stills/")) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
@@ -882,6 +881,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         }
     }
 
+    QMap<QString, QString> renderFiles;
     if (m_view.stemAudioExport->isChecked() && m_view.stemAudioExport->isEnabled()) {
         if (delayedRendering) {
             if (KMessageBox::warningContinueCancel(this, i18n("Script rendering and multi track audio export can not be used together.\n"
@@ -1288,9 +1288,6 @@ void RenderWidget::refreshParams()
         setRescaleEnabled(m_view.video_box->isChecked() && m_view.rescale->isChecked());
     }
 
-    QStringList removeParams = {QStringLiteral("an"), QStringLiteral("audio_off"), QStringLiteral("vn"), QStringLiteral("video_off"),
-                                QStringLiteral("real_time")};
-
     QStringList newParams;
 
     // Audio Channels: don't override, only set if it is not yet set
@@ -1307,6 +1304,9 @@ void RenderWidget::refreshParams()
     if (preset->getParam(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
         newParams.append(QStringLiteral("x265-param=%1").arg(preset->x265Params()));
     }
+
+    QStringList removeParams = {QStringLiteral("an"), QStringLiteral("audio_off"), QStringLiteral("vn"), QStringLiteral("video_off"),
+                                QStringLiteral("real_time")};
 
     // Rescale
     bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
@@ -1362,7 +1362,7 @@ void RenderWidget::refreshParams()
         }
     }
 
-    QString params = preset->params(removeParams);
+    QString params = preset->paramString(removeParams);
 
     // Set the thread counts
     if (!params.contains(QStringLiteral("threads="))) {

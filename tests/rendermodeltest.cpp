@@ -41,21 +41,48 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         CHECK(model->getParam("three") == QStringLiteral("third"));
         CHECK(model->getParam("four") == QStringLiteral("4"));
 
-        CHECK(model->params() == QStringLiteral("one=first two=second value three=third four=4"));
+        CHECK(model->paramString().length() == QString("one=first two=second value three=third four=4").length());
+        CHECK(model->params().size() == 4);
+        CHECK(model->params().contains("one"));
+        CHECK(model->params().contains("two"));
+        CHECK(model->params().contains("three"));
+        CHECK(model->params().contains("four"));
+
         // test removing a normal parameter in the middle
-        CHECK(model->params({QStringLiteral("three")}) == QStringLiteral("one=first two=second value four=4"));
+        CHECK(model->paramString({QStringLiteral("three")}).length() == QString("one=first two=second value four=4").length());
+        CHECK(model->params({QStringLiteral("three")}).size() == 3);
+        CHECK_FALSE(model->params({QStringLiteral("three")}).contains("three"));
+
         // test removing a parameter at the first position
-        CHECK(model->params({QStringLiteral("one")}) == QStringLiteral("two=second value three=third four=4"));
+        CHECK(model->paramString({QStringLiteral("one")}).length() == QString("two=second value three=third four=4").length());
+        CHECK(model->params({QStringLiteral("one")}).size() == 3);
+        CHECK_FALSE(model->params({QStringLiteral("one")}).contains("one"));
+
         // test removing a parameter at the last position
-        CHECK(model->params({QStringLiteral("four")}) == QStringLiteral("one=first two=second value three=third"));
+        CHECK(model->paramString({QStringLiteral("four")}).length() == QString("one=first two=second value three=third").length());
+        CHECK(model->params({QStringLiteral("four")}).size() == 3);
+        CHECK_FALSE(model->params({QStringLiteral("four")}).contains("four"));
+
         // test removing a non-existing parameter
-        CHECK(model->params({QStringLiteral("fifth")}) == QStringLiteral("one=first two=second value three=third four=4"));
+        CHECK(model->paramString({QStringLiteral("fifth")}).length() == QString("one=first two=second value three=third four=4").length());
+        CHECK(model->params({QStringLiteral("fifth")}).size() == 4);
+        CHECK_FALSE(model->params({QStringLiteral("fifth")}).contains("fifth"));
+
         // test removing a handing a value should do nothing
-        CHECK(model->params({QStringLiteral("first")}) == QStringLiteral("one=first two=second value three=third four=4"));
+        CHECK(model->paramString({QStringLiteral("first")}).length() == QString("one=first two=second value three=third four=4").length());
+        CHECK(model->params({QStringLiteral("first")}).size() == 4);
+        CHECK_FALSE(model->params({QStringLiteral("first")}).contains("first"));
+
         // test removing multiple parameters
-        CHECK(model->params({QStringLiteral("one"), QStringLiteral("three")}) == QStringLiteral("two=second value four=4"));
+        CHECK(model->paramString({QStringLiteral("one"), QStringLiteral("three")}).length() == QString("two=second value four=4").length());
+        CHECK(model->params({QStringLiteral("one"), QStringLiteral("three")}).size() == 2);
+        CHECK_FALSE(model->params({QStringLiteral("one"), QStringLiteral("three")}).contains("one"));
+        CHECK_FALSE(model->params({QStringLiteral("one"), QStringLiteral("three")}).contains("three"));
+
         // test removing a parameter with space in value
-        CHECK(model->params({QStringLiteral("two")}) == QStringLiteral("one=first three=third four=4"));
+        CHECK(model->paramString({QStringLiteral("two")}).length() == QString("one=first three=third four=4").length());
+        CHECK(model->params({QStringLiteral("two")}).size() == 3);
+        CHECK_FALSE(model->params({QStringLiteral("two")}).contains("two"));
     }
 
     SECTION("Test unknown rate control")

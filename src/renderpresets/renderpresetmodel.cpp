@@ -219,7 +219,7 @@ QDomElement RenderPresetModel::toXml()
     if (m_manual) {
         profileElement.setAttribute(QStringLiteral("manual"), QStringLiteral("1"));
     }
-    profileElement.setAttribute(QStringLiteral("args"), m_params);
+    profileElement.setAttribute(QStringLiteral("args"), paramString());
     if (!m_defaultVBitrate.isEmpty()) {
         profileElement.setAttribute(QStringLiteral("defaultbitrate"), m_defaultVBitrate);
     }
@@ -254,13 +254,35 @@ QDomElement RenderPresetModel::toXml()
     return doc.documentElement();
 }
 
-QString RenderPresetModel::params(QStringList removeParams) const
+QMap<QString, QString> RenderPresetModel::params(QStringList removeParams) const
 {
-    QString params = m_params;
-    for (auto p : removeParams) {
-        params.remove(QRegularExpression(QStringLiteral(R"((^|\s)%1=[^=]*(?=\s\S*=|$))").arg(p)));
+    QMap<QString, QString> params;
+
+    // split only at white spaces followed by a new parameter
+    // to avoid spliting values that contain whitespaces
+    static const QRegularExpression regexp(R"(\s+(?=\S*=))");
+
+    QStringList paramList = m_params.split(regexp);
+    for (QString param : paramList) {
+        QString key = param.section(QLatin1Char('='), 0, 0);
+        if (!removeParams.contains(key)) {
+            params.insert(key, param.section(QLatin1Char('='), 1));
+        }
     }
-    return params.simplified();
+
+    return params;
+}
+
+QString RenderPresetModel::paramString(QStringList removeParams) const
+{
+
+    QString string;
+    QMapIterator<QString, QString> i(params(removeParams));
+    while (i.hasNext()) {
+        i.next();
+        string.append(QStringLiteral("%1=%2 ").arg(i.key(), i.value()));
+    }
+    return string.simplified();
 }
 
 QString RenderPresetModel::extension() const
@@ -350,17 +372,7 @@ QStringList RenderPresetModel::speeds() const
 
 QString RenderPresetModel::getParam(const QString &name) const
 {
-    // split only at white spaces followed by a new parameter
-    // to avoid spliting values that contain whitespaces
-    static const QRegularExpression regexp(R"(\s+(?=\S*=))");
-
-    QStringList params = m_params.split(regexp);
-    for (auto param : params) {
-        if (param.startsWith(QStringLiteral("%1=").arg(name))) {
-            return param.section(QLatin1Char('='), 1, 1);
-        }
-    }
-    return {};
+    return params().value(name);
 }
 
 bool RenderPresetModel::isManual() const
@@ -370,6 +382,7 @@ bool RenderPresetModel::isManual() const
 
 bool RenderPresetModel::hasParam(const QString &name) const
 {
+    // return params().contains(name);
     return !getParam(name).isEmpty();
 }
 
