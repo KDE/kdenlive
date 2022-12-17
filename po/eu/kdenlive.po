@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 02:43+0000\n"
-"PO-Revision-Date: 2022-11-26 09:23+0100\n"
+"PO-Revision-Date: 2022-12-17 09:19+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
-"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
+"Language-Team: Basque\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9037,12 +9037,12 @@ msgstr "Transkodetu Klipak…"
 #: src/mainwindow.cpp:1424
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
-msgstr "&Esportatu OpenTimelineIO…"
+msgstr "«OpenTimelineIO» e&sportatzea…"
 
 #: src/mainwindow.cpp:1427
 #, kde-format
 msgid "OpenTimelineIO &Import…"
-msgstr "&Inportatu OpenTimelineIO…"
+msgstr "«OpenTimelineIO» i&nportatzea…"
 
 #: src/mainwindow.cpp:1431
 #, kde-format
@@ -12684,10 +12684,9 @@ msgstr ""
 "%1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
-msgstr "OpenTimelineIO bihurtzea"
+msgstr "«OpenTimelineIO» bihurtzea"
 
 #: src/pythoninterfaces/otioconvertions.cpp:26
 #, kde-format
@@ -12708,13 +12707,13 @@ msgid ""
 "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
 "Please install version >= 0.12\n"
 msgstr ""
-"Zure OpenTimelineIO moduluak ez du Kdenlive moldagailurik.\n"
+"Zure «OpenTimelineIO» moduluak ez du Kdenlive egokitzailerik.\n"
 "Mesedez, instalatu >= 0.12 bertsioa\n"
 
 #: src/pythoninterfaces/otioconvertions.cpp:63
 #, kde-format
 msgid "Configure your OpenTimelineIO setup"
-msgstr "Konfiguratu zure OpenTimelineIO ezarpenak"
+msgstr "Konfiguratu «OpenTimelineIO»ren zure ezarpena"
 
 #: src/pythoninterfaces/otioconvertions.cpp:68
 #, kde-format
@@ -12724,12 +12723,12 @@ msgstr "Egiaztatu berriro"
 #: src/pythoninterfaces/otioconvertions.cpp:96
 #, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
-msgstr "OpenTimelineIO otioconvert aplikazioa ez da aurkitu"
+msgstr "«OpenTimelineIO» «otioconvert» aplikazioa ez da aurkitu"
 
 #: src/pythoninterfaces/otioconvertions.cpp:102
 #, kde-format
 msgid "OpenTimelineIO Project conversion failed"
-msgstr "Huts egin du OpenTimelineIO proiektuaren bihurtzeak"
+msgstr "«OpenTimelineIO» proiektua bihurtzea huts egin du"
 
 #: src/pythoninterfaces/otioconvertions.cpp:105
 #, kde-format
@@ -12745,7 +12744,7 @@ msgstr "Esportatu proiektua"
 #: src/pythoninterfaces/otioconvertions.cpp:143
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
-msgstr "OpenTimelineIO moldagailuak (%1)(%1)"
+msgstr "«OpenTimelineIO» egokigailuak (%1)(%1)"
 
 #: src/pythoninterfaces/otioconvertions.cpp:121
 #, kde-format

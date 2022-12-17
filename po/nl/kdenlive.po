@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-17 02:43+0000\n"
-"PO-Revision-Date: 2022-12-16 10:43+0100\n"
+"PO-Revision-Date: 2022-12-17 11:53+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5561,7 +5561,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:36
 #, kde-format
 msgid "Export guides as chapters description"
-msgstr "Hulplijnen export als beschrijvingen van hoofdstukken"
+msgstr "Hulplijnen exporteren als beschrijvingen van hoofdstukken"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
