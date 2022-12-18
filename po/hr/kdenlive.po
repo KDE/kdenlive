@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 11:08+0000\n"
+"POT-Creation-Date: 2022-12-18 00:52+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -5214,28 +5214,28 @@ msgstr ""
 msgid "Configure"
 msgstr "Podesi"
 
-#: src/bin/tagwidget.cpp:163
+#: src/bin/tagwidget.cpp:165
 #, fuzzy, kde-format
 #| msgid "Configure"
 msgid "Configure Project Tags"
 msgstr "Podesi"
 
-#: src/bin/tagwidget.cpp:196
+#: src/bin/tagwidget.cpp:198
 #, fuzzy, kde-format
 msgid "Edit Tag"
 msgstr "Trajanje"
 
-#: src/bin/tagwidget.cpp:211 src/bin/tagwidget.cpp:283
+#: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:285
 #, kde-format
 msgid "This color is already used in another tag"
 msgstr ""
 
-#: src/bin/tagwidget.cpp:271
+#: src/bin/tagwidget.cpp:273
 #, fuzzy, kde-format
 msgid "Add Tag"
 msgstr "Dodaj traku"
 
-#: src/bin/tagwidget.cpp:279
+#: src/bin/tagwidget.cpp:281
 #, kde-format
 msgid "New tag"
 msgstr ""

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 11:08+0000\n"
+"POT-Creation-Date: 2022-12-18 00:52+0000\n"
 "PO-Revision-Date: 2022-10-19 14:34-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -5115,29 +5115,29 @@ msgstr "Etiqueta %1"
 msgid "Configure"
 msgstr "Configurar"
 
-#: src/bin/tagwidget.cpp:163
+#: src/bin/tagwidget.cpp:165
 #, kde-format
 msgid "Configure Project Tags"
 msgstr "Configurar etiquetas de projeto"
 
-#: src/bin/tagwidget.cpp:196
+#: src/bin/tagwidget.cpp:198
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "Edit Tag"
 msgstr "Editar avaliação"
 
-#: src/bin/tagwidget.cpp:211 src/bin/tagwidget.cpp:283
+#: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:285
 #, kde-format
 msgid "This color is already used in another tag"
 msgstr ""
 
-#: src/bin/tagwidget.cpp:271
+#: src/bin/tagwidget.cpp:273
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tag"
 msgstr "Adicionar trilha"
 
-#: src/bin/tagwidget.cpp:279
+#: src/bin/tagwidget.cpp:281
 #, kde-format
 msgid "New tag"
 msgstr ""

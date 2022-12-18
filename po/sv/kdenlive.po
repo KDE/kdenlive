@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 11:08+0000\n"
+"POT-Creation-Date: 2022-12-18 00:52+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -5049,27 +5049,27 @@ msgstr "Etikett %1"
 msgid "Configure"
 msgstr "Anpassa"
 
-#: src/bin/tagwidget.cpp:163
+#: src/bin/tagwidget.cpp:165
 #, kde-format
 msgid "Configure Project Tags"
 msgstr "Anpassa projektetiketter"
 
-#: src/bin/tagwidget.cpp:196
+#: src/bin/tagwidget.cpp:198
 #, kde-format
 msgid "Edit Tag"
 msgstr "Redigera etikett"
 
-#: src/bin/tagwidget.cpp:211 src/bin/tagwidget.cpp:283
+#: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:285
 #, kde-format
 msgid "This color is already used in another tag"
 msgstr "Färgen används redan av en annan etikett"
 
-#: src/bin/tagwidget.cpp:271
+#: src/bin/tagwidget.cpp:273
 #, kde-format
 msgid "Add Tag"
 msgstr "Lägg till etikett"
 
-#: src/bin/tagwidget.cpp:279
+#: src/bin/tagwidget.cpp:281
 #, kde-format
 msgid "New tag"
 msgstr "Ny etikett"
