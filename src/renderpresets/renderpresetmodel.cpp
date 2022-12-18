@@ -49,6 +49,91 @@ void RenderPresetParams::replacePlaceholder(const QString &placeholder, const QS
     }
 }
 
+void RenderPresetParams::refreshX265Params()
+{
+    if (value(QStringLiteral("vcodec")).toLower() != QStringLiteral("libx265")) {
+        remove(QStringLiteral("x265-params"));
+        return;
+    }
+    QStringList x265Params;
+    if (contains(QStringLiteral("crf"))) {
+        x265Params.append(QStringLiteral("crf=%1").arg(value(QStringLiteral("crf"))));
+    }
+    if (videoRateControl() == RenderPresetParams::Constant && contains(QStringLiteral("vb"))) {
+        QString vb = value(QStringLiteral("vb"));
+        QString newVal;
+        if (vb == QStringLiteral("%bitrate") || vb == QStringLiteral("%bitrate+'k")) {
+            newVal = QStringLiteral("%bitrate");
+        } else {
+            newVal = vb.replace('k', QLatin1String("")).replace('M', QStringLiteral("000"));
+        }
+        x265Params.append(QStringLiteral("bitrate=%1").arg(newVal));
+        x265Params.append(QStringLiteral("vbv-maxrate=%1").arg(newVal));
+    } else if (videoRateControl() == RenderPresetParams::Constrained && contains(QStringLiteral("vmaxrate"))) {
+        QString vmax = value(QStringLiteral("vmaxrate"));
+        QString newVal;
+        if (vmax == QStringLiteral("%bitrate") || vmax == QStringLiteral("%bitrate+'k")) {
+            newVal = QStringLiteral("%bitrate");
+        } else {
+            newVal = vmax.replace('k', QLatin1String("")).replace('M', QStringLiteral("000"));
+        }
+        x265Params.append(QStringLiteral("vbv-maxrate=%1").arg(newVal));
+    }
+    if (contains(QStringLiteral("vbufsize"))) {
+        int val = value(QStringLiteral("vbufsize")).toInt();
+        x265Params.append(QStringLiteral("vbv-bufsize=%1").arg(val / 1024));
+    }
+    if (contains(QStringLiteral("bf"))) {
+        x265Params.append(QStringLiteral("bframes=%1").arg(value(QStringLiteral("bf"))));
+    }
+    if (contains(QStringLiteral("g"))) {
+        x265Params.append(QStringLiteral("keyint=%1").arg(value(QStringLiteral("g"))));
+    }
+    if (contains(QStringLiteral("top_field_first")) && value(QStringLiteral("progressive")).toInt() == 0) {
+        int val = value(QStringLiteral("top_field_first")).toInt();
+        x265Params.append(QStringLiteral("interlace=%1").arg(val == 1 ? QStringLiteral("tff") : QStringLiteral("bff")));
+    }
+    if (contains(QStringLiteral("sc_threshold")) && value(QStringLiteral("sc_threshold")).toInt() == 0) {
+        x265Params.append(QStringLiteral("scenecut=0"));
+    }
+    if (contains(QStringLiteral("x265-params"))) {
+        x265Params.append(value(QStringLiteral("x265-params")));
+    }
+
+    if (x265Params.isEmpty()) {
+        remove(QStringLiteral("x265-params"));
+    } else {
+        insert(QStringLiteral("x265-params"), x265Params.join(QStringLiteral(":")));
+    }
+}
+
+RenderPresetParams::RateControl RenderPresetParams::videoRateControl() const
+{
+    QString vbufsize = value(QStringLiteral("vbufsize"));
+    QString vcodec = value(QStringLiteral("vcodec"));
+    if (contains(QStringLiteral("crf"))) {
+        return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
+    }
+    if (contains(QStringLiteral("vq")) || contains(QStringLiteral("vglobal_quality")) || contains(QStringLiteral("qscale"))) {
+        return vbufsize.isEmpty() ? RateControl::Quality : RateControl::Constrained;
+    } else if (!vbufsize.isEmpty()) {
+        return RateControl::Constant;
+    }
+    QString param = value(QStringLiteral("vb"));
+    param = param.replace('+', "").replace('k', "").replace('k', "").replace('M', "000");
+    if (!param.isEmpty()) {
+        return (param.contains(QStringLiteral("%bitrate")) || param.toInt() > 0) ? RateControl::Average : RateControl::Quality;
+    }
+    return RateControl::Unknown;
+}
+
+bool RenderPresetParams::hasAlpha()
+{
+    QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
+                                QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("ayuv")};
+    return alphaFormats.contains(value(QStringLiteral("pix_fmt")));
+}
+
 RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)
     : m_presetFile(presetFile)
     , m_editable(editable)
@@ -405,96 +490,26 @@ bool RenderPresetModel::hasParam(const QString &name) const
     return !getParam(name).isEmpty();
 }
 
-RenderPresetModel::RateControl RenderPresetModel::videoRateControl() const
-{
-    QString vbufsize = getParam(QStringLiteral("vbufsize"));
-    QString vcodec = getParam(QStringLiteral("vcodec"));
-    if (hasParam(QStringLiteral("crf"))) {
-        return !vbufsize.isEmpty() ? (vcodec.endsWith("_videotoolbox") ? RateControl::Average : RateControl::Quality) : RateControl::Constrained;
-    }
-    if (hasParam(QStringLiteral("vq")) || hasParam(QStringLiteral("vglobal_quality")) || hasParam(QStringLiteral("qscale"))) {
-        return vbufsize.isEmpty() ? RateControl::Quality : RateControl::Constrained;
-    } else if (!vbufsize.isEmpty()) {
-        return RateControl::Constant;
-    }
-    QString param = getParam(QStringLiteral("vb")).replace('+', "").replace('k', "").replace('k', "").replace('M', "000");
-    qDebug() << "vb param" << param << param.toInt();
-    if (!param.isEmpty()) {
-        return (param.contains(QStringLiteral("%bitrate")) || param.toInt() > 0) ? RateControl::Average : RateControl::Quality;
-    }
-    return RateControl::Unknown;
-}
-
-RenderPresetModel::RateControl RenderPresetModel::audioRateControl() const
+RenderPresetParams::RateControl RenderPresetModel::audioRateControl() const
 {
     QString value = getParam(QStringLiteral("vbr"));
     if (!value.isEmpty()) {
         // libopus rate mode
         if (value == QStringLiteral("off")) {
-            return RateControl::Constant;
+            return RenderPresetParams::Constant;
         }
         if (value == QStringLiteral("constrained")) {
-            return RateControl::Average;
+            return RenderPresetParams::Average;
         }
-        return RateControl::Quality;
+        return RenderPresetParams::Quality;
     }
     if (hasParam(QStringLiteral("aq")) || hasParam(QStringLiteral("compression_level"))) {
-        return RateControl::Quality;
+        return RenderPresetParams::Quality;
     }
     if (hasParam(QStringLiteral("ab"))) {
-        return RateControl::Constant;
+        return RenderPresetParams::Constant;
     }
-    return RateControl::Unknown;
-}
-
-QString RenderPresetModel::x265Params() const
-{
-    QString x265Params = getParam(QStringLiteral("x265-params"));
-    QStringList newX265Params;
-    if (hasParam(QStringLiteral("crf"))) {
-        newX265Params.append(QStringLiteral("crf=%1").arg(getParam(QStringLiteral("crf"))));
-    }
-    if (videoRateControl() == RateControl::Constant && hasParam(QStringLiteral("vb"))) {
-        QString vb = getParam(QStringLiteral("vb"));
-        QString newVal;
-        if (vb == QStringLiteral("%bitrate") || vb == QStringLiteral("%bitrate+'k")) {
-            newVal = QStringLiteral("%bitrate");
-        } else {
-            newVal = vb.replace('k', QLatin1String("")).replace('M', QStringLiteral("000"));
-        }
-        newX265Params.append(QStringLiteral("bitrate=%1").arg(newVal));
-        newX265Params.append(QStringLiteral("vbv-maxrate=%1").arg(newVal));
-    } else if (videoRateControl() == RateControl::Constrained && hasParam(QStringLiteral("vmaxrate"))) {
-        QString vmax = getParam(QStringLiteral("vmaxrate"));
-        QString newVal;
-        if (vmax == QStringLiteral("%bitrate") || vmax == QStringLiteral("%bitrate+'k")) {
-            newVal = QStringLiteral("%bitrate");
-        } else {
-            newVal = vmax.replace('k', QLatin1String("")).replace('M', QStringLiteral("000"));
-        }
-        newX265Params.append(QStringLiteral("vbv-maxrate=%1").arg(newVal));
-    }
-    if (hasParam(QStringLiteral("vbufsize"))) {
-        int val = getParam(QStringLiteral("vbufsize")).toInt();
-        newX265Params.append(QStringLiteral("vbv-bufsize=%1").arg(val / 1024));
-    }
-    if (hasParam(QStringLiteral("bf"))) {
-        newX265Params.append(QStringLiteral("bframes=%1").arg(getParam(QStringLiteral("bf"))));
-    }
-    if (hasParam(QStringLiteral("g"))) {
-        newX265Params.append(QStringLiteral("keyint=%1").arg(getParam(QStringLiteral("g"))));
-    }
-    if (hasParam(QStringLiteral("top_field_first")) && getParam(QStringLiteral("progressive")).toInt() == 0) {
-        int val = getParam(QStringLiteral("top_field_first")).toInt();
-        newX265Params.append(QStringLiteral("interlace=%1").arg(val == 1 ? QStringLiteral("tff") : QStringLiteral("bff")));
-    }
-    if (hasParam(QStringLiteral("sc_threshold")) && getParam(QStringLiteral("sc_threshold")).toInt() == 0) {
-        newX265Params.append(QStringLiteral("scenecut=0"));
-    }
-    if (!x265Params.isEmpty()) {
-        newX265Params.append(x265Params);
-    }
-    return newX265Params.join(QStringLiteral(":"));
+    return RenderPresetParams::Unknown;
 }
 
 RenderPresetModel::InstallType RenderPresetModel::installType() const

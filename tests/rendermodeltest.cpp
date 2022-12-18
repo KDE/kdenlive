@@ -92,7 +92,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
     {
         std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("Constant"), QStringLiteral("Test"), QStringLiteral(""),
                                                                        QStringLiteral("mp4"), QString(), QString(), QString(), QString(), QString(), false));
-        CHECK(model->videoRateControl() == RenderPresetModel::RateControl::Unknown);
+        CHECK(model->params().videoRateControl() == RenderPresetParams::RateControl::Unknown);
     }
 
     /*SECTION("Test constant rate control")
@@ -143,5 +143,43 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         params.replacePlaceholder(QStringLiteral("%isaph"), QStringLiteral("mynew"));
         CHECK(params.toString().contains(QStringLiteral("two=thismynewval value")));
         CHECK(params.toString().contains(QStringLiteral("three=mynew")));
+    }
+
+    SECTION("Test alpha detection placeholders")
+    {
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("AlphaTest"), QStringLiteral("Test"), QStringLiteral(""), QString(),
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
+        CHECK_FALSE(model->params().hasAlpha());
+
+        model.reset(new RenderPresetModel(QStringLiteral("AlphaTest"), QStringLiteral("Test"), QStringLiteral("pix_fmt=rgba"), QString(), QString(), QString(),
+                                          QString(), QString(), QString(), false));
+        CHECK(model->params().hasAlpha());
+    }
+
+    SECTION("Test x265 param")
+    {
+        std::unique_ptr<RenderPresetModel> model(
+            new RenderPresetModel(QStringLiteral("AlphaTest"), QStringLiteral("Test"),
+                                  QStringLiteral("properties=x265-medium f=mp4 vcodec=libx265 crf=%quality acodec=aac ab=%audiobitrate+'k'"), QString(),
+                                  QString(), QString(), QString(), QString(), QString(), false));
+
+        RenderPresetParams params = model->params();
+
+        // we did not calulate the x265 params yet, so we expect to not have them
+        CHECK_FALSE(params.contains(QStringLiteral("x265-params")));
+
+        params.refreshX265Params();
+        // now that we calculated them we expect them to exist
+        CHECK(params.contains(QStringLiteral("x265-params")));
+
+        params.insert(QStringLiteral("vcodec"), QStringLiteral("libx264"));
+        params.refreshX265Params();
+        // for a non-x265 codec they should not be there
+        CHECK_FALSE(params.contains(QStringLiteral("x265-params")));
+
+        params.insert(QStringLiteral("vcodec"), QStringLiteral("libx265"));
+        params.refreshX265Params();
+        // we set x265 codec again so the params should be back
+        CHECK(params.contains(QStringLiteral("x265-params")));
     }
 }

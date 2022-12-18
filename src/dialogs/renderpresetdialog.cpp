@@ -129,25 +129,25 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
     connect(vRateControlCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int index) {
         switch (index) {
-        case RenderPresetModel::RateControl::Average:
+        case RenderPresetParams::RateControl::Average:
             default_vbitrate->setEnabled(true);
             default_vquality->setEnabled(false);
             vquality_label->setEnabled(false);
             vBuffer->setEnabled(false);
             break;
-        case RenderPresetModel::RateControl::Constant:
+        case RenderPresetParams::RateControl::Constant:
             default_vbitrate->setEnabled(true);
             default_vquality->setEnabled(false);
             vquality_label->setEnabled(false);
             vBuffer->setEnabled(true);
             break;
-        case RenderPresetModel::RateControl::Constrained:
+        case RenderPresetParams::RateControl::Constrained:
             default_vbitrate->setEnabled(true);
             default_vquality->setEnabled(true);
             vquality_label->setEnabled(true);
             vBuffer->setEnabled(true);
             break;
-        case RenderPresetModel::RateControl::Quality:
+        case RenderPresetParams::RateControl::Quality:
             default_vbitrate->setEnabled(false);
             default_vquality->setEnabled(true);
             vquality_label->setEnabled(true);
@@ -271,7 +271,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                 default_vquality->setValue(vqParam.toInt());
             }
 
-            vRateControlCombo->setCurrentIndex(preset->videoRateControl());
+            vRateControlCombo->setCurrentIndex(preset->params().videoRateControl());
 
             if (vbParam.isEmpty()) {
                 vbParam = preset->getParam(QStringLiteral("vmaxrate"));
@@ -618,20 +618,20 @@ void RenderPresetDialog::slotUpdateParams()
     if (vcodec == "libx265") {
         // Most x265 parameters must be supplied through x265-params.
         switch (vRateControlCombo->currentIndex()) {
-        case RenderPresetModel::RateControl::Average:
+        case RenderPresetParams::RateControl::Average:
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             break;
-        case RenderPresetModel::RateControl::Constant: {
+        case RenderPresetParams::RateControl::Constant: {
             // x265 does not expect bitrate suffixes and requires Kb/s
             params.append(QStringLiteral("vb=%bitrate"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
-        case RenderPresetModel::RateControl::Quality: {
+        case RenderPresetParams::RateControl::Quality: {
             params.append(QStringLiteral("crf=%quality"));
             break;
         }
-        case RenderPresetModel::RateControl::Constrained: {
+        case RenderPresetParams::RateControl::Constrained: {
             params.append(QStringLiteral("crf=%quality"));
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
@@ -643,10 +643,10 @@ void RenderPresetDialog::slotUpdateParams()
         }
     } else if (vcodec.contains("nvenc")) {
         switch (vRateControlCombo->currentIndex()) {
-        case RenderPresetModel::RateControl::Average:
+        case RenderPresetParams::RateControl::Average:
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             break;
-        case RenderPresetModel::RateControl::Constant: {
+        case RenderPresetParams::RateControl::Constant: {
             params.append(QStringLiteral("cbr=1 "));
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
@@ -654,13 +654,13 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
-        case RenderPresetModel::RateControl::Quality: {
+        case RenderPresetParams::RateControl::Quality: {
             params.append(QStringLiteral("rc=constqp"));
             params.append(QStringLiteral("vglobal_quality=%quality"));
             params.append(QStringLiteral("vq=%quality"));
             break;
         }
-        case RenderPresetModel::RateControl::Constrained: {
+        case RenderPresetParams::RateControl::Constrained: {
             params.append(QStringLiteral("qmin=%quality"));
             params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
             params.append(QStringLiteral("vmaxrate=%bitrate+'k'"));
@@ -676,10 +676,10 @@ void RenderPresetDialog::slotUpdateParams()
         }
     } else if (vcodec.endsWith("_amf")) {
         switch (vRateControlCombo->currentIndex()) {
-        case RenderPresetModel::RateControl::Average:
+        case RenderPresetParams::RateControl::Average:
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             break;
-        case RenderPresetModel::RateControl::Constant: {
+        case RenderPresetParams::RateControl::Constant: {
             params.append(QStringLiteral("rc=cbr "));
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
@@ -687,7 +687,7 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vbufsize=%1 ").arg(vBuffer->value() * 8 * 1024));
             break;
         }
-        case RenderPresetModel::RateControl::Quality: {
+        case RenderPresetParams::RateControl::Quality: {
             params.append(QStringLiteral("rc=cqp"));
             params.append(QStringLiteral("qp_i=%quality"));
             params.append(QStringLiteral("qp_p=%quality"));
@@ -695,7 +695,7 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vq=%quality"));
             break;
         }
-        case RenderPresetModel::RateControl::Constrained: {
+        case RenderPresetParams::RateControl::Constrained: {
             params.append(QStringLiteral("rc=vbr_peak"));
             params.append(QStringLiteral("qmin=%quality"));
             params.append(QStringLiteral("vb=%cvbr")); // setIfNotSet(p, "vb", qRound(cvbr));
@@ -712,10 +712,10 @@ void RenderPresetDialog::slotUpdateParams()
         }
     } else {
         switch (vRateControlCombo->currentIndex()) {
-        case RenderPresetModel::RateControl::Average:
+        case RenderPresetParams::RateControl::Average:
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             break;
-        case RenderPresetModel::RateControl::Constant: {
+        case RenderPresetParams::RateControl::Constant: {
             // const QString& b = ui->videoBitrateCombo->currentText();
             params.append(QStringLiteral("vb=%bitrate+'k'"));
             params.append(QStringLiteral("vminrate=%bitrate+'k'"));
@@ -723,7 +723,7 @@ void RenderPresetDialog::slotUpdateParams()
             params.append(QStringLiteral("vbufsize=%1").arg(vBuffer->value() * 8 * 1024));
             break;
         }
-        case RenderPresetModel::RateControl::Quality: {
+        case RenderPresetParams::RateControl::Quality: {
             if (vcodec.startsWith("libx264")) {
                 params.append(QStringLiteral("crf=%quality"));
             } else if (vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
@@ -737,7 +737,7 @@ void RenderPresetDialog::slotUpdateParams()
             }
             break;
         }
-        case RenderPresetModel::RateControl::Constrained: {
+        case RenderPresetParams::RateControl::Constrained: {
             if (vcodec.startsWith("libx264") || vcodec.startsWith("libvpx") || vcodec.startsWith("libaom-")) {
                 params.append(QStringLiteral("crf=%quality"));
             } else if (vcodec.endsWith("_qsv") || vcodec.endsWith("_videotoolbox")) {
@@ -793,27 +793,27 @@ void RenderPresetDialog::slotUpdateParams()
     } else {
         aRateControlCombo->setEnabled(true);
         switch (aRateControlCombo->currentIndex()) {
-        case RenderPresetModel::RateControl::Unknown:
+        case RenderPresetParams::RateControl::Unknown:
             aBitrate->setEnabled(false);
             aQuality->setEnabled(false);
             break;
-        case RenderPresetModel::RateControl::Average:
-        case RenderPresetModel::RateControl::Constant:
+        case RenderPresetParams::RateControl::Average:
+        case RenderPresetParams::RateControl::Constant:
             aBitrate->setEnabled(true);
             aQuality->setEnabled(false);
             break;
-        case RenderPresetModel::RateControl::Quality:
+        case RenderPresetParams::RateControl::Quality:
         default:
             aBitrate->setEnabled(false);
             aQuality->setEnabled(true);
             break;
         };
         switch (aRateControlCombo->currentIndex()) {
-        case RenderPresetModel::RateControl::Average:
-        case RenderPresetModel::RateControl::Constant: {
+        case RenderPresetParams::RateControl::Average:
+        case RenderPresetParams::RateControl::Constant: {
             params.append(QStringLiteral("ab=%audiobitrate+'k'"));
             if (acodec == "libopus") {
-                if (aRateControlCombo->currentIndex() == RenderPresetModel::RateControl::Constant) {
+                if (aRateControlCombo->currentIndex() == RenderPresetParams::RateControl::Constant) {
                     params.append(QStringLiteral("vbr=off"));
                 } else {
                     params.append(QStringLiteral("vbr=constrained"));
@@ -821,7 +821,7 @@ void RenderPresetDialog::slotUpdateParams()
             }
             break;
         }
-        case RenderPresetModel::RateControl::Quality: {
+        case RenderPresetParams::RateControl::Quality: {
             if (acodec == "libopus") {
                 params.append(QStringLiteral("vbr=on"));
                 params.append(QStringLiteral("compression_level=%audioquality"));

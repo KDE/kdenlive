@@ -845,9 +845,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
 
     // If we use a pix_fmt with alpha channel (ie. transparent),
     // we need to remove the black background track
-    QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
-                                QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("ayuv")};
-    if (alphaFormats.contains(m_params.value(QStringLiteral("pix_fmt")))) {
+    if (m_params.hasAlpha()) {
         auto prods = doc.elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < prods.count(); ++i) {
             auto prod = prods.at(i).toElement();
@@ -1287,9 +1285,7 @@ void RenderWidget::refreshParams()
     }
 
     // In case of libx265 add x265-param
-    if (preset->getParam(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
-        m_params.insert(QStringLiteral("x265-param"), preset->x265Params());
-    }
+    m_params.refreshX265Params();
 
     // Rescale
     bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
@@ -1394,7 +1390,6 @@ void RenderWidget::refreshParams()
         }
     }
     m_params.replacePlaceholder(QStringLiteral("%quality"), QString::number(val));
-    // RenderPresetModel::replacePlaceholder(m_params, QStringLiteral("%quality"), QString::number(val));
     //  TODO check if this is finally correct
     m_params.replacePlaceholder(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
     m_params.replacePlaceholder(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
