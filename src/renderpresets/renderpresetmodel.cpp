@@ -20,6 +20,35 @@
 #include <QRegularExpression>
 #include <memory>
 
+QString RenderPresetParams::toString()
+{
+    QString string;
+    RenderPresetParams::const_iterator i = this->constBegin();
+    while (i != this->constEnd()) {
+        string.append(QStringLiteral("%1=%2 ").arg(i.key(), i.value()));
+        ++i;
+    }
+    return string.simplified();
+}
+
+void RenderPresetParams::replacePlaceholder(const QString &placeholder, const QString &newValue)
+{
+    RenderPresetParams newParams;
+    RenderPresetParams::const_iterator i = this->constBegin();
+    while (i != this->constEnd()) {
+        QString value = i.value();
+        newParams.insert(i.key(), value.replace(placeholder, newValue));
+        ++i;
+    }
+
+    clear();
+    QMap<QString, QString>::const_iterator j = newParams.constBegin();
+    while (j != newParams.constEnd()) {
+        insert(j.key(), j.value());
+        ++j;
+    }
+}
+
 RenderPresetModel::RenderPresetModel(QDomElement preset, const QString &presetFile, bool editable, const QString &groupName, const QString &renderer)
     : m_presetFile(presetFile)
     , m_editable(editable)
@@ -215,7 +244,7 @@ QDomElement RenderPresetModel::toXml()
     if (m_manual) {
         profileElement.setAttribute(QStringLiteral("manual"), QStringLiteral("1"));
     }
-    profileElement.setAttribute(QStringLiteral("args"), paramString());
+    profileElement.setAttribute(QStringLiteral("args"), m_params.toString());
     if (!m_defaultVBitrate.isEmpty()) {
         profileElement.setAttribute(QStringLiteral("defaultbitrate"), m_defaultVBitrate);
     }
@@ -266,25 +295,13 @@ void RenderPresetModel::setParams(const QString &params)
     }
 }
 
-QMap<QString, QString> RenderPresetModel::params(QStringList removeParams) const
+RenderPresetParams RenderPresetModel::params(QStringList removeParams) const
 {
-    QMap<QString, QString> newParams = m_params;
+    RenderPresetParams newParams = m_params;
     for (QString toRemove : removeParams) {
         newParams.remove(toRemove);
     }
     return newParams;
-}
-
-QString RenderPresetModel::paramString(QStringList removeParams) const
-{
-
-    QString string;
-    QMapIterator<QString, QString> i(params(removeParams));
-    while (i.hasNext()) {
-        i.next();
-        string.append(QStringLiteral("%1=%2 ").arg(i.key(), i.value()));
-    }
-    return string.simplified();
 }
 
 QString RenderPresetModel::extension() const

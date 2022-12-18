@@ -13,6 +13,13 @@
 
 #include <mlt++/MltProfile.h>
 
+class RenderPresetParams : public QMap<QString, QString>
+{
+public:
+    QString toString();
+    void replacePlaceholder(const QString &placeholder, const QString &newValue);
+};
+
 /** @class RenderPresetModel
     @brief This class serves to describe the parameters of a render preset
  */
@@ -37,8 +44,7 @@ public:
     QString name() const { return m_name; };
     QString note() const { return m_note; }
     QString standard() const { return m_standard; };
-    QMap<QString, QString> params(QStringList removeParams = {}) const;
-    QString paramString(QStringList removeParams = {}) const;
+    RenderPresetParams params(QStringList removeParams = {}) const;
     QString extension() const;
     QString groupName() const { return m_groupName; };
     QString renderer() const { return m_renderer; };
@@ -78,7 +84,7 @@ private:
     QString m_name;
     QString m_note;
     QString m_standard;
-    QMap<QString, QString> m_params;
+    RenderPresetParams m_params;
     QString m_extension;
     bool m_manual;
     QString m_groupName;

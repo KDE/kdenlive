@@ -18,10 +18,11 @@ class Menu;
 
 #include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
+#include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
-#include <knewstuff_version.h>
 #include <KNSWidgets/Button>
+#include <knewstuff_version.h>
 
 class QDomElement;
 class QKeyEvent;
@@ -216,6 +217,7 @@ private:
 
     std::shared_ptr<RenderPresetTreeModel> m_treeModel;
     QString m_currentProfile;
+    RenderPresetParams m_params;
 
 #ifdef KF5_USE_PURPOSE
     Purpose::Menu *m_shareMenu;

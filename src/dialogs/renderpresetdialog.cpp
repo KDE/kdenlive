@@ -219,7 +219,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
             label_container->setEnabled(false);
             formatCombo->setEnabled(false);
             parameters->setVisible(true);
-            parameters->setPlainText(preset->paramString());
+            parameters->setPlainText(preset->params().toString());
             parameters->setReadOnly(false);
             helpButton->setEnabled(false);
             preset_extension->setText(preset->extension());
@@ -398,7 +398,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
 
             // general tab
             speeds_list->setText(preset->speeds().join('\n'));
-            additionalParams->setPlainText(preset->paramString(m_uiParams));
+            additionalParams->setPlainText(preset->params(m_uiParams).toString());
         }
     } else {
         resHeight->setValue(projectProfile->height());

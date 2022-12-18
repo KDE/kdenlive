@@ -822,7 +822,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
     if (playlistPath.isEmpty()) {
         return;
     }
-    QString renderArgs = m_view.advanced_params->toPlainText().simplified();
+
     QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
     consumer.setAttribute(QStringLiteral("in"), in);
     consumer.setAttribute(QStringLiteral("out"), out);
@@ -835,33 +835,19 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
     }
 
-    // Insert project metadata
-    if (m_view.export_meta->isChecked()) {
-        QMap<QString, QString> metadata = pCore->currentDoc()->metadata();
-        QMap<QString, QString>::const_iterator mi = metadata.constBegin();
-        while (mi != metadata.constEnd()) {
-            consumer.setAttribute(mi.key(), mi.value());
-            ++mi;
-        }
-    }
+    QMapIterator<QString, QString> it(m_params);
 
-    // insert params from preset. Split by space except whe between quotes
-    QStringList args = renderArgs.split(QRegularExpression("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
-    for (auto &param : args) {
-        if (param.contains(QLatin1Char('='))) {
-            QString paramName = param.section(QLatin1Char('='), 0, 0);
-            // Strip quotes
-            QString paramValue = param.section(QLatin1Char('='), 1).remove(QLatin1Char('"'));
-            consumer.setAttribute(paramName, paramValue);
-        }
+    while (it.hasNext()) {
+        it.next();
+        // insert params from preset.
+        consumer.setAttribute(it.key(), it.value());
     }
 
     // If we use a pix_fmt with alpha channel (ie. transparent),
     // we need to remove the black background track
-    if (renderArgs.contains(QLatin1String("pix_fmt=argb")) || renderArgs.contains(QLatin1String("pix_fmt=abgr")) ||
-        renderArgs.contains(QLatin1String("pix_fmt=bgra")) || renderArgs.contains(QLatin1String("pix_fmt=gbra")) ||
-        renderArgs.contains(QLatin1String("pix_fmt=rgba")) || renderArgs.contains(QLatin1String("pix_fmt=yuva")) ||
-        renderArgs.contains(QLatin1String("pix_fmt=ya")) || renderArgs.contains(QLatin1String("pix_fmt=ayuv"))) {
+    QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
+                                QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("ayuv")};
+    if (alphaFormats.contains(m_params.value(QStringLiteral("pix_fmt")))) {
         auto prods = doc.elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < prods.count(); ++i) {
             auto prod = prods.at(i).toElement();
@@ -872,7 +858,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         }
     }
 
-    if (renderArgs.contains("=stills/")) {
+    if (m_params.value(QStringLiteral("properties")).startsWith("stills/")) {
         // Image sequence, ensure we have a %0xd at file end.
         // Format string for counter
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(QStringLiteral(".*%[0-9]*d.*")));
@@ -960,7 +946,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
 
         // Prepare rendering args
         QString logFile = QStringLiteral("%1_2pass.log").arg(outputFile);
-        if (renderArgs.contains(QStringLiteral("libx265"))) {
+        if (m_params.value(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
             if (pass == 1 || pass == 2) {
                 QString x265params = finalConsumer.attribute("x265-params");
                 x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(logFile.replace(":", "\\:"), x265params);
@@ -1224,6 +1210,7 @@ void RenderWidget::loadProfile()
         } else {
             errorMessage(PresetError, i18n("No matching preset"));
         }
+        m_params.clear();
         m_view.advanced_params->clear();
         m_view.buttonRender->setEnabled(false);
         m_view.buttonGenerateScript->setEnabled(false);
@@ -1288,52 +1275,56 @@ void RenderWidget::refreshParams()
         setRescaleEnabled(m_view.video_box->isChecked() && m_view.rescale->isChecked());
     }
 
-    QStringList newParams;
-
+    m_params = preset->params();
     // Audio Channels: don't override, only set if it is not yet set
     if (!preset->hasParam(QStringLiteral("channels"))) {
-        newParams.append(QStringLiteral("channels=%1").arg(pCore->audioChannels()));
+        m_params.insert(QStringLiteral("channels"), QString::number(pCore->audioChannels()));
     }
 
     // Check for movit
     if (KdenliveSettings::gpu_accel()) {
-        newParams.append(QStringLiteral("glsl.=1"));
+        m_params.insert(QStringLiteral("glsl."), QString::number(1));
     }
 
     // In case of libx265 add x265-param
     if (preset->getParam(QStringLiteral("vcodec")).toLower() == QStringLiteral("libx265")) {
-        newParams.append(QStringLiteral("x265-param=%1").arg(preset->x265Params()));
+        m_params.insert(QStringLiteral("x265-param"), preset->x265Params());
     }
-
-    QStringList removeParams = {QStringLiteral("an"), QStringLiteral("audio_off"), QStringLiteral("vn"), QStringLiteral("video_off"),
-                                QStringLiteral("real_time")};
 
     // Rescale
     bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
     if (rescale) {
-        removeParams.append(
-            {QStringLiteral("s"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("sample_aspect_num"), QStringLiteral("sample_aspect_den")});
-        newParams.append(QStringLiteral("s=%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value()));
+        m_params.remove(QStringLiteral("width"));
+        m_params.remove(QStringLiteral("height"));
+        m_params.insert(QStringLiteral("s"), QStringLiteral("%1x%2").arg(m_view.rescale_width->value()).arg(m_view.rescale_height->value()));
         if (preset->hasParam(QStringLiteral("sample_aspect_num")) || preset->hasParam(QStringLiteral("sample_aspect_den"))) {
             // reset display aspect ratio to 1:1 if we override the resolution to avoid errors
-            newParams.append(QStringLiteral("sample_aspect_num=1 sample_aspect_den=1"));
+            m_params.insert(QStringLiteral("sample_aspect_num"), QString::number(1));
+            m_params.insert(QStringLiteral("sample_aspect_den"), QString::number(1));
         }
     }
 
     // Preview rendering
     bool previewRes = m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height();
     if (previewRes) {
-        removeParams.append(QStringLiteral("scale"));
-        newParams.append(QStringLiteral("scale=%1").arg(double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height()));
+        m_params.insert(QStringLiteral("scale"), QString::number(double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height()));
     }
 
     // disable audio if requested
     if (!m_view.audio_box->isChecked()) {
-        newParams.append(QStringLiteral("an=1 audio_off=1"));
+        m_params.insert(QStringLiteral("an"), QString::number(1));
+        m_params.insert(QStringLiteral("audio_off"), QString::number(1));
+    } else {
+        m_params.remove(QStringLiteral("an"));
+        m_params.remove(QStringLiteral("audio_off"));
     }
 
     if (!m_view.video_box->isChecked()) {
-        newParams.append(QStringLiteral("vn=1 video_off=1"));
+        m_params.insert(QStringLiteral("vn"), QString::number(1));
+        m_params.insert(QStringLiteral("video_off"), QString::number(1));
+    } else {
+        m_params.remove(QStringLiteral("vn"));
+        m_params.remove(QStringLiteral("video_off"));
     }
 
     if (!(m_view.video_box->isChecked() || m_view.audio_box->isChecked())) {
@@ -1349,7 +1340,7 @@ void RenderWidget::refreshParams()
     if (!m_view.processing_box->isChecked() || !m_view.processing_box->isEnabled()) {
         threadCount = 1;
     }
-    newParams.append(QStringLiteral("real_time=%1").arg(-threadCount));
+    m_params.insert(QStringLiteral("real_time"), QString::number(-threadCount));
 
     // Adjust encoding speed
     if (m_view.speed->isEnabled()) {
@@ -1357,19 +1348,23 @@ void RenderWidget::refreshParams()
         if (m_view.speed->value() < speeds.count()) {
             const QString &speedValue = speeds.at(m_view.speed->value());
             if (speedValue.contains(QLatin1Char('='))) {
-                newParams.append(speedValue);
+                m_params.insert(speedValue.section(QLatin1Char('='), 0, 0), speedValue.section(QLatin1Char('='), 1));
             }
         }
     }
 
-    QString params = preset->paramString(removeParams);
-
     // Set the thread counts
-    if (!params.contains(QStringLiteral("threads="))) {
-        newParams.append(QStringLiteral("threads=%1").arg(KdenliveSettings::encodethreads()));
+    if (!m_params.contains(QStringLiteral("threads"))) {
+        m_params.insert(QStringLiteral("threads"), QString::number(KdenliveSettings::encodethreads()));
     }
 
-    if (params.contains(QStringLiteral("%quality")) || params.contains(QStringLiteral("%audioquality"))) {
+    // Project metadata
+    if (m_view.export_meta->isChecked()) {
+        m_params.insert(pCore->currentDoc()->metadata());
+    }
+
+    QString paramString = m_params.toString();
+    if (paramString.contains(QStringLiteral("%quality")) || paramString.contains(QStringLiteral("%audioquality"))) {
         m_view.qualityGroup->setEnabled(true);
     } else {
         m_view.qualityGroup->setEnabled(false);
@@ -1398,17 +1393,18 @@ void RenderWidget::refreshParams()
             val = vmin - int(vrange * percent);
         }
     }
-    params.replace(QStringLiteral("%quality"), QString::number(val));
-    // TODO check if this is finally correct
-    params.replace(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
-    params.replace(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
+    m_params.replacePlaceholder(QStringLiteral("%quality"), QString::number(val));
+    // RenderPresetModel::replacePlaceholder(m_params, QStringLiteral("%quality"), QString::number(val));
+    //  TODO check if this is finally correct
+    m_params.replacePlaceholder(QStringLiteral("%bitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultVBitrate()));
+    m_params.replacePlaceholder(QStringLiteral("%bitrate"), QStringLiteral("%1").arg(preset->defaultVBitrate()));
 
     val = preset->defaultABitrate().toInt() * 1000;
     if (m_view.qualityGroup->isChecked()) {
         val *= percent;
     }
     // cvbr = Constrained Variable Bit Rate
-    params.replace(QStringLiteral("%cvbr"), QString::number(val));
+    m_params.replacePlaceholder(QStringLiteral("%cvbr"), QString::number(val));
 
     val = preset->defaultAQuality().toInt();
     if (m_view.qualityGroup->isChecked()) {
@@ -1418,33 +1414,29 @@ void RenderWidget::refreshParams()
             val = amin - int(arange * percent);
         }
     }
-    params.replace(QStringLiteral("%audioquality"), QString::number(val));
+    m_params.replacePlaceholder(QStringLiteral("%audioquality"), QString::number(val));
     // TODO check if this is finally correct
-    params.replace(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultABitrate()));
-    params.replace(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(preset->defaultABitrate()));
+    m_params.replacePlaceholder(QStringLiteral("%audiobitrate+'k'"), QStringLiteral("%1k").arg(preset->defaultABitrate()));
+    m_params.replacePlaceholder(QStringLiteral("%audiobitrate"), QStringLiteral("%1").arg(preset->defaultABitrate()));
 
     std::unique_ptr<ProfileModel> &projectProfile = pCore->getCurrentProfile();
-    if (params.contains(QLatin1String("%dv_standard"))) {
-        QString dvstd;
-        if (fmod(double(projectProfile->frame_rate_num()) / projectProfile->frame_rate_den(), 30.01) > 27) {
-            dvstd = QStringLiteral("ntsc");
-        } else {
-            dvstd = QStringLiteral("pal");
-        }
-        if (double(projectProfile->display_aspect_num()) / projectProfile->display_aspect_den() > 1.5) {
-            dvstd += QLatin1String("_wide");
-        }
-        params.replace(QLatin1String("%dv_standard"), dvstd);
+    QString dvstd;
+    if (fmod(double(projectProfile->frame_rate_num()) / projectProfile->frame_rate_den(), 30.01) > 27) {
+        dvstd = QStringLiteral("ntsc");
+    } else {
+        dvstd = QStringLiteral("pal");
     }
+    if (double(projectProfile->display_aspect_num()) / projectProfile->display_aspect_den() > 1.5) {
+        dvstd += QLatin1String("_wide");
+    }
+    m_params.replacePlaceholder(QLatin1String("%dv_standard"), dvstd);
 
-    params.replace(
+    m_params.replacePlaceholder(
         QLatin1String("%dar"),
         QStringLiteral("@%1/%2").arg(QString::number(projectProfile->display_aspect_num())).arg(QString::number(projectProfile->display_aspect_den())));
-    params.replace(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
+    m_params.replacePlaceholder(QLatin1String("%passes"), QString::number(static_cast<int>(m_view.checkTwoPass->isChecked()) + 1));
 
-    newParams.prepend(params);
-
-    m_view.advanced_params->setPlainText(newParams.join(QStringLiteral(" ")));
+    m_view.advanced_params->setPlainText(m_params.toString());
 }
 
 void RenderWidget::parseProfiles(const QString &selectedProfile)

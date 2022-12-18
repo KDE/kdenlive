@@ -44,7 +44,7 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         CHECK(model->getParam("three") == QStringLiteral("third"));
         CHECK(model->getParam("four") == QStringLiteral("4"));
 
-        CHECK(model->paramString().length() == QString("one=first two=second value three=third four=4").length());
+        CHECK(model->params().toString().length() == QString("one=first two=second value three=third four=4").length());
         CHECK(model->params().size() == 4);
         CHECK(model->params().contains("one"));
         CHECK(model->params().contains("two"));
@@ -52,38 +52,38 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
         CHECK(model->params().contains("four"));
 
         // test removing a normal parameter in the middle
-        CHECK(model->paramString({QStringLiteral("three")}).length() == QString("one=first two=second value four=4").length());
+        CHECK(model->params({QStringLiteral("three")}).toString().length() == QString("one=first two=second value four=4").length());
         CHECK(model->params({QStringLiteral("three")}).size() == 3);
         CHECK_FALSE(model->params({QStringLiteral("three")}).contains("three"));
 
         // test removing a parameter at the first position
-        CHECK(model->paramString({QStringLiteral("one")}).length() == QString("two=second value three=third four=4").length());
+        CHECK(model->params({QStringLiteral("one")}).toString().length() == QString("two=second value three=third four=4").length());
         CHECK(model->params({QStringLiteral("one")}).size() == 3);
         CHECK_FALSE(model->params({QStringLiteral("one")}).contains("one"));
 
         // test removing a parameter at the last position
-        CHECK(model->paramString({QStringLiteral("four")}).length() == QString("one=first two=second value three=third").length());
+        CHECK(model->params({QStringLiteral("four")}).toString().length() == QString("one=first two=second value three=third").length());
         CHECK(model->params({QStringLiteral("four")}).size() == 3);
         CHECK_FALSE(model->params({QStringLiteral("four")}).contains("four"));
 
         // test removing a non-existing parameter
-        CHECK(model->paramString({QStringLiteral("fifth")}).length() == QString("one=first two=second value three=third four=4").length());
+        CHECK(model->params({QStringLiteral("fifth")}).toString().length() == QString("one=first two=second value three=third four=4").length());
         CHECK(model->params({QStringLiteral("fifth")}).size() == 4);
         CHECK_FALSE(model->params({QStringLiteral("fifth")}).contains("fifth"));
 
         // test removing a handing a value should do nothing
-        CHECK(model->paramString({QStringLiteral("first")}).length() == QString("one=first two=second value three=third four=4").length());
+        CHECK(model->params({QStringLiteral("first")}).toString().length() == QString("one=first two=second value three=third four=4").length());
         CHECK(model->params({QStringLiteral("first")}).size() == 4);
         CHECK_FALSE(model->params({QStringLiteral("first")}).contains("first"));
 
         // test removing multiple parameters
-        CHECK(model->paramString({QStringLiteral("one"), QStringLiteral("three")}).length() == QString("two=second value four=4").length());
+        CHECK(model->params({QStringLiteral("one"), QStringLiteral("three")}).toString().length() == QString("two=second value four=4").length());
         CHECK(model->params({QStringLiteral("one"), QStringLiteral("three")}).size() == 2);
         CHECK_FALSE(model->params({QStringLiteral("one"), QStringLiteral("three")}).contains("one"));
         CHECK_FALSE(model->params({QStringLiteral("one"), QStringLiteral("three")}).contains("three"));
 
         // test removing a parameter with space in value
-        CHECK(model->paramString({QStringLiteral("two")}).length() == QString("one=first three=third four=4").length());
+        CHECK(model->params({QStringLiteral("two")}).toString().length() == QString("one=first three=third four=4").length());
         CHECK(model->params({QStringLiteral("two")}).size() == 3);
         CHECK_FALSE(model->params({QStringLiteral("two")}).contains("two"));
     }
@@ -124,5 +124,24 @@ TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
 
         // we have a unknown audio codec, the error message should not be empty
         CHECK_FALSE(model->error().isEmpty());
+    }
+
+    SECTION("Test replace placeholders")
+    {
+        std::unique_ptr<RenderPresetModel> model(new RenderPresetModel(QStringLiteral("ParamTest"), QStringLiteral("Test"),
+                                                                       QStringLiteral("one=%hello two=this%isaphval value three=%isaph four=4"), QString(),
+                                                                       QString(), QString(), QString(), QString(), QString(), false));
+
+        RenderPresetParams params = model->params();
+        CHECK_FALSE(params.toString().contains(QStringLiteral("one=world")));
+        CHECK_FALSE(params.toString().contains(QStringLiteral("two=thismynewval value")));
+        CHECK_FALSE(params.toString().contains(QStringLiteral("three=mynew")));
+
+        params.replacePlaceholder(QStringLiteral("%hello"), QStringLiteral("world"));
+        CHECK(params.toString().contains(QStringLiteral("one=world")));
+
+        params.replacePlaceholder(QStringLiteral("%isaph"), QStringLiteral("mynew"));
+        CHECK(params.toString().contains(QStringLiteral("two=thismynewval value")));
+        CHECK(params.toString().contains(QStringLiteral("three=mynew")));
     }
 }
