@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 02:43+0000\n"
+"POT-Creation-Date: 2022-12-19 02:36+0000\n"
 "PO-Revision-Date: 2022-11-26 15:03+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -18836,12 +18836,12 @@ msgstr "Start"
 msgid "Transparency:"
 msgstr "Transparency:"
 
-#: src/widgets/colorpickerwidget.cpp:100
+#: src/widgets/colorpickerwidget.cpp:102
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "Pick a colour on the screen."
 
-#: src/widgets/colorpickerwidget.cpp:103
+#: src/widgets/colorpickerwidget.cpp:105
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

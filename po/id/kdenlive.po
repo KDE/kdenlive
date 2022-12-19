@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 02:43+0000\n"
+"POT-Creation-Date: 2022-12-19 02:36+0000\n"
 "PO-Revision-Date: 2022-11-16 23:11+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -18953,12 +18953,12 @@ msgstr "Mulai"
 msgid "Transparency:"
 msgstr "Transparansi:"
 
-#: src/widgets/colorpickerwidget.cpp:100
+#: src/widgets/colorpickerwidget.cpp:102
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr ""
 
-#: src/widgets/colorpickerwidget.cpp:103
+#: src/widgets/colorpickerwidget.cpp:105
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

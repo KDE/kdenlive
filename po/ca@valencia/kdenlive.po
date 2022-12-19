@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-17 02:43+0000\n"
+"POT-Creation-Date: 2022-12-19 02:36+0000\n"
 "PO-Revision-Date: 2022-12-16 09:27+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -5927,11 +5927,11 @@ msgstr "Instal·la les dependències que falten"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1716
 #, kde-format
 msgid ""
-"Download speech models from: <a href=\"https://alphacephei.com/vosk/"
-"models\">https://alphacephei.com/vosk/models</a>"
+"Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
+"\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
-"Baixa els models de veu des de: <a href=\"https://alphacephei.com/vosk/"
-"models\">https://alphacephei.com/vosk/models</a>"
+"Baixa els models de veu des de: <a href=\"https://alphacephei.com/vosk/models"
+"\">https://alphacephei.com/vosk/models</a>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1744
 #, kde-format
@@ -9981,8 +9981,8 @@ msgstr "Enorme (%1x%2)"
 #: src/mainwindow.cpp:4186
 #, kde-format
 msgid ""
-"This will hide the menu bar completely. You can show it again by typing "
-"Ctrl+M."
+"This will hide the menu bar completely. You can show it again by typing Ctrl"
+"+M."
 msgstr ""
 "Ocultarà la barra de menús completament. La podeu tornar a mostrar prement "
 "Ctrl+M."
@@ -15029,11 +15029,11 @@ msgstr "Degradat"
 #: src/titler/unicodedialog.cpp:77
 #, kde-format
 msgid ""
-"Information about unicode characters: <a href=\"https://decodeunicode."
-"org\">https://decodeunicode.org</a>"
+"Information about unicode characters: <a href=\"https://decodeunicode.org"
+"\">https://decodeunicode.org</a>"
 msgstr ""
-"Informació sobre caràcters Unicode: <a href=\"https://decodeunicode."
-"org\">https://decodeunicode.org</a>"
+"Informació sobre caràcters Unicode: <a href=\"https://decodeunicode.org"
+"\">https://decodeunicode.org</a>"
 
 #: src/titler/unicodedialog.cpp:78
 #, kde-format
@@ -15072,11 +15072,11 @@ msgstr "Salt de línia (caràcter de nova línia, \\\\n)"
 #: src/titler/unicodedialog.cpp:149
 #, kde-format
 msgid ""
-"Standard space character. (Other space characters: U+00a0, "
-"U+2000&#x2013;200b, U+202f)"
+"Standard space character. (Other space characters: U+00a0, U"
+"+2000&#x2013;200b, U+202f)"
 msgstr ""
-"Caràcter d'espai estàndard. (Altres caràcters d'espai: U+00a0, "
-"U+2000&#x2013;200b, U+202f)"
+"Caràcter d'espai estàndard. (Altres caràcters d'espai: U+00a0, U"
+"+2000&#x2013;200b, U+202f)"
 
 #: src/titler/unicodedialog.cpp:151
 #, kde-format
@@ -15164,8 +15164,8 @@ msgstr "Espai capil·lar. Més prim que U+2009."
 #: src/titler/unicodedialog.cpp:179
 #, kde-format
 msgid ""
-"Punctuation Apostrophe. Should be used instead of U+0027. See <a "
-"href=\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
+"Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
+"\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
 msgstr ""
 "Apòstrof rodó o tipogràfic (U+2019). S'hauria d'utilitzar en lloc d'U+0027. "
 "Vegeu <a href=\"https://ca.wikipedia.org/wiki/Apòstrof\">Viquipèdia:"
@@ -15223,8 +15223,8 @@ msgid ""
 "Ellipsis: If text has been left o&#x2026; See <a href=\"https://en.wikipedia."
 "org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
 msgstr ""
-"Punts suspensius: Indica text que s'ha eliminat&#x2026; Vegeu <a "
-"href=\"https://ca.wikipedia.org/wiki/Punts_suspensius\">Viquipèdia:"
+"Punts suspensius: Indica text que s'ha eliminat&#x2026; Vegeu <a href="
+"\"https://ca.wikipedia.org/wiki/Punts_suspensius\">Viquipèdia:"
 "Punts_suspensius</a>"
 
 #: src/titler/unicodedialog.cpp:196
@@ -15249,23 +15249,22 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:202
 #, kde-format
 msgid ""
-"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note "
-"(U+2669). See <a href=\"https://en.wikipedia.org/wiki/"
-"Eighth_note\">Wikipedia:Eighth_note</a>"
+"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
+"+2669). See <a href=\"https://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:"
+"Eighth_note</a>"
 msgstr ""
-"Corxera. De duració equivalent a mitja negra (U+2669). Vegeu <a "
-"href=\"https://ca.wikipedia.org/wiki/Corxera\">Viquipèdia:Corxera</a>"
+"Corxera. De duració equivalent a mitja negra (U+2669). Vegeu <a href="
+"\"https://ca.wikipedia.org/wiki/Corxera\">Viquipèdia:Corxera</a>"
 
 #: src/titler/unicodedialog.cpp:205
 #, kde-format
 msgid ""
-"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note "
-"(U+266a). See <a href=\"https://en.wikipedia.org/wiki/"
-"Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
+"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
+"+266a). See <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note"
+"\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
-"Semicorxera. De duració equivalent a mitja corxera (U+266a). Vegeu <a "
-"href=\"https://ca.wikipedia.org/wiki/Semicorxera\"> Viquipèdia:Semicorxera</"
-"a>"
+"Semicorxera. De duració equivalent a mitja corxera (U+266a). Vegeu <a href="
+"\"https://ca.wikipedia.org/wiki/Semicorxera\"> Viquipèdia:Semicorxera</a>"
 
 #: src/titler/unicodedialog.cpp:208
 #, kde-format
@@ -16713,8 +16712,8 @@ msgstr "Desplaçament automàtic durant la reproducció"
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
 msgstr ""
-"Desplaça verticalment amb la roda de desplaçament, horitzontalment amb "
-"«Maj+Roda de desplaçament»"
+"Desplaça verticalment amb la roda de desplaçament, horitzontalment amb «Maj"
+"+Roda de desplaçament»"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
 #: src/ui/configtimeline_ui.ui:122
@@ -19030,12 +19029,12 @@ msgstr "Inici"
 msgid "Transparency:"
 msgstr "Transparència:"
 
-#: src/widgets/colorpickerwidget.cpp:100
+#: src/widgets/colorpickerwidget.cpp:102
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "Tria un color en la pantalla."
 
-#: src/widgets/colorpickerwidget.cpp:103
+#: src/widgets/colorpickerwidget.cpp:105
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
