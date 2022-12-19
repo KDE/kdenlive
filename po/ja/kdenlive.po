@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-18 00:52+0000\n"
+"POT-Creation-Date: 2022-12-19 00:46+0000\n"
 "PO-Revision-Date: 2021-08-25 19:06-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5076,7 +5076,7 @@ msgstr "ガイドの削除(D)"
 msgid "Move subtitle"
 msgstr "ガイドの移動"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:800
+#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:801
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5786,9 +5786,10 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, kde-format
-msgid "Export guides as chapters description"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Edit marker"
+msgid "Export guides"
+msgstr "マーカーの編集(E)"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -5831,10 +5832,10 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "マーカーの編集(E)"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:926
-#: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:984
-#: src/dialogs/renderwidget.cpp:989 src/dialogs/renderwidget.cpp:1920
-#: src/dialogs/renderwidget.cpp:1947 src/doc/kdenlivedoc.cpp:710
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:911
+#: src/dialogs/renderwidget.cpp:916 src/dialogs/renderwidget.cpp:969
+#: src/dialogs/renderwidget.cpp:974 src/dialogs/renderwidget.cpp:1907
+#: src/dialogs/renderwidget.cpp:1934 src/doc/kdenlivedoc.cpp:710
 #: src/doc/kdenlivedoc.cpp:718 src/doc/kdenlivedoc.cpp:1085
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6360,7 +6361,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1749
+#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1736
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -6411,82 +6412,82 @@ msgstr "フレームレート"
 msgid "Rendering using low quality proxy"
 msgstr "代用クリップを利用してレンダリング"
 
-#: src/dialogs/renderwidget.cpp:284
+#: src/dialogs/renderwidget.cpp:285
 #, kde-format
 msgid "File"
 msgstr "ファイル"
 
-#: src/dialogs/renderwidget.cpp:293
+#: src/dialogs/renderwidget.cpp:294
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Stored Playlists"
 msgstr "プレイリスト・クリップ"
 
-#: src/dialogs/renderwidget.cpp:310 src/timeline2/view/previewmanager.cpp:50
+#: src/dialogs/renderwidget.cpp:311 src/timeline2/view/previewmanager.cpp:50
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:333
+#: src/dialogs/renderwidget.cpp:334
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:341
+#: src/dialogs/renderwidget.cpp:342
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was a problem sharing the document: %1"
 msgstr "ファイルをコピーする際にエラーが発生しました: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:341 src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:342 src/dialogs/renderwidget.cpp:350
 #: src/ui/renderwidget_ui.ui:898
 #, kde-format
 msgid "Share"
 msgstr "共有"
 
-#: src/dialogs/renderwidget.cpp:346
+#: src/dialogs/renderwidget.cpp:347
 #, kde-format
 msgid "Document shared successfully"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:349
+#: src/dialogs/renderwidget.cpp:350
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:485
+#: src/dialogs/renderwidget.cpp:486
 #, kde-format
 msgid "Beginning"
 msgstr "開始"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:492 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:493 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "終了"
 
-#: src/dialogs/renderwidget.cpp:612
+#: src/dialogs/renderwidget.cpp:613
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:618
+#: src/dialogs/renderwidget.cpp:619
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "レンダリングに必要な melt プログラムが見つかりません (mlt パッケージに含まれ"
 "ています)"
 
-#: src/dialogs/renderwidget.cpp:624 src/dialogs/renderwidget.cpp:1723
+#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1710
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "出力先のファイルは既に存在しています。上書きしてよろしいですか？"
 
-#: src/dialogs/renderwidget.cpp:632 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:633 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6495,44 +6496,44 @@ msgstr ""
 "ディレクトリ %1 を作成することができませんでした。\n"
 "必要な権限が設定されているか、ご確認ください。"
 
-#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:751
+#: src/dialogs/renderwidget.cpp:677 src/dialogs/renderwidget.cpp:752
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "一時ファイルを作成できません"
 
-#: src/dialogs/renderwidget.cpp:721
+#: src/dialogs/renderwidget.cpp:722
 #, kde-format
 msgid "begin"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:776
+#: src/dialogs/renderwidget.cpp:777
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "インポート"
 
-#: src/dialogs/renderwidget.cpp:791
+#: src/dialogs/renderwidget.cpp:792
 #, fuzzy, kde-format
 #| msgid "Play after render"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "レンダリング後に再生する"
 
-#: src/dialogs/renderwidget.cpp:791
+#: src/dialogs/renderwidget.cpp:792
 #, fuzzy, kde-format
 #| msgid "Hide a selected zone and follow its movements"
 msgid "Select a name for this rendering."
 msgstr "選択したゾーンを隠し、その動きに合わせる"
 
-#: src/dialogs/renderwidget.cpp:887
+#: src/dialogs/renderwidget.cpp:872
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1027 src/dialogs/renderwidget.cpp:1736
+#: src/dialogs/renderwidget.cpp:1012 src/dialogs/renderwidget.cpp:1723
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6544,102 +6545,102 @@ msgstr ""
 "ファイル <br /><b>%1</b><br /> に書き込んでいるジョブが既に存在しています。上"
 "書きしたい場合は、ジョブを中止してください..."
 
-#: src/dialogs/renderwidget.cpp:1028 src/dialogs/renderwidget.cpp:1737
+#: src/dialogs/renderwidget.cpp:1013 src/dialogs/renderwidget.cpp:1724
 #, kde-format
 msgid "Already running"
 msgstr "既に実行中です"
 
-#: src/dialogs/renderwidget.cpp:1053
+#: src/dialogs/renderwidget.cpp:1038
 #, kde-format
 msgid "Video without audio track"
 msgstr "オーディオトラックなしのビデオ"
 
-#: src/dialogs/renderwidget.cpp:1055
+#: src/dialogs/renderwidget.cpp:1040
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "オーディオトラックなしのビデオ"
 
-#: src/dialogs/renderwidget.cpp:1119
+#: src/dialogs/renderwidget.cpp:1104
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "レンダリング <i>%1</i> を開始しました"
 
-#: src/dialogs/renderwidget.cpp:1185 src/monitor/monitor.cpp:1132
+#: src/dialogs/renderwidget.cpp:1170 src/monitor/monitor.cpp:1132
 #, kde-format
 msgid "untitled"
 msgstr "タイトル未定"
 
-#: src/dialogs/renderwidget.cpp:1223
+#: src/dialogs/renderwidget.cpp:1208
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No preset selected"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/dialogs/renderwidget.cpp:1225
+#: src/dialogs/renderwidget.cpp:1210
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "該当するプロファイルがありません"
 
-#: src/dialogs/renderwidget.cpp:1237
+#: src/dialogs/renderwidget.cpp:1222
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "無効なプロファイル"
 
-#: src/dialogs/renderwidget.cpp:1341
+#: src/dialogs/renderwidget.cpp:1328
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1500
+#: src/dialogs/renderwidget.cpp:1487
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Remaining time "
 msgstr "ファイル %1 を開いています"
 
-#: src/dialogs/renderwidget.cpp:1502 src/dialogs/renderwidget.cpp:1534
+#: src/dialogs/renderwidget.cpp:1489 src/dialogs/renderwidget.cpp:1521
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 日"
 msgstr[1] "%1 日"
 
-#: src/dialogs/renderwidget.cpp:1506
+#: src/dialogs/renderwidget.cpp:1493
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1536
+#: src/dialogs/renderwidget.cpp:1523
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "%1 でレンダリングが完了しました"
 
-#: src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:1532
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1569
+#: src/dialogs/renderwidget.cpp:1556
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 のレンダリングがクラッシュしました</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1612 src/ui/renderwidget_ui.ui:891
+#: src/dialogs/renderwidget.cpp:1599 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
 msgstr "ジョブの中止"
 
-#: src/dialogs/renderwidget.cpp:1615
+#: src/dialogs/renderwidget.cpp:1602
 #, kde-format
 msgid "Remove Job"
 msgstr "ジョブの削除"
 
-#: src/dialogs/renderwidget.cpp:2050
+#: src/dialogs/renderwidget.cpp:2037
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -6647,7 +6648,7 @@ msgid ""
 "%1"
 msgstr "FFmpeg のパラメータ"
 
-#: src/dialogs/renderwidget.cpp:2070
+#: src/dialogs/renderwidget.cpp:2057
 #, fuzzy, kde-format
 #| msgid "Clean Project"
 msgid "Add to current project"
@@ -13574,43 +13575,43 @@ msgstr ""
 msgid "Communication error with render job"
 msgstr ""
 
-#: src/renderpresets/renderpresetmodel.cpp:38
-#: src/renderpresets/renderpresetmodel.cpp:128
+#: src/renderpresets/renderpresetmodel.cpp:152
+#: src/renderpresets/renderpresetmodel.cpp:238
 #: src/renderpresets/renderpresetrepository.cpp:135
 #, kde-format
 msgctxt "Category Name"
 msgid "Custom"
 msgstr "カスタム"
 
-#: src/renderpresets/renderpresetmodel.cpp:164
+#: src/renderpresets/renderpresetmodel.cpp:274
 #, fuzzy, kde-format
 #| msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgid "Standard (%1) not compatible with project profile (%2)"
 msgstr ""
 "フレームレート (%1) はプロジェクトのプロファイル (%2) と互換性がありません"
 
-#: src/renderpresets/renderpresetmodel.cpp:174
+#: src/renderpresets/renderpresetmodel.cpp:284
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
 msgstr ""
 "フレームレート (%1) はプロジェクトのプロファイル (%2) と互換性がありません"
 
-#: src/renderpresets/renderpresetmodel.cpp:184
+#: src/renderpresets/renderpresetmodel.cpp:294
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "未対応のビデオ形式です: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:191
+#: src/renderpresets/renderpresetmodel.cpp:301
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "未対応のオーディオコーデックです: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:197
+#: src/renderpresets/renderpresetmodel.cpp:307
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "未対応のビデオコーデックです: %1"
 
-#: src/renderpresets/renderpresetmodel.cpp:202
+#: src/renderpresets/renderpresetmodel.cpp:312
 #, fuzzy, kde-format
 #| msgid ""
 #| "This render profile uses a 'profile' parameter.<br />Unless you know what "
