@@ -8,19 +8,18 @@
 
 #pragma once
 
-#include <kio/thumbcreator.h>
+#include <KIO/ThumbnailCreator>
 #include <memory>
 #include <mlt++/Mlt.h>
 
 #include <QObject>
 
-class MltPreview : public ThumbCreator
+class MltPreview : public KIO::ThumbnailCreator
 {
 public:
-    MltPreview();
+    MltPreview(QObject *parent, const QVariantList &args);
     ~MltPreview() override;
-    bool create(const QString &path, int width, int height, QImage &img) override;
-    Flags flags() const override;
+    KIO::ThumbnailResult create(const KIO::ThumbnailRequest &request) override;
 
 protected:
     static int imageVariance(const QImage &image);
