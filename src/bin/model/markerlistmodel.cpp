@@ -899,7 +899,7 @@ bool MarkerListModel::editMultipleMarkersGui(const QList<GenTime> positions, QWi
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         for (auto &pos : positions) {
-            marker = getMarker(positions.first(), &exists);
+            marker = getMarker(pos, &exists);
             if (exists) {
                 addMarker(pos, marker.comment(), category, undo, redo);
             }
