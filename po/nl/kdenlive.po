@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-18 12:32+0100\n"
+"PO-Revision-Date: 2022-12-19 10:34+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5564,10 +5564,9 @@ msgstr ""
 "terugkeren naar automatisch."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Hulplijnen importeren"
+msgstr "Hulplijnen exporteren"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-18 10:15+0100\n"
+"PO-Revision-Date: 2022-12-19 09:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5574,11 +5574,11 @@ msgstr ""
 "amb la velocitat dels fotogrames del projecte,\n"
 "es retorna a Automàtica."
 
+# NdT: Títol de finestra
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Importa guies"
+msgstr "Exportació de guies"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -19220,6 +19220,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Export guides as chapters description"
-#~ msgstr "Exporta les guies com a descripció dels capítols"

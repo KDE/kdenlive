@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-17 17:21+0100\n"
-"Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2022-12-19 09:20+0100\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Kate 22.08.3\n"
+"X-Generator: Lokalize 20.12.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -3451,7 +3451,7 @@ msgstr "Suprimix els valors predefinits"
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
-msgstr "Introducció del nom dels valors predefinits"
+msgstr "Introduïu el nom dels valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -4175,7 +4175,7 @@ msgstr "No s'ha pogut trobar el clip original a substituir"
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement File"
-msgstr "Obertura de fitxer de substitució"
+msgstr "Obriu el fitxer de substitució"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
@@ -5575,11 +5575,11 @@ msgstr ""
 "amb la velocitat dels fotogrames del projecte,\n"
 "es retorna a Automàtica."
 
+# NdT: Títol de finestra
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Importa guies"
+msgstr "Exporteu les guies"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -5620,7 +5620,7 @@ msgstr "Fitxer JSON"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Exporteu les dades de guies"
+msgstr "Exporteu les dades de les guies"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:911
 #: src/dialogs/renderwidget.cpp:916 src/dialogs/renderwidget.cpp:969
@@ -7292,7 +7292,7 @@ msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
-msgstr "Introducció del camí de les plantilles"
+msgstr "Introduïu el camí de les plantilles"
 
 #: src/doc/kdenlivedoc.cpp:1092
 #, kde-format
@@ -7500,7 +7500,7 @@ msgstr "Definicions dels efectes de Kdenlive"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
-msgstr "Exportació d'efecte personalitzat"
+msgstr "Exporteu un efecte personalitzat"
 
 #: src/effects/effectsrepository.cpp:38
 #, kde-format
@@ -11730,7 +11730,7 @@ msgstr "No s'ha pogut obrir el fitxer"
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
-msgstr "Restauració de fitxer de còpia de seguretat"
+msgstr "Restaureu el fitxer de còpia de seguretat"
 
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
@@ -19219,6 +19219,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Export guides as chapters description"
-#~ msgstr "Exporta les guies com a descripció dels capítols"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-17 17:57+0200\n"
+"PO-Revision-Date: 2022-12-19 11:27+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -5594,10 +5594,9 @@ msgstr ""
 "Повертаємося до автоматично вибраних значень."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Імпортувати напрямні"
+msgstr "Експортувати напрямні"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
