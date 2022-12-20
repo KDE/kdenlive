@@ -4845,7 +4845,7 @@ void Bin::adjustProjectProfileToItem()
 void Bin::slotCheckProfile(const QString &binId)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
-    if (clip) {
+    if (clip && clip->statusReady()) {
         checkProfile(clip->originalProducer());
     }
 }
