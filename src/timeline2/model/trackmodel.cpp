@@ -471,7 +471,7 @@ int TrackModel::getBlankSizeAtPos(int frame)
     for (auto &m_playlist : m_playlists) {
         int playlistLength = m_playlist.get_length();
         if (frame >= playlistLength) {
-            continue;
+            blank_length = frame - playlistLength + 1;
         } else {
             int ix = m_playlist.get_clip_index_at(frame);
             if (m_playlist.is_blank(ix)) {
@@ -1201,16 +1201,16 @@ int TrackModel::getBlankStart(int position)
 {
     READ_LOCK();
     int result = 0;
-    for (auto &m_playlist : m_playlists) {
-        if (m_playlist.count() == 0) {
+    for (auto &playlist : m_playlists) {
+        if (playlist.count() == 0) {
             break;
         }
-        if (!m_playlist.is_blank_at(position)) {
+        if (!playlist.is_blank_at(position)) {
             result = position;
             break;
         }
-        int clip_index = m_playlist.get_clip_index_at(position);
-        int start = m_playlist.clip_start(clip_index);
+        int clip_index = playlist.get_clip_index_at(position);
+        int start = playlist.clip_start(clip_index);
         if (start > result) {
             result = start;
         }
