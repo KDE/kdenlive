@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-17 14:48+0100\n"
+"PO-Revision-Date: 2022-12-19 21:03+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -5588,10 +5588,9 @@ msgstr ""
 "Retour au mode « Automatique »."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Importer des guides"
+msgstr "Exporter des guides"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format

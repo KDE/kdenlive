@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-10 06:20+0100\n"
+"PO-Revision-Date: 2022-12-20 10:59+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -676,7 +676,7 @@ msgstr "ცენტრის ბალანსი"
 #: data/effects/crop.xml:26
 #, kde-format
 msgid "Use project resolution"
-msgstr ""
+msgstr "პროექტის გაფართოების გამოყენება"
 
 #: data/effects/dance.xml:4
 #, kde-format
@@ -760,7 +760,7 @@ msgstr ""
 #: data/effects/dynamic_loudness.xml:11
 #, kde-format
 msgid "Measurement Window"
-msgstr ""
+msgstr "გაზომვის ფანჯარა"
 
 #: data/effects/dynamic_loudness.xml:14
 #, kde-format
@@ -1344,7 +1344,7 @@ msgstr "ფილტრი"
 #: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
 msgid "Color to select"
-msgstr ""
+msgstr "ასარჩევი ფერი"
 
 #: data/effects/mask_start_frei0r_select0r.xml:14
 #, kde-format
@@ -1374,7 +1374,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:26
 #, kde-format
 msgid "Edge mode"
-msgstr ""
+msgstr "კუთხის რეჟიმი"
 
 #: data/effects/mask_start_frei0r_select0r.xml:29
 #, kde-format
@@ -5392,10 +5392,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Edit guides"
+#, kde-format
 msgid "Export guides"
-msgstr "გიდების ჩასწორება"
+msgstr "გიდების გატანა"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -5547,7 +5546,7 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:297
 #, kde-format
 msgid "Project Defaults"
-msgstr ""
+msgstr "პროექტის ნაგულისხმები"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:330
 #: src/dialogs/kdenlivesettingsdialog.cpp:354
@@ -10665,7 +10664,7 @@ msgstr ""
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Guide"
-msgstr ""
+msgstr "გიდის დამატება"
 
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
