@@ -16,7 +16,8 @@ class QProcess;
 class StabilizeTask : public AbstractTask
 {
 public:
-    StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::pair<bool,bool> autoAddClip, const std::unordered_map<QString, QVariant> &filterParams, QObject* object);
+    StabilizeTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out,
+                  const std::unordered_map<QString, QVariant> &filterParams, QObject *object);
     static void start(QObject* object, bool force = false);
 
 private slots:
@@ -35,5 +36,4 @@ private:
     QString m_errorMessage;
     QString m_logDetails;
     std::unique_ptr<QProcess> m_jobProcess;
-    std::pair<bool,bool> m_addToProject;
 };

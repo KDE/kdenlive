@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/clipjobmanager.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/renderwidget.h"
 #include "dialogs/subtitleedit.h"
@@ -25,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "effects/effectbasket.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "jobs/audiolevelstask.h"
+#include "jobs/customjobtask.h"
 #include "jobs/scenesplittask.h"
 #include "jobs/speedtask.h"
 #include "jobs/stabilizetask.h"
@@ -3601,23 +3603,28 @@ void MainWindow::buildDynamicActions()
     }
     ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
 
-    Mlt::Profile profile;
-    std::unique_ptr<Mlt::Filter> filter = std::make_unique<Mlt::Filter>(profile, "vidstab");
-    if ((filter != nullptr) && filter->is_valid()) {
-        QAction *action = new QAction(i18n("Stabilize"), m_extraFactory->actionCollection());
+    QAction *action;
+    QMap<QString, QString> jobValues = ClipJobManager::getClipJobNames();
+    QMapIterator<QString, QString> k(jobValues);
+    while (k.hasNext()) {
+        k.next();
+        action = new QAction(k.value(), m_extraFactory->actionCollection());
+        action->setData(k.key());
+        if (k.key() == QLatin1String("stabilize")) {
+            connect(action, &QAction::triggered, this, [this]() { StabilizeTask::start(this); });
+        } else if (k.key() == QLatin1String("scenesplit")) {
+            connect(action, &QAction::triggered, this, [&]() { SceneSplitTask::start(this); });
+        } else if (k.key() == QLatin1String("timewarp")) {
+            connect(action, &QAction::triggered, this, [&]() { SpeedTask::start(this); });
+        } else {
+            connect(action, &QAction::triggered, this, [&, jobId = k.key()]() { CustomJobTask::start(this, jobId); });
+        }
         ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, this, [this]() { StabilizeTask::start(this); });
     }
 
-    QAction *action = new QAction(i18n("Automatic Scene Split…"), m_extraFactory->actionCollection());
+    action = new QAction(i18n("Configure Clip Jobs…"), m_extraFactory->actionCollection());
     ts->addAction(action->text(), action);
-    connect(action, &QAction::triggered, this, [&]() { SceneSplitTask::start(this); });
-
-    if (true /* TODO: check if timewarp producer is available */) {
-        QAction *action = new QAction(i18n("Duplicate Clip with Speed Change…"), m_extraFactory->actionCollection());
-        ts->addAction(action->text(), action);
-        connect(action, &QAction::triggered, this, [&]() { SpeedTask::start(this); });
-    }
+    connect(action, &QAction::triggered, this, &MainWindow::manageClipJobs);
 
     kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
 
@@ -4599,6 +4606,14 @@ void MainWindow::checkMaxCacheSize()
     if (total > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
         slotManageCache();
     }
+}
+
+void MainWindow::manageClipJobs()
+{
+    QScopedPointer<ClipJobManager> dialog(new ClipJobManager(this));
+    dialog->exec();
+    // Rebuild list of clip jobs
+    buildDynamicActions();
 }
 
 #ifdef DEBUG_MAINW

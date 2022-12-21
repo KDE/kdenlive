@@ -10,62 +10,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>294</width>
-    <height>281</height>
+    <width>277</width>
+    <height>214</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="6" column="0" colspan="4">
-    <widget class="QCheckBox" name="auto_folder">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Put clip in &quot;Stabilized&quot; folder</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Options</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="4">
-    <widget class="QWidget" name="optionsbox" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="4">
-    <widget class="QRadioButton" name="auto_add">
-     <property name="text">
-      <string>Add stabilized clip to project</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="KUrlRequester" name="dest_url"/>
-   </item>
-   <item row="7" column="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
+   <item row="3" column="0">
     <widget class="QToolButton" name="preset_button">
      <property name="toolTip">
       <string>Presets</string>
@@ -74,28 +27,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="adjustlevels"/>
+      <iconset theme="adjustlevels">
+       <normaloff>.</normaloff>.</iconset>
      </property>
      <property name="popupMode">
       <enum>QToolButton::InstantPopup</enum>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="4">
-    <widget class="QRadioButton" name="auto_replace">
-     <property name="text">
-      <string>Replace original clip with stabilized clip</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_dest">
-     <property name="text">
-      <string>Destination</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
+   <item row="2" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -108,7 +48,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
-   <item row="7" column="1" colspan="2">
+   <item row="3" column="1" colspan="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -121,21 +61,36 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
+   <item row="0" column="0" colspan="4">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Options</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="4">
+    <widget class="QWidget" name="optionsbox" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QWidget</extends>
-   <header>kurlrequester.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
-  <tabstop>dest_url</tabstop>
-  <tabstop>auto_replace</tabstop>
-  <tabstop>auto_add</tabstop>
-  <tabstop>auto_folder</tabstop>
   <tabstop>preset_button</tabstop>
  </tabstops>
  <resources/>
@@ -153,22 +108,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>auto_add</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>auto_folder</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>150</x>
-     <y>239</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>150</x>
-     <y>267</y>
     </hint>
    </hints>
   </connection>

@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "clipcreator.hpp"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
+#include "dialogs/clipjobmanager.h"
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
@@ -5235,7 +5236,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
     m_transcodingDialog->show();
 }
 
-bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName, const QString &replaceId, bool replace)
+bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId)
 {
     // Check if the clip is already inserted in the project, if yes exit
     QStringList existingIds = m_itemModel->getClipByUrl(QFileInfo(path));
@@ -5244,26 +5245,29 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    if (replace) {
+    std::pair<ClipJobManager::JobCompletionAction, QString> jobAction = ClipJobManager::getJobAction(jobId);
+    if (jobAction.first == ClipJobManager::JobCompletionAction::ReplaceOriginal) {
         // Simply replace source clip with stabilized version
-        replaceSingleClip(replaceId, path);
+        replaceSingleClip(sourceClipId, path);
         return true;
     }
     // Check if folder exists
     QString folderId = QStringLiteral("-1");
-    // We first try to see if it exists
-    std::shared_ptr<ProjectFolder> baseFolder = m_itemModel->getFolderByBinId(parentFolder);
-    if (!baseFolder) {
+    std::shared_ptr<ProjectFolder> baseFolder = nullptr;
+    if (jobAction.first == ClipJobManager::JobCompletionAction::SubFolder) {
+        baseFolder = m_itemModel->getFolderByBinId(sourceFolder);
+    }
+    if (baseFolder == nullptr) {
         baseFolder = m_itemModel->getRootFolder();
     }
-    if (folderName.isEmpty()) {
-        // Put clip in parentFolder
-        folderId = baseFolder->clipId();
+    if (jobAction.second.isEmpty()) {
+        // Put clip in sourceFolder if we don't have a folder name
+        folderId = sourceFolder;
     } else {
         bool found = false;
         for (int i = 0; i < baseFolder->childCount(); ++i) {
             auto currentItem = std::static_pointer_cast<AbstractProjectItem>(baseFolder->child(i));
-            if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == folderName) {
+            if (currentItem->itemType() == AbstractProjectItem::FolderItem && currentItem->name() == jobAction.second) {
                 found = true;
                 folderId = currentItem->clipId();
                 break;
@@ -5272,17 +5276,17 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &parentFolde
 
         if (!found) {
             // if it was not found, create folder
-            m_itemModel->requestAddFolder(folderId, folderName, parentFolder, undo, redo);
+            m_itemModel->requestAddFolder(folderId, jobAction.second, baseFolder->clipId(), undo, redo);
         }
     }
-    std::function<void(const QString &)> callBack = [this, replaceId, replace, path](const QString &binId) {
+    std::function<void(const QString &)> callBack = [this, sourceClipId, jobAction, path](const QString &binId) {
         if (!binId.isEmpty()) {
-            if (!replace) {
+            if (jobAction.first != ClipJobManager::JobCompletionAction::ReplaceOriginal) {
                 // Clip was added to Bin, select it if replaced clip is still selected
                 QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
                 if (ix.isValid()) {
                     std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-                    if (currentItem->clipId() == replaceId) {
+                    if (currentItem->clipId() == sourceClipId) {
                         selectClipById(binId);
                     }
                 }

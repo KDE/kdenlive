@@ -467,8 +467,7 @@ public slots:
     void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     /** @brief Add a clip in a specially named folder */
-    bool addProjectClipInFolder(const QString &path, const QString &parentFolder, const QString &folderName, const QString &replaceId = QString(),
-                                bool replace = false);
+    bool addProjectClipInFolder(const QString &path, const QString &sourceClipId, const QString &sourceFolder, const QString &jobId);
     /** @brief Check if a clip profile matches project, propose switch otherwise */
     void slotCheckProfile(const QString &binId);
     /** @brief A non seekable clip was added to project, propose transcoding */

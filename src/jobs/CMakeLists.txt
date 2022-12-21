@@ -12,4 +12,5 @@ set(kdenlive_SRCS
   jobs/cachetask.cpp
   jobs/scenesplittask.cpp
   jobs/cuttask.cpp
+  jobs/customjobtask.cpp
   PARENT_SCOPE)

@@ -575,6 +575,8 @@ private slots:
     void slotRemoveBinDock(const QString &name);
     /** @brief Focus the guides list search line */
     void slotSearchGuide();
+    /** @brief Open the clip job management dialog */
+    void manageClipJobs();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

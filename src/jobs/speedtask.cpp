@@ -176,7 +176,9 @@ void SpeedTask::run()
     QString url;
     auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
     QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
+    QString folderId = QLatin1String("-1");
     if (binClip) {
+        folderId = binClip->parent()->clipId();
         // Filter applied on a timeline or bin clip
         url = binClip->url();
         if (url.isEmpty()) {
@@ -245,9 +247,8 @@ void SpeedTask::run()
         }
         return;
     }
-
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
-                              Q_ARG(QString, binClip->parent()->clipId()), Q_ARG(QString, m_addToFolder ? i18n("Speed Change") : QString()));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination), Q_ARG(QString, m_binId),
+                              Q_ARG(QString, folderId), Q_ARG(QString, QStringLiteral("timewarp")));
     return;
 }
 
