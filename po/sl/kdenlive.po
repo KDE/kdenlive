@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 02:36+0000\n"
-"PO-Revision-Date: 2022-11-27 07:37+0100\n"
+"PO-Revision-Date: 2022-12-21 10:16+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.3\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -12729,8 +12729,7 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
 msgstr "Pretvorba OpenTimelineIO"
 
