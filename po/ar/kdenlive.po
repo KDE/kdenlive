@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-11-26 10:56+0400\n"
+"PO-Revision-Date: 2022-12-22 08:59+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -729,10 +729,9 @@ msgid "Clockwise"
 msgstr "مع عقارب السّاعة"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "مع عقارب السّاعة"
+msgstr "عكس عقارب السّاعة"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -5539,10 +5538,9 @@ msgstr ""
 "سيرجع إلى المعدل الآلي."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "استورد أدلة"
+msgstr "صدر الأدلة"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -6026,7 +6024,7 @@ msgstr "يعالج %1"
 #: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(غير محدد)"
 
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
@@ -10994,33 +10992,24 @@ msgstr ""
 "shortcut> للانتقال إلى الإطار الأول / الأخير"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>النقر</shortcut> على العنصر لإزلاقه, <shortcut>النقر مع Shift</"
-"shortcut> للتحديد المتعدد"
+"<shortcut>اسحب</shortcut> لتعيين التقريب في نقطه، <shortcut>النقر مع السحب "
+"Shift</shortcut> للقصد بينما تعدل التقريب"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut> للتطبيق على المسار الحالي فقط، <shortcut>Shift</"
-"shortcut> يحرك الخطوط الإرشادية. يمكنك الجمع بين المعدلين."
+"<shortcut>اسحب</shortcut> لتعيين التصغير في نقطه، <shortcut>النقر مع السحب "
+"Shift</shortcut> للقصد بينما تعدل التصغير"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -12690,10 +12679,9 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
-msgstr "تحويل OpenTimelineIO"
+msgstr "افتح تحويل OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:26
 #, kde-format
@@ -18931,7 +18919,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "أدر بخطوات ٩٠°"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -18966,7 +18954,7 @@ msgstr "أظهر %1 في الخطّ الزّمنيّ"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "شفت + السحب لتضبط القيمة واحد بواحد"
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
