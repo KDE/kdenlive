@@ -26,6 +26,7 @@ ProxyTask::ProxyTask(const ObjectId &owner, QObject *object)
     , m_isFfmpegJob(true)
     , m_jobProcess(nullptr)
 {
+    m_description = i18n("Creating proxy");
 }
 
 void ProxyTask::start(const ObjectId &owner, QObject *object, bool force)

@@ -179,6 +179,8 @@ QStringList ClipJobManager::getJobParameters(const QString &jobId)
 {
     QStringList result;
     KConfig conf(QStringLiteral("clipjobsettings.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup idGroup(&conf, "Ids");
+    result << idGroup.readEntry(jobId, i18n("Job description"));
     KConfigGroup group(&conf, "Binary");
     result << group.readEntry(jobId, QString());
     KConfigGroup paramGroup(&conf, "Parameters");

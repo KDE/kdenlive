@@ -35,6 +35,7 @@ static void deleteQVariantList(QVector<uint8_t> *list)
 AudioLevelsTask::AudioLevelsTask(const ObjectId &owner, QObject *object)
     : AbstractTask(owner, AbstractTask::AUDIOTHUMBJOB, object)
 {
+    m_description = i18n("Audio thumbs");
 }
 
 void AudioLevelsTask::start(const ObjectId &owner, QObject *object, bool force)

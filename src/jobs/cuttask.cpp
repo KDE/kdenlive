@@ -36,6 +36,7 @@ CutTask::CutTask(const ObjectId &owner, const QString &destination, const QStrin
     , m_jobDuration(0)
     , m_addToProject(addToProject)
 {
+    m_description = i18n("Extracting zone");
 }
 
 void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, bool force)

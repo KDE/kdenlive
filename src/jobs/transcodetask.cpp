@@ -37,6 +37,7 @@ TranscodeTask::TranscodeTask(const ObjectId &owner, const QString &suffix, const
     , m_checkProfile(checkProfile)
     , m_jobProcess(nullptr)
 {
+    m_description = i18n("Transcoding");
 }
 
 void TranscodeTask::start(const ObjectId &owner, const QString &suffix, const QString &preParams, const QString &params, int in, int out, bool replaceProducer,

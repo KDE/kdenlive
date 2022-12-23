@@ -1461,11 +1461,17 @@ void MainWindow::setupActions()
     overlayAudioInfo->setCheckable(true);
     overlayAudioInfo->setData(0x10);
 
-    connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo](bool toggled) {
+    QAction *overlayClipJobs = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Overlay Clip Jobs"), this);
+    addAction(QStringLiteral("monitor_overlay_clipjobs"), overlayClipJobs, {}, QStringLiteral("monitor"));
+    overlayClipJobs->setCheckable(true);
+    overlayClipJobs->setData(0x40);
+
+    connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo, overlayClipJobs](bool toggled) {
         overlayTCInfo->setEnabled(toggled);
         overlayFpsInfo->setEnabled(toggled);
         overlayMarkerInfo->setEnabled(toggled);
         overlayAudioInfo->setEnabled(toggled);
+        overlayClipJobs->setEnabled(toggled);
     });
 
     // Monitor resolution scaling
@@ -4015,7 +4021,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     QList<QAction *> actions = monitorOverlay->actions();
     for (QAction *ac : qAsConst(actions)) {
         int mid = ac->data().toInt();
-        if (mid == 0x010) {
+        if (mid == 0x010 || mid == 0x040) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
         }
         ac->setChecked(code & mid);

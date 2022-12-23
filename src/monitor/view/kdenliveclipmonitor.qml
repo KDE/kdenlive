@@ -43,6 +43,7 @@ Item {
     property bool showSafezone: false
     // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
+    property bool showClipJobs: false
     // Always display audio thumbs under video
     property bool permanentAudiothumb: false
     property bool showToolbar: false
@@ -634,6 +635,65 @@ Item {
                         onExited: {
                             parent.x = videoDragButton.x + videoDragButton.width
                             parent.y = 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Item {
+        id: clipJobInfo
+        anchors.fill: parent
+        anchors.rightMargin: 10
+        anchors.topMargin: 10
+        visible: root.showClipJobs
+        Column {
+            Repeater {
+                model: controller.runningJobs
+                delegate: Item {
+                    property var uuid: controller.jobsUuids[model.index]
+                    width: clipJobInfo.width / 4
+                    height: childrenRect.height
+                    Row {
+                        id: labelRow
+                        MonitorToolButton {
+                            id: iconButton
+                            iconName: "window-close"
+                            anchors.leftMargin: 4
+                            height: jobLabel.height
+                            width: height
+                            toolTipText: i18n("Terminate Job")
+                            onClicked: controller.terminateJob(uuid)
+                        }
+                        Text {
+                            id: jobLabel
+                            horizontalAlignment: Text.AlignHCenter
+                            anchors.leftMargin: 4
+                            padding: 2
+                            text: modelData
+                            color: 'white'
+                            style: Text.Outline
+                            styleColor: "black"
+                        }
+                    }
+                    Rectangle {
+                        id: progressBar
+                        anchors.top: labelRow.bottom
+                        anchors.left: parent.left
+                        anchors.leftMargin: 4
+                        width: clipJobInfo.width / 4
+                        height: 6
+                        radius: 2
+                        color: "#33ffffff"
+                        border {
+                            color: "#99ffffff"
+                            width: 1
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            anchors.margins: 1
+                            color: 'steelblue'
+                            anchors.rightMargin: (parent.width - 2) * (100 - controller.jobsProgress[model.index]) / 100
                         }
                     }
                 }

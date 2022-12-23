@@ -13,7 +13,7 @@ class QProcess;
 class CustomJobTask : public AbstractTask
 {
 public:
-    CustomJobTask(const ObjectId &owner, const QStringList &jobParams, int in, int out, const QString &jobId, QObject *object);
+    CustomJobTask(const ObjectId &owner, const QString &jobName, const QStringList &jobParams, int in, int out, const QString &jobId, QObject *object);
     static void start(QObject *object, const QString &jobId);
 
 protected:

@@ -16,7 +16,7 @@ class QProcess;
 class SpeedTask : public AbstractTask
 {
 public:
-    SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject* object);
+    SpeedTask(const ObjectId &owner, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject *object);
     static void start(QObject* object, bool force = false);
 
 private slots:
@@ -26,7 +26,6 @@ protected:
     void run() override;
 
 private:
-    QString m_binId;
     double m_speed;
     int m_inPoint;
     int m_outPoint;
@@ -37,6 +36,5 @@ private:
     QStringList m_consumerArgs;
     QString m_errorMessage;
     QString m_logDetails;
-    bool m_addToFolder;
     std::unique_ptr<QProcess> m_jobProcess;
 };

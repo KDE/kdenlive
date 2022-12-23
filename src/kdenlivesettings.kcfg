@@ -960,7 +960,7 @@
 
     <entry name="displayClipMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
-      <default>0x15</default>
+      <default>0x55</default>
     </entry>
 
     <entry name="displayProjectMonitorInfo" type="Int">

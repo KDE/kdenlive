@@ -33,6 +33,7 @@ StabilizeTask::StabilizeTask(const ObjectId &owner, const QString &binId, const 
     , m_filterParams(filterParams)
     , m_destination(destination)
 {
+    m_description = i18n("Stabilizing");
 }
 
 void StabilizeTask::start(QObject *, bool force)

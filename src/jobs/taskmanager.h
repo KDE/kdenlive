@@ -16,6 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QObject>
 #include <QReadWriteLock>
 #include <QThreadPool>
+#include <QUuid>
 #include <map>
 #include <memory>
 #include <unordered_map>
@@ -42,6 +43,7 @@ public:
      *  @param type The type of job that you want to abort, leave to NOJOBTYPE to abort all jobs
      */
     void discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, bool softDelete = false, const QVector<AbstractTask::JOBTYPE> exceptions = {});
+    void discardJob(const ObjectId &owner, const QUuid &uuid);
 
     /** @brief Check if there is a pending / running job a clip.
      *  @param owner the owner item for this task
@@ -52,8 +54,8 @@ public:
     TaskManagerStatus jobStatus(const ObjectId &owner) const;
 
     /** @brief return the progress of a given job on a given clip */
-    int getJobProgressForClip(const ObjectId &owner) const;
-    
+    int getJobProgressForClip(const ObjectId &owner);
+
     /** @brief Add a task in the list and push it on the thread pool */
     void startTask(int ownerId, AbstractTask *task);
 
@@ -66,8 +68,8 @@ public:
     /** @brief We are aborting all tasks and don't want them to send any updates */
     bool isBlocked() const;
 
-    /** @brief return the message of a given job on a given clip (message, detailed log)*/
-    //QPair<QString, QString> getJobMessageForClip(int jobId, const QString &binId) const;
+    /** @brief The clip currently opened in Clip Monitor (to display clip jobs) */
+    int displayedClip;
 
 public slots:
     /** @brief Discard all running jobs. */
@@ -86,4 +88,5 @@ private:
 
 signals:
     void jobCount(int);
+    void detailedProgress(const ObjectId &owner, const QStringList &, const QList<int> &, const QStringList &);
 };

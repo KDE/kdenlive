@@ -27,14 +27,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QThread>
 #include <QVBoxLayout>
 
-SpeedTask::SpeedTask(const ObjectId &owner, const QString &binId, const QString &destination, int in, int out,
-                     std::unordered_map<QString, QVariant> filterParams, QObject *object)
+SpeedTask::SpeedTask(const ObjectId &owner, const QString &destination, int in, int out, std::unordered_map<QString, QVariant> filterParams, QObject *object)
     : AbstractTask(owner, AbstractTask::SPEEDJOB, object)
-    , m_binId(binId)
     , m_filterParams(filterParams)
     , m_destination(destination)
-    , m_addToFolder(KdenliveSettings::add_new_clip_to_folder())
 {
+    m_description = i18n("Changing speed");
     m_speed = filterParams.at(QStringLiteral("warp_speed")).toDouble();
     m_inPoint = in > -1 ? qRound(in / m_speed) : -1;
     m_outPoint = out > -1 ? qRound(out / m_speed) : -1;
@@ -84,17 +82,12 @@ void SpeedTask::start(QObject *object, bool force)
     l->addWidget(&lab);
     l->addWidget(&speedInput);
     l->addWidget(&cb);
-    QCheckBox cb2(i18n("Add clip to \"Speed Change\" folder"), &d);
-    cb2.setChecked(KdenliveSettings::add_new_clip_to_folder());
-    l->addWidget(&cb2);
     l->addWidget(&buttonBox);
     d.connect(&buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     d.connect(&buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
     if (d.exec() != QDialog::Accepted) {
         return;
     }
-    bool addToFolder = cb2.isChecked();
-    KdenliveSettings::setAdd_new_clip_to_folder(addToFolder);
     double speed = speedInput.value();
     bool warp_pitch = cb.isChecked();
     std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
@@ -144,20 +137,19 @@ void SpeedTask::start(QObject *object, bool force)
             owner = ObjectId(ObjectType::BinClip, binData.first().toInt());
             binClip = pCore->projectItemModel()->getClipByBinID(binData.first());
             if (binClip) {
-                task = new SpeedTask(owner, binData.first(), destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
+                task = new SpeedTask(owner, destinations.at(id), binData.at(1).toInt(), binData.at(2).toInt(), filterParams, binClip.get());
             }
         } else {
             // Process full clip
             owner = ObjectId(ObjectType::BinClip, id.toInt());
             binClip = pCore->projectItemModel()->getClipByBinID(id);
             if (binClip) {
-                task = new SpeedTask(owner, id, destinations.at(id), -1, -1, filterParams, binClip.get());
+                task = new SpeedTask(owner, destinations.at(id), -1, -1, filterParams, binClip.get());
             }
         }
         if (task) {
             // Otherwise, start a filter thread.
             task->m_isForce = force;
-            task->m_addToFolder = addToFolder;
             pCore->taskManager.startTask(owner.second, task);
         }
     }
@@ -174,7 +166,7 @@ void SpeedTask::run()
     qDebug() << " + + + + + + + + STARTING SPEED TASK";
 
     QString url;
-    auto binClip = pCore->projectItemModel()->getClipByBinID(m_binId);
+    auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.second));
     QStringList producerArgs = {QStringLiteral("progress=1"), QStringLiteral("-profile"), pCore->getCurrentProfilePath()};
     QString folderId = QLatin1String("-1");
     if (binClip) {
@@ -247,8 +239,8 @@ void SpeedTask::run()
         }
         return;
     }
-    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination), Q_ARG(QString, m_binId),
-                              Q_ARG(QString, folderId), Q_ARG(QString, QStringLiteral("timewarp")));
+    QMetaObject::invokeMethod(pCore->bin(), "addProjectClipInFolder", Qt::QueuedConnection, Q_ARG(QString, m_destination),
+                              Q_ARG(QString, QString::number(m_owner.second)), Q_ARG(QString, folderId), Q_ARG(QString, QStringLiteral("timewarp")));
     return;
 }
 

@@ -38,6 +38,7 @@ ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool t
     , m_out(out)
     , m_thumbOnly(thumbOnly)
 {
+    m_description = m_thumbOnly ? i18n("Video thumbs") : i18n("Loading clip");
 }
 
 ClipLoadTask::~ClipLoadTask() {}

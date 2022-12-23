@@ -24,7 +24,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 
-CustomJobTask::CustomJobTask(const ObjectId &owner, const QStringList &jobParams, int in, int out, const QString &jobId, QObject *object)
+CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, const QStringList &jobParams, int in, int out, const QString &jobId,
+                             QObject *object)
     : AbstractTask(owner, AbstractTask::TRANSCODEJOB, object)
     , m_jobDuration(0)
     , m_isFfmpegJob(true)
@@ -34,13 +35,18 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QStringList &jobParams
     , m_jobId(jobId)
     , m_jobProcess(nullptr)
 {
+    m_description = jobName;
 }
 
 void CustomJobTask::start(QObject *object, const QString &jobId)
 {
     std::vector<QString> binIds = pCore->bin()->selectedClipsIds(true);
-    qDebug() << ":::: STARTING CUSTOM JOB TASK: " << jobId << "\n____________________";
     QStringList jobData = ClipJobManager::getJobParameters(jobId);
+    if (jobData.size() < 4) {
+        qDebug() << ":::: INVALID JOB DATA FOR: " << jobId << "\n____________________";
+        return;
+    }
+    const QString jobName = jobData.takeFirst();
 
     for (auto &id : binIds) {
         CustomJobTask *task = nullptr;
@@ -61,7 +67,7 @@ void CustomJobTask::start(QObject *object, const QString &jobId)
             // Process full clip
             owner = ObjectId(ObjectType::BinClip, id.toInt());
         }
-        task = new CustomJobTask(owner, jobData, in, out, jobId, object);
+        task = new CustomJobTask(owner, jobName, jobData, in, out, jobId, object);
         if (task) {
             // Otherwise, start a filter thread.
             pCore->taskManager.startTask(owner.second, task);
@@ -83,7 +89,6 @@ void CustomJobTask::run()
     }
     QString source = binClip->url();
     QString folderId = binClip->parent()->clipId();
-    ClipType::ProducerType type = binClip->clipType();
     const QString binary = m_parameters.takeFirst();
     if (!QFile::exists(binary)) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,

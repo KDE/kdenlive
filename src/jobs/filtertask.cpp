@@ -37,6 +37,7 @@ FilterTask::FilterTask(const ObjectId &owner, const QString &binId, const std::w
     , m_filterData(filterData)
     , m_consumerArgs(consumerArgs)
 {
+    m_description = i18n("Processing filter %1", filterName);
 }
 
 void FilterTask::start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out,

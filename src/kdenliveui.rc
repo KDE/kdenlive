@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="212" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="213" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -233,6 +233,7 @@
           <Action name="monitor_overlay_fps" />
           <Action name="monitor_overlay_markers" />
           <Action name="monitor_overlay_audiothumb" />
+          <Action name="monitor_overlay_clipjobs" />
       </Menu>
       <Menu name="monitor_scaling" ><text>Preview Resolution</text>
           <Action name="scale_no_preview" />
