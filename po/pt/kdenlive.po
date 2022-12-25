@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-18 12:03+0000\n"
+"PO-Revision-Date: 2022-12-23 20:49+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -5660,10 +5660,9 @@ msgstr ""
 "a reverter para o Automático."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Importar guias"
+msgstr "Exportar as guias"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -19301,6 +19300,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Export guides as chapters description"
-#~ msgstr "Exportar as guias como descrições dos capítulos"
