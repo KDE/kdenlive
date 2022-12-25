@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 02:36+0000\n"
-"PO-Revision-Date: 2022-12-13 12:24\n"
+"PO-Revision-Date: 2022-12-24 11:44\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -7537,7 +7537,7 @@ msgstr ""
 #: src/glaxnimatelauncher.cpp:32
 #, kde-format
 msgid "You need enter a valid path to be able to edit Lottie animations."
-msgstr ""
+msgstr "您需要输入一个有效的路径才能编辑 Lottie 动画。"
 
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
 #, kde-format
@@ -12256,7 +12256,7 @@ msgstr "打开备份"
 #: src/project/projectmanager.cpp:658
 #, kde-format
 msgid "Could not open the backup project file."
-msgstr ""
+msgstr "无法打开备份的工程文件"
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
@@ -12441,8 +12441,7 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
 msgstr "OpenTimelineIO 转换"
 
@@ -13403,7 +13402,7 @@ msgstr "剪辑 %1 没有足够的帧以应用该混合"
 #: src/timeline2/model/timelinemodel.cpp:1084
 #, kde-format
 msgid "Create mix"
-msgstr ""
+msgstr "创建混合"
 
 #: src/timeline2/model/timelinemodel.cpp:1163
 #: src/timeline2/model/timelinemodel.cpp:1193
@@ -13417,43 +13416,43 @@ msgstr "移动剪辑"
 #: src/timeline2/model/timelinemodel.cpp:1814
 #, kde-format
 msgid "No available track for insert operation"
-msgstr ""
+msgstr "没有可用于插入操作的轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:1690
 #, kde-format
 msgid "Insert Clip"
-msgstr ""
+msgstr "插入剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:1784
 #: src/timeline2/model/timelinemodel.cpp:1806
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
-msgstr ""
+msgstr "没有足够的音轨来承载所有流 (%1)"
 
 #: src/timeline2/model/timelinemodel.cpp:1890
 #, kde-format
 msgid "No available track for split operation"
-msgstr ""
+msgstr "没有可用于拆分操作的轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:1927
 #, kde-format
 msgid "Audio split failed: no viable track"
-msgstr ""
+msgstr "音频拆分失败：无可用轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:1935
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
-msgstr ""
+msgstr "音频拆分失败：无法创建音频剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:1997
 #, kde-format
 msgid "Remove group"
-msgstr ""
+msgstr "删除组"
 
 #: src/timeline2/model/timelinemodel.cpp:2002
 #, kde-format
 msgid "Delete Composition"
-msgstr ""
+msgstr "删除合成"
 
 #: src/timeline2/model/timelinemodel.cpp:2154
 #: src/timeline2/model/timelinemodel.cpp:2316
@@ -13465,22 +13464,22 @@ msgstr "移动组合"
 #: src/timeline2/model/timelinemodel.cpp:2908
 #, kde-format
 msgid "Resize group"
-msgstr ""
+msgstr "调整组合大小"
 
 #: src/timeline2/model/timelinemodel.cpp:3032
 #, kde-format
 msgid "Resize clip speed"
-msgstr ""
+msgstr "调整剪辑速度"
 
 #: src/timeline2/model/timelinemodel.cpp:3179
 #, kde-format
 msgid "Remove mix"
-msgstr ""
+msgstr "移除混合"
 
 #: src/timeline2/model/timelinemodel.cpp:3181
 #, kde-format
 msgid "Removing mix failed"
-msgstr ""
+msgstr "移除混合失败"
 
 #: src/timeline2/model/timelinemodel.cpp:3458
 #, kde-format
@@ -13490,7 +13489,7 @@ msgstr "调整剪辑大小"
 #: src/timeline2/model/timelinemodel.cpp:3460
 #, kde-format
 msgid "Resize composition"
-msgstr ""
+msgstr "调整合成大小"
 
 #: src/timeline2/model/timelinemodel.cpp:3777
 #, kde-format
@@ -13512,12 +13511,12 @@ msgstr "波纹调整字幕大小"
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
-msgstr[0] ""
+msgstr[0] "外滑剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:3958
 #, kde-format
 msgid "Slip clip"
-msgstr ""
+msgstr "外滑剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:3993
 #, kde-format
@@ -13533,7 +13532,7 @@ msgstr "取消组合剪辑"
 #: src/timeline2/model/timelinemodel.cpp:4244
 #, kde-format
 msgid "Cannot delete last track in timeline"
-msgstr ""
+msgstr "无法删除时间轴上的最后一条轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:4490
 #, kde-format
@@ -14247,42 +14246,42 @@ msgstr "未找到avfilter.字幕 滤镜。字幕功能可能无法正常工作�
 #: src/timeline2/view/timelinecontroller.cpp:5080
 #, kde-format
 msgid "Show subtitle track"
-msgstr ""
+msgstr "显示字幕轨道"
 
 #: src/timeline2/view/timelinecontroller.cpp:5080
 #, kde-format
 msgid "Hide subtitle track"
-msgstr ""
+msgstr "隐藏字幕轨道"
 
 #: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Unlock subtitle track"
-msgstr ""
+msgstr "解锁字幕轨道"
 
 #: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Lock subtitle track"
-msgstr ""
+msgstr "锁定字幕轨道"
 
 #: src/timeline2/view/timelinetabs.cpp:32
 #, kde-format
 msgid "Main timeline"
-msgstr ""
+msgstr "主时间轴"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
 msgid "Insert an effect..."
-msgstr ""
+msgstr "插入效果..."
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format
 msgid "Insert a composition..."
-msgstr ""
+msgstr "插入合成..."
 
 #: src/timeline2/view/timelinewidget.cpp:283
 #, kde-format
 msgid "No available stream"
-msgstr ""
+msgstr "无可用流"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
 #: src/titler/titlewidget.cpp:3231 src/titler/titlewidget.cpp:3234
@@ -14419,12 +14418,12 @@ msgstr "置底对象"
 #: src/titler/titlewidget.cpp:310
 #, kde-format
 msgid "Select All"
-msgstr ""
+msgstr "全选"
 
 #: src/titler/titlewidget.cpp:316
 #, kde-format
 msgid "Keep only text items selected"
-msgstr ""
+msgstr "只保留选中的文本项目"
 
 #: src/titler/titlewidget.cpp:323
 #, kde-format
@@ -15481,7 +15480,7 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:269
 #, kde-format
 msgid "Full Screen"
-msgstr ""
+msgstr "全屏"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:274
@@ -15521,7 +15520,7 @@ msgstr "大小"
 #: src/ui/configcapture_ui.ui:404
 #, kde-format
 msgid "Mouse cursor:"
-msgstr ""
+msgstr "鼠标光标："
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:458
@@ -15540,7 +15539,7 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:531 src/ui/configjogshuttle_ui.ui:106
 #, kde-format
 msgid "Device:"
-msgstr ""
+msgstr "设备："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configcapture_ui.ui:541
@@ -15552,7 +15551,7 @@ msgstr ""
 #: src/ui/configcapture_ui.ui:583
 #, kde-format
 msgid "Sample rate:"
-msgstr ""
+msgstr "采样率："
 
 #. i18n: ectx: property (text), widget (QLabel, labelNoAudioDevices)
 #: src/ui/configcapture_ui.ui:611
@@ -15606,7 +15605,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:69
 #, kde-format
 msgid "Cached Data"
-msgstr ""
+msgstr "缓存数据"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/configenv_ui.ui:75
@@ -15614,13 +15613,13 @@ msgstr ""
 msgid ""
 "Kdenlive will check this limit every 2 weeks. Set to zero to disable "
 "checking."
-msgstr ""
+msgstr "Kdenlive 将每隔2周检查此限制。设置为零以禁用检查。"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_maxcachesize)
 #: src/ui/configenv_ui.ui:88
 #, kde-format
 msgid " MiB"
-msgstr ""
+msgstr "MiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:101
@@ -15638,25 +15637,25 @@ msgstr ""
 #: src/ui/configenv_ui.ui:121
 #, kde-format
 msgid "FFmpeg:"
-msgstr ""
+msgstr "FFmpeg："
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configenv_ui.ui:131
 #, kde-format
 msgid "FFplay:"
-msgstr ""
+msgstr "FFplay："
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configenv_ui.ui:141
 #, kde-format
 msgid "FFprobe:"
-msgstr ""
+msgstr "FFprobe："
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configenv_ui.ui:151
 #, kde-format
 msgid "MLT profiles folder:"
-msgstr ""
+msgstr "MLT 配置(编码)方案文件夹："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configenv_ui.ui:161
@@ -15668,19 +15667,19 @@ msgstr ""
 #: src/ui/configenv_ui.ui:171
 #, kde-format
 msgid "MediaInfo:"
-msgstr ""
+msgstr "MediaInfo："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configenv_ui.ui:195
 #, kde-format
 msgid "Default Folders"
-msgstr ""
+msgstr "默认文件夹"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configenv_ui.ui:201
 #, kde-format
 msgid "Temporary files:"
-msgstr ""
+msgstr "临时文件："
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configenv_ui.ui:211
@@ -15702,38 +15701,38 @@ msgstr "使用默认文件夹"
 #: src/ui/configenv_ui.ui:224 src/ui/configenv_ui.ui:276
 #, kde-format
 msgid "Always use project folder"
-msgstr ""
+msgstr "总是使用项目文件夹"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
 #: src/ui/configenv_ui.ui:229 src/ui/configenv_ui.ui:281
 #, kde-format
 msgid "Always use custom folder"
-msgstr ""
+msgstr "总是使用自定义文件夹"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:240
 #, kde-format
 msgid "Library folder:"
-msgstr ""
+msgstr "素材库文件夹："
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configenv_ui.ui:257
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr ""
+msgstr "用于渲染、字幕和脚本的文件夹："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:313
 #, kde-format
 msgid "Default Apps"
-msgstr ""
+msgstr "默认应用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Image editing:"
-msgstr ""
+msgstr "图像编辑器："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
 #: src/ui/configenv_ui.ui:328
@@ -15748,7 +15747,7 @@ msgstr "图像编辑应用程序路径"
 #: src/ui/configenv_ui.ui:384
 #, kde-format
 msgid "Change…"
-msgstr ""
+msgstr "更改…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
 #: src/ui/configenv_ui.ui:349
@@ -15760,7 +15759,7 @@ msgstr "音频编辑应用程序路径"
 #: src/ui/configenv_ui.ui:368
 #, kde-format
 msgid "Audio editing:"
-msgstr ""
+msgstr "音频编辑器："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
 #: src/ui/configenv_ui.ui:377
@@ -15995,25 +15994,25 @@ msgstr "默认时长"
 #: src/ui/configmisc_ui.ui:166
 #, kde-format
 msgid "Color clips:"
-msgstr ""
+msgstr "颜色剪辑："
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configmisc_ui.ui:173
 #, kde-format
 msgid "Title clips:"
-msgstr ""
+msgstr "字幕剪辑："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:180
 #, kde-format
 msgid "Transitions:"
-msgstr ""
+msgstr "转场："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configmisc_ui.ui:190
 #, kde-format
 msgid "Image clips:"
-msgstr ""
+msgstr "图像剪辑："
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configmisc_ui.ui:200
@@ -16307,7 +16306,7 @@ msgstr "添加特效时寻求素材"
 #: src/ui/configtimeline_ui.ui:94
 #, kde-format
 msgid "Scrolling:"
-msgstr ""
+msgstr "滚动："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:101
@@ -16332,7 +16331,7 @@ msgstr "显示剪辑标记的注释"
 #: src/ui/configtimeline_ui.ui:129
 #, kde-format
 msgid "Default track height:"
-msgstr ""
+msgstr "默认轨道高度："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:149
@@ -16356,31 +16355,31 @@ msgstr ""
 #: src/ui/configtimeline_ui.ui:205
 #, kde-format
 msgid "All Audio Streams"
-msgstr ""
+msgstr "所有音频流"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:210
 #, kde-format
 msgid "First Audio Stream"
-msgstr ""
+msgstr "第一条音频流"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:215
 #, kde-format
 msgid "First 2 Audio Streams"
-msgstr ""
+msgstr "前 2 条音频流"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtimeline_ui.ui:223
 #, kde-format
 msgid "On import, enable:"
-msgstr ""
+msgstr "导入时，启用："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_multistream_checktrack)
 #: src/ui/configtimeline_ui.ui:230
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr ""
+msgstr "检查项目是否包含足够的轨道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -16712,7 +16711,7 @@ msgstr ""
 #: src/ui/editsub_ui.ui:267 src/ui/editsub_ui.ui:368
 #, kde-format
 msgid "px"
-msgstr ""
+msgstr "px(像素)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
 #: src/ui/editsub_ui.ui:277
@@ -16730,55 +16729,55 @@ msgstr ""
 #: src/ui/editsub_ui.ui:294
 #, kde-format
 msgid "pt"
-msgstr ""
+msgstr "pt(磅)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
 #: src/ui/editsub_ui.ui:320
 #, kde-format
 msgid "Custom Font Color"
-msgstr ""
+msgstr "自定义字体颜色"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
 #: src/ui/editsub_ui.ui:327
 #, kde-format
 msgid "Custom Position"
-msgstr ""
+msgstr "自定义位置"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
 #: src/ui/editsub_ui.ui:334
 #, kde-format
 msgid "Custom Font Size"
-msgstr ""
+msgstr "自定义字体大小"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
 #: src/ui/editsub_ui.ui:382
 #, kde-format
 msgid "Custom Outline Color"
-msgstr ""
+msgstr "自定义轮廓颜色"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
 #: src/ui/editsub_ui.ui:389
 #, kde-format
 msgid "Custom Outline Size"
-msgstr ""
+msgstr "自定义轮廓大小"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
 #: src/ui/editsub_ui.ui:396
 #, kde-format
 msgid "Opaque background"
-msgstr ""
+msgstr "不透明背景"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/exportguidesdialog_ui.ui:30
 #, kde-format
 msgid "Marker Type:"
-msgstr ""
+msgstr "标记类型："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
 #, kde-format
 msgid "Save As:"
-msgstr ""
+msgstr "另存为："
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
@@ -16790,7 +16789,7 @@ msgstr ""
 #: src/ui/exportguidesdialog_ui.ui:74
 #, kde-format
 msgid "Text Options"
-msgstr ""
+msgstr "文字选项"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -16803,7 +16802,7 @@ msgstr ""
 #: src/ui/exportguidesdialog_ui.ui:96
 #, kde-format
 msgid "Format:"
-msgstr ""
+msgstr "格式："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: src/ui/exportguidesdialog_ui.ui:150
