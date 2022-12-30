@@ -5114,7 +5114,7 @@ msgid "Add Guides"
 msgstr "Adaugă ghidaj"
 
 #: src/bin/model/markerlistmodel.cpp:946
-#, kde-format
+#, fuzzy, kde-format
 msgid "Add Markers"
 msgstr "Adaugă marcaje"
 
@@ -18679,8 +18679,7 @@ msgstr "proxy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy clips"
 msgstr "Clipuri proxy"
 

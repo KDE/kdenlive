@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 02:36+0000\n"
-"PO-Revision-Date: 2022-11-12 17:24+0100\n"
+"PO-Revision-Date: 2022-12-29 12:01+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -37,7 +37,7 @@ msgstr "ბალანსი"
 #: data/effects/audiobalance.xml:5
 #, kde-format
 msgid "Adjust the left/right balance"
-msgstr ""
+msgstr "მარჯვენა/მარცხენის ბალანსის შეცვლა"
 
 #: data/effects/audiolevel.xml:4
 #, kde-format
@@ -52,12 +52,12 @@ msgstr "აუდიოს ამპლიტუდის გამოთვლ�
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "IEC 60268-18 გადიდების გამოყენება "
 
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr ""
+msgstr "აუდიოს დონის ვიზუალიზაციის ფილტრი"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
@@ -68,12 +68,12 @@ msgstr ""
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
-msgstr ""
+msgstr "სეგმენტი, ზოლი"
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
 msgid "Graph type"
-msgstr ""
+msgstr "გრაფიკის ტიპი"
 
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
@@ -676,7 +676,7 @@ msgstr "ცენტრის ბალანსი"
 #: data/effects/crop.xml:26
 #, kde-format
 msgid "Use project resolution"
-msgstr ""
+msgstr "პროექტის გაფართოების გამოყენება"
 
 #: data/effects/dance.xml:4
 #, kde-format
@@ -755,7 +755,7 @@ msgstr ""
 #: data/effects/dynamic_loudness.xml:11
 #, kde-format
 msgid "Measurement Window"
-msgstr ""
+msgstr "გაზომვის ფანჯარა"
 
 #: data/effects/dynamic_loudness.xml:14
 #, kde-format
@@ -1043,7 +1043,7 @@ msgstr ""
 #: data/effects/gpstext.xml:21
 #, kde-format
 msgid "GPS processing start time"
-msgstr ""
+msgstr "GPS დამუშავების დაწყების დრო"
 
 #: data/effects/gpstext.xml:24
 #, kde-format
@@ -1171,7 +1171,7 @@ msgstr "დაბალი სიხშირე"
 #: data/effects/lightshow.xml:11
 #, kde-format
 msgid "High frequency"
-msgstr ""
+msgstr "მაღალი სიხშირე"
 
 #: data/effects/lightshow.xml:14 data/effects/mask_start_shape.xml:14
 #: data/effects/shape.xml:11
@@ -1227,7 +1227,7 @@ msgstr "აწევა"
 #, kde-format
 msgctxt "Mask Apply Effect Name"
 msgid "Mask Apply"
-msgstr ""
+msgstr "ნიღბის დადება"
 
 #: data/effects/mask_apply.xml:5
 #, kde-format
@@ -1339,7 +1339,7 @@ msgstr "ფილტრი"
 #: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
 msgid "Color to select"
-msgstr ""
+msgstr "ასარჩევი ფერი"
 
 #: data/effects/mask_start_frei0r_select0r.xml:14
 #, kde-format
@@ -1369,7 +1369,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:26
 #, kde-format
 msgid "Edge mode"
-msgstr ""
+msgstr "კუთხის რეჟიმი"
 
 #: data/effects/mask_start_frei0r_select0r.xml:29
 #, kde-format
@@ -1491,7 +1491,7 @@ msgstr ""
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
 msgid "Use Luma"
-msgstr ""
+msgstr "ლუმას გამოყენება"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, kde-format
@@ -1534,7 +1534,7 @@ msgstr ""
 #: data/effects/mono.xml:4
 #, kde-format
 msgid "Mixdown"
-msgstr ""
+msgstr "შერევა"
 
 #: data/effects/mono.xml:5
 #, kde-format
@@ -1729,7 +1729,7 @@ msgstr "ტრასფორმირება"
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:21
 #, kde-format
 msgid "Rotate from center"
-msgstr ""
+msgstr "ცენტრიდან მობრუნება"
 
 #: data/effects/qtcrop.xml:4
 #, kde-format
@@ -1913,12 +1913,12 @@ msgstr "გადაწევა Y-ით"
 #: data/effects/rotation_keyframable.xml:27 data/transitions/affine.xml:24
 #, kde-format
 msgid "Disable repeat"
-msgstr ""
+msgstr "გამეორების გამორთვა"
 
 #: data/effects/rotation_keyframable.xml:30 data/transitions/affine.xml:27
 #, kde-format
 msgid "Disable mirror"
-msgstr ""
+msgstr "სარკის გამორთვა"
 
 #: data/effects/rotoscoping.xml:4
 #, kde-format
@@ -2574,12 +2574,12 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:75
 #, kde-format
 msgid "EQ and filters"
-msgstr ""
+msgstr "EQ და ფილტრები"
 
 #: data/kdenliveeffectscategory.rc:78
 #, kde-format
 msgid "Modulators"
-msgstr ""
+msgstr "მოდულატორები"
 
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
@@ -2885,7 +2885,7 @@ msgstr ""
 #, kde-format
 msgctxt "Wipe Transition Name"
 msgid "Wipe"
-msgstr ""
+msgstr "წაშლა"
 
 #: data/transitions/wipe.xml:17
 #, kde-format
@@ -5053,7 +5053,7 @@ msgstr ""
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
-msgstr ""
+msgstr "იმპულსი"
 
 #: src/core.cpp:337
 #, kde-format
@@ -5541,7 +5541,7 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:297
 #, kde-format
 msgid "Project Defaults"
-msgstr ""
+msgstr "პროექტის ნაგულისხმები"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:330
 #: src/dialogs/kdenlivesettingsdialog.cpp:354
@@ -6009,7 +6009,7 @@ msgstr "გაზიარება"
 #: src/dialogs/renderwidget.cpp:346
 #, kde-format
 msgid "Document shared successfully"
-msgstr ""
+msgstr "დოკუმენტი წარმატებით გაზიარდა"
 
 #: src/dialogs/renderwidget.cpp:349
 #, kde-format
@@ -7061,7 +7061,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1640
 #, kde-format
 msgid "Ask me later"
-msgstr ""
+msgstr "მოგვიანებით მკითხე"
 
 #: src/doc/kdenlivedoc.cpp:1660
 #, kde-format
@@ -9725,7 +9725,7 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:489
 #, kde-format
 msgid "Copy file location to clipboard"
-msgstr ""
+msgstr "ფაილის მდებარეობის ბუფერში კოპირება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -10636,7 +10636,7 @@ msgstr ""
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Guide"
-msgstr ""
+msgstr "გიდის დამატება"
 
 #: src/monitor/view/SceneToolBar.qml:103
 #, kde-format
@@ -10681,7 +10681,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
-msgstr ""
+msgstr "ჩანაწერები ნაპოვნი არაა."
 
 #: src/onlineresources/resourcewidget.cpp:263
 #, kde-format
@@ -11534,7 +11534,7 @@ msgstr "ნაგულისხმები: %1"
 #: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
-msgstr ""
+msgstr "ქეშის მონაცემები"
 
 #: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
@@ -12391,7 +12391,7 @@ msgstr ""
 #: src/scopes/audioscopes/spectrogram.cpp:48
 #, kde-format
 msgid "Track mouse"
-msgstr ""
+msgstr "თაგუნას დევნება"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:57
 #, kde-format
@@ -14206,7 +14206,7 @@ msgstr ""
 #: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Background opacity"
-msgstr ""
+msgstr "ფონის გაუმჭვირვალობა"
 
 #: src/titler/titlewidget.cpp:351
 #, kde-format
@@ -15720,7 +15720,7 @@ msgstr ""
 #: src/ui/configmisc_ui.ui:239
 #, kde-format
 msgid "Subtitles:"
-msgstr ""
+msgstr "სუბტიტრები:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:13
@@ -17260,7 +17260,7 @@ msgstr "ფონი:"
 #: src/ui/qtextclip_ui.ui:184
 #, kde-format
 msgid "Padding:"
-msgstr ""
+msgstr "შევსება:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:18
@@ -18376,7 +18376,7 @@ msgstr ""
 #: src/widgets/geometrywidget.cpp:92
 #, kde-format
 msgid "Fit to width"
-msgstr ""
+msgstr "სიგანეში ჩატევა"
 
 #: src/widgets/geometrywidget.cpp:94
 #, kde-format
