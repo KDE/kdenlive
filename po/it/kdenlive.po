@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-19 00:46+0000\n"
-"PO-Revision-Date: 2022-12-13 07:44+0100\n"
+"PO-Revision-Date: 2022-12-21 07:30+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -4770,7 +4770,7 @@ msgstr "Elimina guida"
 #: src/bin/model/markerlistmodel.cpp:316
 #, kde-format
 msgid "Delete marker"
-msgstr "Elimina il marcatore"
+msgstr "Elimina marcatore"
 
 #: src/bin/model/markerlistmodel.cpp:343
 #, kde-format
@@ -5581,10 +5581,9 @@ msgstr ""
 "ripristinato si Automatico."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Importa guide"
+msgstr "Esporta guide"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -6075,7 +6074,7 @@ msgstr "Elaborazione di %1"
 #: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(Non impostato)"
 
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
@@ -12804,8 +12803,7 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
 msgstr "Conversione a OpenTimelineIO"
 
