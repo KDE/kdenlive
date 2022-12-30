@@ -324,8 +324,10 @@ void ColorPickerWidget::grabColorDBus()
     message << QLatin1String("x11:") << QVariantMap{};
     QDBusPendingCall pendingCall = QDBusConnection::sessionBus().asyncCall(message);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall);
+    emit disableCurrentFilter(true);
     connect(watcher, &QDBusPendingCallWatcher::finished, [this](QDBusPendingCallWatcher *watcher) {
         QDBusPendingReply<QDBusObjectPath> reply = *watcher;
+        emit disableCurrentFilter(false);
         if (reply.isError()) {
             qWarning() << "Couldn't get reply";
             qWarning() << "Error: " << reply.error().message();
