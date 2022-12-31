@@ -583,6 +583,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[SelectedRole] = "selected";
     roles[ActiveRole] = "active";
     roles[NormalizedValueRole] = "normalizedValue";
+    roles[MoveOnlyRole] = "moveOnly";
     return roles;
 }
 
@@ -598,7 +599,16 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
     case Qt::EditRole:
     case ValueRole:
+        if (m_paramType == ParamType::Roto_spline) {
+            return 0;
+        }
         return it->second.second;
+    case MoveOnlyRole: {
+        if (m_paramType == ParamType::Roto_spline) {
+            return true;
+        }
+        return false;
+    }
     case NormalizedValueRole: {
         if (m_paramType == ParamType::AnimatedRect) {
             const QString &data = it->second.second.toString();
@@ -608,6 +618,9 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
                 qDebug() << "QLocale: Could not convert animated rect opacity" << data;
             }
             return converted;
+        }
+        if (m_paramType == ParamType::Roto_spline) {
+            return 0.5;
         }
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {

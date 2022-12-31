@@ -736,7 +736,7 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
         return;
     }
     auto list = json.array();
-    QMap<QString, QMap<int, QString>> storedValues;
+    QMap<QString, QMap<int, QVariant>> storedValues;
     for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
@@ -747,18 +747,48 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
             qDebug() << "Warning : Skipping invalid marker data (does not contain name)";
             continue;
         }
-        QString value = entryObj[QLatin1String("value")].toString();
+
         ParamType kfrType = entryObj[QLatin1String("type")].toVariant().value<ParamType>();
         if (m_model->isAnimated(kfrType)) {
-            QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
-            QMap<int, QString> values;
-            for (auto &val : stringVals) {
-                int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
-                values.insert(position, val.section(QLatin1Char('='), 1));
+            QMap<int, QVariant> values;
+            if (kfrType == ParamType::Roto_spline) {
+                auto value = entryObj.value(QLatin1String("value"));
+                if (value.isObject()) {
+                    QJsonObject obj = value.toObject();
+                    QStringList keys = obj.keys();
+                    for (auto &k : keys) {
+                        values.insert(k.toInt(), obj.value(k));
+                    }
+                } else if (value.isArray()) {
+                    auto list = value.toArray();
+                    for (const auto &entry : qAsConst(list)) {
+                        if (!entry.isObject()) {
+                            qDebug() << "Warning : Skipping invalid category data";
+                            continue;
+                        }
+                        QJsonObject obj = entry.toObject();
+                        QStringList keys = obj.keys();
+                        for (auto &k : keys) {
+                            values.insert(k.toInt(), obj.value(k));
+                        }
+                    }
+                } else {
+                    pCore->displayMessage(i18n("No valid keyframe data in clipboard"), InformationMessage);
+                    qDebug() << "::: Invalid ROTO VALUE, ABORTING PASTE\n" << value;
+                    return;
+                }
+            } else {
+                const QString value = entryObj.value(QLatin1String("value")).toString();
+                const QStringList stringVals = value.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+                for (auto &val : stringVals) {
+                    int position = m_model->time_to_frames(val.section(QLatin1Char('='), 0, 0));
+                    values.insert(position, val.section(QLatin1Char('='), 1));
+                }
             }
             storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
         } else {
-            QMap<int, QString> values;
+            const QString value = entryObj.value(QLatin1String("value")).toString();
+            QMap<int, QVariant> values;
             values.insert(0, value);
             storedValues.insert(entryObj[QLatin1String("name")].toString(), values);
         }
@@ -770,9 +800,9 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
         auto paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
         if (storedValues.contains(paramName)) {
             KeyframeModel *km = m_keyframes->getKeyModel(ix);
-            QMap<int, QString> values = storedValues.value(paramName);
+            QMap<int, QVariant> values = storedValues.value(paramName);
             int offset = values.keys().first();
-            QMapIterator<int, QString> i(values);
+            QMapIterator<int, QVariant> i(values);
             while (i.hasNext()) {
                 i.next();
                 km->addKeyframe(GenTime(destPos + i.key() - offset, pCore->getCurrentFps()), KeyframeType::Linear, i.value(), true, undo, redo);

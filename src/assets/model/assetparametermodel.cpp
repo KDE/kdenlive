@@ -981,16 +981,36 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
                 currentParam.insert(QLatin1String("value"), QJsonValue(resultValue));
             } else {
                 // Filter out unwanted keyframes
-                QStringList values = resultValue.split(QLatin1Char(';'));
-                QStringList remainingValues;
-                int ix = 0;
-                for (auto &val : values) {
-                    if (selection.contains(ix)) {
-                        remainingValues << val;
+                if (param.second.type == ParamType::Roto_spline) {
+                    QJsonParseError jsonError;
+                    QJsonDocument doc = QJsonDocument::fromJson(resultValue.toLatin1(), &jsonError);
+                    QVariant data = doc.toVariant();
+                    if (data.canConvert<QVariantMap>()) {
+                        QMap<QString, QVariant> map = data.toMap();
+                        QMap<QString, QVariant>::const_iterator i = map.constBegin();
+                        QJsonObject dataObject;
+                        int ix = 0;
+                        while (i != map.constEnd()) {
+                            if (selection.contains(ix)) {
+                                dataObject.insert(i.key(), i.value().toJsonValue());
+                            }
+                            ix++;
+                            ++i;
+                        }
+                        currentParam.insert(QLatin1String("value"), QJsonValue(dataObject));
                     }
-                    ix++;
+                } else {
+                    QStringList values = resultValue.split(QLatin1Char(';'));
+                    QStringList remainingValues;
+                    int ix = 0;
+                    for (auto &val : values) {
+                        if (selection.contains(ix)) {
+                            remainingValues << val;
+                        }
+                        ix++;
+                    }
+                    currentParam.insert(QLatin1String("value"), QJsonValue(remainingValues.join(QLatin1Char(';'))));
                 }
-                currentParam.insert(QLatin1String("value"), QJsonValue(remainingValues.join(QLatin1Char(';'))));
             }
         }
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
@@ -1115,7 +1135,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         if (param.second.type == ParamType::Roto_spline) {
             QJsonObject obj;
             obj.insert(QStringLiteral("0"), value.toJsonArray());
-            stringValue = QString(QJsonDocument(obj).toJson());
+            currentParam.insert(QLatin1String("value"), QJsonValue(obj));
         } else {
             stringValue = QStringLiteral("0=%1").arg(
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -1126,6 +1146,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
 #endif
                     ? QString::number(value.toDouble())
                     : value.toString());
+            currentParam.insert(QLatin1String("value"), QJsonValue(stringValue));
         }
 
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
@@ -1136,7 +1157,6 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             min /= factor;
             max /= factor;
         }
-        currentParam.insert(QLatin1String("value"), QJsonValue(stringValue));
         currentParam.insert(QLatin1String("type"), QJsonValue(type));
         currentParam.insert(QLatin1String("min"), QJsonValue(min));
         currentParam.insert(QLatin1String("max"), QJsonValue(max));
