@@ -51,6 +51,6 @@ private slots:
 signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
-
+    /** @brief Request disabling / enabling current filter. */
     void disableCurrentFilter(bool);
 };

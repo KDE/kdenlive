@@ -32,7 +32,7 @@ option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
-option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" ON)
+option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" OFF)
 
 # Minimum versions of main dependencies.
 set(MLT_MIN_MAJOR_VERSION 7)
