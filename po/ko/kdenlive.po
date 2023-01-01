@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 00:46+0000\n"
+"POT-Creation-Date: 2023-01-01 00:55+0000\n"
 "PO-Revision-Date: 2022-05-08 16:25+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3265,23 +3265,23 @@ msgstr "키프레임 이동"
 msgid "Update keyframe"
 msgstr "키프레임 업데이트"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "모든 키프레임 삭제"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "효과"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "Reset %1"
 msgstr "%1 초기화"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, kde-format
 msgid "Reset effect"
 msgstr "효과 초기화"
@@ -3371,8 +3371,8 @@ msgstr "%1 키프레임 편집"
 msgid "Update %1"
 msgstr "%1 업데이트"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 사전 설정 파일을 열 수 없음"
@@ -3659,7 +3659,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -3783,20 +3783,21 @@ msgid "Keyframes copied"
 msgstr "키프레임 값 복사됨"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, fuzzy, kde-format
 #| msgid "No valid data in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "클립보드에 유효한 데이터가 없음"
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary files"
 msgid "Cannot copy current parameter values"
 msgstr "임시 파일을 만들 수 없음"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, fuzzy, kde-format
 #| msgid "Keyframe value copied"
 msgid "Current values copied"
@@ -14366,7 +14367,7 @@ msgstr ""
 "선택한 키프레임 위치를 이동하려면 <b>드래그</b>하십시오. 이 키프레임 이후의 "
 "모든 키프레임을 이동하려면 <b>Shift 키를 누르면서 드래그</b>하십시오."
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

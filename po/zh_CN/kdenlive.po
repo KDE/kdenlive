@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 00:46+0000\n"
+"POT-Creation-Date: 2023-01-01 00:55+0000\n"
 "PO-Revision-Date: 2022-12-24 11:42\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3228,23 +3228,23 @@ msgstr "移动关键帧"
 msgid "Update keyframe"
 msgstr "更新关键帧"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "删除所有关键帧"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "效果"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "Reset %1"
 msgstr "重置 %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, kde-format
 msgid "Reset effect"
 msgstr "重置特效"
@@ -3334,8 +3334,8 @@ msgstr "编辑关键帧%1"
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "无法打开预设文件 %1"
@@ -3614,7 +3614,7 @@ msgid ""
 msgstr "复制选定的关键帧，如果未选择关键帧，则复制当前参数。"
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, kde-format
 msgid "Paste keyframe"
 msgstr "粘贴关键帧"
@@ -3730,18 +3730,19 @@ msgid "Keyframes copied"
 msgstr "已复制关键帧"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "剪贴板中没有有效的关键帧数据"
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "无法复制当前参数值"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, kde-format
 msgid "Current values copied"
 msgstr "当前值已复制"
@@ -13863,7 +13864,7 @@ msgstr ""
 "<b>拖动</b>可移动选中的关键帧位置。<b>Shift+拖动</b>可移动此帧之后的所有关键"
 "帧。"
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

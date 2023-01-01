@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 00:46+0000\n"
+"POT-Creation-Date: 2023-01-01 00:55+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -3300,25 +3300,25 @@ msgstr "Izbriši glavni okvir"
 msgid "Update keyframe"
 msgstr "Uredi glavni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, fuzzy, kde-format
 #| msgid "Reset all keyframes"
 msgid "Delete all keyframes"
 msgstr "Ponovo postavi sve glavne okvire"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "efekat"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Reset %1"
 msgstr "Resetuj"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Reset effect"
@@ -3428,8 +3428,8 @@ msgstr "Uredi glavni okvir"
 msgid "Update %1"
 msgstr "Ažuriraj profil"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -3731,7 +3731,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Paste keyframe"
@@ -3859,20 +3859,21 @@ msgid "Keyframes copied"
 msgstr "Interpolacija"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "No valid keyframe data in clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Ne mogu kreirati privremenu datoteku"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
@@ -14834,7 +14835,7 @@ msgid ""
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

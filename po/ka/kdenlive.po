@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 00:46+0000\n"
+"POT-Creation-Date: 2023-01-01 00:55+0000\n"
 "PO-Revision-Date: 2022-12-20 10:59+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -3172,23 +3172,23 @@ msgstr ""
 msgid "Update keyframe"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "ეფექტი"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "Reset %1"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, kde-format
 msgid "Reset effect"
 msgstr ""
@@ -3280,8 +3280,8 @@ msgstr ""
 msgid "Update %1"
 msgstr "%1-ის განახლება"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr ""
@@ -3560,7 +3560,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, kde-format
 msgid "Paste keyframe"
 msgstr "ძირითადი კადრის ჩასმა"
@@ -3676,18 +3676,19 @@ msgid "Keyframes copied"
 msgstr "ძირითადი კადრები კოპირებულია"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "მიმდინარე პარამეტრების მნიშვნელობების კოპირების შეცდომა"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, kde-format
 msgid "Current values copied"
 msgstr "მიმდინარე მნიშვნელობები კოპირებულია"
@@ -13596,7 +13597,7 @@ msgid ""
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

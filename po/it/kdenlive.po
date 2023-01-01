@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 00:46+0000\n"
+"POT-Creation-Date: 2023-01-01 00:55+0000\n"
 "PO-Revision-Date: 2022-12-21 07:30+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -3311,23 +3311,23 @@ msgstr "Sposta fotogramma chiave"
 msgid "Update keyframe"
 msgstr "Aggiorna fotogramma chiave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Elimina tutti i fotogrammi chiave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "effetto"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "Reset %1"
 msgstr "Ripristina %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, kde-format
 msgid "Reset effect"
 msgstr "Ripristina effetto"
@@ -3420,8 +3420,8 @@ msgstr "Modifica il fotogramma chiave %1"
 msgid "Update %1"
 msgstr "Aggiorna %1"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
@@ -3702,7 +3702,7 @@ msgstr ""
 "valori del parametro corrente se nessun fotogramma chiave è selezionato."
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Incolla fotogramma chiave"
@@ -3823,18 +3823,19 @@ msgid "Keyframes copied"
 msgstr "Fotogrammi chiave copiati"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Nessun fotogramma chiave valido negli appunti"
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Impossibile copiare i valori del parametro corrente"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, kde-format
 msgid "Current values copied"
 msgstr "Valori correnti copiati"
@@ -14255,7 +14256,7 @@ msgstr ""
 "<b>Trascina</b> per spostare la posizione dei fotogrammi chiave selezionati. "
 "<b>Maiusc trascina</b> per spostare tutti i fotogrammi chiave dopo di questo."
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
