@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 02:36+0000\n"
+"POT-Creation-Date: 2023-01-01 03:42+0000\n"
 "PO-Revision-Date: 2022-11-16 23:11+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -3283,23 +3283,23 @@ msgstr "Pindah keyframe"
 msgid "Update keyframe"
 msgstr "Perbarui keyframe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Hapus semua keyframe"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "efek"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "Reset %1"
 msgstr "Set ulang %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, kde-format
 msgid "Reset effect"
 msgstr "Set ulang efek"
@@ -3391,8 +3391,8 @@ msgstr "Edit keyframe %1"
 msgid "Update %1"
 msgstr "Perbarui %1"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Tak bisa membuka file preset %1"
@@ -3673,7 +3673,7 @@ msgstr ""
 "jika tidak ada keyframe yang dipilih."
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Tempel keyframe"
@@ -3793,18 +3793,19 @@ msgid "Keyframes copied"
 msgstr "Keyframe disalin"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Tidak ada data keyframe yang valid dalam papan klip"
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Tidak dapat menyalin nilai parameter saat ini"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, kde-format
 msgid "Current values copied"
 msgstr "Nilai saat ini disalin"
@@ -14100,7 +14101,7 @@ msgstr ""
 "<b>Seret</b> untuk memindah posisi keyframe yang dipilih. <b>Shift seret</b> "
 "untuk memindah semua keyframe sesudah satu ini."
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "

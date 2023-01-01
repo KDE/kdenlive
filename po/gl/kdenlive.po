@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-19 02:36+0000\n"
+"POT-Creation-Date: 2023-01-01 03:42+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -769,7 +769,8 @@ msgid "Zoom"
 msgstr "Ampliación"
 
 #: data/effects/dance.xml:32
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Up"
 msgid "Up"
 msgstr "Subir"
 
@@ -3360,23 +3361,23 @@ msgstr "Mover o fotograma clave"
 msgid "Update keyframe"
 msgstr "Actualizar o fotograma clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:811
+#: src/assets/keyframes/model/keyframemodel.cpp:824
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Eliminar todos os fotogramas clave"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1006
+#: src/assets/keyframes/model/keyframemodel.cpp:1019
 #, kde-format
 msgid "effect"
 msgstr "efecto"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1015
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "Reset %1"
 msgstr "Restabelecer %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1266
+#: src/assets/keyframes/model/keyframemodel.cpp:1279
 #, kde-format
 msgid "Reset effect"
 msgstr "Reiniciar efecto"
@@ -3479,8 +3480,8 @@ msgstr "Editar o fotograma clave %1"
 msgid "Update %1"
 msgstr "Actualizar %1"
 
-#: src/assets/model/assetparametermodel.cpp:1202
-#: src/assets/model/assetparametermodel.cpp:1249
+#: src/assets/model/assetparametermodel.cpp:1222
+#: src/assets/model/assetparametermodel.cpp:1269
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -3784,7 +3785,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:784
+#: src/assets/view/widgets/keyframewidget.cpp:814
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -3910,20 +3911,21 @@ msgid "Keyframes copied"
 msgstr "Espazo entre fotogramas clave"
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
+#: src/assets/view/widgets/keyframewidget.cpp:776
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Non hai información no portapapeis"
 
-#: src/assets/view/widgets/keyframewidget.cpp:794
+#: src/assets/view/widgets/keyframewidget.cpp:824
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Non se pode crear o ficheiro temporal"
 
-#: src/assets/view/widgets/keyframewidget.cpp:799
-#: src/assets/view/widgets/keyframewidget.cpp:807
-#: src/assets/view/widgets/keyframewidget.cpp:819
+#: src/assets/view/widgets/keyframewidget.cpp:829
+#: src/assets/view/widgets/keyframewidget.cpp:837
+#: src/assets/view/widgets/keyframewidget.cpp:849
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Current values copied"
@@ -5043,7 +5045,8 @@ msgid "Add Guides"
 msgstr "Engadir unha guía"
 
 #: src/bin/model/markerlistmodel.cpp:946
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Add Markers"
 msgid "Add Markers"
 msgstr "Engadir marcadores"
 
@@ -8043,7 +8046,8 @@ msgstr "Nome para o efecto gardado: "
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/effects/effectstack/view/effectstackview.cpp:528
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Description:"
 msgid "Description:"
 msgstr "Descrición:"
 
@@ -9044,8 +9048,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:278 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "Guides"
+#, kde-format
 msgid "Guides"
 msgstr "Guías"
 
@@ -10384,8 +10387,7 @@ msgid "Overwrite"
 msgstr "Modo Sobrescribir"
 
 #: src/mainwindow.cpp:3607
-#, fuzzy, kde-format
-#| msgid "Stabilize"
+#, kde-format
 msgid "Stabilize"
 msgstr "Estabilizar"
 
@@ -10564,7 +10566,8 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:364
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Aspect ratio:"
 msgid "Aspect ratio:"
 msgstr "Proporcións:"
 
@@ -12588,7 +12591,11 @@ msgid "No files to delete on your drive."
 msgstr ""
 
 #: src/project/dialogs/projectsettings.cpp:378
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will remove the following files from your hard drive.\n"
+#| "This action cannot be undone, only use if you know what you are doing.\n"
+#| "Are you sure you want to continue?"
 msgid ""
 "This will remove the following files from your hard drive.\n"
 "This action cannot be undone, only use if you know what you are doing.\n"
@@ -12600,7 +12607,8 @@ msgstr ""
 "Está seguro de que desexa continuar?"
 
 #: src/project/dialogs/projectsettings.cpp:380
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Delete unused clips"
 msgid "Delete unused clips"
 msgstr "Eliminar os fragmentos sen usar"
 
@@ -14767,7 +14775,7 @@ msgid ""
 "all keyframes after this one."
 msgstr ""
 
-#: src/timeline2/view/qml/KeyframeView.qml:277
+#: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
 msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
@@ -17817,7 +17825,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:932
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "32000"
 msgid "32000"
 msgstr "32000"
 
@@ -17830,7 +17839,8 @@ msgstr "41000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:942
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "48000"
 msgid "48000"
 msgstr "48000"
 
@@ -17864,8 +17874,7 @@ msgstr "Opcións de velocidade"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, speeds_list)
 #: src/ui/editrenderpreset_ui.ui:1036
-#, fuzzy, kde-format
-#| msgid "One line of options per speedup step, from slowest to fastest"
+#, kde-format
 msgid "One line of options per speedup step, from slowest to fastest"
 msgstr ""
 "Unha liña de opcións por cada paso de aceleración, desde o máis lento ao "
@@ -18551,7 +18560,8 @@ msgstr "Buscar recursivamente"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:114
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Search manually"
 msgid "Search manually"
 msgstr "Buscar manualmente"
 
@@ -18712,7 +18722,8 @@ msgstr "%1 canles "
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:193
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Timeline Preview:"
 msgid "Timeline Preview:"
 msgstr "Vista previa da liña de tempo:"
 
@@ -18724,8 +18735,7 @@ msgstr "Proxy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy clips"
 msgstr "Fragmentos proxy"
 
@@ -18873,8 +18883,7 @@ msgstr "Recheo"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Rendering"
+#, kde-format
 msgid "Rendering"
 msgstr "Renderización en progreso"
 
