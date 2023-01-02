@@ -3446,7 +3446,7 @@ msgstr "Suprimix els valors predefinits"
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
-msgstr "Introducció del nom dels valors predefinits"
+msgstr "Introduïu el nom dels valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:328
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -4171,7 +4171,7 @@ msgstr "No s'ha pogut trobar el clip original a substituir"
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement File"
-msgstr "Obertura de fitxer de substitució"
+msgstr "Obriu el fitxer de substitució"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
@@ -5615,7 +5615,7 @@ msgstr "Fitxer JSON"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Exporteu les dades de guies"
+msgstr "Exporteu les dades de les guies"
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:926
 #: src/dialogs/renderwidget.cpp:931 src/dialogs/renderwidget.cpp:984
@@ -7282,7 +7282,7 @@ msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
-msgstr "Introducció del camí de les plantilles"
+msgstr "Introduïu el camí de les plantilles"
 
 #: src/doc/kdenlivedoc.cpp:1111
 #, kde-format
@@ -7491,7 +7491,7 @@ msgstr "Definicions dels efectes de Kdenlive"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
-msgstr "Exportació d'efecte personalitzat"
+msgstr "Exporteu un efecte personalitzat"
 
 #: src/effects/effectsrepository.cpp:38
 #, kde-format
@@ -11696,7 +11696,7 @@ msgstr "No s'ha pogut obrir el fitxer"
 #, kde-format
 msgctxt "@title:window"
 msgid "Restore Backup File"
-msgstr "Restauració de fitxer de còpia de seguretat"
+msgstr "Restaureu el fitxer de còpia de seguretat"
 
 #: src/project/dialogs/backupwidget.cpp:22
 #, kde-format
