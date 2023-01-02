@@ -47,6 +47,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMimeDatabase>
 #include <QPainter>
 #include <QProcess>
 #include <QtMath>
@@ -436,7 +437,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
             if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             m_clipStatus = FileStatus::StatusWaiting;
             m_thumbsProducer.reset();
             ClipLoadTask::start({ObjectType::BinClip, m_binId.toInt()}, xml, false, -1, -1, this);
@@ -1495,6 +1495,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         // Clip source was changed, update important stuff
         refreshPanel = true;
         reload = true;
+        ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
         resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
         if (m_clipType == ClipType::Color) {
             refreshOnly = true;
@@ -1503,8 +1504,18 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             // Clip resource changed, update thumbnail, name, clear hash
             refreshOnly = false;
             // Enforce reloading clip type in case of clip replacement
-            m_service.clear();
-            m_clipType = ClipType::Unknown;
+            if (m_clipType == ClipType::Image) {
+                // If replacing an image with another one, don't clear type so duration is preserved
+                QMimeDatabase db;
+                QMimeType type = db.mimeTypeForUrl(QUrl::fromLocalFile(properties.value(QStringLiteral("resource"))));
+                if (!type.name().startsWith(QLatin1String("image/"))) {
+                    m_service.clear();
+                    m_clipType = ClipType::Unknown;
+                }
+            } else {
+                m_service.clear();
+                m_clipType = ClipType::Unknown;
+            }
             clearBackupProperties();
             updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
         }

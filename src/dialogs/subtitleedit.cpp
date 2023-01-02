@@ -170,7 +170,17 @@ void SubtitleEdit::updateStyle()
         styleString.append(QStringLiteral("OutlineColour=&H%1,").arg(colorName));
     }
     if (checkOpaque->isChecked()) {
-        styleString.append(QStringLiteral("BorderStyle=3,"));
+        QColor color = outlineColor->color();
+        if (color.alpha() < 255) {
+            // To avoid alpha overlay with multi lines, draw only one box
+            QColor destColor(color.blue(), color.green(), color.red(), 255 - color.alpha());
+            // Strip # character
+            QString colorName = destColor.name(QColor::HexArgb);
+            colorName.remove(0, 1);
+            styleString.append(QStringLiteral("BorderStyle=4,BackColour=&H%1,").arg(colorName));
+        } else {
+            styleString.append(QStringLiteral("BorderStyle=3"));
+        }
     }
     if (alignment->isEnabled()) {
         styleString.append(QStringLiteral("Alignment=%1,").arg(alignment->currentData().toInt()));
