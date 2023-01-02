@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:55+0000\n"
+"POT-Creation-Date: 2023-01-02 00:59+0000\n"
 "PO-Revision-Date: 2022-12-19 09:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -8420,8 +8420,9 @@ msgid "An open source video editor."
 msgstr "Un editor de vídeo de codi obert."
 
 #: src/main.cpp:232
-#, kde-format
-msgid "Copyright © 2007–2022 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2022 Kdenlive authors"
+msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Copyright © 2007–2022 Els autors del Kdenlive"
 
 #: src/main.cpp:234

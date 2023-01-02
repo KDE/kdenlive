@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:55+0000\n"
+"POT-Creation-Date: 2023-01-02 00:59+0000\n"
 "PO-Revision-Date: 2022-12-28 22:33+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -8393,8 +8393,9 @@ msgid "An open source video editor."
 msgstr "Kode-irekiko bideo-editore bat."
 
 #: src/main.cpp:232
-#, kde-format
-msgid "Copyright © 2007–2022 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2022 Kdenlive authors"
+msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Copyright © 2007–2022 Kdenlive egileak"
 
 #: src/main.cpp:234

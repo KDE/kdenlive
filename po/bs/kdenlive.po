@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:55+0000\n"
+"POT-Creation-Date: 2023-01-02 00:59+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -8802,7 +8802,7 @@ msgstr "Otvoreni izvor video editora."
 #: src/main.cpp:232
 #, fuzzy, kde-format
 #| msgid "Copyright © 2007–2014 Kdenlive authors"
-msgid "Copyright © 2007–2022 Kdenlive authors"
+msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Autorska prava © 2007–2014 Kdenlive autori"
 
 #: src/main.cpp:234

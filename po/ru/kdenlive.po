@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:55+0000\n"
+"POT-Creation-Date: 2023-01-02 00:59+0000\n"
 "PO-Revision-Date: 2022-10-04 11:00+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -8515,8 +8515,9 @@ msgid "An open source video editor."
 msgstr "Видеоредактор с открытым исходным кодом."
 
 #: src/main.cpp:232
-#, kde-format
-msgid "Copyright © 2007–2022 Kdenlive authors"
+#, fuzzy, kde-format
+#| msgid "Copyright © 2007–2022 Kdenlive authors"
+msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Все права защищены © 2007–2022 разработчики Kdenlive"
 
 #: src/main.cpp:234

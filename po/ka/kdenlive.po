@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 00:55+0000\n"
-"PO-Revision-Date: 2022-12-20 10:59+0100\n"
+"POT-Creation-Date: 2023-01-02 00:59+0000\n"
+"PO-Revision-Date: 2023-01-01 06:58+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -209,7 +209,7 @@ msgstr "საჩვენებელი არხების რაოდე�
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr ""
+msgstr "სეგმენტებს შორის დაცილება"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
@@ -219,7 +219,7 @@ msgstr ""
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
 msgid "audiomap"
-msgstr ""
+msgstr "ხმის რუკა"
 
 #: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
 #: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
@@ -2056,7 +2056,7 @@ msgstr ""
 #: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
-msgstr ""
+msgstr "ბინარიზაცია"
 
 #: data/effects/threshold.xml:5
 #, kde-format
@@ -2091,7 +2091,7 @@ msgstr ""
 #: data/effects/tracker.xml:12
 #, kde-format
 msgid "Tracker algorithm"
-msgstr ""
+msgstr "ტრეკერის ალგორითმი"
 
 #: data/effects/tracker.xml:16
 #, kde-format
@@ -2194,7 +2194,7 @@ msgstr ""
 #: data/effects/vidstab.xml:12
 #, kde-format
 msgid "Shakiness"
-msgstr ""
+msgstr "კანკალი"
 
 #: data/effects/vidstab.xml:13
 #, kde-format
@@ -2927,7 +2927,7 @@ msgstr "ფანჯარა"
 #: plugins/sampleplugin/countdown_ui.ui:19 src/ui/cutjobdialog_ui.ui:122
 #, kde-format
 msgid "Save to"
-msgstr ""
+msgstr "შენახვა"
 
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #: plugins/sampleplugin/countdown_ui.ui:29
@@ -2944,7 +2944,7 @@ msgstr "შრიფტი"
 #: plugins/sampleplugin/sampleplugin.cpp:20
 #, kde-format
 msgid "Countdown"
-msgstr ""
+msgstr "ათვლა"
 
 #: plugins/sampleplugin/sampleplugin.cpp:47
 #, kde-format
@@ -8098,7 +8098,7 @@ msgstr ""
 
 #: src/main.cpp:232
 #, kde-format
-msgid "Copyright © 2007–2022 Kdenlive authors"
+msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr ""
 
 #: src/main.cpp:234
@@ -10710,7 +10710,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "No items found."
-msgstr ""
+msgstr "ჩანაწერები ნაპოვნი არაა."
 
 #: src/onlineresources/resourcewidget.cpp:263
 #, kde-format
@@ -11563,7 +11563,7 @@ msgstr "ნაგულისხმები: %1"
 #: src/project/dialogs/projectsettings.cpp:140
 #, kde-format
 msgid "Cache Data"
-msgstr ""
+msgstr "ქეშის მონაცემები"
 
 #: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
