@@ -37,7 +37,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , m_subPlaylistIndex(0)
     , m_mixDuration(0)
     , m_mixCutPos(0)
-    , m_hasTimeRemap(isChain())
+    , m_hasTimeRemap(hasTimeRemap())
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -159,7 +159,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
     // m_producer->get_length();
-    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !isChain()) {
+    if (!m_endlessResize && (size <= 0 || size > m_producer->get_length()) && !hasTimeRemap()) {
         return false;
     }
     int delta = getPlaytime() - size;
@@ -176,7 +176,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (!right && in + delta < 0) {
             return false;
         }
-        if (right && (out - delta >= m_producer->get_length()) && !isChain()) {
+        if (right && (out - delta >= m_producer->get_length()) && !hasTimeRemap()) {
             return false;
         }
     }
@@ -319,7 +319,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         }
 
         if (!closing && logUndo) {
-            if (isChain()) {
+            if (hasTimeRemap()) {
                 // Add undo /redo ops to resize keyframes
                 requestRemapResize(in, out, old_in, old_out, reverse, operation);
             }
@@ -459,6 +459,24 @@ bool ClipModel::isChain() const
 {
     READ_LOCK();
     return m_producer->parent().type() == mlt_service_chain_type;
+}
+
+bool ClipModel::hasTimeRemap() const
+{
+    READ_LOCK();
+    if (m_producer->parent().type() == mlt_service_chain_type) {
+        Mlt::Chain fromChain(m_producer->parent());
+        int count = fromChain.link_count();
+        for (int i = 0; i < count; i++) {
+            QScopedPointer<Mlt::Link> fromLink(fromChain.link(i));
+            if (fromLink && fromLink->is_valid() && fromLink->get("mlt_service")) {
+                if (fromLink->get("mlt_service") == QLatin1String("timeremap")) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int oldOut, Fun &undo, Fun &redo)
@@ -836,12 +854,12 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist, timeremap);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
-    if (m_hasTimeRemap != isChain()) {
+    if (m_hasTimeRemap != hasTimeRemap()) {
         m_hasTimeRemap = !m_hasTimeRemap;
         // producer is not on a track, no data refresh needed
     }
     if (m_hasTimeRemap) {
-        // Restor timeremap parameters
+        // Restore timeremap parameters
         if (m_producer->parent().type() == mlt_service_chain_type) {
             Mlt::Chain fromChain(m_producer->parent());
             int count = fromChain.link_count();
@@ -886,7 +904,7 @@ void ClipModel::refreshProducerFromBin(int trackId)
         hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
     int stream = m_producer->parent().get_int("audio_index");
-    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1, isChain());
+    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1, hasTimeRemap());
 }
 
 bool ClipModel::useTimeRemapProducer(bool enable, Fun &undo, Fun &redo)

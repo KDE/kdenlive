@@ -2762,7 +2762,7 @@ void TimelineController::remapItemTime(int clipId)
         pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
         return;
     }
-    if (m_model->m_allClips[clipId]->isChain()) {
+    if (m_model->m_allClips[clipId]->hasTimeRemap()) {
         // Remove remap effect
         m_model->requestClipTimeRemap(clipId, false);
         emit pCore->remapClip(-1);
@@ -3921,7 +3921,7 @@ void TimelineController::updateClipActions()
     }
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
-        if (clip->isChain()) {
+        if (clip->hasTimeRemap()) {
             emit pCore->remapClip(item);
         }
     }
@@ -3987,11 +3987,11 @@ void TimelineController::updateClipActions()
             // Time remap action
             enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image && qFuzzyCompare(1., m_model->m_allClips[item]->getSpeed());
             if (enableAction) {
-                act->setChecked(clip->isChain());
+                act->setChecked(clip->hasTimeRemap());
             }
         } else if (actionData == QLatin1Char('Q')) {
             // Speed change action
-            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image && !clip->isChain();
+            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image && !clip->hasTimeRemap();
         }
         act->setEnabled(enableAction);
     }

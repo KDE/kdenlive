@@ -462,7 +462,7 @@ void ClipLoadTask::run()
             }
             producer = loadResource(resource, service);
         } else {
-            producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+            producer = std::make_shared<Mlt::Chain>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
         }
         break;
     }

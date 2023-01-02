@@ -69,8 +69,10 @@ public:
     /** @brief Returns true if the clip can be converted to an audio clip */
     bool canBeAudio() const;
 
-    /** @brief Returns true if the producer is embedded in a chain (for use with timeremap) */
+    /** @brief Returns true if the producer is embedded in a chain */
     bool isChain() const;
+    /** @brief Returns true if the producer is embedded in a chain and has a timeremap effect*/
+    bool hasTimeRemap() const;
     /** @brief Returns the duration of the input map */
     int getRemapInputDuration() const;
     /** @brief Get the time remap effect parameters */
