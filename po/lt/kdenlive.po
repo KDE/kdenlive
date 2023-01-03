@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:59+0000\n"
+"POT-Creation-Date: 2023-01-03 00:46+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -5145,7 +5145,7 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:937
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:937
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -5178,23 +5178,23 @@ msgstr ""
 msgid "Invalid"
 msgstr "Išsaugoti profilį"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "Sulieti"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add stream effect"
 msgstr "Pridėti naują video failą"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove stream effect"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:59+0000\n"
-"PO-Revision-Date: 2023-01-01 06:58+0100\n"
+"POT-Creation-Date: 2023-01-03 00:46+0000\n"
+"PO-Revision-Date: 2023-01-02 05:10+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4762,7 +4762,7 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:937
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:937
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -4794,22 +4794,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "არასწორი"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "შერწყმა"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, kde-format
 msgid "Add stream effect"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, kde-format
 msgid "Remove stream effect"
 msgstr ""
@@ -5879,12 +5879,12 @@ msgstr "საშუალო ბიტრეიტი"
 #: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
-msgstr ""
+msgstr "CBR – მუდმივი ბიტური სიჩქარე"
 
 #: src/dialogs/renderpresetdialog.cpp:95 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
-msgstr ""
+msgstr "VBR – ცვლადი ბიტური სიჩქარე"
 
 #: src/dialogs/renderpresetdialog.cpp:97
 #, kde-format

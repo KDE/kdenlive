@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:59+0000\n"
+"POT-Creation-Date: 2023-01-03 00:46+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -5100,7 +5100,7 @@ msgstr ""
 "Fajl %1 već postoji.\n"
 "Da li želite pisati preko njega?"
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:937
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:937
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -5133,23 +5133,23 @@ msgstr ""
 msgid "Invalid"
 msgstr "Neispravan snimak"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Isječak već sadrži podatke analize %1"
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "Spoji"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "Uredi efekat %1"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"

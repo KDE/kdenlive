@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:59+0000\n"
+"POT-Creation-Date: 2023-01-03 00:46+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -5187,7 +5187,7 @@ msgstr ""
 "Fișierul „%1” există deja.\n"
 "Doriți să îl suprascrieți?"
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:937
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:937
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -5220,23 +5220,23 @@ msgstr ""
 msgid "Invalid"
 msgstr "Clip nevalid"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "Combină"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, fuzzy, kde-format
 #| msgid "Add Effect"
 msgid "Add stream effect"
 msgstr "Adaugă efect"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"

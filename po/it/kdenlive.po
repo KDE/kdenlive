@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:59+0000\n"
+"POT-Creation-Date: 2023-01-03 00:46+0000\n"
 "PO-Revision-Date: 2022-12-21 07:30+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4937,7 +4937,7 @@ msgstr ""
 "Il file %1 esiste già.\n"
 "Vuoi sovrascriverlo?"
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:937
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:937
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -4973,22 +4973,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "Non valido"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "La clip contiene già i dati di analisi %1"
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "Unisci"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, kde-format
 msgid "Add stream effect"
 msgstr "Aggiungi effetto del flusso"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Rimuovi effetto del flusso"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 00:59+0000\n"
-"PO-Revision-Date: 2022-12-24 11:42\n"
+"POT-Creation-Date: 2023-01-03 00:46+0000\n"
+"PO-Revision-Date: 2023-01-02 07:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -730,7 +730,7 @@ msgstr "顺时针"
 #: data/effects/dance.xml:41
 #, kde-format
 msgid "Counter Clockwise"
-msgstr ""
+msgstr "逆时针"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -4824,7 +4824,7 @@ msgstr ""
 "文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:937
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:937
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1140
 #, kde-format
@@ -4860,22 +4860,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "无效"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "剪辑已经包含分析数据 %1"
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "合并"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, kde-format
 msgid "Add stream effect"
 msgstr "添加流特效"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, kde-format
 msgid "Remove stream effect"
 msgstr "删除流特效"
@@ -5467,7 +5467,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:36
 #, kde-format
 msgid "Export guides"
-msgstr ""
+msgstr "导出参考线"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -5948,7 +5948,7 @@ msgstr "正在处理 %1"
 #: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(未设置)"
 
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
@@ -7552,7 +7552,7 @@ msgstr "您需要输入一个有效的路径才能编辑 Lottie 动画。"
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
 #, kde-format
 msgid "Failed to launch Glaxnimate application"
-msgstr ""
+msgstr "启动 Glaxnimate 程序失败"
 
 #: src/glaxnimatelauncher.cpp:82
 #, kde-format
@@ -7685,7 +7685,7 @@ msgstr "无法加载图像 %1。"
 #: src/jobs/proxytask.cpp:245
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr ""
+msgstr "图片太小，无法代理。"
 
 #: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:123
@@ -10842,6 +10842,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
+"<shortcut>拖动</shortcut> 以设定入点。 <shortcut>Shift+拖动</shortcut> 以调整"
+"入点。"
 
 #: src/monitor/view/MonitorRuler.qml:379
 #, kde-kuit-format
@@ -10850,6 +10852,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
+"<shortcut>拖动</shortcut> 以设定出点。 <shortcut>Shift+拖动</shortcut> 以调整"
+"出点。"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -18658,7 +18662,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "旋转90°"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -18693,7 +18697,7 @@ msgstr "显示 %1 到时间轴"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Shift + 拖动以精确调整值。"
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
