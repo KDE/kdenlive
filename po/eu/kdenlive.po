@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 03:42+0000\n"
+"POT-Creation-Date: 2023-01-03 04:14+0000\n"
 "PO-Revision-Date: 2022-12-17 09:19+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque\n"
@@ -4909,7 +4909,7 @@ msgstr ""
 "%1 fitxategia jadanik existitzen da.\n"
 "Gainidatzi nahi duzu?"
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:956
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:956
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1139
 #, kde-format
@@ -4945,22 +4945,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "Baliogabea"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Klipak dagoeneko analisi datuak dauzka %1"
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "Nahastu"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"

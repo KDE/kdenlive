@@ -11,14 +11,15 @@
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
+# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-01 03:42+0000\n"
-"PO-Revision-Date: 2022-12-17 14:48+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"POT-Creation-Date: 2023-01-03 04:14+0000\n"
+"PO-Revision-Date: 2023-01-02 17:11+0100\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4940,7 +4941,7 @@ msgstr ""
 "Le fichier %1 existe déjà.\n"
 "Voulez-vous l'écraser ?"
 
-#: src/bin/projectclip.cpp:176 src/doc/kdenlivedoc.cpp:956
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:956
 #: src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1139
 #, kde-format
@@ -4976,22 +4977,22 @@ msgstr ""
 msgid "Invalid"
 msgstr "Non valable"
 
-#: src/bin/projectclip.cpp:1843
+#: src/bin/projectclip.cpp:1854
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Le clip contient déjà les données d'analyse %1"
 
-#: src/bin/projectclip.cpp:1844
+#: src/bin/projectclip.cpp:1855
 #, kde-format
 msgid "Merge"
 msgstr "Fusionner"
 
-#: src/bin/projectclip.cpp:2261
+#: src/bin/projectclip.cpp:2272
 #, kde-format
 msgid "Add stream effect"
 msgstr "Ajouter un effet de flux"
 
-#: src/bin/projectclip.cpp:2286
+#: src/bin/projectclip.cpp:2297
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Supprimer un effet de flux"
@@ -5579,8 +5580,8 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
-"Le profil sélectionné d’aperçu de la frise chronologique est incompatible "
-"avec la fréquence d’images du projet.\n"
+"Le profil sélectionné d'aperçu de la frise chronologique est incompatible "
+"avec la fréquence d'images du projet.\n"
 "Retour au mode « Automatique »."
 
 #: src/dialogs/exportguidesdialog.cpp:36
@@ -6036,8 +6037,8 @@ msgid ""
 "The profile of the current project cannot be edited while the project is "
 "open."
 msgstr ""
-"Le profil du projet courant ne peut pas être modifié tant que le projet est "
-"ouvert."
+"Il est impossible de modifier le profil du projet courant tant que le projet "
+"est ouvert."
 
 #: src/dialogs/proxytest.cpp:30
 #, kde-format
@@ -6114,7 +6115,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:427
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "Modifier le pré-réglage de rendu"
+msgstr "Modifier le préréglage de rendu"
 
 #: src/dialogs/renderpresetdialog.cpp:170
 #, kde-format
@@ -6345,17 +6346,17 @@ msgstr "Sans titre"
 #: src/dialogs/renderwidget.cpp:1227
 #, kde-format
 msgid "No preset selected"
-msgstr "Aucun pré-réglage sélectionné"
+msgstr "Aucun préréglage sélectionné"
 
 #: src/dialogs/renderwidget.cpp:1229
 #, kde-format
 msgid "No matching preset"
-msgstr "Aucun pré-réglage correspondant"
+msgstr "Aucun préréglage correspondant"
 
 #: src/dialogs/renderwidget.cpp:1241
 #, kde-format
 msgid "Invalid preset"
-msgstr "Pré-réglage non valable"
+msgstr "Préréglage non valable"
 
 #: src/dialogs/renderwidget.cpp:1345
 #, kde-format
@@ -9579,8 +9580,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
-"Verrouiller des guides. Si cette option est sélectionnée , les repères ne "
-"pourront être déplacés lors de l'utilisation de l'outil d'espacement ou lors "
+"Verrouiller des guides. Si cette option est sélectionnée, les repères ne "
+"pourront être déplacés lors de l'utilisation de l'outil séparateur ou lors "
 "de l'insertion ou de la suppression de zones vides dans les pistes."
 
 #: src/mainwindow.cpp:1812
@@ -9843,9 +9844,9 @@ msgid ""
 msgstr ""
 "<shortcut>Faites un « Maj » + glisser</shortcut> pour la sélection avec la "
 "gomme, un <shortcut> « Maj » + clic</shortcut> pour une sélection multiple, "
-"un <shortcut>« Windows » + glisser</shortcut> pour déplacer une vidéo "
-"regroupée vers une autre piste et un <shortcut>« CTRL » + glisser</shortcut> "
-"pour faire un panoramique."
+"un <shortcut> « Windows » + glisser</shortcut> pour déplacer une vidéo "
+"regroupée vers une autre piste et un <shortcut> « CTRL » + glisser</"
+"shortcut> pour faire un panoramique."
 
 #: src/mainwindow.cpp:3249
 #, kde-kuit-format
@@ -9857,7 +9858,7 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 "Faites un <shortcut> « Maj » + glisser</shortcut> pour la sélection avec la "
-"gomme, un <shortcut> « Maj » + clic</shortcut> pour une sélection multiple,  "
+"gomme, un <shortcut> « Maj » + clic</shortcut> pour une sélection multiple, "
 "un <shortcut> « Windows » + « ALT » + glisser</shortcut> pour déplacer une "
 "vidéo groupée vers une autre piste, un <shortcut>CTRL + glisser</shortcut> "
 "pour faire un panoramique."
@@ -12247,15 +12248,15 @@ msgid ""
 "recreated if you have the original source clips."
 msgstr ""
 "<b>Les données mises en cache</b> sont composées des vignettes de vidéos et "
-"des vidéos d’aperçu de la frise chronologique. La suppression est sûre, "
-"toutes les données peuvent être recréées à l’ouverture du projet. <br/>Les "
+"des vidéos d'aperçu de la frise chronologique. La suppression est sûre, "
+"toutes les données peuvent être recréées à l'ouverture du projet. <br/>Les "
 "<b>données de sauvegarde</b> sont une archive des versions précédentes de "
 "vos fichiers de projet. Elles sont utiles lorsque vous avez besoin de "
-"récupérer une version précédente d’un projet. Ces données ne peuvent pas "
+"récupérer une version précédente d'un projet. Ces données ne peuvent pas "
 "être récupérées. <br/>Les <b> vidéos en cache</b> sont des fichiers de vidéo "
 "en résolution inférieure utilisés pour une édition plus rapide. La "
 "suppression est sûre, les vidéos en cache peuvent être recréés si vous "
-"possédez les vidéos source d’origine."
+"possédez les vidéos source d'origine."
 
 #: src/project/dialogs/temporarydata.cpp:180
 #, kde-format
@@ -12322,7 +12323,7 @@ msgstr ""
 "Cette action supprimera les données du cache (%1) pour les projets ayant été "
 "supprimés, ceux ayant très peu de données mises en cache ou ceux datant de "
 "plus de %2 mois. Toutes les données mises en cache peuvent être recréées à "
-"partir des fichiers sources à l’ouverture du projet."
+"partir des fichiers sources à l'ouverture du projet."
 
 #: src/project/dialogs/temporarydata.cpp:431
 #, kde-format
@@ -12952,7 +12953,7 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
-"Ce pré-réglage de rendu utilise un paramètre « profil ». <br /> À moins de "
+"Ce préréglage de rendu utilise un paramètre « profil ». <br /> À moins de "
 "savoir ce que vous faites, vous devriez probablement le changer en "
 "« mlt_profile »."
 
@@ -12976,7 +12977,7 @@ msgstr "Séquence d'images"
 #: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
 msgid "Preset already exists"
-msgstr "Le pré-réglage existe déjà."
+msgstr "Le préréglage existe déjà."
 
 #: src/renderpresets/renderpresetrepository.cpp:350
 #, kde-format
@@ -12984,7 +12985,7 @@ msgid ""
 "This preset name already exists. Change the name if you do not want to "
 "overwrite it."
 msgstr ""
-"Le nom de ce pré-réglage existe déjà. Changez-le si vous ne voulez pas "
+"Le nom de ce préréglage existe déjà. Changez-le si vous ne voulez pas "
 "l'écraser."
 
 #: src/scopes/abstractscopewidget.cpp:66
@@ -14661,8 +14662,9 @@ msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
-"Le filtre « avfilter.subtitles » est nécessaire, mais n'a pas été trouvé. La "
-"fonction de sous-titres ne fonctionnera probablement pas comme prévu."
+"Le filtre « avfilter.subtitles » est nécessaire, mais il a été impossible de "
+"le trouver. La fonction de sous-titres ne fonctionnera probablement pas "
+"comme prévu."
 
 #: src/timeline2/view/timelinecontroller.cpp:5080
 #, kde-format
@@ -16901,7 +16903,7 @@ msgstr "Configurer la tâche."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "Enregistrer les pré-réglages de rendu"
+msgstr "Enregistrer les préréglages de rendu"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
@@ -16913,7 +16915,7 @@ msgstr "Groupe :"
 #: src/ui/editrenderpreset_ui.ui:52
 #, kde-format
 msgid "Preset name:"
-msgstr "Nom du pré-réglage :"
+msgstr "Nom du préréglage :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_container)
 #: src/ui/editrenderpreset_ui.ui:72
@@ -17883,7 +17885,7 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-"Le dossier de projet est l’endroit où les ressources comme les vidéos en "
+"Le dossier de projet est l'endroit où les ressources comme les vidéos en "
 "cache, les vignettes ou les aperçus sont enregistrées."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
@@ -18111,7 +18113,7 @@ msgstr "Plus d'options"
 #: src/ui/renderwidget_ui.ui:219
 #, kde-format
 msgid "Create new preset"
-msgstr "Créer un nouveau pré-réglage"
+msgstr "Créer un nouveau préréglage"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonNew)
 #: src/ui/renderwidget_ui.ui:222
@@ -18123,7 +18125,7 @@ msgstr "Enregi&strer"
 #: src/ui/renderwidget_ui.ui:236
 #, kde-format
 msgid "Download New Render Presets…"
-msgstr "Télécharger de nouveaux pré-réglages de rendu..."
+msgstr "Télécharger de nouveaux préréglages de rendu..."
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
 #: src/ui/renderwidget_ui.ui:245
@@ -18136,7 +18138,7 @@ msgstr ":data/kdenlive_renderprofiles.knsrc"
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr ""
-"Enregistrer le pré-réglage courant comme un nouveau pré-réglage personnalisé"
+"Enregistrer le préréglage courant comme un nouveau préréglage personnalisé"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:265
@@ -18148,7 +18150,7 @@ msgstr "&Favoris"
 #: src/ui/renderwidget_ui.ui:282
 #, kde-format
 msgid "Edit preset"
-msgstr "Modifier le pré-réglage"
+msgstr "Modifier le préréglage"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
 #: src/ui/renderwidget_ui.ui:285
@@ -19121,9 +19123,9 @@ msgid ""
 "your mouse you can select a section of the screen from which to get an "
 "average color."
 msgstr ""
-"Sélectionnez une couleur sur l’écran. En appuyant sur le bouton de la "
+"Sélectionnez une couleur sur l'écran. En appuyant sur le bouton de la "
 "souris, puis en déplaçant votre souris, vous pouvez sélectionner une section "
-"de l’écran à partir de laquelle obtenir une couleur moyenne."
+"de l'écran à partir de laquelle obtenir une couleur moyenne."
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
