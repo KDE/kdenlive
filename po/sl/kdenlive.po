@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2022-12-20 07:50+0100\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2023-01-03 09:36+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -1767,7 +1767,7 @@ msgstr "Preoblikuj"
 #: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
 #, kde-format
 msgid "Position, scale and opacity."
-msgstr "Položaj, merilo in motnost."
+msgstr "Položaj, merilo in prekrivnost."
 
 #: data/effects/qtblend.xml:12 data/effects/qtblend.xml:30
 #: data/transitions/qtblend.xml:11
@@ -8411,13 +8411,12 @@ msgstr "Kdenlive"
 #: src/main.cpp:231
 #, kde-format
 msgid "An open source video editor."
-msgstr "Odprtokodni urejevalnik videa."
+msgstr "Odprto-kodni program za montažo videa."
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 avtorji Kdenlive"
+msgstr "Copyright © 2007–2023 avtorji Kdenlive"
 
 #: src/main.cpp:234
 #, kde-format
@@ -8437,7 +8436,7 @@ msgstr "Nicolas Carion"
 #: src/main.cpp:236
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
-msgstr "Preurejanje kode in prepisovanje časovnice"
+msgstr "Preurejanje kode in ponovno programiranje časovnice"
 
 #: src/main.cpp:237
 #, kde-format
@@ -8447,7 +8446,7 @@ msgstr "Simon A. Eugster"
 #: src/main.cpp:237
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
-msgstr "Barvni obsegi, popravljanje hroščev, itd."
+msgstr "Barvni obsegi, odpravljanje hroščev itn."
 
 #: src/main.cpp:238
 #, kde-format
@@ -8457,7 +8456,7 @@ msgstr "Vincent Pinon"
 #: src/main.cpp:238
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
-msgstr "Prilagoditev na KF5, priprava za Windows, odprava napak"
+msgstr "Prilagoditev na KF5, priprava gradnje za Windows, odprava napak"
 
 #: src/main.cpp:240
 #, kde-format
@@ -8467,7 +8466,7 @@ msgstr "Dan Dennedy"
 #: src/main.cpp:240
 #, kde-format
 msgid "MLT, Bug fixing, etc."
-msgstr "MLT, popravljanje hroščev, itd."
+msgstr "MLT, odpravljanje hroščev itn."
 
 #: src/main.cpp:241
 #, kde-format
@@ -8477,7 +8476,7 @@ msgstr "Julius Künzel"
 #: src/main.cpp:241
 #, kde-format
 msgid "Bug fixing, etc."
-msgstr "Popravljanje hroščev, itd."
+msgstr "Odpravljanje hroščev itn."
 
 #: src/main.cpp:242
 #, kde-format
@@ -8507,7 +8506,7 @@ msgstr "Farid Abdelnour"
 #: src/main.cpp:246
 #, kde-format
 msgid "Logo, Promotion, testing"
-msgstr "Logotip, promocija, testiranje"
+msgstr "Logotip, promocija, preizkušanje"
 
 #: src/main.cpp:247
 #, kde-format
@@ -8517,7 +8516,7 @@ msgstr "Eugen Mohr"
 #: src/main.cpp:247
 #, kde-format
 msgid "Bug triage, testing"
-msgstr "Triaža napak, testiranje"
+msgstr "Triaža napak, preizkušanje"
 
 #: src/main.cpp:248
 #, kde-format
@@ -8537,7 +8536,7 @@ msgstr "Bruno Santos"
 #: src/main.cpp:249
 #, kde-format
 msgid "Testing"
-msgstr "Testiranje"
+msgstr "Preizkušanje"
 
 #: src/main.cpp:250
 #, kde-format
@@ -8547,7 +8546,7 @@ msgstr "Massimo Stella"
 #: src/main.cpp:250
 #, kde-format
 msgid "Expert advice, testing"
-msgstr "Nasveti eksperta, testiranje"
+msgstr "Strokovni nasveti, preizkušanje"
 
 #: src/main.cpp:252
 #, kde-format
@@ -8598,7 +8597,7 @@ msgstr "Nastavite pot za okolje MLT"
 #: src/main.cpp:280
 #, kde-format
 msgid "MLT log level"
-msgstr "MLT nivo dnevnika"
+msgstr "Raven zapisnika MLT"
 
 #: src/main.cpp:281
 #, kde-format
@@ -19173,6 +19172,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Export guides as chapters description"
-#~ msgstr "Izvozi vodila kot opis poglavij"

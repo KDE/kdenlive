@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Vít Pelčák <vit@pelcak.org>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
-# Vit Pelcak <vpelcak@suse.cz>, 2021, 2022.
+# Vit Pelcak <vit@pelcak.org>, 2021, 2022.
 #
 msgid ""
 msgstr ""
@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
 "PO-Revision-Date: 2022-06-27 14:38+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -718,10 +718,9 @@ msgid "Clockwise"
 msgstr "Ve směru hodinových ručiček"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "Ve směru hodinových ručiček"
+msgstr ""
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -3565,11 +3564,9 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:88
 #: src/assets/view/widgets/keyframewidget.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Copy keyframes"
-msgstr "Posunout klíčové snímky"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3581,17 +3578,14 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:94
 #: src/assets/view/widgets/keyframewidget.cpp:814
-#, fuzzy, kde-format
-#| msgid "Delete keyframe"
+#, kde-format
 msgid "Paste keyframe"
-msgstr "Smazat klíčový snímek"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@action"
-#| msgid "Move keyframes"
+#, kde-format
 msgid "Paste keyframes"
-msgstr "Posunout klíčové snímky"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
@@ -3643,10 +3637,9 @@ msgid "Seek to Keyframe on Select"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:146
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Zkopírovat klíčové snímky do schránky"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -3695,31 +3688,27 @@ msgid "Select parameters to copy"
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:724
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "Keyframes copied"
-msgstr "Zkopírovat klíčové snímky do schránky"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:735
 #: src/assets/view/widgets/keyframewidget.cpp:776
-#, fuzzy, kde-format
-#| msgid "Copy Keyframes to Clipboard"
+#, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "Zkopírovat klíčové snímky do schránky"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:824
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary files"
+#, kde-format
 msgid "Cannot copy current parameter values"
-msgstr "Nelze vytvořit dočasné soubory"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:829
 #: src/assets/view/widgets/keyframewidget.cpp:837
 #: src/assets/view/widgets/keyframewidget.cpp:849
-#, fuzzy, kde-format
-#| msgid "Current Selection"
+#, kde-format
 msgid "Current values copied"
-msgstr "Stávající výběr"
+msgstr ""
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4015,10 +4004,9 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1869
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to parse file %1"
-msgstr "Nelze zapisovat do souboru %1"
+msgstr ""
 
 #: src/bin/bin.cpp:1880
 #, kde-format
@@ -4494,10 +4482,9 @@ msgid "Audio stream %1"
 msgstr "Zvukový proud %1"
 
 #: src/bin/bin.cpp:5485
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Remove clip markers"
-msgstr "Smazat klipy"
+msgstr ""
 
 #: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
 #, kde-format
@@ -4605,10 +4592,9 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Seznam klipů MLT (*.mlt)"
 
 #: src/bin/model/markerlistmodel.cpp:87
-#, fuzzy, kde-format
-#| msgid "Update values in timeline."
+#, kde-format
 msgid "Update guides categories"
-msgstr "Aktualizovat hodnoty na časové ose."
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:266 src/bin/model/markerlistmodel.cpp:284
 #, kde-format
@@ -4671,10 +4657,9 @@ msgid "Marker"
 msgstr "Značka"
 
 #: src/bin/model/markerlistmodel.cpp:754
-#, fuzzy, kde-format
-#| msgid "Recover"
+#, kde-format
 msgid "Recovered %1"
-msgstr "Obnovit"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:871
 #, kde-format
@@ -4694,40 +4679,34 @@ msgid "No guide found at current position"
 msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:883
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guides Category"
-msgstr "Upravit zarážku"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:883
-#, fuzzy, kde-format
-#| msgid "Edit Marker"
+#, kde-format
 msgid "Edit Markers Category"
-msgstr "Upravit značku"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:889
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Guides Category"
-msgstr "Kategorie"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:889
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Markers Category"
-msgstr "Kategorie"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:907
-#, fuzzy, kde-format
-#| msgid "Edit guide"
+#, kde-format
 msgid "Edit guides"
-msgstr "Upravit zarážku"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:907
-#, fuzzy, kde-format
-#| msgid "Edit marker"
+#, kde-format
 msgid "Edit markers"
-msgstr "Upravit značku"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:922 src/bin/model/markerlistmodel.cpp:947
 #: src/timeline2/view/timelinecontroller.cpp:1362
@@ -4746,28 +4725,24 @@ msgid "Edit Marker"
 msgstr "Upravit značku"
 
 #: src/bin/model/markerlistmodel.cpp:950
-#, fuzzy, kde-format
-#| msgid "Add Guide"
+#, kde-format
 msgid "Add Guides"
-msgstr "Přidat zarážku"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:950
-#, fuzzy, kde-format
-#| msgid "Add Marker"
+#, kde-format
 msgid "Add Markers"
-msgstr "Přidat značku"
+msgstr "Přidat značky"
 
 #: src/bin/model/markerlistmodel.cpp:965
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add guides"
-msgstr "Přidat zarážku"
+msgstr ""
 
 #: src/bin/model/markerlistmodel.cpp:965
-#, fuzzy, kde-format
-#| msgid "Add marker"
+#, kde-format
 msgid "Add markers"
-msgstr "Přidat značku"
+msgstr "Přidat značky"
 
 #: src/bin/model/subtitlemodel.cpp:85
 #, kde-format
@@ -5451,10 +5426,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Export metadata"
+#, kde-format
 msgid "Export guides"
-msgstr "Exportovat metadata"
+msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -5471,30 +5445,26 @@ msgid "Copy to Clipboard"
 msgstr "Zkopírovat do schránky"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, fuzzy, kde-format
-#| msgid "&Save"
+#, kde-format
 msgid "Save"
-msgstr "&Uložit"
+msgstr "Uložit"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_text)
 #: src/dialogs/exportguidesdialog.cpp:74 src/ui/exportguidesdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Text File (*.txt)"
+#, kde-format
 msgid "Text File"
-msgstr "Textový soubor (*.txt)"
+msgstr "Textový soubor"
 
 #: src/dialogs/exportguidesdialog.cpp:74
-#, fuzzy, kde-format
-#| msgid "GPS File"
+#, kde-format
 msgid "JSON File"
-msgstr "Soubor GPS"
+msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:76
-#, fuzzy, kde-format
-#| msgid "Export metadata"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Exportovat metadata"
+msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:911
 #: src/dialogs/renderwidget.cpp:916 src/dialogs/renderwidget.cpp:969
@@ -5529,10 +5499,9 @@ msgid "Guides saved to %1"
 msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:103
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Category name"
-msgstr "Kategorie"
+msgstr ""
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5570,10 +5539,9 @@ msgid "Timeline"
 msgstr "Časová osa"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Colors and Guides"
-msgstr "Rozsah barev"
+msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:128
 #, kde-format
@@ -7265,10 +7233,9 @@ msgid "Cyan"
 msgstr "Azurová"
 
 #: src/doc/kdenlivedoc.cpp:2109
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Kategorie %1"
+msgstr ""
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -7551,14 +7518,9 @@ msgid "You need enter a valid path to be able to edit Lottie animations."
 msgstr ""
 
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to start the capture application:\n"
-#| "%1"
+#, kde-format
 msgid "Failed to launch Glaxnimate application"
 msgstr ""
-"Nelze spustit aplikaci pro nahrávání:\n"
-"%1"
 
 #: src/glaxnimatelauncher.cpp:82
 #, kde-format
@@ -7868,10 +7830,9 @@ msgstr "Současný klip"
 
 #. i18n: ectx: Menu (current_track)
 #: src/kdenliveui.rc:139
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "&Current track"
-msgstr "Současný klip"
+msgstr ""
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -8241,10 +8202,9 @@ msgid "An open source video editor."
 msgstr "Open source video editor"
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 autoři Kdenlive"
+msgstr ""
 
 #: src/main.cpp:234
 #, kde-format
@@ -8477,10 +8437,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/mainwindow.cpp:278 src/ui/projectsettings_ui.ui:529
-#, fuzzy, kde-format
-#| msgid "&Guides"
+#, kde-format
 msgid "Guides"
-msgstr "Vodí&tka"
+msgstr "Vodítka"
 
 #: src/mainwindow.cpp:341 src/monitor/recmanager.cpp:104
 #, kde-format
@@ -9270,16 +9229,14 @@ msgid "Remove Space"
 msgstr "Smazat místo"
 
 #: src/mainwindow.cpp:1742
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "Odebrat všechny klíčové snímky po kurzoru"
+msgstr ""
 
 #: src/mainwindow.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Remove all Keyframes After Cursor"
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "Odebrat všechny klíčové snímky po kurzoru"
+msgstr ""
 
 #: src/mainwindow.cpp:1744
 #, kde-format
@@ -9344,10 +9301,9 @@ msgid "Edit Guide…"
 msgstr "Upravit zarážku…"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Search…"
+#, kde-format
 msgid "Search Guide…"
-msgstr "Hledat…"
+msgstr ""
 
 #: src/mainwindow.cpp:1802
 #, kde-format
@@ -9360,10 +9316,9 @@ msgid "Guides Locked"
 msgstr "Vodítka jsou uzamčena"
 
 #: src/mainwindow.cpp:1808
-#, fuzzy, kde-format
-#| msgid "Show guides:"
+#, kde-format
 msgid "Lock guides"
-msgstr "Zobrazit vodítka:"
+msgstr "Zamknout vodítka"
 
 #: src/mainwindow.cpp:1810
 #, kde-kuit-format
@@ -9511,31 +9466,19 @@ msgstr ""
 "klipy pro všechny klipy v tomto projektu?"
 
 #: src/mainwindow.cpp:2111
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved. This will first save the project, "
-#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
-#| "project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
-"Aktuální projekt nebyl uložen. Tímto se projekt nejprve uloží, pak přesune "
-"všechny dočasné soubory z <b>%1 </b> na <b>%2 </b> a projektový soubor bude "
-"znovu načten"
 
 #: src/mainwindow.cpp:2119
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
-#| "project file will then be reloaded"
+#, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
-"Tímto se přesunou všechny dočasné soubory z <b>%1</b> to <b>%2</b>,  soubor "
-"projektu potom bude znovu načten"
 
 #: src/mainwindow.cpp:2128 src/project/projectmanager.cpp:429
 #, kde-format
@@ -11494,10 +11437,9 @@ msgid "Showing backup files for %1"
 msgstr "Záložní soubory pro %1"
 
 #: src/project/dialogs/guidecategories.cpp:42
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit Guide Category"
-msgstr "Upravit zarážku"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:57
 #, kde-format
@@ -11510,10 +11452,9 @@ msgid "Category %1"
 msgstr "Kategorie %1"
 
 #: src/project/dialogs/guidecategories.cpp:149
-#, fuzzy, kde-format
-#| msgid "Delete Guide"
+#, kde-format
 msgid "Delete Guide Category"
-msgstr "Smazat zarážku"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:154
 #, kde-format
@@ -11526,46 +11467,39 @@ msgid "Reassign the markers to :"
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:84
-#, fuzzy, kde-format
-#| msgid "Import"
+#, kde-format
 msgid "Import..."
-msgstr "Importovat"
+msgstr "Importovat..."
 
 #: src/project/dialogs/guideslist.cpp:87
-#, fuzzy, kde-format
-#| msgid "export"
+#, kde-format
 msgid "Export..."
-msgstr "exportovat"
+msgstr "Exportovat..."
 
 #: src/project/dialogs/guideslist.cpp:90
-#, fuzzy, kde-format
-#| msgid "Configure profiles"
+#, kde-format
 msgid "Configure Categories"
-msgstr "Nastavit profily"
+msgstr "Nastavit kategorie"
 
 #: src/project/dialogs/guideslist.cpp:98
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Sort by Category"
-msgstr "Kategorie"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:100
-#, fuzzy, kde-format
-#| msgid "Sort By"
+#, kde-format
 msgid "Sort by Time"
-msgstr "Řadit dle"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:102
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Sort by Comment"
-msgstr "Komentář"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:135
-#, fuzzy, kde-format
-#| msgid "Add guide"
+#, kde-format
 msgid "Add new guide."
-msgstr "Přidat zarážku"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:136
 #, kde-kuit-format
@@ -11574,10 +11508,9 @@ msgid "Add new guide. This will add a guide at the current frame position."
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:137
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Delete guide."
-msgstr "Smazat zarážku"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
@@ -11586,10 +11519,9 @@ msgid "Delete guide. This will erase all selected guides."
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete guide"
+#, kde-format
 msgid "Edit selected guide."
-msgstr "Smazat zarážku"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-kuit-format
@@ -11613,10 +11545,9 @@ msgid ""
 msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:144
-#, fuzzy, kde-format
-#| msgid "Default Durations"
+#, kde-format
 msgid "Default guide category."
-msgstr "Výchozí délka trvání"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:145
 #, kde-kuit-format
@@ -11637,28 +11568,24 @@ msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1201
 #: src/renderpresets/renderpresetrepository.cpp:313
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot read file %1"
-msgstr "Nelze otevřít soubor %1"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:246
-#, fuzzy, kde-format
-#| msgid "Remove group"
+#, kde-format
 msgid "Remove guides"
-msgstr "Odstranit skupinu"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:294
-#, fuzzy, kde-format
-#| msgid "Markers"
+#, kde-format
 msgid "Markers for %1"
-msgstr "Záložky"
+msgstr ""
 
 #: src/project/dialogs/guideslist.cpp:320
-#, fuzzy, kde-format
-#| msgid "Timeline Edit Mode"
+#, kde-format
 msgid "Timeline Guides"
-msgstr "Režim úpravy časové osy"
+msgstr ""
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -12267,10 +12194,9 @@ msgid "Open Backup"
 msgstr "Otevřít zálohu"
 
 #: src/project/projectmanager.cpp:659
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "Nelze otevřít projektový soubor %1"
+msgstr ""
 
 #: src/project/projectmanager.cpp:675
 #, kde-format
@@ -13346,16 +13272,14 @@ msgid "Paste timeline clips"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2415
-#, fuzzy, kde-format
-#| msgid "Remove Space in All Tracks"
+#, kde-format
 msgid "Remove space on track"
-msgstr "Odstranit místo ve všech stopách"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:2442
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete clips on track"
-msgstr "Smazat stopu"
+msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:134
 #: src/timeline2/model/timelinemodel.cpp:4133
@@ -14084,16 +14008,14 @@ msgid "Cannot remove space at given position"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2700
-#, fuzzy, kde-format
-#| msgid "Remove space"
+#, kde-format
 msgid "Cannot remove all spaces"
-msgstr "Smazat místo"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "Cannot remove all clips"
-msgstr "Smazat klipy"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:2757
 #: src/timeline2/view/timelinecontroller.cpp:2762
@@ -16774,24 +16696,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/exportguidesdialog_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save As:"
-msgstr "Uložit jako"
+msgstr "Uložit j&ako:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_json)
 #: src/ui/exportguidesdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive JSON"
-msgstr "Kdenlive"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "Volby"
+msgstr "Možnosti textu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -16857,24 +16776,21 @@ msgstr "Formulář"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:48
-#, fuzzy, kde-format
-#| msgid "Delete pattern."
+#, kde-format
 msgid "Delete category"
-msgstr "Smazat předlohu."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:55
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Add category"
-msgstr "Kategorie"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Edit category"
-msgstr "Kategorie"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:69
@@ -16884,10 +16800,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #: src/ui/guideslist_ui.ui:125
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "Textová popiska"
+msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
@@ -17236,24 +17151,21 @@ msgstr "Komentář"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Add clip markers:"
+#, kde-format
 msgid "Add multiple markers"
-msgstr "Přidat značky klipů:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Counter"
+#, kde-format
 msgid "Count"
-msgstr "Počitadlo"
+msgstr "Počet"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interval"
-msgstr "Rozhraní"
+msgstr "Interval"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
@@ -17305,10 +17217,9 @@ msgstr "Vyhledat ručně"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Position"
+#, kde-format
 msgid "Start Position"
-msgstr "Pozice"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -18748,10 +18659,9 @@ msgstr "Zarovnat dolů"
 
 #: src/widgets/markercategorybutton.cpp:129
 #: src/widgets/markercategorychooser.cpp:41
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Barva na výběr"
+msgstr ""
 
 #: src/widgets/markercategorybutton.cpp:134
 #: src/widgets/markercategorychooser.cpp:47
@@ -18776,207 +18686,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Copy Value at Cursor Position to Clipboard"
-#~ msgstr "Kopírovat hodnotu na kurzoru do schránky"
-
-#~ msgid "Colors"
-#~ msgstr "Barvy"
-
-#~ msgid "Add marker…"
-#~ msgstr "Přidat značku…"
-
-#~ msgid "Edit marker…"
-#~ msgstr "Upravit značku…"
-
-#~ msgid "Export markers…"
-#~ msgstr "Exportovat značky…"
-
-#~ msgid "Import markers…"
-#~ msgstr "Importovat značky…"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Clip Markers"
-#~ msgstr "Uložit značky klipu"
-
-#~ msgid "Regionalize"
-#~ msgstr "Regionalizovat"
-
-#~ msgid "Apply sub-effects to a region defined by a clip's alpha channel"
-#~ msgstr "Použijte pod-efekty do oblasti definované alfa kanálem klipu"
-
-#~ msgid "Url"
-#~ msgstr "Url"
-
-#~ msgid ""
-#~ "Using:\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> version %1\n"
-#~ "<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries"
-#~ msgstr ""
-#~ "Používám:\n"
-#~ "<a href=\"https://mltframework.org\">MLT</a> verze %1\n"
-#~ "Knihovny <a href=\"https://ffmpeg.org\">FFmpeg</a>"
-
-#~ msgid "&Download"
-#~ msgstr "&Stáhnout"
-
-#~ msgid "Default video4linux device:"
-#~ msgstr "Výchozí zařízení video4linux:"
-
-#~ msgid "No device found, plug your webcam and refresh."
-#~ msgstr ""
-#~ "Nebylo nalezeno žádné zařízení, připojte webovou kamerku a klikněte na "
-#~ "obnovit."
-
-#~ msgid "Current settings (%1x%2, %3/%4fps)"
-#~ msgstr "Současné nastavení (%1x%2, %3/%4 fps)"
-
-#~ msgid "Default settings (%1x%2, %3/%4fps)"
-#~ msgstr "Výchozí nastavení (%1x%2, %3/%4 fps)"
-
-#~ msgid "Add clip cut"
-#~ msgstr "Přidat střih klipu"
-
-#~ msgid "Add folder"
-#~ msgstr "Přidat složku"
-
-#~ msgid "Delete folder"
-#~ msgstr "Smazat složku"
-
-#~ msgid "Edit clip cut"
-#~ msgstr "Upravit střih klipu"
-
-#~ msgid "Rename folder"
-#~ msgstr "Přejmenovat složku"
-
-#~ msgid "Hidden"
-#~ msgstr "Skryto"
-
-#~ msgid "Muted"
-#~ msgstr "Ztlumeno"
-
-#~ msgid "Locked"
-#~ msgstr "Uzamčeno"
-
-#~ msgid "Composite"
-#~ msgstr "Kompozice"
-
-#~ msgid "Move Track upwards"
-#~ msgstr "Přesunout stopu nahoru"
-
-#~ msgid "Move Track downwards"
-#~ msgstr "Přesunout stopu dolů"
-
-#~ msgid "Edit Keyframe"
-#~ msgstr "Upravit klíčový snímek"
-
-#~ msgid "Value:"
-#~ msgstr "Hodnota:"
-
-#~ msgid "Reset the parameters to their default values."
-#~ msgstr "Vrátit parametry na výchozí hodnoty."
-
-#~ msgid "Seek to active keyframe."
-#~ msgstr "Synchronně posouvat kurzor časové osy."
-
-#~ msgid "Add keyframes."
-#~ msgstr "Přidat klíčové snímky."
-
-#~ msgid "Move on X axis."
-#~ msgstr "Přesunout po ose X."
-
-#~ msgid "Move on Y axis."
-#~ msgstr "Přesunout po ose Y."
-
-#~ msgid "Create new points."
-#~ msgstr "Vytvořit nové body."
-
-#~ msgid "GraphView"
-#~ msgstr "Graf"
-
-#~ msgid "Parameter description."
-#~ msgstr "Popis parametru."
-
-#~ msgid "Not connected"
-#~ msgstr "Nepřipojeno"
-
-#~ msgid "Firewire"
-#~ msgstr "Firewire"
-
-#~ msgid "Blackmagic card"
-#~ msgstr "Karta od Blackmagic"
-
-#~ msgid "Preset"
-#~ msgstr "Přednastavení"
-
-#~ msgid "Magenta"
-#~ msgstr "Purpurová"
-
-#~ msgid "Absol&ute"
-#~ msgstr "Absol&utní"
-
-#~ msgid "Re&lative"
-#~ msgstr "Re&lativní"
-
-#~ msgid "Number of frames to play (0 to play all frames)"
-#~ msgstr "Počet snímků k přehrání (použijte 0 pro přehrání všech snímků)"
-
-#~ msgid "Interval Capture"
-#~ msgstr "Interval zachytávání"
-
-#~ msgid "Capture delay"
-#~ msgstr "Zpoždění nahrávání"
-
-#~ msgid "Notify before capture"
-#~ msgstr "Upozornit před nahráváním"
-
-#~ msgid "Configure Tracks"
-#~ msgstr "Nastavit stopy"
-
-#~ msgid "track"
-#~ msgstr "stopa"
-
-#~ msgid "Check"
-#~ msgstr "Zkontrolovat"
-
-#~ msgid "Default folder for project files"
-#~ msgstr "Výchozí složka pro projekty Kdenlive"
-
-#~ msgid "Show video thumbnails"
-#~ msgstr "Zobrazovat video miniatury"
-
-#~ msgid "Show audio thumbnails"
-#~ msgstr "Zobrazovat audio miniatury"
-
-#~ msgid "Install extra video MIME types"
-#~ msgstr "Nainstalovat extra video MIME typy"
-
-#~ msgid "Installed modules"
-#~ msgstr "Nainstalované moduly"
-
-#~ msgid "Available Codecs (avformat)"
-#~ msgstr "Dostupné kodeky (avformat)"
-
-#~ msgid "Formats"
-#~ msgstr "Formáty"
-
-#~ msgid "Video Codecs"
-#~ msgstr "Video kodeky"
-
-#~ msgid "Audio Codecs"
-#~ msgstr "Audio kodeky"
-
-#~ msgid "Please set your default video profile"
-#~ msgstr "Nastavte prosím výchozí profil videa"
-
-#~ msgid "Video Resolution"
-#~ msgstr "Rozlišení videa"
-
-#~ msgid "DV"
-#~ msgstr "DV"
-
-#~ msgid "HDV"
-#~ msgstr "HDV"
-
-#~ msgid "Show All"
-#~ msgstr "Zobrazit vše"

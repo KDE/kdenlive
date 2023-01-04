@@ -3,14 +3,14 @@
 #
 # Michiel Zandbelt <mmzandbelt@gmail.com>, 2008, 2009.
 # Valenstijn <Valenstyn@gmail.com>, 2010.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Ronald Stroethoff <stroet43@zonnet.nl>, 2010, 2011, 2012, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2022-12-19 10:34+0100\n"
+"PO-Revision-Date: 2023-01-02 12:09+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23,7 +23,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Rinse de Vries,Freek de Kruijf - t/m 2022,Ronald Stroethoff - 2022"
+msgstr "Rinse de Vries,Freek de Kruijf - t/m 2023,Ronald Stroethoff - 2022"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -8403,10 +8403,9 @@ msgid "An open source video editor."
 msgstr "Een open broncode video bewerkingsprogramma"
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 auteurs van Kdenlive"
+msgstr "Copyright © 2007–20223 auteurs van Kdenlive"
 
 #: src/main.cpp:234
 #, kde-format
