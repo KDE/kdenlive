@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 04:14+0000\n"
-"PO-Revision-Date: 2022-12-29 12:01+0100\n"
+"PO-Revision-Date: 2023-01-03 09:45+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -209,7 +209,7 @@ msgstr "საჩვენებელი არხების რაოდე�
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr ""
+msgstr "სეგმენტებს შორის დაცილება"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
@@ -219,7 +219,7 @@ msgstr ""
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
 msgid "audiomap"
-msgstr ""
+msgstr "ხმის რუკა"
 
 #: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
 #: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
@@ -2051,7 +2051,7 @@ msgstr ""
 #: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
-msgstr ""
+msgstr "ბინარიზაცია"
 
 #: data/effects/threshold.xml:5
 #, kde-format
@@ -2086,7 +2086,7 @@ msgstr ""
 #: data/effects/tracker.xml:12
 #, kde-format
 msgid "Tracker algorithm"
-msgstr ""
+msgstr "ტრეკერის ალგორითმი"
 
 #: data/effects/tracker.xml:16
 #, kde-format
@@ -2189,7 +2189,7 @@ msgstr ""
 #: data/effects/vidstab.xml:12
 #, kde-format
 msgid "Shakiness"
-msgstr ""
+msgstr "კანკალი"
 
 #: data/effects/vidstab.xml:13
 #, kde-format
@@ -2939,7 +2939,7 @@ msgstr "ფონტი"
 #: plugins/sampleplugin/sampleplugin.cpp:20
 #, kde-format
 msgid "Countdown"
-msgstr ""
+msgstr "ათვლა"
 
 #: plugins/sampleplugin/sampleplugin.cpp:47
 #, kde-format
@@ -5869,12 +5869,12 @@ msgstr "საშუალო ბიტრეიტი"
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
-msgstr ""
+msgstr "CBR – მუდმივი ბიტური სიჩქარე"
 
 #: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
-msgstr ""
+msgstr "VBR – ცვლადი ბიტური სიჩქარე"
 
 #: src/dialogs/renderpresetdialog.cpp:96
 #, kde-format
