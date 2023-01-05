@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2023-01-02 17:11+0100\n"
+"PO-Revision-Date: 2023-01-04 07:35+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -8458,10 +8458,9 @@ msgid "An open source video editor."
 msgstr "Un éditeur vidéo Open Source."
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 Les auteurs de Kdenlive"
+msgstr "Copyright © 2007–2023 Les auteurs de Kdenlive"
 
 #: src/main.cpp:234
 #, kde-format
