@@ -33,8 +33,10 @@ public:
         }
         auto it = m_cache.at(key);
         m_currentCost -= (*it).second.second;
-        m_data.erase(it);
+        // Need to erase reference to iterator before erasing what it points to.
+        // Fixes BUG 463764.
         m_cache.erase(key);
+        m_data.erase(it);
     }
 
     void insert(const QString &key, const QImage &img, int cost)
@@ -89,7 +91,12 @@ protected:
     int m_maxCost;
     int m_currentCost{0};
 
-    std::list<std::pair<QString, std::pair<QImage, int>>> m_data; // the data is stored as (key,(image, cost))
+    // The data is stored as (key,(image, cost)) in a std::list that serves as a
+    // FIFO queue. If m_maxCost is exceeded, elements are removed from the
+    // end of the list until the sum of the costs in the list is less than m_maxCost.
+    std::list<std::pair<QString, std::pair<QImage, int>>> m_data;
+    // m_cache keeps a mapping from the key to an iterator that represents the
+    // item's location in m_data, like a pointer.
     std::unordered_map<QString, decltype(m_data.begin())> m_cache;
 };
 
