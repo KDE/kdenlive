@@ -92,6 +92,7 @@ protected:
 
 public:
     friend class TrackModel;
+    friend class TimelineTabs;
     template <typename T> friend class MoveableItem;
     friend class ClipModel;
     friend class CompositionModel;

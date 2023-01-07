@@ -13,8 +13,9 @@
 
 QString BinPlaylist::binPlaylistId = QString("main_bin");
 
-BinPlaylist::BinPlaylist()
+BinPlaylist::BinPlaylist(const QUuid &uuid)
     : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
+    , m_uuid(uuid)
 {
     m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
@@ -35,7 +36,17 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
         Q_ASSERT(m_allClips.count(id) == 0);
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
         if (clip->isValid()) {
-            m_binPlaylist->append(*clip->originalProducer().get());
+            if (clip->clipType() == ClipType::Timeline) {
+                const QString uuid = clip->getProducerProperty(QStringLiteral("kdenlive:uuid"));
+                if (uuid == m_uuid.toString()) {
+                    // The main tractor should never be inserted in the bin playlist
+                } else if (!uuid.isEmpty()) {
+                    Mlt::Tractor t(*clip->originalProducer().get());
+                    m_binPlaylist->append(clip->originalProducer()->parent());
+                }
+            } else {
+                m_binPlaylist->append(*clip->originalProducer().get());
+            }
         } else {
             // if clip is not loaded yet, we insert a dummy producer
             Mlt::Producer dummy(pCore->getCurrentProfile()->profile(), "color:blue");
@@ -66,8 +77,11 @@ void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
     case AbstractProjectItem::ClipItem: {
         Q_ASSERT(m_allClips.count(id) > 0);
         m_allClips.erase(id);
-        removeBinClip(id);
-        disconnect(static_cast<ProjectClip *>(binElem), &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
+        auto clip = static_cast<ProjectClip *>(binElem);
+        if (!clip->isValid() || clip->clipType() != ClipType::Timeline) {
+            removeBinClip(id);
+        }
+        disconnect(clip, &ProjectClip::producerChanged, this, &BinPlaylist::changeProducer);
         break;
     }
     default:
@@ -94,8 +108,12 @@ void BinPlaylist::removeBinClip(const QString &id)
 void BinPlaylist::changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer)
 {
     Q_ASSERT(m_allClips.count(id) > 0);
-    removeBinClip(id);
-    m_binPlaylist->append(*producer.get());
+    if (producer->property_exists("kdenlive:uuid") && QString(producer->get("kdenlive:uuid")) == m_uuid.toString()) {
+        // The timeline clips should not be removed as the original producer is stored here
+    } else {
+        removeBinClip(id);
+        m_binPlaylist->append(*producer.get());
+    }
 }
 
 void BinPlaylist::setRetainIn(Mlt::Tractor *modelTractor)

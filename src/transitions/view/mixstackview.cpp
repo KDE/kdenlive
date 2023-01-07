@@ -147,12 +147,16 @@ MixAlignment MixStackView::alignment() const
 
 void MixStackView::updateDuration()
 {
-    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, alignment());
+    if (m_model) {
+        pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, alignment());
+    }
 }
 
 void MixStackView::updatePosition()
 {
-    pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignNone, m_position->getPosition());
+    if (m_model) {
+        pCore->resizeMix(stackOwner().second, m_duration->getValue() - 1, MixAlignment::AlignNone, m_position->getPosition());
+    }
 }
 
 void MixStackView::slotAlignLeft()

@@ -92,6 +92,8 @@ public:
 
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;
+    /** @brief Register all tracks in the mixer */
+    void rebuildMixer();
     void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _beginInsertRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _endRemoveRows() override;

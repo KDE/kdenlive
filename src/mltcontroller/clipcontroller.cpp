@@ -260,7 +260,17 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
-        m_clipType = ClipType::Playlist;
+        if (m_properties->property_exists("kdenlive:clip_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        } else {
+            m_clipType = ClipType::Playlist;
+        }
+    } else if (m_service == QLatin1String("tractor") || m_service == QLatin1String("xml-string")) {
+        if (m_properties->property_exists("kdenlive:clip_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        } else {
+            m_clipType = ClipType::Timeline;
+        }
     } else if (m_service == QLatin1String("webvfx")) {
         m_clipType = ClipType::WebVfx;
     } else if (m_service == QLatin1String("qtext")) {
@@ -274,7 +284,11 @@ void ClipController::getInfoForProducer()
         // Mostly used for testing
         m_clipType = ClipType::Animation;
     } else {
-        m_clipType = ClipType::Unknown;
+        if (m_properties->property_exists("kdenlive:clip_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        } else {
+            m_clipType = ClipType::Unknown;
+        }
     }
     if (audioIndex > -1 || m_clipType == ClipType::Playlist) {
         m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist);
@@ -476,7 +490,10 @@ int ClipController::getFramePlaytime() const
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return 0;
     }
-    if (!hasLimitedDuration()) {
+    if (!hasLimitedDuration() || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+        if (!m_masterProducer->property_exists("kdenlive:duration")) {
+            return m_masterProducer->get_length();
+        }
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }
@@ -758,7 +775,7 @@ void ClipController::checkAudioVideo()
         if (service.isEmpty()) {
             service = m_masterProducer->get("mlt_service");
         }
-        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
+        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Timeline, ClipType::Unknown};
         if (avTypes.contains(m_clipType)) {
             QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
             if (frame->is_valid()) {

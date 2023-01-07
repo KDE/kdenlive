@@ -727,7 +727,7 @@ void Monitor::updateMarkers()
         if (m_id == Kdenlive::ClipMonitor && m_controller) {
             model = m_controller->getMarkerModel();
         } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-            model = pCore->currentDoc()->getGuideModel();
+            model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
         }
         if (model) {
             QList<CommentedTime> markersList = model->getAllMarkers();
@@ -1333,7 +1333,9 @@ void Monitor::checkOverlay(int pos)
             model = m_controller->getMarkerModel();
         }
     } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-        model = pCore->currentDoc()->getGuideModel();
+        QUuid uuid = pCore->currentTimelineId();
+        qDebug() << "IIIIIIIIII LOADING UUID GUIDES: " << uuid;
+        model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
     }
 
     if (model) {
@@ -2447,7 +2449,7 @@ void Monitor::slotEditInlineMarker()
             // We are editing a clip marker
             model = m_controller->getMarkerModel();
         } else {
-            model = pCore->currentDoc()->getGuideModel();
+            model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
         }
         QString newComment = root->property("markerText").toString();
         bool found = false;

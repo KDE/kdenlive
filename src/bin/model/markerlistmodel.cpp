@@ -452,8 +452,7 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos, comment, type]() {
-        auto model = getModel(guide, clipId);
+    return [guide, clipId, pos, comment, type, model = getModel(guide, clipId)]() {
         Q_ASSERT(model->hasMarker(pos));
         int mid = model->getIdFromPos(pos);
         int row = model->getRowfromId(mid);
@@ -469,8 +468,7 @@ Fun MarkerListModel::addMarker_lambda(GenTime pos, const QString &comment, int t
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos, comment, type]() {
-        auto model = getModel(guide, clipId);
+    return [guide, clipId, pos, comment, type, model = getModel(guide, clipId)]() {
         Q_ASSERT(model->hasMarker(pos) == false);
         // We determine the row of the newly added marker
         int mid = TimelineModel::getNextId();
@@ -489,8 +487,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
     QWriteLocker locker(&m_lock);
     auto guide = m_guide;
     auto clipId = m_clipId;
-    return [guide, clipId, pos]() {
-        auto model = getModel(guide, clipId);
+    return [guide, clipId, pos, model = getModel(guide, clipId)]() {
         Q_ASSERT(model->hasMarker(pos));
         int mid = model->getIdFromPos(pos);
         int row = model->getRowfromId(mid);
@@ -506,7 +503,7 @@ Fun MarkerListModel::deleteMarker_lambda(GenTime pos)
 std::shared_ptr<MarkerListModel> MarkerListModel::getModel(bool guide, const QString &clipId)
 {
     if (guide) {
-        return pCore->currentDoc()->getGuideModel();
+        return std::static_pointer_cast<MarkerListModel>(shared_from_this());
     }
     return pCore->bin()->getBinClip(clipId)->getMarkerModel();
 }

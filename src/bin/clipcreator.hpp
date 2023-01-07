@@ -12,6 +12,9 @@
 #include <unordered_map>
 
 class ProjectItemModel;
+namespace Mlt {
+class Producer;
+}
 
 /** @brief This namespace provides convenience functions to create clips based on various parameters
  */
@@ -46,6 +49,16 @@ QString createTitleClip(const std::unordered_map<QString, QString> &properties, 
 */
 QString createTitleTemplate(const QString &path, const QString &text, const QString &name, const QString &parentFolder,
                             const std::shared_ptr<ProjectItemModel> &model);
+
+/** @brief Create and inserts a playlist clip
+   @param name: name of the clip
+   @param parentFolder: the binId of the containing folder
+   @param model: a shared pointer to the bin item model
+   @return the binId of the created clip
+*/
+QString createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
+QString createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
+                           const QMap<QString, QString> mainProperties);
 
 /** @brief Create a slideshow clip
    @param path : path to the selected folder

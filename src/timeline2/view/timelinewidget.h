@@ -20,7 +20,7 @@ class TimelineWidget : public QQuickWidget
     Q_OBJECT
 
 public:
-    TimelineWidget(QWidget *parent = Q_NULLPTR);
+    TimelineWidget(const QUuid uuid, QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /** @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
@@ -42,6 +42,7 @@ public:
     bool loading;
     void connectSubtitleModel(bool firstConnect);
     void unsetModel();
+    const QUuid &getUuid() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -102,6 +103,7 @@ private:
     /** @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
     QPoint m_clickPos;
+    QUuid m_uuid;
 
 signals:
     void focusProjectMonitor();

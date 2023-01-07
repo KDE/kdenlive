@@ -1348,6 +1348,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly, bool showGui)
     if (frame == -1) {
         frame = pCore->getMonitorPosition();
     }
+    qDebug() << "::: ADDING GUIDE TO MODEL: " << m_model->uuid();
     CommentedTime marker = m_model->getGuideModel()->getMarker(frame, &markerFound);
     if (!markerFound) {
         if (deleteOnly) {
@@ -4803,7 +4804,7 @@ void TimelineController::expandActiveClip()
     for (int id : items_list) {
         if (result && m_model->isClip(id)) {
             std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
-            if (clip->clipType() == ClipType::Playlist) {
+            if (clip->clipType() == ClipType::Playlist || clip->clipType() == ClipType::Timeline) {
                 std::function<bool(void)> undo = []() { return true; };
                 std::function<bool(void)> redo = []() { return true; };
                 if (m_model->m_groups->isInGroup(id)) {

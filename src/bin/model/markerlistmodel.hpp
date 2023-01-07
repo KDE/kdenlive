@@ -27,7 +27,7 @@ class SnapInterface;
 
     A marker is essentially bound to a clip. We can also define guides, that are timeline-wise markers. For that, use the constructors without clipId
  */
-class MarkerListModel : public QAbstractListModel
+class MarkerListModel : public QAbstractListModel, public enable_shared_from_this_virtual<MarkerListModel>
 {
     Q_OBJECT
 
@@ -202,7 +202,7 @@ protected:
     Fun deleteMarker_lambda(GenTime pos);
 
     /** @brief Helper function that retrieves a pointer to the markermodel, given whether it's a guide model and its clipId*/
-    static std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
+    std::shared_ptr<MarkerListModel> getModel(bool guide, const QString &clipId);
 
     /** @brief Connects the signals of this object */
     void setup();

@@ -79,6 +79,9 @@ ClipType::ProducerType ClipLoadTask::getTypeForService(const QString &id, const 
     if (id == QLatin1String("xml") || id == QLatin1String("consumer")) {
         return ClipType::Playlist;
     }
+    if (id == QLatin1String("tractor")) {
+        return ClipType::Timeline;
+    }
     if (id == QLatin1String("webvfx")) {
         return ClipType::WebVfx;
     }
