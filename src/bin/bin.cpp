@@ -47,6 +47,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectsubclip.h"
 #include "tagwidget.hpp"
 #include "titler/titlewidget.h"
+#include "ui_newtimeline_ui.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
 #include "utils/thumbnailcache.hpp"
@@ -297,7 +298,7 @@ public:
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist)) {
+                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
                         QRect audioRect(0, 0, m_audioIcon.width(), m_audioIcon.height());
                         audioRect.moveLeft(bounding.right() + (2 * textMargin) + 1);
                         audioRect.moveTop(bounding.top() + 1);
@@ -525,7 +526,8 @@ public:
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && m_thumbRect.height() > 2.5 * m_audioIcon.height()) {
+            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline) &&
+                m_thumbRect.height() > 2.5 * m_audioIcon.height()) {
                 QRect thumbRect = m_thumbRect;
                 thumbRect.setLeft(opt.rect.right() - m_audioIcon.width() - 6);
                 if (opt.state & QStyle::State_MouseOver || usage > 0) {
@@ -2883,7 +2885,10 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
             if (clip) {
-                if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
+                if (clip->clipType() == ClipType::Timeline) {
+                    const QUuid uuid(clip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                    pCore->projectManager()->openTimeline(clip->binId(), uuid);
+                } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);
                 } else {
@@ -3293,6 +3298,8 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Create Animation…"),
                        QIcon::fromTheme(QStringLiteral("motion_path_animations")));
+    setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Timeline…"),
+                       QIcon::fromTheme(QStringLiteral("list-add")));
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
     addClipMenu->addAction(downloadResourceAction);
@@ -3473,10 +3480,25 @@ void Bin::slotCreateProjectClip()
     case ClipType::Animation:
         ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
         break;
+    case ClipType::Timeline: {
+        QScopedPointer<QDialog> dia(new QDialog(this));
+        Ui::NewTimeline_UI dia_ui;
+        dia_ui.setupUi(dia.data());
+        dia->setWindowTitle(i18nc("@title:window", "Create New Timeline"));
+        dia_ui.video_tracks->setValue(2);
+        dia_ui.audio_tracks->setValue(2);
+        if (dia->exec() == QDialog::Accepted) {
+            int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+            int vTracks = dia_ui.video_tracks->value();
+            int aTracks = dia_ui.audio_tracks->value();
+            ClipCreationDialog::createPlaylistClip(i18n("Timeline %1", timelinesCount), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
+        }
+        break;
+    }
     default:
         break;
     }
-    pCore->window()->raiseBin();
+        pCore->window()->raiseBin();
 }
 
 void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
@@ -5483,5 +5505,37 @@ void Bin::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remap
     }
     if (found) {
         pCore->pushUndo(undo, redo, i18n("Remove clip markers"));
+    }
+}
+
+void Bin::registerPlaylist(QUuid uuid, const QString id)
+{
+    if (!m_openedPlaylists.contains(uuid)) {
+        m_openedPlaylists.insert(uuid, id);
+    }
+}
+
+void Bin::removeReferencedClips(const QUuid &uuid)
+{
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if (clip->refCount() > 0) {
+            clip->purgeReferences(uuid);
+        }
+    }
+}
+
+void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &current)
+{
+    if (m_openedPlaylists.contains(uuid)) {
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
+        Q_ASSERT(clip != nullptr);
+        QMap<QString, QString> properties;
+        properties.insert(QStringLiteral("length"), QString::number(duration));
+        properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+        properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
+        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
+        clip->setProperties(properties);
+        clip->reloadTimeline();
     }
 }

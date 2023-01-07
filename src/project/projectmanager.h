@@ -102,6 +102,22 @@ public:
     /** @brief Retrieve the current timeline (mostly used for testing.
      */
     std::shared_ptr<TimelineItemModel> getTimeline();
+    /** @brief Open a timeline clip in a tab.
+     */
+    void openTimeline(const QString &id, const QUuid &uuid);
+    /** @brief Set a property on timeline uuid
+     */
+    void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);
+    /** @brief Get the count of timelines in this project
+     */
+    int getTimelinesCount() const;
+
+    void activateDocument(const QUuid &uuid);
+    bool closeDocument();
+    /** @brief Close a timeline tab through its uuid
+     */
+    bool closeTimeline(const QUuid &uuid);
+    void setActiveTimeline(const QUuid &uuid);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -195,14 +211,14 @@ signals:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
+    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
     KdenliveDoc *m_project{nullptr};
-    std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
+    std::shared_ptr<TimelineItemModel> m_activeTimelineModel;
     QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;

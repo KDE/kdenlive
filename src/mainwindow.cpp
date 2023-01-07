@@ -383,7 +383,7 @@ void MainWindow::init(const QString &mltPath)
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this,
             [&](int cid, const QString &compositionId) { getCurrentTimeline()->model()->switchComposition(cid, compositionId); });
-
+    connect(pCore->bin(), &Bin::updateTabName, m_timelineTabs, &TimelineTabs::renameTab);
     connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&]() { m_effectStackDock->raise(); });
@@ -828,11 +828,11 @@ void MainWindow::init(const QString &mltPath)
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    getCurrentTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu,
-                                          actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
+    m_timelineTabs->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu,
+                                    actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
     scmanager->slotCheckActiveScopes();
     connect(qApp, &QGuiApplication::applicationStateChanged, this, [&](Qt::ApplicationState state) {
-        if (state == Qt::ApplicationActive) {
+        if (state == Qt::ApplicationActive && getCurrentTimeline()) {
             getCurrentTimeline()->regainFocus();
         }
     });
@@ -2198,7 +2198,7 @@ void MainWindow::slotRenderProject()
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-        m_renderWidget->setGuides(project->getGuideModel());
+        m_renderWidget->setGuides(project->getGuideModel(getCurrentTimeline()->getUuid()));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -2364,7 +2364,7 @@ void MainWindow::connectDocument()
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel(getCurrentTimeline()->getUuid()));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
         m_renderWidget->updateMetadataToolTip();
@@ -2390,7 +2390,7 @@ void MainWindow::connectDocument()
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     pCore->guidesList()->reset();
-    pCore->guidesList()->setModel(project->getGuideModel(), project->getFilteredGuideModel());
+    pCore->guidesList()->setModel(project->getGuideModel(getCurrentTimeline()->getUuid()), project->getFilteredGuideModel());
     getCurrentTimeline()->focusTimeline();
 }
 
@@ -2834,7 +2834,9 @@ void MainWindow::slotSearchGuide()
 
 void MainWindow::slotExportGuides()
 {
-    pCore->currentDoc()->getGuideModel()->exportGuidesGui(this, GenTime(getCurrentTimeline()->controller()->duration() - 1, pCore->getCurrentFps()));
+    pCore->currentDoc()
+        ->getGuideModel(getCurrentTimeline()->getUuid())
+        ->exportGuidesGui(this, GenTime(getCurrentTimeline()->controller()->duration() - 1, pCore->getCurrentFps()));
 }
 
 void MainWindow::slotLockGuides(bool lock)
@@ -2850,7 +2852,7 @@ void MainWindow::slotDeleteGuide()
 
 void MainWindow::slotDeleteAllGuides()
 {
-    pCore->currentDoc()->getGuideModel()->removeAllMarkers();
+    pCore->currentDoc()->getGuideModel(getCurrentTimeline()->getUuid())->removeAllMarkers();
 }
 
 void MainWindow::slotCutTimelineClip()
@@ -4214,6 +4216,11 @@ bool MainWindow::hasTimeline() const
     return m_timelineTabs != nullptr;
 }
 
+void MainWindow::closeTimeline(const QUuid &uuid)
+{
+    m_timelineTabs->closeTimeline(uuid);
+}
+
 void MainWindow::resetTimelineTracks()
 {
     TimelineWidget *current = getCurrentTimeline();
@@ -4599,6 +4606,72 @@ void MainWindow::checkMaxCacheSize()
     if (total > KIO::filesize_t(1048576) * KdenliveSettings::maxcachesize()) {
         slotManageCache();
     }
+}
+
+TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
+{
+    return m_timelineTabs->addTimeline(uuid, tabName, timelineModel, proxy);
+}
+
+bool MainWindow::raiseTimeline(const QUuid &uuid)
+{
+    return m_timelineTabs->raiseTimeline(uuid);
+}
+
+void MainWindow::connectTimeline()
+{
+    qDebug() << "::::::::::: connecting timeline: " << getCurrentTimeline()->getUuid();
+    if (!getCurrentTimeline()->model()) {
+        qDebug() << "::::::::::: TIMEKINE HAS O MODELÀÀÀÀÀÀÀÀÀÀÀÀÀÀÀ";
+    } else {
+        getCurrentTimeline()->model()->rebuildMixer();
+    }
+    const QUuid uuid = getCurrentTimeline()->getUuid();
+    pCore->projectManager()->setActiveTimeline(uuid);
+    connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
+    connect(m_projectMonitor, &Monitor::activateTrack, getCurrentTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
+    connect(getCurrentTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&](bool selected) {
+        m_loopClip->setEnabled(selected);
+        emit pCore->library()->enableAddSelection(selected);
+    });
+    connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getCurrentTimeline()->controller(), &TimelineController::saveTimelineSelection,
+            Qt::UniqueConnection);
+    getCurrentTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
+    connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
+    connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
+    pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+
+    KdenliveDoc *project = pCore->currentDoc();
+    // pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), project->position);
+    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer());
+    pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
+    connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+    slotUpdateDocumentState(pCore->currentDoc()->isModified());
+    emit m_timelineTabs->changeZoom(m_zoomSlider->value(), false);
+
+    if (m_renderWidget) {
+        slotCheckRenderStatus();
+        m_renderWidget->setGuides(project->getGuideModel(uuid));
+        m_renderWidget->updateDocumentPath();
+        m_renderWidget->setRenderProfile(project->getRenderProperties());
+    }
+}
+
+void MainWindow::disconnectTimeline(TimelineWidget *timeline)
+{
+    // Save current tab timeline position
+    qDebug() << "=== DISCONNECTING TIMELINE!!!";
+    if (pCore->currentDoc()) {
+        // pCore->currentDoc()->position = pCore->getTimelinePosition();
+        //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
+        // qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
+    }
+    disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
+    disconnect(m_projectMonitor, &Monitor::multitrackView, timeline->controller(), &TimelineController::slotMultitrackView);
+    disconnect(m_projectMonitor, &Monitor::activateTrack, timeline->controller(), &TimelineController::activateTrackAndSelect);
+    disconnect(pCore->library(), &LibraryWidget::saveTimelineSelection, timeline->controller(), &TimelineController::saveTimelineSelection);
+    timeline->controller()->clipActions = QList<QAction *>();
+    disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
 }
 
 #ifdef DEBUG_MAINW

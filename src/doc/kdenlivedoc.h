@@ -125,6 +125,9 @@ public:
      * will be created the next time the document is saved.
      */
     void requestBackup();
+    /** @brief prepare timelinemodels for closing
+     */
+    void prepareClose();
 
     /** @brief Returns the project folder, used to store project temporary files. */
     QString projectTempFolder() const;
@@ -144,7 +147,7 @@ public:
     /** @brief Returns target tracks (video, audio). */
     QPair<int, int> targetTracks() const;
     /** @brief Load document guides from properties. */
-    void loadDocumentGuides();
+    void loadDocumentGuides(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
@@ -225,12 +228,15 @@ public:
      */
     QString &modifiedDecimalPoint();
     void setModifiedDecimalPoint(const QString &decimalPoint) { m_modifiedDecimalPoint = decimalPoint; }
+    /** @brief Get the list of secondary timelines uuid */
+    const QStringList getSecondaryTimelines() const;
+
     /** @brief Initialize subtitle model */
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
     const QString subTitlePath(bool final);
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(int videotracks, int audiotracks);
+    QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
     double getDocumentVersion() const;
     /** @brief Replace proxy clips with originals for rendering. */
@@ -243,9 +249,15 @@ public:
     /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
     void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Get a timeline by its uuid.*/
+    std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
+    void closeTimeline(const QUuid &uuid);
+    QList<QUuid> getTimelinesUuids() const;
     /** @brief Returns the number of timelines in this project.*/
     int timelineCount() const;
-    /** @brief Returns the project's main uuid .*/
+    /** @brief Get the currently active project name.*/
+    const QString projectName() const;
+    /** @brief Returns the project's main uuid.*/
     const QUuid uuid() const;
 
 private:
@@ -296,7 +308,7 @@ private:
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
     /** @brief Creates a new project. */
-    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
+    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks, bool disableProfile);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();

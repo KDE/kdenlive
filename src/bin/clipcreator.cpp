@@ -12,6 +12,8 @@
 #include "klocalizedstring.h"
 #include "macros.hpp"
 #include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
+#include "project/projectmanager.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
 #include "utils/devices.hpp"
@@ -29,6 +31,11 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
     QDomElement prod = xml.createElement(QStringLiteral("producer"));
     xml.appendChild(prod);
     prod.setAttribute(QStringLiteral("type"), int(type));
+    if (type == ClipType::Timeline) {
+        const QUuid uuid = QUuid::createUuid();
+        qDebug() << "::: CREATED XML PLAYLIST UUID: " << uuid;
+        prod.setAttribute(QStringLiteral("kdenlive:uuid"), uuid.toString());
+    }
     prod.setAttribute(QStringLiteral("in"), QStringLiteral("0"));
     prod.setAttribute(QStringLiteral("length"), duration);
     std::unordered_map<QString, QString> properties;
@@ -68,6 +75,88 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     QString id;
     std::function<void(const QString &)> callBack = [](const QString &binId) { pCore->activeBin()->selectClipById(binId); };
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, i18n("Create color clip"), callBack);
+    return res ? id : QStringLiteral("-1");
+}
+
+QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int> tracks, const QString &parentFolder,
+                                        const std::shared_ptr<ProjectItemModel> &model)
+{
+    const QUuid uuid = QUuid::createUuid();
+    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getCurrentProfile()->profile()));
+    timeline->lock();
+    // Audio tracks
+    for (int ix = 0; ix < tracks.first; ix++) {
+        Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
+        timeline->insert_track(pl, ix);
+        timeline->track(ix)->set("kdenlive:audio_track", 1);
+    }
+    for (int ix = tracks.first; ix < (tracks.first + tracks.second); ix++) {
+        Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
+        timeline->insert_track(pl, ix);
+        // Audio tracks
+    }
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
+    prod->set("id", uuid.toString().toUtf8().constData());
+    prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    prod->set("kdenlive:clipname", name.toUtf8().constData());
+    prod->set("kdenlive:duration", 1);
+    prod->set("kdenlive:clip_type", ClipType::Timeline);
+
+    QString id;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // Create the timelines folder to store timeline clips
+    QString folderId;
+    bool res = false;
+    if (parentFolder == QLatin1String("-1")) {
+        // Create timeline folder
+        folderId = model->getFolderIdByName(i18n("Timelines"));
+        if (folderId.isEmpty()) {
+            res = model->requestAddFolder(folderId, i18n("Timelines"), QStringLiteral("-1"), undo, redo);
+        } else {
+            res = true;
+        }
+    }
+    if (!res) {
+        folderId = parentFolder;
+    }
+    res = model->requestAddBinClip(id, std::move(prod), folderId, undo, redo);
+    if (res) {
+        // Open playlist timeline
+        qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
+        pCore->projectManager()->openTimeline(id, uuid);
+    }
+    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    return res ? id : QStringLiteral("-1");
+}
+
+QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer,
+                                        const QMap<QString, QString> mainProperties)
+{
+    QString id;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    QMapIterator<QString, QString> i(mainProperties);
+    while (i.hasNext()) {
+        i.next();
+        producer->set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+    }
+    QString folderId;
+    bool res = false;
+    if (parentFolder == QLatin1String("-1")) {
+        // Create timeline folder
+        folderId = model->getFolderIdByName(i18n("Timelines"));
+        if (folderId.isEmpty()) {
+            res = model->requestAddFolder(folderId, i18n("Timelines"), QStringLiteral("-1"), undo, redo);
+        } else {
+            res = true;
+        }
+    }
+    if (!res) {
+        folderId = parentFolder;
+    }
+    res = model->requestAddBinClip(id, producer, folderId, undo, redo);
+    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
     return res ? id : QStringLiteral("-1");
 }
 

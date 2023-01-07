@@ -142,6 +142,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     m_blackClip->set("set.test_audio", 0);
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
+    m_tractor->set("id", uuid.toString().toUtf8().constData());
 
     TRACE_CONSTR(this);
 }
@@ -1748,7 +1749,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
-    if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) && (type == ClipType::AV || type == ClipType::Playlist)) {
+    if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) &&
+        (type == ClipType::AV || type == ClipType::Playlist || type == ClipType::Timeline)) {
         bool useAudioTarget = false;
         if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio

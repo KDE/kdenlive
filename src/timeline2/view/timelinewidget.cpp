@@ -43,8 +43,9 @@
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
-TimelineWidget::TimelineWidget(QWidget *parent)
+TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     : QQuickWidget(parent)
+    , m_uuid(uuid)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -151,6 +152,11 @@ void TimelineWidget::unsetModel()
 {
     m_sortModel->setSourceModel(nullptr);
     m_proxy->prepareClose();
+}
+
+const QUuid &TimelineWidget::getUuid() const
+{
+    return m_uuid;
 }
 
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)

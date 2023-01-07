@@ -296,6 +296,8 @@ public:
     QString packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
+    /** @brief Get the uuid of currently active timeline */
+    const QUuid &currentTimelineId() const;
     /** @brief A list of markers type categories {marker type, {color, category name}} */
     struct MarkerCategory
     {

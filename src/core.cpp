@@ -422,14 +422,14 @@ void Core::selectBinClip(const QString &clipId, bool activateMonitor, int frame,
 
 void Core::selectTimelineItem(int id)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
         m_mainWindow->getCurrentTimeline()->model()->requestAddToSelection(id, true);
     }
 }
 
 std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->model()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
         auto subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
         if (enforce && subModel == nullptr) {
             m_mainWindow->slotEditSubtitle();
@@ -485,6 +485,15 @@ void Core::initLocale()
 ToolType::ProjectTool Core::activeTool()
 {
     return m_mainWindow->getCurrentTimeline()->activeTool();
+}
+
+const QUuid &Core::currentTimelineId() const
+{
+    if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
+        return m_mainWindow->getCurrentTimeline()->getUuid();
+    }
+    const QUuid uuid = QUuid();
+    return uuid;
 }
 
 std::unique_ptr<Mlt::Repository> &Core::getMltRepository()
@@ -560,7 +569,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             emit m_mainWindow->updateRenderWidgetProfile();
             m_monitorManager->resetProfiles();
             emit m_monitorManager->updatePreviewScaling();
-            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
+            if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
                 m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
                 m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
                 checkProfileValidity();
@@ -1264,7 +1273,7 @@ void Core::addGuides(const QList<int> &guides)
         GenTime p(pos, pCore->getCurrentFps());
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
-    currentDoc()->getGuideModel()->addMarkers(markers);
+    m_mainWindow->getCurrentTimeline()->controller()->getModel()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
@@ -1290,14 +1299,14 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.first != ObjectType::BinClip) {
         m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
     }
 }
 
 void Core::updateMasterZones()
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller()) {
         m_mainWindow->getCurrentTimeline()->controller()->updateMasterZones(m_mainWindow->getCurrentTimeline()->model()->getMasterEffectZones());
     }
 }
