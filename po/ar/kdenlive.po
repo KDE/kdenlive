@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, ٢٠١٥, 2017.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2022-12-22 08:59+0400\n"
+"PO-Revision-Date: 2023-01-07 16:54+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8364,10 +8364,9 @@ msgid "An open source video editor."
 msgstr "محرّر فيديوهات مفتوح المصدر."
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "الحقوق محفوظة © ٢٠٠٧-٢٠٢٢، لمؤلّفي كدينلايف"
+msgstr "الحقوق محفوظة © ٢٠٠٧-٢٠٢٣، لمؤلّفي كدينلايف"
 
 #: src/main.cpp:234
 #, kde-format
