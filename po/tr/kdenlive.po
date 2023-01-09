@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2023-01-04 22:36+0300\n"
+"PO-Revision-Date: 2023-01-09 01:17+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5700,7 +5700,7 @@ msgstr "Çeşitli"
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
-msgstr "otomatik"
+msgstr "Otomatik"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:277
 #, kde-format
@@ -5901,7 +5901,7 @@ msgstr "Lütfen bir konuşma modeli kurun."
 #: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "Install missing dependencies"
-msgstr "Eksik bağımlılıkları kur"
+msgstr "Eksik Bağımlılıkları Kur"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1716
 #, kde-format
@@ -10518,12 +10518,12 @@ msgstr "Bölgeyi Çıkar"
 #: src/monitor/monitor.cpp:606
 #, kde-format
 msgid "Set current image as thumbnail"
-msgstr "Geçerli görseli küçük görsel olarak ayarla"
+msgstr "Geçerli Görseli Küçük Görsel Yap"
 
 #: src/monitor/monitor.cpp:608
 #, kde-format
 msgid "Always show audio thumbnails"
-msgstr "Ses önizlemelerini her zaman göster"
+msgstr "Ses Önizlemelerini Her Zaman Göster"
 
 #: src/monitor/monitor.cpp:625
 #, kde-format
@@ -13122,12 +13122,12 @@ msgstr "RGB"
 #: src/scopes/colorscopes/vectorscope.cpp:84
 #, kde-format
 msgid "Draw axis"
-msgstr "Ekseni çiz"
+msgstr "Eksen Çiz"
 
 #: src/scopes/colorscopes/rgbparade.cpp:34
 #, kde-format
 msgid "Gradient reference line"
-msgstr "Gradyan başvuru çizgisi"
+msgstr "Gradyan Başvuru Çizgisi"
 
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:164
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:170
@@ -15599,7 +15599,7 @@ msgstr "Arakodlamadan sonra kapat"
 #, kde-format
 msgctxt "@action:button start transcode"
 msgid "Start"
-msgstr "Başlangıç"
+msgstr "Başlat"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #. i18n: ectx: property (text), widget (QLabel, label_profile)
@@ -16072,7 +16072,7 @@ msgstr "Canlandırma düzenleme:"
 #: src/ui/configenv_ui.ui:414
 #, kde-format
 msgid "Mime types"
-msgstr "Mime tipleri"
+msgstr "MIME Türleri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configenv_ui.ui:420
@@ -16544,7 +16544,7 @@ msgstr "VOSK kurulumunu denetle"
 #: src/ui/configspeech_ui.ui:95
 #, kde-format
 msgid "Check configuration"
-msgstr "Yapılandırmayı denetle"
+msgstr "Yapılandırmayı Denetle"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:122

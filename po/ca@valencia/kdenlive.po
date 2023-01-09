@@ -1,16 +1,16 @@
 # Translation of kdenlive.po to Catalan (Valencian)
-# Copyright (C) 2009-2022 This_file_is_part_of_KDE
+# Copyright (C) 2009-2023 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2022-12-19 09:20+0100\n"
+"PO-Revision-Date: 2023-01-02 14:05+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8421,10 +8421,9 @@ msgid "An open source video editor."
 msgstr "Un editor de vídeo de codi obert."
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 Els autors de Kdenlive"
+msgstr "Copyright © 2007–2023 Els autors de Kdenlive"
 
 #: src/main.cpp:234
 #, kde-format
