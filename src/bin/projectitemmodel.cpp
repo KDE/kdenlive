@@ -1149,7 +1149,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
                     if (prod->parent().type() == mlt_service_tractor_type) {
-                        // This is the entry for the main playlist
                         std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
                         QString uuid = prod->parent().get("kdenlive:uuid");
                         int id(prod->parent().get_int("kdenlive:id"));
@@ -1159,6 +1158,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                         trac->set("out", prod->parent().get("out"));
                         trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
+                        trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         trac->set("kdenlive:clip_type", ClipType::Timeline);
                         trac->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
                         std::shared_ptr<Mlt::Producer> prod2(trac->cut());
@@ -1169,9 +1169,10 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                         prod2->set("out", prod->parent().get("out"));
                         prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
+                        prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:clip_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
-                        m_extraPlaylists.insert({QString(prod->parent().get("kdenlive:uuid")), trac});
+                        m_extraPlaylists.insert({QString(prod->parent().get("kdenlive:uuid")), std::move(trac)});
                         binProducers.insert(id, prod2);
                         continue;
                     } else {

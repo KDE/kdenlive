@@ -877,7 +877,14 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getCurrentTimeline()->controller()->requestEndTrimmingMode();
     }
     pCore->mixer()->pauseMonitoring(true);
-    QString scene = m_activeTimelineModel->sceneList(outputFolder, QString(), overlayData);
+    QString scene;
+    // We must save from the primary timeline model
+    if (m_activeTimelineModel->uuid() == m_project->uuid()) {
+        scene = m_activeTimelineModel->sceneList(outputFolder, QString(), overlayData);
+    } else {
+        std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(m_project->uuid());
+        scene = model->sceneList(outputFolder, QString(), overlayData);
+    }
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
