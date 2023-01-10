@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.sleid0r_wipe-barn-door-v" id="frei0r.sleid0r_wipe-barn-door-v">
+    <name>Vertical Barn Door Wipe</name>
+    <description>Vertical barn door wipe.</description>
+    <author>Vadim Druzhin</author>
+    <parameter type="animated" name="position" max="1000" min="0" default="0=0;%out=1" factor="1000">
+        <name>Edges position</name>
+    </parameter>
+</transition>

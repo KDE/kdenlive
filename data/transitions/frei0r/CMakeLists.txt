@@ -27,6 +27,22 @@ frei0r_softlight.xml
 frei0r_subtract.xml
 frei0r_uvmap.xml
 frei0r_value.xml
+frei0r_wipe-up.xml
+frei0r_wipe-down.xml
+frei0r_wipe-left.xml
+frei0r_wipe-right.xml
+frei0r_wipe-rect.xml
+frei0r_wipe-circle.xml
+frei0r_wipe-barn-door-h.xml
+frei0r_wipe-barn-door-v.xml
+frei0r_push-up.xml
+frei0r_push-down.xml
+frei0r_push-left.xml
+frei0r_push-right.xml
+frei0r_slide-up.xml
+frei0r_slide-down.xml
+frei0r_slide-left.xml
+frei0r_slide-right.xml
 
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/transitions)
 

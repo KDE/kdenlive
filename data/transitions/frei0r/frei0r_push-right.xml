@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<transition tag="frei0r.sleid0r_push-right" id="frei0r.sleid0r_push-right">
+    <name>Push Right</name>
+    <description>Push from left to right.</description>
+    <author>Vadim Druzhin</author>
+    <parameter type="animated" name="position" max="1000" min="0" default="0=0;%out=1" factor="1000">
+        <name>Push position</name>
+    </parameter>
+</transition>
