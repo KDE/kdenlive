@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-03 00:46+0000\n"
+"POT-Creation-Date: 2023-01-11 00:56+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -3526,8 +3526,8 @@ msgstr " Biller"
 msgid "Update %1"
 msgstr "Profil opfrischen"
 
-#: src/assets/model/assetparametermodel.cpp:1222
-#: src/assets/model/assetparametermodel.cpp:1269
+#: src/assets/model/assetparametermodel.cpp:1226
+#: src/assets/model/assetparametermodel.cpp:1273
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Cannot open preset file %1"

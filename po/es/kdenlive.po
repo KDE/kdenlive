@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2022-11-22 12:20+0100\n"
+"POT-Creation-Date: 2023-01-11 00:56+0000\n"
+"PO-Revision-Date: 2023-01-09 20:50-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.11.80\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -749,10 +749,9 @@ msgid "Clockwise"
 msgstr "Horario"
 
 #: data/effects/dance.xml:41
-#, fuzzy, kde-format
-#| msgid "Clockwise"
+#, kde-format
 msgid "Counter Clockwise"
-msgstr "Horario"
+msgstr "Antihorario"
 
 #: data/effects/dust.xml:4
 #, kde-format
@@ -3424,8 +3423,8 @@ msgstr "Editar clave de %1"
 msgid "Update %1"
 msgstr "Actualizar %1"
 
-#: src/assets/model/assetparametermodel.cpp:1222
-#: src/assets/model/assetparametermodel.cpp:1269
+#: src/assets/model/assetparametermodel.cpp:1226
+#: src/assets/model/assetparametermodel.cpp:1273
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No es posible abrir el archivo de ajuste prestablecido %1"
@@ -5585,10 +5584,9 @@ msgstr ""
 "volviendo a Automático."
 
 #: src/dialogs/exportguidesdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "Import guides"
+#, kde-format
 msgid "Export guides"
-msgstr "Importar guías"
+msgstr "Exportar guías"
 
 #: src/dialogs/exportguidesdialog.cpp:44
 #, kde-format
@@ -6077,7 +6075,7 @@ msgstr "Procesando %1"
 #: src/dialogs/renderpresetdialog.cpp:92 src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "(Not set)"
-msgstr ""
+msgstr "(No establecido)"
 
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:167
 #, kde-format
@@ -7874,7 +7872,7 @@ msgstr "No es posible cargar la imagen %1."
 #: src/jobs/proxytask.cpp:245
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr ""
+msgstr "Imagen demasiado pequeña para poder generarle un reemplazo."
 
 #: src/jobs/proxytask.cpp:253 src/jobs/transcodetask.cpp:182
 #: src/project/cliptranscode.cpp:123
@@ -8430,10 +8428,9 @@ msgid "An open source video editor."
 msgstr "Un editor de video de código abierto."
 
 #: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 de los autores de Kdenlive"
+msgstr "Copyright © 2007–2023 de los autores de Kdenlive"
 
 #: src/main.cpp:234
 #, kde-format
@@ -11076,34 +11073,26 @@ msgstr ""
 "shortcut> / <shortcut>Fin</shortcut> para ir al primer / último fotograma"
 
 #: src/monitor/view/MonitorRuler.qml:332
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
-#| "shortcut> for multiple selection"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
-"<shortcut>Clic</shortcut> sobre un elemento para desplazarlo, "
-"<shortcut>Mayúsculas clic</shortcut> para una selección múltiple"
+"<shortcut>Arrastrar</shortcut> para establecer el punto de entrada de la "
+"zona, <shortcut>Mayúsculas + arrastrar</shortcut> para previsualizar "
+"mientras se arrastra"
 
 #: src/monitor/view/MonitorRuler.qml:379
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Ctrl</shortcut> to apply on current track only, "
-#| "<shortcut>Shift</shortcut> to also move guides. You can combine both "
-#| "modifiers."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
-"<shortcut>Ctrl</shortcut> para aplicar sólo en la pista actual, "
-"<shortcut>Mayúsculas</shortcut> para mover también las guías. Es posible "
-"combinar ambos modificadores."
+"<shortcut>Arrastrar</shortcut> para establecer el punto de salida de la "
+"zona, <shortcut>Mayúsculas + arrastrar</shortcut> para previsualizar "
+"mientras se arrastra"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -12573,10 +12562,9 @@ msgid "Open Backup"
 msgstr "Abrir respaldo"
 
 #: src/project/projectmanager.cpp:659
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "No es posible abrir el archivo de proyecto %1"
+msgstr "No fue posible abrir el archivo de respaldo del proyecto"
 
 #: src/project/projectmanager.cpp:675
 #, kde-format
@@ -12777,8 +12765,7 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
 msgstr "Conversión de OpenTimelineIO"
 
@@ -19091,7 +19078,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "Rotar de a 90°"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -19126,7 +19113,7 @@ msgstr "Mostrar %1 en la línea de tiempo"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Mayúsculas + arrastrar para ajustar el valor en unidades enteras."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
