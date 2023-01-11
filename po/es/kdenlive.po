@@ -4,14 +4,14 @@
 #
 # Gabriel Gazzán <gabcorreo@gmail.com>, %Y.
 # Automatically generated, 2015.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2015, 2016, 2017, 2019, 2020, 2021, 2022, %Y.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, %Y.
 # Gabriel Gazzan <gabcorreo@gmail.com>, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-03 04:14+0000\n"
-"PO-Revision-Date: 2022-11-22 12:20+0100\n"
+"PO-Revision-Date: 2023-01-11 00:43+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.11.80\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12528,10 +12528,9 @@ msgid "Open Backup"
 msgstr "Abrir respaldo"
 
 #: src/project/projectmanager.cpp:658
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Could not open the backup project file."
-msgstr "No es posible abrir el archivo de proyecto %1"
+msgstr "No fue posible abrir el archivo de respaldo del proyecto"
 
 #: src/project/projectmanager.cpp:674
 #, kde-format
@@ -12732,8 +12731,7 @@ msgstr ""
 " %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:22
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO convertion"
+#, kde-format
 msgid "OpenTimelineIO conversion"
 msgstr "Conversión de OpenTimelineIO"
 
