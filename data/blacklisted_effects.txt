@@ -19,7 +19,7 @@ grayscale
 frei0r.3dflippo
 frei0r.perspective
 
-#EFFECTS NOT USABLE WITH A SIMPLE GUI
+#EFFECTS NOT USABLE WITH A SIMPLE GUI OR INTERNAL TO MLT
 # ladspa
 jackrack
 # luma
@@ -28,6 +28,7 @@ data_show
 watermark
 # region
 resize
+rescale
 resample
 # mono
 transition
