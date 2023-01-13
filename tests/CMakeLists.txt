@@ -4,26 +4,27 @@ configure_file(tests_definitions.h.in tests_definitions.h)
 kde_enable_exceptions()
 
 set(KdenliveTest_SOURCES
+    cachetest.cpp
     colorscopestest.cpp
     compositiontest.cpp
     effectstest.cpp
     filetest.cpp
-    mixtest.cpp
     groupstest.cpp
     keyframetest.cpp
     markertest.cpp
+    mixtest.cpp
     modeltest.cpp
+    movetest.cpp
     regressions.cpp
     rendermodeltest.cpp
     snaptest.cpp
+    spacertest.cpp
+    subtitlestest.cpp
+    sysinfotest.cpp
     timewarptest.cpp
     titlertest.cpp
     treetest.cpp
     trimmingtest.cpp
-    cachetest.cpp
-    movetest.cpp
-    subtitlestest.cpp
-    spacertest.cpp
 )
 
 include(ECMAddTests)
