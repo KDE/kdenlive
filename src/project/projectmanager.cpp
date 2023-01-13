@@ -1401,20 +1401,21 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Playlist 1"));
         int duration = m_activeTimelineModel->duration();
         mainProperties.insert("kdenlive:maxduration", QString::number(duration));
-        mainProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration - 1));
+        mainProperties.insert(QStringLiteral("kdenlive:duration"), QString(m_activeTimelineModel->tractor()->frames_to_time(duration - 1)));
         mainProperties.insert(QStringLiteral("length"), QString::number(duration));
         mainProperties.insert(QStringLiteral("kdenlive:clip_type"), QString::number(ClipType::Timeline));
         // mainProperties.insert("out", QString::number(duration - 1));
         mainProperties.insert(QStringLiteral("kdenlive:uuid"), m_activeTimelineModel->uuid().toString().toUtf8().constData());
         QString mainId = ClipCreator::createPlaylistClip(QStringLiteral("-1"), std::move(pCore->projectItemModel()), main, mainProperties);
         pCore->bin()->registerPlaylist(m_activeTimelineModel->uuid(), mainId);
-        std::shared_ptr<ProjectClip> mainClip = pCore->bin()->getBinClip(mainId);
-        QObject::connect(m_activeTimelineModel.get(), &TimelineModel::durationUpdated, [model = m_activeTimelineModel, mainClip]() {
-            QMap<QString, QString> properties;
-            properties.insert(QStringLiteral("kdenlive:duration"), QString::number(model->duration()));
-            properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
-            qDebug() << "=== UPDATEING MAIN CLIP DURATION: " << model->duration();
-            mainClip->setProperties(properties, true);
+        QObject::connect(m_activeTimelineModel.get(), &TimelineModel::durationUpdated, [id = mainId, model = m_activeTimelineModel]() {
+            std::shared_ptr<ProjectClip> mainClip = pCore->bin()->getBinClip(id);
+            if (mainClip) {
+                QMap<QString, QString> properties;
+                properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(model->duration())));
+                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
+                mainClip->setProperties(properties, true);
+            }
         });
     }
 
@@ -1452,7 +1453,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
-        prod->set("kdenlive:duration", timelineModel->duration());
+        prod->set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
         prod->set("kdenlive:maxduration", timelineModel->duration());
         prod->set("length", timelineModel->duration());
         prod->set("out", timelineModel->duration() - 1);
@@ -1461,12 +1462,11 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("kdenlive:clip_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
             QMap<QString, QString> properties;
-            properties.insert(QStringLiteral("kdenlive:duration"), QString::number(timelineModel->duration()));
+            properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
             properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
-            qDebug() << "=== UPDATEING SECONDARY CLIP DURATION: " << timelineModel->duration();
             clip->setProperties(properties, true);
         });
-        // clip->setProducer(prod);
+        clip->setProducer(prod);
     } else {
         Mlt::Service s(xmlProd->producer()->get_service());
         if (s.type() == mlt_service_multitrack_type) {
@@ -1477,7 +1477,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
                 qDebug() << "// Project failed to load!!";
             }
             std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
-            prod->set("kdenlive:duration", timelineModel->duration());
+            prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(timelineModel->duration()));
             prod->set("kdenlive:maxduration", timelineModel->duration());
             prod->set("length", timelineModel->duration());
             prod->set("kdenlive:clip_type", ClipType::Timeline);
@@ -1513,7 +1513,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             }
             // std::shared_ptr<Mlt::Producer>prod(new Mlt::Producer(timeline->tractor()));
             std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
-            prod->set("kdenlive:duration", timelineModel->duration());
+            prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(timelineModel->duration()));
             prod->set("kdenlive:maxduration", timelineModel->duration());
             prod->set("length", timelineModel->duration());
             prod->set("out", timelineModel->duration() - 1);
@@ -1521,7 +1521,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
             QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
                 QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("kdenlive:duration"), QString::number(timelineModel->duration()));
+                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
                 properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
                 qDebug() << "=== UPDATEING CLIP DURATION: " << timelineModel->duration();
                 clip->setProperties(properties, true);

@@ -396,7 +396,7 @@ void ClipLoadTask::run()
             producerLength = duration;
         }
         producer->set("length", producerLength);
-        producer->set("kdenlive:duration", duration);
+        producer->set("kdenlive:duration", producer->frames_to_time(duration));
         producer->set("out", producerLength - 1);
     } break;
     case ClipType::QText:
@@ -416,7 +416,7 @@ void ClipLoadTask::run()
         }
         producer = loadResource(resource, QStringLiteral("qml:"));
         producer->set("length", producerLength);
-        producer->set("kdenlive:duration", producerLength);
+        producer->set("kdenlive:duration", producer->frames_to_time(producerLength));
         producer->set("out", producerLength - 1);
         break;
     }
@@ -441,7 +441,7 @@ void ClipLoadTask::run()
                         offset = producer->get_playtime() - offset - 1;
                         producer->set("out", offset - 1);
                         producer->set("length", offset);
-                        producer->set("kdenlive:duration", offset);
+                        producer->set("kdenlive:duration", producer->frames_to_time(offset));
                     }
                 } else {
                     qDebug() << "// NO OFFSET DAT FOUND\n\n";
@@ -574,7 +574,7 @@ void ClipLoadTask::run()
         if (kdenlive_duration > 0) {
             producer->set("kdenlive:duration", producer->frames_to_time(kdenlive_duration, mlt_time_clock));
         } else {
-            producer->set("kdenlive:duration", producer->get("length"));
+            producer->set("kdenlive:duration", producer->frames_to_time(producer->get_int("length")));
         }
     }
     if (clipOut > 0) {

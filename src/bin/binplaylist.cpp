@@ -41,7 +41,6 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
                 if (uuid == m_uuid.toString()) {
                     // The main tractor should never be inserted in the bin playlist
                 } else if (!uuid.isEmpty()) {
-                    Mlt::Tractor t(*clip->originalProducer().get());
                     m_binPlaylist->append(clip->originalProducer()->parent());
                 }
             } else {
