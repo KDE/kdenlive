@@ -1128,7 +1128,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     } else {
         // Create a new timeline tab
         documentTimeline =
-            pCore->window()->openTimeline(uuid, i18n("Playlist 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+            pCore->window()->openTimeline(uuid, i18n("Timeline 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
         // doc->setModels(documentTimeline, pCore->getProjectItemModel(uuid));
     }
     qDebug() << "::: INIT PLAYYLIST WITH UUID : " << pCore->projectItemModel()->uuid();
@@ -1398,7 +1398,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         std::shared_ptr<Mlt::Producer> main(t1.cut());
         // std::shared_ptr<Mlt::Producer>main(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, "color:red"));
         QMap<QString, QString> mainProperties;
-        mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Playlist 1"));
+        mainProperties.insert(QStringLiteral("kdenlive:clipname"), i18n("Timeline 1"));
         int duration = m_activeTimelineModel->duration();
         mainProperties.insert("kdenlive:maxduration", QString::number(duration));
         mainProperties.insert(QStringLiteral("kdenlive:duration"), QString(m_activeTimelineModel->tractor()->frames_to_time(duration - 1)));
