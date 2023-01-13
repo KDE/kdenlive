@@ -772,9 +772,10 @@ Rectangle {
                             var moveData = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeFrame = moveData[0]
                             fakeTrack = moveData[1]
-                        } else {
-                            drag.accepted = false
                         }
+                    }
+                    if (clipBeingDroppedId == -1) {
+                        drag.accepted = false
                     }
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 } else {
