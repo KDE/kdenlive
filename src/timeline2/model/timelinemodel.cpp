@@ -1746,6 +1746,11 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     type = master->clipType();
+    // Ensure we don't insert a timeline clip onto itself
+    if (type == ClipType::Timeline && master->getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8() == m_uuid.toString()) {
+        // Abort insert
+        return false;
+    }
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
