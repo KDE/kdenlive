@@ -439,11 +439,11 @@ const QString ClipController::getStringDuration()
 {
     QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         if (playtime > 0) {
             return QString(m_properties->frames_to_time(playtime, mlt_time_smpte_df));
         }
-        return m_properties->frames_to_time(m_masterProducer->get_length(), mlt_time_smpte_df);
+        return m_properties->frames_to_time(m_masterProducer->parent().get_length(), mlt_time_smpte_df);
     }
     return i18n("Unknown");
 }
