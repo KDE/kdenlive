@@ -587,13 +587,12 @@ void GLWidget::paintGL()
     float width = this->width() * devicePixelRatioF();
     float height = this->height() * devicePixelRatioF();
 
+    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
+    f->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
     f->glViewport(0, qRound(m_displayRulerHeight * devicePixelRatioF() * 0.5), int(width), int(height));
-    check_error(f);
-    f->glClearColor(float(m_bgColor.redF()), float(m_bgColor.greenF()), float(m_bgColor.blueF()), 0);
-    f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
     if (!acquireSharedFrameTextures()) return;
