@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-11 00:56+0000\n"
+"POT-Creation-Date: 2023-01-14 00:55+0000\n"
 "PO-Revision-Date: 2023-01-09 01:17+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4893,7 +4893,7 @@ msgstr "Altyazıyı yeniden boyutlandır"
 msgid "Move subtitle"
 msgstr "Altyazıyı taşı"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:801
+#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:804
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5596,10 +5596,10 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Kılavuzlar Verisini Dışa Aktar"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:911
-#: src/dialogs/renderwidget.cpp:916 src/dialogs/renderwidget.cpp:969
-#: src/dialogs/renderwidget.cpp:974 src/dialogs/renderwidget.cpp:1907
-#: src/dialogs/renderwidget.cpp:1934 src/doc/kdenlivedoc.cpp:710
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:914
+#: src/dialogs/renderwidget.cpp:919 src/dialogs/renderwidget.cpp:972
+#: src/dialogs/renderwidget.cpp:977 src/dialogs/renderwidget.cpp:1922
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:710
 #: src/doc/kdenlivedoc.cpp:718 src/doc/kdenlivedoc.cpp:1085
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6107,63 +6107,63 @@ msgstr ""
 "Aşağıdaki parametrelerin bir etkisi olmayacak; çünkü eşdeğer kullanıcı "
 "arayüzü seçenekleri tarafından üzerilerine yazılacak: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1736
+#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1751
 #, kde-format
 msgid "Waiting…"
 msgstr "Bekliyor…"
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:113
 #, kde-format
 msgid "Rendering finished"
 msgstr "Sunum bitti"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:118
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Sunum çöktü"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:123
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Sunum iptal edildi"
 
-#: src/dialogs/renderwidget.cpp:205 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:208 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Hiçbiri"
 
-#: src/dialogs/renderwidget.cpp:206
+#: src/dialogs/renderwidget.cpp:209
 #, kde-format
 msgid "Timecode"
 msgstr "Zaman kodu"
 
-#: src/dialogs/renderwidget.cpp:207
+#: src/dialogs/renderwidget.cpp:210
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Zaman Kodu Bırakılmayacak Çerçeve"
 
-#: src/dialogs/renderwidget.cpp:208
+#: src/dialogs/renderwidget.cpp:211
 #, kde-format
 msgid "Frame Number"
 msgstr "Kare Numarası"
 
-#: src/dialogs/renderwidget.cpp:212
+#: src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Düşük kaliteli vekil kullanarak sunum"
 
-#: src/dialogs/renderwidget.cpp:285
+#: src/dialogs/renderwidget.cpp:288
 #, kde-format
 msgid "File"
 msgstr "Dosya"
 
-#: src/dialogs/renderwidget.cpp:294
+#: src/dialogs/renderwidget.cpp:297
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Depolanan Oynatma Listeleri"
 
-#: src/dialogs/renderwidget.cpp:311 src/timeline2/view/previewmanager.cpp:50
+#: src/dialogs/renderwidget.cpp:314 src/timeline2/view/previewmanager.cpp:50
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6172,61 +6172,61 @@ msgstr ""
 "kdenlive_render uygulaması bulunamadı, kurulumunuzda bir sorun var. Sunum "
 "çalışmayacak"
 
-#: src/dialogs/renderwidget.cpp:334
+#: src/dialogs/renderwidget.cpp:337
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Yalnızca Matruşka (mkv) biçimi için çalışır"
 
-#: src/dialogs/renderwidget.cpp:342
+#: src/dialogs/renderwidget.cpp:345
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Belgeyi paylaşırken bir sorun oluştu: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:342 src/dialogs/renderwidget.cpp:350
+#: src/dialogs/renderwidget.cpp:345 src/dialogs/renderwidget.cpp:353
 #: src/ui/renderwidget_ui.ui:898
 #, kde-format
 msgid "Share"
 msgstr "Paylaş"
 
-#: src/dialogs/renderwidget.cpp:347
+#: src/dialogs/renderwidget.cpp:350
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Belge başarıyla paylaşıldı"
 
-#: src/dialogs/renderwidget.cpp:350
+#: src/dialogs/renderwidget.cpp:353
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Paylaşılan belgeyi şu adreste bulabilirsiniz: < a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:486
+#: src/dialogs/renderwidget.cpp:489
 #, kde-format
 msgid "Beginning"
 msgstr "Başlangıç"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:493 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:496 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Son"
 
-#: src/dialogs/renderwidget.cpp:613
+#: src/dialogs/renderwidget.cpp:616
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Sunumdan önce zaman akışına bir klip ekle"
 
-#: src/dialogs/renderwidget.cpp:619
+#: src/dialogs/renderwidget.cpp:622
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "Sunum için gerekli melt yazılımı (MLT'nin bir parçası) bulunamıyor"
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1710
+#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1725
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Çıktı dosyası halihazırda var. Üzerine yazmak istiyor musunuz?"
 
-#: src/dialogs/renderwidget.cpp:633 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:636 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6235,33 +6235,33 @@ msgstr ""
 "%1 dizini oluşturulamadı.\n"
 "Yeterli izne sahip olduğunuzdan emin olun."
 
-#: src/dialogs/renderwidget.cpp:677 src/dialogs/renderwidget.cpp:752
+#: src/dialogs/renderwidget.cpp:680 src/dialogs/renderwidget.cpp:755
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Geçici altyazı dosyası oluşturulamadı"
 
-#: src/dialogs/renderwidget.cpp:722
+#: src/dialogs/renderwidget.cpp:725
 #, kde-format
 msgid "begin"
 msgstr "başla"
 
-#: src/dialogs/renderwidget.cpp:777
+#: src/dialogs/renderwidget.cpp:780
 #, kde-format
 msgid "export"
 msgstr "dışa aktar"
 
-#: src/dialogs/renderwidget.cpp:792
+#: src/dialogs/renderwidget.cpp:795
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Geciktirilmiş Sunum"
 
-#: src/dialogs/renderwidget.cpp:792
+#: src/dialogs/renderwidget.cpp:795
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Bu sunum için bir ad seçin."
 
-#: src/dialogs/renderwidget.cpp:872
+#: src/dialogs/renderwidget.cpp:875
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
@@ -6270,7 +6270,7 @@ msgstr ""
 "Betik sunumu ve çok izli ses dışa aktarımı birlikte kullanılamaz.\n"
 "Betik, çoklu iz dışa aktarma desteği olmadan kaydedilecek."
 
-#: src/dialogs/renderwidget.cpp:1012 src/dialogs/renderwidget.cpp:1723
+#: src/dialogs/renderwidget.cpp:1015 src/dialogs/renderwidget.cpp:1738
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6279,47 +6279,47 @@ msgstr ""
 "Bir dosyaya yazan bir iş halihazırda var:<br /><b>%1</b><br />Üzerine yazmak "
 "istiyorsanız işi iptal edin…"
 
-#: src/dialogs/renderwidget.cpp:1013 src/dialogs/renderwidget.cpp:1724
+#: src/dialogs/renderwidget.cpp:1016 src/dialogs/renderwidget.cpp:1739
 #, kde-format
 msgid "Already running"
 msgstr "Halihazırda çalışıyor"
 
-#: src/dialogs/renderwidget.cpp:1038
+#: src/dialogs/renderwidget.cpp:1041
 #, kde-format
 msgid "Video without audio track"
 msgstr "Ses izi olmayan video"
 
-#: src/dialogs/renderwidget.cpp:1040
+#: src/dialogs/renderwidget.cpp:1043
 #, kde-format
 msgid "Audio without video track"
 msgstr "Video izi olmayan ses"
 
-#: src/dialogs/renderwidget.cpp:1104
+#: src/dialogs/renderwidget.cpp:1107
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> sunumu başladı"
 
-#: src/dialogs/renderwidget.cpp:1170 src/monitor/monitor.cpp:1132
+#: src/dialogs/renderwidget.cpp:1173 src/monitor/monitor.cpp:1132
 #, kde-format
 msgid "untitled"
 msgstr "başlıksız"
 
-#: src/dialogs/renderwidget.cpp:1208
+#: src/dialogs/renderwidget.cpp:1211
 #, kde-format
 msgid "No preset selected"
 msgstr "Seçili önayar yok"
 
-#: src/dialogs/renderwidget.cpp:1210
+#: src/dialogs/renderwidget.cpp:1213
 #, kde-format
 msgid "No matching preset"
 msgstr "Eşleşen önayar yok"
 
-#: src/dialogs/renderwidget.cpp:1222
+#: src/dialogs/renderwidget.cpp:1225
 #, kde-format
 msgid "Invalid preset"
 msgstr "Geçersiz önayar"
 
-#: src/dialogs/renderwidget.cpp:1328
+#: src/dialogs/renderwidget.cpp:1331
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6327,50 +6327,55 @@ msgid ""
 msgstr ""
 "Ses ve video olmadan sunum çalışmaz. İkisinden en az birini etkinleştirin."
 
-#: src/dialogs/renderwidget.cpp:1487
+#: src/dialogs/renderwidget.cpp:1490
 #, kde-format
 msgid "Remaining time "
 msgstr "Kalan süre "
 
-#: src/dialogs/renderwidget.cpp:1489 src/dialogs/renderwidget.cpp:1521
+#: src/dialogs/renderwidget.cpp:1492 src/dialogs/renderwidget.cpp:1536
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 gün "
 msgstr[1] "%1 gün "
 
-#: src/dialogs/renderwidget.cpp:1493
+#: src/dialogs/renderwidget.cpp:1496
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (kare %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1523
+#: src/dialogs/renderwidget.cpp:1508
+#, kde-format
+msgid "Less than %1MB of available memory remaining."
+msgstr ""
+
+#: src/dialogs/renderwidget.cpp:1538
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Sunum, %1 içinde bitti"
 
-#: src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 sunumu %2 içinde bitti"
 
-#: src/dialogs/renderwidget.cpp:1556
+#: src/dialogs/renderwidget.cpp:1571
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 sunumu çöktü</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1599 src/ui/renderwidget_ui.ui:891
+#: src/dialogs/renderwidget.cpp:1614 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
 msgstr "İşi İptal Et"
 
-#: src/dialogs/renderwidget.cpp:1602
+#: src/dialogs/renderwidget.cpp:1617
 #, kde-format
 msgid "Remove Job"
 msgstr "İşi Kaldır"
 
-#: src/dialogs/renderwidget.cpp:2037
+#: src/dialogs/renderwidget.cpp:2052
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6379,7 +6384,7 @@ msgstr ""
 "Kod çözücü hız parametreleri:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2057
+#: src/dialogs/renderwidget.cpp:2072
 #, kde-format
 msgid "Add to current project"
 msgstr "Geçerli projeye ekle"
@@ -10361,17 +10366,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Çözümleme Verisini Aç"
 
-#: src/monitor/glwidget.cpp:1636
+#: src/monitor/glwidget.cpp:1635
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Oynanacak bir bölge seçin"
 
-#: src/monitor/glwidget.cpp:1672
+#: src/monitor/glwidget.cpp:1671
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Oynatılacak bir klip seçin"
 
-#: src/monitor/glwidget.cpp:1744
+#: src/monitor/glwidget.cpp:1743
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
