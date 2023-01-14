@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-03 04:14+0000\n"
+"POT-Creation-Date: 2023-01-14 02:37+0000\n"
 "PO-Revision-Date: 2022-08-24 17:38+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -10412,17 +10412,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Analiz məlumatını açın"
 
-#: src/monitor/glwidget.cpp:1636
+#: src/monitor/glwidget.cpp:1635
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Oynatma zonasını seçin"
 
-#: src/monitor/glwidget.cpp:1672
+#: src/monitor/glwidget.cpp:1671
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Oynatmaq üçün klipi seçin"
 
-#: src/monitor/glwidget.cpp:1744
+#: src/monitor/glwidget.cpp:1743
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

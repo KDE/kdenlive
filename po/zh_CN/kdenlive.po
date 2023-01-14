@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-03 04:14+0000\n"
+"POT-Creation-Date: 2023-01-14 02:37+0000\n"
 "PO-Revision-Date: 2023-01-12 10:35\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -10207,17 +10207,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "打开分析数据"
 
-#: src/monitor/glwidget.cpp:1636
+#: src/monitor/glwidget.cpp:1635
 #, kde-format
 msgid "Select a zone to play"
 msgstr "选择要播放的区段"
 
-#: src/monitor/glwidget.cpp:1672
+#: src/monitor/glwidget.cpp:1671
 #, kde-format
 msgid "Select a clip to play"
 msgstr "选择要播放的剪辑"
 
-#: src/monitor/glwidget.cpp:1744
+#: src/monitor/glwidget.cpp:1743
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
