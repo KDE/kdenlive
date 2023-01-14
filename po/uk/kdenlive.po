@@ -3715,8 +3715,7 @@ msgstr "Вставити ключові кадри"
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
-msgid ""
-"Paste keyframes. Paste clipboard data as keyframes at current position."
+msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr ""
 "Вставити ключові кадри, Вставити дані з буфер обміну даними як ключові кадри "
 "у поточну позицію."
@@ -7010,8 +7009,7 @@ msgstr "Кліп %1 буде перезавантажено"
 #: src/doc/documentchecker.cpp:412
 #, kde-format
 msgid "The project file contains missing clips or files."
-msgstr ""
-"Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
+msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
 #: src/doc/documentchecker.cpp:418
 #, kde-format
@@ -7312,8 +7310,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:276
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
-msgstr ""
-"Некоректна тека документів проєкту, використовуємо типові теки системи"
+msgstr "Некоректна тека документів проєкту, використовуємо типові теки системи"
 
 #: src/doc/kdenlivedoc.cpp:541 src/doc/kdenlivedoc.cpp:551
 #, kde-format
@@ -10343,8 +10340,7 @@ msgstr "Повний діапазон яскравості"
 #: src/mltcontroller/clippropertiescontroller.cpp:972
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
-msgstr ""
-"У файлі використано змінну частоту кадрів. Не рекомендуємо такі файли."
+msgstr "У файлі використано змінну частоту кадрів. Не рекомендуємо такі файли."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1003
 #, kde-format
@@ -13495,8 +13491,7 @@ msgstr ""
 
 #: src/timeline2/model/builders/meltBuilder.cpp:455
 #, kde-format
-msgid ""
-"%1 Timeline clip (%2) with incorrect bin reference found and recovered."
+msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 Виявлено і відновлено кліп монтажного столу (%2) із помилковим посиланням "
 "на ієрархію."
@@ -13536,8 +13531,7 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:552
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
-msgstr ""
-"Виявлено і вилучено кліп без мікшування %1 на доріжці %2 у позиції %3."
+msgstr "Виявлено і вилучено кліп без мікшування %1 на доріжці %2 у позиції %3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:523
 #: src/timeline2/model/builders/meltBuilder.cpp:554
@@ -14105,8 +14099,7 @@ msgstr "Швидкість кліпу"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:41
 #, kde-format
-msgid ""
-"MLT must be compiled with rubberband library to enable pitch correction"
+msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
 "Щоб отримати доступ до виправлення тону, MLT має бути зібрано із підтримкою "
 "бібліотеки rubberband"
@@ -14149,8 +14142,7 @@ msgstr[3] " доріжка"
 #: src/timeline2/view/previewmanager.cpp:84
 #, kde-format
 msgid "Wrong document ID, cannot create temporary folder"
-msgstr ""
-"Помилковий ідентифікатор документа, не вдалося створити тимчасову теку"
+msgstr "Помилковий ідентифікатор документа, не вдалося створити тимчасову теку"
 
 #: src/timeline2/view/previewmanager.cpp:89
 #, kde-format
@@ -16821,8 +16813,7 @@ msgstr "Призупиняти відтворення при позиціюва�
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_jumptostart)
 #: src/ui/configtimeline_ui.ui:73
 #, kde-format
-msgid ""
-"Jump to timeline start if playback is started on last frame in timeline"
+msgid "Jump to timeline start if playback is started on last frame in timeline"
 msgstr ""
 "Перейти до початку монтажного столу, якщо відтворення розпочато на "
 "останньому кадрі монтажу"
@@ -16870,8 +16861,7 @@ msgstr "Типова висота доріжки:"
 #: src/ui/configtimeline_ui.ui:149
 #, kde-format
 msgid "Raise Properties Pane when Selecting in Timeline"
-msgstr ""
-"Піднімати панель властивостей, якщо щось позначено на монтажному столі"
+msgstr "Піднімати панель властивостей, якщо щось позначено на монтажному столі"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:155

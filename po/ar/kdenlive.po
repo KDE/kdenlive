@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 00:55+0000\n"
-"PO-Revision-Date: 2023-01-07 16:54+0400\n"
+"PO-Revision-Date: 2023-01-14 13:23+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -6338,7 +6338,7 @@ msgstr " (إطار %1 @ %2 إطار/ث)"
 #: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "يتوفر أقل من %1ميغابايب من الذاكرة."
 
 #: src/dialogs/renderwidget.cpp:1538
 #, kde-format
