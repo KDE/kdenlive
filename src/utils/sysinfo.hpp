@@ -1,3 +1,8 @@
+/*
+SPDX-FileCopyrightText: 2022 Eric Jiang <erjiang@alumni.iu.edu>
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
 #pragma once
 
 class SysMemInfo
