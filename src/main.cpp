@@ -170,14 +170,15 @@ int main(int argc, char *argv[])
     parser.setApplicationDescription(aboutData.shortDescription());
 
     // config option is processed in KConfig (src/core/kconfig.cpp)
-    parser.addOption(QCommandLineOption(QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config file")));
-    QCommandLineOption mltPathOption(QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path"));
+    parser.addOption(QCommandLineOption(QStringLiteral("config"), i18n("Set a custom config file name."), QStringLiteral("config file")));
+    QCommandLineOption mltPathOption(QStringLiteral("mlt-path"), i18n("Set the path for MLT environment."), QStringLiteral("mlt-path"));
     parser.addOption(mltPathOption);
-    QCommandLineOption mltLogLevelOption(QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug"));
+    QCommandLineOption mltLogLevelOption(QStringLiteral("mlt-log"), i18n("Set the MLT log level. Leave this unset for level \"warning\"."),
+                                         QStringLiteral("verbose/debug"));
     parser.addOption(mltLogLevelOption);
-    QCommandLineOption clipsOption(QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips"));
+    QCommandLineOption clipsOption(QStringLiteral("i"), i18n("Comma separated list of files to add as clips to the bin."), QStringLiteral("clips"));
     parser.addOption(clipsOption);
-    parser.addPositionalArgument(QStringLiteral("file"), i18n("Document to open"));
+    parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
 
     // Parse command line
     parser.process(app);
