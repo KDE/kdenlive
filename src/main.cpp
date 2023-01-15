@@ -81,9 +81,109 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN)
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
 #endif
-
     // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
+
+    QApplication app(argc, argv);
+
+    // Try to detect package type
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    } else {
+        // no package type defined, try to detected it
+        QString appPath = app.applicationDirPath();
+        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+            packageType = QStringLiteral("appimage");
+        }
+        if (appPath.contains(QStringLiteral("/snap"))) {
+            packageType = QStringLiteral("snap");
+        } else {
+            qDebug() << "Could not detect package type, probably default? App dir is" << app.applicationDirPath();
+        }
+    }
+
+    bool inSandbox = false;
+    if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
+        inSandbox = true;
+        // use a dedicated config file for sandbox packages,
+        // however the next line has no effect if the --config cmd option is used
+        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageType));
+    }
+
+    KLocalizedString::setApplicationDomain("kdenlive");
+    qApp->processEvents(QEventLoop::AllEvents);
+
+    // Create KAboutData
+    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
+                             QStringLiteral("https://bugs.kde.org/"));
+    if (!packageType.isEmpty()) {
+        otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
+    }
+    KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
+                         i18n("Copyright © 2007–2023 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
+    // main developers (alphabetical)
+    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
+    // active developers with major involvement
+    aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite"), QStringLiteral("french.ebook.lover@gmail.com"));
+    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, packaging, bug fixing"), QStringLiteral("vpinon@kde.org"));
+    // other active developers (alphabetical)
+    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("MLT, Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
+    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Bug fixing, etc."), QStringLiteral("jk.kdedev@smartlab.uber.space"));
+    aboutData.addAuthor(i18n("Sashmita Raghav"), i18n("Subtitle feature (GSoC), timeline colours"));
+    // non active developers with major improvement (alphabetical)
+    aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
+    // non developers (alphabetical)
+    aboutData.addCredit(i18n("Farid Abdelnour"), i18n("Logo, Promotion, testing"));
+    aboutData.addCredit(i18n("Eugen Mohr"), i18n("Bug triage, testing"));
+    aboutData.addCredit(i18n("Nara Oliveira"), i18n("Logo"));
+    aboutData.addCredit(i18n("Bruno Santos"), i18n("Testing"));
+    aboutData.addCredit(i18n("Massimo Stella"), i18n("Expert advice, testing"));
+
+    aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
+    aboutData.setOrganizationDomain(QByteArray("kde.org"));
+
+    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
+                           QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
+    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
+                           QStringLiteral("https://ffmpeg.org"));
+
+    aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
+
+    // Register about data
+    KAboutData::setApplicationData(aboutData);
+
+    // Set app stuff from about data
+    app.setApplicationName(QStringLiteral("kdenlive"));
+    app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
+    app.setApplicationDisplayName(aboutData.displayName());
+    app.setOrganizationDomain(aboutData.organizationDomain());
+    app.setApplicationVersion(aboutData.version());
+    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
+
+    qApp->processEvents(QEventLoop::AllEvents);
+
+    // Create command line parser with options
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
+    parser.setApplicationDescription(aboutData.shortDescription());
+
+    // config option is processed in KConfig (src/core/kconfig.cpp)
+    parser.addOption(QCommandLineOption(QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config file")));
+    QCommandLineOption mltPathOption(QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path"));
+    parser.addOption(mltPathOption);
+    QCommandLineOption mltLogLevelOption(QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug"));
+    parser.addOption(mltLogLevelOption);
+    QCommandLineOption clipsOption(QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips"));
+    parser.addOption(clipsOption);
+    parser.addPositionalArgument(QStringLiteral("file"), i18n("Document to open"));
+
+    // Parse command line
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
+
+    qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(Q_OS_WIN)
     KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
@@ -100,11 +200,6 @@ int main(int argc, char *argv[])
     }
     configWin->sync();
 #endif
-    QApplication app(argc, argv);
-    app.setApplicationName(QStringLiteral("kdenlive"));
-    app.setOrganizationDomain(QStringLiteral("kde.org"));
-    app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
-    KLocalizedString::setApplicationDomain("kdenlive");
 
     qApp->processEvents(QEventLoop::AllEvents);
     Splash splash;
@@ -112,22 +207,6 @@ int main(int argc, char *argv[])
     splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
     splash.show();
     qApp->processEvents(QEventLoop::AllEvents);
-
-    QString packageType;
-    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
-        packageType = qgetenv("PACKAGE_TYPE").toLower();
-    } else {
-        // no package type defined, try to detected it
-        QString appPath = qApp->applicationDirPath();
-        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
-            packageType = QStringLiteral("appimage");
-        }
-        if (appPath.contains(QStringLiteral("/snap"))) {
-            packageType = QStringLiteral("snap");
-        } else {
-            qDebug() << "Could not detect package type, probably default? App dir is" << qApp->applicationDirPath();
-        }
-    }
 
 #ifdef Q_OS_WIN
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
@@ -180,14 +259,6 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    bool inSandbox = false;
-    if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
-        inSandbox = true;
-        // use a dedicated config file for sandbox packages,
-        // however the next line has no effect if the --config cmd option is used
-        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageType));
-    }
-
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
@@ -222,71 +293,6 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
 
-    // Create KAboutData
-    QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
-                             QStringLiteral("https://bugs.kde.org/"));
-    if (!packageType.isEmpty()) {
-        otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
-    }
-    KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
-                         i18n("Copyright © 2007–2023 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
-    // main developers (alphabetical)
-    aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
-    // active developers with major involvement
-    aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite"), QStringLiteral("french.ebook.lover@gmail.com"));
-    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
-    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, packaging, bug fixing"), QStringLiteral("vpinon@kde.org"));
-    // other active developers (alphabetical)
-    aboutData.addAuthor(i18n("Dan Dennedy"), i18n("MLT, Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
-    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Bug fixing, etc."), QStringLiteral("jk.kdedev@smartlab.uber.space"));
-    aboutData.addAuthor(i18n("Sashmita Raghav"), i18n("Subtitle feature (GSoC), timeline colours"));
-    // non active developers with major improvement (alphabetical)
-    aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
-    // non developers (alphabetical)
-    aboutData.addCredit(i18n("Farid Abdelnour"), i18n("Logo, Promotion, testing"));
-    aboutData.addCredit(i18n("Eugen Mohr"), i18n("Bug triage, testing"));
-    aboutData.addCredit(i18n("Nara Oliveira"), i18n("Logo"));
-    aboutData.addCredit(i18n("Bruno Santos"), i18n("Testing"));
-    aboutData.addCredit(i18n("Massimo Stella"), i18n("Expert advice, testing"));
-
-    aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
-    aboutData.setOrganizationDomain(QByteArray("kde.org"));
-
-    aboutData.addComponent(i18n("MLT"), i18n("Open source multimedia framework."), mlt_version_get_string(),
-                           QStringLiteral("https://mltframework.org") /*, KAboutLicense::LGPL_V2_1*/);
-    aboutData.addComponent(i18n("FFmpeg"), i18n("A complete, cross-platform solution to record, convert and stream audio and video."), QString(),
-                           QStringLiteral("https://ffmpeg.org"));
-
-    aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
-
-    // Register about data
-    KAboutData::setApplicationData(aboutData);
-
-    // Set app stuff from about data
-    app.setApplicationDisplayName(aboutData.displayName());
-    app.setOrganizationDomain(aboutData.organizationDomain());
-    app.setApplicationVersion(aboutData.version());
-    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
-    qApp->processEvents(QEventLoop::AllEvents);
-
-    // Create command line parser with options
-    QCommandLineParser parser;
-    aboutData.setupCommandLine(&parser);
-    parser.setApplicationDescription(aboutData.shortDescription());
-
-    // config option is processed in KConfig (src/core/kconfig.cpp)
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug")));
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips")));
-    parser.addPositionalArgument(QStringLiteral("file"), i18n("Document to open"));
-
-    // Parse command line
-    parser.process(app);
-    aboutData.processCommandLine(&parser);
-
-    qApp->processEvents(QEventLoop::AllEvents);
-
 #ifdef USE_DRMINGW
     ExcHndlInit();
 #elif defined(KF5_USE_CRASH)
@@ -318,12 +324,12 @@ int main(int argc, char *argv[])
                                      1, 0,                       // major and minor version of the import
                                      "ProjectTool",              // name in QML
                                      "Error: only enums");
-    if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
+    if (parser.value(mltLogLevelOption) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);
-    } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {
+    } else if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
-    const QString clipsToLoad = parser.value(QStringLiteral("i"));
+    const QString clipsToLoad = parser.value(clipsOption);
     QUrl url;
     if (parser.positionalArguments().count() != 0) {
         const QString inputFilename = parser.positionalArguments().at(0);
@@ -341,7 +347,7 @@ int main(int argc, char *argv[])
     } else {
         QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
-        pCore->initGUI(inSandbox, parser.value(QStringLiteral("mlt-path")), url, clipsToLoad);
+        pCore->initGUI(inSandbox, parser.value(mltPathOption), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();
