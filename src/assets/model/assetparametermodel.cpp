@@ -525,6 +525,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("opacity")) != QLatin1String("false");
     case RelativePosRole:
         return element.attribute(QStringLiteral("relative")) == QLatin1String("true");
+    case ToTimePosRole:
+        return element.attribute(QStringLiteral("totime")) == QLatin1String("true");
     case ShowInTimelineRole:
         return !element.hasAttribute(QStringLiteral("notintimeline"));
     case AlphaRole:

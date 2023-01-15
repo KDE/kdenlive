@@ -44,6 +44,7 @@ private:
     TimecodeDisplay *m_display;
     QSlider *m_slider;
     bool m_inverted;
+    bool m_toTime;
 
 private Q_SLOTS:
     void slotUpdatePosition();

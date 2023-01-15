@@ -31,6 +31,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     layout->addWidget(m_slider);
     layout->addWidget(m_display);
     m_inverted = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt() < 0;
+    m_toTime = m_model->data(m_index, AssetParameterModel::ToTimePosRole).toBool();
     slotRefresh();
     setMinimumHeight(m_display->sizeHint().height());
 
@@ -46,7 +47,15 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
         } else if (!m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
             val += m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
         }
-        Q_EMIT AbstractParamWidget::valueChanged(m_index, QString::number(val), true);
+
+        QString value;
+        if (m_toTime) {
+            value = m_model->framesToTime(val);
+        } else {
+            value = QString::number(val);
+        }
+
+        Q_EMIT AbstractParamWidget::valueChanged(m_index, value, true);
     });
 
     setToolTip(comment);

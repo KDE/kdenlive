@@ -103,6 +103,7 @@ public:
         ScaleRole,
         OpacityRole,
         RelativePosRole,
+        ToTimePosRole,
         // Don't display this param in timeline keyframes
         ShowInTimelineRole,
         InRole,

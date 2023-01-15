@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="timer" id="timer">
+    <name>Timer</name>
+    <description>Overlay a timer onto the video</description>
+    <author>Guillaume Papin</author>
+    <parameter type="animatedrect" name="geometry" default="0 0 100% 100%" fixed="0">
+        <name>Geometry</name>
+    </parameter>
+    <parameter type="fontfamily" name="family" default="DejaVu Sans">
+        <name>Font Family</name>
+    </parameter>
+    <parameter type="list" name="style" default="normal" paramlist="normal;italic">
+        <name>Font Style</name>
+    </parameter>
+    <parameter type="constant" name="size" max="200" min="8" default="48">
+        <name>Font Size</name>
+    </parameter>
+    <parameter type="constant" name="weight" max="900" min="100" default="400">
+        <name>Font Weight</name>
+    </parameter>
+    <parameter type="color" name="fgcolour" default="0x000000ff" alpha="1">
+        <name>Foreground Color</name>
+    </parameter>
+    <parameter type="color" name="bgcolour" default="0x00000020" alpha="1">
+        <name>Background Color</name>
+    </parameter>
+    <parameter type="color" name="olcolour" default="0x00000000" alpha="1">
+        <name>Outline Color</name>
+    </parameter>
+    <parameter type="constant" name="outline" max="3" min="0" default="0">
+        <name>Outline Width</name>
+    </parameter>
+    <parameter type="constant" name="pad" max="500" min="0" default="0">
+        <name>Padding</name>
+    </parameter>
+    <parameter type="list" name="halign" default="left" paramlist="left;center;right">
+        <paramlistdisplay>Left,Center,Right</paramlistdisplay>
+        <name>Horizontal Alignment</name>
+    </parameter>
+    <parameter type="list" name="valign" default="top" paramlist="top;middle;bottom">
+        <paramlistdisplay>Top,Middle,Bottom</paramlistdisplay>
+        <name>Vertical Alignment</name>
+    </parameter>
+    <parameter type="list" name="format" default="SS.SS" paramlist="HH:MM:SS;HH:MM:SS.S;MM:SS;MM:SS.SS;MM:SS.SSS;SS;SS.S;SS.SS;SS.SSS">
+        <name>Format</name>
+        <paramlistdisplay>HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS</paramlistdisplay>
+    </parameter>
+    <parameter type="position" name="start" max="1000000" min="0" default="0" totime="true">
+        <name>Start</name>
+        <comment><![CDATA[The time that the timer will start counting up or down.
+The text will be frozen at 00:00:00.000 from the start of the filter until the start time has elapsed.]]></comment>
+    </parameter>
+    <parameter type="position" name="duration" max="1000000" min="0" default="%out" totime="true" relative="true">
+        <name>Duration</name>
+        <comment><![CDATA[The maximum elapsed duration of the timer after the start time has elapsed.
+The text will be frozen at the duration time after the duration has elapsed.]]></comment>
+    </parameter>
+    <parameter type="position" name="offset" max="1000000" min="0" default="0" totime="true" relative="true">
+        <name>Offset</name>
+        <comment><![CDATA[An offset to be added to the timer value.
+When the direction is "down", the timer will count down to "offset" instead of 00:00:00.000.
+When the direction is up, the timer will count up starting from "offset".]]></comment>
+    </parameter>
+    <parameter type="list" name="direction" default="up" paramlist="up;down">
+        <name>Direction</name>
+        <comment>
+            <![CDATA[Whether the counter should count up from 00:00:00.000 or down from the duration time.]]>
+        </comment>
+    </parameter>
+</effect>
