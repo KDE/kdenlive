@@ -4,14 +4,14 @@
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010, 2012, 2013, 2015, 2016.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2020, 2022.
-# Paolo Zamponi <zapaolo@email.it>, 2017, 2018, 2019, 2020, 2021, 2022.
+# Paolo Zamponi <zapaolo@email.it>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 02:37+0000\n"
-"PO-Revision-Date: 2022-12-21 07:30+0100\n"
+"PO-Revision-Date: 2023-01-03 18:48+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -616,7 +616,7 @@ msgstr "Rendi trasparente il colore selezionato"
 #: data/effects/chroma.xml:8 data/effects/chroma_hold.xml:8
 #, kde-format
 msgid "Color key"
-msgstr "Chiave di colore"
+msgstr "Colore chiave"
 
 #: data/effects/chroma.xml:11 data/effects/chroma_hold.xml:11
 #, kde-format
@@ -2825,7 +2825,7 @@ msgstr "Esegue una trasformazione affine per il compositing."
 #, kde-format
 msgctxt "Composite Transition Name"
 msgid "Composite"
-msgstr "Composito"
+msgstr "Composita"
 
 #: data/transitions/composite.xml:5
 #, kde-format
@@ -2877,7 +2877,7 @@ msgstr "Forza esportazione progressiva"
 #, kde-format
 msgctxt "Dissolve Transition Name"
 msgid "Dissolve"
-msgstr "Dissolvi"
+msgstr "Dissolvenza"
 
 #: data/transitions/dissolve.xml:5
 #, kde-format
@@ -5574,7 +5574,7 @@ msgid ""
 msgstr ""
 "Il profilo per l'anteprima nella linea temporale non è compatibile con la "
 "frequenza dei fotogrammi del progetto,\n"
-"ripristinato si Automatico."
+"ripristinato ad Automatico."
 
 #: src/dialogs/exportguidesdialog.cpp:36
 #, kde-format
@@ -9257,22 +9257,22 @@ msgstr "Togli zona dalla linea temporale"
 #: src/mainwindow.cpp:1571
 #, kde-format
 msgid "Add Preview Zone"
-msgstr "Aggiungi zona nell'anteprima"
+msgstr "Aggiungi zona di anteprima"
 
 #: src/mainwindow.cpp:1573
 #, kde-format
 msgid "Remove Preview Zone"
-msgstr "Rimuovi zona dall'anteprima"
+msgstr "Rimuovi zona di anteprima"
 
 #: src/mainwindow.cpp:1575
 #, kde-format
 msgid "Remove All Preview Zones"
-msgstr "Rimuovi tutte le zone dall'anteprima"
+msgstr "Rimuovi tutte le zone di anteprima"
 
 #: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Inizia l'esportazione dell'anteprima"
+msgstr "Inizia esportazione dell'anteprima"
 
 #: src/mainwindow.cpp:1579
 #, kde-format
@@ -17394,7 +17394,7 @@ msgstr "Scala:"
 #: src/ui/histogram_ui.ui:122
 #, kde-format
 msgid "Logarithmic"
-msgstr "Logaritmico"
+msgstr "Logaritmica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transform_framerate_check_box)
 #: src/ui/import_subtitle_ui.ui:39
@@ -18479,7 +18479,7 @@ msgstr "Tendina:"
 #: src/ui/slideshowclip_ui.ui:133
 #, kde-format
 msgid "Dissolve:"
-msgstr "Dissolvi:"
+msgstr "Dissolvenza:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: src/ui/slideshowclip_ui.ui:150
