@@ -4,14 +4,14 @@
 # Alberto Villa <villa.alberto@gmail.com>, 2009.
 # Salvatore Brigaglia <tore@studiobrigaglia.com>, 2010, 2012, 2013, 2015, 2016.
 # Vincenzo Reale <smart2128vr@gmail.com>, 2015, 2020, 2022.
-# Paolo Zamponi <zapaolo@email.it>, 2017, 2018, 2019, 2020, 2021, 2022.
+# Paolo Zamponi <zapaolo@email.it>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 00:55+0000\n"
-"PO-Revision-Date: 2022-12-21 07:30+0100\n"
+"POT-Creation-Date: 2023-01-16 00:55+0000\n"
+"PO-Revision-Date: 2023-01-03 18:48+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -616,7 +616,7 @@ msgstr "Rendi trasparente il colore selezionato"
 #: data/effects/chroma.xml:8 data/effects/chroma_hold.xml:8
 #, kde-format
 msgid "Color key"
-msgstr "Chiave di colore"
+msgstr "Colore chiave"
 
 #: data/effects/chroma.xml:11 data/effects/chroma_hold.xml:11
 #, kde-format
@@ -2830,7 +2830,7 @@ msgstr "Esegue una trasformazione affine per il compositing."
 #, kde-format
 msgctxt "Composite Transition Name"
 msgid "Composite"
-msgstr "Composito"
+msgstr "Composita"
 
 #: data/transitions/composite.xml:5
 #, kde-format
@@ -2882,7 +2882,7 @@ msgstr "Forza esportazione progressiva"
 #, kde-format
 msgctxt "Dissolve Transition Name"
 msgid "Dissolve"
-msgstr "Dissolvi"
+msgstr "Dissolvenza"
 
 #: data/transitions/dissolve.xml:5
 #, kde-format
@@ -5579,7 +5579,7 @@ msgid ""
 msgstr ""
 "Il profilo per l'anteprima nella linea temporale non è compatibile con la "
 "frequenza dei fotogrammi del progetto,\n"
-"ripristinato si Automatico."
+"ripristinato ad Automatico."
 
 #: src/dialogs/exportguidesdialog.cpp:36
 #, kde-format
@@ -8418,197 +8418,191 @@ msgid "Cannot write to Library path: %1, using default"
 msgstr ""
 "Impossibile scrivere nel percorso della libreria: %1, uso quello predefinito"
 
-#: src/main.cpp:112
-#, kde-format
-msgid "Version %1"
-msgstr "Versione %1"
-
-#: src/main.cpp:226
+#: src/main.cpp:118
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Segnala gli errori a <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:229
+#: src/main.cpp:121
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "Stai usando il pacchetto %1.<br>"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
 msgstr "Un video editor Open Source."
 
-#: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#: src/main.cpp:124
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 degli autori di Kdenlive"
+msgstr "Copyright © 2007–2023 degli autori di Kdenlive"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
 "Adattamento a KF5 di MLT e KDE SC 4, sviluppatore principale e responsabile"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
 msgstr "Ri-architettura del codice e riscrittura della linea temporale"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Diagrammi di colore, correzione di bug ed altro"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Conversione a KF5, versione per Windows, pacchetti e correzione di errori"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "MLT, Bug fixing, etc."
 msgstr "MLT, correzione di bug ed altro"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Bug fixing, etc."
 msgstr "Correzione di bug ed altro"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Sashmita Raghav"
 msgstr "Sashmita Raghav"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Subtitle feature (GSoC), timeline colours"
 msgstr "Funzionalità sottotitoli (GSoC), colori nella linea temporale"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autore della versione originale per KDE 3 (non più attivo)"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, promozione, prove"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing"
 msgstr "Ricerca di errori, prove"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Testing"
 msgstr "Prove"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Consigli da esperto, prove"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Paolo Zamponi,Salvatore Brigaglia"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "zapaolo@email.it"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Framework multimediale open source."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:257 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:149 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:257
+#: src/main.cpp:149
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -8617,30 +8611,39 @@ msgstr ""
 "Una soluzione completa e multipiattaforma per registrare, convertire e "
 "trasmettere audio e video."
 
-#: src/main.cpp:278
-#, kde-format
-msgid "Set a custom config file name"
+#: src/main.cpp:173
+#, fuzzy, kde-format
+#| msgid "Set a custom config file name"
+msgid "Set a custom config file name."
 msgstr "Imposta il nome di file con una configurazione personalizzata"
 
-#: src/main.cpp:279
-#, kde-format
-msgid "Set the path for MLT environment"
+#: src/main.cpp:174
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment"
+msgid "Set the path for MLT environment."
 msgstr "Imposta il percorso dell'ambiente MLT"
 
-#: src/main.cpp:280
+#: src/main.cpp:176
 #, kde-format
-msgid "MLT log level"
-msgstr "Livello di registro di MLT"
+msgid "Set the MLT log level. Leave this unset for level \"warning\"."
+msgstr ""
 
-#: src/main.cpp:281
-#, kde-format
-msgid "Comma separated list of clips to add"
+#: src/main.cpp:179
+#, fuzzy, kde-format
+#| msgid "Comma separated list of clips to add"
+msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Lista separata da virgola di clip da aggiungere"
 
-#: src/main.cpp:282
-#, kde-format
-msgid "Document to open"
+#: src/main.cpp:181
+#, fuzzy, kde-format
+#| msgid "Document to open"
+msgid "Kdenlive document to open."
 msgstr "Documento da aprire"
+
+#: src/main.cpp:208
+#, kde-format
+msgid "Version %1"
+msgstr "Versione %1"
 
 #: src/mainwindow.cpp:140
 #, kde-format
@@ -9277,22 +9280,22 @@ msgstr "Togli zona dalla linea temporale"
 #: src/mainwindow.cpp:1571
 #, kde-format
 msgid "Add Preview Zone"
-msgstr "Aggiungi zona nell'anteprima"
+msgstr "Aggiungi zona di anteprima"
 
 #: src/mainwindow.cpp:1573
 #, kde-format
 msgid "Remove Preview Zone"
-msgstr "Rimuovi zona dall'anteprima"
+msgstr "Rimuovi zona di anteprima"
 
 #: src/mainwindow.cpp:1575
 #, kde-format
 msgid "Remove All Preview Zones"
-msgstr "Rimuovi tutte le zone dall'anteprima"
+msgstr "Rimuovi tutte le zone di anteprima"
 
 #: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Inizia l'esportazione dell'anteprima"
+msgstr "Inizia esportazione dell'anteprima"
 
 #: src/mainwindow.cpp:1579
 #, kde-format
@@ -17434,7 +17437,7 @@ msgstr "Scala:"
 #: src/ui/histogram_ui.ui:122
 #, kde-format
 msgid "Logarithmic"
-msgstr "Logaritmico"
+msgstr "Logaritmica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transform_framerate_check_box)
 #: src/ui/import_subtitle_ui.ui:39
@@ -18519,7 +18522,7 @@ msgstr "Tendina:"
 #: src/ui/slideshowclip_ui.ui:133
 #, kde-format
 msgid "Dissolve:"
-msgstr "Dissolvi:"
+msgstr "Dissolvenza:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: src/ui/slideshowclip_ui.ui:150
@@ -19273,6 +19276,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1o"
+
+#~ msgid "MLT log level"
+#~ msgstr "Livello di registro di MLT"
 
 #~ msgid "Export guides as chapters description"
 #~ msgstr "Esporta le guide come descrizione del capitolo"

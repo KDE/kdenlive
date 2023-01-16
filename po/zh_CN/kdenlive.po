@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 00:55+0000\n"
+"POT-Creation-Date: 2023-01-16 00:55+0000\n"
 "PO-Revision-Date: 2023-01-12 10:30\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -8218,174 +8218,169 @@ msgstr "素材库路径设为自定义：%1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "无法写入到素材库路径：%1，使用默认值"
 
-#: src/main.cpp:112
-#, kde-format
-msgid "Version %1"
-msgstr "版本 %1"
-
-#: src/main.cpp:226
+#: src/main.cpp:118
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "请将程序缺陷报告到 <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:229
+#: src/main.cpp:121
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "您正在使用 %1 软件包。<br>"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
 msgstr "一款自由开源的视频编辑工具。"
 
-#: src/main.cpp:232
+#: src/main.cpp:124
 #, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Copyright © 2007–2023 Kdenlive authors"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT 和 KDE SC 4 / KF5 移植，主要开发人员和项目负责人"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
 msgstr "代码重构和时间轴重写"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "颜色示波器、程序缺陷修复等。"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 移植、Windows 交叉编译、软件打包、错误修复"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "MLT, Bug fixing, etc."
 msgstr "MLT、程序缺陷修复等。"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Bug fixing, etc."
 msgstr "程序缺陷修复等。"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Sashmita Raghav"
 msgstr "Sashmita Raghav"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Subtitle feature (GSoC), timeline colours"
 msgstr "字幕功能 (GSoC)、时间轴颜色"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "KDE 3 版本原始作者 (不再参与开发工作)"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "图标、推广、测试"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing"
 msgstr "程序缺陷分拣、测试"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Logo"
 msgstr "图标"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Testing"
 msgstr "测试"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "专业建议、测试"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr ""
 "AngelSherry, DuckSoft, fangzheng, Guo Yunhe, ikochina, loaden, magsom, "
 "mrwang, ovo-Tim, phone-burner, Tyson Tan,Zhang Jie, 大宝, 潘晓宇, 阎金昭"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr ""
@@ -8394,54 +8389,63 @@ msgstr ""
 "Tim@kde.org, phone-burner@kde.org, phoxtail@kde.org, tysontan@tysontan.com, "
 "linux.dabao@gmail.com, panxiaoyu6@kde.org, leonardyan@kde.org"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "自由开源的多媒体程序框架。"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:257 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:149 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:257
+#: src/main.cpp:149
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "一套用于对音频和视频进行录制、转换和推流的完整跨平台解决方案。"
 
-#: src/main.cpp:278
-#, kde-format
-msgid "Set a custom config file name"
+#: src/main.cpp:173
+#, fuzzy, kde-format
+#| msgid "Set a custom config file name"
+msgid "Set a custom config file name."
 msgstr "设置自定义配置文件名"
 
-#: src/main.cpp:279
-#, kde-format
-msgid "Set the path for MLT environment"
+#: src/main.cpp:174
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment"
+msgid "Set the path for MLT environment."
 msgstr "设置 MLT 环境的路径"
 
-#: src/main.cpp:280
+#: src/main.cpp:176
 #, kde-format
-msgid "MLT log level"
-msgstr "MLT 日志级别"
+msgid "Set the MLT log level. Leave this unset for level \"warning\"."
+msgstr ""
 
-#: src/main.cpp:281
-#, kde-format
-msgid "Comma separated list of clips to add"
+#: src/main.cpp:179
+#, fuzzy, kde-format
+#| msgid "Comma separated list of clips to add"
+msgid "Comma separated list of files to add as clips to the bin."
 msgstr "用逗号分隔列表中要添加的剪辑"
 
-#: src/main.cpp:282
-#, kde-format
-msgid "Document to open"
+#: src/main.cpp:181
+#, fuzzy, kde-format
+#| msgid "Document to open"
+msgid "Kdenlive document to open."
 msgstr "要打开的文档"
+
+#: src/main.cpp:208
+#, kde-format
+msgid "Version %1"
+msgstr "版本 %1"
 
 #: src/mainwindow.cpp:140
 #, kde-format
@@ -18821,3 +18825,6 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "MLT log level"
+#~ msgstr "MLT 日志级别"

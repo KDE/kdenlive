@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 00:55+0000\n"
-"PO-Revision-Date: 2023-01-06 15:21+0100\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2023-01-16 00:55+0000\n"
+"PO-Revision-Date: 2023-01-15 12:02+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
@@ -2232,13 +2232,13 @@ msgstr "Vrsta zabrisanosti"
 #: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "Pisalni stroj (za naslove)"
+msgstr "Pisalni stroj (za posnetke napisov)"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
 msgstr ""
-"Učinek pisalnega stroja v0.3.3, ki se uporablja samo za posnetke naslovov."
+"Učinek pisalnega stroja v0.3.3, ki se uporablja samo za posnetke napisov."
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -2803,7 +2803,7 @@ msgstr "Preoblikuj"
 #: data/transitions/affine.xml:5
 #, kde-format
 msgid "Perform an affine transform on for compositing."
-msgstr "Izvedi afino preoblikovanje kompozita."
+msgstr "Izvedi afino preoblikovanje na kompozitu."
 
 #: data/transitions/composite.xml:4
 #, kde-format
@@ -2814,7 +2814,7 @@ msgstr "Kompozit"
 #: data/transitions/composite.xml:5
 #, kde-format
 msgid "A key-framable alpha-channel compositor for two frames."
-msgstr "Kompozitor kanala alfa ključnih sličic za dve sličici."
+msgstr "Kompozitor kanala alfa s ključnimi sličicami za dve sličici."
 
 #: data/transitions/composite.xml:12
 #, kde-format
@@ -2823,7 +2823,7 @@ msgid ""
 "to B's aspect ratio."
 msgstr ""
 "Ko je nastavljeno, povzroči, da slika sličice B v celoti napolni ŠxV brez "
-"upoštevanja razmerja širine in širine B."
+"upoštevanja razmerja stranic B."
 
 #: data/transitions/composite.xml:15
 #, kde-format
@@ -2859,7 +2859,7 @@ msgstr "Vsili napredovano izrisovanje"
 #, kde-format
 msgctxt "Dissolve Transition Name"
 msgid "Dissolve"
-msgstr "Razpusti"
+msgstr "Prelij"
 
 #: data/transitions/dissolve.xml:5
 #, kde-format
@@ -3044,7 +3044,7 @@ msgstr "Shrani v"
 #: plugins/sampleplugin/countdown_ui.ui:29
 #, kde-format
 msgid "Duration (seconds)"
-msgstr "Trajanje (sekund)"
+msgstr "Trajanje (s)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #: plugins/sampleplugin/countdown_ui.ui:46
@@ -3826,7 +3826,7 @@ msgstr "<izberite ključno besedo>"
 #: src/assets/view/widgets/urllistparamwidget.cpp:129
 #, kde-format
 msgid "None (Dissolve)"
-msgstr "Brez (razpusti)"
+msgstr "Brez (preliv)"
 
 #: src/assets/view/widgets/urllistparamwidget.cpp:205
 #, kde-format
@@ -4201,7 +4201,7 @@ msgstr "Filtriraj po vrsti"
 #: src/bin/bin.cpp:2188
 #, kde-format
 msgid "AV Clip"
-msgstr "AV posnetek"
+msgstr "AV-posnetek"
 
 #: src/bin/bin.cpp:2192
 #, kde-format
@@ -4240,12 +4240,12 @@ msgstr "Seznam predvajanja"
 #: src/bin/bin.cpp:2212 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
-msgstr "Naslov"
+msgstr "Napis"
 
 #: src/bin/bin.cpp:2216
 #, kde-format
 msgid "Title Template"
-msgstr "Predloga naslova"
+msgstr "Predloga napisa"
 
 #: src/bin/bin.cpp:2220 src/layoutmanagement.cpp:37
 #: src/mltcontroller/clippropertiescontroller.cpp:342
@@ -4313,12 +4313,12 @@ msgstr "Dodaj zaporedje slik …"
 #: src/bin/bin.cpp:3290
 #, kde-format
 msgid "Add Title Clip…"
-msgstr "Dodaj naslovni posnetek …"
+msgstr "Dodaj posnetek napisa …"
 
 #: src/bin/bin.cpp:3292
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Dodaj predlogo naslova …"
+msgstr "Dodaj predlogo napisa …"
 
 #: src/bin/bin.cpp:3294
 #, kde-format
@@ -4474,7 +4474,7 @@ msgstr ""
 #: src/bin/bin.cpp:4354 src/titler/titlewidget.cpp:2178
 #, kde-format
 msgid "Save Title"
-msgstr "Shrani naslov"
+msgstr "Shrani napis"
 
 #: src/bin/bin.cpp:4354
 #, kde-format
@@ -4489,7 +4489,7 @@ msgstr "Shrani le v projekt"
 #: src/bin/bin.cpp:4373 src/dialogs/clipcreationdialog.cpp:373
 #, kde-format
 msgid "Title clip"
-msgstr "Naslovni posnetek"
+msgstr "Posnetek napisa"
 
 #: src/bin/bin.cpp:4423
 #, kde-format
@@ -5091,7 +5091,7 @@ msgid ""
 "Do you want to reset the configuration files ?"
 msgstr ""
 "Kdenlive se je sesul pri zadnjem zagonu.\n"
-"Ali želite ponovno nastaviti nastavitvene datoteke?"
+"Ali želite ponovno nastaviti prilagoditvene datoteke?"
 
 #: src/core.cpp:183
 #, kde-format
@@ -6365,7 +6365,7 @@ msgstr " (sličica %1 @ %2 sl/s)"
 #: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "Na voljo ostaja manj kot %1 MB pomnilnika."
 
 #: src/dialogs/renderwidget.cpp:1538
 #, kde-format
@@ -6929,7 +6929,7 @@ msgstr "Posnetek seznama predvajanja"
 #: src/doc/documentchecker.cpp:314
 #, kde-format
 msgid "Title Image"
-msgstr "Naslovna slika"
+msgstr "Slika napisa"
 
 #: src/doc/documentchecker.cpp:341
 #, kde-format
@@ -6945,7 +6945,7 @@ msgstr "Prestavljen predmet"
 #: src/doc/documentchecker.cpp:392
 #, kde-format
 msgid "Title Font"
-msgstr "Pisava naslova"
+msgstr "Pisava napisa"
 
 #: src/doc/documentchecker.cpp:397
 #, kde-format
@@ -8393,194 +8393,189 @@ msgstr "Pot knjižnice je bila nastavljena na prilagojeno: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Ni mogoče pisati v pot knjižnice: %1, uporabljena bo privzeta"
 
-#: src/main.cpp:112
-#, kde-format
-msgid "Version %1"
-msgstr "Različica %1"
-
-#: src/main.cpp:226
+#: src/main.cpp:118
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "O hroščih poročajte na <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:229
+#: src/main.cpp:121
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "Uporabljate paket %1.<br>"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
 msgstr "Odprto-kodni program za montažo videa."
 
-#: src/main.cpp:232
+#: src/main.cpp:124
 #, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Copyright © 2007–2023 avtorji Kdenlive"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "Predelava za MLT in KDE SC 4/KF5, glavni razvijalec in vzdrževalec"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
 msgstr "Preurejanje kode in ponovno programiranje časovnice"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Barvni obsegi, odpravljanje hroščev itn."
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "Prilagoditev na KF5, priprava gradnje za Windows, odprava napak"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "MLT, Bug fixing, etc."
 msgstr "MLT, odpravljanje hroščev itn."
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Bug fixing, etc."
 msgstr "Odpravljanje hroščev itn."
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Sashmita Raghav"
 msgstr "Sashmita Raghav"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Subtitle feature (GSoC), timeline colours"
 msgstr "Funkcija podnaslavljanja (GSoC), barve časovnice"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Avtor izvorne različice za KDE 3 (ni več dejaven)"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logotip, promocija, preizkušanje"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing"
 msgstr "Triaža napak, preizkušanje"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Logo"
 msgstr "Logotip"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Testing"
 msgstr "Preizkušanje"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Strokovni nasveti, preizkušanje"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Martin Srebotnjak,Andrej Mernik,Matjaž Jeran"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "miles@filmsi.net,andrejm@ubuntu.si,matjaz.jeran@amis.net"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Odprto-kodno ogrodje za večpredstavnost."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:257 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:149 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:257
+#: src/main.cpp:149
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -8589,30 +8584,39 @@ msgstr ""
 "Popolna rešitev za snemanje, pretvarjanje in pretakanje zvoka in videa, ki "
 "deluje na več platformah."
 
-#: src/main.cpp:278
-#, kde-format
-msgid "Set a custom config file name"
+#: src/main.cpp:173
+#, fuzzy, kde-format
+#| msgid "Set a custom config file name"
+msgid "Set a custom config file name."
 msgstr "Nastavi prilagojeno ime nastavitvene datoteke"
 
-#: src/main.cpp:279
-#, kde-format
-msgid "Set the path for MLT environment"
+#: src/main.cpp:174
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment"
+msgid "Set the path for MLT environment."
 msgstr "Nastavite pot za okolje MLT"
 
-#: src/main.cpp:280
+#: src/main.cpp:176
 #, kde-format
-msgid "MLT log level"
-msgstr "Raven zapisnika MLT"
+msgid "Set the MLT log level. Leave this unset for level \"warning\"."
+msgstr ""
 
-#: src/main.cpp:281
-#, kde-format
-msgid "Comma separated list of clips to add"
+#: src/main.cpp:179
+#, fuzzy, kde-format
+#| msgid "Comma separated list of clips to add"
+msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Z vejico ločen seznam posnetkov, ki bodo dodani"
 
-#: src/main.cpp:282
-#, kde-format
-msgid "Document to open"
+#: src/main.cpp:181
+#, fuzzy, kde-format
+#| msgid "Document to open"
+msgid "Kdenlive document to open."
 msgstr "Dokument za odprtje"
+
+#: src/main.cpp:208
+#, kde-format
+msgid "Version %1"
+msgstr "Različica %1"
 
 #: src/mainwindow.cpp:140
 #, kde-format
@@ -9406,12 +9410,12 @@ msgstr "Izbriši izbrani predmet"
 #: src/mainwindow.cpp:1682
 #, kde-format
 msgid "Resize Item Start"
-msgstr "Spremeni velikost začetka predmeta"
+msgstr "Spremeni velikost: začetek"
 
 #: src/mainwindow.cpp:1686
 #, kde-format
 msgid "Resize Item End"
-msgstr "Spremeni velikost konca predmeta"
+msgstr "Spremeni velikost: konec"
 
 #: src/mainwindow.cpp:1690
 #, kde-format
@@ -9441,7 +9445,7 @@ msgstr "Ključne sličice učinka"
 #: src/mainwindow.cpp:1724 src/monitor/view/EffectToolBar.qml:89
 #, kde-format
 msgid "Add/Remove Keyframe"
-msgstr "Odstrani ključno sličico"
+msgstr "Dodaj/odstrani ključno sličico"
 
 #: src/mainwindow.cpp:1740
 #, kde-format
@@ -13485,7 +13489,7 @@ msgstr "Vse steze so zaklenjene"
 #: src/timeline2/model/timelinefunctions.cpp:305
 #, kde-format
 msgid "Failed to cut clip"
-msgstr "Ni bilo mogoče izrezati posnetka"
+msgstr "Ni bilo mogoče odrezati posnetka"
 
 #: src/timeline2/model/timelinefunctions.cpp:316
 #, kde-format
@@ -14668,7 +14672,7 @@ msgstr "Ta posnetek napisa je bil ustvarjen z drugačnimi merami sličice."
 #: src/titler/titledocument.cpp:401
 #, kde-format
 msgid "Title Profile"
-msgstr "Profil naslovov"
+msgstr "Profil napisov"
 
 #: src/titler/titledocument.cpp:474
 #, kde-format
@@ -14911,7 +14915,7 @@ msgstr "Shrani kot"
 #: src/titler/titlewidget.cpp:414 src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Download New Title Templates..."
-msgstr "Prejmi nove predloge naslovov ..."
+msgstr "Prejmi nove predloge napisov ..."
 
 #: src/titler/titlewidget.cpp:541
 #, kde-format
@@ -14921,7 +14925,7 @@ msgstr "Shrani in dodaj v projekt"
 #: src/titler/titlewidget.cpp:542
 #, kde-format
 msgid "Create Title"
-msgstr "Ustvari naslov"
+msgstr "Ustvari napis"
 
 #: src/titler/titlewidget.cpp:691
 #, kde-format
@@ -14967,7 +14971,7 @@ msgstr "+Y"
 #: src/titler/titlewidget.cpp:2127
 #, kde-format
 msgid "Load Title"
-msgstr "Naloži naslov"
+msgstr "Naloži napis"
 
 #: src/titler/titlewidget.cpp:2128
 #, kde-format
@@ -14980,8 +14984,8 @@ msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
-"Ali želite vstaviti slike v ta naslovni dokument?\n"
-"To je zahtevano za souporabo naslovov."
+"Ali želite vstaviti slike v ta dokument napisov?\n"
+"To je zahtevano za souporabo napisov."
 
 #: src/titler/titlewidget.cpp:2231
 #, kde-format
@@ -15005,7 +15009,7 @@ msgstr "Izbriši manjkajoče elemente"
 #: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Update Title"
-msgstr "Posodobi naslov"
+msgstr "Posodobi napis"
 
 #: src/titler/titlewidget.cpp:2298
 #, kde-format
@@ -16391,7 +16395,7 @@ msgstr "Barvni posnetki:"
 #: src/ui/configmisc_ui.ui:173
 #, kde-format
 msgid "Title clips:"
-msgstr "Naslovni posnetki:"
+msgstr "Posnetki napisov:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:180
@@ -18812,31 +18816,31 @@ msgstr "Način razširjanja"
 #: src/ui/titlewidget_ui.ui:957
 #, kde-format
 msgid "By &char"
-msgstr "po &znaku"
+msgstr "po &znakih"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_word)
 #: src/ui/titlewidget_ui.ui:967
 #, kde-format
 msgid "By &word"
-msgstr "po &besedi"
+msgstr "po &besedah"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_line)
 #: src/ui/titlewidget_ui.ui:974
 #, kde-format
 msgid "By &line"
-msgstr "po &vrstici"
+msgstr "po &vrsticah"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_custom)
 #: src/ui/titlewidget_ui.ui:981
 #, kde-format
 msgid "Custo&m"
-msgstr "Po &meri"
+msgstr "po &meri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
 #: src/ui/titlewidget_ui.ui:991
 #, kde-format
 msgid "Frame step:"
-msgstr "Korak sličice:"
+msgstr "Korak v sličicah:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_seed)
 #: src/ui/titlewidget_ui.ui:1005
@@ -19177,3 +19181,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "MLT log level"
+#~ msgstr "Raven zapisnika MLT"

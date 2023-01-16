@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 00:55+0000\n"
+"POT-Creation-Date: 2023-01-16 00:55+0000\n"
 "PO-Revision-Date: 2023-01-15 00:25+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -8372,194 +8372,189 @@ msgid "Cannot write to Library path: %1, using default"
 msgstr ""
 "Ezin da liburutegiaren kokalekuan idatzi: %1, lehenetsitakoa erabiltzen"
 
-#: src/main.cpp:112
-#, kde-format
-msgid "Version %1"
-msgstr "%1 bertsioa"
-
-#: src/main.cpp:226
+#: src/main.cpp:118
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Mesedez, akatsak jakinarazi <a href=\"%1\">%2</a>ra"
 
-#: src/main.cpp:229
+#: src/main.cpp:121
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "%1 paketea erabiltzen ari zara.<br>"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
 msgstr "Kode-irekiko bideo-editore bat."
 
-#: src/main.cpp:232
+#: src/main.cpp:124
 #, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
 msgstr "Copyright © 2007–2023 Kdenlive egileak"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT eta KDE SC 4 / KF5 egokitzapena, garatzaile eta arduradun nagusia"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
 msgstr "Kodearen arkitektura berreraikitzea & denbora-lerroaren berridazketa"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Kolore esparruak, akats zuzenketak, etab."
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 egokitzea, Windows gurutze-eraikitzea, akatsen konpontzea"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "MLT, Bug fixing, etc."
 msgstr "MLT,Akats zuzenketa, etab."
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Bug fixing, etc."
 msgstr "Akats zuzenketa, etab."
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Sashmita Raghav"
 msgstr "Sashmita Raghav"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Subtitle feature (GSoC), timeline colours"
 msgstr "Azpidatzien ezaugarria (GSoC), azpidatzien koloreak"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "KDE 3 bertsioaren jatorrizko egilea (jadanik ez-aktibo)"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logoa, Promozioa, Azterketa"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing"
 msgstr "Akatsen baheketa, azterketa"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Logo"
 msgstr "Logoa"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Testing"
 msgstr "Azterketa"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Adituen aholkua, azterketa"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "ITZULTZAILEEN IZENAK"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "ITZULTZAILEEN E-POSTAK"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Kode irekiko multimedia azpiegitura."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:257 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:149 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:257
+#: src/main.cpp:149
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -8568,30 +8563,39 @@ msgstr ""
 "Plataforma-anitzerako, grabatzeko, bihurtzeko eta transmitizeko audio eta "
 "bideo tresna osoa."
 
-#: src/main.cpp:278
-#, kde-format
-msgid "Set a custom config file name"
+#: src/main.cpp:173
+#, fuzzy, kde-format
+#| msgid "Set a custom config file name"
+msgid "Set a custom config file name."
 msgstr "Norberak finkatutako izena erabili konfigurazio fitxategirako"
 
-#: src/main.cpp:279
-#, kde-format
-msgid "Set the path for MLT environment"
+#: src/main.cpp:174
+#, fuzzy, kde-format
+#| msgid "Set the path for MLT environment"
+msgid "Set the path for MLT environment."
 msgstr "MLT ingurunearen bidea ezarri"
 
-#: src/main.cpp:280
+#: src/main.cpp:176
 #, kde-format
-msgid "MLT log level"
-msgstr "MLT egunkariaren  maila"
+msgid "Set the MLT log level. Leave this unset for level \"warning\"."
+msgstr ""
 
-#: src/main.cpp:281
-#, kde-format
-msgid "Comma separated list of clips to add"
+#: src/main.cpp:179
+#, fuzzy, kde-format
+#| msgid "Comma separated list of clips to add"
+msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Gehitu beharreko klipen zerrenda (komaz bereiztuta)"
 
-#: src/main.cpp:282
-#, kde-format
-msgid "Document to open"
+#: src/main.cpp:181
+#, fuzzy, kde-format
+#| msgid "Document to open"
+msgid "Kdenlive document to open."
 msgstr "Irekitzeko dokumentua"
+
+#: src/main.cpp:208
+#, kde-format
+msgid "Version %1"
+msgstr "%1 bertsioa"
 
 #: src/mainwindow.cpp:140
 #, kde-format
@@ -19149,6 +19153,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "MLT log level"
+#~ msgstr "MLT egunkariaren  maila"
 
 #~ msgid "Export guides as chapters description"
 #~ msgstr "Esportatu gidak kapituluen deskribapen moduan"
