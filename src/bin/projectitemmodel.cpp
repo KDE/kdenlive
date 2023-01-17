@@ -602,12 +602,26 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
     return std::static_pointer_cast<ProjectFolder>(rootItem);
 }
 
-void ProjectItemModel::loadSubClips(const QString &id, const QString &clipData)
+void ProjectItemModel::loadSubClips(const QString &id, const QString &clipData, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     loadSubClips(id, clipData, undo, redo);
+    if (logUndo) {
+        Fun update_subs = [this, binId = id]() {
+            std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(binId);
+            if (parentItem && parentItem->itemType() == AbstractProjectItem::ClipItem) {
+                auto clipItem = std::static_pointer_cast<ProjectClip>(parentItem);
+                clipItem->updateZones();
+            }
+            return true;
+        };
+        PUSH_LAMBDA(update_subs, undo);
+        PUSH_LAMBDA(update_subs, redo);
+        update_subs();
+        pCore->pushUndo(undo, redo, i18n("Add sub clips"));
+    }
 }
 
 void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, Fun &undo, Fun &redo)

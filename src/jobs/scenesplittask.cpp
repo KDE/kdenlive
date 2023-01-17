@@ -218,7 +218,7 @@ void SceneSplitTask::run()
             if (!json.isEmpty()) {
                 QString dataMap(json.toJson());
                 QMetaObject::invokeMethod(pCore->projectItemModel().get(), "loadSubClips", Q_ARG(QString, QString::number(m_owner.second)),
-                                          Q_ARG(QString, dataMap));
+                                          Q_ARG(QString, dataMap), Q_ARG(bool, true));
             }
         }
     } else {
