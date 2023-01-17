@@ -21,7 +21,7 @@
 #include "kdenlivesettings.h"
 #include "profiles/profilemodel.hpp"
 #include "snapmodel.hpp"
-#include "timeline2/model/timelinefunctions.hpp"
+#include "timeline2/view/previewmanager.h"
 #include "timelinefunctions.hpp"
 
 #include "monitor/monitormanager.h"
@@ -112,6 +112,8 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     , m_uuid(uuid)
     , m_tractor(new Mlt::Tractor(*profile))
     , m_masterStack(nullptr)
+    , m_masterService(nullptr)
+    , m_timelinePreview(nullptr)
     , m_snaps(new SnapModel())
     , m_undoStack(std::move(undo_stack))
     , m_profile(profile)
@@ -6752,4 +6754,81 @@ bool TimelineModel::trackIsLocked(int trackId) const
 const QUuid TimelineModel::uuid() const
 {
     return m_uuid;
+}
+
+void TimelineModel::initializePreviewManager()
+{
+    if (m_timelinePreview == nullptr) {
+        m_timelinePreview = std::shared_ptr<PreviewManager>(new PreviewManager(m_tractor.get(), m_uuid, this));
+        bool initialized = m_timelinePreview->initialize();
+        if (!initialized) {
+            pCore->displayMessage(i18n("Error initializing timeline preview"), ErrorMessage);
+            m_timelinePreview.reset();
+            return;
+        }
+        connect(this, &TimelineModel::invalidateZone, m_timelinePreview.get(), &PreviewManager::invalidatePreview, Qt::DirectConnection);
+    }
+}
+
+std::shared_ptr<PreviewManager> TimelineModel::previewManager()
+{
+    return m_timelinePreview;
+}
+
+void TimelineModel::resetPreviewManager()
+{
+    if (m_timelinePreview) {
+        disconnect(this, &TimelineModel::invalidateZone, m_timelinePreview.get(), &PreviewManager::invalidatePreview);
+        m_timelinePreview.reset();
+    }
+}
+
+bool TimelineModel::hasTimelinePreview() const
+{
+    return m_timelinePreview != nullptr;
+}
+
+void TimelineModel::updatePreviewConnection(bool enable)
+{
+    if (hasTimelinePreview()) {
+        if (enable) {
+            m_timelinePreview->enable();
+        } else {
+            m_timelinePreview->disable();
+        }
+    }
+}
+
+bool TimelineModel::buildPreviewTrack()
+{
+    bool res = false;
+    if (m_timelinePreview) {
+        res = m_timelinePreview->buildPreviewTrack();
+        m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
+    return res;
+}
+
+void TimelineModel::setOverlayTrack(Mlt::Playlist *overlay)
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->setOverlayTrack(overlay);
+        m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
+}
+
+void TimelineModel::removeOverlayTrack()
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->removeOverlayTrack();
+        m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
+}
+
+void TimelineModel::deletePreviewTrack()
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->deletePreviewTrack();
+        m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
 }

@@ -64,7 +64,6 @@ TimelineController::TimelineController(QObject *parent)
     , m_zone(-1, -1)
     , m_activeTrack(-1)
     , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250)
-    , m_timelinePreview(nullptr)
     , m_ready(false)
     , m_snapStackIndex(-1)
     , m_effectZone({0, 0})
@@ -93,19 +92,16 @@ void TimelineController::prepareClose()
     m_ready = false;
     m_root = nullptr;
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
-    delete m_timelinePreview;
-    m_timelinePreview = nullptr;
+    m_model->resetPreviewManager();
     m_model.reset();
 }
 
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 {
-    delete m_timelinePreview;
     m_zone = QPoint(-1, -1);
     m_hasAudioTarget = 0;
     m_lastVideoTarget = -1;
     m_lastAudioTarget.clear();
-    m_timelinePreview = nullptr;
     m_usePreview = false;
     m_model = std::move(model);
     m_activeSnaps.clear();
@@ -2020,7 +2016,7 @@ void TimelineController::setHeaderWidth(int width)
 
 bool TimelineController::createSplitOverlay(int clipId, std::shared_ptr<Mlt::Filter> filter)
 {
-    if (m_timelinePreview && m_timelinePreview->hasOverlayTrack()) {
+    if (m_model->hasTimelinePreview() && m_model->previewManager()->hasOverlayTrack()) {
         return true;
     }
     if (clipId == -1) {
@@ -2059,24 +2055,20 @@ bool TimelineController::createSplitOverlay(int clipId, std::shared_ptr<Mlt::Fil
     overlay->insert_at(startPos, &split, 1);
 
     // insert in tractor
-    if (!m_timelinePreview) {
+    if (!m_model->hasTimelinePreview()) {
         initializePreview();
     }
-    if (m_timelinePreview) {
-        m_timelinePreview->setOverlayTrack(overlay);
-        m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
-    }
+    m_model->setOverlayTrack(overlay);
     return true;
 }
 
 void TimelineController::removeSplitOverlay()
 {
-    if (!m_timelinePreview || !m_timelinePreview->hasOverlayTrack()) {
+    if (!m_model->hasTimelinePreview() || !m_model->previewManager()->hasOverlayTrack()) {
         return;
     }
     // disconnect
-    m_timelinePreview->removeOverlayTrack();
-    m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+    m_model->removeOverlayTrack();
 }
 
 int TimelineController::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
@@ -2419,74 +2411,83 @@ void TimelineController::addPreviewRange(bool add)
     if (m_zone.isNull()) {
         return;
     }
-    if (!m_timelinePreview) {
+    if (!m_model->hasTimelinePreview()) {
         initializePreview();
     }
-    if (m_timelinePreview) {
-        m_timelinePreview->addPreviewRange(m_zone, add);
+    if (m_model->hasTimelinePreview()) {
+        m_model->previewManager()->addPreviewRange(m_zone, add);
     }
 }
 
 void TimelineController::clearPreviewRange(bool resetZones)
 {
-    if (m_timelinePreview) {
-        m_timelinePreview->clearPreviewRange(resetZones);
+    if (m_model->hasTimelinePreview()) {
+        m_model->previewManager()->clearPreviewRange(resetZones);
     }
 }
 
 void TimelineController::startPreviewRender()
 {
     // Timeline preview stuff
-    if (!m_timelinePreview) {
+    if (!m_model->hasTimelinePreview()) {
         initializePreview();
     } else if (m_disablePreview->isChecked()) {
         m_disablePreview->setChecked(false);
         disablePreview(false);
     }
-    if (m_timelinePreview) {
+    if (m_model->hasTimelinePreview()) {
         if (!m_usePreview) {
-            m_timelinePreview->buildPreviewTrack();
+            m_model->buildPreviewTrack();
             m_usePreview = true;
-            m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
-        m_timelinePreview->startPreviewRender();
+        if (!m_model->previewManager()->hasDefinedRange()) {
+            addPreviewRange(true);
+        }
+        m_model->previewManager()->startPreviewRender();
     }
 }
 
 void TimelineController::stopPreviewRender()
 {
-    if (m_timelinePreview) {
-        m_timelinePreview->abortRendering();
+    if (m_model->hasTimelinePreview()) {
+        m_model->previewManager()->abortRendering();
     }
 }
 
 void TimelineController::initializePreview()
 {
-    if (m_timelinePreview) {
+    if (m_model->hasTimelinePreview()) {
         // Update parameters
-        if (!m_timelinePreview->loadParams()) {
+        if (!m_model->previewManager()->loadParams()) {
             if (m_usePreview) {
                 // Disconnect preview track
-                m_timelinePreview->disconnectTrack();
+                m_model->previewManager()->disconnectTrack();
                 m_usePreview = false;
             }
-            delete m_timelinePreview;
-            m_timelinePreview = nullptr;
+            m_model->resetPreviewManager();
         }
     } else {
-        m_timelinePreview = new PreviewManager(this, m_model->m_tractor.get());
-        if (!m_timelinePreview->initialize()) {
-            // TODO warn user
-            delete m_timelinePreview;
-            m_timelinePreview = nullptr;
-        } else {
+        m_model->initializePreviewManager();
+        if (m_model->hasTimelinePreview()) {
+            connect(m_model->previewManager().get(), &PreviewManager::dirtyChunksChanged, this, &TimelineController::dirtyChunksChanged, Qt::DirectConnection);
+            connect(m_model->previewManager().get(), &PreviewManager::renderedChunksChanged, this, &TimelineController::renderedChunksChanged,
+                    Qt::DirectConnection);
+            connect(m_model->previewManager().get(), &PreviewManager::workingPreviewChanged, this, &TimelineController::workingPreviewChanged,
+                    Qt::DirectConnection);
         }
     }
     QAction *previewRender = pCore->currentDoc()->getAction(QStringLiteral("prerender_timeline_zone"));
-    if (previewRender) {
-        previewRender->setEnabled(m_timelinePreview != nullptr);
+    if (m_model->hasTimelinePreview()) {
+        m_disablePreview->setEnabled(true);
+        if (previewRender) {
+            previewRender->setEnabled(true);
+        }
+    } else {
+        m_disablePreview->setEnabled(false);
+        if (previewRender) {
+            previewRender->setEnabled(true);
+        }
     }
-    m_disablePreview->setEnabled(m_timelinePreview != nullptr);
     m_disablePreview->blockSignals(true);
     m_disablePreview->setChecked(false);
     m_disablePreview->blockSignals(false);
@@ -2494,55 +2495,42 @@ void TimelineController::initializePreview()
 
 bool TimelineController::hasPreviewTrack() const
 {
-    return (m_timelinePreview && (m_timelinePreview->hasOverlayTrack() || m_timelinePreview->hasPreviewTrack()));
-}
-
-void TimelineController::updatePreviewConnection(bool enable)
-{
-    if (m_timelinePreview) {
-        if (enable) {
-            m_timelinePreview->enable();
-        } else {
-            m_timelinePreview->disable();
-        }
-    }
+    return (m_model->hasTimelinePreview() && (m_model->previewManager()->hasOverlayTrack() || m_model->previewManager()->hasPreviewTrack()));
 }
 
 void TimelineController::disablePreview(bool disable)
 {
     if (disable) {
-        m_timelinePreview->deletePreviewTrack();
+        m_model->deletePreviewTrack();
         m_usePreview = false;
-        m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
     } else {
         if (!m_usePreview) {
-            if (!m_timelinePreview->buildPreviewTrack()) {
+            if (!m_model->buildPreviewTrack()) {
                 // preview track already exists, reconnect
                 m_model->m_tractor->lock();
-                m_timelinePreview->reconnectTrack();
+                m_model->previewManager()->reconnectTrack();
                 m_model->m_tractor->unlock();
             }
             Mlt::Playlist playlist;
-            m_timelinePreview->loadChunks(QVariantList(), QVariantList(), playlist);
+            m_model->previewManager()->loadChunks(QVariantList(), QVariantList(), playlist);
             m_usePreview = true;
         }
     }
-    m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
 }
 
 QVariantList TimelineController::dirtyChunks() const
 {
-    return m_timelinePreview ? m_timelinePreview->m_dirtyChunks : QVariantList();
+    return m_model->hasTimelinePreview() ? m_model->previewManager()->m_dirtyChunks : QVariantList();
 }
 
 QVariantList TimelineController::renderedChunks() const
 {
-    return m_timelinePreview ? m_timelinePreview->m_renderedChunks : QVariantList();
+    return m_model->hasTimelinePreview() ? m_model->previewManager()->m_renderedChunks : QVariantList();
 }
 
 int TimelineController::workingPreview() const
 {
-    return m_timelinePreview ? m_timelinePreview->workingPreview : -1;
+    return m_model->hasTimelinePreview() ? m_model->previewManager()->workingPreview : -1;
 }
 
 bool TimelineController::useRuler() const
@@ -2557,8 +2545,8 @@ bool TimelineController::scrollVertically() const
 
 void TimelineController::resetPreview()
 {
-    if (m_timelinePreview) {
-        m_timelinePreview->clearPreviewRange(true);
+    if (m_model->hasTimelinePreview()) {
+        m_model->previewManager()->clearPreviewRange(true);
         initializePreview();
     }
 }
@@ -2568,7 +2556,7 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     if (chunks.isEmpty() && dirty.isEmpty()) {
         return;
     }
-    if (!m_timelinePreview) {
+    if (!m_model->hasTimelinePreview()) {
         initializePreview();
     }
     QVariantList renderedChunks;
@@ -2605,13 +2593,12 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
         m_disablePreview->setChecked(enable);
         m_disablePreview->blockSignals(false);
     }
-    if (m_timelinePreview) {
+    if (m_model->hasTimelinePreview()) {
         if (!enable) {
-            m_timelinePreview->buildPreviewTrack();
+            m_model->buildPreviewTrack();
             m_usePreview = true;
-            m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
         }
-        m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, playlist);
+        m_model->previewManager()->loadChunks(renderedChunks, dirtyChunks, playlist);
     }
 }
 
@@ -2631,8 +2618,8 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("scrollPos"), QString::number(scrollPos));
     props.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
     props.insert(QStringLiteral("zoneout"), QString::number(m_zone.y()));
-    if (m_timelinePreview) {
-        QPair<QStringList, QStringList> chunks = m_timelinePreview->previewChunks();
+    if (m_model->hasTimelinePreview()) {
+        QPair<QStringList, QStringList> chunks = m_model->previewManager()->previewChunks();
         props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
         props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
     }
@@ -2718,7 +2705,7 @@ void TimelineController::removeTrackClips(int trackId, int frame)
 
 void TimelineController::invalidateItem(int cid)
 {
-    if (!m_timelinePreview || !m_model->isItem(cid)) {
+    if (!m_model->hasTimelinePreview() || !m_model->isItem(cid)) {
         return;
     }
     const int tid = m_model->getItemTrackId(cid);
@@ -2727,25 +2714,17 @@ void TimelineController::invalidateItem(int cid)
     }
     int start = m_model->getItemPosition(cid);
     int end = start + m_model->getItemPlaytime(cid);
-    m_timelinePreview->invalidatePreview(start, end);
+    m_model->previewManager()->invalidatePreview(start, end);
 }
 
 void TimelineController::invalidateTrack(int tid)
 {
-    if (!m_timelinePreview || !m_model->isTrack(tid) || m_model->getTrackById_const(tid)->isAudioTrack()) {
+    if (!m_model->hasTimelinePreview() || !m_model->isTrack(tid) || m_model->getTrackById_const(tid)->isAudioTrack()) {
         return;
     }
     for (const auto &clp : m_model->getTrackById_const(tid)->m_allClips) {
         invalidateItem(clp.first);
     }
-}
-
-void TimelineController::invalidateZone(int in, int out)
-{
-    if (!m_timelinePreview) {
-        return;
-    }
-    m_timelinePreview->invalidatePreview(in, out == -1 ? m_duration : out);
 }
 
 void TimelineController::remapItemTime(int clipId)

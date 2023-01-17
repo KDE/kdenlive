@@ -13,7 +13,6 @@
 #include <QApplication>
 #include <QDir>
 
-class PreviewManager;
 class QAction;
 class QQuickItem;
 
@@ -626,7 +625,6 @@ public:
     void checkTrackDeletion(int selectedTrackIx);
     /** @brief Return true if an overlay track is used */
     bool hasPreviewTrack() const;
-    void updatePreviewConnection(bool enable);
     /** @brief Display project master effects */
     Q_INVOKABLE void showMasterEffects();
     /** @brief Return true if an instance of this bin clip is currently under timeline cursor */
@@ -692,7 +690,6 @@ public slots:
     void disablePreview(bool disable);
     void invalidateItem(int cid);
     void invalidateTrack(int tid);
-    void invalidateZone(int in, int out);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);
@@ -749,7 +746,6 @@ private:
     int m_activeTrack;
     double m_scale;
     static int m_duration;
-    PreviewManager *m_timelinePreview;
     QAction *m_disablePreview;
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;

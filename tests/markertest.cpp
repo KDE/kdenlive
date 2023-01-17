@@ -71,7 +71,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     fps = pCore->getCurrentFps();
     GenTime::setFps(fps);
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    KdenliveDoc document(nullptr);
+    KdenliveDoc document(undoStack, nullptr);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document

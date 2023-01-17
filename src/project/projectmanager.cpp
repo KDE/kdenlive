@@ -367,7 +367,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (!quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-        pCore->window()->getCurrentTimeline()->unsetModel();
         pCore->window()->resetSubtitles();
         QList<QUuid> uuids = m_project->getTimelinesUuids();
         for (auto &uid : uuids) {
@@ -871,7 +870,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(false, false);
     }
     if (hasPreview) {
-        pCore->window()->getCurrentTimeline()->controller()->updatePreviewConnection(false);
+        pCore->window()->getCurrentTimeline()->model()->updatePreviewConnection(false);
     }
     if (isTrimming) {
         pCore->window()->getCurrentTimeline()->controller()->requestEndTrimmingMode();
@@ -890,7 +889,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
     }
     if (hasPreview) {
-        pCore->window()->getCurrentTimeline()->controller()->updatePreviewConnection(true);
+        pCore->window()->getCurrentTimeline()->model()->updatePreviewConnection(true);
     }
     if (isTrimming) {
         pCore->window()->getCurrentTimeline()->controller()->requestStartTrimmingMode();

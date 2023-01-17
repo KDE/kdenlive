@@ -24,6 +24,7 @@ set(KdenliveTest_SOURCES
     movetest.cpp
     subtitlestest.cpp
     spacertest.cpp
+    timelinepreviewtest.cpp
 )
 
 include(ECMAddTests)

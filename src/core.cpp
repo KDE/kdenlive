@@ -979,7 +979,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 void Core::invalidateRange(QPair<int, int> range)
 {
     if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
-    m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.first, range.second);
+    m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
 }
 
 void Core::invalidateItem(ObjectId itemId)
@@ -997,7 +997,7 @@ void Core::invalidateItem(ObjectId itemId)
         m_mainWindow->getBin()->invalidateClip(QString::number(itemId.second));
         break;
     case ObjectType::Master:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(0, -1);
+        m_mainWindow->getCurrentTimeline()->model()->invalidateZone(0, -1);
         break;
     default:
         // compositions should not have effects

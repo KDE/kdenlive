@@ -95,7 +95,7 @@ public:
     static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
                 bool recoverCorruption, MainWindow *parent = nullptr);
     /** @brief Create a dummy project, used for testing. */
-    KdenliveDoc(MainWindow *parent = nullptr);
+    KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
     /** @brief Get current document's producer. */
@@ -188,7 +188,7 @@ public:
     void selectPreviewProfile();
     void displayMessage(const QString &text, MessageType type = DefaultMessage, int timeOut = 0);
     /** @brief Get a cache directory for this project. */
-    const QDir getCacheDir(CacheType type, bool *ok) const;
+    const QDir getCacheDir(CacheType type, bool *ok, const QUuid uuid = QUuid()) const;
     /** @brief Create standard cache dirs for the project */
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */

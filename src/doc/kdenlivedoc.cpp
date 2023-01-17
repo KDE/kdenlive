@@ -132,7 +132,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectF
     updateClipsCount();
 }
 
-KdenliveDoc::KdenliveDoc(MainWindow *parent)
+KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
@@ -140,6 +140,7 @@ KdenliveDoc::KdenliveDoc(MainWindow *parent)
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
 {
+    m_commandStack = undoStack;
     initializeProperties();
 }
 
@@ -301,7 +302,7 @@ KdenliveDoc::~KdenliveDoc()
 {
     if (m_url.isEmpty()) {
         // Document was never saved, delete cache folder
-        QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+        QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
         bool ok = false;
         documentId.toLongLong(&ok, 10);
         if (ok && !documentId.isEmpty()) {
@@ -1528,7 +1529,7 @@ void KdenliveDoc::loadDocumentProperties()
         m_projectFolder = dir.absolutePath();
         bool ok = false;
         // Ensure document storage folder is writable
-        QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+        QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
         documentId.toLongLong(&ok, 10);
         if (ok) {
             if (!dir.exists(documentId)) {
@@ -1709,7 +1710,9 @@ QAction *KdenliveDoc::getAction(const QString &name)
 
 void KdenliveDoc::previewProgress(int p)
 {
-    emit pCore->window()->setPreviewProgress(p);
+    if (pCore->window()) {
+        emit pCore->window()->setPreviewProgress(p);
+    }
 }
 
 void KdenliveDoc::displayMessage(const QString &text, MessageType type, int timeOut)
@@ -1832,7 +1835,7 @@ void KdenliveDoc::initCacheDirs()
 {
     bool ok = false;
     QString kdenliveCacheDir;
-    QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+    QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
     documentId.toLongLong(&ok, 10);
     if (m_projectFolder.isEmpty()) {
         kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
@@ -1852,11 +1855,11 @@ void KdenliveDoc::initCacheDirs()
     cacheDir.mkdir(QStringLiteral("proxy"));
 }
 
-const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
+const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) const
 {
     QString basePath;
     QString kdenliveCacheDir;
-    QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+    QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
     documentId.toLongLong(ok, 10);
     if (m_projectFolder.isEmpty()) {
         kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
@@ -1877,6 +1880,9 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok) const
         break;
     case CachePreview:
         basePath.append(QStringLiteral("/preview"));
+        if (uuid != m_uuid) {
+            basePath.append(QStringLiteral("/%1").arg(uuid.toString()));
+        }
         break;
     case CacheProxy:
         basePath = kdenliveCacheDir;
@@ -2046,7 +2052,7 @@ QString &KdenliveDoc::modifiedDecimalPoint()
 
 const QString KdenliveDoc::subTitlePath(bool final)
 {
-    QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+    QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(m_url.fileName()));
     } else {
@@ -2164,6 +2170,32 @@ void KdenliveDoc::cleanupTimelinePreview(const QDateTime &documentDate)
             } else {
                 // Done
                 break;
+            }
+        }
+        // Check secondary timelines preview folders
+        QFileInfoList dirsList = cacheDir.entryInfoList(QDir::AllDirs, QDir::Time);
+        for (auto &dir : dirsList) {
+            QDir sourceDir(dir.absolutePath());
+            if (!sourceDir.absolutePath().contains(QLatin1String("preview"))) {
+                continue;
+            }
+            QFileInfoList chunksList = sourceDir.entryInfoList(QDir::Files, QDir::Time);
+            for (auto &chunkFile : chunksList) {
+                if (chunkFile.lastModified() > documentDate) {
+                    // This chunk is invalid
+                    QString chunkName = chunkFile.fileName().section(QLatin1Char('.'), 0, 0);
+                    bool ok;
+                    chunkName.toInt(&ok);
+                    if (!ok) {
+                        // This is not one of our chunks
+                        continue;
+                    }
+                    // Physically remove chunk file
+                    sourceDir.remove(chunkFile.fileName());
+                } else {
+                    // Done
+                    break;
+                }
             }
         }
     }

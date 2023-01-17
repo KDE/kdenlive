@@ -544,7 +544,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    KdenliveDoc document(nullptr);
+    KdenliveDoc document(undoStack, nullptr);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
