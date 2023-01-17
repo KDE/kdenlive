@@ -237,7 +237,7 @@ public slots:
     /** @brief Create the subclips defined in the parent clip.
     @param id is the id of the parent clip
     @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
-    void loadSubClips(const QString &id, const QString &clipData);
+    void loadSubClips(const QString &id, const QString &clipData, bool logUndo);
 
 private:
     /** @brief Return reference to column specific data */
