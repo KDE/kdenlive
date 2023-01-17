@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-16 00:55+0000\n"
-"PO-Revision-Date: 2023-01-14 09:18+0200\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2023-01-16 09:11+0200\n"
+"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -8655,33 +8655,32 @@ msgstr ""
 "звукових та відеоданих."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "Встановити нетипову назву файла налаштувань"
+msgstr "Встановити нетипову назву файла налаштувань."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "Вкажіть шлях до теки середовища MLT"
+msgstr "Вкажіть шлях до теки середовища MLT."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
+"Встановити рівень журналювання MLT. Не встановлюйте, якщо рівнем має бути "
+"«попередження»."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "Відокремлений комами список кліпів, які слід додати"
+msgstr ""
+"Список відокремлених комами файлів, які слід додати як кліпи до контейнера."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "Документ, який слід відкрити"
+msgstr "Документ Kdenlive, який слід відкрити"
 
 #: src/main.cpp:208
 #, kde-format

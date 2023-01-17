@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-16 00:55+0000\n"
-"PO-Revision-Date: 2023-01-14 22:14+0300\n"
+"PO-Revision-Date: 2023-01-16 22:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8536,33 +8536,29 @@ msgstr ""
 "çözüm."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "Özel yapılandırma dosyası adı ayarlayın"
+msgstr "Özel yapılandırma dosyası adı ayarlayın."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "MLT ortamının yolunu ayarlayın"
+msgstr "MLT ortamının yolunu ayarlayın."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
-msgstr ""
+msgstr "MLT günlük düzeyini ayarla. \"Uyarı\" düzeyi için bunu boş bırakın."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "Eklenecek kliplerin virgülle ayrılmış listesi"
+msgstr "Kovaya klipler olarak eklenecek dosyaların virgülle ayrılmış listesi."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "Açılacak belge"
+msgstr "Açılacak Kdenlive belgesi."
 
 #: src/main.cpp:208
 #, kde-format

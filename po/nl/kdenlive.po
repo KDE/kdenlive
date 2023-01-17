@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-16 00:55+0000\n"
-"PO-Revision-Date: 2023-01-14 16:23+0100\n"
+"PO-Revision-Date: 2023-01-16 12:07+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8576,33 +8576,32 @@ msgstr ""
 "converteren en te streamen."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "Stel een aangepaste naam van een configuratiebestand in"
+msgstr "Stel een aangepaste naam van een configuratiebestand in."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "Pad voor MLT-omgeving instellen"
+msgstr "Pad voor MLT-omgeving instellen."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
+"Het niveau van loggen van MLT instellen. Laat dit niet ingesteld voor niveau "
+"\"waarschuwing\"."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "Komma's gescheiden lijst van toe te voegen clips"
+msgstr ""
+"Kommagescheiden lijst van bestanden om als clips aan de bin toe te voegen."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "Te openen document"
+msgstr "Te openen Kdenlive-document"
 
 #: src/main.cpp:208
 #, kde-format

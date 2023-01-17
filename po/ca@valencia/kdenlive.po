@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-16 00:55+0000\n"
-"PO-Revision-Date: 2023-01-02 14:05+0100\n"
+"PO-Revision-Date: 2023-01-16 12:39+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5072,7 +5072,7 @@ msgstr "Configura les etiquetes del projecte"
 #: src/bin/tagwidget.cpp:198
 #, kde-format
 msgid "Edit Tag"
-msgstr "Edició d'etiqueta"
+msgstr "Editeu l'etiqueta"
 
 #: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:285
 #, kde-format
@@ -5082,7 +5082,7 @@ msgstr "Este color ja s'utilitza en una altra etiqueta"
 #: src/bin/tagwidget.cpp:273
 #, kde-format
 msgid "Add Tag"
-msgstr "Edició d'etiqueta"
+msgstr "Editeu l'etiqueta"
 
 #: src/bin/tagwidget.cpp:281
 #, kde-format
@@ -6109,7 +6109,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:422
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "Edició dels valors predefinits de renderització"
+msgstr "Editeu els valors predefinits de renderització"
 
 #: src/dialogs/renderpresetdialog.cpp:170
 #, kde-format
@@ -6381,7 +6381,7 @@ msgstr " (fotograma %1 @ %2 fps)"
 #: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "Resta menys de %1 MB de memòria disponible."
 
 #: src/dialogs/renderwidget.cpp:1538
 #, kde-format
@@ -8113,7 +8113,7 @@ msgstr "Resolució de la vista prèvia"
 #: src/kdenliveui.rc:244
 #, kde-format
 msgid "Monitor Config"
-msgstr "Configuració del monitor"
+msgstr "Configureu el monitor"
 
 #. i18n: ectx: Menu (view)
 #: src/kdenliveui.rc:256
@@ -8178,7 +8178,7 @@ msgstr "Guarda la disposició…"
 #: src/layoutmanagement.cpp:52
 #, kde-format
 msgid "Manage Layouts…"
-msgstr "Gestió de les disposicions…"
+msgstr "Gestioneu les disposicions…"
 
 #: src/layoutmanagement.cpp:62
 #, kde-format
@@ -8596,33 +8596,32 @@ msgstr ""
 "transmetre àudio i vídeo."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "Establix un nom de fitxer de configuració personalitzat"
+msgstr "Establix un nom de fitxer de configuració personalitzat."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "Establix el camí per a l'entorn MLT"
+msgstr "Establix el camí per a l'entorn MLT."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
+"Establix el nivell de registre del MLT. Deixeu-ho sense establir per al "
+"nivell «avís»."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "Llista dels clips que s'afegiran, separats per comes"
+msgstr ""
+"Llista de fitxers separats per comes, per a afegir com a clips a la safata."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "Document que s'ha d'obrir"
+msgstr "El document de Kdenlive que s'ha d'obrir."
 
 #: src/main.cpp:208
 #, kde-format
@@ -11962,7 +11961,7 @@ msgstr "No s'ha seleccionat cap perfil"
 #: src/project/dialogs/profilewidget.cpp:191
 #, kde-format
 msgid "Video Settings"
-msgstr "Configuració del vídeo"
+msgstr "Configureu el vídeo"
 
 #: src/project/dialogs/profilewidget.cpp:194
 #, kde-format
@@ -12508,9 +12507,9 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 "La ubicació del fitxer del projecte ha canviat. Seleccioneu utilitzar la "
-"ubicació del fitxer del projecte per a guardar els fitxers temporals. Açò "
-"mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà "
-"a carregar el fitxer del projecte"
+"ubicació del fitxer del projecte per que es guardarà els fitxers temporals. "
+"Açò mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es "
+"tornarà a carregar el fitxer del projecte"
 
 #: src/project/projectmanager.cpp:458
 #, kde-format
@@ -16162,7 +16161,7 @@ msgstr "Aplicacions predeterminades"
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Image editing:"
-msgstr "Edició d'imatges:"
+msgstr "Editeu les imatges:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
 #: src/ui/configenv_ui.ui:328
@@ -16189,7 +16188,7 @@ msgstr "Camí cap a l'aplicació d'edició d'àudio"
 #: src/ui/configenv_ui.ui:368
 #, kde-format
 msgid "Audio editing:"
-msgstr "Edició d'àudio:"
+msgstr "Editeu l'àudio:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
 #: src/ui/configenv_ui.ui:377
@@ -16201,7 +16200,7 @@ msgstr "Camí cap a l'executable Glaxnimate"
 #: src/ui/configenv_ui.ui:393
 #, kde-format
 msgid "Animation editing:"
-msgstr "Edició d'animacions:"
+msgstr "Editeu les animacions:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:414
@@ -16237,7 +16236,7 @@ msgstr "S'ha desactivat el dispositiu Jog Shuttle."
 #: src/ui/configjogshuttle_ui.ui:57
 #, kde-format
 msgid "Device Configuration"
-msgstr "Configuració del dispositiu"
+msgstr "Configureu el dispositiu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configjogshuttle_ui.ui:93
@@ -16867,7 +16866,7 @@ msgstr "Configura el treball."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "Guardada dels valors predefinits de renderització"
+msgstr "Guardeu els valors predefinits de renderització"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
@@ -19229,6 +19228,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "MLT log level"
-#~ msgstr "Nivell de depuració MLT"

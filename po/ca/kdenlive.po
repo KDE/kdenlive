@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-16 00:55+0000\n"
-"PO-Revision-Date: 2023-01-14 11:58+0100\n"
+"PO-Revision-Date: 2023-01-16 12:39+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8595,33 +8595,32 @@ msgstr ""
 "transmetre àudio i vídeo."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "Estableix un nom de fitxer de configuració personalitzat"
+msgstr "Estableix un nom de fitxer de configuració personalitzat."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "Estableix el camí per a l'entorn MLT"
+msgstr "Estableix el camí per a l'entorn MLT."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
+"Estableix el nivell de registre del MLT. Deixeu-ho sense definir per al "
+"nivell «avís»."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "Llista dels clips a afegir, separats per comes"
+msgstr ""
+"Llista de fitxers separats per comes, per afegir com a clips a la safata."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "Document a obrir"
+msgstr "El document del Kdenlive a obrir."
 
 #: src/main.cpp:208
 #, kde-format
@@ -19230,6 +19229,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "MLT log level"
-#~ msgstr "Nivell de depuració MLT"
