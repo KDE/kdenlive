@@ -5,7 +5,7 @@
 # Marcelo Soares Souza <marcelo@juntadados.org>, 2008, 2010, 2011.
 # Marcus Gama <marcus.gama@gmail.com>, 2011, 2012.
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2011, 2012, 2013, 2014, 2015, 2016.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Barbara <barbaratostes@gmail.com>, 2020.
 # Jorge Santiago <jsantiago12tone@gmail.com>, 2021.
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 02:37+0000\n"
-"PO-Revision-Date: 2022-10-19 14:34-0300\n"
+"PO-Revision-Date: 2023-01-16 23:21-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -6006,7 +6006,7 @@ msgstr "Progressivo"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1862
 #, kde-format
 msgid "Please add a speech model."
-msgstr "Por favor, adicione um modelo de fala."
+msgstr "Adicione um modelo de fala."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1685
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
@@ -6251,14 +6251,12 @@ msgid "Timecode"
 msgstr "Código de tempo"
 
 #: src/dialogs/renderwidget.cpp:207
-#, fuzzy, kde-format
-#| msgid "Timecode non drop frame"
+#, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Código de tempo de quadro não perdido"
 
 #: src/dialogs/renderwidget.cpp:208
-#, fuzzy, kde-format
-#| msgid "Frame number"
+#, kde-format
 msgid "Frame Number"
 msgstr "Número do quadro"
 
@@ -6369,8 +6367,7 @@ msgid "export"
 msgstr "exportar"
 
 #: src/dialogs/renderwidget.cpp:791
-#, fuzzy, kde-format
-#| msgid "Delayed rendering"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Renderização atrasada"
@@ -7561,10 +7558,9 @@ msgid "Cyan"
 msgstr "Ciano"
 
 #: src/doc/kdenlivedoc.cpp:2108
-#, fuzzy, kde-format
-#| msgid "Category %1"
+#, kde-format
 msgid "Category %1:%2:%3"
-msgstr "Categoria %1"
+msgstr "Categoria %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format

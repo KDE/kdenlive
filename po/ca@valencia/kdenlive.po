@@ -5067,7 +5067,7 @@ msgstr "Configura les etiquetes del projecte"
 #: src/bin/tagwidget.cpp:196
 #, kde-format
 msgid "Edit Tag"
-msgstr "Edició d'etiqueta"
+msgstr "Editeu l'etiqueta"
 
 #: src/bin/tagwidget.cpp:211 src/bin/tagwidget.cpp:283
 #, kde-format
@@ -5077,7 +5077,7 @@ msgstr "Este color ja s'utilitza en una altra etiqueta"
 #: src/bin/tagwidget.cpp:271
 #, kde-format
 msgid "Add Tag"
-msgstr "Edició d'etiqueta"
+msgstr "Editeu l'etiqueta"
 
 #: src/bin/tagwidget.cpp:279
 #, kde-format
@@ -6098,7 +6098,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:427
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "Edició dels valors predefinits de renderització"
+msgstr "Editeu els valors predefinits de renderització"
 
 #: src/dialogs/renderpresetdialog.cpp:170
 #, kde-format
@@ -8093,7 +8093,7 @@ msgstr "Resolució de la vista prèvia"
 #: src/kdenliveui.rc:244
 #, kde-format
 msgid "Monitor Config"
-msgstr "Configuració del monitor"
+msgstr "Configureu el monitor"
 
 #. i18n: ectx: Menu (view)
 #: src/kdenliveui.rc:256
@@ -8158,7 +8158,7 @@ msgstr "Guarda la disposició…"
 #: src/layoutmanagement.cpp:52
 #, kde-format
 msgid "Manage Layouts…"
-msgstr "Gestió de les disposicions…"
+msgstr "Gestioneu les disposicions…"
 
 #: src/layoutmanagement.cpp:62
 #, kde-format
@@ -11918,7 +11918,7 @@ msgstr "No s'ha seleccionat cap perfil"
 #: src/project/dialogs/profilewidget.cpp:191
 #, kde-format
 msgid "Video Settings"
-msgstr "Configuració del vídeo"
+msgstr "Configureu el vídeo"
 
 #: src/project/dialogs/profilewidget.cpp:194
 #, kde-format
@@ -16118,7 +16118,7 @@ msgstr "Aplicacions predeterminades"
 #: src/ui/configenv_ui.ui:319
 #, kde-format
 msgid "Image editing:"
-msgstr "Edició d'imatges:"
+msgstr "Editeu les imatges:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
 #: src/ui/configenv_ui.ui:328
@@ -16145,7 +16145,7 @@ msgstr "Camí cap a l'aplicació d'edició d'àudio"
 #: src/ui/configenv_ui.ui:368
 #, kde-format
 msgid "Audio editing:"
-msgstr "Edició d'àudio:"
+msgstr "Editeu l'àudio:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
 #: src/ui/configenv_ui.ui:377
@@ -16157,7 +16157,7 @@ msgstr "Camí cap a l'executable Glaxnimate"
 #: src/ui/configenv_ui.ui:393
 #, kde-format
 msgid "Animation editing:"
-msgstr "Edició d'animacions:"
+msgstr "Editeu les animacions:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:414
@@ -16193,7 +16193,7 @@ msgstr "S'ha desactivat el dispositiu Jog Shuttle."
 #: src/ui/configjogshuttle_ui.ui:57
 #, kde-format
 msgid "Device Configuration"
-msgstr "Configuració del dispositiu"
+msgstr "Configureu el dispositiu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configjogshuttle_ui.ui:93
@@ -16823,7 +16823,7 @@ msgstr "Configura el treball."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "Guardada dels valors predefinits de renderització"
+msgstr "Guardeu els valors predefinits de renderització"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45

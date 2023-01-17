@@ -5,14 +5,14 @@
 #
 # Translators:
 # Iñigo Gebara <igebara@disroot.org>, 2017, 2018, 2020, 2021, 2022.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2017, 2019, 2020, 2021, 2022.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2017, 2019, 2020, 2021, 2022, 2023.
 # Imanol Manterola Agirrezabalaga <imanolmiru@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 02:37+0000\n"
-"PO-Revision-Date: 2022-12-17 09:19+0100\n"
+"PO-Revision-Date: 2023-01-16 08:07+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3243,7 +3243,7 @@ msgstr "%1 pistaren efektuak"
 #: src/assets/assetpanel.cpp:244
 #, kde-format
 msgid "Bin %1 effects"
-msgstr "%1 erretilu efektu"
+msgstr "Ontziko %1 efektuak"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:110
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
@@ -4030,7 +4030,7 @@ msgstr "Balorazioa"
 #: src/bin/bin.cpp:1305
 #, kde-format
 msgid "Disable Bin Effects"
-msgstr "Ezgaitu Bin efektuak"
+msgstr "Ezgaitu Ontziko efektuak"
 
 #: src/bin/bin.cpp:1313
 #, kde-format
@@ -4093,7 +4093,7 @@ msgstr ""
 #: src/bin/bin.cpp:1812
 #, kde-format
 msgid "Delete bin Clips"
-msgstr "Ezabatu erretiluko klipak"
+msgstr "Ezabatu ontziko klipak"
 
 #: src/bin/bin.cpp:1837 src/doc/documentchecker.cpp:553
 #, kde-format
@@ -4257,7 +4257,7 @@ msgstr "Karpeta"
 #: src/bin/bin.cpp:2278
 #, kde-format
 msgid "Create bin folder"
-msgstr "Sortu erretiluko karpeta"
+msgstr "Sortu ontzi karpeta"
 
 #: src/bin/bin.cpp:2410 src/bin/bin.cpp:2421 src/bin/bin.cpp:3347
 #: src/timeline2/model/timelinemodel.cpp:2000
@@ -5002,7 +5002,7 @@ msgstr "Eskualdea"
 #: src/bin/projectitemmodel.cpp:815
 #, kde-format
 msgid "Add bin clip"
-msgstr "Gehitu erretiluko klipa"
+msgstr "Gehitu ontziko klipa"
 
 #: src/bin/projectitemmodel.cpp:878
 #, kde-format
@@ -8587,7 +8587,7 @@ msgstr "Nabigazioa eta Erreprodukzioa"
 #: src/mainwindow.cpp:144
 #, kde-format
 msgid "Bin Tags"
-msgstr "Erretiluko Etiketak"
+msgstr "Ontziko etiketak"
 
 #: src/mainwindow.cpp:163
 #, kde-format
@@ -9974,7 +9974,7 @@ msgstr "Ez dago azpidatzirik uneko proiektuan"
 #: src/mainwindow.cpp:4485
 #, kde-format
 msgid "Project Bin %1"
-msgstr "Proiektuaren erretilua %1"
+msgstr "Proiektu-ontzia %1"
 
 #: src/mainwindow.cpp:4586
 #, kde-format
@@ -10606,7 +10606,7 @@ msgstr "Klipak ez du efekturik"
 #: src/monitor/monitor.cpp:2260
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
-msgstr "Hautatu klipa proiektuko erretiluan efektua konparatzeko"
+msgstr "Hautatu proiektu-ontziko klip bat efektuak konparatzeko"
 
 #: src/monitor/monitor.cpp:2297
 #, kde-format
@@ -11837,7 +11837,7 @@ msgstr[1] "Sortu markatzaileak"
 #: src/project/dialogs/noteswidget.cpp:46
 #, kde-format
 msgid "Assign timestamps to current Bin Clip"
-msgstr "Egokitu denbora-zigilua uneko erretilu klipari"
+msgstr "Esleitu denbora-zigilua Ontziko uneko klipari"
 
 #: src/project/dialogs/noteswidget.cpp:181
 #, kde-format
@@ -12355,7 +12355,7 @@ msgstr "Proiektuaren oharrak"
 #: src/project/notesplugin.cpp:50
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
-msgstr "Berregokitu hautatutako denbora-kodeak erretiluko uneko klipari"
+msgstr "Berresleitu hautatutako denbora-kodeak Ontziko uneko klipari"
 
 #: src/project/notesplugin.cpp:53
 #, kde-format
@@ -13313,8 +13313,8 @@ msgstr "Nahasketa okerra aurkitu da %1 pistan %2n, %3 klipa ezabatu da."
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
-"%1 Denbora-lerroko klipa (%2) zakarrontziko erreferentzia akastuna aurkitu "
-"eta berreskuratu da."
+"%1 denbora-lerroko klipa (%2), ontziko erreferentzia akastuna, aurkitu eta "
+"berreskuratu da."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:456
 #, kde-format
@@ -13327,8 +13327,8 @@ msgstr ""
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
-"%1 Denbora-lerroko klipa (%2) zakarrontziko erreferentziarik gabe aurkitu "
-"eta ezabatu da."
+"%1 Denbora-lerroko klipa (%2), ontziko erreferentziarik gabe, aurkitu eta "
+"ezabatu da."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:459
 #, kde-format
@@ -13594,7 +13594,7 @@ msgstr "Itsatsi"
 #: src/timeline2/model/timelinefunctions.cpp:1972
 #, kde-format
 msgid "Could not add bin clip"
-msgstr "Ezin izan da klipa gehitu erretiluan"
+msgstr "Ezin izan da ontziko klipa gehitu"
 
 #: src/timeline2/model/timelinefunctions.cpp:2025
 #, kde-format
