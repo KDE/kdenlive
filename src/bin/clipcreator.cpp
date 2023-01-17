@@ -110,9 +110,9 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     bool res = false;
     if (parentFolder == QLatin1String("-1")) {
         // Create timeline folder
-        folderId = model->getFolderIdByName(i18n("Timelines"));
+        folderId = model->getFolderIdByName(i18n("Sequences"));
         if (folderId.isEmpty()) {
-            res = model->requestAddFolder(folderId, i18n("Timelines"), QStringLiteral("-1"), undo, redo);
+            res = model->requestAddFolder(folderId, i18n("Sequences"), QStringLiteral("-1"), undo, redo);
         } else {
             res = true;
         }
@@ -126,7 +126,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
         pCore->projectManager()->openTimeline(id, uuid);
     }
-    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    pCore->pushUndo(undo, redo, i18n("Create sequence"));
     return res ? id : QStringLiteral("-1");
 }
 
@@ -145,9 +145,9 @@ QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::
     bool res = false;
     if (parentFolder == QLatin1String("-1")) {
         // Create timeline folder
-        folderId = model->getFolderIdByName(i18n("Timelines"));
+        folderId = model->getFolderIdByName(i18n("Sequences"));
         if (folderId.isEmpty()) {
-            res = model->requestAddFolder(folderId, i18n("Timelines"), QStringLiteral("-1"), undo, redo);
+            res = model->requestAddFolder(folderId, i18n("Sequences"), QStringLiteral("-1"), undo, redo);
         } else {
             res = true;
         }
@@ -156,7 +156,7 @@ QString ClipCreator::createPlaylistClip(const QString &parentFolder, const std::
         folderId = parentFolder;
     }
     res = model->requestAddBinClip(id, producer, folderId, undo, redo);
-    pCore->pushUndo(undo, redo, i18n("Create playlist clip"));
+    pCore->pushUndo(undo, redo, i18n("Create sequence"));
     return res ? id : QStringLiteral("-1");
 }
 

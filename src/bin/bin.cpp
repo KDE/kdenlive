@@ -3298,7 +3298,7 @@ void Bin::setupMenu()
                        QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::Animation, QStringLiteral("add_animation_clip"), i18n("Create Animation…"),
                        QIcon::fromTheme(QStringLiteral("motion_path_animations")));
-    setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Timeline…"),
+    setupAddClipAction(addClipMenu, ClipType::Timeline, QStringLiteral("add_playlist_clip"), i18n("Add Sequence…"),
                        QIcon::fromTheme(QStringLiteral("list-add")));
     QAction *downloadResourceAction =
         addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
@@ -3484,14 +3484,14 @@ void Bin::slotCreateProjectClip()
         QScopedPointer<QDialog> dia(new QDialog(this));
         Ui::NewTimeline_UI dia_ui;
         dia_ui.setupUi(dia.data());
-        dia->setWindowTitle(i18nc("@title:window", "Create New Timeline"));
+        dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
         dia_ui.video_tracks->setValue(2);
         dia_ui.audio_tracks->setValue(2);
         if (dia->exec() == QDialog::Accepted) {
             int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
             int vTracks = dia_ui.video_tracks->value();
             int aTracks = dia_ui.audio_tracks->value();
-            ClipCreationDialog::createPlaylistClip(i18n("Timeline %1", timelinesCount), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
+            ClipCreationDialog::createPlaylistClip(i18n("Sequence %1", timelinesCount), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
         }
         break;
     }
