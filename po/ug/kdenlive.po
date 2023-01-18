@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 02:37+0000\n"
+"POT-Creation-Date: 2023-01-18 02:37+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -5186,36 +5186,42 @@ msgstr ""
 msgid "Unknown"
 msgstr "نامەلۇم"
 
-#: src/bin/projectitemmodel.cpp:644
+#: src/bin/projectitemmodel.cpp:623
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "Add sub clips"
+msgstr "بارلىق ھۆججەتلەر"
+
+#: src/bin/projectitemmodel.cpp:658
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Zone"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/bin/projectitemmodel.cpp:815
+#: src/bin/projectitemmodel.cpp:829
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Add bin clip"
 msgstr "بارلىق ھۆججەتلەر"
 
-#: src/bin/projectitemmodel.cpp:878
+#: src/bin/projectitemmodel.cpp:892
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Add a sub clip"
 msgstr "بارلىق ھۆججەتلەر"
 
-#: src/bin/projectitemmodel.cpp:919
+#: src/bin/projectitemmodel.cpp:933
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Rename Folder"
 msgstr "قىسقۇچ قۇر"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1409
+#: src/bin/projectitemmodel.cpp:961 src/mainwindow.cpp:1409
 #, kde-format
 msgid "Clean Project"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:1117
+#: src/bin/projectitemmodel.cpp:1131
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Loading project clips…"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 02:37+0000\n"
+"POT-Creation-Date: 2023-01-18 02:37+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -5124,34 +5124,39 @@ msgstr ""
 msgid "Unknown"
 msgstr "未知的素材"
 
-#: src/bin/projectitemmodel.cpp:644
+#: src/bin/projectitemmodel.cpp:623
+#, fuzzy, kde-format
+msgid "Add sub clips"
+msgstr "添加素材"
+
+#: src/bin/projectitemmodel.cpp:658
 #, fuzzy, kde-format
 msgid "Zone"
 msgstr "區段終點：%1"
 
-#: src/bin/projectitemmodel.cpp:815
+#: src/bin/projectitemmodel.cpp:829
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Add bin clip"
 msgstr "添加素材"
 
-#: src/bin/projectitemmodel.cpp:878
+#: src/bin/projectitemmodel.cpp:892
 #, fuzzy, kde-format
 msgid "Add a sub clip"
 msgstr "添加素材"
 
-#: src/bin/projectitemmodel.cpp:919
+#: src/bin/projectitemmodel.cpp:933
 #, fuzzy, kde-format
 msgid "Rename Folder"
 msgstr "重命名檔案夾"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1409
+#: src/bin/projectitemmodel.cpp:961 src/mainwindow.cpp:1409
 #, kde-format
 msgid "Clean Project"
 msgstr "清理無使用的素材"
 
-#: src/bin/projectitemmodel.cpp:1117
+#: src/bin/projectitemmodel.cpp:1131
 #, fuzzy, kde-format
 msgid "Loading project clips…"
 msgstr "清理本項目"
