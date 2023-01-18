@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-16 00:55+0000\n"
-"PO-Revision-Date: 2023-01-02 05:10+0100\n"
+"POT-Creation-Date: 2023-01-18 00:57+0000\n"
+"PO-Revision-Date: 2023-01-17 07:47+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -123,7 +123,7 @@ msgstr "ხაზის სისქე"
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
-msgstr ""
+msgstr "ზოლის ან სეგმენტების სისქე."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
@@ -402,7 +402,7 @@ msgstr ""
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
 msgid "Level Threshold"
-msgstr ""
+msgstr "ზღვრული დონე"
 
 #: data/effects/audiospectrum.xml:63
 #, kde-format
@@ -4843,32 +4843,39 @@ msgstr "გამოყენება"
 msgid "Unknown"
 msgstr "უცნობი"
 
-#: src/bin/projectitemmodel.cpp:644
+#: src/bin/projectitemmodel.cpp:623
+#, fuzzy, kde-format
+#| msgid "Add clip"
+#| msgid_plural "Add clips"
+msgid "Add sub clips"
+msgstr "კლიპის დამატება"
+
+#: src/bin/projectitemmodel.cpp:658
 #, kde-format
 msgid "Zone"
 msgstr "ზონა"
 
-#: src/bin/projectitemmodel.cpp:815
+#: src/bin/projectitemmodel.cpp:829
 #, kde-format
 msgid "Add bin clip"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:878
+#: src/bin/projectitemmodel.cpp:892
 #, kde-format
 msgid "Add a sub clip"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:919
+#: src/bin/projectitemmodel.cpp:933
 #, kde-format
 msgid "Rename Folder"
 msgstr "საქაღალდის სახელის შეცვლა"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1409
+#: src/bin/projectitemmodel.cpp:961 src/mainwindow.cpp:1409
 #, kde-format
 msgid "Clean Project"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:1117
+#: src/bin/projectitemmodel.cpp:1131
 #, kde-format
 msgid "Loading project clips…"
 msgstr ""
@@ -8286,10 +8293,9 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "გასახსნელი დოკუმენტი"
+msgstr "Kdenlive -ის გასახსნელი დოკუმენტი."
 
 #: src/main.cpp:208
 #, kde-format
@@ -9768,7 +9774,7 @@ msgstr "კადრების სიხშირე:"
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
 msgid "Scanning:"
-msgstr ""
+msgstr "სკანირება:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
@@ -12925,7 +12931,7 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:1326
 #, kde-format
 msgid "Insert space"
-msgstr ""
+msgstr "ადგილის დამატება"
 
 #: src/timeline2/model/timelinefunctions.cpp:562
 #: src/timeline2/view/timelinecontroller.cpp:1328
@@ -13456,7 +13462,7 @@ msgstr ""
 #: src/timeline2/view/previewmanager.cpp:89
 #, kde-format
 msgid "Cannot create folder %1"
-msgstr ""
+msgstr "საქაღალდის (%1) შექმნის შეცდომა"
 
 #: src/timeline2/view/previewmanager.cpp:94
 #, kde-format
@@ -18458,7 +18464,7 @@ msgstr ""
 #: src/widgets/markercategorychooser.cpp:47
 #, kde-format
 msgid "All Categories"
-msgstr ""
+msgstr "ყველა კატეგორია"
 
 #: src/widgets/progressbutton.cpp:54
 #, kde-format
