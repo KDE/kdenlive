@@ -1,16 +1,16 @@
 # Translation of kdenlive.po to Catalan (Valencian)
-# Copyright (C) 2009-2022 This_file_is_part_of_KDE
+# Copyright (C) 2009-2023 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
-# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2022-12-16 09:27+0100\n"
+"PO-Revision-Date: 2023-01-18 09:15+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5014,10 +5014,9 @@ msgid "Unknown"
 msgstr "Desconegut"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Afig un subclip"
+msgstr "Afig subclips"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -12470,9 +12469,9 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 "La ubicació del fitxer del projecte ha canviat. Seleccioneu utilitzar la "
-"ubicació del fitxer del projecte per a guardar els fitxers temporals. Açò "
-"mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà "
-"a carregar el fitxer del projecte"
+"ubicació del fitxer del projecte per que es guardarà els fitxers temporals. "
+"Açò mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es "
+"tornarà a carregar el fitxer del projecte"
 
 #: src/project/projectmanager.cpp:457
 #, kde-format
