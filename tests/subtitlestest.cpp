@@ -52,9 +52,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     TimelineItemModel::finishConstruct(timeline);
 
     // Initialize subtitle model
-    std::shared_ptr<SubtitleModel> subtitleModel(new SubtitleModel(timeline->tractor(), timeline));
-    timeline->setSubModel(subtitleModel);
-    mockedDoc.initializeSubtitles(subtitleModel);
+    std::shared_ptr<SubtitleModel> subtitleModel = timeline->getSubtitleModel();
 
     SECTION("Load a subtitle file")
     {

@@ -690,11 +690,12 @@ void RenderWidget::prepareRendering(bool delayedRendering)
             }
         }
     }
+    const QUuid currentUuid = pCore->currentTimelineId();
     if (m_view.render_zone->isChecked()) {
         in = pMon->getZoneStart();
         out = pMon->getZoneEnd() - 1;
         if (!subtitleFile.isEmpty()) {
-            project->generateRenderSubtitleFile(in, out, subtitleFile);
+            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
         }
         generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_guide->isChecked()) {
@@ -704,7 +705,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         // End rendering at frame before last guide
         out = int(GenTime(guideEnd).frames(fps)) - 1;
         if (!subtitleFile.isEmpty()) {
-            project->generateRenderSubtitleFile(in, out, subtitleFile);
+            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
         }
         generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_multi->isChecked()) {
@@ -745,7 +746,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                             outputFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("-%1.").arg(name) + outputFile.section(QLatin1Char('.'), -1);
                         QDomDocument docCopy = doc.cloneNode(true).toDocument();
                         if (!subtitleFile.isEmpty()) {
-                            project->generateRenderSubtitleFile(in, out, subtitleFile);
+                            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
                         }
                         generateRenderFiles(docCopy, in, out, filename, false, subtitleFile);
                         if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
@@ -764,7 +765,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         }
     } else {
         if (!subtitleFile.isEmpty()) {
-            project->generateRenderSubtitleFile(in, out, subtitleFile);
+            project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
         }
         generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
     }

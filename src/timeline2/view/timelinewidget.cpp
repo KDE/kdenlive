@@ -177,7 +177,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("guidesModel", model->getFilteredGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+    rootContext()->setContextProperty("subtitleModel", model->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
@@ -535,17 +535,22 @@ void TimelineWidget::regainFocus()
     }
 }
 
+bool TimelineWidget::hasSubtitles() const
+{
+    return m_proxy->getModel()->hasSubtitleModel();
+}
+
 void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
     qDebug() << "root context get sub model new function";
-    if (pCore->getSubtitleModel().get() == nullptr) {
+    if (!model()->hasSubtitleModel()) {
         // qDebug()<<"null ptr here at root context";
         return;
     } else {
         // qDebug()<<"null ptr NOT here at root context";
         rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
         if (firstConnect) {
-            rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+            rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
         }
     }
 }

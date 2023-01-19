@@ -33,16 +33,15 @@
 #include <QStringConverter>
 #endif
 
-SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
+SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
     : QAbstractListModel(parent)
     , m_timeline(timeline)
     , m_lock(QReadWriteLock::Recursive)
     , m_subtitleFilter(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"))
-    , m_tractor(tractor)
 {
     qDebug() << "subtitle constructor";
     qDebug() << "Filter!";
-    if (tractor != nullptr) {
+    if (m_timeline->tractor() != nullptr) {
         qDebug() << "Tractor!";
         m_subtitleFilter->set("internal_added", 237);
     }
@@ -1096,7 +1095,7 @@ QString SubtitleModel::toJson()
 
 void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
 {
-    QFile srcFile(pCore->currentDoc()->subTitlePath(false));
+    QFile srcFile(pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false));
     if (srcFile.exists()) {
         QFile prev(path);
         if (prev.exists()) {
@@ -1114,7 +1113,7 @@ void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
-    QString outFile = pCore->currentDoc()->subTitlePath(false);
+    QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false);
     QString masterFile = m_subtitleFilter->get("av.filename");
     if (masterFile.isEmpty()) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
@@ -1123,9 +1122,9 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     qDebug() << "Saving subtitle filter: " << outFile;
     if (line > 0) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
-        m_tractor->attach(*m_subtitleFilter.get());
+        m_timeline->tractor()->attach(*m_subtitleFilter.get());
     } else {
-        m_tractor->detach(*m_subtitleFilter.get());
+        m_timeline->tractor()->detach(*m_subtitleFilter.get());
     }
 }
 
@@ -1431,4 +1430,134 @@ int SubtitleModel::getNextBlankStart(int pos) const
         }
     }
     return getBlankStart(pos);
+}
+
+void SubtitleModel::editSubtitle(int id, const QString &newText, const QString &oldText)
+{
+    qDebug() << "Editing existing subtitle :" << id;
+    if (oldText == newText) {
+        return;
+    }
+    Fun local_redo = [this, id, newText]() {
+        editSubtitle(id, newText);
+        QPair<int, int> range = getInOut(id);
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
+        return true;
+    };
+    Fun local_undo = [this, id, oldText]() {
+        editSubtitle(id, oldText);
+        QPair<int, int> range = getInOut(id);
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
+        return true;
+    };
+    local_redo();
+    pCore->pushUndo(local_undo, local_redo, i18n("Edit subtitle"));
+}
+
+void SubtitleModel::resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel)
+{
+    qDebug() << "Editing existing subtitle in controller at:" << startFrame;
+    int max = qMax(endFrame, oldEndFrame);
+    Fun local_redo = [this, startFrame, endFrame, max, refreshModel]() {
+        editEndPos(GenTime(startFrame, pCore->getCurrentFps()), GenTime(endFrame, pCore->getCurrentFps()), refreshModel);
+        pCore->refreshProjectRange({startFrame, max});
+        return true;
+    };
+    Fun local_undo = [this, startFrame, oldEndFrame, max, refreshModel]() {
+        editEndPos(GenTime(startFrame, pCore->getCurrentFps()), GenTime(oldEndFrame, pCore->getCurrentFps()), refreshModel);
+        pCore->refreshProjectRange({startFrame, max});
+        return true;
+    };
+    local_redo();
+    if (refreshModel) {
+        pCore->pushUndo(local_undo, local_redo, i18n("Resize subtitle"));
+    }
+}
+
+void SubtitleModel::addSubtitle(int startframe, QString text)
+{
+    if (startframe == -1) {
+        startframe = pCore->getMonitorPosition();
+    }
+    int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
+    int id = TimelineModel::getNextId();
+    if (text.isEmpty()) {
+        text = i18n("Add text");
+    }
+    Fun local_undo = [this, id, startframe, endframe]() {
+        removeSubtitle(id);
+        QPair<int, int> range = {startframe, endframe};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
+        return true;
+    };
+    Fun local_redo = [this, id, startframe, endframe, text]() {
+        if (addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text)) {
+            QPair<int, int> range = {startframe, endframe};
+            pCore->invalidateRange(range);
+            pCore->refreshProjectRange(range);
+            return true;
+        }
+        return false;
+    };
+    if (local_redo()) {
+        m_timeline->requestAddToSelection(id, true);
+        pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
+        int index = m_timeline->positionForIndex(id);
+        if (index > -1) {
+            emit m_timeline->highlightSub(index);
+        }
+    }
+}
+
+void SubtitleModel::doCutSubtitle(int id, int cursorPos)
+{
+    Q_ASSERT(m_timeline->isSubTitle(id));
+    // Cut subtitle at edit position
+    int timelinePos = pCore->getMonitorPosition();
+    GenTime position(timelinePos, pCore->getCurrentFps());
+    GenTime start = m_timeline->m_allSubtitles.at(id);
+    SubtitledTime subData = getSubtitle(start);
+    if (position > start && position < subData.end()) {
+        QString originalText = subData.subtitle();
+        QString firstText = originalText;
+        QString secondText = originalText.right(originalText.length() - cursorPos);
+        firstText.truncate(cursorPos);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        int newId = cutSubtitle(timelinePos, undo, redo);
+        if (newId > -1) {
+            Fun local_redo = [this, id, newId, firstText, secondText]() {
+                editSubtitle(id, firstText);
+                editSubtitle(newId, secondText);
+                return true;
+            };
+            Fun local_undo = [this, id, originalText]() {
+                editSubtitle(id, originalText);
+                return true;
+            };
+            local_redo();
+            UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+            pCore->pushUndo(undo, redo, i18n("Cut clip"));
+        }
+    }
+}
+
+void SubtitleModel::deleteSubtitle(int startframe, int endframe, const QString &text)
+{
+    int id = getIdForStartPos(GenTime(startframe, pCore->getCurrentFps()));
+    Fun local_redo = [this, id, startframe, endframe]() {
+        removeSubtitle(id);
+        pCore->refreshProjectRange({startframe, endframe});
+        return true;
+    };
+    Fun local_undo = [this, id, startframe, endframe, text]() {
+        addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text);
+        pCore->refreshProjectRange({startframe, endframe});
+        return true;
+    };
+    local_redo();
+    pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
 }

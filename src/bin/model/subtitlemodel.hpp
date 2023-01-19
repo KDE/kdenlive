@@ -34,7 +34,7 @@ class SubtitleModel : public QAbstractListModel
 
 public:
     /** @brief Construct a subtitle list bound to the timeline */
-    explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
+    explicit SubtitleModel(std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */
@@ -154,6 +154,16 @@ public:
     void setStyle(const QString &style);
     const QString getStyle() const;
     void subtitleFileFromZone(int in, int out, const QString &outFile);
+    /** @brief Edit the subtitle text*/
+    Q_INVOKABLE void editSubtitle(int id, const QString &newText, const QString &oldText);
+    /** @brief Edit the subtitle end */
+    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
+    /** @brief Add subtitle clip at cursor's position in timeline */
+    Q_INVOKABLE void addSubtitle(int startframe = -1, QString text = QString());
+    /** @brief Delete subtitle clip with frame as start position*/
+    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &text);
+    /** @brief Cut a subtitle and split the text at \@param pos */
+    void doCutSubtitle(int id, int cursorPos);
 
 public slots:
     /** @brief Function that parses through a subtitle file */
@@ -181,7 +191,6 @@ private:
     std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
     mutable QReadWriteLock m_lock;
     std::unique_ptr<Mlt::Filter> m_subtitleFilter;
-    Mlt::Tractor *m_tractor;
     QVector<int> m_selected;
     QVector<int> m_grabbedIds;
     int saveSubtitleData(const QString &data, const QString &outFile);

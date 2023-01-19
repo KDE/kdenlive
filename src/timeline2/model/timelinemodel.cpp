@@ -1207,6 +1207,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return res;
 }
 
+std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel()
+{
+    return m_subtitleModel;
+}
+
 int TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
 {
     if (m_subtitleModel) {
@@ -1254,11 +1259,6 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
         local_undo();
     }
     return res;
-}
-
-std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel()
-{
-    return m_subtitleModel;
 }
 
 bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position)
@@ -6624,12 +6624,6 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
     }
 }
 
-void TimelineModel::setSubModel(std::shared_ptr<SubtitleModel> model)
-{
-    m_subtitleModel = std::move(model);
-    m_subtitleModel->registerSnap(std::static_pointer_cast<SnapInterface>(m_snaps));
-}
-
 int TimelineModel::getSubtitleIndex(int subId) const
 {
     if (m_allSubtitles.count(subId) == 0) {
@@ -6831,4 +6825,9 @@ void TimelineModel::deletePreviewTrack()
         m_timelinePreview->deletePreviewTrack();
         m_overlayTrackCount = m_timelinePreview->addedTracks();
     }
+}
+
+bool TimelineModel::hasSubtitleModel()
+{
+    return m_subtitleModel != nullptr;
 }

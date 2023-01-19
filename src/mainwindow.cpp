@@ -4316,14 +4316,14 @@ void MainWindow::slotActivateTarget()
     }
 }
 
-void MainWindow::resetSubtitles()
+void MainWindow::resetSubtitles(const QUuid &uuid)
 {
     // Hide subtitle track
     m_buttonSubtitleEditTool->setChecked(false);
     KdenliveSettings::setShowSubtitles(false);
     pCore->subtitleWidget()->setModel(nullptr);
     if (pCore->currentDoc()) {
-        const QString workPath = pCore->currentDoc()->subTitlePath(false);
+        const QString workPath = pCore->currentDoc()->subTitlePath(uuid, false);
         QFile workFile(workPath);
         if (workFile.exists()) {
             workFile.remove();
@@ -4333,21 +4333,11 @@ void MainWindow::resetSubtitles()
 
 void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
 {
-    std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
-    if (subtitleModel == nullptr) {
+    bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
+    if (!hasSubtitleModel) {
+        std::shared_ptr<SubtitleModel> subtitleModel = getCurrentTimeline()->model()->createSubtitleModel();
         // Starting a new subtitle for this project
-        // Modify to check for multiple subtitles
-        subtitleModel.reset(new SubtitleModel(getCurrentTimeline()->controller()->tractor(), getCurrentTimeline()->model(), this));
-        getCurrentTimeline()->model()->setSubModel(subtitleModel);
-        pCore->currentDoc()->initializeSubtitles(subtitleModel);
         pCore->subtitleWidget()->setModel(subtitleModel);
-        const QString subPath = pCore->currentDoc()->subTitlePath(true);
-        const QString workPath = pCore->currentDoc()->subTitlePath(false);
-        QFile subFile(subPath);
-        if (subFile.exists()) {
-            subFile.copy(workPath);
-            subtitleModel->parseSubtitle(workPath);
-        }
         if (!subProperties.isEmpty()) {
             subtitleModel->loadProperties(subProperties);
             // Load the disabled / locked state of the subtitle
@@ -4366,7 +4356,7 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
 void MainWindow::slotAddSubtitle(const QString &text)
 {
     showSubtitleTrack();
-    getCurrentTimeline()->controller()->addSubtitle(-1, text);
+    getCurrentTimeline()->model()->getSubtitleModel()->addSubtitle(-1, text);
 }
 
 void MainWindow::slotDisableSubtitle()
@@ -4381,7 +4371,7 @@ void MainWindow::slotLockSubtitle()
 
 void MainWindow::showSubtitleTrack()
 {
-    if (pCore->getSubtitleModel() == nullptr || !KdenliveSettings::showSubtitles()) {
+    if (!getCurrentTimeline()->hasSubtitles() || !KdenliveSettings::showSubtitles()) {
         m_buttonSubtitleEditTool->setChecked(true);
         slotEditSubtitle();
     }
@@ -4395,7 +4385,7 @@ void MainWindow::slotImportSubtitle()
 
 void MainWindow::slotExportSubtitle()
 {
-    if (pCore->getSubtitleModel() == nullptr) {
+    if (!getCurrentTimeline()->hasSubtitles()) {
         pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
@@ -4404,7 +4394,7 @@ void MainWindow::slotExportSubtitle()
 
 void MainWindow::slotSpeechRecognition()
 {
-    if (pCore->getSubtitleModel() == nullptr) {
+    if (!getCurrentTimeline()->hasSubtitles()) {
         slotEditSubtitle();
     }
     getCurrentTimeline()->controller()->subtitleSpeechRecognition();

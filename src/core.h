@@ -261,8 +261,6 @@ public:
     void addGuides(const QList <int> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
-    /** @brief Returns the current doc's subtitle model. */
-    std::shared_ptr<SubtitleModel> getSubtitleModel(bool enforce = false);
     /** @brief Transcode a video file. */
     void transcodeFile(const QString &url);
     /** @brief Display key binding info in statusbar. */
@@ -297,7 +295,7 @@ public:
     /** @brief Start / stop audio capture */
     void switchCapture();
     /** @brief Get the uuid of currently active timeline */
-    const QUuid &currentTimelineId() const;
+    const QUuid currentTimelineId() const;
     /** @brief A list of markers type categories {marker type, {color, category name}} */
     struct MarkerCategory
     {

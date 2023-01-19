@@ -367,11 +367,11 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         if (!quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
-        pCore->window()->resetSubtitles();
         QList<QUuid> uuids = m_project->getTimelinesUuids();
         for (auto &uid : uuids) {
             qDebug() << "::: CLOSING TIMELINE: " << uid;
             pCore->window()->closeTimeline(uid);
+            pCore->window()->resetSubtitles(uid);
         }
     }
     pCore->bin()->cleanDocument();

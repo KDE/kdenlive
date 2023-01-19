@@ -43,6 +43,7 @@ public:
     void connectSubtitleModel(bool firstConnect);
     void unsetModel();
     const QUuid &getUuid() const;
+    bool hasSubtitles() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

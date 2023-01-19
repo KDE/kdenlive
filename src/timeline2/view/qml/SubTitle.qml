@@ -182,7 +182,7 @@ Item {
                 subtitleEdit.focus = false
                 parent.textEditBegin = false
                 if (subtitleRoot.subtitle != subtitleEdit.text) {
-                    timeline.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
+                    subtitleModel.editSubtitle(subtitleRoot.subId, subtitleEdit.text, subtitleRoot.subtitle)
                 }
             }
             anchors.fill: parent
