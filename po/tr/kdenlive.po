@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 00:57+0000\n"
-"PO-Revision-Date: 2023-01-16 22:11+0300\n"
+"PO-Revision-Date: 2023-01-18 22:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4460,7 +4460,7 @@ msgid ""
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
-"dosyasına mı yoksa sadece bu proje için mi kaydetmek istersiniz?"
+"dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
 #: src/bin/bin.cpp:4354 src/titler/titlewidget.cpp:2178
 #, kde-format
@@ -4994,10 +4994,9 @@ msgid "Unknown"
 msgstr "Bilinmeyen"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Bir alt klip ekle"
+msgstr "Alt klipler ekle"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -7015,7 +7014,7 @@ msgstr "Kaynak klip"
 #: src/doc/documentchecker.cpp:550
 #, kde-format
 msgid "%1 missing source clips, you can only use the proxies"
-msgstr "%1 kayıp kaynak klibi, sadece vekillerini kullanabilirsiniz"
+msgstr "%1 kayıp kaynak klibi, yalnızca vekillerini kullanabilirsiniz"
 
 #: src/doc/documentchecker.cpp:926
 #, kde-format
@@ -15516,7 +15515,7 @@ msgstr ""
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
 msgid "Show handles for all points or only for the selected one."
-msgstr "Tutucuları tüm noktalar veya sadece seçili olan için göster."
+msgstr "Tutucuları tüm noktalar veya yalnızca seçili olan için göster."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, m_labelName)

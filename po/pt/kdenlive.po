@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 00:57+0000\n"
-"PO-Revision-Date: 2023-01-09 09:55+0000\n"
+"PO-Revision-Date: 2023-01-18 13:32+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -5102,10 +5102,9 @@ msgid "Unknown"
 msgstr "Desconhecido"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Adicionar um 'sub-clip'"
+msgstr "Adicionar os 'sub-clips'"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -6471,7 +6470,7 @@ msgstr " (imagem %1 @ %2 ips)"
 #: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "Existem menos de %1MB de memória disponível."
 
 #: src/dialogs/renderwidget.cpp:1538
 #, kde-format
@@ -8696,33 +8695,31 @@ msgstr ""
 "áudio e vídeo."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "Definir um nome de ficheiro de configuração personalizado"
+msgstr "Definir um nome de ficheiro de configuração personalizado."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "Definir a localização do ambiente MLT"
+msgstr "Definir a localização do ambiente MLT."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
+"Configurar o nível de registo do MLT. Deixe isto indefinido para o nível "
+"\"aviso\"."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "Uma lista, separada por vírgulas, dos 'clips' a adicionar"
+msgstr "Uma lista, separada por vírgulas, dos 'clips' a adicionar ao grupo."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "O documento a abrir"
+msgstr "O documento do Kdenlive a abrir."
 
 #: src/main.cpp:208
 #, kde-format
@@ -19316,6 +19313,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "MLT log level"
-#~ msgstr "Nível de registo do MLT"
