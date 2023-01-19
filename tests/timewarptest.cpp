@@ -4,6 +4,11 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 #include "test_utils.hpp"
+#define private public
+#define protected public
+
+#include "bin/binplaylist.hpp"
+#include "doc/kdenlivedoc.h"
 
 using namespace fakeit;
 Mlt::Profile profile_timewarp;
@@ -15,6 +20,15 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
+    // Create document
+    KdenliveDoc document(undoStack, nullptr);
+    Mock<KdenliveDoc> docMock(document);
+    // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
+    //     Q_UNUSED(name) Q_UNUSED(defaultValue)
+    //     qDebug() << "Intercepted call";
+    //     return QStringLiteral("dummyId");
+    // });
+    KdenliveDoc &mockedDoc = docMock.get();
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
 
@@ -30,6 +44,7 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     RESET(timMock);
     TimelineModel::next_id = 0;

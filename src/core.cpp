@@ -480,11 +480,10 @@ ToolType::ProjectTool Core::activeTool()
 
 const QUuid Core::currentTimelineId() const
 {
-    if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
-        return m_mainWindow->getCurrentTimeline()->getUuid();
+    if (m_projectManager->getTimeline()) {
+        return m_projectManager->getTimeline()->uuid();
     }
-    const QUuid uuid = QUuid();
-    return uuid;
+    return QUuid();
 }
 
 std::unique_ptr<Mlt::Repository> &Core::getMltRepository()

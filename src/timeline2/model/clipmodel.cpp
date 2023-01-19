@@ -1346,7 +1346,7 @@ bool ClipModel::checkConsistency()
     auto instances = binClip->timelineInstances();
     bool found = instances.contains(m_id);
     if (!found) {
-        qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence";
+        qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence: " << m_id;
         return false;
     }
 
