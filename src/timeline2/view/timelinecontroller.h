@@ -650,16 +650,6 @@ public:
     Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
-    /** @brief Edit the subtitle text*/
-    Q_INVOKABLE void editSubtitle(int id, const QString &newText, const QString &oldText);
-    /** @brief Edit the subtitle end */
-    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
-    /** @brief Add subtitle clip at cursor's position in timeline */
-    Q_INVOKABLE void addSubtitle(int startframe = -1, QString text = QString());
-    /** @brief Cut a subtitle and split the text at \@param pos */
-    void cutSubtitle(int id, int cursorPos);
-    /** @brief Delete subtitle clip with frame as start position*/
-    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, const QString &Ctext);
     /** @brief Import a subtitle file*/
     void importSubtitle(const QString &path = QString());
     /** @brief Export a subtitle file*/

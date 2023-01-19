@@ -152,9 +152,9 @@ public:
     void tabifyBins();
     int binCount() const;
 
-    /** @brief Hide subtitle track */
-    void resetSubtitles();
-    
+    /** @brief Hide subtitle track and delete its temporary file*/
+    void resetSubtitles(const QUuid &uuid);
+
     /** @brief Restart the application and delete config files if clean is true */
     void cleanRestart(bool clean);
 

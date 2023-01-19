@@ -740,8 +740,6 @@ public:
      * @param listCompositions if enabled, the list will also contains composition ids
      */
     std::unordered_set<int> getItemsInRange(int trackId, int start, int end = -1, bool listCompositions = true);
-    /** @brief define current project's subtitle model */
-    void setSubModel(std::shared_ptr<SubtitleModel> model);
 
     /** @brief Returns a list of all luma files used in the project
      */
@@ -831,7 +829,7 @@ public:
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
     int getMixCutPos(int cid) const;
     MixAlignment getMixAlign(int cid) const;
-    std::shared_ptr<SubtitleModel> getSubtitleModel();
+    bool hasSubtitleModel();
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     /** @brief Get a track tag (A1, V1, V2,...) through its id */
@@ -845,6 +843,8 @@ public:
     int getClipEndAt(int tid, int pos, int playlist) const;
     /** @brief returns true if the track trackId is Locked */
     bool trackIsLocked(int trackid) const;
+    /** @brief returns this timeline's subtitle model */
+    std::shared_ptr<SubtitleModel> getSubtitleModel();
     /** @brief returns this timeline's guide model */
     std::shared_ptr<MarkerListModel> getGuideModel();
     std::shared_ptr<MarkerSortModel> getFilteredGuideModel();
@@ -961,6 +961,8 @@ signals:
     void guidesChanged(const QUuid &uuid);
     /** @brief Save guide categories in document properties */
     void saveGuideCategories();
+    /** @brief Highlight a subtitle item in timeline */
+    void highlightSub(int index);
 
 protected:
     QUuid m_uuid;
@@ -978,13 +980,14 @@ protected:
     std::unordered_map<int, std::shared_ptr<CompositionModel>>
         m_allCompositions; // the keys are the composition id, and the values are the corresponding pointers
 
+    // TODO: move this in subtitlemodel.h
     std::map<int, GenTime> m_allSubtitles;
 
     static int next_id; /// next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;
-    std::shared_ptr<SubtitleModel> m_subtitleModel;
+    std::shared_ptr<SubtitleModel> m_subtitleModel{nullptr};
 
     std::unordered_set<int> m_allGroups; /// ids of all the groups
 

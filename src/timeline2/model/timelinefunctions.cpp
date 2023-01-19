@@ -2162,7 +2162,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         }
     }
     if (res && !subtitles.isEmpty()) {
-        auto subModel = pCore->getSubtitleModel(true);
+        auto subModel = timeline->getSubtitleModel();
         for (int i = 0; res && i < subtitles.count(); i++) {
             QDomElement prod = subtitles.at(i).toElement();
             int in = prod.attribute(QStringLiteral("in")).toInt() * ratio - offset;

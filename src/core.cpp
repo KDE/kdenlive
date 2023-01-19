@@ -250,7 +250,11 @@ void Core::buildDocks()
     connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, m_mainWindow, &MainWindow::slotAddSubtitle);
     connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, this, [this](int id, int cursorPos) {
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
-            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+            if (cursorPos <= 0) {
+                m_mainWindow->getCurrentTimeline()->controller()->requestClipCut(id, -1);
+            } else {
+                m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel()->doCutSubtitle(id, cursorPos);
+            }
         }
     });
 
@@ -427,19 +431,6 @@ void Core::selectTimelineItem(int id)
     }
 }
 
-std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
-{
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
-        auto subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
-        if (enforce && subModel == nullptr) {
-            m_mainWindow->slotEditSubtitle();
-            subModel = m_mainWindow->getCurrentTimeline()->model()->getSubtitleModel();
-        }
-        return subModel;
-    }
-    return nullptr;
-}
-
 LibraryWidget *Core::library()
 {
     return m_library;
@@ -487,7 +478,7 @@ ToolType::ProjectTool Core::activeTool()
     return m_mainWindow->getCurrentTimeline()->activeTool();
 }
 
-const QUuid &Core::currentTimelineId() const
+const QUuid Core::currentTimelineId() const
 {
     if (m_mainWindow && m_mainWindow->getCurrentTimeline()) {
         return m_mainWindow->getCurrentTimeline()->getUuid();

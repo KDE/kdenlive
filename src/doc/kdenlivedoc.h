@@ -231,10 +231,12 @@ public:
     /** @brief Get the list of secondary timelines uuid */
     const QStringList getSecondaryTimelines() const;
 
-    /** @brief Initialize subtitle model */
-    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
-    /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
-    const QString subTitlePath(bool final);
+    /** @brief Returns a path for current document's subtitle file.
+     *  uuid is appended to the path if this is not the primary timeline
+     *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
+    const QString subTitlePath(const QUuid &uuid, bool final);
+    /** @brief Returns the list of all used subtitles paths. */
+    QStringList getAllSubtitlesPath(bool final);
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks, bool disableProfile = true);
     /** @brief Return the document version. */
@@ -245,7 +247,7 @@ public:
     /** @brief Returns true if this project has subtitles. */
     bool hasSubtitles() const;
     /** @brief Generate a temporary subtitle file for a zone. */
-    void generateRenderSubtitleFile(int in, int out, const QString &subtitleFile);
+    void generateRenderSubtitleFile(const QUuid &uuid, int in, int out, const QString &subtitleFile);
     /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
     void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
@@ -299,7 +301,6 @@ private:
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
     QUuid m_filteredTimelineUuid;
-    std::weak_ptr<SubtitleModel> m_subtitleModel;
 
     QString m_modifiedDecimalPoint;
     /** @brief A list of guide models for this project (one for each timeline). */

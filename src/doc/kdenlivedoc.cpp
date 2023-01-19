@@ -48,7 +48,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <QUndoGroup>
 #include <QUndoStack>
-
+#include <memory>
 #include <mlt++/Mlt.h>
 
 #include <locale>
@@ -907,13 +907,34 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
 }
 
+QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
+{
+    QStringList result;
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        if (j.value()->hasSubtitleModel()) {
+            result << subTitlePath(j.value()->uuid(), final);
+        }
+    }
+    return result;
+}
+
 void KdenliveDoc::updateSubtitle(const QString &newUrl)
 {
-    if (auto ptr = m_subtitleModel.lock()) {
-        bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
-        QFileInfo info(newUrl);
-        QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
-        ptr->copySubtitle(subPath, checkOverwrite);
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        if (j.value()->hasSubtitleModel()) {
+            bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
+            QString path = newUrl;
+            if (j.value()->uuid() != m_uuid) {
+                path.append(j.value()->uuid().toString());
+            }
+            QFileInfo info(path);
+            QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+            j.value()->getSubtitleModel()->copySubtitle(subPath, checkOverwrite);
+        }
     }
 }
 
@@ -2050,30 +2071,36 @@ QString &KdenliveDoc::modifiedDecimalPoint()
     return m_modifiedDecimalPoint;
 }
 
-const QString KdenliveDoc::subTitlePath(bool final)
+const QString KdenliveDoc::subTitlePath(const QUuid &uuid, bool final)
 {
     QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
-    if (m_url.isValid() && final) {
-        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(m_url.fileName()));
-    } else {
-        return QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
+    QString path = (m_url.isValid() && final) ? m_url.fileName() : documentId;
+    if (uuid != m_uuid) {
+        path.append(uuid.toString());
     }
-}
-
-void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
-{
-    m_subtitleModel = m_subtitle;
+    if (m_url.isValid() && final) {
+        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
+    } else {
+        return QDir::temp().absoluteFilePath(QString("%1.srt").arg(path));
+    }
 }
 
 bool KdenliveDoc::hasSubtitles() const
 {
-    return (m_subtitleModel.lock() != nullptr);
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        if (j.value()->hasSubtitleModel()) {
+            return true;
+        }
+    }
+    return false;
 }
 
-void KdenliveDoc::generateRenderSubtitleFile(int in, int out, const QString &subtitleFile)
+void KdenliveDoc::generateRenderSubtitleFile(const QUuid &uuid, int in, int out, const QString &subtitleFile)
 {
-    if (auto ptr = m_subtitleModel.lock()) {
-        ptr->subtitleFileFromZone(in, out, subtitleFile);
+    if (m_timelines.contains(uuid)) {
+        m_timelines.value(uuid)->getSubtitleModel()->subtitleFileFromZone(in, out, subtitleFile);
     }
 }
 

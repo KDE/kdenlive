@@ -1129,9 +1129,11 @@ void ArchiveWidget::createArchive()
     }
     if (success) {
         // Add subtitle files if any
-        QString sub = pCore->currentDoc()->subTitlePath(false);
-        if (QFileInfo::exists(sub)) {
-            success = archive->addLocalFile(sub, m_name + QStringLiteral(".kdenlive.") + QFileInfo(sub).completeSuffix());
+        QStringList subtitles = pCore->currentDoc()->getAllSubtitlesPath(false);
+        for (auto &path : subtitles) {
+            if (QFileInfo::exists(path)) {
+                success = archive->addLocalFile(path, m_name + QStringLiteral(".kdenlive.") + QFileInfo(path).completeSuffix());
+            }
         }
     }
     if (success) {

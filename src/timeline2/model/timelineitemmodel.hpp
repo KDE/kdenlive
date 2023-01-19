@@ -89,6 +89,7 @@ public:
 
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
+    std::shared_ptr<SubtitleModel> createSubtitleModel();
 
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;

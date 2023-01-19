@@ -12,6 +12,7 @@
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -612,6 +613,22 @@ int TimelineItemModel::getFirstAudioTrackIndex() const
         ++it;
     }
     return trackId;
+}
+
+std::shared_ptr<SubtitleModel> TimelineItemModel::createSubtitleModel()
+{
+    if (m_subtitleModel == nullptr) {
+        // Initialize the subtitle model and load file if any
+        m_subtitleModel.reset(new SubtitleModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()), this));
+        const QString subPath = pCore->currentDoc()->subTitlePath(m_uuid, true);
+        const QString workPath = pCore->currentDoc()->subTitlePath(m_uuid, false);
+        QFile subFile(subPath);
+        if (subFile.exists()) {
+            subFile.copy(workPath);
+            m_subtitleModel->parseSubtitle(workPath);
+        }
+    }
+    return m_subtitleModel;
 }
 
 const QString TimelineItemModel::getTrackFullName(int tid) const
