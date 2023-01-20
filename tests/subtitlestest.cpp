@@ -20,19 +20,13 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    Mock<KdenliveDoc> docMock;
-    When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        // Q_UNUSED(name)
-        Q_UNUSED(defaultValue)
-        qDebug() << "Intercepted call:" << name;
-        return QStringLiteral("");
-    });
+    KdenliveDoc document(undoStack, nullptr);
+    Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -40,19 +34,18 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-    pCore->m_projectManager->m_project = &mockedDoc;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_subs, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), &profile_subs, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     // Initialize subtitle model
-    std::shared_ptr<SubtitleModel> subtitleModel = timeline->getSubtitleModel();
+    std::shared_ptr<SubtitleModel> subtitleModel = timeline->createSubtitleModel();
 
     SECTION("Load a subtitle file")
     {
@@ -99,6 +92,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         }
         // Ensure that non-ASCII characters are read correctly
         CHECK(subtitlesText == control);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
     }
 #endif
 
@@ -118,6 +113,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         }
         // Ensure that non-ASCII characters are read correctly
         CHECK(subtitlesText == control);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
     }
 
     SECTION("Load a broken subtitle file")

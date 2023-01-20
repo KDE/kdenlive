@@ -54,6 +54,7 @@ TEST_CASE("Save File", "[SF]")
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
+        TimelineModel::next_id = 0;
         QDir dir = QDir::temp();
         std::unordered_map<QString, QString> binIdCorresp;
         QStringList expandedFolders;
@@ -120,7 +121,6 @@ TEST_CASE("Save File", "[SF]")
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
@@ -133,7 +133,7 @@ TEST_CASE("Save File", "[SF]")
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
         RESET(timMock)
-
+        TimelineModel::next_id = 0;
         QString path = dir.absoluteFilePath(QStringLiteral("test.kdenlive"));
         QFile file(path);
         REQUIRE(file.open(QIODevice::ReadOnly | QIODevice::Text) == true);
@@ -148,9 +148,11 @@ TEST_CASE("Save File", "[SF]")
 
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
-        Mlt::Multitrack multi(tractor);
+
         bool projectErrors;
-        constructTimelineFromMelt(timeline, multi, nullptr, QString(), QString(), QString(), 0, &projectErrors);
+        REQUIRE(tractor.count() == 5);
+        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), QString(), QString(), 0, &projectErrors);
+        REQUIRE(timeline->getTracksCount() == 4);
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(2);
         int cid1 = timeline->getClipByStartPosition(tid1, 0);
@@ -213,9 +215,8 @@ TEST_CASE("Save File", "[SF]")
         doc.setContent(playlist);
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
-        Mlt::Multitrack multi(tractor);
         bool projectErrors;
-        constructTimelineFromMelt(timeline, multi, nullptr, QString(), QString(), QString(), 0, &projectErrors);
+        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), QString(), QString(), 0, &projectErrors);
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(0);
         int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -465,8 +466,7 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
         pCore->m_projectManager->m_project = openedDoc.get();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
         pCore->m_projectManager->updateTimeline(0, false, QString(), QString(), documentDate, 0);
-
-        std::shared_ptr<TimelineItemModel> timeline = pCore->m_projectManager->getTimeline();
+        std::shared_ptr<TimelineItemModel> timeline = pCore->m_projectManager->m_activeTimelineModel;
         REQUIRE(timeline->getTracksCount() == 4);
         int mixtrackId = timeline->getTrackIndexFromPosition(2);
         REQUIRE(timeline->getTrackById_const(mixtrackId)->mixCount() == 2);

@@ -17,7 +17,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
 {
     auto binModel = pCore->projectItemModel();
     binModel->clean();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Create document
@@ -40,7 +39,7 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_timewarp, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), &profile_timewarp, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
