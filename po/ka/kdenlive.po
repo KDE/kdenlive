@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 00:57+0000\n"
-"PO-Revision-Date: 2023-01-17 07:47+0100\n"
+"PO-Revision-Date: 2023-01-19 07:35+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -435,12 +435,12 @@ msgstr "აუდიოს ტალღა"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr ""
+msgstr "ვიდეოს მაგიერ აუდიოს ტალღის ფორმის ჩვენება"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr ""
+msgstr "აუდიოს ტალღის ფორმის ფილტრი"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #, kde-format
@@ -604,12 +604,12 @@ msgstr ""
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
 msgid "Copy Channels to Stereo"
-msgstr ""
+msgstr "არხების სტერეოში კოპირება"
 
 #: data/effects/copychannelstostereo.xml:5
 #, kde-format
 msgid "Copy one audio channel to another."
-msgstr ""
+msgstr "ერთი აუდიო არხის მეორეში კოპირება"
 
 #: data/effects/copychannelstostereo.xml:8
 #: data/effects/copychannelstostereo.xml:12
@@ -4844,11 +4844,9 @@ msgid "Unknown"
 msgstr "უცნობი"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add clip"
-#| msgid_plural "Add clips"
+#, kde-format
 msgid "Add sub clips"
-msgstr "კლიპის დამატება"
+msgstr "ქვეკლიპების დამატება"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -16311,7 +16309,7 @@ msgstr "სიჩქარე:"
 #: src/ui/editrenderpreset_ui.ui:828
 #, kde-format
 msgid "Buffer Size:"
-msgstr ""
+msgstr "ბუფერის ზომა:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:880

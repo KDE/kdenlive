@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 00:57+0000\n"
-"PO-Revision-Date: 2023-01-16 12:07+0100\n"
+"PO-Revision-Date: 2023-01-19 17:16+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5007,10 +5007,9 @@ msgid "Unknown"
 msgstr "Onbekend"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Een subclip toevoegen"
+msgstr "Sub-clips toevoegen"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
