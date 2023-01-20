@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-03 09:45+0100\n"
+"PO-Revision-Date: 2023-01-19 16:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -123,7 +123,7 @@ msgstr "ხაზის სისქე"
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
-msgstr ""
+msgstr "ზოლის ან სეგმენტების სისქე."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
@@ -402,7 +402,7 @@ msgstr ""
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
 msgid "Level Threshold"
-msgstr ""
+msgstr "ზღვრული დონე"
 
 #: data/effects/audiospectrum.xml:63
 #, kde-format
@@ -435,12 +435,12 @@ msgstr "აუდიოს ტალღა"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr ""
+msgstr "ვიდეოს მაგიერ აუდიოს ტალღის ფორმის ჩვენება"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr ""
+msgstr "აუდიოს ტალღის ფორმის ფილტრი"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #, kde-format
@@ -604,12 +604,12 @@ msgstr ""
 #: data/effects/copychannelstostereo.xml:4
 #, kde-format
 msgid "Copy Channels to Stereo"
-msgstr ""
+msgstr "არხების სტერეოში კოპირება"
 
 #: data/effects/copychannelstostereo.xml:5
 #, kde-format
 msgid "Copy one audio channel to another."
-msgstr ""
+msgstr "ერთი აუდიო არხის მეორეში კოპირება."
 
 #: data/effects/copychannelstostereo.xml:8
 #: data/effects/copychannelstostereo.xml:12
@@ -4839,11 +4839,9 @@ msgid "Unknown"
 msgstr "უცნობი"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add clip"
-#| msgid_plural "Add clips"
+#, kde-format
 msgid "Add sub clips"
-msgstr "კლიპის დამატება"
+msgstr "ქვეკლიპების დამატება"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -9217,7 +9215,7 @@ msgstr ""
 #: src/mainwindow.cpp:1814
 #, kde-format
 msgid "Add Subtitle"
-msgstr ""
+msgstr "სუბტიტრის დამატება"
 
 #: src/mainwindow.cpp:1816
 #, kde-format
@@ -9755,7 +9753,7 @@ msgstr "კადრების სიხშირე:"
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
 msgid "Scanning:"
-msgstr ""
+msgstr "სკანირება:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
@@ -12898,7 +12896,7 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:1326
 #, kde-format
 msgid "Insert space"
-msgstr ""
+msgstr "ადგილის დამატება"
 
 #: src/timeline2/model/timelinefunctions.cpp:562
 #: src/timeline2/view/timelinecontroller.cpp:1328
@@ -13429,7 +13427,7 @@ msgstr ""
 #: src/timeline2/view/previewmanager.cpp:89
 #, kde-format
 msgid "Cannot create folder %1"
-msgstr ""
+msgstr "საქაღალდის (%1) შექმნის შეცდომა"
 
 #: src/timeline2/view/previewmanager.cpp:94
 #, kde-format
@@ -16278,7 +16276,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:828
 #, kde-format
 msgid "Buffer Size:"
-msgstr ""
+msgstr "ბუფერის ზომა:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:880
@@ -18421,7 +18419,7 @@ msgstr ""
 #: src/widgets/markercategorychooser.cpp:47
 #, kde-format
 msgid "All Categories"
-msgstr ""
+msgstr "ყველა კატეგორია"
 
 #: src/widgets/progressbutton.cpp:54
 #, kde-format
