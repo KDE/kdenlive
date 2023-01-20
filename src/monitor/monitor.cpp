@@ -1327,21 +1327,11 @@ void Monitor::checkOverlay(int pos)
     if (pos == -1) {
         pos = m_timePos->getValue();
     }
-    std::shared_ptr<MarkerListModel> model(nullptr);
-    if (m_id == Kdenlive::ClipMonitor) {
-        if (m_controller) {
-            model = m_controller->getMarkerModel();
-        }
-    } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
-        QUuid uuid = pCore->currentTimelineId();
-        qDebug() << "IIIIIIIIII LOADING UUID GUIDES: " << uuid;
-        model = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
-    }
 
-    if (model) {
-        int mid = model->markerIdAtFrame(pos);
+    if (m_markerModel) {
+        int mid = m_markerModel->markerIdAtFrame(pos);
         if (mid > -1) {
-            CommentedTime marker = model->markerById(mid);
+            CommentedTime marker = m_markerModel->markerById(mid);
             overlayText = marker.comment();
             color = pCore->markerTypes.value(marker.markerType()).color;
         }
@@ -1718,6 +1708,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        m_markerModel = m_controller->getMarkerModel();
         if (pCore->currentRemap(controller->clipId())) {
             connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
         }
@@ -1825,6 +1816,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         }
         // hasEffects =  controller->hasEffects();
     } else {
+        m_markerModel = nullptr;
         loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
@@ -1892,6 +1884,7 @@ void Monitor::slotPreviewResource(const QString &path, const QString &title)
     slotOpenClip(nullptr);
     m_streamAction->setVisible(false);
     // TODO: direct loading of the producer blocks UI, we should use a task to load the producer
+    m_markerModel = nullptr;
     m_glMonitor->setProducer(path);
     m_timePos->setRange(0, m_glMonitor->producer()->get_length() - 1);
     m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, title);
@@ -2588,6 +2581,7 @@ void Monitor::requestSeekIfVisible(int pos)
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
     m_audioMeterWidget->audioChannels = pCore->audioChannels();
+    m_markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
     m_glMonitor->setProducer(std::move(producer), isActive(), pos);
 }
 
