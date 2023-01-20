@@ -125,5 +125,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         REQUIRE_FALSE(timeline->requestClipTimeWarp(cid3, double(curLength) * 10, false, true, undo2, redo2));
     }
     binModel->clean();
+    undoStack->clear();
     pCore->m_projectManager = nullptr;
 }
