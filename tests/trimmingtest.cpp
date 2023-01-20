@@ -32,6 +32,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock)
 
@@ -671,6 +672,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
 
     SECTION("Simple one track space insertion with guides")
     {
+        mocked.m_activeTimelineModel = timeline;
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         int l = timeline->getClipPlaytime(cid1);
         int p2 = l + 10;
@@ -831,6 +833,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     }
 
     binModel->clean();
+    undoStack->clear();
     pCore->m_projectManager = nullptr;
 }
 
@@ -856,6 +859,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock);
 
@@ -1031,7 +1035,7 @@ TEST_CASE("Copy/paste", "[CP]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
-
+    mocked.m_activeTimelineModel = timeline;
     RESET(timMock)
 
     QString binId = createProducerWithSound(profile_trimming, binModel);
@@ -1397,7 +1401,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
-
+    mocked.m_activeTimelineModel = timeline;
     RESET(timMock)
 
     QString binId = createProducer(profile_trimming, "red", binModel);
@@ -1718,7 +1722,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
-
+    mocked.m_activeTimelineModel = timeline;
     RESET(timMock)
 
     QString binId = createProducer(profile_trimming, "red", binModel);

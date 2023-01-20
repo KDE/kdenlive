@@ -54,7 +54,6 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     if (projectModel && timeline->uuid() == pCore->currentTimelineId()) {
         projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
     }
-    pCore->bin()->checkMissingProxies();
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
     for (const QString &folderId : expandedFolders) {
@@ -257,7 +256,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     return true;
 }
 
-bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Multitrack tractor, QProgressDialog *progressDialog,
+bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog,
                                const QString &originalDecimalPoint, const QString &chunks, const QString &dirty, int enablePreview, bool *projectErrors)
 {
     Fun undo = []() { return true; };
@@ -326,6 +325,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         }
     }
     for (int i = 0; i < tractor.count() && ok; i++) {
+        qDebug() << "::: PROCESSING TK " << i;
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
         if (reserved_names.contains(playlist_name)) {

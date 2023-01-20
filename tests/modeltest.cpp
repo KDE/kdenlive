@@ -33,6 +33,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -141,6 +142,7 @@ TEST_CASE("Adding multiple A/V tracks", "[TrackModel]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     SECTION("Check AV track ordering")
     {
@@ -220,6 +222,7 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+    mocked.m_activeTimelineModel = timeline;
 
     QString binId = createProducer(profile_model, "red", binModel);
     QString binId2 = createProducer(profile_model, "green", binModel);
@@ -273,6 +276,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -1158,6 +1162,7 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock);
 
@@ -1214,6 +1219,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock);
 
@@ -1831,6 +1837,7 @@ TEST_CASE("Snapping", "[Snapping]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     RESET(timMock);
 
@@ -1960,6 +1967,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -2202,11 +2210,9 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     undoGroup->addStack(undoStack.get());
     const QMap<QString, QString> emptyMap{};
 
-    /*
-     * Bug 442545: KdenliveDoc created with 0 video tracks causes a crash at
-     * save time because the document's activeTrack was set to an out-of-range
-     * position.
-     */
+    // Bug 442545: KdenliveDoc created with 0 video tracks causes a crash at
+    // save time because the document's activeTrack was set to an out-of-range
+    // position.
 
     SECTION("0 video tracks")
     {

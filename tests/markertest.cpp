@@ -89,7 +89,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
     TimelineItemModel::finishConstruct(timeline);
     mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    std::shared_ptr<MarkerListModel> model = mockedDoc.getGuideModel();
+    std::shared_ptr<MarkerListModel> model = timeline->getGuideModel();
     std::shared_ptr<SnapModel> snaps = std::make_shared<SnapModel>();
     model->registerSnapModel(snaps);
 
@@ -272,5 +272,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->redo();
         checkMarkerList(model, list, snaps);
     }
+    snaps.reset();
+    undoStack->clear();
     pCore->m_projectManager = nullptr;
 }

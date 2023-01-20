@@ -1219,6 +1219,8 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 binIdCorresp[QString::number(i.key())] = newId;
             }
         }
+    } else {
+        qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
     }
     m_binPlaylist->setRetainIn(modelTractor);
 }

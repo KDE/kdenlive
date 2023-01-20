@@ -1121,17 +1121,20 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     m_project->cleanupTimelinePreview(documentDate);
     if (!createNewTab) {
         pCore->taskManager.slotCancelJobs();
-        documentTimeline = pCore->window()->getCurrentTimeline();
-        // doc->setModels(documentTimeline, pCore->getProjectItemModel(uuid));
-        documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    } else {
+        if (pCore->window()) {
+            documentTimeline = pCore->window()->getCurrentTimeline();
+            documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+        }
+    } else if (pCore->window()) {
         // Create a new timeline tab
         documentTimeline =
             pCore->window()->openTimeline(uuid, i18n("Timeline 1"), timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-        // doc->setModels(documentTimeline, pCore->getProjectItemModel(uuid));
     }
     qDebug() << "::: INIT PLAYYLIST WITH UUID : " << pCore->projectItemModel()->uuid();
     pCore->projectItemModel()->buildPlaylist();
+    if (m_activeTimelineModel == nullptr) {
+        m_activeTimelineModel = timelineModel;
+    }
     if (!constructTimelineFromTractor(timelineModel, pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty,
                                       documentDate, enablePreview, &projectErrors)) {
         // TODO: act on project load failure
@@ -1469,9 +1472,12 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
     } else {
         Mlt::Service s(xmlProd->producer()->get_service());
         if (s.type() == mlt_service_multitrack_type) {
-            Mlt::Multitrack multi(s);
-            qDebug() << "===== LOADING PROJECT FROM MULTITRACK: " << multi.count() << "\n============";
-            if (!constructTimelineFromMelt(timelineModel, multi, m_progressDialog, m_project->modifiedDecimalPoint())) {
+            Mlt::Service s2(*xmlProd);
+            Mlt::Tractor tractor(s2);
+            // Mlt::Multitrack multi(s);
+            // qDebug() << "===== LOADING PROJECT FROM MULTITRACK: " << multi.get()->count() << "\n============";
+            // if (!constructTimelineFromMelt(timelineModel, multi, m_progressDialog, m_project->modifiedDecimalPoint())) {
+            if (!constructTimelineFromMelt(timelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
                 // TODO: act on project load failure
                 qDebug() << "// Project failed to load!!";
             }

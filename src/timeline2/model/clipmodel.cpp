@@ -1342,11 +1342,15 @@ bool ClipModel::checkConsistency()
         qDebug() << "Consistency check failed for effecstack";
         return false;
     }
+    if (m_currentTrackId == -1) {
+        qDebug() << ":::: CLIP IS NOT INSERTED IN A TRACK";
+        return true;
+    }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     auto instances = binClip->timelineInstances();
     bool found = instances.contains(m_id);
     if (!found) {
-        qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence: " << m_id;
+        qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence: " << m_id << ", CURRENT TRACK: " << m_currentTrackId;
         return false;
     }
 

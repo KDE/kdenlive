@@ -37,6 +37,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
+    mocked.m_activeTimelineModel = timeline;
 
     // Create a basic timeline
     int tid1, tid2, tid3;
