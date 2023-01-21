@@ -455,6 +455,7 @@ void MainWindow::init(const QString &mltPath)
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
     m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock->setWhatsThis(i18n("Toggles the audio mixer panel/widget."));
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
@@ -512,6 +513,7 @@ void MainWindow::init(const QString &mltPath)
     widgetlist->setDefaultWidget(m_effectBasket);
     // widgetlist->setText(i18n("Favorite Effects"));
     widgetlist->setToolTip(i18n("Favorite Effects"));
+    widgetlist->setWhatsThis(xi18nc("@info:whatsthis", "Click to show a list of favorite effects. Double-click on an effect to add it to the selected clip."));
     widgetlist->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     auto *menu = new QMenu(this);
     menu->addAction(widgetlist);
@@ -523,6 +525,8 @@ void MainWindow::init(const QString &mltPath)
     basketButton->setPopupMode(QToolButton::InstantPopup);
     // basketButton->setText(i18n("Favorite Effects"));
     basketButton->setToolTip(i18n("Favorite Effects"));
+    basketButton->setWhatsThis(xi18nc("@info:whatsthis", "Click to show a list of favorite effects. Double-click on an effect to add it to the selected clip."));
+
     basketButton->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 
     auto *toolButtonAction = new QWidgetAction(this);
@@ -1115,6 +1119,7 @@ void MainWindow::setupActions()
     actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
     m_useTimelineZone = new KDualAction(i18n("Do not Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
+    m_useTimelineZone->setWhatsThis(i18n("Toggles between using the timeline zone for inserting (on) or not (off)."));
     m_useTimelineZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-on")));
     m_useTimelineZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-off")));
     m_useTimelineZone->setAutoToggle(true);

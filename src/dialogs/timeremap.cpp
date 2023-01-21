@@ -1688,15 +1688,20 @@ TimeRemap::TimeRemap(QWidget *parent)
     });
     button_add->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
     button_add->setToolTip(i18n("Add keyframe"));
+    button_add->setWhatsThis(xi18nc("@info:whatsthis", "Inserts a keyframe at the current playhead position/frame."));
     button_next->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-next")));
     button_next->setToolTip(i18n("Go to next keyframe"));
+    button_next->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead to the next keyframe to the right."));
     button_prev->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-previous")));
     button_prev->setToolTip(i18n("Go to previous keyframe"));
+    button_prev->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead to the next keyframe to the left."));
     connect(m_view, &RemapView::updateKeyframes, this, &TimeRemap::updateKeyframes);
     connect(m_view, &RemapView::updateKeyframesWithUndo, this, &TimeRemap::updateKeyframesWithUndo);
     connect(m_in, &TimecodeDisplay::timeCodeUpdated, this, [this]() { m_view->updateInPos(m_in->getValue() + m_view->m_inFrame); });
     button_center->setToolTip(i18n("Move selected keyframe to cursor"));
+    button_center->setWhatsThis(xi18nc("@info:whatsthis", "Moves the selected keyframes to the current playhead position/frame."));
     button_center_top->setToolTip(i18n("Move selected keyframe to cursor"));
+    button_center_top->setWhatsThis(xi18nc("@info:whatsthis", "Moves the selected keyframes to the current playhead position/frame."));
     connect(m_out, &TimecodeDisplay::timeCodeUpdated, this, [this]() { m_view->updateOutPos(m_out->getValue() + m_view->m_inFrame); });
     connect(button_center, &QToolButton::clicked, m_view, &RemapView::centerCurrentKeyframe);
     connect(button_center_top, &QToolButton::clicked, m_view, &RemapView::centerCurrentTopKeyframe);
@@ -1704,9 +1709,11 @@ TimeRemap::TimeRemap(QWidget *parent)
         if (atKeyframe) {
             button_add->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-remove")));
             button_add->setToolTip(i18n("Delete keyframe"));
+            button_add->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the keyframe at the current position of the playhead."));
         } else {
             button_add->setIcon(QIcon::fromTheme(QStringLiteral("keyframe-add")));
             button_add->setToolTip(i18n("Add keyframe"));
+            button_add->setWhatsThis(xi18nc("@info:whatsthis", "Inserts a keyframe at the current playhead position/frame."));
         }
         button_add->setEnabled(!atKeyframe || !last);
     });

@@ -147,6 +147,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     m_volumeSlider->setRange(0, 100);
     m_volumeSlider->setValue(60);
     m_volumeSlider->setToolTip(i18n("Volume"));
+    m_volumeSlider->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output volume of the audio track (affects all audio clips equally)."));
     m_volumeSpin = new QDoubleSpinBox(this);
     m_volumeSpin->setRange(-50, 24);
     m_volumeSpin->setSuffix(i18n("dB"));
@@ -169,6 +170,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_balanceSlider->setTickPosition(QSlider::TicksBelow);
         m_balanceSlider->setTickInterval(50);
         m_balanceSlider->setToolTip(i18n("Balance"));
+        m_balanceSlider->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output balance of the track. Negative values move the output towards the left, positive values to the right. Affects all audio clips equally."));
 
         labelLeft = new QLabel(i18nc("Left", "L"), this);
         labelLeft->setAlignment(Qt::AlignHCenter);
@@ -180,6 +182,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_balanceSpin->setValue(0);
         m_balanceSpin->setFrame(false);
         m_balanceSpin->setToolTip(i18n("Balance"));
+        m_balanceSpin->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output balance of the track. Negative values move the output towards the left, positive values to the right. Affects all audio clips equally."));
     }
 
     // Check if we already have build-in filters for this tractor
@@ -242,6 +245,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     m_trackLabel->setTextElideMode(Qt::ElideRight);
     setTrackName(trackName);
     m_muteAction = new KDualAction(i18n("Mute track"), i18n("Unmute track"), this);
+    m_muteAction->setWhatsThis(i18n("Mutes/un-mutes the audio track."));
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
 
@@ -280,11 +284,12 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     setFixedWidth(3 * mute->sizeHint().width());
 
     if (m_tid > -1) {
-        // No solo / rec button on master
+        // Solo / rec button only on tracks (not on master)
         m_solo = new QToolButton(this);
         m_solo->setCheckable(true);
         m_solo->setIcon(QIcon::fromTheme("headphones"));
         m_solo->setToolTip(i18n("Solo mode"));
+        m_solo->setWhatsThis(xi18nc("@info:whatsthis", "When selected mutes all other audio tracks."));
         m_solo->setAutoRaise(true);
         connect(m_solo, &QToolButton::toggled, this, [&](bool toggled) {
             emit toggleSolo(m_tid, toggled);
@@ -293,7 +298,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
 
         m_monitor = new QToolButton(this);
         m_monitor->setIcon(QIcon::fromTheme("audio-input-microphone"));
-        m_monitor->setToolTip(i18n("Monitor audio input"));
+        m_monitor->setToolTip(i18n("Record audio"));
+        m_monitor->setWhatsThis(xi18nc("@info:whatsthis", "Puts the audio track into recording mode."));
         m_monitor->setCheckable(true);
         m_monitor->setAutoRaise(true);
         connect(m_monitor, &QToolButton::toggled, this, [&](bool toggled) {
@@ -307,6 +313,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_collapse = new QToolButton(this);
         m_collapse->setIcon(KdenliveSettings::mixerCollapse() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
         m_collapse->setToolTip(i18n("Show channels"));
+        m_collapse->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of the audio track controls in the audio mixer view."));
         m_collapse->setCheckable(true);
         m_collapse->setAutoRaise(true);
         m_collapse->setChecked(KdenliveSettings::mixerCollapse());
@@ -319,6 +326,11 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     showEffects = new QToolButton(this);
     showEffects->setIcon(QIcon::fromTheme("autocorrection"));
     showEffects->setToolTip(i18n("Open Effect Stack"));
+    if (m_tid > -1) {
+        showEffects->setWhatsThis(xi18nc("@info:whatsthis", "Opens the effect stack for the audio track."));
+    } else {
+        showEffects->setWhatsThis(xi18nc("@info:whatsthis", "Opens the effect stack for the audio master."));
+    }
     showEffects->setAutoRaise(true);
     connect(showEffects, &QToolButton::clicked, this, [&]() { emit m_manager->showEffectStack(m_tid); });
 

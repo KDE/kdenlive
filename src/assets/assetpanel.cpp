@@ -85,6 +85,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_saveEffectStack = new QToolButton(this);
     m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
+    m_saveEffectStack->setWhatsThis(xi18nc("@info:whatsthis", "Saves the entire effect stack as an XML file for use in other projects."));
+
     // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
     // See https://stackoverflow.com/a/17645563/5172513
     m_saveEffectStack->setEnabled(false);
@@ -95,6 +97,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
     m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
     m_splitButton->setToolTip(i18n("Compare effect"));
+    m_splitButton->setWhatsThis(xi18nc("@info:whatsthis", "Turns on or off the split view in the project and/or clip monitor: on the left the clip with effect is shown, on the right the clip without effect."));
     m_splitButton->setVisible(false);
     connect(m_splitButton, &KDualAction::activeChangedByUser, this, &AssetPanel::processSplitEffect);
     buttonToolbar->addAction(m_splitButton);
@@ -106,10 +109,10 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_enableStackButton->setVisible(false);
     buttonToolbar->addAction(m_enableStackButton);
 
-    m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Display keyframes in timeline"), this);
+    m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Hide keyframes in timeline"), this);
+    m_timelineButton->setWhatsThis(i18n("Toggles the display of keyframes in the clip on the timeline"));
     m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
     m_timelineButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
-    m_timelineButton->setToolTip(i18n("Hide keyframes in timeline"));
     m_timelineButton->setVisible(false);
     connect(m_timelineButton, &KDualAction::activeChangedByUser, this, &AssetPanel::showKeyframes);
     buttonToolbar->addAction(m_timelineButton);
