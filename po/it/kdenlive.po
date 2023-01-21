@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-03 18:48+0100\n"
+"PO-Revision-Date: 2023-01-20 08:41+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5018,10 +5018,9 @@ msgid "Unknown"
 msgstr "Sconosciuto"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Aggiungi una sotto-clip"
+msgstr "Aggiungi sotto-clip"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
