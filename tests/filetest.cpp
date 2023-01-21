@@ -31,7 +31,7 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Simple insert and save")
     {
         // Create document
-        KdenliveDoc document(nullptr);
+        KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
         // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
         //     Q_UNUSED(name) Q_UNUSED(defaultValue)
@@ -112,7 +112,7 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Reopen and check in/out points")
     {
         // Create new document
-        KdenliveDoc document(nullptr);
+        KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
@@ -176,7 +176,7 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Open a file with AV clips")
     {
         // Create new document
-        KdenliveDoc document(nullptr);
+        KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
@@ -266,7 +266,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     {
 
         // Create document
-        KdenliveDoc document(nullptr);
+        KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
         // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
         //     Q_UNUSED(name) Q_UNUSED(defaultValue)
@@ -365,7 +365,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     {
 
         // Create document
-        KdenliveDoc document(nullptr);
+        KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
         // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
         //     Q_UNUSED(name) Q_UNUSED(defaultValue)

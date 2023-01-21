@@ -31,6 +31,7 @@ class TrackModel;
 class ProfileModel;
 class MarkerListModel;
 class MarkerSortModel;
+class PreviewManager;
 
 /** @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -477,6 +478,19 @@ public:
     /**  @brief Returns this timeline's uuid
      */
     const QUuid uuid() const;
+    /**  @brief Initialize the preview manager, responsible for timeline preview
+     */
+    void initializePreviewManager();
+    void resetPreviewManager();
+    bool hasTimelinePreview() const;
+    /**  @brief Enable/disable timeline preview
+     */
+    void updatePreviewConnection(bool enable);
+    bool buildPreviewTrack();
+    void setOverlayTrack(Mlt::Playlist *overlay);
+    void removeOverlayTrack();
+    void deletePreviewTrack();
+    std::shared_ptr<PreviewManager> previewManager();
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -954,6 +968,7 @@ protected:
     std::shared_ptr<EffectStackModel> m_masterStack;
     std::shared_ptr<Mlt::Service> m_masterService;
     std::list<std::shared_ptr<TrackModel>> m_allTracks;
+    std::shared_ptr<PreviewManager> m_timelinePreview;
 
     std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator>
         m_iteratorTable; // this logs the iterator associated which each track id. This allows easy access of a track based on its id.

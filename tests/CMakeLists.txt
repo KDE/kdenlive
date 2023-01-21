@@ -21,6 +21,7 @@ set(KdenliveTest_SOURCES
     spacertest.cpp
     subtitlestest.cpp
     sysinfotest.cpp
+    timelinepreviewtest.cpp
     timewarptest.cpp
     titlertest.cpp
     treetest.cpp

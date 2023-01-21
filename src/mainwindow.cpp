@@ -2382,9 +2382,6 @@ void MainWindow::connectDocument()
 
     // Load master effect zones
     getCurrentTimeline()->controller()->updateMasterZones(getCurrentTimeline()->model()->getMasterEffectZones());
-    // Connect stuff for timeline preview
-    connect(getCurrentTimeline()->model().get(), &TimelineModel::invalidateZone, getCurrentTimeline()->controller(), &TimelineController::invalidateZone,
-            Qt::DirectConnection);
 
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
