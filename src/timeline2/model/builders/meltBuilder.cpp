@@ -251,7 +251,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         return false;
     }
     if (!m_errorMessage.isEmpty()) {
-        KMessageBox::sorry(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
+        KMessageBox::error(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
     }
     return true;
 }
