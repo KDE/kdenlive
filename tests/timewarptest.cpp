@@ -22,11 +22,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     // Create document
     KdenliveDoc document(undoStack, nullptr);
     Mock<KdenliveDoc> docMock(document);
-    // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-    //     Q_UNUSED(name) Q_UNUSED(defaultValue)
-    //     qDebug() << "Intercepted call";
-    //     return QStringLiteral("dummyId");
-    // });
     KdenliveDoc &mockedDoc = docMock.get();
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
@@ -34,7 +29,7 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
@@ -47,10 +42,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
 
     RESET(timMock);
     TimelineModel::next_id = 0;
-    undoStack->undo();
-    undoStack->redo();
-    undoStack->redo();
-    undoStack->undo();
 
     QString binId = createProducer(profile_timewarp, "red", binModel);
     QString binId2 = createProducer(profile_timewarp, "blue", binModel);

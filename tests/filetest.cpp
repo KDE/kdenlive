@@ -33,11 +33,6 @@ TEST_CASE("Save File", "[SF]")
         // Create document
         KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
-        // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        //     Q_UNUSED(name) Q_UNUSED(defaultValue)
-        //     qDebug() << "Intercepted call";
-        //     return QStringLiteral("dummyId");
-        // });
         KdenliveDoc &mockedDoc = docMock.get();
 
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -121,7 +116,7 @@ TEST_CASE("Save File", "[SF]")
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
+        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
 
@@ -265,15 +260,9 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
     SECTION("Save title with special chars")
     {
-
         // Create document
         KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
-        // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        //     Q_UNUSED(name) Q_UNUSED(defaultValue)
-        //     qDebug() << "Intercepted call";
-        //     return QStringLiteral("dummyId");
-        // });
         KdenliveDoc &mockedDoc = docMock.get();
 
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -304,9 +293,14 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         RESET(timMock)
 
         // create a simple title with the non-BMP test string
-        auto titleXml = ("<kdenlivetitle duration=\"150\" LC_NUMERIC=\"C\" width=\"1920\" height=\"1080\" out=\"149\">\n <item type=\"QGraphicsTextItem\" z-index=\"0\">\n  <position x=\"777\" y=\"482\">\n   <transform>1,0,0,0,1,0,0,0,1</transform>\n  </position>\n  <content shadow=\"0;#64000000;3;3;3\" font-underline=\"0\" box-height=\"138\" font-outline-color=\"0,0,0,255\" font=\"DejaVu Sans\" letter-spacing=\"0\" font-pixel-size=\"120\" font-italic=\"0\" typewriter=\"0;2;1;0;0\" alignment=\"0\" font-weight=\"63\" font-outline=\"3\" box-width=\"573.25\" font-color=\"252,233,79,255\">"+
-            emojiTestString+
-            "</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
+        auto titleXml = ("<kdenlivetitle duration=\"150\" LC_NUMERIC=\"C\" width=\"1920\" height=\"1080\" out=\"149\">\n <item type=\"QGraphicsTextItem\" "
+                         "z-index=\"0\">\n  <position x=\"777\" y=\"482\">\n   <transform>1,0,0,0,1,0,0,0,1</transform>\n  </position>\n  <content "
+                         "shadow=\"0;#64000000;3;3;3\" font-underline=\"0\" box-height=\"138\" font-outline-color=\"0,0,0,255\" font=\"DejaVu Sans\" "
+                         "letter-spacing=\"0\" font-pixel-size=\"120\" font-italic=\"0\" typewriter=\"0;2;1;0;0\" alignment=\"0\" font-weight=\"63\" "
+                         "font-outline=\"3\" box-width=\"573.25\" font-color=\"252,233,79,255\">" +
+                         emojiTestString +
+                         "</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background "
+                         "color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
 
         QString binId2 = createTextProducer(profile_file, binModel, titleXml, emojiTestString, 150);
 
@@ -368,11 +362,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         // Create document
         KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
-        // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-        //     Q_UNUSED(name) Q_UNUSED(defaultValue)
-        //     qDebug() << "Intercepted call";
-        //     return QStringLiteral("dummyId");
-        // });
         KdenliveDoc &mockedDoc = docMock.get();
 
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -477,5 +466,6 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
         auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
         binModel->clean();
     }
+    undoStack->clear();
     pCore->m_projectManager = nullptr;
 }
