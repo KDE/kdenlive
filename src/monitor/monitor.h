@@ -186,6 +186,7 @@ private:
 
     std::shared_ptr<Mlt::Filter> m_splitEffect;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
+    std::shared_ptr<MarkerListModel> m_markerModel{nullptr};
     int m_length;
     bool m_dragStarted;
     RecManager *m_recManager;
