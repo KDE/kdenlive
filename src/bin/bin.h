@@ -340,13 +340,17 @@ public:
      * @param uuid the uuid of the new playlist (equals the uuid of the timelinemodel)
      * @param id the bin id of the clip
      */
-    void registerPlaylist(QUuid uuid, const QString id);
+    void registerSequence(const QUuid uuid, const QString id);
     /** @brief Update a new timeline clip when it has been changed
      * @param uuid the uuid of the timeline clip that was changed
      * @param id the updated duration of the timeline clip
      * * @param current the uuid of the currently active timeline
      */
-    void updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &current);
+    void updateSequenceClip(const QUuid &uuid, int duration, const QUuid &current);
+    /** @brief Returns the bin id of the clip managing a timeline sequence changed
+     * @param uuid the uuid of the timeline clip
+     */
+    const QString sequenceBinId(const QUuid uuid);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanupUnused();
@@ -369,6 +373,8 @@ public:
     void replaceSingleClip(const QString clipId, const QString &newUrl);
     /** @brief Remove clip references for a timeline. */
     void removeReferencedClips(const QUuid &uuid);
+    /** @brief Returns the uuid list for opened timeline tabs. */
+    const QStringList openedSequences();
 
 private slots:
     void slotAddClip();

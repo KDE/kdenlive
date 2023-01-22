@@ -66,9 +66,10 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
 
 ProjectItemModel::~ProjectItemModel() = default;
 
-void ProjectItemModel::buildPlaylist()
+void ProjectItemModel::buildPlaylist(const QUuid uuid)
 {
-    m_binPlaylist.reset(new BinPlaylist(m_uuid));
+    m_uuid = uuid;
+    m_binPlaylist.reset(new BinPlaylist(uuid));
 }
 
 int ProjectItemModel::mapToColumn(int column) const

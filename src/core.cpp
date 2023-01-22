@@ -167,7 +167,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         m_mainWindow->init(MltPath);
     }
 
-    m_projectItemModel->buildPlaylist();
+    m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();
     // load default profile
