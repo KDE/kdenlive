@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-02 17:11+0100\n"
+"PO-Revision-Date: 2023-01-20 18:54+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -5027,10 +5027,9 @@ msgid "Unknown"
 msgstr "Inconnu"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "Ajouter un sous-clip"
+msgstr "Ajouter des sous-vidéos"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
