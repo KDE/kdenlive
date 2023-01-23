@@ -114,7 +114,7 @@ void TimelineTabs::connectCurrent(int ix)
     pCore->window()->connectTimeline();
 
     if (previousTab != QUuid()) {
-        pCore->bin()->updatePlaylistClip(previousTab, duration, m_activeTimeline->getUuid());
+        pCore->bin()->updateSequenceClip(previousTab, duration, m_activeTimeline->getUuid());
     }
 }
 

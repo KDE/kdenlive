@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-03 00:46+0000\n"
-"PO-Revision-Date: 2022-12-23 20:49+0000\n"
+"POT-Creation-Date: 2023-01-18 00:57+0000\n"
+"PO-Revision-Date: 2023-01-18 13:32+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "Language: pt\n"
@@ -3500,8 +3500,8 @@ msgstr "Editar a imagem-chave %1"
 msgid "Update %1"
 msgstr "Actualizar o %1"
 
-#: src/assets/model/assetparametermodel.cpp:1222
-#: src/assets/model/assetparametermodel.cpp:1269
+#: src/assets/model/assetparametermodel.cpp:1226
+#: src/assets/model/assetparametermodel.cpp:1273
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Não é possível aceder ao ficheiro de predefinições %1"
@@ -5001,7 +5001,7 @@ msgstr "Dimensionar a legenda"
 msgid "Move subtitle"
 msgstr "Mover a legenda"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:801
+#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:804
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5101,32 +5101,37 @@ msgstr "Utilização"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/bin/projectitemmodel.cpp:644
+#: src/bin/projectitemmodel.cpp:623
+#, kde-format
+msgid "Add sub clips"
+msgstr "Adicionar os 'sub-clips'"
+
+#: src/bin/projectitemmodel.cpp:658
 #, kde-format
 msgid "Zone"
 msgstr "Zona"
 
-#: src/bin/projectitemmodel.cpp:815
+#: src/bin/projectitemmodel.cpp:829
 #, kde-format
 msgid "Add bin clip"
 msgstr "Adicionar um 'clip' do grupo"
 
-#: src/bin/projectitemmodel.cpp:878
+#: src/bin/projectitemmodel.cpp:892
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Adicionar um 'sub-clip'"
 
-#: src/bin/projectitemmodel.cpp:919
+#: src/bin/projectitemmodel.cpp:933
 #, kde-format
 msgid "Rename Folder"
 msgstr "Mudar o Nome da Pasta"
 
-#: src/bin/projectitemmodel.cpp:947 src/mainwindow.cpp:1409
+#: src/bin/projectitemmodel.cpp:961 src/mainwindow.cpp:1409
 #, kde-format
 msgid "Clean Project"
 msgstr "Limpar o Projecto"
 
-#: src/bin/projectitemmodel.cpp:1117
+#: src/bin/projectitemmodel.cpp:1131
 #, kde-format
 msgid "Loading project clips…"
 msgstr "A carregar os 'clips' do projecto…"
@@ -5705,10 +5710,10 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportar os Dados das Guias"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:911
-#: src/dialogs/renderwidget.cpp:916 src/dialogs/renderwidget.cpp:969
-#: src/dialogs/renderwidget.cpp:974 src/dialogs/renderwidget.cpp:1907
-#: src/dialogs/renderwidget.cpp:1934 src/doc/kdenlivedoc.cpp:710
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:914
+#: src/dialogs/renderwidget.cpp:919 src/dialogs/renderwidget.cpp:972
+#: src/dialogs/renderwidget.cpp:977 src/dialogs/renderwidget.cpp:1922
+#: src/dialogs/renderwidget.cpp:1949 src/doc/kdenlivedoc.cpp:710
 #: src/doc/kdenlivedoc.cpp:718 src/doc/kdenlivedoc.cpp:1085
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
@@ -6221,63 +6226,63 @@ msgstr ""
 "Os seguintes parâmetros não terão qualquer efeito, porque serão substituídos "
 "pelas opções equivalentes da interface do utilizador: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:107 src/dialogs/renderwidget.cpp:1736
+#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1751
 #, kde-format
 msgid "Waiting…"
 msgstr "À espera…"
 
-#: src/dialogs/renderwidget.cpp:110
+#: src/dialogs/renderwidget.cpp:113
 #, kde-format
 msgid "Rendering finished"
 msgstr "Rasterização terminada"
 
-#: src/dialogs/renderwidget.cpp:115
+#: src/dialogs/renderwidget.cpp:118
 #, kde-format
 msgid "Rendering crashed"
 msgstr "A rasterização estoirou"
 
-#: src/dialogs/renderwidget.cpp:120
+#: src/dialogs/renderwidget.cpp:123
 #, kde-format
 msgid "Rendering aborted"
 msgstr "A rasterização foi interrompida"
 
-#: src/dialogs/renderwidget.cpp:205 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:208 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Nenhum"
 
-#: src/dialogs/renderwidget.cpp:206
+#: src/dialogs/renderwidget.cpp:209
 #, kde-format
 msgid "Timecode"
 msgstr "Código temporal"
 
-#: src/dialogs/renderwidget.cpp:207
+#: src/dialogs/renderwidget.cpp:210
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Código Temporal (sem Quebra de Imagens)"
 
-#: src/dialogs/renderwidget.cpp:208
+#: src/dialogs/renderwidget.cpp:211
 #, kde-format
 msgid "Frame Number"
 msgstr "Número da Imagem"
 
-#: src/dialogs/renderwidget.cpp:212
+#: src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Desenhar com um 'clip' indirecto de baixa qualidade"
 
-#: src/dialogs/renderwidget.cpp:285
+#: src/dialogs/renderwidget.cpp:288
 #, kde-format
 msgid "File"
 msgstr "Ficheiro"
 
-#: src/dialogs/renderwidget.cpp:294
+#: src/dialogs/renderwidget.cpp:297
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Listas de Reprodução Guardadas"
 
-#: src/dialogs/renderwidget.cpp:311 src/timeline2/view/previewmanager.cpp:50
+#: src/dialogs/renderwidget.cpp:314 src/timeline2/view/previewmanager.cpp:50
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -6286,63 +6291,63 @@ msgstr ""
 "Não foi possível encontrar a aplicação 'kdenlive_render'. Algo de errado se "
 "passa com a sua instalação. A geração do vídeo não irá funcionar"
 
-#: src/dialogs/renderwidget.cpp:334
+#: src/dialogs/renderwidget.cpp:337
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Só funciona para o formato Matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:342
+#: src/dialogs/renderwidget.cpp:345
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Ocorreu um problema ao partilhar o documento: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:342 src/dialogs/renderwidget.cpp:350
+#: src/dialogs/renderwidget.cpp:345 src/dialogs/renderwidget.cpp:353
 #: src/ui/renderwidget_ui.ui:898
 #, kde-format
 msgid "Share"
 msgstr "Partilhar"
 
-#: src/dialogs/renderwidget.cpp:347
+#: src/dialogs/renderwidget.cpp:350
 #, kde-format
 msgid "Document shared successfully"
 msgstr "O documento foi partilhado com sucesso"
 
-#: src/dialogs/renderwidget.cpp:350
+#: src/dialogs/renderwidget.cpp:353
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Poderá encontrar o documento partilhado em: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:486
+#: src/dialogs/renderwidget.cpp:489
 #, kde-format
 msgid "Beginning"
 msgstr "Início"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:493 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:496 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Fim"
 
-#: src/dialogs/renderwidget.cpp:613
+#: src/dialogs/renderwidget.cpp:616
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Adicionar um 'clip' à linha temporal antes do desenho"
 
-#: src/dialogs/renderwidget.cpp:619
+#: src/dialogs/renderwidget.cpp:622
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Não é possível achar o programa 'melt', necessário para a rasterização "
 "(parte do MLT)"
 
-#: src/dialogs/renderwidget.cpp:625 src/dialogs/renderwidget.cpp:1710
+#: src/dialogs/renderwidget.cpp:628 src/dialogs/renderwidget.cpp:1725
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "O ficheiro do resultado já existe. Deseja sobrepô-lo?"
 
-#: src/dialogs/renderwidget.cpp:633 src/monitor/recmanager.cpp:192
+#: src/dialogs/renderwidget.cpp:636 src/monitor/recmanager.cpp:192
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -6351,33 +6356,33 @@ msgstr ""
 "Não foi possível carregar a pasta %1.\n"
 "Certifique-se que tem as permissões necessárias."
 
-#: src/dialogs/renderwidget.cpp:677 src/dialogs/renderwidget.cpp:752
+#: src/dialogs/renderwidget.cpp:680 src/dialogs/renderwidget.cpp:755
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Não foi possível criar o ficheiro de legendas temporário"
 
-#: src/dialogs/renderwidget.cpp:722
+#: src/dialogs/renderwidget.cpp:725
 #, kde-format
 msgid "begin"
 msgstr "início"
 
-#: src/dialogs/renderwidget.cpp:777
+#: src/dialogs/renderwidget.cpp:780
 #, kde-format
 msgid "export"
 msgstr "exportar"
 
-#: src/dialogs/renderwidget.cpp:792
+#: src/dialogs/renderwidget.cpp:795
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Desenho Atrasado"
 
-#: src/dialogs/renderwidget.cpp:792
+#: src/dialogs/renderwidget.cpp:795
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Seleccione um nome para este desenho."
 
-#: src/dialogs/renderwidget.cpp:872
+#: src/dialogs/renderwidget.cpp:875
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
@@ -6387,7 +6392,7 @@ msgstr ""
 "usadas em conjunto.\n"
 "O programa será gravado sem a exportação de faixas múltiplas."
 
-#: src/dialogs/renderwidget.cpp:1012 src/dialogs/renderwidget.cpp:1723
+#: src/dialogs/renderwidget.cpp:1015 src/dialogs/renderwidget.cpp:1738
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6396,47 +6401,47 @@ msgstr ""
 "Já existe uma tarefa a gravar o ficheiro:<br /><b>%1</b><br />Interrompa a "
 "tarefa se não o quiser sobrepor…"
 
-#: src/dialogs/renderwidget.cpp:1013 src/dialogs/renderwidget.cpp:1724
+#: src/dialogs/renderwidget.cpp:1016 src/dialogs/renderwidget.cpp:1739
 #, kde-format
 msgid "Already running"
 msgstr "Já em execução"
 
-#: src/dialogs/renderwidget.cpp:1038
+#: src/dialogs/renderwidget.cpp:1041
 #, kde-format
 msgid "Video without audio track"
 msgstr "Vídeo sem faixa de áudio"
 
-#: src/dialogs/renderwidget.cpp:1040
+#: src/dialogs/renderwidget.cpp:1043
 #, kde-format
 msgid "Audio without video track"
 msgstr "Áudio sem faixa de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1104
+#: src/dialogs/renderwidget.cpp:1107
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "A rasterização <i>%1</i> foi iniciada"
 
-#: src/dialogs/renderwidget.cpp:1170 src/monitor/monitor.cpp:1132
+#: src/dialogs/renderwidget.cpp:1173 src/monitor/monitor.cpp:1132
 #, kde-format
 msgid "untitled"
 msgstr "sem título"
 
-#: src/dialogs/renderwidget.cpp:1208
+#: src/dialogs/renderwidget.cpp:1211
 #, kde-format
 msgid "No preset selected"
 msgstr "Nenhum perfil seleccionado"
 
-#: src/dialogs/renderwidget.cpp:1210
+#: src/dialogs/renderwidget.cpp:1213
 #, kde-format
 msgid "No matching preset"
 msgstr "Nenhum perfil correspondente"
 
-#: src/dialogs/renderwidget.cpp:1222
+#: src/dialogs/renderwidget.cpp:1225
 #, kde-format
 msgid "Invalid preset"
 msgstr "Perfil inválido"
 
-#: src/dialogs/renderwidget.cpp:1328
+#: src/dialogs/renderwidget.cpp:1331
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -6445,50 +6450,55 @@ msgstr ""
 "O desenho sem o áudio e o vídeo não funciona. Active por favor pelo menos um "
 "dos dois."
 
-#: src/dialogs/renderwidget.cpp:1487
+#: src/dialogs/renderwidget.cpp:1490
 #, kde-format
 msgid "Remaining time "
 msgstr "Tempo restante "
 
-#: src/dialogs/renderwidget.cpp:1489 src/dialogs/renderwidget.cpp:1521
+#: src/dialogs/renderwidget.cpp:1492 src/dialogs/renderwidget.cpp:1536
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dia "
 msgstr[1] "%1 dias "
 
-#: src/dialogs/renderwidget.cpp:1493
+#: src/dialogs/renderwidget.cpp:1496
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (imagem %1 @ %2 ips)"
 
-#: src/dialogs/renderwidget.cpp:1523
+#: src/dialogs/renderwidget.cpp:1508
+#, kde-format
+msgid "Less than %1MB of available memory remaining."
+msgstr "Existem menos de %1MB de memória disponível."
+
+#: src/dialogs/renderwidget.cpp:1538
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Rasterização terminada em %1"
 
-#: src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "A rasterização de %1 terminou em %2"
 
-#: src/dialogs/renderwidget.cpp:1556
+#: src/dialogs/renderwidget.cpp:1571
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>A rasterização do %1 estoirou</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1599 src/ui/renderwidget_ui.ui:891
+#: src/dialogs/renderwidget.cpp:1614 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
 msgstr "Interromper a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1602
+#: src/dialogs/renderwidget.cpp:1617
 #, kde-format
 msgid "Remove Job"
 msgstr "Remover a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:2037
+#: src/dialogs/renderwidget.cpp:2052
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -6497,7 +6507,7 @@ msgstr ""
 "Parâmetros de velocidade do codificador:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2057
+#: src/dialogs/renderwidget.cpp:2072
 #, kde-format
 msgid "Add to current project"
 msgstr "Adicionar ao projecto actual"
@@ -8490,198 +8500,192 @@ msgstr ""
 "Não é possível gravar na localização da biblioteca: %1, a usar a localização "
 "predefinida"
 
-#: src/main.cpp:112
-#, kde-format
-msgid "Version %1"
-msgstr "Versão %1"
-
-#: src/main.cpp:226
+#: src/main.cpp:118
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Por favor comunique os erros em <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:229
+#: src/main.cpp:121
 #, kde-format
 msgid "You are using the %1 package.<br>"
 msgstr "Está a usar o pacote %1.<br>"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:231
+#: src/main.cpp:123
 #, kde-format
 msgid "An open source video editor."
 msgstr "Um editor de vídeo em 'software' livre."
 
-#: src/main.cpp:232
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2022 Kdenlive authors"
+#: src/main.cpp:124
+#, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr "Copyright © 2007–2022 dos autores do Kdenlive"
+msgstr "Copyright © 2007–2023 dos autores do Kdenlive"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:234
+#: src/main.cpp:126
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr ""
 "Versão MLT e para o KDE SC 4 / KF5, desenvolvimento principal e manutenção"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:236
+#: src/main.cpp:128
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
 msgstr "Reorganização do código & remodelação da linha temporal"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:237
+#: src/main.cpp:129
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Âmbitos de cores, correcção de erros, etc."
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:238
+#: src/main.cpp:130
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Migração para o KF5, versão compilada para o Windows, pacotes, correcção de "
 "erros"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:240
+#: src/main.cpp:132
 #, kde-format
 msgid "MLT, Bug fixing, etc."
 msgstr "MLT, correcções de erros, etc."
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:241
+#: src/main.cpp:133
 #, kde-format
 msgid "Bug fixing, etc."
 msgstr "Correcções de erros, etc."
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Sashmita Raghav"
 msgstr "Sashmita Raghav"
 
-#: src/main.cpp:242
+#: src/main.cpp:134
 #, kde-format
 msgid "Subtitle feature (GSoC), timeline colours"
 msgstr "Funcionalidade de legendas (GSoC), cores da linha temporal"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:244
+#: src/main.cpp:136
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autor da versão original para o KDE 3 (não está mais activa)"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:246
+#: src/main.cpp:138
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logótipo, promoção, testes"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:247
+#: src/main.cpp:139
 #, kde-format
 msgid "Bug triage, testing"
 msgstr "Triagem de erros, testes"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:248
+#: src/main.cpp:140
 #, kde-format
 msgid "Logo"
 msgstr "Logótipo"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:249
+#: src/main.cpp:141
 #, kde-format
 msgid "Testing"
 msgstr "Testes"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:250
+#: src/main.cpp:142
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Conselhos avançados, testes"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "José Nuno Pires,Marcelo Soares Souza"
 
-#: src/main.cpp:252
+#: src/main.cpp:144
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "zepires@gmail.com,marcelo@juntadados.org"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:255
+#: src/main.cpp:147
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Plataforma multimédia em código aberto."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:257 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
+#: src/main.cpp:149 src/ui/configcapture_ui.ui:30 src/ui/configcapture_ui.ui:53
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:257
+#: src/main.cpp:149
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -8690,30 +8694,37 @@ msgstr ""
 "Uma solução completa e multi-plataforma para gravar, converter e transmitir "
 "áudio e vídeo."
 
-#: src/main.cpp:278
+#: src/main.cpp:173
 #, kde-format
-msgid "Set a custom config file name"
-msgstr "Definir um nome de ficheiro de configuração personalizado"
+msgid "Set a custom config file name."
+msgstr "Definir um nome de ficheiro de configuração personalizado."
 
-#: src/main.cpp:279
+#: src/main.cpp:174
 #, kde-format
-msgid "Set the path for MLT environment"
-msgstr "Definir a localização do ambiente MLT"
+msgid "Set the path for MLT environment."
+msgstr "Definir a localização do ambiente MLT."
 
-#: src/main.cpp:280
+#: src/main.cpp:176
 #, kde-format
-msgid "MLT log level"
-msgstr "Nível de registo do MLT"
+msgid "Set the MLT log level. Leave this unset for level \"warning\"."
+msgstr ""
+"Configurar o nível de registo do MLT. Deixe isto indefinido para o nível "
+"\"aviso\"."
 
-#: src/main.cpp:281
+#: src/main.cpp:179
 #, kde-format
-msgid "Comma separated list of clips to add"
-msgstr "Uma lista, separada por vírgulas, dos 'clips' a adicionar"
+msgid "Comma separated list of files to add as clips to the bin."
+msgstr "Uma lista, separada por vírgulas, dos 'clips' a adicionar ao grupo."
 
-#: src/main.cpp:282
+#: src/main.cpp:181
 #, kde-format
-msgid "Document to open"
-msgstr "O documento a abrir"
+msgid "Kdenlive document to open."
+msgstr "O documento do Kdenlive a abrir."
+
+#: src/main.cpp:208
+#, kde-format
+msgid "Version %1"
+msgstr "Versão %1"
 
 #: src/mainwindow.cpp:140
 #, kde-format
@@ -10522,17 +10533,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Abrir os Dados da Análise"
 
-#: src/monitor/glwidget.cpp:1636
+#: src/monitor/glwidget.cpp:1635
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Seleccione uma zona a reproduzir"
 
-#: src/monitor/glwidget.cpp:1672
+#: src/monitor/glwidget.cpp:1671
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleccione um 'clip' a reproduzir"
 
-#: src/monitor/glwidget.cpp:1744
+#: src/monitor/glwidget.cpp:1743
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

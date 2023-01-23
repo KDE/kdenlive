@@ -21,11 +21,11 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::uni
     m_compositionName = TransitionsRepository::get()->getName(transitionId);
 }
 
-int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int id,
-                                std::unique_ptr<Mlt::Properties> sourceProperties)
+int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int length,
+                                int id, std::unique_ptr<Mlt::Properties> sourceProperties)
 {
     std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(transitionId);
-    transition->set_in_and_out(0, 0);
+    transition->set_in_and_out(0, length - 1);
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     if (sourceProperties) {
         // Paste parameters from existing source composition

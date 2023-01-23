@@ -6,6 +6,7 @@ set(kdenlive_SRCS
   utils/flowlayout.cpp
   utils/gentime.cpp
   utils/qcolorutils.cpp
+  utils/sysinfo.cpp
   utils/thememanager.cpp
   utils/thumbnailcache.cpp
   utils/timecode.cpp

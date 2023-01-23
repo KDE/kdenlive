@@ -1,7 +1,10 @@
 # SPDX-FileCopyrightText: none
 # SPDX-License-Identifier: CC0-1.0
 *~
-build*/
+# restrict the rule for build folders to the root
+# level to avoid exclusion of eg. timeline2/model/builders/
+/build*/
+
 CMakeLists.txt.user*
 *.kdev4
 	*.patch

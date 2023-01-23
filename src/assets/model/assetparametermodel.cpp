@@ -724,8 +724,7 @@ QString AssetParameterModel::getDefaultKeyframes(int start, const QString &defau
     return keyframes;
 }
 
-// static
-QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue)
+QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue) const
 {
     if (!element.hasAttribute(attribute) && !defaultValue.isNull()) {
         return defaultValue;
@@ -779,6 +778,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     } else if (content.contains(QLatin1Char('%'))) {
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
+        if (m_ownerId.first == ObjectType::TimelineComposition && out == -1) {
+            out = m_asset->get_int("out");
+        }
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
         double fitScale = qMin(double(width) / double(frameSize.width()), double(height) / double(frameSize.height()));
         // replace symbols in the double parameter
@@ -834,7 +836,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     }
     if (attribute == QLatin1String("default")) {
         if (type == ParamType::KeyframeParam) {
-            return content.toDouble();
+            if (!content.contains(QLatin1Char(';'))) {
+                return content.toDouble();
+            }
         } else if (type == ParamType::List) {
             bool ok;
             double res = content.toDouble(&ok);

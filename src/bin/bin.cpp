@@ -5508,7 +5508,7 @@ void Bin::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remap
     }
 }
 
-void Bin::registerPlaylist(QUuid uuid, const QString id)
+void Bin::registerSequence(const QUuid uuid, const QString id)
 {
     if (!m_openedPlaylists.contains(uuid)) {
         m_openedPlaylists.insert(uuid, id);
@@ -5525,7 +5525,7 @@ void Bin::removeReferencedClips(const QUuid &uuid)
     }
 }
 
-void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &current)
+void Bin::updateSequenceClip(const QUuid &uuid, int duration, const QUuid &current)
 {
     if (m_openedPlaylists.contains(uuid)) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
@@ -5538,4 +5538,22 @@ void Bin::updatePlaylistClip(const QUuid &uuid, int duration, const QUuid &curre
         clip->setProperties(properties);
         clip->reloadTimeline();
     }
+}
+
+const QString Bin::sequenceBinId(const QUuid uuid)
+{
+    if (m_openedPlaylists.contains(uuid)) {
+        return m_openedPlaylists.value(uuid);
+    }
+    return QString();
+}
+
+const QStringList Bin::openedSequences()
+{
+    QList<QUuid> uuids = m_openedPlaylists.keys();
+    QStringList result;
+    for (auto &uid : uuids) {
+        result << uid.toString();
+    }
+    return result;
 }

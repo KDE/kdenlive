@@ -4659,6 +4659,7 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     disconnect(pCore->library(), &LibraryWidget::saveTimelineSelection, timeline->controller(), &TimelineController::saveTimelineSelection);
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
+    pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
 }
 
 #ifdef DEBUG_MAINW

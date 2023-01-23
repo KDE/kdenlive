@@ -17,6 +17,7 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
+#include "utils/sysinfo.hpp"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
 
@@ -71,6 +72,8 @@
 #ifdef Q_OS_MAC
 #include <xlocale.h>
 #endif
+
+#define LOW_MEMORY_THRESHOLD 128 // MB
 
 // Render job roles
 enum {
@@ -1495,6 +1498,18 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
         item->setData(1, Qt::UserRole, est);
         item->setData(1, LastTimeRole, elapsedTime);
         item->setData(1, LastFrameRole, frame);
+    }
+    SysMemInfo meminfo = SysMemInfo::getMemoryInfo();
+    // if system doesn't have much available memory, warn user
+    if (meminfo.isSuccessful()) {
+        if (meminfo.availableMemory() < LOW_MEMORY_THRESHOLD) {
+            qDebug() << "Low memory:" << meminfo.availableMemory() << "MB free, " << meminfo.totalMemory() << "MB total";
+            m_view.jobInfo->show();
+            m_view.jobInfo->setMessageType(KMessageWidget::Warning);
+            m_view.jobInfo->setText(i18n("Less than %1MB of available memory remaining.", meminfo.availableMemory()));
+        } else {
+            m_view.jobInfo->hide();
+        }
     }
 }
 
