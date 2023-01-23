@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-19 09:14+0100\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2023-01-21 19:21+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
@@ -5628,7 +5628,7 @@ msgstr "Upravljajte s profili kodiranja"
 #: src/dialogs/encodingprofilesdialog.cpp:204
 #, kde-format
 msgid "Show Profile Parameters"
-msgstr "Prikaži parametre profila"
+msgstr "Pokaži parametre profila"
 
 #: src/dialogs/encodingprofilesdialog.cpp:205
 #, kde-kuit-format
@@ -6948,8 +6948,8 @@ msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
 "many effects and transitions. Install recommended</li>"
 msgstr ""
-"<li>Manjka paket  učinki <b>Frei0r</b> (frei0r-plugins)<br/>, ki ponuja "
-"številne učinke in prehode. Priporočamo njegovo namestitev</li>"
+"<li>Manjka paket z učinki <b>Frei0r</b> (frei0r-plugins)<br/>, ki ponuja "
+"številne učinke in prehode. Priporočamo njegovo namestitev.</li>"
 
 #: src/dialogs/wizard.cpp:240
 #, kde-format
@@ -9502,7 +9502,7 @@ msgstr "Vstavi območje posnetka v časovnico"
 #: src/mainwindow.cpp:1572
 #, kde-format
 msgid "Extract Timeline Zone"
-msgstr "Izvleči območje časovnice"
+msgstr "Izvleci območje časovnice"
 
 #: src/mainwindow.cpp:1574
 #, kde-format
@@ -10732,7 +10732,7 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:240
 #, kde-format
 msgid "Insert Zone to Project Bin"
-msgstr "Vstavite območje v projektno posodo"
+msgstr "Vstavi območje v projektno posodo"
 
 #: src/monitor/monitor.cpp:301 src/monitor/monitormanager.cpp:625
 #, kde-format
@@ -16238,13 +16238,13 @@ msgstr "Barve zvočnih predogledov:"
 #: src/ui/configcolors_ui.ui:41
 #, kde-format
 msgid "Monitor overlay color:"
-msgstr "Barva prekrivanja zaslona:"
+msgstr "Barva prekrivanja ogleda:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:61
 #, kde-format
 msgid "Monitor background color:"
-msgstr "Barva ozadja oglednika:"
+msgstr "Barva ozadja ogleda:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -17039,7 +17039,7 @@ msgstr "Prvi zvočni tok"
 #: src/ui/configtimeline_ui.ui:215
 #, kde-format
 msgid "First 2 Audio Streams"
-msgstr "Prva 2 zvočna tokova"
+msgstr "Prva 2 zvočna toka"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtimeline_ui.ui:223

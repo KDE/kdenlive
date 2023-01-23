@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-19 17:16+0100\n"
+"PO-Revision-Date: 2023-01-22 14:59+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23,12 +23,12 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Rinse de Vries,Freek de Kruijf - t/m 2023,Ronald Stroethoff - 2022"
+msgstr "Rinse de Vries,Ronald Stroethoff - 2022,Freek de Kruijf - t/m 2023"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "rinsedevries@kde.nl,freekdekruijf@kde.nl,stroet43@zonnet.nl"
+msgstr "rinsedevries@kde.nl,stroet43@zonnet.nl,freekdekruijf@kde.nl"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:184
@@ -3210,6 +3210,8 @@ msgstr "Effectenstapel opslaan…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"De gehele effectenstapel als een XML-bestand opslaan voor gebruik in andere "
+"projecten."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3228,6 +3230,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Zet de gesplitste weergave aan of uit in het project en/of clipmonitor: "
+"links wordt de clip met effect getoond, rechts de clip zonder effect."
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3250,10 +3254,9 @@ msgid "Hide keyframes in timeline"
 msgstr "Keyframes verbergen in tijdsbalk"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Keyframes tonen in tijdsbalk"
+msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -3910,6 +3913,8 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Past het uitvoervolume van de geluidstrack aan (beïnvloedt alle audioclips "
+"evenveel)."
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3925,6 +3930,9 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Past de uitvoerbalans van de track. Negatieve waarden verplaatsen de uitvoer "
+"naar links, positieve waarden naar rechts. (beïnvloedt alle audioclips "
+"evenveel)."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3951,7 +3959,7 @@ msgstr "Dempen van track opheffen"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Dempt/heft op de geluidstrack."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3962,7 +3970,7 @@ msgstr "Modus solo"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Indien geselecteerd dempt alle andere geluidstracks."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3974,7 +3982,7 @@ msgstr "Geluid opnemen"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Zet de geluidstrack in modus opnemen."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -3987,6 +3995,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Schakelt het tonen van de besturing van de geluidstrack in de weergave van "
+"de geluidsmixer."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -3994,17 +4004,16 @@ msgid "Open Effect Stack"
 msgstr "Effectenstapel openen"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Bestand scheiden voor elke audiotrack"
+msgstr "Opent de effectstapel van de geluidstrack."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Opent de effectstapel van de geluidsmaster."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4151,6 +4160,9 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"De inhoud van de project-bin filteren. Klik op het filterpictogram om het "
+"tonen van het filter om te schakelen. Klik on het pijlpictogram om een lijst "
+"met mogelijke filterinstellingen te openen."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4365,6 +4377,8 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
+"Verwijdert de nu geselecteerde clips uit de project-bin en ook uit de "
+"tijdlijn."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5638,6 +5652,9 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Opent een venster met coderingsprofielen en hun parameters. Vanaf hier kunt "
+"u profielen aanmaken, wijzigen, verwijderen en downloaden gebruikt voor het "
+"tijdlijnvoorbeeld, proxygeneratie en opnemen van video, scherm en decklink."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6593,6 +6610,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Verplaatst de afspeelkop in de tijdlijn naar het begin van de ondertitel "
+"rechts."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6606,6 +6625,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Verplaatst de afspeelkop in de tijdlijn naar het begin van de ondertitel "
+"links."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6621,6 +6642,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Maakt een nieuwe ondertitel met de standaard lengte (ingesteld in "
+"<interface>Instellingen->Kdenlive configureren…->Diversen</interface>) op de "
+"huidige positie van de afspeelkop/frame."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6634,6 +6658,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Knipt de ondertiteltekst op de cursorpositie en maakt rechts een nieuwe "
+"ondertitel (zoals een clip knippen)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6644,7 +6670,7 @@ msgstr "Tekst van ondertitel bijwerken"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Werkt het tonen van de ondertitel bij in de tijdlijn."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6658,6 +6684,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Schakelt een lijst om om lettertype, grootte, kleur, stijl van omlijsting, "
+"schaduw, positie en achtergrond aan te passen."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6671,6 +6699,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
+"Verwijdert de nu geselecteerde ondertitel (werkt niet op meerdere "
+"ondertitels)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6822,32 +6852,33 @@ msgstr "Kan eerste bronkeyframe niet verplaatsen voor het begin van de clip"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "Voegt een keyframe in op de positie/frame van de huidige afspeelkop."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "Verplaatst de afspeelkop naar het volgende keyframe rechts."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "Verplaatst de afspeelkop naar het volgende keyframe links."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "Geselecteerd keyframe verplaatsen naar de cursor"
+msgstr ""
+"Verplaatst de geselecteerde keyframes naar de huidige positie/frame van de "
+"afspeelkop."
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "Verwijdert het keyframe op de huidige positie van de afspeelkop."
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7760,6 +7791,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Verplaatst het effect boven diegene er recht boven. Effecten worden "
+"sequentieel behandeld van boven naar onder dus volgorde is belangrijk."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7773,6 +7806,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Verplaatst het effect onder diegene er recht onder. Effecten worden "
+"sequentieel behandeld van boven naar onder dus volgorde is belangrijk."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7783,7 +7818,7 @@ msgstr "Verwijder effect"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Verwijdert het effect van de effectenstapel."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7823,7 +7858,7 @@ msgstr "Effect inschakelen"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
-msgstr ""
+msgstr "Schakelt het effect in. Nuttig om te vergelijken voor en na instellen."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7845,6 +7880,7 @@ msgstr "Startzone instellen"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
+"Stelt de huidige positie van frame/afspeelkop in als begin van de zone."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
@@ -7861,6 +7897,7 @@ msgstr "Eindzone instellen"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
+"Stelt de huidige positie van frame/afspeelkop in als begin van de zone."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -7880,6 +7917,8 @@ msgstr "Voorinstellingen"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
+"Opent een lijst met geavanceerde opties om voorinstellingen voor het effect "
+"te beheren."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -8958,10 +8997,9 @@ msgid "Audio Mixer"
 msgstr "Audiomixer"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "De geluidsamplitude berekenen."
+msgstr "Schakelt het paneel/widget om van de geluidsmixer."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -8989,6 +9027,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Klik om een lijst met favoriete effecten te tonen. Dubbelklik op een effect "
+"om het toe te voegen aan de geselecteerde clip."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -9129,6 +9169,7 @@ msgstr "Tijdlijnzone gebruiken voor invoegen"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Wisselt tussen gebruik van de tijdlijnzone voor invoegen (aan) of niet (uit)."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -10713,6 +10754,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Stelt de voorbeeldresolutie van de project/clip-monitor in. Er is te "
+"selecteren tussen 1:1, 720p, 540p, 360p, 270p (hoe lager de resolutie hoe "
+"sneller het voorbeeld)."
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -12185,6 +12229,9 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Opent het dialoogvenster voor profielen waarin u projectprofielen kunt "
+"wijzigen. Opmerking: het gebruikte profiel in het open project kan niet "
+"worden gewijzigd."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -15122,6 +15169,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"Indien geselecteerd, een klik op iets in de tijdlijn selecteert dat iets "
+"(bijv. clip, compositie)."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format

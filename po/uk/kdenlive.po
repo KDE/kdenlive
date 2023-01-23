@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-18 11:54+0200\n"
+"PO-Revision-Date: 2023-01-22 14:16+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3218,6 +3218,7 @@ msgstr "Зберегти стос ефектів…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"Зберігає увесь стос ефектів як файл XML для використання в інших проєктах."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3236,6 +3237,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Вмикає або вимикає розділений перегляд на моніторі проєкту і/або кліпу: "
+"ліворуч буде показано кліп з ефектом, а праворуч — без ефекту."
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3258,10 +3261,9 @@ msgid "Hide keyframes in timeline"
 msgstr "Приховати ключові кадри на монтажному столі"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Показувати ключові кадри на монтажному столі"
+msgstr "Вмикає або вимикає показ ключових кадрів на кліпі на монтажному столі"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -3923,6 +3925,8 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Коригує гучність вихідного звуку звукової доріжки (впливає на усі звукові "
+"кліпи одночасно)."
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3938,6 +3942,9 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Коригує баланс вихідного звуку звукової доріжки. Від'ємні значення "
+"пересувають відтворення ліворуч, додатні — праворуч. Впливає на усі звукові "
+"кліпи одночасно."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3964,7 +3971,7 @@ msgstr "Увімкнути звук на доріжці."
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Вимикає або вмикає звук на звуковій доріжці."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3975,7 +3982,7 @@ msgstr "Режим соло"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Якщо позначено, вимикає звук на усіх інших звукових доріжках."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3987,7 +3994,7 @@ msgstr "Записати звук"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Переводить звукову доріжку у режим записування."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -4000,6 +4007,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Вмикає або вимикає показ засобів керування звуковою доріжкою на панелі "
+"мікшування звуку."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -4007,17 +4016,16 @@ msgid "Open Effect Stack"
 msgstr "Відкрити стос ефектів"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Окремий файл для кожної звукової доріжки"
+msgstr "Відкриває стос ефектів для звукової доріжки."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Відкриває стос ефектів для основного каналу звуку."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4167,6 +4175,10 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Фільтрувати за вмістом контейнера проєкту. Натисніть на піктограмі "
+"фільтрування, щоб увімкнути або вимкнути показ фільтрування. Натисніть "
+"піктограму зі стрілочкою, щоб відкрити список можливих параметрів "
+"фільтрування."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4385,6 +4397,8 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
+"Вилучає поточні позначені кліпи з контейнера проєкту, а також з монтажного "
+"столу."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5668,6 +5682,10 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Відкриває вікно із профілями кодування та їхніми параметрами. З цього вікна "
+"ви можете створювати, змінювати, вилучати та отримувати з інтернету профілі, "
+"які використовують для попереднього перегляду на монтажному столі, створення "
+"проміжних кліпів та відео, захоплення з екрана та пристроїв decklink."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6626,6 +6644,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Пересуває позицію відтворення на монтажному столі на початок субтитрів "
+"праворуч."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6639,6 +6659,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Пересуває позицію відтворення на монтажному столі на початок субтитрів "
+"ліворуч."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6654,6 +6676,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Створює новий запис субтитрів із типовою довжиною (можна встановити на "
+"сторінці <interface>Параметри -> Налаштувати Kdenlive… -> Інше</interface>) "
+"у поточній позиції відтворення або на поточному кадрі."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6667,6 +6692,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Вирізає текст субтитрів у позиції курсора і створює нові субтитри праворуч "
+"(як вирізання кліпу)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6677,7 +6704,7 @@ msgstr "Оновити текст субтитрів"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Оновлює показ субтитрів на монтажному столі."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6691,6 +6718,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Вмикає або вимикає список для коригування шрифту, розміру, кольору, стилю "
+"контуру, тіні, розташування та тла."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6704,6 +6733,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
+"Вилучає поточну позначені субтитри (не працює, якщо записів субтитрів "
+"декілька)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6859,31 +6890,32 @@ msgstr ""
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
+"Вставляє ключовий кадр у поточній позиції або на поточному кадрі відтворення."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "Пересуває позицію відтворення до наступного ключового кадру праворуч."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "Пересуває позицію відтворення до наступного ключового кадру ліворуч."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "Пересунути позначений ключовий кадр до курсора"
+msgstr ""
+"Пересуває позначені ключові кадри до поточної позиції або кадру відтворення."
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "Вилучає ключовий кадр у позиції відтворення."
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7828,6 +7860,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Пересуває ефект вище за ефект одразу над ним. Ефекти буде оброблено "
+"послідовно з верхнього до нижнього, отже послідовність ефектів є важливою."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7841,6 +7875,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Пересуває ефект нижче за ефект одразу під ним. Ефекти буде оброблено "
+"послідовно з верхнього до нижнього, отже послідовність ефектів є важливою."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7851,7 +7887,7 @@ msgstr "Вилучити ефект"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Вилучає ефект зі стосу ефектів."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7891,7 +7927,7 @@ msgstr "Увімкнути ефект"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
-msgstr ""
+msgstr "Вмикає ефект. Корисно для порівняння параметрів до і після зміни."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7912,7 +7948,7 @@ msgstr "Встановити позначку входу ділянки"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
-msgstr ""
+msgstr "Встановлює поточну позицію кадру або відтворення як початок зони."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
@@ -7928,7 +7964,7 @@ msgstr "Встановити позначку виходу ділянки"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
-msgstr ""
+msgstr "Встановлює поточну позицію кадру або відтворення як кінець зони."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -7948,6 +7984,8 @@ msgstr "Шаблони"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
+"Відкриває список додаткових параметрів для керування наборами параметрів "
+"ефекту."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -9037,10 +9075,9 @@ msgid "Audio Mixer"
 msgstr "Звуковий мікшер"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Обчислити амплітуду звукового сигналу."
+msgstr "Вмикає або вимикає панель/віджет звукового мікшера."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -9068,6 +9105,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Натисніть, щоб відкрити список улюблених ефектів. Двічі клацніть на пункті "
+"ефекту, щоб додати його до позначеного кліпу."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -9214,6 +9253,8 @@ msgstr "Скористатися ділянкою даних монтажног�
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Перемикає програму між режимом вставлення (увімкнено) і режимом без "
+"вставлення (вимкнено) для зони монтажного столу."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -10803,6 +10844,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Встановлює роздільність попереднього перегляду для монітора проєкту або "
+"кліпу. Варіанти вибору: 1:1, 720p, 540p, 360p, 270p (чим меншою буде "
+"роздільність, тим швидше працюватиме попередній перегляд)."
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -12295,6 +12339,9 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Відкриває вікно профілю, за допомогою якого ви зможете змінювати профілі "
+"проєкту. Зауваження: профіль, який використано у відкритому проєкті, не "
+"можна змінити."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -15265,6 +15312,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"Якщо позначено, клацання на позначці даних позначатиме дані (наприклад, кліп "
+"або композицію) на монтажному столі."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format

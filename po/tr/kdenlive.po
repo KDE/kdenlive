@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-18 22:31+0300\n"
+"PO-Revision-Date: 2023-01-22 20:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -313,7 +313,7 @@ msgstr "Çizgi,Çubuk"
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr "Spektrumu gösterecek grafik türü."
+msgstr "Spektrumu görüntüleyecek grafik türü."
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -456,7 +456,7 @@ msgstr "Ses Dalgası"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Video yerine ses dalga biçimini göster"
+msgstr "Video yerine ses dalga biçimini görüntüle"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
@@ -3200,6 +3200,8 @@ msgstr "Efekt Yığınını Kaydet…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"Diğer projelerde kullanılmak üzere tüm efekt yığınını bir XML dosyası olarak "
+"kaydeder."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3218,6 +3220,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Projede ve/veya klip monitöründe bölünmüş görünümü açar veya kapatır: Solda "
+"efektli klip, sağda efektsiz klip gösterilir."
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3232,7 +3236,7 @@ msgstr "Efektler etkin"
 #: src/assets/assetpanel.cpp:112
 #, kde-format
 msgid "Display keyframes in timeline"
-msgstr "Zaman akışında anahtar kareleri göster"
+msgstr "Zaman akışında anahtar kareleri görüntüle"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -3240,10 +3244,10 @@ msgid "Hide keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri göster"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Zaman akışında anahtar kareleri göster"
+msgstr ""
+"Zaman akışında klipteki anahtar karelerin görüntülenmesini açar/kapatır"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -3901,6 +3905,8 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Ses izinin çıkış ses düzeyini ayarlar (tüm ses kliplerini eşit olarak "
+"etkiler)."
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3916,6 +3922,8 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"İzin çıkış dengesini ayarlar. Negatif değerler çıkışı sola, pozitif değerler "
+"sağa doğru hareket ettirir. Tüm ses kliplerini eşit olarak etkiler."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3942,7 +3950,7 @@ msgstr "İz sesini aç"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Ses izinin sesini açar/kapatır."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3953,7 +3961,7 @@ msgstr "Tekli kip"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Seçiliyken tüm diğer ses izlerinin sesini kapatır."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3965,7 +3973,7 @@ msgstr "Ses kaydet"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Ses izini kayıt kipine geçirir."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -3978,6 +3986,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Ses karıştırıcı görünümünde ses izi denetimlerinin görüntülenmesini açar/"
+"kapatır."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -3985,17 +3995,16 @@ msgid "Open Effect Stack"
 msgstr "Efekt Yığınını Aç"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Her bir ses izi için ayrı dosya"
+msgstr "Ses izi için efekt yığının açar."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Ses ana içeriği için efekt yığınını açar."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4141,6 +4150,9 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Proje kovası içeriğini süz. Süzgeç simgesine tıklamak süzgeç görünümü açar/"
+"kapatır. Olası süzgeç ayarlarının bir listesini açmak için ok simgesine "
+"tıklayın."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4352,7 +4364,7 @@ msgstr "Klibi Sil"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
-msgstr ""
+msgstr "Şu anda seçili klipleri proje kovasından ve zaman akışından siler."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5625,6 +5637,10 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Kodlama profillerini ve parametrelerini içeren bir pencere açar. Buradan, "
+"zaman akışı önizlemesi, vekil üretme ve video, ekran ve Decklink yakalama "
+"için kullanılan profilleri oluşturabilir, değiştirebilir, silebilir ve "
+"indirebilirsiniz."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6571,6 +6587,7 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Zaman akışındaki oynatma kafasını sağdaki altyazının başlangıcına taşır."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6584,6 +6601,7 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Zaman akışındaki oynatma kafasını soldaki altyazının başlangıcına taşır."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6599,6 +6617,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Geçerli oynatma kafası konumunda/karesinde öntanımlı uzunlukta "
+"(<interface>Ayarlar->Kdenlive Uygulamasını Yapılandır…->Çeşitli</interface> "
+"içinde ayarlanır) yeni bir altyazı oluşturur."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6612,6 +6633,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Altyazı metnini imleç konumunda keser ve sağa doğru yeni bir altyazı "
+"oluşturur (klip keser gibi)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6622,7 +6645,7 @@ msgstr "Altyazı metnini güncelle"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Zaman akışındaki altyazı görünümünü günceller."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6636,6 +6659,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Yazıtipini, boyutu, rengi, dış hat biçemini, gölgeyi, konumu ve arka planı "
+"ayarlayabileceğiniz bir listeyi açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6648,7 +6673,7 @@ msgstr "Altyazı sil"
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
-msgstr ""
+msgstr "Şu anda seçili olan altyazıyı siler (birden çok altyazıda çalışmaz)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6800,32 +6825,32 @@ msgstr "Klip başlangıcından önce ilk kaynak anahtar kare taşınamıyor"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "Geçerli oynatma kafası konumunda/karesinde bir anahtar kare ekler."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "Oynatma kafasını sağdaki bir sonraki anahtar kareye taşır."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "Oynatma kafasını soldaki bir sonraki anahtar kareye taşır."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "Seçili anahtar kareyi imlece taşı"
+msgstr ""
+"Seçili anahtar kareleri geçerli oynatma kafası konumuna/karesine taşır."
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "Oynatma kafasının geçerli konumundaki anahtar kareyi siler."
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7483,8 +7508,8 @@ msgid ""
 "Warning: unknown non integer fps, might cause incorrect duration display."
 msgstr ""
 "\n"
-"Dikkat: bilinmeyen tamsayı olmayan fps, bu doğru olmayan süre gösterimine "
-"sebep verebilir."
+"Dikkat: Bilinmeyen tamsayı olmayan fps, bu doğru olmayan süre "
+"görüntülenmesine neden olabilir."
 
 #: src/doc/kdenlivedoc.cpp:1617
 #, kde-format
@@ -7720,6 +7745,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Efekti hemen üzerindekinin üstüne taşır. Efektler yukarıdan aşağıya sırayla "
+"işlenir, bu nedenle sıra önemlidir."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7733,6 +7760,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Efekti hemen altındakinin altına taşır. Efektler yukarıdan aşağıya sırayla "
+"işlenir, bu nedenle sıra önemlidir."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7743,7 +7772,7 @@ msgstr "Efekti sil"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Efekti, efekt yığınından siler."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7784,6 +7813,8 @@ msgstr "Efekti etkinleştir"
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
+"Efekti etkinleştirir. Öncesi ve sonrası ayarlarını karşılaştırırken "
+"yararlıdır."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7805,6 +7836,7 @@ msgstr "Bölge girişini ayarla"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
+"Geçerli kare/oynatma kafası konumunu bölgenin başlangıcı olarak ayarlar."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
@@ -7820,7 +7852,7 @@ msgstr "Bölge çıkışını ayarla"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
-msgstr ""
+msgstr "Geçerli kare/oynatma kafası konumunu bölgenin bitişi olarak ayarlar."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -7840,6 +7872,8 @@ msgstr "Önayarlar"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
+"Efekt için olan önayarları yönetmek için bir gelişmiş seçenekler listesi "
+"açar."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -8912,13 +8946,12 @@ msgstr "Esinti Simgelerini Kullanmayı Zorla"
 #: src/mainwindow.cpp:457 src/mainwindow.cpp:459
 #, kde-format
 msgid "Audio Mixer"
-msgstr "Ses Karıştırıcısı"
+msgstr "Ses Karıştırıcı"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Ses genliğini hesapla."
+msgstr "Ses karıştırıcı panelini/araç takımını açar/kapatır."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -8946,6 +8979,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Sık kullanılan efektlerin bir listesini göstermek için tıklayın. Seçilen "
+"klibe eklemek için bir efekte çift tıklayın."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -9086,6 +9121,8 @@ msgstr "Eklemek için Zaman Akışı Bölgesini Kullan"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Eklemek için zaman akışı bölgesini kullanma (açık) veya kullanmama (kapalı) "
+"arasında geçiş yapar."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -10666,6 +10703,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Proje/klip monitörünün önizleme çözünürlüğünü ayarlar. 1:1, 720p, 540p, "
+"360p, 270p arasından seçim yapılabilir (çözünürlük ne kadar düşükse önizleme "
+"o kadar hızlıdır)."
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -12138,6 +12178,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Proje profillerini değiştirebileceğiniz profil iletişim kutusunu açar. Not: "
+"Açık projede kullanılan profil değiştirilemez."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -14852,7 +14894,7 @@ msgid ""
 "making them portable, but you could have to adjust their size."
 msgstr ""
 "Bazı metin klipleriniz farklı ekranlarda farklı boyutlar alacak nokta "
-"ölçüsüyle saklandı. Bunlar taşınabilirlik için piksel ölçüsüne çevrilecek, "
+"ölçüsüyle saklandı. Bunlar taşınabilirlik için piksel ölçüsüne çevrilecek; "
 "ancak boyutlarını ayarlamanız gerekebilir."
 
 #: src/titler/titledocument.cpp:477
@@ -15056,6 +15098,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"Seçildiğinde, zaman akışındaki bir varlığın tıklanması, varlığı (ör. klip, "
+"bileşikleştirme) seçer."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format
