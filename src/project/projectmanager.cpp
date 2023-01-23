@@ -1169,7 +1169,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     xmlProd->clear();
     xmlProd.reset(nullptr);
     // Build primary timeline sequence
-    QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Create the timelines folder to store timeline clips
@@ -1177,14 +1176,29 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     if (folderId.isEmpty()) {
         pCore->projectItemModel()->requestAddFolder(folderId, i18n("Sequences"), QStringLiteral("-1"), undo, redo);
     }
+    QString mainId;
     Mlt::Tractor t1(timelineModel->tractor()->get_tractor());
+    t1.set("kdenlive:duration", 1);
     std::shared_ptr<Mlt::Producer> prod(t1.cut());
     prod->set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
     prod->set("kdenlive:duration", 1);
+    prod->set("kdenlive:maxduration", 1);
+    prod->set("length", 1);
+    prod->set("out", 0);
     prod->set("kdenlive:clip_type", ClipType::Timeline);
-    pCore->projectItemModel()->requestAddBinClip(id, std::move(prod), folderId, undo, redo);
+    pCore->projectItemModel()->requestAddBinClip(mainId, std::move(prod), folderId, undo, redo);
+    pCore->bin()->registerSequence(uuid, mainId);
+    QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [id = mainId, model = timelineModel]() {
+        std::shared_ptr<ProjectClip> mainClip = pCore->bin()->getBinClip(id);
+        if (mainClip) {
+            QMap<QString, QString> properties;
+            properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(model->duration())));
+            properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
+            mainClip->setProperties(properties, true);
+        }
+    });
 
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     if (!groupsData.isEmpty()) {
