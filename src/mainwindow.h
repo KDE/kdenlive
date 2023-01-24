@@ -356,6 +356,8 @@ public slots:
     void slotUpdateCompositeAction(bool enable);
     /** @brief Update duration of projet in timeline toolbar. */
     void slotUpdateProjectDuration(int pos);
+    /** @brief The current timeline selection zone changed... */
+    void slotUpdateZoneDuration(int duration);
     /** @brief Remove all unused clips from the project. */
     void slotCleanProject();
     void slotEditProjectSettings(int ix = 0);

@@ -53,11 +53,10 @@
 #include <memory>
 #include <unistd.h>
 
-int TimelineController::m_duration = 0;
-
 TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
     , multicamIn(-1)
+    , m_duration(0)
     , m_root(nullptr)
     , m_usePreview(false)
     , m_audioRef(-1)

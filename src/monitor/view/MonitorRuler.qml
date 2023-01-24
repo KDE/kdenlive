@@ -196,7 +196,7 @@ Rectangle {
         visible: controller.zoneOut >= controller.zoneIn
         color: activePalette.highlight
         x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
-        width: (controller.zoneOut - controller.zoneIn + 1) * root.timeScale
+        width: (controller.zoneOut - controller.zoneIn) * root.timeScale
         property bool zoneHovered: rulerMouseArea.pressed == false && controller.zoneOut >= controller.zoneIn && ((rulerMouseArea.containsMouse && rulerMouseArea.mouseX >= zone.x && rulerMouseArea.mouseX < zone.x + zone.width) || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
         anchors.bottom: parent.bottom
         height: ruler.height / 2
@@ -280,7 +280,7 @@ Rectangle {
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
-            text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn + 1) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn + 1) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn + 1)
+            text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn + root.zoneOffset) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn + root.zoneOffset) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn + root.zoneOffset)
             font: fixedFont
             color: activePalette.text
         }

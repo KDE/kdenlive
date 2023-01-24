@@ -775,6 +775,7 @@ GenTime Monitor::getSnapForPos(bool previous)
 void Monitor::slotLoadClipZone(const QPoint &zone)
 {
     m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y(), false);
+    emit zoneDurationChanged(zone.y() - zone.x());
     checkOverlay();
 }
 
@@ -792,6 +793,8 @@ void Monitor::slotSetZoneStart()
         if (updatedZoneOut > -1) {
             m_glMonitor->getControllerProxy()->setZoneOut(oldZone.y());
         }
+        const QPoint zone = m_glMonitor->getControllerProxy()->zone();
+        emit zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -800,6 +803,8 @@ void Monitor::slotSetZoneStart()
             m_glMonitor->getControllerProxy()->setZoneOut(updatedZoneOut);
         }
         m_glMonitor->getControllerProxy()->setZoneIn(currentIn);
+        const QPoint zone = m_glMonitor->getControllerProxy()->zone();
+        emit zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -820,6 +825,8 @@ void Monitor::slotSetZoneEnd()
         if (updatedZoneIn > -1) {
             m_glMonitor->getControllerProxy()->setZoneIn(oldZone.x());
         }
+        const QPoint zone = m_glMonitor->getControllerProxy()->zone();
+        emit zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -829,6 +836,8 @@ void Monitor::slotSetZoneEnd()
             m_glMonitor->getControllerProxy()->setZoneIn(updatedZoneIn);
         }
         m_glMonitor->getControllerProxy()->setZoneOut(currentOut);
+        const QPoint zone = m_glMonitor->getControllerProxy()->zone();
+        emit zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };

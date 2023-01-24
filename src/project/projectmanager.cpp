@@ -1585,7 +1585,6 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
                 properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
-                qDebug() << "=== UPDATEING CLIP DURATION: " << timelineModel->duration();
                 clip->setProperties(properties, true);
             });
             // clip->setProducer(prod);

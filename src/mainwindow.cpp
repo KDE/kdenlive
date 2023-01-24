@@ -2307,6 +2307,16 @@ void MainWindow::slotUpdateProjectDuration(int duration)
     if (pCore->currentDoc()) {
         slotUpdateMousePosition(-1, duration);
     }
+    if (m_renderWidget) {
+        m_renderWidget->projectDurationChanged(duration);
+    }
+}
+
+void MainWindow::slotUpdateZoneDuration(int duration)
+{
+    if (m_renderWidget) {
+        m_renderWidget->zoneDurationChanged(duration);
+    }
 }
 
 void MainWindow::slotUpdateDocumentState(bool modified)
@@ -2376,6 +2386,7 @@ void MainWindow::connectDocument()
     m_saveAction->setEnabled(project->isModified());
     m_normalEditTool->setChecked(true);
     connect(m_projectMonitor, &Monitor::durationChanged, this, &MainWindow::slotUpdateProjectDuration);
+    connect(m_projectMonitor, &Monitor::zoneDurationChanged, this, &MainWindow::slotUpdateZoneDuration);
     connect(m_effectList2, &EffectListWidget::reloadFavorites, getCurrentTimeline(), &TimelineWidget::updateEffectFavorites);
     connect(m_compositionList, &TransitionListWidget::reloadFavorites, getCurrentTimeline(), &TimelineWidget::updateTransitionFavorites);
     connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
@@ -4609,7 +4620,7 @@ bool MainWindow::raiseTimeline(const QUuid &uuid)
 
 void MainWindow::connectTimeline()
 {
-    qDebug() << "::::::::::: connecting timeline: " << getCurrentTimeline()->getUuid();
+    qDebug() << "::::::::::: connecting timeline: " << getCurrentTimeline()->getUuid() << ", DUR: " << getCurrentTimeline()->controller()->duration();
     if (!getCurrentTimeline()->model()) {
         qDebug() << "::::::::::: TIMELINE HAS NO MODEL";
     } else {
@@ -4643,6 +4654,7 @@ void MainWindow::connectTimeline()
         m_renderWidget->setGuides(project->getGuideModel(uuid));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
+        m_renderWidget->showRenderDuration();
     }
 }
 

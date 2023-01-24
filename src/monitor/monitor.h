@@ -388,4 +388,5 @@ signals:
     void removeSplitOverlay();
     void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
+    void zoneDurationChanged(int duration);
 };

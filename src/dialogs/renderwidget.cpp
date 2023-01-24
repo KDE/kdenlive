@@ -408,6 +408,7 @@ void RenderWidget::slotRenderModeChanged()
     m_view.guide_zone_box->setVisible(m_view.render_guide->isChecked());
     m_view.guide_multi_box->setVisible(m_view.render_multi->isChecked());
     m_view.buttonGenerateScript->setVisible(!m_view.render_multi->isChecked());
+    showRenderDuration();
 }
 
 void RenderWidget::slotUpdateRescaleWidth(int val)
@@ -453,6 +454,7 @@ void RenderWidget::slotCheckStartGuidePosition()
     if (m_view.guide_start->currentIndex() > m_view.guide_end->currentIndex()) {
         m_view.guide_start->setCurrentIndex(m_view.guide_end->currentIndex());
     }
+    showRenderDuration();
 }
 
 void RenderWidget::slotCheckEndGuidePosition()
@@ -460,6 +462,7 @@ void RenderWidget::slotCheckEndGuidePosition()
     if (m_view.guide_end->currentIndex() < m_view.guide_start->currentIndex()) {
         m_view.guide_end->setCurrentIndex(m_view.guide_start->currentIndex());
     }
+    showRenderDuration();
 }
 
 void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
@@ -1992,8 +1995,50 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
         m_view.infoMessage->setText(fullMessage);
         m_view.infoMessage->show();
     } else {
-        m_view.infoMessage->hide();
+        showRenderDuration();
+        // m_view.infoMessage->hide();
     }
+}
+
+void RenderWidget::projectDurationChanged(int duration)
+{
+    if (m_view.render_full->isChecked() || m_view.render_multi->isChecked()) {
+        m_view.infoMessage->setMessageType(KMessageWidget::Information);
+        QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, duration + 1), false);
+        m_view.infoMessage->setText(i18n("Render Duration: %1", stringDuration));
+        m_view.infoMessage->show();
+    }
+}
+
+void RenderWidget::zoneDurationChanged(int duration)
+{
+    if (m_view.render_zone->isChecked()) {
+        m_view.infoMessage->setMessageType(KMessageWidget::Information);
+        QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, duration), false);
+        m_view.infoMessage->setText(i18n("Render Duration: %1", stringDuration));
+        m_view.infoMessage->show();
+    }
+}
+
+void RenderWidget::showRenderDuration()
+{
+    m_view.infoMessage->setMessageType(KMessageWidget::Information);
+    int duration = 0;
+    if (m_view.render_zone->isChecked()) {
+        Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
+        duration = pMon->getZoneEnd() - pMon->getZoneStart();
+    } else if (m_view.render_guide->isChecked()) {
+        double fps = pCore->getCurrentProfile()->fps();
+        double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+        double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+        duration = int(GenTime(guideEnd).frames(fps)) - int(GenTime(guideStart).frames(fps));
+    } else {
+        // rendering full project
+        duration = pCore->projectDuration();
+    }
+    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, duration), false);
+    m_view.infoMessage->setText(i18n("Render Duration: %1", stringDuration));
+    m_view.infoMessage->show();
 }
 
 void RenderWidget::updateProxyConfig(bool enable)

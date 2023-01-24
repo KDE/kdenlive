@@ -716,6 +716,7 @@ public:
     void setMulticamIn(int pos);
 
 private:
+    int m_duration;
     QQuickItem *m_root;
     KActionCollection *m_actionCollection;
     std::shared_ptr<TimelineItemModel> m_model;
@@ -735,7 +736,6 @@ private:
     QPoint m_zone;
     int m_activeTrack;
     double m_scale;
-    static int m_duration;
     QAction *m_disablePreview;
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;

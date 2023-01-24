@@ -19,6 +19,7 @@ Item {
     height: 300; width: 400
     property string markerText
     property int itemType: 0
+    property int zoneOffset: 1
     property point profile: controller.profile
     property double zoom
     property point center

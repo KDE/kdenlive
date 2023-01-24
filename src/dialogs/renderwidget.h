@@ -135,6 +135,12 @@ public:
 
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);
+    /** @brief Update the render duration info when project duration changes. */
+    void projectDurationChanged(int duration);
+    /** @brief Update the render duration info when zone changes. */
+    void zoneDurationChanged(int duration);
+    /** @brief Update the render duration info. */
+    void showRenderDuration();
 
 protected:
     QSize sizeHint() const override;
