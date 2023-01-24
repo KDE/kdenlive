@@ -82,10 +82,9 @@ protected:
     void changeProducer(const QString &id, const std::shared_ptr<Mlt::Producer> &producer);
 
 private:
-    QUuid m_uuid;
     /** @brief The MLT playlist holding our Producers */
     std::unique_ptr<Mlt::Playlist> m_binPlaylist;
-
+    QUuid m_uuid;
     /** @brief Set of the bin inserted */
     std::unordered_set<QString> m_allClips;
     QMap<QUuid, QString> m_sequenceClips;

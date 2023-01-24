@@ -37,11 +37,11 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
         if (clip->isValid()) {
             if (clip->clipType() == ClipType::Timeline) {
-                const QString uuid = clip->getProducerProperty(QStringLiteral("kdenlive:uuid"));
+                const QUuid uuid(clip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
                 m_sequenceClips.insert(uuid, id);
-                if (uuid == m_uuid.toString()) {
+                if (uuid == m_uuid) {
                     // The main tractor should never be inserted in the bin playlist
-                } else if (!uuid.isEmpty()) {
+                } else if (!uuid.isNull()) {
                     m_binPlaylist->append(clip->originalProducer()->parent());
                 }
             } else {
