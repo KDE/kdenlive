@@ -3094,9 +3094,11 @@ void Bin::reloadMonitorStreamIfActive(const QString &id)
     }
 }
 
-void Bin::updateTargets(const QString &id)
+void Bin::updateTargets(QString id)
 {
-    if (m_monitor->activeClipId() != id) {
+    if (id == QLatin1String("-1")) {
+        id = m_monitor->activeClipId();
+    } else if (m_monitor->activeClipId() != id) {
         return;
     }
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);

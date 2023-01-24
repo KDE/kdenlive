@@ -89,11 +89,13 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
         Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
         timeline->insert_track(pl, ix);
         timeline->track(ix)->set("kdenlive:audio_track", 1);
+        timeline->track(ix)->set("kdenlive:timeline_active", 1);
     }
+    // Video tracks
     for (int ix = tracks.first; ix < (tracks.first + tracks.second); ix++) {
         Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
         timeline->insert_track(pl, ix);
-        // Audio tracks
+        timeline->track(ix)->set("kdenlive:timeline_active", 1);
     }
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
     prod->set("id", uuid.toString().toUtf8().constData());

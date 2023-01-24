@@ -275,7 +275,7 @@ public:
     /** @brief refresh monitor stream selector  */
     void reloadMonitorStreamIfActive(const QString &id);
     /** @brief Update timeline targets according to selected audio streams */
-    void updateTargets(const QString &id);
+    void updateTargets(QString id = QStringLiteral("-1"));
 
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);
