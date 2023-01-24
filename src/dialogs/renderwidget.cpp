@@ -651,7 +651,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
     KdenliveDoc *project = pCore->currentDoc();
     QString overlayData = m_view.tc_type->currentData().toString();
     QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData, true);
 
     // Set playlist audio volume to 100%
     QDomDocument doc;

@@ -4653,7 +4653,6 @@ void MainWindow::connectTimeline()
         slotCheckRenderStatus();
         m_renderWidget->setGuides(project->getGuideModel(uuid));
         m_renderWidget->updateDocumentPath();
-        m_renderWidget->setRenderProfile(project->getRenderProperties());
         m_renderWidget->showRenderDuration();
     }
 }
