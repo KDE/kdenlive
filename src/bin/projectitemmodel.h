@@ -215,6 +215,8 @@ public:
     bool urlExists(const QString &path) const;
     /** @brief Returns the unique uuid for this project item model */
     QUuid uuid() const { return m_uuid; };
+    /** @brief Retrieve the Bin clip id from a sequence uuid */
+    const QString getSequenceId(const QUuid &uuid);
 
 protected:
     /** @brief Register the existence of a new element

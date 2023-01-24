@@ -743,6 +743,11 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
     }
 }
 
+const QString ProjectItemModel::getSequenceId(const QUuid &uuid)
+{
+    return m_binPlaylist->getSequenceId(uuid);
+}
+
 int ProjectItemModel::getFreeFolderId()
 {
     while (!isIdFree(QString::number(++m_nextId))) {

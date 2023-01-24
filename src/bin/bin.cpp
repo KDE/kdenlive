@@ -2097,6 +2097,7 @@ void Bin::cleanDocument()
         m_propertiesPanel->setProperty("clipId", QString());
     }
     delete m_itemView;
+    m_openedPlaylists.clear();
     m_itemView = nullptr;
     isLoading = false;
     shouldCheckProfile = false;

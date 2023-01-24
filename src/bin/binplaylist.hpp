@@ -60,6 +60,9 @@ public:
     /** @brief Retrieve a list of proxy/original urls */
     QMap<QString, QString> getProxies(const QString &root);
 
+    /** @brief Retrieve the Bin clip id from a sequence uuid */
+    const QString getSequenceId(const QUuid &uuid);
+
     /** @brief The number of clips in the Bin Playlist */
     int count() const;
 
@@ -85,4 +88,5 @@ private:
 
     /** @brief Set of the bin inserted */
     std::unordered_set<QString> m_allClips;
+    QMap<QUuid, QString> m_sequenceClips;
 };

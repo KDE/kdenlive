@@ -4611,7 +4611,7 @@ void MainWindow::connectTimeline()
 {
     qDebug() << "::::::::::: connecting timeline: " << getCurrentTimeline()->getUuid();
     if (!getCurrentTimeline()->model()) {
-        qDebug() << "::::::::::: TIMEKINE HAS O MODELÀÀÀÀÀÀÀÀÀÀÀÀÀÀÀ";
+        qDebug() << "::::::::::: TIMELINE HAS NO MODEL";
     } else {
         getCurrentTimeline()->model()->rebuildMixer();
     }

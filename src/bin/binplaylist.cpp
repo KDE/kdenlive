@@ -38,6 +38,7 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
         if (clip->isValid()) {
             if (clip->clipType() == ClipType::Timeline) {
                 const QString uuid = clip->getProducerProperty(QStringLiteral("kdenlive:uuid"));
+                m_sequenceClips.insert(uuid, id);
                 if (uuid == m_uuid.toString()) {
                     // The main tractor should never be inserted in the bin playlist
                 } else if (!uuid.isEmpty()) {
@@ -59,6 +60,14 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
     default:
         break;
     }
+}
+
+const QString BinPlaylist::getSequenceId(const QUuid &uuid)
+{
+    if (m_sequenceClips.contains(uuid)) {
+        return m_sequenceClips.value(uuid);
+    }
+    return QString();
 }
 
 void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)
