@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-14 13:23+0400\n"
+"PO-Revision-Date: 2023-01-23 22:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -3159,6 +3159,8 @@ msgstr "احفظ كومة التّأثيرات…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"تحفظ كامل كومة التأثيرات كل ملف اكس ام ال حتى يمكن استخدامها في المشاريع "
+"الأخرى."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3177,6 +3179,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"تشغل أو تعطل المنظور المنفصل في شاشة المشروع و/أو المقطع: على اليمين يعرض "
+"المقطع بالتأثير، وعلى اليمين المقطع دون التأثير. "
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3199,10 +3203,9 @@ msgid "Hide keyframes in timeline"
 msgstr "أخفِ الأطر الرئيسة في الخطّ الزمني"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "اعرض الأطر الرئيسة في الخطّ الزمني"
+msgstr "تعرض/تخفي  الأطر الرئيسة للمقطع في الخطّ الزمني"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -3863,7 +3866,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
-msgstr ""
+msgstr "تضبط مستوى صوت الخرج للمسار الصوتي (تأثر على كل المقاطع بشكل متساوي)"
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3879,6 +3882,8 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"تضبط توازن الخرج للمسار. القيمة السالبة تحرك الخرج نحو اليسار، القيمة "
+"الموجبة تحركها نحو اليمين. تأثر على كل المقاطع بشكل متساوي."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3905,7 +3910,7 @@ msgstr "ألغ الكتم المسار"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "تكتم/تلغي الكتم مسار الصوت."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3916,7 +3921,7 @@ msgstr "الوضع المفرد"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "عندما تحدد ستكتم كل مسارات الصوت الأخرى."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3928,7 +3933,7 @@ msgstr "سجّل صوت"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "تضع مسار الصوت في وضع التسجيل."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -3940,7 +3945,7 @@ msgstr "أظهر القنوات"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
-msgstr ""
+msgstr "تظهر/تخفي متحكمات الصوت في منظور مازج الصوت."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -3948,17 +3953,16 @@ msgid "Open Effect Stack"
 msgstr "افتح كومة التأثيرات"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "ملف منفصل لكل مسار صوت"
+msgstr "تفتح كومة التأثيرات لمسار الصوت."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "تفتح كومة التأثيرات لمسار الصوت الرئيس."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4112,6 +4116,8 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"ترشح محتويات سلة المشروع. انقر على رمز المُرشِح لتظهر/تخفي عرض المُرشِح. انقر "
+"على رمز السهم لتفتح قائمة إعدادات المُرشِح الممكنة."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4326,7 +4332,7 @@ msgstr "احذف المقطع"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
-msgstr ""
+msgstr "تحذف المقاطع المحددة الحالية من سلة المشروع ومن الخط الزمني."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5073,10 +5079,9 @@ msgid "Unknown"
 msgstr "مجهول"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "أضف مقطع فرعي"
+msgstr "أضف مقاطع فرعية"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -5614,6 +5619,9 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"تفتح نافذة بتشكيلات الترميز ومعاملاتها. من هنا يمكنك إنشاء أو تغيير أو حذف "
+"أو تحميل التشكيلات المستخدمة في معاينة الخط الزمني وتوليد الوكيل و التقاط "
+"فيديو أو الشاشة أو دكلنك."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6562,7 +6570,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
-msgstr ""
+msgstr "تحرك رأس التشغيل في الخط الزمني إلى بداية الترجمة في اتجاه اليمين."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6575,7 +6583,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
-msgstr ""
+msgstr "تحرك رأس التشغيل في الخط الزمني إلى بداية الترجمة في اتجاه اليسار."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6591,6 +6599,8 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"تنشئ ترجمة جديدة بالطول المبدئي (معينة في <interface>إعدادات ->اضبط "
+"كدينلايف…->متنوع</interface>) عند موضع رأس التشغيل الحالي/الإطار."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6604,6 +6614,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"تقص نص الترجمة عند موضع المؤشر وتنشئ ترجمة جديدة في جهة اليمين (مشابه لقص "
+"مقطع)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6614,7 +6626,7 @@ msgstr "حدّث نص الترجمة"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "تحدث عرض الترجمة في الخط الزمني."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6628,6 +6640,7 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"تعرض/تخفي قائمة لضبط الخط والحجم واللون ونمط الحد والظل والموضع والخلفية."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6640,7 +6653,7 @@ msgstr "احذف الترجمة"
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
-msgstr ""
+msgstr "تحذف الترجمات المحددة الحالية (لا يعمل مع الترجمات المتعددة)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6792,32 +6805,31 @@ msgstr "لا يمكن نقل الإطار الرئيس المصدر الأول �
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "تدرج إطار رئيس عند الموضع الحالي لرأس التشغيل/الإطار."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "تحرك رأس التشغيل إلى الإطار الرئيس التالي من جهة اليمين."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "تحرك رأس التشغيل إلى الإطار الرئيس التالي من جهة اليسار."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "انقل الإطار الرئيس إلى المؤشّر"
+msgstr "تحرك الإطار الرئيس المحدد إلى موضع رأس التشغيل الحالي/الإطار."
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "تحذف الإطار الرئيس عند الموضع الحالي  لرأس التشغيل."
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7727,6 +7739,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"تنقل التأثير للأعلى فوق مكانه الحالي. وبما أن التأثيرات تطبق بشكل متسلسل من "
+"الأعلى إلى الأسفل فالترتيب مهم للحصول على النتيجة المطلوبة."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7740,6 +7754,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"تنقل التأثير للأسفل تحت مكانه الحالي. وبما أن التأثيرات تطبق بشكل متسلسل من "
+"الأعلى إلى الأسفل فالترتيب مهم للحصول على النتيجة المطلوبة."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7750,7 +7766,7 @@ msgstr "احذف التّأثير"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "تحذف التأثير من كومة التأثيرات."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7790,7 +7806,7 @@ msgstr "فعّل التّأثير"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
-msgstr ""
+msgstr "تمكن التأثير. مفيدة للمقارنة قبل وبعد التأثير."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7800,34 +7816,34 @@ msgstr "أنشئ مجموعة"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:129
 #, kde-format
 msgid "In:"
-msgstr "في:"
+msgstr "البداية:"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:135
 #, kde-format
 msgid "Set zone in"
-msgstr "عيين التكبير"
+msgstr "عيّن بداية المنطقة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:136
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
-msgstr ""
+msgstr "تضع الإطار الحالي/موضع رأس التشغيل كبداية المنطقة."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Out:"
-msgstr "خارج:"
+msgstr "النهاية:"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:147
 #, kde-format
 msgid "Set zone out"
-msgstr "عيين التصغير"
+msgstr "عيّن نهاية المنطقة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:148
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
-msgstr ""
+msgstr "تضع الإطار الحالي/موضع رأس التشغيل كنهاية المنطقة."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -7846,7 +7862,7 @@ msgstr "مسبقات الضّبط"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
-msgstr ""
+msgstr "تفتح قائمة بالخيارات المتقدمة لإدارة مسبقات ضبط للتأثير."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -8769,33 +8785,29 @@ msgid ""
 msgstr "حل كامل وعبر المنصات لتسجيل الصوت والفيديو وتحويله ودفقه."
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "اختر اسم ملفّ ضبط مخصّص"
+msgstr "عيّن اسم ملفّ ضبط مخصّص."
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "اضبط مسار بيئة MLT"
+msgstr "اضبط مسار بيئة MLT."
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
-msgstr ""
+msgstr "عيّن مستوى سجل MTL. اترك هذا الخيار غير معين لمستوى \"التحذيرات\"."
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "قائمة مفصولة بفواصل للمقاطع التي ستُضاف"
+msgstr "قائمة ملفات مفصولة بفواصل لإضافتها كمقاطع إلى السلة."
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "المستند الذي سيُفتح"
+msgstr "مستند كدينلايف لفتحه"
 
 #: src/main.cpp:208
 #, kde-format
@@ -8917,10 +8929,9 @@ msgid "Audio Mixer"
 msgstr "مازج الصوت"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "حساب سعة الصوت."
+msgstr "تظهر/تخفي لوحة مازج الصوت."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -8948,6 +8959,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"انقر لعرض قائمة التأثيرات المفضلة. انقر نقر مزدوج على تأثير لإضافته للمقطع "
+"المحدد."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -9095,7 +9108,7 @@ msgstr "استخدم منطقة الخط الزمني للإدراج"
 #, kde-format
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
-msgstr ""
+msgstr "تبدل بين استخدام منطقة الخط الزمني للإدراج أو لا."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -10668,6 +10681,8 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"تعيين دقة المعاينة للشاشة المشروع/المقطع. يمكنك اختيار 1:1، 720p، 540p، "
+"360p، 270p (كلما قلت الدقة كلما كانت المعاينة أسرع)"
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -12149,6 +12164,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"تفتح نافذة التشكيلة التي يمكنك فيها أن تغير تشكيلات المشروع. لاحظ أن "
+"التشكيلة المستخدمة لفتح المشروع لا يمكن تغييرها."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -15053,6 +15070,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"عند تحديدها، النقر على الأصول في الخط الزمني تحدد ذاك الأصل (مثاله مقطع، "
+"تركيب وغيرها)."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-19 07:35+0100\n"
+"PO-Revision-Date: 2023-01-23 07:29+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -609,7 +609,7 @@ msgstr "არხების სტერეოში კოპირება"
 #: data/effects/copychannelstostereo.xml:5
 #, kde-format
 msgid "Copy one audio channel to another."
-msgstr "ერთი აუდიო არხის მეორეში კოპირება"
+msgstr "ერთი აუდიო არხის მეორეში კოპირება."
 
 #: data/effects/copychannelstostereo.xml:8
 #: data/effects/copychannelstostereo.xml:12
@@ -8642,10 +8642,9 @@ msgid "Audio Mixer"
 msgstr ""
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "აუდიოს ამპლიტუდის გამოთვლა."
+msgstr "აუდიოს მიქსერის პანელის/ვიჯეტის გადართვა."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -9481,7 +9480,7 @@ msgstr ""
 #: src/mainwindow.cpp:1819
 #, kde-format
 msgid "Add Subtitle"
-msgstr ""
+msgstr "სუბტიტრის დამატება"
 
 #: src/mainwindow.cpp:1821
 #, kde-format
