@@ -1187,7 +1187,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:clip_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
-                        m_extraPlaylists.insert({QString(prod->parent().get("kdenlive:uuid")), std::move(trac)});
+                        m_extraPlaylists.insert({uuid, std::move(trac)});
                         binProducers.insert(id, prod2);
                         continue;
                     } else {

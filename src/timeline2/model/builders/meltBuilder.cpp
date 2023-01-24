@@ -32,12 +32,11 @@ static QStringList m_errorMessage;
 static QStringList m_notesLog;
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Tractor &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
-                            const QString &originalDecimalPoint, QProgressDialog *progressDialog = nullptr);
-bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Playlist &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
-                            const QString &originalDecimalPoint, int playlist, const QList<Mlt::Transition *> &compositions,
+                            const std::unordered_map<QString, QString> binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint,
                             QProgressDialog *progressDialog = nullptr);
+bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Playlist &track,
+                            const std::unordered_map<QString, QString> binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint,
+                            int playlist, const QList<Mlt::Transition *> &compositions, QProgressDialog *progressDialog = nullptr);
 
 bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel,
                                   Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, const QString &chunks,
@@ -505,8 +504,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 }
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Tractor &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
-                            const QString &originalDecimalPoint, QProgressDialog *progressDialog)
+                            const std::unordered_map<QString, QString> binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint,
+                            QProgressDialog *progressDialog)
 {
     if (track.count() != 2) {
         // we expect a tractor with two tracks (a "fake" track)
@@ -629,8 +628,8 @@ PlaylistState::ClipState inferState(const std::shared_ptr<Mlt::Producer> &prod, 
 } // namespace
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, const QString trackTag, Mlt::Playlist &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack,
-                            const QString &originalDecimalPoint, int playlist, const QList<Mlt::Transition *> &compositions, QProgressDialog *progressDialog)
+                            const std::unordered_map<QString, QString> binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, const QString &originalDecimalPoint,
+                            int playlist, const QList<Mlt::Transition *> &compositions, QProgressDialog *progressDialog)
 {
     int max = track.count();
     for (int i = 0; i < max; i++) {
@@ -660,7 +659,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     clipId = clip->get("kdenlive:id");
                 }
                 QString resource = clip->parent().get("resource");
-                if (binIdCorresp.size() == 0) {
+                if (binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:clip_type") == ClipType::Timeline)) {
+                    // Currently "sequence" clips inserted in timeline are cuts of the bin clip, so it's kdenlive id is changed in loadBinPlaylist
                     binId = clipId;
                 } else if (binIdCorresp.count(clipId) == 0) {
                     if (clip->property_exists("kdenlive:remove")) {
