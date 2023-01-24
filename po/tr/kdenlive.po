@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-18 20:46+0300\n"
+"PO-Revision-Date: 2023-01-22 20:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -313,7 +313,7 @@ msgstr "Çizgi,Çubuk"
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr "Spektrumu gösterecek grafik türü."
+msgstr "Spektrumu görüntüleyecek grafik türü."
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
@@ -456,7 +456,7 @@ msgstr "Ses Dalgası"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr "Video yerine ses dalga biçimini göster"
+msgstr "Video yerine ses dalga biçimini görüntüle"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
@@ -3213,7 +3213,7 @@ msgstr "Efektler etkin"
 #: src/assets/assetpanel.cpp:109
 #, kde-format
 msgid "Display keyframes in timeline"
-msgstr "Zaman akışında anahtar kareleri göster"
+msgstr "Zaman akışında anahtar kareleri görüntüle"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -7284,8 +7284,8 @@ msgid ""
 "Warning: unknown non integer fps, might cause incorrect duration display."
 msgstr ""
 "\n"
-"Dikkat: bilinmeyen tamsayı olmayan fps, bu doğru olmayan süre gösterimine "
-"sebep verebilir."
+"Dikkat: Bilinmeyen tamsayı olmayan fps, bu doğru olmayan süre "
+"görüntülenmesine neden olabilir."
 
 #: src/doc/kdenlivedoc.cpp:1637
 #, kde-format
@@ -8663,7 +8663,7 @@ msgstr "Esinti Simgelerini Kullanmayı Zorla"
 #: src/mainwindow.cpp:457 src/mainwindow.cpp:458
 #, kde-format
 msgid "Audio Mixer"
-msgstr "Ses Karıştırıcısı"
+msgstr "Ses Karıştırıcı"
 
 #: src/mainwindow.cpp:496
 #, kde-format
@@ -14553,7 +14553,7 @@ msgid ""
 "making them portable, but you could have to adjust their size."
 msgstr ""
 "Bazı metin klipleriniz farklı ekranlarda farklı boyutlar alacak nokta "
-"ölçüsüyle saklandı. Bunlar taşınabilirlik için piksel ölçüsüne çevrilecek, "
+"ölçüsüyle saklandı. Bunlar taşınabilirlik için piksel ölçüsüne çevrilecek; "
 "ancak boyutlarını ayarlamanız gerekebilir."
 
 #: src/titler/titledocument.cpp:477
@@ -19051,41 +19051,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid ""
-#~ "The MediaInfo application is required for the recording timecode feature, "
-#~ "please install it and re-enable the feature in Kdenlive"
-#~ msgstr ""
-#~ "Zaman kodu özelliğini kaydetmek için MediaInfo uygulaması gerekiyor; "
-#~ "lütfen onu kurun ve özelliği Kdenlive'de etkinleştirin"
-
-#~ msgid "Please set a path for the Glaxnimate application"
-#~ msgstr "Glaxnimate uygulaması için bir yol ayarlayın"
-
-#~ msgid "Duplicate selected keyframe"
-#~ msgstr "Seçili anahtar kareyi yinele"
-
-#~ msgid "Copy Value at Cursor Position to Clipboard"
-#~ msgstr "İmleç Konumundaki Değeri Panoya Kopyala"
-
-#~ msgid "Colors"
-#~ msgstr "Renkler"
-
-#~ msgid "Add marker…"
-#~ msgstr "İmleyici ekle…"
-
-#~ msgid "Edit marker…"
-#~ msgstr "İmleyiciyi düzenle…"
-
-#~ msgid "Export markers…"
-#~ msgstr "İmleyicileri dışa aktar…"
-
-#~ msgid "Import markers…"
-#~ msgstr "İmleyicileri içe aktar…"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Clip Markers"
-#~ msgstr "Klip İmleyicileri Kaydet"
-
-#~ msgid "An error occurred while parsing the marker file"
-#~ msgstr "İmleyici dosyası ayrıştırılırken bir hata oluştu"

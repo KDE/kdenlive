@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-18 09:15+0100\n"
+"PO-Revision-Date: 2023-01-22 14:56+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5593,7 +5593,7 @@ msgstr ""
 "comprovar:\n"
 "1. L'hora d'inici de les 00:00 ha de tindre un capítol.\n"
 "2. Hi ha d'haver com a mínim tres codis de temps en ordre ascendent.\n"
-"3. La llargària mínima dels capítols de vídeo és de 10 segons."
+"3. La duració mínima dels capítols de vídeo és de 10 segons."
 
 #: src/dialogs/exportguidesdialog.cpp:52
 #, kde-format
@@ -7740,7 +7740,7 @@ msgstr "Miniatures d'àudio: no s'ha pogut obrir el fitxer %1"
 #: src/jobs/audiolevelstask.cpp:82
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
-msgstr "Miniatures d'àudio: llargària de fitxer desconeguda per a %1"
+msgstr "Miniatures d'àudio: duració de fitxer desconeguda per a %1"
 
 #: src/jobs/cliploadtask.cpp:123
 #, kde-format
@@ -18387,7 +18387,7 @@ msgstr "Afig marcadors de clip:"
 #: src/ui/scenecutdialog_ui.ui:37
 #, kde-format
 msgid "Minimum scene length:"
-msgstr "Llargària mínima de l'escena:"
+msgstr "Duració mínima de l'escena:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, minDuration)
 #: src/ui/scenecutdialog_ui.ui:67

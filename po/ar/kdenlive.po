@@ -2,13 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, ٢٠١٥, 2017.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022.
+# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2022-12-22 08:59+0400\n"
+"PO-Revision-Date: 2023-01-23 22:21+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -4977,10 +4977,9 @@ msgid "Unknown"
 msgstr "مجهول"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
-msgstr "أضف مقطع فرعي"
+msgstr "أضف مقاطع فرعية"
 
 #: src/bin/projectitemmodel.cpp:658
 #, kde-format
@@ -7574,22 +7573,22 @@ msgstr "أنشئ مجموعة"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:125
 #, kde-format
 msgid "In:"
-msgstr "في:"
+msgstr "البداية:"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:131
 #, kde-format
 msgid "Set zone in"
-msgstr "عيين التكبير"
+msgstr "عيّن بداية المنطقة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:136
 #, kde-format
 msgid "Out:"
-msgstr "خارج:"
+msgstr "النهاية:"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:142
 #, kde-format
 msgid "Set zone out"
-msgstr "عيين التصغير"
+msgstr "عيّن نهاية المنطقة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:164
 #, kde-format
