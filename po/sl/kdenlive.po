@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-23 12:26+0100\n"
+"PO-Revision-Date: 2023-01-24 10:20+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6772,7 +6772,7 @@ msgstr "Ekstrakcija zvoka ni uspela."
 #: src/dialogs/textbasededit.cpp:841 src/dialogs/textbasededit.cpp:868
 #, kde-format
 msgid "Starting speech recognition on %1."
-msgstr "Začenjam razpoznavanje govora na %1."
+msgstr "Začenja se razpoznavanje govora na %1."
 
 #: src/dialogs/textbasededit.cpp:890
 #, kde-format
@@ -12754,7 +12754,7 @@ msgstr "Odpri datoteko varnostne kopije …"
 #: src/project/projectmanager.cpp:307
 #, kde-format
 msgid "Save changes to document?"
-msgstr "Shranim spremembe v dokument?"
+msgstr "Ali želite shraniti spremembe v dokument?"
 
 #: src/project/projectmanager.cpp:309 src/project/projectmanager.cpp:1139
 #, kde-format
