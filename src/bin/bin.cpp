@@ -3488,13 +3488,14 @@ void Bin::slotCreateProjectClip()
         Ui::NewTimeline_UI dia_ui;
         dia_ui.setupUi(dia.data());
         dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
+        int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+        dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
         dia_ui.video_tracks->setValue(2);
         dia_ui.audio_tracks->setValue(2);
         if (dia->exec() == QDialog::Accepted) {
-            int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
             int vTracks = dia_ui.video_tracks->value();
             int aTracks = dia_ui.audio_tracks->value();
-            ClipCreationDialog::createPlaylistClip(i18n("Sequence %1", timelinesCount), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
+            ClipCreationDialog::createPlaylistClip(dia_ui.sequence_name->text(), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
         }
         break;
     }
