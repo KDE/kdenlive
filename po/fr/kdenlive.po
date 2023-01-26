@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-20 18:54+0100\n"
+"PO-Revision-Date: 2023-01-24 19:39+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -3973,7 +3973,7 @@ msgstr "Rétablir le son de la piste"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Mettre en pause ou non la piste audio."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3985,6 +3985,8 @@ msgstr "Mode solo"
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
+"Lorsque cette option est sélectionnée, met en pause toutes les autres pistes "
+"audio."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3996,7 +3998,7 @@ msgstr "Enregistrer le son"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Met la piste audio en mode d'enregistrement."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -4026,7 +4028,7 @@ msgstr "Fichier séparé pour chaque piste audio"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Ouvre la pile d'effets à partir de piste audio principale."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -6873,6 +6875,7 @@ msgstr ""
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr ""
+"Déplace l'en-tête de lecture vers la prochaine trame clé vers la gauche."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
 #, fuzzy, kde-kuit-format
@@ -7831,7 +7834,7 @@ msgstr "Supprimer l'effet"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Supprime l'effet à partir de la pile d'effets."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
