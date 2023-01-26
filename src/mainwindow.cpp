@@ -4648,6 +4648,8 @@ void MainWindow::connectTimeline()
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
     emit m_timelineTabs->changeZoom(m_zoomSlider->value(), false);
+    // switch to active subtitle model
+    pCore->subtitleWidget()->setModel(getCurrentTimeline()->model()->getSubtitleModel());
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
