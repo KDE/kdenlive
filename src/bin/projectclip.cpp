@@ -70,7 +70,7 @@ RTTR_REGISTRATION
 }
 #endif
 
-ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
+ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> &producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id, producer)
     , isReloading(false)
@@ -83,9 +83,9 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     m_markerFilterModel->setSourceModel(m_markerModel.get());
     m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
     m_markerFilterModel->sort(0, Qt::AscendingOrder);
-    if (producer->get_int("_placeholder") == 1) {
+    if (m_masterProducer->get_int("_placeholder") == 1) {
         m_clipStatus = FileStatus::StatusMissing;
-    } else if (producer->get_int("_missingsource") == 1) {
+    } else if (m_masterProducer->get_int("_missingsource") == 1) {
         m_clipStatus = FileStatus::StatusProxyOnly;
     } else if (m_usesProxy) {
         m_clipStatus = FileStatus::StatusProxy;
@@ -132,7 +132,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
 
 // static
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model,
-                                                    const std::shared_ptr<Mlt::Producer> &producer)
+                                                    std::shared_ptr<Mlt::Producer> &producer)
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);

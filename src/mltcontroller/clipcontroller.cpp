@@ -30,7 +30,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_producerLock(QReadWriteLock::Recursive)
-    , m_masterProducer(producer)
+    , m_masterProducer(std::move(producer))
     , m_properties(producer ? new Mlt::Properties(producer->get_properties()) : nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)

@@ -136,7 +136,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             if (track->get_int("kdenlive:locked_track") > 0) {
                 lockedTracksIndexes << tid;
             }
-            Mlt::Tractor local_tractor(*track);
+            Mlt::Tractor local_tractor(*track.get());
             const QString trackTag = audioTrack ? QStringLiteral("A%1").arg(aTracksCount - aTracks) : QStringLiteral("V%1").arg(vTracks);
             ok = ok &&
                  constructTrackFromMelt(timeline, tid, trackTag, local_tractor, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
@@ -258,6 +258,10 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog,
                                const QString &originalDecimalPoint, const QString &chunks, const QString &dirty, int enablePreview, bool *projectErrors)
 {
+    if (tractor.count() == 0) {
+        // Trying to load invalid tractor, abort
+        return false;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // First, we destruct the previous tracks

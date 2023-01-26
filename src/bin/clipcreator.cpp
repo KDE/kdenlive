@@ -82,28 +82,30 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
                                         const std::shared_ptr<ProjectItemModel> &model)
 {
     const QUuid uuid = QUuid::createUuid();
-    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(pCore->getCurrentProfile()->profile()));
-    timeline->lock();
+    Mlt::Tractor timeline(*pCore->getProjectProfile());
+    timeline.lock();
     // Audio tracks
     for (int ix = 0; ix < tracks.first; ix++) {
-        Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
-        timeline->insert_track(pl, ix);
-        timeline->track(ix)->set("kdenlive:audio_track", 1);
-        timeline->track(ix)->set("kdenlive:timeline_active", 1);
+        Mlt::Playlist pl(*pCore->getProjectProfile());
+        timeline.insert_track(pl, ix);
+        timeline.track(ix)->set("kdenlive:audio_track", 1);
+        timeline.track(ix)->set("kdenlive:timeline_active", 1);
     }
     // Video tracks
     for (int ix = tracks.first; ix < (tracks.first + tracks.second); ix++) {
-        Mlt::Playlist pl(pCore->getCurrentProfile()->profile());
-        timeline->insert_track(pl, ix);
-        timeline->track(ix)->set("kdenlive:timeline_active", 1);
+        Mlt::Playlist pl(*pCore->getProjectProfile());
+        timeline.insert_track(pl, ix);
+        timeline.track(ix)->set("kdenlive:timeline_active", 1);
     }
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
+    timeline.unlock();
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline.get_producer()));
     prod->set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", name.toUtf8().constData());
     prod->set("kdenlive:duration", 1);
     prod->set("kdenlive:clip_type", ClipType::Timeline);
-
+    Mlt::Service s2(*prod.get());
+    Mlt::Tractor tractor(s2);
     QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -122,7 +124,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     if (!res) {
         folderId = parentFolder;
     }
-    res = model->requestAddBinClip(id, std::move(prod), folderId, undo, redo);
+    res = model->requestAddBinClip(id, prod, folderId, undo, redo);
     if (res) {
         // Open playlist timeline
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;

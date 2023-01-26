@@ -594,6 +594,7 @@ void ProjectItemModel::clean()
     m_nextId = 1;
     m_uuid = QUuid::createUuid();
     m_fileWatcher->clear();
+    m_extraPlaylists.clear();
     ThumbnailCache::get()->clearCache();
 }
 
@@ -838,7 +839,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -1211,18 +1212,19 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 binProducers.insert(id, producer);
             }
             // Do the real insertion
-            QMapIterator<int, std::shared_ptr<Mlt::Producer>> i(binProducers);
-            while (i.hasNext()) {
-                i.next();
+            QList<int> binIds = binProducers.keys();
+            while (!binProducers.isEmpty()) {
+                int bid = binIds.takeFirst();
+                std::shared_ptr<Mlt::Producer> prod = binProducers.take(bid);
                 QString newId = QString::number(getFreeClipId());
-                QString parentId = qstrdup(i.value()->get("kdenlive:folderid"));
+                QString parentId = qstrdup(prod->get("kdenlive:folderid"));
                 if (parentId.isEmpty()) {
                     parentId = QStringLiteral("-1");
                 }
-                i.value()->set("_kdenlive_processed", 1);
-                requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
+                prod->set("_kdenlive_processed", 1);
+                requestAddBinClip(newId, prod, parentId, undo, redo);
                 qApp->processEvents();
-                binIdCorresp[QString::number(i.key())] = newId;
+                binIdCorresp[QString::number(bid)] = newId;
             }
         }
     } else {
