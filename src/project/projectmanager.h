@@ -102,9 +102,13 @@ public:
     /** @brief Retrieve the current timeline (mostly used for testing.
      */
     std::shared_ptr<TimelineItemModel> getTimeline();
-    /** @brief Open a timeline clip in a tab.
+    /** @brief Initialize a new timeline's default properties.
      */
-    void openTimeline(const QString &id, const QUuid &uuid);
+    void initSequenceProperties(const QUuid &uuid, std::pair<int, int> tracks);
+    /** @brief Open a timeline clip in a tab.
+     *  @returns true if the timeline was not previously opened
+     */
+    bool openTimeline(const QString &id, const QUuid &uuid);
     /** @brief Set a property on timeline uuid
      */
     void setTimelinePropery(QUuid uuid, const QString &prop, const QString &val);

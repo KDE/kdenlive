@@ -338,8 +338,6 @@ void KdenliveDoc::initializeProperties(bool newDocument)
     // init default document properties
     m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
-    m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
-    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("-1");
     m_documentProperties[QStringLiteral("enableproxy")] = QString::number(int(KdenliveSettings::enableproxy()));
     m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
@@ -568,34 +566,34 @@ void KdenliveDoc::slotAutoSave(const QString &scene)
     }
 }
 
-void KdenliveDoc::setZoom(int horizontal, int vertical)
+void KdenliveDoc::setZoom(const QUuid &uuid, int horizontal, int vertical)
 {
-    m_documentProperties[QStringLiteral("zoom")] = QString::number(horizontal);
+    setSequenceProperty(uuid, QStringLiteral("zoom"), QString::number(horizontal));
     if (vertical > -1) {
-        m_documentProperties[QStringLiteral("verticalzoom")] = QString::number(vertical);
+        setSequenceProperty(uuid, QStringLiteral("verticalzoom"), QString::number(vertical));
     }
 }
 
-QPoint KdenliveDoc::zoom() const
+QPoint KdenliveDoc::zoom(const QUuid &uuid) const
 {
-    return QPoint(m_documentProperties.value(QStringLiteral("zoom"), QStringLiteral("8")).toInt(),
-                  m_documentProperties.value(QStringLiteral("verticalzoom")).toInt());
+    return QPoint(getSequenceProperty(uuid, QStringLiteral("zoom"), QStringLiteral("8")).toInt(),
+                  getSequenceProperty(uuid, QStringLiteral("verticalzoom")).toInt());
 }
 
-void KdenliveDoc::setZone(int start, int end)
+void KdenliveDoc::setZone(const QUuid &uuid, int start, int end)
 {
-    m_documentProperties[QStringLiteral("zonein")] = QString::number(start);
-    m_documentProperties[QStringLiteral("zoneout")] = QString::number(end);
+    setSequenceProperty(uuid, QStringLiteral("zonein"), QString::number(start));
+    setSequenceProperty(uuid, QStringLiteral("zoneout"), QString::number(end));
 }
 
-QPoint KdenliveDoc::zone() const
+QPoint KdenliveDoc::zone(const QUuid &uuid) const
 {
-    return QPoint(m_documentProperties.value(QStringLiteral("zonein")).toInt(), m_documentProperties.value(QStringLiteral("zoneout")).toInt());
+    return QPoint(getSequenceProperty(uuid, QStringLiteral("zonein")).toInt(), getSequenceProperty(uuid, QStringLiteral("zoneout")).toInt());
 }
 
-QPair<int, int> KdenliveDoc::targetTracks() const
+QPair<int, int> KdenliveDoc::targetTracks(const QUuid &uuid) const
 {
-    return {m_documentProperties.value(QStringLiteral("videoTarget")).toInt(), m_documentProperties.value(QStringLiteral("audioTarget")).toInt()};
+    return {getSequenceProperty(uuid, QStringLiteral("videoTarget")).toInt(), getSequenceProperty(uuid, QStringLiteral("audioTarget")).toInt()};
 }
 
 QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
@@ -1067,6 +1065,32 @@ void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 const QString KdenliveDoc::getDocumentProperty(const QString &name, const QString &defaultValue) const
 {
     return m_documentProperties.value(name, defaultValue);
+}
+
+void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value)
+{
+    if (uuid == m_uuid) {
+        if (value.isEmpty()) {
+            m_documentProperties.remove(name);
+            return;
+        }
+        m_documentProperties[name] = value;
+    } else {
+        const QString seqName = QString("%1:%2").arg(uuid.toString(), name);
+        if (value.isEmpty()) {
+            m_documentProperties.remove(seqName);
+            return;
+        }
+        m_documentProperties[seqName] = value;
+    }
+}
+
+const QString KdenliveDoc::getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue) const
+{
+    if (uuid == m_uuid) {
+        return m_documentProperties.value(name, defaultValue);
+    }
+    return m_documentProperties.value(QString("%1:%2").arg(uuid.toString(), name), defaultValue);
 }
 
 QMap<QString, QString> KdenliveDoc::getRenderProperties() const
@@ -1903,7 +1927,7 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
     case CachePreview:
         basePath.append(QStringLiteral("/preview"));
         if (uuid != m_uuid) {
-            basePath.append(QStringLiteral("/%1").arg(uuid.toString()));
+            basePath.append(QStringLiteral("/%1").arg(QString(QCryptographicHash::hash(uuid.toByteArray(), QCryptographicHash::Md5).toHex())));
         }
         break;
     case CacheProxy:
@@ -1921,7 +1945,10 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
     }
     QDir dir(basePath);
     if (!dir.exists()) {
-        *ok = false;
+        dir.mkpath(QStringLiteral("."));
+        if (!dir.exists()) {
+            *ok = false;
+        }
     }
     return dir;
 }

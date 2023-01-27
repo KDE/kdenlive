@@ -2565,25 +2565,31 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
 QMap<QString, QString> TimelineController::documentProperties()
 {
     QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
+    QString prefix;
+    if (pCore->currentDoc()->uuid() != m_model->uuid()) {
+        // Secondary timeline, prefix with uuid
+        prefix = m_model->uuid().toString();
+        prefix.append(QLatin1Char(':'));
+    }
     int audioTarget = m_model->m_audioTarget.isEmpty() ? -1 : m_model->getTrackPosition(m_model->m_audioTarget.firstKey());
     int videoTarget = m_model->m_videoTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_videoTarget);
     int activeTrack = m_activeTrack < 0 ? m_activeTrack : m_model->getTrackPosition(m_activeTrack);
-    props.insert(QStringLiteral("audioTarget"), QString::number(audioTarget));
-    props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
-    props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
-    props.insert(QStringLiteral("position"), QString::number(pCore->getMonitorPosition()));
+    props.insert(prefix + QStringLiteral("audioTarget"), QString::number(audioTarget));
+    props.insert(prefix + QStringLiteral("videoTarget"), QString::number(videoTarget));
+    props.insert(prefix + QStringLiteral("activeTrack"), QString::number(activeTrack));
+    props.insert(prefix + QStringLiteral("position"), QString::number(pCore->getMonitorPosition()));
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
-    props.insert(QStringLiteral("scrollPos"), QString::number(scrollPos));
-    props.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
-    props.insert(QStringLiteral("zoneout"), QString::number(m_zone.y()));
+    props.insert(prefix + QStringLiteral("scrollPos"), QString::number(scrollPos));
+    props.insert(prefix + QStringLiteral("zonein"), QString::number(m_zone.x()));
+    props.insert(prefix + QStringLiteral("zoneout"), QString::number(m_zone.y()));
     if (m_model->hasTimelinePreview()) {
         QPair<QStringList, QStringList> chunks = m_model->previewManager()->previewChunks();
-        props.insert(QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
-        props.insert(QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
+        props.insert(prefix + QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
+        props.insert(prefix + QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
     }
-    props.insert(QStringLiteral("disablepreview"), QString::number(m_disablePreview->isChecked()));
+    props.insert(prefix + QStringLiteral("disablepreview"), QString::number(m_disablePreview->isChecked()));
     return props;
 }
 

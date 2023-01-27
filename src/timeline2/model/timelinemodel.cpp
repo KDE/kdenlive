@@ -136,7 +136,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     m_guidesModel->loadCategories(KdenliveSettings::guidesCategories());
 
     // Create black background track
-    m_blackClip->set("id", "black_track");
+    m_blackClip->set("kdenlive:playlistid", "black_track");
     m_blackClip->set("mlt_type", "producer");
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("length", INT_MAX);

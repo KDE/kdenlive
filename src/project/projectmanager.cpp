@@ -296,7 +296,7 @@ void ProjectManager::activateDocument(const QUuid &uuid)
     pCore->window()->connectDocument();*/
     pCore->window()->raiseTimeline(uuid);
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
-    pCore->window()->slotSetZoom(m_project->zoom().x());
+    pCore->window()->slotSetZoom(m_project->zoom(uuid).x());
     // emit pCore->monitorManager()->updatePreviewScaling();
     // pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
 }
@@ -1434,14 +1434,24 @@ void ProjectManager::addAudioTracks(int tracksCount)
     pCore->window()->getCurrentTimeline()->controller()->addTracks(0, tracksCount);
 }
 
-void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
+void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, int> tracks)
+{
+    // Initialize default timeline properties
+    m_project->setSequenceProperty(uuid, QStringLiteral("zoom"), QStringLiteral("8"));
+    m_project->setSequenceProperty(uuid, QStringLiteral("verticalzoom"), QStringLiteral("1"));
+    m_project->setSequenceProperty(uuid, QStringLiteral("zonein"), QStringLiteral("0"));
+    m_project->setSequenceProperty(uuid, QStringLiteral("zoneout"), QStringLiteral("75"));
+    const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
+    m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(activeTrack));
+}
+
+bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
 {
     if (pCore->window()->raiseTimeline(uuid)) {
-        return;
+        return false;
     }
     // Disable autosave while creating timelines
     m_autoSaveTimer.stop();
-
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
     std::unique_ptr<Mlt::Producer> xmlProd = nullptr;
     // Check if a tractor for this playlist already exists in the main timeline
@@ -1491,7 +1501,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
     if (xmlProd == nullptr || !xmlProd->is_valid()) {
         pCore->displayBinMessage(i18n("Cannot create a timeline from this clip:\n%1", clip->url()), KMessageWidget::Information);
         m_autoSaveTimer.start();
-        return;
+        return false;
     }
     // m_uuidMap.insert(uuid, m_project->uuid);
 
@@ -1509,8 +1519,10 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
     // QDomDocument doc = m_project->createEmptyDocument(2, 2);
     if (internalLoad) {
         qDebug() << "QQQQQQQQQQQQQQQQQQQQ\nINTERNAL SEQUENCE LOAD\n\nQQQQQQQQQQQQQQQQQQQQQQ";
-        qDebug() << "============= LOADING INTERNAL PLAYLIST: " << timeline->getUuid();
-        if (!constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint())) {
+        qDebug() << "============= LOADING INTERNAL PLAYLIST: " << uuid;
+        const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
+        const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
+        if (!constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             qDebug() << "===== LOADING PROJECT INTERNAL ERROR";
         }
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
@@ -1519,7 +1531,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("length", timelineModel->duration());
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
-        prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
+        prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->set("kdenlive:clip_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
             QMap<QString, QString> properties;
@@ -1528,6 +1540,9 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             clip->setProperties(properties, true);
         });
         clip->setProducer(prod);
+        if (pCore->bin()) {
+            pCore->bin()->registerSequence(uuid, id);
+        }
     } else {
         qDebug() << "GOT XML SERV: " << xmlProd->type() << " = " << xmlProd->parent().type();
         // Mlt::Service s(xmlProd->producer()->get_service());
@@ -1536,15 +1551,16 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             tractor.reset(new Mlt::Tractor(*xmlProd.get()));
         } else if (xmlProd->type() == mlt_service_producer_type) {
             tractor.reset(new Mlt::Tractor((mlt_tractor)xmlProd->get_producer()));
-            tractor->set("id", timelineModel->uuid().toString().toUtf8().constData());
+            tractor->set("id", uuid.toString().toUtf8().constData());
         }
-
-        if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint())) {
+        const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
+        const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
+        if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             // TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
             delete timeline;
             m_autoSaveTimer.start();
-            return;
+            return false;
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timeline->tractor()->count() << "\nZZZZZZZZZZZZ";
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timeline->tractor());
@@ -1554,10 +1570,13 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("kdenlive:clip_type", ClipType::Timeline);
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
-        prod->set("kdenlive:uuid", timelineModel->uuid().toString().toUtf8().constData());
+        prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         clip->setProducer(prod);
-        QString retain = QStringLiteral("xml_retain %1").arg(timelineModel->uuid().toString());
+        QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
         m_activeTimelineModel->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
+        if (pCore->bin()) {
+            pCore->bin()->registerSequence(uuid, id);
+        }
 
         /*} else if (xmlProd->type() == mlt_service_producer_type) {
 
@@ -1619,7 +1638,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         }*/
         //}
     }
-    int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+    int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (activeTrackPosition == -2) {
         // Subtitle model track always has ID == -2
         timeline->controller()->setActiveTrack(-2);
@@ -1640,6 +1659,7 @@ void ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
     }*/
     m_autoSaveTimer.start();
     pCore->window()->raiseTimeline(timeline->getUuid());
+    return true;
 }
 
 void ProjectManager::setTimelinePropery(QUuid uuid, const QString &prop, const QString &val)

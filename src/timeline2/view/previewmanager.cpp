@@ -18,6 +18,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QCollator>
+#include <QCryptographicHash>
 #include <QMutexLocker>
 #include <QSaveFile>
 #include <QStandardPaths>
@@ -85,17 +86,23 @@ bool PreviewManager::initialize()
         return false;
     }
     m_cacheDir = doc->getCacheDir(CachePreview, &ok, m_uuid);
-    if (ok && !m_cacheDir.exists()) {
-        m_cacheDir.mkpath(QStringLiteral("."));
-    }
-    if (!m_cacheDir.exists() || !ok) {
+    qDebug() << ":: GOT CACHE DIR: " << m_cacheDir.absolutePath();
+    if (!ok || !m_cacheDir.exists()) {
         pCore->displayMessage(i18n("Cannot read folder %1", m_cacheDir.absolutePath()), ErrorMessage);
         return false;
     }
-    if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() ||
-        (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
-        pCore->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
-        return false;
+    if (m_uuid == doc->uuid()) {
+        if (m_cacheDir.dirName() != QLatin1String("preview") || m_cacheDir == QDir() ||
+            (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
+            pCore->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
+            return false;
+        }
+    } else {
+        if (m_cacheDir.dirName().toLatin1() != QCryptographicHash::hash(m_uuid.toByteArray(), QCryptographicHash::Md5).toHex() || m_cacheDir == QDir() ||
+            (!m_cacheDir.exists(QStringLiteral("undo")) && !m_cacheDir.mkdir(QStringLiteral("undo"))) || !m_cacheDir.absolutePath().contains(documentId)) {
+            pCore->displayMessage(i18n("Something is wrong with cache folder %1", m_cacheDir.absolutePath()), ErrorMessage);
+            return false;
+        }
     }
     if (!loadParams()) {
         pCore->displayMessage(i18n("Invalid timeline preview parameters"), ErrorMessage);
@@ -128,7 +135,7 @@ bool PreviewManager::buildPreviewTrack()
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
     m_previewTrack = new Mlt::Playlist(pCore->getCurrentProfile()->profile());
-    m_previewTrack->set("id", "timeline_preview");
+    m_previewTrack->set("kdenlive:playlistid", "timeline_preview");
     m_tractor->lock();
     reconnectTrack();
     m_tractor->unlock();
@@ -215,14 +222,14 @@ void PreviewManager::reconnectTrack()
         m_tractor->insert_track(*m_previewTrack, m_previewTrackIndex);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex));
         tk->set("hide", 2);
-        // tk->set("id", "timeline_preview");
+        // tk->set("kdenlive:playlistid", "timeline_preview");
         increment++;
     }
     if (m_overlayTrack) {
         m_tractor->insert_track(*m_overlayTrack, m_previewTrackIndex + increment);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex + increment));
         tk->set("hide", 2);
-        // tk->set("id", "timeline_overlay");
+        // tk->set("kdenlive:playlistid", "timeline_overlay");
     }
 }
 
@@ -230,14 +237,14 @@ void PreviewManager::disconnectTrack()
 {
     if (m_previewTrackIndex > -1) {
         Mlt::Producer *prod = m_tractor->track(m_previewTrackIndex);
-        if (strcmp(prod->get("id"), "timeline_preview") == 0 || strcmp(prod->get("id"), "timeline_overlay") == 0) {
+        if (strcmp(prod->get("kdenlive:playlistid"), "timeline_preview") == 0 || strcmp(prod->get("kdenlive:playlistid"), "timeline_overlay") == 0) {
             m_tractor->remove_track(m_previewTrackIndex);
         }
         delete prod;
         if (m_tractor->count() == m_previewTrackIndex + 1) {
             // overlay track still here, remove
             Mlt::Producer *trkprod = m_tractor->track(m_previewTrackIndex);
-            if (strcmp(trkprod->get("id"), "timeline_overlay") == 0) {
+            if (strcmp(trkprod->get("kdenlive:playlistid"), "timeline_overlay") == 0) {
                 m_tractor->remove_track(m_previewTrackIndex);
             }
             delete trkprod;
@@ -821,7 +828,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
 int PreviewManager::setOverlayTrack(Mlt::Playlist *overlay)
 {
     m_overlayTrack = overlay;
-    m_overlayTrack->set("id", "timeline_overlay");
+    m_overlayTrack->set("kdenlive:playlistid", "timeline_overlay");
     reconnectTrack();
     return m_previewTrackIndex;
 }

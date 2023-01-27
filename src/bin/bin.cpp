@@ -2888,7 +2888,9 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             if (clip) {
                 if (clip->clipType() == ClipType::Timeline) {
                     const QUuid uuid(clip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
-                    pCore->projectManager()->openTimeline(clip->binId(), uuid);
+                    if (pCore->projectManager()->openTimeline(clip->binId(), uuid)) {
+                        pCore->setDocumentModified();
+                    }
                 } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);
@@ -4725,11 +4727,6 @@ void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unused
             *usedSize += clip->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
         }
     }
-}
-
-QDir Bin::getCacheDir(CacheType type, bool *ok) const
-{
-    return m_doc->getCacheDir(type, ok);
 }
 
 void Bin::rebuildProxies()

@@ -316,8 +316,6 @@ public:
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */
     QDockWidget *clipPropertiesDock();
-    /** @brief Returns a document's cache dir. ok is set to false if folder does not exist */
-    QDir getCacheDir(CacheType type, bool *ok) const;
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();

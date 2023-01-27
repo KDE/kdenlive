@@ -128,6 +128,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     if (res) {
         // Open playlist timeline
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
+        pCore->projectManager()->initSequenceProperties(uuid, tracks);
         pCore->projectManager()->openTimeline(id, uuid);
     }
     pCore->pushUndo(undo, redo, i18n("Create sequence"));

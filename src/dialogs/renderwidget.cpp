@@ -857,7 +857,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QStrin
         auto prods = doc.elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < prods.count(); ++i) {
             auto prod = prods.at(i).toElement();
-            if (prod.attribute(QStringLiteral("id")) == QStringLiteral("black_track")) {
+            if (Xml::getXmlProperty(prod, QStringLiteral("kdenlive:playlistid")) == QStringLiteral("black_track")) {
                 Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
                 break;
             }

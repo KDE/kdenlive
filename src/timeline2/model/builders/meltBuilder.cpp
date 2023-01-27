@@ -80,9 +80,14 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     int aTracksCount = 1;
     // Black track index
     videoTracksIndexes << 0;
+    QString playlist_name;
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
-        QString playlist_name = track->get("id");
+        if (track->property_exists("kdenlive:playlistid")) {
+            playlist_name = track->get("kdenlive:playlistid");
+        } else {
+            playlist_name = track->get("id");
+        }
         if (reserved_names.contains(playlist_name)) {
             continue;
         }
@@ -109,7 +114,11 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     qDebug() << "=== OPENING FILE WITH TRACKS: " << tractor.count();
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
-        QString playlist_name = track->get("id");
+        if (track->property_exists("kdenlive:playlistid")) {
+            playlist_name = track->get("kdenlive:playlistid");
+        } else {
+            playlist_name = track->get("id");
+        }
         if (reserved_names.contains(playlist_name)) {
             if (playlist_name == QLatin1String("timeline_preview")) {
                 Mlt::Playlist local_playlist(*track);
@@ -301,9 +310,14 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     int vTracks = 0;
     int aTracks = 0;
     int aTracksCount = 1;
+    QString playlist_name;
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
-        QString playlist_name = track->get("id");
+        if (track->property_exists("kdenlive:playlistid")) {
+            playlist_name = track->get("kdenlive:playlistid");
+        } else {
+            playlist_name = track->get("id");
+        }
         if (reserved_names.contains(playlist_name)) {
             continue;
         }
@@ -327,10 +341,15 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             break;
         }
     }
+
     for (int i = 0; i < tractor.count() && ok; i++) {
         qDebug() << "::: PROCESSING TK " << i;
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
-        QString playlist_name = track->get("id");
+        if (track->property_exists("kdenlive:playlistid")) {
+            playlist_name = track->get("kdenlive:playlistid");
+        } else {
+            playlist_name = track->get("id");
+        }
         if (reserved_names.contains(playlist_name)) {
             if (playlist_name == QLatin1String("timeline_preview")) {
                 Mlt::Playlist local_playlist(*track);

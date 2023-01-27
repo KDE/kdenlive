@@ -2339,9 +2339,8 @@ void MainWindow::connectDocument()
     getCurrentTimeline()->controller()->switchCompositing(compositing);
     connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
-    getCurrentTimeline()->controller()->setZone(project->zone(), false);
-    getCurrentTimeline()->controller()->setScrollPos(project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
-    int activeTrackPosition = project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+
+    int activeTrackPosition = project->getSequenceProperty(getCurrentTimeline()->model()->uuid(), QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (activeTrackPosition == -2) {
         // Subtitle model track always has ID == -2
         getCurrentTimeline()->controller()->setActiveTrack(-2);
@@ -2355,7 +2354,6 @@ void MainWindow::connectDocument()
         getCurrentTimeline()->controller()->setActiveTrack(getCurrentTimeline()->model()->getTrackIndexFromPosition(0));
     }
 
-    m_projectMonitor->slotLoadClipZone(project->zone());
     m_clipMonitor->updateDocumentUuid();
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getCurrentTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
@@ -2366,8 +2364,6 @@ void MainWindow::connectDocument()
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getCurrentTimeline()->controller(), &TimelineController::saveTimelineSelection,
             Qt::UniqueConnection);
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
-    getCurrentTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
-
     connect(m_projectMonitor, &Monitor::zoneUpdated, project, [project](const QPoint &) { project->setModified(); });
     connect(m_clipMonitor, &Monitor::zoneUpdated, project, [project](const QPoint &) { project->setModified(); });
     connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
@@ -2379,7 +2375,7 @@ void MainWindow::connectDocument()
         m_renderWidget->setRenderProfile(project->getRenderProperties());
         m_renderWidget->updateMetadataToolTip();
     }
-    m_zoomSlider->setValue(project->zoom().x());
+
     m_commandStack->setActiveStack(project->commandStack().get());
     setWindowTitle(project->description());
     setWindowModified(project->isModified());
@@ -3088,7 +3084,7 @@ void MainWindow::updateZoomSlider(int value)
     slotUpdateZoomSliderToolTip(value);
     KdenliveDoc *project = pCore->currentDoc();
     if (project) {
-        project->setZoom(value);
+        project->setZoom(pCore->currentTimelineId(), value);
     }
     m_zoomOut->setEnabled(value < m_zoomSlider->maximum());
     m_zoomIn->setEnabled(value > m_zoomSlider->minimum());
@@ -4608,7 +4604,14 @@ void MainWindow::checkMaxCacheSize()
 
 TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
 {
-    return m_timelineTabs->addTimeline(uuid, tabName, timelineModel, proxy);
+    // Create a new timeline tab
+    KdenliveDoc *project = pCore->currentDoc();
+    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, proxy);
+    timeline->controller()->setZone(project->zone(uuid), false);
+    timeline->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());
+    m_zoomSlider->setValue(project->zoom(uuid).x());
+    m_projectMonitor->slotLoadClipZone(project->zone(uuid));
+    return timeline;
 }
 
 bool MainWindow::raiseTimeline(const QUuid &uuid)

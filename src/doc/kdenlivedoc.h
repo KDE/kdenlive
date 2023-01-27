@@ -133,8 +133,8 @@ public:
     QString projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc). */
     QString projectDataFolder(const QString &newPath = QString(), bool folderForAudio = false) const;
-    void setZoom(int horizontal, int vertical = -1);
-    QPoint zoom() const;
+    void setZoom(const QUuid &uuid, int horizontal, int vertical = -1);
+    QPoint zoom(const QUuid &uuid) const;
     double dar() const;
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene);
@@ -142,14 +142,19 @@ public:
     bool saveSceneList(const QString &path, const QString &scene);
     void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
-    void setZone(int start, int end);
-    QPoint zone() const;
+    void setZone(const QUuid &uuid, int start, int end);
+    QPoint zone(const QUuid &uuid) const;
     /** @brief Returns target tracks (video, audio). */
-    QPair<int, int> targetTracks() const;
+    QPair<int, int> targetTracks(const QUuid &uuid) const;
     /** @brief Load document guides from properties. */
     void loadDocumentGuides(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Set a document property. */
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
+    /** @brief Set a timeline sequence property. */
+    void setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value);
+    /** @brief Get a timeline sequence property. */
+    const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue = QString()) const;
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;
