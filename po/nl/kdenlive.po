@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-22 14:59+0100\n"
+"PO-Revision-Date: 2023-01-26 14:24+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -5160,7 +5160,7 @@ msgstr "Tag %1"
 #: src/dialogs/textbasededit.cpp:569
 #, kde-format
 msgid "Configure"
-msgstr "Instellen"
+msgstr "Configureren"
 
 #: src/bin/tagwidget.cpp:165
 #, kde-format
