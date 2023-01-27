@@ -4661,6 +4661,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         clipList.first()->updateTimelineOnReload();
     }
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if (clip->clipType() == ClipType::Timeline) {
+            continue;
+        }
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, false, false);
         // Make sure we reload clip length
@@ -4854,15 +4857,8 @@ QString Bin::getCurrentFolder()
 
 void Bin::adjustProjectProfileToItem()
 {
-    QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
-    if (current.isValid()) {
-        // User clicked in the icon, open clip properties
-        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(current));
-        auto clip = std::static_pointer_cast<ProjectClip>(item);
-        if (clip) {
-            checkProfile(clip->originalProducer());
-        }
-    }
+    const QString clipId = m_monitor->activeClipId();
+    slotCheckProfile(clipId);
 }
 
 void Bin::slotCheckProfile(const QString &binId)
