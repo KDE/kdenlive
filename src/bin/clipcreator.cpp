@@ -98,14 +98,16 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
         timeline.track(ix)->set("kdenlive:timeline_active", 1);
     }
     timeline.unlock();
+    timeline.set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    timeline.set("kdenlive:clipname", name.toUtf8().constData());
+    timeline.set("kdenlive:duration", 1);
+    timeline.set("kdenlive:clip_type", ClipType::Timeline);
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline.get_producer()));
     prod->set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", name.toUtf8().constData());
     prod->set("kdenlive:duration", 1);
     prod->set("kdenlive:clip_type", ClipType::Timeline);
-    Mlt::Service s2(*prod.get());
-    Mlt::Tractor tractor(s2);
     QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };

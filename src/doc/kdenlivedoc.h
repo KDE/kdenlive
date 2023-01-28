@@ -344,8 +344,6 @@ public slots:
      *
      * The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave(const QString &scene);
-    /** @brief Groups were changed, save to MLT. */
-    void groupsChanged(const QString &groups);
     void switchProfile(ProfileParam* pf, const QString &clipName);
 
 private slots:

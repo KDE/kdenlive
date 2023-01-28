@@ -954,7 +954,6 @@ void ProjectManager::prepareSave()
     pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getCurrentTimeline()->controller()->documentProperties(), m_project->metadata());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
-    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_activeTimelineModel->groupsData());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->bin()->openedSequences().join(QLatin1Char(';')));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.activetimeline"), m_activeTimelineModel->uuid().toString());
 }
@@ -1533,6 +1532,14 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->set("kdenlive:clip_type", ClipType::Timeline);
+
+        prod->parent().set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
+        prod->parent().set("kdenlive:maxduration", timelineModel->duration());
+        prod->parent().set("length", timelineModel->duration());
+        prod->parent().set("out", timelineModel->duration() - 1);
+        prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+        prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
             QMap<QString, QString> properties;
             properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
@@ -1573,7 +1580,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         clip->setProducer(prod);
         QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
-        m_activeTimelineModel->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
+        m_project->getTimeline(m_project->uuid())->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
         }
@@ -1637,6 +1644,10 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             mainModel->tractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
         }*/
         //}
+    }
+    const QString groupsData = m_project->getSequenceProperty(uuid, QStringLiteral("groups"));
+    if (!groupsData.isEmpty()) {
+        timelineModel->loadGroups(groupsData);
     }
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (activeTrackPosition == -2) {

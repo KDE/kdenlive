@@ -90,8 +90,10 @@ void TimelineTabs::connectCurrent(int ix)
     qDebug() << "==== SWITCHING CURRENT TIMELINE TO: " << ix;
     QUuid previousTab = QUuid();
     int duration = 0;
+    int pos = 0;
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
+        pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();
         duration = m_activeTimeline->model()->duration();
         pCore->window()->disconnectTimeline(m_activeTimeline);
@@ -113,8 +115,8 @@ void TimelineTabs::connectCurrent(int ix)
     connectTimeline(m_activeTimeline);
     pCore->window()->connectTimeline();
 
-    if (previousTab != QUuid()) {
-        pCore->bin()->updateSequenceClip(previousTab, duration, m_activeTimeline->getUuid());
+    if (!previousTab.isNull()) {
+        pCore->bin()->updateSequenceClip(previousTab, duration, m_activeTimeline->getUuid(), pos);
     }
 }
 

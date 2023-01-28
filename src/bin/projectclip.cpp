@@ -1606,7 +1606,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                                                                            {AbstractProjectItem::DataDuration});
         refreshOnly = false;
         reload = m_clipType != ClipType::Timeline;
-        ;
     }
     QVector<int> refreshRoles;
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {

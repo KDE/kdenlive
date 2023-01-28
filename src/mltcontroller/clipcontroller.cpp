@@ -31,14 +31,14 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_audioThumbCreated(false)
     , m_producerLock(QReadWriteLock::Recursive)
     , m_masterProducer(std::move(producer))
-    , m_properties(producer ? new Mlt::Properties(producer->get_properties()) : nullptr)
+    , m_properties(m_masterProducer ? new Mlt::Properties(m_masterProducer->get_properties()) : nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
     , m_forceLimitedDuration(false)
     , m_hasMultipleVideoStreams(false)
-    , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
+    , m_effectStack(m_masterProducer ? EffectStackModel::construct(m_masterProducer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
     , m_thumbsProducer(nullptr)
@@ -78,7 +78,7 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::addmasterproducer";
-    m_masterProducer = producer;
+    m_masterProducer = std::move(producer);
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     // Pass temporary properties
@@ -99,7 +99,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
-    m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, id}, pCore->undoStack());
+    m_effectStack = EffectStackModel::construct(m_masterProducer, {ObjectType::BinClip, id}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -107,7 +107,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         getInfoForProducer();
-        emitProducerChanged(m_controllerBinId, producer);
+        emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
             // Check if clip has multiple video streams
             QList<int> videoStreams;
@@ -194,7 +194,7 @@ void ClipController::getInfoForProducer()
     }
     QString proxy = m_properties->get("kdenlive:proxy");
     QString path = m_properties->get("resource");
-    if (proxy.length() > 2) {
+    if (!m_service.isEmpty() && proxy.length() > 2) {
         if (QFileInfo(path).isRelative()) {
             path.prepend(pCore->currentDoc()->documentRoot());
             m_properties->set("resource", path.toUtf8().constData());
@@ -243,6 +243,10 @@ void ClipController::getInfoForProducer()
                 m_properties->set("mute_on_pause", 0);
             }
         }
+        /*} else if (m_service.isEmpty() && path == QLatin1String("<producer>")) {
+                m_clipType = ClipType::Timeline;
+                m_properties = new Mlt::Properties(m_masterProducer->parent().get_properties());
+                return getInfoForProducer();*/
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all.")) || m_path.contains(QStringLiteral("\\.all."))) {
             m_clipType = ClipType::SlideShow;
@@ -302,10 +306,10 @@ void ClipController::getInfoForProducer()
     }
 
     if (!hasLimitedDuration()) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         if (playtime <= 0) {
             // Fix clips having missing kdenlive:duration
-            m_masterProducer->set("kdenlive:duration", m_masterProducer->frames_to_time(m_masterProducer->get_playtime(), mlt_time_clock));
+            m_masterProducer->parent().set("kdenlive:duration", m_masterProducer->frames_to_time(m_masterProducer->get_playtime(), mlt_time_clock));
             m_masterProducer->set("out", m_masterProducer->frames_to_time(m_masterProducer->get_length() - 1, mlt_time_clock));
         }
     }
@@ -452,7 +456,7 @@ int ClipController::getProducerDuration() const
 {
     QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         if (playtime <= 0) {
             return m_masterProducer->get_length();
         }
@@ -478,7 +482,7 @@ GenTime ClipController::getPlaytime() const
     }
     double fps = pCore->getCurrentFps();
     if (!hasLimitedDuration()) {
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
     }
     return {m_masterProducer->get_playtime(), fps};
@@ -491,10 +495,10 @@ int ClipController::getFramePlaytime() const
         return 0;
     }
     if (!hasLimitedDuration() || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
-        if (!m_masterProducer->property_exists("kdenlive:duration")) {
+        if (!m_masterProducer->parent().property_exists("kdenlive:duration")) {
             return m_masterProducer->get_length();
         }
-        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->parent().get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_length() : playtime;
     }
     return m_masterProducer->get_length();
@@ -650,7 +654,7 @@ QString ClipController::serviceName() const
 
 void ClipController::setProducerProperty(const QString &name, int value)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, value);
         return;
     }
@@ -660,7 +664,7 @@ void ClipController::setProducerProperty(const QString &name, int value)
 
 void ClipController::setProducerProperty(const QString &name, double value)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, value);
         return;
     }
@@ -670,7 +674,7 @@ void ClipController::setProducerProperty(const QString &name, double value)
 
 void ClipController::setProducerProperty(const QString &name, const QString &value)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, value);
         return;
     }
@@ -685,7 +689,7 @@ void ClipController::setProducerProperty(const QString &name, const QString &val
 
 void ClipController::resetProducerProperty(const QString &name)
 {
-    if (!m_masterProducer) {
+    if (!m_properties) {
         m_tempProps.insert(name, QString());
         return;
     }
@@ -706,25 +710,25 @@ const QSize ClipController::getFrameSize() const
         return QSize();
     }
     if (m_usesProxy) {
-        int width = m_masterProducer->get_int("kdenlive:original.meta.media.width");
-        int height = m_masterProducer->get_int("kdenlive:original.meta.media.height");
+        int width = m_properties->get_int("kdenlive:original.meta.media.width");
+        int height = m_properties->get_int("kdenlive:original.meta.media.height");
         if (width == 0) {
-            width = m_masterProducer->get_int("kdenlive:original.width");
+            width = m_properties->get_int("kdenlive:original.width");
         }
         if (height == 0) {
-            height = m_masterProducer->get_int("kdenlive:original.height");
+            height = m_properties->get_int("kdenlive:original.height");
         }
         if (width > 0 && height > 0) {
             return QSize(width, height);
         }
     }
-    int width = m_masterProducer->get_int("meta.media.width");
+    int width = m_properties->get_int("meta.media.width");
     if (width == 0) {
-        width = m_masterProducer->get_int("width");
+        width = m_properties->get_int("width");
     }
-    int height = m_masterProducer->get_int("meta.media.height");
+    int height = m_properties->get_int("meta.media.height");
     if (height == 0) {
-        height = m_masterProducer->get_int("height");
+        height = m_properties->get_int("height");
     }
     return QSize(width, height);
 }

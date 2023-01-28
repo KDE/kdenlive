@@ -247,7 +247,9 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             }
             std::unique_ptr<Mlt::Producer> thumbProd = nullptr;
             Mlt::Profile *profile = pCore->thumbProfile();
-            if (mltService.startsWith(QLatin1String("xml"))) {
+            if (binClip->clipType() == ClipType::Timeline) {
+                thumbProd.reset(producer->cut());
+            } else if (mltService.startsWith(QLatin1String("xml"))) {
                 int profileWidth = profile->width();
                 int profileHeight = profile->height();
                 thumbProd.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
@@ -264,16 +266,16 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                 Mlt::Properties original(producer->get_properties());
                 Mlt::Properties cloneProps(thumbProd->get_properties());
                 cloneProps.pass_list(original, ClipController::getPassPropertiesList());
-                Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-                Mlt::Filter padder(*pCore->thumbProfile(), "resize");
-                Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+                Mlt::Filter scaler(*profile, "swscale");
+                Mlt::Filter padder(*profile, "resize");
+                Mlt::Filter converter(*profile, "avcolor_space");
                 thumbProd->set("audio_index", -1);
                 // Required to make get_playtime() return > 1
                 thumbProd->set("out", thumbProd->get_length() - 1);
                 thumbProd->attach(scaler);
                 thumbProd->attach(padder);
                 thumbProd->attach(converter);
-                qDebug() << "===== \nSEEKING THUMB PROD\n\n=========";
+                qDebug() << "===== \nSEEKING THUMB PROD: " << frameNumber << "\n\n=========";
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }

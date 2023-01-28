@@ -5522,17 +5522,21 @@ void Bin::removeReferencedClips(const QUuid &uuid)
     }
 }
 
-void Bin::updateSequenceClip(const QUuid &uuid, int duration, const QUuid &current)
+void Bin::updateSequenceClip(const QUuid &uuid, int duration, const QUuid &current, int pos)
 {
     if (m_openedPlaylists.contains(uuid)) {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(m_openedPlaylists.value(uuid));
+        const QString binId = m_openedPlaylists.value(uuid);
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("length"), QString::number(duration));
         properties.insert(QStringLiteral("out"), QString::number(duration - 1));
         properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
+        // properties.insert(QStringLiteral("kdenlive:thumbnailFrame"), QString::number(pos));
         clip->setProperties(properties);
+        // ThumbnailCache::get()->invalidateThumbsForClip(binId);
+        // ClipLoadTask::start({ObjectType::BinClip, binId.toInt()}, QDomElement(), true, -1, -1, this);
         clip->reloadTimeline();
     }
 }

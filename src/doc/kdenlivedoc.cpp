@@ -1503,6 +1503,11 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         // "kdenlive:docproperties.decimalPoint" was removed in document version 100
         m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        setSequenceProperty(j.key(), QStringLiteral("groups"), j.value()->groupsData());
+    }
     return m_documentProperties;
 }
 
@@ -2039,11 +2044,6 @@ void KdenliveDoc::guidesChanged(const QUuid &uuid)
     } else {
         m_documentProperties[QStringLiteral("guides.%1").arg(uuid.toString())] = getGuideModel(uuid)->toJson();
     }
-}
-
-void KdenliveDoc::groupsChanged(const QString &groups)
-{
-    m_documentProperties[QStringLiteral("groups")] = groups;
 }
 
 const QString KdenliveDoc::documentRoot() const
