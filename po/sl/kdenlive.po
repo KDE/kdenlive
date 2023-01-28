@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-24 10:20+0100\n"
+"PO-Revision-Date: 2023-01-27 02:58+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
@@ -2619,7 +2619,7 @@ msgstr "Generiraj"
 #: data/kdenliveeffectscategory.rc:30
 #, kde-format
 msgid "On Master"
-msgstr "Na matičnemu"
+msgstr "Na glavnemu"
 
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format
@@ -3196,6 +3196,7 @@ msgstr "Shrani sklad učinkov …"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"Shrani celoten sklad učinkov kot datoteko XML za uporabo v drugih projektih."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3214,6 +3215,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Vključi oz. izključi deljen pogled v ogledu projekta in/ali posnetka: na "
+"levi je prikazan posnetek z učinkom, na desni posnetek brez učinka."
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3236,10 +3239,9 @@ msgid "Hide keyframes in timeline"
 msgstr "Skrij ključne sličice na časovnici"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Pokaži ključne sličice na časovnici"
+msgstr "Preklopi prikaz ključnih sličic posnetka na časovnici"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -3899,7 +3901,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
-msgstr ""
+msgstr "Prilagodi glasnost zvočne steze (enako vpliva na vse zvočne posnetke)."
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3915,6 +3917,8 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Prilagodi izhodno ravnovesje steze. Negativne vrednosti pomikajo izhod v "
+"levo, pozitivne vrednosti v desno. Enako vpliva na vse zvočne posnetke."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3941,7 +3945,7 @@ msgstr "Neutišana steza"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Utiša/odtiša zvočno stezo."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3952,7 +3956,7 @@ msgstr "Solistični način"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Če je izbrano, utiša vse druge zvočne steze."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3964,7 +3968,7 @@ msgstr "Snemaj zvok"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Zvočno stezo postavi v snemalni način."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -3977,6 +3981,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Preklopi prikaz kontrolnikov zvočnih stez v pogledu zvočnega mešalnika."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -3984,17 +3989,16 @@ msgid "Open Effect Stack"
 msgstr "Odpri sklad učinkov"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Ločena datoteka za vsako zvočno stezo"
+msgstr "Odpre sklad učinkov zvočne steze."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Odpre sklad učinkov za glavni zvok."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4144,6 +4148,9 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Filtrirajte vsebino projektne posode. Kliknite ikono filtra, da preklopite "
+"filtriran prikaz. Kliknite ikono puščice, da odprete seznam možnih "
+"nastavitev filtra."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4360,6 +4367,7 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
+"Izbriše trenutno izbrane posnetke iz projektne posode in tudi iz časovnice."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5638,6 +5646,10 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Odpre okno s profili kodiranja in njihovimi parametri. Odtod lahko "
+"ustvarite, spremenite, izbrišete in prenesete profile, ki se uporabljajo za "
+"predogled časovnice, ustvarjanje posrednih posnetkov ter zajem "
+"videoposnetkov, zaslona in iz kartice decklink."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6588,7 +6600,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
-msgstr ""
+msgstr "Premakne predvajalno glavo v časovnici na začetek podnaslova na desni."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6601,7 +6613,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
-msgstr ""
+msgstr "Premakne predvajalno glavo v časovnici na začetek podnaslova na levi."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6617,6 +6629,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Ustvari nov podnapis privzete dolžine (določene pod <interface>Nastavitve-"
+">Prilagodi Kdenlive …->Razno</interface>) na trenutne položaju/sličici "
+"predvajalne glave."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6630,6 +6645,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Izreže besedilo podnapisa na položaju kazalca in ustvari nov podnapis na "
+"desni (kot bi odrezali posnetek)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6640,7 +6657,7 @@ msgstr "Posodobi besedilo podnaslova"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Posodobi prikaz podnaslova v časovnici."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6654,6 +6671,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Preklopi seznam za prilagoditev pisave, velikosti, barve, sloga orisa, "
+"sence, položaja in ozadja."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6666,7 +6685,7 @@ msgstr "Izbriši podnaslov"
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
-msgstr ""
+msgstr "Izbriše trenutno izbrani podnaslov (ne deluje na več podnaslovih)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6818,32 +6837,33 @@ msgstr "Ni mogoče premakniti prve ključne sličice pred začetek posnetka"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "Vstavi ključno sličico na trenutnem položaju predvajalne glave."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "Premakne predvajalno glavo na naslednjo ključno sličico na desni."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "Premakne predvajalno glavo na naslednjo ključno sličico na levi."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "Prenesi izbrane ključne sličice za kazalcem"
+msgstr ""
+"Premakne izbrane ključne sličice na trenutni položaj/sličico predvajalne "
+"glave"
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "Izbriše ključno sličico na trenutnem položaju predvajalne glave."
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7774,6 +7794,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Premakne učinek nad tistega nad njim. Učinki se obravnavajo zaporedno od "
+"vrha proti dnu, zato je zaporedje pomembno."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7787,6 +7809,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Premakne učinek pod tistega pod njim. Učinki se obravnavajo zaporedno od "
+"vrha proti dnu, zato je zaporedje pomembno."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7797,7 +7821,7 @@ msgstr "Izbriši učinek"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Izbriše učinek iz sklada učinkov."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7837,7 +7861,7 @@ msgstr "Omogoči učinek"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
-msgstr ""
+msgstr "Omogoči učinek. Uporabno za primerjavo nastavitev prej in potem."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7859,6 +7883,7 @@ msgstr "Določite območje navznoter"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
+"Nastavi trenutni položaj sličice/predvajalne glave kot začetek območja."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
@@ -7874,7 +7899,7 @@ msgstr "Nastavi območja navzven"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
-msgstr ""
+msgstr "Nastavi trenutni položaj sličice/predvajalne glave kot konec območja."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -7893,7 +7918,7 @@ msgstr "Predloge nastavitev"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
-msgstr ""
+msgstr "Odpre seznam naprednih možnosti za upravljanje prednastavitev učinka."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -8967,10 +8992,9 @@ msgid "Audio Mixer"
 msgstr "Mešalnik zvoka"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Izračunaj amplitudo zvoka."
+msgstr "Preklopi ploščo/gradnik mešalnika zvoka."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -8998,6 +9022,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Kliknite, da prikažete seznam priljubljenih učinkov. Dvokliknite učinek, da "
+"ga dodate izbranemu posnetku."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -9144,6 +9170,8 @@ msgstr "Za vstavitev uporabi območje časovnice"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Preklopi med uporabo območja časovnice za vstavljanje (vklopljeno) ali ne "
+"(izklopljeno)."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -10723,6 +10751,8 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Določa ločljivost predogleda ogleda projekta/posnetka. Izbirate lahko med "
+"1:1, 720p, 540p, 360p, 270p (nižja kot je ločljivost, hitrejši je predogled)."
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -12212,6 +12242,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Odpre pogovorno okno profila, v katerem lahko spremenite profile projektov. "
+"Opomba: Profila, uporabljenega v odprtem projektu, ni mogoče spremeniti."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -15152,6 +15184,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"Če je izbrano, s klikom sredstva v časovnici izberete sredstvo (npr. "
+"posnetek, kompozicijo)."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format
@@ -19453,6 +19487,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Monitor audio input"
-#~ msgstr "Spremljanje zvočnega vhoda"
