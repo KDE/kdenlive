@@ -1781,12 +1781,12 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("select_track"), selectTrack);
 
     QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), this);
-    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")));
+    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-all")));
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("select_all_tracks"), selectAll);
 
     QAction *unselectAll = KStandardAction::deselect(this, SLOT(slotUnselectAllTracks()), this);
-    unselectAll->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")));
+    unselectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-none")));
     unselectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("unselect_all_tracks"), unselectAll);
 

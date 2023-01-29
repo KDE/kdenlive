@@ -305,7 +305,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_zBottom, &QAction::triggered, this, &TitleWidget::slotZIndexBottom);
     zBottom->setDefaultAction(m_zBottom);
 
-    m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")), QString(), this);
+    m_selectAll = new QAction(QIcon::fromTheme(QStringLiteral("edit-select-all")), QString(), this);
     m_selectAll->setShortcut(Qt::CTRL | Qt::Key_A);
     m_selectAll->setToolTip(i18n("Select All"));
     connect(m_selectAll, &QAction::triggered, this, &TitleWidget::slotSelectAll);
@@ -332,7 +332,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     buttonSelectImages->setDefaultAction(m_selectImages);
     buttonSelectImages->setEnabled(false);
 
-    m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")), QString(), this);
+    m_unselectAll = new QAction(QIcon::fromTheme(QStringLiteral("edit-select-none")), QString(), this);
     m_unselectAll->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_A);
     m_unselectAll->setToolTip(i18n("Deselect"));
     connect(m_unselectAll, &QAction::triggered, this, &TitleWidget::slotSelectNone);
