@@ -343,7 +343,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addAction(forward);
     connect(forward, &QAction::triggered, this, [this]() { Monitor::slotForward(); });
 
-    m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("More Options…"), m_toolbar);
+    m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("More Options…"), m_toolbar);
     m_configMenuAction->setPopupMode(QToolButton::InstantPopup);
     connect(m_configMenuAction->menu(), &QMenu::aboutToShow, this, &Monitor::updateMarkers);
 
