@@ -52,7 +52,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("selection-lower")));
     buttonDown->setToolTip(i18n("Move effect down"));
     buttonDown->setWhatsThis(xi18nc("@info:whatsthis", "Moves the effect below the one right below it. Effects are handled sequentially from top to bottom so sequence is important."));
-    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-deleffect")));
+    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     buttonDel->setToolTip(i18n("Delete effect"));
     buttonDel->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the effect from the effect stack."));
 
