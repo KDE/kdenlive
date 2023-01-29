@@ -94,17 +94,17 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     QAction *fitToHeight = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-height")), i18n("Fit to height"), this);
     connect(fitToHeight, &QAction::triggered, this, &GeometryWidget::slotFitToHeight);
 
-    QAction *alignleft = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-left")), i18n("Align left"), this);
+    QAction *alignleft = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-left")), i18n("Align left"), this);
     connect(alignleft, &QAction::triggered, this, &GeometryWidget::slotMoveLeft);
-    QAction *alignhcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-hor")), i18n("Center horizontally"), this);
+    QAction *alignhcenter = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-center")), i18n("Center horizontally"), this);
     connect(alignhcenter, &QAction::triggered, this, &GeometryWidget::slotCenterH);
-    QAction *alignright = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-right")), i18n("Align right"), this);
+    QAction *alignright = new QAction(QIcon::fromTheme(QStringLiteral("align-horizontal-right")), i18n("Align right"), this);
     connect(alignright, &QAction::triggered, this, &GeometryWidget::slotMoveRight);
-    QAction *aligntop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-top")), i18n("Align top"), this);
+    QAction *aligntop = new QAction(QIcon::fromTheme(QStringLiteral("align-vertical-top")), i18n("Align top"), this);
     connect(aligntop, &QAction::triggered, this, &GeometryWidget::slotMoveTop);
-    QAction *alignvcenter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-vert")), i18n("Center vertically"), this);
+    QAction *alignvcenter = new QAction(QIcon::fromTheme(QStringLiteral("align-vertical-center")), i18n("Center vertically"), this);
     connect(alignvcenter, &QAction::triggered, this, &GeometryWidget::slotCenterV);
-    QAction *alignbottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-align-bottom")), i18n("Align bottom"), this);
+    QAction *alignbottom = new QAction(QIcon::fromTheme(QStringLiteral("align-vertical-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, &QAction::triggered, this, &GeometryWidget::slotMoveBottom);
 
     auto *alignLayout = new QHBoxLayout;
