@@ -156,7 +156,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-lock">
+             <iconset theme="lock">
               <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="checkable">
