@@ -278,19 +278,19 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_unicodeAction, &QAction::triggered, this, &TitleWidget::slotInsertUnicode);
     buttonInsertUnicode->setDefaultAction(m_unicodeAction);
 
-    m_zUp = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-up")), QString(), this);
+    m_zUp = new QAction(QIcon::fromTheme(QStringLiteral("object-order-raise")), QString(), this);
     m_zUp->setShortcut(Qt::Key_PageUp);
     m_zUp->setToolTip(i18n("Raise object"));
     connect(m_zUp, &QAction::triggered, this, &TitleWidget::slotZIndexUp);
     zUp->setDefaultAction(m_zUp);
 
-    m_zDown = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-down")), QString(), this);
+    m_zDown = new QAction(QIcon::fromTheme(QStringLiteral("object-order-lower")), QString(), this);
     m_zDown->setShortcut(Qt::Key_PageDown);
     m_zDown->setToolTip(i18n("Lower object"));
     connect(m_zDown, &QAction::triggered, this, &TitleWidget::slotZIndexDown);
     zDown->setDefaultAction(m_zDown);
 
-    m_zTop = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-top")), QString(), this);
+    m_zTop = new QAction(QIcon::fromTheme(QStringLiteral("object-order-front")), QString(), this);
     // TODO mbt 1414: Shortcut should change z index only if
     // cursor is NOT in a text field ...
     // m_zTop->setShortcut(Qt::Key_Home);
@@ -298,7 +298,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_zTop, &QAction::triggered, this, &TitleWidget::slotZIndexTop);
     zTop->setDefaultAction(m_zTop);
 
-    m_zBottom = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-zindex-bottom")), QString(), this);
+    m_zBottom = new QAction(QIcon::fromTheme(QStringLiteral("object-order-back")), QString(), this);
     // TODO mbt 1414
     // m_zBottom->setShortcut(Qt::Key_End);
     m_zBottom->setToolTip(i18n("Lower object to bottom"));
