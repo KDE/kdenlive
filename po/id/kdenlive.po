@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015.
 # Wantoyèk <wantoyek@gmail.com>, 2018, 2019, 2020, 2021, 2022.
-# Linerly <linerly@protonmail.com>, 2022.
+# Linerly <linerly@protonmail.com>, 2022, 2023.
 #
 # Translators:
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2022-11-16 23:11+0700\n"
+"PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3212,12 +3212,12 @@ msgstr "Efek yang difungsikan"
 #: src/assets/assetpanel.cpp:109
 #, kde-format
 msgid "Display keyframes in timeline"
-msgstr "Tampilan keyframe dalam linimasa"
+msgstr "Tampilan keyframe dalam lini masa"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
 msgid "Hide keyframes in timeline"
-msgstr "Sembunyikan keyframes dalam linimasa"
+msgstr "Sembunyikan keyframes dalam lini masa"
 
 #: src/assets/assetpanel.cpp:230
 #, kde-format
@@ -4069,7 +4069,7 @@ msgstr "Batalkan Tugas Yang Tertunda"
 #: src/bin/bin.cpp:1792
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
-msgstr "Ini akan menghapus semua klip yang dipilih dari linimasa"
+msgstr "Ini akan menghapus semua klip yang dipilih dari lini masa"
 
 #: src/bin/bin.cpp:1795
 #, kde-format
@@ -4135,7 +4135,7 @@ msgid ""
 "Replacement is %1 frames shorter."
 msgstr ""
 "Anda mengganti klip dengan yang paling pendek, ini menyebabkan masalah dalam "
-"linimasa.\n"
+"lini masa.\n"
 "Penggantian frame %1 lebih pendek."
 
 #: src/bin/bin.cpp:1913 src/bin/bin.cpp:1970
@@ -5485,7 +5485,7 @@ msgstr "Klip Proxy"
 #: src/mainwindow.cpp:553
 #, kde-format
 msgid "Timeline Preview"
-msgstr "Pratinjau Linimasa"
+msgstr "Pratinjau lini masa"
 
 #: src/dialogs/encodingprofilesdialog.cpp:53
 #, kde-format
@@ -5679,7 +5679,7 @@ msgstr "Komentar pandu"
 #: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3679
 #, kde-format
 msgid "Timeline"
-msgstr "Linimasa"
+msgstr "lini masa"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:121
 #, kde-format
@@ -6224,7 +6224,7 @@ msgstr "Akhir"
 #: src/dialogs/renderwidget.cpp:612
 #, kde-format
 msgid "Add a clip to timeline before rendering"
-msgstr "Tambahkan klip ke linimasa sebelum merender"
+msgstr "Tambahkan klip ke lini masa sebelum merender"
 
 #: src/dialogs/renderwidget.cpp:618
 #, kde-format
@@ -6417,7 +6417,7 @@ msgstr "Tidak ada trek audio yang tersedia untuk klip yang dipilih"
 #: src/dialogs/speechdialog.cpp:100
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
-msgstr "Pilih sebuah klip di linimasa untuk melakukan analisa"
+msgstr "Pilih sebuah klip di lini masa untuk melakukan analisa"
 
 #: src/dialogs/speechdialog.cpp:112
 #, kde-format
@@ -7975,13 +7975,13 @@ msgstr "Tugas Klip"
 #: src/kdenliveui.rc:90
 #, kde-format
 msgid "Clip in Timeline"
-msgstr "Klip di Linimasa"
+msgstr "Klip di lini masa"
 
 #. i18n: ectx: Menu (timeline)
 #: src/kdenliveui.rc:99
 #, kde-format
 msgid "T&imeline"
-msgstr "L&inimasa"
+msgstr "L&ini Masa"
 
 #. i18n: ectx: Menu (keyboard_selection)
 #: src/kdenliveui.rc:100
@@ -8097,7 +8097,7 @@ msgstr "Backend OpenGL"
 #: src/kdenliveui.rc:290
 #, kde-format
 msgid "Timeline Toolbar"
-msgstr "Bilah Alat Linimasa"
+msgstr "Bilah Alat lini masa"
 
 #. i18n: ectx: ToolBar (extraToolBar)
 #: src/kdenliveui.rc:317
@@ -8282,7 +8282,7 @@ msgstr "Ubaha Nama Klip Pustaka"
 #: src/library/librarywidget.cpp:236
 #, kde-format
 msgid "Add Timeline Selection to Library"
-msgstr "Tambahkan Pemilihan Linimasa ke Pustaka"
+msgstr "Tambahkan Pemilihan lini masa ke Pustaka"
 
 #: src/library/librarywidget.cpp:310
 #, kde-format
@@ -8405,7 +8405,7 @@ msgstr "Nicolas Carion"
 #: src/main.cpp:237
 #, kde-format
 msgid "Code re-architecture & timeline rewrite"
-msgstr "Penulis ulang linimasa & arsitektur ulang kode"
+msgstr "Penulis ulang lini masa & arsitektur ulang kode"
 
 #: src/main.cpp:238
 #, kde-format
@@ -8455,7 +8455,7 @@ msgstr "Sashmita Raghav"
 #: src/main.cpp:243
 #, kde-format
 msgid "Subtitle feature (GSoC), timeline colours"
-msgstr "Pewarnaan linimasa, fitur subtitel (GSoC)"
+msgstr "Pewarnaan lini masa, fitur subtitel (GSoC)"
 
 #: src/main.cpp:245
 #, kde-format
@@ -8833,17 +8833,17 @@ msgstr "Mode Sisip"
 #: src/mainwindow.cpp:1108
 #, kde-format
 msgid "Timeline Edit Mode"
-msgstr "Mode Edit Linimasa"
+msgstr "Mode Edit lini masa"
 
 #: src/mainwindow.cpp:1117
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
-msgstr "Jangan Gunakan Zona Linimasa untuk Sisipkan"
+msgstr "Jangan Gunakan Zona lini masa untuk Sisipkan"
 
 #: src/mainwindow.cpp:1117
 #, kde-format
 msgid "Use Timeline Zone for Insert"
-msgstr "Gunakan Zona Linimasa untuk Sisipkan"
+msgstr "Gunakan Zona lini masa untuk Sisipkan"
 
 #: src/mainwindow.cpp:1124
 #, kde-format
@@ -8953,7 +8953,7 @@ msgstr "Jepret"
 #: src/mainwindow.cpp:1280
 #, kde-format
 msgid "Show Color Tags in Timeline"
-msgstr "Tampilkan Tag Warna di Linimasa"
+msgstr "Tampilkan Tag Warna di lini masa"
 
 #: src/mainwindow.cpp:1286
 #, kde-format
@@ -9192,22 +9192,22 @@ msgstr "Transisi Otomatis"
 #: src/mainwindow.cpp:1563
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
-msgstr "Timpa Zona Klip di Linimasa"
+msgstr "Timpa Zona Klip di lini masa"
 
 #: src/mainwindow.cpp:1565
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
-msgstr "Sisipkan Zona Klip di Linimasa"
+msgstr "Sisipkan Zona Klip di lini masa"
 
 #: src/mainwindow.cpp:1567
 #, kde-format
 msgid "Extract Timeline Zone"
-msgstr "Ekstrak Zona Linimasa"
+msgstr "Ekstrak Zona lini masa"
 
 #: src/mainwindow.cpp:1569
 #, kde-format
 msgid "Lift Timeline Zone"
-msgstr "Angkat Zona Linimasa"
+msgstr "Angkat Zona lini masa"
 
 #: src/mainwindow.cpp:1571
 #, kde-format
@@ -9465,7 +9465,7 @@ msgstr "Kelola Data Yang Dicache..."
 #: src/mainwindow.cpp:1794
 #, kde-format
 msgid "Disable Timeline Preview"
-msgstr "Nonaktifkan Pratinjau Linimasa"
+msgstr "Nonaktifkan Pratinjau lini masa"
 
 #: src/mainwindow.cpp:1798
 #, kde-format
@@ -9569,7 +9569,7 @@ msgstr "Salin Informasi Debug"
 #: src/mainwindow.cpp:1863
 #, kde-format
 msgid "Disable Timeline Effects"
-msgstr "Nonfungsikan Efek Linimasa"
+msgstr "Nonfungsikan Efek lini masa"
 
 #: src/mainwindow.cpp:1869
 #, kde-format
@@ -10638,7 +10638,7 @@ msgid ""
 "timeline?"
 msgstr ""
 "Apakah Anda ingin <a href=\"#clipmonitor\">tampilkan monitor klip</a> untuk "
-"menampilkan linimasa?"
+"menampilkan lini masa?"
 
 #: src/monitor/monitormanager.cpp:215
 #, kde-format
@@ -10647,7 +10647,7 @@ msgid ""
 "view timeline?"
 msgstr ""
 "Apakah Anda ingin <a href=\"#projectmonitor\">tampilkan monitor proyek</a> "
-"untuk menampilkan linimasa?"
+"untuk menampilkan lini masa?"
 
 #: src/monitor/monitormanager.cpp:495
 #, kde-format
@@ -11822,7 +11822,7 @@ msgstr "Penanda untuk %1"
 #: src/project/dialogs/guideslist.cpp:320
 #, kde-format
 msgid "Timeline Guides"
-msgstr "Panduan Linimasa"
+msgstr "Panduan lini masa"
 
 #: src/project/dialogs/noteswidget.cpp:29
 #, kde-format
@@ -12046,8 +12046,8 @@ msgid ""
 "timeline previews for this project.\n"
 " Are you sure you want to proceed?"
 msgstr ""
-"Anda mengubah profil pratinjau linimasa. Ini akan menyingkirkan semua "
-"pratinjau linimasa yang ada untuk proyek ini.\n"
+"Anda mengubah profil pratinjau lini masa. Ini akan menyingkirkan semua "
+"pratinjau lini masa yang ada untuk proyek ini.\n"
 "Apakah Anda yakin ingin memprosesnya?"
 
 #: src/project/dialogs/projectsettings.cpp:519
@@ -12091,7 +12091,7 @@ msgstr "Profile proyek: %1"
 #: src/project/dialogs/projectsettings.cpp:783
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
-msgstr "Total klip: %1 (%2 digunakan di linimasa)."
+msgstr "Total klip: %1 (%2 digunakan di lini masa)."
 
 #: src/project/dialogs/projectsettings.cpp:837
 #, kde-format
@@ -12177,7 +12177,7 @@ msgid ""
 msgstr ""
 "Hapus semua data di folder pratinjau:\n"
 "%1\n"
-"Folder pratinjau berisi pratinjau linimasa, dan dapat dibuat ulang dengan "
+"Folder pratinjau berisi pratinjau lini masa, dan dapat dibuat ulang dengan "
 "proyek sumber."
 
 #: src/project/dialogs/temporarydata.cpp:342
@@ -12269,7 +12269,7 @@ msgstr ""
 "Hapus semua data di folder cache:\n"
 "%1\n"
 "Folder cache berisi thumbnail audio dan video, sebagaimana pada pratinjau "
-"linimasa. Semua data ini akan dibuat ulang saat pembukaan proyek."
+"lini masa. Semua data ini akan dibuat ulang saat pembukaan proyek."
 
 #: src/project/dialogs/temporarydata.cpp:669
 #, kde-format
@@ -12291,8 +12291,8 @@ msgid ""
 msgstr ""
 "Hapus folder cache berikut dari\n"
 "%1\n"
-"Folder cache berisi thumbnail audio dan video, sebagaimana pratinjau "
-"linimasa. Semua data ini akan dibuat ulang saat pembukaan proyek."
+"Folder cache berisi thumbnail audio dan video, sebagaimana pratinjau lini "
+"masa. Semua data ini akan dibuat ulang saat pembukaan proyek."
 
 #: src/project/dialogs/temporarydata.cpp:715
 #, kde-format
@@ -13303,7 +13303,7 @@ msgstr "Campuran tidak benar ditemukan di trek %1 di %2, klip %3 dihapus."
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
-"%1 klip Linimasa (%2) dengan referensi bin salah yang ditemukan dan "
+"%1 klip lini masa (%2) dengan referensi bin salah yang ditemukan dan "
 "dipulihkan."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:456
@@ -13317,7 +13317,7 @@ msgstr ""
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
-"%1 klip Linimasa (%2) tanpa referensi bin yang ditemukan dan disingkirkan."
+"%1 klip lini masa (%2) tanpa referensi bin yang ditemukan dan disingkirkan."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:459
 #, kde-format
@@ -13598,12 +13598,12 @@ msgstr "Semua klip tidak berhasil disalin"
 #: src/timeline2/model/timelinefunctions.cpp:2177
 #, kde-format
 msgid "Could not paste items in timeline"
-msgstr "Tidak bisa menempelkan item di linimasa"
+msgstr "Tidak bisa menempelkan item di lini masa"
 
 #: src/timeline2/model/timelinefunctions.cpp:2197
 #, kde-format
 msgid "Paste timeline clips"
-msgstr "Tempel klip linimasa"
+msgstr "Tempel klip lini masa"
 
 #: src/timeline2/model/timelinefunctions.cpp:2415
 #, fuzzy, kde-format
@@ -13794,7 +13794,7 @@ msgstr "Nonkelompokkan klip"
 #: src/timeline2/model/timelinemodel.cpp:4244
 #, kde-format
 msgid "Cannot delete last track in timeline"
-msgstr "Tidak bisa menghapus trek yang terakhir di dalam linimasa"
+msgstr "Tidak bisa menghapus trek yang terakhir di dalam lini masa"
 
 #: src/timeline2/model/timelinemodel.cpp:4490
 #, kde-format
@@ -13962,7 +13962,7 @@ msgstr "Ada sesuatu yang salah dengan folder cache %1"
 #: src/timeline2/view/previewmanager.cpp:98
 #, kde-format
 msgid "Invalid timeline preview parameters"
-msgstr "Parameter pratinjau linimasa tidak valid"
+msgstr "Parameter pratinjau lini masa tidak valid"
 
 #: src/timeline2/view/previewmanager.cpp:105
 #, kde-format
@@ -14270,7 +14270,7 @@ msgstr "Fungsikan Trek"
 #: src/timeline2/view/timelinecontroller.cpp:365
 #, kde-format
 msgid "No item under timeline cursor in active track"
-msgstr "Tidak ada item di bawah kursor linimasa di trek yang aktif"
+msgstr "Tidak ada item di bawah kursor lini masa di trek yang aktif"
 
 #: src/timeline2/view/timelinecontroller.cpp:555
 #, kde-format
@@ -14284,7 +14284,7 @@ msgstr "Tidak bisa menambahkan komposisi di posisi yang dipilih"
 #: src/timeline2/view/timelinecontroller.cpp:1074
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
-msgstr "Tidak bisa melakukan operasi selagi menyèrèt di linimasa"
+msgstr "Tidak bisa melakukan operasi selagi menyèrèt di lini masa"
 
 #: src/timeline2/view/timelinecontroller.cpp:777
 #: src/timeline2/view/timelinecontroller.cpp:4866
@@ -14550,7 +14550,7 @@ msgstr "Kunci trek subtitel"
 #: src/timeline2/view/timelinetabs.cpp:32
 #, kde-format
 msgid "Main timeline"
-msgstr "Linimasa utama"
+msgstr "lini masa utama"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -15324,7 +15324,7 @@ msgstr "Arsipkan hanya klip proxy ketika tersedia"
 #: src/ui/archivewidget_ui.ui:82
 #, kde-format
 msgid "Archive only timeline clips"
-msgstr "Arsipkan klip linimasa saja"
+msgstr "Arsipkan klip lini masa saja"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -16418,7 +16418,7 @@ msgstr "6 kanal"
 #: src/ui/configproject_ui.ui:149
 #, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Profil pratinjau linimasa:"
+msgstr "Profil pratinjau lini masa:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:32
@@ -16615,8 +16615,8 @@ msgstr "Jeda pemutaran ketika menjangka"
 #, kde-format
 msgid "Jump to timeline start if playback is started on last frame in timeline"
 msgstr ""
-"Lompat ke awal linimasa jika pemutaran dimulai pada frame terakhir di "
-"linimasa"
+"Lompat ke awal lini masa jika pemutaran dimulai pada frame terakhir di lini "
+"masa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_seekonaddeffect)
 #: src/ui/configtimeline_ui.ui:80
@@ -16662,7 +16662,7 @@ msgstr "Tinggi trek:"
 #: src/ui/configtimeline_ui.ui:149
 #, kde-format
 msgid "Raise Properties Pane when Selecting in Timeline"
-msgstr "Angkat Panel Properti ketika Memilih di Linimasa"
+msgstr "Angkat Panel Properti ketika Memilih di lini masa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:155
@@ -17300,7 +17300,7 @@ msgstr "*.srt *.ass *.vtt *.sbv"
 #: src/ui/import_subtitle_ui.ui:197
 #, kde-format
 msgid "Import at timeline cursor position"
-msgstr "Impor di posisi kursor linimasa"
+msgstr "Impor di posisi kursor lini masa"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -17352,7 +17352,7 @@ msgstr "Thumbnail Audio:"
 #: src/ui/managecache_ui.ui:182
 #, kde-format
 msgid "Timeline preview:"
-msgstr "Pratinjau linimasa:"
+msgstr "Pratinjau lini masa:"
 
 #. i18n: ectx: property (text), widget (QLabel, currentLabel)
 #: src/ui/managecache_ui.ui:192
@@ -17393,7 +17393,7 @@ msgid ""
 "opening."
 msgstr ""
 "Data yang disimpan merupakan gambar kecil klip (audio dan video) dan video "
-"pratinjau linimasa. Menghapus itu aman, semua data dapat dibuat ulang pada "
+"pratinjau lini masa. Menghapus itu aman, semua data dapat dibuat ulang pada "
 "saat proyek dibuka."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -17782,7 +17782,7 @@ msgstr "6 Kanal"
 #: src/ui/projectsettings_ui.ui:193
 #, kde-format
 msgid "Timeline Preview:"
-msgstr "Pratinjau linimasa:"
+msgstr "Pratinjau lini masa:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
@@ -18457,13 +18457,13 @@ msgstr "Bahasa:"
 #: src/ui/speechdialog_ui.ui:41
 #, kde-format
 msgid "Timeline zone (all tracks)"
-msgstr "Zona linimasa (semua trek)"
+msgstr "Zona lini masa (semua trek)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:51
 #, kde-format
 msgid "Timeline zone (selected track)"
-msgstr "Zona linimasa (trek yang dipilih)"
+msgstr "Zona lini masa (trek yang dipilih)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
 #: src/ui/speechdialog_ui.ui:58
@@ -18506,7 +18506,7 @@ msgstr "Zona yang dipilih saja"
 #: src/ui/textbasededit_ui.ui:221
 #, kde-format
 msgid "Insert selected blocks in timeline"
-msgstr "Sisipkan blok yang dipilih di linimasa"
+msgstr "Sisipkan blok yang dipilih di lini masa"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/textbasededit_ui.ui:251
@@ -19004,7 +19004,7 @@ msgstr "Set ulang nilai"
 #: src/widgets/dragvalue.cpp:131
 #, kde-format
 msgid "Show %1 in timeline"
-msgstr "Tampilkan %1 dalam linimasa"
+msgstr "Tampilkan %1 dalam lini masa"
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
