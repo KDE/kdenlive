@@ -6735,10 +6735,10 @@ std::shared_ptr<MarkerSortModel> TimelineModel::getFilteredGuideModel()
 
 bool TimelineModel::trackIsLocked(int trackId) const
 {
-    Q_ASSERT(isTrack(trackId));
     if (isSubtitleTrack(trackId)) {
         return m_subtitleModel->isLocked();
     }
+    Q_ASSERT(isTrack(trackId));
     return getTrackById_const(trackId)->isLocked();
 }
 
