@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-20 11:25+0100\n"
+"PO-Revision-Date: 2023-01-29 21:45+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -3205,6 +3205,8 @@ msgstr "Gorde Efektu Pila…"
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
+"Efektu pila osoa XML fitxategi gisa gordetzen du beste proiektu batzuetan "
+"erabiltzeko."
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3905,6 +3907,8 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Audio-pistaren irteera-bolumena doitzen du (audio-klip guztiei berdin "
+"eragiten die)."
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3920,6 +3924,9 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Pistaren irteera-oreka doitzen du. Balio negatiboek irteera ezkerrerantz, "
+"balio positiboek eskuinerantz mugitzen dute. Audio-klip guztiei berdin "
+"eragiten die."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3946,7 +3953,7 @@ msgstr "Pistaren audioa aktibatu"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "Isilarazi/ozendu audio-pistak."
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3957,7 +3964,7 @@ msgstr "Solo modua"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "Hautatuta dagoenean gainerako audio-pista guztiak isilarazten ditu."
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3969,7 +3976,7 @@ msgstr "Grabatu audioa"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "Audio-pista grabatzeko moduan ipintzen du."
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -3982,6 +3989,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Audioa nahasteko ikuspegian, audio-pisten aginteak azaltzea txandakatzen du."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -3989,17 +3997,16 @@ msgid "Open Effect Stack"
 msgstr "Ireki efektu pila"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Audio pista bakoitzerako fitxategi banatuak"
+msgstr "Audio-pistarako efektuen pila irekitzen du."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "Audio-maisuarentzako efektu-pila irekitzen du."
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4145,6 +4152,9 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Iragazi proiektu-ontziko edukia. Egin klik iragazki-ikonoan iragazkia "
+"azaltzea txandakatzeko. Egin klik gezi-ikonoan iragazki ezarpen posible "
+"batzuen zerrenda irekitzeko."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4360,6 +4370,8 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
+"Unean hautatuta dauden klipak ezabatzen ditu proiektu-ontzitik, baita "
+"denbora-lerrotik ere."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -4609,7 +4621,7 @@ msgstr "Berreraiki bitartekariak"
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
-msgstr "[@title:window] Proiektuaren erretilua"
+msgstr "[@title:window] Proiektu-ontzia"
 
 #: src/bin/bin.cpp:4984
 #, kde-format
@@ -6626,6 +6638,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Kurtsorearen kokapenean dagoen azpidatzi testua ebaki eta eskuinean "
+"azpidatzi berria sortzen du (klip bat ebakitzea bezala)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6636,7 +6650,7 @@ msgstr "Eguneratu azpidatziaren testua"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Denbora-lerroan azpidatziak erakustea eguneratzen du."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6663,6 +6677,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
+"Unean hautatutako azpidatzia ezabatzen du (ez dabil azpidatzi anizkoitzekin)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6743,7 +6758,7 @@ msgstr "Mesedez, instalatu hizkuntza-eredu bat"
 #: src/dialogs/textbasededit.cpp:764
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
-msgstr "Hautatu audioa duen klipa proiektuaren erretilutik"
+msgstr "Hautatu audioa duen klip bat proiektu-ontzian."
 
 #: src/dialogs/textbasededit.cpp:812
 #, kde-format
@@ -7751,6 +7766,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Efektua bere gainekoaren gainera eramaten du. Efektuak goitik behera "
+"sekuentzialki maneiatzen dira, beraz sekuentzia garrantzitsua da."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7764,6 +7781,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Efektua bere azpikoaren azpira eramaten du. Efektuak goitik behera "
+"sekuentzialki maneiatzen dira, beraz sekuentzia garrantzitsua da."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7774,7 +7793,7 @@ msgstr "Kendu efektua"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "Efektua efektu-pilatik ezabatzen du."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7815,6 +7834,7 @@ msgstr "Gaitu efektu"
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
+"Efektua gaitzen du. Erabilgarria aurreko eta ondoko ezarpenak alderatzeko."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7871,6 +7891,8 @@ msgstr "Aurrezarpenak"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
+"Efektuaren aurrezarpenak kudeatzeko aukera aurreratuen zerrenda bat "
+"irekitzen du."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -8895,7 +8917,7 @@ msgstr "Audio espektroa"
 #: src/mainwindow.cpp:352
 #, kde-format
 msgid "Project Bin"
-msgstr "Proiektuaren erretilua"
+msgstr "Proiektu-ontzia"
 
 #: src/mainwindow.cpp:355
 #, kde-format
@@ -8944,10 +8966,9 @@ msgid "Audio Mixer"
 msgstr "Audio nahaslea:"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Konputatu audio anplitudea"
+msgstr "Audioa nahasteko panela/trepeta txandakatzen du."
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -8975,6 +8996,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Egin klik gogoko efektuen zerrenda bat erakusteko. Egin klik bikoitza efektu "
+"batean hura hautatutako klipera gehitzeko."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -9114,6 +9137,8 @@ msgstr "Erabili denbora-lerro area txertatzeko"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Denbora-lerro eremua txertatzeko (piztuta) edo ez (itzalita) erabiltzea "
+"txandakatzen du."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -9613,7 +9638,7 @@ msgstr "Denbora bermapeatzea"
 #: src/mainwindow.cpp:1672
 #, kde-format
 msgid "Clip in Project Bin"
-msgstr "Proiektuaren erretiluko klipa"
+msgstr "Proiektu-ontziko klipa"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1678 src/ui/cutjobdialog_ui.ui:18
@@ -10019,7 +10044,7 @@ msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
 #: src/mainwindow.cpp:2886
 #, kde-format
 msgid "No clip selected in project bin"
-msgstr "Ez dago hautatutako klipik erretiluan"
+msgstr "Ez dago klipik hautatu proiektu-ontzian"
 
 #: src/mainwindow.cpp:3053
 #, kde-format
@@ -10693,6 +10718,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Proiektu/klip begiralearen aurreikuspen bereizmena ezartzen du. Hauen artean "
+"hauta daiteke 1:1, 720p, 540p, 360p, 270p (zenbat eta bereizmen txikiagoa "
+"orduan eta aurreikuste azkarragoa)."
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -10702,7 +10730,7 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:240
 #, kde-format
 msgid "Insert Zone to Project Bin"
-msgstr "Txertatu eskualde proiektuaren saskian"
+msgstr "Txertatu eskualdea proiektu-ontzira"
 
 #: src/monitor/monitor.cpp:301 src/monitor/monitormanager.cpp:625
 #, kde-format
@@ -12170,6 +12198,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Proiektuetako profilak aldatzeko profil elkarrizketa-leihoa irekitzen du."
+"Oharra: irekitako proiektuan erabilitako profila ezin da aldatu."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -15109,6 +15139,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"Hautatuta dagoenean, denbora-lerroko aktibo batean klik egitea aktiboa "
+"hautatzen du (adib. klipa, konposaketa)."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format
