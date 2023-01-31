@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-20 11:25+0100\n"
+"PO-Revision-Date: 2023-01-29 21:20+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -4513,7 +4513,7 @@ msgstr "Berreraiki bitartekariak"
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
-msgstr "[@title:window] Proiektuaren erretilua"
+msgstr "[@title:window] Proiektu-ontzia"
 
 #: src/bin/bin.cpp:4981
 #, kde-format
@@ -6574,7 +6574,7 @@ msgstr "Mesedez, instalatu hizkuntza-eredu bat"
 #: src/dialogs/textbasededit.cpp:764
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
-msgstr "Hautatu audioa duen klipa proiektuaren erretilutik"
+msgstr "Hautatu audioa duen klip bat proiektu-ontzian."
 
 #: src/dialogs/textbasededit.cpp:812
 #, kde-format
@@ -8645,7 +8645,7 @@ msgstr "Audio espektroa"
 #: src/mainwindow.cpp:352
 #, kde-format
 msgid "Project Bin"
-msgstr "Proiektuaren erretilua"
+msgstr "Proiektu-ontzia"
 
 #: src/mainwindow.cpp:355
 #, kde-format
@@ -9343,7 +9343,7 @@ msgstr "Denbora bermapeatzea"
 #: src/mainwindow.cpp:1667
 #, kde-format
 msgid "Clip in Project Bin"
-msgstr "Proiektuaren erretiluko klipa"
+msgstr "Proiektu-ontziko klipa"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
 #: src/mainwindow.cpp:1673 src/ui/cutjobdialog_ui.ui:18
@@ -9749,7 +9749,7 @@ msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
 #: src/mainwindow.cpp:2881
 #, kde-format
 msgid "No clip selected in project bin"
-msgstr "Ez dago hautatutako klipik erretiluan"
+msgstr "Ez dago klipik hautatu proiektu-ontzian"
 
 #: src/mainwindow.cpp:3048
 #, kde-format
@@ -10423,7 +10423,7 @@ msgstr "1:1"
 #: src/monitor/monitor.cpp:239
 #, kde-format
 msgid "Insert Zone to Project Bin"
-msgstr "Txertatu eskualde proiektuaren saskian"
+msgstr "Txertatu eskualdea proiektu-ontzira"
 
 #: src/monitor/monitor.cpp:300 src/monitor/monitor.cpp:599
 #: src/monitor/monitormanager.cpp:625
