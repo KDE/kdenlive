@@ -353,10 +353,10 @@ std::shared_ptr<ProjectClip> ProjectClip::clipAt(int ix)
 
 bool ProjectClip::hasUrl() const
 {
-    if ((m_clipType != ClipType::Color) && (m_clipType != ClipType::Unknown)) {
-        return (!clipUrl().isEmpty());
+    if (m_clipType == ClipType::Color || m_clipType == ClipType::Unknown || m_clipType == ClipType::Timeline) {
+        return false;
     }
-    return false;
+    return !clipUrl().isEmpty();
 }
 
 const QString ProjectClip::url() const
