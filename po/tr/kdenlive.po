@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-22 20:44+0300\n"
+"PO-Revision-Date: 2023-01-31 01:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6957,7 +6957,7 @@ msgid ""
 "many effects and transitions. Install recommended</li>"
 msgstr ""
 "<li>Eksik paket: <b>Frei0r</b> efekti (frei0r-plugins)<br/>Bir çok efekt ve "
-"geçişi temin eder. Kurulumu tavsiye edilir</li>"
+"geçişi temin eder. Kurulması tavsiye edilir</li>"
 
 #: src/dialogs/wizard.cpp:240
 #, kde-format
@@ -6965,7 +6965,7 @@ msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
 "recommended</li>"
 msgstr ""
-"<li>Eksik paket: <b>AVFilter</b><br/>pek çok efekt sağlar. Kurulumu "
+"<li>Eksik paket: <b>AVFilter</b><br/>pek çok efekt sağlar. Kurulması "
 "önerilir</li>"
 
 #: src/dialogs/wizard.cpp:254
@@ -7075,8 +7075,8 @@ msgstr ""
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
-"Sisteminizdeki MLT kurulumu bulunamadı. MLT'yi yükleyin ve Kdenlive'yi "
-"yeniden başlatın.\n"
+"Sisteminizdeki MLT kurulumu bulunamadı. MLT'yi kurun ve Kdenlive'yi yeniden "
+"başlatın.\n"
 
 #: src/dialogs/wizard.cpp:587
 #, kde-format
@@ -10676,8 +10676,8 @@ msgid ""
 "please fix it."
 msgstr ""
 "Video önizleme penceresi oluşturulamadı.\n"
-"Kdenlive kurulumunuzla ya da sürücü ayarlarınızla ilgili ters bir şeyler "
-"var, lütfen bunları giderin."
+"Kdenlive kurulumunuzla veya sürücü ayarlarınızla ilgili ters bir şeyler var, "
+"lütfen bunları giderin."
 
 #: src/monitor/monitor.cpp:77
 #, kde-format
@@ -10891,7 +10891,7 @@ msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
-"Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r kurun ve "
+"Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r'ı kurun ve "
 "Kdenlive'i yeniden başlatın"
 
 #: src/monitor/monitor.cpp:2249
@@ -10910,7 +10910,7 @@ msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
-"Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r kurun ve "
+"Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r'ı kurun ve "
 "Kdenlive'i yeniden başlatın"
 
 #: src/monitor/monitor.cpp:2334
@@ -13018,7 +13018,7 @@ msgid ""
 "Please install version >= 0.12\n"
 msgstr ""
 "OpenTimelineIO modülünüz Kdenlive adaptörünü içermiyor.\n"
-"Lütfen 0.12'den daha yeni bir sürümünü yükleyin.\n"
+"Lütfen 0.12'den daha yeni bir sürümünü kurun.\n"
 
 #: src/pythoninterfaces/otioconvertions.cpp:63
 #, kde-format
@@ -13949,7 +13949,7 @@ msgstr "İzi Yeniden Adlandır"
 #: src/timeline2/model/timelineitemmodel.cpp:716
 #, kde-format
 msgid "Could not setup track compositing, check your install"
-msgstr "İz bileşikleştirme kurulamadı, kurulumunuzu denetleyin"
+msgstr "İz bileşikleştirme ayarlanamadı, kurulumunuzu denetleyin"
 
 #: src/timeline2/model/timelinemodel.cpp:902
 #: src/timeline2/model/timelinemodel.cpp:1029
@@ -16173,7 +16173,7 @@ msgstr "Örnekleme hızı:"
 #: src/ui/configcapture_ui.ui:611
 #, kde-format
 msgid "Make sure you have audio plugins installed on your system"
-msgstr "Sisteminizde ses eklentilerinin yüklü olduğundan emin olun"
+msgstr "Sisteminizde ses eklentilerinin kurulu olduğundan emin olun"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disablereccountdown)
 #: src/ui/configcapture_ui.ui:618

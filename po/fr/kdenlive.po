@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-24 19:39+0100\n"
+"PO-Revision-Date: 2023-01-29 21:00+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -3271,10 +3271,11 @@ msgid "Hide keyframes in timeline"
 msgstr "Masquer les images clés dans la frise chronologique"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Afficher les images-clés dans le montage"
+msgstr ""
+"Affiche / masque l'affichage des trames clé dans la vidéo sur la frise "
+"chronologique"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -4018,11 +4019,10 @@ msgid "Open Effect Stack"
 msgstr "Ouvrir la pile d'effets"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "Fichier séparé pour chaque piste audio"
+msgstr "Ouvre la pile des effets pour la piste audio."
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
@@ -6677,7 +6677,7 @@ msgstr "Mettre à jour le titre du sous-titre"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "Met à jour l'affichage des sous-titres dans la frise chronologique."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6863,12 +6863,14 @@ msgstr ""
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
+"Insère une trame clé à la position courante de la tête de lecture /sur la "
+"trame courante."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "Déplace la tête de lecture vers la prochaine trame clé sur la droite."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
@@ -6878,11 +6880,12 @@ msgstr ""
 "Déplace l'en-tête de lecture vers la prochaine trame clé vers la gauche."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "Déplacer l'image clé sélectionné à la position du curseur"
+msgstr ""
+"Déplace les trames clé sélectionnées vers la position courante de la tête de "
+"lecture /sur la trame courante."
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
@@ -7912,6 +7915,8 @@ msgstr "Définir la zone de sortie"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
+"Définit la position courante de la tête de lecture / de la trame comme fin "
+"de zone."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -9023,10 +9028,9 @@ msgid "Audio Mixer"
 msgstr "Mixage son"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "Calculer l'amplitude audio."
+msgstr "Affiche /masque le panneau /composant graphique du mélangeur audio."
 
 #: src/mainwindow.cpp:497
 #, kde-format
