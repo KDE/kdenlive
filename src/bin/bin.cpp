@@ -2469,7 +2469,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_locateAction->setEnabled(!isFolder && isImported);
             m_locateAction->setVisible(!isFolder && isImported);
             m_proxyAction->setEnabled(m_doc->useProxy() && !isFolder);
-            m_reloadAction->setEnabled(isClip);
+            m_reloadAction->setEnabled(isClip && type != ClipType::Timeline);
             m_reloadAction->setVisible(!isFolder);
             m_replaceAction->setEnabled(isClip);
             m_replaceAction->setVisible(!isFolder);

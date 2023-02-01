@@ -615,7 +615,7 @@ const QString ClipController::clipUrl() const
 
 bool ClipController::sourceExists() const
 {
-    if (m_clipType == ClipType::Color || m_clipType == ClipType::Text) {
+    if (m_clipType == ClipType::Color || m_clipType == ClipType::Text || m_clipType == ClipType::Timeline) {
         return true;
     }
     if (m_clipType == ClipType::SlideShow) {
