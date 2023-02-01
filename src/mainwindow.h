@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QShortcut>
 #include <QString>
 #include <QUndoView>
+#include <QUuid>
 
 #include <KActionCategory>
 #include <KAutoSaveFile>
@@ -342,7 +343,12 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
+    /** @brief Initialze the subtitle model on project load. */
+    void slotInitSubtitle(const QMap<QString, QString> &subProperties, const QUuid &uuid);
+    /** @brief Display the subtitle track and initialize subtitleModel if necessary. */
     void slotEditSubtitle(const QMap<QString, QString> &subProperties = {});
+    /** @brief Show/hide subtitle track. */
+    void slotShowSubtitles(bool show);
     void slotTranscode(const QStringList &urls = QStringList());
     /** @brief Open the transcode to edit friendly format dialog. */
     void slotFriendlyTranscode(const QString &binId, bool checkProfile);

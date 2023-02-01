@@ -1182,11 +1182,11 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
     actionCollection()->setShortcutsConfigurable(m_timeFormatButton, false);
 
-    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("add-subtitle")), i18n("Edit Subtitle Tool"), this);
+    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("add-subtitle")), i18n("Show Subtitle Track"), this);
     m_buttonSubtitleEditTool->setCheckable(true);
     m_buttonSubtitleEditTool->setChecked(false);
     addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
-    connect(m_buttonSubtitleEditTool, &QAction::triggered, this, [this]() { slotEditSubtitle(); });
+    connect(m_buttonSubtitleEditTool, &QAction::triggered, this, &MainWindow::slotShowSubtitles);
 
     // create tools buttons
     m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection Tool"), this);
@@ -4338,6 +4338,29 @@ void MainWindow::resetSubtitles(const QUuid &uuid)
     }
 }
 
+void MainWindow::slotShowSubtitles(bool show)
+{
+    const QUuid uuid = getCurrentTimeline()->model()->uuid();
+    KdenliveSettings::setShowSubtitles(show);
+    if (getCurrentTimeline()->model()->hasSubtitleModel()) {
+        getCurrentTimeline()->connectSubtitleModel(false);
+    } else {
+        QMap<QString, QString> props = QMap<QString, QString>();
+        slotEditSubtitle(props);
+    }
+    pCore->currentDoc()->setSequenceProperty(uuid, QStringLiteral("hidesubtitle"), show ? 0 : 1);
+}
+
+void MainWindow::slotInitSubtitle(const QMap<QString, QString> &subProperties, const QUuid &uuid)
+{
+    std::shared_ptr<TimelineItemModel> timeline = pCore->currentDoc()->getTimeline(uuid);
+    Q_ASSERT(!timeline->hasSubtitleModel());
+    std::shared_ptr<SubtitleModel> subtitleModel = timeline->createSubtitleModel();
+    // Starting a new subtitle for this project
+    pCore->subtitleWidget()->setModel(subtitleModel);
+    subtitleModel->loadProperties(subProperties);
+}
+
 void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
 {
     bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
@@ -4345,15 +4368,15 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
         std::shared_ptr<SubtitleModel> subtitleModel = getCurrentTimeline()->model()->createSubtitleModel();
         // Starting a new subtitle for this project
         pCore->subtitleWidget()->setModel(subtitleModel);
+        m_buttonSubtitleEditTool->setChecked(true);
+        KdenliveSettings::setShowSubtitles(true);
         if (!subProperties.isEmpty()) {
             subtitleModel->loadProperties(subProperties);
             // Load the disabled / locked state of the subtitle
             emit getCurrentTimeline()->controller()->subtitlesLockedChanged();
             emit getCurrentTimeline()->controller()->subtitlesDisabledChanged();
+            getCurrentTimeline()->connectSubtitleModel(true);
         }
-        KdenliveSettings::setShowSubtitles(true);
-        m_buttonSubtitleEditTool->setChecked(true);
-        getCurrentTimeline()->connectSubtitleModel(true);
     } else {
         KdenliveSettings::setShowSubtitles(m_buttonSubtitleEditTool->isChecked());
         getCurrentTimeline()->connectSubtitleModel(false);
@@ -4378,7 +4401,7 @@ void MainWindow::slotLockSubtitle()
 
 void MainWindow::showSubtitleTrack()
 {
-    if (!getCurrentTimeline()->hasSubtitles() || !KdenliveSettings::showSubtitles()) {
+    if (!getCurrentTimeline()->hasSubtitles() || !m_buttonSubtitleEditTool->isChecked()) {
         m_buttonSubtitleEditTool->setChecked(true);
         slotEditSubtitle();
     }
@@ -4651,8 +4674,19 @@ void MainWindow::connectTimeline()
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
     emit m_timelineTabs->changeZoom(m_zoomSlider->value(), false);
+
     // switch to active subtitle model
     pCore->subtitleWidget()->setModel(getCurrentTimeline()->model()->getSubtitleModel());
+    bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
+    emit getCurrentTimeline()->controller()->subtitlesLockedChanged();
+    emit getCurrentTimeline()->controller()->subtitlesDisabledChanged();
+    bool showSubs = pCore->currentDoc()->getSequenceProperty(uuid, QStringLiteral("hidesubtitle")).toInt() == 0;
+    KdenliveSettings::setShowSubtitles(showSubs && hasSubtitleModel);
+    getCurrentTimeline()->connectSubtitleModel(hasSubtitleModel);
+    m_buttonSubtitleEditTool->setChecked(showSubs && hasSubtitleModel);
+    if (hasSubtitleModel) {
+        slotShowSubtitles(showSubs);
+    }
 
     if (m_renderWidget) {
         slotCheckRenderStatus();

@@ -1005,7 +1005,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
 }
 
 void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist,
-                                     const QString &originalDecimalPoint)
+                                     const QString &originalDecimalPoint, const QUuid &uuid)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -1027,7 +1027,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                     if (!style.isEmpty()) {
                         subProperties.insert(QStringLiteral("av.force_style"), style);
                     }
-                    pCore->window()->slotEditSubtitle(subProperties);
+                    pCore->window()->slotInitSubtitle(subProperties, uuid);
                 } else if (auto ms = m_masterService.lock()) {
                     ms->attach(*filter.get());
                 }

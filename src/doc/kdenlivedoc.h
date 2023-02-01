@@ -153,6 +153,7 @@ public:
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
     /** @brief Set a timeline sequence property. */
     void setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value);
+    void setSequenceProperty(const QUuid &uuid, const QString &name, int value);
     /** @brief Get a timeline sequence property. */
     const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue = QString()) const;
 

@@ -1697,39 +1697,3 @@ bool ProjectManager::closeTimeline(const QUuid &uuid)
     m_project->closeTimeline(uuid);
     return true;
 }
-
-bool ProjectManager::closeDocument()
-{
-    KdenliveDoc *doc = m_project;
-    if (doc && doc->isModified()) {
-        QString message;
-        if (doc->url().fileName().isEmpty()) {
-            message = i18n("Save changes to document?");
-        } else {
-            message = i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", doc->url().fileName());
-        }
-
-        switch (KMessageBox::warningYesNoCancel(pCore->window(), message)) {
-        case KMessageBox::Yes:
-            // save document here. If saving fails, return false;
-            // TODO: save document with uuid
-            if (!saveFile()) {
-                return false;
-            }
-            break;
-        case KMessageBox::Cancel:
-            return false;
-            break;
-        default:
-            break;
-        }
-    }
-    // doc->objectModel()->timeline()->unsetModel();
-    // pCore->deleteProjectModel(uuid);
-    delete doc;
-    m_project = nullptr;
-    // TODO: handle subtitles
-    // pCore->window()->resetSubtitles();
-    // pCore->bin()->cleanDocument();
-    return true;
-}

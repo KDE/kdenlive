@@ -5590,7 +5590,7 @@ void TimelineModel::importMasterEffects(std::weak_ptr<Mlt::Service> service)
     if (m_masterStack == nullptr) {
         getMasterEffectStackModel();
     }
-    m_masterStack->importEffects(std::move(service), PlaylistState::Disabled);
+    m_masterStack->importEffects(std::move(service), PlaylistState::Disabled, false, QString(), m_uuid);
 }
 
 QStringList TimelineModel::extractCompositionLumas() const

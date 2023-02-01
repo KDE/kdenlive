@@ -10,6 +10,7 @@
 #include "undohelper.hpp"
 
 #include <QReadWriteLock>
+#include <QUuid>
 #include <memory>
 #include <mlt++/Mlt.h>
 #include <unordered_set>
@@ -51,7 +52,7 @@ public:
      */
     bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state);
     void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false,
-                       const QString &originalDecimalPoint = QString());
+                       const QString &originalDecimalPoint = QString(), const QUuid &uuid = QUuid());
     bool removeFade(bool fromStart);
 
     /** @brief This function change the global (timeline-wise) enabled state of the effects

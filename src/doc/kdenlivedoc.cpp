@@ -1085,6 +1085,11 @@ void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, co
     }
 }
 
+void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, int value)
+{
+    setSequenceProperty(uuid, name, QString::number(value));
+}
+
 const QString KdenliveDoc::getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue) const
 {
     if (uuid == m_uuid) {

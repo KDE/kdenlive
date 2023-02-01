@@ -117,7 +117,6 @@ public:
     int getTimelinesCount() const;
 
     void activateDocument(const QUuid &uuid);
-    bool closeDocument();
     /** @brief Close a timeline tab through its uuid
      */
     bool closeTimeline(const QUuid &uuid);
