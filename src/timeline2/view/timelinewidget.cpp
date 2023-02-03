@@ -324,7 +324,7 @@ void TimelineWidget::showTargetMenu(int tid)
 void TimelineWidget::showRulerMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(m_uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
@@ -343,7 +343,7 @@ void TimelineWidget::showRulerMenu()
 void TimelineWidget::showTimelineMenu()
 {
     m_guideMenu->clear();
-    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel(m_uuid)->getAllMarkers();
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();

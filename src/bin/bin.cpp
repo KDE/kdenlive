@@ -5533,6 +5533,8 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, const QUuid &curre
         properties.insert(QStringLiteral("out"), QString::number(duration - 1));
         properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
+        // Store general sequence properties
+        m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
         // properties.insert(QStringLiteral("kdenlive:thumbnailFrame"), QString::number(pos));
         clip->setProperties(properties);
         // ThumbnailCache::get()->invalidateThumbsForClip(binId);
@@ -5547,14 +5549,4 @@ const QString Bin::sequenceBinId(const QUuid uuid)
         return m_openedPlaylists.value(uuid);
     }
     return QString();
-}
-
-const QStringList Bin::openedSequences()
-{
-    QList<QUuid> uuids = m_openedPlaylists.keys();
-    QStringList result;
-    for (auto &uid : uuids) {
-        result << uid.toString();
-    }
-    return result;
 }

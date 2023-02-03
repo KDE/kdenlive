@@ -595,6 +595,7 @@ void ProjectItemModel::clean()
     m_uuid = QUuid::createUuid();
     m_fileWatcher->clear();
     m_extraPlaylists.clear();
+    m_projectTractor.reset();
     ThumbnailCache::get()->clearCache();
 }
 
@@ -1170,8 +1171,11 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
                     if (prod->parent().type() == mlt_service_tractor_type) {
+                        Mlt::Properties sequenceProps;
+                        sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
                         std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
                         QString uuid = prod->parent().get("kdenlive:uuid");
+                        pCore->currentDoc()->loadSequenceProperties(QUuid(uuid), sequenceProps);
                         int id(prod->parent().get_int("kdenlive:id"));
                         trac->set("kdenlive:id", id);
                         trac->set("kdenlive:uuid", uuid.toUtf8().constData());
@@ -1230,7 +1234,54 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tract
     } else {
         qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
     }
-    m_binPlaylist->setRetainIn(modelTractor);
+    m_projectTractor.reset(new Mlt::Tractor(*pCore->getProjectProfile()));
+    m_projectTractor->set("kdenlive:projectTractor", 1);
+    m_binPlaylist->setRetainIn(m_projectTractor.get());
+}
+
+std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
+{
+    return m_projectTractor;
+}
+
+const QString ProjectItemModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration)
+{
+    LocaleHandling::resetLocale();
+    QString playlist;
+    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
+    if (!root.isEmpty()) {
+        xmlConsumer.set("root", root.toUtf8().constData());
+    }
+    if (!xmlConsumer.is_valid()) {
+        return QString();
+    }
+    xmlConsumer.set("store", "kdenlive");
+    xmlConsumer.set("time_format", "clock");
+    // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
+    // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
+    // xmlConsumer.set("no_meta", 1);
+
+    // Add active timeline as playlist of the main tractor so that when played through melt, the .kdenlive file reads the playlist
+    if (m_projectTractor->count() > 0) {
+        m_projectTractor->remove_track(0);
+    }
+    m_projectTractor->insert_track(*activeTractor->cut(0, duration), 0);
+
+    Mlt::Service s(m_projectTractor->get_service());
+    std::unique_ptr<Mlt::Filter> filter = nullptr;
+    if (!filterData.isEmpty()) {
+        filter = std::make_unique<Mlt::Filter>(*pCore->getProjectProfile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
+        filter->set("fgcolour", "#ffffff");
+        filter->set("bgcolour", "#bb333333");
+        s.attach(*filter.get());
+    }
+    xmlConsumer.connect(s);
+    xmlConsumer.run();
+    if (filter) {
+        s.detach(*filter.get());
+    }
+    playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
+    return playlist;
 }
 
 std::shared_ptr<Mlt::Tractor> ProjectItemModel::getExtraTimeline(const QString &uuid)

@@ -957,8 +957,6 @@ signals:
     void checkItemDeletion(int cid);
     /** @brief request animation of the track tid lock icon */
     void flashLock(int tid);
-    /** @brief Guides changed, save in document properties */
-    void guidesChanged(const QUuid &uuid);
     /** @brief Save guide categories in document properties */
     void saveGuideCategories();
     /** @brief Highlight a subtitle item in timeline */

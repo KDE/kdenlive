@@ -668,6 +668,8 @@ public:
     MixAlignment getMixAlign(int cid) const;
     /** @brief Process a lift operation for multitrack operation. */
     void processMultitrackOperation(int tid, int in);
+    /** @brief Save all sequence properties (timeline position, guides, groups, ..) to the timeline tractor. */
+    void saveSequenceProperties();
 
 public slots:
     void resetView();

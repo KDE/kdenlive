@@ -96,6 +96,7 @@ void TimelineTabs::connectCurrent(int ix)
         pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();
         duration = m_activeTimeline->model()->duration();
+        m_activeTimeline->controller()->saveSequenceProperties();
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
@@ -235,4 +236,13 @@ void TimelineTabs::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMen
     m_headerMenu->addMenu(m_thumbsMenu);
     m_timelineSubtitleClipMenu = subtitleClipMenu;
     m_editGuideAction = editGuideAction;
+}
+
+const QStringList TimelineTabs::openedSequences()
+{
+    QStringList result;
+    for (int i = 0; i < count(); i++) {
+        result << static_cast<TimelineWidget *>(widget(i))->getUuid().toString();
+    }
+    return result;
 }

@@ -98,6 +98,7 @@ public:
     KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
+    QUuid activeUuid;
     /** @brief Get current document's producer. */
     const QByteArray getAndClearProjectXml();
     double fps() const;
@@ -148,6 +149,8 @@ public:
     QPair<int, int> targetTracks(const QUuid &uuid) const;
     /** @brief Load document guides from properties. */
     void loadDocumentGuides(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Load sequence properties from the MLT tractor. */
+    void loadSequenceProperties(const QUuid &uuid, Mlt::Properties sequenceProps);
     /** @brief Set a document property. */
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
@@ -203,8 +206,8 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model of timeline uuid */
-    std::shared_ptr<MarkerListModel> getGuideModel(QUuid uuid = QUuid()) const;
-    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(QUuid uuid = QUuid());
+    std::shared_ptr<MarkerListModel> getGuideModel(QUuid uuid) const;
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(QUuid uuid);
 
     // TODO REFAC: delete */
     Render *renderer();
@@ -306,6 +309,7 @@ private:
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    QMap<QUuid, QMap<QString, QString>> m_sequenceProperties;
     QUuid m_filteredTimelineUuid;
 
     QString m_modifiedDecimalPoint;
@@ -352,8 +356,6 @@ private slots:
     void slotSwitchProfile(const QString &profile_path, bool reloadThumbs);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack(int ix);
-    /** @brief Guides were changed, save to MLT. */
-    void guidesChanged(const QUuid &uuid);
     /** @brief Display error message on failed move. */
     void slotMoveFinished(KJob *job);
     /** @brief Save the project guide categories in the document properties. */

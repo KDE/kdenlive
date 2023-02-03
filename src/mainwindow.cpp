@@ -2339,8 +2339,9 @@ void MainWindow::connectDocument()
     getCurrentTimeline()->controller()->switchCompositing(compositing);
     connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
+    const QUuid uuid = getCurrentTimeline()->getUuid();
 
-    int activeTrackPosition = project->getSequenceProperty(getCurrentTimeline()->model()->uuid(), QStringLiteral("activeTrack"), QString::number(-1)).toInt();
+    int activeTrackPosition = project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (activeTrackPosition == -2) {
         // Subtitle model track always has ID == -2
         getCurrentTimeline()->controller()->setActiveTrack(-2);
@@ -2370,7 +2371,7 @@ void MainWindow::connectDocument()
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel(getCurrentTimeline()->getUuid()));
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel(uuid));
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
         m_renderWidget->updateMetadataToolTip();
@@ -2394,7 +2395,7 @@ void MainWindow::connectDocument()
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     pCore->guidesList()->reset();
-    pCore->guidesList()->setModel(project->getGuideModel(getCurrentTimeline()->getUuid()), project->getFilteredGuideModel());
+    pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
     getCurrentTimeline()->focusTimeline();
 }
 
@@ -4225,6 +4226,14 @@ void MainWindow::closeTimeline(const QUuid &uuid)
     m_timelineTabs->closeTimeline(uuid);
 }
 
+const QStringList MainWindow::openedSequences() const
+{
+    if (m_timelineTabs) {
+        return m_timelineTabs->openedSequences();
+    }
+    return QStringList();
+}
+
 void MainWindow::resetTimelineTracks()
 {
     TimelineWidget *current = getCurrentTimeline();
@@ -4669,7 +4678,8 @@ void MainWindow::connectTimeline()
 
     KdenliveDoc *project = pCore->currentDoc();
     // pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), project->position);
-    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer());
+    int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
+    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());

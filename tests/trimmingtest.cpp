@@ -562,7 +562,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
     mocked.testSetActiveDocument(&mockedDoc, timeline);
-    std::shared_ptr<MarkerListModel> guideModel = mockedDoc.getGuideModel();
+    std::shared_ptr<MarkerListModel> guideModel = mockedDoc.getGuideModel(mockedDoc.uuid());
 
     RESET(timMock)
 

@@ -127,7 +127,6 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     , m_closing(false)
     , m_guidesModel(new MarkerListModel(m_undoStack, this))
 {
-    connect(m_guidesModel.get(), &MarkerListModel::modelChanged, this, [this]() { emit guidesChanged(m_uuid); });
     connect(m_guidesModel.get(), &MarkerListModel::categoriesChanged, this, &TimelineModel::saveGuideCategories);
     m_guidesFilterModel.reset(new MarkerSortModel(this));
     m_guidesFilterModel->setSourceModel(m_guidesModel.get());
@@ -144,7 +143,10 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     m_blackClip->set("set.test_audio", 0);
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
-    m_tractor->set("id", uuid.toString().toUtf8().constData());
+    if (uuid != pCore->currentDoc()->uuid()) {
+        // This is not the main tractor
+        m_tractor->set("id", uuid.toString().toUtf8().constData());
+    }
 
     TRACE_CONSTR(this);
 }

@@ -371,8 +371,6 @@ public:
     void replaceSingleClip(const QString clipId, const QString &newUrl);
     /** @brief Remove clip references for a timeline. */
     void removeReferencedClips(const QUuid &uuid);
-    /** @brief Returns the uuid list for opened timeline tabs. */
-    const QStringList openedSequences();
 
 private slots:
     void slotAddClip();

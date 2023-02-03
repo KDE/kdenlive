@@ -217,6 +217,9 @@ public:
     QUuid uuid() const { return m_uuid; };
     /** @brief Retrieve the Bin clip id from a sequence uuid */
     const QString getSequenceId(const QUuid &uuid);
+    /** @brief Return the main project tractor (container of all playlists) */
+    std::shared_ptr<Mlt::Tractor> projectTractor();
+    const QString sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration);
 
 protected:
     /** @brief Register the existence of a new element
@@ -257,6 +260,7 @@ private:
 
     std::unique_ptr<FileWatcher> m_fileWatcher;
     std::unordered_map<QString, std::shared_ptr<Mlt::Tractor>> m_extraPlaylists;
+    std::shared_ptr<Mlt::Tractor> m_projectTractor;
 
     int m_nextId;
     QIcon m_blankThumb;

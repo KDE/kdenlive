@@ -79,16 +79,18 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     initializeProperties();
+    QMap<QString, QString> sequenceProperties;
     // video tracks are after audio tracks, and the UI shows them from highest position to lowest position
-    m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
-    m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
+    sequenceProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
+    sequenceProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
     // If there is at least one video track, set activeTrack to be the first
     // video track (which comes after the audio tracks). Otherwise, set the
     // activeTrack to be the last audio track (the top-most audio track in the
     // UI).
     const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
-    m_documentProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
-    m_documentProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
+    sequenceProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
+    sequenceProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
+    m_sequenceProperties.insert(m_uuid, sequenceProperties);
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
@@ -366,15 +368,16 @@ const QStringList KdenliveDoc::guidesCategories()
 {
     if (!m_documentProperties.contains(QStringLiteral("guidesCategories")) || m_documentProperties.value(QStringLiteral("guidesCategories")).isEmpty()) {
         const QStringList defaultCategories = getDefaultGuideCategories();
-        m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(m_uuid)->categoriesListToJSon(defaultCategories);
+        m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(activeUuid)->categoriesListToJSon(defaultCategories);
         return defaultCategories;
     }
-    return getGuideModel(m_uuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
+    return getGuideModel(activeUuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
 }
 
 void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories)
 {
-    const QStringList currentCategories = getGuideModel(m_uuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
+    const QStringList currentCategories =
+        getGuideModel(activeUuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
     // Check if a guide category was removed
     QList<int> currentIndexes;
     QList<int> updatedIndexes;
@@ -391,12 +394,12 @@ void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMa
         // A marker category was removed, delete all Bin clip markers using it
         pCore->bin()->removeMarkerCategories(currentIndexes, remapCategories);
     }
-    getGuideModel(m_uuid)->loadCategoriesWithUndo(categories, currentCategories, remapCategories);
+    getGuideModel(activeUuid)->loadCategoriesWithUndo(categories, currentCategories, remapCategories);
 }
 
 void KdenliveDoc::saveGuideCategories()
 {
-    const QString categories = getGuideModel(m_uuid)->categoriesToJSon();
+    const QString categories = getGuideModel(activeUuid)->categoriesToJSon();
     m_documentProperties[QStringLiteral("guidesCategories")] = categories;
 }
 
@@ -1069,20 +1072,16 @@ const QString KdenliveDoc::getDocumentProperty(const QString &name, const QStrin
 
 void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value)
 {
-    if (uuid == m_uuid) {
-        if (value.isEmpty()) {
-            m_documentProperties.remove(name);
-            return;
-        }
-        m_documentProperties[name] = value;
-    } else {
-        const QString seqName = QString("%1:%2").arg(uuid.toString(), name);
-        if (value.isEmpty()) {
-            m_documentProperties.remove(seqName);
-            return;
-        }
-        m_documentProperties[seqName] = value;
+    QMap<QString, QString> sequenceMap;
+    if (m_sequenceProperties.contains(uuid)) {
+        sequenceMap = m_sequenceProperties.value(uuid);
     }
+    if (value.isEmpty()) {
+        sequenceMap.remove(name);
+        return;
+    }
+    sequenceMap[name] = value;
+    m_sequenceProperties.insert(uuid, sequenceMap);
 }
 
 void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, int value)
@@ -1092,10 +1091,12 @@ void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, in
 
 const QString KdenliveDoc::getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue) const
 {
-    if (uuid == m_uuid) {
-        return m_documentProperties.value(name, defaultValue);
+
+    if (m_sequenceProperties.contains(uuid)) {
+        QMap<QString, QString> sequenceMap = m_sequenceProperties.value(uuid);
+        return sequenceMap.value(name, defaultValue);
     }
-    return m_documentProperties.value(QString("%1:%2").arg(uuid.toString(), name), defaultValue);
+    return defaultValue;
 }
 
 QMap<QString, QString> KdenliveDoc::getRenderProperties() const
@@ -1518,12 +1519,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
 
 void KdenliveDoc::loadDocumentGuides(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model)
 {
-    QString guides;
-    if (uuid == m_uuid) {
-        guides = m_documentProperties.value(QStringLiteral("guides"));
-    } else {
-        guides = m_documentProperties.value(QStringLiteral("guides.%1").arg(uuid.toString()));
-    }
+    QString guides = getSequenceProperty(uuid, QStringLiteral("guides"));
     if (!guides.isEmpty()) {
         model->getGuideModel()->importFromJson(guides, true, false);
     }
@@ -1988,11 +1984,13 @@ void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemMod
         qDebug() << "::::: TIMELINE " << uuid << " already inserted in project";
         return;
     }
+    if (m_timelines.isEmpty()) {
+        activeUuid = uuid;
+    }
     m_timelines.insert(uuid, model);
     model->getGuideModel()->loadCategories(guidesCategories(), false);
     model->updateFieldOrderFilter(pCore->getCurrentProfile());
     loadDocumentGuides(uuid, model);
-    connect(model.get(), &TimelineModel::guidesChanged, this, &KdenliveDoc::guidesChanged);
     connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
@@ -2004,18 +2002,12 @@ void KdenliveDoc::closeTimeline(const QUuid &uuid)
 
 std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel(QUuid uuid)
 {
-    if (uuid.isNull()) {
-        uuid = m_uuid;
-    }
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     return m_timelines.value(uuid)->getFilteredGuideModel();
 }
 
 std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(QUuid uuid) const
 {
-    if (uuid.isNull()) {
-        uuid = m_uuid;
-    }
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     return m_timelines.value(uuid)->getGuideModel();
 }
@@ -2040,15 +2032,6 @@ const QString KdenliveDoc::projectName() const
         return i18n("Untitled");
     }
     return m_url.fileName();
-}
-
-void KdenliveDoc::guidesChanged(const QUuid &uuid)
-{
-    if (uuid.isNull() || uuid == m_uuid) {
-        m_documentProperties[QStringLiteral("guides")] = getGuideModel(m_uuid)->toJson();
-    } else {
-        m_documentProperties[QStringLiteral("guides.%1").arg(uuid.toString())] = getGuideModel(uuid)->toJson();
-    }
 }
 
 const QString KdenliveDoc::documentRoot() const
@@ -2277,4 +2260,13 @@ const QStringList KdenliveDoc::getDefaultGuideCategories()
 const QUuid KdenliveDoc::uuid() const
 {
     return m_uuid;
+}
+
+void KdenliveDoc::loadSequenceProperties(const QUuid &uuid, Mlt::Properties sequenceProps)
+{
+    QMap<QString, QString> sequenceProperties;
+    for (int i = 0; i < sequenceProps.count(); i++) {
+        sequenceProperties.insert(qstrdup(sequenceProps.get_name(i)), qstrdup(sequenceProps.get(i)));
+    }
+    m_sequenceProperties.insert(uuid, sequenceProperties);
 }

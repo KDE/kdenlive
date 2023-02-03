@@ -38,6 +38,30 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             bool audioTrack, const QString &originalDecimalPoint, int playlist, const QList<Mlt::Transition *> &compositions,
                             QProgressDialog *progressDialog = nullptr);
 
+bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog,
+                    const QString &originalDecimalPoint)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // First, we destruct the previous tracks
+    QStringList expandedFolders;
+    binIdCorresp.clear();
+    projectModel->loadBinPlaylist(&tractor, projectModel->projectTractor().get(), binIdCorresp, expandedFolders, progressDialog);
+
+    QStringList foldersToExpand;
+    // Find updated ids for expanded folders
+    for (const QString &folderId : expandedFolders) {
+        if (binIdCorresp.count(folderId) > 0) {
+            foldersToExpand << binIdCorresp.at(folderId);
+        }
+    }
+    if (pCore->window()) {
+        pCore->bin()->checkMissingProxies();
+        pCore->bin()->loadFolderState(foldersToExpand);
+    }
+    return true;
+}
+
 bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel,
                                   Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, const QString &chunks,
                                   const QString &dirty, const QDateTime &documentDate, int enablePreview, bool *projectErrors)
@@ -53,18 +77,18 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     if (projectModel && timeline->uuid() == pCore->currentTimelineId()) {
         binIdCorresp.clear();
         projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
-    }
 
-    QStringList foldersToExpand;
-    // Find updated ids for expanded folders
-    for (const QString &folderId : expandedFolders) {
-        if (binIdCorresp.count(folderId) > 0) {
-            foldersToExpand << binIdCorresp.at(folderId);
+        QStringList foldersToExpand;
+        // Find updated ids for expanded folders
+        for (const QString &folderId : expandedFolders) {
+            if (binIdCorresp.count(folderId) > 0) {
+                foldersToExpand << binIdCorresp.at(folderId);
+            }
         }
-    }
-    if (pCore->window()) {
-        pCore->bin()->checkMissingProxies();
-        pCore->bin()->loadFolderState(foldersToExpand);
+        if (pCore->window()) {
+            pCore->bin()->checkMissingProxies();
+            pCore->bin()->loadFolderState(foldersToExpand);
+        }
     }
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),

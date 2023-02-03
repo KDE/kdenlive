@@ -50,6 +50,8 @@ public:
                          QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     /** @brief Mark a tab as modified */
     void setModified(const QUuid &uuid, bool modified);
+    /** @brief Returns the uuid list for opened timeline tabs. */
+    const QStringList openedSequences();
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/

@@ -294,8 +294,8 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Unknown;
         }
     }
-    if (audioIndex > -1 || m_clipType == ClipType::Playlist) {
-        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist);
+    if (audioIndex > -1 || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
         // Load stream effects
         for (int stream : m_audioInfo->streams().keys()) {
             QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
@@ -779,7 +779,14 @@ void ClipController::checkAudioVideo()
         if (service.isEmpty()) {
             service = m_masterProducer->get("mlt_service");
         }
-        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Timeline, ClipType::Unknown};
+        QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
+        qDebug() << ":::: CHECKING AV FOR CLIP TYPE: " << m_clipType;
+        if (m_clipType == ClipType::Timeline) {
+            m_hasVideo = true;
+            m_hasAudio = true;
+            m_masterProducer->set("kdenlive:clip_type", 0);
+            return;
+        }
         if (avTypes.contains(m_clipType)) {
             QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
             if (frame->is_valid()) {

@@ -2562,34 +2562,39 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     }
 }
 
-QMap<QString, QString> TimelineController::documentProperties()
+void TimelineController::saveSequenceProperties()
 {
-    QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
-    QString prefix;
-    if (pCore->currentDoc()->uuid() != m_model->uuid()) {
-        // Secondary timeline, prefix with uuid
-        prefix = m_model->uuid().toString();
-        prefix.append(QLatin1Char(':'));
-    }
+    const QString groupsData = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("groups"));
+    m_model->tractor()->set("kdenlive:sequenceproperties.groups", groupsData.toUtf8().constData());
+    // Save timeline guides
+    const QString guidesData = m_model->getGuideModel()->toJson();
+    m_model->tractor()->set("kdenlive:sequenceproperties.guides", guidesData.toUtf8().constData());
     int audioTarget = m_model->m_audioTarget.isEmpty() ? -1 : m_model->getTrackPosition(m_model->m_audioTarget.firstKey());
     int videoTarget = m_model->m_videoTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_videoTarget);
     int activeTrack = m_activeTrack < 0 ? m_activeTrack : m_model->getTrackPosition(m_activeTrack);
-    props.insert(prefix + QStringLiteral("audioTarget"), QString::number(audioTarget));
-    props.insert(prefix + QStringLiteral("videoTarget"), QString::number(videoTarget));
-    props.insert(prefix + QStringLiteral("activeTrack"), QString::number(activeTrack));
-    props.insert(prefix + QStringLiteral("position"), QString::number(pCore->getMonitorPosition()));
+    m_model->tractor()->set("kdenlive:sequenceproperties.audioTarget", audioTarget);
+    m_model->tractor()->set("kdenlive:sequenceproperties.videoTarget", videoTarget);
+    m_model->tractor()->set("kdenlive:sequenceproperties.activeTrack", activeTrack);
+    m_model->tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
-    props.insert(prefix + QStringLiteral("scrollPos"), QString::number(scrollPos));
-    props.insert(prefix + QStringLiteral("zonein"), QString::number(m_zone.x()));
-    props.insert(prefix + QStringLiteral("zoneout"), QString::number(m_zone.y()));
+    m_model->tractor()->set("kdenlive:sequenceproperties.scrollPos", scrollPos);
+    m_model->tractor()->set("kdenlive:sequenceproperties.zonein", m_zone.x());
+    m_model->tractor()->set("kdenlive:sequenceproperties.zoneout", m_zone.y());
     if (m_model->hasTimelinePreview()) {
         QPair<QStringList, QStringList> chunks = m_model->previewManager()->previewChunks();
-        props.insert(prefix + QStringLiteral("previewchunks"), chunks.first.join(QLatin1Char(',')));
-        props.insert(prefix + QStringLiteral("dirtypreviewchunks"), chunks.second.join(QLatin1Char(',')));
+        m_model->tractor()->set("kdenlive:sequenceproperties.previewchunks", chunks.first.join(QLatin1Char(',')).toUtf8().constData());
+        m_model->tractor()->set("kdenlive:sequenceproperties.dirtypreviewchunks", chunks.second.join(QLatin1Char(',')).toUtf8().constData());
     }
-    props.insert(prefix + QStringLiteral("disablepreview"), QString::number(m_disablePreview->isChecked()));
+    m_model->tractor()->set("kdenlive:sequenceproperties.disablepreview", m_disablePreview->isChecked());
+}
+
+QMap<QString, QString> TimelineController::documentProperties()
+{
+    QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
+    // Ensure current timeline properties are saved (groups, guides, etc)
+    saveSequenceProperties();
     return props;
 }
 

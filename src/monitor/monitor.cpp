@@ -2501,7 +2501,8 @@ void Monitor::updateGuidesList()
 {
     if (m_id == Kdenlive::ProjectMonitor) {
         if (pCore->currentDoc()) {
-            pCore->guidesList()->setModel(pCore->currentDoc()->getGuideModel(), pCore->currentDoc()->getFilteredGuideModel());
+            const QUuid uuid = pCore->currentDoc()->activeUuid;
+            pCore->guidesList()->setModel(pCore->currentDoc()->getGuideModel(uuid), pCore->currentDoc()->getFilteredGuideModel(uuid));
         }
     } else if (m_id == Kdenlive::ClipMonitor) {
         pCore->guidesList()->setClipMarkerModel(m_controller);
