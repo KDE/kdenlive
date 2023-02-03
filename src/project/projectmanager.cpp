@@ -900,12 +900,8 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
     pCore->mixer()->pauseMonitoring(true);
     QString scene;
     // We must save from the primary timeline model
-    if (rendering) {
-        scene = m_activeTimelineModel->sceneList(outputFolder, QString(), overlayData);
-    } else {
-        int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
-        scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration);
-    }
+    int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
+    scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
