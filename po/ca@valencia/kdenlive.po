@@ -12837,9 +12837,9 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 "La ubicació del fitxer del projecte ha canviat. Seleccioneu utilitzar la "
-"ubicació del fitxer del projecte per que es guardarà els fitxers temporals. "
-"Açò mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es "
-"tornarà a carregar el fitxer del projecte"
+"ubicació del fitxer del projecte per a guardar els fitxers temporals. Açò "
+"mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà "
+"a carregar el fitxer del projecte"
 
 #: src/project/projectmanager.cpp:458
 #, kde-format
