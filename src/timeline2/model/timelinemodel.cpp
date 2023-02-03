@@ -1751,8 +1751,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     type = master->clipType();
     // Ensure we don't insert a timeline clip onto itself
-    if (type == ClipType::Timeline && master->getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8() == m_uuid.toString()) {
+    if (type == ClipType::Timeline && !master->canBeDropped(m_uuid)) {
         // Abort insert
+        pCore->displayMessage(i18n("You cannot insert a sequence containing itself"), ErrorMessage);
         return false;
     }
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {

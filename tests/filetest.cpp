@@ -58,7 +58,7 @@ TEST_CASE("Save File", "[SF]")
 
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
-        binModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, nullptr);
+        binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
 
         RESET(timMock)
 
@@ -288,7 +288,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
-        binModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, nullptr);
+        binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
 
         RESET(timMock)
 
@@ -388,7 +388,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
         Mlt::Service s(*xmlProd);
         Mlt::Tractor tractor(s);
-        binModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, nullptr);
+        binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
 
         RESET(timMock)
 

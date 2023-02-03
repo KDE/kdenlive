@@ -46,7 +46,7 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
     // First, we destruct the previous tracks
     QStringList expandedFolders;
     binIdCorresp.clear();
-    projectModel->loadBinPlaylist(&tractor, projectModel->projectTractor().get(), binIdCorresp, expandedFolders, progressDialog);
+    projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
 
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -76,7 +76,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     QStringList expandedFolders;
     if (projectModel && timeline->uuid() == pCore->currentTimelineId()) {
         binIdCorresp.clear();
-        projectModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+        projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
 
         QStringList foldersToExpand;
         // Find updated ids for expanded folders
@@ -303,7 +303,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     m_notesLog.clear();
     QStringList expandedFolders;
     if (timeline->uuid() == pCore->currentTimelineId()) {
-        pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
+        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
     }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders

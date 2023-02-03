@@ -70,7 +70,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
-    binModel->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, nullptr);
+    binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
     int tid1, tid2;
     int tid3, tid4;
     QString binId = createProducer(profile_preview, "red", binModel);

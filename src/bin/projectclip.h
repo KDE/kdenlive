@@ -255,6 +255,9 @@ public:
     /** @brief Remove clip references in a timeline. */
     void purgeReferences(const QUuid &activeUuid);
     const QString baseThumbPath();
+    /** @brief Returns false if the clip is or embeds a timeline with uuid. */
+    bool canBeDropped(const QUuid &uuid) const;
+    const QList<QUuid> registeredUuids() const;
 
 protected:
     friend class ClipModel;

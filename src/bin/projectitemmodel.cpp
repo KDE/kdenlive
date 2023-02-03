@@ -1126,8 +1126,8 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
-                                       QStringList &expandedFolders, QProgressDialog *progressDialog)
+void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                                       QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1387,4 +1387,30 @@ QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QS
 bool ProjectItemModel::urlExists(const QString &path) const
 {
     return m_fileWatcher->contains(path);
+}
+
+bool ProjectItemModel::canBeEmbeded(const QUuid destUuid, const QUuid srcUuid)
+{
+    const QString srcId = getSequenceId(destUuid);
+    QList<QUuid> checkedUuids;
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(srcId);
+    if (clip) {
+        // Get a list of all dependencies
+        QList<QUuid> updatedUUids = clip->registeredUuids();
+        while (!updatedUUids.isEmpty()) {
+            QUuid uuid = updatedUUids.takeFirst();
+            if (!checkedUuids.contains(uuid)) {
+                checkedUuids.append(uuid);
+                const QString secId = getSequenceId(uuid);
+                std::shared_ptr<ProjectClip> subclip = getClipByBinID(secId);
+                updatedUUids.append(subclip->registeredUuids());
+            }
+        }
+        if (checkedUuids.contains(srcUuid)) {
+            return false;
+        }
+    } else {
+        qDebug() << "::: CLIP NOT FOUND FOR : " << srcId;
+    }
+    return true;
 }

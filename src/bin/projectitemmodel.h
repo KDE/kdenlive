@@ -103,8 +103,8 @@ public:
     bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Service *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp,
-                         QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
+    void loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                         QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata);
@@ -220,6 +220,8 @@ public:
     /** @brief Return the main project tractor (container of all playlists) */
     std::shared_ptr<Mlt::Tractor> projectTractor();
     const QString sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration);
+    /** @brief Ensure that sequence @destUuid is not embedded in any dependency of sequence @srcUuid */
+    bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
 
 protected:
     /** @brief Register the existence of a new element

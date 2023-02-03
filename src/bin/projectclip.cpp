@@ -2563,3 +2563,32 @@ const QString ProjectClip::baseThumbPath()
 {
     return QString("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
 }
+
+bool ProjectClip::canBeDropped(const QUuid &uuid) const
+{
+    const QUuid myUuid(m_properties->get("kdenlive:uuid"));
+    if (myUuid == uuid) {
+        return false;
+    }
+    if (auto ptr = m_model.lock()) {
+        return std::static_pointer_cast<ProjectItemModel>(ptr)->canBeEmbeded(uuid, myUuid);
+    } else {
+        qDebug() << "..... ERROR CANNOT LOCK MODEL";
+    }
+    return true;
+}
+
+const QList<QUuid> ProjectClip::registeredUuids() const
+{
+    QList<QUuid> uuids;
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (!uuids.contains(ptr->uuid())) {
+                uuids << ptr->uuid();
+            }
+        } else {
+            qDebug() << "CANNOT LOCK REGISTERED TL";
+        }
+    }
+    return uuids;
+}
