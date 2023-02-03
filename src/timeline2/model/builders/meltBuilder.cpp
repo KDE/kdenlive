@@ -148,7 +148,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         if (reserved_names.contains(playlist_name)) {
             if (playlist_name == QLatin1String("timeline_preview")) {
                 Mlt::Playlist local_playlist(*track);
-                pCore->loadTimelinePreview(chunks, dirty, enablePreview, local_playlist);
+                pCore->loadTimelinePreview(timeline->uuid(), chunks, dirty, enablePreview, local_playlist);
             }
             continue;
         }
@@ -376,7 +376,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         if (reserved_names.contains(playlist_name)) {
             if (playlist_name == QLatin1String("timeline_preview")) {
                 Mlt::Playlist local_playlist(*track);
-                pCore->loadTimelinePreview(chunks, dirty, enablePreview, local_playlist);
+                pCore->loadTimelinePreview(timeline->uuid(), chunks, dirty, enablePreview, local_playlist);
             }
             continue;
         }

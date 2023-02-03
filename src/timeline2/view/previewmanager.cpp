@@ -5,6 +5,7 @@
 */
 
 #include "previewmanager.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
@@ -545,7 +546,8 @@ void PreviewManager::startPreviewRender()
         m_errorLog.clear();
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
-            const QString playlist = pCore->currentDoc()->getTimeline(m_uuid)->sceneList(m_cacheDir.absolutePath());
+            const QString playlist =
+                pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
             QDomDocument doc;
             doc.setContent(playlist);
             pCore->currentDoc()->useOriginals(doc);

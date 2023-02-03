@@ -1352,7 +1352,10 @@ void Core::addBin(const QString &id)
     m_mainWindow->addBin(bin, folderName);
 }
 
-void Core::loadTimelinePreview(const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist)
+void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist)
 {
-    pCore->window()->getCurrentTimeline()->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+    TimelineWidget *tl = pCore->window()->getTimeline(uuid);
+    if (tl) {
+        tl->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
+    }
 }

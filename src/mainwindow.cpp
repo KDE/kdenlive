@@ -4216,6 +4216,11 @@ TimelineWidget *MainWindow::getCurrentTimeline() const
     return m_timelineTabs->getCurrentTimeline();
 }
 
+TimelineWidget *MainWindow::getTimeline(const QUuid uuid) const
+{
+    return m_timelineTabs->getTimeline(uuid);
+}
+
 bool MainWindow::hasTimeline() const
 {
     return m_timelineTabs != nullptr;

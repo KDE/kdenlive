@@ -52,6 +52,8 @@ public:
     void setModified(const QUuid &uuid, bool modified);
     /** @brief Returns the uuid list for opened timeline tabs. */
     const QStringList openedSequences();
+    /** @brief Get a timeline tab by uuid. */
+    TimelineWidget *getTimeline(const QUuid uuid) const;
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/

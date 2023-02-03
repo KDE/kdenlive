@@ -246,3 +246,14 @@ const QStringList TimelineTabs::openedSequences()
     }
     return result;
 }
+
+TimelineWidget *TimelineTabs::getTimeline(const QUuid uuid) const
+{
+    for (int i = 0; i < count(); i++) {
+        TimelineWidget *tl = static_cast<TimelineWidget *>(widget(i));
+        if (tl->getUuid() == uuid) {
+            return tl;
+        }
+    }
+    return nullptr;
+}
