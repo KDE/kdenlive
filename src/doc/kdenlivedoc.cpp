@@ -56,7 +56,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 1.04;
+const double DOCUMENTVERSION = 1.1;
 
 // create a new blank document
 KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
