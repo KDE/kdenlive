@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-18 02:37+0000\n"
-"PO-Revision-Date: 2023-01-04 10:12+0100\n"
+"PO-Revision-Date: 2023-01-31 16:16+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2871,7 +2871,7 @@ msgstr "Směr"
 #: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
-msgstr ""
+msgstr "Měření kvalita videa"
 
 #: data/transitions/vqm.xml:5
 #, kde-format
@@ -3561,7 +3561,7 @@ msgstr ""
 #: src/assets/view/widgets/keyframewidget.cpp:90
 #, kde-format
 msgid "Copy keyframes"
-msgstr ""
+msgstr "Kopírovat klíčové snímky"
 
 #: src/assets/view/widgets/keyframewidget.cpp:92
 #, kde-kuit-format
@@ -3575,12 +3575,12 @@ msgstr ""
 #: src/assets/view/widgets/keyframewidget.cpp:814
 #, kde-format
 msgid "Paste keyframe"
-msgstr ""
+msgstr "Vložit klíčový snímek"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96
 #, kde-format
 msgid "Paste keyframes"
-msgstr ""
+msgstr "Vložit klíčové snímky"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-kuit-format
@@ -3731,7 +3731,7 @@ msgstr ""
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
-msgstr ""
+msgstr "L:"
 
 #: src/audiomixer/audiolevelwidget.cpp:243
 #, kde-format
@@ -3740,6 +3740,8 @@ msgid ""
 "\n"
 "R:"
 msgstr ""
+"\n"
+"P:"
 
 #: src/audiomixer/mixermanager.cpp:89
 #, kde-format
@@ -4298,7 +4300,7 @@ msgstr ""
 #: src/bin/bin.cpp:3779
 #, kde-format
 msgid "Edit Tags"
-msgstr ""
+msgstr "Upravit značky"
 
 #: src/bin/bin.cpp:4122
 #, kde-format
@@ -4654,7 +4656,7 @@ msgstr "Značka"
 #: src/bin/model/markerlistmodel.cpp:750
 #, kde-format
 msgid "Recovered %1"
-msgstr ""
+msgstr "Zotaveno %1"
 
 #: src/bin/model/markerlistmodel.cpp:867
 #, kde-format
@@ -4686,22 +4688,22 @@ msgstr ""
 #: src/bin/model/markerlistmodel.cpp:885
 #, kde-format
 msgid "Guides Category"
-msgstr ""
+msgstr "Kategorie vodítek"
 
 #: src/bin/model/markerlistmodel.cpp:885
 #, kde-format
 msgid "Markers Category"
-msgstr ""
+msgstr "Kategorie značek"
 
 #: src/bin/model/markerlistmodel.cpp:903
 #, kde-format
 msgid "Edit guides"
-msgstr ""
+msgstr "Upravit vodítka"
 
 #: src/bin/model/markerlistmodel.cpp:903
 #, kde-format
 msgid "Edit markers"
-msgstr ""
+msgstr "Upravit značky"
 
 #: src/bin/model/markerlistmodel.cpp:918 src/bin/model/markerlistmodel.cpp:943
 #: src/timeline2/view/timelinecontroller.cpp:1362
@@ -5907,12 +5909,12 @@ msgstr "Průměrný datový tok"
 #: src/dialogs/renderpresetdialog.cpp:93 src/dialogs/renderpresetdialog.cpp:168
 #, kde-format
 msgid "CBR – Constant Bitrate"
-msgstr ""
+msgstr "CBR – Stálý datový tok"
 
 #: src/dialogs/renderpresetdialog.cpp:94 src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
 msgid "VBR – Variable Bitrate"
-msgstr ""
+msgstr "VBR – Variabilní datový tok"
 
 #: src/dialogs/renderpresetdialog.cpp:96
 #, kde-format
@@ -6095,7 +6097,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:751
 #, kde-format
 msgid "Could not create temporary subtitle file"
-msgstr ""
+msgstr "Nelze vytvořit dočasný soubor titulků"
 
 #: src/dialogs/renderwidget.cpp:721
 #, kde-format
@@ -6147,7 +6149,7 @@ msgstr "Video bez audio stopy"
 #: src/dialogs/renderwidget.cpp:1059
 #, kde-format
 msgid "Audio without video track"
-msgstr ""
+msgstr "Audio bez video stopy"
 
 #: src/dialogs/renderwidget.cpp:1123
 #, kde-format
@@ -16853,13 +16855,13 @@ msgstr ""
 #: src/ui/import_subtitle_ui.ui:154
 #, kde-format
 msgid "Subtitle file:"
-msgstr ""
+msgstr "Soubor titulků:"
 
 #. i18n: ectx: property (filter), widget (KUrlRequester, subtitle_url)
 #: src/ui/import_subtitle_ui.ui:161
 #, kde-format
 msgid "*.srt *.ass *.vtt *.sbv"
-msgstr ""
+msgstr "*.srt *.ass *.vtt *.sbv"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
 #: src/ui/import_subtitle_ui.ui:197
