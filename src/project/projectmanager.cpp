@@ -248,6 +248,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     ThumbnailCache::get()->clearCache();
     pCore->bin()->setDocument(doc);
     m_project = doc;
+    initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
     updateTimeline(0, true, QString(), QString(), QDateTime(), 0);
     pCore->window()->connectDocument();
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
