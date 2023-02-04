@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-23 07:29+0100\n"
+"PO-Revision-Date: 2023-02-03 16:00+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3670,7 +3670,7 @@ msgstr "გამართვა"
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
-msgstr "_გაუმჭირვალობა"
+msgstr "გაუმჭვირვალობა"
 
 #: src/assets/view/widgets/keyframewidget.cpp:246
 #: src/assets/view/widgets/keyframewidget.cpp:318
@@ -10811,7 +10811,7 @@ msgstr "&გადიდება"
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
-msgstr "და_პატარავება"
+msgstr "დაპატარავება"
 
 #: src/monitor/view/EffectToolBar.qml:114
 #: src/monitor/view/MultiScreenToolBar.qml:81
@@ -18559,7 +18559,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:24
 #, kde-format
 msgid "Convert to"
-msgstr "გა_რდაქმნა"
+msgstr "გარდაქმნა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/transcodeseekable_ui.ui:61
