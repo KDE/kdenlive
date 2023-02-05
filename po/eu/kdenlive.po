@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-29 21:45+0100\n"
+"PO-Revision-Date: 2023-02-04 10:09+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -3225,6 +3225,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Proiektu eta/edo klip begiralean zatiketa pizten edo itzaltzen du: ezkerrean "
+"klipa efektuarekin erakusten da, eskuinean klipa efekturik gabe."
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3247,10 +3249,9 @@ msgid "Hide keyframes in timeline"
 msgstr "Ezkutatu gako-fotogramak denbora-lerroan"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "Erakutsi gako-fotogramak denbora-lerroan"
+msgstr "Denbora-lerroan klipeko gako-fotogramak azaltzea txandakatzen du"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -5643,6 +5644,10 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Kodetzeko profilak eta haien parametroak dituen leiho bat irekitzen du. "
+"Hortik, denbora-lerro aurreikuspenerako, ordezkari sorrerarako, eta bideo, "
+"pantaila eta «decklink» atzemateko profilak sortu, aldatu, ezabatu eta zama-"
+"jaitsi ditzakezu."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6597,6 +6602,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Denbora-lerroko erreprodukzio-kurtsorea eskuineko azpidatziaren hasierara "
+"mugitzen du."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6610,6 +6617,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Denbora-lerroko erreprodukzio-kurtsorea ezkerreko azpidatziaren hasierara "
+"mugitzen du."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6625,6 +6634,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Luzera lehenetsia duen azpidatzi bat sortzen du (<interface>ezarpenak-"
+">Configuratu Kdenlive...->Beste batzuk</interface>) uneko erreprodukzio "
+"kurtsore/fotograman."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6664,6 +6676,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Letra-tipoa, neurria, kolorea, ingerada-estiloa, itzala, kokapena eta atzeko-"
+"planoa doitzeko zerrenda bat txandakatzen du."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6832,31 +6846,37 @@ msgstr ""
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
 msgstr ""
+"Gako-fotograma bat txertatzen du erreprodukzio-kurtsorearen uneko kokapenean/"
+"fotograman."
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
 msgstr ""
+"Erreprodukzio-kurtsorea eskuinetik hurrengo gako-fotogramara mugitzen du."
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
 msgstr ""
+"Erreprodukzio-kurtsorea ezkerretik hurrengo gako-fotogramara mugitzen du."
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "Mugitu hautatutako gako-fotograma kurtsorera"
+msgstr ""
+"Hautatutako gako-fotogramak erreprodukzio-kurtsorearen uneko kokapenera/"
+"fotogramara mugitzen du."
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
 msgstr ""
+"Erreprodukzio-kurtsorearen uneko kokapeneko gako-fotograma ezabatzen du."
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7856,6 +7876,8 @@ msgstr "Ezarri eskualdearen sarrera"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
+"Uneko fotograma/erreprodukzio-kurtsorearen kokapena eskualdearen hasiera "
+"gisa ezartzen du."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
@@ -7872,6 +7894,8 @@ msgstr "Ezarri eskualdearen irteera"
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
+"Uneko fotograma/erreprodukzio-kurtsorearen kokapena eskualdearen amaiera "
+"gisa ezartzen du."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format

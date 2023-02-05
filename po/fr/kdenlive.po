@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-02-01 19:46+0100\n"
+"PO-Revision-Date: 2023-02-03 19:59+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -3935,6 +3935,8 @@ msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
 msgstr ""
+"Ajuste le volume de sortie de la piste audio (Affecte également tous les "
+"pistes audio)."
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -4014,6 +4016,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
+"Affiche /masque l'affichage des contrôles de la piste audio dans la vue du "
+"mélangeur audio."
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -4390,6 +4394,8 @@ msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
 msgstr ""
+"Supprime les vidéos actuellement sélectionnées de la corbeille de projet et "
+"aussi de la frise chronologique."
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5667,6 +5673,10 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"Ouvre une fenêtre avec les profils d’encodage et leurs paramètres. À partir "
+"de là, vous pouvez créer, modifier, supprimer et télécharger des profils "
+"utilisés pour l'aperçu de la frise chronologique, la génération de serveur "
+"mandataire ainsi que la capture de vidéo, d’écran et de bureaux distants."
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6628,6 +6638,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
+"Déplace la tête de lecture dans la frise chronologique au début du sous-"
+"titre à droite."
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6641,6 +6653,8 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
+"Déplace la tête de lecture dans la frise chronologique au début du sous-"
+"titre à gauche."
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6706,6 +6720,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
+"Supprime le sous-titre actuellement sélectionné (Ne fonctionne pas avec "
+"plusieurs sous-titres)."
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -9203,6 +9219,8 @@ msgstr "Utiliser la zone du montage pour l'insertion"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
+"Bascule entre l’utilisation de la zone de la frise chronologique pour "
+"l’insertion (Activé) ou non (Désactivé)."
 
 #: src/mainwindow.cpp:1129
 #, kde-format
