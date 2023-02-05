@@ -1884,7 +1884,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
     }
     // Doc 1.1: Kdenlive 21.12.0
-    if (version < 1.1) {
+    /*if (version < 1.1) {
         // OpenCV tracker: Fix for older syntax where filter had in/out defined
         QDomNodeList effects = m_doc.elementsByTagName(QStringLiteral("filter"));
         int max = effects.count();
@@ -1915,7 +1915,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 t.removeAttribute("out");
             }
         }
-    }
+    }*/
 
     m_modified = true;
     return true;

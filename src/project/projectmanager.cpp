@@ -1137,12 +1137,20 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         return false;
     }
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
-    // Add snap point at project start
+
+    if (m_project->hasDocumentProperty(QStringLiteral("groups"))) {
+        // This is a pre-nesting project file, move all timeline properties to the timelineModel's tractor
+        QStringList importedProperties({QStringLiteral("groups"), QStringLiteral("guides"), QStringLiteral("zonein"), QStringLiteral("zoneout"),
+                                        QStringLiteral("audioTarget"), QStringLiteral("videoTarget"), QStringLiteral("activeTrack"), QStringLiteral("position"),
+                                        QStringLiteral("scrollPos"), QStringLiteral("disablepreview"), QStringLiteral("previewchunks"),
+                                        QStringLiteral("dirtypreviewchunks")});
+        m_project->importSequenceProperties(uuid, importedProperties);
+    } else {
+        qDebug() << ":::: NOT FOUND DOCUMENT GUIDES !!!!!!!!!!!\n!!!!!!!!!!!!!!!!!!!!!";
+    }
     m_project->addTimeline(uuid, timelineModel);
-
-    qDebug() << ":::::: UPDATEING TIMELINE\n\nHHHHHHHHHHHHHH";
     TimelineWidget *documentTimeline = nullptr;
-
+    // Add snap point at project start
     timelineModel->addSnap(0);
     /*if (pCore->window()) {
         pCore->window()->getCurrentTimeline()->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());

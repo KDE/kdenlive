@@ -154,11 +154,14 @@ public:
     /** @brief Set a document property. */
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
+    bool hasDocumentProperty(const QString &name) const;
     /** @brief Set a timeline sequence property. */
     void setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value);
     void setSequenceProperty(const QUuid &uuid, const QString &name, int value);
     /** @brief Get a timeline sequence property. */
     const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue = QString()) const;
+    /** @brief Move document properties into sequence properties (mostly useful to convert older KdenliveDoc formats . */
+    void importSequenceProperties(const QUuid uuid, const QStringList properties);
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;

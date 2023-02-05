@@ -575,6 +575,18 @@ void KdenliveDoc::setZoom(const QUuid &uuid, int horizontal, int vertical)
     }
 }
 
+void KdenliveDoc::importSequenceProperties(const QUuid uuid, const QStringList properties)
+{
+    for (const auto &prop : properties) {
+        if (m_documentProperties.contains(prop)) {
+            setSequenceProperty(uuid, prop, m_documentProperties.value(prop));
+        }
+    }
+    for (const auto &prop : properties) {
+        m_documentProperties.remove(prop);
+    }
+}
+
 QPoint KdenliveDoc::zoom(const QUuid &uuid) const
 {
     return QPoint(getSequenceProperty(uuid, QStringLiteral("zoom"), QStringLiteral("8")).toInt(),
@@ -1066,6 +1078,11 @@ void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 const QString KdenliveDoc::getDocumentProperty(const QString &name, const QString &defaultValue) const
 {
     return m_documentProperties.value(name, defaultValue);
+}
+
+bool KdenliveDoc::hasDocumentProperty(const QString &name) const
+{
+    return m_documentProperties.contains(name);
 }
 
 void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, const QString &value)
