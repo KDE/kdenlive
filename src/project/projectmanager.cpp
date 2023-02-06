@@ -1195,10 +1195,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     prod->parent().set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
-    /*prod->set("kdenlive:duration", 1);
-    prod->set("kdenlive:maxduration", 1);
-    prod->set("length", 1);
-    prod->set("out", 0);*/
     prod->set("kdenlive:clip_type", ClipType::Timeline);
     prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->parent().set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
@@ -1208,11 +1204,13 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         prod->parent().set("kdenlive:duration", duration.toLatin1().constData());
         prod->parent().set("kdenlive:maxduration", maxduration.toLatin1().constData());
     } else {
-        // This is a new sequence, initialize basic duration info
-        prod->parent().set("kdenlive:duration", "00:00:00:01");
-        prod->parent().set("kdenlive:maxduration", 1);
-        prod->parent().set("length", 1);
-        prod->parent().set("out", 0);
+        // Fetch duration from actual tractor
+        documentTimeline->controller()->checkDuration();
+        int projectDuration = timelineModel->duration();
+        prod->parent().set("kdenlive:duration", timelineModel->tractor()->frames_to_time(projectDuration + 1));
+        prod->parent().set("kdenlive:maxduration", projectDuration + 1);
+        prod->parent().set("length", projectDuration + 1);
+        prod->parent().set("out", projectDuration);
     }
     prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
     QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
