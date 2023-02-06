@@ -4389,8 +4389,8 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
             // Load the disabled / locked state of the subtitle
             emit getCurrentTimeline()->controller()->subtitlesLockedChanged();
             emit getCurrentTimeline()->controller()->subtitlesDisabledChanged();
-            getCurrentTimeline()->connectSubtitleModel(true);
         }
+        getCurrentTimeline()->connectSubtitleModel(true);
     } else {
         KdenliveSettings::setShowSubtitles(m_buttonSubtitleEditTool->isChecked());
         getCurrentTimeline()->connectSubtitleModel(false);
