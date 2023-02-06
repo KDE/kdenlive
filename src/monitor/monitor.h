@@ -352,7 +352,6 @@ public slots:
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
-    void seekTimeline(const QString &frameAndTrack);
 
 signals:
     void screenChanged(int screenIndex);

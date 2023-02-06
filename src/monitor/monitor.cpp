@@ -2730,24 +2730,6 @@ void Monitor::focusTimecode()
     m_timePos->selectAll();
 }
 
-void Monitor::seekTimeline(const QString &frameAndTrack)
-{
-    int frame;
-    if (frameAndTrack.contains(QLatin1Char('?'))) {
-        // Track and timecode info
-        frame = frameAndTrack.section(QLatin1Char('?'), 0, 0).toInt();
-        int track = frameAndTrack.section(QLatin1Char('?'), 1, 1).toInt();
-        // Track uses MLT index, so remove 1 to discard black background track
-        if (track > 0) {
-            track--;
-        }
-        emit activateTrack(track, true);
-    } else {
-        frame = frameAndTrack.toInt();
-    }
-    requestSeek(frame);
-}
-
 void Monitor::startCountDown()
 {
     QQuickItem *root = m_glMonitor->rootObject();

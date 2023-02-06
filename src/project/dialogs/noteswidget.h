@@ -30,6 +30,7 @@ protected:
     void mousePressEvent(QMouseEvent *e) override;
     void insertFromMimeData(const QMimeData *source) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
+    bool event(QEvent *event) override;
 
 public slots:
     void createMarkers();

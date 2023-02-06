@@ -198,6 +198,8 @@ public slots:
     void slotAddProjectNote();
     /** @brief insert license text in notes widget and focus widget to allow entering quick note. Virtual to allow Mocking */
     virtual void slotAddTextNote(const QString &text);
+    /** @brief Open a timeline with a referenc to a track / position. */
+    void seekTimeline(const QString &frameAndTrack);
 
 private slots:
     void slotRevert();

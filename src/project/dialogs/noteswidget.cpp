@@ -6,6 +6,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "noteswidget.h"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlive_debug.h"
 
@@ -13,6 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QToolTip>
+#include <QUuid>
 
 NotesWidget::NotesWidget(QWidget *parent)
     : QTextEdit(parent)
@@ -235,4 +239,34 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
     } else {
         insertPlainText(pastedText);
     }
+}
+
+bool NotesWidget::event(QEvent *event)
+{
+    if (event->type() == QEvent::ToolTip) {
+        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
+        const QString anchor = anchorAt(helpEvent->pos());
+        if (!anchor.isEmpty()) {
+            QString sequenceName;
+            if (anchor.contains(QLatin1Char('!'))) {
+                // We have a sequence reference
+                const QString binId = pCore->projectItemModel()->getSequenceId(QUuid(anchor.section(QLatin1Char('!'), 0, 0)));
+                if (!binId.isEmpty()) {
+                    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+                    if (clip) {
+                        sequenceName = clip->clipName();
+                    }
+                }
+            }
+            if (!sequenceName.isEmpty()) {
+                QToolTip::showText(helpEvent->globalPos(), sequenceName);
+            } else {
+                QToolTip::hideText();
+            }
+        } else {
+            QToolTip::hideText();
+        }
+        return true;
+    }
+    return QTextEdit::event(event);
 }

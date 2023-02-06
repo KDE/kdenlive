@@ -1703,3 +1703,28 @@ bool ProjectManager::closeTimeline(const QUuid &uuid)
     m_project->closeTimeline(uuid);
     return true;
 }
+
+void ProjectManager::seekTimeline(const QString &frameAndTrack)
+{
+    int frame;
+    if (frameAndTrack.contains(QLatin1Char('!'))) {
+        QUuid uuid(frameAndTrack.section(QLatin1Char('!'), 0, 0));
+        const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
+        openTimeline(binId, uuid);
+        frame = frameAndTrack.section(QLatin1Char('!'), 1).section(QLatin1Char('?'), 0, 0).toInt();
+    } else {
+        frame = frameAndTrack.section(QLatin1Char('?'), 0, 0).toInt();
+    }
+    if (frameAndTrack.contains(QLatin1Char('?'))) {
+        // Track and timecode info
+        int track = frameAndTrack.section(QLatin1Char('?'), 1, 1).toInt();
+        // Track uses MLT index, so remove 1 to discard black background track
+        if (track > 0) {
+            track--;
+        }
+        pCore->window()->getCurrentTimeline()->controller()->activateTrackAndSelect(track, true);
+    } else {
+        frame = frameAndTrack.toInt();
+    }
+    pCore->monitorManager()->projectMonitor()->requestSeek(frame);
+}
