@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-02-03 19:59+0100\n"
+"PO-Revision-Date: 2023-02-04 20:18+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -3251,6 +3251,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"Active ou désactive la vue fractionnée dans l'écran du projet et/ou de la "
+"vidéo : à gauche, la vidéo s’affiche avec l'effet et à droite, sans effet."
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3952,6 +3954,9 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"Ajuste la balance de sortie de la piste. Les valeurs négatives déplacent la "
+"sortie vers la gauche, les valeurs positives vers la droite. Affecte tous "
+"les pistes audio de manière égale."
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -4180,6 +4185,9 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"Filtrez le contenu de la corbeille de projet. Cliquez sur l’icône de filtre "
+"pour faire basculer l’affichage du filtre. Cliquez sur l’icône en forme de "
+"flèche pour ouvrir une liste des paramètres de filtre possibles."
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -6670,6 +6678,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"Crée un nouveau sous-titre avec la longueur par défaut (Définie dans "
+"<interface>Configuration / Configurer Kdenlive… / Divers</interface>) à la "
+"position / à la trame de la tête de lecture."
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6683,6 +6694,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"Coupe le texte de sous-titre à la position du curseur et créé un nouveau "
+"sous-titre sur la droite (Comme une coupure de vidéo)."
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6707,6 +6720,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"Affiche / masque une liste pour l'ajustement de la police, de la couleur, du "
+"style des bordures, des ombres, de la position et de l'arrière-plan."
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -7832,6 +7847,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Déplace l’effet au-dessus de celui juste au-dessus. Les effets sont traités "
+"séquentiellement de haut en bas. Par conséquent, l'ordre est important."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7845,6 +7862,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"Déplace l’effet sous celui juste en dessous. Les effets sont traités "
+"séquentiellement de haut en bas. Par conséquent, l'ordre est important."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -9079,6 +9098,8 @@ msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
 msgstr ""
+"Cliquez pour afficher une liste des effets préférés. Veuillez effectuer un "
+"double clic sur un effet pour l'ajouter dans la vidéo sélectionnée."
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -10813,6 +10834,9 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"Définit la résolution de l'aperçu pour un écran du projet / de la vidéo. Il "
+"est possible de choisir entre 1 : 1, 720p, 540p, 360p, 270p (Plus la "
+"résolution est basse, plus l’aperçu est rapide)."
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -12296,6 +12320,9 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"Ouvre la boîte de dialogue de profil dans laquelle vous pouvez modifier les "
+"profils de projet. Remarque : le profil utilisé dans le projet ouvert ne "
+"peut pas être modifié."
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -15275,6 +15302,9 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"Lorsque cette option est sélectionnée, un clic sur un élément dans la frise "
+"chronologique permet de sélectionner l'élément (Par exemple, une vidéo, une "
+"composition)."
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format
