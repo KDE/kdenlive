@@ -117,7 +117,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     , m_snaps(new SnapModel())
     , m_undoStack(std::move(undo_stack))
     , m_profile(profile)
-    , m_blackClip(new Mlt::Producer(*profile, "color:0"))
+    , m_blackClip(new Mlt::Producer(*profile, "color:black"))
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
@@ -6833,4 +6833,13 @@ void TimelineModel::deletePreviewTrack()
 bool TimelineModel::hasSubtitleModel()
 {
     return m_subtitleModel != nullptr;
+}
+
+void TimelineModel::makeTransparentBg(bool transparent)
+{
+    if (transparent) {
+        m_blackClip->set("resource", 0);
+    } else {
+        m_blackClip->set("resource", "black");
+    }
 }

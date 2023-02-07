@@ -4690,6 +4690,9 @@ void MainWindow::connectTimeline()
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
     emit m_timelineTabs->changeZoom(m_zoomSlider->value(), false);
 
+    // Ensure the active timeline has an opaque black background for compositing
+    getCurrentTimeline()->model()->makeTransparentBg(false);
+
     // switch to active subtitle model
     pCore->subtitleWidget()->setModel(getCurrentTimeline()->model()->getSubtitleModel());
     bool hasSubtitleModel = getCurrentTimeline()->hasSubtitles();
@@ -4720,6 +4723,8 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
         //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
         // qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
     }
+    // Ensure the active timeline has an transparent black background for embeded compositing
+    timeline->model()->makeTransparentBg(true);
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     disconnect(m_projectMonitor, &Monitor::multitrackView, timeline->controller(), &TimelineController::slotMultitrackView);
     disconnect(m_projectMonitor, &Monitor::activateTrack, timeline->controller(), &TimelineController::activateTrackAndSelect);

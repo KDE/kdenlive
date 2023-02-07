@@ -658,6 +658,9 @@ public:
     /** @brief Calculate timeline hash based on clips, mixes and compositions
      */
     QByteArray timelineHash();
+    /** @brief Make the background track transparent (or opaque black) - this affects compositing.
+     */
+    void makeTransparentBg(bool transparent);
 
 protected:
     /** @brief Requests the best snapped position for a clip
