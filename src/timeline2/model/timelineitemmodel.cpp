@@ -397,7 +397,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case TagRole:
             return clip->clipTag();
         case TimeRemapRole:
-            return clip->isChain();
+            return clip->hasTimeRemap();
         default:
             break;
         }

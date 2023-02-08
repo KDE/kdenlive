@@ -5647,7 +5647,7 @@ void TimelineModel::requestClipReload(int clipId, int forceDuration)
         hasPitch = m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
     }
     int audioStream = m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
-    bool timeremap = m_allClips[clipId]->isChain();
+    bool timeremap = m_allClips[clipId]->hasTimeRemap();
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
     bool refreshView = oldOut > int(binClip->frameDuration()) || forceDuration > -1;
@@ -5715,7 +5715,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
 
 bool TimelineModel::requestClipTimeRemap(int clipId, bool enable)
 {
-    if (!enable || !m_allClips[clipId]->isChain()) {
+    if (!enable || !m_allClips[clipId]->hasTimeRemap()) {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         int splitId = m_groups->getSplitPartner(clipId);
@@ -5751,7 +5751,7 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
     int trackId = getClipTrackId(clipId);
     int previousDuration = 0;
     qDebug() << "=== REQUEST REMAP: " << enable << "\n\nWWWWWWWWWWWWWWWWWWWWWWWWWWWW";
-    if (!enable && m_allClips[clipId]->isChain()) {
+    if (!enable && m_allClips[clipId]->hasTimeRemap()) {
         previousDuration = m_allClips[clipId]->getRemapInputDuration();
         qDebug() << "==== CALCULATED INPIUT DURATION: " << previousDuration << "\n\nHHHHHHHHHHHHHH";
     }

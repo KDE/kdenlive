@@ -1900,10 +1900,10 @@ void TimeRemap::setClip(std::shared_ptr<ProjectClip> clip, int in, int out)
     m_view->m_startPos = 0;
     m_view->setBinClipDuration(clip, max - min);
     if (clip->clipType() == ClipType::Playlist) {
-        Mlt::Service service(clip->originalProducer()->producer()->get_service());
-        qDebug() << "==== producer type: " << service.type();
-        if (service.type() == mlt_service_multitrack_type) {
-            Mlt::Multitrack multi(service);
+        std::unique_ptr<Mlt::Service> service(clip->originalProducer()->producer());
+        qDebug() << "==== producer type: " << service->type();
+        if (service->type() == mlt_service_multitrack_type) {
+            Mlt::Multitrack multi(*service.get());
             for (int i = 0; i < multi.count(); i++) {
                 std::unique_ptr<Mlt::Producer> track(multi.track(i));
                 qDebug() << "==== GOT TRACK TYPE: " << track->type();

@@ -71,6 +71,7 @@ public:
 
     /** @brief Returns true if the producer is embedded in a chain (for use with timeremap) */
     bool isChain() const;
+    bool hasTimeRemap() const;
     /** @brief Returns the duration of the input map */
     int getRemapInputDuration() const;
     /** @brief Get the time remap effect parameters */
