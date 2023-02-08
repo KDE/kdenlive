@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-12 10:30\n"
+"PO-Revision-Date: 2023-02-07 11:01\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3141,7 +3141,7 @@ msgstr "保存效果堆栈…"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
-msgstr ""
+msgstr "保存整个效果堆栈为 XML 文件，以便其他项目使用。"
 
 #: src/assets/assetpanel.cpp:96
 #, kde-format
@@ -3160,6 +3160,8 @@ msgid ""
 "Turns on or off the split view in the project and/or clip monitor: on the "
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
+"打开/关闭项目、剪辑监视器中的分割视图：左侧视图显示带有效果的剪辑，右侧视图显"
+"示不带效果的剪辑。"
 
 #: src/assets/assetpanel.cpp:105
 #, kde-format
@@ -3182,10 +3184,9 @@ msgid "Hide keyframes in timeline"
 msgstr "隐藏时间轴的关键帧"
 
 #: src/assets/assetpanel.cpp:113
-#, fuzzy, kde-format
-#| msgid "Display keyframes in timeline"
+#, kde-format
 msgid "Toggles the display of keyframes in the clip on the timeline"
-msgstr "显示关键帧到时间轴"
+msgstr "显示/隐藏时间轴上剪辑中的关键帧"
 
 #: src/assets/assetpanel.cpp:233
 #, kde-format
@@ -3832,7 +3833,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
-msgstr ""
+msgstr "调整音频轨道的输出音量 (影响所有音频剪辑)。"
 
 #: src/audiomixer/mixerwidget.cpp:153 src/audiomixer/mixerwidget.cpp:549
 #: src/mltcontroller/clippropertiescontroller.cpp:882
@@ -3848,6 +3849,8 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"调整音频轨道的输出声道平衡。负值将输出声道向左移动，正值则向右移动。这将影响"
+"所有音频剪辑。"
 
 #: src/audiomixer/mixerwidget.cpp:175
 #, kde-format
@@ -3874,7 +3877,7 @@ msgstr "取消静音轨道"
 #: src/audiomixer/mixerwidget.cpp:248
 #, kde-format
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "静音/取消静音该音频轨道。"
 
 #: src/audiomixer/mixerwidget.cpp:291
 #, kde-format
@@ -3885,7 +3888,7 @@ msgstr "独奏模式"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "勾选时静音所有其他音频轨道。"
 
 #: src/audiomixer/mixerwidget.cpp:301
 #: src/timeline2/view/timelinecontroller.cpp:4684
@@ -3897,7 +3900,7 @@ msgstr "录制音频"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "切换音频轨道到录制模式。"
 
 #: src/audiomixer/mixerwidget.cpp:315
 #, kde-format
@@ -3909,7 +3912,7 @@ msgstr "显示声道"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
-msgstr ""
+msgstr "显示/隐藏混音器中的音频轨道控制选项。"
 
 #: src/audiomixer/mixerwidget.cpp:328
 #, kde-format
@@ -3917,17 +3920,16 @@ msgid "Open Effect Stack"
 msgstr "打开效果堆栈"
 
 #: src/audiomixer/mixerwidget.cpp:330
-#, fuzzy, kde-kuit-format
-#| msgid "Separate file for each audio track"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
-msgstr "拆分每条音频轨道的文件"
+msgstr "打开该音频轨道的效果堆栈。"
 
 #: src/audiomixer/mixerwidget.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "打开该主音频的效果堆栈。"
 
 #: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4071
 #: src/mltcontroller/clipcontroller.cpp:613
@@ -4070,6 +4072,8 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"筛选项目素材箱的内容。点击筛选按钮显示/隐藏筛选选项。点击箭头按钮打开可用的筛"
+"选设置列表。"
 
 #: src/bin/bin.cpp:1480
 #, kde-format
@@ -4279,7 +4283,7 @@ msgstr "删除剪辑"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
 "timeline."
-msgstr ""
+msgstr "删除项目素材箱和时间轴中的当前选中剪辑。"
 
 #: src/bin/bin.cpp:2413 src/bin/bin.cpp:2425 src/bin/bin.cpp:3330
 #, kde-format
@@ -5004,8 +5008,7 @@ msgid "Unknown"
 msgstr "未知"
 
 #: src/bin/projectitemmodel.cpp:623
-#, fuzzy, kde-format
-#| msgid "Add a sub clip"
+#, kde-format
 msgid "Add sub clips"
 msgstr "添加子剪辑"
 
@@ -5544,6 +5547,8 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"打开显示了编码方案及其参数的窗口。您可以在该窗口中创建、更改、删除和下载用于"
+"时间轴预览、代理生成、视频、屏幕和 Decklink 捕获的编码方案。"
 
 #: src/dialogs/encodingprofilesdialog.cpp:256
 #: src/dialogs/encodingprofilesdialog.cpp:258
@@ -6365,7 +6370,7 @@ msgstr " (帧 %1 @ %2 fps)"
 #: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "剩余的可用内存小于 %1MB。"
 
 #: src/dialogs/renderwidget.cpp:1538
 #, kde-format
@@ -6483,7 +6488,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
-msgstr ""
+msgstr "移动时间轴的播放头到右边的字幕开头。"
 
 #: src/dialogs/subtitleedit.cpp:107
 #, kde-format
@@ -6496,7 +6501,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
-msgstr ""
+msgstr "移动时间轴的播放头到左边的字幕开头。"
 
 #: src/dialogs/subtitleedit.cpp:109
 #: src/timeline2/view/timelinecontroller.cpp:4966
@@ -6512,6 +6517,8 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"创建一个默认长度的字幕到当前播放头位置/帧 (默认字幕长度可在 <interface>设置 -"
+"> 配置 Kdenlive… -> 常规</interface> 页面配置)。"
 
 #: src/dialogs/subtitleedit.cpp:111
 #, kde-format
@@ -6525,6 +6532,7 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"在光标位置剪切字幕文字，并在右侧创建一个新字幕 (与剪切一段剪辑时相同)。"
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-format
@@ -6535,7 +6543,7 @@ msgstr "更新字幕文字"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "更新时间轴中的字幕显示。"
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -6549,6 +6557,8 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
+"显示/隐藏一个设置列表，以调整字体、字体大小、颜色、轮廓风格、阴影、位置和背景"
+"色。"
 
 #: src/dialogs/subtitleedit.cpp:117
 #: src/timeline2/view/timelinecontroller.cpp:5065
@@ -6561,7 +6571,7 @@ msgstr "删除字幕"
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
-msgstr ""
+msgstr "删除当前选中的字幕 (不能删除多个字幕)。"
 
 #: src/dialogs/subtitleedit.cpp:135
 #, kde-format
@@ -6713,32 +6723,31 @@ msgstr "无法将最初来源关键帧移动到剪辑开头之前"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "插入一个关键帧到当前播放头位置/帧。"
 
 #: src/dialogs/timeremap.cpp:1694
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "移动播放头到右侧的下一个关键帧"
 
 #: src/dialogs/timeremap.cpp:1697
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "移动播放头到左侧的下一个关键帧"
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1704
-#, fuzzy, kde-kuit-format
-#| msgid "Move selected keyframe to cursor"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the selected keyframes to the current playhead position/frame."
-msgstr "移动所选关键帧到光标位置"
+msgstr "移动选中的关键帧到当前播放头位置/帧。"
 
 #: src/dialogs/timeremap.cpp:1712
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "删除位于播放头当前位置的关键帧。"
 
 #: src/dialogs/timeremap.cpp:1801
 #, kde-format
@@ -7602,6 +7611,8 @@ msgid ""
 "Moves the effect above the one right above it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"移动效果到原本位于它上方的效果的上方。效果将按从上到下的顺序处理，因此排列顺"
+"序很重要。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
@@ -7615,6 +7626,8 @@ msgid ""
 "Moves the effect below the one right below it. Effects are handled "
 "sequentially from top to bottom so sequence is important."
 msgstr ""
+"移动效果到原本位于它下方的效果的下方。效果将按从上到下的顺序处理，因此排列顺"
+"序很重要。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-format
@@ -7625,7 +7638,7 @@ msgstr "删除效果"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
-msgstr ""
+msgstr "删除在特效堆栈中的该效果。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:70
 #, kde-format
@@ -7665,7 +7678,7 @@ msgstr "启用效果"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enables the effect. Useful to compare before and after settings."
-msgstr ""
+msgstr "启用该效果。可以用于比较启用前后的效果。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-format
@@ -7686,7 +7699,7 @@ msgstr "设置区段入点"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
-msgstr ""
+msgstr "设置当前帧/播放头位置为区段起始。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
@@ -7702,7 +7715,7 @@ msgstr "设置区段出点"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
-msgstr ""
+msgstr "设置当前帧/播放头位置为区段结尾。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:170
 #, kde-format
@@ -7721,7 +7734,7 @@ msgstr "预设"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
-msgstr ""
+msgstr "打开一个高级选项列表以管理该效果的预设。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:236
 #, kde-format
@@ -8650,33 +8663,29 @@ msgid ""
 msgstr "一套用于对音频和视频进行录制、转换和推流的完整跨平台解决方案。"
 
 #: src/main.cpp:173
-#, fuzzy, kde-format
-#| msgid "Set a custom config file name"
+#, kde-format
 msgid "Set a custom config file name."
-msgstr "设置自定义配置文件名"
+msgstr "设置自定义配置文件名。"
 
 #: src/main.cpp:174
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment"
+#, kde-format
 msgid "Set the path for MLT environment."
-msgstr "设置 MLT 环境的路径"
+msgstr "设置 MLT 环境的路径。"
 
 #: src/main.cpp:176
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
-msgstr ""
+msgstr "设置 MLT 日志级别。如果不设置，则默认为“警告”级别。"
 
 #: src/main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Comma separated list of clips to add"
+#, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr "用逗号分隔列表中要添加的剪辑"
+msgstr "要添加到素材库的剪辑文件列表，以半角逗号区隔。"
 
 #: src/main.cpp:181
-#, fuzzy, kde-format
-#| msgid "Document to open"
+#, kde-format
 msgid "Kdenlive document to open."
-msgstr "要打开的文档"
+msgstr "要打开的 Kdenlive 文档。"
 
 #: src/main.cpp:208
 #, kde-format
@@ -8798,10 +8807,9 @@ msgid "Audio Mixer"
 msgstr "混音器"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-format
-#| msgid "Compute the audio amplitude."
+#, kde-format
 msgid "Toggles the audio mixer panel/widget."
-msgstr "计算音频音量 (振幅)。"
+msgstr "显示/隐藏混音器面板/控件。"
 
 #: src/mainwindow.cpp:497
 #, kde-format
@@ -8828,7 +8836,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
-msgstr ""
+msgstr "点击显示常用效果列表。双击某个效果即可将它添加到选中的剪辑。"
 
 #: src/mainwindow.cpp:541 src/mainwindow.cpp:1408
 #, kde-format
@@ -8963,7 +8971,7 @@ msgstr "使用时间轴区域进行插入"
 #, kde-format
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
-msgstr ""
+msgstr "开/关使用时间线区段插入的功能。"
 
 #: src/mainwindow.cpp:1129
 #, kde-format
@@ -10529,6 +10537,8 @@ msgid ""
 "between 1:1, 720p, 540p, 360p, 270p (the lower the resolution the faster the "
 "preview)."
 msgstr ""
+"设置项目/剪辑监视器的预览分辨率。可用分辨率有 1:1、720p、540p、360p、270p (分"
+"辨率越低，预览处理速度越快)。"
 
 #: src/monitor/monitor.cpp:177
 #, kde-format
@@ -11971,6 +11981,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"打开编码方案对话框，您可以在该对话框更改项目的编码方案。注意：不能更改当前以"
+"打开项目的编码方案。"
 
 #: src/project/dialogs/profilewidget.cpp:107
 #: src/project/dialogs/profilewidget.cpp:138
@@ -14832,7 +14844,7 @@ msgstr "取消选择"
 msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
-msgstr ""
+msgstr "勾选时，点击时间轴中的对象时将选中该对象 (例如剪辑、合成等)。"
 
 #: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
 #, kde-format
@@ -19100,9 +19112,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Monitor audio input"
-#~ msgstr "监视音频输入"
-
-#~ msgid "MLT log level"
-#~ msgstr "MLT 日志级别"
