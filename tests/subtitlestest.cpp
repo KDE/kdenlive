@@ -182,6 +182,23 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         REQUIRE(subtitleModel->rowCount() == 0);
     }
 
+    SECTION("Ensure 2 subtitles cannot be place at same frame position")
+    {
+        // In our current implementation, having 2 subtitles at same start time is not allowed
+        int subId = TimelineModel::getNextId();
+        int subId2 = TimelineModel::getNextId();
+        int subId3 = TimelineModel::getNextId();
+        double fps = pCore->getCurrentFps();
+        REQUIRE(subtitleModel->addSubtitle(subId, GenTime(50, fps), GenTime(70, fps), QStringLiteral("Hello"), false, false));
+        REQUIRE(subtitleModel->addSubtitle(subId2, GenTime(50, fps), GenTime(90, fps), QStringLiteral("Hello2"), false, false) == false);
+        REQUIRE(subtitleModel->addSubtitle(subId3, GenTime(100, fps), GenTime(140, fps), QStringLiteral("Second"), false, false));
+        REQUIRE(subtitleModel->rowCount() == 2);
+        REQUIRE(subtitleModel->moveSubtitle(subId, GenTime(100, fps), false, false) == false);
+        REQUIRE(subtitleModel->moveSubtitle(subId, GenTime(300, fps), false, false));
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
 }
