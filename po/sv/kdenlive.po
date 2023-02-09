@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-18 02:37+0000\n"
+"POT-Creation-Date: 2023-02-09 03:08+0000\n"
 "PO-Revision-Date: 2022-10-03 17:18+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -4253,7 +4253,7 @@ msgid "Create bin folder"
 msgstr "Skapa korgkatalog"
 
 #: src/bin/bin.cpp:2410 src/bin/bin.cpp:2421 src/bin/bin.cpp:3347
-#: src/timeline2/model/timelinemodel.cpp:2000
+#: src/timeline2/model/timelinemodel.cpp:2005
 #, kde-format
 msgid "Delete Clip"
 msgstr "Ta bort klipp"
@@ -4886,7 +4886,7 @@ msgid "Cut clip"
 msgstr "Skär klipp"
 
 #: src/bin/model/subtitlemodel.cpp:751
-#: src/timeline2/model/timelinemodel.cpp:3462
+#: src/timeline2/model/timelinemodel.cpp:3475
 #: src/timeline2/view/timelinecontroller.cpp:4933
 #, kde-format
 msgid "Resize subtitle"
@@ -4898,7 +4898,7 @@ msgstr "Ändra storlek på textning"
 msgid "Move subtitle"
 msgstr "Flytta textning"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:800
+#: src/bin/model/subtitlemodel.cpp:1103 src/dialogs/renderwidget.cpp:800
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -9456,7 +9456,7 @@ msgstr "Huvudeffekter"
 msgid "Switch Track Target Audio Stream"
 msgstr "Byt spårets målljudström"
 
-#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4234
+#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4247
 #: src/timeline2/view/timelinecontroller.cpp:800
 #, kde-format
 msgid "Delete Track"
@@ -9557,7 +9557,7 @@ msgstr "Importera textningsfil…"
 msgid "Export Subtitle File…"
 msgstr "Exportera textningsfil…"
 
-#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2004
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2009
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Ta bort textning"
@@ -13640,7 +13640,7 @@ msgid "Delete clips on track"
 msgstr "Ta bort spår"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4125
+#: src/timeline2/model/timelinemodel.cpp:4138
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -13694,103 +13694,103 @@ msgstr "Skapa mixning"
 msgid "Move clip"
 msgstr "Flytta klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:1685
-#: src/timeline2/model/timelinemodel.cpp:1768
-#: src/timeline2/model/timelinemodel.cpp:1791
-#: src/timeline2/model/timelinemodel.cpp:1814
+#: src/timeline2/model/timelinemodel.cpp:1690
+#: src/timeline2/model/timelinemodel.cpp:1773
+#: src/timeline2/model/timelinemodel.cpp:1796
+#: src/timeline2/model/timelinemodel.cpp:1819
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Inga tillgängliga spår för infogningsåtgärd"
 
-#: src/timeline2/model/timelinemodel.cpp:1690
+#: src/timeline2/model/timelinemodel.cpp:1695
 #, kde-format
 msgid "Insert Clip"
 msgstr "Infoga klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:1784
-#: src/timeline2/model/timelinemodel.cpp:1806
+#: src/timeline2/model/timelinemodel.cpp:1789
+#: src/timeline2/model/timelinemodel.cpp:1811
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Inte tillräckligt med ljudspår för alla strömmar (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:1890
+#: src/timeline2/model/timelinemodel.cpp:1895
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Inga tillgängliga spår för delningsåtgärd"
 
-#: src/timeline2/model/timelinemodel.cpp:1927
+#: src/timeline2/model/timelinemodel.cpp:1932
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Ljuddelning misslyckades: inga användbara spår"
 
-#: src/timeline2/model/timelinemodel.cpp:1935
+#: src/timeline2/model/timelinemodel.cpp:1940
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Ljuddelning misslyckades: omöjligt att skapa ljudklipp"
 
-#: src/timeline2/model/timelinemodel.cpp:1997
+#: src/timeline2/model/timelinemodel.cpp:2002
 #, kde-format
 msgid "Remove group"
 msgstr "Ta bort grupp"
 
-#: src/timeline2/model/timelinemodel.cpp:2002
+#: src/timeline2/model/timelinemodel.cpp:2007
 #, kde-format
 msgid "Delete Composition"
 msgstr "Ta bort komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:2154
-#: src/timeline2/model/timelinemodel.cpp:2316
+#: src/timeline2/model/timelinemodel.cpp:2159
+#: src/timeline2/model/timelinemodel.cpp:2321
 #: src/timeline2/view/timelinecontroller.cpp:4160
 #, kde-format
 msgid "Move group"
 msgstr "Flytta grupp"
 
-#: src/timeline2/model/timelinemodel.cpp:2908
+#: src/timeline2/model/timelinemodel.cpp:2921
 #, kde-format
 msgid "Resize group"
 msgstr "Ändra storlek på grupp"
 
-#: src/timeline2/model/timelinemodel.cpp:3032
+#: src/timeline2/model/timelinemodel.cpp:3045
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Ändra klipphastighet"
 
-#: src/timeline2/model/timelinemodel.cpp:3179
+#: src/timeline2/model/timelinemodel.cpp:3192
 #, kde-format
 msgid "Remove mix"
 msgstr "Ta bort mixning"
 
-#: src/timeline2/model/timelinemodel.cpp:3181
+#: src/timeline2/model/timelinemodel.cpp:3194
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Borttagning av mixning misslyckades"
 
-#: src/timeline2/model/timelinemodel.cpp:3458
+#: src/timeline2/model/timelinemodel.cpp:3471
 #, kde-format
 msgid "Resize clip"
 msgstr "Ändra storlek på klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:3460
+#: src/timeline2/model/timelinemodel.cpp:3473
 #, kde-format
 msgid "Resize composition"
 msgstr "Ändra storlek på komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:3777
+#: src/timeline2/model/timelinemodel.cpp:3790
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Ändra storlek på klipp med rippel"
 
-#: src/timeline2/model/timelinemodel.cpp:3779
+#: src/timeline2/model/timelinemodel.cpp:3792
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Ändra storlek på komposition med rippel"
 
-#: src/timeline2/model/timelinemodel.cpp:3781
+#: src/timeline2/model/timelinemodel.cpp:3794
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Ändra storlek på textning med rippel"
 
-#: src/timeline2/model/timelinemodel.cpp:3923
+#: src/timeline2/model/timelinemodel.cpp:3936
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -13798,125 +13798,125 @@ msgid_plural "Slip clips"
 msgstr[0] "Glid klipp"
 msgstr[1] "Glid klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:3958
+#: src/timeline2/model/timelinemodel.cpp:3971
 #, kde-format
 msgid "Slip clip"
 msgstr "Glid klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:3993
+#: src/timeline2/model/timelinemodel.cpp:4006
 #, kde-format
 msgid "Group clips"
 msgstr "Gruppera klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:4078
-#: src/timeline2/model/timelinemodel.cpp:4094
+#: src/timeline2/model/timelinemodel.cpp:4091
+#: src/timeline2/model/timelinemodel.cpp:4107
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Dela upp klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:4244
+#: src/timeline2/model/timelinemodel.cpp:4257
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Kan inte ta bort sista spåret i tidslinje"
 
-#: src/timeline2/model/timelinemodel.cpp:4490
+#: src/timeline2/model/timelinemodel.cpp:4503
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Kan inte lägga till effekt %1 i huvudspår"
 
-#: src/timeline2/model/timelinemodel.cpp:4497
+#: src/timeline2/model/timelinemodel.cpp:4510
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Kan inte lägga till effekt %1 i markerat spår"
 
-#: src/timeline2/model/timelinemodel.cpp:4517
+#: src/timeline2/model/timelinemodel.cpp:4530
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Kan inte klistra in effekt i huvudspår"
 
-#: src/timeline2/model/timelinemodel.cpp:4523
+#: src/timeline2/model/timelinemodel.cpp:4536
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Kan inte klistra in effekt i markerat spår"
 
-#: src/timeline2/model/timelinemodel.cpp:4549
+#: src/timeline2/model/timelinemodel.cpp:4562
 #: src/timeline2/view/timelinecontroller.cpp:1392
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Kan inte lägga till effekt %1 i markerat klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:4584
+#: src/timeline2/model/timelinemodel.cpp:4597
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Justera borttoning"
 
-#: src/timeline2/model/timelinemodel.cpp:4886
+#: src/timeline2/model/timelinemodel.cpp:4899
 #, kde-format
 msgid "Insert Composition"
 msgstr "Infoga komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:5055
+#: src/timeline2/model/timelinemodel.cpp:5068
 #, kde-format
 msgid "Move composition"
 msgstr "Flytta komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:5708
+#: src/timeline2/model/timelinemodel.cpp:5721
 #, kde-format
 msgid "Enable time remap"
 msgstr "Aktivera omavbildning av tid"
 
-#: src/timeline2/model/timelinemodel.cpp:5781
+#: src/timeline2/model/timelinemodel.cpp:5794
 #, kde-format
 msgid "Change speed failed"
 msgstr "Misslyckades ändra hastighet"
 
-#: src/timeline2/model/timelinemodel.cpp:5791
+#: src/timeline2/model/timelinemodel.cpp:5804
 #, kde-format
 msgid "Change clip speed"
 msgstr "Ändra klipphastighet"
 
-#: src/timeline2/model/timelinemodel.cpp:6170
+#: src/timeline2/model/timelinemodel.cpp:6183
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Lås spår"
 
-#: src/timeline2/model/timelinemodel.cpp:6175
+#: src/timeline2/model/timelinemodel.cpp:6188
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
 msgstr "Lås upp spår"
 
-#: src/timeline2/model/timelinemodel.cpp:6209
-#: src/timeline2/model/timelinemodel.cpp:6271
+#: src/timeline2/model/timelinemodel.cpp:6222
+#: src/timeline2/model/timelinemodel.cpp:6284
 #, kde-format
 msgid "Change composition"
 msgstr "Ändra komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:6223
+#: src/timeline2/model/timelinemodel.cpp:6236
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Kan inte använda grupperad komposition, dela upp den"
 
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6453
-#: src/timeline2/model/timelinemodel.cpp:6486
-#: src/timeline2/model/timelinemodel.cpp:6567
+#: src/timeline2/model/timelinemodel.cpp:6429
+#: src/timeline2/model/timelinemodel.cpp:6466
+#: src/timeline2/model/timelinemodel.cpp:6499
+#: src/timeline2/model/timelinemodel.cpp:6580
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Kan inte ändra storlek på blandning till mindre än 1 bildruta"
 
-#: src/timeline2/model/timelinemodel.cpp:6427
-#: src/timeline2/model/timelinemodel.cpp:6461
-#: src/timeline2/model/timelinemodel.cpp:6505
-#: src/timeline2/model/timelinemodel.cpp:6591
+#: src/timeline2/model/timelinemodel.cpp:6440
+#: src/timeline2/model/timelinemodel.cpp:6474
+#: src/timeline2/model/timelinemodel.cpp:6518
+#: src/timeline2/model/timelinemodel.cpp:6604
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Kan inte ändra storlek på blandning"
 
-#: src/timeline2/model/timelinemodel.cpp:6605
+#: src/timeline2/model/timelinemodel.cpp:6618
 #, kde-format
 msgid "Resize mix"
 msgstr "Ändra blandningsstorlek"

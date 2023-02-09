@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-18 02:37+0000\n"
+"POT-Creation-Date: 2023-02-09 03:08+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4471,7 +4471,7 @@ msgid "Create bin folder"
 msgstr "Cruthaigh Fillteán"
 
 #: src/bin/bin.cpp:2410 src/bin/bin.cpp:2421 src/bin/bin.cpp:3347
-#: src/timeline2/model/timelinemodel.cpp:2000
+#: src/timeline2/model/timelinemodel.cpp:2005
 #, kde-format
 msgid "Delete Clip"
 msgstr ""
@@ -5144,7 +5144,7 @@ msgid "Cut clip"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:751
-#: src/timeline2/model/timelinemodel.cpp:3462
+#: src/timeline2/model/timelinemodel.cpp:3475
 #: src/timeline2/view/timelinecontroller.cpp:4933
 #, fuzzy, kde-format
 #| msgid "Delete files"
@@ -5158,7 +5158,7 @@ msgstr "Scrios comhaid"
 msgid "Move subtitle"
 msgstr "Teideal"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:800
+#: src/bin/model/subtitlemodel.cpp:1103 src/dialogs/renderwidget.cpp:800
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -9912,7 +9912,7 @@ msgstr "Maisíochtaí"
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4234
+#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4247
 #: src/timeline2/view/timelinecontroller.cpp:800
 #, kde-format
 msgid "Delete Track"
@@ -10024,7 +10024,7 @@ msgstr "Luchtaigh marcóirí"
 msgid "Export Subtitle File…"
 msgstr "Cuir Próifíl Leis"
 
-#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2004
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2009
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete Subtitle"
@@ -14142,7 +14142,7 @@ msgid "Delete clips on track"
 msgstr "Scrios rian"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4125
+#: src/timeline2/model/timelinemodel.cpp:4138
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgctxt "@action"
@@ -14203,114 +14203,114 @@ msgstr "Cruthaigh Grúpa"
 msgid "Move clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1685
-#: src/timeline2/model/timelinemodel.cpp:1768
-#: src/timeline2/model/timelinemodel.cpp:1791
-#: src/timeline2/model/timelinemodel.cpp:1814
+#: src/timeline2/model/timelinemodel.cpp:1690
+#: src/timeline2/model/timelinemodel.cpp:1773
+#: src/timeline2/model/timelinemodel.cpp:1796
+#: src/timeline2/model/timelinemodel.cpp:1819
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1690
+#: src/timeline2/model/timelinemodel.cpp:1695
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Insert Clip"
 msgstr "Teideal"
 
-#: src/timeline2/model/timelinemodel.cpp:1784
-#: src/timeline2/model/timelinemodel.cpp:1806
+#: src/timeline2/model/timelinemodel.cpp:1789
+#: src/timeline2/model/timelinemodel.cpp:1811
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1890
+#: src/timeline2/model/timelinemodel.cpp:1895
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1927
+#: src/timeline2/model/timelinemodel.cpp:1932
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1935
+#: src/timeline2/model/timelinemodel.cpp:1940
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1997
+#: src/timeline2/model/timelinemodel.cpp:2002
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove group"
 msgstr "Bain an comhad"
 
-#: src/timeline2/model/timelinemodel.cpp:2002
+#: src/timeline2/model/timelinemodel.cpp:2007
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Delete Composition"
 msgstr "Ilchodach"
 
-#: src/timeline2/model/timelinemodel.cpp:2154
-#: src/timeline2/model/timelinemodel.cpp:2316
+#: src/timeline2/model/timelinemodel.cpp:2159
+#: src/timeline2/model/timelinemodel.cpp:2321
 #: src/timeline2/view/timelinecontroller.cpp:4160
 #, kde-format
 msgid "Move group"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2908
+#: src/timeline2/model/timelinemodel.cpp:2921
 #, fuzzy, kde-format
 #| msgid "Reset Group"
 msgid "Resize group"
 msgstr "Athshocraigh Grúpa"
 
-#: src/timeline2/model/timelinemodel.cpp:3032
+#: src/timeline2/model/timelinemodel.cpp:3045
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Resize clip speed"
 msgstr "Sprioc"
 
-#: src/timeline2/model/timelinemodel.cpp:3179
+#: src/timeline2/model/timelinemodel.cpp:3192
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "Bain an comhad"
 
-#: src/timeline2/model/timelinemodel.cpp:3181
+#: src/timeline2/model/timelinemodel.cpp:3194
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "Bain an comhad"
 
-#: src/timeline2/model/timelinemodel.cpp:3458
+#: src/timeline2/model/timelinemodel.cpp:3471
 #, kde-format
 msgid "Resize clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:3460
+#: src/timeline2/model/timelinemodel.cpp:3473
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Resize composition"
 msgstr "Ilchodach"
 
-#: src/timeline2/model/timelinemodel.cpp:3777
+#: src/timeline2/model/timelinemodel.cpp:3790
 #, fuzzy, kde-format
 #| msgid "Reverse"
 msgid "Ripple resize clip"
 msgstr "Aisiompaithe"
 
-#: src/timeline2/model/timelinemodel.cpp:3779
+#: src/timeline2/model/timelinemodel.cpp:3792
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Ripple resize composition"
 msgstr "Ilchodach"
 
-#: src/timeline2/model/timelinemodel.cpp:3781
+#: src/timeline2/model/timelinemodel.cpp:3794
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Ripple resize subtitle"
 msgstr "Scrios comhaid"
 
-#: src/timeline2/model/timelinemodel.cpp:3923
+#: src/timeline2/model/timelinemodel.cpp:3936
 #, fuzzy, kde-format
 #| msgid "File size"
 msgctxt "Undo/Redo menu text"
@@ -14322,96 +14322,96 @@ msgstr[2] "Méid an chomhaid"
 msgstr[3] "Méid an chomhaid"
 msgstr[4] "Méid an chomhaid"
 
-#: src/timeline2/model/timelinemodel.cpp:3958
+#: src/timeline2/model/timelinemodel.cpp:3971
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "Slip clip"
 msgstr "Méid an chomhaid"
 
-#: src/timeline2/model/timelinemodel.cpp:3993
+#: src/timeline2/model/timelinemodel.cpp:4006
 #, kde-format
 msgid "Group clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4078
-#: src/timeline2/model/timelinemodel.cpp:4094
+#: src/timeline2/model/timelinemodel.cpp:4091
+#: src/timeline2/model/timelinemodel.cpp:4107
 #, kde-format
 msgid "Ungroup clips"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4244
+#: src/timeline2/model/timelinemodel.cpp:4257
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4490
+#: src/timeline2/model/timelinemodel.cpp:4503
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect %1 to master track"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/model/timelinemodel.cpp:4497
+#: src/timeline2/model/timelinemodel.cpp:4510
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect %1 to selected track"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/model/timelinemodel.cpp:4517
+#: src/timeline2/model/timelinemodel.cpp:4530
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot paste effect to master track"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/model/timelinemodel.cpp:4523
+#: src/timeline2/model/timelinemodel.cpp:4536
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot paste effect to selected track"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/model/timelinemodel.cpp:4549
+#: src/timeline2/model/timelinemodel.cpp:4562
 #: src/timeline2/view/timelinecontroller.cpp:1392
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Scrios an Mhír Roghnaithe"
 
-#: src/timeline2/model/timelinemodel.cpp:4584
+#: src/timeline2/model/timelinemodel.cpp:4597
 #, kde-format
 msgid "Adjust Fade"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:4886
+#: src/timeline2/model/timelinemodel.cpp:4899
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert Composition"
 msgstr "Ilchodach"
 
-#: src/timeline2/model/timelinemodel.cpp:5055
+#: src/timeline2/model/timelinemodel.cpp:5068
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Move composition"
 msgstr "Ionad"
 
-#: src/timeline2/model/timelinemodel.cpp:5708
+#: src/timeline2/model/timelinemodel.cpp:5721
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable time remap"
 msgstr "Cumasaigh maisíocht"
 
-#: src/timeline2/model/timelinemodel.cpp:5781
+#: src/timeline2/model/timelinemodel.cpp:5794
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Change speed failed"
 msgstr "Gabh"
 
-#: src/timeline2/model/timelinemodel.cpp:5791
+#: src/timeline2/model/timelinemodel.cpp:5804
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Change clip speed"
 msgstr "Sprioc"
 
-#: src/timeline2/model/timelinemodel.cpp:6170
+#: src/timeline2/model/timelinemodel.cpp:6183
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
@@ -14419,7 +14419,7 @@ msgstr "Sprioc"
 msgid "Lock track"
 msgstr "Amhrán"
 
-#: src/timeline2/model/timelinemodel.cpp:6175
+#: src/timeline2/model/timelinemodel.cpp:6188
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
@@ -14427,37 +14427,37 @@ msgstr "Amhrán"
 msgid "Unlock track"
 msgstr "Amhrán"
 
-#: src/timeline2/model/timelinemodel.cpp:6209
-#: src/timeline2/model/timelinemodel.cpp:6271
+#: src/timeline2/model/timelinemodel.cpp:6222
+#: src/timeline2/model/timelinemodel.cpp:6284
 #, fuzzy, kde-format
 #| msgid "Position X"
 msgid "Change composition"
 msgstr "Ionad X"
 
-#: src/timeline2/model/timelinemodel.cpp:6223
+#: src/timeline2/model/timelinemodel.cpp:6236
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6453
-#: src/timeline2/model/timelinemodel.cpp:6486
-#: src/timeline2/model/timelinemodel.cpp:6567
+#: src/timeline2/model/timelinemodel.cpp:6429
+#: src/timeline2/model/timelinemodel.cpp:6466
+#: src/timeline2/model/timelinemodel.cpp:6499
+#: src/timeline2/model/timelinemodel.cpp:6580
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/model/timelinemodel.cpp:6427
-#: src/timeline2/model/timelinemodel.cpp:6461
-#: src/timeline2/model/timelinemodel.cpp:6505
-#: src/timeline2/model/timelinemodel.cpp:6591
+#: src/timeline2/model/timelinemodel.cpp:6440
+#: src/timeline2/model/timelinemodel.cpp:6474
+#: src/timeline2/model/timelinemodel.cpp:6518
+#: src/timeline2/model/timelinemodel.cpp:6604
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot resize mix"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/timeline2/model/timelinemodel.cpp:6605
+#: src/timeline2/model/timelinemodel.cpp:6618
 #, fuzzy, kde-format
 #| msgid "Resize"
 msgid "Resize mix"

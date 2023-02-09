@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-18 02:37+0000\n"
+"POT-Creation-Date: 2023-02-09 03:08+0000\n"
 "PO-Revision-Date: 2023-01-13 08:32+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4260,7 +4260,7 @@ msgid "Create bin folder"
 msgstr "Buat folder bin"
 
 #: src/bin/bin.cpp:2410 src/bin/bin.cpp:2421 src/bin/bin.cpp:3347
-#: src/timeline2/model/timelinemodel.cpp:2000
+#: src/timeline2/model/timelinemodel.cpp:2005
 #, kde-format
 msgid "Delete Clip"
 msgstr "Hapus Klip"
@@ -4889,7 +4889,7 @@ msgid "Cut clip"
 msgstr "Potong klip"
 
 #: src/bin/model/subtitlemodel.cpp:751
-#: src/timeline2/model/timelinemodel.cpp:3462
+#: src/timeline2/model/timelinemodel.cpp:3475
 #: src/timeline2/view/timelinecontroller.cpp:4933
 #, kde-format
 msgid "Resize subtitle"
@@ -4901,7 +4901,7 @@ msgstr "Ubah ukuran subtitel"
 msgid "Move subtitle"
 msgstr "Pindahkan subtitel"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:800
+#: src/bin/model/subtitlemodel.cpp:1103 src/dialogs/renderwidget.cpp:800
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -9441,7 +9441,7 @@ msgstr "Efek master"
 msgid "Switch Track Target Audio Stream"
 msgstr "Alihkan Stream Audio Target Trek"
 
-#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4234
+#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4247
 #: src/timeline2/view/timelinecontroller.cpp:800
 #, kde-format
 msgid "Delete Track"
@@ -9541,7 +9541,7 @@ msgstr "Impor File Subtitel..."
 msgid "Export Subtitle File…"
 msgstr "Ekspor File Subtitel..."
 
-#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2004
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2009
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Hapus Subtitel"
@@ -13617,7 +13617,7 @@ msgid "Delete clips on track"
 msgstr "Hapus klip di trek"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4125
+#: src/timeline2/model/timelinemodel.cpp:4138
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -13671,103 +13671,103 @@ msgstr "Buat pencampuran"
 msgid "Move clip"
 msgstr "Pindahkan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:1685
-#: src/timeline2/model/timelinemodel.cpp:1768
-#: src/timeline2/model/timelinemodel.cpp:1791
-#: src/timeline2/model/timelinemodel.cpp:1814
+#: src/timeline2/model/timelinemodel.cpp:1690
+#: src/timeline2/model/timelinemodel.cpp:1773
+#: src/timeline2/model/timelinemodel.cpp:1796
+#: src/timeline2/model/timelinemodel.cpp:1819
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Tidak ada trek yang tersedia untuk operasi penyisipan"
 
-#: src/timeline2/model/timelinemodel.cpp:1690
+#: src/timeline2/model/timelinemodel.cpp:1695
 #, kde-format
 msgid "Insert Clip"
 msgstr "Sisipkan Klip"
 
-#: src/timeline2/model/timelinemodel.cpp:1784
-#: src/timeline2/model/timelinemodel.cpp:1806
+#: src/timeline2/model/timelinemodel.cpp:1789
+#: src/timeline2/model/timelinemodel.cpp:1811
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Trek audio tidak cukup untuk semua stream (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:1890
+#: src/timeline2/model/timelinemodel.cpp:1895
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Tidak tersedia trek untuk operasi pembelahan"
 
-#: src/timeline2/model/timelinemodel.cpp:1927
+#: src/timeline2/model/timelinemodel.cpp:1932
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Gagal membelah audio: tidak ada trek yang layak"
 
-#: src/timeline2/model/timelinemodel.cpp:1935
+#: src/timeline2/model/timelinemodel.cpp:1940
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Gagal membelah audio: mustahil untuk membuat klip audio"
 
-#: src/timeline2/model/timelinemodel.cpp:1997
+#: src/timeline2/model/timelinemodel.cpp:2002
 #, kde-format
 msgid "Remove group"
 msgstr "Singkirkan kelompok"
 
-#: src/timeline2/model/timelinemodel.cpp:2002
+#: src/timeline2/model/timelinemodel.cpp:2007
 #, kde-format
 msgid "Delete Composition"
 msgstr "Hapus Komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:2154
-#: src/timeline2/model/timelinemodel.cpp:2316
+#: src/timeline2/model/timelinemodel.cpp:2159
+#: src/timeline2/model/timelinemodel.cpp:2321
 #: src/timeline2/view/timelinecontroller.cpp:4160
 #, kde-format
 msgid "Move group"
 msgstr "Pindahkan kelompok"
 
-#: src/timeline2/model/timelinemodel.cpp:2908
+#: src/timeline2/model/timelinemodel.cpp:2921
 #, kde-format
 msgid "Resize group"
 msgstr "Ubah ukuran kelompok"
 
-#: src/timeline2/model/timelinemodel.cpp:3032
+#: src/timeline2/model/timelinemodel.cpp:3045
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Ubah ukuran kecepatan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:3179
+#: src/timeline2/model/timelinemodel.cpp:3192
 #, kde-format
 msgid "Remove mix"
 msgstr "Singkirkan campuran"
 
-#: src/timeline2/model/timelinemodel.cpp:3181
+#: src/timeline2/model/timelinemodel.cpp:3194
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Penghapusan mix gagal"
 
-#: src/timeline2/model/timelinemodel.cpp:3458
+#: src/timeline2/model/timelinemodel.cpp:3471
 #, kde-format
 msgid "Resize clip"
 msgstr "Ubah ukuran klip"
 
-#: src/timeline2/model/timelinemodel.cpp:3460
+#: src/timeline2/model/timelinemodel.cpp:3473
 #, kde-format
 msgid "Resize composition"
 msgstr "Ubah ukuran komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:3777
+#: src/timeline2/model/timelinemodel.cpp:3790
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Ubah ukuran riak klip"
 
-#: src/timeline2/model/timelinemodel.cpp:3779
+#: src/timeline2/model/timelinemodel.cpp:3792
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Ubah ukuran riak komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:3781
+#: src/timeline2/model/timelinemodel.cpp:3794
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Ubah ukuran riak subtitel"
 
-#: src/timeline2/model/timelinemodel.cpp:3923
+#: src/timeline2/model/timelinemodel.cpp:3936
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -13775,126 +13775,126 @@ msgid_plural "Slip clips"
 msgstr[0] "Klip selip"
 msgstr[1] "Klip selip"
 
-#: src/timeline2/model/timelinemodel.cpp:3958
+#: src/timeline2/model/timelinemodel.cpp:3971
 #, kde-format
 msgid "Slip clip"
 msgstr "Klip selip"
 
-#: src/timeline2/model/timelinemodel.cpp:3993
+#: src/timeline2/model/timelinemodel.cpp:4006
 #, kde-format
 msgid "Group clips"
 msgstr "Kelimpokkan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4078
-#: src/timeline2/model/timelinemodel.cpp:4094
+#: src/timeline2/model/timelinemodel.cpp:4091
+#: src/timeline2/model/timelinemodel.cpp:4107
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Nonkelompokkan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4244
+#: src/timeline2/model/timelinemodel.cpp:4257
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Tidak bisa menghapus trek yang terakhir di dalam lini masa"
 
-#: src/timeline2/model/timelinemodel.cpp:4490
+#: src/timeline2/model/timelinemodel.cpp:4503
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Tidak bisa menambahkan efek %1 ke trek master"
 
-#: src/timeline2/model/timelinemodel.cpp:4497
+#: src/timeline2/model/timelinemodel.cpp:4510
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Tidak bisa menambahkan efek %1 ke trek yang dipilih"
 
-#: src/timeline2/model/timelinemodel.cpp:4517
+#: src/timeline2/model/timelinemodel.cpp:4530
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Tidak bisa menempelkan efek ke trek master"
 
-#: src/timeline2/model/timelinemodel.cpp:4523
+#: src/timeline2/model/timelinemodel.cpp:4536
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Tidak bisa menempelkan efek ke trek yang dipilih"
 
-#: src/timeline2/model/timelinemodel.cpp:4549
+#: src/timeline2/model/timelinemodel.cpp:4562
 #: src/timeline2/view/timelinecontroller.cpp:1392
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Tidak bisa menambahkan efek %1 ke klip yang dipilih"
 
-#: src/timeline2/model/timelinemodel.cpp:4584
+#: src/timeline2/model/timelinemodel.cpp:4597
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Sesuaikan Lesap"
 
-#: src/timeline2/model/timelinemodel.cpp:4886
+#: src/timeline2/model/timelinemodel.cpp:4899
 #, kde-format
 msgid "Insert Composition"
 msgstr "Sisipkan Komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:5055
+#: src/timeline2/model/timelinemodel.cpp:5068
 #, kde-format
 msgid "Move composition"
 msgstr "Pindahkan komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:5708
+#: src/timeline2/model/timelinemodel.cpp:5721
 #, kde-format
 msgid "Enable time remap"
 msgstr "Fungsikan pemetaan waktu"
 
-#: src/timeline2/model/timelinemodel.cpp:5781
+#: src/timeline2/model/timelinemodel.cpp:5794
 #, kde-format
 msgid "Change speed failed"
 msgstr "Gagal mengubah kecepatan"
 
-#: src/timeline2/model/timelinemodel.cpp:5791
+#: src/timeline2/model/timelinemodel.cpp:5804
 #, kde-format
 msgid "Change clip speed"
 msgstr "Ubah kecepatan klip"
 
-#: src/timeline2/model/timelinemodel.cpp:6170
+#: src/timeline2/model/timelinemodel.cpp:6183
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Kunci trek"
 
-#: src/timeline2/model/timelinemodel.cpp:6175
+#: src/timeline2/model/timelinemodel.cpp:6188
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
 msgstr "Lepas kunci trek"
 
-#: src/timeline2/model/timelinemodel.cpp:6209
-#: src/timeline2/model/timelinemodel.cpp:6271
+#: src/timeline2/model/timelinemodel.cpp:6222
+#: src/timeline2/model/timelinemodel.cpp:6284
 #, kde-format
 msgid "Change composition"
 msgstr "Ubah komposisi"
 
-#: src/timeline2/model/timelinemodel.cpp:6223
+#: src/timeline2/model/timelinemodel.cpp:6236
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Tidak bisa beroperasi saat komposisi dikelompokkan, silakan nonkelompokkan"
 
-#: src/timeline2/model/timelinemodel.cpp:6416
-#: src/timeline2/model/timelinemodel.cpp:6453
-#: src/timeline2/model/timelinemodel.cpp:6486
-#: src/timeline2/model/timelinemodel.cpp:6567
+#: src/timeline2/model/timelinemodel.cpp:6429
+#: src/timeline2/model/timelinemodel.cpp:6466
+#: src/timeline2/model/timelinemodel.cpp:6499
+#: src/timeline2/model/timelinemodel.cpp:6580
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Tidak bisa mengubah ukuran mix kurang dari 1 frame"
 
-#: src/timeline2/model/timelinemodel.cpp:6427
-#: src/timeline2/model/timelinemodel.cpp:6461
-#: src/timeline2/model/timelinemodel.cpp:6505
-#: src/timeline2/model/timelinemodel.cpp:6591
+#: src/timeline2/model/timelinemodel.cpp:6440
+#: src/timeline2/model/timelinemodel.cpp:6474
+#: src/timeline2/model/timelinemodel.cpp:6518
+#: src/timeline2/model/timelinemodel.cpp:6604
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Tidak bisa mengubah ukuran mix"
 
-#: src/timeline2/model/timelinemodel.cpp:6605
+#: src/timeline2/model/timelinemodel.cpp:6618
 #, kde-format
 msgid "Resize mix"
 msgstr "Ubah ukuran mix"
