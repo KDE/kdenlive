@@ -2416,7 +2416,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         }
         return true;
     };
-    // Move subtitles
+    // Check that we don't move subtitles before 0
     if (!sorted_subtitles.empty() && sorted_subtitles.front().second.frames(pCore->getCurrentFps()) + delta_pos < 0) {
         delta_pos = -sorted_subtitles.front().second.frames(pCore->getCurrentFps());
         if (delta_pos == 0) {
@@ -2707,9 +2707,15 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     if (!sorted_subtitles.empty()) {
         std::vector<std::pair<int, GenTime>>::iterator ptr;
         auto last = std::prev(sorted_subtitles.end());
+
         for (ptr = sorted_subtitles.begin(); ptr < sorted_subtitles.end(); ptr++) {
-            requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateSubtitles, ptr == sorted_subtitles.begin(),
-                                ptr == last, finalMove, local_undo, local_redo);
+            ok = requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateSubtitles, ptr == sorted_subtitles.begin(),
+                                     ptr == last, finalMove, local_undo, local_redo);
+            if (!ok) {
+                bool undone = local_undo();
+                Q_ASSERT(undone);
+                return false;
+            }
         }
     }
     update_model();
