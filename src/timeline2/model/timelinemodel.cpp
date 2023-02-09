@@ -1322,16 +1322,10 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
             all_items = m_groups->getLeaves(groupId);
         }
         for (int current_clipId : all_items) {
-            if (getItemTrackId(current_clipId) != -1) {
-                if (isClip(current_clipId)) {
-                    m_allClips[current_clipId]->allSnaps(ignored_pts, offset);
-                } else if (isComposition(current_clipId)) {
-                    // Composition
-                    int in = getItemPosition(current_clipId) - offset;
-                    ignored_pts.push_back(in);
-                    ignored_pts.push_back(in + getItemPlaytime(current_clipId));
-                }
-            } else if (isSubTitle(current_clipId)) {
+            if (isClip(current_clipId)) {
+                m_allClips[current_clipId]->allSnaps(ignored_pts, offset);
+            } else if (isComposition(current_clipId) || isSubTitle(current_clipId)) {
+                // Composition or subtitle
                 int in = getItemPosition(current_clipId) - offset;
                 ignored_pts.push_back(in);
                 ignored_pts.push_back(in + getItemPlaytime(current_clipId));
@@ -1383,15 +1377,13 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
             all_items = m_groups->getLeaves(groupId);
         }
         for (int current_clipId : all_items) {
-            if (getItemTrackId(current_clipId) != -1) {
-                if (isClip(current_clipId)) {
-                    m_allClips[current_clipId]->allSnaps(ignored_pts, offset);
-                } else if (isComposition(current_clipId) || isSubTitle(current_clipId)) {
-                    // Composition
-                    int in = getItemPosition(current_clipId) - offset;
-                    ignored_pts.push_back(in);
-                    ignored_pts.push_back(in + getItemPlaytime(current_clipId));
-                }
+            if (isClip(current_clipId)) {
+                m_allClips[current_clipId]->allSnaps(ignored_pts, offset);
+            } else if (isComposition(current_clipId) || isSubTitle(current_clipId)) {
+                // Composition
+                int in = getItemPosition(current_clipId) - offset;
+                ignored_pts.push_back(in);
+                ignored_pts.push_back(in + getItemPlaytime(current_clipId));
             }
         }
         int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance);
