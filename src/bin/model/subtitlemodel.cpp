@@ -950,7 +950,6 @@ void SubtitleModel::requestSubtitleMove(int clipId, GenTime position)
 
 bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView)
 {
-    qDebug() << "Moving Subtitle";
     if (m_timeline->m_allSubtitles.count(subId) == 0 || isLocked()) {
         return false;
     }
