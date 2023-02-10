@@ -5,6 +5,7 @@
 */
 #include "catch.hpp"
 #include "doc/docundostack.hpp"
+#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
 #include <QString>
@@ -25,21 +26,25 @@ TEST_CASE("Cache insert-remove", "[Cache]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack, nullptr);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
 
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_cache, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), &profile_cache, undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
@@ -68,9 +73,15 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
+    KdenliveDoc document(undoStack, nullptr);
+    Mock<KdenliveDoc> docMock(document);
+    KdenliveDoc &mockedDoc = docMock.get();
+
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;

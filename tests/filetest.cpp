@@ -24,10 +24,6 @@ TEST_CASE("Save File", "[SF]")
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
-    // Here we do some trickery to enable testing.
-
-    // we mock a doc to stub the getDocumentProperty
-
     SECTION("Simple insert and save")
     {
         // Create document
@@ -42,33 +38,20 @@ TEST_CASE("Save File", "[SF]")
         When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
+        mocked.m_project = &mockedDoc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+        mocked.m_activeTimelineModel = timeline;
 
-        // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
-        Mock<TimelineItemModel> timMock(tim);
-        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         TimelineModel::next_id = 0;
         QDir dir = QDir::temp();
-        std::unordered_map<QString, QString> binIdCorresp;
-        QStringList expandedFolders;
-        QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", doc.toString().toUtf8()));
-
-        Mlt::Service s(*xmlProd);
-        Mlt::Tractor tractor(s);
-        binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
-
-        RESET(timMock)
 
         QString binId = createProducerWithSound(profile_file, binModel);
         QString binId2 = createProducer(profile_file, "red", binModel, 20, false);
 
-        TrackModel::construct(timeline, -1, -1, QString(), true);
-        TrackModel::construct(timeline, -1, -1, QString(), true);
-        int tid1 = TrackModel::construct(timeline);
-        TrackModel::construct(timeline);
+        int tid1 = timeline->getTrackIndexFromPosition(2);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
@@ -103,50 +86,42 @@ TEST_CASE("Save File", "[SF]")
         undoStack->undo();
         // Undo second insert
         undoStack->undo();
+        binModel->clean();
+        pCore->m_projectManager = nullptr;
     }
-    binModel->clean();
     SECTION("Reopen and check in/out points")
     {
         // Create new document
-        KdenliveDoc document(undoStack, nullptr);
-        Mock<KdenliveDoc> docMock(document);
-        KdenliveDoc &mockedDoc = docMock.get();
-
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        TimelineModel::next_id = 0;
+        QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"));
+        QUrl openURL = QUrl::fromLocalFile(saveFile);
+
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
 
-        // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
-        Mock<TimelineItemModel> timMock(tim);
-        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline);
-        mocked.testSetActiveDocument(&mockedDoc, timeline);
-        QDir dir = QDir::temp();
-        RESET(timMock)
-        TimelineModel::next_id = 0;
-        QString path = dir.absoluteFilePath(QStringLiteral("test.kdenlive"));
-        QFile file(path);
-        REQUIRE(file.open(QIODevice::ReadOnly | QIODevice::Text) == true);
-        QByteArray playlist = file.readAll();
-        file.close();
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", playlist));
-        QDomDocument doc;
-        doc.setContent(playlist);
-        QDomNodeList list = doc.elementsByTagName(QStringLiteral("playlist"));
-        QDomElement pl = list.at(0).toElement();
-        QString hash = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.timelineHash"));
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
 
-        Mlt::Service s(*xmlProd);
-        Mlt::Tractor tractor(s);
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+        When(Method(pmMock, current)).AlwaysReturn(openedDoc.get());
+        mocked.m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        std::shared_ptr<Mlt::Tractor> tc = binModel->getExtraTimeline(uuid.toString());
+        std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), undoStack);
+        openedDoc->addTimeline(uuid, timeline);
+        constructTimelineFromTractor(timeline, nullptr, *tc.get(), nullptr, openedDoc->modifiedDecimalPoint(), QString(), QString());
+        mocked.testSetActiveDocument(openedDoc.get(), timeline);
 
-        bool projectErrors;
-        REQUIRE(tractor.count() == 5);
-        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), QString(), QString(), 0, &projectErrors);
+        QString hash = openedDoc->getDocumentProperty(QStringLiteral("timelineHash"));
+
         REQUIRE(timeline->getTracksCount() == 4);
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(2);
@@ -167,51 +142,36 @@ TEST_CASE("Save File", "[SF]")
         state();
         QByteArray updatedHex = timeline->timelineHash().toHex();
         REQUIRE(updatedHex == hash);
-        QFile::remove(dir.absoluteFilePath(QStringLiteral("test.kdenlive")));
+        // QFile::remove(dir.absoluteFilePath(QStringLiteral("test.kdenlive")));
+        binModel->clean();
+        pCore->m_projectManager = nullptr;
     }
-    binModel->clean();
     SECTION("Open a file with AV clips")
     {
         // Create new document
-        KdenliveDoc document(undoStack, nullptr);
-        Mock<KdenliveDoc> docMock(document);
-        KdenliveDoc &mockedDoc = docMock.get();
+        QString path = sourcesPath + "/dataset/av.kdenlive";
+        QUrl openURL = QUrl::fromLocalFile(path);
 
-        // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-        When(Method(pmMock, slotAddTextNote)).AlwaysDo([](const QString &text) {
-            Q_UNUSED(text)
-            qDebug() << "Intercepted Add Notes call";
-            return;
-        });
-
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
 
-        // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
-        Mock<TimelineItemModel> timMock(tim);
-        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline);
-        mocked.testSetActiveDocument(&mockedDoc, timeline);
-        QDir dir = QDir::temp();
-        RESET(timMock)
-        // This file contains an AV clip on tracks A1/V1 at 0, duration 500 frames
-        QString path = sourcesPath + "/dataset/av.kdenlive";
-        QFile file(path);
-        REQUIRE(file.open(QIODevice::ReadOnly | QIODevice::Text) == true);
-        QByteArray playlist = file.readAll();
-        file.close();
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", playlist));
-        QDomDocument doc;
-        doc.setContent(playlist);
-        Mlt::Service s(*xmlProd);
-        Mlt::Tractor tractor(s);
-        bool projectErrors;
-        constructTimelineFromMelt(timeline, tractor, nullptr, QString(), QString(), QString(), 0, &projectErrors);
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == true);
+
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+        When(Method(pmMock, current)).AlwaysReturn(openedDoc.get());
+        mocked.m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
+        QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        auto timeline = openedDoc->getTimeline(uuid);
+        mocked.testSetActiveDocument(openedDoc.get(), timeline);
+
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(0);
         int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -233,9 +193,9 @@ TEST_CASE("Save File", "[SF]")
         REQUIRE(cid4 == -1);
         REQUIRE(timeline->getClipPlaytime(cid2) == 500);
         REQUIRE(timeline->getClipPlaytime(cid3) == 500);
+        binModel->clean();
+        pCore->m_projectManager = nullptr;
     }
-    binModel->clean();
-    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Non-BMP Unicode", "[NONBMP]")
@@ -270,7 +230,6 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
 
@@ -354,12 +313,15 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         auto xmldata = getProperty(textTitle, QStringLiteral("xmldata"));
         REQUIRE(xmldata != nullptr);
         CHECK(clipname->text().contains(emojiTestString));
+        binModel->clean();
+        pCore->m_projectManager = nullptr;
     }
 
     SECTION("Save project and check profile")
     {
 
         // Create document
+        pCore->setCurrentProfile("atsc_1080p_25");
         KdenliveDoc document(undoStack, nullptr);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
@@ -369,10 +331,8 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-        pCore->setCurrentProfile("atsc_1080p_25");
 
         // We also mock timeline object to spy few functions and mock others
         TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
@@ -380,6 +340,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline);
         mocked.testSetActiveDocument(&mockedDoc, timeline);
+
         QDir dir = QDir::temp();
         std::unordered_map<QString, QString> binIdCorresp;
         QStringList expandedFolders;
@@ -416,6 +377,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         }
         REQUIRE(contents.contains(contentCheck.toUtf8()));
         binModel->clean();
+        pCore->m_projectManager = nullptr;
     }
 }
 
@@ -433,16 +395,13 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
     SECTION("Load file with a mix")
     {
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+        QUrl openURL = QUrl::fromLocalFile(sourcesPath + "/dataset/test-mix.kdenlive");
+
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
         When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-
         ProjectManager &mocked = pmMock.get();
-
-        // We also mock timeline object to spy few functions and mock others
-
-        // try opening the file as a Kdenlivedoc
-        QUrl openURL = QUrl::fromLocalFile(sourcesPath + "/dataset/test-mix.kdenlive");
+        pCore->m_projectManager = &mocked;
 
         QUndoGroup *undoGroup = new QUndoGroup();
         undoGroup->addStack(undoStack.get());
@@ -451,11 +410,13 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
         When(Method(pmMock, current)).AlwaysReturn(openedDoc.get());
-        pCore->m_projectManager = &mocked;
-        pCore->m_projectManager->m_project = openedDoc.get();
+        mocked.m_project = openedDoc.get();
+        const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->m_projectManager->updateTimeline(0, false, QString(), QString(), documentDate, 0);
-        std::shared_ptr<TimelineItemModel> timeline = pCore->m_projectManager->m_activeTimelineModel;
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        auto timeline = openedDoc->getTimeline(uuid);
+        mocked.testSetActiveDocument(openedDoc.get(), timeline);
+
         REQUIRE(timeline->getTracksCount() == 4);
         int mixtrackId = timeline->getTrackIndexFromPosition(2);
         REQUIRE(timeline->getTrackById_const(mixtrackId)->mixCount() == 2);
@@ -465,7 +426,7 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
         QDomDocument *newDoc = &openedDoc->m_document;
         auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
         binModel->clean();
+        pCore->m_projectManager = nullptr;
     }
     undoStack->clear();
-    pCore->m_projectManager = nullptr;
 }

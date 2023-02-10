@@ -32,11 +32,6 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     // Create document
     KdenliveDoc document(undoStack, nullptr);
     Mock<KdenliveDoc> docMock(document);
-    // When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
-    //     Q_UNUSED(name) Q_UNUSED(defaultValue)
-    //     qDebug() << "Intercepted call";
-    //     return QStringLiteral("dummyId");
-    // });
     KdenliveDoc &mockedDoc = docMock.get();
 
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
@@ -44,8 +39,15 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(mockedDoc.uuid(), &profile_preview, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline);
 
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
@@ -55,12 +57,6 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     QDir dir = mockedDoc.getCacheDir(CacheBase, &ok);
     dir.mkpath(QStringLiteral("."));
     dir.mkdir(QLatin1String("preview"));
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_preview, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
     mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     std::unordered_map<QString, QString> binIdCorresp;

@@ -320,10 +320,15 @@ std::shared_ptr<TimelineItemModel> ProjectManager::getTimeline()
 bool ProjectManager::testSaveFileAs(const QString &outputFileName)
 {
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    m_project->setDocumentProperty(QStringLiteral("timelineHash"), m_activeTimelineModel->timelineHash().toHex());
+    m_project->setDocumentProperty(QStringLiteral("opensequences"), m_project->uuid().toString());
+    m_project->setDocumentProperty(QStringLiteral("activetimeline"), m_project->uuid().toString());
+
     QMap<QString, QString> docProperties = m_project->documentProperties();
-    docProperties.insert(QStringLiteral("timelineHash"), m_activeTimelineModel->timelineHash().toHex());
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
-    QString scene = m_activeTimelineModel->sceneList(saveFolder);
+    // QString scene = m_activeTimelineModel->sceneList(saveFolder);
+    int duration = m_activeTimelineModel->duration();
+    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), QString(), m_activeTimelineModel->tractor(), duration);
 
     QSaveFile file(outputFileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -899,10 +904,9 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
         pCore->window()->getCurrentTimeline()->controller()->requestEndTrimmingMode();
     }
     pCore->mixer()->pauseMonitoring(true);
-    QString scene;
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
-    scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration);
+    QString scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getCurrentTimeline()->controller()->slotMultitrackView(true, false);
@@ -1125,9 +1129,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint());
         return true;
         const QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
-        qDebug() << "::: GOT ACTIVE TIMELINE : " << activeUuid;
         const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
-        qDebug() << "::: GOT ACTIVE TIMELINE BID: " << binId;
         openTimeline(binId, activeUuid);
         return true;
     }
@@ -1150,11 +1152,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     }
     m_project->addTimeline(uuid, timelineModel);
     TimelineWidget *documentTimeline = nullptr;
-    // Add snap point at project start
-    timelineModel->addSnap(0);
-    /*if (pCore->window()) {
-        pCore->window()->getCurrentTimeline()->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    }*/
+
     bool projectErrors = false;
     m_project->cleanupTimelinePreview(documentDate);
     if (!createNewTab) {
@@ -1205,8 +1203,10 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         prod->parent().set("kdenlive:maxduration", maxduration.toLatin1().constData());
     } else {
         // Fetch duration from actual tractor
-        documentTimeline->controller()->checkDuration();
         int projectDuration = timelineModel->duration();
+        if (pCore->window()) {
+            documentTimeline->controller()->checkDuration();
+        }
         prod->parent().set("kdenlive:duration", timelineModel->tractor()->frames_to_time(projectDuration + 1));
         prod->parent().set("kdenlive:maxduration", projectDuration + 1);
         prod->parent().set("length", projectDuration + 1);

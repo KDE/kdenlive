@@ -143,6 +143,8 @@ KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *pa
     , m_documentOpenStatus(CleanProject)
 {
     m_commandStack = undoStack;
+    m_document = createEmptyDocument(2, 2);
+    loadDocumentProperties();
     initializeProperties();
 }
 
