@@ -468,7 +468,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Folder button
         tb = new QToolButton(this);
         auto *pMenu = new QMenu(this);
-        tb->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
+        tb->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
         tb->setToolTip(i18n("Proxy options"));
         tb->setMenu(pMenu);
         tb->setAutoRaise(true);

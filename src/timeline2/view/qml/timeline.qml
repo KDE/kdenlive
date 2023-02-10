@@ -1131,7 +1131,7 @@ Rectangle {
                                 anchors.fill: parent
                                 color: "transparent"
                                 Image {
-                                    source: root.subtitlesLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
+                                    source: root.subtitlesLocked ? "image://icon/lock" : "image://icon/unlock"
                                     anchors.centerIn: parent
                                     width: root.collapsedHeight - 4
                                     height: root.collapsedHeight - 4

@@ -47,6 +47,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     labelLay->addWidget(manage_profiles);
     manage_profiles->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
+    manage_profiles->setWhatsThis(xi18nc("@info:whatsthis", "Opens the profile dialog window in which you can change project profiles. Note: The profile used in the open project cannot be changed."));
     connect(manage_profiles, &QAbstractButton::clicked, this, &ProfileWidget::slotEditProfiles);
     lay->addLayout(labelLay);
 

@@ -455,6 +455,7 @@ void MainWindow::init(const QString &mltPath)
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
     m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock->setWhatsThis(i18n("Toggles the audio mixer panel/widget."));
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
@@ -512,6 +513,7 @@ void MainWindow::init(const QString &mltPath)
     widgetlist->setDefaultWidget(m_effectBasket);
     // widgetlist->setText(i18n("Favorite Effects"));
     widgetlist->setToolTip(i18n("Favorite Effects"));
+    widgetlist->setWhatsThis(xi18nc("@info:whatsthis", "Click to show a list of favorite effects. Double-click on an effect to add it to the selected clip."));
     widgetlist->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     auto *menu = new QMenu(this);
     menu->addAction(widgetlist);
@@ -523,6 +525,8 @@ void MainWindow::init(const QString &mltPath)
     basketButton->setPopupMode(QToolButton::InstantPopup);
     // basketButton->setText(i18n("Favorite Effects"));
     basketButton->setToolTip(i18n("Favorite Effects"));
+    basketButton->setWhatsThis(xi18nc("@info:whatsthis", "Click to show a list of favorite effects. Double-click on an effect to add it to the selected clip."));
+
     basketButton->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 
     auto *toolButtonAction = new QWidgetAction(this);
@@ -1115,6 +1119,7 @@ void MainWindow::setupActions()
     actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
     m_useTimelineZone = new KDualAction(i18n("Do not Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
+    m_useTimelineZone->setWhatsThis(i18n("Toggles between using the timeline zone for inserting (on) or not (off)."));
     m_useTimelineZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-on")));
     m_useTimelineZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-off")));
     m_useTimelineZone->setAutoToggle(true);
@@ -1271,7 +1276,7 @@ void MainWindow::setupActions()
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, &QAction::triggered, this, &MainWindow::slotSwitchMarkersComments);
 
-    m_buttonSnap = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-snap")), i18n("Snap"), this);
+    m_buttonSnap = new QAction(QIcon::fromTheme(QStringLiteral("snap")), i18n("Snap"), this);
 
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
@@ -1776,12 +1781,12 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("select_track"), selectTrack);
 
     QAction *selectAll = KStandardAction::selectAll(this, SLOT(slotSelectAllTracks()), this);
-    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-select-all")));
+    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-all")));
     selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("select_all_tracks"), selectAll);
 
     QAction *unselectAll = KStandardAction::deselect(this, SLOT(slotUnselectAllTracks()), this);
-    unselectAll->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-unselect-all")));
+    unselectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-none")));
     unselectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     timelineActions->addAction(QStringLiteral("unselect_all_tracks"), unselectAll);
 
@@ -1802,7 +1807,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("export_guides"), i18n("Export Guides…"), this, SLOT(slotExportGuides()), QIcon::fromTheme(QStringLiteral("document-export")));
 
     QAction *lockGuides =
-        addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
+        addAction(QStringLiteral("lock_guides"), i18n("Guides Locked"), this, SLOT(slotLockGuides(bool)), QIcon::fromTheme(QStringLiteral("lock")));
     lockGuides->setCheckable(true);
     lockGuides->setChecked(KdenliveSettings::lockedGuides());
     lockGuides->setToolTip(i18n("Lock guides"));
@@ -1814,7 +1819,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")),
               Qt::SHIFT | Qt::Key_S);
     addAction(QStringLiteral("disable_subtitle"), i18n("Disable Subtitle"), this, SLOT(slotDisableSubtitle()), QIcon::fromTheme(QStringLiteral("view-hidden")));
-    addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
+    addAction(QStringLiteral("lock_subtitle"), i18n("Lock Subtitle"), this, SLOT(slotLockSubtitle()), QIcon::fromTheme(QStringLiteral("lock")));
 
     addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File…"), this, SLOT(slotImportSubtitle()),
               QIcon::fromTheme(QStringLiteral("document-import")));

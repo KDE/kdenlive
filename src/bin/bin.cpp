@@ -1321,7 +1321,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
 
     // Settings menu
-    auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
+    auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
     settingsAction->setPopupMode(QToolButton::InstantPopup);
     settingsAction->addAction(zoomWidget);
     settingsAction->addAction(listType);
@@ -1373,6 +1373,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     m_filterButton->setToolTip(i18n("Filter"));
+    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the project bin contents. Click on the filter icon to toggles the filter display. Click on the arrow icon to open a list of possible filter settings."));
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
 
@@ -2411,6 +2412,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 clip = std::static_pointer_cast<ProjectClip>(currentItem);
                 m_tagsWidget->setTagData(clip->tags());
                 m_deleteAction->setText(i18n("Delete Clip"));
+                m_deleteAction->setWhatsThis(i18n("Deletes the currently selected clips from the project bin and also from the timeline."));
                 m_proxyAction->setText(i18n("Proxy Clip"));
             } else if (itemType == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
@@ -2422,6 +2424,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
                 clip = subClip->getMasterClip();
                 m_deleteAction->setText(i18n("Delete Clip"));
+                m_deleteAction->setWhatsThis(i18n("Deletes the currently selected clips from the project bin and also from the timeline."));
                 m_proxyAction->setText(i18n("Proxy Clip"));
             }
             bool isImported = false;

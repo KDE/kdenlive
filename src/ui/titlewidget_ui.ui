@@ -1692,7 +1692,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-align-left">
+             <iconset theme="align-horizontal-left">
               <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
@@ -1706,7 +1706,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-align-hor">
+             <iconset theme="align-horizontal-center">
               <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
@@ -1720,7 +1720,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-align-right">
+             <iconset theme="align-horizontal-right">
               <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
@@ -1734,7 +1734,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-align-top">
+             <iconset theme="align-vertical-top">
               <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
@@ -1748,7 +1748,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-align-vert">
+             <iconset theme="align-vertical-center">
               <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
@@ -1762,7 +1762,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="kdenlive-align-bottom">
+             <iconset theme="align-vertical-bottom">
               <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>

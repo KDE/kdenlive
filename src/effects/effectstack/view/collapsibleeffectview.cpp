@@ -46,12 +46,15 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
 {
     QString effectId = effectModel->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
-    buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
+    buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("selection-raise")));
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));
+    buttonUp->setWhatsThis(xi18nc("@info:whatsthis", "Moves the effect above the one right above it. Effects are handled sequentially from top to bottom so sequence is important."));
+    buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("selection-lower")));
     buttonDown->setToolTip(i18n("Move effect down"));
-    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-deleffect")));
+    buttonDown->setWhatsThis(xi18nc("@info:whatsthis", "Moves the effect below the one right below it. Effects are handled sequentially from top to bottom so sequence is important."));
+    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     buttonDel->setToolTip(i18n("Delete effect"));
+    buttonDel->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the effect from the effect stack."));
 
     if (effectId == QLatin1String("speed")) {
         // Speed effect is a "pseudo" effect, cannot be moved
@@ -99,6 +102,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
 
     // Enable button
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
+    m_enabledButton->setWhatsThis(i18n("Enables the effect. Useful to compare before and after settings."));
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
@@ -129,6 +133,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     setIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
     setIn->setAutoRaise(true);
     setIn->setToolTip(i18n("Set zone in"));
+    setIn->setWhatsThis(xi18nc("@info:whatsthis", "Sets the current frame/playhead position as start of the zone."));
     layZone->addWidget(setIn);
     m_inPos = new TimecodeDisplay(this);
     layZone->addWidget(m_inPos);
@@ -140,6 +145,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     setOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
     setOut->setAutoRaise(true);
     setOut->setToolTip(i18n("Set zone out"));
+    setOut->setWhatsThis(xi18nc("@info:whatsthis", "Sets the current frame/playhead position as end of the zone."));
     layZone->addWidget(setOut);
     m_outPos = new TimecodeDisplay(this);
     layZone->addWidget(m_outPos);
@@ -223,6 +229,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
     presetButton->setMenu(m_view->presetMenu());
     presetButton->setToolTip(i18n("Presets"));
+    presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
 
     connect(saveEffectButton, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotSaveEffect);
     saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));

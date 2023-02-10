@@ -6,6 +6,7 @@
 */
 #include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
+#include "timeline2/model/timelinefunctions.hpp"
 
 using namespace fakeit;
 Mlt::Profile profile_trimming;

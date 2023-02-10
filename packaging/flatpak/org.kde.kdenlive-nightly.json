@@ -104,10 +104,10 @@
           "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
           "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626",
           "x-checker-data": {
-              "type": "json",
-              "url": "https://gitlab.com/api/v4/projects/libeigen%2Feigen/releases",
-              "version-query": "map(select(.tag_name | test(\"^[\\\\d.]{3,}$\"))) | .[0].tag_name",
-              "url-query": ".[] | select(.tag_name==$version) | .assets.sources[] | select(.format==\"tar.bz2\") | .url"
+              "type": "anitya",
+              "project-id": 666,
+              "stable-only": true,
+              "url-template": "https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.bz2"
           }
         }
       ]
@@ -143,8 +143,14 @@
       "sources": [
         {
           "type": "archive",
-          "url": "http://www.fftw.org/fftw-3.3.10.tar.gz",
-          "sha256": "56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467"
+          "url": "https://www.fftw.org/fftw-3.3.10.tar.gz",
+          "sha256": "56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 803,
+              "stable-only": true,
+              "url-template": "https://www.fftw.org/fftw-$version.tar.gz"
+          }
         }
       ]
     },
@@ -157,10 +163,10 @@
           "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz",
           "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7",
           "x-checker-data": {
-              "type": "json",
-              "url": "https://api.github.com/repos/sekrit-twc/zimg/releases/latest",
-              "version-query": ".tag_name | sub(\"^v\"; \"\")",
-              "url-query": ".tarball_url"
+              "type": "anitya",
+              "project-id": 13685,
+              "stable-only": true,
+              "url-template": "https://github.com/sekrit-twc/zimg/archive/release-$version.tar.gz"
           }
         }
       ]
@@ -179,8 +185,14 @@
           "url": "https://downloads.sourceforge.net/project/sox/sox/14.4.2/sox-14.4.2.tar.bz2",
           "sha256": "81a6956d4330e75b5827316e44ae381e6f1e8928003c6aa45896da9041ea149c",
           "mirror-urls": [
-            "http://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2"
-          ]
+            "https://http.debian.net/debian/pool/main/s/sox/sox_14.4.2.orig.tar.bz2"
+          ],
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 4858,
+              "stable-only": true,
+              "url-template": "https://downloads.sourceforge.net/project/sox/sox/$version/sox-$version.tar.bz2"
+          }
         }
       ]
     },
@@ -195,7 +207,13 @@
         {
           "type": "archive",
           "url": "https://github.com/georgmartius/vid.stab/archive/v1.1.0.tar.gz",
-          "sha256": "14d2a053e56edad4f397be0cb3ef8eb1ec3150404ce99a426c4eb641861dc0bb"
+          "sha256": "14d2a053e56edad4f397be0cb3ef8eb1ec3150404ce99a426c4eb641861dc0bb",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 15959,
+              "stable-only": true,
+              "url-template": "https://github.com/georgmartius/vid.stab/archive/v$version.tar.gz"
+          }
         }
       ]
     },
@@ -219,10 +237,10 @@
           "url": "https://github.com/jackaudio/jack2/archive/v1.9.19.tar.gz",
           "sha256": "9030f4dc11773351b6ac96affd9c89803a5587ebc1b091e5ff866f433327e4b0",
           "x-checker-data": {
-              "type": "json",
-              "url": "https://api.github.com/repos/jackaudio/jack2/releases/latest",
-              "version-query": ".tag_name | sub(\"^v\"; \"\")",
-              "url-query": ".tarball_url"
+              "type": "anitya",
+              "project-id": 21358,
+              "stable-only": true,
+              "url-template": "https://github.com/jackaudio/jack2/archive/v$version.tar.gz"
           }
         }
       ]
@@ -236,8 +254,14 @@
       "sources": [
         {
           "type": "archive",
-          "url": "http://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-5.2.0.tar.gz",
-          "sha256": "d6089c214e5dbff136ab21f3f5efc284e93475ebd198c54d4b9b6c44419ef4e6"
+          "url": "https://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-5.2.0.tar.gz",
+          "sha256": "d6089c214e5dbff136ab21f3f5efc284e93475ebd198c54d4b9b6c44419ef4e6",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 10227,
+              "stable-only": true,
+              "url-template": "https://www.music.mcgill.ca/~gary/rtaudio/release/rtaudio-$version.tar.gz"
+          }
         }
       ]
     },
@@ -255,8 +279,14 @@
           "url": "https://downloads.sourceforge.net/project/gmerlin/gavl/1.4.0/gavl-1.4.0.tar.gz",
           "sha256": "51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce",
           "mirror-urls": [
-            "http://http.debian.net/debian/pool/main/g/gavl/gavl_1.4.0.orig.tar.gz"
-          ]
+            "https://http.debian.net/debian/pool/main/g/gavl/gavl_1.4.0.orig.tar.gz"
+          ],
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 10275,
+              "stable-only": true,
+              "url-template": "https://downloads.sourceforge.net/project/gmerlin/gavl/$version/gavl-$version.tar.gz"
+          }
         },
         {
           "type": "shell",
@@ -286,8 +316,14 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz",
-          "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2"
+          "url": "https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz",
+          "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 769,
+              "stable-only": true,
+              "url-template": "https://github.com/Exiv2/exiv2/releases/download/v$version/exiv2-$version-Source.tar.gz"
+          }
         }
       ]
     },
@@ -301,7 +337,13 @@
         {
           "type": "archive",
           "url": "https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz",
-          "sha256": "1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd"
+          "sha256": "1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 1560,
+              "stable-only": true,
+              "url-template": "https://github.com/libass/libass/releases/download/$version/libass-$version.tar.xz"
+          }
         }
       ]
     },
@@ -314,9 +356,15 @@
       ],
       "sources": [
         {
-          "type": "git",
-          "url": "https://github.com/dyne/frei0r.git",
-          "commit": "febd73874dab6be330398a3b55112451b36ee939"
+          "type": "archive",
+          "url": "https://github.com/dyne/frei0r/archive/v2.0.0.tar.gz",
+          "sha256": "cc3ce35f7c208a7a82ab5c4cfad2dde006b4c2db4724015570c155c5b36ac82b",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 10670,
+              "stable-only": true,
+              "url-template": "https://github.com/dyne/frei0r/archive/v$version.tar.gz"
+          }
         }
       ]
     },
@@ -334,9 +382,15 @@
       ],
       "sources": [
         {
-          "type": "git",
-          "url": "https://bitbucket.org/leo_sutic/bigsh0t",
-          "tag": "2.3"
+          "type": "archive",
+          "url": "https://bitbucket.org/leo_sutic/bigsh0t/get/2.5.1.tar.bz2",
+          "sha256": "8c6ade9e1bca5d820948db443009da6bbec876cac8e0e2a0c5de269c577a5c32",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 288153,
+              "stable-only": true,
+              "url-template": "https://bitbucket.org/leo_sutic/bigsh0t/get/$version.tar.bz2"
+          }
         }
       ]
     },
@@ -356,7 +410,13 @@
         {
           "type": "archive",
           "url": "https://www.ladspa.org/download/ladspa_sdk_1.17.tgz",
-          "sha256": "d9d596171d93f9c226fcdb7e27c6f917422ac487efe2c05e0a18094df4268061"
+          "sha256": "27d24f279e4b81bd17ecbdcc38e4c42991bb388826c0b200067ce0eb59d3da5b",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 227231,
+              "stable-only": true,
+              "url-template": "https://www.ladspa.org/download/ladspa_sdk_$version.tgz"
+          }
         }
       ]
     },
@@ -372,7 +432,13 @@
         {
           "type": "archive",
           "url": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v0.91.tar.gz",
-          "sha256": "4f3a112534d4abb5ee2b6c328cde89193dbdb2146cffc98505972c3b5397a35e"
+          "sha256": "4f3a112534d4abb5ee2b6c328cde89193dbdb2146cffc98505972c3b5397a35e",
+          "x-checker-data": {
+              "type": "rotating-url",
+              "url": "https://github.com/werman/noise-suppression-for-voice/releases/latest",
+              "pattern": "https://github.com/werman/noise-suppression-for-voice/releases/tag/v([0-9.]+)",
+              "url-template": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v$version.tar.gz"
+          }
         }
       ]
     },
@@ -390,7 +456,13 @@
         {
           "type": "archive",
           "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.22.0.tar.bz2",
-          "sha256": "1069e5d7909bcc563baeaadc3a5c496f0e658524c413cf7818816e37bfcea344"
+          "sha256": "1069e5d7909bcc563baeaadc3a5c496f0e658524c413cf7818816e37bfcea344",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 9998,
+              "stable-only": true,
+              "url-template": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.bz2"
+          }
         }
       ]
     },
@@ -421,7 +493,13 @@
         {
           "type": "archive",
           "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_3.5.orig.tar.gz",
-          "sha256": "e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8"
+          "sha256": "e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 7275,
+              "stable-only": true,
+              "url-template": "https://deb.debian.org/debian/pool/main/x/x265/x265_$version.orig.tar.gz"
+          }
         }
       ]
     },
@@ -441,7 +519,13 @@
         {
           "type": "archive",
           "url": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/1.35.1.tar.gz",
-          "sha256": "673636da98a4fd5c3e3dc5267da5429e986f53089ed6c33cdca5751f56d9416b"
+          "sha256": "673636da98a4fd5c3e3dc5267da5429e986f53089ed6c33cdca5751f56d9416b",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 11573,
+              "stable-only": true,
+              "url-template": "https://github.com/lu-zero/mfx_dispatch/archive/refs/tags/$version.tar.gz"
+          }
         }
       ]
     },
@@ -455,7 +539,13 @@
         {
           "type": "archive",
           "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2021.06.30.tar.gz",
-          "sha256": "6640d590c30d90f89351f5e3043ae6363feeb19ac5e64bc35f8cfa1a6cd5498e"
+          "sha256": "6640d590c30d90f89351f5e3043ae6363feeb19ac5e64bc35f8cfa1a6cd5498e",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 223257,
+              "stable-only": true,
+              "url-template": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v$version.tar.gz"
+          }
         }
       ]
     },
@@ -469,7 +559,13 @@
         {
           "type": "archive",
           "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.23.tar.gz",
-          "sha256": "7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a"
+          "sha256": "7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 138182,
+              "stable-only": true,
+              "url-template": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v$version.tar.gz"
+          }
         }
       ]
     },
@@ -484,10 +580,15 @@
       ],
       "sources": [
         {
-          "type": "git",
-          "url": "https://git.videolan.org/git/ffmpeg/nv-codec-headers.git",
-          "commit": "b641a195edbe3ac9788e681e22c2e2fad8aacddb",
-          "tag": "n11.1.5.0"
+          "type": "archive",
+          "url": "https://github.com/FFmpeg/nv-codec-headers/archive/refs/tags/n11.1.5.0.tar.gz",
+          "sha256": "b833bd90852c1f45d01f65c70545f6a31e5b9ca64814a269626c7ad2286d55ee",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 223796,
+              "stable-only": true,
+              "url-template": "https://github.com/FFmpeg/nv-codec-headers/archive/refs/tags/n$version.tar.gz"
+          }
         }
       ]
     },
@@ -509,8 +610,11 @@
         {
           "type": "git",
           "url": "https://aomedia.googlesource.com/aom.git",
-          "commit": "287164de79516c25c8c84fd544f67752c170082a",
-          "tag": "v3.2.0"
+          "tag": "v3.2.0",
+          "x-checker-data": {
+              "type": "git",
+              "tag-pattern": "^v([\\d.]+)$"
+          }
         }
       ]
     },
@@ -524,7 +628,13 @@
         {
           "type": "archive",
           "url": "https://github.com/intel/libva/archive/refs/tags/2.13.0.tar.gz",
-          "sha256": "6b7ec7d4fa204dad3f266450981f1f0892400c03afd3e00ac11f8ccade5aaaa1"
+          "sha256": "6b7ec7d4fa204dad3f266450981f1f0892400c03afd3e00ac11f8ccade5aaaa1",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 1752,
+              "stable-only": true,
+              "url-template": "https://github.com/intel/libva/archive/refs/tags/$version.tar.gz"
+          }
         }
       ]
     },
@@ -538,7 +648,13 @@
         {
           "type": "archive",
           "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.13.0.tar.gz",
-          "sha256": "128333faa9792a3b87586a80bfb70859dcdd81847ec9a722f785a601a48e1731"
+          "sha256": "128333faa9792a3b87586a80bfb70859dcdd81847ec9a722f785a601a48e1731",
+          "x-checker-data": {
+              "type": "anitya",
+              "project-id": 16334,
+              "stable-only": true,
+              "url-template": "https://github.com/intel/libva-utils/archive/refs/tags/$version.tar.gz"
+          }
         }
       ] 
     },
@@ -555,11 +671,17 @@
         "-DMFX_ENABLE_SW_FALLBACK=OFF"
       ],
       "sources": [
-         {
-           "type": "archive",
-           "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-21.3.5.tar.gz",
-           "sha256": "3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c"
-         }
+        {
+          "type": "archive",
+          "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-21.3.5.tar.gz",
+          "sha256": "3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 21814,
+            "stable-only": true,
+            "url-template": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-$version.tar.gz"
+          }
+        }
       ]
     },
     {
@@ -618,7 +740,7 @@
             "project-id": 5405,
             "stable-only": true,
             "url-template": "https://www.ffmpeg.org/releases/ffmpeg-$version.tar.xz"
-        }
+          }
         }
       ]
     },
@@ -631,7 +753,13 @@
         {
           "type": "archive",
           "url": "https://mediaarea.net/download/source/libzen/0.4.39/libzen_0.4.39.tar.xz",
-          "sha256": "cded5d7774294e7d5b42768ceb285243709b6e99eec6e980a3cf7f0890dbb622"
+          "sha256": "cded5d7774294e7d5b42768ceb285243709b6e99eec6e980a3cf7f0890dbb622",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 1810,
+            "stable-only": true,
+            "url-template": "https://mediaarea.net/download/source/libzen/$version/libzen_$version.tar.xz"
+          }
         }
       ]
     },
@@ -644,7 +772,13 @@
         {
           "type": "archive",
           "url": "https://mediaarea.net/download/source/libmediainfo/21.09/libmediainfo_21.09.tar.xz",
-          "sha256": "69be9444f6a03a1bdf56713ee31d56e987c502a7ec18eb54ee70fcc171b7f126"
+          "sha256": "69be9444f6a03a1bdf56713ee31d56e987c502a7ec18eb54ee70fcc171b7f126",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 16249,
+            "stable-only": true,
+            "url-template": "https://mediaarea.net/download/source/libmediainfo/$version/libmediainfo_$version.tar.xz"
+          }
         }
       ]
     },
@@ -656,7 +790,13 @@
         {
           "type": "archive",
           "url": "https://mediaarea.net/download/source/mediainfo/21.09/mediainfo_21.09.tar.xz",
-          "sha256": "7b8fd9a502ec64afe1315072881b6385ba57ca69f2f82c625b1672e151c50c57"
+          "sha256": "7b8fd9a502ec64afe1315072881b6385ba57ca69f2f82c625b1672e151c50c57",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 8240,
+            "stable-only": true,
+            "url-template": "https://mediaarea.net/download/source/mediainfo/$version/mediainfo_$version.tar.xz"
+          }
         }
       ]
     },
@@ -676,12 +816,24 @@
         {
           "type": "archive",
           "url": "https://github.com/opencv/opencv/archive/4.5.4.tar.gz",
-          "sha256": "c20bb83dd790fc69df9f105477e24267706715a9d3c705ca1e7f613c7b3bad3d"
+          "sha256": "c20bb83dd790fc69df9f105477e24267706715a9d3c705ca1e7f613c7b3bad3d",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 6615,
+            "stable-only": true,
+            "url-template": "https://github.com/opencv/opencv/archive/$version.tar.gz"
+          }
         },
         {
           "type": "archive",
           "url": "https://github.com/opencv/opencv_contrib/archive/4.5.4.tar.gz",
-          "sha256": "ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81"
+          "sha256": "ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 6615,
+            "stable-only": true,
+            "url-template": "https://github.com/opencv/opencv_contrib/archive/$version.tar.gz"
+          }
         }
       ]
     },
@@ -692,7 +844,13 @@
         {
           "type": "archive",
           "url": "https://breakfastquay.com/files/releases/rubberband-2.0.0.tar.bz2",
-          "sha256": "eccbf0545496ce3386a2433ceec31e6576a76ed6884310e4b465003bfe260286"
+          "sha256": "eccbf0545496ce3386a2433ceec31e6576a76ed6884310e4b465003bfe260286",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 4222,
+            "stable-only": true,
+            "url-template": "https://breakfastquay.com/files/releases/rubberband-$version.tar.bz2"
+          }
         }
       ]
     },
@@ -704,7 +862,7 @@
       "sources": [
         {
           "type": "git",
-          "url": "http://git.sesse.net/movit",
+          "url": "https://git.sesse.net/movit",
           "commit": "0b1705581552217b0e387bd687d65e4e3410ab91"
         }
       ]

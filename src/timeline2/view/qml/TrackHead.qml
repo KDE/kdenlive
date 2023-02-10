@@ -480,7 +480,7 @@ Rectangle {
                     color: 'transparent'
                     anchors.fill: parent
                     Image {
-                        source: trackHeadRoot.isLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
+                        source: trackHeadRoot.isLocked ? "image://icon/lock" : "image://icon/unlock"
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
                         height: width

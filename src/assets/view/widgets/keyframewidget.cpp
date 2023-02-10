@@ -193,7 +193,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     }
 
     // Menu toolbutton
-    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("kdenlive-menu")), i18n("Options"), this);
+    auto *menuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
     menuAction->setPopupMode(QToolButton::InstantPopup);
     menuAction->addAction(seekKeyframe);
     menuAction->addAction(copy);
