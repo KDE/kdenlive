@@ -97,7 +97,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
     m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
     m_splitButton->setToolTip(i18n("Compare effect"));
-    m_splitButton->setWhatsThis(xi18nc("@info:whatsthis", "Turns on or off the split view in the project and/or clip monitor: on the left the clip with effect is shown, on the right the clip without effect."));
+    m_splitButton->setWhatsThis(xi18nc(
+        "@info:whatsthis",
+        "Turns on or off the split view in the project and/or clip monitor: on the left the clip with effect is shown, on the right the clip without effect."));
     m_splitButton->setVisible(false);
     connect(m_splitButton, &KDualAction::activeChangedByUser, this, &AssetPanel::processSplitEffect);
     buttonToolbar->addAction(m_splitButton);

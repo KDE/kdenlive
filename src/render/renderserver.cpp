@@ -56,7 +56,7 @@ void RenderServer::jobSent()
     }
 }
 
-void RenderServer::handleJson(const QJsonObject& json, QLocalSocket *socket)
+void RenderServer::handleJson(const QJsonObject &json, QLocalSocket *socket)
 {
     if (json.contains("url")) {
         m_jobSocket[json["url"].toString()] = socket;

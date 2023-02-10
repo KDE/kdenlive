@@ -27,7 +27,7 @@ public slots:
 
 private slots:
     void jobConnected();
-    void handleJson(const QJsonObject& json, QLocalSocket *socket);
+    void handleJson(const QJsonObject &json, QLocalSocket *socket);
     void jobSent();
 
 private:

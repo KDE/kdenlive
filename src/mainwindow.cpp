@@ -525,7 +525,8 @@ void MainWindow::init(const QString &mltPath)
     basketButton->setPopupMode(QToolButton::InstantPopup);
     // basketButton->setText(i18n("Favorite Effects"));
     basketButton->setToolTip(i18n("Favorite Effects"));
-    basketButton->setWhatsThis(xi18nc("@info:whatsthis", "Click to show a list of favorite effects. Double-click on an effect to add it to the selected clip."));
+    basketButton->setWhatsThis(
+        xi18nc("@info:whatsthis", "Click to show a list of favorite effects. Double-click on an effect to add it to the selected clip."));
 
     basketButton->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 

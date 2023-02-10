@@ -170,7 +170,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_balanceSlider->setTickPosition(QSlider::TicksBelow);
         m_balanceSlider->setTickInterval(50);
         m_balanceSlider->setToolTip(i18n("Balance"));
-        m_balanceSlider->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output balance of the track. Negative values move the output towards the left, positive values to the right. Affects all audio clips equally."));
+        m_balanceSlider->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output balance of the track. Negative values move the output towards the left, "
+                                                                "positive values to the right. Affects all audio clips equally."));
 
         labelLeft = new QLabel(i18nc("Left", "L"), this);
         labelLeft->setAlignment(Qt::AlignHCenter);
@@ -182,7 +183,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_balanceSpin->setValue(0);
         m_balanceSpin->setFrame(false);
         m_balanceSpin->setToolTip(i18n("Balance"));
-        m_balanceSpin->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output balance of the track. Negative values move the output towards the left, positive values to the right. Affects all audio clips equally."));
+        m_balanceSpin->setWhatsThis(xi18nc("@info:whatsthis", "Adjusts the output balance of the track. Negative values move the output towards the left, "
+                                                              "positive values to the right. Affects all audio clips equally."));
     }
 
     // Check if we already have build-in filters for this tractor

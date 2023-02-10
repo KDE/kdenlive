@@ -48,10 +48,12 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     QString effectName = EffectsRepository::get()->getName(effectId);
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("selection-raise")));
     buttonUp->setToolTip(i18n("Move effect up"));
-    buttonUp->setWhatsThis(xi18nc("@info:whatsthis", "Moves the effect above the one right above it. Effects are handled sequentially from top to bottom so sequence is important."));
+    buttonUp->setWhatsThis(xi18nc(
+        "@info:whatsthis", "Moves the effect above the one right above it. Effects are handled sequentially from top to bottom so sequence is important."));
     buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("selection-lower")));
     buttonDown->setToolTip(i18n("Move effect down"));
-    buttonDown->setWhatsThis(xi18nc("@info:whatsthis", "Moves the effect below the one right below it. Effects are handled sequentially from top to bottom so sequence is important."));
+    buttonDown->setWhatsThis(xi18nc(
+        "@info:whatsthis", "Moves the effect below the one right below it. Effects are handled sequentially from top to bottom so sequence is important."));
     buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     buttonDel->setToolTip(i18n("Delete effect"));
     buttonDel->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the effect from the effect stack."));

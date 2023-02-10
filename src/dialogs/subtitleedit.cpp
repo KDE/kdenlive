@@ -107,9 +107,11 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     buttonPrev->setToolTip(i18n("Go to previous subtitle"));
     buttonPrev->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead in the timeline to the beginning of the subtitle to the left."));
     buttonAdd->setToolTip(i18n("Add subtitle"));
-    buttonAdd->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new subtitle with the default length (set in <interface>Settings->Configure Kdenlive…->Misc</interface>) at the current playhead position/frame."));
+    buttonAdd->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new subtitle with the default length (set in <interface>Settings->Configure "
+                                                      "Kdenlive…->Misc</interface>) at the current playhead position/frame."));
     buttonCut->setToolTip(i18n("Split subtitle at cursor position"));
-    buttonCut->setWhatsThis(xi18nc("@info:whatsthis", "Cuts the subtitle text at the cursor position and creates a new subtitle to the right (like cutting a clip)."));
+    buttonCut->setWhatsThis(
+        xi18nc("@info:whatsthis", "Cuts the subtitle text at the cursor position and creates a new subtitle to the right (like cutting a clip)."));
     buttonApply->setToolTip(i18n("Update subtitle text"));
     buttonApply->setWhatsThis(xi18nc("@info:whatsthis", "Updates the subtitle display in the timeline."));
     buttonStyle->setToolTip(i18n("Show style options"));
