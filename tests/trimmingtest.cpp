@@ -9,7 +9,6 @@
 #include "timeline2/model/timelinefunctions.hpp"
 
 using namespace fakeit;
-Mlt::Profile profile_trimming;
 
 TEST_CASE("Simple trimming operations", "[Trimming]")
 {
@@ -19,7 +18,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack, {1, 3});
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -31,27 +30,24 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_trimming, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    RESET(timMock)
-
-    QString binId = createProducer(profile_trimming, "red", binModel);
-    QString binId2 = createProducer(profile_trimming, "blue", binModel);
-    QString binId3 = createProducerWithSound(profile_trimming, binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
+    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
-    int tid1 = TrackModel::construct(timeline);
-    int tid2 = TrackModel::construct(timeline);
-    int tid3 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(3);
+    int tid2 = timeline->getTrackIndexFromPosition(2);
+    int tid3 = timeline->getTrackIndexFromPosition(1);
 
     // Add an audio track
-    int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int tid4 = timeline->getTrackIndexFromPosition(0);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -458,7 +454,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     }
     SECTION("Cut should preserve AV groups")
     {
-        QString binId3 = createProducerWithSound(profile_trimming, binModel);
+        QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
 
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid5 = TrackModel::construct(timeline);
@@ -550,7 +546,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack, {0, 1});
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -562,23 +558,21 @@ TEST_CASE("Spacer operations", "[Spacer]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_trimming, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
     mocked.testSetActiveDocument(&mockedDoc, timeline);
+
     std::shared_ptr<MarkerListModel> guideModel = mockedDoc.getGuideModel(mockedDoc.uuid());
 
-    RESET(timMock)
-
-    QString binId = createProducer(profile_trimming, "red", binModel);
-    QString binId2 = createProducer(profile_trimming, "blue", binModel);
-    QString binId3 = createProducerWithSound(profile_trimming, binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
+    QString binId3 = createProducerWithSound(*timeline->getProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
-    int tid1 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(0);
 
     // Add an audio track
     // int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
@@ -686,11 +680,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
         REQUIRE(timeline->requestClipMove(cid2, tid1, p2));
         int p3 = l + l + 20;
         REQUIRE(timeline->requestClipMove(cid3, tid1, p3));
-        guideModel->addMarker(GenTime(l / 2, profile_trimming.fps()), "guide1");
-        guideModel->addMarker(GenTime(l + 2, profile_trimming.fps()), "guide2");
-        guideModel->addMarker(GenTime(l + 7, profile_trimming.fps()), "guide3");
-        guideModel->addMarker(GenTime(p2 + l / 2, profile_trimming.fps()), "guide4");
-        guideModel->addMarker(GenTime(p3, profile_trimming.fps()), "guide5");
+        double fps = timeline->getProfile()->fps();
+        guideModel->addMarker(GenTime(l / 2, fps), "guide1");
+        guideModel->addMarker(GenTime(l + 2, fps), "guide2");
+        guideModel->addMarker(GenTime(l + 7, fps), "guide3");
+        guideModel->addMarker(GenTime(p2 + l / 2, fps), "guide4");
+        guideModel->addMarker(GenTime(p3, fps), "guide5");
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency(guideModel->getSnapPoints()));
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
@@ -852,7 +847,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -865,21 +860,16 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_trimming, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    RESET(timMock);
-
-    QString binId = createProducerWithSound(profile_trimming, binModel);
-
-    TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid1 = TrackModel::construct(timeline);
-    TrackModel::construct(timeline);
+    QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
+    int tid1 = timeline->getTrackIndexFromPosition(2);
 
     // Setup timeline audio drop info
     QMap<int, QString> audioInfo;
@@ -1017,7 +1007,7 @@ TEST_CASE("Copy/paste", "[CP]")
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -1030,21 +1020,20 @@ TEST_CASE("Copy/paste", "[CP]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_trimming, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
-    RESET(timMock)
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    QString binId = createProducerWithSound(profile_trimming, binModel);
-    QString binId2 = createProducer(profile_trimming, "red", binModel);
+    QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "red", binModel);
 
-    int tid2b = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid1 = TrackModel::construct(timeline);
-    int tid1b = TrackModel::construct(timeline);
+    int tid2b = timeline->getTrackIndexFromPosition(0);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
+    int tid1 = timeline->getTrackIndexFromPosition(2);
+    int tid1b = timeline->getTrackIndexFromPosition(3);
 
     // Setup timeline audio drop info
     QMap<int, QString> audioInfo;
@@ -1386,7 +1375,7 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack, {0, 2});
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -1399,19 +1388,18 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_trimming, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
-    RESET(timMock)
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    QString binId = createProducer(profile_trimming, "red", binModel);
-    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
 
-    int tid1 = TrackModel::construct(timeline);
-    int tid2 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(0);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
@@ -1710,7 +1698,7 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack, {0, 2});
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -1722,20 +1710,18 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
 
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_trimming, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
-    RESET(timMock)
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    QString binId = createProducer(profile_trimming, "red", binModel);
-    QString binId2 = createProducer(profile_trimming, "blue", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducer(*timeline->getProfile(), "blue", binModel);
 
-    int tid1 = TrackModel::construct(timeline);
-    int tid2 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(0);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);

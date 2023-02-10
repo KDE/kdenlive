@@ -13,7 +13,6 @@
 #include "core.h"
 
 using namespace fakeit;
-Mlt::Profile profile_spacer;
 
 TEST_CASE("Remove all spaces", "[Spacer]")
 {
@@ -24,7 +23,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack, {1, 2});
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -37,22 +36,19 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_spacer, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
     mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    // Create a basic timeline
-    int tid1, tid2, tid3;
-    REQUIRE(timeline->requestTrackInsertion(-1, tid1));
-    REQUIRE(timeline->requestTrackInsertion(-1, tid2));
-    REQUIRE(timeline->requestTrackInsertion(-1, tid3, QString(), true));
+    int tid1 = timeline->getTrackIndexFromPosition(2);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
 
     // Create clip with audio (40 frames long)
-    QString binId = createProducer(profile_spacer, "red", binModel, 20);
-    QString avBinId = createProducerWithSound(profile_spacer, binModel, 100);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20);
+    QString avBinId = createProducerWithSound(*timeline->getProfile(), binModel, 100);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;

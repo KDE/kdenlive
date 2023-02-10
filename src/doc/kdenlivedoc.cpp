@@ -134,7 +134,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectF
     updateClipsCount();
 }
 
-KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *parent)
+KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks, MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_uuid(QUuid::createUuid())
@@ -143,7 +143,7 @@ KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *pa
     , m_documentOpenStatus(CleanProject)
 {
     m_commandStack = undoStack;
-    m_document = createEmptyDocument(2, 2);
+    m_document = createEmptyDocument(tracks.second, tracks.first);
     loadDocumentProperties();
     initializeProperties();
 }

@@ -7,7 +7,6 @@
 #include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
-Mlt::Profile reg_profile;
 TEST_CASE("Regression")
 {
     auto binModel = pCore->projectItemModel();
@@ -16,7 +15,7 @@ TEST_CASE("Regression")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
     Mock<ProjectManager> pmMock;
@@ -28,7 +27,7 @@ TEST_CASE("Regression")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
@@ -39,7 +38,7 @@ TEST_CASE("Regression")
     undoStack->redo();
     undoStack->redo();
     undoStack->undo();
-    QString binId0 = createProducer(reg_profile, "red", binModel);
+    QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
     int c = ClipModel::construct(timeline, binId0, -1, PlaylistState::VideoOnly);
     timeline->m_allClips[c]->m_endlessResize = false;
     TrackModel::construct(timeline);
@@ -84,7 +83,7 @@ TEST_CASE("Regression2")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
     Mock<ProjectManager> pmMock;
@@ -96,7 +95,7 @@ TEST_CASE("Regression2")
     pCore->m_projectManager = &mocked;
 
     // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
@@ -112,7 +111,7 @@ TEST_CASE("Regression2")
     undoStack->undo();
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         bool ok = timeline->requestClipInsertion(binId0, 0, 10, dummy_id);
         timeline->m_allClips[dummy_id]->m_endlessResize = false;
         REQUIRE(ok);
@@ -126,7 +125,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(0)->checkConsistency());
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         bool ok = timeline->requestClipInsertion(binId0, 2, 10, dummy_id);
         timeline->m_allClips[3]->m_endlessResize = false;
         REQUIRE(ok);
@@ -156,7 +155,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(2)->checkConsistency());
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         int c = ClipModel::construct(timeline, binId0, -1, PlaylistState::VideoOnly);
         timeline->m_allClips[c]->m_endlessResize = false;
     }
@@ -208,7 +207,7 @@ TEST_CASE("Regression2")
     REQUIRE(timeline->getTrackById(4)->checkConsistency());
     REQUIRE(timeline->getTrackById(6)->checkConsistency());
     {
-        QString binId0 = createProducer(reg_profile, "red", binModel);
+        QString binId0 = createProducer(*timeline->getProfile(), "red", binModel);
         bool ok = timeline->requestClipInsertion(binId0, 0, 1, dummy_id);
         REQUIRE_FALSE(ok);
     }
@@ -435,7 +434,7 @@ TEST_CASE("FuzzBug1")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -447,7 +446,7 @@ TEST_CASE("FuzzBug1")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -509,7 +508,7 @@ TEST_CASE("FuzzBug1")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -584,7 +583,7 @@ TEST_CASE("FuzzBug2")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -596,7 +595,7 @@ TEST_CASE("FuzzBug2")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -618,7 +617,7 @@ TEST_CASE("FuzzBug2")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "d", binModel, 0, true);
+        createProducer(*timeline_0->getProfile(), "d", binModel, 0, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -676,7 +675,7 @@ TEST_CASE("FuzzBug3")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -688,7 +687,7 @@ TEST_CASE("FuzzBug3")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -696,7 +695,7 @@ TEST_CASE("FuzzBug3")
         mocked.m_activeTimelineModel = timeline_0;
         Fake(Method(timMock_0, adjustAssetRange));
 
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -734,7 +733,7 @@ TEST_CASE("FuzzBug4")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -746,7 +745,7 @@ TEST_CASE("FuzzBug4")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -758,19 +757,19 @@ TEST_CASE("FuzzBug4")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 2, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 2, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "blue", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "blue", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "gseen", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "gseen", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -782,7 +781,7 @@ TEST_CASE("FuzzBug4")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -818,7 +817,7 @@ TEST_CASE("FuzzBug5")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -830,7 +829,7 @@ TEST_CASE("FuzzBug5")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -849,7 +848,7 @@ TEST_CASE("FuzzBug5")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         QUuid uuid2 = QUuid::createUuid();
-        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
+        TimelineItemModel tim_1(uuid2, pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1);
@@ -897,7 +896,7 @@ TEST_CASE("FuzzBug5")
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
         mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
@@ -1025,7 +1024,7 @@ TEST_CASE("FuzzBug6")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -1037,7 +1036,7 @@ TEST_CASE("FuzzBug6")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -1056,7 +1055,7 @@ TEST_CASE("FuzzBug6")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         QUuid uuid2 = QUuid::createUuid();
-        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
+        TimelineItemModel tim_1(uuid2, pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1);
@@ -1075,7 +1074,7 @@ TEST_CASE("FuzzBug6")
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        createProducer(reg_profile, "b", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "b", binModel, 20, true);
         mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
@@ -1121,7 +1120,7 @@ TEST_CASE("FuzzBug7")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -1133,7 +1132,7 @@ TEST_CASE("FuzzBug7")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -1152,7 +1151,7 @@ TEST_CASE("FuzzBug7")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         QUuid uuid2 = QUuid::createUuid();
-        TimelineItemModel tim_1(uuid2, &reg_profile, undoStack);
+        TimelineItemModel tim_1(uuid2, pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_1(tim_1);
         auto timeline_1 = std::shared_ptr<TimelineItemModel>(&timMock_1.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_1);
@@ -1171,7 +1170,7 @@ TEST_CASE("FuzzBug7")
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
         REQUIRE(timeline_1->checkConsistency());
-        createProducer(reg_profile, "r5", binModel, 2, true);
+        createProducer(*timeline_0->getProfile(), "r5", binModel, 2, true);
         mocked.m_activeTimelineModel = timeline_0;
         REQUIRE(timeline_0->checkConsistency());
         mocked.m_activeTimelineModel = timeline_1;
@@ -1291,7 +1290,7 @@ TEST_CASE("FuzzBug8")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -1303,7 +1302,7 @@ TEST_CASE("FuzzBug8")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -1325,7 +1324,7 @@ TEST_CASE("FuzzBug8")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red20", binModel, 1, true);
+        createProducer(*timeline_0->getProfile(), "red20", binModel, 1, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1362,7 +1361,7 @@ TEST_CASE("FuzzBug9")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -1374,7 +1373,7 @@ TEST_CASE("FuzzBug9")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -1386,7 +1385,7 @@ TEST_CASE("FuzzBug9")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "60", binModel, 1, true);
+        createProducer(*timeline_0->getProfile(), "60", binModel, 1, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1424,7 +1423,7 @@ TEST_CASE("FuzzBug10")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -1436,7 +1435,7 @@ TEST_CASE("FuzzBug10")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -1448,7 +1447,7 @@ TEST_CASE("FuzzBug10")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 50, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 50, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1480,7 +1479,7 @@ TEST_CASE("FuzzBug11")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     TimelineModel::next_id = 0;
     {
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
         Mock<ProjectManager> pmMock;
@@ -1492,7 +1491,7 @@ TEST_CASE("FuzzBug11")
         pCore->m_projectManager = &mocked;
 
         // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &reg_profile, undoStack);
+        TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
         Mock<TimelineItemModel> timMock_0(tim);
         auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
         TimelineItemModel::finishConstruct(timeline_0);
@@ -1504,19 +1503,19 @@ TEST_CASE("FuzzBug11")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "red", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "red", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "blue", binModel, 0, true);
+        createProducer(*timeline_0->getProfile(), "blue", binModel, 0, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducer(reg_profile, "green", binModel, 20, true);
+        createProducer(*timeline_0->getProfile(), "green", binModel, 20, true);
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -1534,7 +1533,7 @@ TEST_CASE("FuzzBug11")
         REQUIRE(timeline_0->checkConsistency());
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(*timeline_0->getProfile(), binModel);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;

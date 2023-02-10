@@ -20,8 +20,6 @@
 #include "core.h"
 #include "utils/thumbnailcache.hpp"
 
-Mlt::Profile profile_cache;
-
 TEST_CASE("Cache insert-remove", "[Cache]")
 {
     // Create timeline
@@ -30,7 +28,7 @@ TEST_CASE("Cache insert-remove", "[Cache]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -39,18 +37,18 @@ TEST_CASE("Cache insert-remove", "[Cache]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_cache, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     // Create bin clip
-    QString binId = createProducer(profile_cache, "red", binModel, 20, false);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
 
     SECTION("Insert and remove thumbnail")
     {
@@ -68,12 +66,11 @@ TEST_CASE("Cache insert-remove", "[Cache]")
 TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     // Create timeline
     auto binModel = pCore->projectItemModel();
-    QUuid uuid = QUuid::createUuid();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -82,18 +79,18 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_cache, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     // Create bin clip
-    QString binId = createProducer(profile_cache, "red", binModel, 20, false);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
 
     SECTION("Request invalid id")
     {

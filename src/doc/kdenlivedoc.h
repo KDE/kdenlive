@@ -95,7 +95,7 @@ public:
     static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
                 bool recoverCorruption, MainWindow *parent = nullptr);
     /** @brief Create a dummy project, used for testing. */
-    KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, MainWindow *parent = nullptr);
+    KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
     QUuid activeUuid;

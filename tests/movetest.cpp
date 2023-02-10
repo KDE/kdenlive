@@ -13,7 +13,6 @@
 #include "core.h"
 
 using namespace fakeit;
-Mlt::Profile profile_move;
 
 TEST_CASE("Cut undo/redo", "[MoveClips]")
 {
@@ -24,7 +23,7 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -33,25 +32,22 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_move, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     // Create a request
-    /*int tid1 =*/TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
-    int tid2 = TrackModel::construct(timeline);
-    /*int tid4 =*/TrackModel::construct(timeline);
+    int tid3 = timeline->getTrackIndexFromPosition(1);
+    int tid2 = timeline->getTrackIndexFromPosition(2);
 
     // Create clip with audio (40 frames long)
-    // QString binId = createAVProducer(profile_move, binModel);
-    QString binId = createProducerWithSound(profile_move, binModel, 100);
+    // QString binId = createAVProducer(*timeline->getProfile(), binModel);
+    QString binId = createProducerWithSound(*timeline->getProfile(), binModel, 100);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;

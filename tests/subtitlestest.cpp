@@ -14,7 +14,6 @@
 #include "doc/kdenlivedoc.h"
 
 using namespace fakeit;
-Mlt::Profile profile_subs;
 
 TEST_CASE("Read subtitle file", "[Subtitles]")
 {
@@ -25,7 +24,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -37,12 +36,14 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_subs, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
     mocked.testSetActiveDocument(&mockedDoc, timeline);
+    QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
+    mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
 
     // Initialize subtitle model
     std::shared_ptr<SubtitleModel> subtitleModel = timeline->createSubtitleModel();

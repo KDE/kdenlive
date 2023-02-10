@@ -16,7 +16,6 @@
 #include <QUndoGroup>
 
 using namespace fakeit;
-Mlt::Profile profile_file;
 
 TEST_CASE("Save File", "[SF]")
 {
@@ -27,7 +26,7 @@ TEST_CASE("Save File", "[SF]")
     SECTION("Simple insert and save")
     {
         // Create document
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
@@ -43,13 +42,12 @@ TEST_CASE("Save File", "[SF]")
         mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
         auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
         mocked.m_activeTimelineModel = timeline;
-
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         TimelineModel::next_id = 0;
         QDir dir = QDir::temp();
 
-        QString binId = createProducerWithSound(profile_file, binModel);
-        QString binId2 = createProducer(profile_file, "red", binModel, 20, false);
+        QString binId = createProducerWithSound(*timeline->getProfile(), binModel);
+        QString binId2 = createProducer(*timeline->getProfile(), "red", binModel, 20, false);
 
         int tid1 = timeline->getTrackIndexFromPosition(2);
 
@@ -221,7 +219,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     SECTION("Save title with special chars")
     {
         // Create document
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
@@ -232,24 +230,13 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-
-        // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
-        Mock<TimelineItemModel> timMock(tim);
-        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline);
+        mocked.m_project = &mockedDoc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+        mocked.m_activeTimelineModel = timeline;
         mocked.testSetActiveDocument(&mockedDoc, timeline);
         QDir dir = QDir::temp();
-        std::unordered_map<QString, QString> binIdCorresp;
-        QStringList expandedFolders;
-        QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", doc.toString().toUtf8()));
-
-        Mlt::Service s(*xmlProd);
-        Mlt::Tractor tractor(s);
-        binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
-
-        RESET(timMock)
 
         // create a simple title with the non-BMP test string
         auto titleXml = ("<kdenlivetitle duration=\"150\" LC_NUMERIC=\"C\" width=\"1920\" height=\"1080\" out=\"149\">\n <item type=\"QGraphicsTextItem\" "
@@ -261,11 +248,11 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
                          "</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background "
                          "color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
 
-        QString binId2 = createTextProducer(profile_file, binModel, titleXml, emojiTestString, 150);
+        QString binId2 = createTextProducer(*timeline->getProfile(), binModel, titleXml, emojiTestString, 150);
 
         TrackModel::construct(timeline, -1, -1, QString(), true);
         TrackModel::construct(timeline, -1, -1, QString(), true);
-        int tid1 = TrackModel::construct(timeline);
+        int tid1 = timeline->getTrackIndexFromPosition(2);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
@@ -322,7 +309,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
 
         // Create document
         pCore->setCurrentProfile("atsc_1080p_25");
-        KdenliveDoc document(undoStack, nullptr);
+        KdenliveDoc document(undoStack);
         Mock<KdenliveDoc> docMock(document);
         KdenliveDoc &mockedDoc = docMock.get();
 
@@ -333,29 +320,15 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
         ProjectManager &mocked = pmMock.get();
         pCore->m_projectManager = &mocked;
-
-        // We also mock timeline object to spy few functions and mock others
-        TimelineItemModel tim(mockedDoc.uuid(), &profile_file, undoStack);
-        Mock<TimelineItemModel> timMock(tim);
-        auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-        TimelineItemModel::finishConstruct(timeline);
+        mocked.m_project = &mockedDoc;
+        QDateTime documentDate = QDateTime::currentDateTime();
+        mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+        auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+        mocked.m_activeTimelineModel = timeline;
         mocked.testSetActiveDocument(&mockedDoc, timeline);
 
         QDir dir = QDir::temp();
-        std::unordered_map<QString, QString> binIdCorresp;
-        QStringList expandedFolders;
-        QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
-        QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_file, "xml-string", doc.toString().toUtf8()));
-
-        Mlt::Service s(*xmlProd);
-        Mlt::Tractor tractor(s);
-        binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
-
-        RESET(timMock)
-
-        TrackModel::construct(timeline, -1, -1, QString(), true);
-        TrackModel::construct(timeline, -1, -1, QString(), true);
-        int tid1 = TrackModel::construct(timeline);
+        int tid1 = timeline->getTrackIndexFromPosition(2);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;

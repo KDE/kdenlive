@@ -28,8 +28,6 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
-Mlt::Profile profile_group;
-
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
     auto binModel = pCore->projectItemModel();
@@ -39,10 +37,9 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
     // We mock the project class so that the undoStack function returns our undoStack
 
     // Create document
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
-
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -50,13 +47,13 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_group, undoStack);
+    mocked.m_project = &mockedDoc;
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
     mocked.testSetActiveDocument(&mockedDoc, timeline);
     TimelineModel::next_id = 0;
 
@@ -257,10 +254,9 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
     // Create document
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
-
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -268,14 +264,14 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_group, undoStack);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
     GroupsModel groups(timeline);
 
     for (int i = 0; i < 10; i++) {
@@ -417,10 +413,9 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
-
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -428,14 +423,14 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_group, undoStack);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
     TimelineModel::next_id = 0;
     GroupsModel groups(timeline);
 
@@ -505,10 +500,9 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     // We mock the project class so that the undoStack function returns our undoStack
 
     // Create document
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
-
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -516,28 +510,25 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+    mocked.m_project = &mockedDoc;
 
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_group, undoStack);
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
+    TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline);
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
-    TimelineModel::next_id = 0;
 
     QUuid uuid2 = QUuid::createUuid();
-    TimelineItemModel tim2(uuid2, &profile_group, undoStack);
+    TimelineItemModel tim2(uuid2, timeline->getProfile(), undoStack);
     Mock<TimelineItemModel> timMock2(tim2);
     auto timeline2 = std::shared_ptr<TimelineItemModel>(&timMock2.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline2);
-    // mockedDoc.addTimeline(uuid2, timeline2);
+    mockedDoc.addTimeline(uuid2, timeline2);
+    TimelineModel::next_id = 0;
 
-    RESET(timMock);
     RESET(timMock2);
 
-    QString binId = createProducer(profile_group, "red", binModel);
-    QString binId2 = createProducerWithSound(profile_group, binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
+    QString binId2 = createProducerWithSound(*timeline->getProfile(), binModel);
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
     GroupsModel groups(timeline);
@@ -564,6 +555,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     int tid2 = TrackModel::construct(timeline);
     Q_UNUSED(tid2);
     int tid3 = TrackModel::construct(timeline, -1, -1, QStringLiteral("audio"), true);
+
     int tid1_2 = TrackModel::construct(timeline2);
     int tid2_2 = TrackModel::construct(timeline2);
     Q_UNUSED(tid2_2);
@@ -638,15 +630,15 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
             REQUIRE(timeline2->m_groups->fromJson(timeline->m_groups->toJson()));
             std::unordered_map<int, int> roots;
             for (int i = 0; i < 4; i++) {
-                int r = timeline2->m_groups->getRootId(clips2[0]);
+                int r = timeline2->m_groups->getRootId(clips2[i]);
                 if (roots.count(r) == 0) {
                     roots[r] = rec_check(r);
                     REQUIRE(roots[r] != -1);
                 }
             }
             for (int i = 0; i < 4; i++) {
-                int r = timeline->m_groups->getRootId(clips[0]);
-                int r2 = timeline2->m_groups->getRootId(clips2[0]);
+                int r = timeline->m_groups->getRootId(clips[i]);
+                int r2 = timeline2->m_groups->getRootId(clips2[i]);
                 REQUIRE(roots[r2] == r);
             }
             mocked.m_activeTimelineModel = timeline;
@@ -1010,6 +1002,8 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         undoStack->undo();
         state2();
     }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
 }
 
 TEST_CASE("Complex Functions", "[GroupsModel]")
@@ -1021,10 +1015,9 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
     // Create document
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
-
     // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
     Mock<ProjectManager> pmMock;
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -1032,13 +1025,11 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_group, undoStack);
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
     mocked.testSetActiveDocument(&mockedDoc, timeline);
     TimelineModel::next_id = 0;
 

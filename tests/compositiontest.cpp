@@ -6,8 +6,6 @@
 #include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
-Mlt::Profile profile_composition;
-
 static QString getACompo()
 {
 
@@ -38,7 +36,7 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
 
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -47,15 +45,14 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_composition, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     REQUIRE(timeline->getCompositionsCount() == 0);
     int id1 = CompositionModel::construct(timeline, aCompo, QString());
@@ -81,8 +78,7 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
 TEST_CASE("Composition manipulation", "[CompositionModel]")
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
-    QUuid uuid = QUuid::createUuid();
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack, {0, 3});
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -91,24 +87,21 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
-
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(uuid, &profile_composition, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     QString aCompo = getACompo();
 
-    int tid0 = TrackModel::construct(timeline);
-    Q_UNUSED(tid0);
-    int tid1 = TrackModel::construct(timeline);
+    int tid1 = timeline->getTrackIndexFromPosition(0);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
+    int tid3 = timeline->getTrackIndexFromPosition(2);
     int cid2 = CompositionModel::construct(timeline, aCompo, QString());
-    int tid2 = TrackModel::construct(timeline);
-    int tid3 = TrackModel::construct(timeline);
     Q_UNUSED(tid3);
     int cid1 = CompositionModel::construct(timeline, aCompo, QString());
 

@@ -17,7 +17,6 @@
 #define protected public
 #include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
-#include "profiles/profilemodel.hpp"
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/previewmanager.h"
 #include "xml/xml.hpp"
@@ -31,7 +30,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     pCore->setCurrentProfile("atsc_1080p_25");
 
     // Create document
-    KdenliveDoc document(undoStack, nullptr);
+    KdenliveDoc document(undoStack);
     Mock<KdenliveDoc> docMock(document);
     KdenliveDoc &mockedDoc = docMock.get();
 
@@ -59,10 +58,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     dir.mkpath(QStringLiteral("."));
     dir.mkdir(QLatin1String("preview"));
 
-    int tid1 = timeline->getTrackIndexFromPosition(0);
-    int tid2 = timeline->getTrackIndexFromPosition(1);
     int tid3 = timeline->getTrackIndexFromPosition(2);
-    int tid4 = timeline->getTrackIndexFromPosition(3);
     QString binId = createProducer(*timeline->getProfile(), "red", binModel);
 
     // Initialize timeline preview
