@@ -17,17 +17,18 @@
 #define protected public
 #include "bin/binplaylist.hpp"
 #include "doc/kdenlivedoc.h"
+#include "profiles/profilemodel.hpp"
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/previewmanager.h"
 #include "xml/xml.hpp"
-
-Mlt::Profile profile_preview;
 
 TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 {
     // Create timeline
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    // Ensure we use a progressive project profile
+    pCore->setCurrentProfile("atsc_1080p_25");
 
     // Create document
     KdenliveDoc document(undoStack, nullptr);
@@ -62,7 +63,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     int tid2 = timeline->getTrackIndexFromPosition(1);
     int tid3 = timeline->getTrackIndexFromPosition(2);
     int tid4 = timeline->getTrackIndexFromPosition(3);
-    QString binId = createProducer(profile_preview, "red", binModel);
+    QString binId = createProducer(*timeline->getProfile(), "red", binModel);
 
     // Initialize timeline preview
     timeline->initializePreviewManager();
@@ -75,7 +76,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 
     // Wait until the preview rendering is over
     while (timeline->previewManager()->isRunning()) {
-        sleep(20);
+        sleep(2);
         qDebug() << ":::: WAITING FOR PROGRESS...";
         qApp->processEvents();
     }
