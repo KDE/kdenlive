@@ -51,6 +51,8 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
+    mockedDoc.setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral("avi"));
+    mockedDoc.setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral("f=avi vcodec=mjpeg progressive=1 qscale=10"));
 
     // Create base tmp folder
     bool ok = false;
