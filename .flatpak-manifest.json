@@ -64,7 +64,7 @@
     "*.cmake"
   ],
   "modules": [
-    "org.kde.kdenlive-dependencies.json",
+    "packaging/flatpak/org.kde.kdenlive-dependencies.json",
     {
       "name": "kdenlive",
       "buildsystem": "cmake-ninja",
@@ -78,9 +78,8 @@
       ],
       "sources": [
         {
-          "type": "git",
-          "url": "https://invent.kde.org/multimedia/kdenlive.git",
-          "branch": "master"
+          "type": "dir",
+          "path": "."
         }
       ]
     }
