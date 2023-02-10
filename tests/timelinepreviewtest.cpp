@@ -39,15 +39,15 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
     When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-
     ProjectManager &mocked = pmMock.get();
     pCore->m_projectManager = &mocked;
+    mocked.m_project = &mockedDoc;
+    QDateTime documentDate = QDateTime::currentDateTime();
+    mocked.updateTimeline(0, false, QString(), QString(), documentDate, 0);
+    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
+    mocked.m_activeTimelineModel = timeline;
 
-    // We also mock timeline object to spy few functions and mock others
-    TimelineItemModel tim(mockedDoc.uuid(), &profile_preview, undoStack);
-    Mock<TimelineItemModel> timMock(tim);
-    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
@@ -57,23 +57,12 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     QDir dir = mockedDoc.getCacheDir(CacheBase, &ok);
     dir.mkpath(QStringLiteral("."));
     dir.mkdir(QLatin1String("preview"));
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
 
-    std::unordered_map<QString, QString> binIdCorresp;
-    QStringList expandedFolders;
-    QDomDocument doc = mockedDoc.createEmptyDocument(2, 2);
-    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(profile_preview, "xml-string", doc.toString().toUtf8()));
-
-    Mlt::Service s(*xmlProd);
-    Mlt::Tractor tractor(s);
-    binModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, nullptr);
-    int tid1, tid2;
-    int tid3, tid4;
+    int tid1 = timeline->getTrackIndexFromPosition(0);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
+    int tid3 = timeline->getTrackIndexFromPosition(2);
+    int tid4 = timeline->getTrackIndexFromPosition(3);
     QString binId = createProducer(profile_preview, "red", binModel);
-    REQUIRE(timeline->requestTrackInsertion(-1, tid1, QString(), true));
-    REQUIRE(timeline->requestTrackInsertion(-1, tid2, QString(), true));
-    REQUIRE(timeline->requestTrackInsertion(-1, tid3));
-    REQUIRE(timeline->requestTrackInsertion(-1, tid4));
 
     // Initialize timeline preview
     timeline->initializePreviewManager();
