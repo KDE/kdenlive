@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-09 03:08+0000\n"
+"POT-Creation-Date: 2023-02-10 02:52+0000\n"
 "PO-Revision-Date: 2022-08-24 17:38+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -4266,7 +4266,7 @@ msgid "Create bin folder"
 msgstr "Səbət qovluğu yaradın"
 
 #: src/bin/bin.cpp:2410 src/bin/bin.cpp:2421 src/bin/bin.cpp:3347
-#: src/timeline2/model/timelinemodel.cpp:2005
+#: src/timeline2/model/timelinemodel.cpp:1997
 #, kde-format
 msgid "Delete Clip"
 msgstr "Klipi silin"
@@ -4902,7 +4902,7 @@ msgid "Cut clip"
 msgstr "Klipi kəsmək"
 
 #: src/bin/model/subtitlemodel.cpp:751
-#: src/timeline2/model/timelinemodel.cpp:3475
+#: src/timeline2/model/timelinemodel.cpp:3473
 #: src/timeline2/view/timelinecontroller.cpp:4933
 #, kde-format
 msgid "Resize subtitle"
@@ -9472,7 +9472,7 @@ msgstr "Əsas-effektlər"
 msgid "Switch Track Target Audio Stream"
 msgstr "Səs axını üçün hədəf cığırını dəyişin"
 
-#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4247
+#: src/mainwindow.cpp:1763 src/timeline2/model/timelinemodel.cpp:4245
 #: src/timeline2/view/timelinecontroller.cpp:800
 #, kde-format
 msgid "Delete Track"
@@ -9573,7 +9573,7 @@ msgstr "Altyazı faylının idxalı..."
 msgid "Export Subtitle File…"
 msgstr "Altyazı faylının ixracı..."
 
-#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2009
+#: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2001
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Altyazını silin"
@@ -13663,7 +13663,7 @@ msgid "Delete clips on track"
 msgstr "Cığırı silin"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4138
+#: src/timeline2/model/timelinemodel.cpp:4136
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -13717,103 +13717,103 @@ msgstr "Birləşdirmə yaradın"
 msgid "Move clip"
 msgstr "Klipi köçürün"
 
-#: src/timeline2/model/timelinemodel.cpp:1690
-#: src/timeline2/model/timelinemodel.cpp:1773
-#: src/timeline2/model/timelinemodel.cpp:1796
-#: src/timeline2/model/timelinemodel.cpp:1819
+#: src/timeline2/model/timelinemodel.cpp:1682
+#: src/timeline2/model/timelinemodel.cpp:1765
+#: src/timeline2/model/timelinemodel.cpp:1788
+#: src/timeline2/model/timelinemodel.cpp:1811
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Daxil etmə əməliyyatı üçün cığırlar yoxdur"
 
-#: src/timeline2/model/timelinemodel.cpp:1695
+#: src/timeline2/model/timelinemodel.cpp:1687
 #, kde-format
 msgid "Insert Clip"
 msgstr "Klip daxil edin"
 
-#: src/timeline2/model/timelinemodel.cpp:1789
-#: src/timeline2/model/timelinemodel.cpp:1811
+#: src/timeline2/model/timelinemodel.cpp:1781
+#: src/timeline2/model/timelinemodel.cpp:1803
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Bütün axınlar üçün (%1) kifayət qədər səs cəğırları yoxdur"
 
-#: src/timeline2/model/timelinemodel.cpp:1895
+#: src/timeline2/model/timelinemodel.cpp:1887
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Bölmək üçün cığırlar yoxdur"
 
-#: src/timeline2/model/timelinemodel.cpp:1932
+#: src/timeline2/model/timelinemodel.cpp:1924
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Səsin ayrılması alınmadı, uyğun bir cığr yoxdur"
 
-#: src/timeline2/model/timelinemodel.cpp:1940
+#: src/timeline2/model/timelinemodel.cpp:1932
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Səsin ayrılması baş tutmadı: səs klipinin yaradılması mümkün deyil"
 
-#: src/timeline2/model/timelinemodel.cpp:2002
+#: src/timeline2/model/timelinemodel.cpp:1994
 #, kde-format
 msgid "Remove group"
 msgstr "Qrupu silin`"
 
-#: src/timeline2/model/timelinemodel.cpp:2007
+#: src/timeline2/model/timelinemodel.cpp:1999
 #, kde-format
 msgid "Delete Composition"
 msgstr "Kompozisiyanı silin"
 
-#: src/timeline2/model/timelinemodel.cpp:2159
-#: src/timeline2/model/timelinemodel.cpp:2321
+#: src/timeline2/model/timelinemodel.cpp:2151
+#: src/timeline2/model/timelinemodel.cpp:2313
 #: src/timeline2/view/timelinecontroller.cpp:4160
 #, kde-format
 msgid "Move group"
 msgstr "Qrupu köşürün"
 
-#: src/timeline2/model/timelinemodel.cpp:2921
+#: src/timeline2/model/timelinemodel.cpp:2919
 #, kde-format
 msgid "Resize group"
 msgstr "Qrupun ölçüsünü dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3045
+#: src/timeline2/model/timelinemodel.cpp:3043
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Klipin sürətini dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3192
+#: src/timeline2/model/timelinemodel.cpp:3190
 #, kde-format
 msgid "Remove mix"
 msgstr "Birləşdirməni silin"
 
-#: src/timeline2/model/timelinemodel.cpp:3194
+#: src/timeline2/model/timelinemodel.cpp:3192
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Birləşdirmənin silinməsi baş tutmadı"
 
-#: src/timeline2/model/timelinemodel.cpp:3471
+#: src/timeline2/model/timelinemodel.cpp:3469
 #, kde-format
 msgid "Resize clip"
 msgstr "Klipin ölçüsünü dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3473
+#: src/timeline2/model/timelinemodel.cpp:3471
 #, kde-format
 msgid "Resize composition"
 msgstr "Kompozisiyanın ölçüsünü dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3790
+#: src/timeline2/model/timelinemodel.cpp:3788
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Klipin ölçüsünü dalğalanma ilə dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3792
+#: src/timeline2/model/timelinemodel.cpp:3790
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Kompozisiyanın ölçüsünü dalğalanma ilə dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3794
+#: src/timeline2/model/timelinemodel.cpp:3792
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Altyazının ölçüsünü dalğalanma ilə dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:3936
+#: src/timeline2/model/timelinemodel.cpp:3934
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -13821,125 +13821,125 @@ msgid_plural "Slip clips"
 msgstr[0] "Sürüşən klip"
 msgstr[1] "Sürüşən kliplər"
 
-#: src/timeline2/model/timelinemodel.cpp:3971
+#: src/timeline2/model/timelinemodel.cpp:3969
 #, kde-format
 msgid "Slip clip"
 msgstr "Sürüşən klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4006
+#: src/timeline2/model/timelinemodel.cpp:4004
 #, kde-format
 msgid "Group clips"
 msgstr "Klipləri qruplaşdırın"
 
-#: src/timeline2/model/timelinemodel.cpp:4091
-#: src/timeline2/model/timelinemodel.cpp:4107
+#: src/timeline2/model/timelinemodel.cpp:4089
+#: src/timeline2/model/timelinemodel.cpp:4105
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Klipləri qrupdan ayırın"
 
-#: src/timeline2/model/timelinemodel.cpp:4257
+#: src/timeline2/model/timelinemodel.cpp:4255
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Sonuncu klipi zaman qrafikindən silmək mümkün olmadı"
 
-#: src/timeline2/model/timelinemodel.cpp:4503
+#: src/timeline2/model/timelinemodel.cpp:4501
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "%1 effektini əsas cığıra əlavə etmək mümkün deyil"
 
-#: src/timeline2/model/timelinemodel.cpp:4510
+#: src/timeline2/model/timelinemodel.cpp:4508
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "%1 effekti seçilmiş cığıra əlavə edilə bilmədi"
 
-#: src/timeline2/model/timelinemodel.cpp:4530
+#: src/timeline2/model/timelinemodel.cpp:4528
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Effekti əsas cığıra yerləşdirmək mümkün deyil"
 
-#: src/timeline2/model/timelinemodel.cpp:4536
+#: src/timeline2/model/timelinemodel.cpp:4534
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Effekti seçilmiş cığıra yerləşdirmək mümkün deyil"
 
-#: src/timeline2/model/timelinemodel.cpp:4562
+#: src/timeline2/model/timelinemodel.cpp:4560
 #: src/timeline2/view/timelinecontroller.cpp:1392
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "%1 effektini seçilmiş cığıra əlavə etmək mümkün deyil"
 
-#: src/timeline2/model/timelinemodel.cpp:4597
+#: src/timeline2/model/timelinemodel.cpp:4595
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Keçidi tənzimləyin"
 
-#: src/timeline2/model/timelinemodel.cpp:4899
+#: src/timeline2/model/timelinemodel.cpp:4897
 #, kde-format
 msgid "Insert Composition"
 msgstr "Kompozisiya əlavə edin"
 
-#: src/timeline2/model/timelinemodel.cpp:5068
+#: src/timeline2/model/timelinemodel.cpp:5066
 #, kde-format
 msgid "Move composition"
 msgstr "Kompozisiyanı köçürün"
 
-#: src/timeline2/model/timelinemodel.cpp:5721
+#: src/timeline2/model/timelinemodel.cpp:5719
 #, kde-format
 msgid "Enable time remap"
 msgstr "Yenidən təyinetmə vaxtını aktiv etmək"
 
-#: src/timeline2/model/timelinemodel.cpp:5794
+#: src/timeline2/model/timelinemodel.cpp:5792
 #, kde-format
 msgid "Change speed failed"
 msgstr "Sürətin dəyişdirilməsi baş tutmadı"
 
-#: src/timeline2/model/timelinemodel.cpp:5804
+#: src/timeline2/model/timelinemodel.cpp:5802
 #, kde-format
 msgid "Change clip speed"
 msgstr "Klipin sürətini dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:6183
+#: src/timeline2/model/timelinemodel.cpp:6181
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Cığırı kilidləyin"
 
-#: src/timeline2/model/timelinemodel.cpp:6188
+#: src/timeline2/model/timelinemodel.cpp:6186
 #: src/timeline2/view/qml/timeline.qml:1152
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
 msgstr "Cığırın kilidini açın"
 
-#: src/timeline2/model/timelinemodel.cpp:6222
-#: src/timeline2/model/timelinemodel.cpp:6284
+#: src/timeline2/model/timelinemodel.cpp:6220
+#: src/timeline2/model/timelinemodel.cpp:6282
 #, kde-format
 msgid "Change composition"
 msgstr "Kompozisiyanı dəyişin"
 
-#: src/timeline2/model/timelinemodel.cpp:6236
+#: src/timeline2/model/timelinemodel.cpp:6234
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Qruplaşdırılmış kompozisiya ilə işləmək mümkün deyil, qrupdan çıxarın"
 
-#: src/timeline2/model/timelinemodel.cpp:6429
-#: src/timeline2/model/timelinemodel.cpp:6466
-#: src/timeline2/model/timelinemodel.cpp:6499
-#: src/timeline2/model/timelinemodel.cpp:6580
+#: src/timeline2/model/timelinemodel.cpp:6427
+#: src/timeline2/model/timelinemodel.cpp:6464
+#: src/timeline2/model/timelinemodel.cpp:6497
+#: src/timeline2/model/timelinemodel.cpp:6578
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Qarışığın ölçüsünü 1 kadrdan az etmək mümkün deyil"
 
-#: src/timeline2/model/timelinemodel.cpp:6440
-#: src/timeline2/model/timelinemodel.cpp:6474
-#: src/timeline2/model/timelinemodel.cpp:6518
-#: src/timeline2/model/timelinemodel.cpp:6604
+#: src/timeline2/model/timelinemodel.cpp:6438
+#: src/timeline2/model/timelinemodel.cpp:6472
+#: src/timeline2/model/timelinemodel.cpp:6516
+#: src/timeline2/model/timelinemodel.cpp:6602
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Qarışığın ölçüsü dəyişdirilə bilməz"
 
-#: src/timeline2/model/timelinemodel.cpp:6618
+#: src/timeline2/model/timelinemodel.cpp:6616
 #, kde-format
 msgid "Resize mix"
 msgstr "Qarışığın ölçüsünü dəyişin"
