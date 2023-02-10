@@ -2,7 +2,7 @@
   "app-id": "org.kde.kdenlive",
   "default-branch": "master",
   "runtime": "org.kde.Platform",
-  "runtime-version": "5.15-21.08",
+  "runtime-version": "5.15-22.08",
   "sdk": "org.kde.Sdk",
   "sdk-extensions" : [ "org.freedesktop.Sdk.Extension.llvm12" ],
   "command": "kdenlive",
@@ -27,7 +27,7 @@
   "add-extensions": {
     "org.freedesktop.LinuxAudio.Plugins": {
       "directory": "extensions/Plugins",
-      "version": "21.08",
+      "version": "22.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "subdirectories": true,
@@ -35,7 +35,7 @@
     },
     "org.freedesktop.LinuxAudio.Plugins.swh": {
       "directory": "extensions/Plugins/swh",
-      "version": "21.08",
+      "version": "22.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "autodelete": false,
@@ -43,7 +43,7 @@
     },
     "org.freedesktop.LinuxAudio.Plugins.TAP": {
       "directory": "extensions/Plugins/TAP",
-      "version": "21.08",
+      "version": "22.08",
       "add-ld-path": "lib",
       "merge-dirs": "ladspa",
       "autodelete": false,
@@ -160,8 +160,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz",
-          "sha256": "5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7",
+          "url": "https://github.com/sekrit-twc/zimg/archive/release-3.0.4.tar.gz",
+          "sha256": "219d1bc6b7fde1355d72c9b406ebd730a4aed9c21da779660f0a4c851243e32f",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 13685,
@@ -234,8 +234,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/jackaudio/jack2/archive/v1.9.19.tar.gz",
-          "sha256": "9030f4dc11773351b6ac96affd9c89803a5587ebc1b091e5ff866f433327e4b0",
+          "url": "https://github.com/jackaudio/jack2/archive/v1.9.22.tar.gz",
+          "sha256": "1e42b9fc4ad7db7befd414d45ab2f8a159c0b30fcd6eee452be662298766a849",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 21358,
@@ -316,8 +316,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz",
-          "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2",
+          "url": "https://github.com/Exiv2/exiv2/releases/download/v0.27.6/exiv2-0.27.6-Source.tar.gz",
+          "sha256": "4c192483a1125dc59a3d70b30d30d32edace9e14adf52802d2f853abf72db8a6",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 769,
@@ -336,8 +336,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz",
-          "sha256": "1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd",
+          "url": "https://github.com/libass/libass/releases/download/0.17.0/libass-0.17.0.tar.xz",
+          "sha256": "971e2e1db59d440f88516dcd1187108419a370e64863f70687da599fdf66cc1a",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 1560,
@@ -357,8 +357,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/dyne/frei0r/archive/v2.0.0.tar.gz",
-          "sha256": "cc3ce35f7c208a7a82ab5c4cfad2dde006b4c2db4724015570c155c5b36ac82b",
+          "url": "https://github.com/dyne/frei0r/archive/v2.2.0.tar.gz",
+          "sha256": "51bbcbebb40be75c75dba7df211b0ef1bd0463b02b80b7d34e93efeaceb98d3b",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 10670,
@@ -431,12 +431,12 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v0.91.tar.gz",
-          "sha256": "4f3a112534d4abb5ee2b6c328cde89193dbdb2146cffc98505972c3b5397a35e",
+          "url": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v1.03.tar.gz",
+          "sha256": "8c85cae3ebbb3a18facc38930a3b67ca90e3ad609526a0018c71690de35baf04",
           "x-checker-data": {
-              "type": "rotating-url",
-              "url": "https://github.com/werman/noise-suppression-for-voice/releases/latest",
-              "pattern": "https://github.com/werman/noise-suppression-for-voice/releases/tag/v([0-9.]+)",
+              "type": "anitya",
+              "project-id": 326607,
+              "stable-only": true,
               "url-template": "https://github.com/werman/noise-suppression-for-voice/archive/refs/tags/v$version.tar.gz"
           }
         }
@@ -455,8 +455,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.22.0.tar.bz2",
-          "sha256": "1069e5d7909bcc563baeaadc3a5c496f0e658524c413cf7818816e37bfcea344",
+          "url": "https://linuxtv.org/downloads/v4l-utils/v4l-utils-1.22.1.tar.bz2",
+          "sha256": "65c6fbe830a44ca105c443b027182c1b2c9053a91d1e72ad849dfab388b94e31",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 9998,
@@ -538,8 +538,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2021.06.30.tar.gz",
-          "sha256": "6640d590c30d90f89351f5e3043ae6363feeb19ac5e64bc35f8cfa1a6cd5498e",
+          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2023.02.06.tar.gz",
+          "sha256": "464d1b04a5e185739065b2d86e4cebf02c154c416d63e6067a5060d7c053c79a",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 223257,
@@ -558,8 +558,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.23.tar.gz",
-          "sha256": "7c8a5c91bca54e257258e4efcc61925921f2efe432efd34cf77dd9dc1803c38a",
+          "url": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF/archive/refs/tags/v1.4.29.tar.gz",
+          "sha256": "be42e4acd973fc7a228f087313bee9eaca08df031ec4596f14fb2eabef528628",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 138182,
@@ -581,8 +581,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/FFmpeg/nv-codec-headers/archive/refs/tags/n11.1.5.0.tar.gz",
-          "sha256": "b833bd90852c1f45d01f65c70545f6a31e5b9ca64814a269626c7ad2286d55ee",
+          "url": "https://github.com/FFmpeg/nv-codec-headers/archive/refs/tags/n11.1.5.2.tar.gz",
+          "sha256": "576df78bad704e2854991100bea99e974759304ac1411c02707ebc95a425191b",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 223796,
@@ -610,7 +610,7 @@
         {
           "type": "git",
           "url": "https://aomedia.googlesource.com/aom.git",
-          "tag": "v3.2.0",
+          "tag": "v3.6.0",
           "x-checker-data": {
               "type": "git",
               "tag-pattern": "^v([\\d.]+)$"
@@ -627,8 +627,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/intel/libva/archive/refs/tags/2.13.0.tar.gz",
-          "sha256": "6b7ec7d4fa204dad3f266450981f1f0892400c03afd3e00ac11f8ccade5aaaa1",
+          "url": "https://github.com/intel/libva/archive/refs/tags/2.17.0.tar.gz",
+          "sha256": "8940541980ef998a36cd8f6ad905e81838ea4ddf56dc479ed2bebd12711e6001",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 1752,
@@ -647,8 +647,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.13.0.tar.gz",
-          "sha256": "128333faa9792a3b87586a80bfb70859dcdd81847ec9a722f785a601a48e1731",
+          "url": "https://github.com/intel/libva-utils/archive/refs/tags/2.17.1.tar.gz",
+          "sha256": "6ea5993c3eba230a979fa9d35b4cad8df06d4474a773dc0918033bf50353f966",
           "x-checker-data": {
               "type": "anitya",
               "project-id": 16334,
@@ -673,8 +673,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-21.3.5.tar.gz",
-          "sha256": "3f13869298d3946d7d91e58846e274ef62cd5af2473f59f36b57b2c27ebfd87c",
+          "url": "https://github.com/Intel-Media-SDK/MediaSDK/archive/intel-mediasdk-23.1.1.tar.gz",
+          "sha256": "481dd08e16ea072be9611b8eb2994921e7fd285fd99219a7f0c93b56a9e5f2eb",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 21814,
@@ -733,8 +733,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://www.ffmpeg.org/releases/ffmpeg-5.0.tar.xz",
-          "sha256": "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298",
+          "url": "https://www.ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz",
+          "sha256": "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 5405,
@@ -752,8 +752,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/libzen/0.4.39/libzen_0.4.39.tar.xz",
-          "sha256": "cded5d7774294e7d5b42768ceb285243709b6e99eec6e980a3cf7f0890dbb622",
+          "url": "https://mediaarea.net/download/source/libzen/0.4.40/libzen_0.4.40.tar.xz",
+          "sha256": "0c2e1c7302b3ee260d34b52e4b16ab655bdf021db8c14653e418aced46eb24a7",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 1810,
@@ -771,8 +771,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/libmediainfo/21.09/libmediainfo_21.09.tar.xz",
-          "sha256": "69be9444f6a03a1bdf56713ee31d56e987c502a7ec18eb54ee70fcc171b7f126",
+          "url": "https://mediaarea.net/download/source/libmediainfo/22.12/libmediainfo_22.12.tar.xz",
+          "sha256": "0fc6d32f06d6ce5e144074d2e57e0db8dfa4e38e752d3123ada27ccaf89634bc",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 16249,
@@ -789,8 +789,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://mediaarea.net/download/source/mediainfo/21.09/mediainfo_21.09.tar.xz",
-          "sha256": "7b8fd9a502ec64afe1315072881b6385ba57ca69f2f82c625b1672e151c50c57",
+          "url": "https://mediaarea.net/download/source/mediainfo/22.12/mediainfo_22.12.tar.xz",
+          "sha256": "932b82739f738e7db603cf5bb170720731a9e7c61d145c2a54aabb3cd0b753bc",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 8240,
@@ -815,8 +815,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv/archive/4.5.4.tar.gz",
-          "sha256": "c20bb83dd790fc69df9f105477e24267706715a9d3c705ca1e7f613c7b3bad3d",
+          "url": "https://github.com/opencv/opencv/archive/4.7.0.tar.gz",
+          "sha256": "8df0079cdbe179748a18d44731af62a245a45ebf5085223dc03133954c662973",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 6615,
@@ -826,8 +826,8 @@
         },
         {
           "type": "archive",
-          "url": "https://github.com/opencv/opencv_contrib/archive/4.5.4.tar.gz",
-          "sha256": "ad74b440b4539619dc9b587995a16b691246023d45e34097c73e259f72de9f81",
+          "url": "https://github.com/opencv/opencv_contrib/archive/4.7.0.tar.gz",
+          "sha256": "42df840cf9055e59d0e22c249cfb19f04743e1bdad113d31b1573d3934d62584",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 6615,
@@ -843,8 +843,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://breakfastquay.com/files/releases/rubberband-2.0.0.tar.bz2",
-          "sha256": "eccbf0545496ce3386a2433ceec31e6576a76ed6884310e4b465003bfe260286",
+          "url": "https://breakfastquay.com/files/releases/rubberband-3.1.2.tar.bz2",
+          "sha256": "dda7e257b14c59a1f59c5ccc4d6f19412039f77834275955aa0ff511779b98d2",
           "x-checker-data": {
             "type": "anitya",
             "project-id": 4222,

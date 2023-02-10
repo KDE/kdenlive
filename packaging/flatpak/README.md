@@ -27,3 +27,21 @@ flatpak-builder ~/flatpak-buildir org.kde.kdenlive-nightly.json --install
 Read the flatpak build instructions for further general instructions on the flatpak build system: https://docs.flatpak.org/en/latest/building.html
 
 Tip: use `flatpak make-current master` or `flatpak make-current stable` to switch the current version for `flatpak run org.kde.kdenlive`
+
+## Check for updates of dependencies
+
+The flatpak manifest contains `x-checker-data` for [flatpak-external-data-checker](https://github.com/flathub/flatpak-external-data-checker).
+
+That means that after you installed it with
+
+```
+flatpak install --from https://dl.flathub.org/repo/appstream/org.flathub.flatpak-external-data-checker.flatpakref
+```
+
+you can simply run
+
+```
+flatpak run org.flathub.flatpak-external-data-checker org.kde.kdenlive-nightly.json
+```
+
+to get a report about all dependencies with new versions available.
