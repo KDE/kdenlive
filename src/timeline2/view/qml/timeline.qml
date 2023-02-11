@@ -1674,6 +1674,7 @@ Rectangle {
                         //flickableItem.interactive: false
                         clip: true
                         interactive: false
+                        pixelAligned: true
                         /*
                          // Replaced by our custom ZoomBar
                          ScrollBar.horizontal: ScrollBar {
