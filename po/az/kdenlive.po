@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-11 00:57+0000\n"
+"POT-Creation-Date: 2023-02-12 00:57+0000\n"
 "PO-Revision-Date: 2022-08-24 17:38+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -4200,7 +4200,7 @@ msgstr "Orijinal klip mövcud deyil"
 msgid "Unable to write to file %1"
 msgstr "%1 faylına yazmaq mümkün olmadı"
 
-#: src/bin/bin.cpp:1867 src/bin/bin.cpp:2261 src/doc/kdenlivedoc.cpp:721
+#: src/bin/bin.cpp:1867 src/bin/bin.cpp:2261 src/doc/kdenlivedoc.cpp:722
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5074,8 +5074,8 @@ msgstr "Alt yazı əlavə edin"
 msgid "Delete subtitle"
 msgstr "Altyazını silin"
 
-#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:986
-#: src/doc/kdenlivedoc.cpp:2049 src/project/dialogs/archivewidget.cpp:214
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
+#: src/doc/kdenlivedoc.cpp:2050 src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1297
 #, kde-format
 msgid "Untitled"
@@ -5600,7 +5600,7 @@ msgstr "Mətn klipi"
 msgid "Create Text clip"
 msgstr "Mətn klipi yaradın"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1058
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1059
 #, kde-format
 msgid "Template title clip"
 msgstr "Şablon başlıq klipi"
@@ -5783,8 +5783,8 @@ msgstr "Təlimatları ixrac edin..."
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1926
-#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:738
-#: src/doc/kdenlivedoc.cpp:746 src/doc/kdenlivedoc.cpp:1168
+#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:739
+#: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1169
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -7495,17 +7495,17 @@ msgstr ""
 "Sənəd layihəsi qovluğu etibarsızdır, sistemin standart qovluqları istifadə "
 "olunacaq"
 
-#: src/doc/kdenlivedoc.cpp:556 src/doc/kdenlivedoc.cpp:566
+#: src/doc/kdenlivedoc.cpp:557 src/doc/kdenlivedoc.cpp:567
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "%1 avtomatik saxlama faylı yaradıla bilmədi"
 
-#: src/doc/kdenlivedoc.cpp:561 src/doc/kdenlivedoc.cpp:699
+#: src/doc/kdenlivedoc.cpp:562 src/doc/kdenlivedoc.cpp:700
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "%1 faylına yazıla bilmədi, səhnə siyahısı pozulub."
 
-#: src/doc/kdenlivedoc.cpp:717
+#: src/doc/kdenlivedoc.cpp:718
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7514,7 +7514,7 @@ msgstr ""
 "Layihə faylınız, sonuncu Kdenlive sənəd versiyasına yeniləndi.\n"
 "Məlumatlarınızın itirilmıdiyinə əmin olun, %1 adlı ehtiyyat nüsxə yaradıldı."
 
-#: src/doc/kdenlivedoc.cpp:731
+#: src/doc/kdenlivedoc.cpp:732
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7523,28 +7523,28 @@ msgstr ""
 "Layihə faylınız, sonuncu Kdenlive sənəd versiyasına yeniləndi lakin %1 "
 "ehtiyyat nüsxə faylı yaratmaq mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:875 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Layihə qovluğunun köçürülməsində xəta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1044
+#: src/doc/kdenlivedoc.cpp:1045
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Şablonun yerini göstərin"
 
-#: src/doc/kdenlivedoc.cpp:1175
+#: src/doc/kdenlivedoc.cpp:1176
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Bu efektlər layihədən idxal edildi:"
 
-#: src/doc/kdenlivedoc.cpp:1208 src/doc/kdenlivedoc.cpp:1222
+#: src/doc/kdenlivedoc.cpp:1209 src/doc/kdenlivedoc.cpp:1223
 #, kde-format
 msgid "Project Folder"
 msgstr "Layihə qovluğu"
 
-#: src/doc/kdenlivedoc.cpp:1266 src/doc/kdenlivedoc.cpp:1274
+#: src/doc/kdenlivedoc.cpp:1267 src/doc/kdenlivedoc.cpp:1275
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7553,26 +7553,26 @@ msgstr ""
 "Ehtiyyat nüsxə yaradıla bilmədi:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1419
+#: src/doc/kdenlivedoc.cpp:1420
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proksi kliplər əlavə edin"
 msgstr[1] "Proksi klip əlavə edin"
 
-#: src/doc/kdenlivedoc.cpp:1421
+#: src/doc/kdenlivedoc.cpp:1422
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Proksi klipi silin"
 msgstr[1] "Proksi klipləri silin"
 
-#: src/doc/kdenlivedoc.cpp:1465 src/doc/kdenlivedoc.cpp:1499
+#: src/doc/kdenlivedoc.cpp:1466 src/doc/kdenlivedoc.cpp:1500
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Hazırkı klip növü proksiləri dəstəkləmir"
 
-#: src/doc/kdenlivedoc.cpp:1697
+#: src/doc/kdenlivedoc.cpp:1698
 #, kde-format
 msgid ""
 "\n"
@@ -7582,7 +7582,7 @@ msgstr ""
 "Xəbərdarlıq: naməlum, tam olmayan kadrlar tezliyi video müddətinin səhv "
 "göstərilməsinə səbəb ola bilər."
 
-#: src/doc/kdenlivedoc.cpp:1716
+#: src/doc/kdenlivedoc.cpp:1717
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -7591,43 +7591,43 @@ msgstr ""
 "%1 standart layihə profilinizdir, %3 isə sizin (%2) klip profilinizdir.\n"
 "Gələcək profillər üçün standart profili dəyişmək istəyirsiniz?"
 
-#: src/doc/kdenlivedoc.cpp:1718
+#: src/doc/kdenlivedoc.cpp:1719
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standart layihə profilini dəyişin"
 
-#: src/doc/kdenlivedoc.cpp:1718
+#: src/doc/kdenlivedoc.cpp:1719
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standart kimi %1 təyin edin"
 
-#: src/doc/kdenlivedoc.cpp:1719
+#: src/doc/kdenlivedoc.cpp:1720
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Cari %1 standart profili saxlayın"
 
-#: src/doc/kdenlivedoc.cpp:1719
+#: src/doc/kdenlivedoc.cpp:1720
 #, kde-format
 msgid "Ask me later"
 msgstr "Sonra soruşulsun"
 
-#: src/doc/kdenlivedoc.cpp:1739
+#: src/doc/kdenlivedoc.cpp:1740
 #, kde-format
 msgid "Switch"
 msgstr "Keçid"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1741 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1742 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "İmtina"
 
-#: src/doc/kdenlivedoc.cpp:1743
+#: src/doc/kdenlivedoc.cpp:1744
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "%2 klip profilinə (%1) keçilsin?"
 
-#: src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1749
 #, kde-format
 msgid ""
 "\n"
@@ -7636,7 +7636,7 @@ msgstr ""
 "\n"
 "Kadr tezliyi, %1 orijinalından alındı"
 
-#: src/doc/kdenlivedoc.cpp:1750
+#: src/doc/kdenlivedoc.cpp:1751
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -7645,13 +7645,13 @@ msgstr ""
 "%1 klipiniz üçün profil tapılmadı.\n"
 "Yeni profil yaradılsın və açılsın (%2x%3, %4 kadr/san)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2088 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Qırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7659,23 +7659,23 @@ msgstr "Qırmızı"
 msgid "Green"
 msgstr "Yaşıl"
 
-#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2092 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2092
+#: src/doc/kdenlivedoc.cpp:2093
 #, kde-format
 msgid "Cyan"
 msgstr "Orta Açıq Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2272
+#: src/doc/kdenlivedoc.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -14070,7 +14070,7 @@ msgstr "Cığırlar daxil edin"
 msgid "Rename Track"
 msgstr "Cığırın adını dəyişin"
 
-#: src/timeline2/model/timelineitemmodel.cpp:751
+#: src/timeline2/model/timelineitemmodel.cpp:752
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "Cığırın kompozisiya olunmasını ayarlamaq mümkün olmadı"
@@ -14431,7 +14431,7 @@ msgid "Stop"
 msgstr "Dayandırın"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2028
+#: src/timeline2/view/qml/timeline.qml:2029
 #, kde-format
 msgid "Paused"
 msgstr "Fasilədə"
@@ -14606,23 +14606,23 @@ msgstr "Göstərmək"
 msgid "Hide"
 msgstr "Gizlətmək"
 
-#: src/timeline2/view/qml/timeline.qml:1707
+#: src/timeline2/view/qml/timeline.qml:1708
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazılar əlavə etçmək üçün - <b>Cüt klik</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1871
+#: src/timeline2/view/qml/timeline.qml:1872
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sürüşmə: %1, Mövqe: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2017
-#: src/timeline2/view/qml/timeline.qml:2026
+#: src/timeline2/view/qml/timeline.qml:2018
+#: src/timeline2/view/qml/timeline.qml:2027
 #, kde-format
 msgid "Recording"
 msgstr "Yazılır"
 
-#: src/timeline2/view/qml/timeline.qml:2115
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoxsaylı kamera rejimi girişi"

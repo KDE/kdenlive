@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-11 00:57+0000\n"
+"POT-Creation-Date: 2023-02-12 00:57+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -4313,7 +4313,7 @@ msgstr "Chýbajúci zdrojový klip"
 msgid "Unable to write to file %1"
 msgstr "Nemôžem zapisovať do súboru %1"
 
-#: src/bin/bin.cpp:1867 src/bin/bin.cpp:2261 src/doc/kdenlivedoc.cpp:721
+#: src/bin/bin.cpp:1867 src/bin/bin.cpp:2261 src/doc/kdenlivedoc.cpp:722
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5247,8 +5247,8 @@ msgstr "Pridať titulky"
 msgid "Delete subtitle"
 msgstr "Odstrániť titulky"
 
-#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:986
-#: src/doc/kdenlivedoc.cpp:2049 src/project/dialogs/archivewidget.cpp:214
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
+#: src/doc/kdenlivedoc.cpp:2050 src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1297
 #, kde-format
 msgid "Untitled"
@@ -5802,7 +5802,7 @@ msgstr "Textový klip"
 msgid "Create Text clip"
 msgstr "Vytvoriť Titulný klip"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1058
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1059
 #, kde-format
 msgid "Template title clip"
 msgstr "Titulný klip šablóny"
@@ -5986,8 +5986,8 @@ msgstr "Importovať vodítka"
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1926
-#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:738
-#: src/doc/kdenlivedoc.cpp:746 src/doc/kdenlivedoc.cpp:1168
+#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:739
+#: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1169
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -7804,18 +7804,18 @@ msgstr ""
 "Priečinok projektu dokumentu je neplatný, používam systémové predvolené "
 "priečinky"
 
-#: src/doc/kdenlivedoc.cpp:556 src/doc/kdenlivedoc.cpp:566
+#: src/doc/kdenlivedoc.cpp:557 src/doc/kdenlivedoc.cpp:567
 #, fuzzy, kde-format
 #| msgid "Cannot create folder %1"
 msgid "Cannot create autosave file %1"
 msgstr "Nie je možné vytvoriť adresár %1"
 
-#: src/doc/kdenlivedoc.cpp:561 src/doc/kdenlivedoc.cpp:699
+#: src/doc/kdenlivedoc.cpp:562 src/doc/kdenlivedoc.cpp:700
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Nie je možné zapísať do súboru %1, zoznam scén je poškodený."
 
-#: src/doc/kdenlivedoc.cpp:717
+#: src/doc/kdenlivedoc.cpp:718
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7825,7 +7825,7 @@ msgstr ""
 "Aby bolo zaistené, že nestratíte dáta, vytvorila sa záložná kópia s názvom "
 "%1."
 
-#: src/doc/kdenlivedoc.cpp:731
+#: src/doc/kdenlivedoc.cpp:732
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7834,29 +7834,29 @@ msgstr ""
 "Váš súbor projektu bol inovovaný na najnovšiu verziu Kdenlive dokumentu, ale "
 "nebolo možné vytvoriť záložnú kópiu %1."
 
-#: src/doc/kdenlivedoc.cpp:875 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Chyba presunu priečinka projektu: %1"
 
-#: src/doc/kdenlivedoc.cpp:1044
+#: src/doc/kdenlivedoc.cpp:1045
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Zadať cestu k šablóne"
 
-#: src/doc/kdenlivedoc.cpp:1175
+#: src/doc/kdenlivedoc.cpp:1176
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Nasledujúce efekty boli importované z projektu:"
 
-#: src/doc/kdenlivedoc.cpp:1208 src/doc/kdenlivedoc.cpp:1222
+#: src/doc/kdenlivedoc.cpp:1209 src/doc/kdenlivedoc.cpp:1223
 #, kde-format
 msgid "Project Folder"
 msgstr "Priečinok projektu"
 
-#: src/doc/kdenlivedoc.cpp:1266 src/doc/kdenlivedoc.cpp:1274
+#: src/doc/kdenlivedoc.cpp:1267 src/doc/kdenlivedoc.cpp:1275
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7865,7 +7865,7 @@ msgstr ""
 "Nie je možné vytvoriť záložnú kópiu:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1419
+#: src/doc/kdenlivedoc.cpp:1420
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -7873,7 +7873,7 @@ msgstr[0] "Pridať zástupný klip"
 msgstr[1] "Pridať zástupné klipy"
 msgstr[2] "Pridať zástupných klipov"
 
-#: src/doc/kdenlivedoc.cpp:1421
+#: src/doc/kdenlivedoc.cpp:1422
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -7881,12 +7881,12 @@ msgstr[0] "Odstrániť zástupný klip"
 msgstr[1] "Odstrániť zástupné klipy"
 msgstr[2] "Odstrániť zástupných klipov"
 
-#: src/doc/kdenlivedoc.cpp:1465 src/doc/kdenlivedoc.cpp:1499
+#: src/doc/kdenlivedoc.cpp:1466 src/doc/kdenlivedoc.cpp:1500
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Typ klipu nepodporuje zastupovanie"
 
-#: src/doc/kdenlivedoc.cpp:1697
+#: src/doc/kdenlivedoc.cpp:1698
 #, kde-format
 msgid ""
 "\n"
@@ -7896,7 +7896,7 @@ msgstr ""
 "Upozornenie: neznáme neceločíselné fps, môže spôsobiť nesprávne zobrazenie "
 "trvania."
 
-#: src/doc/kdenlivedoc.cpp:1716
+#: src/doc/kdenlivedoc.cpp:1717
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -7908,44 +7908,44 @@ msgstr ""
 "Váš predvolený profil projektu je %1, ale profil vášho klipu je %2.\n"
 "Chcete zmeniť predvolený profil pre budúce projekty?"
 
-#: src/doc/kdenlivedoc.cpp:1718
+#: src/doc/kdenlivedoc.cpp:1719
 #, kde-format
 msgid "Change default project profile"
 msgstr "Zmeniť predvolený profil projektu"
 
-#: src/doc/kdenlivedoc.cpp:1718
+#: src/doc/kdenlivedoc.cpp:1719
 #, kde-format
 msgid "Change default to %1"
 msgstr "Zmeniť predvolené na %1"
 
-#: src/doc/kdenlivedoc.cpp:1719
+#: src/doc/kdenlivedoc.cpp:1720
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Ponechať aktuálny predvolený %1"
 
-#: src/doc/kdenlivedoc.cpp:1719
+#: src/doc/kdenlivedoc.cpp:1720
 #, kde-format
 msgid "Ask me later"
 msgstr "Opýtať sa neskôr"
 
-#: src/doc/kdenlivedoc.cpp:1739
+#: src/doc/kdenlivedoc.cpp:1740
 #, kde-format
 msgid "Switch"
 msgstr "Prepnúť"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1741 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1742 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/doc/kdenlivedoc.cpp:1743
+#: src/doc/kdenlivedoc.cpp:1744
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Prepnúť na profil klipu %1?"
 
-#: src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1749
 #, kde-format
 msgid ""
 "\n"
@@ -7954,7 +7954,7 @@ msgstr ""
 "\n"
 "Fps profilu upravené z pôvodného %1"
 
-#: src/doc/kdenlivedoc.cpp:1750
+#: src/doc/kdenlivedoc.cpp:1751
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -7966,13 +7966,13 @@ msgstr ""
 "Vo vašom klipe sa nenašiel profil.\n"
 "Vytvoriť a prepnúť na nový profil (%1x%2, %3fps)%4?"
 
-#: src/doc/kdenlivedoc.cpp:2088 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Červená"
 
-#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7980,23 +7980,23 @@ msgstr "Červená"
 msgid "Green"
 msgstr "Zelená"
 
-#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Modrá"
 
-#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2092 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Žltá"
 
-#: src/doc/kdenlivedoc.cpp:2092
+#: src/doc/kdenlivedoc.cpp:2093
 #, kde-format
 msgid "Cyan"
 msgstr "Azúrová"
 
-#: src/doc/kdenlivedoc.cpp:2272
+#: src/doc/kdenlivedoc.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -14569,7 +14569,7 @@ msgstr "Vložiť stopy"
 msgid "Rename Track"
 msgstr "Premenovať stopu"
 
-#: src/timeline2/model/timelineitemmodel.cpp:751
+#: src/timeline2/model/timelineitemmodel.cpp:752
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
@@ -14953,7 +14953,7 @@ msgid "Stop"
 msgstr "Zastaviť"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2028
+#: src/timeline2/view/qml/timeline.qml:2029
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -15150,13 +15150,13 @@ msgstr "Zobraziť"
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/timeline2/view/qml/timeline.qml:1707
+#: src/timeline2/view/qml/timeline.qml:1708
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Kliknúť pre pridanie prechodu."
 
-#: src/timeline2/view/qml/timeline.qml:1871
+#: src/timeline2/view/qml/timeline.qml:1872
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -15166,14 +15166,14 @@ msgstr ""
 "V:%1\n"
 "Pozícia:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2017
-#: src/timeline2/view/qml/timeline.qml:2026
+#: src/timeline2/view/qml/timeline.qml:2018
+#: src/timeline2/view/qml/timeline.qml:2027
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Nahrať"
 
-#: src/timeline2/view/qml/timeline.qml:2115
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Multicam In"
 msgstr ""

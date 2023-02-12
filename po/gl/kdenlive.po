@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-11 00:57+0000\n"
+"POT-Creation-Date: 2023-02-12 00:57+0000\n"
 "PO-Revision-Date: 2020-01-11 11:21+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -4325,7 +4325,7 @@ msgstr "Fragmento orixinal ausente"
 msgid "Unable to write to file %1"
 msgstr "Non se pode escribir no ficheiro %1"
 
-#: src/bin/bin.cpp:1867 src/bin/bin.cpp:2261 src/doc/kdenlivedoc.cpp:721
+#: src/bin/bin.cpp:1867 src/bin/bin.cpp:2261 src/doc/kdenlivedoc.cpp:722
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5261,8 +5261,8 @@ msgstr "Engadir guía"
 msgid "Delete subtitle"
 msgstr "Eliminar o subfragmento"
 
-#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:986
-#: src/doc/kdenlivedoc.cpp:2049 src/project/dialogs/archivewidget.cpp:214
+#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
+#: src/doc/kdenlivedoc.cpp:2050 src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1297
 #, kde-format
 msgid "Untitled"
@@ -5819,7 +5819,7 @@ msgstr "Fragmento de texto"
 msgid "Create Text clip"
 msgstr "Crear un fragmento de título"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1058
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1059
 #, kde-format
 msgid "Template title clip"
 msgstr "Fragmento de título de modelo"
@@ -6003,8 +6003,8 @@ msgstr "Importar guías"
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
 #: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
 #: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1926
-#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:738
-#: src/doc/kdenlivedoc.cpp:746 src/doc/kdenlivedoc.cpp:1168
+#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:739
+#: src/doc/kdenlivedoc.cpp:747 src/doc/kdenlivedoc.cpp:1169
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -7811,18 +7811,18 @@ msgstr ""
 "O cartafol de documentos do proxecto é incorrecto, usaranse os cartafoles "
 "predeterminados do sistema."
 
-#: src/doc/kdenlivedoc.cpp:556 src/doc/kdenlivedoc.cpp:566
+#: src/doc/kdenlivedoc.cpp:557 src/doc/kdenlivedoc.cpp:567
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Non se pode crear o ficheiro de garda automática %1"
 
-#: src/doc/kdenlivedoc.cpp:561 src/doc/kdenlivedoc.cpp:699
+#: src/doc/kdenlivedoc.cpp:562 src/doc/kdenlivedoc.cpp:700
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
 "Non se pode escribir no ficheiro %1; a lista de escenas está corrompida."
 
-#: src/doc/kdenlivedoc.cpp:717
+#: src/doc/kdenlivedoc.cpp:718
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7832,7 +7832,7 @@ msgstr ""
 "Para estar seguro de que non perde datos, creouse unha copia de seguranza "
 "chamada %1."
 
-#: src/doc/kdenlivedoc.cpp:731
+#: src/doc/kdenlivedoc.cpp:732
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7841,29 +7841,29 @@ msgstr ""
 "O ficheiro do proxecto anovouse para usar a última versión de documento de "
 "Kdenlive, pero non foi posíbel crear a copia de seguranza %1."
 
-#: src/doc/kdenlivedoc.cpp:875 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Produciuse un erro ao mover o cartafol do proxecto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1044
+#: src/doc/kdenlivedoc.cpp:1045
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Inserir a ruta ao modelo"
 
-#: src/doc/kdenlivedoc.cpp:1175
+#: src/doc/kdenlivedoc.cpp:1176
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Importáronse os efectos seguintes do proxecto:"
 
-#: src/doc/kdenlivedoc.cpp:1208 src/doc/kdenlivedoc.cpp:1222
+#: src/doc/kdenlivedoc.cpp:1209 src/doc/kdenlivedoc.cpp:1223
 #, kde-format
 msgid "Project Folder"
 msgstr "Cartafol do proxecto"
 
-#: src/doc/kdenlivedoc.cpp:1266 src/doc/kdenlivedoc.cpp:1274
+#: src/doc/kdenlivedoc.cpp:1267 src/doc/kdenlivedoc.cpp:1275
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7872,26 +7872,26 @@ msgstr ""
 "Non se pode crear unha copia de seguranza:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1419
+#: src/doc/kdenlivedoc.cpp:1420
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Engadir un fragmento proxy"
 msgstr[1] "Engadir fragmentos proxy"
 
-#: src/doc/kdenlivedoc.cpp:1421
+#: src/doc/kdenlivedoc.cpp:1422
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Retirar o fragmento proxy"
 msgstr[1] "Retirar os fragmentos proxy"
 
-#: src/doc/kdenlivedoc.cpp:1465 src/doc/kdenlivedoc.cpp:1499
+#: src/doc/kdenlivedoc.cpp:1466 src/doc/kdenlivedoc.cpp:1500
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "O tipo do fragmento non é compatíbel con proxys."
 
-#: src/doc/kdenlivedoc.cpp:1697
+#: src/doc/kdenlivedoc.cpp:1698
 #, kde-format
 msgid ""
 "\n"
@@ -7901,7 +7901,7 @@ msgstr ""
 "Aviso: FPS non enteiro descoñecido, podería facer que se mostre unha "
 "duración incorrecta."
 
-#: src/doc/kdenlivedoc.cpp:1716
+#: src/doc/kdenlivedoc.cpp:1717
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -7914,44 +7914,44 @@ msgstr ""
 "%2.\n"
 "Quere cambiar o perfil predeterminado para futuros proxectos?"
 
-#: src/doc/kdenlivedoc.cpp:1718
+#: src/doc/kdenlivedoc.cpp:1719
 #, kde-format
 msgid "Change default project profile"
 msgstr "Cambiar o perfil de proxecto predeterminado"
 
-#: src/doc/kdenlivedoc.cpp:1718
+#: src/doc/kdenlivedoc.cpp:1719
 #, kde-format
 msgid "Change default to %1"
 msgstr "Cambiar o predeterminado a %1"
 
-#: src/doc/kdenlivedoc.cpp:1719
+#: src/doc/kdenlivedoc.cpp:1720
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Manter o predeterminado actual %1"
 
-#: src/doc/kdenlivedoc.cpp:1719
+#: src/doc/kdenlivedoc.cpp:1720
 #, kde-format
 msgid "Ask me later"
 msgstr "Preguntarme máis tarde"
 
-#: src/doc/kdenlivedoc.cpp:1739
+#: src/doc/kdenlivedoc.cpp:1740
 #, kde-format
 msgid "Switch"
 msgstr "Cambiar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1741 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1742 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/doc/kdenlivedoc.cpp:1743
+#: src/doc/kdenlivedoc.cpp:1744
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Quere cambiar ao perfil de fragmento %1?"
 
-#: src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1749
 #, kde-format
 msgid ""
 "\n"
@@ -7960,7 +7960,7 @@ msgstr ""
 "\n"
 "Os FPS do perfil axustáronse do %1 orixinal."
 
-#: src/doc/kdenlivedoc.cpp:1750
+#: src/doc/kdenlivedoc.cpp:1751
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -7972,13 +7972,13 @@ msgstr ""
 "Non se atopou ningún perfil para o fragmento.\n"
 "Quere crear un novo perfil (%1×%2, %3fps) e cambiar a el?%4"
 
-#: src/doc/kdenlivedoc.cpp:2088 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Vermello"
 
-#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7986,23 +7986,23 @@ msgstr "Vermello"
 msgid "Green"
 msgstr "Verde"
 
-#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Azul"
 
-#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2092 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Amarelo"
 
-#: src/doc/kdenlivedoc.cpp:2092
+#: src/doc/kdenlivedoc.cpp:2093
 #, kde-format
 msgid "Cyan"
 msgstr "Ciano"
 
-#: src/doc/kdenlivedoc.cpp:2272
+#: src/doc/kdenlivedoc.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -14645,7 +14645,7 @@ msgstr "Inserir unha pista"
 msgid "Rename Track"
 msgstr "Cambiar de nome o marcador"
 
-#: src/timeline2/model/timelineitemmodel.cpp:751
+#: src/timeline2/model/timelineitemmodel.cpp:752
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr "Non se puido configurar a composición de pistas, revise a instalación"
@@ -15029,7 +15029,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2028
+#: src/timeline2/view/qml/timeline.qml:2029
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -15227,13 +15227,13 @@ msgstr "Mostrar"
 msgid "Hide"
 msgstr "Agochar"
 
-#: src/timeline2/view/qml/timeline.qml:1707
+#: src/timeline2/view/qml/timeline.qml:1708
 #, fuzzy, kde-format
 #| msgid "Click to add composition"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Prema para engadir unha composición"
 
-#: src/timeline2/view/qml/timeline.qml:1871
+#: src/timeline2/view/qml/timeline.qml:1872
 #, fuzzy, kde-format
 #| msgid ""
 #| "In:%1\n"
@@ -15243,14 +15243,14 @@ msgstr ""
 "Entrada:%1\n"
 "Posición:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2017
-#: src/timeline2/view/qml/timeline.qml:2026
+#: src/timeline2/view/qml/timeline.qml:2018
+#: src/timeline2/view/qml/timeline.qml:2027
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Gravar"
 
-#: src/timeline2/view/qml/timeline.qml:2115
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Multicam In"
 msgstr ""

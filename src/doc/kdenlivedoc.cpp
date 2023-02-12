@@ -366,12 +366,13 @@ void KdenliveDoc::initializeProperties(bool newDocument)
 
 const QStringList KdenliveDoc::guidesCategories()
 {
-    if (!m_documentProperties.contains(QStringLiteral("guidesCategories")) || m_documentProperties.value(QStringLiteral("guidesCategories")).isEmpty()) {
+    QStringList categories = getGuideModel(activeUuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
+    if (categories.isEmpty()) {
         const QStringList defaultCategories = getDefaultGuideCategories();
         m_documentProperties[QStringLiteral("guidesCategories")] = getGuideModel(activeUuid)->categoriesListToJSon(defaultCategories);
         return defaultCategories;
     }
-    return getGuideModel(activeUuid)->guideCategoriesToStringList(m_documentProperties.value(QStringLiteral("guidesCategories")));
+    return categories;
 }
 
 void KdenliveDoc::updateGuideCategories(const QStringList &categories, const QMap<int, int> remapCategories)
