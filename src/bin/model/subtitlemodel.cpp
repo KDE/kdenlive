@@ -205,9 +205,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                     srtTime = timeLine.split(separator);
                     if (srtTime.count() > endIndex) {
                         start = srtTime.at(0);
-                        startPos = stringtoTime(start)/transformMult;
+                        startPos = stringtoTime(start, transformMult);
                         end = srtTime.at(endIndex);
-                        endPos = stringtoTime(end)/transformMult;
+                        endPos = stringtoTime(end, transformMult);
                     } else {
                         continue;
                     }
@@ -328,9 +328,9 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         if (dialogue.count() > textIndex) {
                             // TIME
                             start = dialogue.at(1);
-                            startPos = stringtoTime(start)/transformMult;
+                            startPos = stringtoTime(start, transformMult);
                             end = dialogue.at(2);
-                            endPos = stringtoTime(end)/transformMult;
+                            endPos = stringtoTime(end, transformMult);
                             // Text field is always the last field, since it can have commas
                             comment = line.section(",", numEventFields - 1);
                             // qDebug()<<"Start: "<< start << "End: "<<end << comment;
@@ -389,7 +389,7 @@ const QString SubtitleModel::getUrl()
     return m_subtitleFilter->get("av.filename");
 }
 
-GenTime SubtitleModel::stringtoTime(QString &str)
+GenTime SubtitleModel::stringtoTime(QString &str, const double factor)
 {
     QStringList total, secs;
     double hours = 0, mins = 0, seconds = 0, ms = 0;
@@ -419,8 +419,10 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     }
 
     total_sec = hours * 3600 + mins * 60 + seconds + ms * 0.001;
-    pos = GenTime(total_sec);
-    return pos;
+    pos = GenTime(total_sec) / factor;
+    // Ensure times are aligned with our project's frames
+    int frames = pos.frames(pCore->getCurrentFps());
+    return GenTime(frames, pCore->getCurrentFps());
 }
 
 bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter)

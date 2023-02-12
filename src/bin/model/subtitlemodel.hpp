@@ -41,7 +41,7 @@ public:
     bool addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
     bool addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter = true);
     /** @brief Converts string of time to GenTime */
-    GenTime stringtoTime(QString &str);
+    GenTime stringtoTime(QString &str, const double factor = 1.);
     /** @brief Return model data item according to the role passed */
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override; // override the same function of QAbstractListModel
