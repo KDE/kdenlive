@@ -2,11 +2,18 @@
     SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
-#include "renderpresets/renderpresetmodel.hpp"
 #include "test_utils.hpp"
+#define protected public
+
+#include "renderpresets/renderpresetmodel.hpp"
+#include "renderpresets/renderpresetrepository.hpp"
 
 TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
 {
+
+    RenderPresetRepository::m_acodecsList = QStringList(QStringLiteral("libvorbis"));
+    RenderPresetRepository::m_vcodecsList = QStringList(QStringLiteral("libvpx"));
+    RenderPresetRepository::m_supportedFormats = QStringList(QStringLiteral("mp4"));
 
     SECTION("Test getters")
     {
