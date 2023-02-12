@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-10 02:52+0000\n"
-"PO-Revision-Date: 2023-01-29 21:20+0100\n"
+"PO-Revision-Date: 2023-02-11 09:45+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4283,7 +4283,7 @@ msgstr "Bitartekari-karpeta"
 #: src/bin/bin.cpp:2650
 #, kde-format
 msgid "Edit rating"
-msgstr "Aldatu balorazioa"
+msgstr "Editatu balorazioa"
 
 #: src/bin/bin.cpp:2652
 #, kde-format
@@ -4298,12 +4298,12 @@ msgstr "Gehitu klipa edo karpeta…"
 #: src/bin/bin.cpp:3286
 #, kde-format
 msgid "Add Color Clip…"
-msgstr "Gehitu kolore klipa…"
+msgstr "Gehitu kolore-klipa…"
 
 #: src/bin/bin.cpp:3288
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr "Irudi-sekuentzia gehitu…"
+msgstr "Gehitu irudi-sekuentzia…"
 
 #: src/bin/bin.cpp:3290
 #, kde-format
@@ -4313,12 +4313,12 @@ msgstr "Gehitu izenburu-klipa…"
 #: src/bin/bin.cpp:3292
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Gehitu txantiloi izenburua…"
+msgstr "Gehitu txantiloiaren izenburua…"
 
 #: src/bin/bin.cpp:3294
 #, kde-format
 msgid "Create Animation…"
-msgstr "Sortu Animazioa…"
+msgstr "Sortu animazioa…"
 
 #: src/bin/bin.cpp:3297 src/mainwindow.cpp:360
 #, kde-format
