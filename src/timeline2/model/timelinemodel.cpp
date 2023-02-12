@@ -1222,7 +1222,7 @@ int TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
     return -1;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
+bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool finalMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allSubtitles.count(clipId) > 0);
@@ -1239,22 +1239,22 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestSubtitleMove(clipId, position, updateView, logUndo, logUndo, invalidateTimeline, undo, redo);
+    bool res = requestSubtitleMove(clipId, position, updateView, logUndo, logUndo, finalMove, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move subtitle"));
     }
     return res;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo)
+bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     GenTime oldPos = m_allSubtitles.at(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    Fun local_redo = [this, clipId, newPos, reloadSubFile = last && invalidateTimeline, updateView]() {
+    Fun local_redo = [this, clipId, newPos, reloadSubFile = last && finalMove, updateView]() {
         return m_subtitleModel->moveSubtitle(clipId, newPos, reloadSubFile, updateView);
     };
-    Fun local_undo = [this, oldPos, clipId, reloadSubFile = first && invalidateTimeline, updateView]() {
+    Fun local_undo = [this, oldPos, clipId, reloadSubFile = first && finalMove, updateView]() {
         return m_subtitleModel->moveSubtitle(clipId, oldPos, reloadSubFile, updateView);
     };
     bool res = local_redo();
