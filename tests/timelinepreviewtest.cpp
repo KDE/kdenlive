@@ -52,7 +52,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
     mockedDoc.setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral("avi"));
-    mockedDoc.setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral("f=avi vcodec=mjpeg progressive=1 qscale=10"));
+    mockedDoc.setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral("vcodec=mjpeg progressive=1 qscale=10"));
 
     // Create base tmp folder
     bool ok = false;
@@ -81,6 +81,13 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     QFileInfoList list = dir.entryInfoList(QDir::Files, QDir::Time);
     for (auto &file : list) {
         qDebug() << "::: FOUND FILE: " << file.fileName();
+    }
+    if (list.size() != 3) {
+        QProcess p;
+        const QString ffpath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg"));
+        p.start(ffpath, {QStringLiteral("-formats")});
+        p.waitForFinished();
+        qDebug() << "::: FFMPEG FORMATS :::\n" << p.readAllStandardOutput() << "\n----------\n" << p.readAllStandardError();
     }
     // This should create 3 output chunks
     REQUIRE(list.size() == 3);
