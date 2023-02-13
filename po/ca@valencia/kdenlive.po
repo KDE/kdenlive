@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-12 00:57+0000\n"
-"PO-Revision-Date: 2023-01-22 18:39+0100\n"
-"Last-Translator: Antoni Bella <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2023-02-13 00:56+0000\n"
+"PO-Revision-Date: 2023-02-11 12:13+0100\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Kate 22.08.3\n"
+"X-Generator: Lokalize 20.12.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -4452,10 +4452,9 @@ msgid "Create Animation…"
 msgstr "Crea una animació…"
 
 #: src/bin/bin.cpp:3310
-#, fuzzy, kde-format
-#| msgid "Add Image Sequence…"
+#, kde-format
 msgid "Add Sequence…"
-msgstr "Afig una seqüència d'imatges…"
+msgstr "Afig una seqüència…"
 
 #: src/bin/bin.cpp:3313 src/mainwindow.cpp:360
 #, kde-format
@@ -4519,17 +4518,15 @@ msgid "Detailed log"
 msgstr "Registre detallat"
 
 #: src/bin/bin.cpp:3496
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "Seqüència d'imatges"
+msgstr "Creació de seqüència nova"
 
 #: src/bin/bin.cpp:3498
-#, fuzzy, kde-format
-#| msgid "Scene %1"
+#, kde-format
 msgid "Sequence %1"
-msgstr "Escena %1"
+msgstr "Seqüència %1"
 
 #: src/bin/bin.cpp:3524
 #, kde-format
@@ -4782,16 +4779,14 @@ msgstr "Crea un clip de color"
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:155 src/bin/clipcreator.cpp:157
 #: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Sequences"
-msgstr "Seqüència d'imatges"
+msgstr "Seqüències"
 
 #: src/bin/clipcreator.cpp:136 src/bin/clipcreator.cpp:166
-#, fuzzy, kde-format
-#| msgid "Image sequence:"
+#, kde-format
 msgid "Create sequence"
-msgstr "Seqüència d'imatges:"
+msgstr "Crea una seqüència"
 
 #: src/bin/clipcreator.cpp:176
 #, kde-format
@@ -5033,31 +5028,31 @@ msgstr "Afig marcadors"
 msgid "Edit subtitle style"
 msgstr "Edita l'estil dels subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:370 src/bin/model/subtitlemodel.cpp:586
-#: src/bin/model/subtitlemodel.cpp:1455
+#: src/bin/model/subtitlemodel.cpp:370 src/bin/model/subtitlemodel.cpp:588
+#: src/bin/model/subtitlemodel.cpp:1457
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Edita els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:620 src/bin/model/subtitlemodel.cpp:1542
+#: src/bin/model/subtitlemodel.cpp:622 src/bin/model/subtitlemodel.cpp:1544
 #: src/timeline2/model/timelinefunctions.cpp:188
 #, kde-format
 msgid "Cut clip"
 msgstr "Retalla el clip"
 
-#: src/bin/model/subtitlemodel.cpp:750 src/bin/model/subtitlemodel.cpp:1474
+#: src/bin/model/subtitlemodel.cpp:752 src/bin/model/subtitlemodel.cpp:1476
 #: src/timeline2/model/timelinemodel.cpp:3493
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensiona els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:946
+#: src/bin/model/subtitlemodel.cpp:948
 #: src/timeline2/model/timelinemodel.cpp:1244
 #, kde-format
 msgid "Move subtitle"
 msgstr "Mou els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1102 src/dialogs/renderwidget.cpp:808
+#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:808
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:508
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5072,17 +5067,17 @@ msgstr ""
 "El fitxer %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/bin/model/subtitlemodel.cpp:1486
+#: src/bin/model/subtitlemodel.cpp:1488
 #, kde-format
 msgid "Add text"
 msgstr "Afig un text"
 
-#: src/bin/model/subtitlemodel.cpp:1506 src/dialogs/subtitleedit.cpp:109
+#: src/bin/model/subtitlemodel.cpp:1508 src/dialogs/subtitleedit.cpp:109
 #, kde-format
 msgid "Add subtitle"
 msgstr "Afig subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1561 src/dialogs/subtitleedit.cpp:119
+#: src/bin/model/subtitlemodel.cpp:1563 src/dialogs/subtitleedit.cpp:119
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Suprimix els subtítols"
@@ -6583,10 +6578,9 @@ msgstr "Elimina el treball"
 
 #: src/dialogs/renderwidget.cpp:2008 src/dialogs/renderwidget.cpp:2018
 #: src/dialogs/renderwidget.cpp:2040
-#, fuzzy, kde-format
-#| msgid "Render Button"
+#, kde-format
 msgid "Render Duration: %1"
-msgstr "Botó de renderització"
+msgstr "Duració de la renderització: %1"
 
 #: src/dialogs/renderwidget.cpp:2098
 #, kde-format
@@ -9281,8 +9275,7 @@ msgid "Frames"
 msgstr "Fotogrames"
 
 #: src/mainwindow.cpp:1191
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Show Subtitle Track"
 msgstr "Mostra la pista de subtítols"
 
@@ -11343,10 +11336,9 @@ msgid "%1fps"
 msgstr "%1fps"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:492
-#, fuzzy, kde-format
-#| msgid "Out Point"
+#, kde-format
 msgid "In/Out Point"
-msgstr "Punt d'eixida"
+msgstr "Punt d'entrada/eixida"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:492
 #: src/monitor/view/kdenlivemonitor.qml:229
@@ -13012,10 +13004,9 @@ msgstr ""
 
 #: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
 #: src/project/projectmanager.cpp:1198
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Sequence 1"
-msgstr "Seqüència d'imatges"
+msgstr "Seqüència 1"
 
 #: src/project/projectmanager.cpp:1177
 #, kde-format
@@ -13046,12 +13037,13 @@ msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
 #: src/project/projectmanager.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
-msgstr "No s'ha pogut crear el filtre %1"
+msgstr ""
+"No s'ha pogut crear una línia de temps a partir d'este clip:\n"
+"%1"
 
 #: src/project/transcodeseek.cpp:33 src/project/transcodeseek.cpp:46
 #, kde-format
@@ -14204,10 +14196,9 @@ msgid "Insert Clip"
 msgstr "Inserix un clip"
 
 #: src/timeline2/model/timelinemodel.cpp:1753
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "No es pot afegir un projecte dins d'ell mateix."
+msgstr "No es pot afegir una seqüència que es continga a si mateixa"
 
 #: src/timeline2/model/timelinemodel.cpp:1801
 #: src/timeline2/model/timelinemodel.cpp:1823
@@ -14424,10 +14415,10 @@ msgid "Resize mix"
 msgstr "Redimensiona la mescla"
 
 #: src/timeline2/model/timelinemodel.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Disable Timeline Preview"
+#, kde-format
 msgid "Error initializing timeline preview"
-msgstr "Desactiva la vista prèvia de la línia de temps"
+msgstr ""
+"S'ha produït un error en restablir la vista prèvia de la línia de temps"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:24
 #, kde-format
@@ -14480,10 +14471,9 @@ msgid "Wrong document ID, cannot create temporary folder"
 msgstr "ID incorrecte de document, no s'ha pogut crear el fitxer temporal"
 
 #: src/timeline2/view/previewmanager.cpp:92
-#, fuzzy, kde-format
-#| msgid "Cannot create folder %1"
+#, kde-format
 msgid "Cannot read folder %1"
-msgstr "No s'ha pogut crear la carpeta %1"
+msgstr "No s'ha pogut llegir la carpeta %1"
 
 #: src/timeline2/view/previewmanager.cpp:98
 #: src/timeline2/view/previewmanager.cpp:104
@@ -14530,8 +14520,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posició: %4, Duració: %5"
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:149
-#: src/timeline2/view/qml/SubTitle.qml:155
+#: src/timeline2/view/qml/SubTitle.qml:150
+#: src/timeline2/view/qml/SubTitle.qml:156
 #, kde-format
 msgid "Position: %1"
 msgstr "Posició: %1"
@@ -14624,8 +14614,8 @@ msgstr "%1, Posició: %2, Duració: %3"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:272
-#: src/timeline2/view/qml/SubTitle.qml:361
+#: src/timeline2/view/qml/SubTitle.qml:273
+#: src/timeline2/view/qml/SubTitle.qml:362
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Arrossega</b> per a redimensionar"
@@ -18158,10 +18148,9 @@ msgstr "Posició d'inici"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/newtimeline_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Reference frame"
+#, kde-format
 msgid "Sequence Name"
-msgstr "Fotograma de referència"
+msgstr "Nom de la seqüència"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -19644,9 +19633,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Edit Subtitle Tool"
-#~ msgstr "Eina d'edició de subtítols"
-
-#~ msgid "Main timeline"
-#~ msgstr "Línia de temps principal"

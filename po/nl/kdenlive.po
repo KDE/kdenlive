@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-12 00:57+0000\n"
+"POT-Creation-Date: 2023-02-13 00:56+0000\n"
 "PO-Revision-Date: 2023-02-11 11:16+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -5015,31 +5015,31 @@ msgstr "Markeringen toevoegen"
 msgid "Edit subtitle style"
 msgstr "Ondertitelstijl bewerken"
 
-#: src/bin/model/subtitlemodel.cpp:370 src/bin/model/subtitlemodel.cpp:586
-#: src/bin/model/subtitlemodel.cpp:1455
+#: src/bin/model/subtitlemodel.cpp:370 src/bin/model/subtitlemodel.cpp:588
+#: src/bin/model/subtitlemodel.cpp:1457
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Ondertitel bewerken"
 
-#: src/bin/model/subtitlemodel.cpp:620 src/bin/model/subtitlemodel.cpp:1542
+#: src/bin/model/subtitlemodel.cpp:622 src/bin/model/subtitlemodel.cpp:1544
 #: src/timeline2/model/timelinefunctions.cpp:188
 #, kde-format
 msgid "Cut clip"
 msgstr "Clip in tweeën knippen"
 
-#: src/bin/model/subtitlemodel.cpp:750 src/bin/model/subtitlemodel.cpp:1474
+#: src/bin/model/subtitlemodel.cpp:752 src/bin/model/subtitlemodel.cpp:1476
 #: src/timeline2/model/timelinemodel.cpp:3493
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Ondertitel van grootte wijzigen"
 
-#: src/bin/model/subtitlemodel.cpp:946
+#: src/bin/model/subtitlemodel.cpp:948
 #: src/timeline2/model/timelinemodel.cpp:1244
 #, kde-format
 msgid "Move subtitle"
 msgstr "Ondertitel verplaatsen"
 
-#: src/bin/model/subtitlemodel.cpp:1102 src/dialogs/renderwidget.cpp:808
+#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:808
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:508
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5054,17 +5054,17 @@ msgstr ""
 "Bestand %1 bestaat reeds.\n"
 "Wilt u het overschrijven?"
 
-#: src/bin/model/subtitlemodel.cpp:1486
+#: src/bin/model/subtitlemodel.cpp:1488
 #, kde-format
 msgid "Add text"
 msgstr "Tekst toevoegen"
 
-#: src/bin/model/subtitlemodel.cpp:1506 src/dialogs/subtitleedit.cpp:109
+#: src/bin/model/subtitlemodel.cpp:1508 src/dialogs/subtitleedit.cpp:109
 #, kde-format
 msgid "Add subtitle"
 msgstr "Ondertitel toevoegen"
 
-#: src/bin/model/subtitlemodel.cpp:1561 src/dialogs/subtitleedit.cpp:119
+#: src/bin/model/subtitlemodel.cpp:1563 src/dialogs/subtitleedit.cpp:119
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Ondertitel verwijderen"
@@ -14449,8 +14449,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), positie: %4, duur: %5"
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:149
-#: src/timeline2/view/qml/SubTitle.qml:155
+#: src/timeline2/view/qml/SubTitle.qml:150
+#: src/timeline2/view/qml/SubTitle.qml:156
 #, kde-format
 msgid "Position: %1"
 msgstr "Positie: %1"
@@ -14543,8 +14543,8 @@ msgstr "%1, positie: %2, duur: %3"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:272
-#: src/timeline2/view/qml/SubTitle.qml:361
+#: src/timeline2/view/qml/SubTitle.qml:273
+#: src/timeline2/view/qml/SubTitle.qml:362
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Slepen</b> om grootte te wijzigen"
