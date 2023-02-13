@@ -80,14 +80,16 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     }
     QFileInfoList list = dir.entryInfoList(QDir::Files, QDir::Time);
     for (auto &file : list) {
-        qDebug() << "::: FOUND FILE: " << file.fileName();
+        qDebug() << "::: FOUND FILE: " << dir.absoluteFilePath(file.fileName());
     }
     if (list.size() != 3) {
         QProcess p;
-        const QString ffpath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg"));
-        p.start(ffpath, {QStringLiteral("-formats")});
+        const QString ffpath = QStandardPaths::findExecutable(QStringLiteral("melt"));
+        p.start(ffpath, {QStringLiteral("-query"), QStringLiteral("formats")});
         p.waitForFinished();
-        qDebug() << "::: FFMPEG FORMATS :::\n" << p.readAllStandardOutput() << "\n----------\n" << p.readAllStandardError();
+        qDebug() << "::: MLT CODEC FORMATS :::\nMLT EXE: " << ffpath << "\nFORMATS:\n"
+                 << p.readAllStandardOutput() << "\n----------\n"
+                 << p.readAllStandardError();
     }
     // This should create 3 output chunks
     REQUIRE(list.size() == 3);
@@ -107,7 +109,6 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     }
     // 2 chunks should remain
     REQUIRE(list.size() == 2);
-
     timeline->resetPreviewManager();
     // Ensure preview project folder is deleted on close
     REQUIRE(dir.exists() == false);
