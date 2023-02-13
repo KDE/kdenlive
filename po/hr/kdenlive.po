@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-10 02:52+0000\n"
+"POT-Creation-Date: 2023-02-13 02:40+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -5029,14 +5029,14 @@ msgstr "Dodaj oznaku"
 msgid "Edit subtitle style"
 msgstr "Dodaj vodić"
 
-#: src/bin/model/subtitlemodel.cpp:371 src/bin/model/subtitlemodel.cpp:587
+#: src/bin/model/subtitlemodel.cpp:371 src/bin/model/subtitlemodel.cpp:589
 #: src/timeline2/view/timelinecontroller.cpp:4913
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "Dodaj vodić"
 
-#: src/bin/model/subtitlemodel.cpp:621
+#: src/bin/model/subtitlemodel.cpp:623
 #: src/timeline2/model/timelinefunctions.cpp:188
 #: src/timeline2/view/timelinecontroller.cpp:1789
 #, fuzzy, kde-format
@@ -5044,21 +5044,21 @@ msgstr "Dodaj vodić"
 msgid "Cut clip"
 msgstr "Izreži isječak"
 
-#: src/bin/model/subtitlemodel.cpp:751
+#: src/bin/model/subtitlemodel.cpp:753
 #: src/timeline2/model/timelinemodel.cpp:3473
 #: src/timeline2/view/timelinecontroller.cpp:4933
 #, fuzzy, kde-format
 msgid "Resize subtitle"
 msgstr "Obriši isječak"
 
-#: src/bin/model/subtitlemodel.cpp:947
+#: src/bin/model/subtitlemodel.cpp:949
 #: src/timeline2/model/timelinemodel.cpp:1226
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
 msgstr "Pomakni vodić"
 
-#: src/bin/model/subtitlemodel.cpp:1103 src/dialogs/renderwidget.cpp:800
+#: src/bin/model/subtitlemodel.cpp:1105 src/dialogs/renderwidget.cpp:800
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:499
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -14407,8 +14407,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:149
-#: src/timeline2/view/qml/SubTitle.qml:155
+#: src/timeline2/view/qml/SubTitle.qml:150
+#: src/timeline2/view/qml/SubTitle.qml:156
 #, fuzzy, kde-format
 msgid "Position: %1"
 msgstr "Pozicija"
@@ -14503,8 +14503,8 @@ msgstr "Pozicija"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:272
-#: src/timeline2/view/qml/SubTitle.qml:361
+#: src/timeline2/view/qml/SubTitle.qml:273
+#: src/timeline2/view/qml/SubTitle.qml:362
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr ""
