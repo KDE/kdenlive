@@ -448,10 +448,14 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
 {
     getProducerXML(document, includeMeta, includeProfile);
     QDomElement prod;
-    if (document.documentElement().tagName() == QLatin1String("producer")) {
+    QString tag = document.documentElement().tagName();
+    if (tag == QLatin1String("producer") || tag == QLatin1String("chain")) {
         prod = document.documentElement();
     } else {
-        prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+        prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
+        if (prod.isNull()) {
+            prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+        }
     }
     if (m_clipType != ClipType::Unknown) {
         prod.setAttribute(QStringLiteral("type"), int(m_clipType));

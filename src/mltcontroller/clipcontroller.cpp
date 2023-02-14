@@ -414,7 +414,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     // This is necessary as some properties like set.test_audio are reset on producer creation
     passProperties.pass_list(*m_properties, passList);
     delete m_properties;
-    *m_masterProducer = producer.get();
+    m_masterProducer = std::move(producer);
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
     if (!m_masterProducer->is_valid()) {
@@ -425,7 +425,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_effectStack->resetService(m_masterProducer);
-        emitProducerChanged(m_controllerBinId, producer);
+        emitProducerChanged(m_controllerBinId, m_masterProducer);
         if (m_clipType == ClipType::Unknown) {
             getInfoForProducer();
         }

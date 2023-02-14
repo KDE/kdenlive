@@ -299,7 +299,8 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     QStringList duplicates;
     bool firstClip = topLevel;
     const QUuid uuid = model->uuid();
-    pCore->bin()->shouldCheckProfile = (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && pCore->bin()->isEmpty();
+    pCore->bin()->shouldCheckProfile =
+        (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip()) && !pCore->bin()->hasUserClip();
     for (const QUrl &url : list) {
         if (!pCore->projectItemModel()->urlExists(url.toLocalFile()) || QFileInfo(url.toLocalFile()).isDir()) {
             cleanList << url;

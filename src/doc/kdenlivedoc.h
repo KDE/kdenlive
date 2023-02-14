@@ -209,8 +209,8 @@ public:
     void moveProjectData(const QString &src, const QString &dest);
 
     /** @brief Returns a pointer to the guide model of timeline uuid */
-    std::shared_ptr<MarkerListModel> getGuideModel(QUuid uuid) const;
-    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(QUuid uuid);
+    std::shared_ptr<MarkerListModel> getGuideModel(const QUuid uuid) const;
+    std::shared_ptr<MarkerSortModel> getFilteredGuideModel(const QUuid uuid);
 
     // TODO REFAC: delete */
     Render *renderer();

@@ -308,6 +308,8 @@ public:
     void emitRefreshPanel(const QString &id);
     /** @brief Returns true if there is no clip. */
     bool isEmpty() const;
+    /** @brief Returns true if there is a clip in bin. Timeline clips are ignored. */
+    bool hasUserClip() const;
     /** @brief Trigger reload of all clips. */
     void reloadAllProducers(bool reloadThumbs = true);
     /** @brief Ensure all audio thumbs have been created */

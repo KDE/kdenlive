@@ -140,10 +140,14 @@ void ClipLoadTask::processProducerProperties(const std::shared_ptr<Mlt::Producer
                        << QStringLiteral("video_index") << QStringLiteral("mlt_type") << QStringLiteral("length");
     QDomNodeList props;
 
-    if (xml.tagName() == QLatin1String("producer")) {
+    if (xml.tagName() == QLatin1String("producer") || xml.tagName() == QLatin1String("chain")) {
         props = xml.childNodes();
     } else {
-        props = xml.firstChildElement(QStringLiteral("producer")).childNodes();
+        QDomElement elem = xml.firstChildElement(QStringLiteral("chain"));
+        if (elem.isNull()) {
+            elem = xml.firstChildElement(QStringLiteral("producer"));
+        }
+        props = elem.childNodes();
     }
     for (int i = 0; i < props.count(); ++i) {
         if (props.at(i).toElement().tagName() != QStringLiteral("property")) {

@@ -913,6 +913,72 @@ bool ArchiveWidget::processProjectFile()
     return true;
 }
 
+void ArchiveWidget::processElement(QDomElement e, const QString root)
+{
+    if (e.isNull()) {
+        return;
+    }
+    bool isTimewarp = Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp");
+    QString src = Xml::getXmlProperty(e, QStringLiteral("resource"));
+    if (!src.isEmpty()) {
+        if (isTimewarp) {
+            // Timewarp needs to be handled separately.
+            src = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+        }
+        if (QFileInfo(src).isRelative()) {
+            src.prepend(root);
+        }
+        QUrl srcUrl = QUrl::fromLocalFile(src);
+        QUrl dest = m_replacementList.value(srcUrl);
+        if (!dest.isEmpty()) {
+            if (isTimewarp) {
+                Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
+                Xml::setXmlProperty(e, QStringLiteral("resource"),
+                                    QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
+            } else {
+                Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
+            }
+        }
+    }
+    src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
+    if (src.size() > 2) {
+        if (QFileInfo(src).isRelative()) {
+            src.prepend(root);
+        }
+        QUrl srcUrl = QUrl::fromLocalFile(src);
+        QUrl dest = m_replacementList.value(srcUrl);
+        if (!dest.isEmpty()) {
+            Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
+        }
+    }
+    propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
+    src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+    if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
+        bool found = false;
+        // Title with images, replace paths
+        QDomDocument titleXML;
+        titleXML.setContent(src);
+        QDomNodeList images = titleXML.documentElement().elementsByTagName(QLatin1String("item"));
+        for (int j = 0; j < images.count(); ++j) {
+            QDomNode n = images.at(j);
+            QDomElement url = n.firstChildElement(QLatin1String("content"));
+            if (!url.isNull() && url.hasAttribute(QLatin1String("url"))) {
+                QUrl srcUrl = QUrl::fromLocalFile(url.attribute(QLatin1String("url")));
+                QUrl dest = m_replacementList.value(srcUrl);
+                if (dest.isValid()) {
+                    url.setAttribute(QLatin1String("url"), dest.toLocalFile());
+                    found = true;
+                }
+            }
+        }
+        if (found) {
+            // replace content
+            Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
+        }
+    }
+    propertyProcessUrl(e, QStringLiteral("luma_file"), root);
+}
+
 QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &destPrefix)
 {
     QTreeWidgetItem *item;
@@ -959,69 +1025,11 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     // process mlt producers
     QDomNodeList prods = mlt.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < prods.count(); ++i) {
-        QDomElement e = prods.item(i).toElement();
-        if (e.isNull()) {
-            continue;
-        }
-        bool isTimewarp = Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp");
-        QString src = Xml::getXmlProperty(e, QStringLiteral("resource"));
-        if (!src.isEmpty()) {
-            if (isTimewarp) {
-                // Timewarp needs to be handled separately.
-                src = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
-            }
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                if (isTimewarp) {
-                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
-                    Xml::setXmlProperty(e, QStringLiteral("resource"),
-                                        QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
-                } else {
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
-                }
-            }
-        }
-        src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
-        if (src.size() > 2) {
-            if (QFileInfo(src).isRelative()) {
-                src.prepend(root);
-            }
-            QUrl srcUrl = QUrl::fromLocalFile(src);
-            QUrl dest = m_replacementList.value(srcUrl);
-            if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
-            }
-        }
-        propertyProcessUrl(e, QStringLiteral("kdenlive:originalurl"), root);
-        src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
-        if (!src.isEmpty() && (src.contains(QLatin1String("QGraphicsPixmapItem")) || src.contains(QLatin1String("QGraphicsSvgItem")))) {
-            bool found = false;
-            // Title with images, replace paths
-            QDomDocument titleXML;
-            titleXML.setContent(src);
-            QDomNodeList images = titleXML.documentElement().elementsByTagName(QLatin1String("item"));
-            for (int j = 0; j < images.count(); ++j) {
-                QDomNode n = images.at(j);
-                QDomElement url = n.firstChildElement(QLatin1String("content"));
-                if (!url.isNull() && url.hasAttribute(QLatin1String("url"))) {
-                    QUrl srcUrl = QUrl::fromLocalFile(url.attribute(QLatin1String("url")));
-                    QUrl dest = m_replacementList.value(srcUrl);
-                    if (dest.isValid()) {
-                        url.setAttribute(QLatin1String("url"), dest.toLocalFile());
-                        found = true;
-                    }
-                }
-            }
-            if (found) {
-                // replace content
-                Xml::setXmlProperty(e, QStringLiteral("xmldata"), titleXML.toString());
-            }
-        }
-        propertyProcessUrl(e, QStringLiteral("luma_file"), root);
+        processElement(prods.item(i).toElement(), root);
+    }
+    QDomNodeList chains = mlt.elementsByTagName(QStringLiteral("chain"));
+    for (int i = 0; i < chains.count(); ++i) {
+        processElement(chains.item(i).toElement(), root);
     }
 
     // process mlt transitions (for luma files)

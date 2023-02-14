@@ -2019,13 +2019,13 @@ void KdenliveDoc::closeTimeline(const QUuid &uuid)
     model.reset();
 }
 
-std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel(QUuid uuid)
+std::shared_ptr<MarkerSortModel> KdenliveDoc::getFilteredGuideModel(const QUuid uuid)
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     return m_timelines.value(uuid)->getFilteredGuideModel();
 }
 
-std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(QUuid uuid) const
+std::shared_ptr<MarkerListModel> KdenliveDoc::getGuideModel(const QUuid uuid) const
 {
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     return m_timelines.value(uuid)->getGuideModel();

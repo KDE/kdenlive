@@ -670,6 +670,10 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));
     }
+    QDomNodeList chains = doc.elementsByTagName(QStringLiteral("chain"));
+    for (int i = 0; i < chains.count(); ++i) {
+        chains.item(i).toElement().setTagName(QStringLiteral("producer"));
+    }
     QDomNodeList files = doc.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();

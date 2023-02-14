@@ -2524,6 +2524,66 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         Xml::removeXmlProperty(currentProd, QLatin1String("set.test_image"));
         bin.appendChild(destDoc.importNode(currentProd, true));
     }
+    // Same for chains
+    QDomNodeList chains = sourceDoc.elementsByTagName(QStringLiteral("chain"));
+    for (int i = 0; i < chains.count(); ++i) {
+        QDomElement currentProd = chains.item(i).toElement();
+        bool ok;
+        int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
+        if (!ok) {
+            const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            qDebug() << "===== CLIP NOT FOUND: " << resource;
+            if (producerSpeedResource.contains(resource)) {
+                clipId = producerSpeedResource.value(resource);
+                qDebug() << "===== GOT PREVIOUS ID: " << clipId;
+                QString baseProducerId;
+                int baseProducerClipId = 0;
+                QMapIterator<QString, int> m(producerMap);
+                while (m.hasNext()) {
+                    m.next();
+                    if (m.value() == clipId) {
+                        baseProducerId = m.key();
+                        baseProducerClipId = m.value();
+                        qDebug() << "=== FOUND PRODUCER FOR ID: " << m.key();
+                        break;
+                    }
+                }
+                if (!baseProducerId.isEmpty()) {
+                    producerSpeed.insert(currentProd.attribute(QLatin1String("id")), producerSpeed.value(baseProducerId));
+                    producerMap.insert(currentProd.attribute(QLatin1String("id")), baseProducerClipId);
+                    qDebug() << "/// INSERTING PRODUCERMAP: " << currentProd.attribute(QLatin1String("id")) << "=" << baseProducerClipId;
+                }
+                // Producer already processed;
+                continue;
+            } else {
+                clipId = pCore->projectItemModel()->getFreeClipId();
+            }
+            Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), QString::number(clipId));
+            qDebug() << "=== UNKNOWN CLIP FOUND: " << Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+        }
+        producerMap.insert(currentProd.attribute(QLatin1String("id")), clipId);
+        qDebug() << "/// INSERTING SOURCE PRODUCERMAP: " << currentProd.attribute(QLatin1String("id")) << "=" << clipId;
+        QString mltService = Xml::getXmlProperty(currentProd, QStringLiteral("mlt_service"));
+        if (mltService == QLatin1String("timewarp")) {
+            // Speed producer
+            double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
+            Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+            producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
+            qDebug() << "===== CLIP SPEED RESOURCE: " << Xml::getXmlProperty(currentProd, QLatin1String("resource")) << " = " << clipId;
+            QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+            Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
+            producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
+        }
+        if (processedProducers.contains(clipId)) {
+            // Producer already processed
+            continue;
+        }
+        processedProducers << clipId;
+        // This could be a timeline track producer, reset custom audio/video setting
+        Xml::removeXmlProperty(currentProd, QLatin1String("set.test_audio"));
+        Xml::removeXmlProperty(currentProd, QLatin1String("set.test_image"));
+        bin.appendChild(destDoc.importNode(currentProd, true));
+    }
     // Check for audio tracks
     QMap<QString, bool> tracksType;
     int audioTracks = 0;

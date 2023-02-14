@@ -4644,6 +4644,17 @@ QStringList Bin::getProxyHashList()
     return list;
 }
 
+bool Bin::hasUserClip() const
+{
+    QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
+    for (auto &c : allClips) {
+        if (c->clipType() != ClipType::Timeline) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Bin::isEmpty() const
 {
     if (m_itemModel->getRootFolder() == nullptr) {
@@ -4665,16 +4676,17 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         clipList.first()->updateTimelineOnReload();
     }
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
-        if (clip->clipType() == ClipType::Timeline) {
+        ClipType::ProducerType type = clip->clipType();
+        if (type == ClipType::Timeline) {
             continue;
         }
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, false, false);
         // Make sure we reload clip length
-        ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio || type == ClipType::Playlist) {
             xml.removeAttribute(QStringLiteral("out"));
             Xml::removeXmlProperty(xml, QStringLiteral("length"));
+            Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:duration"));
         }
         if (clip->isValid()) {
             clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
