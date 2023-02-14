@@ -344,7 +344,7 @@ public:
      * @param id the updated duration of the timeline clip
      * * @param current the uuid of the currently active timeline
      */
-    void updateSequenceClip(const QUuid &uuid, int duration, const QUuid &current, int pos);
+    void updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod);
     /** @brief Returns the bin id of the clip managing a timeline sequence changed
      * @param uuid the uuid of the timeline clip
      */

@@ -222,6 +222,8 @@ public:
     const QString sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration);
     /** @brief Ensure that sequence @destUuid is not embedded in any dependency of sequence @srcUuid */
     bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
+    /** @brief Store a newly created sequence tractor for reuse */
+    void storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor);
 
 protected:
     /** @brief Register the existence of a new element

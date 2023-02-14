@@ -491,6 +491,9 @@ public:
     void removeOverlayTrack();
     void deletePreviewTrack();
     std::shared_ptr<PreviewManager> previewManager();
+    /**  @brief We want to delete the timelineModel without removing clips from tractor
+     */
+    void prepareShutDown();
 
 protected:
     /** @brief Creates a new clip instance without inserting it.
@@ -1024,6 +1027,7 @@ protected:
     TimelineMode::EditMode m_editMode;
     bool m_closing;
     std::shared_ptr<MarkerListModel> m_guidesModel;
+    bool m_softDelete;
     std::shared_ptr<MarkerSortModel> m_guidesFilterModel;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel

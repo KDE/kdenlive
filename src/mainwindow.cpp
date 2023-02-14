@@ -4665,7 +4665,9 @@ TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabNa
 bool MainWindow::raiseTimeline(const QUuid &uuid)
 {
     bool res = m_timelineTabs->raiseTimeline(uuid);
-    pCore->bin()->updateTargets();
+    if (res) {
+        pCore->bin()->updateTargets();
+    }
     return res;
 }
 

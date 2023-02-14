@@ -126,6 +126,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, Mlt::Profile *profile, std::weak
     , m_editMode(TimelineMode::NormalEdit)
     , m_closing(false)
     , m_guidesModel(new MarkerListModel(m_undoStack, this))
+    , m_softDelete(false)
 {
     connect(m_guidesModel.get(), &MarkerListModel::categoriesChanged, this, &TimelineModel::saveGuideCategories);
     m_guidesFilterModel.reset(new MarkerSortModel(this));
@@ -157,27 +158,31 @@ void TimelineModel::prepareClose()
     QWriteLocker locker(&m_lock);
     // Unlock all tracks to allow deleting clip from tracks
     m_closing = true;
-    auto it = m_allTracks.begin();
-    while (it != m_allTracks.end()) {
-        (*it)->unlock();
-        ++it;
+    if (!m_softDelete) {
+        auto it = m_allTracks.begin();
+        while (it != m_allTracks.end()) {
+            (*it)->unlock();
+            ++it;
+        }
+        m_subtitleModel.reset();
     }
-    m_subtitleModel.reset();
     // m_subtitleModel->removeAllSubtitles();
 }
 
 TimelineModel::~TimelineModel()
 {
     m_closing = true;
-    std::vector<int> all_ids;
-    for (auto tracks : m_iteratorTable) {
-        all_ids.push_back(tracks.first);
-    }
-    for (auto tracks : all_ids) {
-        deregisterTrack_lambda(tracks)();
-    }
-    for (const auto &clip : m_allClips) {
-        clip.second->deregisterClipToBin();
+    if (!m_softDelete) {
+        std::vector<int> all_ids;
+        for (auto tracks : m_iteratorTable) {
+            all_ids.push_back(tracks.first);
+        }
+        for (auto tracks : all_ids) {
+            deregisterTrack_lambda(tracks)();
+        }
+        for (const auto &clip : m_allClips) {
+            clip.second->deregisterClipToBin();
+        }
     }
 }
 
@@ -6853,4 +6858,9 @@ void TimelineModel::makeTransparentBg(bool transparent)
     } else {
         m_blackClip->set("resource", "black");
     }
+}
+
+void TimelineModel::prepareShutDown()
+{
+    m_softDelete = true;
 }

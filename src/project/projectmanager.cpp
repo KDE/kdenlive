@@ -1492,15 +1492,13 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
     bool internalLoad = false;
 
     if (tc != nullptr && tc->is_valid()) {
-        // Mlt::Tractor s(*tc.get());
-        // qDebug() << "=== LOADING EXTRA TIMELINE SERVICE: " << s.type() << "\n\n:::::::::::::::::";
         xmlProd.reset(new Mlt::Producer(*tc.get()));
         internalLoad = true;
     } else {
-        qDebug() << "::: USING ORIGINAL PRODUCER CLIP FOR TIMELINE\n\nJJJJJJJJJJJJJJJJJJJ";
         xmlProd.reset(new Mlt::Producer(clip->originalProducer().get()));
     }
     if (xmlProd == nullptr || !xmlProd->is_valid()) {
+        qDebug() << "::: LOADING EXTRA TIMELINE ERROR\n\nXXXXXXXXXXXXXXXXXXXXXXX";
         pCore->displayBinMessage(i18n("Cannot create a timeline from this clip:\n%1", clip->url()), KMessageWidget::Information);
         m_autoSaveTimer.start();
         return false;
@@ -1565,8 +1563,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         }
         const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
         const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
-        if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
-            // TODO: act on project load failure
+        if (!constructTimelineFromTractor(timelineModel, nullptr, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+            // if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+            //  TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
             delete timeline;
             m_autoSaveTimer.start();
@@ -1581,9 +1580,18 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+
+        prod->parent().set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
+        prod->parent().set("kdenlive:maxduration", timelineModel->duration());
+        prod->parent().set("length", timelineModel->duration());
+        prod->parent().set("out", timelineModel->duration() - 1);
+        prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
+        prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+        prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
+
         clip->setProducer(prod);
-        QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
-        pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
+        //  QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
+        //  pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
         }
@@ -1693,10 +1701,20 @@ int ProjectManager::getTimelinesCount() const
 bool ProjectManager::closeTimeline(const QUuid &uuid)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
+
     if (model == nullptr) {
         qDebug() << "=== ERROR CANNOT FIND TIMELINE TO CLOSE";
         return false;
     }
+    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
+    int position;
+    if (model == m_activeTimelineModel) {
+        position = pCore->getMonitorPosition();
+    } else {
+        position = -1;
+    }
+    pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
+
     pCore->bin()->removeReferencedClips(uuid);
     m_project->closeTimeline(uuid);
     return true;

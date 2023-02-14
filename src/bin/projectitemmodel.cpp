@@ -1239,6 +1239,14 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
     m_binPlaylist->setRetainIn(m_projectTractor.get());
 }
 
+void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor)
+{
+    if (m_extraPlaylists.count(uuid) > 0) {
+        m_extraPlaylists.erase(uuid);
+    }
+    m_extraPlaylists.insert({uuid, std::move(tractor)});
+}
+
 std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
 {
     return m_projectTractor;

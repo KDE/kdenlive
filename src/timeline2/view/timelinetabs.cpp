@@ -30,15 +30,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     , m_activeTimeline(nullptr)
 {
     setTabBarAutoHide(true);
-    setTabsClosable(true);
-
-    // addTab(m_mainTimeline, i18n("Main timeline"));
-    // connectTimeline(m_mainTimeline);
-
-    // Resize to 0 the size of the close button of the main timeline, so that the user cannot close it.
-    /*if (tabBar()->tabButton(0, QTabBar::RightSide) != nullptr) {
-        tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
-    }*/
+    setTabsClosable(false);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
 }
@@ -82,12 +74,12 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabNa
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu);
     newTimeline->setModel(timelineModel, proxy);
     addTab(newTimeline, tabName);
+    setTabsClosable(count() > 1);
     return newTimeline;
 }
 
 void TimelineTabs::connectCurrent(int ix)
 {
-    qDebug() << "==== SWITCHING CURRENT TIMELINE TO: " << ix;
     QUuid previousTab = QUuid();
     int duration = 0;
     int pos = 0;
@@ -100,7 +92,7 @@ void TimelineTabs::connectCurrent(int ix)
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
-        qDebug() << "==== NO PRECIOUS TIMELINE";
+        qDebug() << "==== NO PREVIOUS TIMELINE";
     }
     if (ix < 0 || ix >= count()) {
         m_activeTimeline = nullptr;
@@ -117,7 +109,7 @@ void TimelineTabs::connectCurrent(int ix)
     pCore->window()->connectTimeline();
 
     if (!previousTab.isNull()) {
-        pCore->bin()->updateSequenceClip(previousTab, duration, m_activeTimeline->getUuid(), pos);
+        pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
     }
 }
 
@@ -145,8 +137,9 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     if (m_activeTimeline == timeline) {
         m_activeTimeline = nullptr;
     }
-    delete timeline;
     removeTab(ix);
+    delete timeline;
+    setTabsClosable(count() > 1);
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
@@ -166,14 +159,7 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
-            if (m_activeTimeline == timeline) {
-                pCore->window()->disconnectTimeline(m_activeTimeline);
-                disconnectTimeline(m_activeTimeline);
-                m_activeTimeline = nullptr;
-            }
-            timeline->unsetModel();
-            removeTab(i);
-            delete timeline;
+            closeTimelineByIndex(i);
             break;
         }
     }

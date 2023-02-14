@@ -3508,7 +3508,7 @@ void Bin::slotCreateProjectClip()
     default:
         break;
     }
-        pCore->window()->raiseBin();
+    pCore->window()->raiseBin();
 }
 
 void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
@@ -5526,19 +5526,26 @@ void Bin::removeReferencedClips(const QUuid &uuid)
     }
 }
 
-void Bin::updateSequenceClip(const QUuid &uuid, int duration, const QUuid &current, int pos)
+void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
 {
     if (m_openedPlaylists.contains(uuid)) {
         const QString binId = m_openedPlaylists.value(uuid);
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
+        if (prod) {
+            // On timeline close, update the stored sequence producer
+            std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
+            pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
+        }
         QMap<QString, QString> properties;
         properties.insert(QStringLiteral("length"), QString::number(duration));
         properties.insert(QStringLiteral("out"), QString::number(duration - 1));
         properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(duration));
         properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
         // Store general sequence properties
-        m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
+        if (pos > -1) {
+            m_doc->setSequenceProperty(uuid, QStringLiteral("position"), pos);
+        }
         // properties.insert(QStringLiteral("kdenlive:thumbnailFrame"), QString::number(pos));
         clip->setProperties(properties);
         // ThumbnailCache::get()->invalidateThumbsForClip(binId);

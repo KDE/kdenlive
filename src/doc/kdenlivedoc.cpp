@@ -2015,6 +2015,7 @@ void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemMod
 void KdenliveDoc::closeTimeline(const QUuid &uuid)
 {
     std::shared_ptr<TimelineItemModel> model = m_timelines.take(uuid);
+    model->prepareShutDown();
     model.reset();
 }
 

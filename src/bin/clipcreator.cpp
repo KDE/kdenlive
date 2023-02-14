@@ -82,27 +82,27 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
                                         const std::shared_ptr<ProjectItemModel> &model)
 {
     const QUuid uuid = QUuid::createUuid();
-    Mlt::Tractor timeline(*pCore->getProjectProfile());
-    timeline.lock();
+    std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(*pCore->getProjectProfile()));
+    timeline->lock();
     // Audio tracks
     for (int ix = 0; ix < tracks.first; ix++) {
         Mlt::Playlist pl(*pCore->getProjectProfile());
-        timeline.insert_track(pl, ix);
-        timeline.track(ix)->set("kdenlive:audio_track", 1);
-        timeline.track(ix)->set("kdenlive:timeline_active", 1);
+        timeline->insert_track(pl, ix);
+        timeline->track(ix)->set("kdenlive:audio_track", 1);
+        timeline->track(ix)->set("kdenlive:timeline_active", 1);
     }
     // Video tracks
     for (int ix = tracks.first; ix < (tracks.first + tracks.second); ix++) {
         Mlt::Playlist pl(*pCore->getProjectProfile());
-        timeline.insert_track(pl, ix);
-        timeline.track(ix)->set("kdenlive:timeline_active", 1);
+        timeline->insert_track(pl, ix);
+        timeline->track(ix)->set("kdenlive:timeline_active", 1);
     }
-    timeline.unlock();
-    timeline.set("kdenlive:uuid", uuid.toString().toUtf8().constData());
-    timeline.set("kdenlive:clipname", name.toUtf8().constData());
-    timeline.set("kdenlive:duration", 1);
-    timeline.set("kdenlive:clip_type", ClipType::Timeline);
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline.get_producer()));
+    timeline->unlock();
+    timeline->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
+    timeline->set("kdenlive:clipname", name.toUtf8().constData());
+    timeline->set("kdenlive:duration", 1);
+    timeline->set("kdenlive:clip_type", ClipType::Timeline);
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
     prod->set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", name.toUtf8().constData());
@@ -129,6 +129,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     res = model->requestAddBinClip(id, prod, folderId, undo, redo);
     if (res) {
         // Open playlist timeline
+        pCore->projectItemModel()->storeSequence(uuid.toString(), timeline);
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
         pCore->projectManager()->openTimeline(id, uuid);
