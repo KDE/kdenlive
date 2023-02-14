@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-13 02:40+0000\n"
-"PO-Revision-Date: 2023-01-31 16:16+0100\n"
+"PO-Revision-Date: 2023-02-13 12:52+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -14903,7 +14903,7 @@ msgstr "Komprimovaný archiv:"
 #: src/ui/archivewidget_ui.ui:60
 #, kde-format
 msgid "tar.gz"
-msgstr ""
+msgstr "tar.gz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:65
@@ -16943,7 +16943,7 @@ msgstr "Kliknutím otevřete složku mezipaměti."
 #: src/ui/managecache_ui.ui:223
 #, kde-format
 msgid "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, globalPage)
 #: src/ui/managecache_ui.ui:260
@@ -17023,7 +17023,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:489
 #, kde-format
 msgid "<a href='#'>/home/user/.local/share/kdenlive/.backup</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.local/share/kdenlive/.backup</a>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gBackupClean)
 #: src/ui/managecache_ui.ui:509
@@ -17053,7 +17053,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:586
 #, kde-format
 msgid "<a href='#'>/home/user/.cache/kdenlive/proxy</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.cache/kdenlive/proxy</a>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gProxyClean)
 #: src/ui/managecache_ui.ui:606
