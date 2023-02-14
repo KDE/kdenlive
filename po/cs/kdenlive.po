@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-13 00:56+0000\n"
-"PO-Revision-Date: 2023-01-31 16:16+0100\n"
+"PO-Revision-Date: 2023-02-13 12:52+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4297,10 +4297,9 @@ msgid "Create Animation…"
 msgstr ""
 
 #: src/bin/bin.cpp:3310
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Add Sequence…"
-msgstr "Obrázková sekvence"
+msgstr "Přidat sekvenci..."
 
 #: src/bin/bin.cpp:3313 src/mainwindow.cpp:360
 #, kde-format
@@ -4364,17 +4363,15 @@ msgid "Detailed log"
 msgstr ""
 
 #: src/bin/bin.cpp:3496
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "Obrázková sekvence"
+msgstr "Vytvořit novou sekvenci"
 
 #: src/bin/bin.cpp:3498
-#, fuzzy, kde-format
-#| msgid "Scene %1"
+#, kde-format
 msgid "Sequence %1"
-msgstr "Scéna %1"
+msgstr "Sekvence %1"
 
 #: src/bin/bin.cpp:3524
 #, kde-format
@@ -4627,16 +4624,14 @@ msgstr ""
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:155 src/bin/clipcreator.cpp:157
 #: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Sequences"
-msgstr "Obrázková sekvence"
+msgstr "Sekvence"
 
 #: src/bin/clipcreator.cpp:136 src/bin/clipcreator.cpp:166
-#, fuzzy, kde-format
-#| msgid "Image sequence:"
+#, kde-format
 msgid "Create sequence"
-msgstr "Obrázková sekvence:"
+msgstr "Vytvářejte sekvence"
 
 #: src/bin/clipcreator.cpp:176
 #, kde-format
@@ -6390,10 +6385,9 @@ msgstr "Smazat úlohu"
 
 #: src/dialogs/renderwidget.cpp:2008 src/dialogs/renderwidget.cpp:2018
 #: src/dialogs/renderwidget.cpp:2040
-#, fuzzy, kde-format
-#| msgid "Render Button"
+#, kde-format
 msgid "Render Duration: %1"
-msgstr "Tlačítko renderování"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:2098
 #, kde-format
@@ -9000,10 +8994,9 @@ msgid "Frames"
 msgstr "Snímky"
 
 #: src/mainwindow.cpp:1191
-#, fuzzy, kde-format
-#| msgid "Show Title Bars"
+#, kde-format
 msgid "Show Subtitle Track"
-msgstr "Zobrazit hlavičkové sloupce"
+msgstr ""
 
 #: src/mainwindow.cpp:1198 src/titler/titlewidget.cpp:370
 #: src/titler/titlewidget.cpp:373
@@ -11013,10 +11006,9 @@ msgid "%1fps"
 msgstr "%1fps"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:492
-#, fuzzy, kde-format
-#| msgid "Out Point"
+#, kde-format
 msgid "In/Out Point"
-msgstr "Koncový bod"
+msgstr ""
 
 #: src/monitor/view/kdenliveclipmonitor.qml:492
 #: src/monitor/view/kdenlivemonitor.qml:229
@@ -12567,10 +12559,9 @@ msgstr ""
 
 #: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
 #: src/project/projectmanager.cpp:1198
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Sequence 1"
-msgstr "Obrázková sekvence"
+msgstr "Sekvence 1"
 
 #: src/project/projectmanager.cpp:1177
 #, kde-format
@@ -12599,15 +12590,12 @@ msgid "Project profile changed"
 msgstr ""
 
 #: src/project/projectmanager.cpp:1504
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot create backup copy:\n"
-#| "%1"
+#, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
 msgstr ""
-"Nelze vytvořit záložní kopii:\n"
+"Z tohoto klipu nelze vytvořit časovou osu:\n"
 "%1"
 
 #: src/project/transcodeseek.cpp:33 src/project/transcodeseek.cpp:46
@@ -13700,7 +13688,7 @@ msgstr ""
 #: src/timeline2/model/timelinemodel.cpp:1753
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr ""
+msgstr "Nelze vložit sekvenci obsahující sebe samu"
 
 #: src/timeline2/model/timelinemodel.cpp:1801
 #: src/timeline2/model/timelinemodel.cpp:1823
@@ -13918,10 +13906,9 @@ msgid "Resize mix"
 msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:6773
-#, fuzzy, kde-format
-#| msgid "Disable Timeline Preview"
+#, kde-format
 msgid "Error initializing timeline preview"
-msgstr "Zakázat náhled na časovou osu"
+msgstr "Chyba během inicializace náhledu časové osy"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:24
 #, kde-format
@@ -13973,10 +13960,9 @@ msgid "Wrong document ID, cannot create temporary folder"
 msgstr "Chybné ID dokumentu, nelze vytvořit dočasnou složku"
 
 #: src/timeline2/view/previewmanager.cpp:92
-#, fuzzy, kde-format
-#| msgid "Cannot create folder %1"
+#, kde-format
 msgid "Cannot read folder %1"
-msgstr "Nelze vytvořit složku %1"
+msgstr "Nelze přečíst složku %1"
 
 #: src/timeline2/view/previewmanager.cpp:98
 #: src/timeline2/view/previewmanager.cpp:104
@@ -15277,7 +15263,7 @@ msgstr "Komprimovaný archiv:"
 #: src/ui/archivewidget_ui.ui:60
 #, kde-format
 msgid "tar.gz"
-msgstr ""
+msgstr "tar.gz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:65
@@ -17319,7 +17305,7 @@ msgstr "Kliknutím otevřete složku mezipaměti."
 #: src/ui/managecache_ui.ui:223
 #, kde-format
 msgid "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, globalPage)
 #: src/ui/managecache_ui.ui:260
@@ -17399,7 +17385,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:489
 #, kde-format
 msgid "<a href='#'>/home/user/.local/share/kdenlive/.backup</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.local/share/kdenlive/.backup</a>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gBackupClean)
 #: src/ui/managecache_ui.ui:509
@@ -17429,7 +17415,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:586
 #, kde-format
 msgid "<a href='#'>/home/user/.cache/kdenlive/proxy</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.cache/kdenlive/proxy</a>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gProxyClean)
 #: src/ui/managecache_ui.ui:606
@@ -17580,7 +17566,7 @@ msgstr ""
 #: src/ui/newtimeline_ui.ui:47
 #, kde-format
 msgid "Sequence Name"
-msgstr ""
+msgstr "Název sekvence"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
