@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-13 00:56+0000\n"
+"POT-Creation-Date: 2023-02-15 00:58+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -4432,7 +4432,7 @@ msgid "Create bin folder"
 msgstr "建立檔案夾"
 
 #: src/bin/bin.cpp:2415 src/bin/bin.cpp:2427 src/bin/bin.cpp:3363
-#: src/timeline2/model/timelinemodel.cpp:2017
+#: src/timeline2/model/timelinemodel.cpp:2022
 #, kde-format
 msgid "Delete Clip"
 msgstr "移除素材"
@@ -4660,7 +4660,7 @@ msgid "Please set a default application to open audio files"
 msgstr "請在 Kdenlive 配置視窗中指定用於開啟聲訊的程式"
 
 #: src/bin/bin.cpp:4193 src/core.cpp:290 src/doc/kdenlivedoc.cpp:166
-#: src/jobs/cliploadtask.cpp:488 src/jobs/filtertask.cpp:84
+#: src/jobs/cliploadtask.cpp:492 src/jobs/filtertask.cpp:84
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -4720,31 +4720,31 @@ msgstr "允許伸縮"
 msgid "Disable proxies"
 msgstr "關閉素材"
 
-#: src/bin/bin.cpp:4755
+#: src/bin/bin.cpp:4767
 #, fuzzy, kde-format
 msgid "Rebuild proxies"
 msgstr "重新組合"
 
-#: src/bin/bin.cpp:4988
+#: src/bin/bin.cpp:5000
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:5004
+#: src/bin/bin.cpp:5016
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "新增軌道"
 
-#: src/bin/bin.cpp:5006
+#: src/bin/bin.cpp:5018
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "編輯參照線"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Don't blank mask"
 msgid "Don't ask again"
@@ -4752,26 +4752,26 @@ msgstr "不使用遮罩"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5025
+#: src/bin/bin.cpp:5037
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5037 src/mainwindow.cpp:2630
+#: src/bin/bin.cpp:5049 src/mainwindow.cpp:2630
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要添加記號的素材"
 
-#: src/bin/bin.cpp:5135
+#: src/bin/bin.cpp:5147
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not find master clip"
 msgstr "添加素材"
 
-#: src/bin/bin.cpp:5318 src/bin/clipcreator.cpp:241
+#: src/bin/bin.cpp:5330 src/bin/clipcreator.cpp:242
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4779,45 +4779,45 @@ msgctxt "@action"
 msgid "Add clip"
 msgstr "添加素材"
 
-#: src/bin/bin.cpp:5340
+#: src/bin/bin.cpp:5352
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5342
+#: src/bin/bin.cpp:5354
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5407 src/bin/bin.cpp:5481
+#: src/bin/bin.cpp:5419 src/bin/bin.cpp:5493
 #, fuzzy, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "添加轉場特效到素材"
 
-#: src/bin/bin.cpp:5428
+#: src/bin/bin.cpp:5440
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "移除所選素材"
 
-#: src/bin/bin.cpp:5430
+#: src/bin/bin.cpp:5442
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr "添加轉場特效到素材"
 
-#: src/bin/bin.cpp:5440 src/mltcontroller/clippropertiescontroller.cpp:630
+#: src/bin/bin.cpp:5452 src/mltcontroller/clippropertiescontroller.cpp:630
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "視訊軌"
 
-#: src/bin/bin.cpp:5455
+#: src/bin/bin.cpp:5467
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "聲訊軌"
 
-#: src/bin/bin.cpp:5508
+#: src/bin/bin.cpp:5520
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
@@ -4852,42 +4852,42 @@ msgid "Create color clip"
 msgstr "色彩素材"
 
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
-#: src/bin/clipcreator.cpp:155 src/bin/clipcreator.cpp:157
+#: src/bin/clipcreator.cpp:156 src/bin/clipcreator.cpp:158
 #: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequences"
 msgstr "圖片串列"
 
-#: src/bin/clipcreator.cpp:136 src/bin/clipcreator.cpp:166
+#: src/bin/clipcreator.cpp:137 src/bin/clipcreator.cpp:167
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create sequence"
 msgstr "圖片串列"
 
-#: src/bin/clipcreator.cpp:176
+#: src/bin/clipcreator.cpp:177
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:176
+#: src/bin/clipcreator.cpp:177
 #, fuzzy, kde-format
 msgid "Cannot create clip"
 msgstr "無法寫入檔案 %1"
 
-#: src/bin/clipcreator.cpp:256
+#: src/bin/clipcreator.cpp:257
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Create slideshow clip"
 msgstr "幻燈片放映素材"
 
-#: src/bin/clipcreator.cpp:288
+#: src/bin/clipcreator.cpp:289
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create title template"
 msgstr "建立新的編碼方案"
 
-#: src/bin/clipcreator.cpp:311
+#: src/bin/clipcreator.cpp:313
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -4899,13 +4899,13 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/clipcreator.cpp:334 src/core.cpp:901
+#: src/bin/clipcreator.cpp:336 src/core.cpp:901
 #: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Loading clips"
 msgstr "正在載入素材"
 
-#: src/bin/clipcreator.cpp:435
+#: src/bin/clipcreator.cpp:437
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -4914,18 +4914,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:439
+#: src/bin/clipcreator.cpp:441
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removable device"
 msgstr "移除檔案"
 
-#: src/bin/clipcreator.cpp:461
+#: src/bin/clipcreator.cpp:463
 #, fuzzy, kde-format
 msgid "Loading done"
 msgstr "清理本項目"
 
-#: src/bin/clipcreator.cpp:473 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:475 src/dialogs/clipcreationdialog.cpp:552
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5138,14 +5138,14 @@ msgid "Cut clip"
 msgstr "分割素材"
 
 #: src/bin/model/subtitlemodel.cpp:752 src/bin/model/subtitlemodel.cpp:1476
-#: src/timeline2/model/timelinemodel.cpp:3493
+#: src/timeline2/model/timelinemodel.cpp:3498
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Resize subtitle"
 msgstr "移除參照線"
 
 #: src/bin/model/subtitlemodel.cpp:948
-#: src/timeline2/model/timelinemodel.cpp:1244
+#: src/timeline2/model/timelinemodel.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
@@ -5185,55 +5185,55 @@ msgid "Delete subtitle"
 msgstr "移除參照線"
 
 #: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
-#: src/doc/kdenlivedoc.cpp:2050 src/project/dialogs/archivewidget.cpp:214
+#: src/doc/kdenlivedoc.cpp:2051 src/project/dialogs/archivewidget.cpp:214
 #: src/project/projectmanager.cpp:1297
 #, kde-format
 msgid "Untitled"
 msgstr "無標題"
 
-#: src/bin/projectclip.cpp:486
+#: src/bin/projectclip.cpp:490
 #, fuzzy, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:572
+#: src/bin/projectclip.cpp:576
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:835
+#: src/bin/projectclip.cpp:839
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1052 src/jobs/cliploadtask.cpp:297
+#: src/bin/projectclip.cpp:1056 src/jobs/cliploadtask.cpp:301
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "無效的素材"
 
-#: src/bin/projectclip.cpp:1890
+#: src/bin/projectclip.cpp:1894
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1891
+#: src/bin/projectclip.cpp:1895
 #, kde-format
 msgid "Merge"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2365
+#: src/bin/projectclip.cpp:2369
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "編輯特效 %1"
 
-#: src/bin/projectclip.cpp:2390
+#: src/bin/projectclip.cpp:2394
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -5844,16 +5844,16 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/dialogs/encodingprofilesdialog.cpp:349
 #: src/dialogs/kdenlivesettingsdialog.cpp:674
-#: src/project/dialogs/projectsettings.cpp:871
-#: src/project/dialogs/projectsettings.cpp:873
+#: src/project/dialogs/projectsettings.cpp:875
+#: src/project/dialogs/projectsettings.cpp:877
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "自動"
 
 #: src/dialogs/encodingprofilesdialog.cpp:328
-#: src/project/dialogs/projectsettings.cpp:903
-#: src/project/dialogs/projectsettings.cpp:934
+#: src/project/dialogs/projectsettings.cpp:907
+#: src/project/dialogs/projectsettings.cpp:938
 #, fuzzy, kde-format
 msgid "Current Settings"
 msgstr "項目設定"
@@ -5925,7 +5925,7 @@ msgstr "匯入標記"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1447
+#: src/project/projectmanager.cpp:1464
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4894
@@ -7101,7 +7101,7 @@ msgstr ""
 #: src/dialogs/wizard.cpp:86 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:592
 #: src/project/dialogs/archivewidget.cpp:763
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1191
 #, kde-format
 msgid "Abort"
 msgstr "中止"
@@ -7151,7 +7151,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:168 src/project/cliptranscode.cpp:270
 #: src/project/dialogs/archivewidget.cpp:784
-#: src/project/dialogs/archivewidget.cpp:1162 src/ui/renderwidget_ui.ui:363
+#: src/project/dialogs/archivewidget.cpp:1170 src/ui/renderwidget_ui.ui:363
 #: src/ui/renderwidget_ui.ui:934 src/ui/renderwidget_ui.ui:1092
 #, kde-format
 msgid "Close"
@@ -7751,13 +7751,13 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2089 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "紅色"
 
-#: src/doc/kdenlivedoc.cpp:2090 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7765,23 +7765,23 @@ msgstr "紅色"
 msgid "Green"
 msgstr "綠色"
 
-#: src/doc/kdenlivedoc.cpp:2091 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2092 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "藍色"
 
-#: src/doc/kdenlivedoc.cpp:2092 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2093 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "黃色"
 
-#: src/doc/kdenlivedoc.cpp:2093
+#: src/doc/kdenlivedoc.cpp:2094
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2273
+#: src/doc/kdenlivedoc.cpp:2274
 #, fuzzy, kde-format
 msgid "Category %1:%2:%3"
 msgstr "類別"
@@ -8171,17 +8171,17 @@ msgstr "無法寫入檔案 %1"
 msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:516
+#: src/jobs/cliploadtask.cpp:520
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:658
+#: src/jobs/cliploadtask.cpp:662
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:719
+#: src/jobs/cliploadtask.cpp:723
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -9983,7 +9983,7 @@ msgstr "黏貼特效"
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1769 src/timeline2/model/timelinemodel.cpp:4265
+#: src/mainwindow.cpp:1769 src/timeline2/model/timelinemodel.cpp:4270
 #: src/timeline2/view/timelinecontroller.cpp:797
 #, kde-format
 msgid "Delete Track"
@@ -10092,7 +10092,7 @@ msgstr "匯入標記"
 msgid "Export Subtitle File…"
 msgstr "添加參照線"
 
-#: src/mainwindow.cpp:1829 src/timeline2/model/timelinemodel.cpp:2021
+#: src/mainwindow.cpp:1829 src/timeline2/model/timelinemodel.cpp:2026
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete Subtitle"
@@ -10806,7 +10806,7 @@ msgstr "素材屬性"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1009
-#: src/project/dialogs/projectsettings.cpp:837 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:841 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr "描述資訊"
@@ -12081,16 +12081,16 @@ msgid_plural "You have %1 missing clips in your project."
 msgstr[0] ""
 
 #: src/project/dialogs/archivewidget.cpp:210
-#: src/project/dialogs/archivewidget.cpp:1329
-#: src/project/dialogs/archivewidget.cpp:1371
+#: src/project/dialogs/archivewidget.cpp:1337
+#: src/project/dialogs/archivewidget.cpp:1379
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] ""
 
 #: src/project/dialogs/archivewidget.cpp:216
-#: src/project/dialogs/archivewidget.cpp:1331
-#: src/project/dialogs/archivewidget.cpp:1373
+#: src/project/dialogs/archivewidget.cpp:1339
+#: src/project/dialogs/archivewidget.cpp:1381
 #, fuzzy, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -12104,7 +12104,7 @@ msgstr "封存"
 
 #: src/project/dialogs/archivewidget.cpp:228
 #: src/project/dialogs/archivewidget.cpp:782
-#: src/project/dialogs/archivewidget.cpp:1153
+#: src/project/dialogs/archivewidget.cpp:1161
 #, kde-format
 msgid "There was an error processing project file"
 msgstr ""
@@ -12183,7 +12183,7 @@ msgstr "請稍等..."
 #: src/project/dialogs/archivewidget.cpp:635
 #: src/project/dialogs/archivewidget.cpp:669
 #: src/project/dialogs/archivewidget.cpp:755
-#: src/project/dialogs/archivewidget.cpp:1180
+#: src/project/dialogs/archivewidget.cpp:1188
 #, fuzzy, kde-format
 msgid "Cannot create directory %1"
 msgstr "無法寫入檔案 %1"
@@ -12211,29 +12211,29 @@ msgstr ""
 msgid "There was an error while copying the files: %1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1109
+#: src/project/dialogs/archivewidget.cpp:1117
 #, fuzzy, kde-format
 msgid "Archiving %1"
 msgstr "請稍等..."
 
-#: src/project/dialogs/archivewidget.cpp:1150
+#: src/project/dialogs/archivewidget.cpp:1158
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1182
+#: src/project/dialogs/archivewidget.cpp:1190
 #, fuzzy, kde-format
 msgid "Extracting…"
 msgstr "請稍等..."
 
-#: src/project/dialogs/archivewidget.cpp:1248
+#: src/project/dialogs/archivewidget.cpp:1256
 #, fuzzy, kde-format
 msgid "Cannot open project file %1"
 msgstr "無法寫入檔案 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1248
+#: src/project/dialogs/archivewidget.cpp:1256
 #, fuzzy, kde-format
 msgid "Cannot open file"
 msgstr "無法移動特效"
@@ -12681,30 +12681,30 @@ msgstr ""
 "建議您在執行此作業前儲存該項目，這可能在轉變過程中導致某些問題。\n"
 " 您是否要繼續？"
 
-#: src/project/dialogs/projectsettings.cpp:750
-#: src/project/dialogs/projectsettings.cpp:765
+#: src/project/dialogs/projectsettings.cpp:754
+#: src/project/dialogs/projectsettings.cpp:769
 #: src/project/dialogs/slideshowclip.cpp:321
 #, fuzzy, kde-format
 msgid "1 image found"
 msgid_plural "%1 images found"
 msgstr[0] "找到 1 張圖片"
 
-#: src/project/dialogs/projectsettings.cpp:781
+#: src/project/dialogs/projectsettings.cpp:785
 #, fuzzy, kde-format
 msgid "Project folder: %1"
 msgstr "項目檔案夾"
 
-#: src/project/dialogs/projectsettings.cpp:782
+#: src/project/dialogs/projectsettings.cpp:786
 #, fuzzy, kde-format
 msgid "Project profile: %1"
 msgstr "項目檔案"
 
-#: src/project/dialogs/projectsettings.cpp:783
+#: src/project/dialogs/projectsettings.cpp:787
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:837
+#: src/project/dialogs/projectsettings.cpp:841
 #, fuzzy, kde-format
 #| msgid "Metadata"
 msgctxt "@title:window"
@@ -13114,7 +13114,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "項目檔案"
 
-#: src/project/projectmanager.cpp:1432
+#: src/project/projectmanager.cpp:1449
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -13122,12 +13122,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "匯出檔案已經存在。您是否要覆寫它?"
 
-#: src/project/projectmanager.cpp:1457
+#: src/project/projectmanager.cpp:1474
 #, fuzzy, kde-format
 msgid "Project profile changed"
 msgstr "項目檔案"
 
-#: src/project/projectmanager.cpp:1504
+#: src/project/projectmanager.cpp:1519
 #, fuzzy, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14187,7 +14187,7 @@ msgid "Delete clips on track"
 msgstr "移除軌道"
 
 #: src/timeline2/model/timelineitemmodel.cpp:135
-#: src/timeline2/model/timelinemodel.cpp:4156
+#: src/timeline2/model/timelinemodel.cpp:4161
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -14212,153 +14212,153 @@ msgstr "移除記號"
 msgid "Could not setup track compositing, check your install"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:907
-#: src/timeline2/model/timelinemodel.cpp:1034
+#: src/timeline2/model/timelinemodel.cpp:912
+#: src/timeline2/model/timelinemodel.cpp:1039
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to apply the mix"
 msgstr "選取工具"
 
-#: src/timeline2/model/timelinemodel.cpp:1030
+#: src/timeline2/model/timelinemodel.cpp:1035
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "開始"
 
-#: src/timeline2/model/timelinemodel.cpp:1030
+#: src/timeline2/model/timelinemodel.cpp:1035
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "結束"
 
-#: src/timeline2/model/timelinemodel.cpp:1030
+#: src/timeline2/model/timelinemodel.cpp:1035
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1097
+#: src/timeline2/model/timelinemodel.cpp:1102
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create mix"
 msgstr "建立群組"
 
-#: src/timeline2/model/timelinemodel.cpp:1176
-#: src/timeline2/model/timelinemodel.cpp:1206
+#: src/timeline2/model/timelinemodel.cpp:1181
+#: src/timeline2/model/timelinemodel.cpp:1211
 #, kde-format
 msgid "Move clip"
 msgstr "移動素材"
 
-#: src/timeline2/model/timelinemodel.cpp:1695
-#: src/timeline2/model/timelinemodel.cpp:1785
-#: src/timeline2/model/timelinemodel.cpp:1808
-#: src/timeline2/model/timelinemodel.cpp:1831
+#: src/timeline2/model/timelinemodel.cpp:1700
+#: src/timeline2/model/timelinemodel.cpp:1790
+#: src/timeline2/model/timelinemodel.cpp:1813
+#: src/timeline2/model/timelinemodel.cpp:1836
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1700
+#: src/timeline2/model/timelinemodel.cpp:1705
 #, fuzzy, kde-format
 #| msgid "Insert clip"
 msgid "Insert Clip"
 msgstr "插入素材"
 
-#: src/timeline2/model/timelinemodel.cpp:1753
+#: src/timeline2/model/timelinemodel.cpp:1758
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1801
-#: src/timeline2/model/timelinemodel.cpp:1823
+#: src/timeline2/model/timelinemodel.cpp:1806
+#: src/timeline2/model/timelinemodel.cpp:1828
 #, fuzzy, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "關鍵影格與素材同步"
 
-#: src/timeline2/model/timelinemodel.cpp:1907
+#: src/timeline2/model/timelinemodel.cpp:1912
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1944
+#: src/timeline2/model/timelinemodel.cpp:1949
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1952
+#: src/timeline2/model/timelinemodel.cpp:1957
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2014
+#: src/timeline2/model/timelinemodel.cpp:2019
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "移動組合"
 
-#: src/timeline2/model/timelinemodel.cpp:2019
+#: src/timeline2/model/timelinemodel.cpp:2024
 #, fuzzy, kde-format
 #| msgid "Compositing"
 msgid "Delete Composition"
 msgstr "混合方式"
 
-#: src/timeline2/model/timelinemodel.cpp:2171
-#: src/timeline2/model/timelinemodel.cpp:2333
+#: src/timeline2/model/timelinemodel.cpp:2176
+#: src/timeline2/model/timelinemodel.cpp:2338
 #: src/timeline2/view/timelinecontroller.cpp:4110
 #, kde-format
 msgid "Move group"
 msgstr "移動組合"
 
-#: src/timeline2/model/timelinemodel.cpp:2939
+#: src/timeline2/model/timelinemodel.cpp:2944
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Resize group"
 msgstr "移動組合"
 
-#: src/timeline2/model/timelinemodel.cpp:3063
+#: src/timeline2/model/timelinemodel.cpp:3068
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize clip speed"
 msgstr "調整素材大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3210
+#: src/timeline2/model/timelinemodel.cpp:3215
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "移除檔案"
 
-#: src/timeline2/model/timelinemodel.cpp:3212
+#: src/timeline2/model/timelinemodel.cpp:3217
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "移除檔案"
 
-#: src/timeline2/model/timelinemodel.cpp:3489
+#: src/timeline2/model/timelinemodel.cpp:3494
 #, kde-format
 msgid "Resize clip"
 msgstr "調整素材大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3491
+#: src/timeline2/model/timelinemodel.cpp:3496
 #, fuzzy, kde-format
 msgid "Resize composition"
 msgstr "逆向執行轉場特效"
 
-#: src/timeline2/model/timelinemodel.cpp:3808
+#: src/timeline2/model/timelinemodel.cpp:3813
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "調整素材大小"
 
-#: src/timeline2/model/timelinemodel.cpp:3810
+#: src/timeline2/model/timelinemodel.cpp:3815
 #, fuzzy, kde-format
 msgid "Ripple resize composition"
 msgstr "逆向執行轉場特效"
 
-#: src/timeline2/model/timelinemodel.cpp:3812
+#: src/timeline2/model/timelinemodel.cpp:3817
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Ripple resize subtitle"
 msgstr "移除參照線"
 
-#: src/timeline2/model/timelinemodel.cpp:3954
+#: src/timeline2/model/timelinemodel.cpp:3959
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgctxt "Undo/Redo menu text"
@@ -14366,144 +14366,144 @@ msgid "Slip clip"
 msgid_plural "Slip clips"
 msgstr[0] "幻燈片放映素材"
 
-#: src/timeline2/model/timelinemodel.cpp:3989
+#: src/timeline2/model/timelinemodel.cpp:3994
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Slip clip"
 msgstr "幻燈片放映素材"
 
-#: src/timeline2/model/timelinemodel.cpp:4024
+#: src/timeline2/model/timelinemodel.cpp:4029
 #, kde-format
 msgid "Group clips"
 msgstr "組合素材"
 
-#: src/timeline2/model/timelinemodel.cpp:4109
-#: src/timeline2/model/timelinemodel.cpp:4125
+#: src/timeline2/model/timelinemodel.cpp:4114
+#: src/timeline2/model/timelinemodel.cpp:4130
 #, kde-format
 msgid "Ungroup clips"
 msgstr "取消組合"
 
-#: src/timeline2/model/timelinemodel.cpp:4275
+#: src/timeline2/model/timelinemodel.cpp:4280
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot delete last track in timeline"
 msgstr "無法在已經鎖定的軌道中移除空白空間"
 
-#: src/timeline2/model/timelinemodel.cpp:4521
+#: src/timeline2/model/timelinemodel.cpp:4526
 #, fuzzy, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "無法添加視訊濾鏡​​到這個素材"
 
-#: src/timeline2/model/timelinemodel.cpp:4528
+#: src/timeline2/model/timelinemodel.cpp:4533
 #, fuzzy, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "無法添加視訊濾鏡​​到這個素材"
 
-#: src/timeline2/model/timelinemodel.cpp:4548
+#: src/timeline2/model/timelinemodel.cpp:4553
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to master track"
 msgstr "無法將素材貼到所選位置"
 
-#: src/timeline2/model/timelinemodel.cpp:4554
+#: src/timeline2/model/timelinemodel.cpp:4559
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to selected track"
 msgstr "無法將素材貼到所選位置"
 
-#: src/timeline2/model/timelinemodel.cpp:4580
+#: src/timeline2/model/timelinemodel.cpp:4585
 #: src/timeline2/view/timelinecontroller.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "無法添加視訊濾鏡​​到這個素材"
 
-#: src/timeline2/model/timelinemodel.cpp:4615
+#: src/timeline2/model/timelinemodel.cpp:4620
 #, fuzzy, kde-format
 #| msgid "Adjust levels"
 msgid "Adjust Fade"
 msgstr "調整色階"
 
-#: src/timeline2/model/timelinemodel.cpp:4917
+#: src/timeline2/model/timelinemodel.cpp:4922
 #, fuzzy, kde-format
 #| msgid "Compositing"
 msgid "Insert Composition"
 msgstr "混合方式"
 
-#: src/timeline2/model/timelinemodel.cpp:5086
+#: src/timeline2/model/timelinemodel.cpp:5091
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "Move composition"
 msgstr "更多選項"
 
-#: src/timeline2/model/timelinemodel.cpp:5739
+#: src/timeline2/model/timelinemodel.cpp:5744
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "允許伸縮"
 
-#: src/timeline2/model/timelinemodel.cpp:5812
+#: src/timeline2/model/timelinemodel.cpp:5817
 #, fuzzy, kde-format
 #| msgid "Captured files"
 msgid "Change speed failed"
 msgstr "擷取的檔案"
 
-#: src/timeline2/model/timelinemodel.cpp:5822
+#: src/timeline2/model/timelinemodel.cpp:5827
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change clip speed"
 msgstr "修改素材類別"
 
-#: src/timeline2/model/timelinemodel.cpp:6201
+#: src/timeline2/model/timelinemodel.cpp:6206
 #: src/timeline2/view/qml/timeline.qml:1153
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
 msgid "Lock track"
 msgstr "軌道"
 
-#: src/timeline2/model/timelinemodel.cpp:6206
+#: src/timeline2/model/timelinemodel.cpp:6211
 #: src/timeline2/view/qml/timeline.qml:1153
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, fuzzy, kde-format
 msgid "Unlock track"
 msgstr "軌道"
 
-#: src/timeline2/model/timelinemodel.cpp:6240
-#: src/timeline2/model/timelinemodel.cpp:6302
+#: src/timeline2/model/timelinemodel.cpp:6245
+#: src/timeline2/model/timelinemodel.cpp:6307
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change composition"
 msgstr "軸心座標（X）"
 
-#: src/timeline2/model/timelinemodel.cpp:6254
+#: src/timeline2/model/timelinemodel.cpp:6259
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6447
-#: src/timeline2/model/timelinemodel.cpp:6484
-#: src/timeline2/model/timelinemodel.cpp:6517
-#: src/timeline2/model/timelinemodel.cpp:6598
+#: src/timeline2/model/timelinemodel.cpp:6452
+#: src/timeline2/model/timelinemodel.cpp:6489
+#: src/timeline2/model/timelinemodel.cpp:6522
+#: src/timeline2/model/timelinemodel.cpp:6603
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "無法移動素材到位置 %1"
 
-#: src/timeline2/model/timelinemodel.cpp:6458
-#: src/timeline2/model/timelinemodel.cpp:6492
-#: src/timeline2/model/timelinemodel.cpp:6536
-#: src/timeline2/model/timelinemodel.cpp:6622
+#: src/timeline2/model/timelinemodel.cpp:6463
+#: src/timeline2/model/timelinemodel.cpp:6497
+#: src/timeline2/model/timelinemodel.cpp:6541
+#: src/timeline2/model/timelinemodel.cpp:6627
 #, fuzzy, kde-format
 msgid "Cannot resize mix"
 msgstr "無法寫入檔案 %1"
 
-#: src/timeline2/model/timelinemodel.cpp:6636
+#: src/timeline2/model/timelinemodel.cpp:6641
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "調整素材大小"
 
-#: src/timeline2/model/timelinemodel.cpp:6773
+#: src/timeline2/model/timelinemodel.cpp:6778
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"
