@@ -111,10 +111,10 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QStringList handledUrls;
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         ClipType::ProducerType t = clip->clipType();
-        QString id = clip->binId();
-        if (t == ClipType::Color) {
+        if (t == ClipType::Color || t == ClipType::Timeline) {
             continue;
         }
+        const QString id = clip->binId();
         const QString url = clip->clipUrl();
         if (t == ClipType::SlideShow) {
             // TODO: Slideshow files
