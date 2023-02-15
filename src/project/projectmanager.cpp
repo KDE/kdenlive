@@ -782,6 +782,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     // Raise last active timeline
     QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
     if (!activeUuid.isNull()) {
+        activeUuid = m_project->uuid();
+    }
+    if (!activeUuid.isNull()) {
         const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
         if (!binId.isEmpty()) {
             openTimeline(binId, activeUuid);
@@ -1213,8 +1216,8 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         prod->parent().set("out", projectDuration);
     }
     prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
-    QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
-    pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timelineModel->tractor()->get_service(), 0);
+    // QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
+    // pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timelineModel->tractor()->get_service(), 0);
     pCore->projectItemModel()->requestAddBinClip(mainId, prod, folderId, undo, redo);
     if (pCore->window()) {
         pCore->bin()->registerSequence(uuid, mainId);

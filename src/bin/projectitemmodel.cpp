@@ -1210,13 +1210,18 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                 } else {
                     producer.reset(new Mlt::Producer(prod->parent()));
                 }
-
                 int id = producer->parent().get_int("kdenlive:id");
-                if (!id) id = getFreeClipId();
+                if (!id) {
+                    qDebug() << "WARNING THIS SHOULD NOT HAPPEN, BIN CLIP WITHOUT ID: " << producer->parent().get("resource")
+                             << ", ID: " << producer->parent().get("id") << "\n\nFZFZFZFZFZFZFZFZFZFZFZFZFZ";
+                    // Using a temporary negative reference so we don't mess with yet unloaded clips
+                    id = -getFreeClipId();
+                }
                 binProducers.insert(id, producer);
             }
             // Do the real insertion
             QList<int> binIds = binProducers.keys();
+
             while (!binProducers.isEmpty()) {
                 int bid = binIds.takeFirst();
                 std::shared_ptr<Mlt::Producer> prod = binProducers.take(bid);
@@ -1224,6 +1229,11 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                 QString parentId = qstrdup(prod->get("kdenlive:folderid"));
                 if (parentId.isEmpty()) {
                     parentId = QStringLiteral("-1");
+                } else {
+                    if (binIdCorresp.count(parentId.section(QLatin1Char('.'), -1)) == 0) {
+                        // Error, folder was lost
+                        parentId = QStringLiteral("-1");
+                    }
                 }
                 prod->set("_kdenlive_processed", 1);
                 requestAddBinClip(newId, prod, parentId, undo, redo);
