@@ -3757,6 +3757,17 @@ void TimelineController::editItemDuration(int id)
     emit regainFocus();
 }
 
+void TimelineController::focusTimelineSequence(int id)
+{
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(id));
+    if (binClip) {
+        const QUuid uuid(binClip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+        if (pCore->projectManager()->openTimeline(binClip->binId(), uuid)) {
+            pCore->setDocumentModified();
+        }
+    }
+}
+
 void TimelineController::editTitleClip(int id)
 {
     if (id == -1) {

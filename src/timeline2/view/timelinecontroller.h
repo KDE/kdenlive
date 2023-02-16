@@ -91,6 +91,9 @@ public:
     /** @brief Edit a title clip with a title widget
      */
     Q_INVOKABLE void editTitleClip(int itemId = -1);
+    /** @brief Open a sequence timeline
+     */
+    Q_INVOKABLE void focusTimelineSequence(int id);
     /** @brief Edit an animation with Glaxnimate
      */
     Q_INVOKABLE void editAnimationClip(int itemId = -1);

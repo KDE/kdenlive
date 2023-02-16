@@ -1917,7 +1917,9 @@ Rectangle {
                                         } else {
                                             clipBeingMovedId = -1
                                             timeline.ungrabHack()
-                                            if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
+                                            if(dragProxy.masterObject.itemType === ProducerType.Timeline) {
+                                                timeline.focusTimelineSequence(dragProxy.draggedItem)
+                                            } else if(dragProxy.masterObject.itemType === ProducerType.Text || dragProxy.masterObject.itemType === ProducerType.TextTemplate) {
                                                 timeline.editTitleClip(dragProxy.draggedItem)
                                             } else if (dragProxy.masterObject.itemType === ProducerType.Animation) {
                                                 timeline.editAnimationClip(dragProxy.draggedItem)
