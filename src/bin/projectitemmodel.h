@@ -224,6 +224,8 @@ public:
     bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
     /** @brief Store a newly created sequence tractor for reuse */
     void storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor);
+    /** @brief Returns the count of sequences in this project */
+    int sequenceCount() const;
 
 protected:
     /** @brief Register the existence of a new element

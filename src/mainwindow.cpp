@@ -2327,7 +2327,7 @@ void MainWindow::slotUpdateZoneDuration(int duration)
 
 void MainWindow::slotUpdateDocumentState(bool modified)
 {
-    setWindowTitle(pCore->currentDoc()->description());
+    m_timelineTabs->updateWindowTitle();
     setWindowModified(modified);
     m_saveAction->setEnabled(modified);
 }
@@ -2384,7 +2384,7 @@ void MainWindow::connectDocument()
     }
 
     m_commandStack->setActiveStack(project->commandStack().get());
-    setWindowTitle(project->description());
+    m_timelineTabs->updateWindowTitle();
     setWindowModified(project->isModified());
     m_saveAction->setEnabled(project->isModified());
     m_normalEditTool->setChecked(true);

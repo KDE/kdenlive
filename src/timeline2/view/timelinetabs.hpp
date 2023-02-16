@@ -54,6 +54,9 @@ public:
     const QStringList openedSequences();
     /** @brief Get a timeline tab by uuid. */
     TimelineWidget *getTimeline(const QUuid uuid) const;
+    /** @brief We display the current tab's name in window title if the tab bar is hidden
+     */
+    void updateWindowTitle();
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/

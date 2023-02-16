@@ -5,7 +5,9 @@
 
 #include "timelinetabs.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
@@ -31,6 +33,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
 {
     setTabBarAutoHide(true);
     setTabsClosable(false);
+    setMovable(true);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
 }
@@ -42,6 +45,16 @@ TimelineTabs::~TimelineTabs()
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         timeline->setSource(QUrl());
     };
+}
+
+void TimelineTabs::updateWindowTitle()
+{
+    // Show current timeline name in Window title if we have multiple sequences but only one opened
+    if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
+        pCore->window()->setWindowTitle(pCore->currentDoc()->description(tabBar()->tabText(currentIndex())));
+    } else {
+        pCore->window()->setWindowTitle(pCore->currentDoc()->description());
+    }
 }
 
 bool TimelineTabs::raiseTimeline(const QUuid &uuid)
@@ -75,6 +88,9 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabNa
     newTimeline->setModel(timelineModel, proxy);
     addTab(newTimeline, tabName);
     setTabsClosable(count() > 1);
+    if (count() == 2) {
+        updateWindowTitle();
+    }
     return newTimeline;
 }
 
@@ -140,6 +156,9 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     removeTab(ix);
     delete timeline;
     setTabsClosable(count() > 1);
+    if (count() == 1) {
+        updateWindowTitle();
+    }
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const

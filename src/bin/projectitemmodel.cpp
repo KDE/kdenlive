@@ -1257,6 +1257,11 @@ void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tr
     m_extraPlaylists.insert({uuid, std::move(tractor)});
 }
 
+int ProjectItemModel::sequenceCount() const
+{
+    return m_extraPlaylists.size();
+}
+
 std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
 {
     return m_projectTractor;

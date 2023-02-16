@@ -375,6 +375,9 @@ public slots:
      *
      * Also disables zoomIn and zoomOut actions if they cannot be used at the moment. */
     void slotSetZoom(int value, bool zoomOnMouse = false);
+    /** @brief if modified is true adds "modified" to the caption and enables the save button.
+     * (triggered by KdenliveDoc::setModified()) */
+    void slotUpdateDocumentState(bool modified);
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -390,9 +393,6 @@ private slots:
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();
-    /** @brief if modified is true adds "modified" to the caption and enables the save button.
-     * (triggered by KdenliveDoc::setModified()) */
-    void slotUpdateDocumentState(bool modified);
 
     /** @brief Makes the timeline zoom level fit the timeline content. */
     void slotFitZoom();

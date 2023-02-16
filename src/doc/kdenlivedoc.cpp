@@ -317,6 +317,7 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
+    disconnect(this, &KdenliveDoc::docModified, pCore->window(), &MainWindow::slotUpdateDocumentState);
     m_commandStack->clear();
     m_timelines.clear();
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
@@ -981,12 +982,19 @@ void KdenliveDoc::requestBackup()
     m_document.documentElement().setAttribute(QStringLiteral("modified"), 1);
 }
 
-const QString KdenliveDoc::description() const
+const QString KdenliveDoc::description(const QString suffix) const
 {
-    if (!m_url.isValid()) {
-        return i18n("Untitled") + QStringLiteral("[*] / ") + pCore->getCurrentProfile()->description();
+    QString fullName = suffix;
+    if (!fullName.isEmpty()) {
+        fullName.append(QLatin1Char(':'));
     }
-    return QFileInfo(m_url.toLocalFile()).completeBaseName() + QStringLiteral(" [*]/ ") + pCore->getCurrentProfile()->description();
+    if (!m_url.isValid()) {
+        fullName.append(i18n("Untitled"));
+    } else {
+        fullName.append(QFileInfo(m_url.toLocalFile()).completeBaseName());
+    }
+    fullName.append(QStringLiteral(" [*]/ ") + pCore->getCurrentProfile()->description());
+    return fullName;
 }
 
 QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
