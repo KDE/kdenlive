@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 00:58+0000\n"
+"POT-Creation-Date: 2023-02-16 00:58+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4988,7 +4988,7 @@ msgstr "Dath 1"
 
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:156 src/bin/clipcreator.cpp:158
-#: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
+#: src/project/projectmanager.cpp:1190 src/project/projectmanager.cpp:1192
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequences"
@@ -5319,7 +5319,7 @@ msgstr "Scrios comhaid"
 
 #: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
 #: src/doc/kdenlivedoc.cpp:2051 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1297
+#: src/project/projectmanager.cpp:1300
 #, kde-format
 msgid "Untitled"
 msgstr "Gan Teideal"
@@ -6074,7 +6074,7 @@ msgstr "Luchtaigh marcóirí"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1467
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4894
@@ -7806,7 +7806,7 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1101
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
@@ -12708,7 +12708,7 @@ msgstr "Luchtaigh marcóirí"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1358
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1361
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
@@ -13289,7 +13289,7 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1299
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13383,69 +13383,69 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:806
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:804
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:1079
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Moving project folder"
 msgstr "Comhaid an Tionscadail"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1169 src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1201
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Sequence 1"
 msgstr "Méid na híomhá"
 
-#: src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1180
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1302 src/project/projectmanager.cpp:1307
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1333
+#: src/project/projectmanager.cpp:1305 src/project/projectmanager.cpp:1310
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1336
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1449
+#: src/project/projectmanager.cpp:1452
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1474
+#: src/project/projectmanager.cpp:1477
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Project profile changed"
 msgstr "Comhaid an Tionscadail"
 
-#: src/project/projectmanager.cpp:1519
+#: src/project/projectmanager.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid ""

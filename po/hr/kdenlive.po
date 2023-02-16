@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 00:58+0000\n"
+"POT-Creation-Date: 2023-02-16 00:58+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -4881,7 +4881,7 @@ msgstr "Isječak boje"
 
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:156 src/bin/clipcreator.cpp:158
-#: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
+#: src/project/projectmanager.cpp:1190 src/project/projectmanager.cpp:1192
 #, fuzzy, kde-format
 msgid "Sequences"
 msgstr "Veličina slike"
@@ -5218,7 +5218,7 @@ msgstr "Obriši isječak"
 
 #: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
 #: src/doc/kdenlivedoc.cpp:2051 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1297
+#: src/project/projectmanager.cpp:1300
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naziva"
@@ -5967,7 +5967,7 @@ msgstr "Dodaj oznaku"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1467
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4894
@@ -7692,7 +7692,7 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1101
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Error moving project folder: %1"
@@ -12555,7 +12555,7 @@ msgstr "Uredi oznaku"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1358
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1361
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
@@ -13132,7 +13132,7 @@ msgstr "Luma datoteka"
 msgid "Save changes to document?"
 msgstr "Spremiti promjene u dokument ?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1299
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13228,55 +13228,55 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:806
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:804
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:1079
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Moving project folder"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1169 src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1201
 #, fuzzy, kde-format
 msgid "Sequence 1"
 msgstr "Veličina slike"
 
-#: src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1180
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1302 src/project/projectmanager.cpp:1307
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1333
+#: src/project/projectmanager.cpp:1305 src/project/projectmanager.cpp:1310
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1336
 #, fuzzy, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1449
+#: src/project/projectmanager.cpp:1452
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -13284,12 +13284,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazna datoteka već postoji. Želite je prepisati?"
 
-#: src/project/projectmanager.cpp:1474
+#: src/project/projectmanager.cpp:1477
 #, fuzzy, kde-format
 msgid "Project profile changed"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1519
+#: src/project/projectmanager.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid ""

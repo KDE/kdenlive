@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 00:58+0000\n"
+"POT-Creation-Date: 2023-02-16 00:58+0000\n"
 "PO-Revision-Date: 2023-02-04 20:18+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
@@ -4795,7 +4795,7 @@ msgstr "Créer un clip couleur"
 
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:156 src/bin/clipcreator.cpp:158
-#: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
+#: src/project/projectmanager.cpp:1190 src/project/projectmanager.cpp:1192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -5105,7 +5105,7 @@ msgstr "Supprimer un sous-titre"
 
 #: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
 #: src/doc/kdenlivedoc.cpp:2051 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1297
+#: src/project/projectmanager.cpp:1300
 #, kde-format
 msgid "Untitled"
 msgstr "Sans titre"
@@ -5827,7 +5827,7 @@ msgstr "Exporter des données de guides"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1467
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4894
@@ -7594,7 +7594,7 @@ msgstr ""
 "Votre projet a été mis à jour à le dernière version de Kdenlive, mais il n'a "
 "pas été possible de créer une copie de sauvegarde %1."
 
-#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1101
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Erreur lors du déplacement du dossier du projet : %1"
@@ -12305,7 +12305,7 @@ msgstr ""
 "Le fichier de repères possède une taille supérieure à 1 Mo. Voulez-vous "
 "vraiment effectuer l'importation ?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1358
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1361
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -12920,7 +12920,7 @@ msgstr "Ouvrir un fichier de sauvegarde..."
 msgid "Save changes to document?"
 msgstr "Enregistrer les modifications du document ?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1299
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13025,7 +13025,7 @@ msgstr ""
 "Votre projet a été modifié lors de l'ouverture, une sauvegarde sera créée "
 "lors du prochain enregistrement"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:806
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13034,12 +13034,12 @@ msgstr ""
 "Ceci effacera tous les changements effectués depuis le dernier "
 "enregistrement. Voulez-vous vraiment continuer ?"
 
-#: src/project/projectmanager.cpp:804
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Revenir à la dernière version enregistrée"
 
-#: src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13049,26 +13049,26 @@ msgstr ""
 "fermer et ré-ouvrir votre fichier de projet pour revenir à la dernière "
 "version sauvegardée."
 
-#: src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:1079
 #, kde-format
 msgid "Moving project folder"
 msgstr "Déplacement du dossier du projet"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Le fichier de projet est corrompu (aucune piste). Voulez-vous essayer de "
 "charger un fichier de sauvegarde ?"
 
-#: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1169 src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1201
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Nom de séquence"
 
-#: src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1180
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13076,13 +13076,13 @@ msgstr ""
 "Le fichier de projet est corrompu. Impossible de charger les pistes. Voulez-"
 "vous essayer de charger un fichier de sauvegarde ?"
 
-#: src/project/projectmanager.cpp:1302 src/project/projectmanager.cpp:1307
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1333
+#: src/project/projectmanager.cpp:1305 src/project/projectmanager.cpp:1310
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1336
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Changement de profil de projet annulé"
 
-#: src/project/projectmanager.cpp:1449
+#: src/project/projectmanager.cpp:1452
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13091,12 +13091,12 @@ msgstr ""
 "Le fichier de sortie %1 existe déjà.\n"
 "Voulez-vous vraiment l'écraser ?"
 
-#: src/project/projectmanager.cpp:1474
+#: src/project/projectmanager.cpp:1477
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil de projet modifié"
 
-#: src/project/projectmanager.cpp:1519
+#: src/project/projectmanager.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""

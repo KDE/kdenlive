@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 00:58+0000\n"
+"POT-Creation-Date: 2023-02-16 00:58+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -4872,7 +4872,7 @@ msgstr "Opret farveklip"
 
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:156 src/bin/clipcreator.cpp:158
-#: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
+#: src/project/projectmanager.cpp:1190 src/project/projectmanager.cpp:1192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequences"
@@ -5201,7 +5201,7 @@ msgstr "Slet hjælpelinje"
 
 #: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
 #: src/doc/kdenlivedoc.cpp:2051 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1297
+#: src/project/projectmanager.cpp:1300
 #, kde-format
 msgid "Untitled"
 msgstr "Unavngivet"
@@ -5952,7 +5952,7 @@ msgstr "Importér hjælpelinjer"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1467
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4894
@@ -7762,7 +7762,7 @@ msgstr ""
 "Din projektfil blev opgraderet til den seneste version af Kdenlive-dokument, "
 "men det var ikke muligt at oprette en backupkopi %1."
 
-#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1101
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fejl ved flytning af projektmappe: %1"
@@ -12590,7 +12590,7 @@ msgstr "Indlæs klipmarkører"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1358
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1361
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -13172,7 +13172,7 @@ msgstr "Åbn backupfil"
 msgid "Save changes to document?"
 msgstr "Gem ændringer til dokument?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1299
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13281,7 +13281,7 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:806
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13290,48 +13290,48 @@ msgstr ""
 "Dette vil slette alle ændringer der er foretaget, siden du sidst gemte dit "
 "projekt. Er du sikker på, at du vil fortsætte?"
 
-#: src/project/projectmanager.cpp:804
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Rul tilbage til senest gemte version"
 
-#: src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:1079
 #, kde-format
 msgid "Moving project folder"
 msgstr "Flytter projektmappe"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1169 src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1201
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "Billedsekvens"
 
-#: src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1180
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1302 src/project/projectmanager.cpp:1307
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1333
+#: src/project/projectmanager.cpp:1305 src/project/projectmanager.cpp:1310
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1336
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ændring af projektprofil afbrudt"
 
-#: src/project/projectmanager.cpp:1449
+#: src/project/projectmanager.cpp:1452
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -13339,12 +13339,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Outputfilen findes allerede. Vil du overskrive den?"
 
-#: src/project/projectmanager.cpp:1474
+#: src/project/projectmanager.cpp:1477
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ændret"
 
-#: src/project/projectmanager.cpp:1519
+#: src/project/projectmanager.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-15 00:58+0000\n"
-"PO-Revision-Date: 2023-02-07 11:01\n"
+"POT-Creation-Date: 2023-02-16 00:58+0000\n"
+"PO-Revision-Date: 2023-02-15 11:04\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4343,10 +4343,9 @@ msgid "Create Animation…"
 msgstr "创建动画…"
 
 #: src/bin/bin.cpp:3310
-#, fuzzy, kde-format
-#| msgid "Add Image Sequence…"
+#, kde-format
 msgid "Add Sequence…"
-msgstr "添加图像序列…"
+msgstr "添加序列…"
 
 #: src/bin/bin.cpp:3313 src/mainwindow.cpp:360
 #, kde-format
@@ -4410,17 +4409,15 @@ msgid "Detailed log"
 msgstr "详细日志"
 
 #: src/bin/bin.cpp:3496
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "图像序列"
+msgstr "创建新序列"
 
 #: src/bin/bin.cpp:3498
-#, fuzzy, kde-format
-#| msgid "Scene %1"
+#, kde-format
 msgid "Sequence %1"
-msgstr "场景 %1"
+msgstr "序列 %1"
 
 #: src/bin/bin.cpp:3524
 #, kde-format
@@ -4668,17 +4665,15 @@ msgstr "创建颜色剪辑"
 
 #: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
 #: src/bin/clipcreator.cpp:156 src/bin/clipcreator.cpp:158
-#: src/project/projectmanager.cpp:1187 src/project/projectmanager.cpp:1189
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#: src/project/projectmanager.cpp:1190 src/project/projectmanager.cpp:1192
+#, kde-format
 msgid "Sequences"
-msgstr "图像序列"
+msgstr "序列"
 
 #: src/bin/clipcreator.cpp:137 src/bin/clipcreator.cpp:167
-#, fuzzy, kde-format
-#| msgid "Image sequence:"
+#, kde-format
 msgid "Create sequence"
-msgstr "图像序列："
+msgstr "创建序列"
 
 #: src/bin/clipcreator.cpp:177
 #, kde-format
@@ -4973,7 +4968,7 @@ msgstr "删除字幕"
 
 #: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:987
 #: src/doc/kdenlivedoc.cpp:2051 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1297
+#: src/project/projectmanager.cpp:1300
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -5690,7 +5685,7 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1467
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4894
@@ -6448,10 +6443,9 @@ msgstr "移除任务"
 
 #: src/dialogs/renderwidget.cpp:2008 src/dialogs/renderwidget.cpp:2018
 #: src/dialogs/renderwidget.cpp:2040
-#, fuzzy, kde-format
-#| msgid "Render Button"
+#, kde-format
 msgid "Render Duration: %1"
-msgstr "导出按钮"
+msgstr "导出持续时间：%1"
 
 #: src/dialogs/renderwidget.cpp:2098
 #, kde-format
@@ -7364,7 +7358,7 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1098
+#: src/doc/kdenlivedoc.cpp:876 src/project/projectmanager.cpp:1101
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
@@ -9052,8 +9046,7 @@ msgid "Frames"
 msgstr "帧数"
 
 #: src/mainwindow.cpp:1191
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Show Subtitle Track"
 msgstr "显示字幕轨道"
 
@@ -11079,10 +11072,9 @@ msgid "%1fps"
 msgstr "%1fps"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:492
-#, fuzzy, kde-format
-#| msgid "Out Point"
+#, kde-format
 msgid "In/Out Point"
-msgstr "出点"
+msgstr "入/出点"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:492
 #: src/monitor/view/kdenlivemonitor.qml:229
@@ -11967,7 +11959,7 @@ msgstr "加载剪辑标记"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "标记文件大于 1MB，您确定要导入吗？"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1358
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1361
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -12555,7 +12547,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1296
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1299
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -12653,19 +12645,19 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "您的项目在打开时已被修改，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:806
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "此操作将删除您最后一次保存项目之后的所有更改，您确定要继续吗？"
 
-#: src/project/projectmanager.cpp:804
+#: src/project/projectmanager.cpp:807
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "恢复到最后保存的版本"
 
-#: src/project/projectmanager.cpp:884
+#: src/project/projectmanager.cpp:887
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -12674,36 +12666,35 @@ msgstr ""
 "项目已经损坏，无法备份。请先关闭您的项目文件，然后重新打开它以恢复到最近一次"
 "备份。"
 
-#: src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:1079
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移动项目文件夹"
 
-#: src/project/projectmanager.cpp:1138
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "项目文件已经损坏 (无轨道)。要尝试寻找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1166 src/project/projectmanager.cpp:1195
-#: src/project/projectmanager.cpp:1198
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#: src/project/projectmanager.cpp:1169 src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1201
+#, kde-format
 msgid "Sequence 1"
-msgstr "图像序列"
+msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1177
+#: src/project/projectmanager.cpp:1180
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1302 src/project/projectmanager.cpp:1307
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1333
+#: src/project/projectmanager.cpp:1305 src/project/projectmanager.cpp:1310
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1336
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1449
+#: src/project/projectmanager.cpp:1452
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -12712,18 +12703,19 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1474
+#: src/project/projectmanager.cpp:1477
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1519
-#, fuzzy, kde-format
-#| msgid "Cannot create filter %1"
+#: src/project/projectmanager.cpp:1522
+#, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
-msgstr "无法创建滤镜 %1"
+msgstr ""
+"无法从此剪辑创建时间轴：\n"
+"%1"
 
 #: src/project/transcodeseek.cpp:33 src/project/transcodeseek.cpp:46
 #, kde-format
@@ -13831,10 +13823,9 @@ msgid "Insert Clip"
 msgstr "插入剪辑"
 
 #: src/timeline2/model/timelinemodel.cpp:1758
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "不能将项目添加到其自身内部"
+msgstr "您不能插入一个包含它自身的序列"
 
 #: src/timeline2/model/timelinemodel.cpp:1806
 #: src/timeline2/model/timelinemodel.cpp:1828
@@ -14050,10 +14041,9 @@ msgid "Resize mix"
 msgstr "调整混合大小"
 
 #: src/timeline2/model/timelinemodel.cpp:6778
-#, fuzzy, kde-format
-#| msgid "Disable Timeline Preview"
+#, kde-format
 msgid "Error initializing timeline preview"
-msgstr "禁用时间轴预览"
+msgstr "初始化时间轴预览出错"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:24
 #, kde-format
@@ -14103,10 +14093,9 @@ msgid "Wrong document ID, cannot create temporary folder"
 msgstr "项目文件 ID 错误，无法创建临时文件夹"
 
 #: src/timeline2/view/previewmanager.cpp:92
-#, fuzzy, kde-format
-#| msgid "Cannot create folder %1"
+#, kde-format
 msgid "Cannot read folder %1"
-msgstr "无法创建文件夹 %1"
+msgstr "无法读取文件夹 %1"
 
 #: src/timeline2/view/previewmanager.cpp:98
 #: src/timeline2/view/previewmanager.cpp:104
@@ -17720,10 +17709,9 @@ msgstr "起始位置"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/newtimeline_ui.ui:47
-#, fuzzy, kde-format
-#| msgid "Reference frame"
+#, kde-format
 msgid "Sequence Name"
-msgstr "参考帧"
+msgstr "序列名称"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -19194,9 +19182,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Edit Subtitle Tool"
-#~ msgstr "字幕编辑工具"
-
-#~ msgid "Main timeline"
-#~ msgstr "主时间轴"
