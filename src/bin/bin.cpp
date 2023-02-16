@@ -1803,8 +1803,10 @@ void Bin::slotDeleteClip()
 
         } else if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto c = std::static_pointer_cast<ProjectClip>(item);
-            const QUuid uuid(c->getProducerProperty(QStringLiteral("kdenlive:uuid")));
-            sequences << uuid;
+            if (c->clipType() == ClipType::Timeline) {
+                const QUuid uuid(c->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                sequences << uuid;
+            }
         }
         items.push_back(item);
     }
