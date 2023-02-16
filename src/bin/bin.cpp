@@ -1776,6 +1776,7 @@ void Bin::slotDeleteClip()
     std::vector<std::shared_ptr<AbstractProjectItem>> items;
     bool included = false;
     bool usedFolder = false;
+    QList<QUuid> sequences;
     auto checkInclusion = [](bool accum, std::shared_ptr<TreeItem> item) {
         return accum || std::static_pointer_cast<AbstractProjectItem>(item)->isIncludedInTimeline();
     };
@@ -1791,7 +1792,34 @@ void Bin::slotDeleteClip()
         included = included || item->accumulate(false, checkInclusion);
         // Check if we are deleting non-empty folders:
         usedFolder = usedFolder || item->childCount() > 0;
+        if (item->itemType() == AbstractProjectItem::FolderItem) {
+            QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(item)->childClips();
+            for (auto &c : children) {
+                if (c->clipType() == ClipType::Timeline) {
+                    const QUuid uuid(c->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                    sequences << uuid;
+                }
+            }
+
+        } else if (item->itemType() == AbstractProjectItem::ClipItem) {
+            auto c = std::static_pointer_cast<ProjectClip>(item);
+            const QUuid uuid(c->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+            sequences << uuid;
+        }
         items.push_back(item);
+    }
+    if (!sequences.isEmpty()) {
+        if (sequences.count() == m_itemModel->sequenceCount()) {
+            KMessageBox::error(this, i18n("You cannot delete all sequences of a project"));
+            return;
+        }
+        if (KMessageBox::warningContinueCancel(this, i18n("Deleting sequences cannot be undone")) != KMessageBox::Continue) {
+            return;
+        }
+        for (auto seq : sequences) {
+            qDebug() << ":::: CLOSING TIMELINE: " << seq;
+            pCore->projectManager()->closeTimeline(seq, true);
+        }
     }
     if (included && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from the timeline")) != KMessageBox::Continue)) {
         return;

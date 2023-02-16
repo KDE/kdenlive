@@ -181,7 +181,18 @@ void TimelineTabs::closeTimeline(const QUuid &uuid)
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
-            closeTimelineByIndex(i);
+            timeline->blockSignals(true);
+            timeline->unsetModel();
+            disconnectTimeline(timeline);
+            if (m_activeTimeline == timeline) {
+                m_activeTimeline = nullptr;
+            }
+            removeTab(i);
+            delete timeline;
+            setTabsClosable(count() > 1);
+            if (count() == 1) {
+                updateWindowTitle();
+            }
             break;
         }
     }

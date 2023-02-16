@@ -1718,7 +1718,7 @@ int ProjectManager::getTimelinesCount() const
     return m_project->timelineCount();
 }
 
-bool ProjectManager::closeTimeline(const QUuid &uuid)
+bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
 {
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
 
@@ -1726,15 +1726,19 @@ bool ProjectManager::closeTimeline(const QUuid &uuid)
         qDebug() << "=== ERROR CANNOT FIND TIMELINE TO CLOSE";
         return false;
     }
-    std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
-    int position;
-    if (model == m_activeTimelineModel) {
-        position = pCore->getMonitorPosition();
+    if (onDeletion) {
+        // triggered when deleting bin clip, also close timeline tab
+        pCore->window()->closeTimeline(uuid);
     } else {
-        position = -1;
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
+        int position;
+        if (model == m_activeTimelineModel) {
+            position = pCore->getMonitorPosition();
+        } else {
+            position = -1;
+        }
+        pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
     }
-    pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
-
     pCore->bin()->removeReferencedClips(uuid);
     m_project->closeTimeline(uuid);
     return true;

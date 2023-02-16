@@ -119,7 +119,7 @@ public:
     void activateDocument(const QUuid &uuid);
     /** @brief Close a timeline tab through its uuid
      */
-    bool closeTimeline(const QUuid &uuid);
+    bool closeTimeline(const QUuid &uuid, bool onDeletion = false);
     void setActiveTimeline(const QUuid &uuid);
 
 public slots:
