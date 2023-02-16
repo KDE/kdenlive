@@ -729,6 +729,11 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = std::static_pointer_cast<ProjectClip>(clip);
         updateWatcher(clipItem);
+        if (clipItem->clipType() == ClipType::Timeline) {
+            const QString uuid = clipItem->getProducerProperty(QStringLiteral("kdenlive:uuid"));
+            std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(clipItem->originalProducer()->parent()));
+            storeSequence(uuid, trac);
+        }
     }
 }
 
@@ -1197,7 +1202,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         prod2->set("kdenlive:clip_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
-                        m_extraPlaylists.insert({uuid, std::move(trac)});
                         binProducers.insert(id, prod2);
                         continue;
                     } else {

@@ -129,7 +129,6 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     res = model->requestAddBinClip(id, prod, folderId, undo, redo);
     if (res) {
         // Open playlist timeline
-        pCore->projectItemModel()->storeSequence(uuid.toString(), timeline);
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
         pCore->projectManager()->openTimeline(id, uuid);

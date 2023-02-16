@@ -51,7 +51,7 @@ void TimelineTabs::updateWindowTitle()
 {
     // Show current timeline name in Window title if we have multiple sequences but only one opened
     if (count() == 1 && pCore->projectItemModel()->sequenceCount() > 1) {
-        pCore->window()->setWindowTitle(pCore->currentDoc()->description(tabBar()->tabText(currentIndex())));
+        pCore->window()->setWindowTitle(pCore->currentDoc()->description(KLocalizedString::removeAcceleratorMarker(tabBar()->tabText(currentIndex()))));
     } else {
         pCore->window()->setWindowTitle(pCore->currentDoc()->description());
     }
@@ -136,6 +136,9 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
         if (static_cast<TimelineWidget *>(widget(i))->getUuid() == uuid) {
             tabBar()->setTabText(i, name);
             pCore->projectManager()->setTimelinePropery(uuid, QStringLiteral("kdenlive:clipname"), name);
+            if (count() == 1) {
+                updateWindowTitle();
+            }
             break;
         }
     }
