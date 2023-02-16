@@ -605,6 +605,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
         language_box->clear();
         language_box->addItems(models);
+
         if (models.isEmpty()) {
             showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_voskConfig);
         } else {
