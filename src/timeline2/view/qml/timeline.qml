@@ -22,6 +22,8 @@ Rectangle {
     color: activePalette.window
     property bool debugmode: false
     property bool validMenu: false
+    property bool subtitleMoving: false
+    property var subtitleItem
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
@@ -2278,8 +2280,12 @@ Rectangle {
                     dragProxyArea.moveItem()
                 }
                 if (scrollView.contentX == 0 || (clipBeingMovedId == -1 && !rubberSelect.visible)) {
-                    horizontal = 0
-                    stop()
+                    if (root.subtitleMoving) {
+                        root.subtitleItem.checkOffset(horizontal)
+                    } else {
+                        horizontal = 0
+                        stop()
+                    }
                 }
             }
             if (rubberSelect.visible) {
