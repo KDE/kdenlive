@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-13 02:40+0000\n"
+"POT-Creation-Date: 2023-02-17 02:39+0000\n"
 "PO-Revision-Date: 2022-11-05 13:11+0000\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -3962,7 +3962,7 @@ msgstr ""
 "A monitorizar o áudio. Carregue em <b>Espaço</b> para iniciar/pausar a "
 "gravação e em <b>Esc</b>  para terminar."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:930
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:932
 #, kde-format
 msgid "Master"
 msgstr "Mestre"
@@ -4469,13 +4469,13 @@ msgstr "Abrir num novo grupo"
 msgid "Create Folder"
 msgstr "Criar uma Pasta"
 
-#: src/bin/bin.cpp:3427 src/dialogs/textbasededit.cpp:623
+#: src/bin/bin.cpp:3427 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Mostrar o registo"
 
-#: src/bin/bin.cpp:3430 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3430 src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Detailed log"
 msgstr "Registo detalhado"
@@ -5485,7 +5485,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
 #: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
-#: src/timeline2/view/qml/timeline.qml:1022
+#: src/timeline2/view/qml/timeline.qml:1024
 #, kde-format
 msgid "Subtitles"
 msgstr "Legendas"
@@ -6522,7 +6522,7 @@ msgstr "Adicionar ao projecto actual"
 msgid "Process"
 msgstr "Processo"
 
-#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:609
+#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:610
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Por favor instale os modelos de reconhecimento de fala"
@@ -6542,7 +6542,7 @@ msgstr "Seleccione um 'clip' na linha temporal para analisar"
 msgid "No audio track found"
 msgstr "Nenhuma faixa de áudio encontrada"
 
-#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:752
+#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:753
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Por favor configure a conversão de fala para texto."
@@ -6557,12 +6557,12 @@ msgstr "A iniciar a exportação do áudio"
 msgid "Audio export failed"
 msgstr "A exportação do áudio falhou"
 
-#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:769
+#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:770
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "A iniciar o reconhecimento de fala"
 
-#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:887
+#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:888
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Foi interrompido o reconhecimento de fala."
@@ -6669,88 +6669,88 @@ msgstr "Adicionar um marcador"
 msgid "Delete selection"
 msgstr "Apagar a selecção"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:903
-#: src/dialogs/textbasededit.cpp:971
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
+#: src/dialogs/textbasededit.cpp:972
 #, kde-format
 msgid "No speech"
 msgstr "Sem fala"
 
-#: src/dialogs/textbasededit.cpp:629
+#: src/dialogs/textbasededit.cpp:630
 #, kde-format
 msgid "Delete selected text"
 msgstr "Apagar o texto seleccionado"
 
-#: src/dialogs/textbasededit.cpp:635
+#: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Add bookmark for current selection"
 msgstr "Adicionar a selecção actual aos favoritos"
 
-#: src/dialogs/textbasededit.cpp:742
+#: src/dialogs/textbasededit.cpp:743
 #, kde-format
 msgid "Another recognition job is running. Abort it ?"
 msgstr "Está outra tarefa de reconhecimento em curso. Deseja interrompê-la ?"
 
-#: src/dialogs/textbasededit.cpp:758
+#: src/dialogs/textbasededit.cpp:759
 #, kde-format
 msgid "Please install a language model."
 msgstr "Por favor instale um modelo de língua."
 
-#: src/dialogs/textbasededit.cpp:764
+#: src/dialogs/textbasededit.cpp:765
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Seleccione um 'clip' com áudio no Grupo do Projecto."
 
-#: src/dialogs/textbasededit.cpp:812
+#: src/dialogs/textbasededit.cpp:813
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Seleccione um 'clip' com áudio para o reconhecimento de fala."
 
-#: src/dialogs/textbasededit.cpp:821
+#: src/dialogs/textbasededit.cpp:822
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Não é possível criar o ficheiro temporário."
 
-#: src/dialogs/textbasededit.cpp:826
+#: src/dialogs/textbasededit.cpp:827
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "A extrair o áudio de %1."
 
-#: src/dialogs/textbasededit.cpp:835
+#: src/dialogs/textbasededit.cpp:836
 #, kde-format
 msgid "Audio extract failed."
 msgstr "A extracção do áudio falhou."
 
-#: src/dialogs/textbasededit.cpp:841 src/dialogs/textbasededit.cpp:868
+#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "A iniciar o reconhecimento de fala em %1."
 
-#: src/dialogs/textbasededit.cpp:890
+#: src/dialogs/textbasededit.cpp:891
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Erro: por favor verifique a configuração do texto para fala."
 
-#: src/dialogs/textbasededit.cpp:892
+#: src/dialogs/textbasededit.cpp:893
 #, kde-format
 msgid "No speech detected."
 msgstr "Não foi detectada nenhuma fala."
 
-#: src/dialogs/textbasededit.cpp:910
+#: src/dialogs/textbasededit.cpp:911
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Terminou o reconhecimento de fala."
 
-#: src/dialogs/textbasededit.cpp:1079
+#: src/dialogs/textbasededit.cpp:1080
 #, kde-format
 msgid "No text to export"
 msgstr "Sem texto para exportar"
 
-#: src/dialogs/textbasededit.cpp:1099
+#: src/dialogs/textbasededit.cpp:1100
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Indique a localização da nova lista"
 
-#: src/dialogs/textbasededit.cpp:1200
+#: src/dialogs/textbasededit.cpp:1201
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Não foi encontrado nenhum código temporal na selecção"
@@ -14055,14 +14055,14 @@ msgid "Change clip speed"
 msgstr "Mudar a velocidade do 'clip'"
 
 #: src/timeline2/model/timelinemodel.cpp:6181
-#: src/timeline2/view/qml/timeline.qml:1152
+#: src/timeline2/view/qml/timeline.qml:1154
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Bloquear a faixa"
 
 #: src/timeline2/model/timelinemodel.cpp:6186
-#: src/timeline2/view/qml/timeline.qml:1152
+#: src/timeline2/view/qml/timeline.qml:1154
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -14184,7 +14184,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2027
+#: src/timeline2/view/qml/timeline.qml:2029
 #, kde-format
 msgid "Paused"
 msgstr "Em pausa"
@@ -14200,8 +14200,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posição: %4, Duração: %5"
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:150
-#: src/timeline2/view/qml/SubTitle.qml:156
+#: src/timeline2/view/qml/SubTitle.qml:163
+#: src/timeline2/view/qml/SubTitle.qml:169
 #, kde-format
 msgid "Position: %1"
 msgstr "Posição: %1"
@@ -14294,8 +14294,8 @@ msgstr "%1, Posição: %2, Duração: %3"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:273
-#: src/timeline2/view/qml/SubTitle.qml:362
+#: src/timeline2/view/qml/SubTitle.qml:286
+#: src/timeline2/view/qml/SubTitle.qml:375
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Arrastamento</b> para dimensionar"
@@ -14319,62 +14319,62 @@ msgstr ""
 "<b>Shift + arrastamento</b> para mudar o valor das imagens-chave "
 "seleccionadas, e <b>Ctrl + click</b> para a selecção de várias imagens-chave."
 
-#: src/timeline2/view/qml/SubTitle.qml:88
+#: src/timeline2/view/qml/SubTitle.qml:89
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Duplo-click</b> para editar o texto"
 
-#: src/timeline2/view/qml/timeline.qml:918
+#: src/timeline2/view/qml/timeline.qml:920
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:927
+#: src/timeline2/view/qml/timeline.qml:929
 #, kde-format
 msgid "Show master effects"
 msgstr "Mostrar os efeitos-mestres"
 
-#: src/timeline2/view/qml/timeline.qml:1058
+#: src/timeline2/view/qml/timeline.qml:1060
 #, kde-format
 msgid "Click to see details"
 msgstr "Carregue para ver os detalhes"
 
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, kde-format
 msgid "Speech recognition"
 msgstr "Reconhecimento de fala"
 
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1120
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "Mostrar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1120
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Esconder"
 
-#: src/timeline2/view/qml/timeline.qml:1706
+#: src/timeline2/view/qml/timeline.qml:1708
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Duplo-click</b> para adicionar uma legenda"
 
-#: src/timeline2/view/qml/timeline.qml:1870
+#: src/timeline2/view/qml/timeline.qml:1872
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Deslocamento: %1, Posição: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2016
-#: src/timeline2/view/qml/timeline.qml:2025
+#: src/timeline2/view/qml/timeline.qml:2018
+#: src/timeline2/view/qml/timeline.qml:2027
 #, kde-format
 msgid "Recording"
 msgstr "A gravar"
 
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Multicam In"
 msgstr "Entrada Multicam"
@@ -15650,10 +15650,10 @@ msgstr "Apagar o ponto actual."
 #: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
 #: src/ui/editsub_ui.ui:423 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
-#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:22
-#: src/ui/guideslist_ui.ui:39 src/ui/guideslist_ui.ui:53
-#: src/ui/guideslist_ui.ui:67 src/ui/guideslist_ui.ui:80
-#: src/ui/guideslist_ui.ui:106 src/ui/guideslist_ui.ui:132
+#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
+#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
+#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
+#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
 #: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:116
 #: src/ui/managecache_ui.ui:147 src/ui/managecache_ui.ui:202
 #: src/ui/managecache_ui.ui:233 src/ui/managecache_ui.ui:291
@@ -15664,11 +15664,11 @@ msgstr "Apagar o ponto actual."
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:560 src/ui/renderwidget_ui.ui:994
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:99 src/ui/textbasededit_ui.ui:61
-#: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:114
-#: src/ui/textbasededit_ui.ui:188 src/ui/textbasededit_ui.ui:211
-#: src/ui/textbasededit_ui.ui:224 src/ui/textbasededit_ui.ui:238
-#: src/ui/textbasededit_ui.ui:254 src/ui/timeremap_ui.ui:97
+#: src/ui/speechdialog_ui.ui:99 src/ui/textbasededit_ui.ui:67
+#: src/ui/textbasededit_ui.ui:100 src/ui/textbasededit_ui.ui:121
+#: src/ui/textbasededit_ui.ui:194 src/ui/textbasededit_ui.ui:218
+#: src/ui/textbasededit_ui.ui:231 src/ui/textbasededit_ui.ui:245
+#: src/ui/textbasededit_ui.ui:261 src/ui/timeremap_ui.ui:97
 #: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
 #: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
 #: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
@@ -17374,43 +17374,35 @@ msgstr "Cor 2"
 msgid "Color 1"
 msgstr "Cor 1"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, GuideCategories_UI)
-#. i18n: ectx: property (windowTitle), widget (QWidget, GuidesList_UI)
-#: src/ui/guidecategories_ui.ui:14 src/ui/guideslist_ui.ui:14
-#, fuzzy, kde-format
-#| msgid "Format:"
-msgid "Form"
-msgstr "Formato:"
-
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
-#: src/ui/guidecategories_ui.ui:48
+#: src/ui/guidecategories_ui.ui:45
 #, fuzzy, kde-format
 #| msgid "Delete pattern."
 msgid "Delete category"
 msgstr "Apagar o padrão."
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
-#: src/ui/guidecategories_ui.ui:55
+#: src/ui/guidecategories_ui.ui:52
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Add category"
 msgstr "Categoria"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
-#: src/ui/guidecategories_ui.ui:62
+#: src/ui/guidecategories_ui.ui:59
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Edit category"
 msgstr "Categoria"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/guidecategories_ui.ui:69
+#: src/ui/guidecategories_ui.ui:66
 #, kde-format
 msgid "Guides and Markers Categories"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:125
+#: src/ui/guideslist_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "TextLabel"
 msgid "KSqueezedTextLabel"
@@ -17418,7 +17410,7 @@ msgstr "TextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:156 src/ui/textbasededit_ui.ui:104
+#: src/ui/guideslist_ui.ui:153 src/ui/textbasededit_ui.ui:111
 #, kde-format
 msgid "Search"
 msgstr "Procurar"
@@ -18692,25 +18684,25 @@ msgid "File Size"
 msgstr "Tamanho do Ficheiro"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:145
+#: src/ui/textbasededit_ui.ui:151
 #, kde-format
 msgid "Start recognition"
 msgstr "Iniciar o reconhecimento"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:204
+#: src/ui/textbasededit_ui.ui:211
 #, kde-format
 msgid "Selected zone only"
 msgstr "Apenas a zona seleccionada"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_insert)
-#: src/ui/textbasededit_ui.ui:221
+#: src/ui/textbasededit_ui.ui:228
 #, kde-format
 msgid "Insert selected blocks in timeline"
 msgstr "Inserir os blocos seleccionados na linha temporal"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
-#: src/ui/textbasededit_ui.ui:251
+#: src/ui/textbasededit_ui.ui:258
 #, kde-format
 msgid "Save edited text in a new playlist"
 msgstr "Gravar o texto editado numa nova lista"
@@ -19306,6 +19298,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Format:"
+#~ msgid "Form"
+#~ msgstr "Formato:"
 
 #~ msgid ""
 #~ "The MediaInfo application is required for the recording timecode feature, "

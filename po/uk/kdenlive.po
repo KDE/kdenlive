@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-13 02:40+0000\n"
+"POT-Creation-Date: 2023-02-17 02:39+0000\n"
 "PO-Revision-Date: 2023-01-20 16:37+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -3881,7 +3881,7 @@ msgstr ""
 "Стежимо за звуковим сигналом. Натисніть <b>Пробіл</b>, щоб розпочати або "
 "зупинити записування, натисніть <b>Esc</b>, щоб завершити."
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:930
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:932
 #, kde-format
 msgid "Master"
 msgstr "Основний"
@@ -4395,13 +4395,13 @@ msgstr "Відкрити у новому контейнері"
 msgid "Create Folder"
 msgstr "Створити теку"
 
-#: src/bin/bin.cpp:3427 src/dialogs/textbasededit.cpp:623
+#: src/bin/bin.cpp:3427 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Показати журнал"
 
-#: src/bin/bin.cpp:3430 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3430 src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Detailed log"
 msgstr "Докладний журнал"
@@ -5405,7 +5405,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (subtitles)
 #: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
-#: src/timeline2/view/qml/timeline.qml:1022
+#: src/timeline2/view/qml/timeline.qml:1024
 #, kde-format
 msgid "Subtitles"
 msgstr "Субтитри"
@@ -6439,7 +6439,7 @@ msgstr "Додати до поточного проєкту"
 msgid "Process"
 msgstr "Обробка"
 
-#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:609
+#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:610
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Будь ласка, встановіть моделі розпізнавання мовлення"
@@ -6459,7 +6459,7 @@ msgstr "Позначте на монтажному столі кліп для а
 msgid "No audio track found"
 msgstr "Не знайдено звукової доріжки"
 
-#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:752
+#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:753
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Будь ласка, налаштуйте озвучення тексту."
@@ -6474,12 +6474,12 @@ msgstr "Розпочинаємо експортування звукових д�
 msgid "Audio export failed"
 msgstr "Не вдалося експортувати звукові дані"
 
-#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:769
+#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:770
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Починаємо розпізнавання мовлення"
 
-#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:887
+#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:888
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Розпізнавання мовлення перервано."
@@ -6586,88 +6586,88 @@ msgstr "Додати закладку"
 msgid "Delete selection"
 msgstr "Вилучити позначене"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:903
-#: src/dialogs/textbasededit.cpp:971
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
+#: src/dialogs/textbasededit.cpp:972
 #, kde-format
 msgid "No speech"
 msgstr "Немає озвучення"
 
-#: src/dialogs/textbasededit.cpp:629
+#: src/dialogs/textbasededit.cpp:630
 #, kde-format
 msgid "Delete selected text"
 msgstr "Вилучити позначений текст"
 
-#: src/dialogs/textbasededit.cpp:635
+#: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Add bookmark for current selection"
 msgstr "Додати до закладку до поточного позначення"
 
-#: src/dialogs/textbasededit.cpp:742
+#: src/dialogs/textbasededit.cpp:743
 #, kde-format
 msgid "Another recognition job is running. Abort it ?"
 msgstr "Запущено інше завдання з розпізнавання. Перервати його виконання?"
 
-#: src/dialogs/textbasededit.cpp:758
+#: src/dialogs/textbasededit.cpp:759
 #, kde-format
 msgid "Please install a language model."
 msgstr "Будь ласка, встановіть модель мови."
 
-#: src/dialogs/textbasededit.cpp:764
+#: src/dialogs/textbasededit.cpp:765
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Виберіть кліп зі звуковими даними у ієрархії проєкту."
 
-#: src/dialogs/textbasededit.cpp:812
+#: src/dialogs/textbasededit.cpp:813
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Виберіть кліп зі звуковими даними для розпізнавання мовлення."
 
-#: src/dialogs/textbasededit.cpp:821
+#: src/dialogs/textbasededit.cpp:822
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Не вдалося створити тимчасовий файл."
 
-#: src/dialogs/textbasededit.cpp:826
+#: src/dialogs/textbasededit.cpp:827
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Видобування звукових даних для %1"
 
-#: src/dialogs/textbasededit.cpp:835
+#: src/dialogs/textbasededit.cpp:836
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Не вдалося видобути звукові дані."
 
-#: src/dialogs/textbasededit.cpp:841 src/dialogs/textbasededit.cpp:868
+#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Починаємо розпізнавання мовлення у %1."
 
-#: src/dialogs/textbasededit.cpp:890
+#: src/dialogs/textbasededit.cpp:891
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Помилка. Будь ласка, перевірте налаштування озвучення тексту."
 
-#: src/dialogs/textbasededit.cpp:892
+#: src/dialogs/textbasededit.cpp:893
 #, kde-format
 msgid "No speech detected."
 msgstr "Не виявлено мовлення."
 
-#: src/dialogs/textbasededit.cpp:910
+#: src/dialogs/textbasededit.cpp:911
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Розпізнавання мовлення завершено."
 
-#: src/dialogs/textbasededit.cpp:1079
+#: src/dialogs/textbasededit.cpp:1080
 #, kde-format
 msgid "No text to export"
 msgstr "Немає тексту для експортування"
 
-#: src/dialogs/textbasededit.cpp:1099
+#: src/dialogs/textbasededit.cpp:1100
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Введіть шлях до нового списку відтворення"
 
-#: src/dialogs/textbasededit.cpp:1200
+#: src/dialogs/textbasededit.cpp:1201
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "У позначеному не виявлено позначки часу"
@@ -14012,14 +14012,14 @@ msgid "Change clip speed"
 msgstr "Змінити швидкість кліпу"
 
 #: src/timeline2/model/timelinemodel.cpp:6181
-#: src/timeline2/view/qml/timeline.qml:1152
+#: src/timeline2/view/qml/timeline.qml:1154
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокувати доріжку"
 
 #: src/timeline2/model/timelinemodel.cpp:6186
-#: src/timeline2/view/qml/timeline.qml:1152
+#: src/timeline2/view/qml/timeline.qml:1154
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -14143,7 +14143,7 @@ msgid "Stop"
 msgstr "Зупинити"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2027
+#: src/timeline2/view/qml/timeline.qml:2029
 #, kde-format
 msgid "Paused"
 msgstr "Призупинено"
@@ -14159,8 +14159,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2–%3), позиція: %4, тривалість: %5"
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:150
-#: src/timeline2/view/qml/SubTitle.qml:156
+#: src/timeline2/view/qml/SubTitle.qml:163
+#: src/timeline2/view/qml/SubTitle.qml:169
 #, kde-format
 msgid "Position: %1"
 msgstr "Позиція: %1"
@@ -14253,8 +14253,8 @@ msgstr "%1, позиція: %2, тривалість: %3"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:273
-#: src/timeline2/view/qml/SubTitle.qml:362
+#: src/timeline2/view/qml/SubTitle.qml:286
+#: src/timeline2/view/qml/SubTitle.qml:375
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Перетягніть</b>, щоб змінити розмір"
@@ -14278,62 +14278,62 @@ msgstr ""
 "ключових кадрів, <b>клацніть із утриманням Ctrl</b> для позначення декількох "
 "ключових кадрів."
 
-#: src/timeline2/view/qml/SubTitle.qml:88
+#: src/timeline2/view/qml/SubTitle.qml:89
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Подвійне клацання</b> — редагувати текст"
 
-#: src/timeline2/view/qml/timeline.qml:918
+#: src/timeline2/view/qml/timeline.qml:920
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "О"
 
-#: src/timeline2/view/qml/timeline.qml:927
+#: src/timeline2/view/qml/timeline.qml:929
 #, kde-format
 msgid "Show master effects"
 msgstr "Показати основні ефекти"
 
-#: src/timeline2/view/qml/timeline.qml:1058
+#: src/timeline2/view/qml/timeline.qml:1060
 #, kde-format
 msgid "Click to see details"
 msgstr "Натисніть, щоб переглянути подробиці"
 
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, kde-format
 msgid "Speech recognition"
 msgstr "Розпізнавання мовлення"
 
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1120
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, kde-format
 msgid "Show"
 msgstr "Показати"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1120
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr "Приховати"
 
-#: src/timeline2/view/qml/timeline.qml:1706
+#: src/timeline2/view/qml/timeline.qml:1708
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Подвійне клацання</b> — додати субтитри"
 
-#: src/timeline2/view/qml/timeline.qml:1870
+#: src/timeline2/view/qml/timeline.qml:1872
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Зсув: %1, позиція: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2016
-#: src/timeline2/view/qml/timeline.qml:2025
+#: src/timeline2/view/qml/timeline.qml:2018
+#: src/timeline2/view/qml/timeline.qml:2027
 #, kde-format
 msgid "Recording"
 msgstr "Записування"
 
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Multicam In"
 msgstr "Вхід мультикаму"
@@ -15614,10 +15614,10 @@ msgstr "Вилучити поточну точку."
 #: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
 #: src/ui/editsub_ui.ui:423 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
-#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:22
-#: src/ui/guideslist_ui.ui:39 src/ui/guideslist_ui.ui:53
-#: src/ui/guideslist_ui.ui:67 src/ui/guideslist_ui.ui:80
-#: src/ui/guideslist_ui.ui:106 src/ui/guideslist_ui.ui:132
+#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
+#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
+#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
+#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
 #: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:116
 #: src/ui/managecache_ui.ui:147 src/ui/managecache_ui.ui:202
 #: src/ui/managecache_ui.ui:233 src/ui/managecache_ui.ui:291
@@ -15628,11 +15628,11 @@ msgstr "Вилучити поточну точку."
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:560 src/ui/renderwidget_ui.ui:994
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:99 src/ui/textbasededit_ui.ui:61
-#: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:114
-#: src/ui/textbasededit_ui.ui:188 src/ui/textbasededit_ui.ui:211
-#: src/ui/textbasededit_ui.ui:224 src/ui/textbasededit_ui.ui:238
-#: src/ui/textbasededit_ui.ui:254 src/ui/timeremap_ui.ui:97
+#: src/ui/speechdialog_ui.ui:99 src/ui/textbasededit_ui.ui:67
+#: src/ui/textbasededit_ui.ui:100 src/ui/textbasededit_ui.ui:121
+#: src/ui/textbasededit_ui.ui:194 src/ui/textbasededit_ui.ui:218
+#: src/ui/textbasededit_ui.ui:231 src/ui/textbasededit_ui.ui:245
+#: src/ui/textbasededit_ui.ui:261 src/ui/timeremap_ui.ui:97
 #: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
 #: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
 #: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
@@ -17342,46 +17342,39 @@ msgstr "Колір 2"
 msgid "Color 1"
 msgstr "Колір 1"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, GuideCategories_UI)
-#. i18n: ectx: property (windowTitle), widget (QWidget, GuidesList_UI)
-#: src/ui/guidecategories_ui.ui:14 src/ui/guideslist_ui.ui:14
-#, kde-format
-msgid "Form"
-msgstr "Форма"
-
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
-#: src/ui/guidecategories_ui.ui:48
+#: src/ui/guidecategories_ui.ui:45
 #, kde-format
 msgid "Delete category"
 msgstr "Вилучити категорію"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
-#: src/ui/guidecategories_ui.ui:55
+#: src/ui/guidecategories_ui.ui:52
 #, kde-format
 msgid "Add category"
 msgstr "Додати категорію"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
-#: src/ui/guidecategories_ui.ui:62
+#: src/ui/guidecategories_ui.ui:59
 #, kde-format
 msgid "Edit category"
 msgstr "Змінити категорію"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/guidecategories_ui.ui:69
+#: src/ui/guidecategories_ui.ui:66
 #, kde-format
 msgid "Guides and Markers Categories"
 msgstr "Категорії напрямних і позначок"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:125
+#: src/ui/guideslist_ui.ui:122
 #, kde-format
 msgid "KSqueezedTextLabel"
 msgstr "KSqueezedTextLabel"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:156 src/ui/textbasededit_ui.ui:104
+#: src/ui/guideslist_ui.ui:153 src/ui/textbasededit_ui.ui:111
 #, kde-format
 msgid "Search"
 msgstr "Шукати"
@@ -18652,25 +18645,25 @@ msgid "File Size"
 msgstr "Розмір файла"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:145
+#: src/ui/textbasededit_ui.ui:151
 #, kde-format
 msgid "Start recognition"
 msgstr "Розпочати розпізнавання"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:204
+#: src/ui/textbasededit_ui.ui:211
 #, kde-format
 msgid "Selected zone only"
 msgstr "Лише позначена ділянка"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_insert)
-#: src/ui/textbasededit_ui.ui:221
+#: src/ui/textbasededit_ui.ui:228
 #, kde-format
 msgid "Insert selected blocks in timeline"
 msgstr "Вставити позначені блоки на монтажний стіл"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
-#: src/ui/textbasededit_ui.ui:251
+#: src/ui/textbasededit_ui.ui:258
 #, kde-format
 msgid "Save edited text in a new playlist"
 msgstr "Зберегти редагований текст у новому списку відтворення"
@@ -19267,6 +19260,9 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Form"
+#~ msgstr "Форма"
 
 #~ msgid ""
 #~ "The MediaInfo application is required for the recording timecode feature, "

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-13 02:40+0000\n"
+"POT-Creation-Date: 2023-02-17 02:39+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -3939,7 +3939,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:930
+#: src/audiomixer/mixermanager.cpp:205 src/timeline2/view/qml/timeline.qml:932
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -4481,14 +4481,14 @@ msgstr "Otvori projekte u novim karticama"
 msgid "Create Folder"
 msgstr "Kreiraj mapu"
 
-#: src/bin/bin.cpp:3427 src/dialogs/textbasededit.cpp:623
+#: src/bin/bin.cpp:3427 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
 #, fuzzy, kde-format
 #| msgid "Show All"
 msgid "Show log"
 msgstr "Prikaži sve"
 
-#: src/bin/bin.cpp:3430 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3430 src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Detailed log"
 msgstr ""
@@ -5547,7 +5547,7 @@ msgstr "Dokumentno projektna mapa je neispravna, postavite na zadano: %1%1"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/core.cpp:637 src/kdenliveui.rc:28 src/mainwindow.cpp:275
-#: src/timeline2/view/qml/timeline.qml:1022
+#: src/timeline2/view/qml/timeline.qml:1024
 #, fuzzy, kde-format
 msgid "Subtitles"
 msgstr "Bez naziva"
@@ -6611,7 +6611,7 @@ msgstr "dodaj isječak projektu"
 msgid "Process"
 msgstr "Pomakni isječak"
 
-#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:609
+#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:610
 #, fuzzy, kde-format
 msgid "Please install speech recognition models"
 msgstr "Prijelaz"
@@ -6633,7 +6633,7 @@ msgstr "Odaberite isječak prije kopiranja"
 msgid "No audio track found"
 msgstr "Idi na prethodni ključni okvir (keyframe)"
 
-#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:752
+#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:753
 #, fuzzy, kde-format
 msgid "Please configure speech to text."
 msgstr "Prijelaz"
@@ -6650,12 +6650,12 @@ msgstr "StartViewport"
 msgid "Audio export failed"
 msgstr "Audio traka"
 
-#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:769
+#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:770
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:887
+#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:888
 #, fuzzy, kde-format
 msgid "Speech recognition aborted."
 msgstr "Prijelaz"
@@ -6772,95 +6772,95 @@ msgstr "Dodaj oznaku"
 msgid "Delete selection"
 msgstr "Obriši odabrane stavke"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:903
-#: src/dialogs/textbasededit.cpp:971
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
+#: src/dialogs/textbasededit.cpp:972
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No speech"
 msgstr "isječak nije kopiran"
 
-#: src/dialogs/textbasededit.cpp:629
+#: src/dialogs/textbasededit.cpp:630
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Delete selected text"
 msgstr "Obriši označenu stavku"
 
-#: src/dialogs/textbasededit.cpp:635
+#: src/dialogs/textbasededit.cpp:636
 #, fuzzy, kde-format
 msgid "Add bookmark for current selection"
 msgstr "dodaj isječak projektu"
 
-#: src/dialogs/textbasededit.cpp:742
+#: src/dialogs/textbasededit.cpp:743
 #, kde-format
 msgid "Another recognition job is running. Abort it ?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:758
+#: src/dialogs/textbasededit.cpp:759
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:764
+#: src/dialogs/textbasededit.cpp:765
 #, fuzzy, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Projektno drvo"
 
-#: src/dialogs/textbasededit.cpp:812
+#: src/dialogs/textbasededit.cpp:813
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Odaberite isječak prije kopiranja"
 
-#: src/dialogs/textbasededit.cpp:821
+#: src/dialogs/textbasededit.cpp:822
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot create temporary file."
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/dialogs/textbasededit.cpp:826
+#: src/dialogs/textbasededit.cpp:827
 #, fuzzy, kde-format
 #| msgid "Creating thumbnail for %1"
 msgid "Extracting audio for %1."
 msgstr "Kreiraj kratki prikaz za %1"
 
-#: src/dialogs/textbasededit.cpp:835
+#: src/dialogs/textbasededit.cpp:836
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "Audio extract failed."
 msgstr "Audio traka"
 
-#: src/dialogs/textbasededit.cpp:841 src/dialogs/textbasededit.cpp:868
+#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
 #, fuzzy, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Prijelaz"
 
-#: src/dialogs/textbasededit.cpp:890
+#: src/dialogs/textbasededit.cpp:891
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:892
+#: src/dialogs/textbasededit.cpp:893
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No speech detected."
 msgstr "isječak nije kopiran"
 
-#: src/dialogs/textbasededit.cpp:910
+#: src/dialogs/textbasededit.cpp:911
 #, fuzzy, kde-format
 msgid "Speech recognition finished."
 msgstr "Prijelaz"
 
-#: src/dialogs/textbasededit.cpp:1079
+#: src/dialogs/textbasededit.cpp:1080
 #, fuzzy, kde-format
 msgid "No text to export"
 msgstr "Poravnaj lijevo"
 
-#: src/dialogs/textbasededit.cpp:1099
+#: src/dialogs/textbasededit.cpp:1100
 #, kde-format
 msgid "Enter new playlist path"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1200
+#: src/dialogs/textbasededit.cpp:1201
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No timecode found in selection"
@@ -14253,14 +14253,14 @@ msgid "Change clip speed"
 msgstr "Promijeni brzinu isječka"
 
 #: src/timeline2/model/timelinemodel.cpp:6181
-#: src/timeline2/view/qml/timeline.qml:1152
+#: src/timeline2/view/qml/timeline.qml:1154
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Lock track"
 msgstr "Zaključaj traku"
 
 #: src/timeline2/model/timelinemodel.cpp:6186
-#: src/timeline2/view/qml/timeline.qml:1152
+#: src/timeline2/view/qml/timeline.qml:1154
 #: src/timeline2/view/qml/TrackHead.qml:502
 #, kde-format
 msgid "Unlock track"
@@ -14390,7 +14390,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2027
+#: src/timeline2/view/qml/timeline.qml:2029
 #, kde-format
 msgid "Paused"
 msgstr ""
@@ -14407,8 +14407,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:150
-#: src/timeline2/view/qml/SubTitle.qml:156
+#: src/timeline2/view/qml/SubTitle.qml:163
+#: src/timeline2/view/qml/SubTitle.qml:169
 #, fuzzy, kde-format
 msgid "Position: %1"
 msgstr "Pozicija"
@@ -14503,8 +14503,8 @@ msgstr "Pozicija"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:273
-#: src/timeline2/view/qml/SubTitle.qml:362
+#: src/timeline2/view/qml/SubTitle.qml:286
+#: src/timeline2/view/qml/SubTitle.qml:375
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr ""
@@ -14523,36 +14523,36 @@ msgid ""
 "for multiple keyframe selection."
 msgstr ""
 
-#: src/timeline2/view/qml/SubTitle.qml:88
+#: src/timeline2/view/qml/SubTitle.qml:89
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:918
+#: src/timeline2/view/qml/timeline.qml:920
 #, fuzzy, kde-format
 #| msgid "M"
 msgctxt "Initial for Master"
 msgid "M"
 msgstr "M"
 
-#: src/timeline2/view/qml/timeline.qml:927
+#: src/timeline2/view/qml/timeline.qml:929
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Show master effects"
 msgstr "Spremi profil"
 
-#: src/timeline2/view/qml/timeline.qml:1058
+#: src/timeline2/view/qml/timeline.qml:1060
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Click to see details"
 msgstr "Projektna mapa"
 
-#: src/timeline2/view/qml/timeline.qml:1088
+#: src/timeline2/view/qml/timeline.qml:1090
 #, fuzzy, kde-format
 msgid "Speech recognition"
 msgstr "Prijelaz"
 
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1120
 #: src/timeline2/view/qml/TrackHead.qml:468
 #, fuzzy, kde-format
 #| msgid "Show All"
@@ -14560,30 +14560,30 @@ msgid "Show"
 msgstr "Prikaži sve"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1118
+#: src/timeline2/view/qml/timeline.qml:1120
 #: src/timeline2/view/qml/TrackHead.qml:468 src/ui/configcapture_ui.ui:397
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1706
+#: src/timeline2/view/qml/timeline.qml:1708
 #, fuzzy, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Ne mogu dodati prijelaz"
 
-#: src/timeline2/view/qml/timeline.qml:1870
+#: src/timeline2/view/qml/timeline.qml:1872
 #, fuzzy, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija"
 
-#: src/timeline2/view/qml/timeline.qml:2016
-#: src/timeline2/view/qml/timeline.qml:2025
+#: src/timeline2/view/qml/timeline.qml:2018
+#: src/timeline2/view/qml/timeline.qml:2027
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Snimi"
 
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -15838,10 +15838,10 @@ msgstr "Obriši trenutni gumb"
 #: src/ui/editsub_ui.ui:135 src/ui/editsub_ui.ui:156 src/ui/editsub_ui.ui:189
 #: src/ui/editsub_ui.ui:423 src/ui/exportguidesdialog_ui.ui:108
 #: src/ui/exportguidesdialog_ui.ui:128 src/ui/gradientedit_ui.ui:130
-#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:22
-#: src/ui/guideslist_ui.ui:39 src/ui/guideslist_ui.ui:53
-#: src/ui/guideslist_ui.ui:67 src/ui/guideslist_ui.ui:80
-#: src/ui/guideslist_ui.ui:106 src/ui/guideslist_ui.ui:132
+#: src/ui/gradientedit_ui.ui:150 src/ui/guideslist_ui.ui:19
+#: src/ui/guideslist_ui.ui:36 src/ui/guideslist_ui.ui:50
+#: src/ui/guideslist_ui.ui:64 src/ui/guideslist_ui.ui:77
+#: src/ui/guideslist_ui.ui:103 src/ui/guideslist_ui.ui:129
 #: src/ui/managecache_ui.ui:65 src/ui/managecache_ui.ui:116
 #: src/ui/managecache_ui.ui:147 src/ui/managecache_ui.ui:202
 #: src/ui/managecache_ui.ui:233 src/ui/managecache_ui.ui:291
@@ -15852,11 +15852,11 @@ msgstr "Obriši trenutni gumb"
 #: src/ui/projectsettings_ui.ui:578 src/ui/qtextclip_ui.ui:94
 #: src/ui/renderwidget_ui.ui:560 src/ui/renderwidget_ui.ui:994
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
-#: src/ui/speechdialog_ui.ui:99 src/ui/textbasededit_ui.ui:61
-#: src/ui/textbasededit_ui.ui:94 src/ui/textbasededit_ui.ui:114
-#: src/ui/textbasededit_ui.ui:188 src/ui/textbasededit_ui.ui:211
-#: src/ui/textbasededit_ui.ui:224 src/ui/textbasededit_ui.ui:238
-#: src/ui/textbasededit_ui.ui:254 src/ui/timeremap_ui.ui:97
+#: src/ui/speechdialog_ui.ui:99 src/ui/textbasededit_ui.ui:67
+#: src/ui/textbasededit_ui.ui:100 src/ui/textbasededit_ui.ui:121
+#: src/ui/textbasededit_ui.ui:194 src/ui/textbasededit_ui.ui:218
+#: src/ui/textbasededit_ui.ui:231 src/ui/textbasededit_ui.ui:245
+#: src/ui/textbasededit_ui.ui:261 src/ui/timeremap_ui.ui:97
 #: src/ui/timeremap_ui.ui:151 src/ui/timeremap_ui.ui:182
 #: src/ui/timeremap_ui.ui:192 src/ui/timeremap_ui.ui:202
 #: src/ui/timeremap_ui.ui:379 src/ui/titlewidget_ui.ui:830
@@ -17659,41 +17659,34 @@ msgstr "Boja"
 msgid "Color 1"
 msgstr "Boja"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, GuideCategories_UI)
-#. i18n: ectx: property (windowTitle), widget (QWidget, GuidesList_UI)
-#: src/ui/guidecategories_ui.ui:14 src/ui/guideslist_ui.ui:14
-#, kde-format
-msgid "Form"
-msgstr "Formular"
-
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
-#: src/ui/guidecategories_ui.ui:48
+#: src/ui/guidecategories_ui.ui:45
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Delete category"
 msgstr "Obriši oznaku"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
-#: src/ui/guidecategories_ui.ui:55
+#: src/ui/guidecategories_ui.ui:52
 #, fuzzy, kde-format
 #| msgid "Add chapter"
 msgid "Add category"
 msgstr "Dodaj poglavlje"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
-#: src/ui/guidecategories_ui.ui:62
+#: src/ui/guidecategories_ui.ui:59
 #, fuzzy, kde-format
 msgid "Edit category"
 msgstr "Trajanje"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/guidecategories_ui.ui:69
+#: src/ui/guidecategories_ui.ui:66
 #, kde-format
 msgid "Guides and Markers Categories"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
-#: src/ui/guideslist_ui.ui:125
+#: src/ui/guideslist_ui.ui:122
 #, fuzzy, kde-format
 #| msgid "TextLabel"
 msgid "KSqueezedTextLabel"
@@ -17701,7 +17694,7 @@ msgstr "NaslovTeksta"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:156 src/ui/textbasededit_ui.ui:104
+#: src/ui/guideslist_ui.ui:153 src/ui/textbasededit_ui.ui:111
 #, kde-format
 msgid "Search"
 msgstr ""
@@ -19041,26 +19034,26 @@ msgid "File Size"
 msgstr "Veličina datoteke"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:145
+#: src/ui/textbasededit_ui.ui:151
 #, fuzzy, kde-format
 msgid "Start recognition"
 msgstr "Prijelaz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:204
+#: src/ui/textbasededit_ui.ui:211
 #, fuzzy, kde-format
 #| msgid "Selected zone"
 msgid "Selected zone only"
 msgstr "Odaberite zonu"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_insert)
-#: src/ui/textbasededit_ui.ui:221
+#: src/ui/textbasededit_ui.ui:228
 #, fuzzy, kde-format
 msgid "Insert selected blocks in timeline"
 msgstr "Ne mogu naći isječak za izrezati"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
-#: src/ui/textbasededit_ui.ui:251
+#: src/ui/textbasededit_ui.ui:258
 #, kde-format
 msgid "Save edited text in a new playlist"
 msgstr ""
@@ -19690,6 +19683,9 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#~ msgid "Form"
+#~ msgstr "Formular"
 
 #, fuzzy
 #~| msgid "Delete keyframe"
