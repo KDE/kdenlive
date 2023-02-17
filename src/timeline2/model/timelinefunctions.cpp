@@ -1896,6 +1896,10 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
+            if (clipId.isEmpty()) {
+                // Invalid clip, maybe black track from a sequence, ignore
+                continue;
+            }
             QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
             if (!pCore->projectItemModel()->validateClip(clipId, clipHash)) {
                 // This clip is different in project and in paste data, create a copy
@@ -1941,17 +1945,59 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
             pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
         }
-        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
         updatedPosition = position + (pasteDuration * ratio);
+        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
+            QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
+            if (clipId.isEmpty()) {
+                // Not a bin clip
+                continue;
+            }
             if (ratio != 1.) {
                 int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
                 int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
                 currentProd.setAttribute(QStringLiteral("out"), out);
                 Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
             }
+            QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
+            // Check if we already have a clip with same hash in pasted clips folder
+            QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash);
+            if (!existingId.isEmpty()) {
+                mappedIds.insert(clipId, existingId);
+                continue;
+            }
+            if (!pCore->projectItemModel()->isIdFree(clipId)) {
+                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
+                Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
+                mappedIds.insert(clipId, updatedId);
+                clipId = updatedId;
+            }
+            waitingBinIds << clipId;
+            clipsImported = true;
+            qDebug() << ":::::::\n\nZZZZZZZZZZZZZ\nIMPORTED CLIP: " << clipId << "\n\nHHHHHHHHHHHHHHHHHH";
+            bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
+            if (!insert) {
+                pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
+                undo();
+                semaphore.release(1);
+                return false;
+            }
+        }
+        QDomNodeList chainClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("chain"));
+        for (int i = 0; i < chainClips.count(); ++i) {
+            QDomElement currentProd = chainClips.item(i).toElement();
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
+            if (clipId.isEmpty()) {
+                // Not a bin clip
+                continue;
+            }
+            if (ratio != 1.) {
+                int out = currentProd.attribute(QStringLiteral("out")).toInt() * ratio;
+                int length = Xml::getXmlProperty(currentProd, QStringLiteral("length")).toInt() * ratio;
+                currentProd.setAttribute(QStringLiteral("out"), out);
+                Xml::setXmlProperty(currentProd, QStringLiteral("length"), QString::number(length));
+            }
             QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
             // Check if we already have a clip with same hash in pasted clips folder
             QString existingId = pCore->projectItemModel()->validateClipInFolder(folderId, clipHash);
@@ -1968,6 +2014,70 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             waitingBinIds << clipId;
             clipsImported = true;
             bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo, callBack);
+            if (!insert) {
+                pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
+                undo();
+                semaphore.release(1);
+                return false;
+            }
+        }
+        QDomNodeList sequenceClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("mlt"));
+        for (int i = 0; i < sequenceClips.count(); ++i) {
+            QDomElement currentProd = sequenceClips.item(i).toElement();
+            QString clipId = currentProd.attribute(QStringLiteral("kdenlive:id"));
+            const QString uuid = currentProd.attribute(QStringLiteral("kdenlive:uuid"));
+            int duration = currentProd.attribute(QStringLiteral("kdenlive:duration")).toInt();
+            const QString clipname = currentProd.attribute(QStringLiteral("kdenlive:clipname"));
+            if (clipId.isEmpty()) {
+                // Not a bin clip
+                continue;
+            }
+            if (!pCore->projectItemModel()->isIdFree(clipId)) {
+                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
+                mappedIds.insert(clipId, updatedId);
+                clipId = updatedId;
+            }
+            QDomDocument doc;
+            doc.appendChild(doc.importNode(currentProd, true));
+            // update all bin ids
+            QDomNodeList prods = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
+            for (int i = 0; i < prods.count(); i++) {
+                QDomElement e = prods.item(i).toElement();
+                const QString currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+                if (mappedIds.contains(currentId)) {
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), mappedIds.value(currentId));
+                }
+            }
+            QDomNodeList entries = doc.documentElement().elementsByTagName(QStringLiteral("entry"));
+            for (int i = 0; i < entries.count(); i++) {
+                QDomElement e = entries.item(i).toElement();
+                const QString currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+                if (mappedIds.contains(currentId)) {
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), mappedIds.value(currentId));
+                }
+            }
+            waitingBinIds << clipId;
+            clipsImported = true;
+            std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", doc.toString().toUtf8().constData()));
+            if (!xmlProd->is_valid()) {
+                qDebug() << ":::: CANNOT IMPORT SEQUENCE: " << clipId;
+                continue;
+            }
+            xmlProd->set("kdenlive:id", clipId.toUtf8().constData());
+            xmlProd->set("kdenlive:clip_type", ClipType::Timeline);
+            xmlProd->set("kdenlive:uuid", uuid.toUtf8().constData());
+            xmlProd->set("kdenlive:duration", xmlProd->frames_to_time(duration));
+            xmlProd->set("kdenlive:clipname", clipname.toUtf8().constData());
+            Mlt::Service s(*xmlProd.get());
+            Mlt::Tractor tractor(s);
+            std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(tractor.cut()));
+            prod->set("id", uuid.toUtf8().constData());
+            prod->set("kdenlive:id", clipId.toUtf8().constData());
+            prod->set("kdenlive:clip_type", ClipType::Timeline);
+            prod->set("kdenlive:uuid", uuid.toUtf8().constData());
+            prod->set("kdenlive:duration", xmlProd->frames_to_time(duration));
+            prod->set("kdenlive:clipname", clipname.toUtf8().constData());
+            bool insert = pCore->projectItemModel()->requestAddBinClip(clipId, prod, folderId, undo, redo, callBack);
             if (!insert) {
                 pCore->displayMessage(i18n("Could not add bin clip"), ErrorMessage, 500);
                 undo();

@@ -254,6 +254,8 @@ public:
     const QStringList enforcedParams() const;
     /** @brief Remove clip references in a timeline. */
     void purgeReferences(const QUuid &activeUuid);
+    /** @brief Check if clip is referenced in a timeline, and return the clip's bin id if it is */
+    const QString isReferenced(const QUuid &activeUuid) const;
     const QString baseThumbPath();
     /** @brief Returns false if the clip is or embeds a timeline with uuid. */
     bool canBeDropped(const QUuid &uuid) const;

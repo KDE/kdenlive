@@ -373,6 +373,8 @@ public:
     void replaceSingleClip(const QString clipId, const QString &newUrl);
     /** @brief Remove clip references for a timeline. */
     void removeReferencedClips(const QUuid &uuid);
+    /** @brief List all clips referenced in a timeline sequence. */
+    QStringList sequenceReferencedClips(const QUuid &uuid) const;
 
 private slots:
     void slotAddClip();

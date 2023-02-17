@@ -454,21 +454,12 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
     } else {
         // Check if this is a sequence clip
         if (m_clipType == ClipType::Timeline) {
-            // parse all embedded producers
-            prod = document.createElement(QStringLiteral("sequence"));
-            Xml::setXmlProperty(prod, QStringLiteral("kdenlive:id"), m_binId);
-            QDomNodeList prods = document.documentElement().elementsByTagName(QStringLiteral("producer"));
-            for (int i = 0; i < prods.count(); ++i) {
-                prod.appendChild(prods.item(i));
-            }
-            QDomNodeList chains = document.documentElement().elementsByTagName(QStringLiteral("chain"));
-            for (int i = 0; i < chains.count(); ++i) {
-                prod.appendChild(chains.item(i));
-            }
-            QDomNodeList tractors = document.documentElement().elementsByTagName(QStringLiteral("tractor"));
-            for (int i = 0; i < tractors.count(); ++i) {
-                prod.appendChild(tractors.item(i));
-            }
+            prod = document.documentElement();
+            prod.setAttribute(QStringLiteral("kdenlive:id"), m_binId);
+            prod.setAttribute(QStringLiteral("kdenlive:clip_type"), ClipType::Timeline);
+            prod.setAttribute(QStringLiteral("kdenlive:uuid"), getProducerProperty(QStringLiteral("kdenlive:uuid")));
+            prod.setAttribute(QStringLiteral("kdenlive:duration"), QString::number(frameDuration()));
+            prod.setAttribute(QStringLiteral("kdenlive:clipname"), clipName());
         } else {
             prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
             if (prod.isNull()) {
@@ -949,7 +940,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 trackId = -trackId;
             }
             if (m_audioProducers.count(trackId) == 0) {
-                if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
+                if (m_clipType == ClipType::Timeline) {
                     std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
                     m_audioProducers[trackId] = prod;
                 } else {
@@ -991,10 +982,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 trackId = -trackId;
             }
             if (m_videoProducers.count(trackId) == 0) {
-                if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
+                if (m_clipType == ClipType::Timeline) {
                     std::shared_ptr<Mlt::Producer> prod(m_masterProducer->cut(0, -1));
                     m_videoProducers[trackId] = prod;
-
                 } else {
                     m_videoProducers[trackId] = cloneProducer(true);
                 }
@@ -2064,6 +2054,18 @@ QList<int> ProjectClip::timelineInstances() const
         ids.push_back(registeredClip.first);
     }
     return ids;
+}
+
+const QString ProjectClip::isReferenced(const QUuid &activeUuid) const
+{
+    for (const auto &registeredClip : m_registeredClips) {
+        if (auto ptr = registeredClip.second.lock()) {
+            if (ptr->uuid() == activeUuid) {
+                return m_binId;
+            }
+        }
+    }
+    return QString();
 }
 
 void ProjectClip::purgeReferences(const QUuid &activeUuid)

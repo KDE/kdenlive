@@ -378,7 +378,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         QList<QUuid> uuids = m_project->getTimelinesUuids();
         for (auto &uid : uuids) {
-            qDebug() << "::: CLOSING TIMELINE: " << uid;
             pCore->window()->closeTimeline(uid);
             pCore->window()->resetSubtitles(uid);
         }

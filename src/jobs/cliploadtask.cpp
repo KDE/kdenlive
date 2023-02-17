@@ -231,7 +231,7 @@ void ClipLoadTask::processSlideShow(std::shared_ptr<Mlt::Producer> producer)
 void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::shared_ptr<Mlt::Producer> producer)
 {
     // Fetch thumbnail
-    qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType() << "\n\n=========";
+    qDebug() << "===== \nREADY FOR THUMB" << binClip->clipType();
     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
         return;
     }
@@ -265,7 +265,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                 }
                 thumbProd.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
             }
-            if (thumbProd) {
+            if (thumbProd && thumbProd->is_valid()) {
                 thumbProd->set("audio_index", -1);
                 Mlt::Properties original(producer->get_properties());
                 Mlt::Properties cloneProps(thumbProd->get_properties());

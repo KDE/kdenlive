@@ -5576,6 +5576,21 @@ void Bin::removeReferencedClips(const QUuid &uuid)
     }
 }
 
+QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
+{
+    QStringList results;
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        if (clip->refCount() > 0) {
+            const QString referenced = clip->isReferenced(uuid);
+            if (!referenced.isEmpty()) {
+                results << referenced;
+            }
+        }
+    }
+    return results;
+}
+
 void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
 {
     if (m_openedPlaylists.contains(uuid)) {

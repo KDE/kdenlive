@@ -5647,6 +5647,9 @@ void TimelineModel::adjustAssetRange(int clipId, int in, int out)
 
 void TimelineModel::requestClipReload(int clipId, int forceDuration)
 {
+    if (m_closing) {
+        return;
+    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
 

@@ -845,7 +845,8 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo,
+                                         const std::function<void(const QString &)> &readyCallBack)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -861,6 +862,8 @@ bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Produ
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         new_clip->importEffects(producer);
+        const std::function<void()> readyCallBackExec = std::bind(readyCallBack, id);
+        QMetaObject::invokeMethod(qApp, [readyCallBackExec] { readyCallBackExec(); });
     }
     return res;
 }
