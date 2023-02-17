@@ -66,7 +66,7 @@ void TranscodeTask::run()
     ClipType::ProducerType type = binClip->clipType();
     QString source;
     QTemporaryFile src;
-    if (type == ClipType::Text) {
+    if (type == ClipType::Text || type == ClipType::Timeline) {
         src.setFileTemplate(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
         if (src.open()) {
             source = src.fileName();
@@ -120,7 +120,7 @@ void TranscodeTask::run()
     QString destUrl = dir.absoluteFilePath(path.section(QLatin1Char('.'), 0, -2));
 
     bool result;
-    if (type == ClipType::Playlist || type == ClipType::SlideShow || type == ClipType::Text) {
+    if (type == ClipType::Playlist || type == ClipType::SlideShow || type == ClipType::Text || type == ClipType::Timeline) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         // insert transcoded filename
