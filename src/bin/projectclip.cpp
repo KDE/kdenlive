@@ -452,9 +452,28 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
     if (tag == QLatin1String("producer") || tag == QLatin1String("chain")) {
         prod = document.documentElement();
     } else {
-        prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
-        if (prod.isNull()) {
-            prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+        // Check if this is a sequence clip
+        if (m_clipType == ClipType::Timeline) {
+            // parse all embedded producers
+            prod = document.createElement(QStringLiteral("sequence"));
+            Xml::setXmlProperty(prod, QStringLiteral("kdenlive:id"), m_binId);
+            QDomNodeList prods = document.documentElement().elementsByTagName(QStringLiteral("producer"));
+            for (int i = 0; i < prods.count(); ++i) {
+                prod.appendChild(prods.item(i));
+            }
+            QDomNodeList chains = document.documentElement().elementsByTagName(QStringLiteral("chain"));
+            for (int i = 0; i < chains.count(); ++i) {
+                prod.appendChild(chains.item(i));
+            }
+            QDomNodeList tractors = document.documentElement().elementsByTagName(QStringLiteral("tractor"));
+            for (int i = 0; i < tractors.count(); ++i) {
+                prod.appendChild(tractors.item(i));
+            }
+        } else {
+            prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
+            if (prod.isNull()) {
+                prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+            }
         }
     }
     if (m_clipType != ClipType::Unknown) {

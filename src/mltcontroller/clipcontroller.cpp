@@ -135,16 +135,11 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
 }
 
 namespace {
-QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta, bool includeProfile)
+QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
 {
-    Mlt::Consumer c(*producer->profile(), "xml", "string");
-    Mlt::Service s(producer->get_service());
-    if (!s.is_valid()) {
+    Mlt::Consumer c(*producer.profile(), "xml", "string");
+    if (!producer.is_valid()) {
         return QString();
-    }
-    int ignore = s.get_int("ignore_points");
-    if (ignore != 0) {
-        s.set("ignore_points", 0);
     }
     c.set("time_format", "frames");
     if (!includeMeta) {
@@ -156,11 +151,8 @@ QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool include
     c.set("store", "kdenlive");
     c.set("no_root", 1);
     c.set("root", "/");
-    c.connect(s);
-    c.start();
-    if (ignore != 0) {
-        s.set("ignore_points", ignore);
-    }
+    c.connect(producer);
+    c.run();
     return QString::fromUtf8(c.get("string"));
 }
 } // namespace
@@ -169,7 +161,7 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
 {
     // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
-        QString xml = producerXml(m_masterProducer, includeMeta, includeProfile);
+        QString xml = producerXml(*m_masterProducer.get(), includeMeta, includeProfile);
         document.setContent(xml);
     } else {
         if (!m_temporaryUrl.isEmpty()) {
