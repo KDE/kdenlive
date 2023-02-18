@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-02-13 12:52+0100\n"
+"PO-Revision-Date: 2023-02-17 16:20+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -8734,12 +8734,12 @@ msgstr "Nástroj Multicam"
 #: src/mainwindow.cpp:1244
 #, kde-format
 msgid "Collapse/Expand Item"
-msgstr ""
+msgstr "Sbalit/Rozbalit položku"
 
 #: src/mainwindow.cpp:1248
 #, kde-format
 msgid "Mix Clips"
-msgstr ""
+msgstr "Mixovat klipy"
 
 #: src/mainwindow.cpp:1256
 #, kde-format
@@ -14174,7 +14174,7 @@ msgstr ""
 #: src/timeline2/view/timelinetabs.cpp:32
 #, kde-format
 msgid "Main timeline"
-msgstr ""
+msgstr "Hlavní časová osa"
 
 #: src/timeline2/view/timelinewidget.cpp:71
 #, kde-format
@@ -15691,7 +15691,7 @@ msgstr "Další typy MIME klipů"
 #: src/ui/configenv_ui.ui:434
 #, kde-format
 msgid "Supported clip MIME types"
-msgstr "Podporované MIME typy klipů "
+msgstr "Podporované typy MIME klipů"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableshuttle)
 #: src/ui/configjogshuttle_ui.ui:27
@@ -18623,7 +18623,7 @@ msgstr "Zarovnat dolů"
 #: src/widgets/markercategorychooser.cpp:41
 #, kde-format
 msgid "Nothing to select"
-msgstr ""
+msgstr "Není co vybrat"
 
 #: src/widgets/markercategorybutton.cpp:134
 #: src/widgets/markercategorychooser.cpp:47
@@ -18648,6 +18648,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Form"
-#~ msgstr "Formulář"
