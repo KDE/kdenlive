@@ -105,6 +105,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     buttonToolbar->addAction(m_splitButton);
 
     m_enableStackButton = new KDualAction(i18n("Effects disabled"), i18n("Effects enabled"), this);
+    m_enableStackButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the effect stack to be enabled or disabled. Useful to see the difference between original and edited or to speed up scrubbing."));
     m_enableStackButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enableStackButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     connect(m_enableStackButton, &KDualAction::activeChangedByUser, this, &AssetPanel::enableStack);
@@ -112,7 +113,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     buttonToolbar->addAction(m_enableStackButton);
 
     m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Hide keyframes in timeline"), this);
-    m_timelineButton->setWhatsThis(i18n("Toggles the display of keyframes in the clip on the timeline"));
+    m_timelineButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of keyframes in the clip on the timeline"));
     m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
     m_timelineButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
     m_timelineButton->setVisible(false);

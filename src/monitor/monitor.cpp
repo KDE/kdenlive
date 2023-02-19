@@ -345,6 +345,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(forward, &QAction::triggered, this, [this]() { Monitor::slotForward(); });
 
     m_configMenuAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("More Options…"), m_toolbar);
+    m_configMenuAction->setWhatsThis(xi18nc("@info:whatsthis", "Opens the list of project/clip monitor options (e.g. audio volume, monitor size)."));
     m_configMenuAction->setPopupMode(QToolButton::InstantPopup);
     connect(m_configMenuAction->menu(), &QMenu::aboutToShow, this, &Monitor::updateMarkers);
 

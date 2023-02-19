@@ -555,6 +555,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("perform_multitrack_mode"), performMultiTrackOperation);
 
     QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
+    enableEditmode->setWhatsThis(xi18nc("@info:whatsthis", "Toggles edit mode (and the display of the object handles)."));
     enableEditmode->setCheckable(true);
     enableEditmode->setChecked(KdenliveSettings::showOnMonitorScene());
     connect(enableEditmode, &QAction::triggered, this, &MonitorManager::slotToggleEffectScene);

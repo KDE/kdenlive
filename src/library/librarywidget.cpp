@@ -219,12 +219,15 @@ void LibraryWidget::setupActions()
 {
     QList<QAction *> menuList;
     m_addAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), i18n("Add Clip to Project"), this);
+    m_addAction->setWhatsThis(xi18nc("@info:whatsthis", "Adds the selected library clip to the project bin."));
     connect(m_addAction, &QAction::triggered, this, &LibraryWidget::slotAddToProject);
     m_addAction->setData(1);
     m_deleteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete Clip from Library"), this);
+    m_deleteAction->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the currently selected library clip from the library."));
     connect(m_deleteAction, &QAction::triggered, this, &LibraryWidget::slotDeleteFromLibrary);
     m_deleteAction->setData(1);
     QAction *addFolder = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Library Folder"), this);
+    addFolder->setWhatsThis(xi18nc("@info:whatsthis", "Creates a new folder in the library."));
     connect(addFolder, &QAction::triggered, this, &LibraryWidget::slotAddFolder);
     QAction *renameFolder = new QAction(QIcon(), i18n("Rename Library Clip"), this);
     renameFolder->setData(1);
@@ -234,6 +237,7 @@ void LibraryWidget::setupActions()
     m_toolBar->addSeparator();
     m_toolBar->addAction(addFolder);
     QAction *sentToLibrary = new QAction(QIcon::fromTheme(QStringLiteral("bookmark-new")), i18n("Add Timeline Selection to Library"), this);
+    sentToLibrary->setWhatsThis(xi18nc("@info:whatsthis", "Adds the clip(s) currently selected in the timeline to the library. Note that the paths to images, video and audio files are saved as absolute paths."));
     connect(sentToLibrary, &QAction::triggered, this, &LibraryWidget::slotAddToLibrary);
     pCore->addActionToCollection(QStringLiteral("send_library"), sentToLibrary);
     sentToLibrary->setEnabled(false);

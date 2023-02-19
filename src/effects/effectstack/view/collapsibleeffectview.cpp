@@ -96,6 +96,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     keyframesButton->setToolTip(i18n("Enable Keyframes"));
 
     m_keyframesButton = new KDualAction(i18n("Hide Keyframes"), i18n("Show Keyframes"), this);
+    m_keyframesButton->setWhatsThis(xi18nc("@info:whatsthis", "Turns the display of the keyframe ruler on."));
     m_keyframesButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
     m_keyframesButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
     keyframesButton->setDefaultAction(m_keyframesButton);
@@ -104,7 +105,8 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
 
     // Enable button
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
-    m_enabledButton->setWhatsThis(i18n("Enables the effect. Useful to compare before and after settings."));
+    m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Disables the effect. Useful to compare before and after settings."));
+    m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Enables the effect. Useful to compare before and after settings."));
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
@@ -170,6 +172,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     });
 
     m_inOutButton = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-width")), i18n("Use effect zone"), this);
+    m_inOutButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of the effect zone."));
     m_inOutButton->setCheckable(true);
     inOutButton->setDefaultAction(m_inOutButton);
     m_inOutButton->setChecked(m_model->hasForcedInOut());

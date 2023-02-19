@@ -260,8 +260,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     aBox->addWidget(m_analysisTree);
     auto *bar2 = new QToolBar;
     bar2->addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18n("Delete analysis"), this, SLOT(slotDeleteAnalysis()));
+    bar2->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the data set(s)."));
     bar2->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Export analysis…"), this, SLOT(slotSaveAnalysis()));
+    bar2->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to export/save the analysis data."));
     bar2->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Import analysis…"), this, SLOT(slotLoadAnalysis()));
+    bar2->setWhatsThis(xi18nc("@info:whatsthis", "Opens a file dialog window to import/load analysis data."));
     aBox->addWidget(bar2);
 
     slotFillAnalysisData();
@@ -1001,14 +1004,18 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->addTab(m_analysisPage, QString());
     m_tabWidget->setTabIcon(0, QIcon::fromTheme(QStringLiteral("edit-find")));
     m_tabWidget->setTabToolTip(0, i18n("File info"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the file."));
     m_tabWidget->setTabIcon(1, QIcon::fromTheme(QStringLiteral("document-edit")));
     m_tabWidget->setTabToolTip(1, i18n("Properties"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the video data/codec."));
     m_tabWidget->setTabIcon(2, QIcon::fromTheme(QStringLiteral("audio-volume-high")));
     m_tabWidget->setTabToolTip(2, i18n("Audio Properties"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays detailed information about the audio streams/data/codec."));
     m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
     m_tabWidget->setTabToolTip(3, i18n("Metadata"));
     m_tabWidget->setTabIcon(4, QIcon::fromTheme(QStringLiteral("visibility")));
     m_tabWidget->setTabToolTip(4, i18n("Analysis"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis", "Displays analysis data."));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == ClipType::Color) {
         m_tabWidget->setTabEnabled(0, false);
