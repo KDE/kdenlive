@@ -39,7 +39,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     , m_abortArchive(false)
     , m_extractMode(false)
     , m_progressTimer(nullptr)
-    , m_extractArchive(nullptr)
+    , m_archive(nullptr)
     , m_missingClips(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
@@ -240,7 +240,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     , m_abortArchive(false)
     , m_extractMode(true)
     , m_extractUrl(std::move(url))
-    , m_extractArchive(nullptr)
+    , m_archive(nullptr)
     , m_missingClips(0)
     , m_infoMessage(nullptr)
 {
@@ -276,7 +276,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
 
 ArchiveWidget::~ArchiveWidget()
 {
-    delete m_extractArchive;
+    delete m_archive;
     delete m_progressTimer;
 }
 
@@ -306,12 +306,12 @@ void ArchiveWidget::openArchiveForExtraction()
     QMimeDatabase db;
     QMimeType mime = db.mimeTypeForUrl(m_extractUrl);
     if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
-        m_extractArchive = new KTar(m_extractUrl.toLocalFile());
+        m_archive = new KTar(m_extractUrl.toLocalFile());
     } else {
-        m_extractArchive = new KZip(m_extractUrl.toLocalFile());
+        m_archive = new KZip(m_extractUrl.toLocalFile());
     }
 
-    if (!m_extractArchive->isOpen() && !m_extractArchive->open(QIODevice::ReadOnly)) {
+    if (!m_archive->isOpen() && !m_archive->open(QIODevice::ReadOnly)) {
         emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
         return;
@@ -319,7 +319,7 @@ void ArchiveWidget::openArchiveForExtraction()
 
     // Check that it is a kdenlive project archive
     bool isProjectArchive = false;
-    QStringList files = m_extractArchive->directory()->entries();
+    QStringList files = m_archive->directory()->entries();
     for (int i = 0; i < files.count(); ++i) {
         if (files.at(i).endsWith(QLatin1String(".kdenlive"))) {
             m_projectName = files.at(i);
@@ -1094,34 +1094,44 @@ void ArchiveWidget::createArchive()
     QFileInfo dirInfo(archive_url->url().toLocalFile());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    std::unique_ptr<KArchive> archive;
     if (compression_type->currentIndex() == 1) {
-        archive = std::make_unique<KZip>(m_archiveName);
+        m_archive = new KZip(m_archiveName);
     } else {
-        archive = std::make_unique<KTar>(m_archiveName, QStringLiteral("application/x-gzip"));
+        m_archive = new KTar(m_archiveName, QStringLiteral("application/x-gzip"));
     }
-    archive->open(QIODevice::WriteOnly);
+
+    QString errorString;
+    bool success = true;
+
+    if (!m_archive->isOpen() && !m_archive->open(QIODevice::WriteOnly)) {
+        success = false;
+        errorString = i18n("Cannot open archive file %1", m_archiveName);
+    }
 
     // Create folders
-    for (const QString &path : qAsConst(m_foldersList)) {
-        archive->writeDir(path, user, group);
+    if (success) {
+        for (const QString &path : qAsConst(m_foldersList)) {
+            success = success && m_archive->writeDir(path, user, group);
+        }
     }
 
     // Add files
-    int ix = 0;
-    bool success = true;
-    QMapIterator<QString, QString> i(m_filesList);
-    int max = m_filesList.count();
-    while (i.hasNext()) {
-        i.next();
-        m_infoMessage->setText(i18n("Archiving %1", i.key()));
-        success = archive->addLocalFile(i.key(), i.value());
-        emit archiveProgress(100 * ix / max);
-        ix++;
-        if (!success || m_abortArchive) {
-            break;
+    if (success) {
+        int ix = 0;
+        QMapIterator<QString, QString> i(m_filesList);
+        int max = m_filesList.count();
+        while (i.hasNext()) {
+            i.next();
+            m_infoMessage->setText(i18n("Archiving %1", i.key()));
+            success = m_archive->addLocalFile(i.key(), i.value());
+            emit archiveProgress(100 * ix / max);
+            ix++;
+            if (!success || m_abortArchive) {
+                break;
+            }
         }
     }
+
     if (m_abortArchive) {
         return;
     }
@@ -1131,7 +1141,7 @@ void ArchiveWidget::createArchive()
         success = false;
     }
     if (success) {
-        success = archive->addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
+        success = m_archive->addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
         delete m_temp;
         m_temp = nullptr;
     }
@@ -1140,25 +1150,26 @@ void ArchiveWidget::createArchive()
         QStringList subtitles = pCore->currentDoc()->getAllSubtitlesPath(false);
         for (auto &path : subtitles) {
             if (QFileInfo::exists(path)) {
-                success = archive->addLocalFile(path, m_name + QStringLiteral(".kdenlive.") + QFileInfo(path).completeSuffix());
+                success = success && m_archive->addLocalFile(path, m_name + QStringLiteral(".kdenlive.") + QFileInfo(path).completeSuffix());
             }
         }
     }
-    if (success) {
-        success = archive->close();
-    } else {
-        archive->close();
+
+    if (errorString.isEmpty()) {
+        errorString = m_archive->errorString();
     }
-    emit archivingFinished(success);
+    success = success && m_archive->close();
+
+    emit archivingFinished(success, errorString);
 }
 
-void ArchiveWidget::slotArchivingBoolFinished(bool result)
+void ArchiveWidget::slotArchivingBoolFinished(bool result, const QString &errorString)
 {
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived.\n%1", m_archiveName));
         // buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
-        slotJobResult(false, i18n("There was an error processing project file"));
+        slotJobResult(false, i18n("There was an error while archiving the project: %1", errorString.isEmpty() ? i18n("Unknown Error") : errorString));
     }
     progressBar->setValue(100);
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -1215,8 +1226,8 @@ void ArchiveWidget::slotGotProgress(KJob *job)
 
 void ArchiveWidget::doExtracting()
 {
-    m_extractArchive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
-    m_extractArchive->close();
+    m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
+    m_archive->close();
     emit extractingFinished();
 }
 

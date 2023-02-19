@@ -49,7 +49,7 @@ private slots:
     bool closeAccepted();
     void createArchive();
     void slotArchivingIntProgress(int);
-    void slotArchivingBoolFinished(bool result);
+    void slotArchivingBoolFinished(bool result, const QString &errorString);
     void slotStartExtracting();
     void doExtracting();
     void slotExtractingFinished();
@@ -87,7 +87,7 @@ private:
     QUrl m_extractUrl;
     QString m_projectName;
     QTimer *m_progressTimer;
-    KArchive *m_extractArchive;
+    KArchive *m_archive;
     int m_missingClips;
     KMessageWidget *m_infoMessage;
 
@@ -117,7 +117,7 @@ private:
     void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
 
 signals:
-    void archivingFinished(bool);
+    void archivingFinished(bool, const QString &);
     void archiveProgress(int);
     void extractingFinished();
     void showMessage(const QString &, const QString &);
