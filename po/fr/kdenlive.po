@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-18 00:57+0000\n"
-"PO-Revision-Date: 2023-02-16 19:52+0100\n"
+"PO-Revision-Date: 2023-02-17 19:56+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -4207,15 +4207,14 @@ msgid "Cancel Pending Jobs"
 msgstr "Annuler les tâches en attente"
 
 #: src/bin/bin.cpp:1815
-#, fuzzy, kde-format
-#| msgid "You cannot add a project inside itself."
+#, kde-format
 msgid "You cannot delete all sequences of a project"
-msgstr "Vous ne pouvez pas ajouter un projet à l'intérieur de lui-même."
+msgstr "Il vous est impossible de supprimer toutes les séquences d'un projet."
 
 #: src/bin/bin.cpp:1818
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr ""
+msgstr "Il est impossible d'annuler la suppression de séquences "
 
 #: src/bin/bin.cpp:1826
 #, kde-format

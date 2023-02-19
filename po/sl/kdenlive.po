@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-18 00:57+0000\n"
-"PO-Revision-Date: 2023-02-12 11:00+0100\n"
+"PO-Revision-Date: 2023-02-18 15:59+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -4170,15 +4170,14 @@ msgid "Cancel Pending Jobs"
 msgstr "Prekliči čakajoče posle"
 
 #: src/bin/bin.cpp:1815
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot delete all sequences of a project"
-msgstr "Ni mogoče vstaviti zaporedja, ki vsebuje samega sebe."
+msgstr "Vseh zaporedij projekta ni mogoče izbrisati"
 
 #: src/bin/bin.cpp:1818
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr ""
+msgstr "Brisanja zaporedij ni mogoče razveljaviti."
 
 #: src/bin/bin.cpp:1826
 #, kde-format
@@ -19563,6 +19562,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Form"
-#~ msgstr "Oblika"
