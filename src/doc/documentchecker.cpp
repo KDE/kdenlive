@@ -1607,7 +1607,7 @@ void DocumentChecker::slotDeleteSelected()
     QStringList deletedLumas;
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
 
-    foreach (QTreeWidgetItem *child, m_ui.treeWidget->selectedItems()) {
+    for (QTreeWidgetItem *child : m_ui.treeWidget->selectedItems()) {
         int id = child->data(0, statusRole).toInt();
         if (id == CLIPMISSING) {
             deletedIds.append(child->data(0, idRole).toString());

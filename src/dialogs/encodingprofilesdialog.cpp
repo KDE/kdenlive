@@ -141,7 +141,7 @@ void EncodingProfilesDialog::slotAddProfile()
         pext->setText(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText() + QLatin1Char(';') + pext->text());
+        m_configGroup->writeEntry(pname->text(), QString(pparams->toPlainText() + QLatin1Char(';') + pext->text()));
         slotLoadProfiles();
     }
     delete d;
@@ -175,7 +175,7 @@ void EncodingProfilesDialog::slotEditProfile()
         pparams->setFocus();
     }
     if (d->exec() == QDialog::Accepted) {
-        m_configGroup->writeEntry(pname->text(), pparams->toPlainText().simplified() + QLatin1Char(';') + pext->text());
+        m_configGroup->writeEntry(pname->text(), QString(pparams->toPlainText().simplified() + QLatin1Char(';') + pext->text()));
         slotLoadProfiles();
     }
     delete d;

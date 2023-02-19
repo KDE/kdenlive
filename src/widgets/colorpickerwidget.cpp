@@ -86,7 +86,7 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     // our custom implementation (eg. preview and avarage color are missing)
     if (pCore) {
         QPoint p(pCore->window()->geometry().center());
-        foreach (QScreen *screen, QGuiApplication::screens()) {
+        for (QScreen *screen : QGuiApplication::screens()) {
             QRect screenRect = screen->geometry();
             if (screenRect.contains(p)) {
                 QPixmap pm = screen->grabWindow(pCore->window()->winId(), p.x(), p.y(), 1, 1);
@@ -160,7 +160,7 @@ void ColorPickerWidget::slotGetAverageColor()
     Window root = RootWindow(QX11Info::display(), QX11Info::appScreen());
     m_image = XGetImage(QX11Info::display(), root, m_grabRect.x(), m_grabRect.y(), m_grabRect.width(), m_grabRect.height(), -1, ZPixmap);
 #else
-    foreach (QScreen *screen, QGuiApplication::screens()) {
+    for (QScreen *screen : QGuiApplication::screens()) {
         QRect screenRect = screen->geometry();
         if (screenRect.contains(m_grabRect.topLeft())) {
             m_image =
@@ -302,7 +302,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
 #else
     Q_UNUSED(destroyImage)
     if (m_image.isNull()) {
-        foreach (QScreen *screen, QGuiApplication::screens()) {
+        for (QScreen *screen : QGuiApplication::screens()) {
             QRect screenRect = screen->geometry();
             if (screenRect.contains(p)) {
                 QPixmap pm = screen->grabWindow(0, p.x() - screenRect.x(), p.y() - screenRect.y(), 1, 1);

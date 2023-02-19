@@ -985,7 +985,7 @@ void TextBasedEdit::slotProcessSpeech()
                     }
                 }
                 // Store words with their start/end time
-                foreach (const QJsonValue &v, obj2) {
+                for (const QJsonValue &v : obj2) {
                     textFound = true;
                     fmt.setAnchor(true);
                     fmt.setAnchorHref(QString("%1#%2:%3")

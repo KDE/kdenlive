@@ -34,7 +34,7 @@ public:
         setScaledContents(true);
     }
 
-public slots:
+public Q_SLOTS:
     void setMode(typename CurveParamWidget<CurveWidget_t>::CurveModes m)
     {
         m_mode = m;

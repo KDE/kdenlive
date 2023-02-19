@@ -314,7 +314,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Per monitor rewind action
     QAction *rewind = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
     m_toolbar->addAction(rewind);
-    connect(rewind, &QAction::triggered, this, &Monitor::slotRewind);
+    connect(rewind, &QAction::triggered, this, [&]() { Monitor::slotRewind(); });
 
     auto *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play"), this);

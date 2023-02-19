@@ -74,7 +74,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent)
 
     connect(m_aResetHz, &QAction::triggered, this, &AudioSpectrum::slotResetMaxFreq);
 
-    connect(m_ui->windowFunction, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &AudioSpectrum::forceUpdate);
+    connect(m_ui->windowFunction, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&](int) { AudioSpectrum::forceUpdate(); });
     connect(this, &AudioSpectrum::signalMousePositionChanged, this, &AudioSpectrum::forceUpdateHUD);
 
     // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators

@@ -256,23 +256,23 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
 
-    foreach (QSpinBox *sp, findChildren<QSpinBox *>()) {
+    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }
-    foreach (QComboBox *cb, findChildren<QComboBox *>()) {
+    for (QComboBox *cb : findChildren<QComboBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    foreach (QProgressBar *cb, findChildren<QProgressBar *>()) {
+    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    foreach (WheelContainer *cb, findChildren<WheelContainer *>()) {
+    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    foreach (QDoubleSpinBox *cb, findChildren<QDoubleSpinBox *>()) {
+    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
@@ -902,23 +902,23 @@ void CollapsibleEffectView::blockWheelEvent(bool block)
 {
     m_blockWheel = block;
     Qt::FocusPolicy policy = block ? Qt::StrongFocus : Qt::WheelFocus;
-    foreach (QSpinBox *sp, findChildren<QSpinBox *>()) {
+    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(policy);
     }
-    foreach (QComboBox *cb, findChildren<QComboBox *>()) {
+    for (QComboBox *cb : findChildren<QComboBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    foreach (QProgressBar *cb, findChildren<QProgressBar *>()) {
+    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    foreach (WheelContainer *cb, findChildren<WheelContainer *>()) {
+    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    foreach (QDoubleSpinBox *cb, findChildren<QDoubleSpinBox *>()) {
+    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }

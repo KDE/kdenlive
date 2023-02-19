@@ -2445,7 +2445,7 @@ void MainWindow::slotEditKeys()
 #else
     // Find the combobox inside KShortcutsDialog for choosing keyboard scheme
     QComboBox *schemesList = nullptr;
-    foreach (QLabel *label, dialog.findChildren<QLabel *>()) {
+    for (QLabel *label : dialog.findChildren<QLabel *>()) {
         if (label->text() == i18n("Current scheme:")) {
             schemesList = qobject_cast<QComboBox *>(label->buddy());
             break;
@@ -2455,7 +2455,7 @@ void MainWindow::slotEditKeys()
     // dialog that provides a dropdown menu with additional actions, and add
     // "Download New Keyboard Schemes…" button into that menu
     if (schemesList) {
-        foreach (QPushButton *button, dialog.findChildren<QPushButton *>()) {
+        for (QPushButton *button : dialog.findChildren<QPushButton *>()) {
             if (button->text() == i18n("More Actions")) {
                 QMenu *moreActionsMenu = button->menu();
                 if (moreActionsMenu) {
@@ -3999,7 +3999,7 @@ void MainWindow::triggerKey(QKeyEvent *ev)
     QList<KActionCollection *> collections = KActionCollection::allCollections();
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
-        foreach (QAction *tempAction, coll->actions()) {
+        for (QAction *tempAction : coll->actions()) {
             if (tempAction->shortcuts().contains(seq)) {
                 // Trigger action
                 tempAction->trigger();
@@ -4123,7 +4123,7 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
 
     if (avSizes.count() < 10) {
         // Fixed or threshold type icons
-        Q_FOREACH (int it, avSizes) {
+        for (int it : avSizes) {
             QString text;
             if (it < 19) {
                 text = i18n("Small (%1x%2)", it, it);
@@ -4150,7 +4150,7 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
         const int progression[] = {16, 22, 32, 48, 64, 96, 128, 192, 256};
 
         for (int i : progression) {
-            Q_FOREACH (int it, avSizes) {
+            for (int it : avSizes) {
                 if (it >= i) {
                     QString text;
                     if (it < 19) {

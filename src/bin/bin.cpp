@@ -1586,7 +1586,7 @@ void Bin::abortOperations()
     m_infoMessage->hide();
     blockSignals(true);
     if (m_propertiesPanel) {
-        foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
         }
     }
@@ -1721,7 +1721,7 @@ void Bin::slotSaveHeaders()
 
 void Bin::updateSortingAction(int ix)
 {
-    foreach (QAction *ac, m_sortGroup->actions()) {
+    for (QAction *ac : m_sortGroup->actions()) {
         if (ac->data().toInt() == ix) {
             ac->setChecked(true);
         }
@@ -3049,7 +3049,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         return;
     }
     if ((clip == nullptr) || !clip->statusReady()) {
-        foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
         }
         m_propertiesPanel->setProperty("clipId", QString());
@@ -3064,7 +3064,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         return;
     }
     // Cleanup widget for new content
-    foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+    for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
         delete w;
     }
     m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
@@ -4616,7 +4616,7 @@ void Bin::refreshProxySettings()
     masterCommand->setText(m_doc->useProxy() ? i18n("Enable proxies") : i18n("Disable proxies"));
     // en/disable proxy option in clip properties
     if (m_propertiesPanel) {
-        foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+        for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             Q_EMIT static_cast<ClipPropertiesController *>(w)->enableProxy(m_doc->useProxy());
         }
     }
@@ -5053,7 +5053,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         connect(ac2, &QAction::triggered, this, [this, clipId]() {
             selectClipById(clipId);
             if (m_propertiesPanel) {
-                foreach (QWidget *w, m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
                     if (w->parentWidget() && w->parentWidget()->parentWidget()) {
                         // Raise panel
                         w->parentWidget()->parentWidget()->show();

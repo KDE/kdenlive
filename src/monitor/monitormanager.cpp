@@ -508,7 +508,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
 
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
-    connect(monitorSeekBackward, &QAction::triggered, this, &MonitorManager::slotRewind);
+    connect(monitorSeekBackward, &QAction::triggered, this, [&](bool) { MonitorManager::slotRewind(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J, QStringLiteral("navandplayback"));
 
     QAction *monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
@@ -521,7 +521,7 @@ void MonitorManager::setupActions()
                                QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
-    connect(monitorSeekForward, &QAction::triggered, this, &MonitorManager::slotForward);
+    connect(monitorSeekForward, &QAction::triggered, this, [&](bool) { MonitorManager::slotForward(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward, Qt::Key_L, QStringLiteral("navandplayback"));
 
     QAction *projectStart = new QAction(QIcon::fromTheme(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
