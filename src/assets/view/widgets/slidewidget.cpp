@@ -27,8 +27,8 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
     connect(start_transp, &QAbstractSlider::valueChanged, this, &SlideWidget::updateValue);
     connect(end_transp, &QAbstractSlider::valueChanged, this, &SlideWidget::updateValue);
 
-    // emit the signal of the base class when appropriate
-    connect(this, &SlideWidget::modified, [this](const QString &val) { emit valueChanged(m_index, val, true); });
+    // Q_EMIT the signal of the base class when appropriate
+    connect(this, &SlideWidget::modified, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
 
     // setup comment
     setToolTip(comment);
@@ -112,7 +112,7 @@ void SlideWidget::updateValue()
         info.end = RIGHT;
     }
     info.endTransparency = end_transp->value();
-    emit modified(getWipeString(info));
+    Q_EMIT modified(getWipeString(info));
 }
 
 SlideWidget::wipeInfo SlideWidget::getWipeInfo(QString value)

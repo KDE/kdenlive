@@ -61,7 +61,7 @@ public:
         path.lineTo(0, 0);
         painter->fillPath(path, m_color);
     }
-signals:
+Q_SIGNALS:
     void colorChanged(const QColor &);
 
 private:
@@ -274,7 +274,7 @@ public:
         }
     }
 
-signals:
+Q_SIGNALS:
     void levelsChanged();
     void propertyChanged();
     void normalizeChanged();
@@ -403,7 +403,7 @@ public:
         }
     }
 
-signals:
+Q_SIGNALS:
     void levelsChanged();
     void propertyChanged();
     void inPointChanged();

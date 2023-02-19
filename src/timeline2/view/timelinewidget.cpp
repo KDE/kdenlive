@@ -203,7 +203,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
-    emit focusProjectMonitor();
+    Q_EMIT focusProjectMonitor();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     m_clickPos = event->globalPos();
 #else
@@ -393,7 +393,7 @@ void TimelineWidget::slotFitZoom()
     }
     m_proxy->setScaleFactorOnMouse(scale, false);
     // Update zoom slider
-    emit m_proxy->updateZoom(scale);
+    Q_EMIT m_proxy->updateZoom(scale);
     QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
 }
 
@@ -506,19 +506,19 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
     case QEvent::Enter:
         if (!hasFocus()) {
-            emit pCore->window()->focusTimeline(true, true);
+            Q_EMIT pCore->window()->focusTimeline(true, true);
         }
         break;
     case QEvent::Leave:
         if (!hasFocus()) {
-            emit pCore->window()->focusTimeline(false, true);
+            Q_EMIT pCore->window()->focusTimeline(false, true);
         }
         break;
     case QEvent::FocusOut:
-        emit pCore->window()->focusTimeline(false, false);
+        Q_EMIT pCore->window()->focusTimeline(false, false);
         break;
     case QEvent::FocusIn:
-        emit pCore->window()->focusTimeline(true, false);
+        Q_EMIT pCore->window()->focusTimeline(true, false);
         break;
     default:
         break;

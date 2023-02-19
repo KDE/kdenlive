@@ -77,7 +77,7 @@ private:
     void updateDimensions();
     int m_cw;
 
-private slots:
+private Q_SLOTS:
     void slotGainChanged(int);
     void slotBackgroundChanged();
     void slotExportBackground();

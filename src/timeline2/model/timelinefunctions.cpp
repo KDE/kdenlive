@@ -933,14 +933,14 @@ void TimelineFunctions::showClipKeyframes(const std::shared_ptr<TimelineItemMode
 {
     timeline->m_allClips[clipId]->setShowKeyframes(value);
     QModelIndex modelIndex = timeline->makeClipIndexFromID(clipId);
-    emit timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
+    Q_EMIT timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
 void TimelineFunctions::showCompositionKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int compoId, bool value)
 {
     timeline->m_allCompositions[compoId]->setShowKeyframes(value);
     QModelIndex modelIndex = timeline->makeCompositionIndexFromID(compoId);
-    emit timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
+    Q_EMIT timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
 bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection)
@@ -1157,7 +1157,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
         timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack < 1 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
         field->unlock();
         timeline->replantCompositions(cid, true);
-        emit timeline->invalidateZone(start, end);
+        Q_EMIT timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
         return true;
     };
@@ -1169,7 +1169,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
         timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack < 1 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
         field->unlock();
         timeline->replantCompositions(cid, true);
-        emit timeline->invalidateZone(start, end);
+        Q_EMIT timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
         return true;
     };
@@ -1337,7 +1337,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     }
     field->unlock();
     if (refresh) {
-        emit timeline->requestMonitorRefresh();
+        Q_EMIT timeline->requestMonitorRefresh();
     }
     return trackNames;
 }

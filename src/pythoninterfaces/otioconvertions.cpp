@@ -23,9 +23,9 @@ OtioConvertions::OtioConvertions()
     addScript(QStringLiteral("otiointerface.py"));
     connect(this, &OtioConvertions::dependenciesAvailable, this, [&]() {
         if (QStandardPaths::findExecutable(QStringLiteral("otioconvert")).isEmpty()) {
-            emit setupError(i18n("Could not find \"otioconvert\" script although it is installed through pip3.\n"
-                                 "Please check the otio scripts are installed in a directory "
-                                 "listed in PATH environment variable"));
+            Q_EMIT setupError(i18n("Could not find \"otioconvert\" script although it is installed through pip3.\n"
+                                   "Please check the otio scripts are installed in a directory "
+                                   "listed in PATH environment variable"));
             return;
         }
         m_importAdapters = runScript(QStringLiteral("otiointerface.py"), {"--import-suffixes"});
@@ -43,8 +43,8 @@ OtioConvertions::OtioConvertions()
             return;
         }
         if (!(m_exportAdapters.contains("kdenlive") && m_importAdapters.contains("kdenlive"))) {
-            emit setupError(i18n("Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-                                 "Please install version >= 0.12\n"));
+            Q_EMIT setupError(i18n("Your OpenTimelineIO module does not include Kdenlive adapter.\n"
+                                   "Please install version >= 0.12\n"));
         }
     });
 }

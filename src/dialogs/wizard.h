@@ -47,7 +47,7 @@ private:
     void checkMissingCodecs();
     void updateHwStatus();
 
-private slots:
+private Q_SLOTS:
     void slotCheckMlt();
     void slotOpenManual();
 };

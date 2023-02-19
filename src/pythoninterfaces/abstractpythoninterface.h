@@ -69,7 +69,7 @@ protected:
     void addScript(const QString &script);
     virtual QString featureName() { return {}; };
 
-signals:
+Q_SIGNALS:
     void setupError(const QString &message);
     void checkVersionsResult(const QStringList &versions);
     void dependenciesMissing(const QStringList &messages);
@@ -84,7 +84,7 @@ class PythonDependencyMessage : public KMessageWidget {
 public:
     PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface);
 
-private slots:
+private Q_SLOTS:
     void doShowMessage(const QString &message, KMessageWidget::MessageType messageType = KMessageWidget::Information);
 
 private:

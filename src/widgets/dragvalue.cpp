@@ -200,7 +200,7 @@ void DragValue::setSpinSize(int width)
 
 void DragValue::slotSetInTimeline()
 {
-    emit inTimeline(m_id);
+    Q_EMIT inTimeline(m_id);
 }
 
 int DragValue::precision() const
@@ -278,12 +278,12 @@ void DragValue::slotReset()
         m_intEdit->blockSignals(true);
         m_intEdit->setValue(m_default);
         m_intEdit->blockSignals(false);
-        emit valueChanged((int)m_default, true);
+        Q_EMIT valueChanged((int)m_default, true);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(m_default);
         m_doubleEdit->blockSignals(false);
-        emit valueChanged(m_default, true);
+        Q_EMIT valueChanged(m_default, true);
     }
     m_label->setProgressValue((m_default - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
 }
@@ -320,12 +320,12 @@ void DragValue::setValue(double value, bool final)
         m_intEdit->blockSignals(true);
         m_intEdit->setValue((int)value);
         m_intEdit->blockSignals(false);
-        emit valueChanged((int)value, final);
+        Q_EMIT valueChanged((int)value, final);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
         m_doubleEdit->blockSignals(false);
-        emit valueChanged(value, final);
+        Q_EMIT valueChanged(value, final);
     }
 }
 
@@ -343,7 +343,7 @@ void DragValue::slotEditingFinished()
         m_intEdit->clearFocus();
         m_intEdit->blockSignals(false);
         if (!KdenliveSettings::dragvalue_directupdate()) {
-            emit valueChanged((double)newValue, true);
+            Q_EMIT valueChanged((double)newValue, true);
         }
     } else {
         double value = m_doubleEdit->value();
@@ -351,7 +351,7 @@ void DragValue::slotEditingFinished()
         m_doubleEdit->clearFocus();
         m_doubleEdit->blockSignals(false);
         if (!KdenliveSettings::dragvalue_directupdate()) {
-            emit valueChanged(value, true);
+            Q_EMIT valueChanged(value, true);
         }
     }
 }
@@ -431,7 +431,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *e)
         m_dragStartPosition = m_dragLastPosition = e->pos();
         e->accept();
     } else if (e->button() == Qt::MiddleButton) {
-        emit resetValue();
+        Q_EMIT resetValue();
         m_dragStartPosition = QPoint(-1, -1);
     } else {
         QWidget::mousePressEvent(e);
@@ -506,7 +506,7 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         return;
     }
     if (e->modifiers() == Qt::ControlModifier) {
-        emit setInTimeline();
+        Q_EMIT setInTimeline();
         e->accept();
         return;
     }
@@ -575,7 +575,7 @@ void CustomLabel::setNewValue(double value, bool update)
 {
     m_value = value;
     setValue(qRound(value));
-    emit valueChanged(value, update);
+    Q_EMIT valueChanged(value, update);
 }
 
 void CustomLabel::setStep(double step)

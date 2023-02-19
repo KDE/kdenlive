@@ -41,7 +41,7 @@ private:
 protected:
     void resizeEvent(QResizeEvent *ev) override;
 
-signals:
+Q_SIGNALS:
     /** @brief Emitted whenever a different color was chosen. */
     void liftChanged(const NegQColor &color);
     void gammaChanged(const NegQColor &color);
@@ -49,7 +49,7 @@ signals:
     void valuesChanged(const QList<QModelIndex>, const QStringList &, bool);
     void updateHeight(int height);
 
-public slots:
+public Q_SLOTS:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh(int pos);

@@ -40,7 +40,7 @@ public:
 
     QString extractedProjectFile() const;
 
-private slots:
+private Q_SLOTS:
     void slotCheckSpace();
     bool slotStartArchiving(bool firstPass = true);
     void slotArchivingFinished(KJob *job = nullptr, bool finished = false);
@@ -116,7 +116,7 @@ private:
     */
     void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
 
-signals:
+Q_SIGNALS:
     void archivingFinished(bool, const QString &);
     void archiveProgress(int);
     void extractingFinished();

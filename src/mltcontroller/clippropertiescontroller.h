@@ -76,13 +76,13 @@ public:
     ~ClipPropertiesController() override;
     void activatePage(int ix);
 
-public slots:
+public Q_SLOTS:
     void slotReloadProperties();
     void slotFillMeta(QTreeWidget *tree);
     void slotFillAnalysisData();
     void updateStreamInfo(int streamIndex);
 
-private slots:
+private Q_SLOTS:
     void slotColorModified(const QColor &newcolor);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
@@ -131,7 +131,7 @@ private:
     /** @brief Add/remove icon beside audio stream to indicate effects. */
     void updateStreamIcon(int row, int streamIndex);
 
-signals:
+Q_SIGNALS:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
     void modified(const QColor &);
     void modified(int);

@@ -88,6 +88,6 @@ private:
     long m_showTotal;
 #endif
 
-private slots:
+private Q_SLOTS:
     void slotResetMaxFreq();
 };

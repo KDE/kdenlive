@@ -148,7 +148,7 @@ protected:
     void parseProfile(QDomElement profile, QTreeWidgetItem *childitem, QString groupName,
                       QString extension = QString(), QString renderer = QStringLiteral("avformat"));
 
-public slots:
+public Q_SLOTS:
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
     void adjustViewToProfile();
@@ -158,7 +158,7 @@ public slots:
     /** @brief Update metadata tooltip with current values. */
     void updateMetadataToolTip();
 
-private slots:
+private Q_SLOTS:
     /**
      * Will be called when the user selects an output file via the file dialog.
      * File extension will be added automatically.
@@ -241,7 +241,7 @@ private:
     void generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering, const QString &subtitleFile = QString());
     RenderJobItem *createRenderJob(const QString &playlist, const QString &outputFile, const QString &subtitleFile = QString());
 
-signals:
+Q_SIGNALS:
     void abortProcess(const QString &url);
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file) */

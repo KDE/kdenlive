@@ -125,7 +125,7 @@ public:
     /** @brief Used to display qml info about speed*/
     void setSpeed(double speed);
 
-signals:
+Q_SIGNALS:
     void positionChanged(int);
     void seekFinishedChanged();
     void requestSeek(int pos, bool noAudioScrub);
@@ -183,7 +183,7 @@ private:
     QVector <QPoint> m_clipBounds;
     int m_boundsCount;
 
-public slots:
+public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);
     void extractFrameToFile(int frame_position, const QStringList &pathInfo, bool addToProject = false, bool useSourceProfile = false);
 };

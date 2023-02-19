@@ -659,25 +659,25 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
         foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(-diff, 0);
         }
-        emit itemMoved();
+        Q_EMIT itemMoved();
         break;
     case Qt::Key_Right:
         foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(diff, 0);
         }
-        emit itemMoved();
+        Q_EMIT itemMoved();
         break;
     case Qt::Key_Up:
         foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(0, -diff);
         }
-        emit itemMoved();
+        Q_EMIT itemMoved();
         break;
     case Qt::Key_Down:
         foreach (QGraphicsItem *qgi, selectedItems()) {
             qgi->moveBy(0, diff);
         }
-        emit itemMoved();
+        Q_EMIT itemMoved();
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
@@ -689,12 +689,12 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
             delete qgi;
         }
         m_selectedItem = nullptr;
-        emit selectionChanged();
+        Q_EMIT selectionChanged();
         break;
     default:
         QGraphicsScene::keyPressEvent(keyEvent);
     }
-    emit actionFinished();
+    Q_EMIT actionFinished();
 }
 
 void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
@@ -719,7 +719,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
     if ((g != nullptr) && g->type() == QGraphicsTextItem::Type && (((g->flags() & static_cast<int>((QGraphicsItem::ItemIsSelectable) != 0))) != 0)) {
         m_selectedItem = g;
     } else {
-        emit doubleClickEvent();
+        Q_EMIT doubleClickEvent();
     }
     QGraphicsScene::mouseDoubleClickEvent(e);
 }
@@ -747,7 +747,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     if (!viewlist.isEmpty()) {
         viewlist.constFirst()->setDragMode(QGraphicsView::RubberBandDrag);
     }
-    emit actionFinished();
+    Q_EMIT actionFinished();
 }
 
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
@@ -872,7 +872,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
             textItem->setFocus(Qt::MouseFocusReason);
             textItem->setAlignment(QFlags<Qt::AlignmentFlag>(KdenliveSettings::titlerAlign()));
-            emit newText(textItem);
+            Q_EMIT newText(textItem);
             m_selectedItem = textItem;
             m_selectedItem->setSelected(true);
             m_createdText = true;
@@ -1002,7 +1002,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             QGraphicsScene::mouseMoveEvent(e);
             m_sceneClickPoint = e->scenePos();
         }
-        emit itemMoved();
+        Q_EMIT itemMoved();
     } else if (m_tool == TITLE_SELECT) {
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
@@ -1096,7 +1096,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             m_selectedItem = rect;
             m_selectedItem->setPos(m_sceneClickPoint);
             m_selectedItem->setSelected(true);
-            emit newRect(rect);
+            Q_EMIT newRect(rect);
             m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);
@@ -1112,7 +1112,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             m_selectedItem = ellipse;
             m_selectedItem->setPos(m_sceneClickPoint);
             m_selectedItem->setSelected(true);
-            emit newEllipse(ellipse);
+            Q_EMIT newEllipse(ellipse);
             m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
             m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);
@@ -1127,9 +1127,9 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent *wheelEvent)
         ////qCDebug(KDENLIVE_LOG) << wheelEvent->delta() << ' ' << zoom;
         if (!viewlist.isEmpty()) {
             if (wheelEvent->delta() > 0) {
-                emit sceneZoom(true);
+                Q_EMIT sceneZoom(true);
             } else {
-                emit sceneZoom(false);
+                Q_EMIT sceneZoom(false);
             }
         }
     } else {

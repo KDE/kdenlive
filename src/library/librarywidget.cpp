@@ -125,9 +125,9 @@ void LibraryTree::dropEvent(QDropEvent *event)
     }
     if (qMimeData->hasUrls()) {
         QList<QUrl> urls = qMimeData->urls();
-        emit moveData(urls, dest);
+        Q_EMIT moveData(urls, dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/clip"))) {
-        emit importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
+        Q_EMIT importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("kdenlive/producerslist"))) {
         QStringList list = QString(qMimeData->data(QStringLiteral("kdenlive/producerslist"))).split(QLatin1Char(';'));
         for (const QString &prodslist : qAsConst(list)) {
@@ -137,10 +137,10 @@ void LibraryTree::dropEvent(QDropEvent *event)
             }
             if (prodslist.contains(QLatin1Char('/'))) {
                 // Clip zone
-                emit importSequence(prodslist.split(QLatin1Char('/')), dest);
+                Q_EMIT importSequence(prodslist.split(QLatin1Char('/')), dest);
             } else {
                 // Full clip
-                emit importSequence(QStringList() << prodslist << QStringLiteral("-1") << QStringLiteral("-1"), dest);
+                Q_EMIT importSequence(QStringList() << prodslist << QStringLiteral("-1") << QStringLiteral("-1"), dest);
             }
         }
     }
@@ -260,7 +260,7 @@ void LibraryWidget::slotAddToLibrary()
     if (!isEnabled()) {
         return;
     }
-    emit saveTimelineSelection(m_directory);
+    Q_EMIT saveTimelineSelection(m_directory);
 }
 
 void LibraryWidget::showMessage(const QString &text, KMessageWidget::MessageType type)
@@ -280,7 +280,7 @@ void LibraryWidget::slotAddToProject()
         return;
     }
     const QList<QUrl> list = {QUrl::fromLocalFile(current->data(0, Qt::UserRole).toString())};
-    emit addProjectClips(list);
+    Q_EMIT addProjectClips(list);
 }
 
 void LibraryWidget::updateActions()

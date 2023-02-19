@@ -551,9 +551,9 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);
-        emit dataChanged(ix, ix, roles);
+        Q_EMIT dataChanged(ix, ix, roles);
         if (updateMultiTrack) {
-            emit trackVisibilityChanged();
+            Q_EMIT trackVisibilityChanged();
         }
     }
 }
@@ -563,7 +563,7 @@ void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
     std::shared_ptr<TrackModel> track = getTrackById(tid);
     track->setEffectStackEnabled(enable);
     QModelIndex ix = makeTrackIndexFromID(tid);
-    emit dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+    Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
 }
 
 void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
@@ -664,12 +664,12 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
             roles.push_back(TimelineModel::OutPointRole);
         }
     }
-    emit dataChanged(topleft, bottomright, roles);
+    Q_EMIT dataChanged(topleft, bottomright, roles);
 }
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles)
 {
-    emit dataChanged(topleft, bottomright, roles);
+    Q_EMIT dataChanged(topleft, bottomright, roles);
 }
 
 void TimelineItemModel::rebuildMixer()
@@ -755,7 +755,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role)
 {
-    emit dataChanged(topleft, bottomright, {role});
+    Q_EMIT dataChanged(topleft, bottomright, {role});
 }
 
 void TimelineItemModel::_beginRemoveRows(const QModelIndex &i, int j, int k)

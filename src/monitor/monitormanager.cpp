@@ -198,7 +198,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_activeMonitor = m_projectMonitor;
                 return false;
             }
-            emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
+            Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
         } else if (name == Kdenlive::ProjectMonitor) {
@@ -217,12 +217,12 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_activeMonitor = m_clipMonitor;
                 return false;
             }
-            emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
+            Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);
         }
     }
-    emit checkColorScopes();
+    Q_EMIT checkColorScopes();
     return (m_activeMonitor != nullptr);
 }
 
@@ -457,12 +457,12 @@ void MonitorManager::slotUpdateAudioMonitoring()
 
 void MonitorManager::clearScopeSource()
 {
-    emit clearScopes();
+    Q_EMIT clearScopes();
 }
 
 void MonitorManager::updateScopeSource()
 {
-    emit checkColorScopes();
+    Q_EMIT checkColorScopes();
 }
 
 AbstractMonitor *MonitorManager::activeMonitor()
@@ -545,7 +545,7 @@ void MonitorManager::setupActions()
     m_multiTrack->setCheckable(true);
     connect(m_multiTrack, &QAction::triggered, this, [&](bool checked) {
         if (m_projectMonitor) {
-            emit m_projectMonitor->multitrackView(checked, true);
+            Q_EMIT m_projectMonitor->multitrackView(checked, true);
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack, Qt::Key_F12, QStringLiteral("monitor"));
@@ -748,7 +748,7 @@ void MonitorManager::slotSetInPoint()
         if (destZone.x() > destZone.y()) {
             destZone.setY(qMin(pCore->projectDuration(), destZone.x() + (sourceZone.y() - sourceZone.x())));
         }
-        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        Q_EMIT m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 
@@ -763,7 +763,7 @@ void MonitorManager::slotSetOutPoint()
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }
-        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        Q_EMIT m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 

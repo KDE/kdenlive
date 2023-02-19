@@ -72,14 +72,14 @@ private:
     /** \brief Writes the last used unicode number into the config file. */
     void writeChoices();
 
-signals:
+Q_SIGNALS:
     /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
     void charSelected(const QString &);
 
-public slots:
+public Q_SLOTS:
     void slotReturnPressed();
 
-private slots:
+private Q_SLOTS:
     void slotTextChanged(const QString &text);
     void slotNextUnicode();
     void slotPrevUnicode();

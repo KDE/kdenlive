@@ -49,7 +49,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void slotFitZoom();
     /** @brief Center timeline view on current timeline cursor position */
@@ -70,7 +70,7 @@ public slots:
     /** @brief Focus qml item under mouse in timeline, for example after app looses focus or a menu showed up*/
     void regainFocus();
 
-private slots:
+private Q_SLOTS:
     void slotUngrabHack();
     void slotResetContextPos(QAction *);
     void showClipMenu(int cid);
@@ -106,7 +106,7 @@ private:
     QPoint m_clickPos;
     QUuid m_uuid;
 
-signals:
+Q_SIGNALS:
     void focusProjectMonitor();
     void zoneMoved(const QPoint &zone);
 };

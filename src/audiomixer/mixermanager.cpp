@@ -219,7 +219,7 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     if (m_mixers.count(tid) > 0) {
         m_mixers[tid]->setRecordState(recording);
     }
-    emit pCore->switchTimelineRecord(recording);
+    Q_EMIT pCore->switchTimelineRecord(recording);
 }
 
 void MixerManager::connectMixer(bool doConnect)

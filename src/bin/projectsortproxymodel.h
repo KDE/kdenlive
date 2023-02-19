@@ -24,7 +24,7 @@ public:
     explicit ProjectSortProxyModel(QObject *parent = nullptr);
     QItemSelectionModel *selectionModel();
 
-public slots:
+public Q_SLOTS:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Set search tag that will filter the view */
@@ -36,7 +36,7 @@ public slots:
     /** @brief Select all items in model */
     void selectAll(const QModelIndex &rootIndex = QModelIndex());
 
-private slots:
+private Q_SLOTS:
     /** @brief Called when a row change is detected by selection model */
     void onCurrentRowChanged(const QItemSelection &current, const QItemSelection &previous);
 
@@ -58,7 +58,7 @@ private:
     bool m_unusedFilter{false};
     QCollator m_collator;
 
-signals:
+Q_SIGNALS:
     /** @brief Emitted when the row changes, used to prepare action for selected item  */
     void selectModel(const QModelIndex &);
     /** @brief Set item rating */

@@ -125,7 +125,7 @@ QRect Histogram::scopeRect()
 
 QImage Histogram::renderHUD(uint)
 {
-    emit signalHUDRenderingFinished(0, 1);
+    Q_EMIT signalHUDRenderingFinished(0, 1);
     return QImage();
 }
 QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
@@ -142,11 +142,11 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
     QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(),
                                                                 m_ui->rbLogarithmic->isChecked(), accelFactor);
 
-    emit signalScopeRenderingFinished(uint(timer.elapsed()), accelFactor);
+    Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelFactor);
     return histogram;
 }
 QImage Histogram::renderBackground(uint)
 {
-    emit signalBackgroundRenderingFinished(0, 1);
+    Q_EMIT signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }

@@ -47,7 +47,7 @@ public:
     bool keyframesVisible() const;
     void resetKeyframes();
 
-public slots:
+public Q_SLOTS:
     void slotRefresh() override;
     /** @brief initialize qml overlay
      */
@@ -55,10 +55,10 @@ public slots:
     /** @brief Activate a standard action passed from the mainwindow, like copy or paste */
     void sendStandardCommand(int command);
 
-public slots:
+public Q_SLOTS:
     void slotSetPosition(int pos = -1, bool update = true);
 
-private slots:
+private Q_SLOTS:
     /** @brief Update the value of the widgets to reflect keyframe change */
     void slotRefreshParams();
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
@@ -94,7 +94,7 @@ private:
     int m_baseHeight;
     int m_addedHeight;
 
-signals:
+Q_SIGNALS:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
     void updateEffectKeyframe(bool);

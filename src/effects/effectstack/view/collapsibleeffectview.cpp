@@ -121,7 +121,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
             m_inPos->setValue(inOut.first);
             m_outPos->setValue(inOut.second);
         }
-        emit showEffectZone(id, inOut, checked);
+        Q_EMIT showEffectZone(id, inOut, checked);
     });
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
@@ -201,7 +201,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     connect(m_view, &AssetParameterView::activateEffect, this, [this]() {
         if (!decoframe->property("active").toBool()) {
             // Activate effect if not already active
-            emit activateEffect(m_model->row());
+            Q_EMIT activateEffect(m_model->row());
         }
     });
 
@@ -291,7 +291,7 @@ void CollapsibleEffectView::setWidgetHeight(qreal value)
 
 void CollapsibleEffectView::slotCreateGroup()
 {
-    emit createGroup(m_model);
+    Q_EMIT createGroup(m_model);
 }
 
 void CollapsibleEffectView::slotCreateRegion()
@@ -305,14 +305,14 @@ void CollapsibleEffectView::slotCreateRegion()
     d->setFileMode(QFileDialog::ExistingFile);
     if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
         KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), d->selectedUrls().first().adjusted(QUrl::RemoveFilename).toLocalFile());
-        emit createRegion(effectIndex(), d->selectedUrls().first());
+        Q_EMIT createRegion(effectIndex(), d->selectedUrls().first());
     }
     delete d;
 }
 
 void CollapsibleEffectView::slotUnGroup()
 {
-    emit unGroup(this);
+    Q_EMIT unGroup(this);
 }
 
 bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
@@ -392,11 +392,11 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     if (active) {
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     }
-    emit m_view->initKeyframeView(active);
+    Q_EMIT m_view->initKeyframeView(active);
     if (m_inOutButton->isChecked()) {
-        emit showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
+        Q_EMIT showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
     } else {
-        emit showEffectZone(m_model->getOwnerId(), {0, 0}, false);
+        Q_EMIT showEffectZone(m_model->getOwnerId(), {0, 0}, false);
     }
 }
 
@@ -409,7 +409,7 @@ void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 #endif
     if (!decoframe->property("active").toBool()) {
         // Activate effect if not already active
-        emit activateEffect(m_model->row());
+        Q_EMIT activateEffect(m_model->row());
     }
     QWidget::mousePressEvent(e);
 }
@@ -422,7 +422,7 @@ void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
     if ((e->globalPosition().toPoint() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
 #endif
         QPixmap pix = frame->grab();
-        emit startDrag(pix, m_model);
+        Q_EMIT startDrag(pix, m_model);
     }
     QWidget::mouseMoveEvent(e);
 }
@@ -441,7 +441,7 @@ void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 {
     m_dragStart = QPoint();
     if (!decoframe->property("active").toBool()) {
-        // emit activateEffect(effectIndex());
+        // Q_EMIT activateEffect(effectIndex());
     }
     QWidget::mouseReleaseEvent(event);
 }
@@ -452,29 +452,29 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectName = EffectsRepository::get()->getName(effectId);
     std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    emit m_view->initKeyframeView(!disable);
-    emit activateEffect(m_model->row());
+    Q_EMIT m_view->initKeyframeView(!disable);
+    Q_EMIT activateEffect(m_model->row());
 }
 
 void CollapsibleEffectView::updateScene()
 {
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    emit m_view->initKeyframeView(m_model->isEnabled());
+    Q_EMIT m_view->initKeyframeView(m_model->isEnabled());
 }
 
 void CollapsibleEffectView::slotDeleteEffect()
 {
-    emit deleteEffect(m_model);
+    Q_EMIT deleteEffect(m_model);
 }
 
 void CollapsibleEffectView::slotEffectUp()
 {
-    emit moveEffect(qMax(0, m_model->row() - 1), m_model);
+    Q_EMIT moveEffect(qMax(0, m_model->row() - 1), m_model);
 }
 
 void CollapsibleEffectView::slotEffectDown()
 {
-    emit moveEffect(m_model->row() + 2, m_model);
+    Q_EMIT moveEffect(m_model->row() + 2, m_model);
 }
 
 void CollapsibleEffectView::slotSaveEffect()
@@ -589,7 +589,7 @@ void CollapsibleEffectView::slotSaveEffect()
             KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
-        emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+        Q_EMIT reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     }
 }
 
@@ -628,7 +628,7 @@ void CollapsibleEffectView::updateHeight()
     }
     widgetFrame->setFixedHeight(m_collapse->isActive() ? 0 : m_view->height());
     setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
-    emit switchHeight(m_model, height());
+    Q_EMIT switchHeight(m_model, height());
 }
 
 void CollapsibleEffectView::switchCollapsed(int row)
@@ -644,7 +644,7 @@ void CollapsibleEffectView::slotSwitch(bool collapse)
     zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 : frame->height());
     setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
     m_model->setCollapsed(collapse);
-    emit switchHeight(m_model, height());
+    Q_EMIT switchHeight(m_model, height());
 }
 
 void CollapsibleEffectView::setGroupIndex(int ix)
@@ -679,7 +679,7 @@ void CollapsibleEffectView::removeFromGroup()
     m_info.groupIndex = -1;
     m_info.groupName.clear();
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());
-    emit parameterChanged(m_original_effect, m_effect, effectIndex());*/
+    Q_EMIT parameterChanged(m_original_effect, m_effect, effectIndex());*/
 }
 
 int CollapsibleEffectView::groupIndex() const
@@ -746,12 +746,12 @@ void CollapsibleEffectView::updateTimecodeFormat()
 void CollapsibleEffectView::slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/)
 {
     // qCDebug(KDENLIVE_LOG)<<"// EMIT CHANGE SUBEFFECT.....:";
-    emit parameterChanged(m_original_effect, m_effect, effectIndex());
+    Q_EMIT parameterChanged(m_original_effect, m_effect, effectIndex());
 }
 
 void CollapsibleEffectView::slotSyncEffectsPos(int pos)
 {
-    emit syncEffectsPos(pos);
+    Q_EMIT syncEffectsPos(pos);
 }
 
 void CollapsibleEffectView::dragEnterEvent(QDragEnterEvent *event)
@@ -789,7 +789,7 @@ void CollapsibleEffectView::importKeyframes(const QString &kf)
     } else {
         keyframes.insert(kf.section(QLatin1Char('='), 0, 0), kf.section(QLatin1Char('='), 1));
     }
-    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), keyframes);
+    Q_EMIT importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), keyframes);
 }
 
 void CollapsibleEffectView::dropEvent(QDropEvent *event)
@@ -826,7 +826,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
             }
             event->setDropAction(Qt::MoveAction);
             event->accept();
-            emit addEffect(e);
+            Q_EMIT addEffect(e);
             return;
         }
         // effect dropped from effects list, add it
@@ -837,10 +837,10 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
         }*/
         event->setDropAction(Qt::CopyAction);
         event->accept();
-        emit addEffect(e);
+        Q_EMIT addEffect(e);
         return;
     }
-    // emit moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
+    // Q_EMIT moveEffect(QList<int>() << ix, currentEffectIx, m_info.groupIndex, m_info.groupName);
     event->setDropAction(Qt::MoveAction);
     event->accept();
 }
@@ -875,7 +875,7 @@ bool CollapsibleEffectView::isMovable() const
 
 void CollapsibleEffectView::prepareImportClipKeyframes()
 {
-    emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString, QString>());
+    Q_EMIT importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString, QString>());
 }
 
 void CollapsibleEffectView::enableView(bool enabled)
@@ -987,17 +987,17 @@ void CollapsibleEffectView::updateEffectZone()
 
 void CollapsibleEffectView::slotNextKeyframe()
 {
-    emit m_view->nextKeyframe();
+    Q_EMIT m_view->nextKeyframe();
 }
 
 void CollapsibleEffectView::slotPreviousKeyframe()
 {
-    emit m_view->previousKeyframe();
+    Q_EMIT m_view->previousKeyframe();
 }
 
 void CollapsibleEffectView::addRemoveKeyframe()
 {
-    emit m_view->addRemoveKeyframe();
+    Q_EMIT m_view->addRemoveKeyframe();
 }
 
 void CollapsibleEffectView::slotHideKeyframes(bool hide)

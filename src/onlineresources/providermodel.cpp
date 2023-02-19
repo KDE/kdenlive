@@ -109,14 +109,14 @@ ProviderModel::ProviderModel(const QString &path)
 
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
                 if (status == QAbstractOAuth::Status::Granted) {
-                    emit authenticated(m_oauth2.token());
+                    Q_EMIT authenticated(m_oauth2.token());
                 } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
                     KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
                 }
             });
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [=](const QString &error, const QString &errorDescription) {
                 qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
-                emit authenticated(QString());
+                Q_EMIT authenticated(QString());
             });
             connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
         }
@@ -141,7 +141,7 @@ void ProviderModel::authorize()
         }
     } else {
         if (m_oauth2.expirationAt() < QDateTime::currentDateTime()) {
-            emit authenticated(m_oauth2.token());
+            Q_EMIT authenticated(m_oauth2.token());
         } else {
             m_oauth2.refreshAccessToken();
         }
@@ -404,17 +404,17 @@ void ProviderModel::slotStartSearch(const QString &searchText, const int page)
             if (reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QList<ResourceItemInfo>, const int> result = parseSearchResponse(response);
-                emit searchDone(result.first, result.second);
+                Q_EMIT searchDone(result.first, result.second);
 
             } else {
-                emit searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
+                Q_EMIT searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
                 qCDebug(KDENLIVE_LOG) << reply->errorString();
             }
             reply->deleteLater();
         });
 
         connect(reply, &QNetworkReply::sslErrors, this, [=]() {
-            emit searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
+            Q_EMIT searchError(QStringLiteral("HTTP ") + reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
             qCDebug(KDENLIVE_LOG) << reply->errorString();
         });
 
@@ -551,16 +551,16 @@ void ProviderModel::slotFetchFiles(const QString &id)
             if (reply->error() == QNetworkReply::NoError) {
                 QByteArray response = reply->readAll();
                 std::pair<QStringList, QStringList> result = parseFilesResponse(response, id);
-                emit fetchedFiles(result.first, result.second);
+                Q_EMIT fetchedFiles(result.first, result.second);
                 reply->deleteLater();
             } else {
-                emit fetchedFiles(QStringList(), QStringList());
+                Q_EMIT fetchedFiles(QStringList(), QStringList());
                 qCDebug(KDENLIVE_LOG) << reply->errorString();
             }
         });
 
         connect(reply, &QNetworkReply::sslErrors, this, [=]() {
-            emit fetchedFiles(QStringList(), QStringList());
+            Q_EMIT fetchedFiles(QStringList(), QStringList());
             qCDebug(KDENLIVE_LOG) << reply->errorString();
         });
 

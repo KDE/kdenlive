@@ -183,7 +183,7 @@ bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, 
     QWriteLocker locker(&m_lock);
     std::shared_ptr<AbstractProjectItem> item = getBinItemByIndex(index);
     if (item->rename(value.toString(), index.column())) {
-        emit dataChanged(index, index, {role});
+        Q_EMIT dataChanged(index, index, {role});
         return true;
     }
     // Item name was not changed
@@ -228,7 +228,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     }
 
     if (data->hasUrls()) {
-        emit itemDropped(data->urls(), parent);
+        Q_EMIT itemDropped(data->urls(), parent);
         return true;
     }
 
@@ -256,7 +256,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
                 return false;
             }
         } else {
-            emit itemDropped(ids, parent);
+            Q_EMIT itemDropped(ids, parent);
         }
         return true;
     }
@@ -267,7 +267,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         effectData << QString::fromUtf8(data->data(QStringLiteral("kdenlive/effect")));
         QStringList source = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char('-'));
         effectData << source;
-        emit effectDropped(effectData, parent);
+        Q_EMIT effectDropped(effectData, parent);
         return true;
     }
 
@@ -280,7 +280,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     if (data->hasFormat(QStringLiteral("kdenlive/tag"))) {
         // Dropping effect on a Bin item
         QString tag = QString::fromUtf8(data->data(QStringLiteral("kdenlive/tag")));
-        emit addTag(tag, parent);
+        Q_EMIT addTag(tag, parent);
         return true;
     }
 
@@ -435,10 +435,10 @@ void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> 
     if (ptr) {
         auto index = getIndexFromItem(tItem, minColumn);
         if (minColumn == maxColumn) {
-            emit dataChanged(index, index, roles);
+            Q_EMIT dataChanged(index, index, roles);
         } else {
             auto index2 = getIndexFromItem(tItem, maxColumn);
-            emit dataChanged(index, index2, roles);
+            Q_EMIT dataChanged(index, index2, roles);
         }
     }
 }
@@ -922,7 +922,7 @@ Fun ProjectItemModel::requestRenameFolder_lambda(const std::shared_ptr<AbstractP
         currentFolder->setName(newName);
         m_binPlaylist->manageBinFolderRename(currentFolder);
         auto index = getIndexFromItem(currentFolder);
-        emit dataChanged(index, index, {AbstractProjectItem::DataName});
+        Q_EMIT dataChanged(index, index, {AbstractProjectItem::DataName});
         return true;
     };
 }
@@ -1145,7 +1145,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
         if (playlist.is_valid() && playlist.type() == mlt_service_playlist_type) {
             if (progressDialog == nullptr && playlist.count() > 0) {
                 // Display message on splash screen
-                emit pCore->loadingMessageUpdated(i18n("Loading project clips…"));
+                Q_EMIT pCore->loadingMessageUpdated(i18n("Loading project clips…"));
             }
             // Load folders
             Mlt::Properties folderProperties;
@@ -1169,7 +1169,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                 if (progressDialog) {
                     progressDialog->setValue(i);
                 } else {
-                    emit pCore->loadingMessageUpdated(QString(), 1);
+                    Q_EMIT pCore->loadingMessageUpdated(QString(), 1);
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 if (prod->is_blank() || !prod->is_valid() || prod->parent().property_exists("kdenlive:remove")) {

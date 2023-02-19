@@ -71,7 +71,7 @@ private:
     Mlt::Producer *createV4lProducer();
     int m_screenIndex{0};
 
-private slots:
+private Q_SLOTS:
     void slotSetScreen(int ScreenIndex);
     void slotRecord(bool record);
     void slotPreview(bool record);
@@ -82,7 +82,7 @@ private slots:
     void slotAudioDeviceChanged(int ix = -1);
     void slotShowLog();
     void slotSetVolume(int);
-signals:
+Q_SIGNALS:
     void addClipToProject(const QUrl &);
     void warningMessage(const QString &, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
 };

@@ -36,7 +36,7 @@ public:
 
     /* Return the name of the actual mlt filter used */
     QString filterName() const;
-private slots:
+private Q_SLOTS:
     void slotValidate();
 
 private:
@@ -47,6 +47,6 @@ private:
     std::shared_ptr<AssetParameterModel> m_assetModel;
     std::unique_ptr<AssetParameterView> m_view;
 
-signals:
+Q_SIGNALS:
     void addClip(const QUrl &url);
 };

@@ -245,7 +245,7 @@ protected:
     /** @brief Function to be called when the url of a clip changes */
     void updateWatcher(const std::shared_ptr<ProjectClip> &item);
 
-public slots:
+public Q_SLOTS:
     /** @brief An item in the list was modified, notify */
     void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, const QVector<int> &roles);
     void onItemUpdated(const QString &binId, int role);
@@ -275,7 +275,7 @@ private:
     PlaylistState::ClipState m_dragType;
     QUuid m_uuid;
 
-signals:
+Q_SIGNALS:
     /** @brief thumbs of the given clip were modified, request update of the monitor if need be */
     void refreshAudioThumbs(const QString &id);
     void refreshClip(const QString &id);

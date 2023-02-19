@@ -42,7 +42,7 @@ QStringList SpeechToText::parseVoskDictionaries()
     QString modelDirectory = voskModelPath();
     if (modelDirectory.isEmpty()) {
         qDebug() << "=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-        emit pCore->voskModelUpdate({});
+        Q_EMIT pCore->voskModelUpdate({});
         return {};
     }
     QDir dir = QDir(modelDirectory);
@@ -54,6 +54,6 @@ QStringList SpeechToText::parseVoskDictionaries()
             final << d;
         }
     }
-    emit pCore->voskModelUpdate(final);
+    Q_EMIT pCore->voskModelUpdate(final);
     return final;
 }

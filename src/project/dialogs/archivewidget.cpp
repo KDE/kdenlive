@@ -302,7 +302,7 @@ void ArchiveWidget::slotJobResult(bool success, const QString &text)
 
 void ArchiveWidget::openArchiveForExtraction()
 {
-    emit showMessage(QStringLiteral("system-run"), i18n("Opening archive…"));
+    Q_EMIT showMessage(QStringLiteral("system-run"), i18n("Opening archive…"));
     QMimeDatabase db;
     QMimeType mime = db.mimeTypeForUrl(m_extractUrl);
     if (mime.inherits(QStringLiteral("application/x-compressed-tar"))) {
@@ -312,7 +312,7 @@ void ArchiveWidget::openArchiveForExtraction()
     }
 
     if (!m_archive->isOpen() && !m_archive->open(QIODevice::ReadOnly)) {
-        emit showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
+        Q_EMIT showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
         return;
     }
@@ -329,13 +329,13 @@ void ArchiveWidget::openArchiveForExtraction()
     }
 
     if (!isProjectArchive) {
-        emit showMessage(QStringLiteral("dialog-close"), i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.toLocalFile()));
+        Q_EMIT showMessage(QStringLiteral("dialog-close"), i18n("File %1\n is not an archived Kdenlive project", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-    emit showMessage(QStringLiteral("dialog-ok"), i18n("Ready"));
+    Q_EMIT showMessage(QStringLiteral("dialog-ok"), i18n("Ready"));
 }
 
 void ArchiveWidget::done(int r)
@@ -1124,7 +1124,7 @@ void ArchiveWidget::createArchive()
             i.next();
             m_infoMessage->setText(i18n("Archiving %1", i.key()));
             success = m_archive->addLocalFile(i.key(), i.value());
-            emit archiveProgress(100 * ix / max);
+            Q_EMIT archiveProgress(100 * ix / max);
             ix++;
             if (!success || m_abortArchive) {
                 break;
@@ -1160,7 +1160,7 @@ void ArchiveWidget::createArchive()
     }
     success = success && m_archive->close();
 
-    emit archivingFinished(success, errorString);
+    Q_EMIT archivingFinished(success, errorString);
 }
 
 void ArchiveWidget::slotArchivingBoolFinished(bool result, const QString &errorString)
@@ -1228,7 +1228,7 @@ void ArchiveWidget::doExtracting()
 {
     m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
     m_archive->close();
-    emit extractingFinished();
+    Q_EMIT extractingFinished();
 }
 
 QString ArchiveWidget::extractedProjectFile() const

@@ -71,10 +71,10 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
 
     slotRefresh();
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int) {
         const QString val = m_list->itemData(m_list->currentIndex()).toString();
-        emit valueChanged(m_index, val, true);
+        Q_EMIT valueChanged(m_index, val, true);
         checkDependencies(val);
     });
 }
@@ -127,7 +127,7 @@ void ListDependencyParamWidget::checkDependencies(const QString &val)
                     m_infoMessage->setText(m_dependencyInfos.value(val));
                     m_infoMessage->animatedShow();
                     setMinimumHeight(m_list->sizeHint().height() + m_infoMessage->sizeHint().height());
-                    emit updateHeight();
+                    Q_EMIT updateHeight();
                     missingDep = true;
                     break;
                 }
@@ -137,7 +137,7 @@ void ListDependencyParamWidget::checkDependencies(const QString &val)
     if (!missingDep) {
         m_infoMessage->hide();
         setMinimumHeight(m_list->sizeHint().height());
-        emit updateHeight();
+        Q_EMIT updateHeight();
     }
 }
 

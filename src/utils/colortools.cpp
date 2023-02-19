@@ -92,7 +92,7 @@ QImage ColorTools::yuvColorWheel(const QSize &size, int Y, float scaling, bool m
         }
     }
 
-    emit signalYuvWheelCalculationFinished();
+    Q_EMIT signalYuvWheelCalculationFinished();
     return wheel;
 }
 

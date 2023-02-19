@@ -301,7 +301,7 @@ void GLWidget::resizeGL(int width, int height)
             rootQml->setProperty("splitterPos", x + (rootQml->property("percentage").toDouble() * w));
         }
     }
-    emit rectChanged();
+    Q_EMIT rectChanged();
 }
 
 void GLWidget::resizeEvent(QResizeEvent *event)
@@ -528,7 +528,7 @@ void GLWidget::disableGPUAccel()
     KdenliveSettings::setGpu_accel(false);
     // Need to destroy MLT global reference to prevent filters from trying to use GPU.
     mlt_properties_set_data(mlt_global_properties(), "glslManager", nullptr, 0, nullptr, nullptr);
-    emit gpuNotSupported();
+    Q_EMIT gpuNotSupported();
 }
 
 bool GLWidget::onlyGLESGPUAccel() const
@@ -675,7 +675,7 @@ void GLWidget::paintGL()
         glDrawArrays(GL_TRIANGLE_STRIP, 0, vertices.size());
         check_error(f);
         m_fbo->release();
-        emit analyseFrame(m_fbo->toImage());
+        Q_EMIT analyseFrame(m_fbo->toImage());
         m_sendFrame = false;
     }
     // Cleanup
@@ -828,9 +828,9 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        emit showContextMenu(event->globalPos());
+        Q_EMIT showContextMenu(event->globalPos());
 #else
-        emit showContextMenu(event->globalPosition().toPoint());
+        Q_EMIT showContextMenu(event->globalPosition().toPoint());
 #endif
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
@@ -852,7 +852,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     if (!m_panStart.isNull()) {
-        emit panView(m_panStart - event->pos());
+        Q_EMIT panView(m_panStart - event->pos());
         m_panStart = event->pos();
         event->accept();
         return;
@@ -860,7 +860,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
     if (!event->isAccepted() && !m_dragStart.isNull() && (event->pos() - m_dragStart).manhattanLength() >= QApplication::startDragDistance()) {
         m_dragStart = QPoint();
-        emit startDrag();
+        Q_EMIT startDrag();
     }
     event->accept();
 }
@@ -869,7 +869,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 {
     QQuickWidget::keyPressEvent(event);
     if (!event->isAccepted()) {
-        emit passKeyEvent(event);
+        Q_EMIT passKeyEvent(event);
     }
 }
 
@@ -927,7 +927,7 @@ void GLWidget::startGlsl()
         if (m_glslManager->get_int("glsl_supported") == 0) {
             disableGPUAccel();
         } else {
-            emit started();
+            Q_EMIT started();
         }
     }
 }
@@ -940,12 +940,12 @@ static void onThreadStarted(mlt_properties owner, GLWidget *self, mlt_event_data
 
 void GLWidget::releaseMonitor()
 {
-    emit lockMonitor(false);
+    Q_EMIT lockMonitor(false);
 }
 
 void GLWidget::lockMonitor()
 {
-    emit lockMonitor(true);
+    Q_EMIT lockMonitor(true);
 }
 
 void GLWidget::stopGlsl()
@@ -1262,7 +1262,7 @@ void GLWidget::setZoom(float zoom, bool force)
     }
     double zoomRatio = double(zoom / m_zoom);
     m_zoom = zoom;
-    emit zoomChanged(zoomRatio);
+    Q_EMIT zoomChanged(zoomRatio);
     if (rootObject()) {
         rootObject()->setProperty("zoom", m_zoom);
         double scalex = rootObject()->property("scalex").toDouble() * zoomRatio;
@@ -1297,7 +1297,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     }
     if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
         event->accept();
-        emit monitorPlay();
+        Q_EMIT monitorPlay();
     }
     m_dragStart = QPoint();
     m_panStart = QPoint();
@@ -1320,7 +1320,7 @@ void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
         return;
     }
     if ((rootObject() == nullptr) || rootObject()->objectName() != QLatin1String("rooteffectscene")) {
-        emit switchFullScreen();
+        Q_EMIT switchFullScreen();
     }
     event->accept();
 }
@@ -1488,12 +1488,12 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
         for (int i = 0; i < 3; ++i) {
             std::swap(m_renderTexture[i], m_displayTexture[i]);
         }
-        emit textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
+        Q_EMIT textureReady(m_displayTexture[0], m_displayTexture[1], m_displayTexture[2]);
         m_context->doneCurrent();
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
-    emit frameDisplayed(m_displayFrame);
+    Q_EMIT frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1511,7 +1511,7 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
-    emit frameDisplayed(m_displayFrame);
+    Q_EMIT frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1530,7 +1530,7 @@ void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
     }
     // The frame is now done being modified and can be shared with the rest
     // of the application.
-    emit frameDisplayed(m_displayFrame);
+    Q_EMIT frameDisplayed(m_displayFrame);
     m_semaphore.release();
 }
 
@@ -1581,7 +1581,7 @@ void GLWidget::refreshSceneLayout()
         return;
     }
     QSize s = pCore->getCurrentFrameSize();
-    emit m_proxy->profileChanged();
+    Q_EMIT m_proxy->profileChanged();
     rootObject()->setProperty("scalex", double(m_rect.width() * m_zoom) / s.width());
     rootObject()->setProperty("scaley", double(m_rect.height() * m_zoom) / s.height());
 }
@@ -1618,7 +1618,7 @@ void GLWidget::switchPlay(bool play, int offset, double speed)
             m_producer->seek(m_consumer->position() + (speed > 1. ? 1 : 0));
         }
     } else {
-        emit paused();
+        Q_EMIT paused();
         m_producer->set_speed(0);
         m_consumer->set("volume", 0);
         m_proxy->setSpeed(0);
@@ -1874,5 +1874,5 @@ void GLWidget::switchRuler(bool show)
     m_rulerHeight = show ? int(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5) : 0;
     m_displayRulerHeight = m_rulerHeight;
     resizeGL(width(), height());
-    emit m_proxy->rulerHeightChanged();
+    Q_EMIT m_proxy->rulerHeightChanged();
 }

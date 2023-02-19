@@ -24,7 +24,7 @@ public:
     */
     SwitchParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     void slotShowComment(bool show) override;

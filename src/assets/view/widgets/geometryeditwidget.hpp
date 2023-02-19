@@ -22,7 +22,7 @@ public:
     explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
     ~GeometryEditWidget() override;
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     void slotShowComment(bool show) override;
@@ -35,7 +35,7 @@ public slots:
      */
     void slotInitMonitor(bool active) override;
 
-private slots:
+private Q_SLOTS:
     /** @brief monitor seek pos changed. */
     void monitorSeek(int pos);
 

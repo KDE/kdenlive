@@ -127,7 +127,7 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     }
 
     // uint diff = time.elapsed();
-    // emit signalCalculationFinished(wave, diff);
+    // Q_EMIT signalCalculationFinished(wave, diff);
 
     return wave;
 }

@@ -35,6 +35,6 @@ private:
     void saveCurrentScheme(const QString & path);
     QString currentSchemeName() const;
 
-signals:
+Q_SIGNALS:
     void themeChanged(const QString &name);
 };

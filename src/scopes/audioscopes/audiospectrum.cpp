@@ -309,11 +309,11 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
         qCDebug(KDENLIVE_LOG) << widgetName() << " took " << drawTime.elapsed() << " ms for drawing. Average: " << ((float)m_timeTotal / m_showTotal);
 #endif
 
-        emit signalScopeRenderingFinished(uint(timer.elapsed()), 1);
+        Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), 1);
 
         return spectrum;
     }
-    emit signalScopeRenderingFinished(0, 1);
+    Q_EMIT signalScopeRenderingFinished(0, 1);
     return QImage();
 }
 QImage AudioSpectrum::renderHUD(uint)
@@ -443,14 +443,14 @@ QImage AudioSpectrum::renderHUD(uint)
             }
         }
 
-        emit signalHUDRenderingFinished(uint(timer.elapsed()), 1);
+        Q_EMIT signalHUDRenderingFinished(uint(timer.elapsed()), 1);
         return hud;
     }
 #ifdef DEBUG_AUDIOSPEC
     qCDebug(KDENLIVE_LOG) << "Widget is too small for painting inside. Size of inner scope rect is " << m_innerScopeRect.width() << 'x'
                           << m_innerScopeRect.height() << ".";
 #endif
-    emit signalHUDRenderingFinished(0, 1);
+    Q_EMIT signalHUDRenderingFinished(0, 1);
     return QImage();
 }
 

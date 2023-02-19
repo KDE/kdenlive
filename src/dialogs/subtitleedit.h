@@ -20,7 +20,7 @@ public:
     ShiftEnterFilter(QObject *parent = nullptr);
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
-signals:
+Q_SIGNALS:
     void triggerUpdate();
 };  
 
@@ -38,10 +38,10 @@ public:
     explicit SubtitleEdit(QWidget *parent = nullptr);
     void setModel(std::shared_ptr<SubtitleModel> model);
 
-public slots:
+public Q_SLOTS:
     void setActiveSubtitle(int id);
 
-private slots:
+private Q_SLOTS:
     void updateSubtitle();
     void goToPrevious();
     void goToNext();
@@ -54,7 +54,7 @@ private:
     GenTime m_startPos;
     GenTime m_endPos;
 
-signals:
+Q_SIGNALS:
     void addSubtitle(const QString &);
     void cutSubtitle(int id, int cursorPos);
 };

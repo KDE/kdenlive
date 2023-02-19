@@ -31,7 +31,7 @@ public:
      */
     bool isValid() const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     void slotShowComment(bool show) override;
@@ -45,9 +45,9 @@ private:
     QSlider *m_slider;
     bool m_inverted;
 
-private slots:
+private Q_SLOTS:
     void slotUpdatePosition();
 
-signals:
+Q_SIGNALS:
     void valueChanged();
 };

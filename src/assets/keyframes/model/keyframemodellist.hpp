@@ -166,7 +166,7 @@ protected:
     /** @brief Helper function to apply a given operation on all parameters */
     bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun &, Fun &)> &op, const QString &undoString);
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     void modelDisplayChanged();
 
@@ -178,7 +178,7 @@ private:
     QModelIndex m_inTimelineIndex;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
-private slots:
+private Q_SLOTS:
     void slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
 
 public:

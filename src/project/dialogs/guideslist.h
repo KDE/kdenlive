@@ -29,7 +29,7 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void clearSearchLine();
 };
 
@@ -48,11 +48,11 @@ public:
     /** @brief Reset all filters. */
     void reset();
 
-public slots:
+public Q_SLOTS:
     void removeGuide();
     void selectAll();
 
-private slots:
+private Q_SLOTS:
     void saveGuides();
     void editGuides();
     void importGuides();
@@ -80,5 +80,5 @@ private:
     QList<int> m_lastSelectedMarkerCategories;
     bool m_markerMode;
 
-signals:
+Q_SIGNALS:
 };

@@ -57,7 +57,7 @@ MixStackView::MixStackView(QWidget *parent)
     connect(this, &AssetParameterView::seekToPos, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
-        emit seekToTransPos(pos + clipIn);
+        Q_EMIT seekToTransPos(pos + clipIn);
     });
 }
 
@@ -69,7 +69,7 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     if (kfr) {
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
     }
-    emit initKeyframeView(true);
+    Q_EMIT initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 
     const QSignalBlocker bk0(m_duration);

@@ -122,7 +122,7 @@ public:
     bool closeTimeline(const QUuid &uuid, bool onDeletion = false);
     void setActiveTimeline(const QUuid &uuid);
 
-public slots:
+public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);
     void newFile(bool showProjectSettings = true);
     /** @brief Shows file open dialog. */
@@ -201,7 +201,7 @@ public slots:
     /** @brief Open a timeline with a referenc to a track / position. */
     void seekTimeline(const QString &frameAndTrack);
 
-private slots:
+private Q_SLOTS:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
     bool slotOpenBackup(const QUrl &url = QUrl());
@@ -211,7 +211,7 @@ private slots:
     void slotMoveProgress(KJob *, unsigned long progress);
     void slotMoveFinished(KJob *job);
 
-signals:
+Q_SIGNALS:
     void docOpened(KdenliveDoc *document);
 
 protected:

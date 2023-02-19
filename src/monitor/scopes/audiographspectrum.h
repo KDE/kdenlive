@@ -39,7 +39,7 @@ public:
     explicit AudioGraphWidget(QWidget *parent = nullptr);
     void drawBackground();
 
-public slots:
+public Q_SLOTS:
     void showAudio(const QVector<float> &bands);
 
 protected:
@@ -77,9 +77,9 @@ private:
     void processSpectrum();
     void refreshScope(const QSize &size, bool full) override;
 
-public slots:
+public Q_SLOTS:
     void refreshPixmap();
 
-private slots:
+private Q_SLOTS:
     void activate(bool enable);
 };

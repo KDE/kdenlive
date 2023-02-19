@@ -64,11 +64,11 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void updateAudioLevel(int pos);
     void setRecordState(bool recording);
 
-private slots:
+private Q_SLOTS:
     void gotRecLevels(QVector<qreal> levels);
 
 protected:
@@ -101,7 +101,7 @@ private:
     /** @Update track label to reflect state */
     void updateLabel();
 
-signals:
+Q_SIGNALS:
     void gotLevels(QPair<double, double>);
     void muteTrack(int tid, bool mute);
     void toggleSolo(int tid, bool toggled);

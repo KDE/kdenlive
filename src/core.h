@@ -340,7 +340,7 @@ private:
     QUrl m_mediaCaptureFile;
     QMutex m_thumbProfileMutex;
 
-public slots:
+public Q_SLOTS:
     /** @brief Trigger (launch) an action by its actionCollection name */
     void triggerAction(const QString &name);
     /** @brief Get an action's descriptive text by its actionCollection name */
@@ -378,7 +378,7 @@ public slots:
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
 
-signals:
+Q_SIGNALS:
     void coreIsReady();
     void updateLibraryPath();
     //void updateMonitorProfile();

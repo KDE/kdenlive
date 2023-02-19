@@ -25,7 +25,7 @@ public:
     /** @brief Return the path for selected backup file. */
     QString selectedFile() const;
 
-private slots:
+private Q_SLOTS:
     /** @brief Parse the backup files in project folder. */
     void slotParseBackupFiles();
     /** @brief Display a thumbnail preview of selected backup. */

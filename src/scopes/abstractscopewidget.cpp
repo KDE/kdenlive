@@ -323,7 +323,7 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
 {
     m_mousePos = event->pos();
     m_mouseWithinWidget = true;
-    emit signalMousePositionChanged();
+    Q_EMIT signalMousePositionChanged();
 
     QPoint movement = event->pos() - m_rescaleStartPoint;
 
@@ -377,7 +377,7 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
 void AbstractScopeWidget::leaveEvent(QEvent *)
 {
     m_mouseWithinWidget = false;
-    emit signalMousePositionChanged();
+    Q_EMIT signalMousePositionChanged();
 }
 
 void AbstractScopeWidget::slotContextMenuRequested(const QPoint &pos)
@@ -542,7 +542,7 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 #endif
     if (isVisible()) {
         // Notify listeners whether we accept new frames now
-        emit requestAutoRefresh(autoRefresh);
+        Q_EMIT requestAutoRefresh(autoRefresh);
     }
     // TODO only if depends on input
     if (autoRefresh) {

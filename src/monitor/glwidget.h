@@ -141,7 +141,7 @@ protected:
     int setProducer(const QString &file);
     QString frameToTime(int frames) const;
 
-public slots:
+public Q_SLOTS:
     void requestSeek(int position, bool noAudioScrub = false);
     void setZoom(float zoom, bool force = false);
     void setOffsetX(int x, int max);
@@ -156,7 +156,7 @@ public slots:
      */
     bool updateScaling();
 
-signals:
+Q_SIGNALS:
     void frameDisplayed(const SharedFrame &frame);
     void frameRendered(int pos);
     void dragStarted();
@@ -241,7 +241,7 @@ private:
 
     /* OpenGL context management. Interfaces to MLT according to the configured render pipeline.
      */
-private slots:
+private Q_SLOTS:
     void resizeGL(int width, int height);
     void updateTexture(GLuint yName, GLuint uName, GLuint vName);
     void paintGL();
@@ -317,10 +317,10 @@ public:
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLNoSyncFrame(Mlt::Frame frame);
 
-public slots:
+public Q_SLOTS:
     void cleanup();
 
-signals:
+Q_SIGNALS:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame &frame);
 

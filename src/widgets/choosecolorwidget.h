@@ -39,16 +39,16 @@ private:
     KColorButton *m_button;
     QLabel *m_nameLabel;
 
-public slots:
+public Q_SLOTS:
     /** @brief Updates the different color choosing options to have all selected @param color. */
     void setColor(const QColor &color);
     /** @brief Updates the color to @param color without emitting signals. */
     void slotColorModified(const QColor &color);
 
-private slots:
+private Q_SLOTS:
     void setAlphaChannelEnabled(bool alpha);
 
-signals:
+Q_SIGNALS:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
     /** @brief Request disabling / enabling current filter. */

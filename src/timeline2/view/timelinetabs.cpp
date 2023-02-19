@@ -208,7 +208,7 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(this, &TimelineTabs::fitZoom, timeline, &TimelineWidget::slotFitZoom);
     connect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
     connect(timeline->controller(), &TimelineController::showMixModel, this, &TimelineTabs::showMixModel);
-    connect(timeline->controller(), &TimelineController::updateZoom, this, [&](double value) { emit updateZoom(getCurrentTimeline()->zoomForScale(value)); });
+    connect(timeline->controller(), &TimelineController::updateZoom, this, [&](double value) { Q_EMIT updateZoom(getCurrentTimeline()->zoomForScale(value)); });
     connect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     connect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
     connect(timeline->controller(), &TimelineController::updateAssetPosition, this, &TimelineTabs::updateAssetPosition);

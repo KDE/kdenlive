@@ -174,7 +174,7 @@ QImage Waveform::renderHUD(uint)
     davinci.drawText(rightX, scopeRect().height() - m_paddingBottom, QStringLiteral("0"));
     davinci.drawText(rightX, 10, QStringLiteral("255"));
 
-    emit signalHUDRenderingFinished(0, 1);
+    Q_EMIT signalHUDRenderingFinished(0, 1);
     return hud;
 }
 
@@ -188,12 +188,12 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
                                                          WaveformGenerator::PaintMode(paintmode), true, rec, accelFactor);
 
-    emit signalScopeRenderingFinished(uint(timer.elapsed()), 1);
+    Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), 1);
     return wave;
 }
 
 QImage Waveform::renderBackground(uint)
 {
-    emit signalBackgroundRenderingFinished(0, 1);
+    Q_EMIT signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }

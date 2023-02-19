@@ -151,7 +151,7 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
 void ScopeManager::slotScopeReady()
 {
     if (m_lastConnectedRenderer) {
-        emit m_lastConnectedRenderer->scopesClear();
+        Q_EMIT m_lastConnectedRenderer->scopesClear();
     }
 }
 

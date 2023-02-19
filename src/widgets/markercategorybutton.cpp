@@ -52,7 +52,7 @@ void MarkerCategoryButton::categorySelected(QAction *ac)
                 action->setChecked(false);
             }
         }
-        emit categoriesChanged({-1});
+        Q_EMIT categoriesChanged({-1});
         if (isCheckable()) {
             setChecked(false);
         }
@@ -91,7 +91,7 @@ void MarkerCategoryButton::categorySelected(QAction *ac)
             selection << action->data().toInt();
         }
     }
-    emit categoriesChanged(selection);
+    Q_EMIT categoriesChanged(selection);
     if (isCheckable()) {
         setChecked(selection != (QList<int>() << -1));
     }
@@ -187,13 +187,13 @@ void MarkerCategoryButton::setMarkerModel(const MarkerListModel *model)
 {
     m_markerListModel = model;
     connect(m_markerListModel, &MarkerListModel::categoriesChanged, this, &MarkerCategoryButton::changed);
-    emit changed();
+    Q_EMIT changed();
 }
 
 void MarkerCategoryButton::setAllowAll(bool allowAll)
 {
     m_allowAll = allowAll;
-    emit changed();
+    Q_EMIT changed();
 }
 
 void MarkerCategoryButton::setOnlyUsed(bool onlyUsed)
@@ -202,5 +202,5 @@ void MarkerCategoryButton::setOnlyUsed(bool onlyUsed)
     if (m_onlyUsed) {
         connect(m_menu, &QMenu::aboutToShow, this, &MarkerCategoryButton::changed);
     }
-    emit changed();
+    Q_EMIT changed();
 }

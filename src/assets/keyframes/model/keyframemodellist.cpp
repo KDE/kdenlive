@@ -96,9 +96,9 @@ void KeyframeModelList::slotUpdateModels(const QModelIndex &ix1, const QModelInd
 {
     // Propagate change to all keyframe models
     for (const auto &param : m_parameters) {
-        emit param.second->dataChanged(ix1, ix2, roles);
+        Q_EMIT param.second->dataChanged(ix1, ix2, roles);
     }
-    emit modelDisplayChanged();
+    Q_EMIT modelDisplayChanged();
 }
 
 bool KeyframeModelList::applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, Fun &, Fun &)> &op, const QString &undoString)

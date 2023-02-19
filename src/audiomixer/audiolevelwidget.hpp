@@ -49,6 +49,6 @@ private:
     /** @brief Update tooltip with current dB values */
     void updateToolTip();
 
-public slots:
+public Q_SLOTS:
     void setAudioValues(const QVector<double> &values);
 };

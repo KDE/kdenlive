@@ -50,7 +50,7 @@ public:
     explicit VolumeAction(QObject *parent);
     QWidget *createWidget(QWidget *parent) override;
 
-signals:
+Q_SIGNALS:
     void volumeChanged(int volume);
 };
 
@@ -241,7 +241,7 @@ private:
     QAction *m_markIn;
     QAction *m_markOut;
 
-private slots:
+private Q_SLOTS:
     void slotSetThumbFrame();
     void slotSeek();
     void updateClipZone(const QPoint zone);
@@ -278,7 +278,7 @@ private slots:
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
 
-public slots:
+public Q_SLOTS:
     void slotSetScreen(int screenIndex);
     void slotPreviewResource(const QString &path, const QString &title);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
@@ -353,7 +353,7 @@ public slots:
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();
 
-signals:
+Q_SIGNALS:
     void screenChanged(int screenIndex);
     void seekPosition(int pos);
     void seekRemap(int pos);

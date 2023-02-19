@@ -50,7 +50,7 @@ void KeyframeModel::setup()
             // Selection role changed, no need to update the keyframe parameters
             return;
         }
-        emit modelChanged();
+        Q_EMIT modelChanged();
     });
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
@@ -531,7 +531,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, const Q
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify) emit dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
+        if (notify) Q_EMIT dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
         return true;
     };
 }
@@ -1019,7 +1019,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         effectName = i18n("effect");
     }
     Fun update_local = [this]() {
-        emit dataChanged(index(0), index(int(m_keyframeList.size())), {});
+        Q_EMIT dataChanged(index(0), index(int(m_keyframeList.size())), {});
         return true;
     };
     update_local();
@@ -1448,12 +1448,12 @@ void KeyframeModel::setSelectedKeyframe(int ix, bool add)
     if (!add) {
         for (auto &ix2 : previous) {
             if (ix2 > -1) {
-                emit requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
+                Q_EMIT requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
             }
         }
     }
     if (ix > -1) {
-        emit requestModelUpdate(index(ix), index(ix), {SelectedRole});
+        Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
     }
 }
 
@@ -1467,11 +1467,11 @@ void KeyframeModel::setSelectedKeyframes(QVector<int> selection)
         ptr->m_selectedKeyframes = selection;
     }
     if (!selection.isEmpty()) {
-        emit requestModelUpdate(index(selection.first()), index(selection.last()), {SelectedRole});
+        Q_EMIT requestModelUpdate(index(selection.first()), index(selection.last()), {SelectedRole});
     }
     for (auto &ix : previous) {
         if (ix > -1 && !selection.contains(ix)) {
-            emit requestModelUpdate(index(ix), index(ix), {SelectedRole});
+            Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
         }
     }
 }
@@ -1495,9 +1495,9 @@ void KeyframeModel::setActiveKeyframe(int ix)
         }
         ptr->m_activeKeyframe = ix;
     }
-    emit requestModelUpdate(index(ix), index(ix), {ActiveRole});
+    Q_EMIT requestModelUpdate(index(ix), index(ix), {ActiveRole});
     if (oldActive > -1) {
-        emit requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
+        Q_EMIT requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
     }
 }
 

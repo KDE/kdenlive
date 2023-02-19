@@ -60,7 +60,7 @@ protected:
     void slotShowAllHandles(bool show);
     void resizeEvent(QResizeEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     void slotShowComment(bool show) override;

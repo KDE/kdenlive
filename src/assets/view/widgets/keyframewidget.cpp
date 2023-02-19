@@ -226,7 +226,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         m_addDeleteAction->setEnabled(pos > 0);
         slotRefreshParams();
 
-        emit seekToPos(pos + (canHaveZone ? in : 0));
+        Q_EMIT seekToPos(pos + (canHaveZone ? in : 0));
     });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
@@ -387,7 +387,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
     int type = action->data().toInt();
     m_keyframeview->slotEditType(type, m_index);
     m_selectType->setIcon(action->icon());
-    emit activateEffect();
+    Q_EMIT activateEffect();
 }
 
 void KeyframeWidget::slotRefreshParams()
@@ -445,7 +445,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
     slotRefreshParams();
 
     if (update) {
-        emit seekToPos(pos + offset);
+        Q_EMIT seekToPos(pos + offset);
     }
 }
 
@@ -458,7 +458,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe);
-    emit updateEffectKeyframe(atKeyframe || singleKeyframe);
+    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
         w.second->setEnabled(atKeyframe || singleKeyframe);
@@ -537,7 +537,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
         connect(geomWidget, &GeometryWidget::valueChanged, this, [this, index](const QString &v) {
-            emit activateEffect();
+            Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
         connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
@@ -549,7 +549,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this, [this, index](const QList<QModelIndex> &indexes, const QStringList &list, bool) {
-            emit activateEffect();
+            Q_EMIT activateEffect();
             auto *parentCommand = new QUndoCommand();
             parentCommand->setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(m_model->getAssetId())));
             for (int i = 0; i < indexes.count(); i++) {
@@ -563,7 +563,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         });
         connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
             setFixedHeight(m_baseHeight + m_addedHeight + h);
-            ColorWheel emit updateHeight();
+            ColorWheel Q_EMIT updateHeight();
         });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
@@ -579,7 +579,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 if (type == ParamType::KeyframeParam) {
                     int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
                     if (paramName < 8) {
-                        emit addIndex(index);
+                        Q_EMIT addIndex(index);
                     }
                 }
             }
@@ -594,7 +594,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                     QString paramName = m_model->data(index, AssetParameterModel::NameRole).toString();
                     if (paramName.contains(QLatin1String("Position X")) || paramName.contains(QLatin1String("Position Y")) ||
                         paramName.contains(QLatin1String("Size X")) || paramName.contains(QLatin1String("Size Y"))) {
-                        emit addIndex(index);
+                        Q_EMIT addIndex(index);
                     }
                 }
             }
@@ -609,7 +609,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
-            emit activateEffect();
+            Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
         doubleWidget->setDragObjectName(QString::number(index.row()));
@@ -671,7 +671,7 @@ void KeyframeWidget::connectMonitor(bool active)
 
 void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
-    emit activateEffect();
+    Q_EMIT activateEffect();
     if (m_keyframes->isEmpty()) {
         GenTime pos(pCore->getItemIn(m_model->getOwnerId()) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {

@@ -284,6 +284,6 @@ void SceneSplitTask::processLogInfo()
         }
         m_progress = 100 * progress / m_jobDuration;
         QMetaObject::invokeMethod(m_object, "updateJobProgress");
-        // emit jobProgress(int(100.0 * progress / m_jobDuration));
+        // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
     }
 }

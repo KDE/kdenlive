@@ -95,6 +95,6 @@ private:
     const size_t m_startpos;
     size_t m_envelopeSize;
 
-signals:
+Q_SIGNALS:
     void envelopeReady(AudioEnvelope *envelope);
 };

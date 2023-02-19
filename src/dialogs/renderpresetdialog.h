@@ -38,6 +38,6 @@ private:
     void setPixelAspectRatio(int num, int den);
     void updateDisplayAspectRatio();
 
-private slots:
+private Q_SLOTS:
     void slotUpdateParams();
 };

@@ -944,7 +944,7 @@ protected:
 
     bool m_blockRefresh;
 
-signals:
+Q_SIGNALS:
     /** @brief signal triggered by clearAssetView */
     void requestClearAssetView(int);
     void requestMonitorRefresh();

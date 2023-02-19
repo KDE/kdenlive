@@ -28,12 +28,12 @@ bool ShiftEnterFilter::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         auto *keyEvent = static_cast<QKeyEvent *>(event);
         if ((keyEvent->modifiers() & Qt::ShiftModifier) && ((keyEvent->key() == Qt::Key_Enter) || (keyEvent->key() == Qt::Key_Return))) {
-            emit triggerUpdate();
+            Q_EMIT triggerUpdate();
             return true;
         }
     }
     if (event->type() == QEvent::FocusOut) {
-        emit triggerUpdate();
+        Q_EMIT triggerUpdate();
         return true;
     }
     return QObject::eventFilter(obj, event);
@@ -88,12 +88,12 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         updateSubtitle();
         m_model->requestResize(m_activeSub, value, true);
     });
-    connect(buttonAdd, &QToolButton::clicked, this, [this]() { emit addSubtitle(subText->toPlainText()); });
+    connect(buttonAdd, &QToolButton::clicked, this, [this]() { Q_EMIT addSubtitle(subText->toPlainText()); });
     connect(buttonCut, &QToolButton::clicked, this, [this]() {
         if (m_activeSub > -1 && subText->hasFocus()) {
             int pos = subText->textCursor().position();
             updateSubtitle();
-            emit cutSubtitle(m_activeSub, pos);
+            Q_EMIT cutSubtitle(m_activeSub, pos);
         }
     });
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);

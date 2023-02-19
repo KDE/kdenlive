@@ -219,7 +219,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    emit modelChanged();
+    Q_EMIT modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
@@ -275,14 +275,14 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
             effectParam << m_asset->get(pName.toUtf8().constData());
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
-        emit replugEffect(shared_from_this());
+        Q_EMIT replugEffect(shared_from_this());
     } else if (m_assetId.startsWith(QStringLiteral("ladspa"))) {
         // these effects don't understand param change and need to be rebuild
-        emit replugEffect(shared_from_this());
+        Q_EMIT replugEffect(shared_from_this());
     }
     if (update) {
-        emit modelChanged();
-        emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
+        Q_EMIT modelChanged();
+        Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
         if (!m_isAudio) {
@@ -393,29 +393,29 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
             effectParam << m_asset->get(pName.toUtf8().constData());
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
-        emit replugEffect(shared_from_this());
+        Q_EMIT replugEffect(shared_from_this());
         updateChildRequired = false;
     } else if (m_assetId.startsWith(QStringLiteral("ladspa"))) {
         // these effects don't understand param change and need to be rebuild
-        emit replugEffect(shared_from_this());
+        Q_EMIT replugEffect(shared_from_this());
         updateChildRequired = false;
     } else if (update) {
         qDebug() << "// SENDING DATA CHANGE....";
         if (paramIndex.isValid()) {
-            emit dataChanged(paramIndex, paramIndex);
+            Q_EMIT dataChanged(paramIndex, paramIndex);
         } else {
             QModelIndex ix = index(m_rows.indexOf(name), 0);
-            emit dataChanged(ix, ix);
+            Q_EMIT dataChanged(ix, ix);
         }
-        emit modelChanged();
+        Q_EMIT modelChanged();
     }
     if (updateChildRequired) {
-        emit updateChildren({name});
+        Q_EMIT updateChildren({name});
     }
     // Update timeline view if necessary
     if (m_ownerId.first == ObjectType::NoItem) {
         // Used for generator clips
-        if (!update) emit modelChanged();
+        if (!update) Q_EMIT modelChanged();
     } else {
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
@@ -1369,7 +1369,7 @@ void AssetParameterModel::setParameters(const paramVector &params, bool update)
         // restore itemId
         m_ownerId.first = itemId;
     }
-    emit dataChanged(index(0), index(m_rows.count()), {});
+    Q_EMIT dataChanged(index(0), index(m_rows.count()), {});
 }
 
 ObjectId AssetParameterModel::getOwnerId() const
@@ -1418,7 +1418,7 @@ void AssetParameterModel::passProperties(Mlt::Properties &target)
 void AssetParameterModel::setProgress(int progress)
 {
     m_filterProgress = progress;
-    emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {AssetParameterModel::FilterProgressRole});
+    Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {AssetParameterModel::FilterProgressRole});
 }
 
 Mlt::Properties *AssetParameterModel::getAsset()

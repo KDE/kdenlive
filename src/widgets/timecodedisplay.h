@@ -101,7 +101,7 @@ private:
     int m_value;
     int m_offset;
 
-public slots:
+public Q_SLOTS:
     /** @brief Sets the value.
      * @param value the new value
      * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
@@ -109,12 +109,12 @@ public slots:
     void setValue(const QString &value);
     void setValue(const GenTime &value);
 
-private slots:
+private Q_SLOTS:
     void slotEditingFinished();
     /** @brief Refresh timecode to match project.*/
     void refreshTimeCode();
 
-signals:
+Q_SIGNALS:
     void timeCodeEditingFinished(int value = -1);
     void timeCodeUpdated();
 

@@ -139,11 +139,11 @@ protected:
     void dropEvent(QDropEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void slotUpdateThumb(const QString &path, const QString &iconPath);
     void slotUpdateThumb(const QString &path, const QPixmap &pix);
 
-signals:
+Q_SIGNALS:
     void moveData(const QList<QUrl> &, const QString &);
     void importSequence(const QStringList &, const QString &);
 };
@@ -160,11 +160,11 @@ public:
     explicit LibraryWidget(ProjectManager *m_manager, QWidget *parent = nullptr);
     void setupActions();
 
-public slots:
+public Q_SLOTS:
     void slotAddToLibrary();
     void slotUpdateLibraryPath();
 
-private slots:
+private Q_SLOTS:
     void slotAddToProject();
     void slotDeleteFromLibrary();
     void updateActions();
@@ -196,7 +196,7 @@ private:
     QDir m_directory;
     void showMessage(const QString &text, KMessageWidget::MessageType type = KMessageWidget::Warning);
 
-signals:
+Q_SIGNALS:
     void addProjectClips(const QList<QUrl> &);
     void thumbReady(const QString &, const QString &);
     void enableAddSelection(bool);

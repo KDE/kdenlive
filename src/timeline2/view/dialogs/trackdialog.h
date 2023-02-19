@@ -49,7 +49,7 @@ private:
     QMap<int, int> m_positionByIndex;
     QMap<QString,int> m_idByTrackname;
 
-private slots:
+private Q_SLOTS:
     /** @brief: Fill track list combo
      */
     void buildCombo();

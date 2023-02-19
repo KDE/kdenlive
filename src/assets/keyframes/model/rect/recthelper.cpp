@@ -41,10 +41,10 @@ void RectHelper::slotUpdateFromMonitorRect(const QRect &rect)
     double y = double(rect.y() + rect.height() / 2) / frameSize.height();
     double w = double(rect.width()) / frameSize.width() * 0.5;
     double h = double(rect.height()) / frameSize.height() * 0.5;
-    emit updateKeyframeData(m_indexes.at(0), x);
-    emit updateKeyframeData(m_indexes.at(1), y);
-    emit updateKeyframeData(m_indexes.at(2), w);
-    emit updateKeyframeData(m_indexes.at(3), h);
+    Q_EMIT updateKeyframeData(m_indexes.at(0), x);
+    Q_EMIT updateKeyframeData(m_indexes.at(1), y);
+    Q_EMIT updateKeyframeData(m_indexes.at(2), w);
+    Q_EMIT updateKeyframeData(m_indexes.at(3), h);
 }
 
 void RectHelper::refreshParams(int pos)

@@ -124,7 +124,7 @@ void ProjectManager::slotLoadOnOpen()
     }
     m_loadClipsOnOpen.clear();
     m_loading = false;
-    emit pCore->closeSplash();
+    Q_EMIT pCore->closeSplash();
     // Release startup crash lock file
     QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
     lockFile.remove();
@@ -262,7 +262,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         }
     }
     activateDocument(m_project->activeUuid);
-    emit docOpened(m_project);
+    Q_EMIT docOpened(m_project);
     m_lastSave.start();
 }
 
@@ -290,7 +290,7 @@ void ProjectManager::activateDocument(const QUuid &uuid)
     /*m_project = m_openedDocuments.value(uuid);
     m_fileRevert->setEnabled(m_project->isModified());
     m_notesPlugin->clear();
-    emit docOpened(m_project);*/
+    Q_EMIT docOpened(m_project);*/
 
     m_activeTimelineModel = m_project->getTimeline(uuid);
     m_project->activeUuid = uuid;
@@ -300,7 +300,7 @@ void ProjectManager::activateDocument(const QUuid &uuid)
     pCore->window()->raiseTimeline(uuid);
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
     pCore->window()->slotSetZoom(m_project->zoom(uuid).x());
-    // emit pCore->monitorManager()->updatePreviewScaling();
+    // Q_EMIT pCore->monitorManager()->updatePreviewScaling();
     // pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
 }
 
@@ -384,7 +384,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     pCore->bin()->cleanDocument();
     if (!quit && !qApp->isSavingSession() && m_project) {
-        emit pCore->window()->clearAssetPanel();
+        Q_EMIT pCore->window()->clearAssetPanel();
         pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         delete m_project;
         m_project = nullptr;
@@ -751,7 +751,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         m_progressDialog->setLabelText(i18n("Loading clips"));
         m_progressDialog->setMaximum(doc->clipsCount());
     } else {
-        emit pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
+        Q_EMIT pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
     pCore->bin()->setDocument(doc);
@@ -791,7 +791,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
     pCore->window()->connectDocument();
 
-    emit docOpened(m_project);
+    Q_EMIT docOpened(m_project);
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     m_lastSave.start();
     delete m_progressDialog;
@@ -1241,7 +1241,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         timelineModel->loadGroups(groupsData);
     }
     if (pCore->monitorManager()) {
-        emit pCore->monitorManager()->updatePreviewScaling();
+        Q_EMIT pCore->monitorManager()->updatePreviewScaling();
         pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
         pCore->monitorManager()->projectMonitor()->setProducer(timelineModel->producer(), pos);
         const QUuid uuid = m_project->activeUuid;

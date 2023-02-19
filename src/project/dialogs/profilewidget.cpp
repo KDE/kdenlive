@@ -225,7 +225,7 @@ void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModel
         m_lastValidProfile = m_currentProfile;
     }
     if (m_originalProfile != m_currentProfile) {
-        emit profileChanged();
+        Q_EMIT profileChanged();
     }
     fillDescriptionPanel(m_currentProfile);
 }
@@ -257,7 +257,7 @@ void ProfileWidget::slotFilterChanged()
         if (!trySelectProfile(m_lastValidProfile)) {
             // Everything fails, we don't have any profile
             m_currentProfile = QString();
-            emit profileChanged();
+            Q_EMIT profileChanged();
             fillDescriptionPanel(QString());
         }
     }

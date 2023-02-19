@@ -105,7 +105,7 @@ protected:
     /** @brief This is an helper function that finishes a construction of a freshly created TimelineItemModel */
     static void finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr);
 
-signals:
+Q_SIGNALS:
     /** @brief Triggered when a video track visibility changed */
     void trackVisibilityChanged();
     void showTrackEffectStack(int tid);

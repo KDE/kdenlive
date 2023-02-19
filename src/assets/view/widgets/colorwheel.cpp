@@ -62,21 +62,21 @@ void WheelContainer::setColor(const QList<double> &values)
 void WheelContainer::setRedColor(double value)
 {
     m_color.setRedF(value / m_sizeFactor);
-    emit colorChange(m_color);
+    Q_EMIT colorChange(m_color);
     update();
 }
 
 void WheelContainer::setGreenColor(double value)
 {
     m_color.setGreenF(value / m_sizeFactor);
-    emit colorChange(m_color);
+    Q_EMIT colorChange(m_color);
     update();
 }
 
 void WheelContainer::setBlueColor(double value)
 {
     m_color.setBlueF(value / m_sizeFactor);
-    emit colorChange(m_color);
+    Q_EMIT colorChange(m_color);
     update();
 }
 
@@ -385,7 +385,7 @@ void WheelContainer::changeColor(const NegQColor &color)
     drawWheel();
     drawSlider();
     update();
-    emit colorChange(m_color);
+    Q_EMIT colorChange(m_color);
 }
 
 ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
@@ -439,7 +439,7 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
         m_redEdit->blockSignals(false);
         m_greenEdit->blockSignals(false);
         m_blueEdit->blockSignals(false);
-        emit colorChange(col);
+        Q_EMIT colorChange(col);
     });
     connect(m_redEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             [&]() { m_container->setRedColor(m_redEdit->value()); });

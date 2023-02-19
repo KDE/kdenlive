@@ -934,9 +934,9 @@ void TitleWidget::displayBackgroundFrame()
             m_frameImage->setPixmap(bg);
         }
         }
-        emit updatePatternsBackgroundFrame();
+        Q_EMIT updatePatternsBackgroundFrame();
     } else {
-        emit requestBackgroundFrame(true);
+        Q_EMIT requestBackgroundFrame(true);
     }
 }
 
@@ -944,8 +944,8 @@ void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(int(r.width() / 2), int(r.height() / 2))));
-    emit requestBackgroundFrame(false);
-    emit updatePatternsBackgroundFrame();
+    Q_EMIT requestBackgroundFrame(false);
+    Q_EMIT updatePatternsBackgroundFrame();
 }
 
 void TitleWidget::initAnimation()

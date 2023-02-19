@@ -31,7 +31,7 @@ public:
     AudioDevInfo(const QAudioFormat &format, QObject *parent = nullptr);
     quint32 maxAmplitude = 0;
 
-signals:
+Q_SIGNALS:
     void levelChanged(const QVector<qreal> &dbLevels);
     void levelRecChanged(const QVector<qreal> &dbLevels);
 
@@ -82,7 +82,7 @@ public:
     /** @brief Start the real audio capture **/
     int startCapture();
 
-public slots:
+public Q_SLOTS:
     void displayErrorMessage();
     /** @brief Sets m_volume to selected audio capture volume **/
     void setAudioVolume();
@@ -114,10 +114,10 @@ private:
     QTimer m_resetTimer;
     QMutex m_recMutex;
 
-private slots:
+private Q_SLOTS:
     void resetIfUnused();
 
-signals:
+Q_SIGNALS:
     void levelsChanged();
     void recordStateChanged(int tid, bool recording);
     void recordDone();

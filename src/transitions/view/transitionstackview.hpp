@@ -21,11 +21,11 @@ public:
     ObjectId stackOwner() const;
     void refreshTracks();
 
-private slots:
+private Q_SLOTS:
     void updateTrack(int newTrack);
     void checkCompoTrack();
 
-signals:
+Q_SIGNALS:
     void seekToTransPos(int pos);
 
 private:

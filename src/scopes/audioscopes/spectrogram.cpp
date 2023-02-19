@@ -290,10 +290,10 @@ QImage Spectrogram::renderHUD(uint)
         davinci.drawText(m_scopeRect.left(), topDist, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmax));
         davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height() - 20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
 
-        emit signalHUDRenderingFinished(uint(timer.elapsed()), 1);
+        Q_EMIT signalHUDRenderingFinished(uint(timer.elapsed()), 1);
         return hud;
     }
-    emit signalHUDRenderingFinished(0, 1);
+    Q_EMIT signalHUDRenderingFinished(0, 1);
     return QImage();
 }
 
@@ -436,10 +436,10 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         m_fftHistoryImg = spectrum;
 
-        emit signalScopeRenderingFinished(uint(timer.elapsed()), 1);
+        Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), 1);
         return spectrum;
     }
-    emit signalScopeRenderingFinished(0, 1);
+    Q_EMIT signalScopeRenderingFinished(0, 1);
     return QImage();
 }
 QImage Spectrogram::renderBackground(uint)

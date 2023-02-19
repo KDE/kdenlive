@@ -31,7 +31,7 @@ public:
     double blue();
     Q_INVOKABLE void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
 
-signals:
+Q_SIGNALS:
     void colorChanged();
 
 protected:

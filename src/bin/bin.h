@@ -79,7 +79,7 @@ protected:
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
@@ -113,7 +113,7 @@ protected:
 #endif
     void leaveEvent(QEvent *event) override;
 
-protected slots:
+protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
     void editorDestroyed(QObject *editor) override;
 
@@ -125,7 +125,7 @@ private:
     bool performDrag();
     bool isEditing() const;
 
-signals:
+Q_SIGNALS:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame, bool storeFrame = false);
@@ -153,10 +153,10 @@ private:
     QAction *m_action{nullptr};
     QMutex m_locker;
 
-public slots:
+public Q_SLOTS:
     void slotSetJobCount(int jobCount);
 
-private slots:
+private Q_SLOTS:
     void slotTimeLineChanged(qreal value);
     void slotTimeLineFinished();
 };
@@ -174,7 +174,7 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void clearSearchLine();
     void showClearButton(bool);
 };
@@ -376,7 +376,7 @@ public:
     /** @brief List all clips referenced in a timeline sequence. */
     QStringList sequenceReferencedClips(const QUuid &uuid) const;
 
-private slots:
+private Q_SLOTS:
     void slotAddClip();
     /** @brief Reload clip from disk */
     void slotReloadClip();
@@ -434,7 +434,7 @@ private slots:
     /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
     void updateClipsCount();
 
-public slots:
+public Q_SLOTS:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
@@ -608,7 +608,7 @@ private:
     /** @brief Find all clip Ids that have a specific tag. */
     const QList<QString> getAllClipsWithTag(const QString &tag);
 
-signals:
+Q_SIGNALS:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
     void producerReady(const QString &id);
     /** @brief Save folder info into MLT. */

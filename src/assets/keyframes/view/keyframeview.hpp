@@ -27,7 +27,7 @@ public:
     /** @brief Returns the index (position in model) of the currently selected keyframes. */
     const QVector<int> selectedKeyframesIndexes();
 
-public slots:
+public Q_SLOTS:
     /** @brief moves the current position*/
     void slotSetPosition(int pos, bool isInRange);
     /** @brief remove the keyframe at given position
@@ -98,7 +98,7 @@ private:
     QColor m_colKeyframeBg;
     QMetaObject::Connection m_centerConnection;
 
-signals:
+Q_SIGNALS:
     void seekToPos(int pos);
     void atKeyframe(bool isKeyframe, bool singleKeyframe);
     void modified();

@@ -133,7 +133,7 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::setFromString(con
 {
     m_curve.fromString(str);
     m_currentPointIndex = -1;
-    emit currentPoint(Point_t(), true);
+    Q_EMIT currentPoint(Point_t(), true);
     update();
 }
 
@@ -141,8 +141,8 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::reset()
 {
     setFromString(Curve_t().toString());
     m_currentPointIndex = -1;
-    emit currentPoint(Point_t(), true);
-    emit modified();
+    Q_EMIT currentPoint(Point_t(), true);
+    Q_EMIT modified();
     update();
 }
 
@@ -156,9 +156,9 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::updateCurrentPoin
     if (m_currentPointIndex >= 0) {
         m_curve.setPoint(m_currentPointIndex, p);
         // during validation the point might have changed
-        emit currentPoint(m_curve.getPoint(m_currentPointIndex), isCurrentPointExtremal());
+        Q_EMIT currentPoint(m_curve.getPoint(m_currentPointIndex), isCurrentPointExtremal());
         if (final) {
-            emit modified();
+            Q_EMIT modified();
         }
         update();
     }
@@ -183,9 +183,9 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::slotDeleteCurrent
     if (m_currentPointIndex > 0 && m_currentPointIndex < m_curve.points().size() - 1) {
         m_curve.removePoint(m_currentPointIndex);
         m_currentPointIndex--;
-        emit currentPoint(m_curve.getPoint(m_currentPointIndex), isCurrentPointExtremal());
+        Q_EMIT currentPoint(m_curve.getPoint(m_currentPointIndex), isCurrentPointExtremal());
         update();
-        emit modified();
+        Q_EMIT modified();
         setCursor(Qt::ArrowCursor);
         m_state = State_t::NORMAL;
     }
@@ -211,7 +211,7 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::mouseReleaseEvent
     setCursor(Qt::ArrowCursor);
     m_state = State_t::NORMAL;
 
-    emit modified();
+    Q_EMIT modified();
 }
 
 template <typename Curve_t> void AbstractCurveWidget<Curve_t>::keyPressEvent(QKeyEvent *e)

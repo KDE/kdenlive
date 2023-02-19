@@ -32,7 +32,7 @@ public:
     void setShowAllHandles(bool show);
     QList<BPoint> getPoints() const override;
 
-public slots:
+public Q_SLOTS:
 
 protected:
     void paintEvent(QPaintEvent *event) override;

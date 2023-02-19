@@ -66,7 +66,7 @@ public:
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
 
-public slots:
+public Q_SLOTS:
     /** @brief Save current effect stack
      */
     void slotSaveStack();
@@ -95,7 +95,7 @@ private:
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
 
-private slots:
+private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
     void slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel);
@@ -111,7 +111,7 @@ private slots:
 
     //    void switchBuiltStack(bool show);
 
-signals:
+Q_SIGNALS:
     void switchCollapsedView(int row);
     void seekToPos(int);
     void reloadEffect(const QString &path);

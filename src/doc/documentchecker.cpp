@@ -1013,9 +1013,9 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
     if (m_abortSearch) {
-        emit showScanning(i18n("Search aborted"));
+        Q_EMIT showScanning(i18n("Search aborted"));
     } else {
-        emit showScanning(i18n("Search done"));
+        Q_EMIT showScanning(i18n("Search done"));
     }
     checkStatus();
     slotCheckButtons();
@@ -1131,7 +1131,7 @@ QString DocumentChecker::searchDirRecursively(const QDir &dir, const QString &ma
     if (m_abortSearch) {
         return QString();
     }
-    emit showScanning(i18n("Scanning %1", dir.absolutePath()));
+    Q_EMIT showScanning(i18n("Scanning %1", dir.absolutePath()));
     QStringList filesAndDirs;
     QString fileName = QFileInfo(fullName).fileName();
     // Check main dir

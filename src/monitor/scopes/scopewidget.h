@@ -69,7 +69,7 @@ public:
     */
     // virtual void setOrientation(Qt::Orientation) {};
 
-public slots:
+public Q_SLOTS:
     //! Provides a new frame to the scope. Should be called by the application.
     void onNewFrame(const SharedFrame &frame);
 

@@ -29,6 +29,6 @@ public:
     QPoint mapToCircle(const QSize &targetSize, const QPointF &point) const;
     static const double scaling;
 
-signals:
+Q_SIGNALS:
     void signalCalculationFinished(const QImage &image, uint ms);
 };

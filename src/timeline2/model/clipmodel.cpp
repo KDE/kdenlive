@@ -56,7 +56,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
-                emit ptr->dataChanged(ix, ix, roles);
+                Q_EMIT ptr->dataChanged(ix, ix, roles);
             }
         }
     });
@@ -230,7 +230,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (track_operation()) {
             setInOut(inPoint, outPoint);
             if (logUndo && !m_endlessResize) {
-                emit pCore->clipInstanceResized(m_binClipId);
+                Q_EMIT pCore->clipInstanceResized(m_binClipId);
             }
             return true;
         }
@@ -246,15 +246,15 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     if (right) {
                         int newOut = m_position + getOut() - getIn();
                         if (oldOut < newOut) {
-                            emit ptr->invalidateZone(oldOut, newOut);
+                            Q_EMIT ptr->invalidateZone(oldOut, newOut);
                         } else {
-                            emit ptr->invalidateZone(newOut, oldOut);
+                            Q_EMIT ptr->invalidateZone(newOut, oldOut);
                         }
                     } else {
                         if (oldIn < m_position) {
-                            emit ptr->invalidateZone(oldIn, m_position);
+                            Q_EMIT ptr->invalidateZone(oldIn, m_position);
                         } else {
-                            emit ptr->invalidateZone(m_position, oldIn);
+                            Q_EMIT ptr->invalidateZone(m_position, oldIn);
                         }
                     }
                 }
@@ -281,7 +281,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             if (track_reverse()) {
                 setInOut(old_in, old_out);
                 if (logUndo && !m_endlessResize) {
-                    emit pCore->clipInstanceResized(m_binClipId);
+                    Q_EMIT pCore->clipInstanceResized(m_binClipId);
                 }
                 return true;
             }
@@ -297,15 +297,15 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
                         if (right) {
                             if (oldOut < newOut) {
-                                emit ptr->invalidateZone(oldOut, newOut);
+                                Q_EMIT ptr->invalidateZone(oldOut, newOut);
                             } else {
-                                emit ptr->invalidateZone(newOut, oldOut);
+                                Q_EMIT ptr->invalidateZone(newOut, oldOut);
                             }
                         } else {
                             if (oldIn < newIn) {
-                                emit ptr->invalidateZone(oldIn, newIn);
+                                Q_EMIT ptr->invalidateZone(oldIn, newIn);
                             } else {
-                                emit ptr->invalidateZone(newIn, oldIn);
+                                Q_EMIT ptr->invalidateZone(newIn, oldIn);
                             }
                         }
                     }
@@ -374,7 +374,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                 pCore->refreshProjectMonitorOnce();
                 // invalidate timeline preview
                 if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                    emit ptr->invalidateZone(m_position, m_position + getPlaytime());
+                    Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
                 }
             }
         }
@@ -397,7 +397,7 @@ bool ClipModel::requestSlip(int offset, Fun &undo, Fun &redo, bool logUndo)
                     ptr->notifyChange(ix, ix, roles);
                     pCore->refreshProjectMonitorOnce();
                     if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {
-                        emit ptr->invalidateZone(m_position, m_position + getPlaytime());
+                        Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
                     }
                 }
             }
@@ -1207,7 +1207,7 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
                 refreshProducerFromBin(m_currentTrackId);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                emit ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
+                Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
             }
             return true;
         }
@@ -1406,7 +1406,7 @@ void ClipModel::setOffset(int offset)
     m_positionOffset = offset;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::PositionOffsetRole});
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::PositionOffsetRole});
     }
 }
 
@@ -1419,7 +1419,7 @@ void ClipModel::setGrab(bool grab)
     m_grabbed = grab;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+        Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
     }
 }
 
@@ -1433,7 +1433,7 @@ void ClipModel::setSelected(bool sel)
     if (auto ptr = m_parent.lock()) {
         if (m_currentTrackId != -1) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            emit ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+            Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
         }
     }
 }

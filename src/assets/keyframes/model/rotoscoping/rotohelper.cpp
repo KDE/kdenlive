@@ -21,7 +21,7 @@ RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> mo
 void RotoHelper::slotUpdateFromMonitorData(const QVariantList &v)
 {
     const QVariant res = RotoHelper::getSpline(QVariant(v), pCore->getCurrentFrameSize());
-    emit updateKeyframeData(m_indexes.first(), res);
+    Q_EMIT updateKeyframeData(m_indexes.first(), res);
 }
 
 QVariant RotoHelper::getSpline(const QVariant &value, const QSize frame)

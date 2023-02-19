@@ -217,7 +217,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     ClipController::mediaUnavailable->set("length", 99999999);
 
     if (!Url.isEmpty()) {
-        emit loadingMessageUpdated(i18n("Loading project…"));
+        Q_EMIT loadingMessageUpdated(i18n("Loading project…"));
     }
     projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
@@ -227,7 +227,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
     bin->slotUpdatePalette();
-    emit m_mainWindow->GUISetupDone();
+    Q_EMIT m_mainWindow->GUISetupDone();
 }
 
 void Core::buildDocks()
@@ -521,7 +521,7 @@ void Core::updateMonitorProfile()
     m_monitorProfile.set_sample_aspect(m_projectProfile->sample_aspect_num(), m_projectProfile->sample_aspect_den());
     m_monitorProfile.set_display_aspect(m_projectProfile->display_aspect_num(), m_projectProfile->display_aspect_den());
     m_monitorProfile.set_explicit(true);
-    emit monitorProfileUpdated();
+    Q_EMIT monitorProfileUpdated();
 }
 
 const QString &Core::getCurrentProfilePath() const
@@ -534,7 +534,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
     if (m_currentProfile == profilePath) {
         // no change required, ensure timecode has correct fps
         m_timecode.setFormat(getCurrentProfile()->fps());
-        emit updateProjectTimecode();
+        Q_EMIT updateProjectTimecode();
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
@@ -556,16 +556,16 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
         if (m_guiConstructed) {
-            emit m_mainWindow->updateRenderWidgetProfile();
+            Q_EMIT m_mainWindow->updateRenderWidgetProfile();
             m_monitorManager->resetProfiles();
-            emit m_monitorManager->updatePreviewScaling();
+            Q_EMIT m_monitorManager->updatePreviewScaling();
             if (m_mainWindow->hasTimeline() && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->model()) {
                 m_mainWindow->getCurrentTimeline()->model()->updateProfile(getProjectProfile());
                 m_mainWindow->getCurrentTimeline()->model()->updateFieldOrderFilter(getCurrentProfile());
                 checkProfileValidity();
-                emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
+                Q_EMIT m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
             }
-            emit updateProjectTimecode();
+            Q_EMIT updateProjectTimecode();
         }
         return true;
     }
@@ -578,7 +578,7 @@ void Core::checkProfileValidity()
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_mainWindow->getBin()) {
-            emit m_mainWindow->getBin()->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
+            Q_EMIT m_mainWindow->getBin()->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
         }
     }
 }
@@ -879,7 +879,7 @@ int Core::undoIndex() const
 void Core::displaySelectionMessage(const QString &message)
 {
     if (m_mainWindow) {
-        emit m_mainWindow->displaySelectionMessage(message);
+        Q_EMIT m_mainWindow->displaySelectionMessage(message);
     }
 }
 
@@ -887,9 +887,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {
         if (type == ProcessingJobMessage || type == OperationCompletedMessage) {
-            emit m_mainWindow->displayProgressMessage(message, type, timeout);
+            Q_EMIT m_mainWindow->displayProgressMessage(message, type, timeout);
         } else {
-            emit m_mainWindow->displayMessage(message, type, timeout);
+            Q_EMIT m_mainWindow->displayMessage(message, type, timeout);
         }
     } else {
         qDebug() << message;
@@ -898,7 +898,7 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 
 void Core::loadingClips(int count)
 {
-    emit m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
+    Q_EMIT m_mainWindow->displayProgressMessage(i18n("Loading clips"), MessageType::ProcessingJobMessage, count);
 }
 
 void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
@@ -913,7 +913,7 @@ void Core::displayBinLogMessage(const QString &text, int type, const QString log
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed) emit m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed) Q_EMIT m_mainWindow->clearAssetPanel(itemId);
 }
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
@@ -1141,7 +1141,7 @@ bool Core::isMediaCapturing() const
 
 void Core::switchCapture()
 {
-    emit recordAudio(-1, !isMediaCapturing());
+    Q_EMIT recordAudio(-1, !isMediaCapturing());
 }
 
 MediaCapture *Core::getAudioDevice()
@@ -1193,7 +1193,7 @@ int Core::getDurationFromString(const QString &time)
 
 void Core::processInvalidFilter(const QString &service, const QString &id, const QString &message)
 {
-    if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
+    if (m_guiConstructed) Q_EMIT m_mainWindow->assetPanelWarning(service, id, message);
 }
 
 void Core::updateProjectTags(int previousCount, const QMap<int, QStringList> &tags)

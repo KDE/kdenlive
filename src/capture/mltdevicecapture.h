@@ -105,13 +105,13 @@ private:
      *  @returns true if consumer is valid */
     bool buildConsumer(const QString &profileName = QString());
 
-private slots:
+private Q_SLOTS:
     void slotPreparePreview();
     void slotAllowPreview();
     /** @brief When capturing, check every second for dropped frames. */
     void slotCheckDroppedFrames();
 
-signals:
+Q_SIGNALS:
     /** @brief A frame's image has to be shown.
      *
      * Used in Mac OS X. */
@@ -124,7 +124,7 @@ signals:
     void unblockPreview();
     void imageReady(const QImage &);
 
-public slots:
+public Q_SLOTS:
     /** @brief Stops the consumer. */
     void stop();
 };

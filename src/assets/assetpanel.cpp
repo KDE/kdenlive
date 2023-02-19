@@ -59,9 +59,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     }
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
-            emit switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+            Q_EMIT switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         } else if (m_mixWidget->isVisible()) {
-            emit switchCurrentComposition(m_mixWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+            Q_EMIT switchCurrentComposition(m_mixWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         }
     });
     m_switchCompoButton->setToolTip(i18n("Change composition type"));
@@ -399,9 +399,9 @@ void AssetPanel::processSplitEffect(bool enable)
 {
     ObjectType id = m_effectStackWidget->stackOwner().first;
     if (id == ObjectType::TimelineClip) {
-        emit doSplitEffect(enable);
+        Q_EMIT doSplitEffect(enable);
     } else if (id == ObjectType::BinClip) {
-        emit doSplitBinEffect(enable);
+        Q_EMIT doSplitBinEffect(enable);
     }
 }
 
@@ -447,7 +447,7 @@ void AssetPanel::enableStack(bool enable)
 void AssetPanel::deleteCurrentEffect()
 {
     if (m_effectStackWidget->isVisible()) {
-        emit m_effectStackWidget->removeCurrentEffect();
+        Q_EMIT m_effectStackWidget->removeCurrentEffect();
     }
 }
 
@@ -478,7 +478,7 @@ void AssetPanel::slotCheckWheelEventFilter()
         // widget has scroll bar,
         blockWheel = true;
     }
-    emit m_effectStackWidget->blockWheelEvent(blockWheel);
+    Q_EMIT m_effectStackWidget->blockWheelEvent(blockWheel);
 }
 
 void AssetPanel::assetPanelWarning(const QString &service, const QString & /*id*/, const QString &message)
@@ -503,9 +503,9 @@ void AssetPanel::slotAddRemoveKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->addRemoveKeyframe();
     } else if (m_transitionWidget->isVisible()) {
-        emit m_transitionWidget->addRemoveKeyframe();
+        Q_EMIT m_transitionWidget->addRemoveKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        emit m_mixWidget->addRemoveKeyframe();
+        Q_EMIT m_mixWidget->addRemoveKeyframe();
     }
 }
 
@@ -514,9 +514,9 @@ void AssetPanel::slotNextKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->slotGoToKeyframe(true);
     } else if (m_transitionWidget->isVisible()) {
-        emit m_transitionWidget->nextKeyframe();
+        Q_EMIT m_transitionWidget->nextKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        emit m_mixWidget->nextKeyframe();
+        Q_EMIT m_mixWidget->nextKeyframe();
     }
 }
 
@@ -525,9 +525,9 @@ void AssetPanel::slotPreviousKeyframe()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->slotGoToKeyframe(false);
     } else if (m_transitionWidget->isVisible()) {
-        emit m_transitionWidget->previousKeyframe();
+        Q_EMIT m_transitionWidget->previousKeyframe();
     } else if (m_mixWidget->isVisible()) {
-        emit m_mixWidget->previousKeyframe();
+        Q_EMIT m_mixWidget->previousKeyframe();
     }
 }
 
@@ -536,12 +536,12 @@ void AssetPanel::updateAssetPosition(int itemId)
     if (m_effectStackWidget->isVisible()) {
         ObjectId id = {ObjectType::TimelineClip, itemId};
         if (m_effectStackWidget->stackOwner() == id) {
-            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
+            Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     } else if (m_transitionWidget->isVisible()) {
         ObjectId id = {ObjectType::TimelineComposition, itemId};
         if (m_transitionWidget->stackOwner() == id) {
-            emit pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
+            Q_EMIT pCore->getMonitor(Kdenlive::ProjectMonitor)->seekPosition(pCore->getMonitorPosition());
         }
     }
 }

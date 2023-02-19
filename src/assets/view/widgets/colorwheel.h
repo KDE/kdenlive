@@ -31,10 +31,10 @@ public:
     void setGreenColor(double value);
     void setBlueColor(double value);
 
-public slots:
+public Q_SLOTS:
     void changeColor(const NegQColor &color);
 
-signals:
+Q_SIGNALS:
     void colorChange(const NegQColor &color);
 
 protected:
@@ -92,6 +92,6 @@ private:
     QDoubleSpinBox *m_greenEdit;
     QDoubleSpinBox *m_blueEdit;
 
-signals:
+Q_SIGNALS:
     void colorChange(const NegQColor &color);
 };

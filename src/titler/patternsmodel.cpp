@@ -85,7 +85,7 @@ void PatternsModel::repaintScenes()
         pixmaps[i] = paintScene(patterns[i]);
     }
 
-    emit dataChanged(index(0), index(patterns.size() - 1));
+    Q_EMIT dataChanged(index(0), index(patterns.size() - 1));
 }
 
 void PatternsModel::removeScene(const QModelIndex &index)

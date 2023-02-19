@@ -77,7 +77,7 @@ protected:
 private:
     ShuttleThread m_shuttleProcess;
 
-signals:
+Q_SIGNALS:
     void jogBack();
     void jogForward();
     void shuttlePos(int);

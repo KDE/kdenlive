@@ -200,10 +200,10 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     }
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
-    emit dataChanged(start, end, QVector<int>());
-    emit enabledChange(!isEnabled());
+    Q_EMIT dataChanged(start, end, QVector<int>());
+    Q_EMIT enabledChange(!isEnabled());
     // Update timeline child producers
-    emit AssetParameterModel::updateChildren({QStringLiteral("disable")});
+    Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("disable")});
 }
 
 void EffectItemModel::setCollapsed(bool collapsed)
@@ -220,12 +220,12 @@ void EffectItemModel::setKeyframesHidden(bool hidden)
 {
     Fun undo = [this, hidden]() {
         filter().set("kdenlive:kfrhidden", hidden ? 0 : 1);
-        emit hideKeyframesChange(hidden ? false : true);
+        Q_EMIT hideKeyframesChange(hidden ? false : true);
         return true;
     };
     Fun redo = [this, hidden]() {
         filter().set("kdenlive:kfrhidden", hidden ? 1 : 0);
-        emit hideKeyframesChange(hidden ? true : false);
+        Q_EMIT hideKeyframesChange(hidden ? true : false);
         return true;
     };
     redo();
@@ -270,24 +270,24 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds
         m_asset->set("kdenlive:force_in_out", currentState);
         m_asset->set("in", currentInOut.first);
         m_asset->set("out", currentInOut.second);
-        emit AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
+        Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
         if (!isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-        emit showEffectZone(m_ownerId, currentInOut, currentState == 1);
+        Q_EMIT showEffectZone(m_ownerId, currentInOut, currentState == 1);
         return true;
     };
     Fun redo = [this, enabled, bounds]() {
         m_asset->set("kdenlive:force_in_out", enabled ? 1 : 0);
         m_asset->set("in", bounds.first);
         m_asset->set("out", bounds.second);
-        emit AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
+        Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
         if (!isAudio()) {
             pCore->refreshProjectItem(m_ownerId);
             pCore->invalidateItem(m_ownerId);
         }
-        emit showEffectZone(m_ownerId, bounds, enabled);
+        Q_EMIT showEffectZone(m_ownerId, bounds, enabled);
         return true;
     };
     std::shared_ptr<KeyframeModelList> keyframes = getKeyframeModel();
@@ -296,7 +296,7 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds
         const QModelIndex start = AssetParameterModel::index(0, 0);
         const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
         Fun refresh = [this, start, end]() {
-            emit dataChanged(start, end, QVector<int>());
+            Q_EMIT dataChanged(start, end, QVector<int>());
             return true;
         };
         refresh();

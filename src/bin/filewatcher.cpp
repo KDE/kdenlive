@@ -79,7 +79,7 @@ void FileWatcher::slotUrlModified(const QString &path)
 {
     if (m_modifiedUrls.insert(path).second) {
         for (const QString &id : m_occurences[path]) {
-            emit binClipWaiting(id);
+            Q_EMIT binClipWaiting(id);
         }
     }
     if (!m_modifiedTimer.isActive()) {
@@ -90,14 +90,14 @@ void FileWatcher::slotUrlModified(const QString &path)
 void FileWatcher::slotUrlAdded(const QString &path)
 {
     for (const QString &id : m_occurences[path]) {
-        emit binClipModified(id);
+        Q_EMIT binClipModified(id);
     }
 }
 
 void FileWatcher::slotUrlMissing(const QString &path)
 {
     for (const QString &id : m_occurences[path]) {
-        emit binClipMissing(id);
+        Q_EMIT binClipMissing(id);
     }
 }
 
@@ -107,7 +107,7 @@ void FileWatcher::slotProcessModifiedUrls()
     for (const QString &path : checkList) {
         if (m_fileWatcher->ctime(path).msecsTo(QDateTime::currentDateTime()) > 2000) {
             for (const QString &id : m_occurences[path]) {
-                emit binClipModified(id);
+                Q_EMIT binClipModified(id);
             }
             m_modifiedUrls.erase(path);
         }

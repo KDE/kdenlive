@@ -49,14 +49,14 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
     m_isLutList = m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"));
     UrlListParamWidget::slotRefresh();
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
     connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this](int index) {
         if (m_list->currentData() == QStringLiteral("custom_file")) {
             openFile();
         } else {
             m_currentIndex = index;
-            emit valueChanged(m_index, m_list->currentData().toString(), true);
+            Q_EMIT valueChanged(m_index, m_list->currentData().toString(), true);
         }
     });
 }
@@ -247,14 +247,14 @@ void UrlListParamWidget::openFile()
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
         if (m_isLutList && urlString.toLower().endsWith(QLatin1String(".cube"))) {
             if (isValidCubeFile(urlString)) {
-                emit valueChanged(m_index, urlString, true);
+                Q_EMIT valueChanged(m_index, urlString, true);
                 slotRefresh();
                 return;
             } else {
                 pCore->displayMessage(i18n("Invalid LUT file %1", urlString), ErrorMessage);
             }
         } else {
-            emit valueChanged(m_index, urlString, true);
+            Q_EMIT valueChanged(m_index, urlString, true);
             slotRefresh();
             return;
         }

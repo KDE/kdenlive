@@ -77,7 +77,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, false, this);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
-        connect(m_opacity, &DragValue::valueChanged, this, [&]() { emit valueChanged(getValue()); });
+        connect(m_opacity, &DragValue::valueChanged, this, [&]() { Q_EMIT valueChanged(getValue()); });
         m_opacity->setObjectName("spinO");
         horLayout2->addWidget(m_opacity);
     }
@@ -345,8 +345,8 @@ void GeometryWidget::adjustSizeValue()
 void GeometryWidget::slotAdjustRectKeyframeValue()
 {
     QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
-    emit updateMonitorGeometry(rect);
-    emit valueChanged(getValue());
+    Q_EMIT updateMonitorGeometry(rect);
+    Q_EMIT valueChanged(getValue());
 }
 
 void GeometryWidget::slotUpdateGeometryRect(const QRect r)
@@ -366,9 +366,9 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
-    // emit updateMonitorGeometry(r);
+    // Q_EMIT updateMonitorGeometry(r);
     adjustSizeValue();
-    emit valueChanged(getValue());
+    Q_EMIT valueChanged(getValue());
 }
 
 void GeometryWidget::setValue(const QRect r, double opacity)
@@ -397,7 +397,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     adjustSizeValue();
-    emit updateMonitorGeometry(r);
+    Q_EMIT updateMonitorGeometry(r);
 }
 
 const QString GeometryWidget::getValue() const
@@ -422,7 +422,7 @@ void GeometryWidget::connectMonitor(bool activate)
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
-        emit updateMonitorGeometry(rect);
+        Q_EMIT updateMonitorGeometry(rect);
     } else {
         m_monitor->setEffectKeyframe(false);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);

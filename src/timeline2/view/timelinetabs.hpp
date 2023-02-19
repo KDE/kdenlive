@@ -62,7 +62,7 @@ protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
     void connectTimeline(TimelineWidget *timeline);
 
-signals:
+Q_SIGNALS:
     /** @brief Request repaint of audio thumbs
         This is an input signal, forwarded to the timelines
      */
@@ -95,7 +95,7 @@ signals:
      */
     void updateZoom(int);
 
-public slots:
+public Q_SLOTS:
     TimelineWidget *addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
     void connectCurrent(int ix);
     void closeTimelineByIndex(int ix);

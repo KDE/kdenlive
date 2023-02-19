@@ -38,7 +38,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     connect(m_display, &TimecodeDisplay::timeCodeEditingFinished, m_slider, &QAbstractSlider::setValue);
     connect(m_slider, &QAbstractSlider::valueChanged, this, &PositionEditWidget::valueChanged);
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     connect(this->m_slider, &QAbstractSlider::valueChanged, this, [this](int val) {
         if (m_inverted) {
             val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() -
@@ -46,7 +46,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
         } else if (!m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
             val += m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
         }
-        emit AbstractParamWidget::valueChanged(m_index, QString::number(val), true);
+        Q_EMIT AbstractParamWidget::valueChanged(m_index, QString::number(val), true);
     });
 
     setToolTip(comment);
@@ -69,7 +69,7 @@ void PositionEditWidget::slotUpdatePosition()
     m_slider->blockSignals(true);
     m_slider->setValue(m_display->getValue());
     m_slider->blockSignals(false);
-    emit valueChanged();
+    Q_EMIT valueChanged();
 }
 
 void PositionEditWidget::slotRefresh()

@@ -139,7 +139,7 @@ public:
     /** @brief Returns a list of zones for all effects */
     QVariantList getEffectZones() const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);
 
@@ -166,7 +166,7 @@ private:
      *          in the producer, so we shouldn't plant them again. Setting this value to
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
-private slots:
+private Q_SLOTS:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change
      */
     void replugEffect(const std::shared_ptr<AssetParameterModel> &asset);
@@ -174,7 +174,7 @@ private slots:
      */
     void updateEffectZones();
 
-signals:
+Q_SIGNALS:
     /** @brief: This signal is connected to the project clip for bin clips and activates the reload of effects on child (timeline) producers
      */
     void modelChanged();

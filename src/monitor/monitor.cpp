@@ -141,7 +141,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
-    connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) { emit activateTrack(ix, false); });
+    connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) { Q_EMIT activateTrack(ix, false); });
 
     glayout->addWidget(m_glMonitor, 0, 0);
     m_verticalScroll = new QScrollBar(Qt::Vertical);
@@ -194,8 +194,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         default:
             KdenliveSettings::setPreviewScaling(0);
         }
-        emit m_monitorManager->scalingChanged();
-        emit m_monitorManager->updatePreviewScaling();
+        Q_EMIT m_monitorManager->scalingChanged();
+        Q_EMIT m_monitorManager->updatePreviewScaling();
         m_monitorManager->refreshMonitors();
     });
 
@@ -778,7 +778,7 @@ GenTime Monitor::getSnapForPos(bool previous)
 void Monitor::slotLoadClipZone(const QPoint &zone)
 {
     m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y(), false);
-    emit zoneDurationChanged(zone.y() - zone.x());
+    Q_EMIT zoneDurationChanged(zone.y() - zone.x());
     checkOverlay();
 }
 
@@ -797,7 +797,7 @@ void Monitor::slotSetZoneStart()
             m_glMonitor->getControllerProxy()->setZoneOut(oldZone.y());
         }
         const QPoint zone = m_glMonitor->getControllerProxy()->zone();
-        emit zoneDurationChanged(zone.y() - zone.x());
+        Q_EMIT zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -807,7 +807,7 @@ void Monitor::slotSetZoneStart()
         }
         m_glMonitor->getControllerProxy()->setZoneIn(currentIn);
         const QPoint zone = m_glMonitor->getControllerProxy()->zone();
-        emit zoneDurationChanged(zone.y() - zone.x());
+        Q_EMIT zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -829,7 +829,7 @@ void Monitor::slotSetZoneEnd()
             m_glMonitor->getControllerProxy()->setZoneIn(oldZone.x());
         }
         const QPoint zone = m_glMonitor->getControllerProxy()->zone();
-        emit zoneDurationChanged(zone.y() - zone.x());
+        Q_EMIT zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -840,7 +840,7 @@ void Monitor::slotSetZoneEnd()
         }
         m_glMonitor->getControllerProxy()->setZoneOut(currentOut);
         const QPoint zone = m_glMonitor->getControllerProxy()->zone();
-        emit zoneDurationChanged(zone.y() - zone.x());
+        Q_EMIT zoneDurationChanged(zone.y() - zone.x());
         checkOverlay();
         return true;
     };
@@ -897,10 +897,10 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
         m_horizontalScroll->setPageStep(m_glWidget->width());
         m_horizontalScroll->setMaximum(int(m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->setValue(qRound(horizontal * float(m_horizontalScroll->maximum())));
-        emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
+        Q_EMIT m_horizontalScroll->valueChanged(m_horizontalScroll->value());
         m_horizontalScroll->show();
     } else {
-        emit m_horizontalScroll->valueChanged(int(0.5f * m_glWidget->width() * m_glMonitor->zoom()));
+        Q_EMIT m_horizontalScroll->valueChanged(int(0.5f * m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->hide();
     }
 
@@ -908,10 +908,10 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
         m_verticalScroll->setPageStep(m_glWidget->height());
         m_verticalScroll->setMaximum(int(m_glWidget->height() * m_glMonitor->zoom()));
         m_verticalScroll->setValue(int(m_verticalScroll->maximum() * vertical));
-        emit m_verticalScroll->valueChanged(m_verticalScroll->value());
+        Q_EMIT m_verticalScroll->valueChanged(m_verticalScroll->value());
         m_verticalScroll->show();
     } else {
-        emit m_verticalScroll->valueChanged(int(0.5f * m_glWidget->height() * m_glMonitor->zoom()));
+        Q_EMIT m_verticalScroll->valueChanged(int(0.5f * m_glWidget->height() * m_glMonitor->zoom()));
         m_verticalScroll->hide();
     }
 }
@@ -1044,7 +1044,7 @@ void Monitor::slotStartDrag()
     mimeData->setData(QStringLiteral("kdenlive/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
     drag->exec(Qt::CopyAction);
-    emit pCore->bin()->processDragEnd();
+    Q_EMIT pCore->bin()->processDragEnd();
 }
 
 // virtual
@@ -1069,7 +1069,7 @@ void Monitor::keyPressEvent(QKeyEvent *event)
     }
     if (m_glWidget->isFullScreen()) {
         event->ignore();
-        emit passKeyPress(event);
+        Q_EMIT passKeyPress(event);
         return;
     }
     QWidget::keyPressEvent(event);
@@ -1091,9 +1091,9 @@ void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
         m_glMonitor->getControllerProxy()->setPosition(delta);
     } else if ((modifiers & Qt::AltModifier) != 0u) {
         if (eventDelta >= 0) {
-            emit seekToPreviousSnap();
+            Q_EMIT seekToPreviousSnap();
         } else {
-            emit seekToNextSnap();
+            Q_EMIT seekToNextSnap();
         }
     } else {
         if (eventDelta >= 0) {
@@ -1110,7 +1110,7 @@ void Monitor::slotSetThumbFrame()
         return;
     }
     m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), m_glMonitor->getCurrentPos());
-    emit refreshClipThumbnail(m_controller->AbstractProjectItem::clipId());
+    Q_EMIT refreshClipThumbnail(m_controller->AbstractProjectItem::clipId());
 }
 
 void Monitor::slotExtractCurrentZone()
@@ -1314,18 +1314,18 @@ void Monitor::slotSeek(int pos)
         return;
     }
     m_glMonitor->getControllerProxy()->setPosition(pos);
-    emit m_monitorManager->cleanMixer();
+    Q_EMIT m_monitorManager->cleanMixer();
 }
 
 void Monitor::refreshAudioThumbs()
 {
-    emit m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
-    emit m_glMonitor->getControllerProxy()->colorsChanged();
+    Q_EMIT m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
+    Q_EMIT m_glMonitor->getControllerProxy()->colorsChanged();
 }
 
 void Monitor::normalizeAudioThumbs()
 {
-    emit m_glMonitor->getControllerProxy()->audioThumbNormalizeChanged();
+    Q_EMIT m_glMonitor->getControllerProxy()->audioThumbNormalizeChanged();
 }
 
 void Monitor::checkOverlay(int pos)
@@ -1463,7 +1463,7 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerSortModel>
         connect(sourceModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(checkOverlay()));
     } else {
         // Project simply changed length, update display
-        emit durationChanged(length);
+        Q_EMIT durationChanged(length);
     }
 }
 
@@ -1567,7 +1567,7 @@ void Monitor::switchPlay(bool play)
         m_droppedTimer.stop();
     }
     if (!KdenliveSettings::autoscroll()) {
-        emit pCore->autoScrollChanged();
+        Q_EMIT pCore->autoScrollChanged();
     }
     m_glMonitor->switchPlay(play, m_offset);
 }
@@ -1579,7 +1579,7 @@ void Monitor::updatePlayAction(bool play)
         m_droppedTimer.stop();
     }
     if (!KdenliveSettings::autoscroll()) {
-        emit pCore->autoScrollChanged();
+        Q_EMIT pCore->autoScrollChanged();
     }
 }
 
@@ -1589,7 +1589,7 @@ void Monitor::slotSwitchPlay()
         return;
     }
     if (!KdenliveSettings::autoscroll()) {
-        emit pCore->autoScrollChanged();
+        Q_EMIT pCore->autoScrollChanged();
     }
     m_speedIndex = 0;
     bool play = m_playAction->isActive();
@@ -1976,7 +1976,7 @@ void Monitor::enableEffectScene(bool enable)
     MonitorSceneType sceneType = enable ? m_lastMonitorSceneType : MonitorSceneDefault;
     slotShowEffectScene(sceneType, true);
     if (enable) {
-        emit updateScene();
+        Q_EMIT updateScene();
     }
 }
 
@@ -2008,7 +2008,7 @@ void Monitor::slotSeekToKeyFrame()
     if (m_qmlManager->sceneType() == MonitorSceneGeometry) {
         // Adjust splitter pos
         int kfr = m_glMonitor->rootObject()->property("requestedKeyFrame").toInt();
-        emit seekToKeyframe(kfr);
+        Q_EMIT seekToKeyframe(kfr);
     }
 }
 
@@ -2114,9 +2114,9 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
-    emit m_monitorManager->frameDisplayed(frame);
+    Q_EMIT m_monitorManager->frameDisplayed(frame);
     if (m_id == Kdenlive::ProjectMonitor) {
-        emit pCore->updateMixerLevels(frame.get_position());
+        Q_EMIT pCore->updateMixerLevels(frame.get_position());
     }
     if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_playAction->isActive())) {
         updatePlayAction(false);
@@ -2235,11 +2235,11 @@ void Monitor::slotSwitchCompare(bool enable)
                 warningMessage(i18n("The alphagrad filter is required for that feature, please install frei0r and restart Kdenlive"));
                 return;
             }
-            emit createSplitOverlay(m_splitEffect);
+            Q_EMIT createSplitOverlay(m_splitEffect);
             return;
         }
         // Delete temp track
-        emit removeSplitOverlay();
+        Q_EMIT removeSplitOverlay();
         m_splitEffect.reset();
         loadQmlScene(MonitorSceneDefault);
         if (isActive()) {
@@ -2407,7 +2407,7 @@ void Monitor::slotSwitchRec(bool enable)
     } else if (m_recManager->toolbar()->isVisible()) {
         m_recManager->stop();
         m_toolbar->setVisible(true);
-        emit refreshCurrentClip();
+        Q_EMIT refreshCurrentClip();
     }
 }
 
@@ -2578,7 +2578,7 @@ void Monitor::processSeek(int pos, bool noAudioScrub)
         }
     }
     m_glMonitor->requestSeek(pos, noAudioScrub);
-    emit m_monitorManager->cleanMixer();
+    Q_EMIT m_monitorManager->cleanMixer();
 }
 
 void Monitor::requestSeek(int pos)
@@ -2611,7 +2611,7 @@ void Monitor::reconfigure()
 
 void Monitor::slotSeekPosition(int pos)
 {
-    emit seekPosition(pos);
+    Q_EMIT seekPosition(pos);
     m_timePos->setValue(pos);
     checkOverlay();
 }
@@ -2674,7 +2674,7 @@ void Monitor::removeSnapPoint(int pos)
 
 void Monitor::slotSetScreen(int screenIndex)
 {
-    emit screenChanged(screenIndex);
+    Q_EMIT screenChanged(screenIndex);
 }
 
 void Monitor::slotZoomIn()

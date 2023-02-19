@@ -33,12 +33,12 @@ private:
     QQuickWidget *m_view;
     MonitorSceneType m_sceneType;
 
-private slots:
+private Q_SLOTS:
     void effectRectChanged();
     void effectPolygonChanged();
     void effectRotoChanged(const QVariant&,const QVariant&);
 
-signals:
+Q_SIGNALS:
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
     void activateTrack(int);

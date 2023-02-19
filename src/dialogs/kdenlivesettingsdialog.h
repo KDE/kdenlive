@@ -41,7 +41,7 @@ protected:
     QStringList mimeTypes() const override;
     void dropEvent(QDropEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void getDictionary(const QUrl url);
 };
 
@@ -57,13 +57,13 @@ public:
     /** @brief update kdenlive settings for external app path if they were changed outside config dialog */
     void updateExternalApps();
 
-protected slots:
+protected Q_SLOTS:
     void updateSettings() override;
     void updateWidgets() override;
     bool hasChanged() override;
     void accept() override;
 
-private slots:
+private Q_SLOTS:
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
     void slotEditImageApplication();
@@ -163,7 +163,7 @@ private:
     void initSdlPage(bool gpuAllowed);
     void initTranscodePage();
 
-signals:
+Q_SIGNALS:
     void customChanged();
     void doResetConsumer(bool fullReset);
     void updateCaptureFolder();

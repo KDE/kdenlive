@@ -156,7 +156,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 
     deleteIrrelevantItems();
     // emit the signal of the base class when appropriate
-    connect(m_edit, &CurveWidget_t::modified, [this]() { emit valueChanged(m_index, m_edit->toString(), true); });
+    connect(m_edit, &CurveWidget_t::modified, [this]() { Q_EMIT valueChanged(m_index, m_edit->toString(), true); });
 }
 
 template <> void CurveParamWidget<KisCurveWidget>::deleteIrrelevantItems()
@@ -395,5 +395,5 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setMaxPo
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
-    emit updateHeight();
+    Q_EMIT updateHeight();
 }
