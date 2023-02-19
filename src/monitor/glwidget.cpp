@@ -106,9 +106,9 @@ GLWidget::GLWidget(int id, QWidget *parent)
     , m_openGLSync(false)
     , m_ClientWaitSync(nullptr)
 {
+#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION < QT_VERSION_CHECK(5, 98, 0)
     kdeclarative.setupEngine(engine());
 #else
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
