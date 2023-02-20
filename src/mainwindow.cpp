@@ -1209,13 +1209,13 @@ void MainWindow::setupActions()
     m_buttonRazorTool->setChecked(false);
 
     m_buttonSpacerTool = new QAction(QIcon::fromTheme(QStringLiteral("distribute-horizontal-x")), i18n("Spacer Tool"), this);
-    m_buttonSpacerTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, click and drag the cursor in the timeline temporarily groups separate clips and creates or removes space between clips."));
+    m_buttonSpacerTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, clicking and dragging the mouse in the timeline temporarily groups separate clips and creates or removes space between clips."));
     // toolbar->addAction(m_buttonSpacerTool);
     m_buttonSpacerTool->setCheckable(true);
     m_buttonSpacerTool->setChecked(false);
 
     m_buttonRippleTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-ripple")), i18n("Ripple Tool"), this);
-    m_buttonRippleTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, drag the edges of a clip lengthens or shortens the clip and move adjacent clips back and forth while doing that."));
+    m_buttonRippleTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, dragging the edges of a clip lengthens or shortens the clip and moves adjacent clips back and forth while doing that."));
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
@@ -1227,7 +1227,7 @@ void MainWindow::setupActions()
     m_buttonRollTool->setChecked(false);*/
 
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip Tool"), this);
-    m_buttonSlipTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, drag a clip slips the clip beneath the given window back and forth."));
+    m_buttonSlipTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, dragging a clip slips the clip beneath the given window back and forth."));
     m_buttonSlipTool->setCheckable(true);
     m_buttonSlipTool->setChecked(false);
 
@@ -1287,7 +1287,7 @@ void MainWindow::setupActions()
     connect(m_buttonShowMarkers, &QAction::triggered, this, &MainWindow::slotSwitchMarkersComments);
 
     m_buttonSnap = new QAction(QIcon::fromTheme(QStringLiteral("snap")), i18n("Snap"), this);
-    m_buttonSnap->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the snap function (clips, playhead snaps to edges, markers, guides and others)."));
+    m_buttonSnap->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the snap function (clips snap to playhead, edges, markers, guides and others)."));
 
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
@@ -1595,7 +1595,7 @@ void MainWindow::setupActions()
         addPreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Add the currently defined timeline/selection zone as a preview render zone"));
     QAction *removePreviewZone = addAction(QStringLiteral("unset_render_timeline_zone"), i18n("Remove Preview Zone"), this, SLOT(slotRemovePreviewRender()),
               QIcon::fromTheme(QStringLiteral("preview-remove-zone")));
-        removePreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Removes the currently defined timeline/selection zone from the preview render zone. Note that this can leave holes in the preview render zones."));
+        removePreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Removes the currently defined timeline/selection zone from the preview render zone. Note that this can leave gaps in the preview render zones."));
     QAction *removeAllPreviewZone = addAction(QStringLiteral("clear_render_timeline_zone"), i18n("Remove All Preview Zones"), this, SLOT(slotClearPreviewRender()),
               QIcon::fromTheme(QStringLiteral("preview-remove-all")));
         removeAllPreviewZone->setWhatsThis(xi18nc("@info:whatsthis", "Remove all preview render zones."));

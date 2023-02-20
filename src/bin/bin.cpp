@@ -1374,7 +1374,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     m_filterButton->setToolTip(i18n("Filter"));
-    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the project bin contents. Click on the filter icon to toggles the filter display. Click on the arrow icon to open a list of possible filter settings."));
+    m_filterButton->setWhatsThis(xi18nc("@info:whatsthis", "Filter the project bin contents. Click on the filter icon to toggle the filter display. Click on the arrow icon to open a list of possible filter settings."));
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
 
