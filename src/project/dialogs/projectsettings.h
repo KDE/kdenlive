@@ -51,10 +51,10 @@ public:
     const QString selectedPreview() const;
     const QString storageFolder() const;
 
-public slots:
+public Q_SLOTS:
     void accept() override;
 
-private slots:
+private Q_SLOTS:
     void slotUpdateButton(const QString &path);
     void slotUpdateFiles(bool cacheOnly = false);
     void slotDeleteUnused();
@@ -100,7 +100,7 @@ private:
     /** @brief Fill the proxy profiles combobox. */
     // void loadPreviewProfiles();
 
-signals:
+Q_SIGNALS:
     /** @brief User deleted proxies, so disable them in project. */
     void disableProxies();
     void disablePreview();

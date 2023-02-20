@@ -48,7 +48,7 @@ public:
     /** Returns the preset menu to be embedded in toolbars */
     QMenu *presetMenu();
 
-public slots:
+public Q_SLOTS:
     void slotRefresh();
     void toggleKeyframes(bool enable);
     /** Reset all parameter values to default */
@@ -79,7 +79,7 @@ protected:
 private:
     QVector<QPair<QString, QVariant>> getDefaultValues() const;
 
-private slots:
+private Q_SLOTS:
     /** @brief Apply a change of parameter sent by the view
        @param index is the index corresponding to the modified param
        @param value is the new value of the parameter
@@ -89,7 +89,7 @@ private slots:
     void commitMultipleChanges(const QList<QModelIndex> &indexes, const QStringList &values, bool storeUndo);
     void disableCurrentFilter(bool disable);
 
-signals:
+Q_SIGNALS:
     void seekToPos(int);
     void initKeyframeView(bool active);
     /** @brief clear and refill the effect presets */

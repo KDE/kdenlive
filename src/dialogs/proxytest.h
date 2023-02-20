@@ -43,7 +43,7 @@ public:
     explicit ProxyTest(QWidget *parent = nullptr);
     ~ProxyTest() override;
 
-private slots:
+private Q_SLOTS:
     void startTest();
     void addAnalysis(const QStringList &data);
     void showMessage(const QString &message);
@@ -54,6 +54,6 @@ private:
     MyTreeWidgetItem *m_failedProfiles;
     QMutex m_locker;
 
-signals:
+Q_SIGNALS:
     void jobCanceled();
 };

@@ -62,17 +62,17 @@ int MarkerCategoryChooser::currentCategory()
 void MarkerCategoryChooser::setMarkerModel(const MarkerListModel *model)
 {
     m_markerListModel = model;
-    emit changed();
+    Q_EMIT changed();
 }
 
 void MarkerCategoryChooser::setAllowAll(bool allowAll)
 {
     m_allowAll = allowAll;
-    emit changed();
+    Q_EMIT changed();
 }
 
 void MarkerCategoryChooser::setOnlyUsed(bool onlyUsed)
 {
     m_onlyUsed = onlyUsed;
-    emit changed();
+    Q_EMIT changed();
 }

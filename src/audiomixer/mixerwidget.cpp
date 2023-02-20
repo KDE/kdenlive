@@ -247,7 +247,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     m_trackLabel->setTextElideMode(Qt::ElideRight);
     setTrackName(trackName);
     m_muteAction = new KDualAction(i18n("Mute track"), i18n("Unmute track"), this);
-    m_muteAction->setWhatsThis(i18n("Mutes/un-mutes the audio track."));
+    m_muteAction->setWhatsThis(xi18nc("@info:whatsthis", "Mutes/un-mutes the audio track."));
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
 
@@ -269,7 +269,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
                 }
             }
         } else {
-            emit muteTrack(m_tid, !active);
+            Q_EMIT muteTrack(m_tid, !active);
             reset();
         }
         pCore->setDocumentModified();
@@ -294,7 +294,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         m_solo->setWhatsThis(xi18nc("@info:whatsthis", "When selected mutes all other audio tracks."));
         m_solo->setAutoRaise(true);
         connect(m_solo, &QToolButton::toggled, this, [&](bool toggled) {
-            emit toggleSolo(m_tid, toggled);
+            Q_EMIT toggleSolo(m_tid, toggled);
             updateLabel();
         });
 
@@ -307,7 +307,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         connect(m_monitor, &QToolButton::toggled, this, [&](bool toggled) {
             if (!toggled && (m_recording || pCore->isMediaCapturing())) {
                 // Abort recording if in progress
-                emit pCore->recordAudio(m_tid, false);
+                Q_EMIT pCore->recordAudio(m_tid, false);
             }
             m_manager->monitorAudio(m_tid, toggled);
         });
@@ -334,14 +334,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
         showEffects->setWhatsThis(xi18nc("@info:whatsthis", "Opens the effect stack for the audio master."));
     }
     showEffects->setAutoRaise(true);
-    connect(showEffects, &QToolButton::clicked, this, [&]() { emit m_manager->showEffectStack(m_tid); });
+    connect(showEffects, &QToolButton::clicked, this, [&]() { Q_EMIT m_manager->showEffectStack(m_tid); });
 
     connect(m_volumeSlider, &QSlider::valueChanged, this, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
         if (m_recording || (m_monitor && m_monitor->isChecked())) {
             m_volumeSpin->setValue(value);
             KdenliveSettings::setAudiocapturevolume(value);
-            emit m_manager->updateRecVolume();
+            Q_EMIT m_manager->updateRecVolume();
             // TODO update capture volume
         } else if (m_levelFilter != nullptr) {
             double dbValue = 0;
@@ -355,7 +355,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             m_levelFilter->set("level", dbValue);
             m_levelFilter->set("disable", value == 60 ? 1 : 0);
             m_levels.clear();
-            emit m_manager->purgeCache();
+            Q_EMIT m_manager->purgeCache();
             pCore->setDocumentModified();
         }
     });
@@ -367,7 +367,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
                 m_balanceFilter->set("start", (value + 50) / 100.);
                 m_balanceFilter->set("disable", value == 0 ? 1 : 0);
                 m_levels.clear();
-                emit m_manager->purgeCache();
+                Q_EMIT m_manager->purgeCache();
                 pCore->setDocumentModified();
             }
         });

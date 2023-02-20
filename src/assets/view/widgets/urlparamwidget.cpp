@@ -36,11 +36,11 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // set check state
     slotRefresh();
 
-    // emit the signal of the base class when appropriate
+    // Q_EMIT the signal of the base class when appropriate
     connect(this->urlwidget, &KUrlRequester::textChanged, this, [this]() {
         QFileInfo info(urlwidget->url().toLocalFile());
         if (info.exists() && info.isFile()) {
-            emit valueChanged(m_index, this->urlwidget->url().toLocalFile(), true);
+            Q_EMIT valueChanged(m_index, this->urlwidget->url().toLocalFile(), true);
         }
     });
 }

@@ -48,7 +48,7 @@ private:
     QLabel *m_preview;
     QPixmap m_pixmap;
 
-private slots:
+private Q_SLOTS:
     void updateProducer();
     void updateDuration(int duration);
 };

@@ -15,7 +15,7 @@ But you should be able to build it on any platform that provides up-to-date vers
 
 ### Base procedure
 
-Kdenlive usually requires the latest version of MLT, in which go several API updates, bufixes and optimizations.
+Kdenlive usually requires the latest version of MLT, in which go several API updates, bugfixes and optimizations.
 On Ubuntu, the easiest way is to add [Kdenlive's ppa](https://launchpad.net/~kdenlive/+archive/ubuntu/kdenlive-master)
 
 ```bash
@@ -65,7 +65,7 @@ qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev breeze-icon-theme breeze
 sudo apt install frei0r-plugins ffmpeg
 
 # MLT, except if you want to build it manually 
-sudo apt install libmlt++-dev libmlt-dev melt
+sudo apt install libmlt++7-dev libmlt7-dev melt-7
 
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext

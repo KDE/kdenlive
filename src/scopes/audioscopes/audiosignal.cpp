@@ -123,7 +123,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
         }
     }
     p.end();
-    emit signalScopeRenderingFinished(uint(timer.elapsed()), 1);
+    Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), 1);
     return image;
 }
 

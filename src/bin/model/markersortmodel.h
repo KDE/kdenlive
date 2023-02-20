@@ -21,7 +21,7 @@ class MarkerSortModel : public QSortFilterProxyModel
 public:
     explicit MarkerSortModel(QObject *parent = nullptr);
 
-public slots:
+public Q_SLOTS:
     /** @brief Set search tag that will filter the view */
     void slotSetFilters(const QList<int> filter);
     /** @brief Reset search filters */

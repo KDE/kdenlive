@@ -1368,7 +1368,7 @@ void KeyframeImport::updateView()
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
     }
-    emit updateQmlView();
+    Q_EMIT updateQmlView();
 }
 
 void KeyframeImport::reject()
@@ -1390,7 +1390,7 @@ void KeyframeImport::reject()
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
     }
-    emit updateQmlView();
+    Q_EMIT updateQmlView();
     QDialog::reject();
 }
 

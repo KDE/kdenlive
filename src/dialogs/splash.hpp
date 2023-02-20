@@ -17,7 +17,7 @@ public:
     explicit Splash();
     //~Splash();
 
-public slots:
+public Q_SLOTS:
     void showProgressMessage(const QString &message, int progress = 0, int max = -1);
 
 private:

@@ -36,13 +36,13 @@ public:
     GenTime getInterval() const;
     int getOccurrences() const;
 
-private slots:
+private Q_SLOTS:
     void slotUpdateThumb();
 
 private:
     ClipController *m_clip;
     QTimer *m_previewTimer;
 
-signals:
+Q_SIGNALS:
     void updateThumb();
 };

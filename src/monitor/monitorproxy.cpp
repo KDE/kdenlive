@@ -61,7 +61,7 @@ void MonitorProxy::setRulerHeight(int addedHeight)
 
 void MonitorProxy::seek(int delta, uint modifiers)
 {
-    emit q->mouseSeek(delta, modifiers);
+    Q_EMIT q->mouseSeek(delta, modifiers);
 }
 
 int MonitorProxy::overlayType() const
@@ -89,12 +89,12 @@ bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
         return true;
     }
     m_position = pos;
-    emit requestSeek(pos, noAudioScrub);
+    Q_EMIT requestSeek(pos, noAudioScrub);
     if (m_seekFinished) {
         m_seekFinished = false;
-        emit seekFinishedChanged();
+        Q_EMIT seekFinishedChanged();
     }
-    emit positionChanged(pos);
+    Q_EMIT positionChanged(pos);
     return false;
 }
 
@@ -102,15 +102,15 @@ void MonitorProxy::positionFromConsumer(int pos, bool playing)
 {
     if (playing) {
         m_position = pos;
-        emit positionChanged(pos);
+        Q_EMIT positionChanged(pos);
         if (!m_seekFinished) {
             m_seekFinished = true;
-            emit seekFinishedChanged();
+            Q_EMIT seekFinishedChanged();
         }
     } else {
         if (!m_seekFinished && m_position == pos) {
             m_seekFinished = true;
-            emit seekFinishedChanged();
+            Q_EMIT seekFinishedChanged();
         }
     }
 }
@@ -122,7 +122,7 @@ void MonitorProxy::setMarker(const QString &comment, const QColor &color)
     }
     m_markerComment = comment;
     m_markerColor = color;
-    emit markerChanged();
+    Q_EMIT markerChanged();
 }
 
 int MonitorProxy::zoneIn() const
@@ -138,27 +138,27 @@ int MonitorProxy::zoneOut() const
 void MonitorProxy::setZoneIn(int pos)
 {
     if (m_zoneIn > 0) {
-        emit removeSnap(m_zoneIn);
+        Q_EMIT removeSnap(m_zoneIn);
     }
     m_zoneIn = pos;
     if (pos > 0) {
-        emit addSnap(pos);
+        Q_EMIT addSnap(pos);
     }
-    emit zoneChanged();
-    emit saveZone(QPoint(m_zoneIn, m_zoneOut));
+    Q_EMIT zoneChanged();
+    Q_EMIT saveZone(QPoint(m_zoneIn, m_zoneOut));
 }
 
 void MonitorProxy::setZoneOut(int pos)
 {
     if (m_zoneOut > 0) {
-        emit removeSnap(m_zoneOut);
+        Q_EMIT removeSnap(m_zoneOut);
     }
     m_zoneOut = pos;
     if (pos > 0) {
-        emit addSnap(m_zoneOut);
+        Q_EMIT addSnap(m_zoneOut);
     }
-    emit zoneChanged();
-    emit saveZone(QPoint(m_zoneIn, m_zoneOut));
+    Q_EMIT zoneChanged();
+    Q_EMIT saveZone(QPoint(m_zoneIn, m_zoneOut));
 }
 
 void MonitorProxy::startZoneMove()
@@ -168,28 +168,28 @@ void MonitorProxy::startZoneMove()
 
 void MonitorProxy::endZoneMove()
 {
-    emit saveZoneWithUndo(m_undoZone, QPoint(m_zoneIn, m_zoneOut));
+    Q_EMIT saveZoneWithUndo(m_undoZone, QPoint(m_zoneIn, m_zoneOut));
 }
 
 void MonitorProxy::setZone(int in, int out, bool sendUpdate)
 {
     if (m_zoneIn > 0) {
-        emit removeSnap(m_zoneIn);
+        Q_EMIT removeSnap(m_zoneIn);
     }
     if (m_zoneOut > 0) {
-        emit removeSnap(m_zoneOut);
+        Q_EMIT removeSnap(m_zoneOut);
     }
     m_zoneIn = in;
     m_zoneOut = out;
     if (m_zoneIn > 0) {
-        emit addSnap(m_zoneIn);
+        Q_EMIT addSnap(m_zoneIn);
     }
     if (m_zoneOut > 0) {
-        emit addSnap(m_zoneOut);
+        Q_EMIT addSnap(m_zoneOut);
     }
-    emit zoneChanged();
+    Q_EMIT zoneChanged();
     if (sendUpdate) {
-        emit saveZone(QPoint(m_zoneIn, m_zoneOut));
+        Q_EMIT saveZone(QPoint(m_zoneIn, m_zoneOut));
     }
 }
 
@@ -204,7 +204,7 @@ void MonitorProxy::resetZone()
     m_zoneOut = -1;
     m_clipBounds = {};
     m_boundsCount = 0;
-    emit clipBoundsChanged();
+    Q_EMIT clipBoundsChanged();
 }
 
 double MonitorProxy::fps() const
@@ -356,35 +356,35 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
 {
     if (clipId != m_clipId) {
         m_clipId = clipId;
-        emit clipIdChanged();
+        Q_EMIT clipIdChanged();
     }
     if (hasAV != m_hasAV) {
         m_hasAV = hasAV;
-        emit clipHasAVChanged();
+        Q_EMIT clipHasAVChanged();
     }
     if (type != m_clipType) {
         m_clipType = type;
-        emit clipTypeChanged();
+        Q_EMIT clipTypeChanged();
     }
     if (clipName == m_clipName) {
         m_clipName.clear();
-        emit clipNameChanged();
+        Q_EMIT clipNameChanged();
     }
     m_clipName = clipName;
-    emit clipNameChanged();
+    Q_EMIT clipNameChanged();
 }
 
 void MonitorProxy::setAudioThumb(const QList<int> &streamIndexes, const QList<int> &channels)
 {
     m_audioChannels = channels;
     m_audioStreams = streamIndexes;
-    emit audioThumbChanged();
+    Q_EMIT audioThumbChanged();
 }
 
 void MonitorProxy::setAudioStream(const QString &name)
 {
     m_clipStream = name;
-    emit clipStreamChanged();
+    Q_EMIT clipStreamChanged();
 }
 
 QPoint MonitorProxy::profile()
@@ -421,7 +421,7 @@ bool MonitorProxy::audioThumbNormalize() const
 void MonitorProxy::switchAutoKeyframe()
 {
     KdenliveSettings::setAutoKeyframe(!KdenliveSettings::autoKeyframe());
-    emit autoKeyframeChanged();
+    Q_EMIT autoKeyframeChanged();
 }
 
 bool MonitorProxy::autoKeyframe() const
@@ -460,7 +460,7 @@ void MonitorProxy::setTrimmingTC1(int frames, bool isRelativ)
     } else {
         m_trimmingFrames1 = frames;
     }
-    emit trimmingTC1Changed();
+    Q_EMIT trimmingTC1Changed();
 }
 
 void MonitorProxy::setTrimmingTC2(int frames, bool isRelativ)
@@ -470,7 +470,7 @@ void MonitorProxy::setTrimmingTC2(int frames, bool isRelativ)
     } else {
         m_trimmingFrames2 = frames;
     }
-    emit trimmingTC2Changed();
+    Q_EMIT trimmingTC2Changed();
 }
 
 void MonitorProxy::setWidgetKeyBinding(const QString &text) const
@@ -483,7 +483,7 @@ void MonitorProxy::setSpeed(double speed)
     if (qAbs(m_speed) > 1. || qAbs(speed) > 1.) {
         // check if we have or had a speed > 1 or < -1
         m_speed = speed;
-        emit speedChanged();
+        Q_EMIT speedChanged();
     }
 }
 
@@ -497,11 +497,11 @@ void MonitorProxy::updateClipBounds(const QVector<QPoint> &bounds)
     if (bounds.size() == m_boundsCount) {
         // Enforce refresh, in/out points may have changed
         m_boundsCount = 0;
-        emit clipBoundsChanged();
+        Q_EMIT clipBoundsChanged();
     }
     m_clipBounds = bounds;
     m_boundsCount = bounds.size();
-    emit clipBoundsChanged();
+    Q_EMIT clipBoundsChanged();
 }
 
 const QPoint MonitorProxy::clipBoundary(int ix)

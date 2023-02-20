@@ -116,7 +116,7 @@ RecManager::~RecManager() = default;
 
 void RecManager::showRecConfig()
 {
-    emit pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
+    Q_EMIT pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
 }
 
 QToolBar *RecManager::toolbar() const
@@ -189,9 +189,9 @@ void RecManager::slotRecord(bool record)
 
     QFileInfo checkCaptureFolder(captureFolder.absolutePath());
     if (!checkCaptureFolder.isWritable()) {
-        emit warningMessage(i18n("The directory %1, could not be created.\nPlease "
-                                 "make sure you have the required permissions.",
-                                 captureFolder.absolutePath()));
+        Q_EMIT warningMessage(i18n("The directory %1, could not be created.\nPlease "
+                                   "make sure you have the required permissions.",
+                                   captureFolder.absolutePath()));
         m_recAction->blockSignals(true);
         m_recAction->setChecked(false);
         m_recAction->blockSignals(false);
@@ -295,7 +295,7 @@ void RecManager::slotRecord(bool record)
 
     if (!m_captureProcess->waitForStarted()) {
         // Problem launching capture app
-        emit warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
+        Q_EMIT warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
         // delete m_captureProcess;
     }
 }
@@ -306,13 +306,13 @@ void RecManager::slotProcessStatus(int exitCode, QProcess::ExitStatus exitStatus
     m_recAction->setChecked(false);
     m_device_selector->setEnabled(true);
     if (exitStatus == QProcess::CrashExit) {
-        emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
+        Q_EMIT warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
     } else {
         if (exitCode != 0 && exitCode != 255) {
-            emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
+            Q_EMIT warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
         } else {
             // Capture successful, add clip to project
-            emit addClipToProject(m_captureFile);
+            Q_EMIT addClipToProject(m_captureFile);
         }
     }
     if (m_captureProcess) {
@@ -441,7 +441,7 @@ void RecManager::slotPreview(bool preview)
             if (prod && prod->is_valid()) {
                 m_monitor->updateClipProducer(prod);
             } else {
-                emit warningMessage(i18n("Capture crashed, please check your parameters"));
+                Q_EMIT warningMessage(i18n("Capture crashed, please check your parameters"));
             }
         } else {
             m_monitor->slotOpenClip(nullptr);

@@ -20,6 +20,6 @@ public:
 
     QStringList mimeTypes() const;
 
-signals:
+Q_SIGNALS:
     void changed();
 };

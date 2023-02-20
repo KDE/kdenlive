@@ -116,7 +116,7 @@ void TaskManager::updateJobCount()
         count += task.second.size();
     }
     // Set jobs count
-    emit jobCount(count);
+    Q_EMIT jobCount(count);
 }
 
 void TaskManager::taskDone(int cid, AbstractTask *task)

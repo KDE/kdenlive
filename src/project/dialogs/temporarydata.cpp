@@ -330,7 +330,7 @@ void TemporaryData::deletePreview()
     if (dir.dirName() == QLatin1String("preview")) {
         dir.removeRecursively();
         dir.mkpath(QStringLiteral("."));
-        emit disablePreview();
+        Q_EMIT disablePreview();
         updateDataInfo();
     }
 }
@@ -448,7 +448,7 @@ void TemporaryData::deleteProjectProxy()
     for (const QString &file : qAsConst(files)) {
         dir.remove(file);
     }
-    emit disableProxies();
+    Q_EMIT disableProxies();
     updateDataInfo();
 }
 
@@ -503,8 +503,8 @@ void TemporaryData::deleteCurrentCacheData(bool warn)
         return;
     }
     if (dir.dirName() == m_doc->getDocumentProperty(QStringLiteral("documentid"))) {
-        emit disablePreview();
-        emit disableProxies();
+        Q_EMIT disablePreview();
+        Q_EMIT disableProxies();
         dir.removeRecursively();
         m_doc->initCacheDirs();
         if (warn) {

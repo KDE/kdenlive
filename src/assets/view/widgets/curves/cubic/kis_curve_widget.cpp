@@ -68,7 +68,7 @@ void KisCurveWidget::addPointInTheMiddle()
     m_currentPointIndex = m_curve.addPoint(pt);
 
     update();
-    emit modified();
+    Q_EMIT modified();
 }
 
 void KisCurveWidget::paintEvent(QPaintEvent *)
@@ -150,7 +150,7 @@ void KisCurveWidget::mousePressEvent(QMouseEvent *e)
     m_state = State_t::DRAG;
 
     update();
-    emit currentPoint(point, isCurrentPointExtremal());
+    Q_EMIT currentPoint(point, isCurrentPointExtremal());
 }
 
 void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
@@ -228,9 +228,9 @@ void KisCurveWidget::mouseMoveEvent(QMouseEvent *e)
         }
 
         update();
-        emit currentPoint(point, isCurrentPointExtremal());
+        Q_EMIT currentPoint(point, isCurrentPointExtremal());
         if (KdenliveSettings::dragvalue_directupdate()) {
-            emit modified();
+            Q_EMIT modified();
         }
     }
 }

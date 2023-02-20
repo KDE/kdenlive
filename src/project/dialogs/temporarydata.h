@@ -106,7 +106,7 @@ private:
      **/
     void refreshWarningMessage();
 
-private slots:
+private Q_SLOTS:
     void gotPreviewSize(KJob *job);
     void gotProxySize(KIO::filesize_t total);
     void gotAudioSize(KJob *job);
@@ -132,7 +132,7 @@ private slots:
      **/
     void slotCleanUp();
 
-signals:
+Q_SIGNALS:
     void disableProxies();
     void disablePreview();
 };

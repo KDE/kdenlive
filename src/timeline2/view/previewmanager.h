@@ -123,7 +123,7 @@ private:
      */
     static bool chunkSort(const QVariant &c1, const QVariant &c2) { return c1.toInt() < c2.toInt(); };
 
-private slots:
+private Q_SLOTS:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
     void doCleanupOldPreviews();
     /** @brief: Start the real rendering process. */
@@ -136,7 +136,7 @@ private slots:
     void receivedStderr();
     void processEnded(int exitCode, QProcess::ExitStatus status);
 
-public slots:
+public Q_SLOTS:
     /** @brief: Prepare and start rendering. */
     void startPreviewRender();
     /** @brief: A chunk has been created, notify ruler. */
@@ -153,7 +153,7 @@ protected:
     /** @brief: Temporarily disable timeline preview track. */
     void disable();
 
-signals:
+Q_SIGNALS:
     void abortPreview();
     void cleanupOldPreviews();
     void previewRender(int frame, const QString &file, int progress);

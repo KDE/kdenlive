@@ -34,7 +34,7 @@ AudioCorrelation::~AudioCorrelation()
 
 void AudioCorrelation::slotAnnounceEnvelope()
 {
-    emit displayMessage(i18n("Audio analysis finished"), OperationCompletedMessage, 300);
+    Q_EMIT displayMessage(i18n("Audio analysis finished"), OperationCompletedMessage, 300);
 }
 
 void AudioCorrelation::addChild(AudioEnvelope *envelope)
@@ -75,7 +75,7 @@ void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
     Q_ASSERT(m_correlations.size() == m_children.size());
     int index = m_children.indexOf(envelope);
     int shift = getShift(index);
-    emit gotAudioAlignData(envelope->clipId(), shift);
+    Q_EMIT gotAudioAlignData(envelope->clipId(), shift);
 }
 
 int AudioCorrelation::getShift(int childIndex) const

@@ -40,6 +40,6 @@ private:
     bool allowAll() { return m_allowAll; };
     bool onlyUsed() { return m_onlyUsed; };
 
-signals:
+Q_SIGNALS:
     void changed();
 };

@@ -194,7 +194,7 @@ public:
     /** @brief Returns a frame time as click time (00:00:00.000) */
     const QString framesToTime(int t) const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Sets the value of a list of parameters
        @param params contains the pairs (parameter name, parameter value)
      */
@@ -258,7 +258,7 @@ protected:
      */
     void internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex = QModelIndex());
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     /** @brief inform child effects (in case of bin effect with timeline producers)
      *  that a change occurred and a param update is needed **/

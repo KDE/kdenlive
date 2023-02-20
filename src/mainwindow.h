@@ -320,7 +320,7 @@ private:
     /** @brief Update widget style. */
     void doChangeStyle();
 
-public slots:
+public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
@@ -379,7 +379,7 @@ public slots:
      * (triggered by KdenliveDoc::setModified()) */
     void slotUpdateDocumentState(bool modified);
 
-private slots:
+private Q_SLOTS:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
     void loadDockActions();
@@ -596,7 +596,7 @@ private slots:
     /** @brief Focus the guides list search line */
     void slotSearchGuide();
 
-signals:
+Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
     void configurationChanged();
     void GUISetupDone();

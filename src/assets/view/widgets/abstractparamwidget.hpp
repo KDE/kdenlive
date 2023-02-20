@@ -30,7 +30,7 @@ public:
     */
     static AbstractParamWidget *construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize, QWidget *parent);
 
-signals:
+Q_SIGNALS:
     /** @brief Signal sent when the parameters hold by the widgets are modified
         The index corresponds which parameter is changed
         The string is the new value
@@ -47,7 +47,7 @@ signals:
     void updateHeight();
     void activateEffect();
 
-public slots:
+public Q_SLOTS:
     /** @brief Toggle the comments on or off
      */
     virtual void slotShowComment(bool /*show*/) { qDebug() << "DEBUG: show_comment not correctly overridden"; }

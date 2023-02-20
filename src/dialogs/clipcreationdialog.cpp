@@ -589,7 +589,7 @@ void ClipCreationDialog::clipWidget(QDockWidget *m_DockClipWidget)
     QObject::connect(b, &QCheckBox::toggled, [](bool checked) { KdenliveSettings::setIgnoresubdirstructure(checked); });
     QObject::connect(importseq, &QPushButton::clicked, fileWidget, [=] {
         fileWidget->slotOk();
-        emit fileWidget->accepted();
+        Q_EMIT fileWidget->accepted();
         fileWidget->accept();
         QUrl url = fileWidget->selectedUrl();
         QStringList patternlist;

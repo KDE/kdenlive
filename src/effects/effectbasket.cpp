@@ -64,5 +64,5 @@ void EffectBasket::slotAddEffect(QListWidgetItem *item)
     QString assetId = item->data(Qt::UserRole).toString();
     QVariantMap mimeData;
     mimeData.insert(QStringLiteral("kdenlive/effect"), assetId);
-    emit activateAsset(mimeData);
+    Q_EMIT activateAsset(mimeData);
 }

@@ -42,12 +42,12 @@ private:
     QByteArray m_channels, m_peeks, m_peekage;
     QList<int> m_dbscale;
 
-public slots:
+public Q_SLOTS:
     void showAudio(const QByteArray &);
     void slotReceiveAudio(audioShortVector audioSamples, int, int num_channels, int samples);
-private slots:
+private Q_SLOTS:
     void slotNoAudioTimeout();
 
-signals:
+Q_SIGNALS:
     void updateAudioMonitoring();
 };

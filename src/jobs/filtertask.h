@@ -29,7 +29,7 @@ public:
     static void start(const ObjectId &owner, const QString &binId, const std::weak_ptr<AssetParameterModel> &model, const QString &assetId, int in, int out, const QString &filterName, const std::unordered_map<QString, QVariant> &filterParams, const std::unordered_map<QString, QString> &filterData, const QStringList &consumerArgs, QObject* object, bool force = false);
     int length;
 
-private slots:
+private Q_SLOTS:
     void processLogInfo();
 
 protected:

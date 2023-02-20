@@ -28,10 +28,10 @@ public:
               const QString &subtitleFile = QString(), QObject *parent = nullptr);
     ~RenderJob() override;
 
-public slots:
+public Q_SLOTS:
     void start();
 
-private slots:
+private Q_SLOTS:
     void slotIsOver(QProcess::ExitStatus status, bool isWritable = true);
     void receivedStderr();
     void slotAbort();
@@ -81,6 +81,6 @@ private:
     void updateProgress(int speed = -1);
     void sendProgress();
 
-signals:
+Q_SIGNALS:
     void renderingFinished();
 };

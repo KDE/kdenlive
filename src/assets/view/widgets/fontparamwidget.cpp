@@ -21,8 +21,8 @@ FontParamWidget::FontParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     // set check state
     slotRefresh();
     setMinimumHeight(fontfamilywidget->sizeHint().height());
-    // emit the signal of the base class when appropriate
-    connect(this->fontfamilywidget, &QFontComboBox::currentFontChanged, this, [this](const QFont &font) { emit valueChanged(m_index, font.family(), true); });
+    // Q_EMIT the signal of the base class when appropriate
+    connect(this->fontfamilywidget, &QFontComboBox::currentFontChanged, this, [this](const QFont &font) { Q_EMIT valueChanged(m_index, font.family(), true); });
 }
 
 void FontParamWidget::slotShowComment(bool show)

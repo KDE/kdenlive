@@ -79,17 +79,17 @@ protected:
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
     void resizeEvent(QResizeEvent *ev) override;
 
-private slots:
+private Q_SLOTS:
     void updateDataDisplay();
     void updateDisplay();
     void updateRange();
     void updateDestinationRange();
     void updateView();
 
-public slots:
+public Q_SLOTS:
     virtual void accept() override;
     virtual void reject() override;
 
-signals:
+Q_SIGNALS:
     void updateQmlView();
 };

@@ -16,7 +16,7 @@ DocUndoStack::DocUndoStack(QUndoGroup *parent)
 void DocUndoStack::push(QUndoCommand *cmd)
 {
     if (index() < count()) {
-        emit invalidate(index());
+        Q_EMIT invalidate(index());
     }
     QUndoStack::push(cmd);
 }

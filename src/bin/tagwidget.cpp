@@ -55,7 +55,7 @@ DragButton::DragButton(int ix, const QString &tag, const QString &description, Q
     ac->setCheckable(true);
     setDefaultAction(ac);
     pCore->window()->addAction(QString("tag_%1").arg(ix), ac, {}, QStringLiteral("bintags"));
-    connect(ac, &QAction::triggered, this, [&](bool checked) { emit switchTag(m_tag, checked); });
+    connect(ac, &QAction::triggered, this, [&](bool checked) { Q_EMIT switchTag(m_tag, checked); });
 }
 
 void DragButton::mousePressEvent(QMouseEvent *event)
@@ -91,7 +91,7 @@ void DragButton::mouseReleaseEvent(QMouseEvent *event)
 {
     QToolButton::mouseReleaseEvent(event);
     if ((event->button() == Qt::LeftButton) && !m_dragging) {
-        emit switchTag(m_tag, isChecked());
+        Q_EMIT switchTag(m_tag, isChecked());
     }
     m_dragging = false;
 }
@@ -348,5 +348,5 @@ void TagWidget::showTagsConfig()
             newIx++;
         }
     }
-    emit updateProjectTags(originalTags, newTags);
+    Q_EMIT updateProjectTags(originalTags, newTags);
 }

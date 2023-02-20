@@ -40,6 +40,6 @@ public:
     static QList<BPoint> getPoints(const QVariant &value, const QSize frame);
     void refreshParams(int pos) override;
 
-private slots:
+private Q_SLOTS:
     void slotUpdateFromMonitorData(const QVariantList &v) override;
 };

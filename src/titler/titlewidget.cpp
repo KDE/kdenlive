@@ -371,7 +371,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
     m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString());
-    m_buttonCursor->setWhatsThis(i18n("When selected, a click on an asset in the timeline selects the asset (e.g. clip, composition)."));
+    m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "When selected, a click on an asset in the timeline selects the asset (e.g. clip, composition)."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
@@ -934,9 +934,9 @@ void TitleWidget::displayBackgroundFrame()
             m_frameImage->setPixmap(bg);
         }
         }
-        emit updatePatternsBackgroundFrame();
+        Q_EMIT updatePatternsBackgroundFrame();
     } else {
-        emit requestBackgroundFrame(true);
+        Q_EMIT requestBackgroundFrame(true);
     }
 }
 
@@ -944,8 +944,8 @@ void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(int(r.width() / 2), int(r.height() / 2))));
-    emit requestBackgroundFrame(false);
-    emit updatePatternsBackgroundFrame();
+    Q_EMIT requestBackgroundFrame(false);
+    Q_EMIT updatePatternsBackgroundFrame();
 }
 
 void TitleWidget::initAnimation()

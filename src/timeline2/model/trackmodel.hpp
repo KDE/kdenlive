@@ -339,7 +339,7 @@ protected:
     /** @brief Adjust effect stack length to current track duration */
     void adjustStackLength(int duration, int newDuration, Fun &undo, Fun &redo);
 
-public slots:
+public Q_SLOTS:
     /** Delete the current track and all its associated clips */
     void slotDelete();
 

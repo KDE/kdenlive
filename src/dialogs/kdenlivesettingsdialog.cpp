@@ -92,7 +92,7 @@ void SpeechList::dropEvent(QDropEvent *event)
     if (qMimeData->hasUrls()) {
         QList<QUrl> urls = qMimeData->urls();
         if (!urls.isEmpty()) {
-            emit getDictionary(urls.takeFirst());
+            Q_EMIT getDictionary(urls.takeFirst());
         }
     }
 }
@@ -1070,7 +1070,7 @@ void KdenliveSettingsDialog::updateSettings()
     // Check if screengrab is fullscreen
     if (m_configCapture.kcfg_grab_capture_type->currentIndex() != KdenliveSettings::grab_capture_type()) {
         KdenliveSettings::setGrab_capture_type(m_configCapture.kcfg_grab_capture_type->currentIndex());
-        emit updateFullScreenGrab();
+        Q_EMIT updateFullScreenGrab();
     }
 
     // Check audio capture changes
@@ -1080,7 +1080,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setAudiocapturechannels(m_configCapture.audiocapturechannels->currentData().toInt());
         KdenliveSettings::setAudiocapturevolume(m_configCapture.kcfg_audiocapturevolume->value());
         KdenliveSettings::setAudiocapturesamplerate(m_configCapture.audiocapturesamplerate->currentData().toInt());
-        emit resetAudioMonitoring();
+        Q_EMIT resetAudioMonitoring();
     }
 
     // Check encoding profiles
@@ -1141,7 +1141,7 @@ void KdenliveSettingsDialog::updateSettings()
     }
 
     if (updateLibrary) {
-        emit updateLibraryFolder();
+        Q_EMIT updateLibraryFolder();
     }
 
     QString value = m_configCapture.kcfg_v4l_alsadevice->currentData().toString();
@@ -1186,14 +1186,14 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
-        emit updateMonitorBg();
+        Q_EMIT updateMonitorBg();
     }
 
     if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() ||
         m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
-        emit pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
+        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->colorsChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
@@ -1209,7 +1209,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_displayallchannels->isChecked() != KdenliveSettings::displayallchannels()) {
         KdenliveSettings::setDisplayallchannels(m_configTimeline.kcfg_displayallchannels->isChecked());
-        emit audioThumbFormatChanged();
+        Q_EMIT audioThumbFormatChanged();
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshAudioThumbs();
     }
 
@@ -1246,12 +1246,12 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_trackheight->value() != KdenliveSettings::trackheight()) {
         KdenliveSettings::setTrackheight(m_configTimeline.kcfg_trackheight->value());
-        emit resetView();
+        Q_EMIT resetView();
     }
 
     if (m_configTimeline.kcfg_autoscroll->isChecked() != KdenliveSettings::autoscroll()) {
         KdenliveSettings::setAutoscroll(m_configTimeline.kcfg_autoscroll->isChecked());
-        emit pCore->autoScrollChanged();
+        Q_EMIT pCore->autoScrollChanged();
     }
 
     if (m_configTimeline.kcfg_pauseonseek->isChecked() != KdenliveSettings::pauseonseek()) {
@@ -1264,7 +1264,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_scrollvertically->isChecked() != KdenliveSettings::scrollvertically()) {
         KdenliveSettings::setScrollvertically(m_configTimeline.kcfg_scrollvertically->isChecked());
-        emit pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
+        Q_EMIT pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
     }
 
     // Mimes
@@ -1285,12 +1285,12 @@ void KdenliveSettingsDialog::updateSettings()
     KConfigDialog::settingsChangedSlot();
     // KConfigDialog::updateSettings();
     if (resetConsumer) {
-        emit doResetConsumer(fullReset);
+        Q_EMIT doResetConsumer(fullReset);
     }
     if (restart) {
-        emit restartKdenlive();
+        Q_EMIT restartKdenlive();
     }
-    emit checkTabPosition();
+    Q_EMIT checkTabPosition();
 
     // remembering Config dialog size
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -1835,7 +1835,7 @@ void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
             qDebug() << "=== Error extracting archive!!";
         } else {
             QFile::remove(archiveFile);
-            emit parseDictionaries();
+            Q_EMIT parseDictionaries();
             doShowSpeechMessage(i18n("New dictionary installed."), KMessageWidget::Positive);
         }
     } else {

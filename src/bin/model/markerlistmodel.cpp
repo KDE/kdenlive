@@ -103,10 +103,10 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool n
         previousCategories.removeAll(ix);
         pCore->markerTypes.insert(ix, {color, name});
     }
-    emit categoriesChanged();
+    Q_EMIT categoriesChanged();
     // Trigger a refresh of all markers
     if (notify) {
-        emit dataChanged(index(0), index(m_markerList.size() - 1), {{ColorRole}});
+        Q_EMIT dataChanged(index(0), index(m_markerList.size() - 1), {{ColorRole}});
     }
     return previousCategories;
 }
@@ -382,7 +382,7 @@ bool MarkerListModel::moveMarker(int mid, GenTime pos)
     m_markerList[mid].setTime(pos);
     m_markerPositions.remove(oldPos);
     m_markerPositions.insert(pos.frames(pCore->getCurrentFps()), mid);
-    emit dataChanged(index(row), index(row), {FrameRole});
+    Q_EMIT dataChanged(index(row), index(row), {FrameRole});
     return true;
 }
 
@@ -417,7 +417,7 @@ void MarkerListModel::moveMarkersWithoutUndo(const QVector<int> &markersId, int 
         }
     }
     if (updateView) {
-        emit dataChanged(index(firstRow), index(lastRow), {FrameRole});
+        Q_EMIT dataChanged(index(firstRow), index(lastRow), {FrameRole});
     }
 }
 
@@ -458,7 +458,7 @@ Fun MarkerListModel::changeComment_lambda(GenTime pos, const QString &comment, i
         int row = model->getRowfromId(mid);
         model->m_markerList[mid].setComment(comment);
         model->m_markerList[mid].setMarkerType(type);
-        emit model->dataChanged(model->index(row), model->index(row), {CommentRole, ColorRole});
+        Q_EMIT model->dataChanged(model->index(row), model->index(row), {CommentRole, ColorRole});
         return true;
     };
 }
@@ -749,8 +749,8 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
                 QString originalCategory = KdenliveDoc::getDefaultGuideCategories().at(type);
                 QColor color(originalCategory.section(QLatin1Char(':'), -1));
                 pCore->markerTypes.insert(type, {color, i18n("Recovered %1", type)});
-                emit categoriesChanged();
-                emit pCore->updateDefaultMarkerCategory();
+                Q_EMIT categoriesChanged();
+                Q_EMIT pCore->updateDefaultMarkerCategory();
             }
         }
         bool res = true;
@@ -923,7 +923,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
-        emit pCore->updateDefaultMarkerCategory();
+        Q_EMIT pCore->updateDefaultMarkerCategory();
         if (exists && !createOnly) {
             return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
         }
@@ -950,7 +950,7 @@ bool MarkerListModel::addMultipleMarkersGui(const GenTime &pos, QWidget *parent,
         GenTime interval = dialog->getInterval();
         KdenliveSettings::setMultipleguidesinterval(interval.seconds());
         marker = dialog->newMarker();
-        emit pCore->updateDefaultMarkerCategory();
+        Q_EMIT pCore->updateDefaultMarkerCategory();
         GenTime startTime = marker.time();
         QWriteLocker locker(&m_lock);
         Fun undo = []() { return true; };

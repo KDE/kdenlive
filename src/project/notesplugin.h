@@ -28,7 +28,7 @@ public:
     void clear();
     void showDock();
 
-private slots:
+private Q_SLOTS:
     void setProject(KdenliveDoc *document);
     /** @brief Insert current timecode/cursor position into the widget. */
     void slotInsertTimecode();

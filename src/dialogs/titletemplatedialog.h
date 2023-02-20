@@ -26,6 +26,6 @@ protected:
 private:
     Ui::TemplateClip_UI m_view;
 
-private slots:
+private Q_SLOTS:
     void updatePreview();
 };

@@ -75,7 +75,7 @@ public:
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
 
-public slots:
+public Q_SLOTS:
     void slotSyncEffectsPos(int pos);
     /** @brief Enable / disable an effect. */
     void slotDisable(bool disable);
@@ -92,7 +92,7 @@ public slots:
     /** @brief Open a save effect dialog */
     void slotSaveEffect();
 
-private slots:
+private Q_SLOTS:
     void setWidgetHeight(qreal value);
     void enableView(bool enabled);
     void enableHideKeyframes(bool enabled);
@@ -141,7 +141,7 @@ protected:
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void parameterChanged(const QDomElement &, const QDomElement &, int);
     void syncEffectsPos(int);
     void effectStateChanged(bool, int ix, MonitorSceneType effectNeedsMonitorScene);

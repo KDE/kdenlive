@@ -226,7 +226,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail(bool cachedThumb)
 {
-    emit audioThumbReady();
+    Q_EMIT audioThumbReady();
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
         if (thumb.isNull() && !pCore->taskManager.hasPendingJob({ObjectType::BinClip, m_binId.toInt()}, AbstractTask::AUDIOTHUMBJOB)) {
@@ -563,7 +563,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     updateProducer(producer);
     isReloading = false;
     getFileHash();
-    emit producerChanged(m_binId, m_masterProducer);
+    Q_EMIT producerChanged(m_binId, m_masterProducer);
     m_thumbsProducer.reset();
     connectEffectStack();
 
@@ -623,7 +623,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     m_audioProducers.clear();
     m_videoProducers.clear();
     m_timewarpProducers.clear();
-    emit refreshPropertiesPanel();
+    Q_EMIT refreshPropertiesPanel();
     if (hasLimitedDuration()) {
         connect(&m_boundaryTimer, &QTimer::timeout, this, &ProjectClip::refreshBounds);
     } else {
@@ -1604,7 +1604,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         updateRoles << TimelineModel::ResourceRole;
     }
     if (refreshAnalysis) {
-        emit refreshAnalysisPanel();
+        Q_EMIT refreshAnalysisPanel();
     }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         // Make sure length is >= kdenlive:duration
@@ -1639,7 +1639,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshRoles << TimelineModel::NameRole;
         if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
             // This is a timeline clip, update tab name
-            emit pCore->bin()->updateTabName(QUuid(m_properties->get("kdenlive:uuid")), m_name);
+            Q_EMIT pCore->bin()->updateTabName(QUuid(m_properties->get("kdenlive:uuid")), m_name);
         }
     }
     // update timeline clips
@@ -1658,7 +1658,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
-                emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
+                Q_EMIT std::static_pointer_cast<ProjectItemModel>(ptr)->refreshClip(m_binId);
             }
         }
         if (!updateRoles.isEmpty()) {
@@ -1677,14 +1677,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
         if (audioStreamChanged) {
             refreshAudioInfo();
-            emit audioThumbReady();
+            Q_EMIT audioThumbReady();
             pCore->bin()->reloadMonitorStreamIfActive(clipId());
             refreshPanel = true;
         }
     }
     if (refreshPanel && m_properties) {
         // Some of the clip properties have changed through a command, update properties panel
-        emit refreshPropertiesPanel();
+        Q_EMIT refreshPropertiesPanel();
     }
     if (!passProperties.isEmpty() && (!reload || refreshOnly)) {
         for (auto &p : m_audioProducers) {
@@ -2000,7 +2000,7 @@ void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, in
     }
     m_registeredClips[clipId] = std::move(timeline);
     setRefCount(uint(m_registeredClips.size()), m_audioCount);
-    emit registeredClipChanged();
+    Q_EMIT registeredClipChanged();
 }
 
 void ProjectClip::checkClipBounds()
@@ -2019,7 +2019,7 @@ void ProjectClip::refreshBounds()
             }
         }
     }
-    emit boundsChanged(boundaries);
+    Q_EMIT boundsChanged(boundaries);
 }
 
 void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
@@ -2038,7 +2038,7 @@ void ProjectClip::deregisterTimelineClip(int clipId, bool audioClip)
         m_audioProducers.erase(clipId);
     }
     setRefCount(uint(m_registeredClips.size()), m_audioCount);
-    emit registeredClipChanged();
+    Q_EMIT registeredClipChanged();
 }
 
 QList<int> ProjectClip::timelineInstances() const
@@ -2094,7 +2094,7 @@ void ProjectClip::purgeReferences(const QUuid &activeUuid)
             m_registeredClips.erase(id);
         }
         setRefCount(uint(m_registeredClips.size()), m_audioCount);
-        emit registeredClipChanged();
+        Q_EMIT registeredClipChanged();
     }
 }
 
@@ -2150,7 +2150,7 @@ void ProjectClip::reloadTimeline()
     m_audioProducers.clear();
     m_videoProducers.clear();
     m_timewarpProducers.clear();
-    emit refreshPropertiesPanel();
+    Q_EMIT refreshPropertiesPanel();
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
 }
@@ -2373,7 +2373,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
     }
     Fun redo = [this, streamIndex, effectName]() {
         addAudioStreamEffect(streamIndex, effectName);
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     Fun undo = [this, streamIndex, effectName, oldEffect]() {
@@ -2383,7 +2383,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
         } else {
             removeAudioStreamEffect(streamIndex, effectName);
         }
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     addAudioStreamEffect(streamIndex, effectName);
@@ -2403,12 +2403,12 @@ void ProjectClip::requestRemoveStreamEffect(int streamIndex, const QString effec
     }
     Fun undo = [this, streamIndex, effectName, oldEffect]() {
         addAudioStreamEffect(streamIndex, oldEffect);
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     Fun redo = [this, streamIndex, effectName]() {
         removeAudioStreamEffect(streamIndex, effectName);
-        emit updateStreamInfo(streamIndex);
+        Q_EMIT updateStreamInfo(streamIndex);
         return true;
     };
     removeAudioStreamEffect(streamIndex, effectName);

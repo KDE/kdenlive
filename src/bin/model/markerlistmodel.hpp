@@ -169,7 +169,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-public slots:
+public Q_SLOTS:
     /** @brief Imports a list of markers from json data
    The data should be formatted as follows:
    [{"pos":0.2, "comment":"marker 1", "type":1}, {...}, ...]
@@ -226,7 +226,7 @@ private:
     int getIdFromPos(const GenTime &pos) const;
     int getIdFromPos(int frame) const;
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     void categoriesChanged();
 };

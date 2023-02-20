@@ -98,7 +98,7 @@ void ProxyTest::showMessage(const QString &message)
 ProxyTest::~ProxyTest()
 {
     m_closing = true;
-    emit jobCanceled();
+    Q_EMIT jobCanceled();
     // Wait until concurrent tread is finished
     QMutexLocker lk(&m_locker);
 }

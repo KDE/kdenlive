@@ -165,7 +165,7 @@ public:
     /** @brief Cut a subtitle and split the text at \@param pos */
     void doCutSubtitle(int id, int cursorPos);
 
-public slots:
+public Q_SLOTS:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle(const QString &subPath = QString());
 
@@ -195,7 +195,7 @@ private:
     QVector<int> m_grabbedIds;
     int saveSubtitleData(const QString &data, const QString &outFile);
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     void updateSubtitleStyle(const QString);
 

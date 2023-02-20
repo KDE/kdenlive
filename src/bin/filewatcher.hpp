@@ -31,7 +31,7 @@ public:
     /** @brief Reset all watched files */
     void clear();
 
-signals:
+Q_SIGNALS:
     /** @brief This signal is triggered whenever the file corresponding to a bin clip has been modified and should be reloaded. Note that this signal is sent no
      * more than every 1500 ms. We also make sure that at least 1000ms has passed since the last modification of the file. */
     void binClipModified(const QString &binId);
@@ -39,7 +39,7 @@ signals:
     void binClipWaiting(const QString &binId);
     void binClipMissing(const QString &binId);
 
-private slots:
+private Q_SLOTS:
     void slotUrlModified(const QString &path);
     void slotUrlMissing(const QString &path);
     void slotUrlAdded(const QString &path);

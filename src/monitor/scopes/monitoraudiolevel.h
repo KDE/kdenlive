@@ -38,9 +38,9 @@ private:
     void drawBackground(int channels = 2);
     void refreshScope(const QSize &size, bool full) override;
 
-public slots:
+public Q_SLOTS:
     void setAudioValues(const QVector<double> &values);
 
-signals:
+Q_SIGNALS:
     void audioLevelsAvailable(const QVector<double>& levels);
 };

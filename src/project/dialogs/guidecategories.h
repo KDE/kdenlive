@@ -23,7 +23,7 @@ public:
     const QMap<int, int> remapedGuides() const;
 
 protected:
-public slots:
+public Q_SLOTS:
 
 private:
     /** @brief Create a colored guide icon. */
@@ -32,5 +32,5 @@ private:
     int m_categoryIndex;
     QMap<int, int> m_remapCategories;
 
-signals:
+Q_SIGNALS:
 };

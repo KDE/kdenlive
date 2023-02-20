@@ -35,13 +35,13 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     slotRefresh();
     setMinimumHeight(comboboxwidget->sizeHint().height());
 
-    // emit the signal of the base class when appropriate
-    connect(lineeditwidget, &QLineEdit::editingFinished, this, [this]() { emit valueChanged(m_index, lineeditwidget->text(), true); });
+    // Q_EMIT the signal of the base class when appropriate
+    connect(lineeditwidget, &QLineEdit::editingFinished, this, [this]() { Q_EMIT valueChanged(m_index, lineeditwidget->text(), true); });
     connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this](int ix) {
         if (ix > 0) {
             QString comboval = comboboxwidget->itemData(ix).toString();
             this->lineeditwidget->insert(comboval);
-            emit valueChanged(m_index, lineeditwidget->text(), true);
+            Q_EMIT valueChanged(m_index, lineeditwidget->text(), true);
             comboboxwidget->setCurrentIndex(0);
         }
     });

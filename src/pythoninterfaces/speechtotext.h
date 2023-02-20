@@ -26,9 +26,9 @@ public:
 protected:
     QString featureName() override;
 
-public slots:
+public Q_SLOTS:
 
-signals:
+Q_SIGNALS:
     void subtitleProgressUpdate(int);
     void subtitleFinished(int exitCode, QProcess::ExitStatus exitStatus);
 

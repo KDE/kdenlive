@@ -45,7 +45,7 @@ public:
     explicit ResourceWidget(QWidget *parent = nullptr);
     ~ResourceWidget() override;
 
-private slots:
+private Q_SLOTS:
     void slotChangeProvider();
     void slotOpenUrl(const QString &url);
     void slotStartSearch();
@@ -72,7 +72,7 @@ private:
     void blockUI(bool block);
     QString licenseNameFromUrl(const QString &licenseUrl, const bool shortName);
 
-signals:
+Q_SIGNALS:
     void addClip(const QUrl &, const QString &);
     void addLicenseInfo(const QString &);
     void previewClip(const QString &path, const QString &title);

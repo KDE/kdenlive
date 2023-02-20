@@ -135,8 +135,8 @@ qint64 AudioDevInfo::writeData(const char *data, qint64 len)
             recLevels << val;
             dbLevels << IEC_ScaleMax(val, 0);
         }
-        emit levelRecChanged(recLevels);
-        emit levelChanged(dbLevels);
+        Q_EMIT levelRecChanged(recLevels);
+        Q_EMIT levelChanged(dbLevels);
     }
 #else
     // TODO: qt6
@@ -216,10 +216,10 @@ void MediaCapture::switchMonitorState(bool run)
                         break;
                     }
                     m_lastPos = currentPos;
-                    emit recDurationChanged();
+                    Q_EMIT recDurationChanged();
                 }
             }
-            emit levelsChanged();
+            Q_EMIT levelsChanged();
         });
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelRecChanged, this, &MediaCapture::audioLevels);
         qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
@@ -290,14 +290,14 @@ void MediaCapture::recordAudio(int tid, bool record)
                 m_recLevels.clear();
                 m_lastPos = -1;
                 m_recOffset = 0;
-                emit audioLevels(QVector<qreal>());
+                Q_EMIT audioLevels(QVector<qreal>());
                 // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
                 if (!m_readyForRecord) {
-                    emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                    Q_EMIT pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
                 }
                 m_readyForRecord = false;
             }
-            emit recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
+            Q_EMIT recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
         });
     }
 
@@ -341,14 +341,14 @@ void MediaCapture::recordAudio(int tid, bool record)
                 m_recLevels.clear();
                 m_lastPos = -1;
                 m_recOffset = 0;
-                emit audioLevels(QVector<qreal>());
+                Q_EMIT audioLevels(QVector<qreal>());
                 // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
                 if (!m_readyForRecord) {
-                    emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                    Q_EMIT pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
                 }
                 m_readyForRecord = false;
             }
-            emit recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
+            Q_EMIT recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
         });
     }
 

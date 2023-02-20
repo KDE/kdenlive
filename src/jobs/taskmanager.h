@@ -69,11 +69,11 @@ public:
     /** @brief return the message of a given job on a given clip (message, detailed log)*/
     //QPair<QString, QString> getJobMessageForClip(int jobId, const QString &binId) const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Discard all running jobs. */
     void slotCancelJobs(const QVector<AbstractTask::JOBTYPE> exceptions = {});
 
-private slots:
+private Q_SLOTS:
     /** @brief Update number of running jobs. */
     void updateJobCount();
 
@@ -84,6 +84,6 @@ private:
     mutable QReadWriteLock m_tasksListLock;
     bool m_blockUpdates;
 
-signals:
+Q_SIGNALS:
     void jobCount(int);
 };

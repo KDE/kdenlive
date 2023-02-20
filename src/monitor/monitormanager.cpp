@@ -198,7 +198,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_activeMonitor = m_projectMonitor;
                 return false;
             }
-            emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
+            Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
         } else if (name == Kdenlive::ProjectMonitor) {
@@ -217,12 +217,12 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
                 m_activeMonitor = m_clipMonitor;
                 return false;
             }
-            emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
+            Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);
         }
     }
-    emit checkColorScopes();
+    Q_EMIT checkColorScopes();
     return (m_activeMonitor != nullptr);
 }
 
@@ -457,12 +457,12 @@ void MonitorManager::slotUpdateAudioMonitoring()
 
 void MonitorManager::clearScopeSource()
 {
-    emit clearScopes();
+    Q_EMIT clearScopes();
 }
 
 void MonitorManager::updateScopeSource()
 {
-    emit checkColorScopes();
+    Q_EMIT checkColorScopes();
 }
 
 AbstractMonitor *MonitorManager::activeMonitor()
@@ -508,7 +508,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut, {}, QStringLiteral("monitor"));
 
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
-    connect(monitorSeekBackward, &QAction::triggered, this, &MonitorManager::slotRewind);
+    connect(monitorSeekBackward, &QAction::triggered, this, [&](bool) { MonitorManager::slotRewind(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J, QStringLiteral("navandplayback"));
 
     QAction *monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
@@ -521,7 +521,7 @@ void MonitorManager::setupActions()
                                QStringLiteral("navandplayback"));
 
     QAction *monitorSeekForward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
-    connect(monitorSeekForward, &QAction::triggered, this, &MonitorManager::slotForward);
+    connect(monitorSeekForward, &QAction::triggered, this, [&](bool) { MonitorManager::slotForward(); });
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward, Qt::Key_L, QStringLiteral("navandplayback"));
 
     QAction *projectStart = new QAction(QIcon::fromTheme(QStringLiteral("go-first")), i18n("Go to Project Start"), this);
@@ -545,7 +545,7 @@ void MonitorManager::setupActions()
     m_multiTrack->setCheckable(true);
     connect(m_multiTrack, &QAction::triggered, this, [&](bool checked) {
         if (m_projectMonitor) {
-            emit m_projectMonitor->multitrackView(checked, true);
+            Q_EMIT m_projectMonitor->multitrackView(checked, true);
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack, Qt::Key_F12, QStringLiteral("monitor"));
@@ -555,6 +555,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("perform_multitrack_mode"), performMultiTrackOperation);
 
     QAction *enableEditmode = new QAction(QIcon::fromTheme(QStringLiteral("transform-crop")), i18n("Show/Hide edit mode"), this);
+    enableEditmode->setWhatsThis(xi18nc("@info:whatsthis", "Toggles edit mode (and the display of the object handles)."));
     enableEditmode->setCheckable(true);
     enableEditmode->setChecked(KdenliveSettings::showOnMonitorScene());
     connect(enableEditmode, &QAction::triggered, this, &MonitorManager::slotToggleEffectScene);
@@ -747,7 +748,7 @@ void MonitorManager::slotSetInPoint()
         if (destZone.x() > destZone.y()) {
             destZone.setY(qMin(pCore->projectDuration(), destZone.x() + (sourceZone.y() - sourceZone.x())));
         }
-        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        Q_EMIT m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 
@@ -762,7 +763,7 @@ void MonitorManager::slotSetOutPoint()
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }
-        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        Q_EMIT m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 

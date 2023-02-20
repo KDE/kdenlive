@@ -260,7 +260,7 @@ QImage Vectorscope::renderHUD(uint)
     } else {
         hud = QImage(0, 0, QImage::Format_ARGB32);
     }
-    emit signalHUDRenderingFinished(0, 1);
+    Q_EMIT signalHUDRenderingFinished(0, 1);
     return hud;
 }
 
@@ -280,7 +280,7 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(), qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
                                                              accelerationFactor);
     }
-    emit signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
+    Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return scope;
 }
 
@@ -494,7 +494,7 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("x")));
     }
 
-    emit signalBackgroundRenderingFinished(uint(timer.elapsed()), 1);
+    Q_EMIT signalBackgroundRenderingFinished(uint(timer.elapsed()), 1);
     return bg;
 }
 

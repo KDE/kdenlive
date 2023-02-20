@@ -42,7 +42,7 @@ private:
     double m_value;
     void setNewValue(double, bool);
 
-signals:
+Q_SIGNALS:
     void valueChanged(double, bool);
     void setInTimeline();
     void resetValue();
@@ -98,14 +98,14 @@ public:
     /** @brief Returns true if widget is currently being edited */
     bool hasEditFocus() const;
 
-public slots:
+public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
     void setValue(double value, bool final = true);
     void setValueFromProgress(double value, bool final);
     /** @brief Resets to default value */
     void slotReset();
 
-signals:
+Q_SIGNALS:
     void valueChanged(double value, bool final = true);
     void inTimeline(int);
 
@@ -124,7 +124,7 @@ protected:
     // virtual void wheelEvent(QWheelEvent *e);
     // virtual void paintEvent( QPaintEvent * event );
 
-private slots:
+private Q_SLOTS:
 
     void slotEditingFinished();
 

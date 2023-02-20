@@ -19,7 +19,7 @@ public:
 protected:
     void run() override;
 
-private slots:
+private Q_SLOTS:
     void processLogInfo();
 
 private:

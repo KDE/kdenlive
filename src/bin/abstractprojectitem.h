@@ -185,7 +185,7 @@ public:
     const QString &tags() const;
     void setTags(const QString &tags);
 
-signals:
+Q_SIGNALS:
     void childAdded(AbstractProjectItem *child);
     void aboutToRemoveChild(AbstractProjectItem *child);
 

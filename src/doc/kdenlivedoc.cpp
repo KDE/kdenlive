@@ -755,7 +755,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
     fileName.append(QStringLiteral(".kdenlive.png"));
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    emit saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
+    Q_EMIT saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     return true;
 }
 
@@ -963,13 +963,13 @@ void KdenliveDoc::setModified(bool mod)
 {
     // fix mantis#3160: The document may have an empty URL if not saved yet, but should have a m_autosave in any case
     if ((m_autosave != nullptr) && mod && KdenliveSettings::crashrecovery()) {
-        emit startAutoSave();
+        Q_EMIT startAutoSave();
     }
     if (mod == m_modified) {
         return;
     }
     m_modified = mod;
-    emit docModified(m_modified);
+    Q_EMIT docModified(m_modified);
 }
 
 bool KdenliveDoc::isModified() const
@@ -1065,7 +1065,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
 
     // TODO: rewrite with new title system (just set resource)
     QString id = ClipCreator::createTitleTemplate(path.toString(), QString(), i18n("Template title clip"), groupId, pCore->projectItemModel());
-    emit selectLastAddedClip(id);
+    Q_EMIT selectLastAddedClip(id);
 }
 
 void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
@@ -1184,7 +1184,7 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
         KMessageBox::informationList(QApplication::activeWindow(), i18n("The following effects were imported from the project:"), importedEffects);
     }
     if (!importedEffects.isEmpty()) {
-        emit reloadEffects(newPaths);
+        Q_EMIT reloadEffects(newPaths);
     }
 }
 
@@ -1652,14 +1652,14 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
     if (!reloadProducers) {
         return;
     }
-    emit updateFps(fpsChanged);
+    Q_EMIT updateFps(fpsChanged);
     pCore->bin()->reloadAllProducers(reloadThumbs);
 }
 
 void KdenliveDoc::resetProfile(bool reloadThumbs)
 {
     updateProjectProfile(true, reloadThumbs);
-    emit docModified(true);
+    Q_EMIT docModified(true);
 }
 
 void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThumbs)
@@ -1669,7 +1669,7 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true, reloadThumbs);
     // In case we only have one clip in timeline,
-    emit docModified(true);
+    Q_EMIT docModified(true);
 }
 
 void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
@@ -1734,7 +1734,7 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true, true);
-                emit docModified(true);
+                Q_EMIT docModified(true);
                 return;
             case KMessageBox::No:
                 return;
@@ -1769,7 +1769,7 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
             pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
             pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true, true);
-            emit docModified(true);
+            Q_EMIT docModified(true);
         }
     }
 }
@@ -1789,13 +1789,13 @@ QAction *KdenliveDoc::getAction(const QString &name)
 void KdenliveDoc::previewProgress(int p)
 {
     if (pCore->window()) {
-        emit pCore->window()->setPreviewProgress(p);
+        Q_EMIT pCore->window()->setPreviewProgress(p);
     }
 }
 
 void KdenliveDoc::displayMessage(const QString &text, MessageType type, int timeOut)
 {
-    emit pCore->window()->displayMessage(text, type, timeOut);
+    Q_EMIT pCore->window()->displayMessage(text, type, timeOut);
 }
 
 void KdenliveDoc::selectPreviewProfile()
@@ -1906,7 +1906,7 @@ void KdenliveDoc::initProxySettings()
 void KdenliveDoc::checkPreviewStack(int ix)
 {
     // A command was pushed in the middle of the stack, remove all cached data from last undos
-    emit removeInvalidUndo(ix);
+    Q_EMIT removeInvalidUndo(ix);
 }
 
 void KdenliveDoc::initCacheDirs()

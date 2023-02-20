@@ -335,7 +335,7 @@ private:
     /** @brief initialize proxy settings based on hw status */
     void initProxySettings();
 
-public slots:
+public Q_SLOTS:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
@@ -354,7 +354,7 @@ public slots:
     void slotAutoSave(const QString &scene);
     void switchProfile(ProfileParam* pf, const QString &clipName);
 
-private slots:
+private Q_SLOTS:
     void slotModified();
     void slotSwitchProfile(const QString &profile_path, bool reloadThumbs);
     /** @brief Check if we did a new action invalidating more recent undo items. */
@@ -364,7 +364,7 @@ private slots:
     /** @brief Save the project guide categories in the document properties. */
     void saveGuideCategories();
 
-signals:
+Q_SIGNALS:
     void resetProjectList();
 
     /** @brief Informs that the document status has been changed.

@@ -26,7 +26,7 @@ public:
     explicit AbstractAudioScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
     ~AbstractAudioScopeWidget() override;
 
-public slots:
+public Q_SLOTS:
     void slotReceiveAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples);
 
 protected:

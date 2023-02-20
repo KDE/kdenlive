@@ -19,7 +19,7 @@ public:
     CutTask(const ObjectId &owner, const QString &destination, const QStringList &encodingParams, int in ,int out, bool addToProject, QObject* object);
     static void start(const ObjectId &owner, int in , int out, QObject* object, bool force = false);
 
-private slots:
+private Q_SLOTS:
     void processLogInfo();
 
 protected:

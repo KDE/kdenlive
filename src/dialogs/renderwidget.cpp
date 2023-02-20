@@ -1097,7 +1097,7 @@ void RenderWidget::checkRenderStatus()
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
     if (!waitingJob && m_view.shutdown->isChecked()) {
-        emit shutdown();
+        Q_EMIT shutdown();
     }
 }
 
@@ -1591,7 +1591,7 @@ void RenderWidget::slotAbortCurrentJob()
     auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
         if (current->status() == RUNNINGJOB) {
-            emit abortProcess(current->text(1));
+            Q_EMIT abortProcess(current->text(1));
         } else {
             delete current;
             slotCheckJob();
@@ -1902,7 +1902,7 @@ void RenderWidget::saveRenderProfile()
     renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
     renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
 
-    emit selectedRenderProfile(renderProps);
+    Q_EMIT selectedRenderProfile(renderProps);
 }
 
 bool RenderWidget::startWaitingRenderJobs()
@@ -2140,7 +2140,7 @@ void RenderWidget::resetRenderPath(const QString &path)
     m_view.out_file->setUrl(QUrl::fromLocalFile(url));
     QMap<QString, QString> renderProps;
     renderProps.insert(QStringLiteral("renderurl"), url);
-    emit selectedRenderProfile(renderProps);
+    Q_EMIT selectedRenderProfile(renderProps);
 }
 
 void RenderWidget::updateMetadataToolTip()

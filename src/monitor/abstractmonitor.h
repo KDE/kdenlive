@@ -49,7 +49,7 @@ class AbstractRender : public QObject
 private:
     Kdenlive::MonitorId m_id;
 
-signals:
+Q_SIGNALS:
     /** @brief The renderer refreshed the current frame. */
     void frameUpdated(const QImage &);
 
@@ -69,7 +69,7 @@ public:
     bool isActive() const;
     virtual void mute(bool mute) = 0;
 
-public slots:
+public Q_SLOTS:
     virtual void stop() = 0;
     virtual void start() = 0;
     virtual void slotPlay() = 0;
@@ -84,7 +84,7 @@ protected:
     Kdenlive::MonitorId m_id;
     MonitorManager *m_monitorManager;
 
-signals:
+Q_SIGNALS:
     /** @brief Send a frame for analysis or title background display. */
     void frameUpdated(const QImage &);
     /** @brief This signal contains the audio of the current frame. */

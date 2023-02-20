@@ -170,12 +170,12 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
     QModelIndexList indexes = m_selection->selectedIndexes();
     if (indexes.isEmpty()) {
         // No item selected
-        emit selectModel(QModelIndex());
+        Q_EMIT selectModel(QModelIndex());
         return;
     }
     if (indexes.contains(m_selection->currentIndex())) {
         // Select current item
-        emit selectModel(m_selection->currentIndex());
+        Q_EMIT selectModel(m_selection->currentIndex());
     } else {
         QModelIndexList newlySelected = current.indexes();
         if (!newlySelected.isEmpty()) {
@@ -184,7 +184,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
                 ix = newlySelected.takeLast();
             }
             if (ix.column() == 0) {
-                emit selectModel(ix);
+                Q_EMIT selectModel(ix);
                 return;
             }
         } else {
@@ -194,7 +194,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
                     ix = indexes.takeLast();
                 }
                 if (ix.column() == 0) {
-                    emit selectModel(ix);
+                    Q_EMIT selectModel(ix);
                     return;
                 }
             }
@@ -204,7 +204,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
 
 void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
 {
-    emit dataChanged(ix1, ix2, roles);
+    Q_EMIT dataChanged(ix1, ix2, roles);
 }
 
 void ProjectSortProxyModel::selectAll(const QModelIndex &rootIndex)

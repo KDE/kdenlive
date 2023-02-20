@@ -3,32 +3,6 @@
   "modules": [
     "python-modules.json",
     {
-      "name": "rttr",
-      "buildsystem": "cmake-ninja",
-      "builddir": true,
-      "config-opts": [
-        "-DCMAKE_INSTALL_LIBDIR=lib",
-        "-DBUILD_EXAMPLES=OFF",
-        "-DBUILD_DOCUMENTATION=OFF",
-        "-DBUILD_UNIT_TESTS=OFF",
-        "-DBUILD_PACKAGE=OFF",
-        "-DBUILD_STATIC=OFF"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/rttrorg/rttr/releases/download/v0.9.6/rttr-0.9.6-src.tar.gz",
-          "sha256": "f62caee43016489320f8a69145c9208cddd72e451ea95618bc26a49a4cd6c990",
-          "x-checker-data": {
-              "type": "json",
-              "url": "https://api.github.com/repos/rttrorg/rttr/releases/latest",
-              "version-query": ".tag_name | sub(\"^v\"; \"\")",
-              "url-query": ".assets[] | select(.name==\"rttr-\" + $version + \"-src.tar.gz\") | .browser_download_url"
-          }
-        }
-      ]
-    },
-    {
       "name": "eigen",
       "buildsystem": "cmake-ninja",
       "builddir": true,

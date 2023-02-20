@@ -43,7 +43,6 @@ set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_
 # KDE Frameworks
 set(KF_DEP_VERSION "5.92.0")
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
-set(KDE_COMPILERSETTINGS_LEVEL 5.80)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 ## include ECM Modules
@@ -59,6 +58,7 @@ include(ECMEnableSanitizers)
 include(ECMAddQch)
 include(QtVersionOption)
 include(ECMDeprecationSettings)
+remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 find_package(KF5 ${KF_DEP_VERSION}

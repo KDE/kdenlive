@@ -674,7 +674,7 @@ public:
     /** @brief Save all sequence properties (timeline position, guides, groups, ..) to the timeline tractor. */
     void saveSequenceProperties();
 
-public slots:
+public Q_SLOTS:
     void resetView();
     void setAudioTarget(const QMap<int, int> &tracks);
     Q_INVOKABLE void switchAudioTarget(int trackId);
@@ -703,7 +703,7 @@ public slots:
     /** @brief When a clip or composition is moved, inform asset panel to update cursor position in keyframe views. */
     void checkClipPosition(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles);
 
-private slots:
+private Q_SLOTS:
     void updateClipActions();
     void updateVideoTarget();
     void updateAudioTarget();
@@ -757,7 +757,7 @@ private:
     void initializePreview();
     int getMenuOrTimelinePos() const;
 
-signals:
+Q_SIGNALS:
     void selected(Mlt::Producer *producer);
     void selectionChanged();
     void selectedMixChanged();

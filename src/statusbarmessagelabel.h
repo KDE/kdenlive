@@ -34,7 +34,7 @@ public:
     ~FlashLabel() override;
     QColor color() const;
     void setColor(const QColor &);
-signals:
+Q_SIGNALS:
     void colorChanged();
 };
 
@@ -85,7 +85,7 @@ protected:
     /** @see QWidget::resizeEvent() */
     void resizeEvent(QResizeEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100);
     void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
     void setSelectionMessage(const QString &text);
@@ -94,7 +94,7 @@ public slots:
     /** @brief Display a temporary key binding info in status bar, revert to default one if text is empty */
     void setTmpKeyMap(const QString &text);
 
-private slots:
+private Q_SLOTS:
 
     /**
      * Closes the currently shown error message and replaces it

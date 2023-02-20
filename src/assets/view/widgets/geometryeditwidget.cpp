@@ -55,8 +55,8 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     layout->addWidget(m_geom);
     setFixedHeight(m_geom->sizeHint().height());
 
-    // emit the signal of the base class when appropriate
-    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString &val) { emit valueChanged(m_index, val, true); });
+    // Q_EMIT the signal of the base class when appropriate
+    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
 
     setToolTip(comment);
 }

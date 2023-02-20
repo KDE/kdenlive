@@ -25,7 +25,7 @@ public:
     /** @brief Load a layout by its name. */
     bool loadLayout(const QString &layoutId, bool selectButton);
 
-private slots:
+private Q_SLOTS:
     /** @brief Saves the widget layout. */
     void slotSaveLayout();
     /** @brief Loads a layout from its button. */
@@ -56,7 +56,7 @@ private:
     QList <QAction *> m_layoutActions;
     QMap <QString, QString> m_translatedNames;
 
-signals:
+Q_SIGNALS:
     /** @brief Layout changed, ensure title bars are correctly displayed. */
     void updateTitleBars();
     /** @brief Connect/disconnect stuff to update titlebars on dock location changed. */

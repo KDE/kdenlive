@@ -128,7 +128,7 @@ QImage RGBParade::renderHUD(uint)
         }
     }
 
-    emit signalHUDRenderingFinished(1, 1);
+    Q_EMIT signalHUDRenderingFinished(1, 1);
     return hud;
 }
 
@@ -140,7 +140,7 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, RGBParadeGenerator::PaintMode(paintmode), m_aAxis->isChecked(),
                                                              m_aGradRef->isChecked(), accelerationFactor);
-    emit signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
+    Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return parade;
 }
 

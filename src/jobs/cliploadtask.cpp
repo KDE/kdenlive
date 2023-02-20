@@ -338,7 +338,7 @@ void ClipLoadTask::run()
         return;
     }
     m_running = true;
-    emit pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));
+    Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.second));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     qDebug() << "============STARTING LOAD TASK FOR: " << resource << "\n\n:::::::::::::::::::";
     int duration = 0;
@@ -492,7 +492,7 @@ void ClipLoadTask::run()
                                       Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Cannot open file %1", resource) : m_errorMessage),
                                       Q_ARG(int, int(KMessageWidget::Warning)));
         }
-        emit taskDone();
+        Q_EMIT taskDone();
         abort();
         return;
     }
@@ -521,7 +521,7 @@ void ClipLoadTask::run()
         if (pCore->bin()->shouldCheckProfile) {
             pCore->bin()->shouldCheckProfile = false;
         }
-        emit taskDone();
+        Q_EMIT taskDone();
         abort();
         return;
     }
@@ -747,7 +747,7 @@ void ClipLoadTask::run()
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.second)));
             }
         }
-        emit taskDone();
+        Q_EMIT taskDone();
     } else {
         // Might be aborted by profile switch
         abort();

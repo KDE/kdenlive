@@ -48,7 +48,7 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
             menu->insertAction(menu->actions().at(1), a);
             if (!anchorPoints.isEmpty()) {
                 a = new QAction(i18n("Assign timestamps to current Bin Clip"), menu);
-                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints]() { emit reAssign(anchors, anchorPoints); });
+                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints]() { Q_EMIT reAssign(anchors, anchorPoints); });
                 menu->insertAction(menu->actions().at(2), a);
             }
         }
@@ -119,7 +119,7 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
         // That's a Bin Clip reference.
         pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
     } else {
-        emit seekProject(anchor);
+        Q_EMIT seekProject(anchor);
     }
     e->setAccepted(true);
 }
@@ -180,7 +180,7 @@ void NotesWidget::assignProjectNote()
     QStringList anchors = result.first;
     QList<QPoint> anchorPoints = result.second;
     if (!anchors.isEmpty()) {
-        emit reAssign(anchors, anchorPoints);
+        Q_EMIT reAssign(anchors, anchorPoints);
     } else {
         pCore->displayMessage(i18n("Select some timecodes to reassign"), ErrorMessage);
     }
@@ -205,7 +205,7 @@ void NotesWidget::addProjectNote()
         setTextCursor(cur);
         insertPlainText(QStringLiteral("\n"));
     }
-    emit insertNotesTimecode();
+    Q_EMIT insertNotesTimecode();
 }
 
 void NotesWidget::addTextNote(const QString &text)
@@ -215,7 +215,7 @@ void NotesWidget::addTextNote(const QString &text)
         cur.movePosition(QTextCursor::End);
         setTextCursor(cur);
     }
-    emit insertTextNote(text);
+    Q_EMIT insertTextNote(text);
 }
 
 void NotesWidget::insertFromMimeData(const QMimeData *source)

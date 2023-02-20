@@ -34,7 +34,7 @@ public:
     /** @brief Calling this will make the button checkable and have a default action on its own (for example enable/disable filtering) */
     void enableFilterMode();
 
-private slots:
+private Q_SLOTS:
     void categorySelected(QAction *ac);
 
 private:
@@ -47,7 +47,7 @@ private:
     bool allowAll() { return m_allowAll; };
     bool onlyUsed() { return m_onlyUsed; };
 
-signals:
+Q_SIGNALS:
     void changed();
     void categoriesChanged(const QList<int> categories);
 };

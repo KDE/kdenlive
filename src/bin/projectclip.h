@@ -278,11 +278,11 @@ protected:
     */
     void deregisterTimelineClip(int clipId, bool audioClip);
 
-    void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { emit producerChanged(id, producer); };
+    void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { Q_EMIT producerChanged(id, producer); };
     void replaceInTimeline();
     void connectEffectStack() override;
 
-public slots:
+public Q_SLOTS:
     /** @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
     void updateAudioThumbnail(bool cachedThumb);
@@ -344,7 +344,7 @@ private:
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
     QUuid m_uuid;
 
-signals:
+Q_SIGNALS:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
     void refreshPropertiesPanel();
     void refreshAnalysisPanel();

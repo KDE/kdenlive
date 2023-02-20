@@ -26,7 +26,7 @@ public:
 protected:
     void closeEvent(QCloseEvent *event) override;
 
-private slots:
+private Q_SLOTS:
     void slotUpdateDisplay(QString currentProfilePath = QString());
     void slotCreateProfile();
     bool slotSaveProfile();

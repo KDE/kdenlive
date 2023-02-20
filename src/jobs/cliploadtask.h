@@ -45,6 +45,6 @@ private:
     void generateThumbnail(std::shared_ptr<ProjectClip>binClip, std::shared_ptr<Mlt::Producer> producer);
     void abort();
 
-signals:
+Q_SIGNALS:
     void taskDone();
 };

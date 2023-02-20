@@ -85,7 +85,7 @@ void DoubleWidget::enableEdit(bool enable)
 void DoubleWidget::slotSetValue(double value, bool final)
 {
     if (final) {
-        emit valueChanged(value / m_factor);
+        Q_EMIT valueChanged(value / m_factor);
     }
 }
 

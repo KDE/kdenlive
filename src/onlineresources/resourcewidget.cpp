@@ -479,7 +479,7 @@ void ResourceWidget::slotPreviewItem()
         // Only show this warning once
         m_showloadingWarning = false;
     }
-    emit previewClip(path, i18n("Online Resources Preview"));
+    Q_EMIT previewClip(path, i18n("Online Resources Preview"));
     blockUI(false);
 }
 
@@ -620,10 +620,10 @@ void ResourceWidget::slotGotFile(KJob *job)
     KRecentDirs::add(QStringLiteral(":KdenliveOnlineResourceFolder"), filePath.adjusted(QUrl::RemoveFilename).toLocalFile());
 
     KMessageBox::information(this, i18n("Resource saved to %1", filePath.toLocalFile()), i18n("Data Imported"));
-    emit addClip(filePath, QString());
+    Q_EMIT addClip(filePath, QString());
 
     if (!copyJob->property("attribution").toString().isEmpty()) {
-        emit addLicenseInfo(copyJob->property("attribution").toString());
+        Q_EMIT addLicenseInfo(copyJob->property("attribution").toString());
     }
 }
 

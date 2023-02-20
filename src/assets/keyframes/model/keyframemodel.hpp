@@ -205,7 +205,7 @@ private:
     std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
     bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true);
 
-signals:
+Q_SIGNALS:
     void modelChanged();
     void requestModelUpdate(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
