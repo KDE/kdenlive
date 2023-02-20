@@ -198,7 +198,7 @@ void MltDeviceCapture::emitFrameUpdated(Mlt::Frame &frame)
     QImage qimage(width, height, QImage::Format_RGB888);
     // QImage qimage(width, height, QImage::Format_ARGB32_Premultiplied);
     memcpy(qimage.bits(), image, size_t(width * height * 3));
-    emit frameUpdated(qimage);
+    Q_EMIT frameUpdated(qimage);
 }
 
 void MltDeviceCapture::showFrame(Mlt::Frame &frame)
@@ -209,10 +209,10 @@ void MltDeviceCapture::showFrame(Mlt::Frame &frame)
     const uchar *image = frame.get_image(format, width, height);
     QImage qimage(width, height, QImage::Format_RGB888);
     memcpy(qimage.scanLine(0), image, static_cast<size_t>(width * height * 3));
-    emit showImageSignal(qimage);
+    Q_EMIT showImageSignal(qimage);
 
     if (sendFrameForAnalysis && (frame.get_frame()->convert_image != nullptr)) {
-        emit frameUpdated(qimage.rgbSwapped());
+        Q_EMIT frameUpdated(qimage.rgbSwapped());
     }
 }
 
@@ -236,7 +236,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame &frame)
     audioShortVector sampleVector(samples * num_channels);
     memcpy(sampleVector.data(), data, size_t(samples * num_channels) * sizeof(qint16));
     if (samples > 0) {
-        emit audioSamplesSignal(sampleVector, freq, num_channels, samples);
+        Q_EMIT audioSamplesSignal(sampleVector, freq, num_channels, samples);
     }
 }
 
@@ -280,7 +280,7 @@ void MltDeviceCapture::slotCheckDroppedFrames()
         int dropped = m_mltProducer->get_int("dropped");
         if (dropped > m_droppedFrames) {
             m_droppedFrames = dropped;
-            emit droppedFrames(m_droppedFrames);
+            Q_EMIT droppedFrames(m_droppedFrames);
         }
     }
 }
@@ -301,7 +301,7 @@ void MltDeviceCapture::saveFrame(Mlt::Frame &frame)
     trackProducer.set("hide", 0);
 
     qimage.save(m_capturePath);
-    emit frameSaved(m_capturePath);
+    Q_EMIT frameSaved(m_capturePath);
     m_capturePath.clear();
 }
 
@@ -657,9 +657,9 @@ void MltDeviceCapture::uyvy2rgb(const unsigned char *yuv_buffer, int width, int 
         rgb_buffer[rgb_ptr + 2] = static_cast<uchar>(b);
         rgb_ptr += 3;
     }
-    // emit imageReady(image);
+    // Q_EMIT imageReady(image);
     // m_captureDisplayWidget->setImage(image);
-    emit unblockPreview();
+    Q_EMIT unblockPreview();
     // processingImage = false;
 }
 

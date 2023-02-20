@@ -65,13 +65,13 @@ void RenderServer::handleJson(const QJsonObject &json, QLocalSocket *socket)
         const auto url = json["setRenderingProgress"]["url"].toString();
         const auto progress = json["setRenderingProgress"]["progress"].toInt();
         const auto frame = json["setRenderingProgress"]["frame"].toInt();
-        emit setRenderingProgress(url, progress, frame);
+        Q_EMIT setRenderingProgress(url, progress, frame);
     }
     if (json.contains("setRenderingFinished")) {
         const auto url = json["setRenderingFinished"]["url"].toString();
         const auto status = json["setRenderingFinished"]["status"].toInt();
         const auto error = json["setRenderingFinished"]["error"].toString();
-        emit setRenderingFinished(url, status, error);
+        Q_EMIT setRenderingFinished(url, status, error);
         m_jobSocket.remove(url);
     }
 }
