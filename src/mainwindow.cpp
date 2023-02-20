@@ -3526,8 +3526,8 @@ void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
         const QStringList shortcutsDirs = QStandardPaths::locateAll(
             QStandardPaths::GenericDataLocation, QCoreApplication::applicationName() + QStringLiteral("/shortcuts"), QStandardPaths::LocateDirectory);
         qCDebug(KDENLIVE_LOG) << "shortcut scheme dirs:" << shortcutsDirs;
-        Q_FOREACH (const QString &dir, shortcutsDirs) {
-            Q_FOREACH (const QString &file, QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot)) {
+        for (const QString &dir : shortcutsDirs) {
+            for (const QString &file : QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot)) {
                 qCDebug(KDENLIVE_LOG) << "shortcut scheme file:" << file;
                 schemes << file;
             }
