@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-02-08 14:25+0300\n"
+"PO-Revision-Date: 2023-02-20 20:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9120,12 +9120,12 @@ msgstr "Bölgeyi Proje Kovasına Ekle"
 #: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Go to Previous Snap Point"
-msgstr "Önceki Tutma Noktasına Git"
+msgstr "Önceki Tutturma Noktasına Git"
 
 #: src/mainwindow.cpp:1540
 #, kde-format
 msgid "Go to Next Snap Point"
-msgstr "Sonraki Tutma Noktasına Git"
+msgstr "Sonraki Tutturma Noktasına Git"
 
 #: src/mainwindow.cpp:1542
 #, kde-format
