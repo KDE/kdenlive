@@ -84,15 +84,19 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     const QUuid uuid = QUuid::createUuid();
     std::shared_ptr<Mlt::Tractor> timeline(new Mlt::Tractor(*pCore->getProjectProfile()));
     timeline->lock();
+    Mlt::Producer bk(*pCore->getProjectProfile(), "colour:0");
+    bk.set_in_and_out(0, 1);
+    bk.set("kdenlive:playlistid", "black_track");
+    timeline->insert_track(bk, 0);
     // Audio tracks
-    for (int ix = 0; ix < tracks.first; ix++) {
+    for (int ix = 1; ix <= tracks.first; ix++) {
         Mlt::Playlist pl(*pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
         timeline->track(ix)->set("kdenlive:audio_track", 1);
         timeline->track(ix)->set("kdenlive:timeline_active", 1);
     }
     // Video tracks
-    for (int ix = tracks.first; ix < (tracks.first + tracks.second); ix++) {
+    for (int ix = tracks.first + 1; ix <= (tracks.first + tracks.second); ix++) {
         Mlt::Playlist pl(*pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
         timeline->track(ix)->set("kdenlive:timeline_active", 1);
