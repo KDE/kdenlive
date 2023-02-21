@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:56+0000\n"
-"PO-Revision-Date: 2023-02-17 12:31+0100\n"
+"PO-Revision-Date: 2023-02-20 17:05+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3261,6 +3261,8 @@ msgid ""
 "Toggles the effect stack to be enabled or disabled. Useful to see the "
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
+"Commuta l'activació o desactivació de la pila d'efectes. És útil per a veure "
+"la diferència entre l'original i l'editada o per a accelerar el rastreig."
 
 #: src/assets/assetpanel.cpp:115
 #, kde-format
@@ -3273,8 +3275,7 @@ msgid "Hide keyframes in timeline"
 msgstr "Oculta els fotogrames clau a la línia de temps"
 
 #: src/assets/assetpanel.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
@@ -3482,11 +3483,10 @@ msgid "Delete preset"
 msgstr "Suprimeix els valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the selected speech model"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "Suprimeix el model de veu seleccionat"
+msgstr "Suprimeix els valors predefinits seleccionats actualment."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -3841,6 +3841,8 @@ msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
 msgstr ""
+"Obre una llista d'accions addicionals per a gestionar els fotogrames clau "
+"(per exemple: copiar i enganxar fotogrames clau des del porta-retalls)."
 
 #: src/assets/view/widgets/keyframewidget.cpp:243
 #: src/assets/view/widgets/keyframewidget.cpp:295
@@ -3997,8 +3999,7 @@ msgid "Unmute track"
 msgstr "Activa el so de la pista"
 
 #: src/audiomixer/mixerwidget.cpp:250
-#, fuzzy, kde-kuit-format
-#| msgid "Mutes/un-mutes the audio track."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Silencia/activa el so de la pista d'àudio."
@@ -4180,6 +4181,8 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
+"Obre una finestra per a configurar la safata del projecte (p. ex. mode de "
+"vista, ordenació, mostra la puntuació)."
 
 #: src/bin/bin.cpp:1332
 #, kde-format
@@ -4432,10 +4435,7 @@ msgid "Delete Clip"
 msgstr "Suprimeix un clip"
 
 #: src/bin/bin.cpp:2446 src/bin/bin.cpp:2458
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
@@ -4483,6 +4483,11 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
+"Diàleg principal per a afegir material d'origen a la safata del projecte "
+"(vídeos, imatges, àudio, títols, animacions).<nl/>Feu clic a la icona de la "
+"fletxa avall per a obtenir una llista dels tipus d'origen a seleccionar.<nl/"
+">Feu clic a la icona multimèdia per a obrir una finestra per a seleccionar "
+"els fitxers d'origen."
 
 #: src/bin/bin.cpp:3333
 #, kde-format
@@ -4571,6 +4576,9 @@ msgid ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organization of source files. Folders can be nested."
 msgstr ""
+"Crea una carpeta a la posició actual en la safata del projecte. Permet una "
+"organització millor dels fitxers d'origen. Les carpetes poden estar "
+"imbricades."
 
 #: src/bin/bin.cpp:3477 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
@@ -7970,12 +7978,10 @@ msgid "Show Keyframes"
 msgstr "Mostra els fotogrames clau"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:99
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Moves the playhead to the next keyframe to the left."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
-msgstr "Mou el capçal de reproducció a l'esquerra del fotograma clau següent."
+msgstr "Activa la visualització del regle de fotogrames clau."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
@@ -7988,16 +7994,14 @@ msgid "Enable Effect"
 msgstr "Activa l'efecte"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:108
-#, fuzzy, kde-kuit-format
-#| msgid "Enables the effect. Useful to compare before and after settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
-"Activa l'efecte. És útil per comparar els paràmetres d'abans i de després."
+"Desactiva l'efecte. És útil per comparar els paràmetres d'abans i de després."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
-#, fuzzy, kde-kuit-format
-#| msgid "Enables the effect. Useful to compare before and after settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
@@ -8050,12 +8054,10 @@ msgid "Use effect zone"
 msgstr "Usa la zona d'efectes"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
-msgstr ""
-"Commuta la visualització dels fotogrames clau en el clip a la línia de temps"
+msgstr "Commuta la visualització de la zona d'efectes."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
@@ -8719,12 +8721,10 @@ msgid "Add Clip to Project"
 msgstr "Afegeix un clip al projecte"
 
 #: src/library/librarywidget.cpp:222
-#, fuzzy, kde-kuit-format
-#| msgid "This will remove the selected clip from this project"
-#| msgid_plural "This will remove the selected clips from this project"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
-msgstr "Això eliminarà el clip seleccionat d'aquest projecte"
+msgstr "Afegeix el clip seleccionat de la biblioteca a la safata del projecte."
 
 #: src/library/librarywidget.cpp:225
 #, kde-format
@@ -8732,15 +8732,11 @@ msgid "Delete Clip from Library"
 msgstr "Suprimeix un clip de la biblioteca"
 
 #: src/library/librarywidget.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
 msgstr ""
-"Suprimeix els clips seleccionats actualment de la safata del projecte i "
-"també de la línia de temps."
+"Suprimeix el clip de la biblioteca actualment seleccionat de la biblioteca."
 
 #: src/library/librarywidget.cpp:229
 #, kde-format
@@ -8748,11 +8744,10 @@ msgid "Create Library Folder"
 msgstr "Crea una carpeta de biblioteca"
 
 #: src/library/librarywidget.cpp:230
-#, fuzzy, kde-kuit-format
-#| msgid "Enter a name for the clip in Library"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new folder in the library."
-msgstr "Introduïu un nom per al clip a la biblioteca"
+msgstr "Crea una carpeta nova en la biblioteca."
 
 #: src/library/librarywidget.cpp:232
 #, kde-format
@@ -8771,6 +8766,9 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to the library. Note "
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
+"Afegeix el/s clip/s seleccionat/s actualment en la línia de temps a la "
+"biblioteca. Tingueu en compte que els camins als fitxers de les imatges, "
+"vídeo i àudio es desen com a camins absoluts."
 
 #: src/library/librarywidget.cpp:314
 #, kde-format
@@ -9192,8 +9190,7 @@ msgid "Audio Mixer"
 msgstr "Mesclador d'àudio"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the audio mixer panel/widget."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Commuta el plafó/giny del mesclador d'àudio."
@@ -9356,6 +9353,8 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
+"Canvia entre el mode Normal, Sobreescriu i Insereix. Determina l'acció "
+"predeterminada en gestionar clips a la línia de temps."
 
 #: src/mainwindow.cpp:1123
 #, kde-format
@@ -9368,9 +9367,7 @@ msgid "Use Timeline Zone for Insert"
 msgstr "Usa una zona de la línia de temps per a inserir"
 
 #: src/mainwindow.cpp:1124
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Toggles between using the timeline zone for inserting (on) or not (off)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
@@ -9414,18 +9411,15 @@ msgid "Frames"
 msgstr "Fotogrames"
 
 #: src/mainwindow.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Edit subtitle"
+#, kde-format
 msgid "Edit Subtitle Tool"
-msgstr "Edita els subtítols"
+msgstr "Eina d'edició de subtítols"
 
 #: src/mainwindow.cpp:1193
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
-msgstr "Actualitza la visualització dels subtítols a la línia de temps."
+msgstr "Commuta la pista dels subtítols a la línia de temps."
 
 #: src/mainwindow.cpp:1200 src/titler/titlewidget.cpp:370
 #: src/titler/titlewidget.cpp:373
@@ -9450,6 +9444,9 @@ msgid ""
 "When selected, click and drag the cursor in the timeline temporarily groups "
 "separate clips and creates or removes space between clips."
 msgstr ""
+"Quan està seleccionada, fer clic i arrossegar el cursor a la línia de temps "
+"agrupa temporalment els clips separats i crea o elimina l'espai entre els "
+"clips."
 
 #: src/mainwindow.cpp:1216
 #, kde-format
@@ -9463,6 +9460,8 @@ msgid ""
 "When selected, drag the edges of a clip lengthens or shortens the clip and "
 "move adjacent clips back and forth while doing that."
 msgstr ""
+"Quan està seleccionada, arrossegar les vores d'un clip allarga o escurça el "
+"clip i mou els clips adjacents endavant i endarrere mentre ho fa."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -9480,6 +9479,8 @@ msgid ""
 "When selected, drag a clip slips the clip beneath the given window back and "
 "forth."
 msgstr ""
+"Quan està seleccionada, arrossegar un clip llisca el clip sota la finestra "
+"indicada cap enrere i cap endavant."
 
 #: src/mainwindow.cpp:1233
 #, kde-format
@@ -9503,6 +9504,8 @@ msgid ""
 "Creates a same-track transition between the selected clip and the adjacent "
 "one closest to the playhead."
 msgstr ""
+"Crea una transició de la mateixa pista entre el clip seleccionat i "
+"l'adjacent més proper al capçal de reproducció."
 
 #: src/mainwindow.cpp:1268
 #, kde-format
@@ -9510,14 +9513,14 @@ msgid "Show Video Thumbnails"
 msgstr "Mostra les miniatures de vídeo"
 
 #: src/mainwindow.cpp:1269
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of video thumbnails for the clips in the timeline "
 "(default is On)."
 msgstr ""
-"Commuta la visualització dels fotogrames clau en el clip a la línia de temps"
+"Commuta la visualització de les miniatures de vídeo per als clips en la "
+"línia de temps (actiu de manera predeterminada)."
 
 #: src/mainwindow.cpp:1275
 #, kde-format
@@ -9525,14 +9528,14 @@ msgid "Show Audio Thumbnails"
 msgstr "Mostra les miniatures d'àudio"
 
 #: src/mainwindow.cpp:1276
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
 msgstr ""
-"Commuta la visualització dels fotogrames clau en el clip a la línia de temps"
+"Commuta la visualització de les miniatures d'àudio per als clips en la línia "
+"de temps (actiu de manera predeterminada)."
 
 #: src/mainwindow.cpp:1282
 #, kde-format
@@ -9551,6 +9554,8 @@ msgid ""
 "Toggles the snap function (clips, playhead snaps to edges, markers, guides "
 "and others)."
 msgstr ""
+"Alterna la funció d'ajustament (clips, capçal de reproducció ajusta les "
+"vores, marcadors, guies i altres)."
 
 #: src/mainwindow.cpp:1295
 #, kde-format
@@ -9558,12 +9563,12 @@ msgid "Show Color Tags in Timeline"
 msgstr "Mostra les etiquetes de color a la línia de temps"
 
 #: src/mainwindow.cpp:1296
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr ""
-"Commuta la visualització dels fotogrames clau en el clip a la línia de temps"
+"Commuta la visualització de les etiquetes dels clips en la línia de temps "
+"(actiu de manera predeterminada)."
 
 #: src/mainwindow.cpp:1302
 #, kde-format
@@ -9576,6 +9581,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
+"Ajusta el nivell de zoom per a encabir tot el projecte a les finestres de la "
+"línia de temps."
 
 #: src/mainwindow.cpp:1328
 #, kde-format
@@ -9762,15 +9769,11 @@ msgid "Insert Zone in Project Bin"
 msgstr "Insereix una zona a la safata del projecte"
 
 #: src/mainwindow.cpp:1554
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr ""
-"Suprimeix els clips seleccionats actualment de la safata del projecte i "
-"també de la línia de temps."
+"Crea un clip nou a la safata del projecte a partir de la zona definida."
 
 #: src/mainwindow.cpp:1555
 #, kde-format
@@ -9830,6 +9833,10 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 msgstr ""
+"Quan es fa clic a la zona del clip actualment seleccionat a la safata del "
+"projecte s'insereix en la posició del capçal de reproducció a la línia de "
+"temps activa. Els clips a la posició d'inserció es retallen i se "
+"sobreescriuen."
 
 #: src/mainwindow.cpp:1583
 #, kde-format
@@ -9844,6 +9851,10 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and shifted to the right."
 msgstr ""
+"Quan es fa clic a la zona del clip actualment seleccionat a la safata del "
+"projecte s'insereix en la posició del capçal de reproducció a la línia de "
+"temps activa. Els clips a la posició d'inserció es retallen i es desplacen a "
+"la dreta."
 
 #: src/mainwindow.cpp:1586
 #, kde-format
@@ -9857,6 +9868,8 @@ msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "are shifted left."
 msgstr ""
+"Feu clic per a suprimir la zona de la línia de temps de la línia de temps. "
+"Tots els clips de la dreta es desplacen cap a l'esquerra."
 
 #: src/mainwindow.cpp:1589
 #, kde-format
@@ -9870,6 +9883,8 @@ msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "stay in position."
 msgstr ""
+"Feu clic per a suprimir la zona de la línia de temps de la línia de temps. "
+"Tots els clips de la dreta mantenen la posició."
 
 #: src/mainwindow.cpp:1592
 #, kde-format
@@ -9882,6 +9897,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
+"Afegeix la línia de temps/zona de selecció definida actualment com a zona de "
+"renderització de la vista prèvia"
 
 #: src/mainwindow.cpp:1595
 #, kde-format
@@ -9895,6 +9912,9 @@ msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave holes in the preview render zones."
 msgstr ""
+"Elimina la zona de la línia de temps/selecció definida actualment de la zona "
+"de renderització de la vista prèvia. Tingueu en compte que això pot deixar "
+"forats a les zones de renderització de la vista prèvia."
 
 #: src/mainwindow.cpp:1598
 #, kde-format
@@ -9902,11 +9922,10 @@ msgid "Remove All Preview Zones"
 msgstr "Elimina totes les zones de la vista prèvia"
 
 #: src/mainwindow.cpp:1600
-#, fuzzy, kde-kuit-format
-#| msgid "Remove All Preview Zones"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Elimina totes les zones de la vista prèvia"
+msgstr "Elimina totes les zones de la vista prèvia de renderització."
 
 #: src/mainwindow.cpp:1601
 #, kde-format
@@ -9921,6 +9940,10 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
+"Feu clic per iniciar la renderització de totes les zones de vista prèvia "
+"(recomanat per a àrees amb molts efectes complexos).<nl/>Feu clic a la icona "
+"de la fletxa avall per obtenir una llista d'opcions (per exemple: afegir una "
+"zona de renderització de vista prèvia, eliminar totes les zones)."
 
 #: src/mainwindow.cpp:1605
 #, kde-format
@@ -10459,7 +10482,7 @@ msgstr "Nivell de zoom: %1/%2"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Slider to adjust the zoom level."
-msgstr ""
+msgstr "Control lliscant per a ajustar el nivell de zoom."
 
 #: src/mainwindow.cpp:3279
 #, kde-kuit-format
@@ -10720,11 +10743,10 @@ msgid "Delete analysis"
 msgstr "Suprimeix anàlisi"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:263
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the layout."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
-msgstr "Suprimeix la disposició."
+msgstr "Suprimeix el/s conjunt/s de dades."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-format
@@ -10736,6 +10758,8 @@ msgstr "Exporta anàlisi…"
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr ""
+"Obre una finestra de diàleg de fitxer per a exportar/desar les dades "
+"d'anàlisi."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:266
 #, kde-format
@@ -10747,6 +10771,8 @@ msgstr "Importa anàlisi…"
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr ""
+"Obre una finestra de diàleg de fitxer per a importar/carregar les dades "
+"d'anàlisi."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:319
 #: src/mltcontroller/clippropertiescontroller.cpp:577
@@ -10954,7 +10980,7 @@ msgstr "Informació del fitxer"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
-msgstr ""
+msgstr "Mostra informació detallada quant al fitxer."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
@@ -10968,7 +10994,7 @@ msgstr "Propietats"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
-msgstr ""
+msgstr "Mostra informació detallada quant a les dades/còdec de vídeo."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1012
 #, kde-format
@@ -10979,7 +11005,7 @@ msgstr "Propietats de l'àudio"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
-msgstr ""
+msgstr "Mostra informació detallada quant als fluxos/dades/còdec d'àudio."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1015
@@ -10994,11 +11020,10 @@ msgid "Analysis"
 msgstr "Anàlisi"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1018
-#, fuzzy, kde-kuit-format
-#| msgid "Analysis data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
-msgstr "Anàlisi de dades"
+msgstr "Mostra les dades de l'anàlisi."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1277
 #, kde-format
@@ -11231,6 +11256,8 @@ msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
 msgstr ""
+"Obre la llista d'opcions del monitor de projecte/clips (p. ex. volum "
+"d'àudio, mida del monitor)."
 
 #: src/monitor/monitor.cpp:357
 #, kde-format
@@ -11480,6 +11507,7 @@ msgstr "Mostra/oculta el mode d'edició"
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
+"Commuta el mode d'edició (i la visualització de les nanses dels objectes)."
 
 #: src/monitor/monitormanager.cpp:564
 #, kde-format
@@ -12430,14 +12458,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "S'ha produït un error en copiar els fitxers: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"No s'ha pogut obrir el fitxer d'arxiu:\n"
-" %1"
+msgstr "No s'ha pogut obrir el fitxer d'arxiu %1"
 
 #: src/project/dialogs/archivewidget.cpp:1125
 #, kde-format
@@ -12454,16 +12477,14 @@ msgstr ""
 "%1"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "Unknown Error"
-msgstr "Desconegut"
+msgstr "Error desconegut"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "There was an error while copying the files: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "S'ha produït un error en copiar els fitxers: %1"
+msgstr "S'ha produït un error en arxivar el projecte: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1201
 #, kde-format
@@ -13218,6 +13239,8 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
+"Crea marcadors a la línia de temps a partir dels codis de temps seleccionats "
+"(no importa si també se selecciona altre text)."
 
 #: src/project/notesplugin.cpp:74
 #, kde-format
@@ -15698,10 +15721,7 @@ msgid "Unselect all"
 msgstr "Desselecciona-ho tot"
 
 #: src/titler/titlewidget.cpp:374
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "When selected, a click on an asset in the timeline selects the asset (e."
-#| "g. clip, composition)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "

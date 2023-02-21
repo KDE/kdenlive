@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:56+0000\n"
-"PO-Revision-Date: 2023-02-17 10:58+0100\n"
+"PO-Revision-Date: 2023-02-20 12:51+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -3252,6 +3252,8 @@ msgid ""
 "Toggles the effect stack to be enabled or disabled. Useful to see the "
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
+"Schakelt de effectstapel in of uit. Nuttig om het verschil te zien tussen "
+"het origineel en bewerkte of schoonmaken versnellen."
 
 #: src/assets/assetpanel.cpp:115
 #, kde-format
@@ -3264,8 +3266,7 @@ msgid "Hide keyframes in timeline"
 msgstr "Keyframes verbergen in tijdsbalk"
 
 #: src/assets/assetpanel.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
@@ -3470,11 +3471,10 @@ msgid "Delete preset"
 msgstr "Voor-instelling verwijderen"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the selected speech model"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "Het geselecteerde spraakmodel verwijderen"
+msgstr "Verwijdert de nu geselecteerde voorinstelling."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -3828,6 +3828,8 @@ msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
 msgstr ""
+"Opent een lijst met verdere acties voor beheren van keyframes (bijvoorbeeld: "
+"kopiëren naar en plakken van keyframes uit klembord)."
 
 #: src/assets/view/widgets/keyframewidget.cpp:243
 #: src/assets/view/widgets/keyframewidget.cpp:295
@@ -3984,8 +3986,7 @@ msgid "Unmute track"
 msgstr "Dempen van track opheffen"
 
 #: src/audiomixer/mixerwidget.cpp:250
-#, fuzzy, kde-kuit-format
-#| msgid "Mutes/un-mutes the audio track."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Dempt/heft op de geluidstrack."
@@ -4168,6 +4169,8 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
+"Opent een venster om de project-bin te configureren (bijv. weergavemodus, "
+"sorteren, waardering tonen)."
 
 #: src/bin/bin.cpp:1332
 #, kde-format
@@ -4419,10 +4422,7 @@ msgid "Delete Clip"
 msgstr "Verwijder clip"
 
 #: src/bin/bin.cpp:2446 src/bin/bin.cpp:2458
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
@@ -7950,12 +7950,10 @@ msgid "Show Keyframes"
 msgstr "Keyframes tonen"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:99
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Moves the playhead to the next keyframe to the left."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
-msgstr "Verplaatst de afspeelkop naar het volgende keyframe links."
+msgstr "Zet het tonen van de keyframe-liniaal aan."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
@@ -7968,15 +7966,14 @@ msgid "Enable Effect"
 msgstr "Effect inschakelen"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:108
-#, fuzzy, kde-kuit-format
-#| msgid "Enables the effect. Useful to compare before and after settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
-msgstr "Schakelt het effect in. Nuttig om te vergelijken voor en na instellen."
+msgstr ""
+"Schakelt het effect uit. Nuttig om te vergelijken voor en na instellen."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
-#, fuzzy, kde-kuit-format
-#| msgid "Enables the effect. Useful to compare before and after settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Schakelt het effect in. Nuttig om te vergelijken voor en na instellen."
@@ -8026,11 +8023,10 @@ msgid "Use effect zone"
 msgstr "Effect van zone gebruiken"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
-msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
+msgstr "Schakelt het tonen van de effectzone om."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
@@ -8691,12 +8687,10 @@ msgid "Add Clip to Project"
 msgstr "Clip aan project toevoegen"
 
 #: src/library/librarywidget.cpp:222
-#, fuzzy, kde-kuit-format
-#| msgid "This will remove the selected clip from this project"
-#| msgid_plural "This will remove the selected clips from this project"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
-msgstr "De gemarkeerde clip zal verwijderd worden van het project"
+msgstr "Voegt de geselecteerde bibliotheekclip toe aan de project-bin."
 
 #: src/library/librarywidget.cpp:225
 #, kde-format
@@ -8704,15 +8698,10 @@ msgid "Delete Clip from Library"
 msgstr "Clip uit bibliotheek verwijderen"
 
 #: src/library/librarywidget.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
-msgstr ""
-"Verwijdert de nu geselecteerde clips uit de project-bin en ook uit de "
-"tijdlijn."
+msgstr "Verwijdert de nu geselecteerde bibliotheek-clip uit de bibliotheek."
 
 #: src/library/librarywidget.cpp:229
 #, kde-format
@@ -8720,11 +8709,10 @@ msgid "Create Library Folder"
 msgstr "Bibliotheekmap aanmaken"
 
 #: src/library/librarywidget.cpp:230
-#, fuzzy, kde-kuit-format
-#| msgid "Enter a name for the clip in Library"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new folder in the library."
-msgstr "Een naam voor de clip in de bibliotheek invoeren"
+msgstr "Maakt een nieuwe map in de bibliotheek."
 
 #: src/library/librarywidget.cpp:232
 #, kde-format
@@ -9159,8 +9147,7 @@ msgid "Audio Mixer"
 msgstr "Audiomixer"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the audio mixer panel/widget."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Schakelt het paneel/widget om van de geluidsmixer."
@@ -9337,9 +9324,7 @@ msgid "Use Timeline Zone for Insert"
 msgstr "Tijdlijnzone gebruiken voor invoegen"
 
 #: src/mainwindow.cpp:1124
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Toggles between using the timeline zone for inserting (on) or not (off)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
@@ -9387,12 +9372,10 @@ msgid "Edit Subtitle Tool"
 msgstr "Hulpmiddel voor ondertitels bewerken"
 
 #: src/mainwindow.cpp:1193
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
-msgstr "Werkt het tonen van de ondertitel bij in de tijdlijn."
+msgstr "Schakelt de ondertiteltrack in de tijdlijn om."
 
 #: src/mainwindow.cpp:1200 src/titler/titlewidget.cpp:370
 #: src/titler/titlewidget.cpp:373
@@ -9478,13 +9461,14 @@ msgid "Show Video Thumbnails"
 msgstr "Video miniaturen tonen"
 
 #: src/mainwindow.cpp:1269
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of video thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
+msgstr ""
+"Schakelt het tonen video-miniaturen om voor de clips op de tijdlijn "
+"(standaard is aan)."
 
 #: src/mainwindow.cpp:1275
 #, kde-format
@@ -9492,13 +9476,14 @@ msgid "Show Audio Thumbnails"
 msgstr "Geluiddsminiaturen tonen"
 
 #: src/mainwindow.cpp:1276
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
+msgstr ""
+"Schakelt het tonen audio-miniaturen om voor de clips op de tijdlijn "
+"(standaard is aan)."
 
 #: src/mainwindow.cpp:1282
 #, kde-format
@@ -9524,11 +9509,10 @@ msgid "Show Color Tags in Timeline"
 msgstr "Kleurentags in tijdlijn tonen"
 
 #: src/mainwindow.cpp:1296
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
-msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
+msgstr "Schakelt het tonen van cliptags om in de tijdlijn (standaard is aan)."
 
 #: src/mainwindow.cpp:1302
 #, kde-format
@@ -9727,15 +9711,10 @@ msgid "Insert Zone in Project Bin"
 msgstr "Zone invoegen in project-bin"
 
 #: src/mainwindow.cpp:1554
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
-msgstr ""
-"Verwijdert de nu geselecteerde clips uit de project-bin en ook uit de "
-"tijdlijn."
+msgstr "Maakt een nieuwe clip aan in de project-bin uit de gedefinieerde zone."
 
 #: src/mainwindow.cpp:1555
 #, kde-format
@@ -9867,11 +9846,10 @@ msgid "Remove All Preview Zones"
 msgstr "Alle voorbeeldzones verwijderen"
 
 #: src/mainwindow.cpp:1600
-#, fuzzy, kde-kuit-format
-#| msgid "Remove All Preview Zones"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Alle voorbeeldzones verwijderen"
+msgstr "Alle voorbeeldweergavezones verwijderen"
 
 #: src/mainwindow.cpp:1601
 #, kde-format
@@ -10683,11 +10661,10 @@ msgid "Delete analysis"
 msgstr "Analyse verwijderen"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:263
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the layout."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
-msgstr "Indeling verwijderen."
+msgstr "Verwijdert de dataset(s)."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-format
@@ -10928,11 +10905,10 @@ msgid "Properties"
 msgstr "Eigenschappen"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1010
-#, fuzzy, kde-kuit-format
-#| msgid "Display a vectorscope of the video data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
-msgstr "Een vectorscope tonen van de video data"
+msgstr "Toont gedetailleerde informatie over de gegevens/codec."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1012
 #, kde-format
@@ -10958,11 +10934,10 @@ msgid "Analysis"
 msgstr "Analyse"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1018
-#, fuzzy, kde-kuit-format
-#| msgid "Delete analysis data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
-msgstr "Analysegegevens verwijderen"
+msgstr "Toont analysegegevens."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1277
 #, kde-format
@@ -12381,14 +12356,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "Er is een fout opgetreden bij het kopieren van de bestanden: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"Kan het archief-bestand:\n"
-" %1 niet openen"
+msgstr "Kan archief-bestand %1 niet openen"
 
 #: src/project/dialogs/archivewidget.cpp:1125
 #, kde-format
@@ -12405,16 +12375,14 @@ msgstr ""
 "%1"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "Unknown Error"
-msgstr "Onbekend"
+msgstr "Onbekende fout"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "There was an error while copying the files: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "Er is een fout opgetreden bij het kopieren van de bestanden: %1"
+msgstr "Er is een fout opgetreden bij het archiveren van het project: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1201
 #, kde-format
@@ -15616,10 +15584,7 @@ msgid "Unselect all"
 msgstr "Alles deselecteren"
 
 #: src/titler/titlewidget.cpp:374
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "When selected, a click on an asset in the timeline selects the asset (e."
-#| "g. clip, composition)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
