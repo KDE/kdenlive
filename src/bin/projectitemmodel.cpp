@@ -1194,7 +1194,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
                         trac->set("kdenlive:clip_type", ClipType::Timeline);
                         trac->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
-                        std::shared_ptr<Mlt::Producer> prod2(trac->cut());
+                        std::shared_ptr<Mlt::Producer> prod2(new Mlt::Producer(trac->get_producer()));
 
                         prod2->set("kdenlive:id", id);
                         prod2->set("kdenlive:uuid", uuid.toUtf8().constData());

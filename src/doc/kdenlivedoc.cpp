@@ -1972,6 +1972,9 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
     case CacheThumbs:
         basePath.append(QStringLiteral("/videothumbs"));
         break;
+    case CacheSequence:
+        basePath.append(QStringLiteral("/sequences"));
+        break;
     default:
         break;
     }

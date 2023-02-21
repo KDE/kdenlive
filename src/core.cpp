@@ -790,7 +790,7 @@ int Core::getItemTrack(const ObjectId &id)
 
 void Core::refreshProjectItem(const ObjectId &id)
 {
-    if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (id.first) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineMix:

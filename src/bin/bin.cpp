@@ -5597,7 +5597,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 
 void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shared_ptr<Mlt::Producer> prod)
 {
-    if (m_openedPlaylists.contains(uuid)) {
+    if (m_openedPlaylists.contains(uuid) && m_doc->isModified()) {
         const QString binId = m_openedPlaylists.value(uuid);
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
         Q_ASSERT(clip != nullptr);
@@ -5617,7 +5617,8 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
         }
         // properties.insert(QStringLiteral("kdenlive:thumbnailFrame"), QString::number(pos));
         clip->setProperties(properties);
-        // ThumbnailCache::get()->invalidateThumbsForClip(binId);
+        // Reset thumbs producer
+        clip->resetSequenceThumbnails();
         // ClipLoadTask::start({ObjectType::BinClip, binId.toInt()}, QDomElement(), true, -1, -1, this);
         clip->reloadTimeline();
     }

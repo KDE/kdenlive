@@ -2599,7 +2599,7 @@ void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
     if (producer) {
         m_markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
     } else {
-        m_markerModel = nullptr;
+        m_markerModel.reset();
     }
     m_glMonitor->setProducer(std::move(producer), isActive(), pos);
 }

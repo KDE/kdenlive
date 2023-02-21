@@ -386,6 +386,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (!quit && !qApp->isSavingSession() && m_project) {
         Q_EMIT pCore->window()->clearAssetPanel();
         pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
         delete m_project;
         m_project = nullptr;
     }
@@ -763,8 +764,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt(), true,
                         m_project->getDocumentProperty(QStringLiteral("previewchunks")), m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")),
                         documentDate, m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
+        KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
         delete m_progressDialog;
         m_progressDialog = nullptr;
+        // Open default blank document
+        newFile(false);
         return;
     }
 
@@ -777,7 +781,6 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
             openTimeline(binId, uuid);
         }
     }
-
     // Raise last active timeline
     QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
     if (!activeUuid.isNull()) {
@@ -785,8 +788,21 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
     if (!activeUuid.isNull()) {
         const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
+        if (binId.isEmpty()) {
+            if (pCore->projectItemModel()->sequenceCount() == 0) {
+                // Something is broken here, abort
+                KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
+                delete m_progressDialog;
+                m_progressDialog = nullptr;
+                // Open default blank document
+                newFile(false);
+                return;
+            }
+        }
         if (!binId.isEmpty()) {
             openTimeline(binId, activeUuid);
+        } else {
+            qDebug() << ":::::::::\n\nNO BINID FOR TIMELINE\n\n:::::::::::::";
         }
     }
     pCore->window()->connectDocument();
@@ -1566,7 +1582,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
             clip->setProperties(properties, true);
         });
-        clip->setProducer(prod);
+        clip->setProducer(prod, false, false);
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
         }
@@ -1608,9 +1624,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
 
-        clip->setProducer(prod);
-        //  QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
-        //  pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
+        clip->setProducer(prod, false, false);
+        //   QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
+        //   pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timeline->tractor()->get_service(), 0);
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
         }

@@ -112,6 +112,7 @@ void TimelineTabs::connectCurrent(int ix)
     }
     if (ix < 0 || ix >= count()) {
         m_activeTimeline = nullptr;
+        qDebug() << "==== ABORTING NO TIMELINE AVAILABLE";
         return;
     }
     m_activeTimeline = static_cast<TimelineWidget *>(widget(ix));
