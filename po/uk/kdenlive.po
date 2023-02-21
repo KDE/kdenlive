@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:56+0000\n"
-"PO-Revision-Date: 2023-02-17 09:02+0200\n"
+"PO-Revision-Date: 2023-02-20 16:22+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -3259,6 +3259,8 @@ msgid ""
 "Toggles the effect stack to be enabled or disabled. Useful to see the "
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
+"Вмикає або вимикає стос ефектів. Корисно для перегляду різниці між "
+"оригіналом і редагованими даними або для пришвидшення гортання."
 
 #: src/assets/assetpanel.cpp:115
 #, kde-format
@@ -3271,8 +3273,7 @@ msgid "Hide keyframes in timeline"
 msgstr "Приховати ключові кадри на монтажному столі"
 
 #: src/assets/assetpanel.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Вмикає або вимикає показ ключових кадрів на кліпі на монтажному столі"
@@ -3482,11 +3483,10 @@ msgid "Delete preset"
 msgstr "Вилучити шаблон"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the selected speech model"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "Вилучити позначену модель мовлення"
+msgstr "Вилучає поточний позначений набір налаштувань."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -3840,6 +3840,8 @@ msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
 msgstr ""
+"Відкриває список подальших дій з керування ключовими кадрами (наприклад, "
+"копіювання та вставлення ключових кадрів з буфера обміну даними)."
 
 #: src/assets/view/widgets/keyframewidget.cpp:243
 #: src/assets/view/widgets/keyframewidget.cpp:295
@@ -3996,8 +3998,7 @@ msgid "Unmute track"
 msgstr "Увімкнути звук на доріжці."
 
 #: src/audiomixer/mixerwidget.cpp:250
-#, fuzzy, kde-kuit-format
-#| msgid "Mutes/un-mutes the audio track."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Вимикає або вмикає звук на звуковій доріжці."
@@ -4183,6 +4184,8 @@ msgid ""
 "Opens a window to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
+"Відкриває вікно для налаштовування контейнера проєкту (наприклад, режиму "
+"перегляду, упорядкування, показу оцінок)."
 
 #: src/bin/bin.cpp:1332
 #, kde-format
@@ -4439,10 +4442,7 @@ msgid "Delete Clip"
 msgstr "Вилучити кліп"
 
 #: src/bin/bin.cpp:2446 src/bin/bin.cpp:2458
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected clips from the project bin and also from the "
@@ -4490,6 +4490,11 @@ msgid ""
 "of source types to select from.<nl/>Click on the media icon to open a window "
 "to select source files."
 msgstr ""
+"Основне вікно для додавання початкового матеріалу до вашого контейнера "
+"проєкту (відео, зображення, звук, титри, анімації).<nl/>Натисніть піктограму "
+"зі стрілкою вниз, щоб відкрити список типів початкових даних для вибору.<nl/"
+">Натисніть піктограму мультимедійних даних, щоб відкрити вікно для вибору "
+"файлів початкових даних."
 
 #: src/bin/bin.cpp:3333
 #, kde-format
@@ -4578,6 +4583,8 @@ msgid ""
 "Creates a folder in the current position in the project bin. Allows for "
 "better organization of source files. Folders can be nested."
 msgstr ""
+"Створює теку у поточній позиції у контейнері проєкту. Забезпечує кращу "
+"організацію файлів початкових даних. Теки можна вкладати одну в одну."
 
 #: src/bin/bin.cpp:3477 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
@@ -8019,12 +8026,10 @@ msgid "Show Keyframes"
 msgstr "Показати ключові кадри"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:99
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Moves the playhead to the next keyframe to the left."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
-msgstr "Пересуває позицію відтворення до наступного ключового кадру ліворуч."
+msgstr "Вмикає показ лінійки ключових кадрів."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
@@ -8037,15 +8042,13 @@ msgid "Enable Effect"
 msgstr "Увімкнути ефект"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:108
-#, fuzzy, kde-kuit-format
-#| msgid "Enables the effect. Useful to compare before and after settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
-msgstr "Вмикає ефект. Корисно для порівняння параметрів до і після зміни."
+msgstr "Вимикає ефект. Корисно для порівняння параметрів до і після зміни."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
-#, fuzzy, kde-kuit-format
-#| msgid "Enables the effect. Useful to compare before and after settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Вмикає ефект. Корисно для порівняння параметрів до і після зміни."
@@ -8093,11 +8096,10 @@ msgid "Use effect zone"
 msgstr "Використати ділянку ефекту"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
-msgstr "Вмикає або вимикає показ ключових кадрів на кліпі на монтажному столі"
+msgstr "Вмикає або вимикає показ зони ефектів."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
@@ -8765,13 +8767,10 @@ msgid "Add Clip to Project"
 msgstr "Додати кліп до проєкту"
 
 #: src/library/librarywidget.cpp:222
-#, fuzzy, kde-kuit-format
-#| msgid "This will remove the selected clip from this project"
-#| msgid_plural "This will remove the selected clips from this project"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
-msgstr ""
-"У результаті виконання цієї дії позначені кліпи буде вилучено з цього проєкту"
+msgstr "Додає позначений кліп бібліотеки до контейнера проєкту."
 
 #: src/library/librarywidget.cpp:225
 #, kde-format
@@ -8779,15 +8778,10 @@ msgid "Delete Clip from Library"
 msgstr "Вилучити кліп з бібліотеки"
 
 #: src/library/librarywidget.cpp:226
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
-msgstr ""
-"Вилучає поточні позначені кліпи з контейнера проєкту, а також з монтажного "
-"столу."
+msgstr "Вилучає поточний позначений кліп з бібліотеки."
 
 #: src/library/librarywidget.cpp:229
 #, kde-format
@@ -8795,11 +8789,10 @@ msgid "Create Library Folder"
 msgstr "Створити теку у бібліотеці"
 
 #: src/library/librarywidget.cpp:230
-#, fuzzy, kde-kuit-format
-#| msgid "Enter a name for the clip in Library"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new folder in the library."
-msgstr "Введіть назву кліпу у бібліотеці"
+msgstr "Створює теку у бібліотеці."
 
 #: src/library/librarywidget.cpp:232
 #, kde-format
@@ -8818,6 +8811,9 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to the library. Note "
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
+"Додає поточні позначені на монтажному столі кліпи до бібліотеки. Зауважте, "
+"що шляхи до файлів зображень, відео та звукових даних буде збережено як "
+"абсолютні."
 
 #: src/library/librarywidget.cpp:314
 #, kde-format
@@ -9238,8 +9234,7 @@ msgid "Audio Mixer"
 msgstr "Звуковий мікшер"
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the audio mixer panel/widget."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Вмикає або вимикає панель/віджет звукового мікшера."
@@ -9410,6 +9405,8 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
+"Перемикає режими між звичайним режимом, режимом перезапису та режимом "
+"вставлення. Визначає типову дію при обробці кліпів на монтажному столі."
 
 #: src/mainwindow.cpp:1123
 #, kde-format
@@ -9422,9 +9419,7 @@ msgid "Use Timeline Zone for Insert"
 msgstr "Скористатися ділянкою даних монтажного столу для вставлення"
 
 #: src/mainwindow.cpp:1124
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Toggles between using the timeline zone for inserting (on) or not (off)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
@@ -9473,12 +9468,10 @@ msgid "Edit Subtitle Tool"
 msgstr "Інструмент редагування субтитрів"
 
 #: src/mainwindow.cpp:1193
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid "Updates the subtitle display in the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
-msgstr "Оновлює показ субтитрів на монтажному столі."
+msgstr "Перемикає доріжку субтитрів на монтажному столі."
 
 #: src/mainwindow.cpp:1200 src/titler/titlewidget.cpp:370
 #: src/titler/titlewidget.cpp:373
@@ -9503,6 +9496,8 @@ msgid ""
 "When selected, click and drag the cursor in the timeline temporarily groups "
 "separate clips and creates or removes space between clips."
 msgstr ""
+"Якщо позначено, натискання і перетягування курсора на монтажному столі "
+"тимчасово групує окремі кліпи і створює або вилучає проміжки між кліпами."
 
 #: src/mainwindow.cpp:1216
 #, kde-format
@@ -9516,6 +9511,8 @@ msgid ""
 "When selected, drag the edges of a clip lengthens or shortens the clip and "
 "move adjacent clips back and forth while doing that."
 msgstr ""
+"Якщо позначено, перетягування країв кліпу подовжує або скорочує кліп та "
+"пересуває сусідні кліпи у відповідних напрямках під час виконання цієї дії."
 
 #. i18n("Roll Tool"), this);
 #.
@@ -9533,6 +9530,8 @@ msgid ""
 "When selected, drag a clip slips the clip beneath the given window back and "
 "forth."
 msgstr ""
+"Якщо позначено, перетягування кліпу призводить до ковзання кліпу вказаним "
+"вікном у відповідному напрямку."
 
 #: src/mainwindow.cpp:1233
 #, kde-format
@@ -9556,6 +9555,8 @@ msgid ""
 "Creates a same-track transition between the selected clip and the adjacent "
 "one closest to the playhead."
 msgstr ""
+"Створює перехід на одній доріжці між позначеним кліпом і сусіднім найближчим "
+"до позиції відтворення кліпом."
 
 #: src/mainwindow.cpp:1268
 #, kde-format
@@ -9563,13 +9564,14 @@ msgid "Show Video Thumbnails"
 msgstr "Показувати мініатюри відео"
 
 #: src/mainwindow.cpp:1269
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of video thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "Вмикає або вимикає показ ключових кадрів на кліпі на монтажному столі"
+msgstr ""
+"Вмикає або вимикає показ мініатюр відео для кліпів на монтажному столі "
+"(типово увімкнено)."
 
 #: src/mainwindow.cpp:1275
 #, kde-format
@@ -9577,13 +9579,14 @@ msgid "Show Audio Thumbnails"
 msgstr "Показувати мініатюри звуку"
 
 #: src/mainwindow.cpp:1276
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "Вмикає або вимикає показ ключових кадрів на кліпі на монтажному столі"
+msgstr ""
+"Вмикає або вимикає показ мініатюр звукових даних для кліпів на монтажному "
+"столі (типово увімкнено)"
 
 #: src/mainwindow.cpp:1282
 #, kde-format
@@ -9602,6 +9605,8 @@ msgid ""
 "Toggles the snap function (clips, playhead snaps to edges, markers, guides "
 "and others)."
 msgstr ""
+"Вмикає або вимикає функцію прилипання (кліпи, позиція відтворення прилипає "
+"до країв, позначок, напрямних та інших об'єктів)."
 
 #: src/mainwindow.cpp:1295
 #, kde-format
@@ -9609,11 +9614,11 @@ msgid "Show Color Tags in Timeline"
 msgstr "Показувати кольорові мітки на монтажному столі"
 
 #: src/mainwindow.cpp:1296
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the display of keyframes in the clip on the timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
-msgstr "Вмикає або вимикає показ ключових кадрів на кліпі на монтажному столі"
+msgstr ""
+"Вмикає або вимикає показ міток кліпів на монтажному столі (типово увімкнено)."
 
 #: src/mainwindow.cpp:1302
 #, kde-format
@@ -9626,6 +9631,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
+"Коригує рівень масштабування так, щоб увесь проєкт вмістився до вікна "
+"монтажного столу."
 
 #: src/mainwindow.cpp:1328
 #, kde-format
@@ -9814,15 +9821,10 @@ msgid "Insert Zone in Project Bin"
 msgstr "Вставити ділянку до пункту проєкту"
 
 #: src/mainwindow.cpp:1554
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Deletes the currently selected clips from the project bin and also from "
-#| "the timeline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
-msgstr ""
-"Вилучає поточні позначені кліпи з контейнера проєкту, а також з монтажного "
-"столу."
+msgstr "Створює кліп у контейнері проєкту на основі визначеної зони."
 
 #: src/mainwindow.cpp:1555
 #, kde-format
@@ -9882,6 +9884,9 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 msgstr ""
+"При клацанні зону кліпу, який позначено на панелі контейнера проєкту, буде "
+"вставлено у позиції відтворення активного монтажного столу. Кліпи у позиції "
+"вставлення буде обрізано і перезаписано."
 
 #: src/mainwindow.cpp:1583
 #, kde-format
@@ -9896,6 +9901,9 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and shifted to the right."
 msgstr ""
+"При клацанні зону кліпу, який позначено на панелі контейнера проєкту, буде "
+"вставлено у позиції відтворення активного монтажного столу. Кліпи у позиції "
+"вставлення буде посунуто праворуч."
 
 #: src/mainwindow.cpp:1586
 #, kde-format
@@ -9909,6 +9917,8 @@ msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "are shifted left."
 msgstr ""
+"Клацніть, щоб вилучити зону монтажного столу зі столу. Усі кліпи праворуч "
+"буде посунуто ліворуч."
 
 #: src/mainwindow.cpp:1589
 #, kde-format
@@ -9922,6 +9932,8 @@ msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "stay in position."
 msgstr ""
+"Клацніть, щоб вилучити зону монтажного столу зі столу. Усі кліпи праворуч "
+"лишаться на своїх місцях."
 
 #: src/mainwindow.cpp:1592
 #, kde-format
@@ -9934,6 +9946,8 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
+"Додати поточну визначену на монтажному столі або позначену зону як зону "
+"обробки попереднього перегляду"
 
 #: src/mainwindow.cpp:1595
 #, kde-format
@@ -9947,6 +9961,9 @@ msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave holes in the preview render zones."
 msgstr ""
+"Вилучає поточну визначену на монтажному столі або позначену зону з переліку "
+"обробки попереднього перегляду. Зауважте, що це може призвести до появи "
+"прогалин у зонах обробки попереднього перегляду."
 
 #: src/mainwindow.cpp:1598
 #, kde-format
@@ -9954,11 +9971,10 @@ msgid "Remove All Preview Zones"
 msgstr "Вилучити усі зони перегляду"
 
 #: src/mainwindow.cpp:1600
-#, fuzzy, kde-kuit-format
-#| msgid "Remove All Preview Zones"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Вилучити усі зони перегляду"
+msgstr "Вилучити усі зони обробки попереднього перегляду."
 
 #: src/mainwindow.cpp:1601
 #, kde-format
@@ -9973,6 +9989,11 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
+"Клацніть, щоб розпочати обробку усіх зон попереднього перегляду "
+"(рекомендовано для складних областей або областей із багатьма ефектами).<nl/"
+">Натисніть на кнопці з піктограмою стрілки вниз, щоб отримати список "
+"варіантів (наприклад, додати зону обробки попереднього перегляду, вилучити "
+"усі зони)."
 
 #: src/mainwindow.cpp:1605
 #, kde-format
@@ -10511,7 +10532,7 @@ msgstr "Масштаб: %1/%2"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Slider to adjust the zoom level."
-msgstr ""
+msgstr "Повзунок для коригування рівня масштабування."
 
 #: src/mainwindow.cpp:3279
 #, kde-kuit-format
@@ -10773,11 +10794,10 @@ msgid "Delete analysis"
 msgstr "Вилучити дані аналізу"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:263
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the layout."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
-msgstr "Вилучити компонування."
+msgstr "Вилучає набори даних."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-format
@@ -10789,6 +10809,8 @@ msgstr "Експортувати дані аналізу…"
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr ""
+"Відкриває діалогове вікно вибору файлів для експортування або збереження "
+"даних аналізу."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:266
 #, kde-format
@@ -10800,6 +10822,8 @@ msgstr "Імпортувати дані аналізу…"
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr ""
+"Відкриває діалогове вікно вибору файлів для імпортування або завантаження "
+"даних аналізу."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:319
 #: src/mltcontroller/clippropertiescontroller.cpp:577
@@ -11007,7 +11031,7 @@ msgstr "Відомості щодо файла"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
-msgstr ""
+msgstr "Показує докладні відомості щодо файла."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
@@ -11018,11 +11042,10 @@ msgid "Properties"
 msgstr "Властивості"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1010
-#, fuzzy, kde-kuit-format
-#| msgid "Display a vectorscope of the video data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
-msgstr "Показ векторскопа відеоданих"
+msgstr "Показує докладні відомості щодо даних/кодеку відео."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1012
 #, kde-format
@@ -11033,7 +11056,7 @@ msgstr "Властивості звуку"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
-msgstr ""
+msgstr "Показує докладні відомості щодо звукових потоків, даних та кодека."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1015
@@ -11048,11 +11071,10 @@ msgid "Analysis"
 msgstr "Аналіз"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1018
-#, fuzzy, kde-kuit-format
-#| msgid "Analysis data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
-msgstr "Дані аналізу"
+msgstr "Показує аналітичні дані."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1277
 #, kde-format
@@ -11285,6 +11307,8 @@ msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
 msgstr ""
+"Відкриває список параметрів монітора проєкту або кліпу (наприклад, гучності "
+"звуку, розмірів монітора)."
 
 #: src/monitor/monitor.cpp:357
 #, kde-format
@@ -11536,6 +11560,7 @@ msgstr "Показати/Сховати режим редагування"
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
+"Вмикає або вимикає режим редагування (і показ елементів керування об'єктами)."
 
 #: src/monitor/monitormanager.cpp:564
 #, kde-format
@@ -12491,14 +12516,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "Під час копіювання файлів сталася помилка: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"Не вдалося відкрити файл архіву:\n"
-" %1"
+msgstr "Не вдалося відкрити файл архіву %1"
 
 #: src/project/dialogs/archivewidget.cpp:1125
 #, kde-format
@@ -12515,16 +12535,14 @@ msgstr ""
 "%1"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "Unknown Error"
-msgstr "Невідомий"
+msgstr "Невідома помилка"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "There was an error while copying the files: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "Під час копіювання файлів сталася помилка: %1"
+msgstr "Під час архівування проєкту сталася помилка: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1201
 #, kde-format
@@ -13286,6 +13304,8 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
+"Створює позначки на монтажному столі на основі вибраних часових кодів (немає "
+"значення, чи також позначено якийсь інший текст)."
 
 #: src/project/notesplugin.cpp:74
 #, kde-format
@@ -15761,10 +15781,7 @@ msgid "Unselect all"
 msgstr "Зняти позначення з усього"
 
 #: src/titler/titlewidget.cpp:374
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "When selected, a click on an asset in the timeline selects the asset (e."
-#| "g. clip, composition)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "

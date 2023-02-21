@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-20 00:56+0000\n"
-"PO-Revision-Date: 2023-02-11 06:24+0100\n"
+"PO-Revision-Date: 2023-02-20 06:48+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2508,7 +2508,7 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:22
 #, kde-format
 msgid "Utility"
-msgstr ""
+msgstr "ხელსაწყო"
 
 #: data/kdenliveeffectscategory.rc:26
 #, kde-format
@@ -3338,11 +3338,10 @@ msgid "Delete preset"
 msgstr "პრესეტის წაშლა"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Delete selected text"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "მონიშნული ტექსტის წაშლა"
+msgstr "მონიშნული პრესეტის წაშლა."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -4419,8 +4418,8 @@ msgstr "მიმდევრობა %1"
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "კლიპის გადატანა"
+msgstr[1] "კლიპების გადატანა"
 
 #: src/bin/bin.cpp:3595
 #, kde-format
@@ -8340,11 +8339,10 @@ msgid "Add Clip to Project"
 msgstr ""
 
 #: src/library/librarywidget.cpp:222
-#, fuzzy, kde-kuit-format
-#| msgid "Add stabilized clip to project"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
-msgstr "სტაბილიზებული კლიპის მიმდინარე პროექტში დამატება"
+msgstr "მიმდინარე ბიბლიოთეკის კლიპის პროექტში ჩამატება."
 
 #: src/library/librarywidget.cpp:225
 #, kde-format
@@ -8481,7 +8479,7 @@ msgstr ""
 #: src/main.cpp:126
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
-msgstr ""
+msgstr "Jean-Baptiste Mardelle"
 
 #: src/main.cpp:126
 #, kde-format
@@ -8787,8 +8785,7 @@ msgid "Audio Mixer"
 msgstr ""
 
 #: src/mainwindow.cpp:458
-#, fuzzy, kde-kuit-format
-#| msgid "Toggles the audio mixer panel/widget."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "აუდიოს მიქსერის პანელის/ვიჯეტის გადართვა."
@@ -8804,7 +8801,7 @@ msgstr ""
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
 msgid "Transitions"
-msgstr ""
+msgstr "გადასვლები"
 
 #. i18n("Favorite Effects"));
 #: src/mainwindow.cpp:515 src/mainwindow.cpp:527 src/mainwindow.cpp:534
@@ -8890,7 +8887,7 @@ msgstr ""
 #: src/mainwindow.cpp:761
 #, kde-format
 msgid "Automatic Preview"
-msgstr ""
+msgstr "ავტომატური მინიატურა"
 
 #: src/mainwindow.cpp:947
 #, kde-format
@@ -8999,10 +8996,9 @@ msgid "Frames"
 msgstr "კადრები"
 
 #: src/mainwindow.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Edit subtitle"
+#, kde-format
 msgid "Edit Subtitle Tool"
-msgstr "სუბტიტრის ჩასწორება"
+msgstr "სუბტიტრების ჩასასწორებელი პროგრამა"
 
 #: src/mainwindow.cpp:1193
 #, kde-kuit-format
@@ -10251,11 +10247,10 @@ msgid "Delete analysis"
 msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:263
-#, fuzzy, kde-kuit-format
-#| msgid "Delete the layout."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
-msgstr "განლაგების წაშლა."
+msgstr "მონაცემების სეტ(ებ)-ის წაშლა."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-format
@@ -11888,10 +11883,9 @@ msgid "There was an error while copying the files: %1"
 msgstr ""
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid "Cannot open file"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr "ფაილის გახსნის შეცდომა"
+msgstr "არქივის ფაილის გახსნის შეცდომა: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1125
 #, kde-format
@@ -11906,16 +11900,14 @@ msgid ""
 msgstr ""
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "Unknown Error"
-msgstr "უცნობი"
+msgstr "უცნობი შეცდომა"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "There was a problem sharing the document: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "პრობლემა დოკუმენტის გაზიარებისას: %1"
+msgstr "შეცდომა პროექტის არქივირებისას: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1201
 #, kde-format
