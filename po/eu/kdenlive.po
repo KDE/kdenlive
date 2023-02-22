@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-20 00:56+0000\n"
+"POT-Creation-Date: 2023-02-22 00:57+0000\n"
 "PO-Revision-Date: 2023-02-17 06:26+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -4745,7 +4745,7 @@ msgstr "Ezin izan da klipa aurkitu markatzailea gehitzeko"
 msgid "Could not find master clip"
 msgstr "Ezin da klip maisua aurkitu"
 
-#: src/bin/bin.cpp:5372 src/bin/clipcreator.cpp:241
+#: src/bin/bin.cpp:5372 src/bin/clipcreator.cpp:245
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4823,52 +4823,52 @@ msgstr "Sortu izenburu klipa"
 msgid "Create color clip"
 msgstr "Sortu kolore klipa"
 
-#: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
-#: src/bin/clipcreator.cpp:155 src/bin/clipcreator.cpp:157
-#: src/project/projectmanager.cpp:1189 src/project/projectmanager.cpp:1191
+#: src/bin/clipcreator.cpp:123 src/bin/clipcreator.cpp:125
+#: src/bin/clipcreator.cpp:159 src/bin/clipcreator.cpp:161
+#: src/project/projectmanager.cpp:1205 src/project/projectmanager.cpp:1207
 #, kde-format
 msgid "Sequences"
 msgstr "Sekuentziak"
 
-#: src/bin/clipcreator.cpp:136 src/bin/clipcreator.cpp:166
+#: src/bin/clipcreator.cpp:140 src/bin/clipcreator.cpp:170
 #, kde-format
 msgid "Create sequence"
 msgstr "Sortu sekuentzia"
 
-#: src/bin/clipcreator.cpp:176
+#: src/bin/clipcreator.cpp:180
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr "Ezin duzu proiektu bat bere barruan gehitu."
 
-#: src/bin/clipcreator.cpp:176
+#: src/bin/clipcreator.cpp:180
 #, kde-format
 msgid "Cannot create clip"
 msgstr "Ezin da klipa sortu."
 
-#: src/bin/clipcreator.cpp:256
+#: src/bin/clipcreator.cpp:260
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Sortu Irudi-segida klipa"
 
-#: src/bin/clipcreator.cpp:288
+#: src/bin/clipcreator.cpp:292
 #, kde-format
 msgid "Create title template"
 msgstr "Sortu izenburu txantiloia"
 
-#: src/bin/clipcreator.cpp:312
+#: src/bin/clipcreator.cpp:316
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr "Honako klipak jadanik proiektuan txertatu dira. Bikoiztu nahi dituzu?"
 
-#: src/bin/clipcreator.cpp:335 src/core.cpp:901
-#: src/project/projectmanager.cpp:751
+#: src/bin/clipcreator.cpp:339 src/core.cpp:901
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipak kargatzen"
 
-#: src/bin/clipcreator.cpp:436
+#: src/bin/clipcreator.cpp:440
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -4881,17 +4881,17 @@ msgstr ""
 " Agian zure disko gogorrean kopiatu nahi duzu erabili aurretik.  Hala ere "
 "gehitu nahi duzu?"
 
-#: src/bin/clipcreator.cpp:440
+#: src/bin/clipcreator.cpp:444
 #, kde-format
 msgid "Removable device"
 msgstr "Gailu aldagarria"
 
-#: src/bin/clipcreator.cpp:462
+#: src/bin/clipcreator.cpp:466
 #, kde-format
 msgid "Loading done"
 msgstr "Kargatzea osatua"
 
-#: src/bin/clipcreator.cpp:474 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:478 src/dialogs/clipcreationdialog.cpp:552
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5128,20 +5128,20 @@ msgstr "Gehitu azpidatzia"
 msgid "Delete subtitle"
 msgstr "Ezabatu azpidatzia"
 
-#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:992
-#: src/doc/kdenlivedoc.cpp:2060 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1299
+#: src/bin/projectclip.cpp:178 src/doc/kdenlivedoc.cpp:992
+#: src/doc/kdenlivedoc.cpp:2063 src/project/dialogs/archivewidget.cpp:214
+#: src/project/projectmanager.cpp:1315
 #, kde-format
 msgid "Untitled"
 msgstr "Izengabea"
 
-#: src/bin/projectclip.cpp:500
+#: src/bin/projectclip.cpp:509
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:586
+#: src/bin/projectclip.cpp:595
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5150,7 +5150,7 @@ msgstr ""
 "Irudiaren tamaina 8 pixel baino txikiagoa d.\n"
 "Egoera hau ez da bateragarria gure bideo euskarriarekin."
 
-#: src/bin/projectclip.cpp:849
+#: src/bin/projectclip.cpp:881
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5159,27 +5159,27 @@ msgstr ""
 "Ezin dira metadatuak erauzi %1\n"
 "%2-tik"
 
-#: src/bin/projectclip.cpp:1065 src/jobs/cliploadtask.cpp:301
+#: src/bin/projectclip.cpp:1114 src/jobs/cliploadtask.cpp:301
 #, kde-format
 msgid "Invalid"
 msgstr "Baliogabea"
 
-#: src/bin/projectclip.cpp:1903
+#: src/bin/projectclip.cpp:1964
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Klipak dagoeneko analisi datuak dauzka %1"
 
-#: src/bin/projectclip.cpp:1904
+#: src/bin/projectclip.cpp:1965
 #, kde-format
 msgid "Merge"
 msgstr "Nahastu"
 
-#: src/bin/projectclip.cpp:2390
+#: src/bin/projectclip.cpp:2471
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2415
+#: src/bin/projectclip.cpp:2496
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"
@@ -5853,7 +5853,7 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1466
+#: src/project/projectmanager.cpp:1482
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4905
@@ -7517,7 +7517,8 @@ msgstr "Ondorengo iragazki/trantsizioak proiektutik ezabatu dira:"
 msgid "Invalid file path"
 msgstr "Fitxategi-bide baliogabea"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:702
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:703
+#: src/project/projectmanager.cpp:767 src/project/projectmanager.cpp:794
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Ezin da fitxategi akasduna berreskuratu."
@@ -7595,7 +7596,7 @@ msgstr ""
 "Zure proiektuaren fitxategia Kdenlive-ren azken bertsiora eguneratu da, "
 "baina ezin izan da %1 babes-kopia sortu. "
 
-#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1100
+#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1116
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Errorea proiektuaren karpeta mugitzerakoan: %1"
@@ -7718,13 +7719,13 @@ msgstr ""
 "Ez da zure %1 kliparentzako profilik aurkitu.\n"
 "Sortu eta aldatu profil berrira (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2099 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2102 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Gorria"
 
-#: src/doc/kdenlivedoc.cpp:2100 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2103 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7732,23 +7733,23 @@ msgstr "Gorria"
 msgid "Green"
 msgstr "Berdea"
 
-#: src/doc/kdenlivedoc.cpp:2101 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2104 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Urdina"
 
-#: src/doc/kdenlivedoc.cpp:2102 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2105 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Horia"
 
-#: src/doc/kdenlivedoc.cpp:2103
+#: src/doc/kdenlivedoc.cpp:2106
 #, kde-format
 msgid "Cyan"
 msgstr "Zian"
 
-#: src/doc/kdenlivedoc.cpp:2283
+#: src/doc/kdenlivedoc.cpp:2286
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr "Kategoria %1:%2:%3"
@@ -10324,12 +10325,12 @@ msgstr ""
 "Honek aldi-baterako fitxategi guztiak <br/><b>%1</b>(e)tik <b>%2</b>(e)ra "
 "mugituko ditu eta,<br/>gero proiektua birkargatu egingo da"
 
-#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:476
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:477
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ezin da eragiketa burutu, dokumentuaren id baliogabea: %1"
 
-#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:482
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:483
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ezin da eragiketa burutu, helburuko karpeta badago aurretik: %1"
@@ -12581,7 +12582,7 @@ msgstr ""
 "Markatzailearen fitxategia 1MB baina handiagoa da, ziur zaude inportatu nahi "
 "duzula?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1360
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1376
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -13196,7 +13197,7 @@ msgstr "Ireki Babes-kopia Fitxategia"
 msgid "Save changes to document?"
 msgstr "Gorde aldaketak dokumentuari?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1298
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1314
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13205,7 +13206,7 @@ msgstr ""
 "<shortcut>\"%1\"</shortcut>  proiektua aldatu da.\n"
 "Aldaketak gorde nahi dituzu?"
 
-#: src/project/projectmanager.cpp:466
+#: src/project/projectmanager.cpp:467
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13216,49 +13217,49 @@ msgstr ""
 "baterako fitxategiak gordetzeko. Honek aldi-baterako fitxategiak <b>%1</b>-"
 "tik <b>%2</b>-ra mugituko ditu eta proiektua birkargatu egingo da"
 
-#: src/project/projectmanager.cpp:505
+#: src/project/projectmanager.cpp:506
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Gorde Kopia"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Automatikoki gordetako fitxategia dago. Nahi duzu orain berreskuratu?"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid "File Recovery"
 msgstr "Fitxategi berreskuratzea"
 
-#: src/project/projectmanager.cpp:607 src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:608 src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Recover"
 msgstr "Berreskuratu"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:608
 #, kde-format
 msgid "Do not recover"
 msgstr "Ez berreskuratu"
 
-#: src/project/projectmanager.cpp:659
+#: src/project/projectmanager.cpp:660
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 fitxategia irekitzen"
 
-#: src/project/projectmanager.cpp:675
+#: src/project/projectmanager.cpp:676
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Proiektua Kargatzen"
 
-#: src/project/projectmanager.cpp:677
+#: src/project/projectmanager.cpp:678
 #, kde-format
 msgid "Loading project"
 msgstr "Proiektua kargatzen"
 
-#: src/project/projectmanager.cpp:690
+#: src/project/projectmanager.cpp:691
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13268,29 +13269,29 @@ msgstr ""
 "Ezin da proiektuaren fitxategia ireki. %1 errorea\n"
 "Babes-kopia fitxategi bat ireki nahi duzu?"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Error opening file"
 msgstr "Hutsegitea fitxategia irekitzerakoan"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Open Backup"
 msgstr " Ireki babeskopia"
 
-#: src/project/projectmanager.cpp:706
+#: src/project/projectmanager.cpp:707
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ezin izan du proiektuaren babeskopia fitxategia ireki."
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Zure proiektua eguneratua izan dan, hurrengo gordetzearekin batera babes-"
 "kopia sortuko da"
 
-#: src/project/projectmanager.cpp:725
+#: src/project/projectmanager.cpp:726
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13298,7 +13299,7 @@ msgstr ""
 "Zure proiektua irekitzean aldatu egin da, babes-kopia bat sortuko da "
 "hurrengo gordetzea burutzean"
 
-#: src/project/projectmanager.cpp:805
+#: src/project/projectmanager.cpp:821
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13307,12 +13308,12 @@ msgstr ""
 "Honek azken gordetzetik egin diren aldaketa guztiak ezabatuko ditu. Ziur "
 "zaude jarraitu nahi duzula?"
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Berrezarri gordetako azken bertsioa"
 
-#: src/project/projectmanager.cpp:886
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -13321,25 +13322,25 @@ msgstr ""
 "Proiektua hondatuta zegoen, ezin da babes-kopia egin. Mesedez, itxi eta "
 "ireki zure proiektuaren fitxategia azken babes-kopia berreskuratzeko."
 
-#: src/project/projectmanager.cpp:1078
+#: src/project/projectmanager.cpp:1094
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proiektuaren karpeta mugitzen"
 
-#: src/project/projectmanager.cpp:1140
+#: src/project/projectmanager.cpp:1156
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Proiektu fitxategia hondatuta dago (pistarik ez). Babes-kopia fitxategi bat "
 "bilatzen saiatu?"
 
-#: src/project/projectmanager.cpp:1168 src/project/projectmanager.cpp:1197
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1184 src/project/projectmanager.cpp:1213
+#: src/project/projectmanager.cpp:1216
 #, kde-format
 msgid "Sequence 1"
 msgstr "1 sekuentzia"
 
-#: src/project/projectmanager.cpp:1179
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13347,13 +13348,13 @@ msgstr ""
 "Proiektu fitxategia hondatuta dago - ezin izan da pistarik kargatu. Babes-"
 "kopia fitxategi bat bilatzen saiatu?"
 
-#: src/project/projectmanager.cpp:1304 src/project/projectmanager.cpp:1309
-#: src/project/projectmanager.cpp:1319 src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1325
+#: src/project/projectmanager.cpp:1335 src/project/projectmanager.cpp:1351
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proiektuaren profil aldaketa bertan behera"
 
-#: src/project/projectmanager.cpp:1451
+#: src/project/projectmanager.cpp:1467
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13362,12 +13363,12 @@ msgstr ""
 "%1 Irteerako fitxategia dagoeneko existitzen da.\n"
 " Gainidatzi nahi duzu?"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1492
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proiektuaren profila aldatu da"
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1537
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"

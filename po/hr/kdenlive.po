@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-20 00:56+0000\n"
+"POT-Creation-Date: 2023-02-22 00:57+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -4854,7 +4854,7 @@ msgstr "Ne mogu naći isječak za dodati marker"
 msgid "Could not find master clip"
 msgstr "Dodaj isječke"
 
-#: src/bin/bin.cpp:5372 src/bin/clipcreator.cpp:241
+#: src/bin/bin.cpp:5372 src/bin/clipcreator.cpp:245
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4940,42 +4940,42 @@ msgstr "Obriši vremenski isječak"
 msgid "Create color clip"
 msgstr "Isječak boje"
 
-#: src/bin/clipcreator.cpp:119 src/bin/clipcreator.cpp:121
-#: src/bin/clipcreator.cpp:155 src/bin/clipcreator.cpp:157
-#: src/project/projectmanager.cpp:1189 src/project/projectmanager.cpp:1191
+#: src/bin/clipcreator.cpp:123 src/bin/clipcreator.cpp:125
+#: src/bin/clipcreator.cpp:159 src/bin/clipcreator.cpp:161
+#: src/project/projectmanager.cpp:1205 src/project/projectmanager.cpp:1207
 #, fuzzy, kde-format
 msgid "Sequences"
 msgstr "Veličina slike"
 
-#: src/bin/clipcreator.cpp:136 src/bin/clipcreator.cpp:166
+#: src/bin/clipcreator.cpp:140 src/bin/clipcreator.cpp:170
 #, fuzzy, kde-format
 #| msgid "Center Frequency"
 msgid "Create sequence"
 msgstr "Centriraj frekvenciju"
 
-#: src/bin/clipcreator.cpp:176
+#: src/bin/clipcreator.cpp:180
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:176
+#: src/bin/clipcreator.cpp:180
 #, fuzzy, kde-format
 msgid "Cannot create clip"
 msgstr "Ne mogu naći isječak za izrezati"
 
-#: src/bin/clipcreator.cpp:256
+#: src/bin/clipcreator.cpp:260
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Create slideshow clip"
 msgstr "Isječak prikaza slajdova"
 
-#: src/bin/clipcreator.cpp:288
+#: src/bin/clipcreator.cpp:292
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create title template"
 msgstr "Kreiraj novi profil"
 
-#: src/bin/clipcreator.cpp:312
+#: src/bin/clipcreator.cpp:316
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -4987,13 +4987,13 @@ msgstr ""
 "Datoteka %1 već postoji.\n"
 "Želite li je prepisati?"
 
-#: src/bin/clipcreator.cpp:335 src/core.cpp:901
-#: src/project/projectmanager.cpp:751
+#: src/bin/clipcreator.cpp:339 src/core.cpp:901
+#: src/project/projectmanager.cpp:752
 #, fuzzy, kde-format
 msgid "Loading clips"
 msgstr "Učitaj projektne isječke"
 
-#: src/bin/clipcreator.cpp:436
+#: src/bin/clipcreator.cpp:440
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5002,18 +5002,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:440
+#: src/bin/clipcreator.cpp:444
 #, fuzzy, kde-format
 #| msgid "Mobile devices"
 msgid "Removable device"
 msgstr "Mobilni uređaji"
 
-#: src/bin/clipcreator.cpp:462
+#: src/bin/clipcreator.cpp:466
 #, fuzzy, kde-format
 msgid "Loading done"
 msgstr "Cijeli projekt"
 
-#: src/bin/clipcreator.cpp:474 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:478 src/dialogs/clipcreationdialog.cpp:552
 #, fuzzy, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5277,57 +5277,57 @@ msgstr "Dodaj vodić"
 msgid "Delete subtitle"
 msgstr "Obriši isječak"
 
-#: src/bin/projectclip.cpp:177 src/doc/kdenlivedoc.cpp:992
-#: src/doc/kdenlivedoc.cpp:2060 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1299
+#: src/bin/projectclip.cpp:178 src/doc/kdenlivedoc.cpp:992
+#: src/doc/kdenlivedoc.cpp:2063 src/project/dialogs/archivewidget.cpp:214
+#: src/project/projectmanager.cpp:1315
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naziva"
 
-#: src/bin/projectclip.cpp:500
+#: src/bin/projectclip.cpp:509
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "p"
 
-#: src/bin/projectclip.cpp:586
+#: src/bin/projectclip.cpp:595
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:849
+#: src/bin/projectclip.cpp:881
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1065 src/jobs/cliploadtask.cpp:301
+#: src/bin/projectclip.cpp:1114 src/jobs/cliploadtask.cpp:301
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Pogrešan isječak"
 
-#: src/bin/projectclip.cpp:1903
+#: src/bin/projectclip.cpp:1964
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1904
+#: src/bin/projectclip.cpp:1965
 #, kde-format
 msgid "Merge"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2390
+#: src/bin/projectclip.cpp:2471
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Dodaj novi efekt"
 
-#: src/bin/projectclip.cpp:2415
+#: src/bin/projectclip.cpp:2496
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Remove stream effect"
@@ -6028,7 +6028,7 @@ msgstr "Dodaj oznaku"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1466
+#: src/project/projectmanager.cpp:1482
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4905
@@ -7681,7 +7681,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "Pogrešan isječak"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:702
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:703
+#: src/project/projectmanager.cpp:767 src/project/projectmanager.cpp:794
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Could not recover corrupted file."
@@ -7753,7 +7754,7 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1100
+#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1116
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Error moving project folder: %1"
@@ -7871,13 +7872,13 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2099 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2102 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, fuzzy, kde-format
 msgid "Red"
 msgstr "Snimi"
 
-#: src/doc/kdenlivedoc.cpp:2100 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2103 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7885,23 +7886,23 @@ msgstr "Snimi"
 msgid "Green"
 msgstr "Zelena tinta"
 
-#: src/doc/kdenlivedoc.cpp:2101 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2104 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2102 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2105 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2103
+#: src/doc/kdenlivedoc.cpp:2106
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2283
+#: src/doc/kdenlivedoc.cpp:2286
 #, kde-format
 msgid "Category %1:%2:%3"
 msgstr ""
@@ -10604,12 +10605,12 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:476
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:477
 #, fuzzy, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Ne mogu umetnuti isječak na odabrano mjesto"
 
-#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:482
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:483
 #, fuzzy, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Ne mogu umetnuti isječak na odabrano mjesto"
@@ -12903,7 +12904,7 @@ msgstr "Uredi oznaku"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1360
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1376
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
@@ -13488,14 +13489,14 @@ msgstr "Luma datoteka"
 msgid "Save changes to document?"
 msgstr "Spremiti promjene u dokument ?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1298
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1314
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:466
+#: src/project/projectmanager.cpp:467
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13503,52 +13504,52 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:505
+#: src/project/projectmanager.cpp:506
 #, fuzzy, kde-format
 #| msgid "Save zone"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Spremi zonu"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:607
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Postoje automatski spremljene datoteke. Želite li ih sada vratiti?"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid "File Recovery"
 msgstr "Popravak datoteke"
 
-#: src/project/projectmanager.cpp:607 src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:608 src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Recover"
 msgstr "Oporavak"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:608
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "Nemoj oporaviti"
 
-#: src/project/projectmanager.cpp:659
+#: src/project/projectmanager.cpp:660
 #, fuzzy, kde-format
 msgid "Opening file %1"
 msgstr "Stvaranje završeno u %1"
 
-#: src/project/projectmanager.cpp:675
+#: src/project/projectmanager.cpp:676
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Cijeli projekt"
 
-#: src/project/projectmanager.cpp:677
+#: src/project/projectmanager.cpp:678
 #, fuzzy, kde-format
 msgid "Loading project"
 msgstr "Cijeli projekt"
 
-#: src/project/projectmanager.cpp:690
+#: src/project/projectmanager.cpp:691
 #, fuzzy, kde-format
 #| msgid "File %1 is not a Kdenlive project file."
 msgid ""
@@ -13557,82 +13558,82 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr "Datoteka %1 nije Kdenlive projekt"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, fuzzy, kde-format
 msgid "Error opening file"
 msgstr "Stvaranje završeno u %1"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Open Backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:706
+#: src/project/projectmanager.cpp:707
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Could not open the backup project file."
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:725
+#: src/project/projectmanager.cpp:726
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:805
+#: src/project/projectmanager.cpp:821
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:886
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1078
+#: src/project/projectmanager.cpp:1094
 #, fuzzy, kde-format
 #| msgid "Project folder"
 msgid "Moving project folder"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1140
+#: src/project/projectmanager.cpp:1156
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1168 src/project/projectmanager.cpp:1197
-#: src/project/projectmanager.cpp:1200
+#: src/project/projectmanager.cpp:1184 src/project/projectmanager.cpp:1213
+#: src/project/projectmanager.cpp:1216
 #, fuzzy, kde-format
 msgid "Sequence 1"
 msgstr "Veličina slike"
 
-#: src/project/projectmanager.cpp:1179
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1304 src/project/projectmanager.cpp:1309
-#: src/project/projectmanager.cpp:1319 src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1320 src/project/projectmanager.cpp:1325
+#: src/project/projectmanager.cpp:1335 src/project/projectmanager.cpp:1351
 #, fuzzy, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1451
+#: src/project/projectmanager.cpp:1467
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -13640,12 +13641,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazna datoteka već postoji. Želite je prepisati?"
 
-#: src/project/projectmanager.cpp:1476
+#: src/project/projectmanager.cpp:1492
 #, fuzzy, kde-format
 msgid "Project profile changed"
 msgstr "Projektna mapa"
 
-#: src/project/projectmanager.cpp:1521
+#: src/project/projectmanager.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid ""
