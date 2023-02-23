@@ -172,7 +172,7 @@ void SpeechDialog::slotProcessSpeech()
     m_timeline->sceneList(QDir::temp().absolutePath(), sceneList);
     // TODO: do the rendering in another thread to not block the UI
 
-    Mlt::Producer producer(*m_timeline->tractor()->profile(), "xml", sceneList.toUtf8().constData());
+    Mlt::Producer producer(m_timeline->tractor()->get_profile(), "xml", sceneList.toUtf8().constData());
     int tracksCount = m_timeline->tractor()->count();
     std::shared_ptr<Mlt::Service> s(new Mlt::Service(producer));
     std::shared_ptr<Mlt::Multitrack> multi = nullptr;
@@ -209,7 +209,7 @@ void SpeechDialog::slotProcessSpeech()
             tid++;
         }
     }
-    Mlt::Consumer xmlConsumer(*m_timeline->tractor()->profile(), "avformat", audio.toUtf8().constData());
+    Mlt::Consumer xmlConsumer(m_timeline->tractor()->get_profile(), "avformat", audio.toUtf8().constData());
     if (!xmlConsumer.is_valid() || !producer.is_valid()) {
         qDebug() << "=== STARTING CONSUMER ERROR";
         if (!producer.is_valid()) {

@@ -166,7 +166,6 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         // Open connection with Mlt
         m_mainWindow->init(MltPath);
     }
-
     m_projectItemModel->buildPlaylist(QUuid());
     // load the profiles from disk
     ProfileRepository::get()->refresh();
@@ -574,7 +573,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
 
 void Core::checkProfileValidity()
 {
-    int offset = (getCurrentProfile()->profile().width() % 2) + (getCurrentProfile()->profile().height() % 2);
+    int offset = (getProjectProfile()->width() % 2) + (getProjectProfile()->height() % 2);
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_mainWindow->getBin()) {

@@ -1322,7 +1322,7 @@ void RemapView::reloadProducer()
         qDebug() << "==== this is not a playlist clip, aborting";
         return;
     }
-    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", m_clip->clipUrl().toUtf8().constData());
+    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", m_clip->clipUrl().toUtf8().constData());
     QScopedPointer<Mlt::Service> serv(m_clip->originalProducer()->producer());
     if (serv == nullptr) {
         return;
@@ -1330,7 +1330,7 @@ void RemapView::reloadProducer()
     qDebug() << "==== GOR PLAYLIST SERVICE: " << serv->type() << " / " << serv->consumer()->type() << ", SAVING TO " << m_clip->clipUrl();
     Mlt::Multitrack s2(*serv.data());
     qDebug() << "==== MULTITRACK: " << s2.count();
-    Mlt::Tractor s(pCore->getCurrentProfile()->profile());
+    Mlt::Tractor s(*pCore->getProjectProfile());
     s.set_track(*s2.track(0), 0);
     qDebug() << "==== GOT TRACKS: " << s.count();
     int ignore = s.get_int("ignore_points");

@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "definitions.h"
 #include <QDialog>
 
 namespace Ui {
@@ -19,7 +20,8 @@ class SpeedDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate);
+    explicit SpeedDialog(QWidget *parent, double speed, int duration, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate,
+                         ClipType::ProducerType clipType);
     ~SpeedDialog() override;
 
     double getValue() const;
@@ -29,5 +31,5 @@ private:
     Ui::ClipSpeed_UI *ui;
     TimecodeDisplay *m_durationDisplay;
     int m_duration;
-    void checkSpeed(KMessageWidget *infoMessage, double res);
+    void checkSpeed(double res);
 };

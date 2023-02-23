@@ -50,7 +50,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMimeDatabase>
 #include <QPainter>
 #include <QProcess>
-#include <QTemporaryFile>
 #include <QtMath>
 
 #ifdef CRASH_AUTO_TEST
@@ -102,6 +101,10 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else {
+        if (m_clipType == ClipType::Timeline) {
+            // Initialize path for thumbnails playlist
+            m_sequenceThumbFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("thumbs-%1-XXXXXX.mlt").arg(m_binId)));
+        }
         m_thumbnail = thumb;
     }
     // Make sure we have a hash for this clip
@@ -773,16 +776,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
     } else if (m_clipType == ClipType::Timeline) {
-        bool ok;
-        QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
-        if (!ok) {
-            qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
+        if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
+            // Something went wrong
+            qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
             return nullptr;
         }
-        QString resource = sequenceFolder.absoluteFilePath(QString("thumbs-%1.mlt").arg(getProducerProperty(QStringLiteral("kdenlive:uuid"))));
-        cloneProducerToFile(resource);
-        Mlt::Profile *profile = pCore->thumbProfile();
-        m_thumbsProducer.reset(new Mlt::Producer(*profile, "consumer", resource.toUtf8().constData()));
+        cloneProducerToFile(m_sequenceThumbFile.fileName());
+        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
@@ -983,7 +983,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 if (m_streamEffects.contains(audioStream)) {
                     QStringList effects = m_streamEffects.value(audioStream);
                     for (const QString &effect : qAsConst(effects)) {
-                        Mlt::Filter filt(*m_audioProducers[trackId]->profile(), effect.toUtf8().constData());
+                        Mlt::Filter filt(m_audioProducers[trackId]->get_profile(), effect.toUtf8().constData());
                         if (filt.is_valid()) {
                             // Add stream effect markup
                             filt.set("kdenlive:stream", 1);
@@ -1083,7 +1083,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
         }
         if (timeremap) {
-            Mlt::Chain *chain = new Mlt::Chain(*originalProducer()->profile(), resource.toUtf8().constData());
+            Mlt::Chain *chain = new Mlt::Chain(*pCore->getProjectProfile(), resource.toUtf8().constData());
             Mlt::Link link("timeremap");
             chain->attach(link);
             warpProducer.reset(chain);
@@ -1104,7 +1104,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 }
                 url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
             }
-            warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
+            warpProducer.reset(new Mlt::Producer(*pCore->getProjectProfile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
             int updated_length = qRound(original_length / std::abs(speed));
             warpProducer->set("length", updated_length);
@@ -1265,7 +1265,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 
 void ProjectClip::cloneProducerToFile(const QString &path)
 {
-    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", path.toUtf8().constData());
+    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", path.toUtf8().constData());
     // Mlt::Service s(m_masterProducer->get_service());
     /*int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -1304,7 +1304,7 @@ void ProjectClip::cloneProducerToFile(const QString &path)
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
-    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
+    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -1323,7 +1323,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
     }
     const QByteArray clipXml = c.get("string");
     qDebug() << "============= CLONED CLIP: \n\n" << clipXml << "\n\n======================";
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1364,7 +1364,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
-    Mlt::Consumer c(*producer->profile(), "xml", "string");
+    Mlt::Consumer c(producer->get_profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -1382,7 +1382,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(*producer->profile(), "xml-string", clipXml.constData()));
+    std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(producer->get_profile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
         prod->set("mute_on_pause", 0);
@@ -1396,7 +1396,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
     std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
-    Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
+    Mlt::Filter converter(*pCore->getProjectProfile(), "avcolor_space");
     clone->attach(scaler);
     clone->attach(converter);
     Mlt::Properties original(m_masterProducer->get_properties());
@@ -1410,7 +1410,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
     const char *list = ClipController::getPassPropertiesList();
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
-    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(m_masterProducer->get_profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Properties original(m_masterProducer->get_properties());
     Mlt::Properties cloneProps(clone->get_properties());
     cloneProps.pass_list(original, list);
@@ -2541,7 +2541,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
                     break;
                 }
             }
-            Mlt::Filter filt(*p.second->profile(), addedEffectName.toUtf8().constData());
+            Mlt::Filter filt(p.second->get_profile(), addedEffectName.toUtf8().constData());
             if (filt.is_valid()) {
                 // Add stream effect markup
                 filt.set("kdenlive:stream", 1);

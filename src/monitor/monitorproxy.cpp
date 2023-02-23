@@ -244,7 +244,7 @@ void MonitorProxy::extractFrameToFile(int frame_position, const QStringList &pat
         tmpProfile.reset(new Mlt::Profile());
         producer.reset(new Mlt::Producer(*tmpProfile, path.toUtf8().constData()));
     } else {
-        producer.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), path.toUtf8().constData()));
+        producer.reset(new Mlt::Producer(*pCore->getProjectProfile(), path.toUtf8().constData()));
     }
     if (producer && producer->is_valid()) {
         if (useSourceProfile) {
@@ -324,10 +324,9 @@ QImage MonitorProxy::extractFrame(const QString &path, int width, int height, bo
         }
     } else if (KdenliveSettings::gpu_accel()) {
         QString service = q->m_producer->get("mlt_service");
-        QScopedPointer<Mlt::Producer> tmpProd(
-            new Mlt::Producer(pCore->getCurrentProfile()->profile(), service.toUtf8().constData(), q->m_producer->get("resource")));
-        Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
-        Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
+        QScopedPointer<Mlt::Producer> tmpProd(new Mlt::Producer(*pCore->getProjectProfile(), service.toUtf8().constData(), q->m_producer->get("resource")));
+        Mlt::Filter scaler(*pCore->getProjectProfile(), "swscale");
+        Mlt::Filter converter(*pCore->getProjectProfile(), "avcolor_space");
         tmpProd->attach(scaler);
         tmpProd->attach(converter);
         tmpProd->seek(q->m_producer->position());

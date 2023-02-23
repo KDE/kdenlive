@@ -148,7 +148,7 @@ std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QStr
     Q_ASSERT(exists(transitionId));
     QString service_name = m_assets.at(transitionId).mltId;
     // We create the Mlt element from its name
-    auto transition = std::make_unique<Mlt::Transition>(pCore->getCurrentProfile()->profile(), service_name.toUtf8().constData());
+    auto transition = std::make_unique<Mlt::Transition>(*pCore->getProjectProfile(), service_name.toUtf8().constData());
     transition->set("kdenlive_id", transitionId.toUtf8().constData());
     return transition;
 }

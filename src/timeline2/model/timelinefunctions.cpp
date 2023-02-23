@@ -1220,7 +1220,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
 
         for (int tid : videoTracks) {
             int b_track = timeline->getTrackMltIndex(tid);
-            Mlt::Transition transition(*timeline->m_tractor->profile(), "qtblend");
+            Mlt::Transition transition(timeline->m_tractor->get_profile(), "qtblend");
             // transition.set("mlt_service", "composite");
             transition.set("a_track", 0);
             transition.set("b_track", b_track);
@@ -1372,7 +1372,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         }
     }
     // Build target timeline
-    Mlt::Tractor newTractor(*timeline->m_tractor->profile());
+    Mlt::Tractor newTractor(*pCore->getProjectProfile());
     QScopedPointer<Mlt::Field> field(newTractor.field());
     int ix = 0;
     QString composite = TransitionsRepository::get()->getCompositingTransition();

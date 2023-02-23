@@ -241,7 +241,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         delete w;
     }
     m_notesPlugin->clear();
-    pCore->bin()->cleanDocument();
     KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
@@ -382,17 +381,17 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->window()->resetSubtitles(uid);
         }
     }
-    pCore->bin()->cleanDocument();
+    // Release model shared pointers
+    m_activeTimelineModel.reset();
     if (!quit && !qApp->isSavingSession() && m_project) {
         Q_EMIT pCore->window()->clearAssetPanel();
         pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+        pCore->bin()->cleanDocument();
         delete m_project;
         m_project = nullptr;
     }
     pCore->mixer()->unsetModel();
-    // Release model shared pointers
-    m_activeTimelineModel.reset();
     return true;
 }
 
@@ -1678,7 +1677,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             QTextStream in(&f);
             QString projectData = in.readAll();
             f.close();
-            QScopedPointer<Mlt::Producer> xmlProd2(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
+            QScopedPointer<Mlt::Producer> xmlProd2(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string",
                                                             projectData.toUtf8().constData()));
             Mlt::Service s2(*xmlProd2);
             Mlt::Tractor tractor2(s2);

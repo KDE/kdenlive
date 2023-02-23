@@ -934,7 +934,7 @@ MainWindow::~MainWindow()
     delete m_effectList2;
     delete m_compositionList;
     qDeleteAll(m_transitions);
-    // Mlt::Factory::close();
+    Mlt::Factory::close();
 }
 
 // virtual

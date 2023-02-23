@@ -909,7 +909,7 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
         // This is a proxy, we need to use the real source properties
         if (m_properties->get_int("kdenlive:original.backup") == 0) {
             // We have a proxy clip, load original source producer
-            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_path.toUtf8().constData());
+            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, m_path.toUtf8().constData());
             // Get frame to make sure we retrieve all original props
             std::shared_ptr<Mlt::Frame> fr(prod->get_frame());
             if (!prod->is_valid()) {
@@ -948,7 +948,7 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
                 QScopedPointer<Mlt::Producer> tmpProd(nullptr);
                 if (KdenliveSettings::gpu_accel()) {
                     QString service = m_masterProducer->get("mlt_service");
-                    tmpProd.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), service.toUtf8().constData(), m_masterProducer->get("resource")));
+                    tmpProd.reset(new Mlt::Producer(*pCore->getProjectProfile(), service.toUtf8().constData(), m_masterProducer->get("resource")));
                 }
                 std::shared_ptr<Mlt::Frame> fr(tmpProd ? tmpProd->get_frame() : m_masterProducer->get_frame());
                 mlt_image_format format = mlt_image_none;
@@ -997,12 +997,12 @@ void ClipController::saveZone(QPoint zone, const QDir &dir)
     if (dir.exists(path)) {
         // TODO ask for overwrite
     }
-    Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
+    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     QReadLocker lock(&m_producerLock);
     Mlt::Producer prod(m_masterProducer->get_producer());
     Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
-    Mlt::Playlist list(pCore->getCurrentProfile()->profile());
+    Mlt::Playlist list(*pCore->getProjectProfile());
     list.insert_at(0, *prod2, 0);
     // list.set("title", desc.toUtf8().constData());
     xmlConsumer.connect(list);

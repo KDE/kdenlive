@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QFuture>
 #include <QMutex>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <QUuid>
 #include <memory>
@@ -344,6 +345,7 @@ private:
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
     QUuid m_uuid;
+    QTemporaryFile m_sequenceThumbFile;
 
 Q_SIGNALS:
     void producerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &);
