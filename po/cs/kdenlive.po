@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-22 00:57+0000\n"
-"PO-Revision-Date: 2023-02-17 16:20+0100\n"
+"PO-Revision-Date: 2023-02-22 14:30+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -3355,11 +3355,10 @@ msgid "Delete preset"
 msgstr "Smazat přednastavení"
 
 #: src/assets/view/assetparameterview.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Reset the selected spline."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
-msgstr "Vrátit vybraný Splajn na výchozí hodnoty."
+msgstr "Smaže aktuálně vybrané přednastavení."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/kdenlivesettingsdialog.cpp:1359
@@ -3837,13 +3836,13 @@ msgstr ""
 #, kde-format
 msgctxt "Left"
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: src/audiomixer/mixerwidget.cpp:178
 #, kde-format
 msgctxt "Right"
 msgid "R"
-msgstr ""
+msgstr "P"
 
 #: src/audiomixer/mixerwidget.cpp:249
 #, kde-format
@@ -4348,7 +4347,7 @@ msgstr "Přidat titulky dle šablony…"
 #: src/bin/bin.cpp:3341
 #, kde-format
 msgid "Create Animation…"
-msgstr ""
+msgstr "Vytvořit animaci…"
 
 #: src/bin/bin.cpp:3343
 #, kde-format
@@ -5245,13 +5244,13 @@ msgstr ""
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
-msgstr ""
+msgstr "Čtverec"
 
 #: src/core.cpp:333
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
-msgstr ""
+msgstr "Čtverec 2"
 
 #: src/core.cpp:334
 #, kde-format
@@ -5466,7 +5465,7 @@ msgstr "Klip barvy"
 #: src/dialogs/clipcreationdialog.cpp:179
 #, kde-format
 msgid "Create animation"
-msgstr ""
+msgstr "Vytvořit animaci"
 
 #: src/dialogs/clipcreationdialog.cpp:187
 #, kde-format
@@ -5476,7 +5475,7 @@ msgstr ""
 #: src/dialogs/clipcreationdialog.cpp:190
 #, kde-format
 msgid "Animation duration"
-msgstr ""
+msgstr "Doba trvání animace"
 
 #: src/dialogs/clipcreationdialog.cpp:203 src/jobs/cuttask.cpp:170
 #: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:136
@@ -5668,7 +5667,7 @@ msgstr "Textový soubor"
 #: src/dialogs/exportguidesdialog.cpp:74
 #, kde-format
 msgid "JSON File"
-msgstr ""
+msgstr "Soubor JSON"
 
 #: src/dialogs/exportguidesdialog.cpp:76
 #, kde-format
@@ -5711,7 +5710,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:103
 #, kde-format
 msgid "Category name"
-msgstr ""
+msgstr "Název kategorie"
 
 #: src/dialogs/exportguidesdialog.cpp:104
 #, kde-format
@@ -5796,7 +5795,7 @@ msgstr "Výchozí nastavení projektu"
 #: src/dialogs/kdenlivesettingsdialog.cpp:354
 #, kde-format
 msgid "Use default folder: %1"
-msgstr ""
+msgstr "Použít výchozí složku: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:332
 #: src/dialogs/kdenlivesettingsdialog.cpp:356
@@ -6315,7 +6314,7 @@ msgstr "Nelze vytvořit dočasný soubor titulků"
 #: src/dialogs/renderwidget.cpp:729
 #, kde-format
 msgid "begin"
-msgstr ""
+msgstr "začít"
 
 #: src/dialogs/renderwidget.cpp:784
 #, kde-format
@@ -7529,7 +7528,7 @@ msgstr "Azurová"
 #: src/doc/kdenlivedoc.cpp:2286
 #, kde-format
 msgid "Category %1:%2:%3"
-msgstr ""
+msgstr "Kategorie %1:%2:%3"
 
 #: src/docktitlebarmanager.cpp:19
 #, kde-format
@@ -8190,7 +8189,7 @@ msgstr "Současný klip"
 #: src/kdenliveui.rc:139
 #, kde-format
 msgid "&Current track"
-msgstr ""
+msgstr "Aktuá&lní stopa"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:144
@@ -8444,12 +8443,10 @@ msgid "Add Clip to Project"
 msgstr "Přidat klip do projektu"
 
 #: src/library/librarywidget.cpp:222
-#, fuzzy, kde-kuit-format
-#| msgid "This will remove the selected clip from this project"
-#| msgid_plural "This will remove the selected clips from this project"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Adds the selected library clip to the project bin."
-msgstr "Toto odstraní vybraný klip z tohoto projektu"
+msgstr ""
 
 #: src/library/librarywidget.cpp:225
 #, kde-format
@@ -8468,11 +8465,10 @@ msgid "Create Library Folder"
 msgstr "Vytvořit složku knihovny"
 
 #: src/library/librarywidget.cpp:230
-#, fuzzy, kde-kuit-format
-#| msgid "Enter a name for the clip in Library"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new folder in the library."
-msgstr "Zadat název klipu v knihovně"
+msgstr ""
 
 #: src/library/librarywidget.cpp:232
 #, kde-format
@@ -8586,7 +8582,7 @@ msgstr "Open source video editor"
 #: src/main.cpp:124
 #, kde-format
 msgid "Copyright © 2007–2023 Kdenlive authors"
-msgstr ""
+msgstr "Autorská práva © 2007–2023 autoři Kdenlive"
 
 #: src/main.cpp:126
 #, kde-format
@@ -8755,12 +8751,12 @@ msgstr ""
 #: src/main.cpp:173
 #, kde-format
 msgid "Set a custom config file name."
-msgstr ""
+msgstr "Nastavte vlastní název konfiguračního souboru."
 
 #: src/main.cpp:174
 #, kde-format
 msgid "Set the path for MLT environment."
-msgstr ""
+msgstr "Nastavte cestu k prostředí MLT."
 
 #: src/main.cpp:176
 #, kde-format
@@ -9115,10 +9111,9 @@ msgid "Frames"
 msgstr "Snímky"
 
 #: src/mainwindow.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Add Subtitle"
+#, kde-format
 msgid "Edit Subtitle Tool"
-msgstr "Přidat titulky"
+msgstr ""
 
 #: src/mainwindow.cpp:1193
 #, kde-kuit-format
@@ -9590,11 +9585,10 @@ msgid "Remove All Preview Zones"
 msgstr "Odstranit všechny zóny náhledu"
 
 #: src/mainwindow.cpp:1600
-#, fuzzy, kde-kuit-format
-#| msgid "Remove All Preview Zones"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Odstranit všechny zóny náhledu"
+msgstr ""
 
 #: src/mainwindow.cpp:1601
 #, kde-format
@@ -9997,12 +9991,12 @@ msgstr ""
 #: src/mainwindow.cpp:1917
 #, kde-format
 msgid "Select Audio Track %1"
-msgstr ""
+msgstr "Vyberte zvukovou stopu %1"
 
 #: src/mainwindow.cpp:1921
 #, kde-format
 msgid "Select Video Track %1"
-msgstr ""
+msgstr "Vyberte video stopu %1"
 
 #: src/mainwindow.cpp:1925
 #, kde-format
@@ -10211,7 +10205,7 @@ msgstr ""
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
-msgstr ""
+msgstr "Ripple"
 
 #: src/mainwindow.cpp:3310
 #, kde-kuit-format
@@ -10500,7 +10494,7 @@ msgstr "Lichý první"
 #: src/mltcontroller/clippropertiescontroller.cpp:599
 #, kde-format
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (výchozí)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:621
 #, kde-format
@@ -10647,11 +10641,10 @@ msgid "Analysis"
 msgstr "Analýza"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1018
-#, fuzzy, kde-kuit-format
-#| msgid "Analysis data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
-msgstr "Analýza dat"
+msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1277
 #, kde-format
@@ -12031,14 +12024,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "Nastala chyba při kopírování souborů %1"
 
 #: src/project/dialogs/archivewidget.cpp:1108
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"Nelze otevřít soubor pro archivaci:\n"
-" %1"
+msgstr "Nelze otevřít soubor pro archivaci %1"
 
 #: src/project/dialogs/archivewidget.cpp:1125
 #, kde-format
@@ -12055,16 +12043,14 @@ msgstr ""
 "%1"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "Unknown Error"
-msgstr "Neznámý"
+msgstr "Neznámá chyba"
 
 #: src/project/dialogs/archivewidget.cpp:1172
-#, fuzzy, kde-format
-#| msgid "There was an error while copying the files: %1"
+#, kde-format
 msgid "There was an error while archiving the project: %1"
-msgstr "Nastala chyba při kopírování souborů %1"
+msgstr ""
 
 #: src/project/dialogs/archivewidget.cpp:1201
 #, kde-format
@@ -12171,7 +12157,7 @@ msgstr ""
 #: src/project/dialogs/guideslist.cpp:137
 #, kde-format
 msgid "Delete guide."
-msgstr ""
+msgstr "Smazat zarážku."
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-kuit-format
@@ -12231,7 +12217,7 @@ msgstr ""
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
-msgstr ""
+msgstr "Nelze číst ze souboru %1"
 
 #: src/project/dialogs/guideslist.cpp:246
 #, kde-format
@@ -12323,12 +12309,12 @@ msgstr ""
 #: src/project/dialogs/profilewidget.cpp:200
 #, kde-format
 msgid "Pixel aspect ratio: %1"
-msgstr ""
+msgstr "Poměr stran pixelu: %1"
 
 #: src/project/dialogs/profilewidget.cpp:202
 #, kde-format
 msgid "Color space: %1"
-msgstr ""
+msgstr "Barevný prostor: %1"
 
 #: src/project/dialogs/profilewidget.cpp:204
 #, kde-format
@@ -12343,7 +12329,7 @@ msgstr "ano"
 #: src/project/dialogs/profilewidget.cpp:204
 #, kde-format
 msgid "Interlaced: %1"
-msgstr ""
+msgstr "Prokládané: %1"
 
 #: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
@@ -12358,7 +12344,7 @@ msgstr ""
 #: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "Field order: %1"
-msgstr ""
+msgstr "Pořadí půlsnímků: %1"
 
 #: src/project/dialogs/projectsettings.cpp:70
 #, kde-format
@@ -12408,7 +12394,7 @@ msgstr "Umělec"
 #: src/project/dialogs/projectsettings.cpp:234
 #, kde-format
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "Autorská práva"
 
 #: src/project/dialogs/projectsettings.cpp:241
 #, kde-format
@@ -14802,7 +14788,7 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:3881
 #, kde-format
 msgid "%1 items selected (%2) |"
-msgstr ""
+msgstr "%1 položky vybrány (%2) |"
 
 #: src/timeline2/view/timelinecontroller.cpp:3935
 #, kde-format
@@ -16534,7 +16520,7 @@ msgstr "Tlačítko 12"
 #: src/ui/configmisc_ui.ui:21
 #, kde-format
 msgid "Project file:"
-msgstr ""
+msgstr "Soubor projektu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:28
@@ -16676,7 +16662,7 @@ msgstr ""
 #: src/ui/configproject_ui.ui:41 src/ui/projectsettings_ui.ui:53
 #, kde-format
 msgid "Project folder:"
-msgstr ""
+msgstr "Složka projektu:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_sameprojectfolder)
 #: src/ui/configproject_ui.ui:58
@@ -17111,7 +17097,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:385
 #, kde-format
 msgid "Fields per Second:"
-msgstr ""
+msgstr "Půlsnímků za sekundu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:398
@@ -17138,7 +17124,7 @@ msgstr "k"
 #: src/ui/editrenderpreset_ui.ui:446 src/ui/editrenderpreset_ui.ui:870
 #, kde-format
 msgid "Codec:"
-msgstr ""
+msgstr "Kodek:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fixedGop)
 #: src/ui/editrenderpreset_ui.ui:456
@@ -17158,7 +17144,7 @@ msgstr "Pevné"
 #: src/ui/editrenderpreset_ui.ui:472
 #, kde-format
 msgid "Display Aspect Ratio:"
-msgstr ""
+msgstr "Poměr stran obrazovky:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
 #: src/ui/editrenderpreset_ui.ui:618
@@ -17170,7 +17156,7 @@ msgstr "Vzorkovací frekvence:"
 #: src/ui/editrenderpreset_ui.ui:739
 #, kde-format
 msgid "Field Order:"
-msgstr ""
+msgstr "Pořadí půlsnímků:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
@@ -17196,13 +17182,13 @@ msgstr " KiB"
 #: src/ui/editrenderpreset_ui.ui:797
 #, kde-format
 msgid "Pixel Aspect Ratio:"
-msgstr ""
+msgstr "Poměr stran pixelu:"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
 #: src/ui/editrenderpreset_ui.ui:814
 #, kde-format
 msgid "B Frames:"
-msgstr ""
+msgstr "B-rámce:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
@@ -17451,7 +17437,7 @@ msgstr "Odečíst"
 #: src/ui/exportguidesdialog_ui.ui:176
 #, kde-format
 msgid "Exported:"
-msgstr ""
+msgstr "Exportováno:"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:186
@@ -17475,19 +17461,19 @@ msgstr "Barva 1"
 #: src/ui/guidecategories_ui.ui:45
 #, kde-format
 msgid "Delete category"
-msgstr ""
+msgstr "Odstranit kategorii"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_add)
 #: src/ui/guidecategories_ui.ui:52
 #, kde-format
 msgid "Add category"
-msgstr ""
+msgstr "Přidat kategorii"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_edit)
 #: src/ui/guidecategories_ui.ui:59
 #, kde-format
 msgid "Edit category"
-msgstr ""
+msgstr "Upravit kategorii"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/guidecategories_ui.ui:66
@@ -17682,7 +17668,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:271
 #, kde-format
 msgid "Cache data"
-msgstr ""
+msgstr "Data mezipaměti"
 
 #. i18n: ectx: property (text), widget (QLabel, gTotalLabel)
 #: src/ui/managecache_ui.ui:344
@@ -17729,7 +17715,7 @@ msgstr ""
 #: src/ui/managecache_ui.ui:468 src/ui/managecache_ui.ui:565
 #, kde-format
 msgid "Total size:"
-msgstr ""
+msgstr "Celková velikost:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:486
@@ -17916,7 +17902,7 @@ msgstr "Vyhledat ručně"
 #: src/ui/multiplemarkerdialog_ui.ui:24
 #, kde-format
 msgid "Start Position"
-msgstr ""
+msgstr "Počáteční pozice"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/newtimeline_ui.ui:47
@@ -17934,7 +17920,7 @@ msgstr "Profily"
 #: src/ui/profiledialog_ui.ui:24
 #, kde-format
 msgid "Create  new profile"
-msgstr ""
+msgstr "Vytvořit nový profil"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_create)
 #: src/ui/profiledialog_ui.ui:27
@@ -18026,7 +18012,7 @@ msgstr ""
 #: src/ui/projectsettings_ui.ui:60
 #, kde-format
 msgid "Default folder"
-msgstr ""
+msgstr "Výchozí složka"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:67
@@ -18062,7 +18048,7 @@ msgstr "6 kanálů"
 #: src/ui/projectsettings_ui.ui:193
 #, kde-format
 msgid "Timeline Preview:"
-msgstr ""
+msgstr "Náhled časové osy:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
@@ -18374,7 +18360,7 @@ msgstr "Zachovat poměr stran"
 #: src/ui/renderwidget_ui.ui:602
 #, kde-format
 msgid "Overlay:"
-msgstr ""
+msgstr "Překrytí:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:621
@@ -18476,7 +18462,7 @@ msgstr "Exportovat metadata"
 #: src/ui/renderwidget_ui.ui:821
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
-msgstr ""
+msgstr "<a href=\"#\">Upravit metadata</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
 #: src/ui/renderwidget_ui.ui:846
