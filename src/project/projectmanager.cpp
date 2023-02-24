@@ -1575,11 +1575,14 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, clip]() {
-            QMap<QString, QString> properties;
-            properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
-            properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
-            clip->setProperties(properties, true);
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, id]() {
+            std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
+            if (clip) {
+                QMap<QString, QString> properties;
+                properties.insert(QStringLiteral("kdenlive:duration"), QString(timelineModel->tractor()->frames_to_time(timelineModel->duration())));
+                properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(timelineModel->duration()));
+                clip->setProperties(properties, true);
+            }
         });
         clip->setProducer(prod, false, false);
         if (pCore->bin()) {
