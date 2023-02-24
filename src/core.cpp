@@ -96,14 +96,24 @@ bool Core::build(const QString &packageType, bool testMode)
         // Check if we had a crash
         QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
         if (lockFile.exists()) {
-            // a previous instance crashed, propose to delete config files
-            if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
-                                                i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?"), {},
-                                                KStandardGuiItem::reset(), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
-                // Release startup crash lock file
-                QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
-                lockFile.remove();
-                return false;
+            // a previous instance crashed, propose some actions
+            if (KdenliveSettings::gpu_accel()) {
+                // Propose to disable movit
+                if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                                    i18n("Kdenlive crashed on last startup.\nDo you want to disable experimental GPU processing (Movit) ?"), {},
+                                                    KGuiItem(i18n("Disable GPU processing")), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
+                    KdenliveSettings::setGpu_accel(false);
+                }
+            } else {
+                // propose to delete config files
+                if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                                    i18n("Kdenlive crashed on last startup.\nDo you want to reset the configuration files ?"), {},
+                                                    KStandardGuiItem::reset(), KStandardGuiItem::cont()) == KMessageBox::PrimaryAction) {
+                    // Release startup crash lock file
+                    QFile lockFile(QDir::temp().absoluteFilePath(QStringLiteral("kdenlivelock")));
+                    lockFile.remove();
+                    return false;
+                }
             }
         } else {
             // Create lock file
