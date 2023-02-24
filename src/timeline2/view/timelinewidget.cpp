@@ -116,10 +116,26 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
 void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu,
                                      QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
 {
-    m_timelineClipMenu = clipMenu;
-    m_timelineCompositionMenu = compositionMenu;
-    m_timelineMenu = timelineMenu;
-    m_timelineRulerMenu = timelineRulerMenu;
+    m_timelineClipMenu = new QMenu(this);
+    QList<QAction *> cActions = clipMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineClipMenu->addAction(a);
+    }
+    m_timelineCompositionMenu = new QMenu(this);
+    cActions = compositionMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineCompositionMenu->addAction(a);
+    }
+    m_timelineMenu = new QMenu(this);
+    cActions = timelineMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineMenu->addAction(a);
+    }
+    m_timelineRulerMenu = new QMenu(this);
+    cActions = timelineRulerMenu->actions();
+    for (auto &a : cActions) {
+        m_timelineRulerMenu->addAction(a);
+    }
     m_guideMenu = guideMenu;
     m_headerMenu = headerMenu;
     m_thumbsMenu = thumbsMenu;
