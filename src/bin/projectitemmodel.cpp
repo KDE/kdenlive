@@ -69,7 +69,13 @@ ProjectItemModel::~ProjectItemModel() = default;
 void ProjectItemModel::buildPlaylist(const QUuid uuid)
 {
     m_uuid = uuid;
+    m_fileWatcher->clear();
+    m_extraPlaylists.clear();
+    m_projectTractor.reset();
     m_binPlaylist.reset(new BinPlaylist(uuid));
+    m_projectTractor.reset(new Mlt::Tractor(*pCore->getProjectProfile()));
+    m_projectTractor->set("kdenlive:projectTractor", 1);
+    m_binPlaylist->setRetainIn(m_projectTractor.get());
 }
 
 int ProjectItemModel::mapToColumn(int column) const
@@ -593,9 +599,7 @@ void ProjectItemModel::clean()
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
     m_uuid = QUuid::createUuid();
-    m_fileWatcher->clear();
-    m_extraPlaylists.clear();
-    m_projectTractor.reset();
+    buildPlaylist(m_uuid);
     ThumbnailCache::get()->clearCache();
 }
 
@@ -1251,9 +1255,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
     } else {
         qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
     }
-    m_projectTractor.reset(new Mlt::Tractor(*pCore->getProjectProfile()));
-    m_projectTractor->set("kdenlive:projectTractor", 1);
-    m_binPlaylist->setRetainIn(m_projectTractor.get());
 }
 
 void ProjectItemModel::storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor)

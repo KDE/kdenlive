@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 
     // global clean-up...
     // delete repo;
+    pCore->projectItemModel()->clean();
     Mlt::Factory::close();
     Core::m_self.reset();
     return (result < 0xff ? result : 0xff);

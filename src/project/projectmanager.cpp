@@ -387,10 +387,10 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         Q_EMIT pCore->window()->clearAssetPanel();
         pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
-        pCore->bin()->cleanDocument();
-        delete m_project;
-        m_project = nullptr;
     }
+    pCore->bin()->cleanDocument();
+    delete m_project;
+    m_project = nullptr;
     pCore->mixer()->unsetModel();
     return true;
 }
