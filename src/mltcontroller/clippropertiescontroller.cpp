@@ -208,7 +208,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     lay->setContentsMargins(0, 0, 0, 0);
     m_clipLabel = new ElidedLinkLabel(this);
 
-    if (m_type == ClipType::Color || controller->clipUrl().isEmpty()) {
+    if (m_type == ClipType::Color || m_type == ClipType::Timeline || controller->clipUrl().isEmpty()) {
         m_clipLabel->setLabelText(controller->clipName(), QString());
     } else {
         m_clipLabel->setLabelText(controller->clipUrl(), controller->clipUrl());
@@ -1376,6 +1376,9 @@ void ClipPropertiesController::fillProperties()
                 propertyMap.append({i18n("Audio bitrate:"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
         }
+    } else if (m_type == ClipType::Timeline) {
+        int tracks = m_sourceProperties.get_int("kdenlive:sequenceproperties.tracksCount");
+        propertyMap.append({i18n("Tracks:"), QString::number(tracks)});
     }
 
     qint64 filesize = m_sourceProperties.get_int64("kdenlive:file_size");

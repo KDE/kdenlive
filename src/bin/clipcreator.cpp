@@ -140,6 +140,8 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
         timeline->set("kdenlive:sequenceproperties.hasVideo", 1);
         prod->set("kdenlive:sequenceproperties.hasVideo", 1);
     }
+    timeline->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
+    prod->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     res = model->requestAddBinClip(id, prod, folderId, undo, redo);
     if (res) {
         // Open playlist timeline
