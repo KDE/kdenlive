@@ -256,14 +256,14 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
-        if (m_properties->property_exists("kdenlive:clip_type")) {
-            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        if (m_properties->property_exists("kdenlive:producer_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
         } else {
             m_clipType = ClipType::Playlist;
         }
     } else if (m_service == QLatin1String("tractor") || m_service == QLatin1String("xml-string")) {
-        if (m_properties->property_exists("kdenlive:clip_type")) {
-            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        if (m_properties->property_exists("kdenlive:producer_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
         } else {
             m_clipType = ClipType::Timeline;
         }
@@ -280,8 +280,8 @@ void ClipController::getInfoForProducer()
         // Mostly used for testing
         m_clipType = ClipType::Animation;
     } else {
-        if (m_properties->property_exists("kdenlive:clip_type")) {
-            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:clip_type");
+        if (m_properties->property_exists("kdenlive:producer_type")) {
+            m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
         } else {
             m_clipType = ClipType::Unknown;
         }
@@ -772,11 +772,26 @@ void ClipController::checkAudioVideo()
             service = m_masterProducer->get("mlt_service");
         }
         QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
-        qDebug() << ":::: CHECKING AV FOR CLIP TYPE: " << m_clipType;
         if (m_clipType == ClipType::Timeline) {
-            m_hasVideo = true;
+            // TODO: use sequenceproperties to decide if clip has audio, video or both
+            /*if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasAudio") == 1) {
+                m_hasAudio = true;
+            }
+            if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasVideo") == 1) {
+                m_hasVideo = true;
+            }
+            if (m_hasAudio) {
+                if (m_hasVideo) {
+                    m_masterProducer->parent().set("kdenlive:clip_type", 0);
+                } else {
+                    m_masterProducer->parent().set("kdenlive:clip_type", 1);
+                }
+            } else {
+                m_masterProducer->parent().set("kdenlive:clip_type", 2);
+            }*/
             m_hasAudio = true;
-            m_masterProducer->set("kdenlive:clip_type", 0);
+            m_hasVideo = true;
+            m_masterProducer->parent().set("kdenlive:clip_type", 0);
             return;
         }
         if (avTypes.contains(m_clipType)) {

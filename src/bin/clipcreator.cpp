@@ -92,26 +92,28 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     for (int ix = 1; ix <= tracks.first; ix++) {
         Mlt::Playlist pl(*pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
-        timeline->track(ix)->set("kdenlive:audio_track", 1);
-        timeline->track(ix)->set("kdenlive:timeline_active", 1);
+        std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
+        track->set("kdenlive:audio_track", 1);
+        track->set("kdenlive:timeline_active", 1);
     }
     // Video tracks
     for (int ix = tracks.first + 1; ix <= (tracks.first + tracks.second); ix++) {
         Mlt::Playlist pl(*pCore->getProjectProfile());
         timeline->insert_track(pl, ix);
-        timeline->track(ix)->set("kdenlive:timeline_active", 1);
+        std::unique_ptr<Mlt::Producer> track(timeline->track(ix));
+        track->set("kdenlive:timeline_active", 1);
     }
     timeline->unlock();
     timeline->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     timeline->set("kdenlive:clipname", name.toUtf8().constData());
     timeline->set("kdenlive:duration", 1);
-    timeline->set("kdenlive:clip_type", ClipType::Timeline);
+    timeline->set("kdenlive:producer_type", ClipType::Timeline);
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(timeline->get_producer()));
     prod->set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", name.toUtf8().constData());
     prod->set("kdenlive:duration", 1);
-    prod->set("kdenlive:clip_type", ClipType::Timeline);
+    prod->set("kdenlive:producer_type", ClipType::Timeline);
     QString id;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -129,6 +131,14 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     }
     if (!res) {
         folderId = parentFolder;
+    }
+    if (tracks.first > 0) {
+        timeline->set("kdenlive:sequenceproperties.hasAudio", 1);
+        prod->set("kdenlive:sequenceproperties.hasAudio", 1);
+    }
+    if (tracks.second > 0) {
+        timeline->set("kdenlive:sequenceproperties.hasVideo", 1);
+        prod->set("kdenlive:sequenceproperties.hasVideo", 1);
     }
     res = model->requestAddBinClip(id, prod, folderId, undo, redo);
     if (res) {

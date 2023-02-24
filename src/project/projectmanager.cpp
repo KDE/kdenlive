@@ -1210,7 +1210,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     prod->parent().set("id", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
-    prod->set("kdenlive:clip_type", ClipType::Timeline);
+    prod->set("kdenlive:producer_type", ClipType::Timeline);
     prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->parent().set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
     if (tractor.property_exists("kdenlive:duration")) {
@@ -1229,7 +1229,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         prod->parent().set("length", projectDuration + 1);
         prod->parent().set("out", projectDuration);
     }
-    prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
+    prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
     // QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
     // pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timelineModel->tractor()->get_service(), 0);
     pCore->projectItemModel()->requestAddBinClip(mainId, prod, folderId, undo, redo);
@@ -1508,6 +1508,9 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
     m_project->setSequenceProperty(uuid, QStringLiteral("verticalzoom"), QStringLiteral("1"));
     m_project->setSequenceProperty(uuid, QStringLiteral("zonein"), QStringLiteral("0"));
     m_project->setSequenceProperty(uuid, QStringLiteral("zoneout"), QStringLiteral("75"));
+    m_project->setSequenceProperty(uuid, QStringLiteral("tracks"), QString::number(tracks.first + tracks.second));
+    m_project->setSequenceProperty(uuid, QStringLiteral("hasAudio"), tracks.first > 0 ? QStringLiteral("1") : QStringLiteral("0"));
+    m_project->setSequenceProperty(uuid, QStringLiteral("hasVideo"), tracks.second > 0 ? QStringLiteral("1") : QStringLiteral("0"));
     const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
     m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(activeTrack));
 }
@@ -1566,7 +1569,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
-        prod->set("kdenlive:clip_type", ClipType::Timeline);
+        prod->set("kdenlive:producer_type", ClipType::Timeline);
 
         prod->parent().set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
         prod->parent().set("kdenlive:maxduration", timelineModel->duration());
@@ -1574,7 +1577,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->parent().set("out", timelineModel->duration() - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
-        prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
+        prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [timelineModel, id]() {
             std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
             if (clip) {
@@ -1613,7 +1616,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(timelineModel->duration()));
         prod->set("kdenlive:maxduration", timelineModel->duration());
         prod->set("length", timelineModel->duration());
-        prod->set("kdenlive:clip_type", ClipType::Timeline);
+        prod->set("kdenlive:producer_type", ClipType::Timeline);
         prod->set("out", timelineModel->duration() - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
@@ -1624,7 +1627,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         prod->parent().set("out", timelineModel->duration() - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
-        prod->parent().set("kdenlive:clip_type", ClipType::Timeline);
+        prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
 
         clip->setProducer(prod, false, false);
         //   QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());

@@ -2064,7 +2064,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 continue;
             }
             xmlProd->set("kdenlive:id", clipId.toUtf8().constData());
-            xmlProd->set("kdenlive:clip_type", ClipType::Timeline);
+            xmlProd->set("kdenlive:producer_type", ClipType::Timeline);
             xmlProd->set("kdenlive:uuid", uuid.toUtf8().constData());
             xmlProd->set("kdenlive:duration", xmlProd->frames_to_time(duration));
             xmlProd->set("kdenlive:clipname", clipname.toUtf8().constData());
@@ -2073,7 +2073,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(tractor.cut()));
             prod->set("id", uuid.toUtf8().constData());
             prod->set("kdenlive:id", clipId.toUtf8().constData());
-            prod->set("kdenlive:clip_type", ClipType::Timeline);
+            prod->set("kdenlive:producer_type", ClipType::Timeline);
             prod->set("kdenlive:uuid", uuid.toUtf8().constData());
             prod->set("kdenlive:duration", xmlProd->frames_to_time(duration));
             prod->set("kdenlive:clipname", clipname.toUtf8().constData());

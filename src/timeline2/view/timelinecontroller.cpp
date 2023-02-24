@@ -2575,6 +2575,11 @@ void TimelineController::saveSequenceProperties()
     m_model->tractor()->set("kdenlive:sequenceproperties.audioTarget", audioTarget);
     m_model->tractor()->set("kdenlive:sequenceproperties.videoTarget", videoTarget);
     m_model->tractor()->set("kdenlive:sequenceproperties.activeTrack", activeTrack);
+    QPair<int, int> tracks = m_model->getAVtracksCount();
+    m_model->tractor()->set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
+    m_model->tractor()->set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
+    m_model->tractor()->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
+
     m_model->tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));

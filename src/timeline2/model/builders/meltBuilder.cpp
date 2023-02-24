@@ -703,7 +703,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                     clipId = clip->get("kdenlive:id");
                 }
                 QString resource = clip->parent().get("resource");
-                if (binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:clip_type") == ClipType::Timeline)) {
+                if (binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline)) {
                     // Currently "sequence" clips inserted in timeline are cuts of the bin clip, so it's kdenlive id is changed in loadBinPlaylist
                     binId = clipId;
                 } else if (binIdCorresp.count(clipId) == 0) {

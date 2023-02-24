@@ -1197,7 +1197,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
                         trac->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
-                        trac->set("kdenlive:clip_type", ClipType::Timeline);
+                        trac->set("kdenlive:producer_type", ClipType::Timeline);
                         trac->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
                         std::shared_ptr<Mlt::Producer> prod2(trac->cut());
 
@@ -1208,7 +1208,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                         prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
                         prod2->set("kdenlive:duration", prod->parent().get("kdenlive:duration"));
-                        prod2->set("kdenlive:clip_type", ClipType::Timeline);
+                        prod2->set("kdenlive:producer_type", ClipType::Timeline);
                         prod2->set("kdenlive:maxduration", prod->parent().get("kdenlive:maxduration"));
                         binProducers.insert(id, prod2);
                         continue;

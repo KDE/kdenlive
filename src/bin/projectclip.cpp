@@ -468,7 +468,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
         if (m_clipType == ClipType::Timeline) {
             prod = document.documentElement();
             prod.setAttribute(QStringLiteral("kdenlive:id"), m_binId);
-            prod.setAttribute(QStringLiteral("kdenlive:clip_type"), ClipType::Timeline);
+            prod.setAttribute(QStringLiteral("kdenlive:producer_type"), ClipType::Timeline);
             prod.setAttribute(QStringLiteral("kdenlive:uuid"), getProducerProperty(QStringLiteral("kdenlive:uuid")));
             prod.setAttribute(QStringLiteral("kdenlive:duration"), QString::number(frameDuration()));
             prod.setAttribute(QStringLiteral("kdenlive:clipname"), clipName());
