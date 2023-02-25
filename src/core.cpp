@@ -1371,5 +1371,7 @@ void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QS
 
 void Core::updateSequenceAVType(const QUuid &uuid)
 {
-    pCore->bin()->updateSequenceAVType(uuid);
+    if (m_mainWindow) {
+        pCore->bin()->updateSequenceAVType(uuid);
+    }
 }

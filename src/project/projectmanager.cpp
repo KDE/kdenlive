@@ -1747,7 +1747,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
 
     if (model == nullptr) {
-        qDebug() << "=== ERROR CANNOT FIND TIMELINE TO CLOSE";
+        qDebug() << "=== ERROR CANNOT FIND TIMELINE TO CLOSE: " << uuid << "\n\nHHHHHHHHHHHH";
         return false;
     }
     if (onDeletion) {

@@ -18,6 +18,7 @@
 #include "titler/titledocument.h"
 #include "utils/devices.hpp"
 #include "xml/xml.hpp"
+
 #include <KMessageBox>
 #include <QApplication>
 #include <QDomDocument>
@@ -147,7 +148,15 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
         // Open playlist timeline
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
         pCore->projectManager()->initSequenceProperties(uuid, tracks);
-        pCore->projectManager()->openTimeline(id, uuid);
+        Fun local_redo = [uuid, id]() { return pCore->projectManager()->openTimeline(id, uuid); };
+        Fun local_undo = [uuid]() {
+            if (pCore->projectManager()->closeTimeline(uuid)) {
+                pCore->window()->closeTimeline(uuid);
+            }
+            return true;
+        };
+        local_redo();
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     }
     pCore->pushUndo(undo, redo, i18n("Create sequence"));
     return res ? id : QStringLiteral("-1");

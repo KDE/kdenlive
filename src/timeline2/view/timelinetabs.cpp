@@ -147,22 +147,36 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
 
 void TimelineTabs::closeTimelineByIndex(int ix)
 {
+    const QString seqName = tabText(ix);
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
-    timeline->setSource(QUrl());
     const QUuid uuid = timeline->getUuid();
-    timeline->blockSignals(true);
-    pCore->window()->disconnectTimeline(timeline);
-    disconnectTimeline(timeline);
-    pCore->projectManager()->closeTimeline(uuid);
-    if (m_activeTimeline == timeline) {
-        m_activeTimeline = nullptr;
-    }
-    removeTab(ix);
-    delete timeline;
-    setTabsClosable(count() > 1);
-    if (count() == 1) {
-        updateWindowTitle();
-    }
+    Fun redo = [this, ix, uuid]() {
+        TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+        timeline->setSource(QUrl());
+        timeline->blockSignals(true);
+        pCore->window()->disconnectTimeline(timeline);
+        disconnectTimeline(timeline);
+        pCore->projectManager()->closeTimeline(uuid);
+        if (m_activeTimeline == timeline) {
+            m_activeTimeline = nullptr;
+        }
+        removeTab(ix);
+        delete timeline;
+        setTabsClosable(count() > 1);
+        if (count() == 1) {
+            updateWindowTitle();
+        }
+        return true;
+    };
+    Fun undo = [this, uuid]() {
+        const QString binId = pCore->bin()->sequenceBinId(uuid);
+        if (!binId.isEmpty()) {
+            return pCore->projectManager()->openTimeline(binId, uuid);
+        }
+        return false;
+    };
+    redo();
+    pCore->pushUndo(undo, redo, i18n("Close %1", seqName));
 }
 
 TimelineWidget *TimelineTabs::getCurrentTimeline() const
