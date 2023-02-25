@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-02-15 11:07\n"
+"PO-Revision-Date: 2023-02-24 12:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4283,7 +4283,7 @@ msgstr "编辑剪辑"
 #: src/bin/bin.cpp:3352
 #, kde-format
 msgid "Open in new bin"
-msgstr "在新素材库中打开"
+msgstr "在新素材箱中打开"
 
 #: src/bin/bin.cpp:3363
 #, kde-format
@@ -5871,7 +5871,7 @@ msgstr "下载错误 %1"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1832
 #, kde-format
 msgid "Extracting archive…"
-msgstr "正在解压缩…"
+msgstr "正在解压…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1839
 #, kde-format
@@ -8442,7 +8442,7 @@ msgstr "导航和播放"
 #: src/mainwindow.cpp:144
 #, kde-format
 msgid "Bin Tags"
-msgstr "素材库标签"
+msgstr "素材箱标签"
 
 #: src/mainwindow.cpp:163
 #, kde-format
@@ -8898,7 +8898,7 @@ msgstr "OpenTimelineIO 导入(&I)…"
 #: src/mainwindow.cpp:1431
 #, kde-format
 msgid "Archive Project…"
-msgstr "压缩项目…"
+msgstr "归档项目…"
 
 #: src/mainwindow.cpp:1433
 #, kde-format
@@ -11248,7 +11248,7 @@ msgstr "转码失败"
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
-msgstr "压缩项目"
+msgstr "归档项目"
 
 #: src/project/dialogs/archivewidget.cpp:59
 #, kde-format
@@ -11310,13 +11310,13 @@ msgstr[0] "(%1 项)"
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
-msgstr[0] "要压缩 %1 个文件，需要 %2"
+msgstr[0] "要归档 %1 个文件，需要 %2"
 
 #: src/project/dialogs/archivewidget.cpp:217
 #: src/project/dialogs/archivewidget.cpp:300
 #, kde-format
 msgid "Archive"
-msgstr "压缩"
+msgstr "归档"
 
 #: src/project/dialogs/archivewidget.cpp:228
 #: src/project/dialogs/archivewidget.cpp:782
@@ -11328,23 +11328,23 @@ msgstr "处理项目文件时出错"
 #: src/project/dialogs/archivewidget.cpp:263
 #, kde-format
 msgid "Extract to"
-msgstr "解压缩到"
+msgstr "解压到"
 
 #: src/project/dialogs/archivewidget.cpp:264
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
-msgstr "打开压缩项目"
+msgstr "打开归档项目"
 
 #: src/project/dialogs/archivewidget.cpp:266
 #, kde-format
 msgid "Extract"
-msgstr "解压缩"
+msgstr "解压"
 
 #: src/project/dialogs/archivewidget.cpp:305
 #, kde-format
 msgid "Opening archive…"
-msgstr "正在打开压缩项目…"
+msgstr "正在打开归档项目…"
 
 #: src/project/dialogs/archivewidget.cpp:315
 #, kde-format
@@ -11352,7 +11352,7 @@ msgid ""
 "Cannot open archive file:\n"
 " %1"
 msgstr ""
-"无法打开压缩项目文件：\n"
+"无法打开归档文件：\n"
 " %1"
 
 #: src/project/dialogs/archivewidget.cpp:332
@@ -11362,7 +11362,7 @@ msgid ""
 " is not an archived Kdenlive project"
 msgstr ""
 "文件 %1\n"
-"不是一个 Kdenlive 压缩项目文件"
+"不是一个 Kdenlive 归档项目文件"
 
 #: src/project/dialogs/archivewidget.cpp:338
 #, kde-format
@@ -11393,7 +11393,7 @@ msgstr "存储设备空间不足，可用空间：%1"
 #: src/project/dialogs/archivewidget.cpp:584
 #, kde-format
 msgid "Starting archive job"
-msgstr "正在开始压缩任务"
+msgstr "正在开始归档任务"
 
 #: src/project/dialogs/archivewidget.cpp:604
 #, kde-format
@@ -11423,7 +11423,7 @@ msgstr "无法创建临时文件"
 #: src/project/dialogs/archivewidget.cpp:780
 #, kde-format
 msgid "Project was successfully archived."
-msgstr "项目已完成压缩。"
+msgstr "项目已成功归档。"
 
 #: src/project/dialogs/archivewidget.cpp:790
 #, kde-format
@@ -11441,13 +11441,13 @@ msgid ""
 "Project was successfully archived.\n"
 "%1"
 msgstr ""
-"项目已完成压缩。\n"
+"项目已成功归档。\n"
 "%1"
 
 #: src/project/dialogs/archivewidget.cpp:1180
 #, kde-format
 msgid "Extracting…"
-msgstr "正在解压缩…"
+msgstr "正在解压…"
 
 #: src/project/dialogs/archivewidget.cpp:1246
 #, kde-format
@@ -11955,9 +11955,9 @@ msgid ""
 msgstr ""
 "<b>缓存数据</b>包括剪辑缩略图和时间轴预览视频。您可以安全地删除缓存数据，因为"
 "所有数据都可以在项目打开时重新创建。<br/><b>备份数据</b>是先前版本的项目文件"
-"的压缩包，可以用于恢复项目的先前版本。此数据在删除后无法恢复。<br/><b>代理剪"
-"辑</b> 是用于加快编辑效率的低分辨率版本视频文件。您可以安全地删除代理剪辑，只"
-"要您还保留着原始版本的来源剪辑，代理剪辑可以重新创建。"
+"的归档压缩包，可以用于恢复项目的先前版本。此数据在删除后无法恢复。<br/><b>代"
+"理剪辑</b> 是用于加快编辑效率的低分辨率版本视频文件。您可以安全地删除代理剪"
+"辑，只要您还保留着原始版本的来源剪辑，代理剪辑可以重新创建。"
 
 #: src/project/dialogs/temporarydata.cpp:180
 #, kde-format
@@ -12142,7 +12142,7 @@ msgstr "项目注释"
 #: src/project/notesplugin.cpp:50
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
-msgstr "重新分配所选时间码到当前项目素材库剪辑"
+msgstr "重新分配所选时间码到当前项目素材箱剪辑"
 
 #: src/project/notesplugin.cpp:53
 #, kde-format
@@ -12167,7 +12167,7 @@ msgstr "Kdenlive 项目 (*.kdenlive)"
 #: src/project/projectmanager.cpp:61
 #, kde-format
 msgid "Archived Project (*.tar.gz *.zip)"
-msgstr "压缩项目 (*.tar.gz *.zip)"
+msgstr "归档项目 (*.tar.gz *.zip)"
 
 #: src/project/projectmanager.cpp:82
 #, kde-format
@@ -13070,7 +13070,7 @@ msgstr "发现不正确的混合位于轨道 %1 的 %2，剪辑 %3 已被移除�
 #: src/timeline2/model/builders/meltBuilder.cpp:455
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
-msgstr "发现包含错误的素材库引用的 %1 时间轴剪辑 (%2)，已经恢复。"
+msgstr "发现包含错误的素材箱引用的 %1 时间轴剪辑 (%2)，已经恢复。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:456
 #, kde-format
@@ -13080,7 +13080,7 @@ msgstr "无效剪辑 %1 (%2) 无法在项目素材箱中找到，已经恢复。
 #: src/timeline2/model/builders/meltBuilder.cpp:458
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
-msgstr "发现没有素材库引用的 %1 时间轴剪辑 (%2)，已经移除。"
+msgstr "发现没有素材箱引用的 %1 时间轴剪辑 (%2)，已经移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:459
 #, kde-format
@@ -15009,13 +15009,13 @@ msgstr "录音轨道(&D)"
 #: src/ui/archivewidget_ui.ui:33
 #, kde-format
 msgid "Archive folder:"
-msgstr "压缩项目文件夹："
+msgstr "归档文件夹："
 
 #. i18n: ectx: property (text), widget (QCheckBox, compressed_archive)
 #: src/ui/archivewidget_ui.ui:52
 #, kde-format
 msgid "Compressed archive:"
-msgstr "压缩项目："
+msgstr "压缩的归档："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:60
@@ -15033,13 +15033,13 @@ msgstr "zip"
 #: src/ui/archivewidget_ui.ui:75
 #, kde-format
 msgid "Archive only proxy clips when available"
-msgstr "仅在可用时压缩代理剪辑"
+msgstr "仅在可用时归档代理剪辑"
 
 #. i18n: ectx: property (text), widget (QCheckBox, timeline_archive)
 #: src/ui/archivewidget_ui.ui:82
 #, kde-format
 msgid "Archive only timeline clips"
-msgstr "仅压缩时间轴剪辑"
+msgstr "仅归档时间轴剪辑"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -16251,7 +16251,7 @@ msgstr "自定义模型文件夹"
 #: src/ui/configspeech_ui.ui:78
 #, kde-format
 msgid "Add a new speech model from an archive file"
-msgstr "从压缩包添加语音模型"
+msgstr "从归档添加语音模型"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_vosk)
 #: src/ui/configspeech_ui.ui:92
@@ -18772,6 +18772,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Form"
-#~ msgstr "表单"
