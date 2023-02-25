@@ -718,6 +718,8 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     if (hasMixer) {
         pCore->mixer()->cleanup();
     }
+    int videoTracks = 0;
+    int audioTracks = 0;
     while (it != m_allTracks.cend()) {
         int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
@@ -727,6 +729,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set("always_active", 1);
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
+            videoTracks++;
         } else if ((*it)->isAudioTrack()) {
             // audio mix
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
@@ -736,6 +739,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set("sum", 1);
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
+            audioTracks++;
             if (hasMixer) {
                 pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
                                               (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
@@ -745,6 +749,15 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         ++it;
     }
     field->unlock();
+    // Update sequence clip's AV status
+    int currentClipType = m_tractor->get_int("kdenlive:clip_type");
+    int newClipType = audioTracks > 0 ? (videoTracks > 0 ? 0 : 1) : 2;
+    if (currentClipType != newClipType) {
+        m_tractor->set("kdenlive:sequenceproperties.hasAudio", audioTracks > 0 ? 1 : 0);
+        m_tractor->set("kdenlive:sequenceproperties.hasVideo", videoTracks > 0 ? 1 : 0);
+        m_tractor->set("kdenlive:clip_type", newClipType);
+        pCore->updateSequenceAVType(m_uuid);
+    }
     if (isMultiTrack) {
         pCore->enableMultiTrack(true);
     }

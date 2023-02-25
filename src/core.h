@@ -296,6 +296,8 @@ public:
     void switchCapture();
     /** @brief Get the uuid of currently active timeline */
     const QUuid currentTimelineId() const;
+    /** @brief Update a sequence AV info (has audio/video) */
+    void updateSequenceAVType(const QUuid &uuid);
     /** @brief A list of markers type categories {marker type, {color, category name}} */
     struct MarkerCategory
     {

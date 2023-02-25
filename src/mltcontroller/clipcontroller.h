@@ -213,6 +213,8 @@ public:
     bool hasProxy() const;
     /** @brief Delete or re-assign all markers in a category. */
     bool removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo);
+    // This is the helper function that checks if the clip has audio and video and stores the result
+    void checkAudioVideo();
 
 protected:
     /** @brief Mutex to protect the producer properties on read/write */
@@ -221,8 +223,6 @@ protected:
     virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};
     virtual void connectEffectStack(){};
 
-    // This is the helper function that checks if the clip has audio and video and stores the result
-    void checkAudioVideo();
     // Update audio stream info
     void refreshAudioInfo();
     void backupOriginalProperties();

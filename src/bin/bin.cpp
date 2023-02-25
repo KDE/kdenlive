@@ -5631,3 +5631,12 @@ const QString Bin::sequenceBinId(const QUuid uuid)
     }
     return QString();
 }
+
+void Bin::updateSequenceAVType(const QUuid &uuid)
+{
+    const QString bId = sequenceBinId(uuid);
+    if (!bId.isEmpty()) {
+        std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
+        sequenceClip->checkAudioVideo();
+    }
+}

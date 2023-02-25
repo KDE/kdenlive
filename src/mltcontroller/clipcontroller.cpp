@@ -729,10 +729,10 @@ bool ClipController::hasAudio() const
 {
     return m_hasAudio;
 }
+
 void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
-    m_masterProducer->seek(0);
     if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
@@ -773,8 +773,8 @@ void ClipController::checkAudioVideo()
         }
         QList<ClipType::ProducerType> avTypes = {ClipType::Playlist, ClipType::AV, ClipType::Audio, ClipType::Unknown};
         if (m_clipType == ClipType::Timeline) {
-            // TODO: use sequenceproperties to decide if clip has audio, video or both
-            /*if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasAudio") == 1) {
+            // use sequenceproperties to decide if clip has audio, video or both
+            if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasAudio") == 1) {
                 m_hasAudio = true;
             }
             if (m_masterProducer->parent().get_int("kdenlive:sequenceproperties.hasVideo") == 1) {
@@ -786,15 +786,18 @@ void ClipController::checkAudioVideo()
                 } else {
                     m_masterProducer->parent().set("kdenlive:clip_type", 1);
                 }
+            } else if (!m_hasVideo) {
+                // sequence is incorrectly configured, enable both audio and video
+                m_hasAudio = true;
+                m_hasVideo = true;
+                m_masterProducer->parent().set("kdenlive:clip_type", 0);
             } else {
                 m_masterProducer->parent().set("kdenlive:clip_type", 2);
-            }*/
-            m_hasAudio = true;
-            m_hasVideo = true;
-            m_masterProducer->parent().set("kdenlive:clip_type", 0);
+            }
             return;
         }
         if (avTypes.contains(m_clipType)) {
+            m_masterProducer->seek(0);
             QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
             if (frame->is_valid()) {
                 // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)

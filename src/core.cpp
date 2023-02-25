@@ -1368,3 +1368,8 @@ void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QS
         tl->controller()->loadPreview(chunks, dirty, enablePreview, playlist);
     }
 }
+
+void Core::updateSequenceAVType(const QUuid &uuid)
+{
+    pCore->bin()->updateSequenceAVType(uuid);
+}
