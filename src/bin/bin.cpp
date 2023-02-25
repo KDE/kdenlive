@@ -5629,6 +5629,8 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
         // ClipLoadTask::start({ObjectType::BinClip, binId.toInt()}, QDomElement(), true, -1, -1, this);
         clip->reloadTimeline();
     }
+    // Update the clip in timeline menu
+    selectProxyModel(m_proxyModel->selectionModel()->currentIndex());
 }
 
 const QString Bin::sequenceBinId(const QUuid uuid)
