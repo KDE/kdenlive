@@ -487,6 +487,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
+    m_markerModel.reset();
     delete m_audioMeterWidget;
     delete m_glMonitor;
     delete m_glWidget;

@@ -36,6 +36,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    setWindowTitle(i18n("Automatic Subtitling"));
     m_stt = new SpeechToText();
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();

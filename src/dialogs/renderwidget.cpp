@@ -647,11 +647,29 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
 void RenderWidget::prepareRendering(bool delayedRendering)
 {
     saveRenderProfile();
-
     KdenliveDoc *project = pCore->currentDoc();
     QString overlayData = m_view.tc_type->currentData().toString();
+    QString playlistPath = generatePlaylistFile(delayedRendering);
+
+    if (playlistPath.isEmpty()) {
+        return;
+    }
+    // On delayed rendering, make a copy of all assets
+    if (delayedRendering) {
+        QDir dir = QFileInfo(playlistPath).absoluteDir();
+        if (!dir.mkpath(QFileInfo(playlistPath).baseName())) {
+            KMessageBox::error(this, i18n("Could not create assets folder:\n %1", dir.absoluteFilePath(QFileInfo(playlistPath).baseName())));
+            return;
+        }
+        dir.cd(QFileInfo(playlistPath).baseName());
+        project->prepareRenderAssets(dir);
+    }
     QString playlistContent =
         pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData, true);
+
+    if (delayedRendering) {
+        project->restoreRenderAssets();
+    }
 
     // Set playlist audio volume to 100%
     QDomDocument doc;
@@ -700,7 +718,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         if (!subtitleFile.isEmpty()) {
             project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
         }
-        generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
+        generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_guide->isChecked()) {
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
@@ -710,7 +728,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         if (!subtitleFile.isEmpty()) {
             project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
         }
-        generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
+        generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
     } else if (m_view.render_multi->isChecked()) {
         if (auto ptr = m_guidesModel.lock()) {
             int category = m_view.guideCategoryChooser->currentCategory();
@@ -751,7 +769,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
                         if (!subtitleFile.isEmpty()) {
                             project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
                         }
-                        generateRenderFiles(docCopy, in, out, filename, false, subtitleFile);
+                        generateRenderFiles(playlistPath, docCopy, in, out, filename, false, subtitleFile);
                         if (!subtitleFile.isEmpty() && i < markers.count() - 1) {
                             QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.srt")));
                             if (!src.open()) {
@@ -770,7 +788,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         if (!subtitleFile.isEmpty()) {
             project->generateRenderSubtitleFile(currentUuid, in, out, subtitleFile);
         }
-        generateRenderFiles(doc, in, out, outputFile, delayedRendering, subtitleFile);
+        generateRenderFiles(playlistPath, doc, in, out, outputFile, delayedRendering, subtitleFile);
     }
 }
 
@@ -822,15 +840,10 @@ QString RenderWidget::generatePlaylistFile(bool delayedRendering)
     return tmp.fileName();
 }
 
-void RenderWidget::generateRenderFiles(QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering, const QString &subtitleFile)
+void RenderWidget::generateRenderFiles(const QString playlistPath, QDomDocument doc, int in, int out, QString outputFile, bool delayedRendering,
+                                       const QString &subtitleFile)
 {
-    QString playlistPath = generatePlaylistFile(delayedRendering);
     QString extension = outputFile.section(QLatin1Char('.'), -1);
-
-    if (playlistPath.isEmpty()) {
-        return;
-    }
-
     QDomElement consumer = doc.createElement(QStringLiteral("consumer"));
     consumer.setAttribute(QStringLiteral("in"), in);
     consumer.setAttribute(QStringLiteral("out"), out);

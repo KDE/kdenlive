@@ -118,7 +118,12 @@ public:
     const QString description(const QString suffix = QString()) const;
     void setUrl(const QUrl &url);
     /** @brief Update path of subtitle url. */
-    void updateSubtitle(const QString &newUrl = QString());
+    void updateSubtitleBeforeSave(const QString &newUrl = QString());
+    /** @brief Restore tmp work path for subtitle filters after saving. */
+    void updateSubtitleAfterSave();
+
+    void prepareRenderAssets(const QDir &destFolder);
+    void restoreRenderAssets();
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;

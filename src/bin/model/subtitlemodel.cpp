@@ -1094,7 +1094,7 @@ QString SubtitleModel::toJson()
     return QString(jsonDoc.toJson());
 }
 
-void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
+void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite, bool updateFilter)
 {
     QFile srcFile(pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false));
     if (srcFile.exists()) {
@@ -1109,7 +1109,16 @@ void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
             prev.remove();
         }
         srcFile.copy(path);
+        if (updateFilter) {
+            m_subtitleFilter->set("av.filename", path.toUtf8().constData());
+        }
     }
+}
+
+void SubtitleModel::restoreTmpFile()
+{
+    QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), false);
+    m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
 }
 
 void SubtitleModel::jsontoSubtitle(const QString &data)

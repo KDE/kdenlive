@@ -119,8 +119,13 @@ public:
     GenTime getStartPosForId(int id) const;
     int getPreviousSub(int id) const;
     int getNextSub(int id) const;
-    /** @brief Copy subtitle file to a new path */
-    void copySubtitle(const QString &path, bool checkOverwrite);
+    /** @brief Copy subtitle file to a new path
+     * @param path the new subtitle path
+     * @param checkOverwrite if true, warn before overwriting an existing subtitle file
+     * @param updateFilter if true, the subtitle filter will be updated to us the new name, useful when saving the project file */
+    void copySubtitle(const QString &path, bool checkOverwrite, bool updateFilter = false);
+    /** @brief Use the tmp work file for the subtitle filter after saving the project */
+    void restoreTmpFile();
     int trackDuration() const;
     void switchDisabled();
     bool isDisabled() const;

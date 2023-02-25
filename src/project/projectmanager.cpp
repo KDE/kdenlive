@@ -409,7 +409,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
-    m_project->updateSubtitle(outputFileName);
+    m_project->updateSubtitleBeforeSave(outputFileName);
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -418,6 +418,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
             scene.replace(i.key(), i.value());
         }
     }
+    m_project->updateSubtitleAfterSave();
     if (!m_project->saveSceneList(outputFileName, scene)) {
         return false;
     }
@@ -1213,6 +1214,9 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     prod->set("kdenlive:producer_type", ClipType::Timeline);
     prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
     prod->parent().set("kdenlive:clipname", i18n("Sequence 1").toUtf8().constData());
+    QPair<int, int> tracks = timelineModel->getAVtracksCount();
+    prod->parent().set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
+    prod->parent().set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
     if (tractor.property_exists("kdenlive:duration")) {
         const QString duration(tractor.get("kdenlive:duration"));
         const QString maxduration(tractor.get("kdenlive:maxduration"));

@@ -936,7 +936,21 @@ QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
     return result;
 }
 
-void KdenliveDoc::updateSubtitle(const QString &newUrl)
+void KdenliveDoc::prepareRenderAssets(const QDir &destFolder)
+{
+    // Copy current subtitles to assets render folder
+    updateSubtitleBeforeSave(destFolder.absoluteFilePath(m_url.fileName()));
+    // TODO: copy playlist files used for sequence slowmo
+}
+
+void KdenliveDoc::restoreRenderAssets()
+{
+    // Copy current subtitles to assets render folder
+    updateSubtitleAfterSave();
+    // TODO: copy playlist files used for sequence slowmo
+}
+
+void KdenliveDoc::updateSubtitleBeforeSave(const QString &newUrl)
 {
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
@@ -949,7 +963,18 @@ void KdenliveDoc::updateSubtitle(const QString &newUrl)
             }
             QFileInfo info(path);
             QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
-            j.value()->getSubtitleModel()->copySubtitle(subPath, checkOverwrite);
+            j.value()->getSubtitleModel()->copySubtitle(subPath, checkOverwrite, true);
+        }
+    }
+}
+
+void KdenliveDoc::updateSubtitleAfterSave()
+{
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        if (j.value()->hasSubtitleModel()) {
+            j.value()->getSubtitleModel()->restoreTmpFile();
         }
     }
 }
