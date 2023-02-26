@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-25 00:59+0000\n"
+"POT-Creation-Date: 2023-02-26 00:57+0000\n"
 "PO-Revision-Date: 2020-01-16 14:40+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -4095,7 +4095,7 @@ msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr ""
 
-#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4134
+#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4141
 #: src/mltcontroller/clipcontroller.cpp:626
 #: src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
@@ -4473,7 +4473,7 @@ msgstr "檔案夾"
 msgid "Create bin folder"
 msgstr "建立檔案夾"
 
-#: src/bin/bin.cpp:2445 src/bin/bin.cpp:2457 src/bin/bin.cpp:3396
+#: src/bin/bin.cpp:2445 src/bin/bin.cpp:2457 src/bin/bin.cpp:3403
 #: src/timeline2/model/timelinemodel.cpp:2022
 #, kde-format
 msgid "Delete Clip"
@@ -4487,7 +4487,7 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2447 src/bin/bin.cpp:2459 src/bin/bin.cpp:3376
+#: src/bin/bin.cpp:2447 src/bin/bin.cpp:2459 src/bin/bin.cpp:3383
 #, kde-format
 msgid "Proxy Clip"
 msgstr "代理素材"
@@ -4513,13 +4513,19 @@ msgstr "持續時間"
 msgid "Cannot set rating on this item"
 msgstr ""
 
-#: src/bin/bin.cpp:3326
+#: src/bin/bin.cpp:2933
+#, fuzzy, kde-format
+#| msgid "Opening file %1"
+msgid "Open %1"
+msgstr "正在開啟檔案 %1"
+
+#: src/bin/bin.cpp:3333
 #, fuzzy, kde-format
 #| msgid "Add Clip to Project"
 msgid "Add Clip or Folder…"
 msgstr "添加到素材庫"
 
-#: src/bin/bin.cpp:3327
+#: src/bin/bin.cpp:3334
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4529,96 +4535,96 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3333
+#: src/bin/bin.cpp:3340
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "添加色彩素材"
 
-#: src/bin/bin.cpp:3335
+#: src/bin/bin.cpp:3342
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Image Sequence…"
 msgstr "圖片串列"
 
-#: src/bin/bin.cpp:3337
+#: src/bin/bin.cpp:3344
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "添加字幕 / 標題素材"
 
-#: src/bin/bin.cpp:3339
+#: src/bin/bin.cpp:3346
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "添加字幕 / 標題樣板"
 
-#: src/bin/bin.cpp:3341
+#: src/bin/bin.cpp:3348
 #, fuzzy, kde-format
 #| msgid "Create Group"
 msgid "Create Animation…"
 msgstr "建立群組"
 
-#: src/bin/bin.cpp:3343
+#: src/bin/bin.cpp:3350
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Sequence…"
 msgstr "圖片串列"
 
-#: src/bin/bin.cpp:3346 src/mainwindow.cpp:360
+#: src/bin/bin.cpp:3353 src/mainwindow.cpp:360
 #, kde-format
 msgid "Online Resources"
 msgstr "線上資源"
 
-#: src/bin/bin.cpp:3350
+#: src/bin/bin.cpp:3357
 #, fuzzy, kde-format
 #| msgid "Locate Clip..."
 msgid "Locate Clip…"
 msgstr "素材資料夾..."
 
-#: src/bin/bin.cpp:3355
+#: src/bin/bin.cpp:3362
 #, kde-format
 msgid "Reload Clip"
 msgstr "重新載入素材"
 
-#: src/bin/bin.cpp:3361
+#: src/bin/bin.cpp:3368
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:3366
+#: src/bin/bin.cpp:3373
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Replace Clip…"
 msgstr "重新載入素材"
 
-#: src/bin/bin.cpp:3371
+#: src/bin/bin.cpp:3378
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "複製素材"
 
-#: src/bin/bin.cpp:3383 src/bin/bin.cpp:3433
+#: src/bin/bin.cpp:3390 src/bin/bin.cpp:3440
 #, kde-format
 msgid "Clip Properties"
 msgstr "素材屬性"
 
-#: src/bin/bin.cpp:3388 src/mltcontroller/clippropertiescontroller.cpp:282
+#: src/bin/bin.cpp:3395 src/mltcontroller/clippropertiescontroller.cpp:282
 #, kde-format
 msgid "Edit Clip"
 msgstr "編輯素材"
 
-#: src/bin/bin.cpp:3401
+#: src/bin/bin.cpp:3408
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Open in new bin"
 msgstr "正在開啟檔案 %1"
 
-#: src/bin/bin.cpp:3412
+#: src/bin/bin.cpp:3419
 #, kde-format
 msgid "Create Folder"
 msgstr "建立檔案夾"
 
-#: src/bin/bin.cpp:3413
+#: src/bin/bin.cpp:3420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4626,56 +4632,56 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3477 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3484 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
 #, fuzzy, kde-format
 msgid "Show log"
 msgstr "全部察看"
 
-#: src/bin/bin.cpp:3480 src/dialogs/textbasededit.cpp:625
+#: src/bin/bin.cpp:3487 src/dialogs/textbasededit.cpp:625
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
 msgstr "細節設定"
 
-#: src/bin/bin.cpp:3530
+#: src/bin/bin.cpp:3537
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "圖片串列"
 
-#: src/bin/bin.cpp:3532
+#: src/bin/bin.cpp:3539
 #, fuzzy, kde-format
 msgid "Sequence %1"
 msgstr "區段終點：%1"
 
-#: src/bin/bin.cpp:3558
+#: src/bin/bin.cpp:3565
 #, fuzzy, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "移動素材"
 
-#: src/bin/bin.cpp:3595
+#: src/bin/bin.cpp:3602
 #, fuzzy, kde-format
 #| msgid "No valid clip to process"
 msgid "No valid clip to insert"
 msgstr "無效的剪輯處理"
 
-#: src/bin/bin.cpp:3619 src/timeline2/view/timelinecontroller.cpp:1401
+#: src/bin/bin.cpp:3626 src/timeline2/view/timelinecontroller.cpp:1401
 #: src/timeline2/view/timelinecontroller.cpp:3296
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
 msgstr "如果您想使用特效請選取一個素材"
 
-#: src/bin/bin.cpp:3628
+#: src/bin/bin.cpp:3635
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot apply effects on folders"
 msgstr "無法添加視訊濾鏡​​到這個素材"
 
-#: src/bin/bin.cpp:3653 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3660 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3078
 #, fuzzy, kde-format
@@ -4683,36 +4689,36 @@ msgstr "無法添加視訊濾鏡​​到這個素材"
 msgid "Cannot add effect to clip"
 msgstr "無法添加視訊濾鏡​​到這個素材"
 
-#: src/bin/bin.cpp:3699 src/bin/bin.cpp:3706
+#: src/bin/bin.cpp:3706 src/bin/bin.cpp:3713
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to add a tag"
 msgstr "如果您想使用特效請選取一個素材"
 
-#: src/bin/bin.cpp:3845
+#: src/bin/bin.cpp:3852
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "持續時間"
 
-#: src/bin/bin.cpp:4188
+#: src/bin/bin.cpp:4195
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4200
+#: src/bin/bin.cpp:4207
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
 msgid "Please set a default application to open image files"
 msgstr "請在 Kdenlive 配置視窗中指定用於開啟圖片的程式"
 
-#: src/bin/bin.cpp:4205
+#: src/bin/bin.cpp:4212
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4217
+#: src/bin/bin.cpp:4224
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -4720,7 +4726,7 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr "請在 Kdenlive 配置視窗中指定用於開啟聲訊的程式"
 
-#: src/bin/bin.cpp:4227 src/core.cpp:299 src/doc/kdenlivedoc.cpp:166
+#: src/bin/bin.cpp:4234 src/core.cpp:299 src/doc/kdenlivedoc.cpp:166
 #: src/jobs/cliploadtask.cpp:495 src/jobs/filtertask.cpp:84
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
@@ -4729,83 +4735,83 @@ msgstr "請在 Kdenlive 配置視窗中指定用於開啟聲訊的程式"
 msgid "Cannot open file %1"
 msgstr "無法寫入檔案 %1"
 
-#: src/bin/bin.cpp:4407 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4414 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4417
+#: src/bin/bin.cpp:4424
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4420 src/titler/titlewidget.cpp:2179
+#: src/bin/bin.cpp:4427 src/titler/titlewidget.cpp:2179
 #, fuzzy, kde-format
 msgid "Save Title"
 msgstr "儲存編碼方案"
 
-#: src/bin/bin.cpp:4420
+#: src/bin/bin.cpp:4427
 #, fuzzy, kde-format
 msgid "Save to title file"
 msgstr "儲存編碼方案"
 
-#: src/bin/bin.cpp:4421
+#: src/bin/bin.cpp:4428
 #, fuzzy, kde-format
 msgid "Save in project only"
 msgstr "儲存 DVD 項目"
 
-#: src/bin/bin.cpp:4439 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4446 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "字幕 / 標題素材"
 
-#: src/bin/bin.cpp:4489
+#: src/bin/bin.cpp:4496
 #, fuzzy, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "素材 <b>%1</b><br/> 無效，將從項目中移除。"
 
-#: src/bin/bin.cpp:4493
+#: src/bin/bin.cpp:4500
 #, kde-format
 msgid "Invalid clip"
 msgstr "無效的素材"
 
-#: src/bin/bin.cpp:4616
+#: src/bin/bin.cpp:4623
 #, fuzzy, kde-format
 msgid "Enable proxies"
 msgstr "允許伸縮"
 
-#: src/bin/bin.cpp:4616
+#: src/bin/bin.cpp:4623
 #, fuzzy, kde-format
 msgid "Disable proxies"
 msgstr "關閉素材"
 
-#: src/bin/bin.cpp:4801
+#: src/bin/bin.cpp:4808
 #, fuzzy, kde-format
 msgid "Rebuild proxies"
 msgstr "重新組合"
 
-#: src/bin/bin.cpp:5034
+#: src/bin/bin.cpp:5041
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:5050
+#: src/bin/bin.cpp:5057
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "新增軌道"
 
-#: src/bin/bin.cpp:5052
+#: src/bin/bin.cpp:5059
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "編輯參照線"
 
-#: src/bin/bin.cpp:5067
+#: src/bin/bin.cpp:5074
 #, fuzzy, kde-format
 #| msgid "Don't blank mask"
 msgid "Don't ask again"
@@ -4813,26 +4819,26 @@ msgstr "不使用遮罩"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5071
+#: src/bin/bin.cpp:5078
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5083 src/mainwindow.cpp:2650
+#: src/bin/bin.cpp:5090 src/mainwindow.cpp:2650
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要添加記號的素材"
 
-#: src/bin/bin.cpp:5181
+#: src/bin/bin.cpp:5188
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not find master clip"
 msgstr "添加素材"
 
-#: src/bin/bin.cpp:5372 src/bin/clipcreator.cpp:257
+#: src/bin/bin.cpp:5379 src/bin/clipcreator.cpp:266
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4840,45 +4846,45 @@ msgctxt "@action"
 msgid "Add clip"
 msgstr "添加素材"
 
-#: src/bin/bin.cpp:5394
+#: src/bin/bin.cpp:5401
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5396
+#: src/bin/bin.cpp:5403
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5461 src/bin/bin.cpp:5535
+#: src/bin/bin.cpp:5468 src/bin/bin.cpp:5542
 #, fuzzy, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "添加轉場特效到素材"
 
-#: src/bin/bin.cpp:5482
+#: src/bin/bin.cpp:5489
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "移除所選素材"
 
-#: src/bin/bin.cpp:5484
+#: src/bin/bin.cpp:5491
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr "添加轉場特效到素材"
 
-#: src/bin/bin.cpp:5494 src/mltcontroller/clippropertiescontroller.cpp:633
+#: src/bin/bin.cpp:5501 src/mltcontroller/clippropertiescontroller.cpp:633
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "視訊軌"
 
-#: src/bin/bin.cpp:5509
+#: src/bin/bin.cpp:5516
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "聲訊軌"
 
-#: src/bin/bin.cpp:5562
+#: src/bin/bin.cpp:5569
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
@@ -4900,55 +4906,55 @@ msgstr "重命名檔案夾"
 msgid "Edit clip"
 msgstr "編輯素材"
 
-#: src/bin/clipcreator.cpp:64
+#: src/bin/clipcreator.cpp:65
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Create title clip"
 msgstr "字幕 / 標題樣板素材"
 
-#: src/bin/clipcreator.cpp:77
+#: src/bin/clipcreator.cpp:78
 #, fuzzy, kde-format
 #| msgid "Color clips"
 msgid "Create color clip"
 msgstr "色彩素材"
 
-#: src/bin/clipcreator.cpp:125 src/bin/clipcreator.cpp:127
-#: src/bin/clipcreator.cpp:171 src/bin/clipcreator.cpp:173
-#: src/project/projectmanager.cpp:1204 src/project/projectmanager.cpp:1206
+#: src/bin/clipcreator.cpp:126 src/bin/clipcreator.cpp:128
+#: src/bin/clipcreator.cpp:180 src/bin/clipcreator.cpp:182
+#: src/project/projectmanager.cpp:1205 src/project/projectmanager.cpp:1207
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequences"
 msgstr "圖片串列"
 
-#: src/bin/clipcreator.cpp:152 src/bin/clipcreator.cpp:182
+#: src/bin/clipcreator.cpp:161 src/bin/clipcreator.cpp:191
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create sequence"
 msgstr "圖片串列"
 
-#: src/bin/clipcreator.cpp:192
+#: src/bin/clipcreator.cpp:201
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:192
+#: src/bin/clipcreator.cpp:201
 #, fuzzy, kde-format
 msgid "Cannot create clip"
 msgstr "無法寫入檔案 %1"
 
-#: src/bin/clipcreator.cpp:272
+#: src/bin/clipcreator.cpp:281
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Create slideshow clip"
 msgstr "幻燈片放映素材"
 
-#: src/bin/clipcreator.cpp:304
+#: src/bin/clipcreator.cpp:313
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create title template"
 msgstr "建立新的編碼方案"
 
-#: src/bin/clipcreator.cpp:328
+#: src/bin/clipcreator.cpp:337
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -4960,13 +4966,13 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/clipcreator.cpp:351 src/core.cpp:910
-#: src/project/projectmanager.cpp:751
+#: src/bin/clipcreator.cpp:360 src/core.cpp:910
+#: src/project/projectmanager.cpp:752
 #, kde-format
 msgid "Loading clips"
 msgstr "正在載入素材"
 
-#: src/bin/clipcreator.cpp:452
+#: src/bin/clipcreator.cpp:461
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -4975,18 +4981,18 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:456
+#: src/bin/clipcreator.cpp:465
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removable device"
 msgstr "移除檔案"
 
-#: src/bin/clipcreator.cpp:478
+#: src/bin/clipcreator.cpp:487
 #, fuzzy, kde-format
 msgid "Loading done"
 msgstr "清理本項目"
 
-#: src/bin/clipcreator.cpp:490 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:499 src/dialogs/clipcreationdialog.cpp:552
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5186,19 +5192,19 @@ msgid "Edit subtitle style"
 msgstr "添加參照線"
 
 #: src/bin/model/subtitlemodel.cpp:370 src/bin/model/subtitlemodel.cpp:588
-#: src/bin/model/subtitlemodel.cpp:1457
+#: src/bin/model/subtitlemodel.cpp:1466
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "添加參照線"
 
-#: src/bin/model/subtitlemodel.cpp:622 src/bin/model/subtitlemodel.cpp:1544
+#: src/bin/model/subtitlemodel.cpp:622 src/bin/model/subtitlemodel.cpp:1553
 #: src/timeline2/model/timelinefunctions.cpp:188
 #, fuzzy, kde-format
 msgid "Cut clip"
 msgstr "分割素材"
 
-#: src/bin/model/subtitlemodel.cpp:752 src/bin/model/subtitlemodel.cpp:1476
+#: src/bin/model/subtitlemodel.cpp:752 src/bin/model/subtitlemodel.cpp:1485
 #: src/timeline2/model/timelinemodel.cpp:3498
 #, fuzzy, kde-format
 #| msgid "Delete guide"
@@ -5212,7 +5218,7 @@ msgstr "移除參照線"
 msgid "Move subtitle"
 msgstr "移動參照線"
 
-#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:808
+#: src/bin/model/subtitlemodel.cpp:1104 src/dialogs/renderwidget.cpp:826
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:511
 #: src/effects/effectstack/view/effectstackview.cpp:560
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5227,27 +5233,27 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/model/subtitlemodel.cpp:1488
+#: src/bin/model/subtitlemodel.cpp:1497
 #, fuzzy, kde-format
 #| msgid "Add Text"
 msgid "Add text"
 msgstr "添加字檔"
 
-#: src/bin/model/subtitlemodel.cpp:1508 src/dialogs/subtitleedit.cpp:109
+#: src/bin/model/subtitlemodel.cpp:1517 src/dialogs/subtitleedit.cpp:109
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "添加參照線"
 
-#: src/bin/model/subtitlemodel.cpp:1563 src/dialogs/subtitleedit.cpp:119
+#: src/bin/model/subtitlemodel.cpp:1572 src/dialogs/subtitleedit.cpp:119
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Delete subtitle"
 msgstr "移除參照線"
 
-#: src/bin/projectclip.cpp:181 src/doc/kdenlivedoc.cpp:992
-#: src/doc/kdenlivedoc.cpp:2063 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1314
+#: src/bin/projectclip.cpp:181 src/doc/kdenlivedoc.cpp:1017
+#: src/doc/kdenlivedoc.cpp:2088 src/project/dialogs/archivewidget.cpp:214
+#: src/project/projectmanager.cpp:1318
 #, kde-format
 msgid "Untitled"
 msgstr "無標題"
@@ -5377,7 +5383,7 @@ msgstr "區段終點：%1"
 msgid "Tag %1"
 msgstr ""
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:42
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
 #: src/dialogs/textbasededit.cpp:569
 #, fuzzy, kde-format
 msgid "Configure"
@@ -5807,7 +5813,7 @@ msgstr "文字素材"
 msgid "Create Text clip"
 msgstr "字幕 / 標題樣板素材"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1067
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1092
 #, kde-format
 msgid "Template title clip"
 msgstr "字幕 / 標題樣板素材"
@@ -5980,11 +5986,11 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "匯入標記"
 
-#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:918
-#: src/dialogs/renderwidget.cpp:923 src/dialogs/renderwidget.cpp:976
-#: src/dialogs/renderwidget.cpp:981 src/dialogs/renderwidget.cpp:1926
-#: src/dialogs/renderwidget.cpp:1953 src/doc/kdenlivedoc.cpp:740
-#: src/doc/kdenlivedoc.cpp:748 src/doc/kdenlivedoc.cpp:1177
+#: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:931
+#: src/dialogs/renderwidget.cpp:936 src/dialogs/renderwidget.cpp:989
+#: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:1939
+#: src/dialogs/renderwidget.cpp:1966 src/doc/kdenlivedoc.cpp:740
+#: src/doc/kdenlivedoc.cpp:748 src/doc/kdenlivedoc.cpp:1202
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -5998,7 +6004,7 @@ msgstr "匯入標記"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1481
+#: src/project/projectmanager.cpp:1485
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4912
@@ -6502,7 +6508,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:110 src/dialogs/renderwidget.cpp:1768
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -6616,7 +6622,7 @@ msgstr ""
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "無法找到匯出影片所需的 melt 程式 (MLT 的移植)"
 
-#: src/dialogs/renderwidget.cpp:631 src/dialogs/renderwidget.cpp:1729
+#: src/dialogs/renderwidget.cpp:631 src/dialogs/renderwidget.cpp:1742
 #: src/project/dialogs/archivewidget.cpp:896
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -6631,42 +6637,49 @@ msgstr ""
 "目錄 %1 無法建立。\n"
 "請確認您的許可權。"
 
-#: src/dialogs/renderwidget.cpp:683 src/dialogs/renderwidget.cpp:759
+#: src/dialogs/renderwidget.cpp:661
+#, fuzzy, kde-format
+msgid ""
+"Could not create assets folder:\n"
+" %1"
+msgstr "無法寫入檔案 %1"
+
+#: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:777
 #, fuzzy, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "無法寫入檔案 %1"
 
-#: src/dialogs/renderwidget.cpp:729
+#: src/dialogs/renderwidget.cpp:747
 #, kde-format
 msgid "begin"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:784
+#: src/dialogs/renderwidget.cpp:802
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "導入"
 
-#: src/dialogs/renderwidget.cpp:799
+#: src/dialogs/renderwidget.cpp:817
 #, fuzzy, kde-format
 #| msgid "Play after render"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "渲染（導出）後播放"
 
-#: src/dialogs/renderwidget.cpp:799
+#: src/dialogs/renderwidget.cpp:817
 #, fuzzy, kde-format
 msgid "Select a name for this rendering."
 msgstr "隱藏所選區段並跟著移動"
 
-#: src/dialogs/renderwidget.cpp:879
+#: src/dialogs/renderwidget.cpp:892
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together.\n"
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1019 src/dialogs/renderwidget.cpp:1742
+#: src/dialogs/renderwidget.cpp:1032 src/dialogs/renderwidget.cpp:1755
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -6678,183 +6691,189 @@ msgstr ""
 "目前有個正在寫入檔案的作業：<br/><b>%1</b><br/> 如果您想要覆寫它，請中止這項"
 "作業…"
 
-#: src/dialogs/renderwidget.cpp:1020 src/dialogs/renderwidget.cpp:1743
+#: src/dialogs/renderwidget.cpp:1033 src/dialogs/renderwidget.cpp:1756
 #, kde-format
 msgid "Already running"
 msgstr "正在執行"
 
-#: src/dialogs/renderwidget.cpp:1045
+#: src/dialogs/renderwidget.cpp:1058
 #, kde-format
 msgid "Video without audio track"
 msgstr "不含音軌的影片"
 
-#: src/dialogs/renderwidget.cpp:1047
+#: src/dialogs/renderwidget.cpp:1060
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "不含音軌的影片"
 
-#: src/dialogs/renderwidget.cpp:1111
+#: src/dialogs/renderwidget.cpp:1124
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "渲染（導出） <i>%1</i> 已開始"
 
-#: src/dialogs/renderwidget.cpp:1177 src/monitor/monitor.cpp:1144
+#: src/dialogs/renderwidget.cpp:1190 src/monitor/monitor.cpp:1145
 #, kde-format
 msgid "untitled"
 msgstr "無字幕 / 標題"
 
-#: src/dialogs/renderwidget.cpp:1215
+#: src/dialogs/renderwidget.cpp:1228
 #, fuzzy, kde-format
 msgid "No preset selected"
 msgstr "沒有複製任何素材"
 
-#: src/dialogs/renderwidget.cpp:1217
+#: src/dialogs/renderwidget.cpp:1230
 #, fuzzy, kde-format
 msgid "No matching preset"
 msgstr "編碼格式"
 
-#: src/dialogs/renderwidget.cpp:1229
+#: src/dialogs/renderwidget.cpp:1242
 #, fuzzy, kde-format
 msgid "Invalid preset"
 msgstr "編輯編碼方案"
 
-#: src/dialogs/renderwidget.cpp:1335
+#: src/dialogs/renderwidget.cpp:1348
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1494
+#: src/dialogs/renderwidget.cpp:1507
 #, fuzzy, kde-format
 msgid "Remaining time "
 msgstr "正在開啟檔案 %1"
 
-#: src/dialogs/renderwidget.cpp:1496 src/dialogs/renderwidget.cpp:1540
+#: src/dialogs/renderwidget.cpp:1509 src/dialogs/renderwidget.cpp:1553
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] ""
 
-#: src/dialogs/renderwidget.cpp:1500
+#: src/dialogs/renderwidget.cpp:1513
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1512
+#: src/dialogs/renderwidget.cpp:1525
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1542
+#: src/dialogs/renderwidget.cpp:1555
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "渲染（導出）已完，耗時：%1"
 
-#: src/dialogs/renderwidget.cpp:1551
+#: src/dialogs/renderwidget.cpp:1564
 #, fuzzy, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "渲染（導出）已完，耗時：%1"
 
-#: src/dialogs/renderwidget.cpp:1575
+#: src/dialogs/renderwidget.cpp:1588
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 的影片匯出已經不規則中止</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1618 src/ui/renderwidget_ui.ui:891
+#: src/dialogs/renderwidget.cpp:1631 src/ui/renderwidget_ui.ui:891
 #, kde-format
 msgid "Abort Job"
 msgstr "中止工作"
 
-#: src/dialogs/renderwidget.cpp:1621
+#: src/dialogs/renderwidget.cpp:1634
 #, kde-format
 msgid "Remove Job"
 msgstr "移除工作"
 
-#: src/dialogs/renderwidget.cpp:2008 src/dialogs/renderwidget.cpp:2018
-#: src/dialogs/renderwidget.cpp:2040
+#: src/dialogs/renderwidget.cpp:2021 src/dialogs/renderwidget.cpp:2031
+#: src/dialogs/renderwidget.cpp:2053
 #, fuzzy, kde-format
 msgid "Render Duration: %1"
 msgstr "渲染（導出）為檔案"
 
-#: src/dialogs/renderwidget.cpp:2098
+#: src/dialogs/renderwidget.cpp:2111
 #, fuzzy, kde-format
 msgid ""
 "Codec speed parameters:\n"
 "%1"
 msgstr "FFmpeg 參數"
 
-#: src/dialogs/renderwidget.cpp:2118
+#: src/dialogs/renderwidget.cpp:2131
 #, fuzzy, kde-format
 #| msgid "Current Project"
 msgid "Add to current project"
 msgstr "當前的專案"
 
-#: src/dialogs/speechdialog.cpp:40
+#: src/dialogs/speechdialog.cpp:39
+#, fuzzy, kde-format
+#| msgid "Move guide"
+msgid "Automatic Subtitling"
+msgstr "移動參照線"
+
+#: src/dialogs/speechdialog.cpp:41
 #, kde-format
 msgid "Process"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:610
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:610
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
 msgstr "選取轉場特效"
 
-#: src/dialogs/speechdialog.cpp:90
+#: src/dialogs/speechdialog.cpp:91
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:100
+#: src/dialogs/speechdialog.cpp:101
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip in timeline to perform analysis"
 msgstr "選取工具"
 
-#: src/dialogs/speechdialog.cpp:112
+#: src/dialogs/speechdialog.cpp:113
 #, fuzzy, kde-format
 msgid "No audio track found"
 msgstr "淡入音軌"
 
-#: src/dialogs/speechdialog.cpp:144 src/dialogs/textbasededit.cpp:753
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:753
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
 msgstr "選取轉場特效"
 
-#: src/dialogs/speechdialog.cpp:151
+#: src/dialogs/speechdialog.cpp:152
 #, fuzzy, kde-format
 #| msgid "Stem audio export"
 msgid "Starting audio export"
 msgstr "匯出各軌道"
 
-#: src/dialogs/speechdialog.cpp:219
+#: src/dialogs/speechdialog.cpp:220
 #, fuzzy, kde-format
 #| msgid "Audio bitrate"
 msgid "Audio export failed"
 msgstr "音訊比特率"
 
-#: src/dialogs/speechdialog.cpp:240 src/dialogs/textbasededit.cpp:770
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:770
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:255 src/dialogs/textbasededit.cpp:888
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:888
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition aborted."
 msgstr "選取轉場特效"
 
-#: src/dialogs/speechdialog.cpp:261
+#: src/dialogs/speechdialog.cpp:262
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitles imported"
 msgstr "無字幕 / 標題"
 
-#: src/dialogs/speechdialog.cpp:264
+#: src/dialogs/speechdialog.cpp:265
 #, kde-format
 msgid "Speech recognition failed"
 msgstr ""
@@ -7633,8 +7652,8 @@ msgstr ""
 msgid "Invalid file path"
 msgstr "編輯編碼方案"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:702
-#: src/project/projectmanager.cpp:766 src/project/projectmanager.cpp:793
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:703
+#: src/project/projectmanager.cpp:767 src/project/projectmanager.cpp:794
 #, fuzzy, kde-format
 msgid "Could not recover corrupted file."
 msgstr "項目檔案的預設檔案夾"
@@ -7715,123 +7734,123 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr "您的項目檔案已升級到最新的 Kdenlive 檔案版本，無法建立一份復本。"
 
-#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1115
+#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1116
 #, fuzzy, kde-format
 msgid "Error moving project folder: %1"
 msgstr "項目檔案夾"
 
-#: src/doc/kdenlivedoc.cpp:1053
+#: src/doc/kdenlivedoc.cpp:1078
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "匯入樣板路徑"
 
-#: src/doc/kdenlivedoc.cpp:1184
+#: src/doc/kdenlivedoc.cpp:1209
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1217 src/doc/kdenlivedoc.cpp:1231
+#: src/doc/kdenlivedoc.cpp:1242 src/doc/kdenlivedoc.cpp:1256
 #, kde-format
 msgid "Project Folder"
 msgstr "專案次料夾"
 
-#: src/doc/kdenlivedoc.cpp:1275 src/doc/kdenlivedoc.cpp:1283
+#: src/doc/kdenlivedoc.cpp:1300 src/doc/kdenlivedoc.cpp:1308
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
 "%1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1428
+#: src/doc/kdenlivedoc.cpp:1453
 #, fuzzy, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "添加素材"
 
-#: src/doc/kdenlivedoc.cpp:1430
+#: src/doc/kdenlivedoc.cpp:1455
 #, fuzzy, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "移除素材"
 
-#: src/doc/kdenlivedoc.cpp:1474 src/doc/kdenlivedoc.cpp:1508
+#: src/doc/kdenlivedoc.cpp:1499 src/doc/kdenlivedoc.cpp:1533
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1706
+#: src/doc/kdenlivedoc.cpp:1731
 #, kde-format
 msgid ""
 "\n"
 "Warning: unknown non integer fps, might cause incorrect duration display."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1725
+#: src/doc/kdenlivedoc.cpp:1750
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1727
+#: src/doc/kdenlivedoc.cpp:1752
 #, fuzzy, kde-format
 msgid "Change default project profile"
 msgstr "管理項目編碼方案"
 
-#: src/doc/kdenlivedoc.cpp:1727
+#: src/doc/kdenlivedoc.cpp:1752
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1728
+#: src/doc/kdenlivedoc.cpp:1753
 #, fuzzy, kde-format
 msgid "Keep current default %1"
 msgstr "移除目前的檔案"
 
-#: src/doc/kdenlivedoc.cpp:1728
+#: src/doc/kdenlivedoc.cpp:1753
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1748
+#: src/doc/kdenlivedoc.cpp:1773
 #, fuzzy, kde-format
 msgid "Switch"
 msgstr "切換預覽視窗"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1750 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1775 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "取消"
 
-#: src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1777
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1757
+#: src/doc/kdenlivedoc.cpp:1782
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1759
+#: src/doc/kdenlivedoc.cpp:1784
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2102 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2127 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "紅色"
 
-#: src/doc/kdenlivedoc.cpp:2103 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2128 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7839,23 +7858,23 @@ msgstr "紅色"
 msgid "Green"
 msgstr "綠色"
 
-#: src/doc/kdenlivedoc.cpp:2104 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2129 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "藍色"
 
-#: src/doc/kdenlivedoc.cpp:2105 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2130 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "黃色"
 
-#: src/doc/kdenlivedoc.cpp:2106
+#: src/doc/kdenlivedoc.cpp:2131
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2286
+#: src/doc/kdenlivedoc.cpp:2311
 #, fuzzy, kde-format
 msgid "Category %1:%2:%3"
 msgstr "類別"
@@ -10501,12 +10520,12 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:476
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:477
 #, fuzzy, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "無法在已鎖定的軌道中使用調整工具"
 
-#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:482
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:483
 #, fuzzy, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "無法在已鎖定的軌道中使用調整工具"
@@ -11018,7 +11037,7 @@ msgid "Audio streams"
 msgstr "聲訊軌"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:709
-#: src/monitor/monitor.cpp:1757
+#: src/monitor/monitor.cpp:1758
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -11462,100 +11481,100 @@ msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:592
+#: src/monitor/monitor.cpp:593
 #, fuzzy, kde-format
 msgid "Extract Zone"
 msgstr "切除選取區段後前移"
 
-#: src/monitor/monitor.cpp:609
+#: src/monitor/monitor.cpp:610
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "將目前圖片設定為縮略圖"
 
-#: src/monitor/monitor.cpp:611
+#: src/monitor/monitor.cpp:612
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "察看聲訊縮略圖"
 
-#: src/monitor/monitor.cpp:628
+#: src/monitor/monitor.cpp:629
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "顯示音量等級"
 
-#: src/monitor/monitor.cpp:635
+#: src/monitor/monitor.cpp:636
 #, fuzzy, kde-format
 #| msgid "Show Record Control"
 msgid "Show Source Timecode"
 msgstr "顯示錄制按鈕"
 
-#: src/monitor/monitor.cpp:672
+#: src/monitor/monitor.cpp:673
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "螢幕解析度不夠執行此操作"
 
-#: src/monitor/monitor.cpp:815 src/monitor/monitor.cpp:848
+#: src/monitor/monitor.cpp:816 src/monitor/monitor.cpp:849
 #: src/timeline2/view/timelinecontroller.cpp:1643
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
 msgstr "設定區段起點"
 
-#: src/monitor/monitor.cpp:1156
+#: src/monitor/monitor.cpp:1157
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "載入圖片"
 
-#: src/monitor/monitor.cpp:1156
+#: src/monitor/monitor.cpp:1157
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "儲存 DVD 項目"
 
-#: src/monitor/monitor.cpp:1163
+#: src/monitor/monitor.cpp:1164
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1742 src/monitor/monitor.cpp:1859
+#: src/monitor/monitor.cpp:1743 src/monitor/monitor.cpp:1860
 #, fuzzy, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "聲訊軌"
 
-#: src/monitor/monitor.cpp:2193
+#: src/monitor/monitor.cpp:2194
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2235 src/monitor/monitor.cpp:2287
+#: src/monitor/monitor.cpp:2236 src/monitor/monitor.cpp:2288
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2255
+#: src/monitor/monitor.cpp:2256
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "素材沒有記號"
 
-#: src/monitor/monitor.cpp:2257
+#: src/monitor/monitor.cpp:2258
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "如果您想使用特效請選取一個素材"
 
-#: src/monitor/monitor.cpp:2294
+#: src/monitor/monitor.cpp:2295
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2340
+#: src/monitor/monitor.cpp:2341
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -12754,7 +12773,7 @@ msgstr "開啟素材標記"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1375
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1379
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 msgid "Cannot read file %1"
@@ -13340,7 +13359,7 @@ msgstr "開啟備份檔"
 msgid "Save changes to document?"
 msgstr "是否儲存對檔案的修改?"
 
-#: src/project/projectmanager.cpp:355 src/project/projectmanager.cpp:1313
+#: src/project/projectmanager.cpp:355 src/project/projectmanager.cpp:1317
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13349,7 +13368,7 @@ msgstr ""
 "此項目 <b>\"%1\"</b> 已經修改。\n"
 "您要保修這些修改嗎？"
 
-#: src/project/projectmanager.cpp:466
+#: src/project/projectmanager.cpp:467
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13357,52 +13376,52 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:505
+#: src/project/projectmanager.cpp:506
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "儲存為"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:607
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "自動儲存的檔案已經存在，您是否要回復它?"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:607
 #, kde-format
 msgid "File Recovery"
 msgstr "檔案回復"
 
-#: src/project/projectmanager.cpp:607 src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:608 src/project/projectmanager.cpp:692
 #, kde-format
 msgid "Recover"
 msgstr "回復"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:608
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "不進行回復"
 
-#: src/project/projectmanager.cpp:659
+#: src/project/projectmanager.cpp:660
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在開啟檔案 %1"
 
-#: src/project/projectmanager.cpp:675
+#: src/project/projectmanager.cpp:676
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "清理本項目"
 
-#: src/project/projectmanager.cpp:677
+#: src/project/projectmanager.cpp:678
 #, fuzzy, kde-format
 msgid "Loading project"
 msgstr "清理本項目"
 
-#: src/project/projectmanager.cpp:690
+#: src/project/projectmanager.cpp:691
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -13410,81 +13429,81 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr "檔案 %1 不是 Kdenlive 項目檔案。"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, fuzzy, kde-format
 msgid "Error opening file"
 msgstr "正在開啟檔案 %1"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, fuzzy, kde-format
 msgid "Open Backup"
 msgstr "開啟備份檔"
 
-#: src/project/projectmanager.cpp:706
+#: src/project/projectmanager.cpp:707
 #, fuzzy, kde-format
 msgid "Could not open the backup project file."
 msgstr "無法寫入檔案 %1"
 
-#: src/project/projectmanager.cpp:722
+#: src/project/projectmanager.cpp:723
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:725
+#: src/project/projectmanager.cpp:726
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:820
+#: src/project/projectmanager.cpp:821
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "這會移除從您最後一次儲存項目以來的所有修改，您確定要繼續嗎？"
 
-#: src/project/projectmanager.cpp:821
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "回復到最後儲存的版本"
 
-#: src/project/projectmanager.cpp:901
+#: src/project/projectmanager.cpp:902
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1093
+#: src/project/projectmanager.cpp:1094
 #, fuzzy, kde-format
 msgid "Moving project folder"
 msgstr "項目檔案夾"
 
-#: src/project/projectmanager.cpp:1155
+#: src/project/projectmanager.cpp:1156
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1183 src/project/projectmanager.cpp:1212
-#: src/project/projectmanager.cpp:1215
+#: src/project/projectmanager.cpp:1184 src/project/projectmanager.cpp:1213
+#: src/project/projectmanager.cpp:1216
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Sequence 1"
 msgstr "圖片串列"
 
-#: src/project/projectmanager.cpp:1194
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1319 src/project/projectmanager.cpp:1324
-#: src/project/projectmanager.cpp:1334 src/project/projectmanager.cpp:1350
+#: src/project/projectmanager.cpp:1323 src/project/projectmanager.cpp:1328
+#: src/project/projectmanager.cpp:1338 src/project/projectmanager.cpp:1354
 #, fuzzy, kde-format
 msgid "Project profile change aborted"
 msgstr "項目檔案"
 
-#: src/project/projectmanager.cpp:1466
+#: src/project/projectmanager.cpp:1470
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -13492,12 +13511,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "匯出檔案已經存在。您是否要覆寫它?"
 
-#: src/project/projectmanager.cpp:1491
+#: src/project/projectmanager.cpp:1495
 #, fuzzy, kde-format
 msgid "Project profile changed"
 msgstr "項目檔案"
 
-#: src/project/projectmanager.cpp:1539
+#: src/project/projectmanager.cpp:1543
 #, fuzzy, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14579,7 +14598,7 @@ msgstr "添加軌道"
 msgid "Rename Track"
 msgstr "移除記號"
 
-#: src/timeline2/model/timelineitemmodel.cpp:752
+#: src/timeline2/model/timelineitemmodel.cpp:765
 #, kde-format
 msgid "Could not setup track compositing, check your install"
 msgstr ""
@@ -15547,6 +15566,12 @@ msgstr "軌道"
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "無字幕 / 標題"
+
+#: src/timeline2/view/timelinetabs.cpp:179
+#, fuzzy, kde-format
+#| msgid "Close"
+msgid "Close %1"
+msgstr "關閉"
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, fuzzy, kde-format
