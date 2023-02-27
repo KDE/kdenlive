@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:57+0000\n"
-"PO-Revision-Date: 2023-02-24 05:09+0100\n"
+"PO-Revision-Date: 2023-02-26 02:58+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -929,12 +929,12 @@ msgstr ""
 #: data/effects/fadein.xml:14 data/effects/fadeout.xml:14
 #, kde-format
 msgid "Start Gain"
-msgstr ""
+msgstr "გაძლიერების დასაწყისი"
 
 #: data/effects/fadein.xml:17 data/effects/fadeout.xml:17
 #, kde-format
 msgid "End Gain"
-msgstr ""
+msgstr "გაძლიერების დასასრული"
 
 #: data/effects/fadeout.xml:4
 #, kde-format
@@ -5133,10 +5133,9 @@ msgid ""
 msgstr ""
 
 #: src/core.cpp:104
-#, fuzzy, kde-format
-#| msgid "Disable proxies"
+#, kde-format
 msgid "Disable GPU processing"
-msgstr "პროქსიების გამორთვა"
+msgstr "GPU-ით დამუშავების გამორთვა"
 
 #: src/core.cpp:110
 #, kde-format
@@ -10651,10 +10650,9 @@ msgid "Audio bitrate:"
 msgstr "აუდიოს ბიტური სიჩქარე:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1381
-#, fuzzy, kde-format
-#| msgid "Tracks"
+#, kde-format
 msgid "Tracks:"
-msgstr "აუდიობილიკები"
+msgstr "ტრეკები:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1387
 #, kde-format
@@ -19153,9 +19151,9 @@ msgid "Fit to width"
 msgstr "სიგანეში ჩატევა"
 
 #: src/widgets/geometrywidget.cpp:94
-#, kde-format
+#, fuzzy, kde-format
 msgid "Fit to height"
-msgstr ""
+msgstr "სიმაღლეში ჩატევა"
 
 #: src/widgets/geometrywidget.cpp:99
 #, kde-format

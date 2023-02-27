@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:57+0000\n"
-"PO-Revision-Date: 2023-02-25 11:52+0100\n"
+"PO-Revision-Date: 2023-02-26 17:08+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4457,10 +4457,9 @@ msgid "Cannot set rating on this item"
 msgstr "Kan waardering op dit item niet instellen"
 
 #: src/bin/bin.cpp:2933
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgid "Open %1"
-msgstr "Openen"
+msgstr "%1 openen"
 
 #: src/bin/bin.cpp:3333
 #, kde-format
@@ -6515,12 +6514,13 @@ msgstr ""
 "Zorg ervoor dat U de nodige rechten heeft."
 
 #: src/dialogs/renderwidget.cpp:661
-#, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
+#, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
-msgstr "Kan bestand %1 voor automatisch opslaan niet aanmaken"
+msgstr ""
+"Kon map voor bezittingen niet aanmaken:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:777
 #, kde-format
@@ -6685,10 +6685,9 @@ msgid "Add to current project"
 msgstr "Aan huidig project toevoegen"
 
 #: src/dialogs/speechdialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "automated subtitling"
+#, kde-format
 msgid "Automatic Subtitling"
-msgstr "geautomatiseerde ondertiteling"
+msgstr "Automatische ondertiteling"
 
 #: src/dialogs/speechdialog.cpp:41
 #, kde-format
@@ -15443,10 +15442,9 @@ msgid "Lock subtitle track"
 msgstr "Ondertiteltrack vergrendelen"
 
 #: src/timeline2/view/timelinetabs.cpp:179
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Sluiten"
+msgstr "%1 sluiten"
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format

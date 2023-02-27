@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:57+0000\n"
-"PO-Revision-Date: 2023-02-25 09:01+0200\n"
+"PO-Revision-Date: 2023-02-26 09:23+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4477,10 +4477,9 @@ msgid "Cannot set rating on this item"
 msgstr "Неможливо встановити оцінку для цього запису"
 
 #: src/bin/bin.cpp:2933
-#, fuzzy, kde-format
-#| msgid "Open"
+#, kde-format
 msgid "Open %1"
-msgstr "Відкрити"
+msgstr "Відкрити %1"
 
 #: src/bin/bin.cpp:3333
 #, kde-format
@@ -6548,12 +6547,13 @@ msgstr ""
 "Переконайтеся, що маєте потрібні права доступу."
 
 #: src/dialogs/renderwidget.cpp:661
-#, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
+#, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
-msgstr "Не вдалося створити файл автоматичного збереження %1"
+msgstr ""
+"Не вдалося створити теку матеріалів:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:777
 #, kde-format
@@ -6720,10 +6720,9 @@ msgid "Add to current project"
 msgstr "Додати до поточного проєкту"
 
 #: src/dialogs/speechdialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "automated subtitling"
+#, kde-format
 msgid "Automatic Subtitling"
-msgstr "автоматичне субтитрування"
+msgstr "Автоматичне субтитрування"
 
 #: src/dialogs/speechdialog.cpp:41
 #, kde-format
@@ -15591,10 +15590,9 @@ msgid "Lock subtitle track"
 msgstr "Заблокувати доріжку субтитрів"
 
 #: src/timeline2/view/timelinetabs.cpp:179
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Закрити"
+msgstr "Закрити %1"
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format

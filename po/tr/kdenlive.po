@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-26 00:57+0000\n"
-"PO-Revision-Date: 2023-02-25 11:49+0300\n"
+"PO-Revision-Date: 2023-02-26 13:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4443,10 +4443,9 @@ msgid "Cannot set rating on this item"
 msgstr "Bu öge için derecelendirme ayarlanamıyor"
 
 #: src/bin/bin.cpp:2933
-#, fuzzy, kde-format
-#| msgid "Opening file %1"
+#, kde-format
 msgid "Open %1"
-msgstr "%1 dosyası açılıyor..."
+msgstr "Aç: %1"
 
 #: src/bin/bin.cpp:3333
 #, kde-format
@@ -6495,12 +6494,13 @@ msgstr ""
 "Yeterli izne sahip olduğunuzdan emin olun."
 
 #: src/dialogs/renderwidget.cpp:661
-#, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
+#, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
-msgstr "%1 otomatik kaydetme dosyası oluşturulamıyor"
+msgstr ""
+"Varlıklar klasörü oluşturulamadı:\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:701 src/dialogs/renderwidget.cpp:777
 #, kde-format
@@ -6663,10 +6663,9 @@ msgid "Add to current project"
 msgstr "Geçerli projeye ekle"
 
 #: src/dialogs/speechdialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "automated subtitling"
+#, kde-format
 msgid "Automatic Subtitling"
-msgstr "otomatikleştirilmiş altyazılama"
+msgstr "Otomatik Altyazı Oluşturma"
 
 #: src/dialogs/speechdialog.cpp:41
 #, kde-format
@@ -15379,10 +15378,9 @@ msgid "Lock subtitle track"
 msgstr "Altyazı izini kilitle"
 
 #: src/timeline2/view/timelinetabs.cpp:179
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "Kapat"
+msgstr "Kapat: %1"
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format
