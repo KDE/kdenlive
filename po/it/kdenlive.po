@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-01-20 08:41+0100\n"
+"PO-Revision-Date: 2023-02-26 09:16+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -8320,7 +8320,7 @@ msgstr "Crea cartella di libreria"
 #: src/library/librarywidget.cpp:229
 #, kde-format
 msgid "Rename Library Clip"
-msgstr "Rinomina clip della libreria"
+msgstr "Rinomina libreria di clip"
 
 #: src/library/librarywidget.cpp:236
 #, kde-format
