@@ -3578,8 +3578,8 @@ void Bin::slotCreateProjectClip()
         dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
         int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
         dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
-        dia_ui.video_tracks->setValue(2);
-        dia_ui.audio_tracks->setValue(2);
+        dia_ui.video_tracks->setValue(KdenliveSettings::videotracks());
+        dia_ui.audio_tracks->setValue(KdenliveSettings::audiotracks());
         if (dia->exec() == QDialog::Accepted) {
             int vTracks = dia_ui.video_tracks->value();
             int aTracks = dia_ui.audio_tracks->value();
