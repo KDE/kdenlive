@@ -190,7 +190,7 @@ private:
     Q_DISABLE_COPY(ExtractionResult)
 };
 
-ClipPropertiesController::ClipPropertiesController(ClipController *controller, QWidget *parent)
+ClipPropertiesController::ClipPropertiesController(const QString &clipName, ClipController *controller, QWidget *parent)
     : QWidget(parent)
     , m_controller(controller)
     , m_id(controller->binId())
@@ -209,7 +209,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_clipLabel = new ElidedLinkLabel(this);
 
     if (m_type == ClipType::Color || m_type == ClipType::Timeline || controller->clipUrl().isEmpty()) {
-        m_clipLabel->setLabelText(controller->clipName(), QString());
+        m_clipLabel->setLabelText(clipName, QString());
     } else {
         m_clipLabel->setLabelText(controller->clipUrl(), controller->clipUrl());
     }

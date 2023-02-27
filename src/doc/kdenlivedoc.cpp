@@ -90,6 +90,7 @@ KdenliveDoc::KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QSt
     const int activeTrack = tracks.first > 0 ? tracks.second : tracks.second - 1;
     sequenceProperties[QStringLiteral("activeTrack")] = QString::number(activeTrack);
     sequenceProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
+    sequenceProperties[QStringLiteral("documentuuid")] = m_uuid.toString();
     m_sequenceProperties.insert(m_uuid, sequenceProperties);
 
     // Load properties
@@ -1142,12 +1143,26 @@ void KdenliveDoc::setSequenceProperty(const QUuid &uuid, const QString &name, in
 
 const QString KdenliveDoc::getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue) const
 {
-
     if (m_sequenceProperties.contains(uuid)) {
         QMap<QString, QString> sequenceMap = m_sequenceProperties.value(uuid);
         return sequenceMap.value(name, defaultValue);
     }
     return defaultValue;
+}
+
+void KdenliveDoc::clearSequenceProperty(const QUuid &uuid, const QString &name)
+{
+    if (m_sequenceProperties.contains(uuid)) {
+        m_sequenceProperties[uuid].remove(name);
+    }
+}
+
+const QMap<QString, QString> KdenliveDoc::getSequenceProperties(const QUuid &uuid) const
+{
+    if (m_sequenceProperties.contains(uuid)) {
+        return m_sequenceProperties.value(uuid);
+    }
+    return QMap<QString, QString>();
 }
 
 QMap<QString, QString> KdenliveDoc::getRenderProperties() const
@@ -1573,6 +1588,7 @@ void KdenliveDoc::loadDocumentGuides(const QUuid &uuid, std::shared_ptr<Timeline
     QString guides = getSequenceProperty(uuid, QStringLiteral("guides"));
     if (!guides.isEmpty()) {
         model->getGuideModel()->importFromJson(guides, true, false);
+        clearSequenceProperty(uuid, QStringLiteral("guides"));
     }
 }
 
@@ -2042,6 +2058,20 @@ void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemMod
         activeUuid = uuid;
     }
     m_timelines.insert(uuid, model);
+}
+
+void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
+{
+    Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
+    std::shared_ptr<TimelineItemModel> model = m_timelines.value(uuid);
+    // Load groups
+    const QString groupsData = getSequenceProperty(uuid, QStringLiteral("groups"));
+    if (!groupsData.isEmpty()) {
+        model->loadGroups(groupsData);
+        // TODO: get rid of temporary data
+        // clearSequenceProperty(uuid, QStringLiteral("groups"));
+    }
+    // Load guides
     model->getGuideModel()->loadCategories(guidesCategories(), false);
     model->updateFieldOrderFilter(pCore->getCurrentProfile());
     loadDocumentGuides(uuid, model);

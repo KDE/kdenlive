@@ -120,6 +120,9 @@ public:
     /** @brief Close a timeline tab through its uuid
      */
     bool closeTimeline(const QUuid &uuid, bool onDeletion = false);
+    /** @brief Update a timeline sequence before saving or extracting xml
+     */
+    void syncTimeline(const QUuid &uuid);
     void setActiveTimeline(const QUuid &uuid);
 
 public Q_SLOTS:

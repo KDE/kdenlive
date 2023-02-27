@@ -734,8 +734,8 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = std::static_pointer_cast<ProjectClip>(clip);
         updateWatcher(clipItem);
-        if (clipItem->clipType() == ClipType::Timeline) {
-            const QString uuid = clipItem->getProducerProperty(QStringLiteral("kdenlive:uuid"));
+        if (clipItem->clipType() == ClipType::Timeline && clipItem->statusReady()) {
+            const QString uuid = clipItem->getSequenceUuid().toString();
             std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(clipItem->originalProducer()->parent()));
             storeSequence(uuid, trac);
         }
@@ -753,6 +753,11 @@ void ProjectItemModel::deregisterItem(int id, TreeItem *item)
         auto clipItem = static_cast<ProjectClip *>(clip);
         m_fileWatcher->removeFile(clipItem->clipId());
     }
+}
+
+bool ProjectItemModel::hasSequenceId(const QUuid &uuid) const
+{
+    return m_binPlaylist->hasSequenceId(uuid);
 }
 
 const QString ProjectItemModel::getSequenceId(const QUuid &uuid)
@@ -1255,6 +1260,105 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
         }
     } else {
         qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
+    }
+}
+
+void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                                           QProgressDialog *progressDialog)
+{
+    QWriteLocker locker(&m_lock);
+    QList<int> processedIds;
+    QMap<int, std::shared_ptr<Mlt::Producer>> binProducers;
+    for (int i = 1; i < documentTractor.count(); i++) {
+        std::unique_ptr<Mlt::Producer> track(documentTractor.track(i));
+        Mlt::Service service(track->get_service());
+        Mlt::Tractor tractor(service);
+        if (tractor.count() < 2) {
+            qDebug() << "// TRACTOR PROBLEM";
+            return;
+        }
+        for (int j = 0; j < tractor.count(); j++) {
+            std::unique_ptr<Mlt::Producer> trackProducer(tractor.track(j));
+            Mlt::Playlist trackPlaylist(mlt_playlist(trackProducer->get_service()));
+            for (int k = 0; k < trackPlaylist.count(); k++) {
+                if (trackPlaylist.is_blank(k)) {
+                    continue;
+                }
+                std::unique_ptr<Mlt::Producer> clip(trackPlaylist.get_clip(k));
+                if (clip->parent().property_exists("kdenlive:id")) {
+                    int cid = clip->parent().get_int("kdenlive:id");
+                    if (processedIds.contains(cid)) {
+                        continue;
+                    }
+                    const QString service = clip->parent().get("mlt_service");
+                    const QString resource = clip->parent().get("resource");
+                    const QString hash = clip->parent().get("kdenlive:file_hash");
+                    ClipType::ProducerType matchType;
+                    if (service.startsWith(QLatin1String("avformat"))) {
+                        int cType = clip->parent().get_int("kdenlive:clip_type");
+                        switch (cType) {
+                        case 1:
+                            matchType = ClipType::Audio;
+                            break;
+                        case 2:
+                            matchType = ClipType::Video;
+                            break;
+                        default:
+                            matchType = ClipType::AV;
+                            break;
+                        }
+                    } else {
+                        matchType = ClipLoadTask::getTypeForService(service, resource);
+                    }
+                    qDebug() << ":::: LOOKING FOR A MATCHING ITEM TYPE: " << matchType;
+                    // Try to find matching clip
+                    bool found = false;
+                    for (const auto &clip : m_allItems) {
+                        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+                        if (c->itemType() == AbstractProjectItem::ClipItem) {
+                            if (c->clipType() == matchType) {
+                                std::shared_ptr<ProjectClip> pClip = std::static_pointer_cast<ProjectClip>(c);
+                                qDebug() << "::::::\nTRYING TO MATCH: " << pClip->getProducerProperty(QStringLiteral("resource")) << " = " << resource;
+                                if (pClip->getProducerProperty(QStringLiteral("kdenlive:file_hash")) == hash) {
+                                    // Found a match
+                                    binIdCorresp[QString::number(cid)] = pClip->clipId();
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!found) {
+                        std::shared_ptr<Mlt::Producer> clipProd(new Mlt::Producer(clip->parent()));
+                        binProducers.insert(cid, clipProd);
+                    }
+                    processedIds << cid;
+                }
+                qDebug() << ":::: FOUND CLIPS IN PLAYLIST: " << i << ": " << trackPlaylist.count();
+            }
+        }
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // Do the real insertion
+    QList<int> binIds = binProducers.keys();
+    while (!binProducers.isEmpty()) {
+        int bid = binIds.takeFirst();
+        std::shared_ptr<Mlt::Producer> prod = binProducers.take(bid);
+        QString newId = QString::number(getFreeClipId());
+        QString parentId = qstrdup(prod->get("kdenlive:folderid"));
+        if (parentId.isEmpty()) {
+            parentId = QStringLiteral("-1");
+        } else {
+            if (binIdCorresp.count(parentId.section(QLatin1Char('.'), -1)) == 0) {
+                // Error, folder was lost
+                parentId = QStringLiteral("-1");
+            }
+        }
+        prod->set("_kdenlive_processed", 1);
+        qDebug() << "======\nADDING NEW CLIP: " << newId << " = " << prod->is_valid();
+        requestAddBinClip(newId, prod, parentId, undo, redo);
+        binIdCorresp[QString::number(bid)] = newId;
     }
 }
 

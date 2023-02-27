@@ -74,9 +74,13 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     m_notesLog.clear();
 
     QStringList expandedFolders;
-    if (projectModel && timeline->uuid() == pCore->currentTimelineId()) {
-        binIdCorresp.clear();
-        projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
+    if (projectModel) {
+        if (timeline->uuid() == pCore->currentTimelineId()) {
+            binIdCorresp.clear();
+            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
+        } else {
+            projectModel->loadTractorPlaylist(tractor, binIdCorresp, expandedFolders, progressDialog);
+        }
 
         QStringList foldersToExpand;
         // Find updated ids for expanded folders

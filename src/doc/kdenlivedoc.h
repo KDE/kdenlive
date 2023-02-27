@@ -165,6 +165,9 @@ public:
     void setSequenceProperty(const QUuid &uuid, const QString &name, int value);
     /** @brief Get a timeline sequence property. */
     const QString getSequenceProperty(const QUuid &uuid, const QString &name, const QString &defaultValue = QString()) const;
+    /** @brief Delete the sequence property after it has been used. */
+    void clearSequenceProperty(const QUuid &uuid, const QString &name);
+    const QMap<QString, QString> getSequenceProperties(const QUuid &uuid) const;
     /** @brief Move document properties into sequence properties (mostly useful to convert older KdenliveDoc formats . */
     void importSequenceProperties(const QUuid uuid, const QStringList properties);
 
@@ -268,6 +271,8 @@ public:
     /** @brief Returns the default definition  for guide categories.*/
     static const QStringList getDefaultGuideCategories();
     void addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model);
+    /** @brief Load the guides into the model for a sequence.*/
+    void loadSequenceGroupsAndGuides(const QUuid &uuid);
     /** @brief Get a timeline by its uuid.*/
     std::shared_ptr<TimelineItemModel> getTimeline(const QUuid &uuid);
     void closeTimeline(const QUuid &uuid);

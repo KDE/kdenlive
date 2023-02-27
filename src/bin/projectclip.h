@@ -261,7 +261,13 @@ public:
     /** @brief Returns false if the clip is or embeds a timeline with uuid. */
     bool canBeDropped(const QUuid &uuid) const;
     const QList<QUuid> registeredUuids() const;
+    /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
+    const QUuid &getSequenceUuid() const;
     void resetSequenceThumbnails();
+    /** @brief Returns the clip name (usually file name) */
+    QString clipName();
+    /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
+    void saveZone(QPoint zone, const QDir &dir);
 
 protected:
     friend class ClipModel;
@@ -344,7 +350,10 @@ private:
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
     std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
     std::shared_ptr<Mlt::Producer> m_disabledProducer;
+    // A temporary uuid used to reset thumbnails on producer change
     QUuid m_uuid;
+    // The sequence unique identifier
+    QUuid m_sequenceUuid;
     QTemporaryFile m_sequenceThumbFile;
 
 Q_SIGNALS:

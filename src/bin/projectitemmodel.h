@@ -105,6 +105,8 @@ public:
     /** @brief Parse a bin playlist from the document tractor and reconstruct the tree */
     void loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
                          QProgressDialog *progressDialog = nullptr);
+    void loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
+                             QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata);
@@ -219,6 +221,8 @@ public:
     QUuid uuid() const { return m_uuid; };
     /** @brief Retrieve the Bin clip id from a sequence uuid */
     const QString getSequenceId(const QUuid &uuid);
+    /** @brief Check if we already have a sequence with this uuid */
+    bool hasSequenceId(const QUuid &uuid) const;
     /** @brief Return the main project tractor (container of all playlists) */
     std::shared_ptr<Mlt::Tractor> projectTractor();
     const QString sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration);

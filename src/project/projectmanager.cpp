@@ -308,6 +308,7 @@ void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<Tim
     m_project = doc;
     m_project->addTimeline(doc->uuid(), timeline);
     m_activeTimelineModel = timeline;
+    m_project->loadSequenceGroupsAndGuides(doc->uuid());
     m_project->activeUuid = doc->uuid();
 }
 
@@ -1255,10 +1256,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         });
     }
 
-    const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
-    if (!groupsData.isEmpty()) {
-        timelineModel->loadGroups(groupsData);
-    }
+    m_project->loadSequenceGroupsAndGuides(uuid);
     if (pCore->monitorManager()) {
         Q_EMIT pCore->monitorManager()->updatePreviewScaling();
         pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
@@ -1508,6 +1506,7 @@ void ProjectManager::addAudioTracks(int tracksCount)
 void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, int> tracks)
 {
     // Initialize default timeline properties
+    m_project->setSequenceProperty(uuid, QStringLiteral("documentuuid"), m_project->uuid().toString());
     m_project->setSequenceProperty(uuid, QStringLiteral("zoom"), QStringLiteral("8"));
     m_project->setSequenceProperty(uuid, QStringLiteral("verticalzoom"), QStringLiteral("1"));
     m_project->setSequenceProperty(uuid, QStringLiteral("zonein"), QStringLiteral("0"));
@@ -1591,6 +1590,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
                 clip->setProperties(properties, true);
             }
         });
+        m_project->loadSequenceGroupsAndGuides(uuid);
         clip->setProducer(prod, false, false);
         if (pCore->bin()) {
             pCore->bin()->registerSequence(uuid, id);
@@ -1605,9 +1605,26 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
             tractor.reset(new Mlt::Tractor((mlt_tractor)xmlProd->get_producer()));
             tractor->set("id", uuid.toString().toUtf8().constData());
         }
+        // Load sequence properties from thr xml producer
+        Mlt::Properties playlistProps(xmlProd->get_properties());
+        Mlt::Properties sequenceProperties;
+        sequenceProperties.pass_values(playlistProps, "kdenlive:sequenceproperties.");
+        for (int i = 0; i < sequenceProperties.count(); i++) {
+            m_project->setSequenceProperty(uuid, QString(sequenceProperties.get_name(i)), QString(sequenceProperties.get(i)));
+        }
+
+        const QUuid sourceDocUuid(m_project->getSequenceProperty(uuid, QStringLiteral("documentuuid")));
+        if (sourceDocUuid == m_project->uuid()) {
+            qDebug() << "WWWWWWWWWWWWWWWWW\n\n\nIMPORTING FRMO SAME PROJECT\n\nWWWWWWWWWWWWWWW";
+        } else {
+            qDebug() << "WWWWWWWWWWWWWWWWW\n\nImporting a sequence from another project: " << sourceDocUuid << " = " << m_project->uuid()
+                     << "\n\nWWWWWWWWWWWWWWW";
+            pCore->displayMessage(i18n("Importing a sequence clip, this is currently in experimental state"), ErrorMessage);
+        }
         const QString chunks = m_project->getSequenceProperty(uuid, QStringLiteral("previewchunks"));
         const QString dirty = m_project->getSequenceProperty(uuid, QStringLiteral("dirtypreviewchunks"));
-        if (!constructTimelineFromTractor(timelineModel, nullptr, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
+        if (!constructTimelineFromTractor(timelineModel, sourceDocUuid == m_project->uuid() ? nullptr : pCore->projectItemModel(), *tractor.get(),
+                                          m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             // if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             //  TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
@@ -1700,10 +1717,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         }*/
         //}
     }
-    const QString groupsData = m_project->getSequenceProperty(uuid, QStringLiteral("groups"));
-    if (!groupsData.isEmpty()) {
-        timelineModel->loadGroups(groupsData);
-    }
+    m_project->loadSequenceGroupsAndGuides(uuid);
 
     int activeTrackPosition = m_project->getSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(-1)).toInt();
     if (activeTrackPosition == -2) {
@@ -1740,6 +1754,21 @@ void ProjectManager::setTimelinePropery(QUuid uuid, const QString &prop, const Q
 int ProjectManager::getTimelinesCount() const
 {
     return m_project->timelineCount();
+}
+
+void ProjectManager::syncTimeline(const QUuid &uuid)
+{
+    std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
+    if (model) {
+        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(model->tractor());
+        int position;
+        if (model == m_activeTimelineModel) {
+            position = pCore->getMonitorPosition();
+        } else {
+            position = -1;
+        }
+        pCore->bin()->updateSequenceClip(uuid, model->duration(), position, prod);
+    }
 }
 
 bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion)

@@ -65,9 +65,6 @@ public:
     /** @brief Returns a clone of our master producer. Delete after use! */
     Mlt::Producer *masterProducer();
 
-    /** @brief Returns the clip name (usually file name) */
-    QString clipName() const;
-
     /** @brief Returns the clip's description or metadata comment */
     QString description() const;
 
@@ -187,8 +184,6 @@ public:
     int effectsCount();
     /** @brief Returns all urls of external files used by effects on this bin clip (e.g. LUTs)*/
     QStringList filesUsedByEffects();
-    /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
-    void saveZone(QPoint zone, const QDir &dir);
 
     /** @brief This is the producer that serves as a placeholder while a clip is being loaded. It is created in Core at startup */
     static std::shared_ptr<Mlt::Producer> mediaUnavailable;

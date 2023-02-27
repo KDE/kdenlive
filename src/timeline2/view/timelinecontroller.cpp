@@ -2566,6 +2566,7 @@ void TimelineController::saveSequenceProperties()
 {
     const QString groupsData = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("groups"));
     m_model->tractor()->set("kdenlive:sequenceproperties.groups", groupsData.toUtf8().constData());
+    m_model->tractor()->set("kdenlive:sequenceproperties.documentuuid", pCore->currentDoc()->uuid().toString().toUtf8().constData());
     // Save timeline guides
     const QString guidesData = m_model->getGuideModel()->toJson();
     m_model->tractor()->set("kdenlive:sequenceproperties.guides", guidesData.toUtf8().constData());
@@ -3768,7 +3769,7 @@ void TimelineController::focusTimelineSequence(int id)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(id));
     if (binClip) {
-        const QUuid uuid(binClip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+        const QUuid uuid = binClip->getSequenceUuid();
         if (pCore->projectManager()->openTimeline(binClip->binId(), uuid)) {
             pCore->setDocumentModified();
         }

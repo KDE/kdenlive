@@ -1796,7 +1796,7 @@ void Bin::slotDeleteClip()
             QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(item)->childClips();
             for (auto &c : children) {
                 if (c->clipType() == ClipType::Timeline) {
-                    const QUuid uuid(c->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                    const QUuid uuid = c->getSequenceUuid();
                     sequences << uuid;
                 }
             }
@@ -1804,7 +1804,7 @@ void Bin::slotDeleteClip()
         } else if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto c = std::static_pointer_cast<ProjectClip>(item);
             if (c->clipType() == ClipType::Timeline) {
-                const QUuid uuid(c->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                const QUuid uuid = c->getSequenceUuid();
                 sequences << uuid;
             }
         }
@@ -2054,6 +2054,20 @@ void Bin::slotDuplicateClip()
     std::function<void(const QString &)> callBack = [this](const QString &binId) {
         if (!binId.isEmpty()) {
             selectClipById(binId);
+            std::shared_ptr<ProjectClip> clip = getBinClip(binId);
+            if (clip && clip->clipType() == ClipType::Timeline) {
+                // For duplicated timeline clips, we need to build the timelinemodel otherwise the producer is not correctly saved
+                const QUuid uuid = clip->getSequenceUuid();
+                Fun local_redo = [uuid, binId]() { return pCore->projectManager()->openTimeline(binId, uuid); };
+                Fun local_undo = [uuid]() {
+                    if (pCore->projectManager()->closeTimeline(uuid)) {
+                        pCore->window()->closeTimeline(uuid);
+                    }
+                    return true;
+                };
+                local_redo();
+                pCore->pushUndo(local_undo, local_redo, i18n("Open sequence"));
+            }
         }
     };
     int ix = 0;
@@ -2063,25 +2077,52 @@ void Bin::slotDuplicateClip()
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
             if (currentItem) {
-                QDomDocument doc;
-                QDomElement xml = currentItem->toXml(doc);
-                if (!xml.isNull()) {
-                    QString currentName = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:clipname"));
-                    if (currentName.isEmpty()) {
-                        QUrl url = QUrl::fromLocalFile(Xml::getXmlProperty(xml, QStringLiteral("resource")));
-                        if (url.isValid()) {
-                            currentName = url.fileName();
-                        }
+                if (currentItem->clipType() == ClipType::Timeline) {
+                    // Sync last changes for this timeline
+                    const QUuid uuid = currentItem->getSequenceUuid();
+                    pCore->projectManager()->syncTimeline(uuid);
+                    QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                    src.setAutoRemove(false);
+                    if (!src.open()) {
+                        pCore->displayMessage(i18n("Could not create temporary file in %1", QDir::temp().absolutePath()), MessageType::ErrorMessage, 500);
+                        return;
                     }
-                    if (!currentName.isEmpty()) {
-                        currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
-                        Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
+                    // Save playlist to disk
+                    currentItem->cloneProducerToFile(src.fileName());
+                    // extract xml
+                    QDomDocument xml = ClipCreator::getXmlFromUrl(src.fileName());
+                    if (xml.isNull()) {
+                        pCore->displayMessage(i18n("Duplicating sequence failed"), MessageType::ErrorMessage, 500);
+                        return;
                     }
+                    Xml::setXmlProperty(xml.documentElement(), QStringLiteral("kdenlive:clipname"), i18n("%1 (copy)", currentItem->clipName()));
+
+                    qDebug() << "/////////// final xml" << src.fileName();
                     QString id;
-                    if (ix == items.count()) {
-                        m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
-                    } else {
-                        m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
+                    Fun undo = []() { return true; };
+                    Fun redo = []() { return true; };
+                    bool res = m_itemModel->requestAddBinClip(id, xml.documentElement(), item->parent()->clipId(), undo, redo, callBack);
+                } else {
+                    QDomDocument doc;
+                    QDomElement xml = currentItem->toXml(doc);
+                    if (!xml.isNull()) {
+                        QString currentName = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:clipname"));
+                        if (currentName.isEmpty()) {
+                            QUrl url = QUrl::fromLocalFile(Xml::getXmlProperty(xml, QStringLiteral("resource")));
+                            if (url.isValid()) {
+                                currentName = url.fileName();
+                            }
+                        }
+                        if (!currentName.isEmpty()) {
+                            currentName.append(i18nc("append to clip name to indicate a copied idem", " (copy)"));
+                            Xml::setXmlProperty(xml, QStringLiteral("kdenlive:clipname"), currentName);
+                        }
+                        QString id;
+                        if (ix == items.count()) {
+                            m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
+                        } else {
+                            m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
+                        }
                     }
                 }
             }
@@ -2921,7 +2962,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
             if (clip) {
                 if (clip->clipType() == ClipType::Timeline) {
-                    const QUuid uuid(clip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                    const QUuid uuid = clip->getSequenceUuid();
                     Fun redo = [this, uuid, binId = clip->binId()]() { return pCore->projectManager()->openTimeline(binId, uuid); };
                     Fun undo = [this, uuid]() {
                         if (pCore->projectManager()->closeTimeline(uuid)) {

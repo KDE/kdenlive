@@ -21,6 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "core.h"
 #include "kdenlive_debug.h"
 #include <KLocalizedString>
+#include <QApplication>
 #include <QFileInfo>
 #include <QPixmap>
 
@@ -218,7 +219,9 @@ void ClipController::getInfoForProducer()
     int audioIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
     if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
-        m_clipType = ClipType::Playlist;
+        if (m_clipType != ClipType::Timeline) {
+            m_clipType = ClipType::Playlist;
+        }
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
         m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
@@ -256,7 +259,9 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Text;
         }
     } else if (m_service == QLatin1String("xml") || m_service == QLatin1String("consumer")) {
-        if (m_properties->property_exists("kdenlive:producer_type")) {
+        if (m_clipType == ClipType::Timeline) {
+            // Nothing to do, don't change existing type
+        } else if (m_properties->property_exists("kdenlive:producer_type")) {
             m_clipType = (ClipType::ProducerType)m_properties->get_int("kdenlive:producer_type");
         } else {
             m_clipType = ClipType::Playlist;
@@ -615,15 +620,6 @@ bool ClipController::sourceExists() const
         return true;
     }
     return QFile::exists(m_path);
-}
-
-QString ClipController::clipName() const
-{
-    QString name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
-    if (!name.isEmpty()) {
-        return name;
-    }
-    return m_path.isEmpty() ? i18n("Unnamed") : QFileInfo(m_path).fileName();
 }
 
 QString ClipController::description() const
@@ -1007,25 +1003,6 @@ bool ClipController::hasEffects() const
 void ClipController::setBinEffectsEnabled(bool enabled)
 {
     m_effectStack->setEffectStackEnabled(enabled);
-}
-
-void ClipController::saveZone(QPoint zone, const QDir &dir)
-{
-    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + QStringLiteral(".mlt"));
-    if (dir.exists(path)) {
-        // TODO ask for overwrite
-    }
-    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
-    xmlConsumer.set("terminate_on_pause", 1);
-    QReadLocker lock(&m_producerLock);
-    Mlt::Producer prod(m_masterProducer->get_producer());
-    Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
-    Mlt::Playlist list(*pCore->getProjectProfile());
-    list.insert_at(0, *prod2, 0);
-    // list.set("title", desc.toUtf8().constData());
-    xmlConsumer.connect(list);
-    xmlConsumer.run();
-    delete prod2;
 }
 
 std::shared_ptr<EffectStackModel> ClipController::getEffectStack() const

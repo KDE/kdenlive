@@ -62,6 +62,8 @@ public:
 
     /** @brief Retrieve the Bin clip id from a sequence uuid */
     const QString getSequenceId(const QUuid &uuid);
+    /** @brief Returns trus if we already have a sequence with this uuid */
+    bool hasSequenceId(const QUuid &uuid) const;
 
     /** @brief The number of clips in the Bin Playlist */
     int count() const;

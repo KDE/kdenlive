@@ -37,7 +37,7 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
         auto clip = std::static_pointer_cast<ProjectClip>(binElem);
         if (clip->isValid()) {
             if (clip->clipType() == ClipType::Timeline) {
-                const QUuid uuid(clip->getProducerProperty(QStringLiteral("kdenlive:uuid")));
+                const QUuid uuid = clip->getSequenceUuid();
                 m_sequenceClips.insert(uuid, id);
                 m_binPlaylist->append(clip->originalProducer()->parent());
             } else {
@@ -64,6 +64,11 @@ const QString BinPlaylist::getSequenceId(const QUuid &uuid)
         return m_sequenceClips.value(uuid);
     }
     return QString();
+}
+
+bool BinPlaylist::hasSequenceId(const QUuid &uuid) const
+{
+    return m_sequenceClips.contains(uuid);
 }
 
 void BinPlaylist::manageBinItemDeletion(AbstractProjectItem *binElem)

@@ -36,6 +36,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlive_debug.h"
 #include "utils/KMessageBox_KdenliveCompat.h"
+#include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -103,6 +104,13 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     } else {
         if (m_clipType == ClipType::Timeline) {
             // Initialize path for thumbnails playlist
+            m_sequenceUuid = QUuid(m_masterProducer->get("kdenlive:uuid"));
+            if (model->hasSequenceId(m_sequenceUuid)) {
+                // OOps we already have a sequence with this uuid, change it
+                m_sequenceUuid = QUuid::createUuid();
+                m_masterProducer->set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
+                m_masterProducer->parent().set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
+            }
             m_sequenceThumbFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("thumbs-%1-XXXXXX.mlt").arg(m_binId)));
         }
         m_thumbnail = thumb;
@@ -172,13 +180,15 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
         }
     }
     m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
-    QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
-    if (!clipName.isEmpty()) {
-        m_name = clipName;
-    } else if (!m_temporaryUrl.isEmpty()) {
-        m_name = QFileInfo(m_temporaryUrl).fileName();
-    } else {
-        m_name = i18n("Untitled");
+    if (m_name.isEmpty()) {
+        QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
+        if (!clipName.isEmpty()) {
+            m_name = clipName;
+        } else if (!m_temporaryUrl.isEmpty()) {
+            m_name = QFileInfo(m_temporaryUrl).fileName();
+        } else {
+            m_name = i18n("Untitled");
+        }
     }
     m_date = QFileInfo(m_temporaryUrl).lastModified();
     m_boundaryTimer.setSingleShot(true);
@@ -211,6 +221,9 @@ QString ProjectClip::getToolTip() const
 {
     if (m_clipType == ClipType::Color && m_path.contains(QLatin1Char('/'))) {
         return m_path.section(QLatin1Char('/'), -1);
+    }
+    if (m_clipType == ClipType::Timeline) {
+        return i18n("Timeline sequence");
     }
     return m_path;
 }
@@ -469,7 +482,7 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
             prod = document.documentElement();
             prod.setAttribute(QStringLiteral("kdenlive:id"), m_binId);
             prod.setAttribute(QStringLiteral("kdenlive:producer_type"), ClipType::Timeline);
-            prod.setAttribute(QStringLiteral("kdenlive:uuid"), getProducerProperty(QStringLiteral("kdenlive:uuid")));
+            prod.setAttribute(QStringLiteral("kdenlive:uuid"), m_sequenceUuid.toString());
             prod.setAttribute(QStringLiteral("kdenlive:duration"), QString::number(frameDuration()));
             prod.setAttribute(QStringLiteral("kdenlive:clipname"), clipName());
         } else {
@@ -597,6 +610,11 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
             KMessageBox::information(QApplication::activeWindow(),
                                      i18n("Image dimension smaller than 8 pixels.\nThis is not correctly supported by our video framework."));
         }
+    } else if (m_clipType == ClipType::Timeline) {
+        if (m_sequenceUuid.isNull()) {
+            m_sequenceUuid = QUuid::createUuid();
+            setProducerProperty(QStringLiteral("kdenlive:uuid"), m_sequenceUuid.toString());
+        }
     }
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
@@ -640,7 +658,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
                 bool ok;
                 QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
                 if (ok) {
-                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(getProducerProperty(QStringLiteral("kdenlive:uuid"))));
+                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                     QFile::remove(resource);
                 }
             }
@@ -1077,7 +1095,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
                 return nullptr;
             }
-            resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(getProducerProperty(QStringLiteral("kdenlive:uuid"))));
+            resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
             if (!QFileInfo::exists(resource)) {
                 cloneProducerToFile(resource);
             }
@@ -1302,6 +1320,40 @@ void ProjectClip::cloneProducerToFile(const QString &path)
     }
 }
 
+void ProjectClip::saveZone(QPoint zone, const QDir &dir)
+{
+    QString path = QString(clipName() + QLatin1Char('_') + QString::number(zone.x()) + QStringLiteral(".mlt"));
+    QString fullPath = dir.absoluteFilePath(path);
+    if (dir.exists(path)) {
+        QUrl url = QUrl::fromLocalFile(fullPath);
+        KIO::RenameDialog renameDialog(QApplication::activeWindow(), i18n("File already exists"), url, url, KIO::RenameDialog_Option::RenameDialog_Overwrite);
+        if (renameDialog.exec() != QDialog::Rejected) {
+            url = renameDialog.newDestUrl();
+            if (url.isValid()) {
+                fullPath = url.toLocalFile();
+            }
+        } else {
+            return;
+        }
+    }
+    Mlt::Consumer xmlConsumer(*pCore->getProjectProfile(), "xml", fullPath.toUtf8().constData());
+    xmlConsumer.set("terminate_on_pause", 1);
+    xmlConsumer.set("store", "kdenlive");
+    xmlConsumer.set("no_meta", 1);
+    QReadLocker lock(&m_producerLock);
+    if (m_clipType != ClipType::Timeline) {
+        Mlt::Producer prod(m_masterProducer->parent());
+        std::unique_ptr<Mlt::Producer> prod2(prod.cut(zone.x(), zone.y()));
+        Mlt::Playlist list(*pCore->getProjectProfile());
+        list.insert_at(0, *prod2.get(), 0);
+        // list.set("title", desc.toUtf8().constData());
+        xmlConsumer.connect(list);
+    } else {
+        xmlConsumer.connect(m_masterProducer->parent());
+    }
+    xmlConsumer.run();
+}
+
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
     Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
@@ -1499,7 +1551,7 @@ const QString ProjectClip::getFileHash()
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case ClipType::Timeline:
-        fileData = getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8();
+        fileData = m_sequenceUuid.toString().toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     default:
@@ -1698,9 +1750,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                                                                            {AbstractProjectItem::DataName});
         }
         refreshRoles << TimelineModel::NameRole;
-        if (m_clipType == ClipType::Timeline && m_properties->property_exists("kdenlive:uuid")) {
+        if (m_clipType == ClipType::Timeline && !m_sequenceUuid.isNull()) {
             // This is a timeline clip, update tab name
-            Q_EMIT pCore->bin()->updateTabName(QUuid(m_properties->get("kdenlive:uuid")), m_name);
+            Q_EMIT pCore->bin()->updateTabName(m_sequenceUuid, m_name);
         }
     }
     // update timeline clips
@@ -1776,7 +1828,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
-    auto *panel = new ClipPropertiesController(static_cast<ClipController *>(this), parent);
+    auto *panel = new ClipPropertiesController(clipName(), static_cast<ClipController *>(this), parent);
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
     connect(this, &ProjectClip::updateStreamInfo, panel, &ClipPropertiesController::updateStreamInfo);
@@ -1821,6 +1873,17 @@ bool ProjectClip::matches(const QString &condition)
     // TODO
     Q_UNUSED(condition)
     return true;
+}
+
+QString ProjectClip::clipName()
+{
+    if (m_name.isEmpty()) {
+        m_name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
+        if (m_name.isEmpty()) {
+            m_name = m_path.isEmpty() ? i18n("Unnamed") : QFileInfo(m_path).fileName();
+        }
+    }
+    return m_name;
 }
 
 bool ProjectClip::rename(const QString &name, int column)
@@ -2173,7 +2236,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
                 bool ok;
                 QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
                 if (ok) {
-                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(getProducerProperty(QStringLiteral("kdenlive:uuid"))));
+                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                     QFile::remove(resource);
                 }
             }
@@ -2225,7 +2288,7 @@ void ProjectClip::reloadTimeline()
             bool ok;
             QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
             if (ok) {
-                QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(getProducerProperty(QStringLiteral("kdenlive:uuid"))));
+                QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                 QFile::remove(resource);
             }
         }
@@ -2672,12 +2735,11 @@ const QString ProjectClip::baseThumbPath()
 
 bool ProjectClip::canBeDropped(const QUuid &uuid) const
 {
-    const QUuid myUuid(m_properties->get("kdenlive:uuid"));
-    if (myUuid == uuid) {
+    if (m_sequenceUuid == uuid) {
         return false;
     }
     if (auto ptr = m_model.lock()) {
-        return std::static_pointer_cast<ProjectItemModel>(ptr)->canBeEmbeded(uuid, myUuid);
+        return std::static_pointer_cast<ProjectItemModel>(ptr)->canBeEmbeded(uuid, m_sequenceUuid);
     } else {
         qDebug() << "..... ERROR CANNOT LOCK MODEL";
     }
@@ -2697,4 +2759,9 @@ const QList<QUuid> ProjectClip::registeredUuids() const
         }
     }
     return uuids;
+}
+
+const QUuid &ProjectClip::getSequenceUuid() const
+{
+    return m_sequenceUuid;
 }
