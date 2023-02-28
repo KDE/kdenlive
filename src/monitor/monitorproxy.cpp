@@ -515,7 +515,7 @@ bool MonitorProxy::seekOnDrop() const
 
 void MonitorProxy::addEffect(const QString &effectData, const QString &effectSource)
 {
-    QStringList effectInfo = effectSource.split(QLatin1Char('-'));
+    QStringList effectInfo = effectSource.split(QLatin1Char(','));
     effectInfo.prepend(effectData);
     if (m_clipId > -1) {
         QMetaObject::invokeMethod(pCore->bin(), "slotAddEffect", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_clipId)),

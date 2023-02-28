@@ -131,6 +131,7 @@ private:
     QPoint m_dragStart;
     TimecodeDisplay *m_inPos;
     TimecodeDisplay *m_outPos;
+    bool m_dragging;
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
@@ -160,7 +161,7 @@ Q_SIGNALS:
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
-    void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
+    void startDrag(const QPixmap, const QString assetId, ObjectId sourceObject, int row);
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void refresh();

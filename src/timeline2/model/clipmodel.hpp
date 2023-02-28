@@ -129,7 +129,7 @@ public:
     void deregisterClipToBin();
 
     bool addEffect(const QString &effectId);
-    bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
+    bool copyEffect(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /** @brief Import effects from a different stackModel */
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     /** @brief Import effects from a service that contains some (another clip?) */

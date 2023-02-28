@@ -4539,12 +4539,13 @@ bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
 
 bool TimelineModel::copyTrackEffect(int trackId, const QString &sourceId)
 {
-    QStringList source = sourceId.split(QLatin1Char('-'));
-    Q_ASSERT(source.count() == 3);
+    QStringList source = sourceId.split(QLatin1Char(','));
+    Q_ASSERT(source.count() == 4);
     int itemType = source.at(0).toInt();
     int itemId = source.at(1).toInt();
     int itemRow = source.at(2).toInt();
-    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
+    const QUuid uuid(source.at(3));
+    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
 
     if (trackId == -1) {
         QWriteLocker locker(&m_lock);
@@ -4597,17 +4598,6 @@ std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStack(int itemId)
 {
     Q_ASSERT(m_allClips.count(itemId));
     return m_allClips.at(itemId)->m_effectStack;
-}
-
-bool TimelineModel::copyClipEffect(int clipId, const QString &sourceId)
-{
-    QStringList source = sourceId.split(QLatin1Char('-'));
-    Q_ASSERT(m_allClips.count(clipId) && source.count() == 3);
-    int itemType = source.at(0).toInt();
-    int itemId = source.at(1).toInt();
-    int itemRow = source.at(2).toInt();
-    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(itemType, itemId);
-    return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);
 }
 
 bool TimelineModel::adjustEffectLength(int clipId, const QString &effectId, int duration, int initialDuration)

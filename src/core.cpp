@@ -705,6 +705,32 @@ int Core::getItemIn(const ObjectId &id)
     return 0;
 }
 
+int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
+{
+    if (!m_guiConstructed || !currentDoc()->getTimeline(uuid)) {
+        qWarning() << "GUI not build";
+        return 0;
+    }
+    switch (id.first) {
+    case ObjectType::TimelineClip:
+        if (currentDoc()->getTimeline(uuid)->isClip(id.second)) {
+            return currentDoc()->getTimeline(uuid)->getClipIn(id.second);
+        } else {
+            qWarning() << "querying non clip properties";
+        }
+        break;
+    case ObjectType::TimelineMix:
+    case ObjectType::TimelineComposition:
+    case ObjectType::BinClip:
+    case ObjectType::TimelineTrack:
+    case ObjectType::Master:
+        return 0;
+    default:
+        qWarning() << "unhandled object type";
+    }
+    return 0;
+}
+
 PlaylistState::ClipState Core::getItemState(const ObjectId &id)
 {
     if (!m_guiConstructed) return PlaylistState::Disabled;
@@ -925,18 +951,18 @@ void Core::clearAssetPanel(int itemId)
     if (m_guiConstructed) Q_EMIT m_mainWindow->clearAssetPanel(itemId);
 }
 
-std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
+std::shared_ptr<EffectStackModel> Core::getItemEffectStack(const QUuid &uuid, int itemType, int itemId)
 {
     if (!m_guiConstructed) return nullptr;
     switch (itemType) {
     case int(ObjectType::TimelineClip):
-        return m_mainWindow->getCurrentTimeline()->model()->getClipEffectStack(itemId);
+        return currentDoc()->getTimeline(uuid)->getClipEffectStack(itemId);
     case int(ObjectType::TimelineTrack):
-        return m_mainWindow->getCurrentTimeline()->model()->getTrackEffectStackModel(itemId);
+        return currentDoc()->getTimeline(uuid)->getTrackEffectStackModel(itemId);
     case int(ObjectType::BinClip):
         return m_mainWindow->getBin()->getClipEffectStack(itemId);
     case int(ObjectType::Master):
-        return m_mainWindow->getCurrentTimeline()->model()->getMasterEffectStackModel();
+        return currentDoc()->getTimeline(uuid)->getMasterEffectStackModel();
     default:
         return nullptr;
     }

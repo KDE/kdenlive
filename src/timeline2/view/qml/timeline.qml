@@ -1077,20 +1077,10 @@ Rectangle {
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('audio_recognition')
-                            ToolTip {
-                                visible: analyseButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: i18n("Speech recognition")
-                                }
-                            }
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 1500
+                            ToolTip.timeout: 5000
+                            ToolTip.text: i18n("Speech recognition")
                         }
                         ToolButton {
                             id: muteButton
@@ -1107,20 +1097,10 @@ Rectangle {
                             width: root.collapsedHeight
                             height: root.collapsedHeight
                             onClicked: timeline.triggerAction('disable_subtitle')
-                            ToolTip {
-                                visible: muteButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: root.subtitlesDisabled? i18n("Show") : i18n("Hide")
-                                }
-                            }
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 1500
+                            ToolTip.timeout: 5000
+                            ToolTip.text: root.subtitlesDisabled? i18n("Show") : i18n("Hide")
                         }
 
                         ToolButton {
@@ -1141,20 +1121,10 @@ Rectangle {
                                 }
                             }
                             onClicked: timeline.triggerAction('lock_subtitle')
-                            ToolTip {
-                                visible: lockButton.hovered
-                                font: miniFont
-                                delay: 1500
-                                timeout: 5000
-                                background: Rectangle {
-                                    color: activePalette.alternateBase
-                                    border.color: activePalette.light
-                                }
-                                contentItem: Label {
-                                    color: activePalette.text
-                                    text: root.subtitlesLocked? i18n("Unlock track") : i18n("Lock track")
-                                }
-                            }
+                            ToolTip.visible: hovered
+                            ToolTip.delay: 1500
+                            ToolTip.timeout: 5000
+                            ToolTip.text: root.subtitlesLocked? i18n("Unlock track") : i18n("Lock track")
                             SequentialAnimation {
                                 id: flashLock
                                 loops: 3

@@ -55,8 +55,8 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
                 Q_EMIT ptr->dataChanged(ix, ix, roles);
+                qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
             }
         }
     });
@@ -746,11 +746,11 @@ bool ClipModel::addEffect(const QString &effectId)
     return true;
 }
 
-bool ClipModel::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
+bool ClipModel::copyEffect(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
     QDomDocument doc;
-    m_effectStack->copyXmlEffect(stackModel->rowToXml(rowId, doc));
+    m_effectStack->copyXmlEffect(stackModel->rowToXml(uuid, rowId, doc));
     return true;
 }
 

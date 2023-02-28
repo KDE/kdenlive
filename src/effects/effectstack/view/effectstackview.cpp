@@ -360,22 +360,27 @@ void EffectStackView::updateTreeHeight()
     }
 }
 
-void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel)
+void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row)
 {
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
     auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/effect"), effectModel->getAssetId().toUtf8());
+    mime->setData(QStringLiteral("kdenlive/effect"), assetId.toUtf8());
     // TODO this will break if source effect is not on the stack of a timeline clip
-    ObjectId source = effectModel->getOwnerId();
     QByteArray effectSource;
-    effectSource += QString::number(int(source.first)).toUtf8();
-    effectSource += '-';
-    effectSource += QString::number(int(source.second)).toUtf8();
-    effectSource += '-';
-    effectSource += QString::number(effectModel->row()).toUtf8();
+    effectSource += QString::number(int(sourceObject.first)).toUtf8();
+    effectSource += ',';
+    effectSource += QString::number(int(sourceObject.second)).toUtf8();
+    effectSource += ',';
+    effectSource += QString::number(row).toUtf8();
+    effectSource += ',';
+    if (sourceObject.first == ObjectType::BinClip) {
+        effectSource += QByteArray();
+    } else {
+        // Keep a reference to the timeline model
+        effectSource += pCore->currentTimelineId().toString().toUtf8();
+    }
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
-    // mime->setData(QStringLiteral("kdenlive/effectrow"), QString::number(effectModel->row()).toUtf8());
 
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
@@ -439,13 +444,11 @@ void EffectStackView::unsetModel(bool reset)
         disconnect(m_model.get(), &EffectStackModel::currentChanged, this, &EffectStackView::activateEffect);
         disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
         Q_EMIT pCore->disconnectEffectStack();
-    }
-    if (reset) {
-        QMutexLocker lock(&m_mutex);
-        m_model.reset();
-        m_effectsTree->setModel(nullptr);
-    }
-    if (id != Kdenlive::NoMonitor) {
+        if (reset) {
+            QMutexLocker lock(&m_mutex);
+            m_model.reset();
+            m_effectsTree->setModel(nullptr);
+        }
         pCore->getMonitor(id)->slotShowEffectScene(MonitorSceneDefault);
     }
 }

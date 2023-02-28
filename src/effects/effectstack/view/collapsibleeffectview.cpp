@@ -43,6 +43,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     , m_view(nullptr)
     , m_model(effectModel)
     , m_blockWheel(false)
+    , m_dragging(false)
 {
     QString effectId = effectModel->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
@@ -407,6 +408,7 @@ void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 #else
     m_dragStart = e->globalPosition().toPoint();
 #endif
+    m_dragging = false;
     if (!decoframe->property("active").toBool()) {
         // Activate effect if not already active
         Q_EMIT activateEffect(m_model->row());
@@ -417,12 +419,13 @@ void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if ((e->globalPos() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+    if (!m_dragging && (e->globalPos() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
 #else
-    if ((e->globalPosition().toPoint() - m_dragStart).manhattanLength() < QApplication::startDragDistance()) {
+    if (!m_dragging && (e->globalPosition().toPoint() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
 #endif
+        m_dragging = true;
         QPixmap pix = frame->grab();
-        Q_EMIT startDrag(pix, m_model);
+        Q_EMIT startDrag(pix, m_model->getAssetId(), m_model->getOwnerId(), m_model->row());
     }
     QWidget::mouseMoveEvent(e);
 }
@@ -440,6 +443,7 @@ void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
 void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
 {
     m_dragStart = QPoint();
+    m_dragging = false;
     if (!decoframe->property("active").toBool()) {
         // Q_EMIT activateEffect(effectIndex());
     }

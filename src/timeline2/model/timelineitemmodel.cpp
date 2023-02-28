@@ -690,6 +690,18 @@ void TimelineItemModel::rebuildMixer()
     }
 }
 
+bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
+{
+    QStringList source = sourceId.split(QLatin1Char(','));
+    Q_ASSERT(m_allClips.count(clipId) && source.count() == 4);
+    int itemType = source.at(0).toInt();
+    int itemId = source.at(1).toInt();
+    int itemRow = source.at(2).toInt();
+    const QUuid uuid(source.at(3));
+    std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
+    return m_allClips.at(clipId)->copyEffect(uuid, effectStack, itemRow);
+}
+
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
 {
     bool isMultiTrack = pCore->enableMultiTrack(false);

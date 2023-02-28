@@ -75,6 +75,7 @@ public:
        @param text is the new track name.
     */
     Q_INVOKABLE void setTrackName(int trackId, const QString &text);
+    Q_INVOKABLE bool copyClipEffect(int clipId, const QString sourceId);
     /** @brief returns the lower video track index in timeline.
      **/
     int getFirstVideoTrackIndex() const;

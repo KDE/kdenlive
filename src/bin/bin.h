@@ -435,6 +435,8 @@ private Q_SLOTS:
     void editTags(const QList <QString> &allClips, const QString &tag, bool add);
     /** @brief Update the string description of the clips count, like: 123 clips (3 selected). */
     void updateClipsCount();
+    /** @brief Update the menu entry listing the occurrences of a clip in timeline. */
+    void updateTimelineOccurrences();
 
 public Q_SLOTS:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);

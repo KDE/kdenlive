@@ -187,9 +187,12 @@ public:
     /** @brief Clear asset view if itemId is displayed. */
     void clearAssetPanel(int itemId);
     /** @brief Returns the effectstack of a given bin clip. */
-    std::shared_ptr<EffectStackModel> getItemEffectStack(int itemType, int itemId);
+    std::shared_ptr<EffectStackModel> getItemEffectStack(const QUuid &uuid, int itemType, int itemId);
     int getItemPosition(const ObjectId &id);
+    /** @brief Get item in point. */
     int getItemIn(const ObjectId &id);
+    /** @brief Get item in point, possibly from another timeline. */
+    int getItemIn(const QUuid &uuid, const ObjectId &id);
     int getItemTrack(const ObjectId &id);
     int getItemDuration(const ObjectId &id);
     QSize getItemFrameSize(const ObjectId &id);

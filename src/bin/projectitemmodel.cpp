@@ -271,7 +271,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         // Dropping effect on a Bin item
         QStringList effectData;
         effectData << QString::fromUtf8(data->data(QStringLiteral("kdenlive/effect")));
-        QStringList source = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char('-'));
+        QStringList source = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char(','));
         effectData << source;
         Q_EMIT effectDropped(effectData, parent);
         return true;

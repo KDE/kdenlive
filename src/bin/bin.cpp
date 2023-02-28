@@ -2509,9 +2509,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
             if (clip && clip->statusReady()) {
                 Q_EMIT requestShowClipProperties(clip, false);
                 m_proxyAction->blockSignals(true);
-                if (isClip) {
-                    Q_EMIT findInTimeline(clip->clipId(), clip->timelineInstances());
-                }
                 clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
                 hasAudio = clip->hasAudio();
                 m_proxyAction->setChecked(clip->hasProxy());
@@ -2520,13 +2517,9 @@ void Bin::selectProxyModel(const QModelIndex &id)
                     isImported = true;
                 }
             } else if (clip && clip->clipStatus() == FileStatus::StatusMissing) {
-                if (isClip) {
-                    Q_EMIT findInTimeline(clip->clipId(), clip->timelineInstances());
-                }
                 m_openAction->setEnabled(false);
             } else {
                 // Disable find in timeline option
-                Q_EMIT findInTimeline(QString());
                 m_openAction->setEnabled(false);
             }
             m_clipsActionsMenu->setEnabled(!isFolder);
@@ -3481,6 +3474,7 @@ void Bin::setupMenu()
         m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
         m_propertiesDock->close();
     }
+    connect(m_menu, &QMenu::aboutToShow, this, &Bin::updateTimelineOccurrences);
 }
 
 const QString Bin::getDocumentProperty(const QString &key)
@@ -3654,9 +3648,10 @@ void Bin::slotAddEffect(QString id, const QStringList &effectData)
     if (!id.isEmpty()) {
         std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
         if (clip) {
-            if (effectData.count() == 4) {
+            if (effectData.count() == 5) {
                 // Paste effect from another stack
-                std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(effectData.at(1).toInt(), effectData.at(2).toInt());
+                std::shared_ptr<EffectStackModel> sourceStack =
+                    pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
                 clip->copyEffect(sourceStack, effectData.at(3).toInt());
             } else {
                 clip->addEffect(effectData.constFirst());
@@ -3690,9 +3685,10 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             parentIndex = parent.parent();
         }
         bool res = false;
-        if (effectData.count() == 4) {
+        if (effectData.count() == 5) {
             // Paste effect from another stack
-            std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(effectData.at(1).toInt(), effectData.at(2).toInt());
+            std::shared_ptr<EffectStackModel> sourceStack =
+                pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
             res = std::static_pointer_cast<ProjectClip>(parentItem)->copyEffect(sourceStack, effectData.at(3).toInt());
         } else {
             res = std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
@@ -5670,8 +5666,26 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, std::shar
         // ClipLoadTask::start({ObjectType::BinClip, binId.toInt()}, QDomElement(), true, -1, -1, this);
         clip->reloadTimeline();
     }
+}
+
+void Bin::updateTimelineOccurrences()
+{
     // Update the clip in timeline menu
-    selectProxyModel(m_proxyModel->selectionModel()->currentIndex());
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    bool triggered = false;
+    if (currentSelection.isValid()) {
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
+        if (currentItem && currentItem->itemType() == AbstractProjectItem::ClipItem) {
+            auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
+            if (clip) {
+                triggered = true;
+                Q_EMIT findInTimeline(clip->clipId(), clip->timelineInstances());
+            }
+        }
+    }
+    if (!triggered) {
+        Q_EMIT findInTimeline(QString());
+    }
 }
 
 const QString Bin::sequenceBinId(const QUuid uuid)

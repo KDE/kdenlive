@@ -98,7 +98,7 @@ private:
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
-    void slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel);
+    void slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row);
     void loadEffects();
     void updateTreeHeight();
     void slotFocusEffect();
