@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-26 00:57+0000\n"
+"POT-Creation-Date: 2023-02-28 00:57+0000\n"
 "PO-Revision-Date: 2022-07-14 00:35+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-doc@kde.org>\n"
@@ -1393,7 +1393,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1371
-#: src/bin/bin.cpp:1376 src/bin/bin.cpp:2156
+#: src/bin/bin.cpp:1376 src/bin/bin.cpp:2197
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
@@ -4048,7 +4048,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:303
-#: src/timeline2/view/timelinecontroller.cpp:4652
+#: src/timeline2/view/timelinecontroller.cpp:4653
 #, kde-format
 msgid "Record audio"
 msgstr "Audio aufnehmen"
@@ -4091,9 +4091,8 @@ msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr ""
 
-#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4141
-#: src/mltcontroller/clipcontroller.cpp:626
-#: src/onlineresources/resourcewidget.cpp:266
+#: src/bin/abstractprojectitem.cpp:121 src/bin/bin.cpp:4182
+#: src/bin/projectclip.cpp:1883 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
@@ -4298,7 +4297,7 @@ msgstr "Clips im Projektinhalt löschen"
 msgid "Missing source clip"
 msgstr "Fehlender Quell-Clip"
 
-#: src/bin/bin.cpp:1887 src/bin/bin.cpp:2282
+#: src/bin/bin.cpp:1887 src/bin/bin.cpp:2323
 #: src/effects/effectlist/view/effectlistwidget.cpp:142
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4306,7 +4305,7 @@ msgstr "Fehlender Quell-Clip"
 msgid "Unable to write to file %1"
 msgstr "In Datei %1 kann nicht geschrieben werden"
 
-#: src/bin/bin.cpp:1897 src/bin/bin.cpp:2291 src/doc/kdenlivedoc.cpp:723
+#: src/bin/bin.cpp:1897 src/bin/bin.cpp:2332 src/doc/kdenlivedoc.cpp:724
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4363,24 +4362,49 @@ msgstr "Sicherungskopie-Datei öffnen"
 msgid "Could not locate %1"
 msgstr "%1 wurde nicht gefunden"
 
-#: src/bin/bin.cpp:2077
+#: src/bin/bin.cpp:2069
+#, fuzzy, kde-format
+#| msgid "Create New Sequence"
+msgid "Open sequence"
+msgstr "Neue Sequenz erstellen"
+
+#: src/bin/bin.cpp:2087
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary file"
+msgid "Could not create temporary file in %1"
+msgstr "Temporäre Datei kann nicht erstellt werden"
+
+#: src/bin/bin.cpp:2095
+#, fuzzy, kde-format
+#| msgid "Delete keyframe"
+msgid "Duplicating sequence failed"
+msgstr "Keyframe löschen"
+
+#: src/bin/bin.cpp:2098
+#, fuzzy, kde-format
+#| msgctxt "append to clip name to indicate a copied idem"
+#| msgid " (copy)"
+msgid "%1 (copy)"
+msgstr " (Kopie)"
+
+#: src/bin/bin.cpp:2117
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (Kopie)"
 
-#: src/bin/bin.cpp:2082 src/bin/bin.cpp:2084
+#: src/bin/bin.cpp:2122 src/bin/bin.cpp:2124
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Clip duplizieren"
 
-#: src/bin/bin.cpp:2192
+#: src/bin/bin.cpp:2233
 #, fuzzy, kde-format
 #| msgid "Clear filters"
 msgid "Clear Filters"
 msgstr "Filter zurücksetzen"
 
-#: src/bin/bin.cpp:2206
+#: src/bin/bin.cpp:2247
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
@@ -4388,25 +4412,25 @@ msgid_plural "%1 Stars"
 msgstr[0] "Start"
 msgstr[1] "Start"
 
-#: src/bin/bin.cpp:2213
+#: src/bin/bin.cpp:2254
 #, fuzzy, kde-format
 #| msgid "Unused clips"
 msgid "Unused Clips"
 msgstr "Nicht verwendete Clips"
 
-#: src/bin/bin.cpp:2220
+#: src/bin/bin.cpp:2261
 #, fuzzy, kde-format
 #| msgid "Filter by type"
 msgid "Filter by Type"
 msgstr "Nach Typ filtern"
 
-#: src/bin/bin.cpp:2223
+#: src/bin/bin.cpp:2264
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "AV Clip"
 msgstr "Clip hinzufügen"
 
-#: src/bin/bin.cpp:2227
+#: src/bin/bin.cpp:2268
 #, kde-format
 msgid "Mute Video"
 msgstr "Stummes Video"
@@ -4415,7 +4439,7 @@ msgstr "Stummes Video"
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2231 src/effects/effectlist/model/effecttreemodel.cpp:60
+#: src/bin/bin.cpp:2272 src/effects/effectlist/model/effecttreemodel.cpp:60
 #: src/layoutmanagement.cpp:35 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:47 src/onlineresources/resourcewidget.cpp:547
 #: src/ui/configcapture_ui.ui:525 src/ui/cutjobdialog_ui.ui:61
@@ -4425,56 +4449,56 @@ msgstr "Stummes Video"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/bin/bin.cpp:2235 src/mltcontroller/clippropertiescontroller.cpp:431
+#: src/bin/bin.cpp:2276 src/mltcontroller/clippropertiescontroller.cpp:431
 #, kde-format
 msgid "Image"
 msgstr "Bild"
 
-#: src/bin/bin.cpp:2239
+#: src/bin/bin.cpp:2280
 #, kde-format
 msgid "Slideshow"
 msgstr "Diashow"
 
-#: src/bin/bin.cpp:2243
+#: src/bin/bin.cpp:2284
 #, kde-format
 msgid "Playlist"
 msgstr "Wiedergabeliste"
 
-#: src/bin/bin.cpp:2247 src/project/dialogs/projectsettings.cpp:215
+#: src/bin/bin.cpp:2288 src/project/dialogs/projectsettings.cpp:215
 #, kde-format
 msgid "Title"
 msgstr "Titel"
 
-#: src/bin/bin.cpp:2251
+#: src/bin/bin.cpp:2292
 #, kde-format
 msgid "Title Template"
 msgstr "Titelvorlage"
 
-#: src/bin/bin.cpp:2255 src/layoutmanagement.cpp:37
+#: src/bin/bin.cpp:2296 src/layoutmanagement.cpp:37
 #: src/mltcontroller/clippropertiescontroller.cpp:345
 #, kde-format
 msgid "Color"
 msgstr "Farbe"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2312 src/ui/managecache_ui.ui:322
+#: src/bin/bin.cpp:2353 src/ui/managecache_ui.ui:322
 #, kde-format
 msgid "Folder"
 msgstr "Ordner"
 
-#: src/bin/bin.cpp:2313
+#: src/bin/bin.cpp:2354
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Ordner erstellen"
 
-#: src/bin/bin.cpp:2445 src/bin/bin.cpp:2457 src/bin/bin.cpp:3403
+#: src/bin/bin.cpp:2486 src/bin/bin.cpp:2498 src/bin/bin.cpp:3444
 #: src/timeline2/model/timelinemodel.cpp:2022
 #, kde-format
 msgid "Delete Clip"
 msgstr "Clip löschen"
 
-#: src/bin/bin.cpp:2446 src/bin/bin.cpp:2458
+#: src/bin/bin.cpp:2487 src/bin/bin.cpp:2499
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4482,45 +4506,45 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2447 src/bin/bin.cpp:2459 src/bin/bin.cpp:3383
+#: src/bin/bin.cpp:2488 src/bin/bin.cpp:2500 src/bin/bin.cpp:3424
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Proxy Clip"
 
-#: src/bin/bin.cpp:2451
+#: src/bin/bin.cpp:2492
 #, kde-format
 msgid "Delete Folder"
 msgstr "Ordner löschen"
 
-#: src/bin/bin.cpp:2452
+#: src/bin/bin.cpp:2493
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Proxy-Ordner"
 
-#: src/bin/bin.cpp:2687
+#: src/bin/bin.cpp:2728
 #, kde-format
 msgid "Edit rating"
 msgstr "Bewertung bearbeiten"
 
-#: src/bin/bin.cpp:2689
+#: src/bin/bin.cpp:2730
 #, fuzzy, kde-format
 #| msgid "Cannot edit the duration of multiple items"
 msgid "Cannot set rating on this item"
 msgstr "Die Dauer von mehreren Clips kann nicht bearbeitet werden"
 
-#: src/bin/bin.cpp:2933
+#: src/bin/bin.cpp:2974
 #, fuzzy, kde-format
 #| msgid "Open"
 msgid "Open %1"
 msgstr "Öffnen"
 
-#: src/bin/bin.cpp:3333
+#: src/bin/bin.cpp:3374
 #, fuzzy, kde-format
 #| msgid "Add Clip or Folder"
 msgid "Add Clip or Folder…"
 msgstr "Clip oder Ordner hinzufügen"
 
-#: src/bin/bin.cpp:3334
+#: src/bin/bin.cpp:3375
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4530,97 +4554,97 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3340
+#: src/bin/bin.cpp:3381
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "Farb-Clip hinzufügen"
 
-#: src/bin/bin.cpp:3342
+#: src/bin/bin.cpp:3383
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Image Sequence…"
 msgstr "Bildsequenz hinzufügen"
 
-#: src/bin/bin.cpp:3344
+#: src/bin/bin.cpp:3385
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "Titel-Clip hinzufügen"
 
-#: src/bin/bin.cpp:3346
+#: src/bin/bin.cpp:3387
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "Vorlagentitel hinzufügen"
 
-#: src/bin/bin.cpp:3348
+#: src/bin/bin.cpp:3389
 #, fuzzy, kde-format
 #| msgid "Create"
 msgid "Create Animation…"
 msgstr "Erstellen"
 
-#: src/bin/bin.cpp:3350
+#: src/bin/bin.cpp:3391
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Sequence…"
 msgstr "Bildsequenz hinzufügen"
 
-#: src/bin/bin.cpp:3353 src/mainwindow.cpp:360
+#: src/bin/bin.cpp:3394 src/mainwindow.cpp:360
 #, kde-format
 msgid "Online Resources"
 msgstr "Online-Ressourcen"
 
-#: src/bin/bin.cpp:3357
+#: src/bin/bin.cpp:3398
 #, fuzzy, kde-format
 #| msgid "Locate Clip..."
 msgid "Locate Clip…"
 msgstr "Clip lokalisieren ..."
 
-#: src/bin/bin.cpp:3362
+#: src/bin/bin.cpp:3403
 #, kde-format
 msgid "Reload Clip"
 msgstr "Clip neu laden"
 
-#: src/bin/bin.cpp:3368
+#: src/bin/bin.cpp:3409
 #, fuzzy, kde-format
 #| msgid "Transcoding to DVD format"
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transkodieren in DVD-Format läuft"
 
-#: src/bin/bin.cpp:3373
+#: src/bin/bin.cpp:3414
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip…"
 msgstr "Clip ersetzen"
 
-#: src/bin/bin.cpp:3378
+#: src/bin/bin.cpp:3419
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Clip duplizieren"
 
-#: src/bin/bin.cpp:3390 src/bin/bin.cpp:3440
+#: src/bin/bin.cpp:3431 src/bin/bin.cpp:3481
 #, kde-format
 msgid "Clip Properties"
 msgstr "Clip-Eigenschaften"
 
-#: src/bin/bin.cpp:3395 src/mltcontroller/clippropertiescontroller.cpp:282
+#: src/bin/bin.cpp:3436 src/mltcontroller/clippropertiescontroller.cpp:282
 #, kde-format
 msgid "Edit Clip"
 msgstr "Clip bearbeiten"
 
-#: src/bin/bin.cpp:3408
+#: src/bin/bin.cpp:3449
 #, fuzzy, kde-format
 #| msgid "Open projects in new tabs"
 msgid "Open in new bin"
 msgstr "Projekte in neuem Tab öffnen"
 
-#: src/bin/bin.cpp:3419
+#: src/bin/bin.cpp:3460
 #, kde-format
 msgid "Create Folder"
 msgstr "Ordner erstellen"
 
-#: src/bin/bin.cpp:3420
+#: src/bin/bin.cpp:3461
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4628,79 +4652,79 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3484 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3525 src/dialogs/textbasededit.cpp:624
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Protokoll anzeigen"
 
-#: src/bin/bin.cpp:3487 src/dialogs/textbasededit.cpp:625
+#: src/bin/bin.cpp:3528 src/dialogs/textbasededit.cpp:625
 #, kde-format
 msgid "Detailed log"
 msgstr "Ausführliches Protokoll"
 
-#: src/bin/bin.cpp:3537
+#: src/bin/bin.cpp:3578
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Neue Sequenz erstellen"
 
-#: src/bin/bin.cpp:3539
+#: src/bin/bin.cpp:3580
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence %1"
 msgstr "Sequenzname"
 
-#: src/bin/bin.cpp:3565
+#: src/bin/bin.cpp:3606
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Clip verschieben"
 msgstr[1] "Clips verschieben"
 
-#: src/bin/bin.cpp:3602
+#: src/bin/bin.cpp:3643
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Kein gültiger Clip zum Einfügen"
 
-#: src/bin/bin.cpp:3626 src/timeline2/view/timelinecontroller.cpp:1401
-#: src/timeline2/view/timelinecontroller.cpp:3296
+#: src/bin/bin.cpp:3667 src/timeline2/view/timelinecontroller.cpp:1401
+#: src/timeline2/view/timelinecontroller.cpp:3297
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Wählen Sie einen Clip, auf den Sie einen Effekt anwenden möchten"
 
-#: src/bin/bin.cpp:3635
+#: src/bin/bin.cpp:3676
 #, fuzzy, kde-format
 #| msgid "Cannot add effect to clip"
 msgid "Cannot apply effects on folders"
 msgstr "Der Effekt  kann nicht zum Clip hinzugefügt werden"
 
-#: src/bin/bin.cpp:3660 src/effects/effectstack/model/effectstackmodel.cpp:500
+#: src/bin/bin.cpp:3701 src/effects/effectstack/model/effectstackmodel.cpp:500
 #: src/effects/effectstack/model/effectstackmodel.cpp:506
 #: src/mainwindow.cpp:3078
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Der Effekt  kann nicht zum Clip hinzugefügt werden"
 
-#: src/bin/bin.cpp:3706 src/bin/bin.cpp:3713
+#: src/bin/bin.cpp:3747 src/bin/bin.cpp:3754
 #, fuzzy, kde-format
 #| msgid "Select a clip to save"
 msgid "Select a clip to add a tag"
 msgstr "Wählen Sie einen zu speichernden Clip"
 
-#: src/bin/bin.cpp:3852
+#: src/bin/bin.cpp:3893
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "Edit Tags"
 msgstr "Bewertung bearbeiten"
 
-#: src/bin/bin.cpp:4195
+#: src/bin/bin.cpp:4236
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4207
+#: src/bin/bin.cpp:4248
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -4709,12 +4733,12 @@ msgstr ""
 "Bitte wählen Sie im Einstellungen-Dialog ein Standardprogramm zum Öffnen von "
 "Bildern."
 
-#: src/bin/bin.cpp:4212
+#: src/bin/bin.cpp:4253
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4224
+#: src/bin/bin.cpp:4265
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -4724,7 +4748,7 @@ msgstr ""
 "Bitte wählen Sie im Einstellungen-Dialog ein Standardprogramm zum Öffnen von "
 "Audiodateien."
 
-#: src/bin/bin.cpp:4234 src/core.cpp:299 src/doc/kdenlivedoc.cpp:166
+#: src/bin/bin.cpp:4275 src/core.cpp:299 src/doc/kdenlivedoc.cpp:167
 #: src/jobs/cliploadtask.cpp:495 src/jobs/filtertask.cpp:84
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
@@ -4733,14 +4757,14 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Die Datei %1 lässt sich nicht öffnen"
 
-#: src/bin/bin.cpp:4414 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4455 src/dialogs/profilesdialog.cpp:213
 #, fuzzy, kde-format
 #| msgctxt "append to clip name to indicate a copied idem"
 #| msgid " (copy)"
 msgid "(copy)"
 msgstr " (Kopie)"
 
-#: src/bin/bin.cpp:4424
+#: src/bin/bin.cpp:4465
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -4750,111 +4774,111 @@ msgstr ""
 "an der Titeldatei speichern oder die Änderungen nur für dieses Projekt "
 "speichern?"
 
-#: src/bin/bin.cpp:4427 src/titler/titlewidget.cpp:2179
+#: src/bin/bin.cpp:4468 src/titler/titlewidget.cpp:2179
 #, kde-format
 msgid "Save Title"
 msgstr "Titel speichern"
 
-#: src/bin/bin.cpp:4427
+#: src/bin/bin.cpp:4468
 #, kde-format
 msgid "Save to title file"
 msgstr "Als Titeldatei speichern"
 
-#: src/bin/bin.cpp:4428
+#: src/bin/bin.cpp:4469
 #, kde-format
 msgid "Save in project only"
 msgstr "Nur im Projekt speichern"
 
-#: src/bin/bin.cpp:4446 src/dialogs/clipcreationdialog.cpp:379
+#: src/bin/bin.cpp:4487 src/dialogs/clipcreationdialog.cpp:379
 #, kde-format
 msgid "Title clip"
 msgstr "Titel-Clip"
 
-#: src/bin/bin.cpp:4496
+#: src/bin/bin.cpp:4537
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Clip ist ungültig und wird aus dem Projekt entfernt."
 
-#: src/bin/bin.cpp:4500
+#: src/bin/bin.cpp:4541
 #, kde-format
 msgid "Invalid clip"
 msgstr "Ungültiger Clip"
 
-#: src/bin/bin.cpp:4623
+#: src/bin/bin.cpp:4664
 #, kde-format
 msgid "Enable proxies"
 msgstr "Proxys aktivieren"
 
-#: src/bin/bin.cpp:4623
+#: src/bin/bin.cpp:4664
 #, kde-format
 msgid "Disable proxies"
 msgstr "Proxys deaktivieren"
 
-#: src/bin/bin.cpp:4808
+#: src/bin/bin.cpp:4849
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Proxies neu erstellen"
 
-#: src/bin/bin.cpp:5041
+#: src/bin/bin.cpp:5082
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektinhalt"
 
-#: src/bin/bin.cpp:5057
+#: src/bin/bin.cpp:5098
 #, kde-format
 msgid "Add Tracks"
 msgstr "Spuren hinzufügen"
 
-#: src/bin/bin.cpp:5059
+#: src/bin/bin.cpp:5100
 #, kde-format
 msgid "Edit Streams"
 msgstr "Streams bearbeiten"
 
 # TODO: klingt nicht plausibel.
-#: src/bin/bin.cpp:5074
+#: src/bin/bin.cpp:5115
 #, kde-format
 msgid "Don't ask again"
 msgstr "Diese Nachfrage nicht mehr anzeigen"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5078
+#: src/bin/bin.cpp:5119
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5090 src/mainwindow.cpp:2650
+#: src/bin/bin.cpp:5131 src/mainwindow.cpp:2650
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Keinen Clip gefunden, um die Markierung hinzuzufügen"
 
-#: src/bin/bin.cpp:5188
+#: src/bin/bin.cpp:5229
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Clips werden hinzugefügt"
 
-#: src/bin/bin.cpp:5379 src/bin/clipcreator.cpp:266
+#: src/bin/bin.cpp:5420 src/bin/clipcreator.cpp:267
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Clip hinzufügen"
 
-#: src/bin/bin.cpp:5401
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5403
+#: src/bin/bin.cpp:5444
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5468 src/bin/bin.cpp:5542
+#: src/bin/bin.cpp:5509 src/bin/bin.cpp:5583
 #, fuzzy, kde-format
 #| msgid "Add additional streams for clip"
 msgid "Add additional stream for clip"
@@ -4862,12 +4886,12 @@ msgid_plural "Add additional streams for clip"
 msgstr[0] "Zusätzliche Streams für Clip hinzufügen"
 msgstr[1] "Zusätzliche Streams für Clip hinzufügen"
 
-#: src/bin/bin.cpp:5489
+#: src/bin/bin.cpp:5530
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "Ausgewählte Clips importieren"
 
-#: src/bin/bin.cpp:5491
+#: src/bin/bin.cpp:5532
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -4876,17 +4900,17 @@ msgstr ""
 "Zusätzliche Streams für Clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5501 src/mltcontroller/clippropertiescontroller.cpp:633
+#: src/bin/bin.cpp:5542 src/mltcontroller/clippropertiescontroller.cpp:633
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video-Stream %1"
 
-#: src/bin/bin.cpp:5516
+#: src/bin/bin.cpp:5557
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "Audio-Stream %1"
 
-#: src/bin/bin.cpp:5569
+#: src/bin/bin.cpp:5610
 #, fuzzy, kde-format
 #| msgid "Delete clip markers"
 msgid "Remove clip markers"
@@ -4919,40 +4943,40 @@ msgid "Create color clip"
 msgstr "Farb-Clip erstellen"
 
 #: src/bin/clipcreator.cpp:126 src/bin/clipcreator.cpp:128
-#: src/bin/clipcreator.cpp:180 src/bin/clipcreator.cpp:182
-#: src/project/projectmanager.cpp:1205 src/project/projectmanager.cpp:1207
+#: src/bin/clipcreator.cpp:181 src/bin/clipcreator.cpp:183
+#: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
 msgstr "Sequenzname"
 
-#: src/bin/clipcreator.cpp:161 src/bin/clipcreator.cpp:191
+#: src/bin/clipcreator.cpp:162 src/bin/clipcreator.cpp:192
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create sequence"
 msgstr "Neue Sequenz erstellen"
 
-#: src/bin/clipcreator.cpp:201
+#: src/bin/clipcreator.cpp:202
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:201
+#: src/bin/clipcreator.cpp:202
 #, kde-format
 msgid "Cannot create clip"
 msgstr "Clip kann nicht erstellt werden"
 
-#: src/bin/clipcreator.cpp:281
+#: src/bin/clipcreator.cpp:282
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Diaschau-Clip erstellen"
 
-#: src/bin/clipcreator.cpp:313
+#: src/bin/clipcreator.cpp:314
 #, kde-format
 msgid "Create title template"
 msgstr "Titelvorlage erstellen"
 
-#: src/bin/clipcreator.cpp:337
+#: src/bin/clipcreator.cpp:338
 #, fuzzy, kde-format
 #| msgid "The layout %1 already exists. Do you want to replace it?"
 msgid ""
@@ -4960,13 +4984,13 @@ msgid ""
 "duplicate them?"
 msgstr "Das Layout %1 existiert bereits. Möchten Sie es überschreiben?"
 
-#: src/bin/clipcreator.cpp:360 src/core.cpp:910
-#: src/project/projectmanager.cpp:752
+#: src/bin/clipcreator.cpp:361 src/core.cpp:910
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "Loading clips"
 msgstr "Clips werden geladen"
 
-#: src/bin/clipcreator.cpp:461
+#: src/bin/clipcreator.cpp:462
 #, fuzzy, kde-format
 #| msgid ""
 #| "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -4980,18 +5004,18 @@ msgstr ""
 "Der Clip <b>%1</b><br /> befindet sich auf einem Wechselmedium, er ist nicht "
 "verfügbar, wenn das Gerät ausgehängt wird."
 
-#: src/bin/clipcreator.cpp:465
+#: src/bin/clipcreator.cpp:466
 #, kde-format
 msgid "Removable device"
 msgstr "Wechselmedien"
 
-#: src/bin/clipcreator.cpp:487
+#: src/bin/clipcreator.cpp:488
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading done"
 msgstr "Projekt wird geladen"
 
-#: src/bin/clipcreator.cpp:499 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:500 src/dialogs/clipcreationdialog.cpp:552
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5244,55 +5268,68 @@ msgstr "Untertitel hinzufügen"
 msgid "Delete subtitle"
 msgstr "Untertitel löschen"
 
-#: src/bin/projectclip.cpp:181 src/doc/kdenlivedoc.cpp:1017
-#: src/doc/kdenlivedoc.cpp:2088 src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1318
+#: src/bin/projectclip.cpp:190 src/doc/kdenlivedoc.cpp:1018
+#: src/doc/kdenlivedoc.cpp:2118 src/project/dialogs/archivewidget.cpp:214
+#: src/project/projectmanager.cpp:1316
 #, kde-format
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: src/bin/projectclip.cpp:512
+#: src/bin/projectclip.cpp:226
+#, fuzzy, kde-format
+#| msgid "Preview sequence"
+msgid "Timeline sequence"
+msgstr "Vorschausequenz"
+
+#: src/bin/projectclip.cpp:525
 #, kde-format
 msgctxt "The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:598
+#: src/bin/projectclip.cpp:611
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:881
+#: src/bin/projectclip.cpp:899
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1114 src/jobs/cliploadtask.cpp:304
+#: src/bin/projectclip.cpp:1132 src/jobs/cliploadtask.cpp:304
 #, kde-format
 msgid "Invalid"
 msgstr "Ungültig"
 
-#: src/bin/projectclip.cpp:1964
+#: src/bin/projectclip.cpp:1329 src/dialogs/clipcreationdialog.cpp:203
+#: src/jobs/cuttask.cpp:170 src/jobs/speedtask.cpp:120
+#: src/project/clipstabilize.cpp:136
+#, kde-format
+msgid "File already exists"
+msgstr "Datei bereits vorhanden"
+
+#: src/bin/projectclip.cpp:2027
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "Der Clip enthält bereits die Analyse-Daten %1"
 
-#: src/bin/projectclip.cpp:1965
+#: src/bin/projectclip.cpp:2028
 #, kde-format
 msgid "Merge"
 msgstr "Zusammenführen"
 
-#: src/bin/projectclip.cpp:2471
+#: src/bin/projectclip.cpp:2534
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Neuen Effekt hinzufügen"
 
-#: src/bin/projectclip.cpp:2496
+#: src/bin/projectclip.cpp:2559
 #, fuzzy, kde-format
 #| msgid "Remove Bin Effect"
 msgid "Remove stream effect"
@@ -5323,7 +5360,7 @@ msgid "Usage"
 msgstr ""
 
 #: src/bin/projectitemmodel.cpp:330 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:444 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:449 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -5341,28 +5378,28 @@ msgstr "Unter-Clip hinzufügen"
 msgid "Zone"
 msgstr "Zone %1"
 
-#: src/bin/projectitemmodel.cpp:848
+#: src/bin/projectitemmodel.cpp:853
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Add bin clip"
 msgstr "Clips werden hinzugefügt"
 
-#: src/bin/projectitemmodel.cpp:914
+#: src/bin/projectitemmodel.cpp:919
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Unter-Clip hinzufügen"
 
-#: src/bin/projectitemmodel.cpp:955
+#: src/bin/projectitemmodel.cpp:960
 #, kde-format
 msgid "Rename Folder"
 msgstr "Ordner umbenennen"
 
-#: src/bin/projectitemmodel.cpp:983 src/mainwindow.cpp:1426
+#: src/bin/projectitemmodel.cpp:988 src/mainwindow.cpp:1426
 #, kde-format
 msgid "Clean Project"
 msgstr "Projekt bereinigen"
 
-#: src/bin/projectitemmodel.cpp:1153
+#: src/bin/projectitemmodel.cpp:1158
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Loading project clips…"
@@ -5784,12 +5821,6 @@ msgstr "Analysedaten speichern"
 msgid "Animation duration"
 msgstr "Dauer der Auswahl:"
 
-#: src/dialogs/clipcreationdialog.cpp:203 src/jobs/cuttask.cpp:170
-#: src/jobs/speedtask.cpp:120 src/project/clipstabilize.cpp:136
-#, kde-format
-msgid "File already exists"
-msgstr "Datei bereits vorhanden"
-
 #: src/dialogs/clipcreationdialog.cpp:246
 #, fuzzy, kde-format
 #| msgid "Create title clip"
@@ -5814,7 +5845,7 @@ msgstr "Text-Clip"
 msgid "Create Text clip"
 msgstr "Titel-Clip erstellen"
 
-#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1092
+#: src/dialogs/clipcreationdialog.cpp:391 src/doc/kdenlivedoc.cpp:1093
 #, kde-format
 msgid "Template title clip"
 msgstr "Vorlage für Titel-Clip"
@@ -5999,8 +6030,8 @@ msgstr "Hilfslinien importieren"
 #: src/dialogs/exportguidesdialog.cpp:79 src/dialogs/renderwidget.cpp:931
 #: src/dialogs/renderwidget.cpp:936 src/dialogs/renderwidget.cpp:989
 #: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:1939
-#: src/dialogs/renderwidget.cpp:1966 src/doc/kdenlivedoc.cpp:740
-#: src/doc/kdenlivedoc.cpp:748 src/doc/kdenlivedoc.cpp:1202
+#: src/dialogs/renderwidget.cpp:1966 src/doc/kdenlivedoc.cpp:741
+#: src/doc/kdenlivedoc.cpp:749 src/doc/kdenlivedoc.cpp:1217
 #: src/effects/effectlist/model/effecttreemodel.cpp:250
 #: src/effects/effectlist/model/effecttreemodel.cpp:266
 #: src/effects/effectsrepository.cpp:394
@@ -6014,10 +6045,10 @@ msgstr "Hilfslinien importieren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1485
+#: src/project/projectmanager.cpp:1483
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:4912
+#: src/timeline2/view/timelinecontroller.cpp:4913
 #: src/titler/titlewidget.cpp:2195
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7747,20 +7778,20 @@ msgstr ""
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Die folgenden Filter/Übergänge wurden aus dem Projekt entfernt:"
 
-#: src/doc/kdenlivedoc.cpp:158
+#: src/doc/kdenlivedoc.cpp:159
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid file path"
 msgstr "Ungültiges Profil"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:703
-#: src/project/projectmanager.cpp:767 src/project/projectmanager.cpp:794
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:704
+#: src/project/projectmanager.cpp:768 src/project/projectmanager.cpp:795
 #, fuzzy, kde-format
 #| msgid "Could not open video output file %1"
 msgid "Could not recover corrupted file."
 msgstr "Konnte Videoausgabedatei %1 nicht öffnen"
 
-#: src/doc/kdenlivedoc.cpp:215
+#: src/doc/kdenlivedoc.cpp:216
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid ""
@@ -7768,25 +7799,25 @@ msgid ""
 "%2 (line %3, col %4)"
 msgstr "Die Datei %1 lässt sich nicht öffnen"
 
-#: src/doc/kdenlivedoc.cpp:228
+#: src/doc/kdenlivedoc.cpp:229
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Datei %1 ist keine Kdenlive-Projektdatei"
 
-#: src/doc/kdenlivedoc.cpp:235
+#: src/doc/kdenlivedoc.cpp:236
 #, fuzzy, kde-format
 #| msgid "File %1 is not a Kdenlive project file."
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "Datei %1 ist keine Kdenlive-Projektdatei."
 
-#: src/doc/kdenlivedoc.cpp:248
+#: src/doc/kdenlivedoc.cpp:249
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
 "this project's Movit filters."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:278
+#: src/doc/kdenlivedoc.cpp:279
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -7797,27 +7828,27 @@ msgstr ""
 "Bitte überprüfen Sie, ob Sie über die notwendigen Berechtigungen verfügen.\n"
 "Es werden die Standardordner des Systems verwendet"
 
-#: src/doc/kdenlivedoc.cpp:281
+#: src/doc/kdenlivedoc.cpp:282
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Der Projektordner des Dokuments ist ungültig, es wird der Standardordner des "
 "Systems verwendet"
 
-#: src/doc/kdenlivedoc.cpp:558 src/doc/kdenlivedoc.cpp:568
+#: src/doc/kdenlivedoc.cpp:559 src/doc/kdenlivedoc.cpp:569
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr ""
 "Die Datei %1 mit der automatischen Sicherung kann nicht erstellt werden"
 
-#: src/doc/kdenlivedoc.cpp:563 src/doc/kdenlivedoc.cpp:701
+#: src/doc/kdenlivedoc.cpp:564 src/doc/kdenlivedoc.cpp:702
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
 "In die Datei %1 kann nicht geschrieben werden, die Szenenliste ist "
 "beschädigt."
 
-#: src/doc/kdenlivedoc.cpp:719
+#: src/doc/kdenlivedoc.cpp:720
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -7827,7 +7858,7 @@ msgstr ""
 "Um sicherzustellen, dass keine Daten verloren gehen, wurde die "
 "Sicherungskopie %1 erstellt."
 
-#: src/doc/kdenlivedoc.cpp:733
+#: src/doc/kdenlivedoc.cpp:734
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -7836,29 +7867,29 @@ msgstr ""
 "Ihre Projektdatei wurde zur neuesten Kdenlive-Dokumentversion aktualisiert, "
 "aber es war nicht möglich die Sicherungskopie %1 zu erstellen."
 
-#: src/doc/kdenlivedoc.cpp:877 src/project/projectmanager.cpp:1116
+#: src/doc/kdenlivedoc.cpp:878 src/project/projectmanager.cpp:1117
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fehler beim Verschieben des Projektordners: %1"
 
-#: src/doc/kdenlivedoc.cpp:1078
+#: src/doc/kdenlivedoc.cpp:1079
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Vorlagen-Pfad eingeben"
 
-#: src/doc/kdenlivedoc.cpp:1209
+#: src/doc/kdenlivedoc.cpp:1224
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Die folgenden Effekte wurden aus dem Projekt importiert:"
 
-#: src/doc/kdenlivedoc.cpp:1242 src/doc/kdenlivedoc.cpp:1256
+#: src/doc/kdenlivedoc.cpp:1257 src/doc/kdenlivedoc.cpp:1271
 #, kde-format
 msgid "Project Folder"
 msgstr "Projektordner"
 
-#: src/doc/kdenlivedoc.cpp:1300 src/doc/kdenlivedoc.cpp:1308
+#: src/doc/kdenlivedoc.cpp:1315 src/doc/kdenlivedoc.cpp:1323
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -7867,84 +7898,84 @@ msgstr ""
 "Sicherungskopie kann nicht erstellt werden:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1453
+#: src/doc/kdenlivedoc.cpp:1468
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proxy-Clip hinzufügen"
 msgstr[1] "Proxy-Clips hinzufügen"
 
-#: src/doc/kdenlivedoc.cpp:1455
+#: src/doc/kdenlivedoc.cpp:1470
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Proxy-Clip entfernen"
 msgstr[1] "Proxy-Clips entfernen"
 
-#: src/doc/kdenlivedoc.cpp:1499 src/doc/kdenlivedoc.cpp:1533
+#: src/doc/kdenlivedoc.cpp:1514 src/doc/kdenlivedoc.cpp:1548
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Der Clip-Typ unterstützt keine Proxies"
 
-#: src/doc/kdenlivedoc.cpp:1731
+#: src/doc/kdenlivedoc.cpp:1747
 #, kde-format
 msgid ""
 "\n"
 "Warning: unknown non integer fps, might cause incorrect duration display."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1750
+#: src/doc/kdenlivedoc.cpp:1766
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1768
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standard-Projektprofil ändern"
 
-#: src/doc/kdenlivedoc.cpp:1752
+#: src/doc/kdenlivedoc.cpp:1768
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standard zu %1 ändern"
 
-#: src/doc/kdenlivedoc.cpp:1753
+#: src/doc/kdenlivedoc.cpp:1769
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Aktuellen Standard %1 behalten"
 
-#: src/doc/kdenlivedoc.cpp:1753
+#: src/doc/kdenlivedoc.cpp:1769
 #, kde-format
 msgid "Ask me later"
 msgstr "Später erneut fragen"
 
-#: src/doc/kdenlivedoc.cpp:1773
+#: src/doc/kdenlivedoc.cpp:1789
 #, kde-format
 msgid "Switch"
 msgstr "Wechseln"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1775 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1791 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/doc/kdenlivedoc.cpp:1777
+#: src/doc/kdenlivedoc.cpp:1793
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Zu Clip-Profil %1 wechseln?"
 
-#: src/doc/kdenlivedoc.cpp:1782
+#: src/doc/kdenlivedoc.cpp:1798
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1784
+#: src/doc/kdenlivedoc.cpp:1800
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -7956,13 +7987,13 @@ msgstr ""
 "Es wurde kein Profil für Ihren Clip gefunden\n"
 "Neues Profil erstellen und zu neuem Profil (%1x%2, %3fps)%4 wechseln?"
 
-#: src/doc/kdenlivedoc.cpp:2127 src/scopes/colorscopes/colorplaneexport.cpp:229
+#: src/doc/kdenlivedoc.cpp:2157 src/scopes/colorscopes/colorplaneexport.cpp:229
 #: src/scopes/colorscopes/colorplaneexport.cpp:257
 #, kde-format
 msgid "Red"
 msgstr "Rot"
 
-#: src/doc/kdenlivedoc.cpp:2128 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/doc/kdenlivedoc.cpp:2158 src/scopes/colorscopes/colorplaneexport.cpp:230
 #: src/scopes/colorscopes/colorplaneexport.cpp:258
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -7970,23 +8001,23 @@ msgstr "Rot"
 msgid "Green"
 msgstr "Grün"
 
-#: src/doc/kdenlivedoc.cpp:2129 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2159 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Blue"
 msgstr "Blau"
 
-#: src/doc/kdenlivedoc.cpp:2130 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2160 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Gelb"
 
-#: src/doc/kdenlivedoc.cpp:2131
+#: src/doc/kdenlivedoc.cpp:2161
 #, kde-format
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/doc/kdenlivedoc.cpp:2311
+#: src/doc/kdenlivedoc.cpp:2341
 #, fuzzy, kde-format
 #| msgid "Category %1"
 msgid "Category %1:%2:%3"
@@ -10416,7 +10447,7 @@ msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Spur einfügen"
 
-#: src/mainwindow.cpp:1777 src/timeline2/view/timelinecontroller.cpp:4693
+#: src/mainwindow.cpp:1777 src/timeline2/view/timelinecontroller.cpp:4694
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Master effects"
@@ -10664,14 +10695,14 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:477
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:478
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Der Vorgang kann nicht durchgeführt werden, die Dokumentkennung ist "
 "ungültig: %1"
 
-#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:483
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:484
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -10968,7 +10999,7 @@ msgstr ""
 "Kdenlive muss neu gestartet werden, damit die Änderung des Symboldesigns "
 "übernommen wird. Möchten Sie jetzt neu starten?"
 
-#: src/mainwindow.cpp:4465 src/timeline2/view/timelinecontroller.cpp:4895
+#: src/mainwindow.cpp:4465 src/timeline2/view/timelinecontroller.cpp:4896
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Keine Untertitel im aktuellen Projekt"
@@ -12960,7 +12991,7 @@ msgstr "Clip-Markierungen laden"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1379
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1377
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -13545,12 +13576,12 @@ msgstr "Kopie speichern ..."
 msgid "Open Backup File…"
 msgstr "Sicherungskopie-Datei öffnen"
 
-#: src/project/projectmanager.cpp:353
+#: src/project/projectmanager.cpp:354
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Änderungen des Dokuments speichern?"
 
-#: src/project/projectmanager.cpp:355 src/project/projectmanager.cpp:1317
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1315
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13559,7 +13590,7 @@ msgstr ""
 "Das Projekt <b>„%1“</b> wurde geändert.\n"
 "Möchten Sie Ihre Änderungen speichern?"
 
-#: src/project/projectmanager.cpp:467
+#: src/project/projectmanager.cpp:468
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -13567,53 +13598,53 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:506
+#: src/project/projectmanager.cpp:507
 #, fuzzy, kde-format
 #| msgid "Save Copy"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopie speichern"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:608
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr ""
 "Eine automatisch gespeicherte Datei existiert. Möchten Sie diese Datei jetzt "
 "wiederherstellen?"
 
-#: src/project/projectmanager.cpp:607
+#: src/project/projectmanager.cpp:608
 #, kde-format
 msgid "File Recovery"
 msgstr "Datei-Wiederherstellung"
 
-#: src/project/projectmanager.cpp:608 src/project/projectmanager.cpp:692
+#: src/project/projectmanager.cpp:609 src/project/projectmanager.cpp:693
 #, kde-format
 msgid "Recover"
 msgstr "Wiederherstellen"
 
-#: src/project/projectmanager.cpp:608
+#: src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Do not recover"
 msgstr "Nicht wiederherstellen"
 
-#: src/project/projectmanager.cpp:660
+#: src/project/projectmanager.cpp:661
 #, kde-format
 msgid "Opening file %1"
 msgstr "Datei %1 wird geöffnet"
 
-#: src/project/projectmanager.cpp:676
+#: src/project/projectmanager.cpp:677
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Projekt wird geladen"
 
-#: src/project/projectmanager.cpp:678
+#: src/project/projectmanager.cpp:679
 #, kde-format
 msgid "Loading project"
 msgstr "Projekt wird geladen"
 
-#: src/project/projectmanager.cpp:691
+#: src/project/projectmanager.cpp:692
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file %1,\n"
@@ -13626,30 +13657,30 @@ msgstr ""
 "Die Projektdatei %1 kann nicht geöffnet werden.\n"
 "Möchten Sie eine Sicherungskopie öffnen?"
 
-#: src/project/projectmanager.cpp:692
+#: src/project/projectmanager.cpp:693
 #, kde-format
 msgid "Error opening file"
 msgstr "Fehler beim Öffnen der Datei"
 
-#: src/project/projectmanager.cpp:692
+#: src/project/projectmanager.cpp:693
 #, kde-format
 msgid "Open Backup"
 msgstr "Sicherungskopie öffnen"
 
-#: src/project/projectmanager.cpp:707
+#: src/project/projectmanager.cpp:708
 #, fuzzy, kde-format
 #| msgid "Could not open audio output file %1"
 msgid "Could not open the backup project file."
 msgstr "Konnte Audioausgabedatei %1 nicht öffnen"
 
-#: src/project/projectmanager.cpp:723
+#: src/project/projectmanager.cpp:724
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Ihr Projekt wurde aktualisiert, eine Sicherung wird beim nächsten Speichern "
 "erstellt"
 
-#: src/project/projectmanager.cpp:726
+#: src/project/projectmanager.cpp:727
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -13657,7 +13688,7 @@ msgstr ""
 "Ihr Projekt wurde beim Öffnen geändert, eine Sicherung wird beim nächsten "
 "Speichern erstellt"
 
-#: src/project/projectmanager.cpp:821
+#: src/project/projectmanager.cpp:822
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -13666,48 +13697,48 @@ msgstr ""
 "Dies wird alle Änderungen seit dem letzten Speichern verwerfen. Möchten Sie "
 "wirklich fortfahren?"
 
-#: src/project/projectmanager.cpp:822
+#: src/project/projectmanager.cpp:823
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Zur letzten gespeicherten Version zurückkehren"
 
-#: src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:903
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1094
+#: src/project/projectmanager.cpp:1095
 #, kde-format
 msgid "Moving project folder"
 msgstr "Projektordner wird verschoben"
 
-#: src/project/projectmanager.cpp:1156
+#: src/project/projectmanager.cpp:1157
 #, kde-format
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1184 src/project/projectmanager.cpp:1213
-#: src/project/projectmanager.cpp:1216
+#: src/project/projectmanager.cpp:1185 src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1217
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Sequenzname"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1323 src/project/projectmanager.cpp:1328
-#: src/project/projectmanager.cpp:1338 src/project/projectmanager.cpp:1354
+#: src/project/projectmanager.cpp:1321 src/project/projectmanager.cpp:1326
+#: src/project/projectmanager.cpp:1336 src/project/projectmanager.cpp:1352
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Änderung des Projektprofils abgebrochen"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1468
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13716,18 +13747,23 @@ msgstr ""
 "Ausgabedatei %1 existiert bereits.\n"
 "Möchten Sie sie überschreiben?"
 
-#: src/project/projectmanager.cpp:1495
+#: src/project/projectmanager.cpp:1493
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil geändert"
 
-#: src/project/projectmanager.cpp:1543
+#: src/project/projectmanager.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
 msgstr "Der Filter %1 kann nicht erstellt werden"
+
+#: src/project/projectmanager.cpp:1622
+#, kde-format
+msgid "Importing a sequence clip, this is currently in experimental state"
+msgstr ""
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, fuzzy, kde-format
@@ -14405,61 +14441,61 @@ msgstr "RGB-Parade"
 msgid "Histogram"
 msgstr "Histogramm"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:248
-#: src/timeline2/model/builders/meltBuilder.cpp:475
-#: src/timeline2/model/builders/meltBuilder.cpp:485
+#: src/timeline2/model/builders/meltBuilder.cpp:252
+#: src/timeline2/model/builders/meltBuilder.cpp:479
+#: src/timeline2/model/builders/meltBuilder.cpp:489
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:257
-#: src/timeline2/model/builders/meltBuilder.cpp:499
+#: src/timeline2/model/builders/meltBuilder.cpp:261
+#: src/timeline2/model/builders/meltBuilder.cpp:503
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:266
-#: src/timeline2/model/builders/meltBuilder.cpp:513
+#: src/timeline2/model/builders/meltBuilder.cpp:270
+#: src/timeline2/model/builders/meltBuilder.cpp:517
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Ungültiger Clip von Spur %1 bei %2 entfernt\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:286
-#: src/timeline2/model/builders/meltBuilder.cpp:543
-#: src/timeline2/model/builders/meltBuilder.cpp:545
+#: src/timeline2/model/builders/meltBuilder.cpp:290
+#: src/timeline2/model/builders/meltBuilder.cpp:547
+#: src/timeline2/model/builders/meltBuilder.cpp:549
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Fehler in Ihrer Projektdatei gefunden"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:474
-#: src/timeline2/model/builders/meltBuilder.cpp:484
+#: src/timeline2/model/builders/meltBuilder.cpp:478
+#: src/timeline2/model/builders/meltBuilder.cpp:488
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:498
+#: src/timeline2/model/builders/meltBuilder.cpp:502
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:512
+#: src/timeline2/model/builders/meltBuilder.cpp:516
 #, fuzzy, kde-format
 #| msgid "Invalid clip removed from track %1 at %2\n"
 msgid "%1 Invalid composition found and removed."
 msgstr "Ungültiger Clip von Spur %1 bei %2 entfernt\n"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:534
+#: src/timeline2/model/builders/meltBuilder.cpp:538
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Errors found when opening project file (%1)"
 msgstr "Fehler beim Verschieben des Projektordners: %1"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:541
+#: src/timeline2/model/builders/meltBuilder.cpp:545
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -14468,102 +14504,102 @@ msgid ""
 "please review them to ensure your project integrity."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:620
-#: src/timeline2/model/builders/meltBuilder.cpp:630
+#: src/timeline2/model/builders/meltBuilder.cpp:624
+#: src/timeline2/model/builders/meltBuilder.cpp:634
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:621
+#: src/timeline2/model/builders/meltBuilder.cpp:625
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:631
+#: src/timeline2/model/builders/meltBuilder.cpp:635
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:722
+#: src/timeline2/model/builders/meltBuilder.cpp:726
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:723
+#: src/timeline2/model/builders/meltBuilder.cpp:727
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:725
+#: src/timeline2/model/builders/meltBuilder.cpp:729
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:726
+#: src/timeline2/model/builders/meltBuilder.cpp:730
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:782
-#: src/timeline2/model/builders/meltBuilder.cpp:815
+#: src/timeline2/model/builders/meltBuilder.cpp:786
+#: src/timeline2/model/builders/meltBuilder.cpp:819
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:783
-#: src/timeline2/model/builders/meltBuilder.cpp:813
+#: src/timeline2/model/builders/meltBuilder.cpp:787
+#: src/timeline2/model/builders/meltBuilder.cpp:817
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:788
-#: src/timeline2/model/builders/meltBuilder.cpp:819
+#: src/timeline2/model/builders/meltBuilder.cpp:792
+#: src/timeline2/model/builders/meltBuilder.cpp:823
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
-#: src/timeline2/model/builders/meltBuilder.cpp:821
+#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:825
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr ""
 
-#: src/timeline2/model/builders/meltBuilder.cpp:808
-#: src/timeline2/model/builders/meltBuilder.cpp:852
+#: src/timeline2/model/builders/meltBuilder.cpp:812
+#: src/timeline2/model/builders/meltBuilder.cpp:856
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:810
-#: src/timeline2/model/builders/meltBuilder.cpp:857
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:861
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:828
+#: src/timeline2/model/builders/meltBuilder.cpp:832
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:833
+#: src/timeline2/model/builders/meltBuilder.cpp:837
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:836
+#: src/timeline2/model/builders/meltBuilder.cpp:840
 #, fuzzy, kde-format
 #| msgid "Invalid clip %1 found on track %2 at %3."
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "Ungültiger Clip %1 auf Spur %2 bei %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:841
+#: src/timeline2/model/builders/meltBuilder.cpp:845
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr ""
@@ -14618,24 +14654,24 @@ msgid "Extract zone"
 msgstr "Bereich extrahieren"
 
 #: src/timeline2/model/timelinefunctions.cpp:653
-#: src/timeline2/view/timelinecontroller.cpp:3020
-#: src/timeline2/view/timelinecontroller.cpp:3086
+#: src/timeline2/view/timelinecontroller.cpp:3021
+#: src/timeline2/view/timelinecontroller.cpp:3087
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite zone"
 msgstr "Überschreiben-Modus"
 
 #: src/timeline2/model/timelinefunctions.cpp:653
-#: src/timeline2/view/timelinecontroller.cpp:3020
-#: src/timeline2/view/timelinecontroller.cpp:3086
+#: src/timeline2/view/timelinecontroller.cpp:3021
+#: src/timeline2/view/timelinecontroller.cpp:3087
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert zone"
 msgstr "Einfüge-Modus"
 
 #: src/timeline2/model/timelinefunctions.cpp:655
-#: src/timeline2/view/timelinecontroller.cpp:3022
-#: src/timeline2/view/timelinecontroller.cpp:3088
+#: src/timeline2/view/timelinecontroller.cpp:3023
+#: src/timeline2/view/timelinecontroller.cpp:3089
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert zone"
@@ -14654,7 +14690,7 @@ msgstr "Die ausgewählte Gruppe kann nicht verschoben werden"
 #: src/timeline2/model/timelinefunctions.cpp:976
 #: src/timeline2/model/timelinefunctions.cpp:980
 #: src/timeline2/model/timelinefunctions.cpp:987
-#: src/timeline2/view/timelinecontroller.cpp:3947
+#: src/timeline2/view/timelinecontroller.cpp:3948
 #, kde-format
 msgid "Enable clip"
 msgstr "Clip aktivieren"
@@ -14662,7 +14698,7 @@ msgstr "Clip aktivieren"
 #: src/timeline2/model/timelinefunctions.cpp:976
 #: src/timeline2/model/timelinefunctions.cpp:980
 #: src/timeline2/model/timelinefunctions.cpp:987
-#: src/timeline2/view/timelinecontroller.cpp:3947
+#: src/timeline2/view/timelinecontroller.cpp:3948
 #, kde-format
 msgid "Disable clip"
 msgstr "Clip deaktivieren"
@@ -14923,7 +14959,7 @@ msgstr "Übergang löschen"
 
 #: src/timeline2/model/timelinemodel.cpp:2176
 #: src/timeline2/model/timelinemodel.cpp:2338
-#: src/timeline2/view/timelinecontroller.cpp:4128
+#: src/timeline2/view/timelinecontroller.cpp:4129
 #, kde-format
 msgid "Move group"
 msgstr "Gruppe verschieben"
@@ -15540,7 +15576,7 @@ msgstr ""
 "ungültig: %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:774
-#: src/timeline2/view/timelinecontroller.cpp:4834
+#: src/timeline2/view/timelinecontroller.cpp:4835
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
@@ -15569,19 +15605,19 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:1247
 #: src/timeline2/view/timelinecontroller.cpp:1272
 #: src/timeline2/view/timelinecontroller.cpp:2147
-#: src/timeline2/view/timelinecontroller.cpp:2854
-#: src/timeline2/view/timelinecontroller.cpp:2909
-#: src/timeline2/view/timelinecontroller.cpp:3129
-#: src/timeline2/view/timelinecontroller.cpp:3158
-#: src/timeline2/view/timelinecontroller.cpp:3207
-#: src/timeline2/view/timelinecontroller.cpp:3236
-#: src/timeline2/view/timelinecontroller.cpp:3550
-#: src/timeline2/view/timelinecontroller.cpp:3565
-#: src/timeline2/view/timelinecontroller.cpp:3590
-#: src/timeline2/view/timelinecontroller.cpp:3605
-#: src/timeline2/view/timelinecontroller.cpp:3667
-#: src/timeline2/view/timelinecontroller.cpp:3788
-#: src/timeline2/view/timelinecontroller.cpp:3812
+#: src/timeline2/view/timelinecontroller.cpp:2855
+#: src/timeline2/view/timelinecontroller.cpp:2910
+#: src/timeline2/view/timelinecontroller.cpp:3130
+#: src/timeline2/view/timelinecontroller.cpp:3159
+#: src/timeline2/view/timelinecontroller.cpp:3208
+#: src/timeline2/view/timelinecontroller.cpp:3237
+#: src/timeline2/view/timelinecontroller.cpp:3551
+#: src/timeline2/view/timelinecontroller.cpp:3566
+#: src/timeline2/view/timelinecontroller.cpp:3591
+#: src/timeline2/view/timelinecontroller.cpp:3606
+#: src/timeline2/view/timelinecontroller.cpp:3668
+#: src/timeline2/view/timelinecontroller.cpp:3789
+#: src/timeline2/view/timelinecontroller.cpp:3813
 #, kde-format
 msgid "No clip selected"
 msgstr "Kein Clip ausgewählt"
@@ -15601,194 +15637,194 @@ msgstr "Kein Clip zum Ausschneiden"
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2633
+#: src/timeline2/view/timelinecontroller.cpp:2634
 #, fuzzy, kde-format
 #| msgid "No clip found"
 msgid "No clips found to insert space"
 msgstr "Kein Clip gefunden"
 
-#: src/timeline2/view/timelinecontroller.cpp:2650
+#: src/timeline2/view/timelinecontroller.cpp:2651
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Abstand am der angegebenen Position kann nicht gelöscht werden"
 
-#: src/timeline2/view/timelinecontroller.cpp:2664
+#: src/timeline2/view/timelinecontroller.cpp:2665
 #, fuzzy, kde-format
 #| msgid "Cannot remove space at given position"
 msgid "Cannot remove all spaces"
 msgstr "Abstand am der angegebenen Position kann nicht gelöscht werden"
 
-#: src/timeline2/view/timelinecontroller.cpp:2678
+#: src/timeline2/view/timelinecontroller.cpp:2679
 #, fuzzy, kde-format
 #| msgid "Cannot create clip"
 msgid "Cannot remove all clips"
 msgstr "Clip kann nicht erstellt werden"
 
-#: src/timeline2/view/timelinecontroller.cpp:2713
-#: src/timeline2/view/timelinecontroller.cpp:2718
-#: src/timeline2/view/timelinecontroller.cpp:2741
-#: src/timeline2/view/timelinecontroller.cpp:3673
-#: src/timeline2/view/timelinecontroller.cpp:3691
+#: src/timeline2/view/timelinecontroller.cpp:2714
+#: src/timeline2/view/timelinecontroller.cpp:2719
+#: src/timeline2/view/timelinecontroller.cpp:2742
+#: src/timeline2/view/timelinecontroller.cpp:3674
+#: src/timeline2/view/timelinecontroller.cpp:3692
 #, fuzzy, kde-format
 #| msgid "Align item to left"
 msgid "No item to edit"
 msgstr "Links ausrichten"
 
-#: src/timeline2/view/timelinecontroller.cpp:2830
-#: src/timeline2/view/timelinecontroller.cpp:5059
+#: src/timeline2/view/timelinecontroller.cpp:2831
+#: src/timeline2/view/timelinecontroller.cpp:5060
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3065
+#: src/timeline2/view/timelinecontroller.cpp:3066
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3141
+#: src/timeline2/view/timelinecontroller.cpp:3142
 #, fuzzy, kde-format
 #| msgid "Compositing"
 msgid "Select a favorite composition"
 msgstr "Compositing"
 
-#: src/timeline2/view/timelinecontroller.cpp:3186
+#: src/timeline2/view/timelinecontroller.cpp:3187
 #, fuzzy, kde-format
 #| msgid "Clip collision, cannot perform operation"
 msgid "No clip found to perform AV split operation"
 msgstr "Kollision zwischen Clips, der Vorgang kann nicht durchgeführt werden"
 
-#: src/timeline2/view/timelinecontroller.cpp:3220
-#: src/timeline2/view/timelinecontroller.cpp:3283
+#: src/timeline2/view/timelinecontroller.cpp:3221
+#: src/timeline2/view/timelinecontroller.cpp:3284
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Clip kann nicht zum Bild %1 verschoben werden"
 
-#: src/timeline2/view/timelinecontroller.cpp:3241
+#: src/timeline2/view/timelinecontroller.cpp:3242
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3573
+#: src/timeline2/view/timelinecontroller.cpp:3574
 #, kde-format
 msgid "Delete effects"
 msgstr "Effekte löschen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3611
-#: src/timeline2/view/timelinecontroller.cpp:3617
-#: src/timeline2/view/timelinecontroller.cpp:3622
+#: src/timeline2/view/timelinecontroller.cpp:3612
+#: src/timeline2/view/timelinecontroller.cpp:3618
+#: src/timeline2/view/timelinecontroller.cpp:3623
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Keine Information in der Zwischenablage"
 
-#: src/timeline2/view/timelinecontroller.cpp:3645
+#: src/timeline2/view/timelinecontroller.cpp:3646
 #, kde-format
 msgid "Paste effects"
 msgstr "Effekte einfügen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3647
+#: src/timeline2/view/timelinecontroller.cpp:3648
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Der Effekt kann nicht in den gewählten Clip eingefügt werden"
 
-#: src/timeline2/view/timelinecontroller.cpp:3759
+#: src/timeline2/view/timelinecontroller.cpp:3760
 #, kde-format
 msgid "Edit item"
 msgstr "Element bearbeiten"
 
-#: src/timeline2/view/timelinecontroller.cpp:3795
+#: src/timeline2/view/timelinecontroller.cpp:3796
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Item is not a title clip"
 msgstr "Vorlage für Titel-Clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:3888
+#: src/timeline2/view/timelinecontroller.cpp:3889
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3942
+#: src/timeline2/view/timelinecontroller.cpp:3943
 #, kde-format
 msgid "Restore video"
 msgstr "Video wiederherstellen"
 
-#: src/timeline2/view/timelinecontroller.cpp:3942
+#: src/timeline2/view/timelinecontroller.cpp:3943
 #, kde-format
 msgid "Restore audio"
 msgstr "Audio wiederherstellen"
 
-#: src/timeline2/view/timelinecontroller.cpp:4109
+#: src/timeline2/view/timelinecontroller.cpp:4110
 #, kde-format
 msgid "Move item"
 msgstr "Element verschieben"
 
-#: src/timeline2/view/timelinecontroller.cpp:4566
+#: src/timeline2/view/timelinecontroller.cpp:4567
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Aufnahme in einer gesperrten Spur nicht möglich"
 
-#: src/timeline2/view/timelinecontroller.cpp:4577
+#: src/timeline2/view/timelinecontroller.cpp:4578
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4788
+#: src/timeline2/view/timelinecontroller.cpp:4789
 #, kde-format
 msgid "Expand clip"
 msgstr "Clip erweitern"
 
-#: src/timeline2/view/timelinecontroller.cpp:4791
+#: src/timeline2/view/timelinecontroller.cpp:4792
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not expand clip"
 msgstr "Clips werden hinzugefügt"
 
-#: src/timeline2/view/timelinecontroller.cpp:4832
+#: src/timeline2/view/timelinecontroller.cpp:4833
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Spur einfügen"
 msgstr[1] "Spuren einfügen"
 
-#: src/timeline2/view/timelinecontroller.cpp:4869
+#: src/timeline2/view/timelinecontroller.cpp:4870
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Untertitel importieren"
 
-#: src/timeline2/view/timelinecontroller.cpp:4898
+#: src/timeline2/view/timelinecontroller.cpp:4899
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Untertiteldatei hinzufügen"
 
-#: src/timeline2/view/timelinecontroller.cpp:4899
+#: src/timeline2/view/timelinecontroller.cpp:4900
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Untertiteldatei (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:4929
+#: src/timeline2/view/timelinecontroller.cpp:4930
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4946
+#: src/timeline2/view/timelinecontroller.cpp:4947
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Untertitel-Spur anzeigen"
 
-#: src/timeline2/view/timelinecontroller.cpp:4946
+#: src/timeline2/view/timelinecontroller.cpp:4947
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Untertitel-Spur ausblenden"
 
-#: src/timeline2/view/timelinecontroller.cpp:4969
+#: src/timeline2/view/timelinecontroller.cpp:4970
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Untertitel-Spur entsperren"
 
-#: src/timeline2/view/timelinecontroller.cpp:4969
+#: src/timeline2/view/timelinecontroller.cpp:4970
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Untertitel-Spur sperren"
@@ -20660,11 +20696,6 @@ msgstr "%1 h"
 #~ "installieren Sie „frei0r“ und starten Sie Kdenlive neu"
 
 #, fuzzy
-#~| msgid "Delete keyframe"
-#~ msgid "Duplicate selected keyframe"
-#~ msgstr "Keyframe löschen"
-
-#, fuzzy
 #~| msgid "Copy file location to clipboard"
 #~ msgid "Copy Value at Cursor Position to Clipboard"
 #~ msgstr "Speicherort der Datei in Zwischenablage kopieren"
@@ -25130,9 +25161,6 @@ msgstr "%1 h"
 
 #~ msgid "Live view"
 #~ msgstr "Echtzeitansicht"
-
-#~ msgid "Preview sequence"
-#~ msgstr "Vorschausequenz"
 
 #~ msgid "Capture device"
 #~ msgstr "Aufnahmegerät"
