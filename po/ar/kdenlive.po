@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-01-23 22:21+0400\n"
+"PO-Revision-Date: 2023-02-27 22:39+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8205,7 +8205,7 @@ msgstr "مونو"
 #: src/lib/audio/audioStreamInfo.cpp:47
 #, kde-format
 msgid "Stereo "
-msgstr "ستيرٍٍِِيو"
+msgstr "ستيريو"
 
 #: src/lib/audio/audioStreamInfo.cpp:50
 #, kde-format
@@ -8927,7 +8927,7 @@ msgstr "اعرض تعليقات العلامات"
 #: src/mainwindow.cpp:1274
 #, kde-format
 msgid "Snap"
-msgstr "أطبق"
+msgstr "اجذب"
 
 #: src/mainwindow.cpp:1280
 #, kde-format
@@ -8937,7 +8937,7 @@ msgstr "أظهر وسوم لون في الخطّ الزّمنيّ"
 #: src/mainwindow.cpp:1286
 #, kde-format
 msgid "Fit Zoom to Project"
-msgstr "لائم التكبير بالمشروع"
+msgstr "لائم التكبير للمشروع"
 
 #: src/mainwindow.cpp:1311
 #, kde-format
@@ -9126,12 +9126,12 @@ msgstr "أدرج منطقة في سلة المشروع"
 #: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Go to Previous Snap Point"
-msgstr "انتقل إلى نقطة الإطباق السّابقة"
+msgstr "انتقل إلى نقطة الجذب السّابقة"
 
 #: src/mainwindow.cpp:1540
 #, kde-format
 msgid "Go to Next Snap Point"
-msgstr "انتقل إلى نقطة الإطباق التّالية"
+msgstr "انتقل إلى نقطة الجذب التّالية"
 
 #: src/mainwindow.cpp:1542
 #, kde-format
