@@ -4676,9 +4676,9 @@ TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabNa
     // Create a new timeline tab
     KdenliveDoc *project = pCore->currentDoc();
     TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, proxy);
-    timeline->controller()->setZone(project->zone(uuid), false);
-    timeline->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());
-    m_zoomSlider->setValue(project->zoom(uuid).x());
+    slotSetZoom(project->zoom(uuid).x(), false);
+    getCurrentTimeline()->controller()->setZone(project->zone(uuid), false);
+    getCurrentTimeline()->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());
     m_projectMonitor->slotLoadClipZone(project->zone(uuid));
     return timeline;
 }
@@ -4717,12 +4717,13 @@ void MainWindow::connectTimeline()
 
     KdenliveDoc *project = pCore->currentDoc();
     // pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), project->position);
+    QSignalBlocker blocker(m_zoomSlider);
+    m_zoomSlider->setValue(pCore->currentDoc()->zoom(uuid).x());
     int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
-    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
+    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
     connect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(pCore->currentDoc()->isModified());
-    Q_EMIT m_timelineTabs->changeZoom(m_zoomSlider->value(), false);
 
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
@@ -4765,7 +4766,7 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     disconnect(pCore->library(), &LibraryWidget::saveTimelineSelection, timeline->controller(), &TimelineController::saveTimelineSelection);
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
-    pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+    pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
 }
 
 #ifdef DEBUG_MAINW

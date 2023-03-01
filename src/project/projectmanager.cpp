@@ -1543,12 +1543,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
         m_autoSaveTimer.start();
         return false;
     }
-    // m_uuidMap.insert(uuid, m_project->uuid);
 
-    // Reference the new timeline's project model (same as main project)
-    // pCore->addProjectModel(uuid, pCore->projectItemModel());
-    // Create guides model for the new timeline
-    // std::shared_ptr<MarkerListModel> guidesModel(new MarkerListModel(uuid, m_project->commandStack(), this));
     // Build timeline
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, pCore->getProjectProfile(), m_project->commandStack());
     m_project->addTimeline(uuid, timelineModel);

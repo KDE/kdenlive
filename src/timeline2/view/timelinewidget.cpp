@@ -185,7 +185,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
-    rootContext()->setContextProperty("proxy", proxy);
     // Create a unique id for this timeline to prevent thumbnails
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", model->uuid());

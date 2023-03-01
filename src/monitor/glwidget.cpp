@@ -1031,7 +1031,9 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     }
     if (isActive) {
         startConsumer();
-        m_proxy->resetPosition();
+        if (position != -2) {
+            m_proxy->resetPosition();
+        }
     }
     m_consumer->set("scrub_audio", 0);
     if (position != -2) {

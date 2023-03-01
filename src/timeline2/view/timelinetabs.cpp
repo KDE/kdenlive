@@ -11,11 +11,13 @@
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
+#include "monitor/monitorproxy.h"
 #include "project/projectmanager.h"
 #include "timelinecontroller.h"
 #include "timelinewidget.h"
 
 #include <QMenu>
+#include <QQmlContext>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
     : QWidget(parent)
@@ -82,15 +84,19 @@ void TimelineTabs::setModified(const QUuid &uuid, bool modified)
 
 TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
 {
+    disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu);
     newTimeline->setModel(timelineModel, proxy);
-    addTab(newTimeline, tabName);
+    int newIndex = addTab(newTimeline, tabName);
+    setCurrentIndex(newIndex);
+    connectCurrent(newIndex);
     setTabsClosable(count() > 1);
     if (count() == 2) {
         updateWindowTitle();
     }
+    connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     return newTimeline;
 }
 
@@ -122,8 +128,8 @@ void TimelineTabs::connectCurrent(int ix)
         return;
     }
     qDebug() << "==== CONNECT NEW TIMELINE, MODEL:" << m_activeTimeline->model()->getTracksCount();
-    connectTimeline(m_activeTimeline);
     pCore->window()->connectTimeline();
+    connectTimeline(m_activeTimeline);
 
     if (!previousTab.isNull()) {
         pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
@@ -234,10 +240,12 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(m_activeTimeline, &TimelineWidget::zoneMoved, pCore->monitorManager()->projectMonitor(), &Monitor::slotLoadClipZone);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, m_activeTimeline->controller(),
             &TimelineController::addEffectToCurrentClip);
+    timeline->rootContext()->setContextProperty("proxy", pCore->monitorManager()->projectMonitor()->getControllerProxy());
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
+    timeline->rootContext()->setContextProperty("proxy", nullptr);
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);

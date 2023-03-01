@@ -2582,6 +2582,10 @@ void TimelineController::saveSequenceProperties()
     m_model->tractor()->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
 
     m_model->tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
+    m_model->tractor()->set("kdenlive:sequenceproperties.zoom",
+                            pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("zoom")).toUtf8().constData());
+    m_model->tractor()->set("kdenlive:sequenceproperties.verticalzoom",
+                            pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("verticalzoom")).toUtf8().constData());
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();

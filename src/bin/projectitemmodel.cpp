@@ -1189,11 +1189,13 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
                 std::shared_ptr<Mlt::Producer> producer;
                 if (prod->parent().property_exists("kdenlive:uuid")) {
                     if (prod->parent().type() == mlt_service_tractor_type) {
+                        // Load sequence properties
                         Mlt::Properties sequenceProps;
                         sequenceProps.pass_values(prod->parent(), "kdenlive:sequenceproperties.");
-                        std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
                         QString uuid = prod->parent().get("kdenlive:uuid");
                         pCore->currentDoc()->loadSequenceProperties(QUuid(uuid), sequenceProps);
+
+                        std::shared_ptr<Mlt::Tractor> trac = std::make_shared<Mlt::Tractor>(prod->parent());
                         int id(prod->parent().get_int("kdenlive:id"));
                         trac->set("kdenlive:id", id);
                         trac->set("kdenlive:uuid", uuid.toUtf8().constData());

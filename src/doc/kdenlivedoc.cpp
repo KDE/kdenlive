@@ -342,8 +342,6 @@ void KdenliveDoc::prepareClose()
 void KdenliveDoc::initializeProperties(bool newDocument)
 {
     // init default document properties
-    m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
-    m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
     m_documentProperties[QStringLiteral("enableproxy")] = QString::number(int(KdenliveSettings::enableproxy()));
     m_documentProperties[QStringLiteral("proxyparams")] = KdenliveSettings::proxyparams();
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
@@ -2350,7 +2348,7 @@ const QUuid KdenliveDoc::uuid() const
 
 void KdenliveDoc::loadSequenceProperties(const QUuid &uuid, Mlt::Properties sequenceProps)
 {
-    QMap<QString, QString> sequenceProperties;
+    QMap<QString, QString> sequenceProperties = m_sequenceProperties.take(uuid);
     for (int i = 0; i < sequenceProps.count(); i++) {
         sequenceProperties.insert(qstrdup(sequenceProps.get_name(i)), qstrdup(sequenceProps.get(i)));
     }
