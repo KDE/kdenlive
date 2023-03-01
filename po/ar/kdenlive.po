@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-02-27 22:39+0400\n"
+"PO-Revision-Date: 2023-02-28 21:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8685,7 +8685,7 @@ msgstr "التّأثيرات المفضّلة"
 #: src/mainwindow.cpp:537 src/mainwindow.cpp:1403
 #, kde-format
 msgid "Render…"
-msgstr "صيّر"
+msgstr "صيّر…"
 
 #: src/mainwindow.cpp:542
 #, kde-format
@@ -10149,14 +10149,14 @@ msgstr "نسخ القناة:"
 #: src/ui/projectsettings_ui.ui:556
 #, kde-format
 msgid "1"
-msgstr "1"
+msgstr "١"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:850
 #: src/ui/projectsettings_ui.ui:561
 #, kde-format
 msgid "2"
-msgstr "2"
+msgstr "٢"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:879
 #, kde-format
