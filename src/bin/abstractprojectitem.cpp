@@ -118,7 +118,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
     QVariant data;
     switch (type) {
     case DataName:
-        data = m_name.isEmpty() ? i18n("Unnamed") : QVariant(m_name);
+        data = QVariant(m_name);
         break;
     case DataDescription:
         data = QVariant(m_description);

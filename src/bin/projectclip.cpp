@@ -184,10 +184,10 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
         QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
         if (!clipName.isEmpty()) {
             m_name = clipName;
-        } else if (!m_temporaryUrl.isEmpty()) {
+        } else if (!m_temporaryUrl.isEmpty() && m_clipType != ClipType::Timeline) {
             m_name = QFileInfo(m_temporaryUrl).fileName();
         } else {
-            m_name = i18n("Untitled");
+            m_name = i18n("Unnamed");
         }
     }
     m_date = QFileInfo(m_temporaryUrl).lastModified();
@@ -577,7 +577,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
             m_path = original;
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
             // Use original clip name
-            if (m_name == QFileInfo(path).fileName()) {
+            if (m_clipType != ClipType::Timeline && m_name == QFileInfo(path).fileName()) {
                 m_name = QFileInfo(m_path).fileName();
             }
             getFileHash();
@@ -1743,7 +1743,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshRoles << TimelineModel::TagRole;
     }
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
-        m_name = properties.value(QStringLiteral("kdenlive:clipname"));
+        const QString updatedName = properties.value(QStringLiteral("kdenlive:clipname"));
+        if (updatedName.isEmpty()) {
+            if (m_clipType != ClipType::Timeline && m_clipType != ClipType::Text && m_clipType != ClipType::TextTemplate) {
+                m_name = QFileInfo(m_path).fileName();
+            }
+        } else {
+            m_name = updatedName;
+        }
         refreshPanel = true;
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
@@ -1880,7 +1887,7 @@ QString ProjectClip::clipName()
     if (m_name.isEmpty()) {
         m_name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
         if (m_name.isEmpty()) {
-            m_name = m_path.isEmpty() ? i18n("Unnamed") : QFileInfo(m_path).fileName();
+            m_name = m_path.isEmpty() || m_clipType == ClipType::Timeline ? i18n("Unnamed") : QFileInfo(m_path).fileName();
         }
     }
     return m_name;
@@ -1893,13 +1900,12 @@ bool ProjectClip::rename(const QString &name, int column)
     bool edited = false;
     switch (column) {
     case 0:
-        if (m_name == name) {
+        if (m_name == name || ((m_clipType == ClipType::Timeline || m_clipType == ClipType::Text) && name.isEmpty())) {
             return false;
         }
         // Rename clip
         oldProperties.insert(QStringLiteral("kdenlive:clipname"), m_name);
         newProperties.insert(QStringLiteral("kdenlive:clipname"), name);
-        m_name = name;
         edited = true;
         break;
     case 2:
@@ -1914,7 +1920,6 @@ bool ProjectClip::rename(const QString &name, int column)
             oldProperties.insert(QStringLiteral("kdenlive:description"), m_description);
             newProperties.insert(QStringLiteral("kdenlive:description"), name);
         }
-        m_description = name;
         edited = true;
         break;
     }
