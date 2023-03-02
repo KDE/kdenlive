@@ -3774,8 +3774,22 @@ void TimelineController::focusTimelineSequence(int id)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(id));
     if (binClip) {
         const QUuid uuid = binClip->getSequenceUuid();
-        if (pCore->projectManager()->openTimeline(binClip->binId(), uuid)) {
-            pCore->setDocumentModified();
+        int sequencePos = pCore->getMonitorPosition();
+        sequencePos -= m_model->getClipPosition(id);
+        if (sequencePos < 0 || sequencePos > m_model->getClipPlaytime(id)) {
+            sequencePos = -1;
+        } else {
+            sequencePos += m_model->getClipIn(id);
+        }
+        Fun local_redo = [uuid, binId = binClip->binId(), sequencePos]() { return pCore->projectManager()->openTimeline(binId, uuid, sequencePos); };
+        if (local_redo()) {
+            Fun local_undo = [uuid]() {
+                if (pCore->projectManager()->closeTimeline(uuid)) {
+                    pCore->window()->closeTimeline(uuid);
+                }
+                return true;
+            };
+            pCore->pushUndo(local_undo, local_redo, i18n("Open sequence"));
         }
     }
 }

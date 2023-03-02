@@ -2957,13 +2957,13 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
                 if (clip->clipType() == ClipType::Timeline) {
                     const QUuid uuid = clip->getSequenceUuid();
                     Fun redo = [this, uuid, binId = clip->binId()]() { return pCore->projectManager()->openTimeline(binId, uuid); };
-                    Fun undo = [this, uuid]() {
-                        if (pCore->projectManager()->closeTimeline(uuid)) {
-                            pCore->window()->closeTimeline(uuid);
-                        }
-                        return true;
-                    };
                     if (redo()) {
+                        Fun undo = [this, uuid]() {
+                            if (pCore->projectManager()->closeTimeline(uuid)) {
+                                pCore->window()->closeTimeline(uuid);
+                            }
+                            return true;
+                        };
                         pCore->pushUndo(undo, redo, i18n("Open %1", clip->clipName()));
                     }
                 } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {

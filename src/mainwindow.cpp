@@ -4716,7 +4716,6 @@ void MainWindow::connectTimeline()
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
 
     KdenliveDoc *project = pCore->currentDoc();
-    // pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), project->position);
     QSignalBlocker blocker(m_zoomSlider);
     m_zoomSlider->setValue(pCore->currentDoc()->zoom(uuid).x());
     int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();

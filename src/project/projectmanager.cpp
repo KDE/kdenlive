@@ -1518,8 +1518,11 @@ void ProjectManager::initSequenceProperties(const QUuid &uuid, std::pair<int, in
     m_project->setSequenceProperty(uuid, QStringLiteral("activeTrack"), QString::number(activeTrack));
 }
 
-bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid)
+bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int position)
 {
+    if (position > -1) {
+        m_project->setSequenceProperty(uuid, QStringLiteral("position"), QString::number(position));
+    }
     if (pCore->window()->raiseTimeline(uuid)) {
         return false;
     }
