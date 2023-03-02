@@ -331,8 +331,8 @@ public:
     void checkMissingProxies();
     /** @brief Save folder state (expanded or not) */
     void saveFolderState();
-    /** @brief Load folder state (expanded or not) */
-    void loadFolderState(const QStringList &foldersToExpand);
+    /** @brief Load folder state (expanded or not), zoom level and possible other project stored Bin settings */
+    void loadBinProperties(const QStringList &foldersToExpand, int zoomLevel = -1);
     /** @brief gets a QList of all clips used in timeline */
     QList<int> getUsedClipIds();
     ClipWidget* getWidget();

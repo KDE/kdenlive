@@ -5177,9 +5177,10 @@ void Bin::saveFolderState()
         }
     }
     m_itemModel->saveProperty(QStringLiteral("kdenlive:expandedFolders"), expandedFolders.join(QLatin1Char(';')));
+    m_itemModel->saveProperty(QStringLiteral("kdenlive:binZoom"), QString::number(KdenliveSettings::bin_zoom()));
 }
 
-void Bin::loadFolderState(const QStringList &foldersToExpand)
+void Bin::loadBinProperties(const QStringList &foldersToExpand, int zoomLevel)
 {
     // Check folder state (expanded or not)
     if (m_itemView == nullptr || m_listType != BinTreeView) {
@@ -5193,6 +5194,9 @@ void Bin::loadFolderState(const QStringList &foldersToExpand)
             QModelIndex ix = m_itemModel->getIndexFromItem(folder);
             view->setExpanded(m_proxyModel->mapFromSource(ix), true);
         }
+    }
+    if (zoomLevel > -1) {
+        m_slider->setValue(zoomLevel);
     }
 }
 

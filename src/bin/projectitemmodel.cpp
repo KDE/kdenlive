@@ -1145,7 +1145,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 }
 
 void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                       QProgressDialog *progressDialog)
+                                       int &zoomLevel, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1163,6 +1163,11 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
             expandedFolders = QString(playlistProps.get("kdenlive:expandedFolders")).split(QLatin1Char(';'));
             folderProperties.pass_values(playlistProps, "kdenlive:folder.");
             loadFolders(folderProperties, binIdCorresp);
+
+            // Load Zoom level
+            if (playlistProps.property_exists("kdenlive:binZoom")) {
+                zoomLevel = playlistProps.get_int("kdenlive:binZoom");
+            }
 
             // Read notes
             QString notes = playlistProps.get("kdenlive:documentnotes");

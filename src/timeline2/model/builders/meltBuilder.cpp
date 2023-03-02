@@ -45,8 +45,9 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
     Fun redo = []() { return true; };
     // First, we destruct the previous tracks
     QStringList expandedFolders;
+    int zoomLevel = -1;
     binIdCorresp.clear();
-    projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
+    projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
 
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -57,7 +58,7 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
     }
     if (pCore->window()) {
         pCore->bin()->checkMissingProxies();
-        pCore->bin()->loadFolderState(foldersToExpand);
+        pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
     }
     return true;
 }
@@ -75,9 +76,10 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 
     QStringList expandedFolders;
     if (projectModel) {
+        int zoomLevel = -1;
         if (timeline->uuid() == pCore->currentTimelineId()) {
             binIdCorresp.clear();
-            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
+            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
         } else {
             projectModel->loadTractorPlaylist(tractor, binIdCorresp, expandedFolders, progressDialog);
         }
@@ -91,7 +93,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         }
         if (pCore->window()) {
             pCore->bin()->checkMissingProxies();
-            pCore->bin()->loadFolderState(foldersToExpand);
+            pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
         }
     }
 
@@ -306,8 +308,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     m_errorMessage.clear();
     m_notesLog.clear();
     QStringList expandedFolders;
+    int zoomLevel = -1;
     if (timeline->uuid() == pCore->currentTimelineId()) {
-        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, progressDialog);
+        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
     }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -318,7 +321,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     }
     if (pCore->window()) {
         pCore->bin()->checkMissingProxies();
-        pCore->bin()->loadFolderState(foldersToExpand);
+        pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
     }
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
