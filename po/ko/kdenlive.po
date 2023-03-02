@@ -18138,8 +18138,7 @@ msgstr "프록시"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy clips"
 msgstr "프록시 클립"
 
