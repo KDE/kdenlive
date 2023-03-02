@@ -48,6 +48,7 @@ ProjectItemModel::ProjectItemModel(QObject *parent)
     , m_blankThumb()
     , m_dragType(PlaylistState::Disabled)
     , m_uuid(QUuid::createUuid())
+    , m_sequenceFolderId(-1)
 {
     QPixmap pix(QSize(160, 90));
     pix.fill(Qt::lightGray);
@@ -600,6 +601,7 @@ void ProjectItemModel::clean()
     Q_ASSERT(rootItem->childCount() == 0);
     m_nextId = 1;
     m_uuid = QUuid::createUuid();
+    m_sequenceFolderId = -1;
     buildPlaylist(m_uuid);
     ThumbnailCache::get()->clearCache();
 }
@@ -1162,6 +1164,16 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
             Mlt::Properties playlistProps(playlist.get_properties());
             expandedFolders = QString(playlistProps.get("kdenlive:expandedFolders")).split(QLatin1Char(';'));
             folderProperties.pass_values(playlistProps, "kdenlive:folder.");
+            if (playlistProps.property_exists("kdenlive:sequenceFolder")) {
+                int sequenceFolder = playlistProps.get_int("kdenlive:sequenceFolder");
+                if (binIdCorresp.count(QString::number(sequenceFolder)) > 0) {
+                    m_sequenceFolderId = binIdCorresp.at(QString::number(sequenceFolder)).toInt();
+                } else {
+                    m_sequenceFolderId = sequenceFolder;
+                }
+            } else {
+                m_sequenceFolderId = -1;
+            }
             loadFolders(folderProperties, binIdCorresp);
 
             // Load Zoom level
@@ -1556,4 +1568,15 @@ bool ProjectItemModel::canBeEmbeded(const QUuid destUuid, const QUuid srcUuid)
         qDebug() << "::: CLIP NOT FOUND FOR : " << srcId;
     }
     return true;
+}
+
+int ProjectItemModel::defaultSequencesFolder() const
+{
+    return m_sequenceFolderId;
+}
+
+void ProjectItemModel::setSequencesFolder(int id)
+{
+    m_sequenceFolderId = id;
+    saveProperty(QStringLiteral("kdenlive:sequenceFolder"), QString::number(id));
 }

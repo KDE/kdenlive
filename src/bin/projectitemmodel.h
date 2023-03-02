@@ -232,6 +232,9 @@ public:
     void storeSequence(const QString uuid, std::shared_ptr<Mlt::Tractor> tractor);
     /** @brief Returns the count of sequences in this project */
     int sequenceCount() const;
+    /** @brief The id of the folder where new sequences will be created, -1 if none */
+    int defaultSequencesFolder() const;
+    void setSequencesFolder(int id);
 
 protected:
     /** @brief Register the existence of a new element
@@ -278,6 +281,8 @@ private:
     QIcon m_blankThumb;
     PlaylistState::ClipState m_dragType;
     QUuid m_uuid;
+    /** @brief The id of the folder where new sequences will be created, -1 if none */
+    int m_sequenceFolderId;
 
 Q_SIGNALS:
     /** @brief thumbs of the given clip were modified, request update of the monitor if need be */

@@ -1238,6 +1238,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     // QString retain = QStringLiteral("xml_retain %1").arg(uuid.toString());
     // pCore->projectItemModel()->projectTractor()->set(retain.toUtf8().constData(), timelineModel->tractor()->get_service(), 0);
     pCore->projectItemModel()->requestAddBinClip(mainId, prod, folderId, undo, redo);
+    pCore->projectItemModel()->setSequencesFolder(folderId.toInt());
     if (pCore->window()) {
         pCore->bin()->registerSequence(uuid, mainId);
         QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, [id = mainId, model = timelineModel]() {

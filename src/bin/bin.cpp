@@ -2881,10 +2881,12 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     // New folder can be created from level of another folder.
     if (isFolder) {
         m_menu->insertAction(m_deleteAction, m_createFolderAction);
-        m_menu->insertAction(m_createFolderAction, m_openInBin);
+        m_menu->insertAction(m_createFolderAction, m_sequencesFolderAction);
+        m_menu->insertAction(m_sequencesFolderAction, m_openInBin);
     } else {
         m_menu->removeAction(m_createFolderAction);
         m_menu->removeAction(m_openInBin);
+        m_menu->removeAction(m_sequencesFolderAction);
     }
 
     // Show menu
@@ -3450,6 +3452,11 @@ void Bin::setupMenu()
         pCore.get()->addBin(id);
     });
 
+    m_sequencesFolderAction =
+        addAction(QStringLiteral("sequence_folder"), i18n("Default Target Folder for Sequences"), QIcon::fromTheme(QStringLiteral("favorite")));
+    m_sequencesFolderAction->setCheckable(true);
+    connect(m_sequencesFolderAction, &QAction::triggered, this, &Bin::setDefaultSequenceFolder);
+
     m_createFolderAction = addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     m_createFolderAction->setWhatsThis(xi18nc("@info:whatsthis", "Creates a folder in the current position in the project bin. Allows for better organization of source files. Folders can be nested."));
     connect(m_createFolderAction, &QAction::triggered, this, &Bin::slotAddFolder);
@@ -3577,6 +3584,13 @@ void Bin::slotCreateProjectClip()
         if (dia->exec() == QDialog::Accepted) {
             int vTracks = dia_ui.video_tracks->value();
             int aTracks = dia_ui.audio_tracks->value();
+            if (m_itemModel->defaultSequencesFolder() > -1) {
+                const QString sequenceFolder = QString::number(m_itemModel->defaultSequencesFolder());
+                std::shared_ptr<ProjectFolder> folderItem = m_itemModel->getFolderByBinId(sequenceFolder);
+                if (folderItem) {
+                    parentFolder = sequenceFolder;
+                }
+            }
             ClipCreationDialog::createPlaylistClip(dia_ui.sequence_name->text(), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
         }
         break;
@@ -5679,11 +5693,15 @@ void Bin::updateTimelineOccurrences()
     bool triggered = false;
     if (currentSelection.isValid()) {
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
-        if (currentItem && currentItem->itemType() == AbstractProjectItem::ClipItem) {
-            auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
-            if (clip) {
-                triggered = true;
-                Q_EMIT findInTimeline(clip->clipId(), clip->timelineInstances());
+        if (currentItem) {
+            if (currentItem->itemType() == AbstractProjectItem::ClipItem) {
+                auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
+                if (clip) {
+                    triggered = true;
+                    Q_EMIT findInTimeline(clip->clipId(), clip->timelineInstances());
+                }
+            } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
+                m_sequencesFolderAction->setChecked(currentItem->clipId().toInt() == m_itemModel->defaultSequencesFolder());
             }
         }
     }
@@ -5706,5 +5724,16 @@ void Bin::updateSequenceAVType(const QUuid &uuid)
     if (!bId.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
         sequenceClip->checkAudioVideo();
+    }
+}
+
+void Bin::setDefaultSequenceFolder(bool enable)
+{
+    QModelIndex currentSelection = m_proxyModel->selectionModel()->currentIndex();
+    if (currentSelection.isValid()) {
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
+        if (currentItem) {
+            m_itemModel->setSequencesFolder(enable ? currentItem->clipId().toInt() : -1);
+        }
     }
 }

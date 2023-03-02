@@ -437,6 +437,8 @@ private Q_SLOTS:
     void updateClipsCount();
     /** @brief Update the menu entry listing the occurrences of a clip in timeline. */
     void updateTimelineOccurrences();
+    /** @brief Set (or unset) the default folder for newly created sequence clips. */
+    void setDefaultSequenceFolder(bool enable);
 
 public Q_SLOTS:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
@@ -556,6 +558,7 @@ private:
     QAction *m_proxyAction;
     QAction *m_deleteAction;
     QAction *m_openInBin;
+    QAction *m_sequencesFolderAction;
     QAction *m_addClip;
     QAction *m_createFolderAction;
     QAction *m_renameAction;

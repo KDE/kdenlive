@@ -119,20 +119,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Create the timelines folder to store timeline clips
-    QString folderId;
     bool res = false;
-    if (parentFolder == QLatin1String("-1")) {
-        // Create timeline folder
-        folderId = model->getFolderIdByName(i18n("Sequences"));
-        if (folderId.isEmpty()) {
-            res = model->requestAddFolder(folderId, i18n("Sequences"), QStringLiteral("-1"), undo, redo);
-        } else {
-            res = true;
-        }
-    }
-    if (!res) {
-        folderId = parentFolder;
-    }
     if (tracks.first > 0) {
         timeline->set("kdenlive:sequenceproperties.hasAudio", 1);
         prod->set("kdenlive:sequenceproperties.hasAudio", 1);
@@ -144,7 +131,7 @@ QString ClipCreator::createPlaylistClip(const QString &name, std::pair<int, int>
     timeline->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     prod->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
 
-    res = model->requestAddBinClip(id, prod, folderId, undo, redo);
+    res = model->requestAddBinClip(id, prod, parentFolder, undo, redo);
     if (res) {
         // Open playlist timeline
         qDebug() << "::: CREATED PLAYLIST WITH UUID: " << uuid << ", ID: " << id;
