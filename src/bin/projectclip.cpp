@@ -2236,7 +2236,8 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         m_disabledProducer.reset();
         m_audioProducers.clear();
         m_videoProducers.clear();
-        if (m_timewarpProducers.size() > 0) {
+        if (m_timewarpProducers.size() > 0 && pCore->bin()->isEnabled()) {
+            // If the clip is deleted, remove timewarp producers. Don't delete if Bin is disabled because this is when we are closing a project
             if (m_clipType == ClipType::Timeline) {
                 bool ok;
                 QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
