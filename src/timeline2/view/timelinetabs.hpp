@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QMutex>
 #include <QTabWidget>
 #include <memory>
 
@@ -13,7 +14,6 @@ class TimelineItemModel;
 class AssetParameterModel;
 class EffectStackModel;
 class MonitorProxy;
-
 class QMenu;
 
 /** @class TimelineContainer
@@ -113,4 +113,5 @@ private:
     QMenu *m_thumbsMenu;
     QAction *m_editGuideAction;
     QMenu *m_timelineSubtitleClipMenu;
+    QMutex m_lock;
 };

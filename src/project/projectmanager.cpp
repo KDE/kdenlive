@@ -784,7 +784,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
     // Raise last active timeline
     QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
-    if (!activeUuid.isNull()) {
+    if (activeUuid.isNull()) {
         activeUuid = m_project->uuid();
     }
     if (!activeUuid.isNull()) {

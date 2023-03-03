@@ -61,6 +61,7 @@ void TimelineTabs::updateWindowTitle()
 
 bool TimelineTabs::raiseTimeline(const QUuid &uuid)
 {
+    QMutexLocker lk(&m_lock);
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (timeline->getUuid() == uuid) {
@@ -84,6 +85,7 @@ void TimelineTabs::setModified(const QUuid &uuid, bool modified)
 
 TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
 {
+    QMutexLocker lk(&m_lock);
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
@@ -153,6 +155,7 @@ void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
 
 void TimelineTabs::closeTimelineByIndex(int ix)
 {
+    QMutexLocker lk(&m_lock);
     const QString seqName = tabText(ix);
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
     const QUuid uuid = timeline->getUuid();
@@ -199,6 +202,7 @@ void TimelineTabs::closeTimelines()
 
 void TimelineTabs::closeTimeline(const QUuid &uuid)
 {
+    QMutexLocker lk(&m_lock);
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
