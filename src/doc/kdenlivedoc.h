@@ -283,6 +283,10 @@ public:
     const QString projectName() const;
     /** @brief Returns the project's main uuid.*/
     const QUuid uuid() const;
+    /** @brief Returns true if a sequence thumbnail needs an update.*/
+    bool sequenceThumbRequiresRefresh(const QUuid &uuid) const;
+    /** @brief Thumbnail for a sequence was updated, remove it from the update list.*/
+    void sequenceThumbUpdated(const QUuid &uuid);
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
@@ -324,6 +328,7 @@ private:
     QMap<QString, QString> m_documentMetadata;
     QMap<QUuid, QMap<QString, QString>> m_sequenceProperties;
     QUuid m_filteredTimelineUuid;
+    QList<QUuid> m_sequenceThumbsNeedsRefresh;
 
     QString m_modifiedDecimalPoint;
     /** @brief A list of guide models for this project (one for each timeline). */

@@ -989,11 +989,22 @@ void KdenliveDoc::setModified(bool mod)
     if ((m_autosave != nullptr) && mod && KdenliveSettings::crashrecovery()) {
         Q_EMIT startAutoSave();
     }
+    m_sequenceThumbsNeedsRefresh.append(pCore->currentTimelineId());
     if (mod == m_modified) {
         return;
     }
     m_modified = mod;
     Q_EMIT docModified(m_modified);
+}
+
+bool KdenliveDoc::sequenceThumbRequiresRefresh(const QUuid &uuid) const
+{
+    return m_sequenceThumbsNeedsRefresh.contains(uuid);
+}
+
+void KdenliveDoc::sequenceThumbUpdated(const QUuid &uuid)
+{
+    m_sequenceThumbsNeedsRefresh.removeAll(uuid);
 }
 
 bool KdenliveDoc::isModified() const
