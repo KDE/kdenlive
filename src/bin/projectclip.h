@@ -252,6 +252,8 @@ public:
     int getAudioMax(int stream);
     /** @brief A timeline clip was modified, reload its other timeline instances. */
     void reloadTimeline();
+    /** @brief Copy sequence clip timewarp producers to a new location (when saving / rendering). */
+    void copyTimeWarpProducers(const QDir sequenceFolder, bool copy);
     /** @brief Refresh zones of insertion in timeline. */
     void refreshBounds();
     /** @brief Retuns a list of important enforces parameters in MLT format, for example to disable autorotate. */

@@ -117,10 +117,10 @@ public:
 
     const QString description(const QString suffix = QString()) const;
     void setUrl(const QUrl &url);
-    /** @brief Update path of subtitle url. */
-    void updateSubtitleBeforeSave(const QString &newUrl = QString());
+    /** @brief Update path of subtitle url and timewarp sequence playlists. */
+    void updateWorkFilesBeforeSave(const QString &newUrl = QString(), bool onRender = false);
     /** @brief Restore tmp work path for subtitle filters after saving. */
-    void updateSubtitleAfterSave();
+    void updateWorkFilesAfterSave(bool onRender = false);
 
     void prepareRenderAssets(const QDir &destFolder);
     void restoreRenderAssets();

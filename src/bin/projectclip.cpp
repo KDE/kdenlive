@@ -656,7 +656,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         if (m_timewarpProducers.size() > 0) {
             if (m_clipType == ClipType::Timeline) {
                 bool ok;
-                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
+                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
                 if (ok) {
                     QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                     QFile::remove(resource);
@@ -1090,7 +1090,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (m_clipType == ClipType::Timeline) {
             // speed effects of sequence clips have to use an external mlt playslist file
             bool ok;
-            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
+            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
             if (!ok) {
                 qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
                 return nullptr;
@@ -2236,11 +2236,11 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         m_disabledProducer.reset();
         m_audioProducers.clear();
         m_videoProducers.clear();
-        if (m_timewarpProducers.size() > 0 && pCore->bin()->isEnabled()) {
+        if (m_timewarpProducers.size() > 0 && pCore->window() && pCore->bin()->isEnabled()) {
             // If the clip is deleted, remove timewarp producers. Don't delete if Bin is disabled because this is when we are closing a project
             if (m_clipType == ClipType::Timeline) {
                 bool ok;
-                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
+                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
                 if (ok) {
                     QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                     QFile::remove(resource);
@@ -2274,6 +2274,58 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
     return AbstractProjectItem::selfSoftDelete(undo, redo);
 }
 
+void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
+{
+    if (m_clipType == ClipType::Timeline) {
+        for (auto &warp : m_timewarpProducers) {
+            const QString service(warp.second->get("mlt_service"));
+            QString path;
+            bool isTimeWarp = false;
+            const QString resource(warp.second->get("resource"));
+            if (service == QLatin1String("timewarp")) {
+                path = warp.second->get("warp_resource");
+                isTimeWarp = true;
+            } else {
+                path = resource;
+            }
+            bool consumerProducer = false;
+            if (resource.contains(QLatin1String("consumer:"))) {
+                consumerProducer = true;
+            }
+            if (path.startsWith(QLatin1String("consumer:"))) {
+                path = path.section(QLatin1Char(':'), 1);
+            }
+            if (QFileInfo(path).isRelative()) {
+                path.prepend(pCore->currentDoc()->documentRoot());
+            }
+            QString destFile = sequenceFolder.absoluteFilePath(QFileInfo(path).fileName());
+            if (copy) {
+                if (!destFile.endsWith(QLatin1String(".mlt"))) {
+                    continue;
+                }
+                QFile::remove(destFile);
+                QFile::copy(path, destFile);
+            }
+            if (isTimeWarp) {
+                warp.second->set("warp_resource", destFile.toUtf8().constData());
+                QString speed(warp.second->get("warp_speed"));
+                speed.append(QStringLiteral(":"));
+                if (consumerProducer) {
+                    destFile.prepend(QStringLiteral("consumer:"));
+                }
+                destFile.prepend(speed);
+                warp.second->set("resource", destFile.toUtf8().constData());
+
+            } else {
+                if (consumerProducer) {
+                    destFile.prepend(QStringLiteral("consumer:"));
+                }
+                warp.second->set("resource", destFile.toUtf8().constData());
+            }
+        }
+    }
+}
+
 void ProjectClip::reloadTimeline()
 {
     pCore->bin()->reloadMonitorIfActive(m_binId);
@@ -2292,7 +2344,7 @@ void ProjectClip::reloadTimeline()
     if (m_timewarpProducers.size() > 0) {
         if (m_clipType == ClipType::Timeline) {
             bool ok;
-            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
+            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
             if (ok) {
                 QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                 QFile::remove(resource);

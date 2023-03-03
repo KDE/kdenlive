@@ -822,6 +822,9 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
 
 bool GroupsModel::fromJson(const QString &data)
 {
+    if (data.isEmpty()) {
+        return true;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     auto json = QJsonDocument::fromJson(data.toUtf8());

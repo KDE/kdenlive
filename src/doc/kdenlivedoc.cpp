@@ -938,18 +938,16 @@ QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
 void KdenliveDoc::prepareRenderAssets(const QDir &destFolder)
 {
     // Copy current subtitles to assets render folder
-    updateSubtitleBeforeSave(destFolder.absoluteFilePath(m_url.fileName()));
-    // TODO: copy playlist files used for sequence slowmo
+    updateWorkFilesBeforeSave(destFolder.absoluteFilePath(m_url.fileName()), true);
 }
 
 void KdenliveDoc::restoreRenderAssets()
 {
     // Copy current subtitles to assets render folder
-    updateSubtitleAfterSave();
-    // TODO: copy playlist files used for sequence slowmo
+    updateWorkFilesAfterSave(true);
 }
 
-void KdenliveDoc::updateSubtitleBeforeSave(const QString &newUrl)
+void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender)
 {
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
@@ -965,9 +963,19 @@ void KdenliveDoc::updateSubtitleBeforeSave(const QString &newUrl)
             j.value()->getSubtitleModel()->copySubtitle(subPath, checkOverwrite, true);
         }
     }
+    QDir sequenceFolder;
+    bool ok;
+    if (onRender) {
+        sequenceFolder = QFileInfo(newUrl).dir();
+        sequenceFolder.mkpath(QFileInfo(newUrl).baseName());
+        sequenceFolder.cd(QFileInfo(newUrl).baseName());
+    } else {
+        sequenceFolder = pCore->currentDoc()->getCacheDir(CacheSequence, &ok);
+    }
+    pCore->bin()->moveTimeWarpToFolder(sequenceFolder, true);
 }
 
-void KdenliveDoc::updateSubtitleAfterSave()
+void KdenliveDoc::updateWorkFilesAfterSave(bool onRender)
 {
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {
@@ -976,6 +984,10 @@ void KdenliveDoc::updateSubtitleAfterSave()
             j.value()->getSubtitleModel()->restoreTmpFile();
         }
     }
+
+    bool ok;
+    QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
+    pCore->bin()->moveTimeWarpToFolder(sequenceFolder, false);
 }
 
 void KdenliveDoc::slotModified()
@@ -2021,6 +2033,9 @@ const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) 
         break;
     case CacheThumbs:
         basePath.append(QStringLiteral("/videothumbs"));
+        break;
+    case CacheTmpWorkFiles:
+        basePath.append(QStringLiteral("/workfiles"));
         break;
     case CacheSequence:
         basePath.append(QStringLiteral("/sequences"));

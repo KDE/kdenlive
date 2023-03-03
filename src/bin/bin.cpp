@@ -5753,3 +5753,11 @@ void Bin::setDefaultSequenceFolder(bool enable)
         }
     }
 }
+
+void Bin::moveTimeWarpToFolder(const QDir sequenceFolder, bool copy)
+{
+    QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
+    for (auto &c : allClips) {
+        c->copyTimeWarpProducers(sequenceFolder, copy);
+    }
+}

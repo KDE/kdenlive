@@ -410,7 +410,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
-    m_project->updateSubtitleBeforeSave(outputFileName);
+    m_project->updateWorkFilesBeforeSave(outputFileName);
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -419,7 +419,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
             scene.replace(i.key(), i.value());
         }
     }
-    m_project->updateSubtitleAfterSave();
+    m_project->updateWorkFilesAfterSave();
     if (!m_project->saveSceneList(outputFileName, scene)) {
         return false;
     }
