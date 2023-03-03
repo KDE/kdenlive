@@ -219,6 +219,9 @@ public:
     /** @brief Display Bin thumbnail given a percent
      */
     void getThumbFromPercent(int percent, bool storeFrame = false);
+    /** @brief Get the frame position used for Bin clip thumbnail
+     */
+    int getThumbFrame() const;
     /** @brief Return audio cache for a stream
      */
     const QVector <uint8_t> audioFrameCache(int stream = -1);

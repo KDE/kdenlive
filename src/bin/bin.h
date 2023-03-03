@@ -350,7 +350,7 @@ public:
     /** @brief Returns the bin id of the clip managing a timeline sequence changed
      * @param uuid the uuid of the timeline clip
      */
-    const QString sequenceBinId(const QUuid uuid);
+    const QString sequenceBinId(const QUuid &uuid);
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid);
 
@@ -377,6 +377,8 @@ public:
     void removeReferencedClips(const QUuid &uuid);
     /** @brief List all clips referenced in a timeline sequence. */
     QStringList sequenceReferencedClips(const QUuid &uuid) const;
+    /** @brief Define a thumbnail for a sequence clip. */
+    void setSequenceThumbnail(const QUuid &uuid, int frame);
 
 private Q_SLOTS:
     void slotAddClip();

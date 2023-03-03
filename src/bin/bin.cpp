@@ -5710,7 +5710,7 @@ void Bin::updateTimelineOccurrences()
     }
 }
 
-const QString Bin::sequenceBinId(const QUuid uuid)
+const QString Bin::sequenceBinId(const QUuid &uuid)
 {
     if (m_openedPlaylists.contains(uuid)) {
         return m_openedPlaylists.value(uuid);
@@ -5718,12 +5718,26 @@ const QString Bin::sequenceBinId(const QUuid uuid)
     return QString();
 }
 
+void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
+{
+    const QString bid = sequenceBinId(uuid);
+    if (!bid.isEmpty()) {
+        std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bid);
+        if (sequenceClip) {
+            m_doc->setSequenceProperty(uuid, QStringLiteral("thumbnailFrame"), frame);
+            ClipLoadTask::start({ObjectType::BinClip, bid.toInt()}, QDomElement(), true, -1, -1, this);
+        }
+    }
+}
+
 void Bin::updateSequenceAVType(const QUuid &uuid)
 {
     const QString bId = sequenceBinId(uuid);
     if (!bId.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
-        sequenceClip->checkAudioVideo();
+        if (sequenceClip) {
+            sequenceClip->checkAudioVideo();
+        }
     }
 }
 

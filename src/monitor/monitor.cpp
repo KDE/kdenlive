@@ -602,13 +602,12 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
 
     m_contextMenu->addAction(m_markIn);
     m_contextMenu->addAction(m_markOut);
-
+    QAction *setThumbFrame =
+        m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
+    m_configMenuAction->addAction(setThumbFrame);
     if (m_id == Kdenlive::ProjectMonitor) {
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("monitor_multitrack")));
     } else if (m_id == Kdenlive::ClipMonitor) {
-        QAction *setThumbFrame =
-            m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
-        m_configMenuAction->addAction(setThumbFrame);
         QAction *alwaysShowAudio = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Always show audio thumbnails"), this);
         alwaysShowAudio->setCheckable(true);
         connect(alwaysShowAudio, &QAction::triggered, this, [this](bool checked) {
@@ -1107,7 +1106,10 @@ void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 
 void Monitor::slotSetThumbFrame()
 {
-    if (m_controller == nullptr) {
+    pCore->setDocumentModified();
+    if (m_controller == nullptr || m_controller->clipType() == ClipType::Timeline) {
+        // This is a sequence thumbnail
+        pCore->bin()->setSequenceThumbnail(pCore->currentTimelineId(), m_glMonitor->getCurrentPos());
         return;
     }
     m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), m_glMonitor->getCurrentPos());

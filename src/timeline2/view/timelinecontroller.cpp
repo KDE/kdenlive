@@ -2564,8 +2564,11 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
 
 void TimelineController::saveSequenceProperties()
 {
-    const QString groupsData = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("groups"));
-    m_model->tractor()->set("kdenlive:sequenceproperties.groups", groupsData.toUtf8().constData());
+    const QStringList passProperties = {QStringLiteral("groups"), QStringLiteral("zoom"), QStringLiteral("verticalzoom"), QStringLiteral("thumbnailFrame")};
+    for (auto &prop : passProperties) {
+        const QString propValue = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), prop);
+        m_model->tractor()->set(QString("kdenlive:sequenceproperties.%1").arg(prop).toUtf8().constData(), propValue.toUtf8().constData());
+    }
     m_model->tractor()->set("kdenlive:sequenceproperties.documentuuid", pCore->currentDoc()->uuid().toString().toUtf8().constData());
     // Save timeline guides
     const QString guidesData = m_model->getGuideModel()->toJson();
@@ -2582,10 +2585,6 @@ void TimelineController::saveSequenceProperties()
     m_model->tractor()->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
 
     m_model->tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
-    m_model->tractor()->set("kdenlive:sequenceproperties.zoom",
-                            pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("zoom")).toUtf8().constData());
-    m_model->tractor()->set("kdenlive:sequenceproperties.verticalzoom",
-                            pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("verticalzoom")).toUtf8().constData());
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();

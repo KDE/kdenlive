@@ -1041,7 +1041,7 @@ void ProjectItemModel::updateCacheThumbnail(std::unordered_map<QString, std::vec
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem) {
-            int frameNumber = qMax(0, std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+            int frameNumber = qMax(0, std::static_pointer_cast<ProjectClip>(c)->getThumbFrame());
             thumbData[c->clipId()].push_back(frameNumber);
         } else if (c->itemType() == AbstractProjectItem::SubClipItem) {
             QPoint p = c->zone();

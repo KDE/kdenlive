@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPainter>
 #include <QString>
 #include <QTime>
+#include <QUuid>
 #include <QVariantList>
 #include <monitor/monitor.h>
 #include <profiles/profilemodel.hpp>
@@ -235,7 +236,10 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
     if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
         return;
     }
-    int frameNumber = m_in > -1 ? m_in : qMax(0, binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+    int frameNumber = m_in;
+    if (frameNumber < 0) {
+        frameNumber = binClip->getThumbFrame();
+    }
     if (producer->get_int("video_index") > -1) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), QString::number(m_owner.second), frameNumber);
         if (!thumb.isNull()) {

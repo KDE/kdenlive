@@ -2377,12 +2377,20 @@ void ProjectClip::updateZones()
     setProducerProperty(QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
 }
 
+int ProjectClip::getThumbFrame() const
+{
+    if (m_clipType == ClipType::Timeline) {
+        return qMax(0, pCore->currentDoc()->getSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame")).toInt());
+    }
+    return qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+}
+
 void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
 {
     // extract a maximum of 30 frames for bin preview
     if (percent < 0) {
-        if (hasProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"))) {
-            int framePos = qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
+        int framePos = getThumbFrame();
+        if (framePos > 0) {
             QImage thumb = ThumbnailCache::get()->getThumbnail(hashForThumbs(), m_binId, framePos);
             if (!thumb.isNull()) {
                 setThumbnail(thumb, -1, -1);
@@ -2404,7 +2412,11 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
         }
     }
     if (storeFrame) {
-        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
+        if (m_clipType == ClipType::Timeline) {
+            pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), QString::number(framePos));
+        } else {
+            setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
+        }
     }
 }
 
