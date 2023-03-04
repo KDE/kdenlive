@@ -291,7 +291,14 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Unknown;
         }
     }
-    if (audioIndex > -1 || m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+    bool createSequenceAudio = false;
+    if (m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
+        if (m_hasAudio) {
+            createSequenceAudio = true;
+        }
+    }
+
+    if (audioIndex > -1 || createSequenceAudio) {
         m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
         // Load stream effects
         for (int stream : m_audioInfo->streams().keys()) {
