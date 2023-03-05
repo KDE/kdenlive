@@ -2,7 +2,7 @@
 IconName=kdenlive
 DesktopEntry=org.kde.kdenlive
 Comment=Kdenlive
-Comment[ar]=كدينلايف
+Comment[ar]=كِيدِينلايف
 Comment[az]=Kdenlive
 Comment[bs]=Kdenlive
 Comment[ca]=Kdenlive
@@ -411,7 +411,7 @@ Name[x-test]=xxErrorxx
 Name[zh_CN]=错误
 Name[zh_TW]=錯誤
 Comment=An error occurred in Kdenlive
-Comment[ar]=حدث خطأ في «كدينلايڤ»
+Comment[ar]=حدث خطأ في «كِيدِينلايف»
 Comment[az]=Kdenlive'da xəta baş verdi
 Comment[bs]=Desila se greška u KDenlive
 Comment[ca]=S'ha produït un error al Kdenlive
