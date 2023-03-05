@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-02-20 20:53+0300\n"
+"PO-Revision-Date: 2023-03-04 14:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1288,7 +1288,7 @@ msgstr ""
 "Bu süzgeç, kare alfa kanalına yalın şekiller çizmeden önce anlık bir "
 "görüntüsünü alır. Bunu, geçerli karenin görselini anlık görüntü üzerine "
 "bileşikleştirmek için bir geçiş kullanan mask_apply efekti ile birlikte "
-"kullanın. Olağan bir kullanım senaryosunda efektler aşağıdaki sıralamada "
+"kullanın. Olağan bir kullanım senaryosunda efektler aşağıdaki sırada "
 "eklenir: Bu efekt, sıfır veya daha fazla efekt, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
@@ -1373,8 +1373,8 @@ msgstr ""
 "anahtar seçimi uygulanmadan önce karenin anlık bir görüntüsünü alır. Bunu, "
 "geçerli karenin görselini anlık görüntü üzerine bileşikleştirmek için bir "
 "geçiş kullanan mask_apply efekti ile birlikte kullanın. Olağan bir kullanım "
-"senaryosunda efektler aşağıdaki sıralamada eklenir: Bu efekt, sıfır veya "
-"daha fazla efekt, mask_apply."
+"senaryosunda efektler aşağıdaki sırada eklenir: Bu efekt, sıfır veya daha "
+"fazla efekt, mask_apply."
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
@@ -1457,8 +1457,7 @@ msgstr ""
 "önce karenin anlık bir görüntüsünü alır. Bunu, geçerli karenin görselini "
 "anlık görüntü üzerine bileşikleştirmek için bir geçiş kullanan mask_apply "
 "efekti ile birlikte kullanın. Olağan bir kullanım senaryosunda efektler "
-"aşağıdaki sıralamada eklenir: Bu efekt, sıfır veya daha fazla efekt, "
-"mask_apply."
+"aşağıdaki sırada eklenir: Bu efekt, sıfır veya daha fazla efekt, mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -1513,8 +1512,8 @@ msgstr ""
 "oluşturulmadan önce karenin anlık bir görüntüsünü alır. Bunu, geçerli "
 "karenin görselini anlık görüntü üzerine bileşikleştirmek için bir geçiş "
 "kullanan mask_apply efekti ile birlikte kullanın. Olağan bir kullanım "
-"senaryosunda efektler aşağıdaki sıralamada eklenir: Bu efekt, sıfır veya "
-"daha fazla efekt, mask_apply."
+"senaryosunda efektler aşağıdaki sırada eklenir: Bu efekt, sıfır veya daha "
+"fazla efekt, mask_apply."
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -4296,7 +4295,7 @@ msgstr "Renk Klibi Ekle…"
 #: src/bin/bin.cpp:3288
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr "Görsel Sıralaması Ekle"
+msgstr "Görsel Sırası Ekle…"
 
 #: src/bin/bin.cpp:3290
 #, kde-format
@@ -5445,7 +5444,7 @@ msgstr "Tüm Dosyalar"
 #: src/dialogs/clipcreationdialog.cpp:558
 #, kde-format
 msgid "Import image sequence"
-msgstr "Görsel sıralamasını içe aktar"
+msgstr "Görsel sırasını içe aktar"
 
 #: src/dialogs/clipcreationdialog.cpp:462
 #: src/dialogs/clipcreationdialog.cpp:561
@@ -12076,12 +12075,12 @@ msgstr "Üst Veri"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Image Sequence"
-msgstr "Görsel Sıralaması Ekle"
+msgstr "Görsel Sırası Ekle"
 
 #: src/project/dialogs/slideshowclip.cpp:36
 #, kde-format
 msgid "Image Sequence"
-msgstr "Görsel Sıralaması"
+msgstr "Görsel Sırası"
 
 #: src/project/dialogs/slideshowclip.cpp:58
 #, kde-format
@@ -12828,7 +12827,7 @@ msgstr "Kayıpsız/YK"
 #, kde-format
 msgctxt "Category Name"
 msgid "Images sequence"
-msgstr "Görseller sıralaması"
+msgstr "Görseller sırası"
 
 #: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
@@ -16213,7 +16212,7 @@ msgstr "Çok akışlı kliplerde tüm akışları otomatik olarak içe aktar"
 #: src/ui/configmisc_ui.ui:70
 #, kde-format
 msgid "Automatically import image sequences"
-msgstr "Görsel sıralamalarını kendiliğinden içe aktar"
+msgstr "Görsel sıralarını kendiliğinden içe aktar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_use_exiftool)
 #: src/ui/configmisc_ui.ui:77
@@ -16294,7 +16293,7 @@ msgstr "Solmalar:"
 #: src/ui/configmisc_ui.ui:210
 #, kde-format
 msgid "Image sequence:"
-msgstr "Görsel sıralaması:"
+msgstr "Görsel sırası:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configmisc_ui.ui:226

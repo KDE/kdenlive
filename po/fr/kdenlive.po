@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-01-20 18:54+0100\n"
+"PO-Revision-Date: 2023-03-03 18:37+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6615,7 +6615,7 @@ msgstr "Veuillez installer un modèle de langue."
 #: src/dialogs/textbasededit.cpp:765
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
-msgstr "Sélectionner une vidéo avec de l'audio dans la corbeille du projet."
+msgstr "Sélectionner une vidéo avec de l'audio dans le dossier du projet."
 
 #: src/dialogs/textbasededit.cpp:813
 #, kde-format

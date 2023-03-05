@@ -4079,7 +4079,7 @@ msgid ""
 "Your project file was modified by Kdenlive.\n"
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
-"لقد عدّل كدينلايف ملفّ المشروع.\n"
+"لقد عدّل كِيدِينلايف ملفّ المشروع.\n"
 "للتأكّد من عدم فقدانك أيّة بيانات، أُنشئت نسخة احتياطيّة بالاسم %1."
 
 #: src/bin/bin.cpp:1869
@@ -5065,7 +5065,7 @@ msgid ""
 "Kdenlive crashed on last startup.\n"
 "Do you want to reset the configuration files ?"
 msgstr ""
-"تحطم كدينلايف في بدء التشغيل الأخير. \n"
+"تحطم كِيدِينلايف في بدء التشغيل الأخير. \n"
 "هل تريد إعادة تعيين ملفات الضبط؟"
 
 #: src/core.cpp:183
@@ -5074,7 +5074,7 @@ msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
-"لم يعيين ملف تعريف كدينلايف المبدئي أو أنه غير صالح، اضغط على موافق لتعيينه "
+"لم يعيين ملف تعريف كِيدِينلايف المبدئي أو أنه غير صالح، اضغط على موافق لتعيينه "
 "على قيمة صحيحة."
 
 #: src/core.cpp:195
@@ -5096,7 +5096,7 @@ msgid ""
 "can change this from Kdenlive's settings panel"
 msgstr ""
 "التشكيلة المحدد غير صالحة. رجعنا إلى التشكيلة المبدئية \"dv_pal\" ، ولكن "
-"يمكنك تغيير هذا من لوحة إعدادات كدينلايف"
+"يمكنك تغيير هذا من لوحة إعدادات كِيدِينلايف"
 
 #: src/core.cpp:220
 #, kde-format
@@ -5853,7 +5853,7 @@ msgstr "رجاء اضبط تشكيلة الفيديو الافتراضيّة"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1240
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
-msgstr "يجب إعادة تشغيل كدينلايف لتغيير هذا الإعداد"
+msgstr "يجب إعادة تشغيل كِيدِينلايف لتغيير هذا الإعداد"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1362
 #, kde-format
@@ -6433,7 +6433,7 @@ msgstr "فشل التعرف على الكلام"
 #: src/dialogs/splash.cpp:35
 #, kde-format
 msgid "Made by KDE"
-msgstr "صنعت بواسطة كدي"
+msgstr "صنعت بواسطة كِيدِي"
 
 #: src/dialogs/subtitleedit.cpp:105
 #, kde-format
@@ -6632,12 +6632,12 @@ msgstr "حرّر خريطة المؤقت للأطر الرئيسة"
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
-msgstr "مرحبًا بك في كدينلايف"
+msgstr "مرحبًا بك في كِيدِينلايف"
 
 #: src/dialogs/wizard.cpp:75
 #, kde-format
 msgid "Welcome to Kdenlive %1"
-msgstr "مرحبًا بك في كدينلايف %1"
+msgstr "مرحبًا بك في كِيدِينلايف %1"
 
 #: src/dialogs/wizard.cpp:76
 #, kde-format
@@ -6748,7 +6748,7 @@ msgid ""
 "many icons used in Kdenlive. Install recommended</li>"
 msgstr ""
 "<li>حزمة ناقصة: أيقونات <b>نسيم</b> (breeze-icon-theme)<br/>توفّر العديد من "
-"الأيقونات المستخدمة في كدينلايف. تثبيتها مستحسن</li>"
+"الأيقونات المستخدمة في كِيدِينلايف. تثبيتها مستحسن</li>"
 
 #: src/dialogs/wizard.cpp:303
 #, kde-format
@@ -6831,7 +6831,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr "تعذّر العثور على تثبيت MLT. فضلًا ثبّت MLT وأعد تشغيل كدينلايف.\n"
+msgstr "تعذّر العثور على تثبيت MLT. فضلًا ثبّت MLT وأعد تشغيل كِيدِينلايف.\n"
 
 #: src/dialogs/wizard.cpp:587
 #, kde-format
@@ -7059,7 +7059,7 @@ msgid ""
 "able to correctly open the document."
 msgstr ""
 "أُنشئ المستند بمحليّة ”%1“، وهي غير مثبّتة في نظامك. رجاء ثبّت حزمة اللغة تلك. "
-"حتّى ذلك الحين، قد لا يستطيع كدينلايف فتح المستند بشكل صحيح."
+"حتّى ذلك الحين، قد لا يستطيع كِيدِينلايف فتح المستند بشكل صحيح."
 
 #: src/doc/documentvalidator.cpp:118
 #, kde-format
@@ -7082,7 +7082,7 @@ msgid ""
 "Please consider upgrading your Kdenlive version."
 msgstr ""
 "نوع المشروع هذا غير مدعوم (الإصدارة %1) ولا يمكن تحميله.\n"
-"رجاء رقّ إصدارة كدينلايف لديك."
+"رجاء رقّ إصدارة كِيدِينلايف لديك."
 
 #: src/doc/documentvalidator.cpp:154 src/doc/documentvalidator.cpp:163
 #, kde-format
@@ -7166,12 +7166,12 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:241
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
-msgstr "الملفّ %1 ليس ملفّ مشروع كدينلايف"
+msgstr "الملفّ %1 ليس ملفّ مشروع كِيدِينلايف"
 
 #: src/doc/kdenlivedoc.cpp:248
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
-msgstr "الملفّ %1 ليس ملفّ مشروع كدينلايف."
+msgstr "الملفّ %1 ليس ملفّ مشروع كِيدِينلايف."
 
 #: src/doc/kdenlivedoc.cpp:261
 #, kde-format
@@ -7179,7 +7179,7 @@ msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
 "this project's Movit filters."
 msgstr ""
-"التسريع الرسومي بالعتاد معطل في إعدادات كدينلايف لكنه مطلوب لمرشحات Movit "
+"التسريع الرسومي بالعتاد معطل في إعدادات كِيدِينلايف لكنه مطلوب لمرشحات Movit "
 "المستعملة في هذا المشروع"
 
 #: src/doc/kdenlivedoc.cpp:291
@@ -7214,7 +7214,7 @@ msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
 "To make sure you do not lose data, a backup copy called %1 was created."
 msgstr ""
-"لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات كدينلايف.\n"
+"لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات كِيدِينلايف.\n"
 "للتأكّد من عدم فقدانك أيّة بيانات، أُنشئت نسخة احتياطيّة بالاسم %1."
 
 #: src/doc/kdenlivedoc.cpp:722
@@ -7223,7 +7223,7 @@ msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
 "it was not possible to create the backup copy %1."
 msgstr ""
-"لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات «كدينلايف»، ولكن لم يكن ممكنًا "
+"لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات «كِيدِينلايف»، ولكن لم يكن ممكنًا "
 "إنشاء النّسخة الاحتياطيّة %1."
 
 #: src/doc/kdenlivedoc.cpp:866 src/project/projectmanager.cpp:1030
@@ -7444,7 +7444,7 @@ msgstr "التعليقات: "
 #: src/effects/effectlist/view/effectlistwidget.cpp:130
 #, kde-format
 msgid "Kdenlive Effect definitions"
-msgstr "تعريفات تأثير كدينلايف"
+msgstr "تعريفات تأثير كِيدِينلايف"
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:135
 #, kde-format
@@ -7813,7 +7813,7 @@ msgstr "تعذّر تحميل الصّورة %1."
 #: src/project/cliptranscode.cpp:123
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
-msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كدينلايف"
+msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كِيدِينلايف"
 
 #: src/jobs/proxytask.cpp:355 src/jobs/proxytask.cpp:368
 #, kde-format
@@ -7834,7 +7834,7 @@ msgstr "تعذّرت تحليل نوع المقطع هذا."
 #: src/jobs/scenesplittask.cpp:124
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
-msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كدينلايف."
+msgstr "لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة في كِيدِينلايف."
 
 #: src/jobs/scenesplittask.cpp:183 src/jobs/scenesplittask.cpp:203
 #: src/jobs/scenesplittask.cpp:212
@@ -8348,7 +8348,7 @@ msgstr "أنت تستخدم حزمة %1.<br>"
 #: src/main.cpp:232
 #, kde-format
 msgid "Kdenlive"
-msgstr "كدينلايف"
+msgstr "كِيدِينلايف"
 
 #: src/main.cpp:232
 #, kde-format
@@ -8358,7 +8358,7 @@ msgstr "محرّر فيديوهات مفتوح المصدر."
 #: src/main.cpp:233
 #, kde-format
 msgid "Copyright © 2007–2022 Kdenlive authors"
-msgstr "الحقوق محفوظة © ٢٠٠٧-٢٠٢٢، لمؤلّفي كدينلايف"
+msgstr "الحقوق محفوظة © ٢٠٠٧-٢٠٢٢، لمؤلّفي كِيدِينلايف"
 
 #: src/main.cpp:235
 #, kde-format
@@ -8438,7 +8438,7 @@ msgstr "Jason Wood"
 #: src/main.cpp:245
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
-msgstr "مؤلّف إصدارة «كدي 3» الأصليّ (لم يعد نشطًا)"
+msgstr "مؤلّف إصدارة «كِيدِي 3» الأصليّ (لم يعد نشطًا)"
 
 #: src/main.cpp:247
 #, kde-format
@@ -8742,7 +8742,7 @@ msgstr "لا مصغّرات"
 msgid ""
 "Kdenlive needs to be restarted to change this setting. Do you want to "
 "proceed?"
-msgstr "يجب إعادة تشغيل كدينلايف لتغيير هذا الإعداد. هل تريد الموصلة؟"
+msgstr "يجب إعادة تشغيل كِيدِينلايف لتغيير هذا الإعداد. هل تريد الموصلة؟"
 
 #: src/mainwindow.cpp:749
 #, kde-format
@@ -9697,7 +9697,7 @@ msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
-"سيؤدي هذا إلى حذف ملف ضبط كدينلايف وإعادة التشغيل التطبيق. هل تريد المتابعة؟"
+"سيؤدي هذا إلى حذف ملف ضبط كِيدِينلايف وإعادة التشغيل التطبيق. هل تريد المتابعة؟"
 
 #: src/mainwindow.cpp:2637 src/mainwindow.cpp:2664
 #, kde-format
@@ -9942,7 +9942,7 @@ msgstr "أخفِ شريط القوائم"
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
-"يجب إعادة تشغيل كدينلايف لتطبيق تغيّر سمة الأيقونات. أأعيد التّشغيل الآن؟"
+"يجب إعادة تشغيل كِيدِينلايف لتطبيق تغيّر سمة الأيقونات. أأعيد التّشغيل الآن؟"
 
 #: src/mainwindow.cpp:4395 src/timeline2/view/timelinecontroller.cpp:5011
 #, kde-format
@@ -10369,7 +10369,7 @@ msgid ""
 "please fix it."
 msgstr ""
 "لا يمكن إنشاء نافذة معاينة الفيديو. \n"
-"هناك شيء خاطئ في تثبيت كدينلايف الخاص بك أو إعدادات برنامج التشغيل الثابتة "
+"هناك شيء خاطئ في تثبيت كِيدِينلايف الخاص بك أو إعدادات برنامج التشغيل الثابتة "
 "الخاص بك، يرجى إصلاحه."
 
 #: src/monitor/monitor.cpp:77
@@ -10576,7 +10576,7 @@ msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
-"مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدينلايف"
+"مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كِيدِينلايف"
 
 #: src/monitor/monitor.cpp:2258
 #, kde-format
@@ -10594,7 +10594,7 @@ msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
-"مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدينلايف"
+"مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كِيدِينلايف"
 
 #: src/monitor/monitor.cpp:2343
 #, kde-format
@@ -11535,7 +11535,7 @@ msgid ""
 " is not an archived Kdenlive project"
 msgstr ""
 "الملفّ %1\n"
-" ليس مشروع كدينلايف مؤرشف"
+" ليس مشروع كِيدِينلايف مؤرشف"
 
 #: src/project/dialogs/archivewidget.cpp:338
 #, kde-format
@@ -12356,7 +12356,7 @@ msgstr "تعذّر إجراء تعيين"
 #: src/project/projectmanager.cpp:59
 #, kde-format
 msgid "Kdenlive Project (*.kdenlive)"
-msgstr "مشروع كدينلايف ‏(‎*.kdenlive)"
+msgstr "مشروع كِيدِينلايف ‏(‎*.kdenlive)"
 
 #: src/project/projectmanager.cpp:61
 #, kde-format
@@ -12677,7 +12677,7 @@ msgid ""
 "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
 "Please install version >= 0.12\n"
 msgstr ""
-"وحدة OpenTimelineIO لا تحوي على محول كدينلايف.\n"
+"وحدة OpenTimelineIO لا تحوي على محول كِيدِينلايف.\n"
 "فضلاً ثبت الإصدارة >= 0.12\n"
 
 #: src/pythoninterfaces/otioconvertions.cpp:63
@@ -12724,7 +12724,7 @@ msgstr "لا يمكن حفظ ملف المشروع للتصدير"
 #: src/pythoninterfaces/otioconvertions.cpp:127
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
-msgstr "تعذّرت الكتابة في ملف تصدير كدينلايف المؤقت: %1"
+msgstr "تعذّرت الكتابة في ملف تصدير كِيدِينلايف المؤقت: %1"
 
 #: src/pythoninterfaces/otioconvertions.cpp:142
 #, kde-format
@@ -12739,7 +12739,7 @@ msgstr "مشروع مستورد"
 #: src/pythoninterfaces/otioconvertions.cpp:149
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
-msgstr "مشروع كدينلايف ‏(‎*.kdenlive)"
+msgstr "مشروع كِيدِينلايف ‏(‎*.kdenlive)"
 
 #: src/pythoninterfaces/otioconvertions.cpp:158
 #, kde-format
@@ -14837,7 +14837,7 @@ msgstr "حمّل عنوانًا"
 #: src/titler/titlewidget.cpp:2128
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
-msgstr "عنوان كدينلايف ‏(‎*.kdenlivetitle)"
+msgstr "عنوان كِيدِينلايف ‏(‎*.kdenlivetitle)"
 
 #: src/titler/titlewidget.cpp:2174
 #, kde-format
@@ -15858,7 +15858,7 @@ msgstr "بيانات الخبيئة"
 msgid ""
 "Kdenlive will check this limit every 2 weeks. Set to zero to disable "
 "checking."
-msgstr "يتأكد كدينلايف من الحد كل أسبوعين. ضع صفر لتعطيل التأكد."
+msgstr "يتأكد كِيدِينلايف من الحد كل أسبوعين. ضع صفر لتعطيل التأكد."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_maxcachesize)
 #: src/ui/configenv_ui.ui:88
@@ -16414,7 +16414,7 @@ msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
-"تحذير: التّغيير على المشغّلات وأجهزة قد تجعل من كدينلايف غير مستقرّ. أجرِ "
+"تحذير: التّغيير على المشغّلات وأجهزة قد تجعل من كِيدِينلايف غير مستقرّ. أجرِ "
 "التّغييرات إن كنت تعلم ما تفعله فقط."
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
@@ -16427,7 +16427,7 @@ msgstr "معالجة بعتاد وحدة الرّسوميّات (مكتبة Movi
 #: src/ui/configsdl_ui.ui:50
 #, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr "مكّن - أعد تشغيل كدينلايف للتّطبيق"
+msgstr "مكّن - أعد تشغيل كِيدِينلايف للتّطبيق"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:64
@@ -17035,7 +17035,7 @@ msgstr "احفظ ك‍:"
 #: src/ui/exportguidesdialog_ui.ui:54
 #, kde-format
 msgid "Kdenlive JSON"
-msgstr "جوسن كدينلايف"
+msgstr "جوسن كِيدِينلايف"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
@@ -19021,7 +19021,7 @@ msgstr "%1س"
 #~ "please install it and re-enable the feature in Kdenlive"
 #~ msgstr ""
 #~ "يعد تطبيق MediaInfo مطلوبًا لميزة التسجيل Timecode ، يرجى تثبيته وإعادة "
-#~ "تمكين الميزة في كدينلايف"
+#~ "تمكين الميزة في كِيدِينلايف"
 
 #~ msgid "Please set a path for the Glaxnimate application"
 #~ msgstr "فضلاً عين مسار تطبيق Glaxnimate"
@@ -19369,7 +19369,7 @@ msgstr "%1س"
 #~ msgstr "معدّل الإطارات"
 
 #~ msgid "Use KDE job tracking for render jobs"
-#~ msgstr "استعمل متتبع مهام كدي لمهام التصيير"
+#~ msgstr "استعمل متتبع مهام كِيدِي لمهام التصيير"
 
 #~ msgid "Bypass codec verification"
 #~ msgstr "تخطَ التحقق من المرماز"
@@ -20174,7 +20174,7 @@ msgstr "%1س"
 #~ "settings Environment"
 #~ msgstr ""
 #~ "فشل إنشاء الوسيط. لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات البيئة "
-#~ "في «كدينلايڤ»"
+#~ "في «كِيدِينلايف»"
 
 #~ msgid "No data returned from clip analysis"
 #~ msgstr "لم ترجع بيانات من تحليل القصاصة"
@@ -20467,7 +20467,7 @@ msgstr "%1س"
 #~ msgstr "Steve Guilford"
 
 #~ msgid "Kdenlive 16.08 icon"
-#~ msgstr "أيقونة «كدينلايڤ 16.08»"
+#~ msgstr "أيقونة «كِيدِينلايف 16.08»"
 
 #, fuzzy
 #~| msgid "Select Transition"
@@ -20792,7 +20792,7 @@ msgstr "%1س"
 #~ "settings Environment"
 #~ msgstr ""
 #~ "تعذّرت معالجة المهمّة. لم يُعثر على FFmpeg، رجاء اضبط المسار في إعدادات "
-#~ "البيئة في «كدينلايڤ»"
+#~ "البيئة في «كِيدِينلايف»"
 
 #~ msgid "Analysing clip"
 #~ msgstr "يحلّل القصاصة"
@@ -21365,7 +21365,7 @@ msgstr "%1س"
 #~ "Cannot start Colors panel from System Settings. Please check your "
 #~ "system..."
 #~ msgstr ""
-#~ "تعذّر بدء لوحة إعدادات الألوان من «مركز تحكّم كدي». رجاء افحص نظامك..."
+#~ "تعذّر بدء لوحة إعدادات الألوان من «مركز تحكّم كِيدِي». رجاء افحص نظامك..."
 
 #, fuzzy
 #~ msgid ""
