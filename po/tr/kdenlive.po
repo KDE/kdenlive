@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-17 02:39+0000\n"
-"PO-Revision-Date: 2023-03-04 14:08+0300\n"
+"PO-Revision-Date: 2023-03-05 14:42+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6523,12 +6523,12 @@ msgstr "Sağ Üst"
 #: src/dialogs/textbasededit.cpp:51
 #, kde-format
 msgid "Add bookmark"
-msgstr "Yer imi ekle"
+msgstr "Yer İmi Ekle"
 
 #: src/dialogs/textbasededit.cpp:53
 #, kde-format
 msgid "Delete selection"
-msgstr "Seçimi sil"
+msgstr "Seçimi Sil"
 
 #: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
 #: src/dialogs/textbasededit.cpp:972
@@ -6544,7 +6544,7 @@ msgstr "Seçili metni sil"
 #: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Add bookmark for current selection"
-msgstr "Geçerli seçimi yer imi olarak ekle"
+msgstr "Geçerli Seçimi Yer İmi Ekle"
 
 #: src/dialogs/textbasededit.cpp:743
 #, kde-format
@@ -10821,7 +10821,7 @@ msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunlud
 #: src/monitor/scopes/audiographspectrum.cpp:289
 #, kde-format
 msgid "Enable Audio Spectrum"
-msgstr "Ses Tayfını etkinleştir"
+msgstr "Ses Tayfını Etkinleştir"
 
 #: src/monitor/view/EffectToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
@@ -18432,7 +18432,7 @@ msgstr "Dosya Boyutu"
 #: src/ui/textbasededit_ui.ui:151
 #, kde-format
 msgid "Start recognition"
-msgstr "Tanımlamayı başlat"
+msgstr "Tanımayı Başlat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
 #: src/ui/textbasededit_ui.ui:211
