@@ -112,7 +112,7 @@ QByteArray SubtitleModel::guessFileEncoding(const QString &file)
         qWarning() << "Could not open" << file;
         return "";
     }
-    KEncodingProber prober{};
+    KEncodingProber prober;
     QByteArray sample = textFile.read(1024);
     if (sample.isEmpty()) {
         qWarning() << "Tried to guess the encoding of an empty file";
@@ -121,13 +121,18 @@ QByteArray SubtitleModel::guessFileEncoding(const QString &file)
     auto state = prober.feed(sample);
     switch (state) {
         case KEncodingProber::ProberState::FoundIt:
-            qDebug() << "Guessed subtitle file encoding to be " << prober.encoding();
+            qDebug() << "Guessed subtitle file encoding to be " << prober.encoding() << ", confidence: " << prober.confidence();
+            if (prober.confidence() < 0.6) {
+                return QByteArray();
+            }
             break;
         case KEncodingProber::ProberState::NotMe:
             qWarning() << "Subtitle file encoding not recognized";
+            return QByteArray();
             return "";
         case KEncodingProber::ProberState::Probing:
             qWarning() << "Subtitle file encoding indeterminate, confidence is" << prober.confidence();
+            return QByteArray();
             break;
     }
     return prober.encoding();
