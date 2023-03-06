@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:49+0000\n"
-"PO-Revision-Date: 2023-03-04 18:04+0100\n"
+"PO-Revision-Date: 2023-03-05 15:52+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2182,33 +2182,29 @@ msgid "Use transparency"
 msgstr "Gebruik transparantie"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "Tijd"
+msgstr "Timer"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Aan GPS gerelateerde tekst over de video leggen."
+msgstr "Een timer in een overlay op de video leggen."
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Tellerstijl"
+msgstr "Lettertypestijl"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Formaat:"
+msgstr "Opmaak"
 
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2223,6 +2219,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[De tijd die de timer omhoog of omlaag zal beginnen te tellen.\n"
+"De tekst zal bevroren worden bij 00:00:00.000 vanaf het begin van het filter "
+"totdat de starttijd is verlopen.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2232,6 +2231,9 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[De maximale verlopen tijd van de timer na de begintijd is "
+"verlopen.\n"
+"De tekst zal bevroren worden op de eindtijd.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2248,6 +2250,11 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Een offset om toegevoegd te worden aan de waarde van de timer.\n"
+"Wanneer de richting \"omlaag\" is, de timer zal omlaag tellen naar \"offset"
+"\" in plaats van 00:00:00.000.\n"
+"Wanneer de richting omhoog is, zal de timer omhoog gaan beginnend bij "
+"\"offset\".]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2262,6 +2269,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[De teller zou omhoog van 00:00:00.000 of omlaag vanaf "
+"de tijdsduur.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format

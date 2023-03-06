@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:49+0000\n"
-"PO-Revision-Date: 2023-03-04 14:08+0300\n"
+"PO-Revision-Date: 2023-03-05 14:42+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2169,33 +2169,29 @@ msgid "Use transparency"
 msgstr "Saydamlık kullan"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Timeline"
+#, kde-format
 msgid "Timer"
-msgstr "Zaman Akışı"
+msgstr "Sayaç"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Video üzerine yerleştirilen GPS ile ilgili metin."
+msgstr "Video üzerine bir sayaç koyun"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Sayaç Biçemi"
+msgstr "Yazıtipi Biçemi"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Biçim:"
+msgstr "Biçim"
 
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "SS:DD:SS,SS:DD:SS.S,DD:SS,DD:SS.SS,DD:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2210,6 +2206,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[Sayacın aşağı veya yukarı doğru saymaya başlayacağı zaman.\n"
+"Metin, süzgecin başlangıcından başlangıç zamanı geçene kadar 00:00:00.000'de "
+"dondurulacaktır.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2219,6 +2218,8 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[Başlangıç zamanı geçtikten sonra sayacın geçen en çok süresi.\n"
+"Metin, süre geçtikten sonra süre süresinde dondurulacaktır.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2235,6 +2236,10 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Zamanlayıcı değerine eklenecek bir sapma.\n"
+"Yön \"aşağı\" olduğunda, sayaç 00:00:00.000 yerine \"ofset\"e geri sayım "
+"yapacaktır.\n"
+"Yön yukarı olduğunda, sayaç \"ofset\"ten başlayarak saymaya başlar.]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2249,6 +2254,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Sayacın 00:00:00.000'den yukarı mı yoksa süre "
+"süresinden aşağı mı sayılacağı.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -6965,12 +6974,12 @@ msgstr "Sağ Üst"
 #: src/dialogs/textbasededit.cpp:51
 #, kde-format
 msgid "Add bookmark"
-msgstr "Yer imi ekle"
+msgstr "Yer İmi Ekle"
 
 #: src/dialogs/textbasededit.cpp:53
 #, kde-format
 msgid "Delete selection"
-msgstr "Seçimi sil"
+msgstr "Seçimi Sil"
 
 #: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
 #: src/dialogs/textbasededit.cpp:972
@@ -6986,7 +6995,7 @@ msgstr "Seçili metni sil"
 #: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Add bookmark for current selection"
-msgstr "Geçerli seçimi yer imi olarak ekle"
+msgstr "Geçerli Seçimi Yer İmi Ekle"
 
 #: src/dialogs/textbasededit.cpp:743
 #, kde-format
@@ -11711,7 +11720,7 @@ msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunlud
 #: src/monitor/scopes/audiographspectrum.cpp:289
 #, kde-format
 msgid "Enable Audio Spectrum"
-msgstr "Ses Tayfını etkinleştir"
+msgstr "Ses Tayfını Etkinleştir"
 
 #: src/monitor/view/EffectToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
@@ -19442,7 +19451,7 @@ msgstr "Dosya Boyutu"
 #: src/ui/textbasededit_ui.ui:151
 #, kde-format
 msgid "Start recognition"
-msgstr "Tanımlamayı başlat"
+msgstr "Tanımayı Başlat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
 #: src/ui/textbasededit_ui.ui:211

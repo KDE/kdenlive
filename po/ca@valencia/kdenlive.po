@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:49+0000\n"
-"PO-Revision-Date: 2023-02-26 11:31+0100\n"
+"PO-Revision-Date: 2023-03-05 11:09+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2185,33 +2185,30 @@ msgid "Use transparency"
 msgstr "Utilitza la transparència"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Timeline"
+#, kde-format
 msgid "Timer"
-msgstr "Línia de temps"
+msgstr "Temporitzador"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Superposició de text relacionat amb el GPS en el vídeo."
+msgstr "Superposa un temporitzador en el vídeo"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Estil del comptador"
+msgstr "Estil del tipus de lletra"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Format:"
+msgstr "Format"
 
+# skip-rule: t-mot_rep
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2226,6 +2223,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[L'hora que el temporitzador començarà a comptar amunt o avall.\n"
+"El text es congelarà a les 00:00:00.000 des de l'inici del filtre fins que\n"
+" haja transcorregut l'hora d'inici.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2235,6 +2235,10 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[La duració màxima del temporitzador després que haja transcorregut\n"
+"el temps d'inici.\n"
+"El text es congelarà a l'hora de la duració després que haja transcorregut\n"
+"la duració.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2251,6 +2255,10 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Un desplaçament que s'afegirà al valor del temporitzador.\n"
+"Quan la direcció siga «avall», el temporitzador comptarà fins el\n"
+"«desplaçament» en lloc de 00:00:00.000. Quan la direcció siga «amunt»,\n"
+"el temporitzador comptarà començant des del «desplaçament».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2265,6 +2273,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Si el comptador ha de comptar endevant des de "
+"00:00:00.000 o arrere des de l'hora de la duració.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -3275,7 +3287,7 @@ msgstr "Edita la informació"
 #: src/assets/assetlist/view/qml/assetList.qml:363
 #, kde-format
 msgid "Export XML…"
-msgstr "Exporta a XML…"
+msgstr "Exporta cap a XML…"
 
 #: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1259
 #: src/bin/projectitemmodel.cpp:304
@@ -4403,29 +4415,24 @@ msgid "Could not locate %1"
 msgstr "No s'ha pogut localitzar %1"
 
 #: src/bin/bin.cpp:2069 src/timeline2/view/timelinecontroller.cpp:3791
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Open sequence"
-msgstr "Crea una seqüència"
+msgstr "Obri una seqüència"
 
 #: src/bin/bin.cpp:2087
-#, fuzzy, kde-format
-#| msgid "Could not create temporary subtitle file"
+#, kde-format
 msgid "Could not create temporary file in %1"
-msgstr "No s'ha pogut crear el fitxer temporal de subtítols"
+msgstr "No s'ha pogut crear el fitxer temporal a %1"
 
 #: src/bin/bin.cpp:2095
-#, fuzzy, kde-format
-#| msgid "Deleting sequences cannot be undone"
+#, kde-format
 msgid "Duplicating sequence failed"
-msgstr "La supressió de seqüències no es podrà desfer"
+msgstr "Ha fallat la duplicació de la seqüència"
 
 #: src/bin/bin.cpp:2098
-#, fuzzy, kde-format
-#| msgctxt "append to clip name to indicate a copied idem"
-#| msgid " (copy)"
+#, kde-format
 msgid "%1 (copy)"
-msgstr " (copia)"
+msgstr "%1 (copia)"
 
 #: src/bin/bin.cpp:2117
 #, kde-format
@@ -4668,10 +4675,9 @@ msgid "Open in new bin"
 msgstr "Obri en una safata nova"
 
 #: src/bin/bin.cpp:3456
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Carpetes predeterminades"
+msgstr "Carpeta predeterminada de destinació per a les seqüències"
 
 #: src/bin/bin.cpp:3460
 #, kde-format
@@ -5273,10 +5279,9 @@ msgid "Delete subtitle"
 msgstr "Suprimix els subtítols"
 
 #: src/bin/projectclip.cpp:226
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Timeline sequence"
-msgstr "Crea una seqüència"
+msgstr "Línia de temps de la seqüència"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -10411,7 +10416,7 @@ msgstr "Importa un fitxer de subtítols…"
 #: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Export Subtitle File…"
-msgstr "Exporta a un fitxer de subtítols…"
+msgstr "Exporta cap a un fitxer de subtítols…"
 
 #: src/mainwindow.cpp:1849 src/timeline2/model/timelinemodel.cpp:2026
 #, kde-format
@@ -13624,6 +13629,7 @@ msgstr ""
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
+"Actualment, la importació d'un clip de seqüència està en estat experimental"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -15618,7 +15624,7 @@ msgstr "Importa subtítols"
 #: src/timeline2/view/timelinecontroller.cpp:4916
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Exporta a un fitxer de subtítols"
+msgstr "Exporta cap a un fitxer de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:4917
 #, kde-format
@@ -15655,10 +15661,9 @@ msgid "Lock subtitle track"
 msgstr "Bloca la pista de subtítols"
 
 #: src/timeline2/view/timelinetabs.cpp:42
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Crea una seqüència"
+msgstr "Afig una línia de temps de seqüència"
 
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
@@ -15666,6 +15671,9 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
+"Afig una línia de temps de seqüència. Açò crearà una línia de temps nova per "
+"a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
+"safata del projecte"
 
 #: src/timeline2/view/timelinetabs.cpp:196
 #, kde-format

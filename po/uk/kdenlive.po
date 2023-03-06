@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:49+0000\n"
-"PO-Revision-Date: 2023-03-04 08:37+0200\n"
+"PO-Revision-Date: 2023-03-05 08:41+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -2188,33 +2188,29 @@ msgid "Use transparency"
 msgstr "Використовувати прозорість"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "Час"
+msgstr "Таймер"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Накладання пов'язаного із GPS тексту на відео."
+msgstr "Накладання таймера на відео"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Стиль відліку"
+msgstr "Стиль шрифту"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Формат:"
+msgstr "Формат"
 
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "ГГ:ХХ:СС,ГГ:ХХ:СС.С,ХХ:СС,ХХ:СС.СС,ХХ:СС.ССС,СС,СС.С,СС.СС,СС.ССС"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2229,6 +2225,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[Час, від якого починатиме відлік вперед чи назад таймер.\n"
+"Текст 00:00:00.000 лишатиметься незмінним від початку використання фільтра "
+"до вказаного моменту відліку.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2238,6 +2237,8 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[Максимальний час відліку таймера від початку.\n"
+"Текст буде заморожено на вказаному моменті часу.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2254,6 +2255,11 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Зміщення, яке слід додати до значення таймера.\n"
+"Якщо напрямком є «вниз», таймер відлічуватиме час назад до «зміщення», а не "
+"до 00:00:00.000.\n"
+"Якщо напрямком є «вгору», таймер відлічуватиме час, починаючи зі "
+"«зміщення».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2268,6 +2274,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Визначає, слід вести відлік вперед від 00:00:00.000 чи "
+"назад від тривалості відео.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format

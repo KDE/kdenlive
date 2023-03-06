@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-05 00:49+0000\n"
-"PO-Revision-Date: 2023-03-04 11:30+0100\n"
+"PO-Revision-Date: 2023-03-05 11:09+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2184,33 +2184,30 @@ msgid "Use transparency"
 msgstr "Usa la transparència"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Timeline"
+#, kde-format
 msgid "Timer"
-msgstr "Línia de temps"
+msgstr "Temporitzador"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Superposició de text relacionat amb el GPS en el vídeo."
+msgstr "Superposa un temporitzador en el vídeo"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Estil del comptador"
+msgstr "Estil del tipus de lletra"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Format:"
+msgstr "Format"
 
+# skip-rule: t-mot_rep
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2225,6 +2222,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[L'hora que el temporitzador començarà a comptar amunt o avall.\n"
+"El text es congelarà a les 00:00:00.000 des de l'inici del filtre fins que\n"
+" hagi transcorregut l'hora d'inici.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2234,6 +2234,10 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[La durada màxima del temporitzador després que hagi transcorregut\n"
+"el temps d'inici.\n"
+"El text es congelarà a l'hora de la durada després que hagi transcorregut\n"
+"la durada.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2250,6 +2254,10 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Un desplaçament que s'afegirà al valor del temporitzador.\n"
+"Quan la direcció sigui «avall», el temporitzador comptarà fins el\n"
+"«desplaçament» en lloc de 00:00:00.000. Quan la direcció sigui «amunt»,\n"
+"el temporitzador comptarà començant des del «desplaçament».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2264,6 +2272,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Si el comptador ha de comptar endevant des de "
+"00:00:00.000 o enrere des de l'hora de la durada.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
