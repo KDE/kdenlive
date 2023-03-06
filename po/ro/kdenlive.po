@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-04 00:46+0000\n"
+"POT-Creation-Date: 2023-03-05 00:49+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -86,7 +86,8 @@ msgstr ""
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
-#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:373
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:373
 #, kde-format
 msgid "Background Color"
 msgstr "Culoare fundal"
@@ -468,6 +469,7 @@ msgid "Audio Waveform Filter"
 msgstr "Undă sonoră"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
+#: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
 msgstr "Culoare prim-plan"
@@ -835,58 +837,60 @@ msgstr "Text dinamic"
 msgid "Overlay text with keywords replaced"
 msgstr ""
 
-#: data/effects/dynamictext.xml:8
+#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
 #, kde-format
 msgid "Geometry"
 msgstr "Geometrie"
 
-#: data/effects/dynamictext.xml:11
+#: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr "Familie font"
 
-#: data/effects/dynamictext.xml:14
+#: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
 msgstr "Dimensiune font"
 
-#: data/effects/dynamictext.xml:17
+#: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
 msgid "Font Weight"
 msgstr "Greutate font"
 
-#: data/effects/dynamictext.xml:26
+#: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
 msgid "Outline Color"
 msgstr "Culoare contur"
 
-#: data/effects/dynamictext.xml:29
+#: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
 msgstr "Lățime contur"
 
-#: data/effects/dynamictext.xml:32
+#: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
 msgid "Padding"
 msgstr "Umplere"
 
-#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Stânga,Centru,Dreapta"
 
-#: data/effects/dynamictext.xml:36
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Aliniere orizontală"
 
-#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Sus,Mijloc,Jos"
 
-#: data/effects/dynamictext.xml:40
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Aliniere verticală"
@@ -920,8 +924,8 @@ msgstr "Atenuare video dinspre negru"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:170 src/bin/bin.cpp:1275
-#: src/bin/projectitemmodel.cpp:319
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
+#: src/bin/bin.cpp:1275 src/bin/projectitemmodel.cpp:319
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -2199,6 +2203,87 @@ msgstr "Prag"
 msgid "Use transparency"
 msgstr "Transparență"
 
+#: data/effects/timer.xml:4
+#, fuzzy, kde-format
+#| msgid "Time"
+msgid "Timer"
+msgstr "Oră"
+
+#: data/effects/timer.xml:5
+#, kde-format
+msgid "Overlay a timer onto the video"
+msgstr ""
+
+#: data/effects/timer.xml:14
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Font Style"
+msgstr "Dimensiune font"
+
+#: data/effects/timer.xml:46
+#, fuzzy, kde-format
+#| msgid "Formats"
+msgid "Format"
+msgstr "Formate"
+
+#: data/effects/timer.xml:47
+#, kde-format
+msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
+#, kde-format
+msgid "Start"
+msgstr "Început"
+
+#: data/effects/timer.xml:52
+#, kde-format
+msgid ""
+"<![CDATA[The time that the timer will start counting up or down.\n"
+"The text will be frozen at 00:00:00.000 from the start of the filter until "
+"the start time has elapsed.]]>"
+msgstr ""
+
+#: data/effects/timer.xml:57
+#, kde-format
+msgid ""
+"<![CDATA[The maximum elapsed duration of the timer after the start time has "
+"elapsed.\n"
+"The text will be frozen at the duration time after the duration has "
+"elapsed.]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_19)
+#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
+#, kde-format
+msgid "Offset"
+msgstr "Deplasare"
+
+#: data/effects/timer.xml:63
+#, kde-format
+msgid ""
+"<![CDATA[An offset to be added to the timer value.\n"
+"When the direction is \"down\", the timer will count down to \"offset\" "
+"instead of 00:00:00.000.\n"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
+msgstr ""
+
+#: data/effects/timer.xml:66 data/transitions/slide.xml:8
+#, kde-format
+msgid "Direction"
+msgstr "Direcție"
+
+#: data/effects/timer.xml:69
+#, kde-format
+msgid ""
+"\n"
+"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
+"or down from the duration time.]]>\n"
+"        "
+msgstr ""
+
 #: data/effects/tracker.xml:4
 #, fuzzy, kde-format
 #| msgid "Mute Track"
@@ -3039,11 +3124,6 @@ msgstr "Alunecă"
 msgid "Slide image from one side to another."
 msgstr ""
 
-#: data/transitions/slide.xml:8
-#, kde-format
-msgid "Direction"
-msgstr "Direcție"
-
 #: data/transitions/vqm.xml:4
 #, fuzzy, kde-format
 #| msgid "Enhancement"
@@ -3553,8 +3633,8 @@ msgstr "Modifică cadru-cheie"
 msgid "Update %1"
 msgstr "Actualizează profilul"
 
-#: src/assets/model/assetparametermodel.cpp:1226
-#: src/assets/model/assetparametermodel.cpp:1273
+#: src/assets/model/assetparametermodel.cpp:1228
+#: src/assets/model/assetparametermodel.cpp:1275
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
@@ -5515,7 +5595,7 @@ msgid "Usage"
 msgstr ""
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:449 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:456 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -17416,12 +17496,6 @@ msgstr "Urmărește șoricelul"
 msgid "Hide frame"
 msgstr "Ascunde cadrul"
 
-#. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/configcapture_ui.ui:322
-#, kde-format
-msgid "Offset"
-msgstr "Deplasare"
-
 #. i18n: Filesize
 #. i18n: Filesize
 #. i18n: ectx: property (text), widget (QLabel, label_20)
@@ -20788,12 +20862,6 @@ msgstr "Introduceți o valoare Unicod"
 msgid "Additional Information"
 msgstr "Informații suplimentare"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wipeval_ui.ui:27
-#, kde-format
-msgid "Start"
-msgstr "Început"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -21198,9 +21266,6 @@ msgstr ""
 
 #~ msgid "Transparent background"
 #~ msgstr "Fundal transparent"
-
-#~ msgid "Time"
-#~ msgstr "Oră"
 
 #~ msgid "E"
 #~ msgstr "E"

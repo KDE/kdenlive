@@ -63,6 +63,7 @@ shape.xml
 speed.xml
 spot_remover.xml
 swapchannels.xml
+timer.xml
 tcolor.xml
 threshold.xml
 tracker.xml

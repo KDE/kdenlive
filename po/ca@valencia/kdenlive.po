@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-04 00:46+0000\n"
-"PO-Revision-Date: 2023-02-26 11:31+0100\n"
+"POT-Creation-Date: 2023-03-05 00:49+0000\n"
+"PO-Revision-Date: 2023-03-05 11:09+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -88,7 +88,8 @@ msgstr "El tipus de gràfic per a visualitzar els nivells."
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
-#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:373
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:373
 #, kde-format
 msgid "Background Color"
 msgstr "Color de fons"
@@ -470,6 +471,7 @@ msgid "Audio Waveform Filter"
 msgstr "Filtre de forma d'ona d'àudio"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
+#: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
 msgstr "Color de primer pla"
@@ -820,58 +822,60 @@ msgstr "Text dinàmic"
 msgid "Overlay text with keywords replaced"
 msgstr "Sobreposa text amb paraules clau substituïdes"
 
-#: data/effects/dynamictext.xml:8
+#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
 #, kde-format
 msgid "Geometry"
 msgstr "Geometria"
 
-#: data/effects/dynamictext.xml:11
+#: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr "Família del tipus de lletra"
 
-#: data/effects/dynamictext.xml:14
+#: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
 msgstr "Mida del tipus de lletra"
 
-#: data/effects/dynamictext.xml:17
+#: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
 msgid "Font Weight"
 msgstr "Estil del tipus de lletra"
 
-#: data/effects/dynamictext.xml:26
+#: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
 msgid "Outline Color"
 msgstr "Color del contorn"
 
-#: data/effects/dynamictext.xml:29
+#: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
 msgstr "Amplària del contorn"
 
-#: data/effects/dynamictext.xml:32
+#: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
 msgid "Padding"
 msgstr "Farciment"
 
-#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Esquerra,Centre,Dreta"
 
-#: data/effects/dynamictext.xml:36
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Alineació horitzontal"
 
-#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Superior,Mig,Inferior"
 
-#: data/effects/dynamictext.xml:40
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Alineació vertical"
@@ -907,8 +911,8 @@ msgstr "Fosa del vídeo des de negre"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:170 src/bin/bin.cpp:1275
-#: src/bin/projectitemmodel.cpp:319
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
+#: src/bin/bin.cpp:1275 src/bin/projectitemmodel.cpp:319
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -2180,6 +2184,100 @@ msgstr "Valor límit"
 msgid "Use transparency"
 msgstr "Utilitza la transparència"
 
+#: data/effects/timer.xml:4
+#, kde-format
+msgid "Timer"
+msgstr "Temporitzador"
+
+#: data/effects/timer.xml:5
+#, kde-format
+msgid "Overlay a timer onto the video"
+msgstr "Superposa un temporitzador en el vídeo"
+
+#: data/effects/timer.xml:14
+#, kde-format
+msgid "Font Style"
+msgstr "Estil del tipus de lletra"
+
+#: data/effects/timer.xml:46
+#, kde-format
+msgid "Format"
+msgstr "Format"
+
+# skip-rule: t-mot_rep
+#: data/effects/timer.xml:47
+#, kde-format
+msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
+#, kde-format
+msgid "Start"
+msgstr "Inici"
+
+#: data/effects/timer.xml:52
+#, kde-format
+msgid ""
+"<![CDATA[The time that the timer will start counting up or down.\n"
+"The text will be frozen at 00:00:00.000 from the start of the filter until "
+"the start time has elapsed.]]>"
+msgstr ""
+"<![CDATA[L'hora que el temporitzador començarà a comptar amunt o avall.\n"
+"El text es congelarà a les 00:00:00.000 des de l'inici del filtre fins que\n"
+" haja transcorregut l'hora d'inici.]]>"
+
+#: data/effects/timer.xml:57
+#, kde-format
+msgid ""
+"<![CDATA[The maximum elapsed duration of the timer after the start time has "
+"elapsed.\n"
+"The text will be frozen at the duration time after the duration has "
+"elapsed.]]>"
+msgstr ""
+"<![CDATA[La duració màxima del temporitzador després que haja transcorregut\n"
+"el temps d'inici.\n"
+"El text es congelarà a l'hora de la duració després que haja transcorregut\n"
+"la duració.]]>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_19)
+#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
+#, kde-format
+msgid "Offset"
+msgstr "Desplaçament"
+
+#: data/effects/timer.xml:63
+#, kde-format
+msgid ""
+"<![CDATA[An offset to be added to the timer value.\n"
+"When the direction is \"down\", the timer will count down to \"offset\" "
+"instead of 00:00:00.000.\n"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
+msgstr ""
+"<![CDATA[Un desplaçament que s'afegirà al valor del temporitzador.\n"
+"Quan la direcció siga «avall», el temporitzador comptarà fins el\n"
+"«desplaçament» en lloc de 00:00:00.000. Quan la direcció siga «amunt»,\n"
+"el temporitzador comptarà començant des del «desplaçament».]]>"
+
+#: data/effects/timer.xml:66 data/transitions/slide.xml:8
+#, kde-format
+msgid "Direction"
+msgstr "Direcció"
+
+#: data/effects/timer.xml:69
+#, kde-format
+msgid ""
+"\n"
+"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
+"or down from the duration time.]]>\n"
+"        "
+msgstr ""
+"\n"
+"            <![CDATA[Si el comptador ha de comptar endevant des de "
+"00:00:00.000 o arrere des de l'hora de la duració.]]>\n"
+"        "
+
 #: data/effects/tracker.xml:4
 #, kde-format
 msgid "Motion Tracker"
@@ -2982,11 +3080,6 @@ msgstr "Lliscament"
 msgid "Slide image from one side to another."
 msgstr "Llisca la imatge d'una banda fins a l'altra."
 
-#: data/transitions/slide.xml:8
-#, kde-format
-msgid "Direction"
-msgstr "Direcció"
-
 #: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
@@ -3194,7 +3287,7 @@ msgstr "Edita la informació"
 #: src/assets/assetlist/view/qml/assetList.qml:363
 #, kde-format
 msgid "Export XML…"
-msgstr "Exporta a XML…"
+msgstr "Exporta cap a XML…"
 
 #: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1259
 #: src/bin/projectitemmodel.cpp:304
@@ -3456,8 +3549,8 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza %1"
 
-#: src/assets/model/assetparametermodel.cpp:1226
-#: src/assets/model/assetparametermodel.cpp:1273
+#: src/assets/model/assetparametermodel.cpp:1228
+#: src/assets/model/assetparametermodel.cpp:1275
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
@@ -4322,29 +4415,24 @@ msgid "Could not locate %1"
 msgstr "No s'ha pogut localitzar %1"
 
 #: src/bin/bin.cpp:2069 src/timeline2/view/timelinecontroller.cpp:3791
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Open sequence"
-msgstr "Crea una seqüència"
+msgstr "Obri una seqüència"
 
 #: src/bin/bin.cpp:2087
-#, fuzzy, kde-format
-#| msgid "Could not create temporary subtitle file"
+#, kde-format
 msgid "Could not create temporary file in %1"
-msgstr "No s'ha pogut crear el fitxer temporal de subtítols"
+msgstr "No s'ha pogut crear el fitxer temporal a %1"
 
 #: src/bin/bin.cpp:2095
-#, fuzzy, kde-format
-#| msgid "Deleting sequences cannot be undone"
+#, kde-format
 msgid "Duplicating sequence failed"
-msgstr "La supressió de seqüències no es podrà desfer"
+msgstr "Ha fallat la duplicació de la seqüència"
 
 #: src/bin/bin.cpp:2098
-#, fuzzy, kde-format
-#| msgctxt "append to clip name to indicate a copied idem"
-#| msgid " (copy)"
+#, kde-format
 msgid "%1 (copy)"
-msgstr " (copia)"
+msgstr "%1 (copia)"
 
 #: src/bin/bin.cpp:2117
 #, kde-format
@@ -4587,10 +4675,9 @@ msgid "Open in new bin"
 msgstr "Obri en una safata nova"
 
 #: src/bin/bin.cpp:3456
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Carpetes predeterminades"
+msgstr "Carpeta predeterminada de destinació per a les seqüències"
 
 #: src/bin/bin.cpp:3460
 #, kde-format
@@ -5192,10 +5279,9 @@ msgid "Delete subtitle"
 msgstr "Suprimix els subtítols"
 
 #: src/bin/projectclip.cpp:226
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Timeline sequence"
-msgstr "Crea una seqüència"
+msgstr "Línia de temps de la seqüència"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -5276,7 +5362,7 @@ msgid "Usage"
 msgstr "Ús"
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:449 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:456 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -10330,7 +10416,7 @@ msgstr "Importa un fitxer de subtítols…"
 #: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Export Subtitle File…"
-msgstr "Exporta a un fitxer de subtítols…"
+msgstr "Exporta cap a un fitxer de subtítols…"
 
 #: src/mainwindow.cpp:1849 src/timeline2/model/timelinemodel.cpp:2026
 #, kde-format
@@ -13543,6 +13629,7 @@ msgstr ""
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
+"Actualment, la importació d'un clip de seqüència està en estat experimental"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -15537,7 +15624,7 @@ msgstr "Importa subtítols"
 #: src/timeline2/view/timelinecontroller.cpp:4916
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Exporta a un fitxer de subtítols"
+msgstr "Exporta cap a un fitxer de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:4917
 #, kde-format
@@ -15574,10 +15661,9 @@ msgid "Lock subtitle track"
 msgstr "Bloca la pista de subtítols"
 
 #: src/timeline2/view/timelinetabs.cpp:42
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Crea una seqüència"
+msgstr "Afig una línia de temps de seqüència"
 
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
@@ -15585,6 +15671,9 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
+"Afig una línia de temps de seqüència. Açò crearà una línia de temps nova per "
+"a l'edició. Cada línia de temps correspon a un clip de seqüència en la "
+"safata del projecte"
 
 #: src/timeline2/view/timelinetabs.cpp:196
 #, kde-format
@@ -16847,12 +16936,6 @@ msgstr "Seguix al ratolí"
 #, kde-format
 msgid "Hide frame"
 msgstr "Oculta un fotograma"
-
-#. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/configcapture_ui.ui:322
-#, kde-format
-msgid "Offset"
-msgstr "Desplaçament"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -19984,12 +20067,6 @@ msgstr "Introduïu el valor Unicode"
 #, kde-format
 msgid "Additional Information"
 msgstr "Informació addicional"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wipeval_ui.ui:27
-#, kde-format
-msgid "Start"
-msgstr "Inici"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)

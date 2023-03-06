@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-04 00:46+0000\n"
-"PO-Revision-Date: 2023-02-28 11:47+0300\n"
+"POT-Creation-Date: 2023-03-05 00:49+0000\n"
+"PO-Revision-Date: 2023-03-05 14:42+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -86,7 +86,8 @@ msgstr "Düzeyleri görüntüleyecek grafik türü."
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
-#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:373
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:373
 #, kde-format
 msgid "Background Color"
 msgstr "Arka Plan Rengi"
@@ -464,6 +465,7 @@ msgid "Audio Waveform Filter"
 msgstr "Ses Dalga Biçimi Süzgeci"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
+#: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
 msgstr "Ön Alan Rengi"
@@ -811,58 +813,60 @@ msgstr "Hareketli Yazı"
 msgid "Overlay text with keywords replaced"
 msgstr "Değiştirilen anahtar sözcüklerle metni üzerine bindir"
 
-#: data/effects/dynamictext.xml:8
+#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
 #, kde-format
 msgid "Geometry"
 msgstr "Yerleşim"
 
-#: data/effects/dynamictext.xml:11
+#: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr "Yazıtipi Ailesi"
 
-#: data/effects/dynamictext.xml:14
+#: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
 msgstr "Yazıtipi Boyutu"
 
-#: data/effects/dynamictext.xml:17
+#: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
 msgid "Font Weight"
 msgstr "Yazıtipi Ağırlığı"
 
-#: data/effects/dynamictext.xml:26
+#: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
 msgid "Outline Color"
 msgstr "Dış Hat Rengi"
 
-#: data/effects/dynamictext.xml:29
+#: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
 msgstr "Dış Hat Genişliği"
 
-#: data/effects/dynamictext.xml:32
+#: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
 msgid "Padding"
 msgstr "Doldurma"
 
-#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Sol,Orta,Sağ"
 
-#: data/effects/dynamictext.xml:36
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Yatay Hizalama"
 
-#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Üst,Orta,Alt"
 
-#: data/effects/dynamictext.xml:40
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Dikey Hizalama"
@@ -898,8 +902,8 @@ msgstr "Siyahtan videoya geçiş"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:170 src/bin/bin.cpp:1275
-#: src/bin/projectitemmodel.cpp:319
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
+#: src/bin/bin.cpp:1275 src/bin/projectitemmodel.cpp:319
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -1293,7 +1297,7 @@ msgstr ""
 "Bu süzgeç, kare alfa kanalına yalın şekiller çizmeden önce anlık bir "
 "görüntüsünü alır. Bunu, geçerli karenin görselini anlık görüntü üzerine "
 "bileşikleştirmek için bir geçiş kullanan mask_apply efekti ile birlikte "
-"kullanın. Olağan bir kullanım senaryosunda efektler aşağıdaki sıralamada "
+"kullanın. Olağan bir kullanım senaryosunda efektler aşağıdaki sırada "
 "eklenir: Bu efekt, sıfır veya daha fazla efekt, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
@@ -1378,8 +1382,8 @@ msgstr ""
 "anahtar seçimi uygulanmadan önce karenin anlık bir görüntüsünü alır. Bunu, "
 "geçerli karenin görselini anlık görüntü üzerine bileşikleştirmek için bir "
 "geçiş kullanan mask_apply efekti ile birlikte kullanın. Olağan bir kullanım "
-"senaryosunda efektler aşağıdaki sıralamada eklenir: Bu efekt, sıfır veya "
-"daha fazla efekt, mask_apply."
+"senaryosunda efektler aşağıdaki sırada eklenir: Bu efekt, sıfır veya daha "
+"fazla efekt, mask_apply."
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
@@ -1462,8 +1466,7 @@ msgstr ""
 "önce karenin anlık bir görüntüsünü alır. Bunu, geçerli karenin görselini "
 "anlık görüntü üzerine bileşikleştirmek için bir geçiş kullanan mask_apply "
 "efekti ile birlikte kullanın. Olağan bir kullanım senaryosunda efektler "
-"aşağıdaki sıralamada eklenir: Bu efekt, sıfır veya daha fazla efekt, "
-"mask_apply."
+"aşağıdaki sırada eklenir: Bu efekt, sıfır veya daha fazla efekt, mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -1518,8 +1521,8 @@ msgstr ""
 "oluşturulmadan önce karenin anlık bir görüntüsünü alır. Bunu, geçerli "
 "karenin görselini anlık görüntü üzerine bileşikleştirmek için bir geçiş "
 "kullanan mask_apply efekti ile birlikte kullanın. Olağan bir kullanım "
-"senaryosunda efektler aşağıdaki sıralamada eklenir: Bu efekt, sıfır veya "
-"daha fazla efekt, mask_apply."
+"senaryosunda efektler aşağıdaki sırada eklenir: Bu efekt, sıfır veya daha "
+"fazla efekt, mask_apply."
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -2164,6 +2167,97 @@ msgstr "Eşik değeri"
 #, kde-format
 msgid "Use transparency"
 msgstr "Saydamlık kullan"
+
+#: data/effects/timer.xml:4
+#, kde-format
+msgid "Timer"
+msgstr "Sayaç"
+
+#: data/effects/timer.xml:5
+#, kde-format
+msgid "Overlay a timer onto the video"
+msgstr "Video üzerine bir sayaç koyun"
+
+#: data/effects/timer.xml:14
+#, kde-format
+msgid "Font Style"
+msgstr "Yazıtipi Biçemi"
+
+#: data/effects/timer.xml:46
+#, kde-format
+msgid "Format"
+msgstr "Biçim"
+
+#: data/effects/timer.xml:47
+#, kde-format
+msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+msgstr "SS:DD:SS,SS:DD:SS.S,DD:SS,DD:SS.SS,DD:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
+#, kde-format
+msgid "Start"
+msgstr "Başlangıç"
+
+#: data/effects/timer.xml:52
+#, kde-format
+msgid ""
+"<![CDATA[The time that the timer will start counting up or down.\n"
+"The text will be frozen at 00:00:00.000 from the start of the filter until "
+"the start time has elapsed.]]>"
+msgstr ""
+"<![CDATA[Sayacın aşağı veya yukarı doğru saymaya başlayacağı zaman.\n"
+"Metin, süzgecin başlangıcından başlangıç zamanı geçene kadar 00:00:00.000'de "
+"dondurulacaktır.]]>"
+
+#: data/effects/timer.xml:57
+#, kde-format
+msgid ""
+"<![CDATA[The maximum elapsed duration of the timer after the start time has "
+"elapsed.\n"
+"The text will be frozen at the duration time after the duration has "
+"elapsed.]]>"
+msgstr ""
+"<![CDATA[Başlangıç zamanı geçtikten sonra sayacın geçen en çok süresi.\n"
+"Metin, süre geçtikten sonra süre süresinde dondurulacaktır.]]>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_19)
+#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
+#, kde-format
+msgid "Offset"
+msgstr "Ofset"
+
+#: data/effects/timer.xml:63
+#, kde-format
+msgid ""
+"<![CDATA[An offset to be added to the timer value.\n"
+"When the direction is \"down\", the timer will count down to \"offset\" "
+"instead of 00:00:00.000.\n"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
+msgstr ""
+"<![CDATA[Zamanlayıcı değerine eklenecek bir sapma.\n"
+"Yön \"aşağı\" olduğunda, sayaç 00:00:00.000 yerine \"ofset\"e geri sayım "
+"yapacaktır.\n"
+"Yön yukarı olduğunda, sayaç \"ofset\"ten başlayarak saymaya başlar.]]>"
+
+#: data/effects/timer.xml:66 data/transitions/slide.xml:8
+#, kde-format
+msgid "Direction"
+msgstr "Yön"
+
+#: data/effects/timer.xml:69
+#, kde-format
+msgid ""
+"\n"
+"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
+"or down from the duration time.]]>\n"
+"        "
+msgstr ""
+"\n"
+"            <![CDATA[Sayacın 00:00:00.000'den yukarı mı yoksa süre "
+"süresinden aşağı mı sayılacağı.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -2964,11 +3058,6 @@ msgstr "Kaydır"
 msgid "Slide image from one side to another."
 msgstr "Resmi bir taraftan diğer tarafa kaydır."
 
-#: data/transitions/slide.xml:8
-#, kde-format
-msgid "Direction"
-msgstr "Yön"
-
 #: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
@@ -3435,8 +3524,8 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1226
-#: src/assets/model/assetparametermodel.cpp:1273
+#: src/assets/model/assetparametermodel.cpp:1228
+#: src/assets/model/assetparametermodel.cpp:1275
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 önayar dosyası açılamıyor"
@@ -4203,12 +4292,12 @@ msgstr "Bekleyen İşleri İptal Et"
 #: src/bin/bin.cpp:1815
 #, kde-format
 msgid "You cannot delete all sequences of a project"
-msgstr "Bir projenin tüm sıralamalarını silemezsiniz"
+msgstr "Bir projenin tüm sıralarını silemezsiniz"
 
 #: src/bin/bin.cpp:1818
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr "Sıralamaları silmek geri alınamaz"
+msgstr "Sıraları silmek geri alınamaz"
 
 #: src/bin/bin.cpp:1826
 #, kde-format
@@ -4298,7 +4387,7 @@ msgstr "%1 yeri belirlenemedi"
 #: src/bin/bin.cpp:2069 src/timeline2/view/timelinecontroller.cpp:3791
 #, kde-format
 msgid "Open sequence"
-msgstr "Sıralama aç"
+msgstr "Sıra aç"
 
 #: src/bin/bin.cpp:2087
 #, kde-format
@@ -4308,7 +4397,7 @@ msgstr "%1 içinde geçici dosya oluşturulamadı"
 #: src/bin/bin.cpp:2095
 #, kde-format
 msgid "Duplicating sequence failed"
-msgstr "Sıralamayı çoğaltma başarısız oldu"
+msgstr "Sırayı çoğaltma başarısız oldu"
 
 #: src/bin/bin.cpp:2098
 #, kde-format
@@ -4486,7 +4575,7 @@ msgstr "Renk Klibi Ekle…"
 #: src/bin/bin.cpp:3378
 #, kde-format
 msgid "Add Image Sequence…"
-msgstr "Görsel Sıralaması Ekle"
+msgstr "Görsel Sırası Ekle…"
 
 #: src/bin/bin.cpp:3380
 #, kde-format
@@ -4506,7 +4595,7 @@ msgstr "Canlandırma Oluştur…"
 #: src/bin/bin.cpp:3386
 #, kde-format
 msgid "Add Sequence…"
-msgstr "Sıralama Ekle…"
+msgstr "Sıra Ekle…"
 
 #: src/bin/bin.cpp:3389 src/mainwindow.cpp:360
 #, kde-format
@@ -4554,10 +4643,9 @@ msgid "Open in new bin"
 msgstr "Yeni kovada aç"
 
 #: src/bin/bin.cpp:3456
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Öntanımlı Klasörler"
+msgstr "Sıralar için Öntanımlı Hedef Klasör"
 
 #: src/bin/bin.cpp:3460
 #, kde-format
@@ -4590,12 +4678,12 @@ msgstr "Ayrıntılı günlük"
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
-msgstr "Yeni Sıralama Oluştur"
+msgstr "Yeni Sıra Oluştur"
 
 #: src/bin/bin.cpp:3581
 #, kde-format
 msgid "Sequence %1"
-msgstr "Sıralama %1"
+msgstr "Sıra %1"
 
 #: src/bin/bin.cpp:3614
 #, kde-format
@@ -4856,13 +4944,13 @@ msgstr "Renk klibi oluştur"
 #: src/bin/clipcreator.cpp:149 src/bin/clipcreator.cpp:179
 #, kde-format
 msgid "Create sequence"
-msgstr "Sıralama oluştur"
+msgstr "Sıra oluştur"
 
 #: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
 #: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Sequences"
-msgstr "Sıralamalar"
+msgstr "Sıralar"
 
 #: src/bin/clipcreator.cpp:189
 #, kde-format
@@ -5161,7 +5249,7 @@ msgstr "Altyazı sil"
 #: src/bin/projectclip.cpp:226
 #, kde-format
 msgid "Timeline sequence"
-msgstr "Zaman akışı sıralaması"
+msgstr "Zaman akışı sırası"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -5242,7 +5330,7 @@ msgid "Usage"
 msgstr "Kullanım"
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:449 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:456 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -5713,7 +5801,7 @@ msgstr "Tüm Dosyalar"
 #: src/dialogs/clipcreationdialog.cpp:564
 #, kde-format
 msgid "Import image sequence"
-msgstr "Görsel sıralamasını içe aktar"
+msgstr "Görsel sırasını içe aktar"
 
 #: src/dialogs/clipcreationdialog.cpp:468
 #: src/dialogs/clipcreationdialog.cpp:567
@@ -6886,12 +6974,12 @@ msgstr "Sağ Üst"
 #: src/dialogs/textbasededit.cpp:51
 #, kde-format
 msgid "Add bookmark"
-msgstr "Yer imi ekle"
+msgstr "Yer İmi Ekle"
 
 #: src/dialogs/textbasededit.cpp:53
 #, kde-format
 msgid "Delete selection"
-msgstr "Seçimi sil"
+msgstr "Seçimi Sil"
 
 #: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
 #: src/dialogs/textbasededit.cpp:972
@@ -6907,7 +6995,7 @@ msgstr "Seçili metni sil"
 #: src/dialogs/textbasededit.cpp:636
 #, kde-format
 msgid "Add bookmark for current selection"
-msgstr "Geçerli seçimi yer imi olarak ekle"
+msgstr "Geçerli Seçimi Yer İmi Ekle"
 
 #: src/dialogs/textbasededit.cpp:743
 #, kde-format
@@ -11632,7 +11720,7 @@ msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunlud
 #: src/monitor/scopes/audiographspectrum.cpp:289
 #, kde-format
 msgid "Enable Audio Spectrum"
-msgstr "Ses Tayfını etkinleştir"
+msgstr "Ses Tayfını Etkinleştir"
 
 #: src/monitor/view/EffectToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
@@ -12935,12 +13023,12 @@ msgstr "Üst Veri"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Image Sequence"
-msgstr "Görsel Sıralaması Ekle"
+msgstr "Görsel Sırası Ekle"
 
 #: src/project/dialogs/slideshowclip.cpp:36
 #, kde-format
 msgid "Image Sequence"
-msgstr "Görsel Sıralaması"
+msgstr "Görsel Sırası"
 
 #: src/project/dialogs/slideshowclip.cpp:58
 #, kde-format
@@ -13379,7 +13467,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Sequence 1"
-msgstr "Sıralama 1"
+msgstr "Sıra 1"
 
 #: src/project/projectmanager.cpp:1196
 #, kde-format
@@ -13419,7 +13507,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1621
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
-msgstr "Bir sıralama klibi içe aktarılıyor, bu şu anda deneysel bir özelliktir"
+msgstr "Bir sıra klibi içe aktarılıyor, bu şu anda deneysel bir özelliktir"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -13717,7 +13805,7 @@ msgstr "Kayıpsız/YK"
 #, kde-format
 msgctxt "Category Name"
 msgid "Images sequence"
-msgstr "Görseller sıralaması"
+msgstr "Görseller sırası"
 
 #: src/renderpresets/renderpresetrepository.cpp:349
 #, kde-format
@@ -14548,7 +14636,7 @@ msgstr "Klip Ekle"
 #: src/timeline2/model/timelinemodel.cpp:1758
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
-msgstr "Kendini içeren bir sıralama ekleyemezsiniz"
+msgstr "Kendini içeren bir sıra ekleyemezsiniz"
 
 #: src/timeline2/model/timelinemodel.cpp:1806
 #: src/timeline2/model/timelinemodel.cpp:1828
@@ -15413,10 +15501,9 @@ msgid "Lock subtitle track"
 msgstr "Altyazı izini kilitle"
 
 #: src/timeline2/view/timelinetabs.cpp:42
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Zaman akışı sıralaması"
+msgstr "Zaman Akışı Sırası Ekle"
 
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
@@ -15424,6 +15511,9 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
+"Zaman Akışı Sırası Ekle. Bu, düzenleme için yeni bir zaman akışı "
+"oluşturacaktır. Her bir zaman akışı, Proje Kovası'nda bir Sıralama Klibine "
+"denk gelir"
 
 #: src/timeline2/view/timelinetabs.cpp:196
 #, kde-format
@@ -16692,12 +16782,6 @@ msgstr "Fareyi takip et"
 msgid "Hide frame"
 msgstr "Kareyi gizle"
 
-#. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/configcapture_ui.ui:322
-#, kde-format
-msgid "Offset"
-msgstr "Ofset"
-
 #. i18n: Filesize
 #. i18n: Filesize
 #. i18n: ectx: property (text), widget (QLabel, label_20)
@@ -17139,7 +17223,7 @@ msgstr "Çok akışlı kliplerde tüm akışları otomatik olarak içe aktar"
 #: src/ui/configmisc_ui.ui:70
 #, kde-format
 msgid "Automatically import image sequences"
-msgstr "Görsel sıralamalarını kendiliğinden içe aktar"
+msgstr "Görsel sıralarını kendiliğinden içe aktar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_use_exiftool)
 #: src/ui/configmisc_ui.ui:77
@@ -17220,7 +17304,7 @@ msgstr "Solmalar:"
 #: src/ui/configmisc_ui.ui:210
 #, kde-format
 msgid "Image sequence:"
-msgstr "Görsel sıralaması:"
+msgstr "Görsel sırası:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configmisc_ui.ui:226
@@ -18509,7 +18593,7 @@ msgstr "Başlangıç Konumu"
 #: src/ui/newtimeline_ui.ui:47
 #, kde-format
 msgid "Sequence Name"
-msgstr "Sıralama Adı"
+msgstr "Sıra Adı"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfilesDialog_UI)
 #: src/ui/profiledialog_ui.ui:18
@@ -19367,7 +19451,7 @@ msgstr "Dosya Boyutu"
 #: src/ui/textbasededit_ui.ui:151
 #, kde-format
 msgid "Start recognition"
-msgstr "Tanımlamayı başlat"
+msgstr "Tanımayı Başlat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
 #: src/ui/textbasededit_ui.ui:211
@@ -19820,12 +19904,6 @@ msgstr "Unicode değer gir"
 #, kde-format
 msgid "Additional Information"
 msgstr "Ek Bilgiler"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wipeval_ui.ui:27
-#, kde-format
-msgid "Start"
-msgstr "Başlangıç"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)

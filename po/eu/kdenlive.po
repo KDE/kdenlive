@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-04 00:46+0000\n"
+"POT-Creation-Date: 2023-03-05 00:49+0000\n"
 "PO-Revision-Date: 2023-02-17 06:26+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -89,7 +89,8 @@ msgstr "Mailak bistaratzeko grafiko-mota."
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
-#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:373
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:373
 #, kde-format
 msgid "Background Color"
 msgstr "Atzeko planoko kolorea"
@@ -469,6 +470,7 @@ msgid "Audio Waveform Filter"
 msgstr "Audio Uhin-formaren Iragazkia"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
+#: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
 msgstr "Lehen planoko kolorea"
@@ -815,58 +817,60 @@ msgstr "Testu dinamikoa"
 msgid "Overlay text with keywords replaced"
 msgstr "Gainjarri testua hitz-gakoak ordezkatuta"
 
-#: data/effects/dynamictext.xml:8
+#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
 #, kde-format
 msgid "Geometry"
 msgstr "Geometria"
 
-#: data/effects/dynamictext.xml:11
+#: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr "Letra-tipoaren familia"
 
-#: data/effects/dynamictext.xml:14
+#: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
 msgstr "Letra-tamaina"
 
-#: data/effects/dynamictext.xml:17
+#: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
 msgid "Font Weight"
 msgstr "Letraren lodiera"
 
-#: data/effects/dynamictext.xml:26
+#: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
 msgid "Outline Color"
 msgstr "Inguruko kolorea"
 
-#: data/effects/dynamictext.xml:29
+#: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
 msgstr "Inguruaren zabalera"
 
-#: data/effects/dynamictext.xml:32
+#: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
 msgid "Padding"
 msgstr "Betegarria"
 
-#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Ezkerrean,Erdian,Eskuinean"
 
-#: data/effects/dynamictext.xml:36
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Lerrokatze horizontala"
 
-#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Goian,Erdian,Behean"
 
-#: data/effects/dynamictext.xml:40
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Lerrokatze bertikala"
@@ -902,8 +906,8 @@ msgstr "Bideoa beltzetik itzaltzea"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:170 src/bin/bin.cpp:1275
-#: src/bin/projectitemmodel.cpp:319
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
+#: src/bin/bin.cpp:1275 src/bin/projectitemmodel.cpp:319
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -2170,6 +2174,88 @@ msgstr "Mugaren balioa"
 msgid "Use transparency"
 msgstr "Erabili gardentasuna"
 
+#: data/effects/timer.xml:4
+#, fuzzy, kde-format
+#| msgid "Time"
+msgid "Timer"
+msgstr "Denbora"
+
+#: data/effects/timer.xml:5
+#, fuzzy, kde-format
+#| msgid "Overlay GPS-related text onto the video."
+msgid "Overlay a timer onto the video"
+msgstr "Gainjarri GPSaren testua bideoan."
+
+#: data/effects/timer.xml:14
+#, fuzzy, kde-format
+#| msgid "Counter Style"
+msgid "Font Style"
+msgstr "Kontagailuaren estiloa"
+
+#: data/effects/timer.xml:46
+#, fuzzy, kde-format
+#| msgid "Format:"
+msgid "Format"
+msgstr "Formatua:"
+
+#: data/effects/timer.xml:47
+#, kde-format
+msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
+#, kde-format
+msgid "Start"
+msgstr "Hasi"
+
+#: data/effects/timer.xml:52
+#, kde-format
+msgid ""
+"<![CDATA[The time that the timer will start counting up or down.\n"
+"The text will be frozen at 00:00:00.000 from the start of the filter until "
+"the start time has elapsed.]]>"
+msgstr ""
+
+#: data/effects/timer.xml:57
+#, kde-format
+msgid ""
+"<![CDATA[The maximum elapsed duration of the timer after the start time has "
+"elapsed.\n"
+"The text will be frozen at the duration time after the duration has "
+"elapsed.]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_19)
+#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
+#, kde-format
+msgid "Offset"
+msgstr "Desplazamendua"
+
+#: data/effects/timer.xml:63
+#, kde-format
+msgid ""
+"<![CDATA[An offset to be added to the timer value.\n"
+"When the direction is \"down\", the timer will count down to \"offset\" "
+"instead of 00:00:00.000.\n"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
+msgstr ""
+
+#: data/effects/timer.xml:66 data/transitions/slide.xml:8
+#, kde-format
+msgid "Direction"
+msgstr "Norabidea"
+
+#: data/effects/timer.xml:69
+#, kde-format
+msgid ""
+"\n"
+"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
+"or down from the duration time.]]>\n"
+"        "
+msgstr ""
+
 #: data/effects/tracker.xml:4
 #, kde-format
 msgid "Motion Tracker"
@@ -2969,11 +3055,6 @@ msgstr "Labaindu"
 msgid "Slide image from one side to another."
 msgstr "Labaindu irudia alde batetik bestera."
 
-#: data/transitions/slide.xml:8
-#, kde-format
-msgid "Direction"
-msgstr "Norabidea"
-
 #: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
@@ -3437,8 +3518,8 @@ msgstr "Editatu %1 fotograma-gakoa"
 msgid "Update %1"
 msgstr "%1 eguneratu"
 
-#: src/assets/model/assetparametermodel.cpp:1226
-#: src/assets/model/assetparametermodel.cpp:1273
+#: src/assets/model/assetparametermodel.cpp:1228
+#: src/assets/model/assetparametermodel.cpp:1275
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "%1 aurrezarpen-fitxategia ezin da ireki"
@@ -5248,7 +5329,7 @@ msgid "Usage"
 msgstr "Erabilpena"
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:449 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:456 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -16749,12 +16830,6 @@ msgstr "Jarraitu saguari"
 msgid "Hide frame"
 msgstr "Ezkutatu fotograma"
 
-#. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/configcapture_ui.ui:322
-#, kde-format
-msgid "Offset"
-msgstr "Desplazamendua"
-
 #. i18n: Filesize
 #. i18n: Filesize
 #. i18n: ectx: property (text), widget (QLabel, label_20)
@@ -19881,12 +19956,6 @@ msgstr "Sartu Unicode balioa"
 msgid "Additional Information"
 msgstr "Informazio gehigarria"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wipeval_ui.ui:27
-#, kde-format
-msgid "Start"
-msgstr "Hasi"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -20321,9 +20390,6 @@ msgstr "%1h"
 
 #~ msgid "Transparent background"
 #~ msgstr "Atzeko plano gardena"
-
-#~ msgid "Time"
-#~ msgstr "Denbora"
 
 #~ msgid "E"
 #~ msgstr "E"

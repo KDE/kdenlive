@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-04 00:46+0000\n"
-"PO-Revision-Date: 2023-03-03 10:51+0100\n"
+"POT-Creation-Date: 2023-03-05 00:49+0000\n"
+"PO-Revision-Date: 2023-03-05 15:52+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -86,7 +86,8 @@ msgstr "Het type grafiek om de niveaus te tonen."
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
-#: data/effects/rotation_keyframable.xml:23 src/monitor/monitor.cpp:373
+#: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
+#: src/monitor/monitor.cpp:373
 #, kde-format
 msgid "Background Color"
 msgstr "Achtergrondkleur"
@@ -468,6 +469,7 @@ msgid "Audio Waveform Filter"
 msgstr "Filter voor geluidsgolf"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
+#: data/effects/timer.xml:23
 #, kde-format
 msgid "Foreground Color"
 msgstr "Voorgrondkleur"
@@ -814,58 +816,60 @@ msgstr "Dynamische tekst"
 msgid "Overlay text with keywords replaced"
 msgstr "Vervang de tekst met vervangen sleutelwoorden"
 
-#: data/effects/dynamictext.xml:8
+#: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
 #, kde-format
 msgid "Geometry"
 msgstr "Geometrie"
 
-#: data/effects/dynamictext.xml:11
+#: data/effects/dynamictext.xml:11 data/effects/timer.xml:11
 #, kde-format
 msgid "Font Family"
 msgstr "Lettertypefamilie"
 
-#: data/effects/dynamictext.xml:14
+#: data/effects/dynamictext.xml:14 data/effects/timer.xml:17
 #, kde-format
 msgid "Font Size"
 msgstr "Tekengrootte"
 
-#: data/effects/dynamictext.xml:17
+#: data/effects/dynamictext.xml:17 data/effects/timer.xml:20
 #, kde-format
 msgid "Font Weight"
 msgstr "Lettertypegewicht"
 
-#: data/effects/dynamictext.xml:26
+#: data/effects/dynamictext.xml:26 data/effects/timer.xml:29
 #, kde-format
 msgid "Outline Color"
 msgstr "Kleur van omranding"
 
-#: data/effects/dynamictext.xml:29
+#: data/effects/dynamictext.xml:29 data/effects/timer.xml:32
 #, kde-format
 msgid "Outline Width"
 msgstr "Lijnbreedte van omranding"
 
-#: data/effects/dynamictext.xml:32
+#: data/effects/dynamictext.xml:32 data/effects/timer.xml:35
 #, kde-format
 msgid "Padding"
 msgstr "Opvulling"
 
-#: data/effects/dynamictext.xml:35 data/transitions/composite.xml:21
+#: data/effects/dynamictext.xml:35 data/effects/timer.xml:38
+#: data/transitions/composite.xml:21
 #, kde-format
 msgid "Left,Center,Right"
 msgstr "Links,midden,rechts"
 
-#: data/effects/dynamictext.xml:36
+#: data/effects/dynamictext.xml:36 data/effects/timer.xml:39
 #, kde-format
 msgid "Horizontal Alignment"
 msgstr "Horizontale uitlijning"
 
-#: data/effects/dynamictext.xml:39 data/transitions/composite.xml:25
+#: data/effects/dynamictext.xml:39 data/effects/timer.xml:42
+#: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
 msgstr "Boven,midden,onder"
 
-#: data/effects/dynamictext.xml:40
+#: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #, kde-format
 msgid "Vertical Alignment"
 msgstr "Verticale uitlijning"
@@ -901,8 +905,8 @@ msgstr "Beeld opkomen vanuit zwart"
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
-#: src/assets/view/widgets/keyframeimport.cpp:170 src/bin/bin.cpp:1275
-#: src/bin/projectitemmodel.cpp:319
+#: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
+#: src/bin/bin.cpp:1275 src/bin/projectitemmodel.cpp:319
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:332 src/timeline2/view/qml/Track.qml:406
 #: src/timeline2/view/qml/Track.qml:427 src/ui/clipdurationdialog_ui.ui:18
@@ -2177,6 +2181,99 @@ msgstr "Drempelwaarde"
 msgid "Use transparency"
 msgstr "Gebruik transparantie"
 
+#: data/effects/timer.xml:4
+#, kde-format
+msgid "Timer"
+msgstr "Timer"
+
+#: data/effects/timer.xml:5
+#, kde-format
+msgid "Overlay a timer onto the video"
+msgstr "Een timer in een overlay op de video leggen."
+
+#: data/effects/timer.xml:14
+#, kde-format
+msgid "Font Style"
+msgstr "Lettertypestijl"
+
+#: data/effects/timer.xml:46
+#, kde-format
+msgid "Format"
+msgstr "Opmaak"
+
+#: data/effects/timer.xml:47
+#, kde-format
+msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
+#, kde-format
+msgid "Start"
+msgstr "Start"
+
+#: data/effects/timer.xml:52
+#, kde-format
+msgid ""
+"<![CDATA[The time that the timer will start counting up or down.\n"
+"The text will be frozen at 00:00:00.000 from the start of the filter until "
+"the start time has elapsed.]]>"
+msgstr ""
+"<![CDATA[De tijd die de timer omhoog of omlaag zal beginnen te tellen.\n"
+"De tekst zal bevroren worden bij 00:00:00.000 vanaf het begin van het filter "
+"totdat de starttijd is verlopen.]]>"
+
+#: data/effects/timer.xml:57
+#, kde-format
+msgid ""
+"<![CDATA[The maximum elapsed duration of the timer after the start time has "
+"elapsed.\n"
+"The text will be frozen at the duration time after the duration has "
+"elapsed.]]>"
+msgstr ""
+"<![CDATA[De maximale verlopen tijd van de timer na de begintijd is "
+"verlopen.\n"
+"De tekst zal bevroren worden op de eindtijd.]]>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_19)
+#: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
+#, kde-format
+msgid "Offset"
+msgstr "Offset"
+
+#: data/effects/timer.xml:63
+#, kde-format
+msgid ""
+"<![CDATA[An offset to be added to the timer value.\n"
+"When the direction is \"down\", the timer will count down to \"offset\" "
+"instead of 00:00:00.000.\n"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
+msgstr ""
+"<![CDATA[Een offset om toegevoegd te worden aan de waarde van de timer.\n"
+"Wanneer de richting \"omlaag\" is, de timer zal omlaag tellen naar \"offset"
+"\" in plaats van 00:00:00.000.\n"
+"Wanneer de richting omhoog is, zal de timer omhoog gaan beginnend bij "
+"\"offset\".]]>"
+
+#: data/effects/timer.xml:66 data/transitions/slide.xml:8
+#, kde-format
+msgid "Direction"
+msgstr "Richting"
+
+#: data/effects/timer.xml:69
+#, kde-format
+msgid ""
+"\n"
+"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
+"or down from the duration time.]]>\n"
+"        "
+msgstr ""
+"\n"
+"            <![CDATA[De teller zou omhoog van 00:00:00.000 of omlaag vanaf "
+"de tijdsduur.]]>\n"
+"        "
+
 #: data/effects/tracker.xml:4
 #, kde-format
 msgid "Motion Tracker"
@@ -2974,11 +3071,6 @@ msgstr "Verschuiven"
 msgid "Slide image from one side to another."
 msgstr "Afbeelding verschuiven van een kant naar de andere kant."
 
-#: data/transitions/slide.xml:8
-#, kde-format
-msgid "Direction"
-msgstr "Richting"
-
 #: data/transitions/vqm.xml:4
 #, kde-format
 msgid "Video Quality Measurement"
@@ -3443,8 +3535,8 @@ msgstr "Keyframe %1 bewerken"
 msgid "Update %1"
 msgstr "%1 bijwerken"
 
-#: src/assets/model/assetparametermodel.cpp:1226
-#: src/assets/model/assetparametermodel.cpp:1273
+#: src/assets/model/assetparametermodel.cpp:1228
+#: src/assets/model/assetparametermodel.cpp:1275
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan bestand met voor-instellingen %1 niet openen"
@@ -5255,7 +5347,7 @@ msgid "Usage"
 msgstr "Gebruik"
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:449 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:456 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -15477,10 +15569,9 @@ msgid "Lock subtitle track"
 msgstr "Ondertiteltrack vergrendelen"
 
 #: src/timeline2/view/timelinetabs.cpp:42
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Add Timeline Sequence"
-msgstr "Volgorde (sequentie) in tijdlijn"
+msgstr "Tijdlijnsequentie toevoegen"
 
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
@@ -15488,6 +15579,8 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
+"Tijdlijnsequentie toevoegen. Dit zal een nieuwe tijdlijn aanmaken voor "
+"bewerking. Elke tijdlijn komt overeen met een sequentieclip in de project-bin"
 
 #: src/timeline2/view/timelinetabs.cpp:196
 #, kde-format
@@ -16752,12 +16845,6 @@ msgstr "Volg muis"
 #, kde-format
 msgid "Hide frame"
 msgstr "Verberg frame"
-
-#. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/configcapture_ui.ui:322
-#, kde-format
-msgid "Offset"
-msgstr "Offset"
 
 #. i18n: Filesize
 #. i18n: Filesize
@@ -19880,12 +19967,6 @@ msgstr "Unicode code invoeren"
 msgid "Additional Information"
 msgstr "Extra informatie"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/wipeval_ui.ui:27
-#, kde-format
-msgid "Start"
-msgstr "Start"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
@@ -20306,9 +20387,6 @@ msgstr "%1u"
 
 #~ msgid "Transparent background"
 #~ msgstr "Transparante achtergrond"
-
-#~ msgid "Time"
-#~ msgstr "Tijd"
 
 #~ msgid "E"
 #~ msgstr "E"
