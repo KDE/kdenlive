@@ -105,7 +105,7 @@ void SubtitleModel::unsetModel()
     m_timeline.reset();
 }
 
-QByteArray SubtitleModel::guessFileEncoding(const QString &file)
+QByteArray SubtitleModel::guessFileEncoding(const QString &file, bool *confidence)
 {
     QFile textFile{file};
     if (!textFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -119,20 +119,24 @@ QByteArray SubtitleModel::guessFileEncoding(const QString &file)
         return "";
     }
     auto state = prober.feed(sample);
+    *confidence = false;
     switch (state) {
         case KEncodingProber::ProberState::FoundIt:
             qDebug() << "Guessed subtitle file encoding to be " << prober.encoding() << ", confidence: " << prober.confidence();
             if (prober.confidence() < 0.6) {
-                return QByteArray();
+                return QByteArray("UTF-8");
             }
+            *confidence = true;
             break;
         case KEncodingProber::ProberState::NotMe:
             qWarning() << "Subtitle file encoding not recognized";
-            return QByteArray();
-            return "";
+            return QByteArray("UTF-8");
         case KEncodingProber::ProberState::Probing:
-            qWarning() << "Subtitle file encoding indeterminate, confidence is" << prober.confidence();
-            return QByteArray();
+            qWarning() << "Subtitle file encoding indeterminate, confidence is" << prober.confidence() << ", ENCODING: " << prober.encoding();
+            if (prober.confidence() < 0.5) {
+                // Encoding cannot be guessed, default to UTF-8
+                return QByteArray(QByteArray("UTF-8"));
+            }
             break;
     }
     return prober.encoding();

@@ -94,7 +94,7 @@ public:
      * @return The name of the text encoding, as guessed by KEncodingProber, or
      * "" if an error occurred
     */
-    static QByteArray guessFileEncoding(const QString &file);
+    static QByteArray guessFileEncoding(const QString &file, bool *confidence);
     /** @brief Function that imports a subtitle file */
     void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false, float startFramerate = 30.00, float targetFramerate = 30.00, const QByteArray &encoding = "UTF-8");
 

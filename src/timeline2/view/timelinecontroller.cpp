@@ -4926,9 +4926,10 @@ void TimelineController::importSubtitle(const QString &path)
     };
 
     Fun checkEncoding = [d, view, updateSub]() {
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(view.subtitle_url->url().toLocalFile());
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(view.subtitle_url->url().toLocalFile(), &ok);
         qDebug() << "Guessed subtitle encoding is" << guessedEncoding;
-        if (guessedEncoding.isEmpty()) {
+        if (ok == false) {
             view.info_message->setMessageType(KMessageWidget::Warning);
             view.info_message->setText(i18n("Encoding could not be guessed, using UTF-8"));
             guessedEncoding = QByteArray("UTF-8");

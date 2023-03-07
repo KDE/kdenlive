@@ -51,7 +51,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Load a subtitle file")
     {
         QString subtitleFile = sourcesPath + "/dataset/01.srt";
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile, &ok);
         CHECK(guessedEncoding == "UTF-8");
         subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure the 3 dialogues are loaded
@@ -80,7 +81,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Load a non-UTF-8 subtitle")
     {
         QString subtitleFile = sourcesPath + "/dataset/01-iso-8859-1.srt";
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile, &ok);
         qDebug() << "Guessed encoding: " << guessedEncoding;
         subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure the 3 dialogues are loaded
@@ -101,7 +103,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Load ASS file with commas")
     {
         QString subtitleFile = sourcesPath + "/dataset/subs-with-commas.ass";
-        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile);
+        bool ok;
+        QByteArray guessedEncoding = SubtitleModel::guessFileEncoding(subtitleFile, &ok);
         qDebug() << "Guessed encoding: " << guessedEncoding;
         subtitleModel->importSubtitle(subtitleFile, 0, false, 30.00, 30.00, guessedEncoding);
         // Ensure all 2 lines are loaded
