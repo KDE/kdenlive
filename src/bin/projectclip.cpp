@@ -807,17 +807,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        Mlt::Profile *profile = pCore->thumbProfile();
-        if (mltService.startsWith(QLatin1String("xml"))) {
-            // Xml producers can corrupt the profile, so enforce width/height again after loading
-            int profileWidth = profile->width();
-            int profileHeight = profile->height();
-            m_thumbsProducer.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
-            profile->set_width(profileWidth);
-            profile->set_height(profileHeight);
-        } else {
-            m_thumbsProducer.reset(new Mlt::Producer(*profile, mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
-        }
+        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
     }
     if (m_thumbsProducer->is_valid()) {
         Mlt::Properties original(m_masterProducer->get_properties());
@@ -2300,7 +2290,7 @@ void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
             }
             QString destFile = sequenceFolder.absoluteFilePath(QFileInfo(path).fileName());
             if (copy) {
-                if (!destFile.endsWith(QLatin1String(".mlt"))) {
+                if (!destFile.endsWith(QLatin1String(".mlt")) || destFile == path) {
                     continue;
                 }
                 QFile::remove(destFile);

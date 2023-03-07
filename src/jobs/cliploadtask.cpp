@@ -103,32 +103,8 @@ std::shared_ptr<Mlt::Producer> ClipLoadTask::loadResource(QString resource, cons
 
 std::shared_ptr<Mlt::Producer> ClipLoadTask::loadPlaylist(QString &resource)
 {
-    std::unique_ptr<Mlt::Profile> xmlProfile(new Mlt::Profile());
-    xmlProfile->set_explicit(0);
-    std::unique_ptr<Mlt::Producer> producer(new Mlt::Producer(*xmlProfile, "xml", resource.toUtf8().constData()));
-    if (!producer->is_valid()) {
-        qDebug() << "////// ERROR, CANNOT LOAD SELECTED PLAYLIST: " << resource;
-        return nullptr;
-    }
-    std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(xmlProfile.get()));
-    std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
-    if (*clipProfile.get() == *projectProfile.get()) {
-        // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
-        // Beware that "consumer" currently crashes on audio mixes!
-        // resource.prepend(QStringLiteral("xml:"));
-    } else {
-        // This is currently crashing so I guess we'd better reject it for now
-        if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
-            QString loader = resource;
-            loader.prepend(QStringLiteral("consumer:"));
-            return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
-        } else {
-            m_errorMessage =
-                i18n("Playlist %1 has a different framerate (%2/%3fps), not supported.", resource, xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den());
-            return nullptr;
-        }
-    }
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), "xml", resource.toUtf8().constData());
+    // since MLT 7.14.0, playlists with different fps can be used in a project without corrupting the profile
+    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
 }
 
 // Read the properties of the xml and pass them to the producer. Note that some properties like resource are ignored
@@ -257,12 +233,6 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             Mlt::Profile *profile = pCore->thumbProfile();
             if (binClip->clipType() == ClipType::Timeline) {
                 thumbProd.reset(producer->cut());
-            } else if (mltService.startsWith(QLatin1String("xml"))) {
-                int profileWidth = profile->width();
-                int profileHeight = profile->height();
-                thumbProd.reset(new Mlt::Producer(*profile, "consumer", mltResource.toUtf8().constData()));
-                profile->set_width(profileWidth);
-                profile->set_height(profileHeight);
             } else {
                 if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                     return;
@@ -435,32 +405,44 @@ void ClipLoadTask::run()
     }
     case ClipType::Playlist: {
         producer = loadPlaylist(resource);
-        if (producer && resource.endsWith(QLatin1String(".kdenlive"))) {
+        if (producer) {
             QFile f(resource);
             QDomDocument doc;
             doc.setContent(&f, false);
             f.close();
-            QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
-            if (!pl.isNull()) {
-                QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
-                if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
-                    offsetData = QStringLiteral("30000");
-                }
-                if (!offsetData.isEmpty()) {
-                    bool ok = false;
-                    int offset = offsetData.toInt(&ok);
-                    if (ok) {
-                        qDebug() << " / / / FIXING OFFSET DATA: " << offset;
-                        offset = producer->get_playtime() - offset - 1;
-                        producer->set("out", offset - 1);
-                        producer->set("length", offset);
-                        producer->set("kdenlive:duration", producer->frames_to_time(offset));
+            if (resource.endsWith(QLatin1String(".kdenlive"))) {
+                QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+                if (!pl.isNull()) {
+                    QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
+                    if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
+                        offsetData = QStringLiteral("30000");
+                    }
+                    if (!offsetData.isEmpty()) {
+                        bool ok = false;
+                        int offset = offsetData.toInt(&ok);
+                        if (ok) {
+                            qDebug() << " / / / FIXING OFFSET DATA: " << offset;
+                            offset = producer->get_playtime() - offset - 1;
+                            producer->set("out", offset - 1);
+                            producer->set("length", offset);
+                            producer->set("kdenlive:duration", producer->frames_to_time(offset));
+                        }
+                    } else {
+                        qDebug() << "// NO OFFSET DAT FOUND\n\n";
                     }
                 } else {
-                    qDebug() << "// NO OFFSET DAT FOUND\n\n";
+                    qDebug() << ":_______\n______<nEMPTY PLAYLIST\n----";
                 }
-            } else {
-                qDebug() << ":_______\n______<nEMPTY PLAYLIST\n----";
+            } else if (resource.endsWith(QLatin1String(".mlt"))) {
+                // Find the last tractor and check if it has a duration
+                QDomElement tractor = doc.documentElement().lastChildElement(QStringLiteral("tractor"));
+                QString duration = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:duration"));
+                if (!duration.isEmpty()) {
+                    int frames = producer->time_to_frames(duration.toUtf8().constData());
+                    producer->set("out", frames - 1);
+                    producer->set("length", frames);
+                    producer->set("kdenlive:duration", duration.toUtf8().constData());
+                }
             }
         }
         break;

@@ -337,6 +337,8 @@ bool ClipController::hasLimitedDuration() const
             return false;
         case ClipType::AV:
         case ClipType::Animation:
+        case ClipType::Playlist:
+        case ClipType::Timeline:
             return true;
         default:
             return true;
