@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-07 00:46+0000\n"
+"POT-Creation-Date: 2023-03-08 00:46+0000\n"
 "PO-Revision-Date: 2023-03-06 16:31+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -4764,7 +4764,7 @@ msgid "Edit Tags"
 msgstr "Editar etiquetas"
 
 #: src/bin/bin.cpp:4192 src/bin/projectclip.cpp:190
-#: src/bin/projectclip.cpp:1890 src/onlineresources/resourcewidget.cpp:266
+#: src/bin/projectclip.cpp:1880 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
 #: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
@@ -4795,7 +4795,7 @@ msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de audio"
 
 #: src/bin/bin.cpp:4285 src/core.cpp:299 src/doc/kdenlivedoc.cpp:167
-#: src/jobs/cliploadtask.cpp:499 src/jobs/filtertask.cpp:84
+#: src/jobs/cliploadtask.cpp:481 src/jobs/filtertask.cpp:84
 #: src/layoutmanagement.cpp:466 src/layoutmanagement.cpp:527
 #: src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:374
@@ -5233,31 +5233,31 @@ msgstr "Agregar marcadores"
 msgid "Edit subtitle style"
 msgstr "Editar estilo de subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:375 src/bin/model/subtitlemodel.cpp:593
-#: src/bin/model/subtitlemodel.cpp:1471
+#: src/bin/model/subtitlemodel.cpp:379 src/bin/model/subtitlemodel.cpp:597
+#: src/bin/model/subtitlemodel.cpp:1475
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Editar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:627 src/bin/model/subtitlemodel.cpp:1558
+#: src/bin/model/subtitlemodel.cpp:631 src/bin/model/subtitlemodel.cpp:1562
 #: src/timeline2/model/timelinefunctions.cpp:188
 #, kde-format
 msgid "Cut clip"
 msgstr "Cortar clip"
 
-#: src/bin/model/subtitlemodel.cpp:757 src/bin/model/subtitlemodel.cpp:1490
+#: src/bin/model/subtitlemodel.cpp:761 src/bin/model/subtitlemodel.cpp:1494
 #: src/timeline2/model/timelinemodel.cpp:3498
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensionar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:953
+#: src/bin/model/subtitlemodel.cpp:957
 #: src/timeline2/model/timelinemodel.cpp:1249
 #, kde-format
 msgid "Move subtitle"
 msgstr "Mover subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1109 src/dialogs/renderwidget.cpp:826
+#: src/bin/model/subtitlemodel.cpp:1113 src/dialogs/renderwidget.cpp:826
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:563
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5272,17 +5272,17 @@ msgstr ""
 "El archivo %1 ya existe.\n"
 "¿Sobrescribirlo?"
 
-#: src/bin/model/subtitlemodel.cpp:1502
+#: src/bin/model/subtitlemodel.cpp:1506
 #, kde-format
 msgid "Add text"
 msgstr "Agregar texto"
 
-#: src/bin/model/subtitlemodel.cpp:1522 src/dialogs/subtitleedit.cpp:109
+#: src/bin/model/subtitlemodel.cpp:1526 src/dialogs/subtitleedit.cpp:109
 #, kde-format
 msgid "Add subtitle"
 msgstr "Agregar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1577 src/dialogs/subtitleedit.cpp:119
+#: src/bin/model/subtitlemodel.cpp:1581 src/dialogs/subtitleedit.cpp:119
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Borrar subtítulo"
@@ -5307,7 +5307,7 @@ msgstr ""
 "La dimensión de la imagen es menor de 8 píxeles.\n"
 "Esto no es soportado correctamente por nuestra infraestructura de video."
 
-#: src/bin/projectclip.cpp:899
+#: src/bin/projectclip.cpp:889
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5316,34 +5316,34 @@ msgstr ""
 "No es posible extraer metadatos desde %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1132 src/jobs/cliploadtask.cpp:308
+#: src/bin/projectclip.cpp:1122 src/jobs/cliploadtask.cpp:278
 #, kde-format
 msgid "Invalid"
 msgstr "No válido"
 
-#: src/bin/projectclip.cpp:1329 src/dialogs/clipcreationdialog.cpp:203
+#: src/bin/projectclip.cpp:1319 src/dialogs/clipcreationdialog.cpp:203
 #: src/jobs/cuttask.cpp:170 src/jobs/speedtask.cpp:120
 #: src/project/clipstabilize.cpp:136
 #, kde-format
 msgid "File already exists"
 msgstr "El archivo ya existe"
 
-#: src/bin/projectclip.cpp:2032
+#: src/bin/projectclip.cpp:2022
 #, kde-format
 msgid "Clip already contains analysis data %1"
 msgstr "El clip ya contiene información de análisis %1"
 
-#: src/bin/projectclip.cpp:2033
+#: src/bin/projectclip.cpp:2023
 #, kde-format
 msgid "Merge"
 msgstr "Mezclar"
 
-#: src/bin/projectclip.cpp:2604
+#: src/bin/projectclip.cpp:2594
 #, kde-format
 msgid "Add stream effect"
 msgstr "Agregar efecto de fuente"
 
-#: src/bin/projectclip.cpp:2629
+#: src/bin/projectclip.cpp:2619
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Eliminar efecto de fuente"
@@ -5371,7 +5371,7 @@ msgid "Usage"
 msgstr "Uso"
 
 #: src/bin/projectitemmodel.cpp:331 src/doc/documentchecker.cpp:318
-#: src/mltcontroller/clipcontroller.cpp:456 src/profiles/profileinfo.cpp:46
+#: src/mltcontroller/clipcontroller.cpp:458 src/profiles/profileinfo.cpp:46
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
 msgid "Unknown"
@@ -8326,24 +8326,17 @@ msgstr "Miniaturas de audio: no es posible abrir el archivo %1"
 msgid "Audio thumbs: unknown file length for %1"
 msgstr "Miniaturas de audio: longitud del archivo %1 desconocida"
 
-#: src/jobs/cliploadtask.cpp:127
-#, kde-format
-msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
-msgstr ""
-"La lista de reproducción %1 tiene una velocidad de fotogramas distinta (%2/"
-"%3fps), no soportado."
-
-#: src/jobs/cliploadtask.cpp:527
+#: src/jobs/cliploadtask.cpp:509
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "No es posible determinar la duración del archivo <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:669
+#: src/jobs/cliploadtask.cpp:651
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "No es posible saltar en el archivo <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:730
+#: src/jobs/cliploadtask.cpp:712
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "El archivo <b>%1</b> tiene una frecuencia de fotogramas variable."
@@ -12802,7 +12795,7 @@ msgstr "El tamaño del marcador es mayor a 1MB, ¿seguro importarlo?"
 
 #: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1378
 #: src/renderpresets/renderpresetrepository.cpp:313
-#: src/timeline2/view/timelinecontroller.cpp:4900
+#: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "No es posible leer el archivo %1"
@@ -15592,12 +15585,22 @@ msgid_plural "Insert Tracks"
 msgstr[0] "Insertar pista"
 msgstr[1] "Insertar pistas"
 
-#: src/timeline2/view/timelinecontroller.cpp:4931
+#: src/timeline2/view/timelinecontroller.cpp:4893
+#, kde-format
+msgid "Character encoding used to save the subtitle file."
+msgstr ""
+
+#: src/timeline2/view/timelinecontroller.cpp:4894
+msgctxt "@info:whatsthis"
+msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
+msgstr ""
+
+#: src/timeline2/view/timelinecontroller.cpp:4934
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4935
+#: src/timeline2/view/timelinecontroller.cpp:4938
 #, fuzzy, kde-format
 #| msgid "Encoding threads"
 msgid "Encoding detected as %1"
@@ -20230,6 +20233,11 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
+#~ msgstr ""
+#~ "La lista de reproducción %1 tiene una velocidad de fotogramas distinta "
+#~ "(%2/%3fps), no soportado."
 
 #~ msgid "Show Subtitle Track"
 #~ msgstr "Mostrar pista de subtítulos"
