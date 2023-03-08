@@ -3187,7 +3187,7 @@ msgstr "Edita la informació"
 #: src/assets/assetlist/view/qml/assetList.qml:363
 #, kde-format
 msgid "Export XML…"
-msgstr "Exporta a XML…"
+msgstr "Exporta cap a XML…"
 
 #: src/assets/assetlist/view/qml/assetList.qml:371 src/bin/bin.cpp:1257
 #: src/bin/projectitemmodel.cpp:296
@@ -9572,7 +9572,7 @@ msgstr "Importa un fitxer de subtítols…"
 #: src/mainwindow.cpp:1821
 #, kde-format
 msgid "Export Subtitle File…"
-msgstr "Exporta a un fitxer de subtítols…"
+msgstr "Exporta cap a un fitxer de subtítols…"
 
 #: src/mainwindow.cpp:1823 src/timeline2/model/timelinemodel.cpp:2001
 #, kde-format
@@ -14598,7 +14598,7 @@ msgstr "Importa subtítols"
 #: src/timeline2/view/timelinecontroller.cpp:5014
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Exporta a un fitxer de subtítols"
+msgstr "Exporta cap a un fitxer de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:5015
 #, kde-format
