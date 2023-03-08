@@ -1100,6 +1100,27 @@ std::shared_ptr<MarkerSortModel> ClipController::getFilteredMarkerModel() const
     return m_markerFilterModel;
 }
 
+bool ClipController::isFullRange() const
+{
+    bool full = !qstrcmp(m_masterProducer->get("meta.media.color_range"), "full");
+    for (int i = 0; !full && i < m_masterProducer->get_int("meta.media.nb_streams"); i++) {
+        QString key = QString("meta.media.%1.stream.type").arg(i);
+        QString streamType(m_masterProducer->get(key.toLatin1().constData()));
+        if (streamType == "video") {
+            if (i == m_masterProducer->get_int("video_index")) {
+                key = QString("meta.media.%1.codec.pix_fmt").arg(i);
+                QString pix_fmt = QString::fromLatin1(m_masterProducer->get(key.toLatin1().constData()));
+                if (pix_fmt.startsWith("yuvj")) {
+                    full = true;
+                } else if (pix_fmt.contains("gbr") || pix_fmt.contains("rgb")) {
+                    full = true;
+                }
+            }
+        }
+    }
+    return full;
+}
+
 bool ClipController::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo)
 {
     bool found = false;

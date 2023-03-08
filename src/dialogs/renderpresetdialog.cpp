@@ -39,7 +39,6 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     if (preset) {
         m_manualPreset = preset->isManual();
     }
-
     m_uiParams.append({QStringLiteral("f"),
                        QStringLiteral("acodec"),
                        QStringLiteral("vcodec"),
@@ -50,6 +49,7 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                        QStringLiteral("frame_rate_num"),
                        QStringLiteral("frame_rate_den"),
                        QStringLiteral("crf"),
+                       QStringLiteral("color_range"),
                        QStringLiteral("vb"),
                        QStringLiteral("vminrate"),
                        QStringLiteral("vmaxrate"),
@@ -80,10 +80,6 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                        QStringLiteral("strict_gop"),
                        QStringLiteral("keyint_min"),
                        QStringLiteral("channels")});
-
-    // TODO: implement colorspace
-    colorspaceCombo->hide();
-    colorspaceLabel->hide();
 
     formatCombo->addItems(RenderPresetRepository::supportedFormats());
     vCodecCombo->addItems(RenderPresetRepository::vcodecs());
@@ -336,6 +332,11 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
                 framerateNum->setValue(projectProfile->frame_rate_num());
                 framerateDen->setValue(projectProfile->frame_rate_den());
             }
+            if (preset->hasParam(QStringLiteral("color_range"))) {
+                colorRangeCombo->setCurrentIndex(1);
+            } else {
+                colorRangeCombo->setCurrentIndex(0);
+            }
             if (preset->hasParam(QStringLiteral("progressive"))) {
                 scanningCombo->setCurrentIndex(preset->getParam(QStringLiteral("progressive")).toInt());
                 cScanning->setChecked(true);
@@ -516,6 +517,8 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
     connect(audioChannels, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
     connect(audioSampleRate, &QComboBox::currentTextChanged, this, &RenderPresetDialog::slotUpdateParams);
 
+    connect(colorRangeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RenderPresetDialog::slotUpdateParams);
+
     linkResoultion->setChecked(true);
     slotUpdateParams();
     connect(cResolution, &QCheckBox::toggled, this, &RenderPresetDialog::slotUpdateParams);
@@ -607,6 +610,9 @@ void RenderPresetDialog::slotUpdateParams()
         frameRateDisplay->show();
     } else {
         frameRateDisplay->hide();
+    }
+    if (colorRangeCombo->currentIndex() == 1) {
+        params.append(QStringLiteral("color_range=pc"));
     }
     // Adjust scanning
     if (cScanning->isChecked()) {

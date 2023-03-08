@@ -212,6 +212,7 @@ public:
     void invalidateItem(ObjectId itemId);
     void invalidateRange(QPair<int, int>range);
     void prepareShutdown();
+    void finishShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);
     /** A fade for clip id changed, update timeline */

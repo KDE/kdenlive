@@ -933,6 +933,7 @@ MainWindow::~MainWindow()
     delete m_shortcutRemoveFocus;
     delete m_effectList2;
     delete m_compositionList;
+    pCore->finishShutdown();
     qDeleteAll(m_transitions);
     Mlt::Factory::close();
 }

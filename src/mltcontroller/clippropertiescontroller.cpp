@@ -958,16 +958,27 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         hlay->addWidget(combo);
         fpBox->addLayout(hlay);
 
-        // Full luma
-        QString force_luma = m_properties->get("set.force_full_luma");
-        m_originalProperties.insert(QStringLiteral("set.force_full_luma"), force_luma);
+        // Color range
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Full luma range"), this);
+        box = new QCheckBox(i18n("Color Range:"), this);
+        box->setObjectName(QStringLiteral("force_color_range"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
-        box->setObjectName(QStringLiteral("set.force_full_luma"));
-        box->setChecked(!force_luma.isEmpty());
+        combo = new QComboBox(this);
+        combo->setObjectName(QStringLiteral("force_color_range_value"));
+        combo->addItem(i18n("Broadcast limited (MPEG)"), 1);
+        combo->addItem(i18n("Full (JPEG)"), 2);
+        int color_range = m_properties->get_int("color_range");
+        if (color_range == 0) {
+            combo->setCurrentIndex(combo->findData(m_controller->isFullRange() ? 2 : 1));
+            combo->setEnabled(false);
+        } else {
+            box->setChecked(true);
+            combo->setCurrentIndex(combo->findData(color_range));
+        }
+        connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
+        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
-        hlay->addStretch(10);
+        hlay->addWidget(combo);
         fpBox->addLayout(hlay);
 
         // Check for variable frame rate
@@ -1145,6 +1156,8 @@ void ClipPropertiesController::slotEnableForce(int state)
             properties.insert(QStringLiteral("force_aspect_ratio"), QString());
         } else if (param == QLatin1String("autorotate")) {
             properties.insert(QStringLiteral("autorotate"), QString());
+        } else if (param == QLatin1String("force_color_range")) {
+            properties.insert(QStringLiteral("color_range"), QString());
         } else {
             properties.insert(param, QString());
         }
@@ -1174,8 +1187,12 @@ void ClipPropertiesController::slotEnableForce(int state)
                 return;
             }
             properties.insert(param, QString::number(combo->currentData().toInt()));
-        } else if (param == QLatin1String("set.force_full_luma")) {
-            properties.insert(param, QStringLiteral("1"));
+        } else if (param == QLatin1String("force_color_range")) {
+            auto *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
+            if (!combo) {
+                return;
+            }
+            properties.insert(QStringLiteral("color_range"), QString::number(combo->currentData().toInt()));
         } else if (param == QLatin1String("autorotate")) {
             properties.insert(QStringLiteral("autorotate"), QStringLiteral("0"));
         } else if (param == QLatin1String("force_ar")) {
@@ -1246,6 +1263,9 @@ void ClipPropertiesController::slotComboValueChanged()
         return;
     }
     QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
+    if (param == QLatin1String("force_color_range")) {
+        param = QStringLiteral("color_range");
+    }
     QMap<QString, QString> properties;
     properties.insert(param, QString::number(box->currentData().toInt()));
     Q_EMIT updateClipProperties(m_id, m_originalProperties, properties);

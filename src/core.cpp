@@ -59,7 +59,7 @@ void Core::prepareShutdown()
     QThreadPool::globalInstance()->clear();
 }
 
-Core::~Core()
+void Core::finishShutdown()
 {
     if (m_monitorManager) {
         delete m_monitorManager;
@@ -69,6 +69,8 @@ Core::~Core()
     }
     ClipController::mediaUnavailable.reset();
 }
+
+Core::~Core() {}
 
 bool Core::build(const QString &packageType, bool testMode)
 {

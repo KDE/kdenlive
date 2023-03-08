@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>556</width>
-    <height>817</height>
+    <width>538</width>
+    <height>757</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -159,8 +159,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>512</height>
+            <width>518</width>
+            <height>457</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -177,228 +177,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>503</width>
-                <height>580</height>
+                <width>485</width>
+                <height>586</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout">
-               <item row="15" column="0" colspan="2">
-                <widget class="QLabel" name="vquality_label">
-                 <property name="text">
-                  <string>Quality:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2" colspan="3">
-                <widget class="QComboBox" name="parCombo">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QComboBox::AdjustToContents</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="2" colspan="3">
-                <widget class="QComboBox" name="scanningCombo">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Interlaced</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Progressive</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="8" column="2" colspan="3">
-                <widget class="QComboBox" name="colorspaceCombo">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-               <item row="16" column="0" colspan="2">
-                <widget class="QLabel" name="label_26">
-                 <property name="toolTip">
-                  <string>GOP = Group of Pictures</string>
-                 </property>
-                 <property name="text">
-                  <string>GOP:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="9" column="2" colspan="3">
-                <widget class="QComboBox" name="vCodecCombo">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="2" colspan="3">
-                <widget class="QLabel" name="frameRateDisplay">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Placeholder</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="10" column="0" colspan="2">
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>Rate Control:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="2" colspan="3">
-                <widget class="QGroupBox" name="gFps">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="flat">
-                  <bool>true</bool>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_4">
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QSpinBox" name="framerateNum">
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>1000000</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_8">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>10</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true">/</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QSpinBox" name="framerateDen">
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>9999</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_3">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>42</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="8" column="0" colspan="2">
-                <widget class="QLabel" name="colorspaceLabel">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="text">
-                  <string>Colorspace:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0" colspan="2">
-                <widget class="QLabel" name="label_3">
-                 <property name="text">
-                  <string>Fields per Second:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0" colspan="2">
-                <widget class="QCheckBox" name="cResolution">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Resolution:</string>
-                 </property>
-                </widget>
-               </item>
                <item row="16" column="2" colspan="2">
                 <widget class="QSpinBox" name="gopSpinner">
                  <property name="sizePolicy">
@@ -421,47 +204,38 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </property>
                 </widget>
                </item>
-               <item row="12" column="2" colspan="3">
-                <widget class="QSpinBox" name="default_vbitrate">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="suffix">
-                  <string>k</string>
-                 </property>
-                 <property name="maximum">
-                  <number>500000</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="9" column="0" colspan="2">
-                <widget class="QLabel" name="label_24">
+               <item row="10" column="0" colspan="2">
+                <widget class="QLabel" name="label_12">
                  <property name="text">
-                  <string>Codec:</string>
+                  <string>Rate Control:</string>
                  </property>
                 </widget>
                </item>
-               <item row="16" column="4">
-                <widget class="QCheckBox" name="fixedGop">
-                 <property name="enabled">
-                  <bool>false</bool>
+               <item row="18" column="2">
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
                  </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="16" column="0" colspan="2">
+                <widget class="QLabel" name="label_26">
                  <property name="toolTip">
-                  <string>A fixed GOP means that keyframes will not be inserted at detected scene changes.</string>
+                  <string>GOP = Group of Pictures</string>
                  </property>
                  <property name="text">
-                  <string>Fixed</string>
+                  <string>GOP:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0" colspan="2">
-                <widget class="QCheckBox" name="cDar">
+               <item row="1" column="0" colspan="2">
+                <widget class="QCheckBox" name="cPar">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -469,14 +243,28 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>Display Aspect Ratio:</string>
+                  <string>Pixel Aspect Ratio:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2" colspan="3">
-                <widget class="QGroupBox" name="gDar">
+               <item row="8" column="2" colspan="3">
+                <widget class="QComboBox" name="colorRangeCombo">
+                 <item>
+                  <property name="text">
+                   <string>Broadcast limited (MPEG)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Full (JPEG)</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="4" column="2" colspan="3">
+                <widget class="QLabel" name="frameRateDisplay">
                  <property name="enabled">
-                  <bool>false</bool>
+                  <bool>true</bool>
                  </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -484,125 +272,25 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="flat">
-                  <bool>true</bool>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_3">
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QSpinBox" name="displayAspectNum">
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>8192</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_17">
-                    <property name="minimumSize">
-                     <size>
-                      <width>10</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string notr="true">:</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QSpinBox" name="displayAspectDen">
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>8192</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_2">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>76</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="6" column="0" colspan="2">
-                <widget class="QCheckBox" name="cScanning">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
                  <property name="text">
-                  <string>Scanning:</string>
+                  <string>Placeholder</string>
                  </property>
                 </widget>
                </item>
-               <item row="15" column="2" colspan="3">
-                <widget class="QSpinBox" name="default_vquality">
+               <item row="10" column="2" colspan="3">
+                <widget class="QComboBox" name="vRateControlCombo">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="maximum">
-                  <number>500000</number>
-                 </property>
                 </widget>
                </item>
-               <item row="17" column="2" colspan="3">
-                <widget class="QSpinBox" name="bFramesSpinner">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="specialValueText">
-                  <string>Auto</string>
-                 </property>
-                 <property name="suffix">
-                  <string> frame(s)</string>
-                 </property>
-                 <property name="minimum">
-                  <number>-1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>8</number>
-                 </property>
-                 <property name="value">
-                  <number>-1</number>
+               <item row="9" column="0" colspan="2">
+                <widget class="QLabel" name="label_24">
+                 <property name="text">
+                  <string>Codec:</string>
                  </property>
                 </widget>
                </item>
@@ -727,8 +415,57 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </layout>
                 </widget>
                </item>
-               <item row="7" column="0" colspan="2">
-                <widget class="QCheckBox" name="cField">
+               <item row="17" column="0" colspan="2">
+                <widget class="QLabel" name="bFramesLabel">
+                 <property name="text">
+                  <string>B Frames:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2" colspan="3">
+                <widget class="QComboBox" name="parCombo">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="sizeAdjustPolicy">
+                  <enum>QComboBox::AdjustToContents</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="12" column="2" colspan="3">
+                <widget class="QSpinBox" name="default_vbitrate">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="suffix">
+                  <string>k</string>
+                 </property>
+                 <property name="maximum">
+                  <number>500000</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="15" column="0" colspan="2">
+                <widget class="QLabel" name="vquality_label">
+                 <property name="text">
+                  <string>Quality:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0" colspan="2">
+                <widget class="QCheckBox" name="cScanning">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -736,7 +473,66 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>Field Order:</string>
+                  <string>Scanning:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" colspan="2">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>Fields per Second:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <widget class="QCheckBox" name="cDar">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Display Aspect Ratio:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="2" colspan="3">
+                <widget class="QSpinBox" name="vBuffer">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="suffix">
+                  <string> KiB</string>
+                 </property>
+                 <property name="maximum">
+                  <number>9999</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Buffer Size:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0" colspan="2">
+                <widget class="QCheckBox" name="cResolution">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Resolution:</string>
                  </property>
                 </widget>
                </item>
@@ -766,8 +562,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </item>
                 </widget>
                </item>
-               <item row="14" column="2" colspan="3">
-                <widget class="QSpinBox" name="vBuffer">
+               <item row="9" column="2" colspan="3">
+                <widget class="QComboBox" name="vCodecCombo">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2" colspan="3">
+                <widget class="QComboBox" name="scanningCombo">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -777,16 +583,112 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="suffix">
-                  <string> KiB</string>
+                 <item>
+                  <property name="text">
+                   <string>Interlaced</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Progressive</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="16" column="4">
+                <widget class="QCheckBox" name="fixedGop">
+                 <property name="enabled">
+                  <bool>false</bool>
                  </property>
-                 <property name="maximum">
-                  <number>9999</number>
+                 <property name="toolTip">
+                  <string>A fixed GOP means that keyframes will not be inserted at detected scene changes.</string>
+                 </property>
+                 <property name="text">
+                  <string>Fixed</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QCheckBox" name="cPar">
+               <item row="2" column="2" colspan="3">
+                <widget class="QGroupBox" name="gDar">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QSpinBox" name="displayAspectNum">
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>8192</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_17">
+                    <property name="minimumSize">
+                     <size>
+                      <width>10</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string notr="true">:</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="displayAspectDen">
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>8192</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>76</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="7" column="0" colspan="2">
+                <widget class="QCheckBox" name="cField">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -794,24 +696,35 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>Pixel Aspect Ratio:</string>
+                  <string>Field Order:</string>
                  </property>
                 </widget>
                </item>
-               <item row="10" column="2" colspan="3">
-                <widget class="QComboBox" name="vRateControlCombo">
+               <item row="17" column="2" colspan="3">
+                <widget class="QSpinBox" name="bFramesSpinner">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                </widget>
-               </item>
-               <item row="17" column="0" colspan="2">
-                <widget class="QLabel" name="bFramesLabel">
-                 <property name="text">
-                  <string>B Frames:</string>
+                 <property name="specialValueText">
+                  <string>Auto</string>
+                 </property>
+                 <property name="suffix">
+                  <string> frame(s)</string>
+                 </property>
+                 <property name="minimum">
+                  <number>-1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>8</number>
+                 </property>
+                 <property name="value">
+                  <number>-1</number>
                  </property>
                 </widget>
                </item>
@@ -822,11 +735,109 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  </property>
                 </widget>
                </item>
-               <item row="14" column="0">
-                <widget class="QLabel" name="label_5">
+               <item row="8" column="0" colspan="2">
+                <widget class="QLabel" name="colorRangeLabel">
                  <property name="text">
-                  <string>Buffer Size:</string>
+                  <string>Color range</string>
                  </property>
+                </widget>
+               </item>
+               <item row="15" column="2" colspan="3">
+                <widget class="QSpinBox" name="default_vquality">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximum">
+                  <number>500000</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2" colspan="3">
+                <widget class="QGroupBox" name="gFps">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QSpinBox" name="framerateNum">
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>1000000</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>10</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string notr="true">/</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="framerateDen">
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>42</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>

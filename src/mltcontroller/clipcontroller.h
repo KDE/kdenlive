@@ -210,6 +210,7 @@ public:
     bool removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remapCategories, Fun &undo, Fun &redo);
     // This is the helper function that checks if the clip has audio and video and stores the result
     void checkAudioVideo();
+    bool isFullRange() const;
 
 protected:
     /** @brief Mutex to protect the producer properties on read/write */
