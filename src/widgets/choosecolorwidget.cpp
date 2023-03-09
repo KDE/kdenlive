@@ -32,6 +32,8 @@ ChooseColorWidget::ChooseColorWidget(QWidget *parent, const QColor &color, bool 
     connect(picker, &ColorPickerWidget::colorPicked, this, &ChooseColorWidget::setColor);
     connect(picker, &ColorPickerWidget::disableCurrentFilter, this, &ChooseColorWidget::disableCurrentFilter);
     connect(m_button, &KColorButton::changed, this, &ChooseColorWidget::modified);
+
+    setMinimumHeight(m_button->sizeHint().height());
 }
 
 QColor ChooseColorWidget::color() const

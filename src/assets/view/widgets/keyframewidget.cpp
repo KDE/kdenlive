@@ -19,6 +19,7 @@
 #include "lumaliftgainparam.hpp"
 #include "monitor/monitor.h"
 #include "utils/timecode.h"
+#include "widgets/choosecolorwidget.h"
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 #include "widgets/timecodedisplay.h"
@@ -421,6 +422,9 @@ void KeyframeWidget::slotRefreshParams()
             (static_cast<GeometryWidget *>(w.second))->setValue(rect, opacity);
         } else if (type == ParamType::ColorWheel) {
             (static_cast<LumaLiftGainParam *>(w.second)->slotRefresh(pos));
+        } else if (type == ParamType::Color) {
+            const QString value = m_keyframes->getInterpolatedValue(pos, w.first).toString();
+            (static_cast<ChooseColorWidget *>(w.second)->slotColorModified(QColorUtils::stringToColor(value)));
         }
     }
     if (m_monitorHelper && m_model->isActive()) {
@@ -517,6 +521,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 
     auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
     // Construct object
+    QWidget *labelWidget = nullptr;
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
         m_neededScene = MonitorSceneType::MonitorSceneGeometry;
@@ -569,6 +574,18 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     } else if (type == ParamType::Roto_spline) {
         m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
         m_neededScene = MonitorSceneType::MonitorSceneRoto;
+    } else if (type == ParamType::Color) {
+        QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
+        bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
+        labelWidget = new QLabel(name, this);
+        auto colorWidget = new ChooseColorWidget(this, QColorUtils::stringToColor(value), alphaEnabled);
+        colorWidget->setToolTip(comment);
+        connect(colorWidget, &ChooseColorWidget::modified, this, [this, index, alphaEnabled](const QColor &color) {
+            Q_EMIT activateEffect();
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(QColorUtils::colorToString(color, alphaEnabled)), index);
+        });
+        paramWidget = colorWidget;
+
     } else {
         if (m_model->getAssetId() == QLatin1String("frei0r.c0rners")) {
             if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
@@ -617,7 +634,16 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     }
     if (paramWidget) {
         m_parameters[index] = paramWidget;
-        m_lay->addWidget(paramWidget);
+        if (labelWidget) {
+            auto *hbox = new QHBoxLayout(this);
+            hbox->setContentsMargins(0, 0, 0, 0);
+            hbox->setSpacing(0);
+            hbox->addWidget(labelWidget, 1);
+            hbox->addWidget(paramWidget, 1);
+            m_lay->addLayout(hbox);
+        } else {
+            m_lay->addWidget(paramWidget);
+        }
         m_addedHeight += paramWidget->minimumHeight();
         setFixedHeight(m_baseHeight + m_addedHeight);
     }
