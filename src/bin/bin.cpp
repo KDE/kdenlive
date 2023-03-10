@@ -718,6 +718,12 @@ void MyListView::mousePressEvent(QMouseEvent *event)
     QListView::mousePressEvent(event);
 }
 
+void MyListView::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_startPos = QPoint();
+    QListView::mouseReleaseEvent(event);
+}
+
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
     if ((event->buttons() & Qt::LeftButton) != 0u) {
@@ -801,7 +807,6 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
             m_lastHoveredItem = QModelIndex();
         }
     }
-    QListView::mouseMoveEvent(event);
 }
 
 MyTreeView::MyTreeView(QWidget *parent)
@@ -824,12 +829,19 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
 #endif
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
+
         } else {
             m_dragType = PlaylistState::Disabled;
             m_startPos = QPoint();
         }
     }
     event->accept();
+}
+
+void MyTreeView::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_startPos = QPoint();
+    QTreeView::mouseReleaseEvent(event);
 }
 
 void MyTreeView::focusInEvent(QFocusEvent *event)
@@ -858,12 +870,11 @@ void MyTreeView::leaveEvent(QEvent *event)
 
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
-    bool dragged = false;
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (!m_startPos.isNull()) {
             int distance = (event->pos() - m_startPos).manhattanLength();
             if (distance >= QApplication::startDragDistance()) {
-                dragged = performDrag();
+                performDrag();
                 return;
             }
         }
@@ -902,9 +913,6 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
             }
             pCore->bin()->updateKeyBinding();
         }
-    }
-    if (!dragged) {
-        QTreeView::mouseMoveEvent(event);
     }
 }
 

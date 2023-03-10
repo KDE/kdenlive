@@ -69,6 +69,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -104,6 +105,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
