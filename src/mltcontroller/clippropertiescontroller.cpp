@@ -927,7 +927,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
 
         // Colorspace
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Colorspace:"), this);
+        box = new QCheckBox(i18n("Color space:"), this);
         box->setObjectName(QStringLiteral("force_colorspace"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
@@ -960,7 +960,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
 
         // Color range
         hlay = new QHBoxLayout;
-        box = new QCheckBox(i18n("Color Range:"), this);
+        box = new QCheckBox(i18n("Color range:"), this);
         box->setObjectName(QStringLiteral("force_color_range"));
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
         combo = new QComboBox(this);
