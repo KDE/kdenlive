@@ -3250,6 +3250,14 @@ void MainWindow::slotChangeEdit(QAction *action)
     }
 }
 
+void MainWindow::disableMulticam()
+{
+    if (m_activeTool == ToolType::MulticamTool) {
+        m_buttonSelectTool->setChecked(true);
+        slotSetTool(ToolType::SelectTool);
+    }
+}
+
 void MainWindow::slotSetTool(ToolType::ProjectTool tool)
 {
     if (m_activeTool == ToolType::MulticamTool) {

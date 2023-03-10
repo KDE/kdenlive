@@ -169,6 +169,8 @@ public:
     void setWidgetKeyBinding(const QString &text = QString());
     /** @brief Show a key binding in status bar */
     void showKeyBinding(const QString &text = QString());
+    /** @brief Disable multicam mode if it was active */
+    void disableMulticam();
 
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.

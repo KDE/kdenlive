@@ -117,6 +117,7 @@ void TimelineTabs::connectCurrent(int ix)
     int pos = 0;
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
+        pCore->window()->disableMulticam();
         pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();
         duration = m_activeTimeline->model()->duration();

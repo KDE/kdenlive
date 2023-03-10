@@ -370,6 +370,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    pCore->window()->disableMulticam();
     if (m_project) {
         ::mlt_pool_purge();
         pCore->cleanup();
