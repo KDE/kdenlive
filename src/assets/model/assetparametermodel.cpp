@@ -700,7 +700,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
 // static
 bool AssetParameterModel::isAnimated(ParamType type)
 {
-    return type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::ColorWheel || type == ParamType::Roto_spline;
+    return type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::ColorWheel || type == ParamType::Roto_spline ||
+           type == ParamType::Color;
 }
 
 // static

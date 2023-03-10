@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-09 00:45+0000\n"
+"POT-Creation-Date: 2023-03-10 00:46+0000\n"
 "PO-Revision-Date: 2023-03-08 15:47+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3395,36 +3395,36 @@ msgstr "Efectes de la pista %1"
 msgid "Bin %1 effects"
 msgstr "Safata d'efectes de %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
-#: src/assets/view/widgets/keyframewidget.cpp:69 src/dialogs/timeremap.cpp:1690
+#: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1690
 #: src/dialogs/timeremap.cpp:1715
 #, kde-format
 msgid "Add keyframe"
 msgstr "Afig un fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #: src/assets/keyframes/model/keyframemodellist.cpp:135
 #: src/assets/keyframes/model/keyframemodellist.cpp:173
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Canvia el tipus de fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:200
+#: src/assets/keyframes/model/keyframemodel.cpp:201
 #: src/assets/keyframes/model/keyframemodellist.cpp:181
-#: src/assets/view/widgets/keyframewidget.cpp:71 src/dialogs/timeremap.cpp:1711
+#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1711
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Suprimix el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:395
+#: src/assets/keyframes/model/keyframemodel.cpp:396
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Mou els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:416
+#: src/assets/keyframes/model/keyframemodel.cpp:417
 #: src/assets/keyframes/model/keyframemodellist.cpp:225
 #: src/assets/keyframes/model/keyframemodellist.cpp:269
 #: src/assets/keyframes/view/keyframeview.cpp:295
@@ -3433,29 +3433,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Mou el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:487
+#: src/assets/keyframes/model/keyframemodel.cpp:488
 #: src/assets/keyframes/model/keyframemodellist.cpp:305
 #, kde-format
 msgid "Update keyframe"
 msgstr "Actualitza el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:824
+#: src/assets/keyframes/model/keyframemodel.cpp:825
 #: src/assets/keyframes/model/keyframemodellist.cpp:207
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Suprimix tots els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1019
+#: src/assets/keyframes/model/keyframemodel.cpp:1028
 #, kde-format
 msgid "effect"
 msgstr "efecte"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1028
+#: src/assets/keyframes/model/keyframemodel.cpp:1037
 #, kde-format
 msgid "Reset %1"
 msgstr "Reinicialitza %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1279
+#: src/assets/keyframes/model/keyframemodel.cpp:1296
 #, kde-format
 msgid "Reset effect"
 msgstr "Reinicialitza efecte"
@@ -3539,7 +3539,7 @@ msgid "Edit %1"
 msgstr "Edita %1"
 
 #: src/assets/model/assetcommand.cpp:159 src/assets/model/assetcommand.cpp:161
-#: src/assets/view/widgets/keyframewidget.cpp:554
+#: src/assets/view/widgets/keyframewidget.cpp:559
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Edita el fotograma clau %1"
@@ -3549,8 +3549,8 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza %1"
 
-#: src/assets/model/assetparametermodel.cpp:1228
-#: src/assets/model/assetparametermodel.cpp:1275
+#: src/assets/model/assetparametermodel.cpp:1229
+#: src/assets/model/assetparametermodel.cpp:1276
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
@@ -3766,16 +3766,16 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:393
 #: src/assets/view/widgets/keyframeimport.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:246
-#: src/assets/view/widgets/keyframewidget.cpp:307
+#: src/assets/view/widgets/keyframewidget.cpp:247
+#: src/assets/view/widgets/keyframewidget.cpp:308
 #, kde-format
 msgid "Width"
 msgstr "Amplària"
 
 #: src/assets/view/widgets/keyframeimport.cpp:396
 #: src/assets/view/widgets/keyframeimport.cpp:788
-#: src/assets/view/widgets/keyframewidget.cpp:245
-#: src/assets/view/widgets/keyframewidget.cpp:301
+#: src/assets/view/widgets/keyframewidget.cpp:246
+#: src/assets/view/widgets/keyframewidget.cpp:302
 #, kde-format
 msgid "Height"
 msgstr "Alçària"
@@ -3803,31 +3803,31 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "Importa fotogrames clau des del porta-retalls"
 
-#: src/assets/view/widgets/keyframewidget.cpp:76 src/dialogs/timeremap.cpp:1696
+#: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1696
 #: src/mainwindow.cpp:1755
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Ves al fotograma clau anterior"
 
-#: src/assets/view/widgets/keyframewidget.cpp:80 src/dialogs/timeremap.cpp:1693
+#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1693
 #: src/mainwindow.cpp:1753
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Ves al fotograma clau següent"
 
-#: src/assets/view/widgets/keyframewidget.cpp:85 src/dialogs/timeremap.cpp:1701
+#: src/assets/view/widgets/keyframewidget.cpp:86 src/dialogs/timeremap.cpp:1701
 #: src/dialogs/timeremap.cpp:1703
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Mou els fotogrames clau seleccionats fins al cursor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:88
-#: src/assets/view/widgets/keyframewidget.cpp:90
+#: src/assets/view/widgets/keyframewidget.cpp:89
+#: src/assets/view/widgets/keyframewidget.cpp:91
 #, kde-format
 msgid "Copy keyframes"
 msgstr "Copia els fotogrames clau"
 
-#: src/assets/view/widgets/keyframewidget.cpp:92
+#: src/assets/view/widgets/keyframewidget.cpp:93
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3837,18 +3837,18 @@ msgstr ""
 "Copia els fotogrames clau. Copia els fotogrames clau seleccionats, o els "
 "valors dels paràmetres actuals si no s'ha seleccionat cap fotograma clau."
 
-#: src/assets/view/widgets/keyframewidget.cpp:94
-#: src/assets/view/widgets/keyframewidget.cpp:815
+#: src/assets/view/widgets/keyframewidget.cpp:95
+#: src/assets/view/widgets/keyframewidget.cpp:841
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Apega un fotograma clau"
 
-#: src/assets/view/widgets/keyframewidget.cpp:96
+#: src/assets/view/widgets/keyframewidget.cpp:97
 #, kde-format
 msgid "Paste keyframes"
 msgstr "Apega fotogrames clau"
 
-#: src/assets/view/widgets/keyframewidget.cpp:97
+#: src/assets/view/widgets/keyframewidget.cpp:98
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
@@ -3856,37 +3856,37 @@ msgstr ""
 "Apega fotogrames clau. Apega les dades del porta-retalls com a fotogrames "
 "clau en la posició actual."
 
-#: src/assets/view/widgets/keyframewidget.cpp:99
+#: src/assets/view/widgets/keyframewidget.cpp:100
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Aplica el valor de la posició actual als fotogrames clau seleccionats"
 
-#: src/assets/view/widgets/keyframewidget.cpp:102
-#: src/assets/view/widgets/keyframewidget.cpp:118
+#: src/assets/view/widgets/keyframewidget.cpp:103
+#: src/assets/view/widgets/keyframewidget.cpp:119
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Interpolació de fotograma clau"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:165 src/ui/histogram_ui.ui:112
+#: src/assets/view/widgets/keyframewidget.cpp:104
+#: src/assets/view/widgets/keyframewidget.cpp:166 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Lineal"
 
-#: src/assets/view/widgets/keyframewidget.cpp:107
-#: src/assets/view/widgets/keyframewidget.cpp:161
+#: src/assets/view/widgets/keyframewidget.cpp:108
+#: src/assets/view/widgets/keyframewidget.cpp:162
 #, kde-format
 msgid "Discrete"
 msgstr "Discreta"
 
-#: src/assets/view/widgets/keyframewidget.cpp:111
-#: src/assets/view/widgets/keyframewidget.cpp:169
+#: src/assets/view/widgets/keyframewidget.cpp:112
+#: src/assets/view/widgets/keyframewidget.cpp:170
 #, kde-format
 msgid "Smooth"
 msgstr "Suau"
 
-#: src/assets/view/widgets/keyframewidget.cpp:119
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3896,39 +3896,39 @@ msgstr ""
 "Interpolació de fotograma clau. Açò definix la interpolació que s'utilitzarà "
 "per al fotograma clau actual."
 
-#: src/assets/view/widgets/keyframewidget.cpp:141
+#: src/assets/view/widgets/keyframewidget.cpp:142
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Busca el fotograma clau en seleccionar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:146
+#: src/assets/view/widgets/keyframewidget.cpp:147
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Copia tots els fotogrames clau al porta-retalls"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:149
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Importa fotogrames clau des del porta-retalls…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:156
+#: src/assets/view/widgets/keyframewidget.cpp:157
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "Elimina tots els fotogrames clau després del cursor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:160
+#: src/assets/view/widgets/keyframewidget.cpp:161
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Tipus de fotograma clau predeterminat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:196 src/bin/bin.cpp:1324
+#: src/assets/view/widgets/keyframewidget.cpp:197 src/bin/bin.cpp:1324
 #: src/ui/clipstabilize_ui.ui:34
 #, kde-format
 msgid "Options"
 msgstr "Opcions"
 
-#: src/assets/view/widgets/keyframewidget.cpp:197
+#: src/assets/view/widgets/keyframewidget.cpp:198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3938,49 +3938,49 @@ msgstr ""
 "Obri una llista d'accions addicionals per a gestionar els fotogrames clau "
 "(per exemple: copiar i apegar fotogrames clau des del porta-retalls)."
 
-#: src/assets/view/widgets/keyframewidget.cpp:243
-#: src/assets/view/widgets/keyframewidget.cpp:295
+#: src/assets/view/widgets/keyframewidget.cpp:244
+#: src/assets/view/widgets/keyframewidget.cpp:296
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Opacitat"
 
-#: src/assets/view/widgets/keyframewidget.cpp:247
-#: src/assets/view/widgets/keyframewidget.cpp:319
+#: src/assets/view/widgets/keyframewidget.cpp:248
+#: src/assets/view/widgets/keyframewidget.cpp:320
 #, kde-format
 msgid "Y position"
 msgstr "Posició Y"
 
-#: src/assets/view/widgets/keyframewidget.cpp:248
-#: src/assets/view/widgets/keyframewidget.cpp:313
+#: src/assets/view/widgets/keyframewidget.cpp:249
+#: src/assets/view/widgets/keyframewidget.cpp:314
 #, kde-format
 msgid "X position"
 msgstr "Posició X"
 
-#: src/assets/view/widgets/keyframewidget.cpp:267
+#: src/assets/view/widgets/keyframewidget.cpp:268
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Selecciona els paràmetres per a copiar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:725
+#: src/assets/view/widgets/keyframewidget.cpp:751
 #, kde-format
 msgid "Keyframes copied"
 msgstr "S'han copiat els fotogrames clau"
 
-#: src/assets/view/widgets/keyframewidget.cpp:736
-#: src/assets/view/widgets/keyframewidget.cpp:777
+#: src/assets/view/widgets/keyframewidget.cpp:762
+#: src/assets/view/widgets/keyframewidget.cpp:803
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "No hi ha cap dada vàlida de fotograma clau en el porta-retalls"
 
-#: src/assets/view/widgets/keyframewidget.cpp:825
+#: src/assets/view/widgets/keyframewidget.cpp:851
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "No s'han pogut copiar els valors del paràmetre actual"
 
-#: src/assets/view/widgets/keyframewidget.cpp:830
-#: src/assets/view/widgets/keyframewidget.cpp:838
-#: src/assets/view/widgets/keyframewidget.cpp:850
+#: src/assets/view/widgets/keyframewidget.cpp:856
+#: src/assets/view/widgets/keyframewidget.cpp:864
+#: src/assets/view/widgets/keyframewidget.cpp:876
 #, kde-format
 msgid "Current values copied"
 msgstr "S'ha copiat els valors actuals"

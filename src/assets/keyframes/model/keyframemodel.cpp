@@ -10,6 +10,7 @@
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "rotoscoping/rotohelper.hpp"
+#include "utils/qcolorutils.h"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -854,6 +855,7 @@ QString KeyframeModel::getAnimProperty() const
     for (const auto &keyframe : m_keyframeList) {
         switch (m_paramType) {
         case ParamType::AnimatedRect:
+        case ParamType::Color:
             mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
             break;
         default:
@@ -936,6 +938,13 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
             }
             break;
         }
+        case ParamType::Color: {
+            mlt_color mltColor = mlt_prop.anim_get_color("key", frame);
+            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            value = QVariant(QColorUtils::colorToString(color, true));
+            break;
+        }
+
         default:
             value = QVariant(mlt_prop.anim_get_double("key", frame));
             break;
@@ -1128,6 +1137,14 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
         }
         return QVariant(res);
+    }
+    if (!animData.isEmpty() && m_paramType == ParamType::Color) {
+        mlt_prop.set("key", animData.toUtf8().constData());
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop.anim_get_double("key", 0, out);
+        mlt_color mltColor = mlt_prop.anim_get_color("key", pos.frames(pCore->getCurrentFps()));
+        QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+        return QVariant(QColorUtils::colorToString(color, true));
     }
     if (m_paramType == ParamType::Roto_spline) {
         // interpolate
