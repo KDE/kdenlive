@@ -1739,6 +1739,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         m_renderWidget->updateMetadataToolTip();
     }*/
     pCore->window()->raiseTimeline(timeline->getUuid());
+    pCore->bin()->updateTargets();
     m_autoSaveTimer.start();
     return true;
 }

@@ -3187,11 +3187,14 @@ void Bin::updateTargets(QString id)
     if (id == QLatin1String("-1")) {
         id = m_monitor->activeClipId();
     } else if (m_monitor->activeClipId() != id) {
+        qDebug() << "ABOIRT A";
         return;
     }
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (clip) {
         Q_EMIT setupTargets(clip->hasVideo(), clip->activeStreams());
+    } else {
+        Q_EMIT setupTargets(false, {});
     }
 }
 

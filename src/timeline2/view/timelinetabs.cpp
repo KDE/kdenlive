@@ -141,7 +141,7 @@ void TimelineTabs::connectCurrent(int ix)
     qDebug() << "==== CONNECT NEW TIMELINE, MODEL:" << m_activeTimeline->model()->getTracksCount();
     pCore->window()->connectTimeline();
     connectTimeline(m_activeTimeline);
-
+    pCore->bin()->updateTargets();
     if (!previousTab.isNull()) {
         pCore->bin()->updateSequenceClip(previousTab, duration, pos, nullptr);
     }

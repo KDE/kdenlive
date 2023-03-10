@@ -291,22 +291,9 @@ void ClipController::getInfoForProducer()
             m_clipType = ClipType::Unknown;
         }
     }
-    bool createSequenceAudio = false;
-    if (m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline) {
-        if (m_hasAudio) {
-            createSequenceAudio = true;
-        }
-    }
 
-    if (audioIndex > -1 || createSequenceAudio) {
-        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
-        // Load stream effects
-        for (int stream : m_audioInfo->streams().keys()) {
-            QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
-            if (!streamEffect.isEmpty()) {
-                m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
-            }
-        }
+    if (audioIndex > -1) {
+        buildAudioInfo(audioIndex);
     }
 
     if (!hasLimitedDuration()) {
@@ -315,6 +302,21 @@ void ClipController::getInfoForProducer()
             // Fix clips having missing kdenlive:duration
             m_masterProducer->parent().set("kdenlive:duration", m_masterProducer->frames_to_time(m_masterProducer->get_playtime(), mlt_time_clock));
             m_masterProducer->set("out", m_masterProducer->frames_to_time(m_masterProducer->get_length() - 1, mlt_time_clock));
+        }
+    }
+}
+
+void ClipController::buildAudioInfo(int audioIndex)
+{
+    if (m_audioInfo) {
+        m_audioInfo.reset();
+    }
+    m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
+    // Load stream effects
+    for (int stream : m_audioInfo->streams().keys()) {
+        QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
+        if (!streamEffect.isEmpty()) {
+            m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
         }
     }
 }
@@ -799,6 +801,9 @@ void ClipController::checkAudioVideo()
             } else {
                 m_masterProducer->parent().set("kdenlive:clip_type", 2);
             }
+            if (m_hasAudio) {
+                buildAudioInfo(-1);
+            }
             return;
         }
         if (avTypes.contains(m_clipType)) {
@@ -820,6 +825,9 @@ void ClipController::checkAudioVideo()
                 m_masterProducer->seek(0);
             } else {
                 qDebug() << "* * * *ERROR INVALID FRAME On test";
+            }
+            if (m_clipType == ClipType::Playlist && m_hasAudio && m_audioInfo == nullptr) {
+                buildAudioInfo(-1);
             }
         } else {
             // Assume video only producer
