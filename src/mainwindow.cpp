@@ -705,9 +705,9 @@ void MainWindow::init(const QString &mltPath)
     connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
 
     m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone, nullptr,
-                                m_loopClip, pCore->monitorManager());
+                                m_loopClip);
     m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
-                             static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr, pCore->monitorManager());
+                             static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr);
 
     QMenu *clipInTimeline = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
     clipInTimeline->setIcon(QIcon::fromTheme(QStringLiteral("go-jump")));
@@ -1007,9 +1007,9 @@ void MainWindow::saveNewToolbarConfig()
     QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     if (monitorOverlay) {
         m_projectMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
-                                    nullptr, m_loopClip, pCore->monitorManager());
+                                    nullptr, m_loopClip);
         m_clipMonitor->setupMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_go"), this)), monitorOverlay, m_playZone, m_loopZone,
-                                 static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr, pCore->monitorManager());
+                                 static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this)), nullptr);
     }
     // hack to be able to insert the hamburger menu at the first position
     QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);
