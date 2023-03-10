@@ -887,7 +887,7 @@ void Core::setDocumentModified()
 
 int Core::projectDuration() const
 {
-    if (!m_guiConstructed) {
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()) {
         return 0;
     }
     return m_mainWindow->getCurrentTimeline()->controller()->duration();
