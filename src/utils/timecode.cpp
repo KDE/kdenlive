@@ -102,6 +102,18 @@ double Timecode::fps() const
 
 const QString Timecode::mask(const GenTime &t) const
 {
+    if (m_realFps > 100) {
+        if (t < GenTime()) {
+            if (m_dropFrameTimecode) {
+                return QStringLiteral("#99:99:99,999");
+            }
+            return QStringLiteral("#99:99:99:999");
+        }
+        if (m_dropFrameTimecode) {
+            return QStringLiteral("99:99:99,999");
+        }
+        return QStringLiteral("99:99:99:999");
+    }
     if (t < GenTime()) {
         if (m_dropFrameTimecode) {
             return QStringLiteral("#99:99:99,99");
@@ -146,11 +158,11 @@ int Timecode::getFrameCount(const QString &duration) const
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     minutes = duration.midRef(3 + offset, 2).toInt();
     seconds = duration.midRef(6 + offset, 2).toInt();
-    frames = duration.rightRef(2).toInt();
+    frames = duration.rightRef(duration.length() - 9 - offset).toInt();
 #else
     minutes = QStringView(duration).mid(3 + offset, 2).toInt();
     seconds = QStringView(duration).mid(6 + offset, 2).toInt();
-    frames = QStringView(duration).right(2).toInt();
+    frames = QStringView(duration).right(duration.length() - 9 - offset).toInt();
 #endif
     if (m_dropFrameTimecode) {
         // CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
@@ -230,7 +242,7 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
                              .arg(hours, 2, 10, QLatin1Char('0'))
                              .arg(minutes, 2, 10, QLatin1Char('0'))
                              .arg(seconds, 2, 10, QLatin1Char('0'))
-                             .arg(frms, 2, 10, QLatin1Char('0'))
+                             .arg(frms, fps > 100 ? 3 : 2, 10, QLatin1Char('0'))
                        : QString("%1:%2:%3").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0'));
     if (negative) {
         text.prepend('-');
@@ -270,7 +282,7 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
                        .arg(hours, 2, 10, QLatin1Char('0'))
                        .arg(minutes, 2, 10, QLatin1Char('0'))
                        .arg(seconds, 2, 10, QLatin1Char('0'))
-                       .arg(frames, 2, 10, QLatin1Char('0'));
+                       .arg(frames, m_realFps > 100 ? 3 : 2, 10, QLatin1Char('0'));
     if (negative) {
         text.prepend('-');
     }
@@ -352,7 +364,7 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
                        .arg(hours, 2, 10, QLatin1Char('0'))
                        .arg(minutes, 2, 10, QLatin1Char('0'))
                        .arg(seconds, 2, 10, QLatin1Char('0'))
-                       .arg(frames, 2, 10, QLatin1Char('0'));
+                       .arg(frames, m_realFps > 100 ? 3 : 2, 10, QLatin1Char('0'));
     if (negative) {
         text.prepend('-');
     }
