@@ -329,7 +329,6 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     }
 
     qDebug() << "/////////// creatclipsfromlist" << cleanList << checkRemovable << parentFolder;
-    bool created = false;
     QMimeDatabase db;
     bool removableProject = checkRemovable ? isOnRemovableDevice(pCore->currentDoc()->projectDataFolder()) : false;
     int urlsCount = cleanList.count();
@@ -338,16 +337,18 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         current++;
         if (model->uuid() != uuid) {
             // Project was closed, abort
+            qDebug() << "/// PROJECT UUID MISMATCH; ABORTING";
             pCore->displayMessage(QString(), OperationCompletedMessage, 100);
             return QString();
         }
-        if (!QFile::exists(file.toLocalFile())) {
+        QFileInfo info(file.toLocalFile());
+        if (!info.exists()) {
+            qDebug() << "/// File does not exist: " << info.absoluteFilePath();
             continue;
         }
         if (urlsCount > 3) {
             pCore->displayMessage(i18n("Loading clips"), ProcessingJobMessage, int(100 * current / urlsCount));
         }
-        QFileInfo info(file.toLocalFile());
         if (info.isDir()) {
             // user dropped a folder, import its files
             QDir dir(file.toLocalFile());
@@ -463,6 +464,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             if (model->uuid() != uuid) {
                 // Project was closed, abort
                 pCore->displayMessage(QString(), OperationCompletedMessage, 100);
+                qDebug() << "/// PROJECT UUID MISMATCH; ABORTING";
                 return QString();
             }
             const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo, callBack);
@@ -473,7 +475,6 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         qApp->processEvents();
     }
     pCore->displayMessage(i18n("Loading done"), OperationCompletedMessage, 100);
-    qDebug() << "/////////// creatclipsfromlist return" << created;
     return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }
 
