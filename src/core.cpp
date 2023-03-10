@@ -134,7 +134,6 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
     m_mainWindow = new MainWindow();
-    m_guiConstructed = true;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
     QStringList styles = QQuickStyle::availableStyles();
@@ -235,6 +234,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
+    m_guiConstructed = true;
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
     bin->slotUpdatePalette();
