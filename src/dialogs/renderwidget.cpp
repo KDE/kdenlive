@@ -232,23 +232,34 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
     connect(m_view.rescale_keep, &QAbstractButton::clicked, this, &RenderWidget::slotSwitchAspectRatio);
     connect(m_view.render_at_preview_res, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
+    connect(m_view.render_full_color, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     m_view.processing_threads->setMaximum(QThread::idealThreadCount());
     m_view.processing_threads->setValue(KdenliveSettings::processingthreads());
     connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setProcessingthreads);
     connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::refreshParams);
+    if (!KdenliveSettings::parallelrender()) {
+        m_view.processing_warning->hide();
+    }
     m_view.processing_box->setChecked(KdenliveSettings::parallelrender());
 #if QT_POINTER_SIZE == 4
     // On 32-bit process, limit multi-threading to mitigate running out of memory.
     m_view.processing_box->setChecked(false);
     m_view.processing_box->setEnabled(false);
+    m_view.processing_warning->hide();
 #endif
     if (KdenliveSettings::gpu_accel()) {
         // Disable parallel rendering for movit
         m_view.processing_box->setChecked(false);
+        m_view.processing_warning->hide();
         m_view.processing_box->setEnabled(false);
     }
-    connect(m_view.processing_box, &QGroupBox::toggled, [&](int state) {
-        KdenliveSettings::setParallelrender(state == Qt::Checked);
+    connect(m_view.processing_box, &QGroupBox::toggled, [&](bool checked) {
+        KdenliveSettings::setParallelrender(checked);
+        if (checked) {
+            m_view.processing_warning->animatedShow();
+        } else {
+            m_view.processing_warning->animatedHide();
+        }
         refreshParams();
     });
     connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
@@ -1327,6 +1338,11 @@ void RenderWidget::refreshParams()
         m_params.insert(QStringLiteral("scale"), QString::number(double(pCore->getMonitorProfile().height()) / pCore->getCurrentFrameSize().height()));
     }
 
+    // Full color range
+    if (m_view.render_full_color->isChecked()) {
+        m_params.insert(QStringLiteral("color_range"), QStringLiteral("pc"));
+    }
+
     // disable audio if requested
     if (!m_view.audio_box->isChecked()) {
         m_params.insert(QStringLiteral("an"), QString::number(1));
@@ -1844,6 +1860,12 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
         m_view.render_at_preview_res->setChecked(false);
     }
 
+    if (props.contains(QStringLiteral("renderfullcolorrange"))) {
+        m_view.render_full_color->setChecked(props.value(QStringLiteral("renderfullcolorrange")).toInt() != 0);
+    } else {
+        m_view.render_full_color->setChecked(false);
+    }
+
     int mode = props.value(QStringLiteral("renderguide")).toInt();
     if (mode == 1) {
         m_view.render_zone->setChecked(true);
@@ -1914,6 +1936,7 @@ void RenderWidget::saveRenderProfile()
     renderProps.insert(QStringLiteral("rendercustomquality"), QString::number(m_view.qualityGroup->isChecked() ? m_view.quality->value() : -1));
     renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
     renderProps.insert(QStringLiteral("renderpreview"), QString::number(static_cast<int>(m_view.render_at_preview_res->isChecked())));
+    renderProps.insert(QStringLiteral("renderfullcolorrange"), QString::number(static_cast<int>(m_view.render_full_color->isChecked())));
 
     Q_EMIT selectedRenderProfile(renderProps);
 }
