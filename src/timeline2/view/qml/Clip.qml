@@ -696,7 +696,7 @@ Rectangle {
                     }
                 }
                 onEntered: {
-                    if (!pressed) {
+                    if (!pressed && !root.isDragging()) {
                         trimIn.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
@@ -820,7 +820,7 @@ Rectangle {
                     }
                 }
                 onEntered: {
-                    if (!pressed) {
+                    if (!pressed && !root.isDragging()) {
                         trimOut.opacity = 1
                         var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
                         initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
