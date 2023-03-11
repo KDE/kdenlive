@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-10 00:46+0000\n"
-"PO-Revision-Date: 2023-03-04 16:31+0000\n"
+"PO-Revision-Date: 2023-03-10 17:34+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -2163,33 +2163,29 @@ msgid "Use transparency"
 msgstr "Use transparency"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "Time"
+msgstr "Timer"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Overlay GPS-related text onto the video."
+msgstr "Overlay a timer onto the video"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Counter Style"
+msgstr "Font Style"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Format:"
+msgstr "Format"
 
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2204,6 +2200,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[The time that the timer will start counting up or down.\n"
+"The text will be frozen at 00:00:00.000 from the start of the filter until "
+"the start time has elapsed.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2213,6 +2212,10 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[The maximum elapsed duration of the timer after the start time has "
+"elapsed.\n"
+"The text will be frozen at the duration time after the duration has "
+"elapsed.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2229,6 +2232,11 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[An offset to be added to the timer value.\n"
+"When the direction is \"down\", the timer will count down to \"offset\" "
+"instead of 00:00:00.000.\n"
+"When the direction is up, the timer will count up starting from \"offset"
+"\".]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2243,6 +2251,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Whether the counter should count up from 00:00:00.000 "
+"or down from the duration time.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -10966,24 +10978,23 @@ msgid "Colorspace:"
 msgstr "Colourspace:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color Range:"
-msgstr "Colour Space"
+msgstr "Colour Range:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, colorRangeCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #: src/ui/editrenderpreset_ui.ui:254
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "Broadcast limited (MPEG)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, colorRangeCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #: src/ui/editrenderpreset_ui.ui:259
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "Full (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:986
 #, kde-format
@@ -15383,23 +15394,22 @@ msgstr[1] "Insert Tracks"
 #: src/timeline2/view/timelinecontroller.cpp:4893
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
-msgstr ""
+msgstr "Character encoding used to save the subtitle file."
 
 #: src/timeline2/view/timelinecontroller.cpp:4894
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
-msgstr ""
+msgstr "If unsure,try :<br><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:4934
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
-msgstr ""
+msgstr "Encoding could not be guessed, using UTF-8"
 
 #: src/timeline2/view/timelinecontroller.cpp:4938
-#, fuzzy, kde-format
-#| msgid "Encoding threads"
+#, kde-format
 msgid "Encoding detected as %1"
-msgstr "Encoding threads"
+msgstr "Encoding detected as %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:4955
 #, kde-format
@@ -17818,10 +17828,9 @@ msgstr "Bitrate:"
 
 #. i18n: ectx: property (text), widget (QLabel, colorRangeLabel)
 #: src/ui/editrenderpreset_ui.ui:741
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color range"
-msgstr "Colour Space"
+msgstr "Colour range"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:891
@@ -18187,10 +18196,9 @@ msgstr "*.srt *.ass *.vtt *.sbv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/import_subtitle_ui.ui:85
-#, fuzzy, kde-format
-#| msgid "Recording"
+#, kde-format
 msgid "Encoding"
-msgstr "Recording"
+msgstr "Encoding"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
 #: src/ui/import_subtitle_ui.ui:113
@@ -18206,10 +18214,9 @@ msgstr "Transform frame rate"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/import_subtitle_ui.ui:258
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Preview"
-msgstr "Subtitle file:"
+msgstr "Subtitle Preview"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42

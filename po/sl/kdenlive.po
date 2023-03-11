@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-10 00:46+0000\n"
-"PO-Revision-Date: 2023-03-08 17:29+0100\n"
+"PO-Revision-Date: 2023-03-10 13:12+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11062,24 +11062,23 @@ msgid "Colorspace:"
 msgstr "Barvni prostor:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color Range:"
-msgstr "Barvni prostor"
+msgstr "Barvni obseg:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, colorRangeCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #: src/ui/editrenderpreset_ui.ui:254
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "Omejen za oddajanje (MPEG)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, colorRangeCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #: src/ui/editrenderpreset_ui.ui:259
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "Poln (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:986
 #, kde-format
@@ -17980,10 +17979,9 @@ msgstr "Bitna hitrost:"
 
 #. i18n: ectx: property (text), widget (QLabel, colorRangeLabel)
 #: src/ui/editrenderpreset_ui.ui:741
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color range"
-msgstr "Barvni prostor"
+msgstr "Barvni obseg"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:891
@@ -20179,6 +20177,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Full luma range"
-#~ msgstr "Poln obseg svetilnosti"

@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-10 00:46+0000\n"
-"PO-Revision-Date: 2023-03-08 14:43+0100\n"
+"PO-Revision-Date: 2023-03-08 18:01+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -2199,16 +2199,14 @@ msgid "Use transparency"
 msgstr "Utiliser la transparence"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "Horodatage"
+msgstr "Chronomètre"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Superposer un texte relatif au GPS sur la vidéo."
+msgstr "Incruster un chronomètre dans la vidéo."
 
 #: data/effects/timer.xml:14
 #, kde-format
@@ -2264,6 +2262,12 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"< ![CDATA[Un décalage à ajouter à la valeur du chronmètre.\n"
+"Lorsque la direction est « Vers le bas », la minuterie compte à rebours "
+"jusqu'à la valeur du paramètre « offset » au lieu de jusqu'à "
+"« 00:00:00.000 ».\n"
+" Lorsque la direction est « Vers le haut », la minuterie compte à rebours à "
+"partir de la valeur du paramètre « offset ».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -15678,11 +15682,12 @@ msgstr[1] "Insérer des pistes"
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr ""
+"Encodage de caractères utilisé pour enregistrer le fichier de sous-titres."
 
 #: src/timeline2/view/timelinecontroller.cpp:4894
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
-msgstr ""
+msgstr "Si vous n'êtes pas sûr :<br><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:4934
 #, kde-format

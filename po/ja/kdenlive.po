@@ -1,12 +1,13 @@
 # translation of kdenlive.po to Japanese
 # Yasuhiko Kamata <belphegor@belbel.or.jp>, 2012.
-# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2012, 2021.
+# Shizuku Hagoromo <Lemonade.flash.1164@gmail.com>, 2023.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2012, 2021, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-10 00:46+0000\n"
-"PO-Revision-Date: 2021-08-25 19:06-0700\n"
+"PO-Revision-Date: 2023-03-09 21:18-0800\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
@@ -16,19 +17,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 22.12.2\n"
 "X-Language: ja_JP\n"
 "X-Source-Language: C\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Yasuhiko Kamata"
+msgstr "Hagoromo Shizuku"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "belphegor@belbel.or.jp"
+msgstr "Lemonade.flash.1164@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:172 src/audiomixer/mixerwidget.cpp:185
@@ -42,48 +43,45 @@ msgid "Adjust the left/right balance"
 msgstr "左右のバランスを合わせる"
 
 #: data/effects/audiolevel.xml:4
-#, fuzzy, kde-format
-#| msgid "Sox echo audio effect"
+#, kde-format
 msgid "Audio levels"
-msgstr "Sox Echo オーディオ効果"
+msgstr "オーディオ効果"
 
 #: data/effects/audiolevel.xml:5
 #, kde-format
 msgid "Compute the audio amplitude."
-msgstr ""
+msgstr "オーディオの振幅を計算する。"
 
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "IEC 60268-18 スケールを使用"
 
 #: data/effects/audiolevelgraph.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "オーディオ波形"
+msgstr "オーディオ波形可視化フィルタ"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
-msgstr ""
+msgstr "画面上にオーディオ波形を表示する音声可視化フィルタです。"
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
-msgstr ""
+msgstr "セグメント、バー"
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
-#, fuzzy, kde-format
-#| msgid "Blur"
+#, kde-format
 msgid "Graph type"
-msgstr "ブラー"
+msgstr "グラフタイプ"
 
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
-msgstr ""
+msgstr "レベルを表示するグラフです。"
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -97,42 +95,39 @@ msgstr "背景色"
 #: data/effects/audiolevelgraph.xml:14
 #, kde-format
 msgid "The background color to be applied to the entire frame."
-msgstr ""
+msgstr "背景色はフレーム全体で使用されます。"
 
 #: data/effects/audiolevelgraph.xml:17
-#, fuzzy, kde-format
-#| msgid "Gradient %1"
+#, kde-format
 msgid "Gradient Color 1"
-msgstr "グラデーション %1"
+msgstr "グラデーションカラー 1"
 
 #: data/effects/audiolevelgraph.xml:18 data/effects/audiolevelgraph.xml:22
 #: data/effects/audiolevelgraph.xml:26
 #, kde-format
 msgid "The color of the waveform gradient."
-msgstr ""
+msgstr "波形のグラデーションの色。"
 
 #: data/effects/audiolevelgraph.xml:21
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Gradient Color 2"
-msgstr "パディング"
+msgstr "グラデーションカラー 2"
 
 #: data/effects/audiolevelgraph.xml:25
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Gradient Color 3"
-msgstr "パディング"
+msgstr "グラデーションカラー 3"
 
 #: data/effects/audiolevelgraph.xml:29 data/effects/audiospectrum.xml:22
 #: data/effects/audiowaveform.xml:13
 #, kde-format
 msgid "Line Thickness"
-msgstr ""
+msgstr "線の太さ"
 
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
-msgstr ""
+msgstr "線の太さはバーの太さまたはセグメントの太さを表します。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
@@ -191,10 +186,9 @@ msgid "Draw the points starting with the right channel first."
 msgstr ""
 
 #: data/effects/audiolevelgraph.xml:49
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Vertical,Horizontal"
-msgstr "水平方向"
+msgstr "水平方向、垂直方向"
 
 #: data/effects/audiolevelgraph.xml:50
 #, fuzzy, kde-format
@@ -216,12 +210,12 @@ msgstr "チャンネル"
 #: data/effects/audiolevelgraph.xml:55
 #, kde-format
 msgid "The number of channels to show."
-msgstr ""
+msgstr "チャンネルの数を表示します。"
 
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr ""
+msgstr "セグメントの差"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
@@ -229,10 +223,9 @@ msgid "The space in pixels between the segments."
 msgstr ""
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgid "audiomap"
-msgstr "オーディオ"
+msgstr "オーディオマップ"
 
 #: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
 #: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
@@ -242,42 +235,38 @@ msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 msgstr ""
+"CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
+"CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
 #: data/effects/audiomap.xml:9
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH1 source"
-msgstr "元"
+msgstr "元の CH1"
 
 #: data/effects/audiomap.xml:13
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH2 source"
-msgstr "元"
+msgstr "元の CH2"
 
 #: data/effects/audiomap.xml:17
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH3 source"
-msgstr "元"
+msgstr "元の CH3"
 
 #: data/effects/audiomap.xml:21
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH4 source"
-msgstr "元"
+msgstr "元の CH4"
 
 #: data/effects/audiomap.xml:25
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH5 source"
-msgstr "元"
+msgstr "元の CH5"
 
 #: data/effects/audiomap.xml:29
-#, fuzzy, kde-format
-#| msgid "Source"
+#, kde-format
 msgid "CH6 source"
-msgstr "元"
+msgstr "元の CH6"
 
 #: data/effects/audiopan.xml:4
 #, kde-format
@@ -308,10 +297,9 @@ msgid "Pan"
 msgstr "パン"
 
 #: data/effects/audiospectrum.xml:5
-#, fuzzy, kde-format
-#| msgid "AudioSpectrum"
+#, kde-format
 msgid "Audio Spectrum Filter"
-msgstr "オーディオスペクトラム(I)"
+msgstr "オーディオスペクトラムフィルタ"
 
 #: data/effects/audiospectrum.xml:6
 #, kde-format
@@ -322,7 +310,7 @@ msgstr ""
 #: data/effects/audiospectrum.xml:9
 #, kde-format
 msgid "Line,Bar"
-msgstr ""
+msgstr "線、バー"
 
 #: data/effects/audiospectrum.xml:11
 #, kde-format
@@ -337,8 +325,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:18
-#, fuzzy, kde-format
-#| msgid "Foreground Color"
+#, kde-format
 msgid "Foreground color"
 msgstr "前景色"
 
@@ -373,10 +360,9 @@ msgid "Draw the points starting with the highest frequency first."
 msgstr ""
 
 #: data/effects/audiospectrum.xml:46
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "Line Tension"
-msgstr "ファイル拡張子:"
+msgstr "ラインテンション"
 
 #: data/effects/audiospectrum.xml:47
 #, kde-format
@@ -388,10 +374,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:50
-#, fuzzy, kde-format
-#| msgid "In Point"
+#, kde-format
 msgid "Points"
-msgstr "イン・ポイント"
+msgstr "ポイント"
 
 #: data/effects/audiospectrum.xml:51
 #, kde-format
@@ -401,10 +386,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Low Frequency"
-msgstr "周波数"
+msgstr "低周波"
 
 #: data/effects/audiospectrum.xml:55
 #, kde-format
@@ -412,10 +396,9 @@ msgid "The low end of the frequency range to be used for the graph."
 msgstr ""
 
 #: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "High Frequency"
-msgstr "周波数"
+msgstr "高周波"
 
 #: data/effects/audiospectrum.xml:59
 #, kde-format
@@ -436,10 +419,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
-#, fuzzy, kde-format
-#| msgid "Window"
+#, kde-format
 msgid "Window Size"
-msgstr "ウインドウ"
+msgstr "画面サイズ"
 
 #: data/effects/audiospectrum.xml:67
 #, kde-format
@@ -463,10 +445,9 @@ msgid "Display the audio waveform instead of the video"
 msgstr "ビデオの代わりにオーディオの波形を表示する"
 
 #: data/effects/audiowaveform.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio Wave"
+#, kde-format
 msgid "Audio Waveform Filter"
-msgstr "オーディオ波形"
+msgstr "音声波形"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
@@ -477,7 +458,7 @@ msgstr "前景色"
 #: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr ""
+msgstr "合わせる,すべて,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/audiowaveform.xml:27
 #, fuzzy, kde-format
@@ -12741,7 +12722,7 @@ msgstr "パブリックドメイン"
 #, kde-format
 msgctxt "Short for: Unknown Creative Commons License"
 msgid "Unknown CC License"
-msgstr "不明なCCライセンス"
+msgstr "不明な CC ライセンス"
 
 #: src/onlineresources/resourcewidget.cpp:412
 #, kde-format
@@ -12894,7 +12875,7 @@ msgstr ""
 #: src/profiles/tree/profiletreemodel.cpp:50
 #, kde-format
 msgid "Full HD 1080"
-msgstr "フルHD 1080p"
+msgstr "フル HD 1080p"
 
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
@@ -14362,10 +14343,9 @@ msgid "Configure your OpenTimelineIO setup"
 msgstr ""
 
 #: src/pythoninterfaces/otioconvertions.cpp:68
-#, fuzzy, kde-format
-#| msgid "Device configuration"
+#, kde-format
 msgid "Check again"
-msgstr "デバイスの設定"
+msgstr "再確認する"
 
 #: src/pythoninterfaces/otioconvertions.cpp:96
 #, fuzzy, kde-format
@@ -15259,10 +15239,9 @@ msgid "Pasting Warning"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:1934
-#, fuzzy, kde-format
-#| msgid "Master"
+#, kde-format
 msgid "Paste"
-msgstr "マスター"
+msgstr "貼り付け"
 
 #: src/timeline2/model/timelinefunctions.cpp:1981
 #: src/timeline2/model/timelinefunctions.cpp:2018
@@ -15335,14 +15314,12 @@ msgid "Select a clip to apply the mix"
 msgstr "選択ツール(S)"
 
 #: src/timeline2/model/timelinemodel.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "start"
 msgstr "開始"
 
 #: src/timeline2/model/timelinemodel.cpp:1035
-#, fuzzy, kde-format
-#| msgid "End"
+#, kde-format
 msgid "end"
 msgstr "終了"
 
@@ -15352,10 +15329,9 @@ msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "クリップ %1 にミックスを適用できるだけのフレームがありません"
 
 #: src/timeline2/model/timelinemodel.cpp:1102
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgid "Create mix"
-msgstr "フォルダの作成(C)"
+msgstr "ミックスの作成"
 
 #: src/timeline2/model/timelinemodel.cpp:1181
 #: src/timeline2/model/timelinemodel.cpp:1211
@@ -15372,8 +15348,7 @@ msgid "No available track for insert operation"
 msgstr "挿入操作に使えるトラックがありません"
 
 #: src/timeline2/model/timelinemodel.cpp:1705
-#, fuzzy, kde-format
-#| msgid "Insert clip"
+#, kde-format
 msgid "Insert Clip"
 msgstr "クリップの挿入"
 
@@ -15428,22 +15403,19 @@ msgid "Resize group"
 msgstr "グループのサイズ変更"
 
 #: src/timeline2/model/timelinemodel.cpp:3068
-#, fuzzy, kde-format
-#| msgid "Resize clip"
+#, kde-format
 msgid "Resize clip speed"
-msgstr "クリップのサイズ変更"
+msgstr "クリップ速度を変更"
 
 #: src/timeline2/model/timelinemodel.cpp:3215
-#, fuzzy, kde-format
-#| msgid "Remove file"
+#, kde-format
 msgid "Remove mix"
-msgstr "ファイルの削除"
+msgstr "ミックスの削除"
 
 #: src/timeline2/model/timelinemodel.cpp:3217
-#, fuzzy, kde-format
-#| msgid "Remove file"
+#, kde-format
 msgid "Removing mix failed"
-msgstr "ファイルの削除"
+msgstr "ミックスファイルの削除に失敗"
 
 #: src/timeline2/model/timelinemodel.cpp:3494
 #, kde-format
@@ -15475,19 +15447,17 @@ msgid "Ripple resize subtitle"
 msgstr "ガイドの削除(D)"
 
 #: src/timeline2/model/timelinemodel.cpp:3959
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
 msgid_plural "Slip clips"
-msgstr[0] "スライドショー・クリップ"
-msgstr[1] "スライドショー・クリップ"
+msgstr[0] "スリップ・クリップ"
+msgstr[1] "スリップ・クリップ"
 
 #: src/timeline2/model/timelinemodel.cpp:3994
-#, fuzzy, kde-format
-#| msgid "Slideshow clip"
+#, kde-format
 msgid "Slip clip"
-msgstr "スライドショー・クリップ"
+msgstr "スリップ・クリップ"
 
 #: src/timeline2/model/timelinemodel.cpp:4029
 #, kde-format
@@ -15723,10 +15693,9 @@ msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
 #: src/timeline2/view/qml/timeline.qml:2003
-#, fuzzy, kde-format
-#| msgid "Pause"
+#, kde-format
 msgid "Paused"
-msgstr "一時停止(P)"
+msgstr "一時停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:69
 #, fuzzy, kde-format
@@ -15770,10 +15739,9 @@ msgid "Mix duration: %1"
 msgstr "長さ:"
 
 #: src/timeline2/view/qml/Clip.qml:703
-#, fuzzy, kde-format
-#| msgid "Position"
+#, kde-format
 msgid "In:%1, Position:%2"
-msgstr "位置"
+msgstr "入力:%1, 位置:%2"
 
 #: src/timeline2/view/qml/Clip.qml:706 src/timeline2/view/qml/Clip.qml:830
 #, kde-format
@@ -15871,7 +15839,7 @@ msgstr "<b>ダブルクリック</b>でテキストを編集"
 #, kde-format
 msgctxt "Initial for Master"
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: src/timeline2/view/qml/timeline.qml:930
 #, fuzzy, kde-format
@@ -16005,8 +15973,7 @@ msgid "Edit track name"
 msgstr "トラック名を編集"
 
 #: src/timeline2/view/timelinecontroller.cpp:220
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgid "unknown"
 msgstr "不明"
 
@@ -16048,8 +16015,7 @@ msgid "Could not insert track"
 msgstr "挿入モード(I)"
 
 #: src/timeline2/view/timelinecontroller.cpp:799
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Tracks"
 msgstr "トラックの削除"
 
@@ -16104,7 +16070,7 @@ msgstr "クリップはコピーされていません"
 #: src/timeline2/view/timelinecontroller.cpp:2067
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
-msgstr ""
+msgstr "入力:%1, 出力:%2 (%3%4)"
 
 #: src/timeline2/view/timelinecontroller.cpp:2639
 #, fuzzy, kde-format
@@ -16215,7 +16181,7 @@ msgstr "テンプレート・タイトル・クリップ"
 #: src/timeline2/view/timelinecontroller.cpp:3908
 #, kde-format
 msgid "%1 items selected (%2) |"
-msgstr ""
+msgstr "%1 のアイテムは (%2) を選択しています |"
 
 #: src/timeline2/view/timelinecontroller.cpp:3962
 #, kde-format
@@ -16348,10 +16314,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinetabs.cpp:196
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "閉じる"
+msgstr "%1 を閉じる"
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format
@@ -16676,7 +16641,7 @@ msgstr "画像 %1"
 #: src/titler/titlewidget.cpp:1635
 #, kde-format
 msgid "−X"
-msgstr ""
+msgstr "-X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
 #: src/titler/titlewidget.cpp:1637 src/ui/titlewidget_ui.ui:260
@@ -16687,7 +16652,7 @@ msgstr "+X"
 #: src/titler/titlewidget.cpp:1659
 #, kde-format
 msgid "−Y"
-msgstr ""
+msgstr "-Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
 #: src/titler/titlewidget.cpp:1661 src/ui/titlewidget_ui.ui:290
@@ -17130,78 +17095,69 @@ msgstr "レンダリング(N)"
 
 #. i18n: ectx: property (text), widget (QLabel, name_label)
 #: src/ui/addtrack_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Track mouse"
+#, kde-format
 msgid "Track name:"
-msgstr "マウスの追跡"
+msgstr "トラック名:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
 #: src/ui/addtrack_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid " track"
-msgstr "トラック"
+msgstr " トラック"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/addtrack_ui.ui:75
-#, fuzzy, kde-format
-#| msgid "Insert"
+#, kde-format
 msgid "Insert:"
-msgstr "挿入"
+msgstr "挿入:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, video_track)
 #: src/ui/addtrack_ui.ui:97
-#, fuzzy, kde-format
-#| msgid "Video track"
+#, kde-format
 msgid "Video &track"
-msgstr "ビデオトラック"
+msgstr "ビデオトラック(&T)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, audio_track)
 #: src/ui/addtrack_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Audio track"
+#, kde-format
 msgid "A&udio track"
-msgstr "オーディオトラック"
+msgstr "オーディオトラック(&U)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, av_track)
 #: src/ui/addtrack_ui.ui:114
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "AV track"
-msgstr "トラック"
+msgstr "AV トラック"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
 #: src/ui/addtrack_ui.ui:121
-#, fuzzy, kde-format
-#| msgid "Audio track"
+#, kde-format
 msgid "Au&dio record track"
-msgstr "オーディオトラック"
+msgstr "オーディオレコードトラック"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33
-#, fuzzy, kde-format
-#| msgid "Archive folder"
+#, kde-format
 msgid "Archive folder:"
-msgstr "アーカイブフォルダ"
+msgstr "アーカイブフォルダ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, compressed_archive)
 #: src/ui/archivewidget_ui.ui:52
-#, fuzzy, kde-format
-#| msgid "Compressed archive"
+#, kde-format
 msgid "Compressed archive:"
-msgstr "圧縮アーカイブ"
+msgstr "圧縮アーカイブ:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:60
 #, kde-format
 msgid "tar.gz"
-msgstr ""
+msgstr "tar.gz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, compression_type)
 #: src/ui/archivewidget_ui.ui:65
 #, kde-format
 msgid "zip"
-msgstr ""
+msgstr "zip"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_only)
 #: src/ui/archivewidget_ui.ui:75
@@ -17427,18 +17383,16 @@ msgstr "テキストラベル"
 
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
 #: src/ui/clipdurationdialog_ui.ui:34
-#, fuzzy, kde-format
-#| msgid "Crop start"
+#, kde-format
 msgid "Crop start:"
-msgstr "クロップ開始"
+msgstr "クロップ開始:"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/ui/clipdurationdialog_ui.ui:41 src/ui/editsub_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Position"
+#, kde-format
 msgid "Position:"
-msgstr "位置"
+msgstr "位置:"
 
 #. i18n: ectx: property (text), widget (QLabel, end_label)
 #: src/ui/clipdurationdialog_ui.ui:84
@@ -17554,8 +17508,7 @@ msgstr "バリアント"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, sliderScaling)
 #: src/ui/colorplaneexport_ui.ui:85
-#, fuzzy, kde-format
-#| msgid "How much to zoom in"
+#, kde-format
 msgid "How much to zoom in."
 msgstr "拡大量"
 
@@ -17608,7 +17561,7 @@ msgstr "ビデオデバイス"
 #: src/ui/configcapture_ui.ui:90
 #, kde-format
 msgid "Capture format:"
-msgstr ""
+msgstr "キャプチャー形式:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -17665,10 +17618,9 @@ msgstr "オーディオのキャプチャ (ALSA)"
 #. i18n: ectx: property (text), widget (QCheckBox, cChannels)
 #: src/ui/configcapture_ui.ui:208 src/ui/configcapture_ui.ui:573
 #: src/ui/editrenderpreset_ui.ui:861
-#, fuzzy, kde-format
-#| msgid "Channels"
+#, kde-format
 msgid "Channels:"
-msgstr "チャンネル"
+msgstr "チャンネル:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
@@ -17676,24 +17628,21 @@ msgstr "チャンネル"
 #: src/ui/configcapture_ui.ui:231 src/ui/configcapture_ui.ui:434
 #: src/ui/configcapture_ui.ui:487 src/ui/configproxy_ui.ui:85
 #: src/ui/projectsettings_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Encoding profile"
+#, kde-format
 msgid "Encoding profile:"
-msgstr "エンコーディングのプロファイル"
+msgstr "エンコーディングのプロファイル:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Region capture"
+#, kde-format
 msgid "Region to capture:"
-msgstr "範囲キャプチャ"
+msgstr "範囲キャプチャ:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:269
-#, fuzzy, kde-format
-#| msgid "Switch monitor fullscreen"
+#, kde-format
 msgid "Full Screen"
-msgstr "モニタをフルスクリーン表示(M)"
+msgstr "フルスクリーン表示"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:274
@@ -17726,10 +17675,9 @@ msgstr "サイズ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configcapture_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Hide cursor"
+#, kde-format
 msgid "Mouse cursor:"
-msgstr "カーソルの隠蔽"
+msgstr "マウスカーソル:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, decklink_tab)
 #: src/ui/configcapture_ui.ui:458
@@ -17739,32 +17687,28 @@ msgstr "Blackmagic"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: src/ui/configcapture_ui.ui:501
-#, fuzzy, kde-format
-#| msgid "Capture file name"
+#, kde-format
 msgid "Capture file name:"
-msgstr "キャプチャファイル名"
+msgstr "キャプチャファイル名:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:531 src/ui/configjogshuttle_ui.ui:106
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device:"
-msgstr "デバイス"
+msgstr "デバイス:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configcapture_ui.ui:541
-#, fuzzy, kde-format
-#| msgid "Audio volume"
+#, kde-format
 msgid "Capture volume:"
-msgstr "オーディオの音量"
+msgstr "オーディオの音量:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configcapture_ui.ui:583
-#, fuzzy, kde-format
-#| msgid "Samplerate"
+#, kde-format
 msgid "Sample rate:"
-msgstr "サンプルレート"
+msgstr "サンプルレート:"
 
 #. i18n: ectx: property (text), widget (QLabel, labelNoAudioDevices)
 #: src/ui/configcapture_ui.ui:611
@@ -17837,7 +17781,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:88
 #, kde-format
 msgid " MiB"
-msgstr ""
+msgstr " MiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:101
@@ -17848,96 +17792,86 @@ msgstr "全キャッシュデータ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:115
-#, fuzzy, kde-format
-#| msgid "MLT environment"
+#, kde-format
 msgid "MLT Environment"
 msgstr "MLT 環境"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configenv_ui.ui:121
-#, fuzzy, kde-format
-#| msgid "FFmpeg"
+#, kde-format
 msgid "FFmpeg:"
-msgstr "FFmpeg"
+msgstr "FFmpeg:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configenv_ui.ui:131
 #, kde-format
 msgid "FFplay:"
-msgstr ""
+msgstr "FFplay:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configenv_ui.ui:141
 #, kde-format
 msgid "FFprobe:"
-msgstr ""
+msgstr "FFprobe:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configenv_ui.ui:151
-#, fuzzy, kde-format
-#| msgid "MLT profiles folder"
+#, kde-format
 msgid "MLT profiles folder:"
-msgstr "MLT プロファイルのフォルダ"
+msgstr "MLT プロファイルのフォルダ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configenv_ui.ui:161
-#, fuzzy, kde-format
-#| msgid "Melt path"
+#, kde-format
 msgid "Melt path:"
-msgstr "Melt のパス"
+msgstr "Melt のパス:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configenv_ui.ui:171
-#, fuzzy, kde-format
-#| msgid "Edit end"
+#, kde-format
 msgid "MediaInfo:"
-msgstr "編集終了"
+msgstr "動画情報:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configenv_ui.ui:195
-#, fuzzy, kde-format
-#| msgid "Default folders"
+#, kde-format
 msgid "Default Folders"
 msgstr "既定のフォルダ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configenv_ui.ui:201
-#, fuzzy, kde-format
-#| msgid "Temporary files"
+#, kde-format
 msgid "Temporary files:"
-msgstr "一時ファイル"
+msgstr "一時ファイル:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configenv_ui.ui:211
-#, fuzzy, kde-format
-#| msgid "Capture folder"
+#, kde-format
 msgid "Capture folder:"
-msgstr "キャプチャフォルダ"
+msgstr "キャプチャフォルダ:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
 #: src/ui/configenv_ui.ui:219 src/ui/configenv_ui.ui:247
 #: src/ui/configenv_ui.ui:271
-#, fuzzy, kde-format
-#| msgid "Default folders"
+#, kde-format
 msgid "Use default folder"
-msgstr "既定のフォルダ"
+msgstr "既定のフォルダを使用する"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
 #: src/ui/configenv_ui.ui:224 src/ui/configenv_ui.ui:276
-#, fuzzy, kde-format
-#| msgid "Use project folder"
+#, kde-format
 msgid "Always use project folder"
-msgstr "プロジェクトフォルダの使用"
+msgstr "常にプロジェクトフォルダを使用する"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
 #: src/ui/configenv_ui.ui:229 src/ui/configenv_ui.ui:281
 #, kde-format
 msgid "Always use custom folder"
-msgstr ""
+msgstr "常に既定のフォルダーを使用する"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:240
@@ -17978,10 +17912,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
 #: src/ui/configenv_ui.ui:338 src/ui/configenv_ui.ui:359
 #: src/ui/configenv_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Change"
+#, kde-format
 msgid "Change…"
-msgstr "変更"
+msgstr "変更…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
 #: src/ui/configenv_ui.ui:349
@@ -18051,105 +17984,103 @@ msgstr "デバイスの設定"
 #: src/ui/configjogshuttle_ui.ui:93
 #, kde-format
 msgid "Button  1"
-msgstr ""
+msgstr "ボタン 1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configjogshuttle_ui.ui:119
 #, kde-format
 msgid "Button 15"
-msgstr ""
+msgstr "ボタン 15"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configjogshuttle_ui.ui:145
 #, kde-format
 msgid "Button 13"
-msgstr ""
+msgstr "ボタン 13"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configjogshuttle_ui.ui:158
 #, kde-format
 msgid "Button  8"
-msgstr ""
+msgstr "ボタン 8"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configjogshuttle_ui.ui:174
 #, kde-format
 msgid "Button  4"
-msgstr ""
+msgstr "ボタン 4"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configjogshuttle_ui.ui:187
-#, fuzzy, kde-format
-#| msgid "Device"
+#, kde-format
 msgid "Device name:"
-msgstr "デバイス"
+msgstr "デバイス名:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configjogshuttle_ui.ui:200
 #, kde-format
 msgid "Button  5"
-msgstr ""
+msgstr "ボタン 5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configjogshuttle_ui.ui:222
 #, kde-format
 msgid "Button  7"
-msgstr ""
+msgstr "ボタン 7"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configjogshuttle_ui.ui:251
 #, kde-format
 msgid "Button  9"
-msgstr ""
+msgstr "ボタン 9"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configjogshuttle_ui.ui:264
 #, kde-format
 msgid "Button  2"
-msgstr ""
+msgstr "ボタン 2"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configjogshuttle_ui.ui:280
 #, kde-format
 msgid "Button 10"
-msgstr ""
+msgstr "ボタン 10"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configjogshuttle_ui.ui:293
 #, kde-format
 msgid "Button 11"
-msgstr ""
+msgstr "ボタン 11"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configjogshuttle_ui.ui:316
 #, kde-format
 msgid "Button  6"
-msgstr ""
+msgstr "ボタン 6"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configjogshuttle_ui.ui:344
 #, kde-format
 msgid "Button 14"
-msgstr ""
+msgstr "ボタン 14"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configjogshuttle_ui.ui:357
 #, kde-format
 msgid "Button  3"
-msgstr ""
+msgstr "ボタン 3"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configjogshuttle_ui.ui:370
 #, kde-format
 msgid "Button 12"
-msgstr ""
+msgstr "ボタン 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:21
-#, fuzzy, kde-format
-#| msgid "Project files"
+#, kde-format
 msgid "Project file:"
-msgstr "プロジェクトファイル"
+msgstr "プロジェクトファイル:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openlastproject)
 #: src/ui/configmisc_ui.ui:28
@@ -18165,10 +18096,9 @@ msgstr "クラッシュ回復の有効化 (自動保存)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configmisc_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Clip Color"
+#, kde-format
 msgid "Clip import:"
-msgstr "クリップ色"
+msgstr "クリップ入力:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkfirstprojectclip)
 #: src/ui/configmisc_ui.ui:56
@@ -18236,38 +18166,33 @@ msgstr "既定の長さ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configmisc_ui.ui:166
-#, fuzzy, kde-format
-#| msgid "Color clips"
+#, kde-format
 msgid "Color clips:"
-msgstr "色クリップ"
+msgstr "色クリップ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configmisc_ui.ui:173
-#, fuzzy, kde-format
-#| msgid "Title clips"
+#, kde-format
 msgid "Title clips:"
-msgstr "タイトル・クリップ"
+msgstr "タイトル・クリップ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:180
-#, fuzzy, kde-format
-#| msgid "Transitions"
+#, kde-format
 msgid "Transitions:"
-msgstr "遷移効果"
+msgstr "遷移効果:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configmisc_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Image clips"
+#, kde-format
 msgid "Image clips:"
-msgstr "イメージ・クリップ"
+msgstr "イメージ・クリップ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configmisc_ui.ui:200
-#, fuzzy, kde-format
-#| msgid "Fade in"
+#, kde-format
 msgid "Fades:"
-msgstr "フェードイン"
+msgstr "フェード:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configmisc_ui.ui:210
@@ -18280,14 +18205,13 @@ msgstr "イメージ・シーケンス"
 #: src/ui/configmisc_ui.ui:226
 #, kde-format
 msgid "Mixes:"
-msgstr ""
+msgstr "ミックス:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configmisc_ui.ui:239
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgid "Subtitles:"
-msgstr "字幕"
+msgstr "字幕:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:13
@@ -18373,8 +18297,7 @@ msgstr "代用情報の削除"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #: src/ui/configproxy_ui.ui:66 src/ui/configproxy_ui.ui:99
 #: src/ui/configproxy_ui.ui:118 src/ui/configproxy_ui.ui:195
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid " pixels"
 msgstr "ピクセル"
 
@@ -18404,10 +18327,9 @@ msgstr "画像サイズ"
 #. i18n: ectx: property (text), widget (QCheckBox, external_proxy)
 #: src/ui/configproxy_ui.ui:174 src/ui/configsdl_ui.ui:137
 #: src/ui/projectsettings_ui.ui:482
-#, fuzzy, kde-format
-#| msgid "Enable %1"
+#, kde-format
 msgid "Enable"
-msgstr "%1を有効化"
+msgstr "有効化"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -18436,28 +18358,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpu)
 #: src/ui/configsdl_ui.ui:43
-#, fuzzy, kde-format
-#| msgid "Use OpenGL for video display (restart Kdenlive to apply)"
+#, kde-format
 msgid "GPU processing (Movit library):"
-msgstr ""
-"ビデオ表示に OpenGL を使用する (適用するには Kdenlive を再起動する必要があり"
-"ます)"
+msgstr "GPU 処理(Movit library):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_gpu_accel)
 #: src/ui/configsdl_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Use OpenGL for video display (restart Kdenlive to apply)"
+#, kde-format
 msgid "Enable - restart Kdenlive to apply"
-msgstr ""
-"ビデオ表示に OpenGL を使用する (適用するには Kdenlive を再起動する必要があり"
-"ます)"
+msgstr "有効化 - Kdenlive を再起動後に適用されます。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:64
-#, fuzzy, kde-format
-#| msgid "Audio tracks"
+#, kde-format
 msgid "Audio Backend:"
-msgstr "オーディオトラック"
+msgstr "オーディオバックエンド:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
 #: src/ui/configsdl_ui.ui:80
@@ -18480,17 +18395,15 @@ msgstr "モニタをフルスクリーン表示(M)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:130
-#, fuzzy, kde-format
-#| msgid "Use external display (Blackmagic card)"
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "外付けのディスプレイを使用する (Blackmagic カード)"
+msgstr "外付けのディスプレイを使用する (Blackmagic カード):"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Output device"
+#, kde-format
 msgid "Output device:"
-msgstr "出力デバイス"
+msgstr "出力デバイス:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #: src/ui/configspeech_ui.ui:34
@@ -18541,15 +18454,13 @@ msgstr "サムネイル:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:28
-#, fuzzy, kde-format
-#| msgid "Enable video"
+#, kde-format
 msgid "Enable for Video"
 msgstr "動画を有効化"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:35
-#, fuzzy, kde-format
-#| msgid "Enable audio"
+#, kde-format
 msgid "Enable for Audio"
 msgstr "音声を有効化"
 
@@ -18617,10 +18528,9 @@ msgstr "クリップマーカーのコメントを表示する"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Track height"
+#, kde-format
 msgid "Default track height:"
-msgstr "トラックの高さ"
+msgstr "既定のトラックの高さ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:149
@@ -18677,10 +18587,9 @@ msgstr "プロジェクトのトラックが十分であるかを確認する"
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configtranscode_ui.ui:69 src/ui/editrenderpreset_ui.ui:79
-#, fuzzy, kde-format
-#| msgid "Extension"
+#, kde-format
 msgid "Extension:"
-msgstr "拡張"
+msgstr "拡張:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, profile_audioonly)
 #: src/ui/configtranscode_ui.ui:76
@@ -18696,10 +18605,9 @@ msgstr "パラメータ"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configtranscode_ui.ui:93
-#, fuzzy, kde-format
-#| msgid "Add Profile"
+#, kde-format
 msgid "Add Profile…"
-msgstr "プロファイルの追加"
+msgstr "プロファイルの追加…"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_update)
 #: src/ui/configtranscode_ui.ui:100
@@ -18715,65 +18623,59 @@ msgstr "プロファイルの削除"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
-#, fuzzy, kde-format
-#| msgid "Configure job"
+#, kde-format
 msgid "Configure the job."
-msgstr "ジョブの設定"
+msgstr "ジョブの設定をする。"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EditRenderPreset_UI)
 #: src/ui/editrenderpreset_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Save Render Preset"
-msgstr "プロジェクトのレンダリング"
+msgstr "レンダープリセットを保存"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Group"
+#, kde-format
 msgid "Group:"
-msgstr "グループ"
+msgstr "グループ:"
 
 #. i18n: ectx: property (text), widget (QLabel, presetNameLabel)
 #: src/ui/editrenderpreset_ui.ui:52
-#, fuzzy, kde-format
-#| msgid "Profile name:"
+#, kde-format
 msgid "Preset name:"
-msgstr "プロファイル名:"
+msgstr "プリセット名:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_container)
 #: src/ui/editrenderpreset_ui.ui:72
 #, kde-format
 msgid "Container:"
-msgstr ""
+msgstr "代用情報:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
 #: src/ui/editrenderpreset_ui.ui:197 src/ui/editrenderpreset_ui.ui:718
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid " frame(s)"
 msgstr " フレーム"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/editrenderpreset_ui.ui:210 src/ui/editrenderpreset_ui.ui:979
-#, fuzzy, kde-format
-#| msgid "Record Monitor"
+#, kde-format
 msgid "Rate Control:"
-msgstr "録画モニタ(R)"
+msgstr "レートコントロール:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:230
 #, kde-format
 msgid "GOP = Group of Pictures"
-msgstr ""
+msgstr "GOP = 画像の集まり (Group of Pictures)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:233
 #, kde-format
 msgid "GOP:"
-msgstr ""
+msgstr "GOP:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cPar)
 #: src/ui/editrenderpreset_ui.ui:246
@@ -18793,69 +18695,63 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:293 src/ui/editrenderpreset_ui.ui:881
 #, kde-format
 msgid "Codec:"
-msgstr ""
+msgstr "コーデック:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
 #: src/ui/editrenderpreset_ui.ui:306
-#, fuzzy, kde-format
-#| msgid "Frame rate:"
+#, kde-format
 msgid "Frame Rate:"
 msgstr "フレームレート:"
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
 #: src/ui/editrenderpreset_ui.ui:421
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid "B Frames:"
-msgstr " フレーム"
+msgstr "B フレーム:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, default_vbitrate)
 #. i18n: ectx: property (suffix), widget (QSpinBox, aBitrate)
 #: src/ui/editrenderpreset_ui.ui:453 src/ui/editrenderpreset_ui.ui:996
 #, kde-format
 msgid "k"
-msgstr ""
+msgstr "k"
 
 #. i18n: ectx: property (text), widget (QLabel, vquality_label)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: src/ui/editrenderpreset_ui.ui:463 src/ui/editrenderpreset_ui.ui:1006
-#, fuzzy, kde-format
-#| msgid "Quality"
+#, kde-format
 msgid "Quality:"
-msgstr "品質"
+msgstr "品質:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/editrenderpreset_ui.ui:483
-#, fuzzy, kde-format
-#| msgid "Fields per second"
+#, kde-format
 msgid "Fields per Second:"
-msgstr "毎秒フィールド数"
+msgstr "毎秒フィールド数:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cDar)
 #: src/ui/editrenderpreset_ui.ui:496
-#, fuzzy, kde-format
-#| msgid "Display aspect ratio:"
+#, kde-format
 msgid "Display Aspect Ratio:"
-msgstr "表示アスペクト比:"
+msgstr "画面のアスペクト比:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, vBuffer)
 #: src/ui/editrenderpreset_ui.ui:512
 #, kde-format
 msgid " KiB"
-msgstr ""
+msgstr " KiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/editrenderpreset_ui.ui:522
 #, kde-format
 msgid "Buffer Size:"
-msgstr ""
+msgstr "バッファサイズ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:535
-#, fuzzy, kde-format
-#| msgid "Resolution"
+#, kde-format
 msgid "Resolution:"
-msgstr "解像度"
+msgstr "解像度:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
@@ -18885,7 +18781,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:607
 #, kde-format
 msgid "Fixed"
-msgstr ""
+msgstr "固定"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cField)
 #: src/ui/editrenderpreset_ui.ui:699
@@ -18897,10 +18793,9 @@ msgstr "フィールド順序の強制"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/editrenderpreset_ui.ui:734 src/ui/editrenderpreset_ui.ui:989
-#, fuzzy, kde-format
-#| msgid "Video bitrate"
+#, kde-format
 msgid "Bitrate:"
-msgstr "動画のビットレート"
+msgstr "ビットレート:"
 
 #. i18n: ectx: property (text), widget (QLabel, colorRangeLabel)
 #: src/ui/editrenderpreset_ui.ui:741
@@ -18911,77 +18806,69 @@ msgstr "カラースペース"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:891
-#, fuzzy, kde-format
-#| msgid "Samplerate"
+#, kde-format
 msgid "Sample Rate:"
-msgstr "サンプルレート"
+msgstr "サンプルレート:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:923
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "8000"
-msgstr "48000 Hz"
+msgstr "8000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:928
-#, fuzzy, kde-format
-#| msgid "20000 Hz"
+#, kde-format
 msgid "12000"
-msgstr "20000 Hz"
+msgstr "12000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:933
 #, kde-format
 msgid "16000"
-msgstr ""
+msgstr "16000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:938
 #, kde-format
 msgid "22050"
-msgstr ""
+msgstr "22050"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:943
-#, fuzzy, kde-format
-#| msgid "20000 Hz"
+#, kde-format
 msgid "32000"
-msgstr "20000 Hz"
+msgstr "32000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:948
-#, fuzzy, kde-format
-#| msgid "44100 Hz"
+#, kde-format
 msgid "44100"
-msgstr "44100 Hz"
+msgstr "44100"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:953
-#, fuzzy, kde-format
-#| msgid "48000 Hz"
+#, kde-format
 msgid "48000"
-msgstr "48000 Hz"
+msgstr "48000"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:958
 #, kde-format
 msgid "96000"
-msgstr ""
+msgstr "96000"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: src/ui/editrenderpreset_ui.ui:969
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgid "Hz"
-msgstr "H"
+msgstr "Hz"
 
 #. i18n: ectx: attribute (title), widget (QWidget, other_tab)
 #: src/ui/editrenderpreset_ui.ui:1034
-#, fuzzy, kde-format
-#| msgid "Other clips"
+#, kde-format
 msgid "Other"
-msgstr "その他のクリップ"
+msgstr "その他"
 
 #. i18n: ectx: property (text), widget (QLabel, speedsLabel)
 #: src/ui/editrenderpreset_ui.ui:1040
@@ -18998,10 +18885,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/editrenderpreset_ui.ui:1057
-#, fuzzy, kde-format
-#| msgid "Parameters:"
+#, kde-format
 msgid "Additional Parameters:"
-msgstr "パラメータ:"
+msgstr "追加パラメータ:"
 
 #. i18n: ectx: property (text), widget (QLabel, parametersLabel)
 #: src/ui/editrenderpreset_ui.ui:1077
@@ -19031,15 +18917,14 @@ msgstr "音声を有効化"
 #: src/ui/editsub_ui.ui:146
 #, kde-format
 msgid "End:"
-msgstr ""
+msgstr "終了:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #: src/ui/editsub_ui.ui:267 src/ui/editsub_ui.ui:368
-#, fuzzy, kde-format
-#| msgid "x"
+#, kde-format
 msgid "px"
-msgstr "x"
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
 #: src/ui/editsub_ui.ui:277
@@ -19059,7 +18944,7 @@ msgstr "カスタム"
 #: src/ui/editsub_ui.ui:294
 #, kde-format
 msgid "pt"
-msgstr ""
+msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
 #: src/ui/editsub_ui.ui:320
@@ -19126,32 +19011,28 @@ msgstr "Kdenlive"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgid "Text Options"
-msgstr "オプション"
+msgstr "文章のオプション"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
 #: src/ui/exportguidesdialog_ui.ui:89 src/ui/titlewidget_ui.ui:794
-#, fuzzy, kde-format
-#| msgid "Offset"
+#, kde-format
 msgid "Offset:"
-msgstr "オフセット"
+msgstr "オフセット:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/exportguidesdialog_ui.ui:96
-#, fuzzy, kde-format
-#| msgid "Formats"
+#, kde-format
 msgid "Format:"
-msgstr "フォーマット"
+msgstr "フォーマット:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: src/ui/exportguidesdialog_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Disable %1"
+#, kde-format
 msgid "Disabled"
-msgstr "%1を無効化"
+msgstr "無効化"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, offsetTimeComboBox)
 #: src/ui/exportguidesdialog_ui.ui:155
@@ -19280,10 +19161,9 @@ msgstr "B"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScale)
 #: src/ui/histogram_ui.ui:105
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "Scale:"
-msgstr "スケール"
+msgstr "スケール:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLogarithmic)
 #: src/ui/histogram_ui.ui:122
@@ -19302,7 +19182,7 @@ msgstr "字幕ファイル"
 #: src/ui/import_subtitle_ui.ui:71
 #, kde-format
 msgid "*.srt *.ass *.vtt *.sbv"
-msgstr ""
+msgstr "*.srt *.ass *.vtt *.sbv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/import_subtitle_ui.ui:85
@@ -19364,14 +19244,13 @@ msgstr "プロジェクトのクリーン"
 #: src/ui/managecache_ui.ui:244
 #, kde-format
 msgid "0 B"
-msgstr ""
+msgstr "0 B"
 
 #. i18n: ectx: property (text), widget (QLabel, proxyLabel)
 #: src/ui/managecache_ui.ui:86
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy clips:"
-msgstr "代用クリップ"
+msgstr "代用クリップ:"
 
 #. i18n: ectx: property (text), widget (QLabel, audioLabel)
 #: src/ui/managecache_ui.ui:158
@@ -19382,44 +19261,39 @@ msgstr "オーディオのサムネイルを表示する(T)"
 
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: src/ui/managecache_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Image preview"
+#, kde-format
 msgid "Timeline preview:"
-msgstr "画像のプレビュー"
+msgstr "タイムラインのプレビュー:"
 
 #. i18n: ectx: property (text), widget (QLabel, currentLabel)
 #: src/ui/managecache_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Project total cache data"
+#, kde-format
 msgid "Project total cache data:"
-msgstr "合計プロジェクトキャッシュデータ"
+msgstr "合計プロジェクトキャッシュデータ:"
 
 #. i18n: ectx: property (text), widget (QLabel, thumbLabel)
 #: src/ui/managecache_ui.ui:213
-#, fuzzy, kde-format
-#| msgid "Thumbnails"
+#, kde-format
 msgid "Video thumbnails:"
-msgstr "サムネイル"
+msgstr "動画のサムネイル:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentPath)
 #: src/ui/managecache_ui.ui:220
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Click to open cache folder."
-msgstr "プロファイルの削除"
+msgstr "クリックしてキャッシュフォルダーを開く"
 
 #. i18n: ectx: property (text), widget (QLabel, currentPath)
 #: src/ui/managecache_ui.ui:223
 #, kde-format
 msgid "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
-msgstr ""
+msgstr "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, globalPage)
 #: src/ui/managecache_ui.ui:260
-#, fuzzy, kde-format
-#| msgid "Clip in Project Tree"
+#, kde-format
 msgid "All Projects"
-msgstr "プロジェクトツリー内でクリップ"
+msgstr "すべてのプロジェクト"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:268
@@ -19750,10 +19624,9 @@ msgstr "/"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/profiledialog_ui.ui:334
-#, fuzzy, kde-format
-#| msgid "Fields per second"
+#, kde-format
 msgid "Fields per second:"
-msgstr "毎秒フィールド数"
+msgstr "毎秒フィールド数:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, effect_warning)
 #: src/ui/profiledialog_ui.ui:345
@@ -19810,8 +19683,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
-#, fuzzy, kde-format
-#| msgid "Default folders"
+#, kde-format
 msgid "Default folder"
 msgstr "既定のフォルダ"
 
@@ -19824,43 +19696,37 @@ msgstr "プロジェクトファイル用の既定のフォルダ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, custom_folder)
 #: src/ui/projectsettings_ui.ui:76
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom:"
-msgstr "カスタム"
+msgstr "カスタム:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:148
-#, fuzzy, kde-format
-#| msgid "2 channels (stereo)"
+#, kde-format
 msgid "2 Channels (Stereo)"
 msgstr "2 チャンネル (ステレオ)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:153
-#, fuzzy, kde-format
-#| msgid "4 channels"
+#, kde-format
 msgid "4 Channels"
 msgstr "4 チャンネル"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "6 channels"
+#, kde-format
 msgid "6 Channels"
 msgstr "6 チャンネル"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:193
-#, fuzzy, kde-format
-#| msgid "Image preview"
+#, kde-format
 msgid "Timeline Preview:"
-msgstr "画像のプレビュー"
+msgstr "タイムラインのプレビュー:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/projectsettings_ui.ui:204
-#, fuzzy, kde-format
-#| msgid "proxy"
+#, kde-format
 msgid "Proxy"
 msgstr "代用"
 
@@ -19940,10 +19806,9 @@ msgstr "フォント"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/projectsettings_ui.ui:662
-#, fuzzy, kde-format
-#| msgid "Project files"
+#, kde-format
 msgid "Project files:"
-msgstr "プロジェクトファイル"
+msgstr "プロジェクトファイル:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_export)
 #: src/ui/projectsettings_ui.ui:669
@@ -19972,39 +19837,34 @@ msgstr "プロジェクト内で使用されているクリップ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "Text:"
-msgstr "テキスト"
+msgstr "テキスト:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_font)
 #: src/ui/qtextclip_ui.ui:49
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "Font:"
-msgstr "フォント"
+msgstr "フォント:"
 
 #. i18n: ectx: property (text), widget (QLabel, weightLabel)
 #: src/ui/qtextclip_ui.ui:74
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Weight:"
-msgstr "高さ"
+msgstr "高さ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
 #: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:919
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Outline:"
-msgstr "輪郭"
+msgstr "輪郭:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_bg)
 #. i18n: ectx: property (text), widget (QLabel, lblBackground)
 #: src/ui/qtextclip_ui.ui:164 src/ui/vectorscope_ui.ui:50
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background:"
-msgstr "背景"
+msgstr "背景:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_padding)
 #: src/ui/qtextclip_ui.ui:184
@@ -20075,7 +19935,7 @@ msgstr "新しいレンダリングプロファイルのダウンロード(O)...
 #: src/ui/renderwidget_ui.ui:245
 #, kde-format
 msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
+msgstr ":data/kdenlive_renderprofiles.knsrc"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:262
@@ -20091,10 +19951,9 @@ msgstr "&お気に入り"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
 #: src/ui/renderwidget_ui.ui:282
-#, fuzzy, kde-format
-#| msgid "Edit Guide"
+#, kde-format
 msgid "Edit preset"
-msgstr "ガイドの編集"
+msgstr "プリセットの編集"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
 #: src/ui/renderwidget_ui.ui:285
@@ -20166,10 +20025,9 @@ msgstr "代用クリップ(P)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
 #: src/ui/renderwidget_ui.ui:508
-#, fuzzy, kde-format
-#| msgid "Enable %1"
+#, kde-format
 msgid "Enabled"
-msgstr "%1を有効化"
+msgstr "有効化"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/renderwidget_ui.ui:515
@@ -20187,10 +20045,9 @@ msgstr "アスペクト比を維持する"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/renderwidget_ui.ui:602
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Overlay:"
-msgstr "オーバーレイ"
+msgstr "オーバーレイ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:621
@@ -20201,16 +20058,15 @@ msgstr "オーディオトラックのフェードイン"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
 #: src/ui/renderwidget_ui.ui:631
-#, fuzzy, kde-format
-#| msgid "Quality"
+#, kde-format
 msgid "Custom Quality"
-msgstr "品質"
+msgstr "カスタム品質"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/renderwidget_ui.ui:645
 #, kde-format
 msgid "Low"
-msgstr ""
+msgstr "低い"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
 #: src/ui/renderwidget_ui.ui:658
@@ -20221,16 +20077,15 @@ msgstr "ファイルサイズと品質のバランスを取ります"
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
 #: src/ui/renderwidget_ui.ui:677
-#, fuzzy, no-c-format, kde-format
-#| msgid "50%"
+#, no-c-format, kde-format
 msgid "75%"
-msgstr "50%"
+msgstr "75%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/renderwidget_ui.ui:684
 #, kde-format
 msgid "High"
-msgstr ""
+msgstr "高い"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
 #: src/ui/renderwidget_ui.ui:696
@@ -20394,19 +20249,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/resourcewidget_ui.ui:319
-#, fuzzy, kde-format
-#| msgid "Service"
+#, kde-format
 msgid "Service:"
-msgstr "サービス"
+msgstr "サービス:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblPaintMode)
 #. i18n: ectx: property (text), widget (QLabel, lblPaintmode)
 #: src/ui/rgbparade_ui.ui:37 src/ui/vectorscope_ui.ui:33
 #: src/ui/waveform_ui.ui:34
-#, fuzzy, kde-format
-#| msgid "Paint mode"
+#, kde-format
 msgid "Paint mode:"
-msgstr "ペイントモード"
+msgstr "ペイントモード:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SceneCutDialog_UI)
 #: src/ui/scenecutdialog_ui.ui:18
@@ -20461,31 +20314,27 @@ msgstr "中央クロップ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/slideshowclip_ui.ui:54
-#, fuzzy, kde-format
-#| msgid "Frame duration"
+#, kde-format
 msgid "Frame duration:"
-msgstr "フレームの長さ"
+msgstr "フレームの長さ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, luma_fade)
 #: src/ui/slideshowclip_ui.ui:126
-#, fuzzy, kde-format
-#| msgid "Wipe"
+#, kde-format
 msgid "Wipe:"
-msgstr "ワイプ"
+msgstr "ワイプ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_fade)
 #: src/ui/slideshowclip_ui.ui:133
-#, fuzzy, kde-format
-#| msgid "Dissolve"
+#, kde-format
 msgid "Dissolve:"
-msgstr "溶解"
+msgstr "溶解:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_softness)
 #: src/ui/slideshowclip_ui.ui:150
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Softness:"
-msgstr "柔らかさ"
+msgstr "柔らかさ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/slideshowclip_ui.ui:157
@@ -20508,17 +20357,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/slideshowclip_ui.ui:190
-#, fuzzy, kde-format
-#| msgid "Folder"
+#, kde-format
 msgid "Folder:"
-msgstr "フォルダ"
+msgstr "フォルダ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/slideshowclip_ui.ui:210
-#, fuzzy, kde-format
-#| msgid "Image type"
+#, kde-format
 msgid "Image type:"
-msgstr "イメージタイプ"
+msgstr "イメージタイプ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/slideshowclip_ui.ui:227
@@ -20574,10 +20421,9 @@ msgstr "True FFT サイズ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/speechdialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Language"
+#, kde-format
 msgid "Language:"
-msgstr "言語"
+msgstr "言語:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_zone)
 #: src/ui/speechdialog_ui.ui:41
@@ -20595,10 +20441,9 @@ msgstr "選択したクリップの削除"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_clips)
 #: src/ui/speechdialog_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Select Clip"
+#, kde-format
 msgid "Selected clip"
-msgstr "クリップの選択(S)"
+msgstr "クリップの選択"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -20656,10 +20501,9 @@ msgstr "出力"
 
 #. i18n: ectx: property (text), widget (QLabel, label_sourceTC)
 #: src/ui/timeremap_ui.ui:253
-#, fuzzy, kde-format
-#| msgid "Source clip"
+#, kde-format
 msgid "Source time"
-msgstr "ソースクリップ"
+msgstr "ソースタイム"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outputTC)
 #: src/ui/timeremap_ui.ui:267
@@ -20678,7 +20522,7 @@ msgstr "これより前でフリーズする"
 #: src/ui/timeremap_ui.ui:305
 #, kde-format
 msgid "After"
-msgstr ""
+msgstr "後"
 
 #. i18n: ectx: property (text), widget (QCheckBox, frame_blending)
 #: src/ui/timeremap_ui.ui:358
@@ -20715,10 +20559,9 @@ msgstr "背景の表示"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/ui/titlewidget_ui.ui:120
-#, fuzzy, kde-format
-#| msgid "Check"
+#, kde-format
 msgid "Checkered"
-msgstr "チェック"
+msgstr "チェックする"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
 #: src/ui/titlewidget_ui.ui:178
@@ -20734,23 +20577,21 @@ msgstr "Z-インデックス:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_height)
 #: src/ui/titlewidget_ui.ui:313
-#, fuzzy, kde-format
-#| msgid ":"
+#, kde-format
 msgid "H:"
-msgstr ":"
+msgstr "H:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_width)
 #: src/ui/titlewidget_ui.ui:351
-#, fuzzy, kde-format
-#| msgid ":"
+#, kde-format
 msgid "W:"
-msgstr ":"
+msgstr "W:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_grid)
 #: src/ui/titlewidget_ui.ui:381
 #, kde-format
 msgid "Use grid"
-msgstr ""
+msgstr "グリッドを使う"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectImages)
 #: src/ui/titlewidget_ui.ui:401
@@ -20766,15 +20607,13 @@ msgstr "T"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hguides)
 #: src/ui/titlewidget_ui.ui:421
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal guides."
 msgstr "水平方向"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, vguides)
 #: src/ui/titlewidget_ui.ui:434
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical guides."
 msgstr "垂直方向"
 
@@ -20786,10 +20625,9 @@ msgstr "N"
 
 #. i18n: ectx: property (text), widget (QCheckBox, show_guides)
 #: src/ui/titlewidget_ui.ui:480
-#, fuzzy, kde-format
-#| msgid "Show alpha"
+#, kde-format
 msgid "Show guides:"
-msgstr "アルファ表示"
+msgstr "ガイドを表示する:"
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, buttonSelectAll)
 #: src/ui/titlewidget_ui.ui:487
@@ -20811,58 +20649,51 @@ msgstr "回転"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/ui/titlewidget_ui.ui:553
-#, fuzzy, kde-format
-#| msgid "X"
+#, kde-format
 msgid "X:"
-msgstr "X"
+msgstr "X:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/ui/titlewidget_ui.ui:576
-#, fuzzy, kde-format
-#| msgid "Y"
+#, kde-format
 msgid "Y:"
-msgstr "Y"
+msgstr "Y:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateZ)
 #: src/ui/titlewidget_ui.ui:602
-#, fuzzy, kde-format
-#| msgid ":"
+#, kde-format
 msgid "Z:"
-msgstr ":"
+msgstr "Z:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_itemzoom)
 #: src/ui/titlewidget_ui.ui:637
-#, fuzzy, kde-format
-#| msgid "Zoom"
+#, kde-format
 msgid "Zoom:"
-msgstr "ズーム"
+msgstr "ズーム:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shadowBox)
 #: src/ui/titlewidget_ui.ui:733
 #, kde-format
 msgid "Sha&dow"
-msgstr ""
+msgstr "影"
 
 #. i18n: ectx: property (text), widget (QLabel, label_blur)
 #: src/ui/titlewidget_ui.ui:754
-#, fuzzy, kde-format
-#| msgid "Blur"
+#, kde-format
 msgid "Blur:"
-msgstr "ぼかし"
+msgstr "ぼかし:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignCenter)
 #: src/ui/titlewidget_ui.ui:837
-#, fuzzy, kde-format
-#| msgid "Align center"
+#, kde-format
 msgid "Align center."
 msgstr "中央寄せ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_lineSpacing)
 #: src/ui/titlewidget_ui.ui:857
-#, fuzzy, kde-format
-#| msgid "Letter Spacing"
+#, kde-format
 msgid "Line spacing:"
-msgstr "文字間隔"
+msgstr "文字間隔:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
@@ -20889,10 +20720,9 @@ msgstr "効果の削除"
 
 #. i18n: ectx: property (text), widget (QLabel, label_variation)
 #: src/ui/titlewidget_ui.ui:938
-#, fuzzy, kde-format
-#| msgid "Variant"
+#, kde-format
 msgid "Variation:"
-msgstr "バリアント"
+msgstr "バリアント:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/titlewidget_ui.ui:945
@@ -20921,37 +20751,33 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_custom)
 #: src/ui/titlewidget_ui.ui:981
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custo&m"
-msgstr "カスタム"
+msgstr "カスタム "
 
 #. i18n: ectx: property (text), widget (QLabel, label_frameStep)
 #: src/ui/titlewidget_ui.ui:991
-#, fuzzy, kde-format
-#| msgid "Frame rate"
+#, kde-format
 msgid "Frame step:"
-msgstr "フレームレート"
+msgstr "フレームステップ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_seed)
 #: src/ui/titlewidget_ui.ui:1005
 #, kde-format
 msgid "Seed:"
-msgstr ""
+msgstr "シード:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_letterSpacing)
 #: src/ui/titlewidget_ui.ui:1114
-#, fuzzy, kde-format
-#| msgid "Letter Spacing"
+#, kde-format
 msgid "Letter spacing:"
-msgstr "文字間隔"
+msgstr "文字間隔:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
 #: src/ui/titlewidget_ui.ui:1140
-#, fuzzy, kde-format
-#| msgid "Align"
+#, kde-format
 msgid "Align:"
-msgstr "アライン"
+msgstr "アライン:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignRight)
 #: src/ui/titlewidget_ui.ui:1147
@@ -21094,10 +20920,9 @@ msgstr "項目を一番下に合わせる"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/transcodeseekable_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgid "Convert to"
-msgstr "反転"
+msgstr "変換"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/transcodeseekable_ui.ui:61
@@ -21128,22 +20953,17 @@ msgstr "追加情報"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Transparency"
+#, kde-format
 msgid "Transparency:"
-msgstr "透過性"
+msgstr "透過度:"
 
 #: src/widgets/colorpickerwidget.cpp:102
 #, kde-format
 msgid "Pick a color on the screen."
-msgstr ""
+msgstr "画面から色を選択してください。"
 
 #: src/widgets/colorpickerwidget.cpp:105
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Pick a color on the screen. By pressing the mouse button and then moving "
-#| "your mouse you can select a section of the screen from which to get an "
-#| "average color."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
@@ -21156,7 +20976,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr ""
+msgstr "90度回転させてください。"
 
 #: src/widgets/dragvalue.cpp:115
 #, kde-format
@@ -21191,7 +21011,7 @@ msgstr "%1 をタイムライン内に表示"
 #: src/widgets/dragvalue.cpp:413
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr ""
+msgstr "Shift + Drag で値を1つずつ調整します。"
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format
@@ -21266,58 +21086,30 @@ msgstr "下に合わせる"
 
 #: src/widgets/markercategorybutton.cpp:129
 #: src/widgets/markercategorychooser.cpp:41
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "選択する色"
+msgstr "何も選択しない"
 
 #: src/widgets/markercategorybutton.cpp:134
 #: src/widgets/markercategorychooser.cpp:47
-#, fuzzy, kde-format
-#| msgid "All Images"
+#, kde-format
 msgid "All Categories"
-msgstr "すべての画像"
+msgstr "すべての種類"
 
 #: src/widgets/progressbutton.cpp:54
 #, kde-format
 msgctxt "s as seconds"
 msgid "%1s"
-msgstr ""
+msgstr "%1s"
 
 #: src/widgets/progressbutton.cpp:58
 #, kde-format
 msgctxt "m as minutes"
 msgid "%1m"
-msgstr ""
+msgstr "%1m"
 
 #: src/widgets/progressbutton.cpp:60
 #, kde-format
 msgctxt "h as hours"
 msgid "%1h"
-msgstr ""
-
-#~ msgid "Full luma range"
-#~ msgstr "完全輝度レンジ"
-
-#, fuzzy
-#~| msgid "Show Title Bars"
-#~ msgid "Show Subtitle Track"
-#~ msgstr "タイトルバーの表示(B)"
-
-#, fuzzy
-#~| msgid "Formats"
-#~ msgid "Form"
-#~ msgstr "フォーマット"
-
-#, fuzzy
-#~| msgid "Clip in Timeline"
-#~ msgid "Main timeline"
-#~ msgstr "タイムライン内のクリップ(I)"
-
-#, fuzzy
-#~| msgid "Clip Monitor"
-#~ msgid "Monitor audio input"
-#~ msgstr "クリップモニタ(C)"
-
-#~ msgid "MLT log level"
-#~ msgstr "MLT ログレベル"
+msgstr "%1h"

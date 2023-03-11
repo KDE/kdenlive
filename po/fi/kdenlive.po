@@ -5174,7 +5174,8 @@ msgid "Add Guides"
 msgstr "Lisää opaste"
 
 #: src/bin/model/markerlistmodel.cpp:947
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Add Markers"
 msgid "Add Markers"
 msgstr "Lisää merkintöjä"
 
@@ -5952,7 +5953,8 @@ msgid "Copy to Clipboard"
 msgstr "Kopioi leikekehykset leikepöydälle"
 
 #: src/dialogs/exportguidesdialog.cpp:54
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Save"
 msgid "Save"
 msgstr "Tallenna"
 
@@ -18743,7 +18745,8 @@ msgstr "Lähtölaskenta"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Interval"
 msgid "Interval"
 msgstr "Aikaväli"
 
