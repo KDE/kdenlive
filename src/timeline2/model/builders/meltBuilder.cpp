@@ -80,7 +80,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             binIdCorresp.clear();
             projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
         } else {
-            projectModel->loadTractorPlaylist(tractor, binIdCorresp, expandedFolders);
+            projectModel->loadTractorPlaylist(tractor, binIdCorresp);
         }
 
         QStringList foldersToExpand;
