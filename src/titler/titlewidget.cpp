@@ -689,7 +689,8 @@ void TitleWidget::templateIndexChanged(int index)
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
         if (m_lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
-            if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) {
+            if (KMessageBox::warningContinueCancel(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) !=
+                KMessageBox::Continue) {
                 return;
             }
         }
@@ -2171,8 +2172,10 @@ QUrl TitleWidget::saveTitle(QUrl url)
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
     auto is_embedable = [&](QGraphicsItem *item) { return item->type() == QGraphicsPixmapItem::Type && item != m_frameImage; };
     bool embed_image = std::any_of(list.begin(), list.end(), is_embedable);
-    if (embed_image && KMessageBox::questionYesNo(
-                           this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles.")) != KMessageBox::Yes) {
+    if (embed_image &&
+        KMessageBox::questionTwoActions(this, i18n("Do you want to embed Images into this TitleDocument?\nThis is most needed for sharing Titles."), {},
+                                        KGuiItem(i18nc("@action:button", "Embed Images")),
+                                        KGuiItem(i18nc("@action:button", "Continue without"))) != KMessageBox::PrimaryAction) {
         embed_image = false;
     }
     if (!url.isValid()) {
@@ -2182,9 +2185,6 @@ QUrl TitleWidget::saveTitle(QUrl url)
         fs->setAcceptMode(QFileDialog::AcceptSave);
         fs->setDefaultSuffix(QStringLiteral("kdenlivetitle"));
 
-        // TODO: KF5 porting?
-        // fs->setConfirmOverwrite(true);
-        // fs->setKeepLocation(true);
         if ((fs->exec() != 0) && !fs->selectedUrls().isEmpty()) {
             url = fs->selectedUrls().constFirst();
         }

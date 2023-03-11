@@ -152,7 +152,8 @@ void ColorPlaneExport::slotExportPlane()
 #endif
     if (!lower.endsWith(QLatin1String(".png")) && !lower.endsWith(QLatin1String(".jpg")) && !lower.endsWith(QLatin1String(".tif")) &&
         !lower.endsWith(QLatin1String(".tiff"))) {
-        if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", QStringLiteral(".png"))) == KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(this, i18n("File has no valid extension. Add extension (%1)?", QStringLiteral(".png")), i18n("File Extension"),
+                                            KStandardGuiItem::add(), KGuiItem(i18nc("@action:button", "Continue without"))) == KMessageBox::PrimaryAction) {
             kurlrequester->setUrl(QUrl(kurlrequester->text() + QStringLiteral(".png")));
         }
     }

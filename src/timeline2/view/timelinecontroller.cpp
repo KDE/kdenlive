@@ -2513,7 +2513,7 @@ void TimelineController::resetPreview()
     }
 }
 
-void TimelineController::loadPreview(const QString &chunks, const QString &dirty, int enable, Mlt::Playlist &playlist)
+void TimelineController::loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist)
 {
     if (chunks.isEmpty() && dirty.isEmpty()) {
         return;

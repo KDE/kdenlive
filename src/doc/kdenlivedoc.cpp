@@ -944,7 +944,7 @@ void KdenliveDoc::prepareRenderAssets(const QDir &destFolder)
 void KdenliveDoc::restoreRenderAssets()
 {
     // Copy current subtitles to assets render folder
-    updateWorkFilesAfterSave(true);
+    updateWorkFilesAfterSave();
 }
 
 void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender)
@@ -975,7 +975,7 @@ void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender
     pCore->bin()->moveTimeWarpToFolder(sequenceFolder, true);
 }
 
-void KdenliveDoc::updateWorkFilesAfterSave(bool onRender)
+void KdenliveDoc::updateWorkFilesAfterSave()
 {
     QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
     while (j.hasNext()) {

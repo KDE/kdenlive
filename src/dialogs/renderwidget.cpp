@@ -676,7 +676,7 @@ void RenderWidget::prepareRendering(bool delayedRendering)
         project->prepareRenderAssets(dir);
     }
     QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData, true);
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
 
     if (delayedRendering) {
         project->restoreRenderAssets();

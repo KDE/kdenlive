@@ -2109,7 +2109,7 @@ void Bin::slotDuplicateClip()
                     QString id;
                     Fun undo = []() { return true; };
                     Fun redo = []() { return true; };
-                    bool res = m_itemModel->requestAddBinClip(id, xml.documentElement(), item->parent()->clipId(), undo, redo, callBack);
+                    m_itemModel->requestAddBinClip(id, xml.documentElement(), item->parent()->clipId(), undo, redo, callBack);
                 } else {
                     QDomDocument doc;
                     QDomElement xml = currentItem->toXml(doc);
@@ -3010,7 +3010,7 @@ void Bin::slotEditClip()
         showSlideshowWidget(clip);
         break;
     case ClipType::QText:
-        ClipCreationDialog::createQTextClip(m_doc, parentFolder, this, clip.get());
+        ClipCreationDialog::createQTextClip(parentFolder, this, clip.get());
         break;
     default:
         break;
@@ -3052,7 +3052,7 @@ void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
     } else if (clip->clipType() == ClipType::QText) {
         m_propertiesPanel->setEnabled(false);
         QString parentFolder = getCurrentFolder();
-        ClipCreationDialog::createQTextClip(m_doc, parentFolder, this, clip.get());
+        ClipCreationDialog::createQTextClip(parentFolder, this, clip.get());
     } else {
         m_propertiesPanel->setEnabled(true);
         Q_EMIT requestShowClipProperties(clip);
@@ -3578,7 +3578,7 @@ void Bin::slotCreateProjectClip()
         ClipCreationDialog::createTitleTemplateClip(m_doc, parentFolder, m_itemModel);
         break;
     case ClipType::QText:
-        ClipCreationDialog::createQTextClip(m_doc, parentFolder, this);
+        ClipCreationDialog::createQTextClip(parentFolder, this);
         break;
     case ClipType::Animation:
         ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
@@ -3602,7 +3602,7 @@ void Bin::slotCreateProjectClip()
                     parentFolder = sequenceFolder;
                 }
             }
-            ClipCreationDialog::createPlaylistClip(dia_ui.sequence_name->text(), {aTracks, vTracks}, m_doc, parentFolder, m_itemModel);
+            ClipCreationDialog::createPlaylistClip(dia_ui.sequence_name->text(), {aTracks, vTracks}, parentFolder, m_itemModel);
         }
         break;
     }

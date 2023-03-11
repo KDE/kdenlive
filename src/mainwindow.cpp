@@ -2061,26 +2061,25 @@ void MainWindow::slotEditProjectSettings(int ix)
             project->setDocumentProperty(QStringLiteral("previewextension"), w->previewExtension());
             slotClearPreviewRender(false);
         }
+
+        bool proxiesChanged = false;
         if (project->getDocumentProperty(QStringLiteral("proxyparams")) != w->proxyParams() ||
             project->getDocumentProperty(QStringLiteral("proxyextension")) != w->proxyExtension()) {
             modified = true;
+            proxiesChanged = true;
             project->setDocumentProperty(QStringLiteral("proxyparams"), w->proxyParams());
             project->setDocumentProperty(QStringLiteral("proxyextension"), w->proxyExtension());
-            if (pCore->projectItemModel()->clipsCount() > 0 &&
-                KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) ==
-                    KMessageBox::Yes) {
-                pCore->bin()->rebuildProxies();
-            }
         }
-
         if (project->getDocumentProperty(QStringLiteral("externalproxyparams")) != w->externalProxyParams()) {
             modified = true;
+            proxiesChanged = true;
             project->setDocumentProperty(QStringLiteral("externalproxyparams"), w->externalProxyParams());
-            if (pCore->projectItemModel()->clipsCount() > 0 &&
-                KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) ==
-                    KMessageBox::Yes) {
-                pCore->bin()->rebuildProxies();
-            }
+        }
+        if (proxiesChanged && pCore->projectItemModel()->clipsCount() > 0 &&
+            KMessageBox::questionTwoActions(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?"), {},
+                                            KGuiItem(i18nc("@action:button", "Recreate")),
+                                            KGuiItem(i18nc("@action:button", "Continue without"))) == KMessageBox::PrimaryAction) {
+            pCore->bin()->rebuildProxies();
         }
 
         if (project->getDocumentProperty(QStringLiteral("generateproxy")) != QString::number(int(w->generateProxy()))) {
@@ -2533,8 +2532,9 @@ void MainWindow::slotCheckTabPosition()
 void MainWindow::slotRestart(bool clean)
 {
     if (clean) {
-        if (KMessageBox::questionYesNo(this, i18n("This will delete Kdenlive's configuration file and restart the application. Do you want to proceed?")) !=
-            KMessageBox::Yes) {
+        if (KMessageBox::warningContinueCancel(this,
+                                               i18n("This will delete Kdenlive's configuration file and restart the application. Do you want to proceed?"),
+                                               i18nc("@title:window", "Reset Configuration")) != KMessageBox::Continue) {
             return;
         }
     }

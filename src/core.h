@@ -292,7 +292,7 @@ public:
 #endif
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
-    void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, int enablePreview, Mlt::Playlist &playlist);
+    void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
     QString packageType() { return m_packageType; };

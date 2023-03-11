@@ -321,9 +321,9 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         }
     }
     if (!duplicates.isEmpty()) {
-        if (KMessageBox::warningYesNoList(QApplication::activeWindow(),
-                                          i18n("The following clips are already inserted in the project. Do you want to duplicate them?"),
-                                          duplicates) == KMessageBox::Yes) {
+        if (KMessageBox::warningTwoActionsList(QApplication::activeWindow(),
+                                               i18n("The following clips are already inserted in the project. Do you want to duplicate them?"), duplicates, {},
+                                               KGuiItem(i18n("Duplicate")), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
             cleanList = list;
         }
     }
