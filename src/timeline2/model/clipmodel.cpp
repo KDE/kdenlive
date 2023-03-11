@@ -277,7 +277,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
             }
         }
-        Fun reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
+        Fun reverse = [this, old_in, old_out, track_reverse, logUndo, roles]() {
             if (track_reverse()) {
                 setInOut(old_in, old_out);
                 if (logUndo && !m_endlessResize) {
