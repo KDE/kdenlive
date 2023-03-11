@@ -676,7 +676,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         if (m_doc.toString().contains(QStringLiteral("font-size"))) {
             KMessageBox::ButtonCode convert = KMessageBox::Continue;
             QDomNodeList kproducerNodes = m_doc.elementsByTagName(QStringLiteral("kdenlive_producer"));
-            for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
+            for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::SecondaryAction; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();
                 if (kproducer.attribute(QStringLiteral("type")).toInt() == int(ClipType::Text)) {
                     QDomDocument data;
@@ -688,15 +688,15 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             if (textProperties.namedItem(QStringLiteral("font-pixel-size")).isNull() &&
                                 !textProperties.namedItem(QStringLiteral("font-size")).isNull()) {
                                 // Ask the user if he wants to convert
-                                if (convert != KMessageBox::Yes && convert != KMessageBox::No) {
-                                    convert = KMessageBox::ButtonCode(KMessageBox::warningYesNo(
+                                if (convert != KMessageBox::PrimaryAction && convert != KMessageBox::SecondaryAction) {
+                                    convert = KMessageBox::ButtonCode(KMessageBox::warningTwoActions(
                                         QApplication::activeWindow(),
                                         i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do "
                                              "you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they "
                                              "were first created on, or you could have to adjust their size."),
-                                        i18n("Update Text Clips")));
+                                        i18n("Update Text Clips"), KGuiItem(i18n("Convert")), KStandardGuiItem::cancel()));
                                 }
-                                if (convert == KMessageBox::Yes) {
+                                if (convert == KMessageBox::PrimaryAction) {
                                     QFont font;
                                     font.setPointSize(textProperties.namedItem(QStringLiteral("font-size")).nodeValue().toInt());
                                     QDomElement content = items.at(j).namedItem(QStringLiteral("content")).toElement();
@@ -2206,9 +2206,10 @@ bool DocumentValidator::checkMovit()
         // Project does not use Movit GLSL effects, we can load it
         return true;
     }
-    if (KMessageBox::questionYesNo(QApplication::activeWindow(),
-                                   i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the "
-                                        "project to a non-GPU version?\nThis might result in data loss.")) != KMessageBox::Yes) {
+    if (KMessageBox::questionTwoActions(QApplication::activeWindow(),
+                                        i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the "
+                                             "project to a non-GPU version?\nThis might result in data loss."),
+                                        i18n("GPU Effects"), KGuiItem(i18n("Convert")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
         return false;
     }
     // Try to convert Movit filters to their non GPU equivalent

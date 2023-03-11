@@ -60,7 +60,7 @@ public:
      */
     void disableBinEffects(bool disable, bool refreshMonitor = true);
     /** @brief Returns current project's xml scene */
-    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString(), bool rendering = false);
+    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
@@ -219,7 +219,7 @@ Q_SIGNALS:
 
 protected:
     /** @brief Update the timeline according to the MLT XML */
-    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview);
+    bool updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview);
 
 private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */

@@ -740,7 +740,9 @@ bool TextBasedEdit::eventFilter(QObject *obj, QEvent *event)
 void TextBasedEdit::startRecognition()
 {
     if (m_speechJob && m_speechJob->state() != QProcess::NotRunning) {
-        if (KMessageBox::questionYesNo(this, i18n("Another recognition job is running. Abort it ?")) != KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(
+                this, i18n("Another recognition job is already running. It will be aborted in favor of the new job. Do you want to proceed?"), {},
+                KStandardGuiItem::cont(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
     }

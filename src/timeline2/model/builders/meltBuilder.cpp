@@ -38,8 +38,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                             bool audioTrack, const QString &originalDecimalPoint, int playlist, const QList<Mlt::Transition *> &compositions,
                             QProgressDialog *progressDialog = nullptr);
 
-bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog,
-                    const QString &originalDecimalPoint)
+bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::Tractor tractor, QProgressDialog *progressDialog)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -65,7 +64,7 @@ bool loadProjectBin(const std::shared_ptr<ProjectItemModel> &projectModel, Mlt::
 
 bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &timeline, const std::shared_ptr<ProjectItemModel> &projectModel,
                                   Mlt::Tractor tractor, QProgressDialog *progressDialog, const QString &originalDecimalPoint, const QString &chunks,
-                                  const QString &dirty, const QDateTime &documentDate, int enablePreview, bool *projectErrors)
+                                  const QString &dirty, bool enablePreview)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -81,7 +80,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
             binIdCorresp.clear();
             projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, zoomLevel, progressDialog);
         } else {
-            projectModel->loadTractorPlaylist(tractor, binIdCorresp, expandedFolders, progressDialog);
+            projectModel->loadTractorPlaylist(tractor, binIdCorresp, expandedFolders);
         }
 
         QStringList foldersToExpand;
@@ -295,7 +294,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 }
 
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog,
-                               const QString &originalDecimalPoint, const QString &chunks, const QString &dirty, int enablePreview, bool *projectErrors)
+                               const QString &originalDecimalPoint, const QString &chunks, const QString &dirty, bool enablePreview, bool *projectErrors)
 {
     if (tractor.count() == 0) {
         // Trying to load invalid tractor, abort

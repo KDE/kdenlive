@@ -120,7 +120,7 @@ public:
     /** @brief Update path of subtitle url and timewarp sequence playlists. */
     void updateWorkFilesBeforeSave(const QString &newUrl = QString(), bool onRender = false);
     /** @brief Restore tmp work path for subtitle filters after saving. */
-    void updateWorkFilesAfterSave(bool onRender = false);
+    void updateWorkFilesAfterSave();
 
     void prepareRenderAssets(const QDir &destFolder);
     void restoreRenderAssets();

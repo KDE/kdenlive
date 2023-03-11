@@ -86,9 +86,9 @@ private:
     QString m_name;
     QString m_note;
     QString m_standard;
+    bool m_manual;
     RenderPresetParams m_params;
     QString m_extension;
-    bool m_manual;
     QString m_groupName;
     QString m_renderer;
     QString m_url;

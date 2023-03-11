@@ -1282,8 +1282,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unord
     }
 }
 
-void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                           QProgressDialog *progressDialog)
+void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::unordered_map<QString, QString> &binIdCorresp)
 {
     QWriteLocker locker(&m_lock);
     QList<int> processedIds;

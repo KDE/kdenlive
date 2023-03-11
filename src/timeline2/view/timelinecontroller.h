@@ -580,7 +580,7 @@ public:
 
     /** @brief Load timeline preview from saved doc
      */
-    void loadPreview(const QString &chunks, const QString &dirty, int enable, Mlt::Playlist &playlist);
+    void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
     /** @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();

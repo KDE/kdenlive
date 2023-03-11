@@ -502,7 +502,7 @@ void KeyframeWidget::resetKeyframes()
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
-    int in = m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
+    m_model->data(m_index, AssetParameterModel::InRole).toInt(&ok);
     Q_ASSERT(ok);
     // reset keyframes
     m_keyframes->refresh();

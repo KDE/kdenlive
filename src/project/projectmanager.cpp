@@ -908,7 +908,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData, bool rendering)
+QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData)
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
@@ -1134,7 +1134,7 @@ void ProjectManager::requestBackup(const QString &errorMessage)
     }
 }
 
-bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enablePreview)
+bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &chunks, const QString &dirty, const QDateTime &documentDate, bool enablePreview)
 {
     pCore->taskManager.slotCancelJobs();
     const QUuid uuid = m_project->uuid();
@@ -1146,7 +1146,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         m_project->cleanupTimelinePreview(documentDate);
         pCore->projectItemModel()->buildPlaylist(uuid);
         // Load bin playlist
-        loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint());
+        loadProjectBin(pCore->projectItemModel(), tractor, m_progressDialog);
         return true;
         const QUuid activeUuid(m_project->getDocumentProperty(QStringLiteral("activetimeline")));
         const QString binId = pCore->projectItemModel()->getSequenceId(activeUuid);
@@ -1173,7 +1173,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     m_project->addTimeline(uuid, timelineModel);
     TimelineWidget *documentTimeline = nullptr;
 
-    bool projectErrors = false;
     m_project->cleanupTimelinePreview(documentDate);
     if (!createNewTab) {
         if (pCore->window()) {
@@ -1191,7 +1190,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
         m_project->activeUuid = timelineModel->uuid();
     }
     if (!constructTimelineFromTractor(timelineModel, pCore->projectItemModel(), tractor, m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty,
-                                      documentDate, enablePreview, &projectErrors)) {
+                                      enablePreview)) {
         // TODO: act on project load failure
         qDebug() << "// Project failed to load!!";
         requestBackup(i18n("Project file is corrupted - failed to load tracks. Try to find a backup file?"));
@@ -1271,11 +1270,6 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
 
     // Reset locale to C to ensure numbers are serialised correctly
     LocaleHandling::resetLocale();
-    if (projectErrors) {
-        m_notesPlugin->showDock();
-        m_notesPlugin->widget()->raise();
-        m_notesPlugin->widget()->setFocus();
-    }
     return true;
 }
 
