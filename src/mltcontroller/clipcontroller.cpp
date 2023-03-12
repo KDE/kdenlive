@@ -86,7 +86,11 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     QMapIterator<QString, QVariant> i(m_tempProps);
     while (i.hasNext()) {
         i.next();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         switch (i.value().type()) {
+#else
+        switch (i.value().typeId()) {
+#endif
         case QVariant::Int:
             setProducerProperty(i.key(), i.value().toInt());
             break;

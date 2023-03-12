@@ -2019,11 +2019,12 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
     }
     QString current = getProducerProperty("kdenlive:clipanalysis." + name);
     if (!current.isEmpty()) {
-        if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(),
-                                            KGuiItem(i18n("Merge")), KStandardGuiItem::add()) == KMessageBox::Yes) {
+        // TODO
+        /*if (KMessageBox::questionTwoActions(QApplication::activeWindow(), i18n("Clip already contains analysis data %1", name), QString(),
+                                            KGuiItem(i18n("Merge")), KStandardGuiItem::add()) == KMessageBox::PrimaryAction) {
             // Merge data
             // TODO MLT7: convert to Mlt::Animation
-            /*auto &profile = pCore->getCurrentProfile();
+            auto &profile = pCore->getCurrentProfile();
             Mlt::Geometry geometry(current.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::Geometry newGeometry(data.toUtf8().data(), duration().frames(profile->fps()), profile->width(), profile->height());
             Mlt::GeometryItem item;
@@ -2034,9 +2035,9 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 pos++;
                 geometry.insert(item);
             }
-            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();*/
+            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
             // m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
-        }
+        }*/
         // Add data with another name
         int i = 1;
         QString previous = getProducerProperty("kdenlive:clipanalysis." + name + QString::number(i));

@@ -1790,7 +1790,7 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
                 KGuiItem(i18n("Keep current default %1", currentProfileDesc)), KGuiItem(i18n("Ask me later")));
 
             switch (answer) {
-            case KMessageBox::Yes:
+            case KMessageBox::PrimaryAction:
                 // Discard all current jobs
                 pCore->taskManager.slotCancelJobs({AbstractTask::PROXYJOB, AbstractTask::AUDIOTHUMBJOB, AbstractTask::TRANSCODEJOB});
                 KdenliveSettings::setDefault_profile(profile->path());
@@ -1798,7 +1798,7 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
                 updateProjectProfile(true, true);
                 Q_EMIT docModified(true);
                 return;
-            case KMessageBox::No:
+            case KMessageBox::SecondaryAction:
                 return;
             default:
                 break;
