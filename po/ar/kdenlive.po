@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-11 00:48+0000\n"
+"POT-Creation-Date: 2023-03-12 00:45+0000\n"
 "PO-Revision-Date: 2023-03-04 22:38+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4692,7 +4692,7 @@ msgstr "حرر الأوسمة"
 #: src/bin/bin.cpp:4203 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:1880 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
-#: src/onlineresources/resourcewidget.cpp:571
+#: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
 msgid "Unnamed"
 msgstr "غير مسمى"
@@ -4740,7 +4740,7 @@ msgstr ""
 "أنت تحرّر مقطع عنوان خارجيّة (%1). أتريد حفظ تغييراتك إلى ملفّ العنوان أو حفظها "
 "لهذا المشروع فقط؟"
 
-#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2179
+#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid "Save Title"
 msgstr "احفظ العنوان"
@@ -4915,7 +4915,7 @@ msgid "Create sequence"
 msgstr "أنشئ تسلسلًا جديدًا"
 
 #: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Sequences"
 msgstr "السلاسل"
@@ -4946,6 +4946,12 @@ msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr "المقاطع التالية موجودة فعلاً في المشروع. هل تريد تكريرها؟"
+
+#: src/bin/clipcreator.cpp:326
+#, fuzzy, kde-format
+#| msgid "Duplicate clip"
+msgid "Duplicate"
+msgstr "كرّر المقطع"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -5955,7 +5961,7 @@ msgstr "صدر بيانات الأدلة"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1485
+#: src/project/projectmanager.cpp:1479
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4996
@@ -6037,7 +6043,7 @@ msgstr "متنوّع"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:244
 #: src/dialogs/kdenlivesettingsdialog.cpp:784
-#: src/doc/documentvalidator.cpp:2220
+#: src/doc/documentvalidator.cpp:2221
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -6779,7 +6785,7 @@ msgstr "حدد مقطع في الخط الزمني ليحلله"
 msgid "No audio track found"
 msgstr "لم يُعثر على مسار صوت"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:753
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:755
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "فضلاً اضبط تحويل الصوت إلى نص"
@@ -6794,12 +6800,12 @@ msgstr "يبدأ تصدير الصوت"
 msgid "Audio export failed"
 msgstr "فشل تصدير الصوت"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:770
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:772
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "يبدأ التعرف على الكلام"
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:888
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:890
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "أحبط التعرف على الكلام."
@@ -6953,8 +6959,8 @@ msgstr "أضف علامة"
 msgid "Delete selection"
 msgstr "امح المحدد"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
-#: src/dialogs/textbasededit.cpp:972
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:906
+#: src/dialogs/textbasededit.cpp:974
 #, kde-format
 msgid "No speech"
 msgstr "بدون كلام"
@@ -6969,72 +6975,74 @@ msgstr "احذف النص المحدّد"
 msgid "Add bookmark for current selection"
 msgstr "أضف علامة للتحديد الحالي"
 
-#: src/dialogs/textbasededit.cpp:743
+#: src/dialogs/textbasededit.cpp:744
 #, kde-format
-msgid "Another recognition job is running. Abort it ?"
-msgstr "يوجد عملية تعرّف تعمل. هل تحبطها؟"
+msgid ""
+"Another recognition job is already running. It will be aborted in favor of "
+"the new job. Do you want to proceed?"
+msgstr ""
 
-#: src/dialogs/textbasededit.cpp:759
+#: src/dialogs/textbasededit.cpp:761
 #, kde-format
 msgid "Please install a language model."
 msgstr "فضلا ثبت نموذج اللغة."
 
-#: src/dialogs/textbasededit.cpp:765
+#: src/dialogs/textbasededit.cpp:767
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "اختر مقطع بصوت في سلة المشروع"
 
-#: src/dialogs/textbasededit.cpp:813
+#: src/dialogs/textbasededit.cpp:815
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "حدد مقطع بصوت حتى يُعرّف على الكلام."
 
-#: src/dialogs/textbasededit.cpp:822
+#: src/dialogs/textbasededit.cpp:824
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "تعذّر إنشاء الملفّ المؤّقت."
 
-#: src/dialogs/textbasededit.cpp:827
+#: src/dialogs/textbasededit.cpp:829
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "يستخرج الصّوت لـ %1."
 
-#: src/dialogs/textbasededit.cpp:836
+#: src/dialogs/textbasededit.cpp:838
 #, kde-format
 msgid "Audio extract failed."
 msgstr "فشل استخراج الصوت."
 
-#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
+#: src/dialogs/textbasededit.cpp:844 src/dialogs/textbasededit.cpp:871
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "يبدأ التعرف على الكلام في %1."
 
-#: src/dialogs/textbasededit.cpp:891
+#: src/dialogs/textbasededit.cpp:893
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "خطأ، فضلا تأكد أن التحويل من الكلام إلى النص مضبوط."
 
-#: src/dialogs/textbasededit.cpp:893
+#: src/dialogs/textbasededit.cpp:895
 #, kde-format
 msgid "No speech detected."
 msgstr "لم يكتشف أي حديث"
 
-#: src/dialogs/textbasededit.cpp:911
+#: src/dialogs/textbasededit.cpp:913
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "فشل التعرف على الحديث"
 
-#: src/dialogs/textbasededit.cpp:1080
+#: src/dialogs/textbasededit.cpp:1082
 #, kde-format
 msgid "No text to export"
 msgstr "لا يوجد نص للتصدير"
 
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1102
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "أدخل مسارا جديدا لقائمة التشغيل"
 
-#: src/dialogs/textbasededit.cpp:1201
+#: src/dialogs/textbasededit.cpp:1203
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "لم يُعثر على رمز وقت في التحديد"
@@ -7572,6 +7580,12 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "تحديث مقاطع النّصوص"
 
+#: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "Convert to"
+msgid "Convert"
+msgstr "حوّل إلى"
+
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
 msgid "Cannot recover this project file"
@@ -7595,12 +7609,18 @@ msgstr ""
 "أتريد تحويل هذا المشروع إلى نسخة دون وحدة رسوميّات؟\n"
 "قد ينتج فقد للبيانات."
 
-#: src/doc/documentvalidator.cpp:2304
+#: src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "GPU effects"
+msgid "GPU Effects"
+msgstr "تأثيرات وحدة معالجة الرسومات"
+
+#: src/doc/documentvalidator.cpp:2305
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "المرشحات/الانتقالات التالية حولت إلى إصدارة لا تدعم العتاد الرسومي:"
 
-#: src/doc/documentvalidator.cpp:2307
+#: src/doc/documentvalidator.cpp:2308
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "المرشّحات/الانتقالات الآتية حُذفت من المشروع:"
@@ -7695,7 +7715,7 @@ msgstr "خطأ في نقل مجلّد المشروع: %1"
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2142
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1318
+#: src/project/projectmanager.cpp:1312
 #, kde-format
 msgid "Untitled"
 msgstr "غير معنون"
@@ -7824,22 +7844,22 @@ msgstr ""
 "لم يُعثر على تشكيلة لمقطعك %1.\n"
 "أأنشئ واحدة وأحوّل إلى التشكيلة الجديدة (%2×%3، %4 إطار/ثا)؟%5"
 
-#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:229
-#: src/scopes/colorscopes/colorplaneexport.cpp:257
+#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/scopes/colorscopes/colorplaneexport.cpp:258
 #, kde-format
 msgid "Red"
 msgstr "الأحمر"
 
-#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:230
-#: src/scopes/colorscopes/colorplaneexport.cpp:258
+#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/scopes/colorscopes/colorplaneexport.cpp:259
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Green"
 msgstr "الأخضر"
 
-#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
+#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Blue"
 msgstr "الأزرق"
@@ -10405,7 +10425,7 @@ msgstr "استخرج الإطار…"
 msgid "Extract Frame to Project…"
 msgstr "استخرج الإطار إلى مشروع…"
 
-#: src/mainwindow.cpp:2070 src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2079
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -10414,7 +10434,23 @@ msgstr ""
 "لقد غيرت المعلمات الوسيط. هل تريد إعادة إنشاء جميع مقاطع الوسطاء لهذا "
 "المشروع؟"
 
-#: src/mainwindow.cpp:2138
+#: src/mainwindow.cpp:2080
+#, fuzzy, kde-format
+#| msgid "Create"
+msgctxt "@action:button"
+msgid "Recreate"
+msgstr "أنشئ"
+
+#: src/mainwindow.cpp:2081 src/onlineresources/resourcewidget.cpp:568
+#: src/scopes/colorscopes/colorplaneexport.cpp:156
+#: src/titler/titlewidget.cpp:2178
+#, fuzzy, kde-format
+#| msgid "Outline width"
+msgctxt "@action:button"
+msgid "Continue without"
+msgstr "عرض المحيط"
+
+#: src/mainwindow.cpp:2137
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -10425,7 +10461,7 @@ msgstr ""
 "الملفات المؤقتة من <br/><b>%1</b> إلى <b>%2</b>،<br> و إعادة تحميل ملف "
 "المشروع"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -10434,42 +10470,42 @@ msgstr ""
 "سيؤدي إلى نقل جميع الملفات المؤقتة من<br/> <b>%1</b> إلى <b>%2</b> ،<br/> و "
 "إعادة تحميل ملف المشروع"
 
-#: src/mainwindow.cpp:2155 src/project/projectmanager.cpp:479
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:479
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "لا يمكن إجراء العمليّة، مستند غير صالح: %1"
 
-#: src/mainwindow.cpp:2160 src/project/projectmanager.cpp:485
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:485
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "لا يمكن إجراء العمليّة، دليل المقصد موجود فعلاً: %1"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "سيزيل هذا كلّ المقاطع غير المستخدمة من مشروعك."
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "Clean up project"
 msgstr "تنظيف المشروع"
 
-#: src/mainwindow.cpp:2435 src/mainwindow.cpp:2463
+#: src/mainwindow.cpp:2434 src/mainwindow.cpp:2462
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "تشكيلات لوحة المفاتيح جديدة…"
 
-#: src/mainwindow.cpp:2450
+#: src/mainwindow.cpp:2449
 #, kde-format
 msgid "Current scheme:"
 msgstr "التشكيلة الحالية:"
 
-#: src/mainwindow.cpp:2460
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "More Actions"
 msgstr "إجراءات أخرى"
 
-#: src/mainwindow.cpp:2472
+#: src/mainwindow.cpp:2471
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
@@ -10482,6 +10518,13 @@ msgid ""
 "Do you want to proceed?"
 msgstr ""
 "سيؤدي هذا إلى حذف ملف ضبط كِيدِينلايف وإعادة التشغيل التطبيق. هل تريد المتابعة؟"
+
+#: src/mainwindow.cpp:2537
+#, fuzzy, kde-format
+#| msgid "Reset Configuration…"
+msgctxt "@title:window"
+msgid "Reset Configuration"
+msgstr "أعد الضبط…"
 
 #: src/mainwindow.cpp:2669 src/mainwindow.cpp:2696
 #, kde-format
@@ -12139,12 +12182,12 @@ msgstr ""
 "كن على علم بأن استخدام المورد قد يكون مقيدًا حسب شروط الترخيص أو القانون! \n"
 "هل تريد إضافة إسناد الترخيص إلى ملاحظات مشروعك؟"
 
-#: src/onlineresources/resourcewidget.cpp:568
+#: src/onlineresources/resourcewidget.cpp:569
 #, kde-format
 msgid "Remember this decision"
 msgstr "تذكر هذا القرار"
 
-#: src/onlineresources/resourcewidget.cpp:570
+#: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -12154,33 +12197,33 @@ msgstr ""
 "يستخدم هذا الفيديو \"%1\" (%2) بواسطة \"%3\" المرخصة تحت %4. لعرض نسخة من "
 "هذا الترخيص ، تفضل بزيارة %5"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:612
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 جرّب مجدّدًا."
 
-#: src/onlineresources/resourcewidget.cpp:611
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:612
+#: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Error Loading Data"
 msgstr "خطأ في تحميل البيانات"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "حُفظ المورد في %1"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Data Imported"
 msgstr "استوردت البيانات"
 
-#: src/onlineresources/resourcewidget.cpp:650
+#: src/onlineresources/resourcewidget.cpp:651
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "حاول الاستيراد مرة أخرى للحصول على اتصال جديد"
 
-#: src/onlineresources/resourcewidget.cpp:651
+#: src/onlineresources/resourcewidget.cpp:652
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "خطأ في الحصول على رمز الوصول من %1"
@@ -12693,7 +12736,7 @@ msgstr "حمّل علامات المقطع"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "ملف العلامة أكبر من ١ ميجابايت، هل ترغب في استيراده؟"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1379
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1373
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
@@ -13312,7 +13355,7 @@ msgstr "افتح ملفّ نسخة احتياطيّة…"
 msgid "Save changes to document?"
 msgstr "أأحفظ التّغييرات على المستند؟"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1317
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1311
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13443,13 +13486,13 @@ msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "ملف المشروع معطوب (بدون مسارات). محاولة العثور على ملف النسخة الاحتياطيّة؟"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1215
-#: src/project/projectmanager.cpp:1218
+#: src/project/projectmanager.cpp:1185 src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Sequence 1"
 msgstr "التسلسل ١"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13457,13 +13500,13 @@ msgstr ""
 "ملف المشروع معطوب - فشل في تحميل المسارات. محاولة العثور على ملف النسخة "
 "الاحتياطيّة؟"
 
-#: src/project/projectmanager.cpp:1323 src/project/projectmanager.cpp:1328
-#: src/project/projectmanager.cpp:1338 src/project/projectmanager.cpp:1354
+#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1322
+#: src/project/projectmanager.cpp:1332 src/project/projectmanager.cpp:1348
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "احبط تغيير تشكيلة المشروع"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1464
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13472,12 +13515,12 @@ msgstr ""
 "الملفّ الخرج %1 موجود فعلاً.\n"
 " أتريد الكتابة فوقه؟"
 
-#: src/project/projectmanager.cpp:1495
+#: src/project/projectmanager.cpp:1489
 #, kde-format
 msgid "Project profile changed"
 msgstr "تغيرت تشكيلة المشروع"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1541
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13486,7 +13529,7 @@ msgstr ""
 "تعذّر إنشاء خط زمني لهذا المقطع:\n"
 " %1"
 
-#: src/project/projectmanager.cpp:1622
+#: src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "يستورد مقطع تسلسل، هذا الميزة تجريبية"
@@ -13947,7 +13990,7 @@ msgid "HSV Hue Shift"
 msgstr "نقل صبغة ص‌ش‌ق"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
-#: src/scopes/colorscopes/colorplaneexport.cpp:243
+#: src/scopes/colorscopes/colorplaneexport.cpp:244
 #, kde-format
 msgid "HSV Saturation"
 msgstr "إشباع ن‌ش‌ق"
@@ -13964,45 +14007,52 @@ msgid "%1 px"
 msgstr "%1 بكسل"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, kde-format
-msgid "File has no extension. Add extension (%1)?"
+#, fuzzy, kde-format
+#| msgid "File has no extension. Add extension (%1)?"
+msgid "File has no valid extension. Add extension (%1)?"
 msgstr "ليس للملفّ امتداد. أأضيف الامتداد (%1)؟"
 
+#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#, fuzzy, kde-format
+#| msgid "File extension:"
+msgid "File Extension"
+msgstr "امتداد الملفّ:"
+
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: src/scopes/colorscopes/colorplaneexport.cpp:196
+#: src/scopes/colorscopes/colorplaneexport.cpp:197
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
 msgstr "تحجيم"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:207
+#: src/scopes/colorscopes/colorplaneexport.cpp:208
 #, kde-format
 msgid "Y value"
 msgstr "قيمة واي"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:208
+#: src/scopes/colorscopes/colorplaneexport.cpp:209
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
 msgstr "قيمة واي تمثل سطوع الألوان."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:220
+#: src/scopes/colorscopes/colorplaneexport.cpp:221
 #, kde-format
 msgid "UV angle"
 msgstr "زاوية يو في"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:221
+#: src/scopes/colorscopes/colorplaneexport.cpp:222
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "الزاوية من خلال مقطع يو في مع جميع قيم واي المحتملة"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Luma"
 msgstr "لوما"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:244
-#: src/scopes/colorscopes/colorplaneexport.cpp:251
+#: src/scopes/colorscopes/colorplaneexport.cpp:245
+#: src/scopes/colorscopes/colorplaneexport.cpp:252
 #, kde-format
 msgid "HSV Value"
 msgstr "قيمة ن‌ش‌ق HSV"
@@ -14144,16 +14194,16 @@ msgstr "مستعرض ح‌خ‌ز"
 msgid "Histogram"
 msgstr "المخطّط الدّرجيّ"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:254
-#: src/timeline2/model/builders/meltBuilder.cpp:482
-#: src/timeline2/model/builders/meltBuilder.cpp:492
+#: src/timeline2/model/builders/meltBuilder.cpp:253
+#: src/timeline2/model/builders/meltBuilder.cpp:481
+#: src/timeline2/model/builders/meltBuilder.cpp:491
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr "عُثر على تركيب %1 غير صالح في المسار %2 عند %3، يتركب مع مسار %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:263
-#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:262
+#: src/timeline2/model/builders/meltBuilder.cpp:505
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -14161,42 +14211,42 @@ msgid ""
 msgstr ""
 "عُثر على تركيب %1 غير صحيح في المسار %2 عند %3، فرض التراكب مع مسار %4 بالقوة."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:272
-#: src/timeline2/model/builders/meltBuilder.cpp:520
+#: src/timeline2/model/builders/meltBuilder.cpp:271
+#: src/timeline2/model/builders/meltBuilder.cpp:519
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "عُثر على تركيب %1 غير صالح في المسار %2 عند %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:292
-#: src/timeline2/model/builders/meltBuilder.cpp:550
-#: src/timeline2/model/builders/meltBuilder.cpp:552
+#: src/timeline2/model/builders/meltBuilder.cpp:291
+#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:551
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "المشاكل الموجودة في ملف مشروعك"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:481
-#: src/timeline2/model/builders/meltBuilder.cpp:491
+#: src/timeline2/model/builders/meltBuilder.cpp:480
+#: src/timeline2/model/builders/meltBuilder.cpp:490
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr "عُثر على التركيب %1 (%2) بمرجع مسار غير صالح وأزيل."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:505
+#: src/timeline2/model/builders/meltBuilder.cpp:504
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr "لم يطبق التركيب %1 على المسار المتوقع، فرض المسار يدويًا."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:519
+#: src/timeline2/model/builders/meltBuilder.cpp:518
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "عُثر على %1 تركيباً وأزالهن."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:541
+#: src/timeline2/model/builders/meltBuilder.cpp:540
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "عثر على أخطاء في فتح ملف مشروع (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:548
+#: src/timeline2/model/builders/meltBuilder.cpp:547
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -14209,95 +14259,95 @@ msgstr ""
 "علامة التبويب ملاحظات المشروع،\n"
 " يرجى مراجعتها لضمان سلامة مشروعك."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:627
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:626
+#: src/timeline2/model/builders/meltBuilder.cpp:636
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "مزج غير صحيح، أزيل المقطع %1عند %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:628
+#: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "عُثر على مزج غير صالح في المسار %1 عند %2، أزيلت المقطع %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:638
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "عُثر على مزج غير صالح عند المسار %1 عند %2، أزيلت المقطع %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:729
+#: src/timeline2/model/builders/meltBuilder.cpp:728
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "عُثر على مقطع (%2) في الخط الزمني %1 بمرجع سلة غير صحيح، وقد استعيد بنجاح."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:730
+#: src/timeline2/model/builders/meltBuilder.cpp:729
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "عُثر على مقطع %1 (%2) غير صالح في سلة المشروع، واستعيد."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:732
+#: src/timeline2/model/builders/meltBuilder.cpp:731
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "عُثر على مقطع (%2) في الخط الزمني %1 بون مرجع سلة، وأزيل."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:733
+#: src/timeline2/model/builders/meltBuilder.cpp:732
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "المشروع معطوب. المقطع %1 (%2) غير موجود في سلة المشروع."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:789
-#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:788
+#: src/timeline2/model/builders/meltBuilder.cpp:821
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "عُثر على مقطع %1 (%2) بمزج مفقود وأعيد تحجيمه"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
-#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:789
+#: src/timeline2/model/builders/meltBuilder.cpp:819
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "عُثر على مقطع بدون مزج %1 وأع تحجميه في مسار %2 عند %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:795
-#: src/timeline2/model/builders/meltBuilder.cpp:826
+#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:825
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "عُثر على مقطع غير صالح بدون مزج %1 وأزيل في مسار %2 عند %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:797
-#: src/timeline2/model/builders/meltBuilder.cpp:828
+#: src/timeline2/model/builders/meltBuilder.cpp:796
+#: src/timeline2/model/builders/meltBuilder.cpp:827
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "عُثر على مقطع %1 (%2) بمزج مفقود وأزيل"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:859
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:858
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "عُثر على مقطع %1 غير صالح في مسار %2 عند %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:817
-#: src/timeline2/model/builders/meltBuilder.cpp:864
+#: src/timeline2/model/builders/meltBuilder.cpp:816
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "عُثر على %1 مقطع غير صالح (%2) وأزيل"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:835
+#: src/timeline2/model/builders/meltBuilder.cpp:834
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "عُثر على المقطع %1 في مسار فرعي غير صحيح، وأصلحت في المسار %2 عند %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:839
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "عُثر على المقطع %1  (%2) في مسار فرعي غير صحيح، وأصلح / %3 ."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:843
+#: src/timeline2/model/builders/meltBuilder.cpp:842
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "عُثر على المقطع %1 في مسار فرعي غير صحيح في المسار %2 عند %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:848
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "عُثر المقطع %1 (%2) بقائمة تشغيل فرعية غير صحيحة"
@@ -15773,7 +15823,7 @@ msgid "Add Ellipse"
 msgstr "أضف شكل بيضاوي"
 
 #: src/titler/titlewidget.cpp:395 src/titler/titlewidget.cpp:398
-#: src/titler/titlewidget.cpp:811
+#: src/titler/titlewidget.cpp:812
 #, kde-format
 msgid "Add Image"
 msgstr "أضف صورةً"
@@ -15810,49 +15860,49 @@ msgid ""
 "lost!"
 msgstr "أمتأكّد من تحميل قالب جديد؟ ستفقد التّغييرات على هذا العنوان!"
 
-#: src/titler/titlewidget.cpp:799
+#: src/titler/titlewidget.cpp:800
 #, kde-format
 msgid "All Images"
 msgstr "كلّ الصّور"
 
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:802
 #, kde-format
 msgid "%1 Image"
 msgstr "صورة %1"
 
-#: src/titler/titlewidget.cpp:1635
+#: src/titler/titlewidget.cpp:1636
 #, kde-format
 msgid "−X"
 msgstr "−س"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1637 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1638 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+س"
 
-#: src/titler/titlewidget.cpp:1659
+#: src/titler/titlewidget.cpp:1660
 #, kde-format
 msgid "−Y"
 msgstr "−ص"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1661 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1662 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+ص"
 
-#: src/titler/titlewidget.cpp:2128
+#: src/titler/titlewidget.cpp:2129
 #, kde-format
 msgid "Load Title"
 msgstr "حمّل عنوانًا"
 
-#: src/titler/titlewidget.cpp:2129
+#: src/titler/titlewidget.cpp:2130
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "عنوان كِيدِينلايف ‏(‎*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2176
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -15860,6 +15910,13 @@ msgid ""
 msgstr ""
 "أتريد تضمين الصّور إلى TitleDocument هذا؟\n"
 "هذا ضروريّ لمشاركة العناوين."
+
+#: src/titler/titlewidget.cpp:2177
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgctxt "@action:button"
+msgid "Embed Images"
+msgstr "أضف صورةً"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -20052,6 +20109,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Another recognition job is running. Abort it ?"
+#~ msgstr "يوجد عملية تعرّف تعمل. هل تحبطها؟"
 
 #, fuzzy
 #~| msgid "Color Space"

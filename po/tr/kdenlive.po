@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-11 00:48+0000\n"
-"PO-Revision-Date: 2023-03-09 13:11+0300\n"
+"POT-Creation-Date: 2023-03-12 00:45+0000\n"
+"PO-Revision-Date: 2023-03-11 15:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4263,12 +4263,7 @@ msgid "Tags Panel"
 msgstr "Etiketler Paneli"
 
 #: src/bin/bin.cpp:1385
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggles the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the project bin contents. Click on the filter icon to toggle the "
@@ -4733,7 +4728,7 @@ msgstr "Etiketleri Düzenle"
 #: src/bin/bin.cpp:4203 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:1880 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
-#: src/onlineresources/resourcewidget.cpp:571
+#: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
 msgid "Unnamed"
 msgstr "Adsız"
@@ -4781,7 +4776,7 @@ msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
 "dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
-#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2179
+#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid "Save Title"
 msgstr "Başlığı Kaydet"
@@ -4952,7 +4947,7 @@ msgid "Create sequence"
 msgstr "Sıra oluştur"
 
 #: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Sequences"
 msgstr "Sıralar"
@@ -4984,6 +4979,12 @@ msgid ""
 "duplicate them?"
 msgstr ""
 "Aşağıdaki klipler halihazırda projeye eklenmiş. Yinelemek istiyor musunuz?"
+
+#: src/bin/clipcreator.cpp:326
+#, fuzzy, kde-format
+#| msgid "Duplicate clip"
+msgid "Duplicate"
+msgstr "Klibi çoğalt"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -5988,7 +5989,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1485
+#: src/project/projectmanager.cpp:1479
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4996
@@ -6070,7 +6071,7 @@ msgstr "Çeşitli"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:244
 #: src/dialogs/kdenlivesettingsdialog.cpp:784
-#: src/doc/documentvalidator.cpp:2220
+#: src/doc/documentvalidator.cpp:2221
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -6808,7 +6809,7 @@ msgstr "Çözümleme gerçekleştirmek için zaman akışından bir klip seçin"
 msgid "No audio track found"
 msgstr "Ses izi bulunamadı"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:753
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:755
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Lütfen konuşmadan metneyi yapılandırın."
@@ -6823,12 +6824,12 @@ msgstr "Ses dışa aktarımı başlatılıyor"
 msgid "Audio export failed"
 msgstr "Ses dışa aktarımı başarısız"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:770
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:772
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Konuşma tanıma başlatılıyor"
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:888
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:890
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Konuşma tanıma iptal edildi."
@@ -6986,8 +6987,8 @@ msgstr "Yer İmi Ekle"
 msgid "Delete selection"
 msgstr "Seçimi Sil"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
-#: src/dialogs/textbasededit.cpp:972
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:906
+#: src/dialogs/textbasededit.cpp:974
 #, kde-format
 msgid "No speech"
 msgstr "Konuşma yok"
@@ -7002,72 +7003,74 @@ msgstr "Seçili metni sil"
 msgid "Add bookmark for current selection"
 msgstr "Geçerli Seçimi Yer İmi Ekle"
 
-#: src/dialogs/textbasededit.cpp:743
+#: src/dialogs/textbasededit.cpp:744
 #, kde-format
-msgid "Another recognition job is running. Abort it ?"
-msgstr "Başka bir tanımlama işi çalışıyor. İptal edilsin mi?"
+msgid ""
+"Another recognition job is already running. It will be aborted in favor of "
+"the new job. Do you want to proceed?"
+msgstr ""
 
-#: src/dialogs/textbasededit.cpp:759
+#: src/dialogs/textbasededit.cpp:761
 #, kde-format
 msgid "Please install a language model."
 msgstr "Lütfen bir dil modeli kurun."
 
-#: src/dialogs/textbasededit.cpp:765
+#: src/dialogs/textbasededit.cpp:767
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Proje Kovasında sesli bir klip seçin."
 
-#: src/dialogs/textbasededit.cpp:813
+#: src/dialogs/textbasededit.cpp:815
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Konuşma tanıma için ses içeren bir klip seçin."
 
-#: src/dialogs/textbasededit.cpp:822
+#: src/dialogs/textbasededit.cpp:824
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Geçici dosya oluşturulamadı."
 
-#: src/dialogs/textbasededit.cpp:827
+#: src/dialogs/textbasededit.cpp:829
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "%1 için ses çıkarılıyor."
 
-#: src/dialogs/textbasededit.cpp:836
+#: src/dialogs/textbasededit.cpp:838
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Ses çıkarımı başarısız."
 
-#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
+#: src/dialogs/textbasededit.cpp:844 src/dialogs/textbasededit.cpp:871
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1 üzerinde konuşma tanıma başlatılıyor."
 
-#: src/dialogs/textbasededit.cpp:891
+#: src/dialogs/textbasededit.cpp:893
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Hata, lütfen konuşmadan metne yapılandırmasını denetleyin."
 
-#: src/dialogs/textbasededit.cpp:893
+#: src/dialogs/textbasededit.cpp:895
 #, kde-format
 msgid "No speech detected."
 msgstr "Konuşma algılanamadı."
 
-#: src/dialogs/textbasededit.cpp:911
+#: src/dialogs/textbasededit.cpp:913
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Konuşma tanıma bitti."
 
-#: src/dialogs/textbasededit.cpp:1080
+#: src/dialogs/textbasededit.cpp:1082
 #, kde-format
 msgid "No text to export"
 msgstr "Dışa aktarılacak metin yok"
 
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1102
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Yeni oynatma listesi yolunu girin"
 
-#: src/dialogs/textbasededit.cpp:1201
+#: src/dialogs/textbasededit.cpp:1203
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Seçimde zaman kodu bulunamadı"
@@ -7598,6 +7601,12 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Metin Kliplerini Güncelle"
 
+#: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "Convert to"
+msgid "Convert"
+msgstr "Şuna dönüştür"
+
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
 msgid "Cannot recover this project file"
@@ -7621,12 +7630,18 @@ msgstr ""
 "Projeyi GPU içermeyen bir sürüme dönüştürmek ister misiniz?\n"
 "Bu veri kaybına neden olabilir."
 
-#: src/doc/documentvalidator.cpp:2304
+#: src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "GPU effects"
+msgid "GPU Effects"
+msgstr "GPU etkileri"
+
+#: src/doc/documentvalidator.cpp:2305
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Aşağıdaki süzgeçler/geçişler GPU içermeyen sürüm için dönüştürüldü:"
 
-#: src/doc/documentvalidator.cpp:2307
+#: src/doc/documentvalidator.cpp:2308
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Aşağıdaki süzgeçler/geçişler projeden silindi:"
@@ -7721,7 +7736,7 @@ msgstr "Proje klasörü taşınırken hata: %1"
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2142
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1318
+#: src/project/projectmanager.cpp:1312
 #, kde-format
 msgid "Untitled"
 msgstr "Başlıksız"
@@ -7843,22 +7858,22 @@ msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
 "Yeni bir profil oluşturup ona geçin (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:229
-#: src/scopes/colorscopes/colorplaneexport.cpp:257
+#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/scopes/colorscopes/colorplaneexport.cpp:258
 #, kde-format
 msgid "Red"
 msgstr "Kırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:230
-#: src/scopes/colorscopes/colorplaneexport.cpp:258
+#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/scopes/colorscopes/colorplaneexport.cpp:259
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Green"
 msgstr "Yeşil"
 
-#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
+#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
@@ -9512,18 +9527,14 @@ msgid "Spacer Tool"
 msgstr "Boşluk Aracı"
 
 #: src/mainwindow.cpp:1212
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, click and drag the cursor in the timeline temporarily "
-#| "groups separate clips and creates or removes space between clips."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
-"Seçildiğinde, zaman akışında imleci tıklayıp sürüklemek ayrı klipleri geçici "
-"olarak gruplar ve klipler arasında boşluk oluşturur veya aralarındaki "
+"Seçildiğinde, zaman akışında fareyle tıklayıp sürüklemek ayrı klipleri "
+"geçici olarak gruplar ve klipler arasında boşluk oluşturur veya aralarındaki "
 "boşlukları kaldırır."
 
 #: src/mainwindow.cpp:1217
@@ -9532,11 +9543,7 @@ msgid "Ripple Tool"
 msgstr "Dalgacık Aracı"
 
 #: src/mainwindow.cpp:1218
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag the edges of a clip lengthens or shortens the clip "
-#| "and move adjacent clips back and forth while doing that."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
@@ -9555,11 +9562,7 @@ msgid "Slip Tool"
 msgstr "Sürçme Aracı"
 
 #: src/mainwindow.cpp:1230
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag a clip slips the clip beneath the given window back "
-#| "and forth."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
@@ -9634,18 +9637,14 @@ msgid "Snap"
 msgstr "Tuttur"
 
 #: src/mainwindow.cpp:1290
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Toggles the snap function (clips, playhead snaps to edges, markers, "
-#| "guides and others)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
-"Tutturma işlevini açar/kapatır (klipler; kenarlara tutturulan oynatma "
-"kafası, imleyiciler, kılavuzlar ve diğerleri)."
+"Tutturma işlevini açar/kapatır (klipler; imleyicilere, kılavuzlara, oynatma "
+"kafasına ve diğerlerine tutturulur)."
 
 #: src/mainwindow.cpp:1296
 #, kde-format
@@ -9993,18 +9992,14 @@ msgid "Remove Preview Zone"
 msgstr "Önizleme Bölgesi Çıkar"
 
 #: src/mainwindow.cpp:1598
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Removes the currently defined timeline/selection zone from the preview "
-#| "render zone. Note that this can leave holes in the preview render zones."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 "Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunum "
-"bölgesinden kaldırır. Bunun, önizleme sunum bölgelerinde delikler "
+"bölgesinden kaldırır. Bunun, önizleme sunum bölgelerinde boşluklar "
 "bırakabileceğini unutmayın."
 
 #: src/mainwindow.cpp:1599
@@ -10449,7 +10444,7 @@ msgstr "Kareyi Dışa Aktar…"
 msgid "Extract Frame to Project…"
 msgstr "Kareyi Projeye Dışa Aktar…"
 
-#: src/mainwindow.cpp:2070 src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2079
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -10458,7 +10453,23 @@ msgstr ""
 "Vekil parametrelerini değiştirdiniz. Bu proje için tüm vekil kliplerini "
 "yeniden oluşturmak ister misiniz?"
 
-#: src/mainwindow.cpp:2138
+#: src/mainwindow.cpp:2080
+#, fuzzy, kde-format
+#| msgid "Create"
+msgctxt "@action:button"
+msgid "Recreate"
+msgstr "Oluştur"
+
+#: src/mainwindow.cpp:2081 src/onlineresources/resourcewidget.cpp:568
+#: src/scopes/colorscopes/colorplaneexport.cpp:156
+#: src/titler/titlewidget.cpp:2178
+#, fuzzy, kde-format
+#| msgid "Outline width"
+msgctxt "@action:button"
+msgid "Continue without"
+msgstr "Dış hat genişliği"
+
+#: src/mainwindow.cpp:2137
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -10469,7 +10480,7 @@ msgstr ""
 "geçici dosyaların tümünü<br/><b>%1</b> üzerinden <b>%2</b> konumuna taşır ve "
 "proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -10478,42 +10489,42 @@ msgstr ""
 "Bu işlem, ilk olarak projeyi kaydeder, geçici dosyaların tümünü<br/><b>%1</"
 "b> üzerinden <b>%2</b> konumuna taşır ve proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:2155 src/project/projectmanager.cpp:479
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:479
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Bu işlem gerçekleştirilemez, geçersiz belge kimliği: %1"
 
-#: src/mainwindow.cpp:2160 src/project/projectmanager.cpp:485
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:485
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Bu işlem gerçekleştirilemez, hedef dizin halihazırda mevcut: %1"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Bu, kullanılmayan tüm klipleri projenizden kaldıracak."
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "Clean up project"
 msgstr "Projeyi temizle"
 
-#: src/mainwindow.cpp:2435 src/mainwindow.cpp:2463
+#: src/mainwindow.cpp:2434 src/mainwindow.cpp:2462
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Yeni Klavye Şemaları İndir…"
 
-#: src/mainwindow.cpp:2450
+#: src/mainwindow.cpp:2449
 #, kde-format
 msgid "Current scheme:"
 msgstr "Geçerli şema:"
 
-#: src/mainwindow.cpp:2460
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "More Actions"
 msgstr "Daha Fazla Eylem"
 
-#: src/mainwindow.cpp:2472
+#: src/mainwindow.cpp:2471
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
@@ -10527,6 +10538,13 @@ msgid ""
 msgstr ""
 "Bu, kdenlive'ın yapılandırma dosyasını silecek ve uygulamayı yeniden "
 "başlatacaktır. Sürdürmek istiyor musunuz?"
+
+#: src/mainwindow.cpp:2537
+#, fuzzy, kde-format
+#| msgid "Reset Configuration…"
+msgctxt "@title:window"
+msgid "Reset Configuration"
+msgstr "Yapılandırmayı Sıfırla…"
 
 #: src/mainwindow.cpp:2669 src/mainwindow.cpp:2696
 #, kde-format
@@ -11036,16 +11054,14 @@ msgid "ms"
 msgstr "ms"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:930
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color space:"
-msgstr "Renk aralığı"
+msgstr "Renk uzayı:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Color range:"
-msgstr "Renk aralığı"
+msgstr "Renk aralığı:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #, kde-format
@@ -12204,12 +12220,12 @@ msgstr ""
 "olabileceğini aklınızda bulundurun!\n"
 "Proje Notlarınıza lisans yüklemi eklemek istediğinizden emin misiniz?"
 
-#: src/onlineresources/resourcewidget.cpp:568
+#: src/onlineresources/resourcewidget.cpp:569
 #, kde-format
 msgid "Remember this decision"
 msgstr "Bu kararı anımsa"
 
-#: src/onlineresources/resourcewidget.cpp:570
+#: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -12219,33 +12235,33 @@ msgstr ""
 "Bu video, \"%3\" tarafından yapılmış ve %4 ile lisanslanan \"%1\" (%2) "
 "kullanıyor. Lisansın bir kopyasını görüntülemek için %5 adresini ziyaret edin"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:612
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 Yeniden deneyin."
 
-#: src/onlineresources/resourcewidget.cpp:611
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:612
+#: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Error Loading Data"
 msgstr "Veri Yüklenirken Hata"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "Özkaynaklar, %1 konumuna kaydedildi"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Data Imported"
 msgstr "Veri İçe Aktarıldı"
 
-#: src/onlineresources/resourcewidget.cpp:650
+#: src/onlineresources/resourcewidget.cpp:651
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "Yeni bir bağlantı sağlamak için yeniden içe aktarmayı dene"
 
-#: src/onlineresources/resourcewidget.cpp:651
+#: src/onlineresources/resourcewidget.cpp:652
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "%1 Konumundan Erişim Jetonu Alırken Hata"
@@ -12747,7 +12763,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "İmleyici dosyası 1MB'den büyük, içe aktarmak istediğinize emin misiniz?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1379
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1373
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
@@ -13358,7 +13374,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1317
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1311
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13497,25 +13513,25 @@ msgstr ""
 "Proje dosyası bozuk (iz yok). Bir yedekleme dosyası mı bulmaya "
 "çalışıyorsunuz?"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1215
-#: src/project/projectmanager.cpp:1218
+#: src/project/projectmanager.cpp:1185 src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sıra 1"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk - izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1323 src/project/projectmanager.cpp:1328
-#: src/project/projectmanager.cpp:1338 src/project/projectmanager.cpp:1354
+#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1322
+#: src/project/projectmanager.cpp:1332 src/project/projectmanager.cpp:1348
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1464
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13524,12 +13540,12 @@ msgstr ""
 "Çıktı dosyası %1 halihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1495
+#: src/project/projectmanager.cpp:1489
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1541
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13538,7 +13554,7 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1622
+#: src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Bir sıra klibi içe aktarılıyor, bu şu anda deneysel bir özelliktir"
@@ -14004,7 +14020,7 @@ msgid "HSV Hue Shift"
 msgstr "TDD Ton Kaydırma"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
-#: src/scopes/colorscopes/colorplaneexport.cpp:243
+#: src/scopes/colorscopes/colorplaneexport.cpp:244
 #, kde-format
 msgid "HSV Saturation"
 msgstr "TDD Doygunluğu"
@@ -14021,45 +14037,52 @@ msgid "%1 px"
 msgstr "%1 px"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, kde-format
-msgid "File has no extension. Add extension (%1)?"
+#, fuzzy, kde-format
+#| msgid "File has no extension. Add extension (%1)?"
+msgid "File has no valid extension. Add extension (%1)?"
 msgstr "Dosya bir uzantıya sahip değil. Uzantı eklensin mi (%1)?"
 
+#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#, fuzzy, kde-format
+#| msgid "File extension:"
+msgid "File Extension"
+msgstr "Dosya uzantısı:"
+
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: src/scopes/colorscopes/colorplaneexport.cpp:196
+#: src/scopes/colorscopes/colorplaneexport.cpp:197
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
 msgstr "Ölçeklendirme"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:207
+#: src/scopes/colorscopes/colorplaneexport.cpp:208
 #, kde-format
 msgid "Y value"
 msgstr "Y değeri"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:208
+#: src/scopes/colorscopes/colorplaneexport.cpp:209
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
 msgstr "Y değeri, renklerin parlaklığını açıklar."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:220
+#: src/scopes/colorscopes/colorplaneexport.cpp:221
 #, kde-format
 msgid "UV angle"
 msgstr "UV açısı"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:221
+#: src/scopes/colorscopes/colorplaneexport.cpp:222
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "Tüm olası Y değerleri ile UV düzlemi boyunca açı."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Luma"
 msgstr "Luma"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:244
-#: src/scopes/colorscopes/colorplaneexport.cpp:251
+#: src/scopes/colorscopes/colorplaneexport.cpp:245
+#: src/scopes/colorscopes/colorplaneexport.cpp:252
 #, kde-format
 msgid "HSV Value"
 msgstr "TDD Değeri"
@@ -14201,9 +14224,9 @@ msgstr "KYM Geçidi"
 msgid "Histogram"
 msgstr "Sütun Grafiği"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:254
-#: src/timeline2/model/builders/meltBuilder.cpp:482
-#: src/timeline2/model/builders/meltBuilder.cpp:492
+#: src/timeline2/model/builders/meltBuilder.cpp:253
+#: src/timeline2/model/builders/meltBuilder.cpp:481
+#: src/timeline2/model/builders/meltBuilder.cpp:491
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -14211,8 +14234,8 @@ msgstr ""
 "%2 ve %3 izlerinde geçersiz %1 bileşikleştirme bulundu, %4 iziyle birlikte "
 "bileşikleştiriliyor."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:263
-#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:262
+#: src/timeline2/model/builders/meltBuilder.cpp:505
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -14221,43 +14244,43 @@ msgstr ""
 "%2 ve %3 izlerinde geçersiz %1 bileşikleştirme bulundu, zorlanmış ize ayarlı "
 "%4 iziyle bileşikleştiriliyor."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:272
-#: src/timeline2/model/builders/meltBuilder.cpp:520
+#: src/timeline2/model/builders/meltBuilder.cpp:271
+#: src/timeline2/model/builders/meltBuilder.cpp:519
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "%2 ve %3 izlerinde geçersiz %1 bileşikleştirmesi bulundu."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:292
-#: src/timeline2/model/builders/meltBuilder.cpp:550
-#: src/timeline2/model/builders/meltBuilder.cpp:552
+#: src/timeline2/model/builders/meltBuilder.cpp:291
+#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:551
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "Proje dosyanızda sorunlar bulundu"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:481
-#: src/timeline2/model/builders/meltBuilder.cpp:491
+#: src/timeline2/model/builders/meltBuilder.cpp:480
+#: src/timeline2/model/builders/meltBuilder.cpp:490
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 "Geçersiz iz başvurusuna sahip %1 bileşikleştirme (%2) bulundu ve kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:505
+#: src/timeline2/model/builders/meltBuilder.cpp:504
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr "%1 bileşikleştirme beklenen ize uygulanmadı, izi el ile zorlayın."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:519
+#: src/timeline2/model/builders/meltBuilder.cpp:518
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 geçersiz bileşikleştirme bulundu ve kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:541
+#: src/timeline2/model/builders/meltBuilder.cpp:540
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Proje dosyası açılırken hatalar bulundu (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:548
+#: src/timeline2/model/builders/meltBuilder.cpp:547
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -14270,100 +14293,100 @@ msgstr ""
 "Proje Notları sekmesi altında listelendi,\n"
 "lütfen proje bütünlüğünüzü doğrulamak için onları gözden geçirin."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:627
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:626
+#: src/timeline2/model/builders/meltBuilder.cpp:636
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Yanlış karışım, %1 klibi, %2 konumunda kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:628
+#: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "%1 izi üzerinde %2 konumunda yanlış karışım bulundu; %3 klibi kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:638
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "%1 izi %2 konumunda yanlış karışım bulundu; %3 klibi kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:729
+#: src/timeline2/model/builders/meltBuilder.cpp:728
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "Yanlış kova başvurusuna iye %1 zaman akışı klibi (%2) bulundu ve kurtarıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:730
+#: src/timeline2/model/builders/meltBuilder.cpp:729
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "Proje kovasında geçersiz klip %1 (%2) bulunamadı, kurtarıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:732
+#: src/timeline2/model/builders/meltBuilder.cpp:731
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "Kova başvurusuz %1 Zaman Akışı klibi (%2) bulundu ve kaldırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:733
+#: src/timeline2/model/builders/meltBuilder.cpp:732
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Proje hasarlı. %1 (%2) klibi proje kovasında bulunamadı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:789
-#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:788
+#: src/timeline2/model/builders/meltBuilder.cpp:821
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "Eksik karışımlı %1 klip (%2) bulunde ve yeniden boyutlandırıldı"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
-#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:789
+#: src/timeline2/model/builders/meltBuilder.cpp:819
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Karışım içermeyen %1 klibi bulundu ve %2 ve %3 izlerinde yeniden "
 "boyutlandırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:795
-#: src/timeline2/model/builders/meltBuilder.cpp:826
+#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:825
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr ""
 "Karışım içermeyen geçersiz %1 klibi bulundu ve %2 ve %3 izlerinde yeniden "
 "boyutlandırıldı."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:797
-#: src/timeline2/model/builders/meltBuilder.cpp:828
+#: src/timeline2/model/builders/meltBuilder.cpp:796
+#: src/timeline2/model/builders/meltBuilder.cpp:827
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "Eksik karışımlı %1 klip (%2) bulundu ve kaldırıldı"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:859
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:858
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "%2 ve %3 izlerinde geçersiz %1 klibi bulundu."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:817
-#: src/timeline2/model/builders/meltBuilder.cpp:864
+#: src/timeline2/model/builders/meltBuilder.cpp:816
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "Geçersiz %1 klip (%2) bulundu ve kaldırıldı"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:835
+#: src/timeline2/model/builders/meltBuilder.cpp:834
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "Yanlış alt izde %1 klibi bulundu ve %2 ve %3 izlerinde düzeltildi."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:839
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "Yanlış alt izde %1 klip (%2) bulundu ve onarıldı / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:843
+#: src/timeline2/model/builders/meltBuilder.cpp:842
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "%2 ve %3 izlerinde yanlış alt izde %1 klibil bulundu."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:848
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "Yanlış alt oynatma listeli %1 klip (%2) bulundu"
@@ -15837,7 +15860,7 @@ msgid "Add Ellipse"
 msgstr "Elips Ekle"
 
 #: src/titler/titlewidget.cpp:395 src/titler/titlewidget.cpp:398
-#: src/titler/titlewidget.cpp:811
+#: src/titler/titlewidget.cpp:812
 #, kde-format
 msgid "Add Image"
 msgstr "Görsel Ekle"
@@ -15876,49 +15899,49 @@ msgstr ""
 "Gerçekten yeni bir şablon yüklemek istiyor musunuz? Bu başlıktaki "
 "değişiklikler kaybedilecek!"
 
-#: src/titler/titlewidget.cpp:799
+#: src/titler/titlewidget.cpp:800
 #, kde-format
 msgid "All Images"
 msgstr "Tüm Görseller"
 
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:802
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 Görseli"
 
-#: src/titler/titlewidget.cpp:1635
+#: src/titler/titlewidget.cpp:1636
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1637 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1638 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1659
+#: src/titler/titlewidget.cpp:1660
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1661 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1662 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2128
+#: src/titler/titlewidget.cpp:2129
 #, kde-format
 msgid "Load Title"
 msgstr "Başlık Yükle"
 
-#: src/titler/titlewidget.cpp:2129
+#: src/titler/titlewidget.cpp:2130
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive başlığı (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2176
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -15926,6 +15949,13 @@ msgid ""
 msgstr ""
 "Görselleri bu BaşlıkBelgesi'ne gömmek istiyor musunuz?\n"
 "Bu Başlıkları paylaşmak için en çok gerekli şeydir."
+
+#: src/titler/titlewidget.cpp:2177
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgctxt "@action:button"
+msgid "Embed Images"
+msgstr "Görsel Ekle"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -19084,10 +19114,9 @@ msgstr "Ayırıcı olarak kullanılacak kılavuzlar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:494
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Doldurma rengini seçin"
+msgstr "Tam renk aralığını sun"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:501
@@ -20140,6 +20169,9 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "Another recognition job is running. Abort it ?"
+#~ msgstr "Başka bir tanımlama işi çalışıyor. İptal edilsin mi?"
 
 #~ msgid "Color Range:"
 #~ msgstr "Renk Aralığı:"

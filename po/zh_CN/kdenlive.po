@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-11 00:48+0000\n"
-"PO-Revision-Date: 2023-02-24 12:43\n"
+"POT-Creation-Date: 2023-03-12 00:45+0000\n"
+"PO-Revision-Date: 2023-03-11 04:52\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2131,33 +2131,29 @@ msgid "Use transparency"
 msgstr "使用透明度"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Timeline"
+#, kde-format
 msgid "Timer"
-msgstr "时间轴"
+msgstr "Timer - 计时器"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "叠加 GPS 相关文本信息到视频中。"
+msgstr "叠加显示一个计时器到视频中"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "计数器风格"
+msgstr "字体风格"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "格式："
+msgstr "格式"
 
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2172,6 +2168,8 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[计时器开始计数或者倒数的时间。\n"
+"文字将冻结在过滤器起点的 00:00:00.000 处，直到开始时间已过。]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2181,6 +2179,8 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[在开始时间过后，计时器的最大经过时长。\n"
+"文字将在此时长经过后冻结。]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2197,6 +2197,9 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[添加到计时器数值的偏移值。\n"
+"当方向为“向下”时，计时器将倒数到“偏移”值而不是 00:00:00.000。\n"
+"当方向为“向上”时，计时器将从“偏移”值开始计数。]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2211,6 +2214,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[计时器应该从 00:00:00.000 开始向上计数，还是从经过时长开"
+"始向下计数。]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -4300,29 +4307,24 @@ msgid "Could not locate %1"
 msgstr "无法定位 %1"
 
 #: src/bin/bin.cpp:2077 src/timeline2/view/timelinecontroller.cpp:3793
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Open sequence"
-msgstr "创建序列"
+msgstr "打开序列"
 
 #: src/bin/bin.cpp:2095
-#, fuzzy, kde-format
-#| msgid "Could not create temporary subtitle file"
+#, kde-format
 msgid "Could not create temporary file in %1"
-msgstr "无法创建临时字幕文件"
+msgstr "无法在 %1 创建临时文件"
 
 #: src/bin/bin.cpp:2103
-#, fuzzy, kde-format
-#| msgid "Deleting sequences cannot be undone"
+#, kde-format
 msgid "Duplicating sequence failed"
-msgstr "删除序列的操作无法被撤销"
+msgstr "创建序列副本失败"
 
 #: src/bin/bin.cpp:2106
-#, fuzzy, kde-format
-#| msgctxt "append to clip name to indicate a copied idem"
-#| msgid " (copy)"
+#, kde-format
 msgid "%1 (copy)"
-msgstr " (副本)"
+msgstr "%1 (副本)"
 
 #: src/bin/bin.cpp:2125
 #, kde-format
@@ -4462,10 +4464,9 @@ msgid "Cannot set rating on this item"
 msgstr "无法设置此项目的评分"
 
 #: src/bin/bin.cpp:2977
-#, fuzzy, kde-format
-#| msgid "Opening file %1"
+#, kde-format
 msgid "Open %1"
-msgstr "正在打开文件 %1"
+msgstr "打开 %1"
 
 #: src/bin/bin.cpp:3380
 #, kde-format
@@ -4561,10 +4562,9 @@ msgid "Open in new bin"
 msgstr "在新素材箱中打开"
 
 #: src/bin/bin.cpp:3467
-#, fuzzy, kde-format
-#| msgid "Default Folders"
+#, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "默认文件夹"
+msgstr "序列的默认目标文件夹"
 
 #: src/bin/bin.cpp:3471
 #, kde-format
@@ -4645,7 +4645,7 @@ msgstr "编辑标签"
 #: src/bin/bin.cpp:4203 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:1880 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
-#: src/onlineresources/resourcewidget.cpp:571
+#: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
 msgid "Unnamed"
 msgstr "未命名"
@@ -4693,7 +4693,7 @@ msgstr ""
 "您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
 "目？"
 
-#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2179
+#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid "Save Title"
 msgstr "保存字幕"
@@ -4861,7 +4861,7 @@ msgid "Create sequence"
 msgstr "创建序列"
 
 #: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Sequences"
 msgstr "序列"
@@ -4892,6 +4892,12 @@ msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr "以下剪辑已经插入到项目中。您想要创建它们的副本吗？"
+
+#: src/bin/clipcreator.cpp:326
+#, fuzzy, kde-format
+#| msgid "Duplicate clip"
+msgid "Duplicate"
+msgstr "创建剪辑副本"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -5158,10 +5164,9 @@ msgid "Delete subtitle"
 msgstr "删除字幕"
 
 #: src/bin/projectclip.cpp:226
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Timeline sequence"
-msgstr "创建序列"
+msgstr "时间轴序列"
 
 #: src/bin/projectclip.cpp:525
 #, kde-format
@@ -5331,22 +5336,18 @@ msgid "Import"
 msgstr "导入"
 
 #: src/core.cpp:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "Kdenlive crashed on last startup.\n"
-#| "Do you want to reset the configuration files ?"
+#, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
 "Do you want to disable experimental GPU processing (Movit) ?"
 msgstr ""
-"Kdenlive 在上次启动时崩溃。\n"
-"您想要重置配置文件吗？"
+"Kdenlive 在上次启动时发生了崩溃。\n"
+"您想要禁用实验性 GPU 处理 (Movit) 功能吗？"
 
 #: src/core.cpp:106
-#, fuzzy, kde-format
-#| msgid "Disable proxies"
+#, kde-format
 msgid "Disable GPU processing"
-msgstr "禁用代理"
+msgstr "禁用 GPU 处理功能"
 
 #: src/core.cpp:112
 #, kde-format
@@ -5894,7 +5895,7 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1485
+#: src/project/projectmanager.cpp:1479
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4996
@@ -5976,7 +5977,7 @@ msgstr "常规"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:244
 #: src/dialogs/kdenlivesettingsdialog.cpp:784
-#: src/doc/documentvalidator.cpp:2220
+#: src/doc/documentvalidator.cpp:2221
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -6513,12 +6514,13 @@ msgstr ""
 "请确保您具备所需的权限。"
 
 #: src/dialogs/renderwidget.cpp:672
-#, fuzzy, kde-format
-#| msgid "Cannot create autosave file %1"
+#, kde-format
 msgid ""
 "Could not create assets folder:\n"
 " %1"
-msgstr "无法创建自动保存文件 %1"
+msgstr ""
+"无法创建资产文件夹：\n"
+" %1"
 
 #: src/dialogs/renderwidget.cpp:712 src/dialogs/renderwidget.cpp:788
 #, kde-format
@@ -6679,8 +6681,7 @@ msgid "Add to current project"
 msgstr "添加到当前项目"
 
 #: src/dialogs/speechdialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "automated subtitling"
+#, kde-format
 msgid "Automatic Subtitling"
 msgstr "自动字幕"
 
@@ -6709,10 +6710,10 @@ msgstr "在时间轴中选择一段剪辑以进行分析"
 msgid "No audio track found"
 msgstr "未找到音轨"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:753
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:755
 #, kde-format
 msgid "Please configure speech to text."
-msgstr "请配置语音转文本功能。"
+msgstr "请配置语音转文字功能。"
 
 #: src/dialogs/speechdialog.cpp:152
 #, kde-format
@@ -6724,12 +6725,12 @@ msgstr "开始音频导出"
 msgid "Audio export failed"
 msgstr "音频导出失败"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:770
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:772
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "开始语音识别"
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:888
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:890
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
@@ -6883,8 +6884,8 @@ msgstr "添加书签"
 msgid "Delete selection"
 msgstr "删除所选内容"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
-#: src/dialogs/textbasededit.cpp:972
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:906
+#: src/dialogs/textbasededit.cpp:974
 #, kde-format
 msgid "No speech"
 msgstr "无语音"
@@ -6899,72 +6900,74 @@ msgstr "删除所选文字"
 msgid "Add bookmark for current selection"
 msgstr "添加书签到当前选择内容位置"
 
-#: src/dialogs/textbasededit.cpp:743
+#: src/dialogs/textbasededit.cpp:744
 #, kde-format
-msgid "Another recognition job is running. Abort it ?"
-msgstr "另一个识别任务正在运行。您想要中止它吗？"
+msgid ""
+"Another recognition job is already running. It will be aborted in favor of "
+"the new job. Do you want to proceed?"
+msgstr ""
 
-#: src/dialogs/textbasededit.cpp:759
+#: src/dialogs/textbasededit.cpp:761
 #, kde-format
 msgid "Please install a language model."
 msgstr "请安装语言模型。"
 
-#: src/dialogs/textbasededit.cpp:765
+#: src/dialogs/textbasededit.cpp:767
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "选择项目素材箱中的带音频剪辑。"
 
-#: src/dialogs/textbasededit.cpp:813
+#: src/dialogs/textbasededit.cpp:815
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "选择一段带有音频的剪辑以进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:822
+#: src/dialogs/textbasededit.cpp:824
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "无法创建临时文件。"
 
-#: src/dialogs/textbasededit.cpp:827
+#: src/dialogs/textbasededit.cpp:829
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "正在为 %1 提取音频。"
 
-#: src/dialogs/textbasededit.cpp:836
+#: src/dialogs/textbasededit.cpp:838
 #, kde-format
 msgid "Audio extract failed."
 msgstr "音频提取失败。"
 
-#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
+#: src/dialogs/textbasededit.cpp:844 src/dialogs/textbasededit.cpp:871
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在开始对 %1 进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:891
+#: src/dialogs/textbasededit.cpp:893
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "发生错误，请检查语音转文字功能配置。"
 
-#: src/dialogs/textbasededit.cpp:893
+#: src/dialogs/textbasededit.cpp:895
 #, kde-format
 msgid "No speech detected."
 msgstr "未检测到语音。"
 
-#: src/dialogs/textbasededit.cpp:911
+#: src/dialogs/textbasededit.cpp:913
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
-#: src/dialogs/textbasededit.cpp:1080
+#: src/dialogs/textbasededit.cpp:1082
 #, kde-format
 msgid "No text to export"
 msgstr "没有可供导出的文字"
 
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1102
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "输入新播放列表路径"
 
-#: src/dialogs/textbasededit.cpp:1201
+#: src/dialogs/textbasededit.cpp:1203
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "未找到所选内容中的时间码"
@@ -7469,6 +7472,12 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "更新文字剪辑"
 
+#: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "Convert to"
+msgid "Convert"
+msgstr "转换为"
+
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
 msgid "Cannot recover this project file"
@@ -7491,12 +7500,18 @@ msgstr ""
 "您想要将项目转换为非 GPU 版本吗？\n"
 "此操作可能会导致数据丢失。"
 
-#: src/doc/documentvalidator.cpp:2304
+#: src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "GPU effects"
+msgid "GPU Effects"
+msgstr "GPU effects - GPU 效果"
+
+#: src/doc/documentvalidator.cpp:2305
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "下列滤镜/转场已被转换为非 GPU 版本："
 
-#: src/doc/documentvalidator.cpp:2307
+#: src/doc/documentvalidator.cpp:2308
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "下列滤镜/转场已被从项目中删除："
@@ -7589,7 +7604,7 @@ msgstr "移动项目文件夹时出错：%1"
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2142
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1318
+#: src/project/projectmanager.cpp:1312
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -7708,22 +7723,22 @@ msgstr ""
 "找不到剪辑 %1 的编码方案。\n"
 "创建并切换到新编码方案 (%2x%3, %4fps) 吗？%5"
 
-#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:229
-#: src/scopes/colorscopes/colorplaneexport.cpp:257
+#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/scopes/colorscopes/colorplaneexport.cpp:258
 #, kde-format
 msgid "Red"
 msgstr "红"
 
-#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:230
-#: src/scopes/colorscopes/colorplaneexport.cpp:258
+#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/scopes/colorscopes/colorplaneexport.cpp:259
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Green"
 msgstr "绿"
 
-#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
+#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Blue"
 msgstr "蓝"
@@ -10269,14 +10284,30 @@ msgstr "提取帧…"
 msgid "Extract Frame to Project…"
 msgstr "提取帧到项目…"
 
-#: src/mainwindow.cpp:2070 src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2079
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr "您更改了代理剪辑参数。您想要为此项目重建所有代理剪辑吗？"
 
-#: src/mainwindow.cpp:2138
+#: src/mainwindow.cpp:2080
+#, fuzzy, kde-format
+#| msgid "Create"
+msgctxt "@action:button"
+msgid "Recreate"
+msgstr "创建"
+
+#: src/mainwindow.cpp:2081 src/onlineresources/resourcewidget.cpp:568
+#: src/scopes/colorscopes/colorplaneexport.cpp:156
+#: src/titler/titlewidget.cpp:2178
+#, fuzzy, kde-format
+#| msgid "Outline width"
+msgctxt "@action:button"
+msgid "Continue without"
+msgstr "轮廓宽度"
+
+#: src/mainwindow.cpp:2137
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -10286,7 +10317,7 @@ msgstr ""
 "当前项目尚未保存。<br/>此操作将首先保存项目，然后将所有临时文件从 <br/><b>"
 "%1</b> 移动到 <b>%2</b>，<br>最后重新加载项目文件。"
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -10295,42 +10326,42 @@ msgstr ""
 "此操作会将所有临时文件从 <br/><b>%1</b> 移动到 <b>%2</b>，<br/>然后重新加载项"
 "目文件。"
 
-#: src/mainwindow.cpp:2155 src/project/projectmanager.cpp:479
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:479
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "无法执行操作，无效文档 ID：%1"
 
-#: src/mainwindow.cpp:2160 src/project/projectmanager.cpp:485
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:485
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "无法执行操作，目标目录已经存在：%1"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "此操作将移除项目中所有未使用剪辑。"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "Clean up project"
 msgstr "清理项目"
 
-#: src/mainwindow.cpp:2435 src/mainwindow.cpp:2463
+#: src/mainwindow.cpp:2434 src/mainwindow.cpp:2462
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "下载新的快捷键方案…"
 
-#: src/mainwindow.cpp:2450
+#: src/mainwindow.cpp:2449
 #, kde-format
 msgid "Current scheme:"
 msgstr "当前方案："
 
-#: src/mainwindow.cpp:2460
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "More Actions"
 msgstr "更多操作"
 
-#: src/mainwindow.cpp:2472
+#: src/mainwindow.cpp:2471
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
@@ -10342,6 +10373,13 @@ msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr "此操作将删除 Kdenlive 的配置文件并重新启动应用程序。您想要继续吗？"
+
+#: src/mainwindow.cpp:2537
+#, fuzzy, kde-format
+#| msgid "Reset Configuration…"
+msgctxt "@title:window"
+msgid "Reset Configuration"
+msgstr "重置配置…"
 
 #: src/mainwindow.cpp:2669 src/mainwindow.cpp:2696
 #, kde-format
@@ -10847,19 +10885,19 @@ msgstr "色彩空间"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
 #, fuzzy, kde-format
-#| msgid "Color Space"
+#| msgid "Color range"
 msgid "Color range:"
-msgstr "色彩空间"
+msgstr "色彩范围"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "广播限制 (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "完整 (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:986
 #, kde-format
@@ -11020,8 +11058,7 @@ msgid "Audio bitrate:"
 msgstr "音频码率： "
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1401
-#, fuzzy, kde-format
-#| msgid "Tracks"
+#, kde-format
 msgid "Tracks:"
 msgstr "轨道"
 
@@ -11984,12 +12021,12 @@ msgstr ""
 "请注意，资源的使用可能受到许可证条款或法律的限制。\n"
 "您想要将许可证的署名添加到您的项目注释中吗？"
 
-#: src/onlineresources/resourcewidget.cpp:568
+#: src/onlineresources/resourcewidget.cpp:569
 #, kde-format
 msgid "Remember this decision"
 msgstr "记住此选择"
 
-#: src/onlineresources/resourcewidget.cpp:570
+#: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -11999,33 +12036,33 @@ msgstr ""
 "此视频使用了“%1”(%2) 项目，作者为“%3”，使用 %4 许可证进行授权。要查看此许可证"
 "的副本，请访问 %5"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:612
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 请重试。"
 
-#: src/onlineresources/resourcewidget.cpp:611
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:612
+#: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Error Loading Data"
 msgstr "加载数据时出错"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "资源已保存到 %1"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Data Imported"
 msgstr "数据已导入"
 
-#: src/onlineresources/resourcewidget.cpp:650
+#: src/onlineresources/resourcewidget.cpp:651
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "请重新尝试导入以获取新连接"
 
-#: src/onlineresources/resourcewidget.cpp:651
+#: src/onlineresources/resourcewidget.cpp:652
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "从 %1 获取访问令牌时出错。"
@@ -12517,7 +12554,7 @@ msgstr "加载剪辑标记"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "标记文件大于 1MB，您确定要导入吗？"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1379
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1373
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
@@ -13115,7 +13152,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1317
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1311
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13244,25 +13281,25 @@ msgstr "正在移动项目文件夹"
 msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr "项目文件已经损坏 (无轨道)。要尝试寻找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1215
-#: src/project/projectmanager.cpp:1218
+#: src/project/projectmanager.cpp:1185 src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1323 src/project/projectmanager.cpp:1328
-#: src/project/projectmanager.cpp:1338 src/project/projectmanager.cpp:1354
+#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1322
+#: src/project/projectmanager.cpp:1332 src/project/projectmanager.cpp:1348
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1464
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13271,12 +13308,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1495
+#: src/project/projectmanager.cpp:1489
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1541
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13285,10 +13322,10 @@ msgstr ""
 "无法从此剪辑创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1622
+#: src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
-msgstr ""
+msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 
 #: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
 #, kde-format
@@ -13744,7 +13781,7 @@ msgid "HSV Hue Shift"
 msgstr "HSV 色相偏移"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
-#: src/scopes/colorscopes/colorplaneexport.cpp:243
+#: src/scopes/colorscopes/colorplaneexport.cpp:244
 #, kde-format
 msgid "HSV Saturation"
 msgstr "HSV 饱和度"
@@ -13761,45 +13798,52 @@ msgid "%1 px"
 msgstr "%1 像素"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, kde-format
-msgid "File has no extension. Add extension (%1)?"
+#, fuzzy, kde-format
+#| msgid "File has no extension. Add extension (%1)?"
+msgid "File has no valid extension. Add extension (%1)?"
 msgstr "文件不含扩展名。添加扩展名 (%1) 吗？"
 
+#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#, fuzzy, kde-format
+#| msgid "File extension:"
+msgid "File Extension"
+msgstr "文件扩展名："
+
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: src/scopes/colorscopes/colorplaneexport.cpp:196
+#: src/scopes/colorscopes/colorplaneexport.cpp:197
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
 msgstr "缩放"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:207
+#: src/scopes/colorscopes/colorplaneexport.cpp:208
 #, kde-format
 msgid "Y value"
 msgstr "Y 明度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:208
+#: src/scopes/colorscopes/colorplaneexport.cpp:209
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
 msgstr "此 Y 明度数值用于描述颜色的亮度。"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:220
+#: src/scopes/colorscopes/colorplaneexport.cpp:221
 #, kde-format
 msgid "UV angle"
 msgstr "UV 角度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:221
+#: src/scopes/colorscopes/colorplaneexport.cpp:222
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "通过 UV 平面的角度，以及所有可能的 Y 明度。"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Luma"
 msgstr "亮度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:244
-#: src/scopes/colorscopes/colorplaneexport.cpp:251
+#: src/scopes/colorscopes/colorplaneexport.cpp:245
+#: src/scopes/colorscopes/colorplaneexport.cpp:252
 #, kde-format
 msgid "HSV Value"
 msgstr "HSV 明度"
@@ -13941,16 +13985,16 @@ msgstr "RGB Parade 直方图"
 msgid "Histogram"
 msgstr "直方图"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:254
-#: src/timeline2/model/builders/meltBuilder.cpp:482
-#: src/timeline2/model/builders/meltBuilder.cpp:492
+#: src/timeline2/model/builders/meltBuilder.cpp:253
+#: src/timeline2/model/builders/meltBuilder.cpp:481
+#: src/timeline2/model/builders/meltBuilder.cpp:491
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
 msgstr "发现无效合成 %1 位于轨道 %2 的 %3，它将与轨道 %4 合成。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:263
-#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:262
+#: src/timeline2/model/builders/meltBuilder.cpp:505
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -13959,42 +14003,42 @@ msgstr ""
 "发现不正确的合成 %1 位于轨道 %2 的 %3，它将与轨道 %4 合成，已被设置为强制轨"
 "道。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:272
-#: src/timeline2/model/builders/meltBuilder.cpp:520
+#: src/timeline2/model/builders/meltBuilder.cpp:271
+#: src/timeline2/model/builders/meltBuilder.cpp:519
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "发现无效合成 %1 位于轨道 %2 的 %3。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:292
-#: src/timeline2/model/builders/meltBuilder.cpp:550
-#: src/timeline2/model/builders/meltBuilder.cpp:552
+#: src/timeline2/model/builders/meltBuilder.cpp:291
+#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:551
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "您的项目文件存在问题"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:481
-#: src/timeline2/model/builders/meltBuilder.cpp:491
+#: src/timeline2/model/builders/meltBuilder.cpp:480
+#: src/timeline2/model/builders/meltBuilder.cpp:490
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr "%1 合成 (%2) 中发现了无效的轨道引用，已移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:505
+#: src/timeline2/model/builders/meltBuilder.cpp:504
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
 msgstr "%1 合成没有被应用到预期轨道，手动强制执行该轨道。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:519
+#: src/timeline2/model/builders/meltBuilder.cpp:518
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "发现 %1 无效合成，已经移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:541
+#: src/timeline2/model/builders/meltBuilder.cpp:540
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "打开项目文件时发现错误 (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:548
+#: src/timeline2/model/builders/meltBuilder.cpp:547
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -14006,94 +14050,94 @@ msgstr ""
 "项目已被更改以修复冲突，相关更改已在项目注释标签页中列出。\n"
 "请复核这些更改以确保项目的完整性。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:627
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:626
+#: src/timeline2/model/builders/meltBuilder.cpp:636
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "不正确的混合，剪辑 %1 已在 %2 被移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:628
+#: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr "发现不正确的混合位于轨道 %1 的 %2，剪辑 %3 已被移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:638
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr "发现不正确的混合位于轨道 %1 的 %2，剪辑 %3 已被移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:729
+#: src/timeline2/model/builders/meltBuilder.cpp:728
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr "发现包含错误的素材箱引用的 %1 时间轴剪辑 (%2)，已经恢复。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:730
+#: src/timeline2/model/builders/meltBuilder.cpp:729
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "无效剪辑 %1 (%2) 无法在项目素材箱中找到，已经恢复。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:732
+#: src/timeline2/model/builders/meltBuilder.cpp:731
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "发现没有素材箱引用的 %1 时间轴剪辑 (%2)，已经移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:733
+#: src/timeline2/model/builders/meltBuilder.cpp:732
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "项目已损坏。剪辑 %1 (%2) 无法在项目素材箱中找到。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:789
-#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:788
+#: src/timeline2/model/builders/meltBuilder.cpp:821
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "发现缺少混合的 %1 剪辑 (%2)，已调整大小"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
-#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:789
+#: src/timeline2/model/builders/meltBuilder.cpp:819
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr "发现不含混合 %1 的剪辑，位于轨道 %2 的 %3，已调整大小。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:795
-#: src/timeline2/model/builders/meltBuilder.cpp:826
+#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:825
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "发现不含混合 %1 的无效剪辑，位于轨道 %2 的 %3，已经移除。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:797
-#: src/timeline2/model/builders/meltBuilder.cpp:828
+#: src/timeline2/model/builders/meltBuilder.cpp:796
+#: src/timeline2/model/builders/meltBuilder.cpp:827
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "发现包含缺少混合的 %1 剪辑 (%2)，已经移除"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:859
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:858
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "发现无效剪辑 %1，位于轨道 %2 的 %3。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:817
-#: src/timeline2/model/builders/meltBuilder.cpp:864
+#: src/timeline2/model/builders/meltBuilder.cpp:816
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "发现 %1 无效剪辑 (%2)，已经移除"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:835
+#: src/timeline2/model/builders/meltBuilder.cpp:834
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr "发现位于错误子轨道上的剪辑 %1，位于轨道 %2 的 %3，已修复。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:839
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr "发现位于错误子轨道上的 %1 剪辑 (%2)，已修复 / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:843
+#: src/timeline2/model/builders/meltBuilder.cpp:842
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr "发现位于错误子轨道上的剪辑 %1，位于轨道 %2 的 %3。"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:848
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "发现包含不正确的子播放列表的 %1 剪辑 (%2)"
@@ -14633,7 +14677,7 @@ msgstr "MLT 必需使用 rubberband 程序库进行构建才能启用音调校�
 #: src/timeline2/view/dialogs/speeddialog.cpp:47
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
-msgstr ""
+msgstr "速度效果在用于单一高帧速率剪辑上时渲染效果最好"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:103
 #, kde-format
@@ -15204,23 +15248,22 @@ msgstr[0] "插入轨道"
 #: src/timeline2/view/timelinecontroller.cpp:4893
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
-msgstr ""
+msgstr "用于保存字幕文件的字符编码。"
 
 #: src/timeline2/view/timelinecontroller.cpp:4894
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
-msgstr ""
+msgstr "如果不确定，请尝试：<br><b>Unicode (UTF-8)</b>"
 
 #: src/timeline2/view/timelinecontroller.cpp:4934
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
-msgstr ""
+msgstr "无法猜测编码，将使用 UTF-8"
 
 #: src/timeline2/view/timelinecontroller.cpp:4938
-#, fuzzy, kde-format
-#| msgid "Encoding threads"
+#, kde-format
 msgid "Encoding detected as %1"
-msgstr "编码线程"
+msgstr "检测到编码为 %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:4955
 #, kde-format
@@ -15266,10 +15309,9 @@ msgid "Lock subtitle track"
 msgstr "锁定字幕轨道"
 
 #: src/timeline2/view/timelinetabs.cpp:42
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Add Timeline Sequence"
-msgstr "创建序列"
+msgstr "添加时间轴序列"
 
 #: src/timeline2/view/timelinetabs.cpp:44
 #, kde-format
@@ -15277,12 +15319,13 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
+"添加时间轴序列。这将新建一条用于编辑的时间轴。每条时间轴对应项目素材箱中的一"
+"条序列剪辑"
 
 #: src/timeline2/view/timelinetabs.cpp:197
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Close %1"
-msgstr "关闭"
+msgstr "关闭 %1"
 
 #: src/timeline2/view/timelinewidget.cpp:72
 #, kde-format
@@ -15545,7 +15588,7 @@ msgid "Add Ellipse"
 msgstr "添加椭圆"
 
 #: src/titler/titlewidget.cpp:395 src/titler/titlewidget.cpp:398
-#: src/titler/titlewidget.cpp:811
+#: src/titler/titlewidget.cpp:812
 #, kde-format
 msgid "Add Image"
 msgstr "添加图像"
@@ -15582,49 +15625,49 @@ msgid ""
 "lost!"
 msgstr "您确定要加载新的模板吗？此字幕的更改将会丢失。"
 
-#: src/titler/titlewidget.cpp:799
+#: src/titler/titlewidget.cpp:800
 #, kde-format
 msgid "All Images"
 msgstr "全部图像"
 
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:802
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 图像"
 
-#: src/titler/titlewidget.cpp:1635
+#: src/titler/titlewidget.cpp:1636
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1637 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1638 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1659
+#: src/titler/titlewidget.cpp:1660
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1661 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1662 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2128
+#: src/titler/titlewidget.cpp:2129
 #, kde-format
 msgid "Load Title"
 msgstr "加载字幕"
 
-#: src/titler/titlewidget.cpp:2129
+#: src/titler/titlewidget.cpp:2130
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive 字幕 (*.kdenlivettile)"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2176
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -15632,6 +15675,13 @@ msgid ""
 msgstr ""
 "您想要嵌入图像到此字幕文件吗？\n"
 "此操作是分享字幕所必需的。"
+
+#: src/titler/titlewidget.cpp:2177
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgctxt "@action:button"
+msgid "Embed Images"
+msgstr "添加图像"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -17972,10 +18022,9 @@ msgstr "*.srt *.ass *.vtt *.sbv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/import_subtitle_ui.ui:85
-#, fuzzy, kde-format
-#| msgid "Recording"
+#, kde-format
 msgid "Encoding"
-msgstr "正在录制"
+msgstr "编码"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
 #: src/ui/import_subtitle_ui.ui:113
@@ -17991,10 +18040,9 @@ msgstr "变形帧速率"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/import_subtitle_ui.ui:258
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Preview"
-msgstr "字幕文件："
+msgstr "字幕预览"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -19806,13 +19854,8 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
 
-#, fuzzy
-#~| msgid "Color Space"
+#~ msgid "Another recognition job is running. Abort it ?"
+#~ msgstr "另一个识别任务正在运行。您想要中止它吗？"
+
 #~ msgid "Color Range:"
-#~ msgstr "色彩空间"
-
-#~ msgid "Full luma range"
-#~ msgstr "完整亮度范围"
-
-#~ msgid "Playlist %1 has a different framerate (%2/%3fps), not supported."
-#~ msgstr "播放列表 %1 使用了不同的帧速率 (%2/%3fps)，不支持此操作。"
+#~ msgstr "色彩范围："

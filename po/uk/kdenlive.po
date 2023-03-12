@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-11 00:48+0000\n"
-"PO-Revision-Date: 2023-03-09 08:31+0200\n"
+"POT-Creation-Date: 2023-03-12 00:45+0000\n"
+"PO-Revision-Date: 2023-03-11 09:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4290,12 +4290,7 @@ msgid "Tags Panel"
 msgstr "Панель міток"
 
 #: src/bin/bin.cpp:1385
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggles the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the project bin contents. Click on the filter icon to toggle the "
@@ -4770,7 +4765,7 @@ msgstr "Змінити мітки"
 #: src/bin/bin.cpp:4203 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:1880 src/onlineresources/resourcewidget.cpp:266
 #: src/onlineresources/resourcewidget.cpp:557
-#: src/onlineresources/resourcewidget.cpp:571
+#: src/onlineresources/resourcewidget.cpp:572
 #, kde-format
 msgid "Unnamed"
 msgstr "Без назви"
@@ -4818,7 +4813,7 @@ msgstr ""
 "Ви редагуєте зовнішній кліп титрів (%1). Бажаєте зберегти зміни до файла "
 "титрів чи внести зміни лише до файлів вашого проєкту?"
 
-#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2179
+#: src/bin/bin.cpp:4489 src/titler/titlewidget.cpp:2182
 #, kde-format
 msgid "Save Title"
 msgstr "Збереження титрів"
@@ -4991,7 +4986,7 @@ msgid "Create sequence"
 msgstr "Створити послідовність"
 
 #: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
-#: src/project/projectmanager.cpp:1207 src/project/projectmanager.cpp:1209
+#: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, kde-format
 msgid "Sequences"
 msgstr "Послідовності"
@@ -5022,6 +5017,12 @@ msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr "Вказані нижче кліпи вже вставлено до проєкту. Хочете їх здублювати?"
+
+#: src/bin/clipcreator.cpp:326
+#, fuzzy, kde-format
+#| msgid "Duplicate clip"
+msgid "Duplicate"
+msgstr "Дублювати кліп"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -6036,7 +6037,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1485
+#: src/project/projectmanager.cpp:1479
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4996
@@ -6118,7 +6119,7 @@ msgstr "Інше"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:244
 #: src/dialogs/kdenlivesettingsdialog.cpp:784
-#: src/doc/documentvalidator.cpp:2220
+#: src/doc/documentvalidator.cpp:2221
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -6867,7 +6868,7 @@ msgstr "Позначте на монтажному столі кліп для а
 msgid "No audio track found"
 msgstr "Не знайдено звукової доріжки"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:753
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:755
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Будь ласка, налаштуйте озвучення тексту."
@@ -6882,12 +6883,12 @@ msgstr "Розпочинаємо експортування звукових д�
 msgid "Audio export failed"
 msgstr "Не вдалося експортувати звукові дані"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:770
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:772
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Починаємо розпізнавання мовлення"
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:888
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:890
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Розпізнавання мовлення перервано."
@@ -7049,8 +7050,8 @@ msgstr "Додати закладку"
 msgid "Delete selection"
 msgstr "Вилучити позначене"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:904
-#: src/dialogs/textbasededit.cpp:972
+#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:906
+#: src/dialogs/textbasededit.cpp:974
 #, kde-format
 msgid "No speech"
 msgstr "Немає озвучення"
@@ -7065,72 +7066,74 @@ msgstr "Вилучити позначений текст"
 msgid "Add bookmark for current selection"
 msgstr "Додати до закладку до поточного позначення"
 
-#: src/dialogs/textbasededit.cpp:743
+#: src/dialogs/textbasededit.cpp:744
 #, kde-format
-msgid "Another recognition job is running. Abort it ?"
-msgstr "Запущено інше завдання з розпізнавання. Перервати його виконання?"
+msgid ""
+"Another recognition job is already running. It will be aborted in favor of "
+"the new job. Do you want to proceed?"
+msgstr ""
 
-#: src/dialogs/textbasededit.cpp:759
+#: src/dialogs/textbasededit.cpp:761
 #, kde-format
 msgid "Please install a language model."
 msgstr "Будь ласка, встановіть модель мови."
 
-#: src/dialogs/textbasededit.cpp:765
+#: src/dialogs/textbasededit.cpp:767
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Виберіть кліп зі звуковими даними у ієрархії проєкту."
 
-#: src/dialogs/textbasededit.cpp:813
+#: src/dialogs/textbasededit.cpp:815
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Виберіть кліп зі звуковими даними для розпізнавання мовлення."
 
-#: src/dialogs/textbasededit.cpp:822
+#: src/dialogs/textbasededit.cpp:824
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Не вдалося створити тимчасовий файл."
 
-#: src/dialogs/textbasededit.cpp:827
+#: src/dialogs/textbasededit.cpp:829
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Видобування звукових даних для %1"
 
-#: src/dialogs/textbasededit.cpp:836
+#: src/dialogs/textbasededit.cpp:838
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Не вдалося видобути звукові дані."
 
-#: src/dialogs/textbasededit.cpp:842 src/dialogs/textbasededit.cpp:869
+#: src/dialogs/textbasededit.cpp:844 src/dialogs/textbasededit.cpp:871
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Починаємо розпізнавання мовлення у %1."
 
-#: src/dialogs/textbasededit.cpp:891
+#: src/dialogs/textbasededit.cpp:893
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Помилка. Будь ласка, перевірте налаштування озвучення тексту."
 
-#: src/dialogs/textbasededit.cpp:893
+#: src/dialogs/textbasededit.cpp:895
 #, kde-format
 msgid "No speech detected."
 msgstr "Не виявлено мовлення."
 
-#: src/dialogs/textbasededit.cpp:911
+#: src/dialogs/textbasededit.cpp:913
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Розпізнавання мовлення завершено."
 
-#: src/dialogs/textbasededit.cpp:1080
+#: src/dialogs/textbasededit.cpp:1082
 #, kde-format
 msgid "No text to export"
 msgstr "Немає тексту для експортування"
 
-#: src/dialogs/textbasededit.cpp:1100
+#: src/dialogs/textbasededit.cpp:1102
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Введіть шлях до нового списку відтворення"
 
-#: src/dialogs/textbasededit.cpp:1201
+#: src/dialogs/textbasededit.cpp:1203
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "У позначеному не виявлено позначки часу"
@@ -7707,6 +7710,12 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Оновити текстові кліпи"
 
+#: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "Convert to"
+msgid "Convert"
+msgstr "Перетворити на"
+
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
 msgid "Cannot recover this project file"
@@ -7731,14 +7740,20 @@ msgstr ""
 "Хочете перетворити проєкт на версію без використання графічного процесора?\n"
 "Перетворення може спричинити втрату даних."
 
-#: src/doc/documentvalidator.cpp:2304
+#: src/doc/documentvalidator.cpp:2212
+#, fuzzy, kde-format
+#| msgid "GPU effects"
+msgid "GPU Effects"
+msgstr "Ефекти з графічним процесором"
+
+#: src/doc/documentvalidator.cpp:2305
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Наступні фільтри і переходи було перетворено на версії без використання "
 "графічного процесора:"
 
-#: src/doc/documentvalidator.cpp:2307
+#: src/doc/documentvalidator.cpp:2308
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "З проєкту було вилучено такі фільтри і переходи:"
@@ -7834,7 +7849,7 @@ msgstr "Помилка під час спроби пересунути теку 
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2142
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1318
+#: src/project/projectmanager.cpp:1312
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
@@ -7960,22 +7975,22 @@ msgstr ""
 "Не знайдено наявного профілю для вашого кліпу %1.\n"
 "Створити профіль (%2⨯%3, %4 кадрів за секунду) і перемкнутися на нього?%5"
 
-#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:229
-#: src/scopes/colorscopes/colorplaneexport.cpp:257
+#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:230
+#: src/scopes/colorscopes/colorplaneexport.cpp:258
 #, kde-format
 msgid "Red"
 msgstr "Червоний"
 
-#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:230
-#: src/scopes/colorscopes/colorplaneexport.cpp:258
+#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/scopes/colorscopes/colorplaneexport.cpp:259
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Green"
 msgstr "Зелений"
 
-#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
+#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Blue"
 msgstr "Синій"
@@ -9643,11 +9658,7 @@ msgid "Spacer Tool"
 msgstr "Інструмент-розпірка"
 
 #: src/mainwindow.cpp:1212
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, click and drag the cursor in the timeline temporarily "
-#| "groups separate clips and creates or removes space between clips."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
@@ -9662,11 +9673,7 @@ msgid "Ripple Tool"
 msgstr "Інструмент «Брижі»"
 
 #: src/mainwindow.cpp:1218
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag the edges of a clip lengthens or shortens the clip "
-#| "and move adjacent clips back and forth while doing that."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
@@ -9685,11 +9692,7 @@ msgid "Slip Tool"
 msgstr "Інструмент-ковзання"
 
 #: src/mainwindow.cpp:1230
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag a clip slips the clip beneath the given window back "
-#| "and forth."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
@@ -9764,11 +9767,7 @@ msgid "Snap"
 msgstr "Прив’язати"
 
 #: src/mainwindow.cpp:1290
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Toggles the snap function (clips, playhead snaps to edges, markers, "
-#| "guides and others)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
@@ -10124,11 +10123,7 @@ msgid "Remove Preview Zone"
 msgstr "Вилучити зону перегляду"
 
 #: src/mainwindow.cpp:1598
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Removes the currently defined timeline/selection zone from the preview "
-#| "render zone. Note that this can leave holes in the preview render zones."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
@@ -10583,7 +10578,7 @@ msgstr "Видобути кадр…"
 msgid "Extract Frame to Project…"
 msgstr "Видобути кадр до проєкту…"
 
-#: src/mainwindow.cpp:2070 src/mainwindow.cpp:2080
+#: src/mainwindow.cpp:2079
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -10592,7 +10587,23 @@ msgstr ""
 "Вами було змінено параметри створення проміжних кліпів. Бажаєте повторно "
 "створити всі проміжні кліпи цього проєкту?"
 
-#: src/mainwindow.cpp:2138
+#: src/mainwindow.cpp:2080
+#, fuzzy, kde-format
+#| msgid "Create"
+msgctxt "@action:button"
+msgid "Recreate"
+msgstr "Створити"
+
+#: src/mainwindow.cpp:2081 src/onlineresources/resourcewidget.cpp:568
+#: src/scopes/colorscopes/colorplaneexport.cpp:156
+#: src/titler/titlewidget.cpp:2178
+#, fuzzy, kde-format
+#| msgid "Outline width"
+msgctxt "@action:button"
+msgid "Continue without"
+msgstr "Ширина контуру"
+
+#: src/mainwindow.cpp:2137
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -10603,7 +10614,7 @@ msgstr ""
 "буде збережено проєкт, а потім усі тимчасові файли буде пересунуто з<br/><b>"
 "%1</b> до <b>%2</b>.<br>Після цього файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2146
+#: src/mainwindow.cpp:2145
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -10612,42 +10623,42 @@ msgstr ""
 "У результаті усі тимчасові файли буде пересунуто з<br/><b>%1</b> до <b>%2</"
 "b>,<br/>потім файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2155 src/project/projectmanager.cpp:479
+#: src/mainwindow.cpp:2154 src/project/projectmanager.cpp:479
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Не вдалося виконати дію, некоректний ідентифікатор документа: %1"
 
-#: src/mainwindow.cpp:2160 src/project/projectmanager.cpp:485
+#: src/mainwindow.cpp:2159 src/project/projectmanager.cpp:485
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не вдалося виконати дію, каталог призначення вже існує: %1"
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Буде вилучено всі невикористані у вашому проєкті кліпи."
 
-#: src/mainwindow.cpp:2305
+#: src/mainwindow.cpp:2304
 #, kde-format
 msgid "Clean up project"
 msgstr "Очистити проєкт"
 
-#: src/mainwindow.cpp:2435 src/mainwindow.cpp:2463
+#: src/mainwindow.cpp:2434 src/mainwindow.cpp:2462
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Отримати нові схеми клавіатурних скорочень…"
 
-#: src/mainwindow.cpp:2450
+#: src/mainwindow.cpp:2449
 #, kde-format
 msgid "Current scheme:"
 msgstr "Поточна схема:"
 
-#: src/mainwindow.cpp:2460
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "More Actions"
 msgstr "Додаткові дії"
 
-#: src/mainwindow.cpp:2472
+#: src/mainwindow.cpp:2471
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
@@ -10661,6 +10672,13 @@ msgid ""
 msgstr ""
 "Це призведе до вилучення файла налаштувань Kdenlive і перезапуску програми. "
 "Хочете виконати цю дію?"
+
+#: src/mainwindow.cpp:2537
+#, fuzzy, kde-format
+#| msgid "Reset Configuration…"
+msgctxt "@title:window"
+msgid "Reset Configuration"
+msgstr "Скинути налаштування…"
 
 #: src/mainwindow.cpp:2669 src/mainwindow.cpp:2696
 #, kde-format
@@ -11175,16 +11193,14 @@ msgid "ms"
 msgstr "мс"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:930
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color space:"
-msgstr "Простір кольорів"
+msgstr "Простір кольорів:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Color range:"
-msgstr "Діапазон кольорів"
+msgstr "Діапазон кольорів:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #, kde-format
@@ -12352,12 +12368,12 @@ msgstr ""
 "або законодавством!\n"
 "Хочете додати посилання на умови ліцензування до нотаток щодо вашого проєкту?"
 
-#: src/onlineresources/resourcewidget.cpp:568
+#: src/onlineresources/resourcewidget.cpp:569
 #, kde-format
 msgid "Remember this decision"
 msgstr "Запам'ятати цей варіант"
 
-#: src/onlineresources/resourcewidget.cpp:570
+#: src/onlineresources/resourcewidget.cpp:571
 #, kde-format
 msgctxt "item name, item url, author name, license name, license url"
 msgid ""
@@ -12367,33 +12383,33 @@ msgstr ""
 "У цьому відео використано «%1» (%2) від «%3» з умовами ліцензування %4. Щоб "
 "переглянути копію цих умов ліцензування, відвідайте %5"
 
-#: src/onlineresources/resourcewidget.cpp:611
+#: src/onlineresources/resourcewidget.cpp:612
 #, kde-format
 msgid "%1 Try again."
 msgstr "%1 Повторіть спробу."
 
-#: src/onlineresources/resourcewidget.cpp:611
-#: src/onlineresources/resourcewidget.cpp:613
+#: src/onlineresources/resourcewidget.cpp:612
+#: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
 msgid "Error Loading Data"
 msgstr "Помилка під час завантаження даних"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Resource saved to %1"
 msgstr "Ресурс збережено до %1"
 
-#: src/onlineresources/resourcewidget.cpp:622
+#: src/onlineresources/resourcewidget.cpp:623
 #, kde-format
 msgid "Data Imported"
 msgstr "Дані імпортовано"
 
-#: src/onlineresources/resourcewidget.cpp:650
+#: src/onlineresources/resourcewidget.cpp:651
 #, kde-format
 msgid "Try importing again to obtain a new connection"
 msgstr "Спробувати повторити імпортування для отримання нового з'єднання"
 
-#: src/onlineresources/resourcewidget.cpp:651
+#: src/onlineresources/resourcewidget.cpp:652
 #, kde-format
 msgid "Error Getting Access Token from %1."
 msgstr "Помилка під час отримання ключа доступу з %1."
@@ -12905,7 +12921,7 @@ msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 "Розмір файла позначок перевищує 1 МБ. Ви справді хочете його імпортувати?"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1379
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1373
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
@@ -13536,7 +13552,7 @@ msgstr "Відкриття файла резервної копії…"
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1317
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1311
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13676,13 +13692,13 @@ msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgstr ""
 "Файл проєкту пошкоджено (немає доріжок). Спробувати знайти резервний файл?"
 
-#: src/project/projectmanager.cpp:1186 src/project/projectmanager.cpp:1215
-#: src/project/projectmanager.cpp:1218
+#: src/project/projectmanager.cpp:1185 src/project/projectmanager.cpp:1214
+#: src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Sequence 1"
 msgstr "Послідовність 1"
 
-#: src/project/projectmanager.cpp:1197
+#: src/project/projectmanager.cpp:1196
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -13690,13 +13706,13 @@ msgstr ""
 "Файл проєкту пошкоджено — не вдалося завантажити доріжки. Спробувати знайти "
 "резервний файл?"
 
-#: src/project/projectmanager.cpp:1323 src/project/projectmanager.cpp:1328
-#: src/project/projectmanager.cpp:1338 src/project/projectmanager.cpp:1354
+#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1322
+#: src/project/projectmanager.cpp:1332 src/project/projectmanager.cpp:1348
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1464
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13705,12 +13721,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1495
+#: src/project/projectmanager.cpp:1489
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1541
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -13719,7 +13735,7 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1622
+#: src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
@@ -14193,7 +14209,7 @@ msgid "HSV Hue Shift"
 msgstr "Зсув відтінку HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
-#: src/scopes/colorscopes/colorplaneexport.cpp:243
+#: src/scopes/colorscopes/colorplaneexport.cpp:244
 #, kde-format
 msgid "HSV Saturation"
 msgstr "Насиченість HSV"
@@ -14210,45 +14226,52 @@ msgid "%1 px"
 msgstr "%1 пк"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, kde-format
-msgid "File has no extension. Add extension (%1)?"
+#, fuzzy, kde-format
+#| msgid "File has no extension. Add extension (%1)?"
+msgid "File has no valid extension. Add extension (%1)?"
 msgstr "У назві файла не вказано суфікса. Додати суфікс (%1)?"
 
+#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#, fuzzy, kde-format
+#| msgid "File extension:"
+msgid "File Extension"
+msgstr "Суфікс назви файла:"
+
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: src/scopes/colorscopes/colorplaneexport.cpp:196
+#: src/scopes/colorscopes/colorplaneexport.cpp:197
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
 msgstr "Масштабування"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:207
+#: src/scopes/colorscopes/colorplaneexport.cpp:208
 #, kde-format
 msgid "Y value"
 msgstr "Значення Y"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:208
+#: src/scopes/colorscopes/colorplaneexport.cpp:209
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
 msgstr "Значення за віссю Y описує яскравість кольорів."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:220
+#: src/scopes/colorscopes/colorplaneexport.cpp:221
 #, kde-format
 msgid "UV angle"
 msgstr "Кут UV"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:221
+#: src/scopes/colorscopes/colorplaneexport.cpp:222
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "Під кутом до площини UV з усіма можливими значеннями Y."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Luma"
 msgstr "Яскравість"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:244
-#: src/scopes/colorscopes/colorplaneexport.cpp:251
+#: src/scopes/colorscopes/colorplaneexport.cpp:245
+#: src/scopes/colorscopes/colorplaneexport.cpp:252
 #, kde-format
 msgid "HSV Value"
 msgstr "Значення HSV"
@@ -14390,9 +14413,9 @@ msgstr "Розкладка RGB"
 msgid "Histogram"
 msgstr "Гістограма"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:254
-#: src/timeline2/model/builders/meltBuilder.cpp:482
-#: src/timeline2/model/builders/meltBuilder.cpp:492
+#: src/timeline2/model/builders/meltBuilder.cpp:253
+#: src/timeline2/model/builders/meltBuilder.cpp:481
+#: src/timeline2/model/builders/meltBuilder.cpp:491
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
@@ -14400,8 +14423,8 @@ msgstr ""
 "Знайдено некоректну композицію %1 на доріжці %2 у позиції %3, композиція з "
 "доріжкою %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:263
-#: src/timeline2/model/builders/meltBuilder.cpp:506
+#: src/timeline2/model/builders/meltBuilder.cpp:262
+#: src/timeline2/model/builders/meltBuilder.cpp:505
 #, kde-format
 msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
@@ -14410,27 +14433,27 @@ msgstr ""
 "Знайдено некоректну композицію %1 на доріжці %2 у позиції %3, встановлено "
 "примусове компонування з доріжкою %4."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:272
-#: src/timeline2/model/builders/meltBuilder.cpp:520
+#: src/timeline2/model/builders/meltBuilder.cpp:271
+#: src/timeline2/model/builders/meltBuilder.cpp:519
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
 msgstr "Виявлено некоректну композицію %1 на доріжці %2 у позиції %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:292
-#: src/timeline2/model/builders/meltBuilder.cpp:550
-#: src/timeline2/model/builders/meltBuilder.cpp:552
+#: src/timeline2/model/builders/meltBuilder.cpp:291
+#: src/timeline2/model/builders/meltBuilder.cpp:549
+#: src/timeline2/model/builders/meltBuilder.cpp:551
 #, kde-format
 msgid "Problems found in your project file"
 msgstr "У вашому файлі проєкту виявлено проблеми"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:481
-#: src/timeline2/model/builders/meltBuilder.cpp:491
+#: src/timeline2/model/builders/meltBuilder.cpp:480
+#: src/timeline2/model/builders/meltBuilder.cpp:490
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
 msgstr ""
 "%1 Виявлено і вилучено композицію (%2) із некоректним посиланням на доріжку."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:505
+#: src/timeline2/model/builders/meltBuilder.cpp:504
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
@@ -14438,17 +14461,17 @@ msgstr ""
 "%1 Композицію не було застосовано до очікуваної доріжки. Призначте доріжку у "
 "примусовому порядку вручну."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:519
+#: src/timeline2/model/builders/meltBuilder.cpp:518
 #, kde-format
 msgid "%1 Invalid composition found and removed."
 msgstr "%1 Виявлено і вилучено некоректну композицію."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:541
+#: src/timeline2/model/builders/meltBuilder.cpp:540
 #, kde-format
 msgid "Errors found when opening project file (%1)"
 msgstr "Виявлено помилки під час відкриття файла проєкту (%1)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:548
+#: src/timeline2/model/builders/meltBuilder.cpp:547
 #, kde-format
 msgid ""
 "Some errors were detected in the project file.\n"
@@ -14461,106 +14484,106 @@ msgstr ""
 "наведено на вкладці нотаток до проєкту.\n"
 "Будь ласка, перегляньте його, щоб переконатися у цілісності вашого проєкту."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:627
-#: src/timeline2/model/builders/meltBuilder.cpp:637
+#: src/timeline2/model/builders/meltBuilder.cpp:626
+#: src/timeline2/model/builders/meltBuilder.cpp:636
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
 msgstr "Неправильне мікшування, кліп %1 було вилучено у позиції %2."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:628
+#: src/timeline2/model/builders/meltBuilder.cpp:627
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
 msgstr ""
 "Виявлено неправильне мікшування на доріжці %1 у позиції %2, кліп %3 вилучено."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:638
+#: src/timeline2/model/builders/meltBuilder.cpp:637
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
 msgstr ""
 "Виявлено неправильне мікшування на доріжці %1 у позиції %2, кліп %3 вилучено."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:729
+#: src/timeline2/model/builders/meltBuilder.cpp:728
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
 msgstr ""
 "%1 Виявлено і відновлено кліп монтажного столу (%2) із помилковим посиланням "
 "на ієрархію."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:730
+#: src/timeline2/model/builders/meltBuilder.cpp:729
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr ""
 "Некоректний кліп %1 (%2), не знайдено у контейнері проєкту, відновлено."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:732
+#: src/timeline2/model/builders/meltBuilder.cpp:731
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr ""
 "%1 Виявлено і вилучено кліп монтажного столу без посилання у ієрархії (%2)."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:733
+#: src/timeline2/model/builders/meltBuilder.cpp:732
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
 msgstr "Проєкт пошкоджено. Кліп %1 (%2) не знайдено у контейнері проєкту."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:789
-#: src/timeline2/model/builders/meltBuilder.cpp:822
+#: src/timeline2/model/builders/meltBuilder.cpp:788
+#: src/timeline2/model/builders/meltBuilder.cpp:821
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
 msgstr "%1 Виявлено кліп (%2) із пропущеним мікшуванням, його розміри змінено"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:790
-#: src/timeline2/model/builders/meltBuilder.cpp:820
+#: src/timeline2/model/builders/meltBuilder.cpp:789
+#: src/timeline2/model/builders/meltBuilder.cpp:819
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
 msgstr ""
 "Виявлено кліп без мікшування %1 на доріжці %2 у позиції %3, його розміри "
 "змінено."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:795
-#: src/timeline2/model/builders/meltBuilder.cpp:826
+#: src/timeline2/model/builders/meltBuilder.cpp:794
+#: src/timeline2/model/builders/meltBuilder.cpp:825
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
 msgstr "Виявлено і вилучено кліп без мікшування %1 на доріжці %2 у позиції %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:797
-#: src/timeline2/model/builders/meltBuilder.cpp:828
+#: src/timeline2/model/builders/meltBuilder.cpp:796
+#: src/timeline2/model/builders/meltBuilder.cpp:827
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
 msgstr "%1 Виявлено і вилучено кліп (%2) із пропущеним мікшуванням"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:815
-#: src/timeline2/model/builders/meltBuilder.cpp:859
+#: src/timeline2/model/builders/meltBuilder.cpp:814
+#: src/timeline2/model/builders/meltBuilder.cpp:858
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
 msgstr "Виявлено некоректний кліп %1 на доріжці %2 у позиції %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:817
-#: src/timeline2/model/builders/meltBuilder.cpp:864
+#: src/timeline2/model/builders/meltBuilder.cpp:816
+#: src/timeline2/model/builders/meltBuilder.cpp:863
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 Виявлено і вилучено некоректний кліп (%2)"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:835
+#: src/timeline2/model/builders/meltBuilder.cpp:834
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
 msgstr ""
 "Виявлено і виправлено кліп %1 на помилковій підлеглій доріжці, доріжка %2 у "
 "позиції %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:840
+#: src/timeline2/model/builders/meltBuilder.cpp:839
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
 msgstr ""
 "Виявлено і виправлено кліп %1 (%2) із помилковою підлеглою доріжкою / %3"
 
-#: src/timeline2/model/builders/meltBuilder.cpp:843
+#: src/timeline2/model/builders/meltBuilder.cpp:842
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
 msgstr ""
 "Виявлено кліп %1 на помилковій підлеглій доріжці, доріжка %2 у позиції %3."
 
-#: src/timeline2/model/builders/meltBuilder.cpp:848
+#: src/timeline2/model/builders/meltBuilder.cpp:847
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 Виявлено кліп (%2) із помилковим підлеглим списком відтворення"
@@ -16051,7 +16074,7 @@ msgid "Add Ellipse"
 msgstr "Додати еліпс"
 
 #: src/titler/titlewidget.cpp:395 src/titler/titlewidget.cpp:398
-#: src/titler/titlewidget.cpp:811
+#: src/titler/titlewidget.cpp:812
 #, kde-format
 msgid "Add Image"
 msgstr "Додати зображення"
@@ -16090,49 +16113,49 @@ msgstr ""
 "Ви справді бажаєте завантажити новий шаблон? Всі зміни, внесені до цього "
 "документа, буде втрачено!"
 
-#: src/titler/titlewidget.cpp:799
+#: src/titler/titlewidget.cpp:800
 #, kde-format
 msgid "All Images"
 msgstr "Усі зображення"
 
-#: src/titler/titlewidget.cpp:801
+#: src/titler/titlewidget.cpp:802
 #, kde-format
 msgid "%1 Image"
 msgstr "Зображення %1"
 
-#: src/titler/titlewidget.cpp:1635
+#: src/titler/titlewidget.cpp:1636
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1637 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1638 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1659
+#: src/titler/titlewidget.cpp:1660
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1661 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1662 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2128
+#: src/titler/titlewidget.cpp:2129
 #, kde-format
 msgid "Load Title"
 msgstr "Завантажити титри"
 
-#: src/titler/titlewidget.cpp:2129
+#: src/titler/titlewidget.cpp:2130
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "субтитри Kdenlive (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2175
+#: src/titler/titlewidget.cpp:2176
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -16140,6 +16163,13 @@ msgid ""
 msgstr ""
 "Бажаєте вбудувати зображення до цього основного документа?\n"
 "Зображення — найважливіша умова, якщо ви бажаєте поширювати дані."
+
+#: src/titler/titlewidget.cpp:2177
+#, fuzzy, kde-format
+#| msgid "Add Image"
+msgctxt "@action:button"
+msgid "Embed Images"
+msgstr "Додати зображення"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -19310,10 +19340,9 @@ msgstr "Напрямні, які є роздільниками:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:494
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Виберіть колір заповнення"
+msgstr "Обробити увесь діапазон кольорів"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:501
@@ -20366,6 +20395,9 @@ msgstr "%1 хв."
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 год."
+
+#~ msgid "Another recognition job is running. Abort it ?"
+#~ msgstr "Запущено інше завдання з розпізнавання. Перервати його виконання?"
 
 #~ msgid "Color Range:"
 #~ msgstr "Діапазон кольорів:"
