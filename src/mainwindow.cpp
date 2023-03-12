@@ -689,7 +689,8 @@ void MainWindow::init(const QString &mltPath)
 #if defined(Q_OS_WIN)
     connect(openGLMenu, &QMenu::triggered, [&](QAction *ac) {
         KdenliveSettings::setOpengl_backend(ac->data().toInt());
-        if (KMessageBox::questionYesNo(this, i18n("Kdenlive needs to be restarted to change this setting. Do you want to proceed?")) != KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(this, i18n("Kdenlive needs to be restarted to change this setting. Do you want to proceed?"), {},
+                                            KStandardGuiItem::cont(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return;
         }
         slotRestart(false);

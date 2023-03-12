@@ -682,7 +682,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     QDomDocument data;
                     data.setContent(kproducer.attribute(QStringLiteral("xmldata")));
                     QDomNodeList items = data.firstChild().childNodes();
-                    for (int j = 0; j < items.count() && convert != KMessageBox::No; ++j) {
+                    for (int j = 0; j < items.count() && convert != KMessageBox::SecondaryAction; ++j) {
                         if (items.at(j).attributes().namedItem(QStringLiteral("type")).nodeValue() == QLatin1String("QGraphicsTextItem")) {
                             QDomNamedNodeMap textProperties = items.at(j).namedItem(QStringLiteral("content")).attributes();
                             if (textProperties.namedItem(QStringLiteral("font-pixel-size")).isNull() &&

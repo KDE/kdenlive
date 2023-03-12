@@ -39,7 +39,9 @@ void RenderServer::jobSent()
 {
     QLocalSocket *socket = reinterpret_cast<QLocalSocket *>(sender());
     QTextStream text(socket);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     text.setCodec("UTF-8");
+#endif
     QString block, line;
     while (text.readLineInto(&line)) {
         block.append(line);

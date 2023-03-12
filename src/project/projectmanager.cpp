@@ -713,7 +713,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
 
     // if we could not open the file, and could not recover (or user declined), stop now
-    if (!openResult.isSuccessful()) {
+    if (!openResult.isSuccessful() || !doc) {
         delete m_progressDialog;
         m_progressDialog = nullptr;
         // Open default blank document

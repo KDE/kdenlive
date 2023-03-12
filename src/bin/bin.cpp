@@ -672,7 +672,11 @@ void MyListView::dropEvent(QDropEvent *event)
             if (rootIndex().data(AbstractProjectItem::DataId).toString() == rootId) {
                 isSameRoot = true;
             }
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+            if (isSameRoot && !indexAt(event->position().toPoint()).isValid()) {
+#else
             if (isSameRoot && !indexAt(event->pos()).isValid()) {
+#endif
                 event->ignore();
                 return;
             }
