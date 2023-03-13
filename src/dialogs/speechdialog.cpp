@@ -37,28 +37,61 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setWindowTitle(i18n("Automatic Subtitling"));
-    m_stt = new SpeechToText();
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        // Whisper model
+        m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper);
+        QList<std::pair<QString, QString>> whisperModels = m_stt->whisperModels();
+        for (auto &w : whisperModels) {
+            speech_model->addItem(w.first, w.second);
+        }
+        int ix = speech_model->findData(KdenliveSettings::whisperModel());
+        if (ix > -1) {
+            speech_model->setCurrentIndex(ix);
+        }
+        if (speech_language->count() == 0) {
+            // Fill whisper languages
+            QMap<QString, QString> languages = m_stt->whisperLanguages();
+            QMapIterator<QString, QString> j(languages);
+            while (j.hasNext()) {
+                j.next();
+                speech_language->addItem(j.key(), j.value());
+            }
+            int ix = speech_language->findData(KdenliveSettings::whisperLanguage());
+            if (ix > -1) {
+                speech_language->setCurrentIndex(ix);
+            }
+        }
+        speech_language->setEnabled(!KdenliveSettings::whisperModel().endsWith(QLatin1String(".en")));
+        translate_box->setChecked(KdenliveSettings::whisperTranslate());
+
+    } else {
+        // Vosk model
+        whisper_settings->setVisible(false);
+        m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk);
+        m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
+            speech_model->clear();
+            speech_model->addItems(models);
+            if (models.isEmpty()) {
+                speech_info->addAction(m_voskConfig);
+                speech_info->setMessageType(KMessageWidget::Information);
+                speech_info->setText(i18n("Please install speech recognition models"));
+                speech_info->animatedShow();
+            } else {
+                if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
+                    int ix = speech_model->findText(KdenliveSettings::vosk_srt_model());
+                    if (ix > -1) {
+                        speech_model->setCurrentIndex(ix);
+                    }
+                }
+            }
+        });
+        m_stt->parseVoskDictionaries();
+    }
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
     connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(8); });
-    m_modelsConnection = connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
-        language_box->clear();
-        language_box->addItems(models);
-        if (models.isEmpty()) {
-            speech_info->addAction(m_voskConfig);
-            speech_info->setMessageType(KMessageWidget::Information);
-            speech_info->setText(i18n("Please install speech recognition models"));
-            speech_info->animatedShow();
-        } else {
-            if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
-                int ix = language_box->findText(KdenliveSettings::vosk_srt_model());
-                if (ix > -1) {
-                    language_box->setCurrentIndex(ix);
-                }
-            }
-        }
-    });
+
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(timeline_zone);
     buttonGroup->addButton(timeline_track);
@@ -120,10 +153,16 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             m_zone = sourceZone;
         }
     });
-    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this,
-            [this]() { KdenliveSettings::setVosk_srt_model(language_box->currentText()); });
+    connect(speech_model, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
+        if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+            const QString modelName = speech_model->currentData().toString();
+            KdenliveSettings::setWhisperModel(modelName);
+            speech_language->setEnabled(!modelName.endsWith(QLatin1String(".en")));
+        } else {
+            KdenliveSettings::setVosk_srt_model(speech_model->currentText());
+        }
+    });
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this]() { slotProcessSpeech(); });
-    m_stt->parseVoskDictionaries();
     frame_progress->setVisible(false);
     connect(button_abort, &QToolButton::clicked, this, [this]() {
         if (m_speechJob && m_speechJob->state() == QProcess::Running) {
@@ -236,17 +275,30 @@ void SpeechDialog::slotProcessSpeech()
     xmlConsumer.run();
     qApp->processEvents();
     qDebug() << "=== STARTING RENDER D";
-    QString language = language_box->currentText();
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
     QString modelDirectory = m_stt->voskModelPath();
-    qDebug() << "==== ANALYSIS SPEECH: " << modelDirectory << " - " << language << " - " << audio << " - " << speech;
     m_speechJob = std::make_unique<QProcess>(this);
-    connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
             [this, speech](int, QProcess::ExitStatus status) { slotProcessSpeechStatus(status, speech); });
-    m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, language, audio, speech});
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        // Whisper
+        QString modelName = speech_model->currentData().toString();
+        m_speechJob->setProcessChannelMode(QProcess::MergedChannels);
+        connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessWhisperProgress);
+        const QString language = speech_language->isEnabled() ? speech_language->currentData().toString() : QString();
+        qDebug() << "==== ANALYSIS SPEECH: " << m_stt->subtitleScript() << " " << audio << " " << modelName << " " << speech << " "
+                 << KdenliveSettings::whisperDevice() << " " << (translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " "
+                 << language;
+        m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), audio, modelName, speech, KdenliveSettings::whisperDevice(),
+                                                 translate_box->isChecked() ? QStringLiteral("translate") : QStringLiteral("transcribe"), language});
+    } else {
+        // Vosk
+        QString modelName = speech_model->currentText();
+        connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
+        m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, modelName, audio, speech});
+    }
 }
 
 void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile)
@@ -272,10 +324,18 @@ void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QS
 void SpeechDialog::slotProcessProgress()
 {
     QString saveData = QString::fromUtf8(m_speechJob->readAll());
-    qDebug() << "==== GOT SPEECH DATA: " << saveData;
     if (saveData.startsWith(QStringLiteral("progress:"))) {
         double prog = saveData.section(QLatin1Char(':'), 1).toInt() * 3.12;
-        qDebug() << "=== GOT DATA:\n" << saveData;
         speech_progress->setValue(static_cast<int>(100 * prog / m_duration));
+    }
+}
+
+void SpeechDialog::slotProcessWhisperProgress()
+{
+    QString saveData = QString::fromUtf8(m_speechJob->readAll());
+    if (saveData.contains(QStringLiteral("%|"))) {
+        int prog = saveData.section(QLatin1Char('%'), 0, 0).toInt();
+        qDebug() << "=== GOT DATA:\n" << saveData << " = " << prog;
+        speech_progress->setValue(prog);
     }
 }

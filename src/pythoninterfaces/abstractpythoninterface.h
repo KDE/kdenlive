@@ -43,10 +43,11 @@ public:
      *         otherwise only those of the filter (in case they are missing).
      */
     QStringList missingDependencies(const QStringList &filter = {});
-    QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {});
+    QString runScript(const QString &scriptpath, QStringList args = {}, const QString &firstarg = {}, bool concurrent = false);
     QString pythonExec() { return m_pyExec; };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
+    void runConcurrentScript(const QString &script, QStringList args);
 
     friend class PythonDependencyMessage;
 
@@ -75,7 +76,8 @@ Q_SIGNALS:
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
     void proposeUpdate(const QString &message);
-
+    void scriptFeedback(const QString &message);
+    void scriptFinished();
 };
 
 class PythonDependencyMessage : public KMessageWidget {

@@ -47,4 +47,5 @@ private Q_SLOTS:
     void slotProcessSpeech();
     void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile);
     void slotProcessProgress();
+    void slotProcessWhisperProgress();
 };

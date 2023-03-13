@@ -127,11 +127,11 @@ private:
     GuideCategories *m_guidesCategories;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
-    QAction *m_voskAction;
     bool m_modified;
     bool m_shuttleModified;
     bool m_voskUpdated;
     SpeechToText *m_stt;
+    SpeechToText *m_sttWhisper;
     QMap<QString, QString> m_mappable_actions;
     QVector<QComboBox *> m_shuttle_buttons;
     EncodingTimelinePreviewProfilesChooser *m_tlPreviewProfiles;

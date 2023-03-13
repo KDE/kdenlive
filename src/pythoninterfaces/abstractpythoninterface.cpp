@@ -15,6 +15,7 @@
 #include <QGuiApplication>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QtConcurrent>
 
 PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface)
     : KMessageWidget(parent)
@@ -119,6 +120,7 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
+    addScript(QStringLiteral("checkgpu.py"));
 }
 
 AbstractPythonInterface::~AbstractPythonInterface()
@@ -230,6 +232,19 @@ void AbstractPythonInterface::updateDependencies()
     runPackageScript(QStringLiteral("--upgrade"));
 }
 
+void AbstractPythonInterface::runConcurrentScript(const QString &script, QStringList args)
+{
+    if (m_dependencies.keys().isEmpty()) {
+        qWarning() << "No dependencies specified";
+        Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
+        return;
+    }
+    if (!checkSetup()) {
+        return;
+    }
+    QtConcurrent::run(this, &AbstractPythonInterface::runScript, script, args, QString(), true);
+}
+
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
 {
     checkVersions(false);
@@ -300,7 +315,7 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode)
     return runScript(QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode);
 }
 
-QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg)
+QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent)
 {
     QString scriptpath = m_scripts->value(script);
     if (m_pyExec.isEmpty() || scriptpath.isEmpty()) {
@@ -312,11 +327,18 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     }
     args.prepend(scriptpath);
     QProcess scriptJob;
+    if (concurrent) {
+        connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
+            const QString processData = QString::fromUtf8(scriptJob.readAll());
+            Q_EMIT scriptFeedback(processData);
+        });
+    }
     scriptJob.start(m_pyExec, args);
     scriptJob.waitForFinished();
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
         KMessageBox::detailedError(pCore->window(), i18n("Error while running python3 script:\n %1", scriptpath), scriptJob.readAllStandardError());
         return {};
     }
+    Q_EMIT scriptFinished();
     return scriptJob.readAllStandardOutput();
 }
