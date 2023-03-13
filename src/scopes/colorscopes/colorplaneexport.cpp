@@ -6,7 +6,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "colorplaneexport.h"
-#include "klocalizedstring.h"
+
+#include "KLocalizedString"
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 //#define DEBUG_CTE
 #ifdef DEBUG_CTE
