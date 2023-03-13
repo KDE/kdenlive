@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-12 14:38+0000\n"
-"PO-Revision-Date: 2023-03-05 16:01+0100\n"
+"PO-Revision-Date: 2023-03-12 16:36+0100\n"
 "Last-Translator: Paolo Zamponi <zapaolo@email.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2187,33 +2187,29 @@ msgid "Use transparency"
 msgstr "Usa trasparenza"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "Tempo"
+msgstr "Timer"
 
 #: data/effects/timer.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "Sovrapponi il testo relativo al GPS sul video."
+msgstr "Sovrapponi un timer sul video"
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Counter Style"
+#, kde-format
 msgid "Font Style"
-msgstr "Stile del contatore"
+msgstr "Stile del carattere"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Format:"
+#, kde-format
 msgid "Format"
-msgstr "Formato:"
+msgstr "Formato"
 
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2228,6 +2224,10 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[Il tempo da cui il timer inizierà a contare in avanti o "
+"all'indietro.\n"
+"Il testo verrà immobilizzato a 00:00:00.000 dall'inizio del filtro finché "
+"non è trascrorsa l'ora di inizio.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2237,6 +2237,10 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[La durata masisma trascorsa del timer dopo che è passato il tempo "
+"di avvio.\n"
+"Il testo verrà immobilizzato a 00:00:00.000 dall'inizio del filtro finché "
+"non è trascrorsa l'ora di inizio.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2253,6 +2257,11 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[Uno scostamento da aggiungere al valore del timer.\n"
+"Quando la direzione è «all'indietro», il timer conterà all'indietro dallo "
+"scostamento invece che da 00:00:00.000.\n"
+"Quando invece la direzione è in avanti, il timer conterà in avanti "
+"cominciando dallo «scostamento».]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2267,6 +2276,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[Se il contatore dovrebbe contare in avanti da 00: 00: "
+"00.000 o indietro dal tempo di durata.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -4280,12 +4293,7 @@ msgid "Tags Panel"
 msgstr "Pannello etichette"
 
 #: src/bin/bin.cpp:1389
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggles the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the project bin contents. Click on the filter icon to toggle the "
@@ -5010,10 +5018,9 @@ msgstr ""
 "La seguenti clip sono già state inserite nel progetto. Vuoi duplicarle?"
 
 #: src/bin/clipcreator.cpp:326
-#, fuzzy, kde-format
-#| msgid "Duplicate clip"
+#, kde-format
 msgid "Duplicate"
-msgstr "Duplica clip"
+msgstr "Duplica"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -7048,6 +7055,8 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
+"È in corso un altro processo di riconoscimento, che verrà interrotto in "
+"favore del nuovo. Vuoi procedere?"
 
 #: src/dialogs/textbasededit.cpp:761
 #, kde-format
@@ -7667,10 +7676,9 @@ msgid "Update Text Clips"
 msgstr "Aggiorna clip di testo"
 
 #: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
-#, fuzzy, kde-format
-#| msgid "Convert to"
+#, kde-format
 msgid "Convert"
-msgstr "Converti in"
+msgstr "Converti"
 
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
@@ -7696,8 +7704,7 @@ msgstr ""
 "Questo potrebbe causare una perdita di dati."
 
 #: src/doc/documentvalidator.cpp:2212
-#, fuzzy, kde-format
-#| msgid "GPU effects"
+#, kde-format
 msgid "GPU Effects"
 msgstr "Effetti della GPU"
 
@@ -9612,19 +9619,15 @@ msgid "Spacer Tool"
 msgstr "Strumento spaziatore"
 
 #: src/mainwindow.cpp:1213
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, click and drag the cursor in the timeline temporarily "
-#| "groups separate clips and creates or removes space between clips."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
-"Quando selezionato, un clic e un trascinamento del cursore nella linea "
+"Quando selezionato, un clic e un trascinamento del mouse nella linea "
 "temporale raggruppa temporaneamente le clip separate, e crea o rimuove uno "
-"spazio tra le clip."
+"spazio tra di esse."
 
 #: src/mainwindow.cpp:1218
 #, kde-format
@@ -9632,11 +9635,7 @@ msgid "Ripple Tool"
 msgstr "Strumento per il montaggio con scarto"
 
 #: src/mainwindow.cpp:1219
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag the edges of a clip lengthens or shortens the clip "
-#| "and move adjacent clips back and forth while doing that."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
@@ -9656,11 +9655,7 @@ msgid "Slip Tool"
 msgstr "Strumento di scivolamento"
 
 #: src/mainwindow.cpp:1231
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag a clip slips the clip beneath the given window back "
-#| "and forth."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
@@ -9735,18 +9730,15 @@ msgid "Snap"
 msgstr "Bordi magnetici"
 
 #: src/mainwindow.cpp:1291
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Toggles the snap function (clips, playhead snaps to edges, markers, "
-#| "guides and others)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
-"Attiva o disattiva la funzione bordi magnetici (clip, indicatore di "
-"riproduzione che aderisce ai bordi, marcatori, guide e altro)."
+"Attiva o disattiva la funzione bordi magnetici (le clip aderiscono "
+"all'indicatore di riproduzione, ai bordi, ai marcatori, alle guide e ad "
+"altro)."
 
 #: src/mainwindow.cpp:1297
 #, kde-format
@@ -10097,19 +10089,15 @@ msgid "Remove Preview Zone"
 msgstr "Rimuovi zona di anteprima"
 
 #: src/mainwindow.cpp:1599
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Removes the currently defined timeline/selection zone from the preview "
-#| "render zone. Note that this can leave holes in the preview render zones."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 "Rimuove la zona della linea temporale o della selezione attualmente definita "
-"dalla zona di esportazione dell'anteprima. Nota che questo può lasciare dei "
-"buchi nella zona di esportazione dell'anteprima."
+"dalla zona di esportazione dell'anteprima. Nota che questo può lasciare "
+"degli spazi nella zona di esportazione dell'anteprima."
 
 #: src/mainwindow.cpp:1600
 #, kde-format
@@ -10567,20 +10555,18 @@ msgstr ""
 "Vuoi ricrearle per questo progetto?"
 
 #: src/mainwindow.cpp:2081
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
-msgstr "Crea"
+msgstr "Ricrea"
 
 #: src/mainwindow.cpp:2082 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:156
 #: src/titler/titlewidget.cpp:2178
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
-msgstr "Spessore del contorno"
+msgstr "Continua senza"
 
 #: src/mainwindow.cpp:2138
 #, kde-format
@@ -10656,11 +10642,10 @@ msgstr ""
 "l'applicazione. Vuoi procedere?"
 
 #: src/mainwindow.cpp:2538
-#, fuzzy, kde-format
-#| msgid "Reset Configuration…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
-msgstr "Reimposta la configurazione…"
+msgstr "Reimposta la configurazione"
 
 #: src/mainwindow.cpp:2670 src/mainwindow.cpp:2697
 #, kde-format
@@ -11176,26 +11161,24 @@ msgid "ms"
 msgstr "ms"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:930
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color space:"
-msgstr "Spazio dei colori"
+msgstr "Spazio dei colori:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color range:"
-msgstr "Spazio dei colori"
+msgstr "Intervallo di colore:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "Trasmissione limitata (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "Completa (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:986
 #, kde-format
@@ -14212,16 +14195,14 @@ msgid "%1 px"
 msgstr "%1 px"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, fuzzy, kde-format
-#| msgid "File has no extension. Add extension (%1)?"
+#, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
-msgstr "Il file non ha estensione. La vuoi aggiungere (%1)?"
+msgstr "Il file non ha estensione valida. La vuoi aggiungere (%1)?"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "File Extension"
-msgstr "Estensione del file:"
+msgstr "Estensione file"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:197
@@ -15724,23 +15705,22 @@ msgstr[1] "Inserisci tracce"
 #: src/timeline2/view/timelinecontroller.cpp:4893
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
-msgstr ""
+msgstr "Codifica dei caratteri usata per salvare il file dei sottotitoli."
 
 #: src/timeline2/view/timelinecontroller.cpp:4894
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br><b>Unicode (UTF-8)</b>."
-msgstr ""
+msgstr "Se non sei sicuro, prova<br><b>Unicode (UTF-8)</b>."
 
 #: src/timeline2/view/timelinecontroller.cpp:4934
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
-msgstr ""
+msgstr "La codifica potrebbe non essere intuita, usa UTF-8"
 
 #: src/timeline2/view/timelinecontroller.cpp:4938
-#, fuzzy, kde-format
-#| msgid "Encoding threads"
+#, kde-format
 msgid "Encoding detected as %1"
-msgstr "Thread di codifica"
+msgstr "Codifica rilevata come %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:4955
 #, kde-format
@@ -16163,11 +16143,10 @@ msgstr ""
 "Questo è necessario per la condivisione dei titoli."
 
 #: src/titler/titlewidget.cpp:2177
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
-msgstr "Aggiungi immagine"
+msgstr "Incorpora immagini"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -18547,10 +18526,9 @@ msgstr "*.srt *.ass *.vtt *.sbv"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/import_subtitle_ui.ui:85
-#, fuzzy, kde-format
-#| msgid "Recording"
+#, kde-format
 msgid "Encoding"
-msgstr "Registrazione"
+msgstr "Codifica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
 #: src/ui/import_subtitle_ui.ui:113
@@ -18566,10 +18544,9 @@ msgstr "Trasforma la frequenza dei fotogrammi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/import_subtitle_ui.ui:258
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Preview"
-msgstr "File di sottotitoli:"
+msgstr "Anteprima dei sottotitoli"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -19336,10 +19313,9 @@ msgstr "Guide da usare come separatore:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:494
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Seleziona colore di riempimento"
+msgstr "Esporta intervallo di colori completo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:501

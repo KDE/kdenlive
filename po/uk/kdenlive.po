@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-12 14:38+0000\n"
-"PO-Revision-Date: 2023-03-09 08:31+0200\n"
+"PO-Revision-Date: 2023-03-12 20:48+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4290,12 +4290,7 @@ msgid "Tags Panel"
 msgstr "Панель міток"
 
 #: src/bin/bin.cpp:1389
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggles the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the project bin contents. Click on the filter icon to toggle the "
@@ -5024,10 +5019,9 @@ msgid ""
 msgstr "Вказані нижче кліпи вже вставлено до проєкту. Хочете їх здублювати?"
 
 #: src/bin/clipcreator.cpp:326
-#, fuzzy, kde-format
-#| msgid "Duplicate clip"
+#, kde-format
 msgid "Duplicate"
-msgstr "Дублювати кліп"
+msgstr "Дублювання"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -7067,6 +7061,8 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
+"Запущено ще одне завдання щодо розпізнавання. Його виконання буде припинено "
+"на користь нового завдання. Виконати нове завдання?"
 
 #: src/dialogs/textbasededit.cpp:761
 #, kde-format
@@ -7706,10 +7702,9 @@ msgid "Update Text Clips"
 msgstr "Оновити текстові кліпи"
 
 #: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
-#, fuzzy, kde-format
-#| msgid "Convert to"
+#, kde-format
 msgid "Convert"
-msgstr "Перетворити на"
+msgstr "Перетворити"
 
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
@@ -7736,8 +7731,7 @@ msgstr ""
 "Перетворення може спричинити втрату даних."
 
 #: src/doc/documentvalidator.cpp:2212
-#, fuzzy, kde-format
-#| msgid "GPU effects"
+#, kde-format
 msgid "GPU Effects"
 msgstr "Ефекти з графічним процесором"
 
@@ -9653,11 +9647,7 @@ msgid "Spacer Tool"
 msgstr "Інструмент-розпірка"
 
 #: src/mainwindow.cpp:1213
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, click and drag the cursor in the timeline temporarily "
-#| "groups separate clips and creates or removes space between clips."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
@@ -9672,11 +9662,7 @@ msgid "Ripple Tool"
 msgstr "Інструмент «Брижі»"
 
 #: src/mainwindow.cpp:1219
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag the edges of a clip lengthens or shortens the clip "
-#| "and move adjacent clips back and forth while doing that."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
@@ -9695,11 +9681,7 @@ msgid "Slip Tool"
 msgstr "Інструмент-ковзання"
 
 #: src/mainwindow.cpp:1231
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag a clip slips the clip beneath the given window back "
-#| "and forth."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
@@ -9774,11 +9756,7 @@ msgid "Snap"
 msgstr "Прив’язати"
 
 #: src/mainwindow.cpp:1291
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Toggles the snap function (clips, playhead snaps to edges, markers, "
-#| "guides and others)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
@@ -10134,11 +10112,7 @@ msgid "Remove Preview Zone"
 msgstr "Вилучити зону перегляду"
 
 #: src/mainwindow.cpp:1599
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Removes the currently defined timeline/selection zone from the preview "
-#| "render zone. Note that this can leave holes in the preview render zones."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
@@ -10603,20 +10577,18 @@ msgstr ""
 "створити всі проміжні кліпи цього проєкту?"
 
 #: src/mainwindow.cpp:2081
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
-msgstr "Створити"
+msgstr "Створити заново"
 
 #: src/mainwindow.cpp:2082 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:156
 #: src/titler/titlewidget.cpp:2178
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
-msgstr "Ширина контуру"
+msgstr "Продовжити без нього"
 
 #: src/mainwindow.cpp:2138
 #, kde-format
@@ -10689,11 +10661,10 @@ msgstr ""
 "Хочете виконати цю дію?"
 
 #: src/mainwindow.cpp:2538
-#, fuzzy, kde-format
-#| msgid "Reset Configuration…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
-msgstr "Скинути налаштування…"
+msgstr "Скидання налаштувань"
 
 #: src/mainwindow.cpp:2670 src/mainwindow.cpp:2697
 #, kde-format
@@ -11208,16 +11179,14 @@ msgid "ms"
 msgstr "мс"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:930
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color space:"
-msgstr "Простір кольорів"
+msgstr "Простір кольорів:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color range"
+#, kde-format
 msgid "Color range:"
-msgstr "Діапазон кольорів"
+msgstr "Діапазон кольорів:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #, kde-format
@@ -14243,16 +14212,14 @@ msgid "%1 px"
 msgstr "%1 пк"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, fuzzy, kde-format
-#| msgid "File has no extension. Add extension (%1)?"
+#, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
-msgstr "У назві файла не вказано суфікса. Додати суфікс (%1)?"
+msgstr "У назві файла не вказано коректного суфікса. Додати суфікс (%1)?"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "File Extension"
-msgstr "Суфікс назви файла:"
+msgstr "Суфікс назви файла"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:197
@@ -16182,11 +16149,10 @@ msgstr ""
 "Зображення — найважливіша умова, якщо ви бажаєте поширювати дані."
 
 #: src/titler/titlewidget.cpp:2177
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
-msgstr "Додати зображення"
+msgstr "Вбудувати зображення"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -19357,10 +19323,9 @@ msgstr "Напрямні, які є роздільниками:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:494
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Виберіть колір заповнення"
+msgstr "Обробити увесь діапазон кольорів"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:501

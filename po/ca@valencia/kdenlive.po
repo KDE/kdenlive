@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-12 14:38+0000\n"
-"PO-Revision-Date: 2023-03-08 15:47+0100\n"
+"PO-Revision-Date: 2023-03-12 11:08+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4290,12 +4290,7 @@ msgid "Tags Panel"
 msgstr "Quadro d'etiquetes"
 
 #: src/bin/bin.cpp:1389
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Filter the project bin contents. Click on the filter icon to toggles the "
-#| "filter display. Click on the arrow icon to open a list of possible filter "
-#| "settings."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Filter the project bin contents. Click on the filter icon to toggle the "
@@ -5018,10 +5013,9 @@ msgstr ""
 "Els clips següents ja estan inserits en el projecte. Voleu duplicar-los?"
 
 #: src/bin/clipcreator.cpp:326
-#, fuzzy, kde-format
-#| msgid "Duplicate clip"
+#, kde-format
 msgid "Duplicate"
-msgstr "Duplica un clip"
+msgstr "Duplica"
 
 #: src/bin/clipcreator.cpp:350 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
@@ -7049,6 +7043,8 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
+"Ja s'està executant una altra tasca de reconeixement. S'interromprà a favor "
+"de la faena nova. Voleu continuar?"
 
 #: src/dialogs/textbasededit.cpp:761
 #, kde-format
@@ -7660,10 +7656,9 @@ msgid "Update Text Clips"
 msgstr "Actualitza clips de text"
 
 #: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
-#, fuzzy, kde-format
-#| msgid "Convert to"
+#, kde-format
 msgid "Convert"
-msgstr "Convertix a"
+msgstr "Convertix"
 
 #: src/doc/documentvalidator.cpp:1267
 #, kde-format
@@ -7689,8 +7684,7 @@ msgstr ""
 "Açò podria resultar en la pèrdua de les dades."
 
 #: src/doc/documentvalidator.cpp:2212
-#, fuzzy, kde-format
-#| msgid "GPU effects"
+#, kde-format
 msgid "GPU Effects"
 msgstr "Efectes de la GPU"
 
@@ -9605,17 +9599,13 @@ msgid "Spacer Tool"
 msgstr "Eina espaiadora"
 
 #: src/mainwindow.cpp:1213
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, click and drag the cursor in the timeline temporarily "
-#| "groups separate clips and creates or removes space between clips."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
-"Quan està seleccionada, fer clic i arrossegar el cursor en la línia de temps "
+"Quan està seleccionada, fer clic i arrossegar el ratolí en la línia de temps "
 "agruparà temporalment els clips separats i crearà o eliminarà l'espai entre "
 "els clips."
 
@@ -9625,11 +9615,7 @@ msgid "Ripple Tool"
 msgstr "Eina d'onada"
 
 #: src/mainwindow.cpp:1219
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag the edges of a clip lengthens or shortens the clip "
-#| "and move adjacent clips back and forth while doing that."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
@@ -9648,18 +9634,14 @@ msgid "Slip Tool"
 msgstr "Eina de lliscament"
 
 #: src/mainwindow.cpp:1231
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When selected, drag a clip slips the clip beneath the given window back "
-#| "and forth."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
-"Quan està seleccionada, arrossegar un clip farà lliscar el clip davall la "
-"finestra indicada cap arrere i cap avant."
+"Quan està seleccionada, arrossegar un clip llisca el clip de la finestra "
+"indicada cap arrere i cap avant."
 
 #: src/mainwindow.cpp:1235
 #, kde-format
@@ -9727,18 +9709,14 @@ msgid "Snap"
 msgstr "Ajusta"
 
 #: src/mainwindow.cpp:1291
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Toggles the snap function (clips, playhead snaps to edges, markers, "
-#| "guides and others)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
-"Alterna la funció d'ajustament (clips, capçal de reproducció ajusta les "
-"vores, marcadors, guies i altres)."
+"Alterna la funció d'ajustament (els clips s'ajusten al capçal de "
+"reproducció, vores, marcadors, guies i altres)."
 
 #: src/mainwindow.cpp:1297
 #, kde-format
@@ -10089,11 +10067,7 @@ msgid "Remove Preview Zone"
 msgstr "Elimina la zona de la vista prèvia"
 
 #: src/mainwindow.cpp:1599
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Removes the currently defined timeline/selection zone from the preview "
-#| "render zone. Note that this can leave holes in the preview render zones."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
@@ -10101,7 +10075,7 @@ msgid ""
 msgstr ""
 "Elimina la zona de la línia de temps/selecció definida actualment de la zona "
 "de renderització de la vista prèvia. Cal tindre en compte que açò pot deixar "
-"forats a les zones de renderització de la vista prèvia."
+"separacions a les zones de renderització de la vista prèvia."
 
 #: src/mainwindow.cpp:1600
 #, kde-format
@@ -10556,20 +10530,18 @@ msgstr ""
 "clips intermediaris per a este projecte?"
 
 #: src/mainwindow.cpp:2081
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
-msgstr "Crea"
+msgstr "Torna'ls a crear"
 
 #: src/mainwindow.cpp:2082 src/onlineresources/resourcewidget.cpp:568
 #: src/scopes/colorscopes/colorplaneexport.cpp:156
 #: src/titler/titlewidget.cpp:2178
-#, fuzzy, kde-format
-#| msgid "Outline width"
+#, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
-msgstr "Amplària del contorn"
+msgstr "Continua sense"
 
 #: src/mainwindow.cpp:2138
 #, kde-format
@@ -10643,11 +10615,10 @@ msgstr ""
 "Voleu continuar?"
 
 #: src/mainwindow.cpp:2538
-#, fuzzy, kde-format
-#| msgid "Reset Configuration…"
+#, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
-msgstr "Reinicia la configuració…"
+msgstr "Reinicia la configuració"
 
 #: src/mainwindow.cpp:2670 src/mainwindow.cpp:2697
 #, kde-format
@@ -11161,26 +11132,24 @@ msgid "ms"
 msgstr "ms"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:930
-#, fuzzy, kde-format
-#| msgid "Color space"
+#, kde-format
 msgid "Color space:"
-msgstr "Espai de color"
+msgstr "Espai de color:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:963
-#, fuzzy, kde-format
-#| msgid "Color Space"
+#, kde-format
 msgid "Color range:"
-msgstr "Espai de color"
+msgstr "Interval de color:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:968
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "Difusió limitada (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:969
 #, kde-format
 msgid "Full (JPEG)"
-msgstr ""
+msgstr "Complet (JPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:986
 #, kde-format
@@ -14187,16 +14156,14 @@ msgid "%1 px"
 msgstr "%1 px"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, fuzzy, kde-format
-#| msgid "File has no extension. Add extension (%1)?"
+#, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
-msgstr "El fitxer no té cap extensió. Voleu afegir una extensió (%1)?"
+msgstr "El fitxer no té cap extensió vàlida. Voleu afegir una extensió (%1)?"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:155
-#, fuzzy, kde-format
-#| msgid "File extension:"
+#, kde-format
 msgid "File Extension"
-msgstr "Extensió de fitxer:"
+msgstr "Extensió del fitxer"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:197
@@ -16129,11 +16096,10 @@ msgstr ""
 "Açò és molt necessari per a compartir títols."
 
 #: src/titler/titlewidget.cpp:2177
-#, fuzzy, kde-format
-#| msgid "Add Image"
+#, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
-msgstr "Afig una imatge"
+msgstr "Imatges incrustades"
 
 #: src/titler/titlewidget.cpp:2232
 #, kde-format
@@ -19294,10 +19260,9 @@ msgstr "Guies que s'han d'utilitzar com a separador:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:494
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Selecciona el color d'emplenament"
+msgstr "Renderitza l'interval de color complet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:501
@@ -20350,20 +20315,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Clip already contains analysis data %1"
-#~ msgstr "El clip ja conté l'anàlisi de dades %1"
-
-#~ msgid "Merge"
-#~ msgstr "Fusiona"
-
-#~ msgid "Another recognition job is running. Abort it ?"
-#~ msgstr "S'està executant una altra tasca de reconeixement. La interromp?"
-
-#, fuzzy
-#~| msgid "Color Space"
-#~ msgid "Color Range:"
-#~ msgstr "Espai de color"
-
-#~ msgid "Full luma range"
-#~ msgstr "Interval de luma completa"
