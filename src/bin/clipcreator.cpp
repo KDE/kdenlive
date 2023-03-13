@@ -19,6 +19,7 @@
 #include "utils/devices.hpp"
 #include "xml/xml.hpp"
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <QApplication>
 #include <QDomDocument>
