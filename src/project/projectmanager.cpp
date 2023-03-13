@@ -1218,6 +1218,7 @@ bool ProjectManager::updateTimeline(int pos, bool createNewTab, const QString &c
     QPair<int, int> tracks = timelineModel->getAVtracksCount();
     prod->parent().set("kdenlive:sequenceproperties.hasAudio", tracks.first > 0 ? 1 : 0);
     prod->parent().set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
+    prod->parent().set("kdenlive:sequenceproperties.documentuuid", m_project->uuid().toString().toUtf8().constData());
     if (tractor.property_exists("kdenlive:duration")) {
         const QString duration(tractor.get("kdenlive:duration"));
         const QString maxduration(tractor.get("kdenlive:maxduration"));
