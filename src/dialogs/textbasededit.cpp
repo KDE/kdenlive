@@ -17,6 +17,7 @@
 #include "widgets/timecodedisplay.h"
 #include <profiles/profilemodel.hpp>
 
+#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequesterDialog>
