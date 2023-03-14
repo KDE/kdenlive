@@ -1367,6 +1367,7 @@ Rectangle {
             onDoubleClicked: {
                 if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
                     subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
+                    timeline.activeTrack = -2
                 } else if (mouse.y < ruler.guideLabelHeight) {
                     timeline.switchGuide((scrollView.contentX + mouseX) / root.timeScale, false)
                 }

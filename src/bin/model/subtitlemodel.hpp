@@ -33,6 +33,9 @@ class SubtitleModel : public QAbstractListModel
     Q_OBJECT
 
 public:
+    static const int RAZOR_MODE_DUPLICATE = 0;
+    static const int RAZOR_MODE_AFTER_FIRST_LINE = 1;
+
     /** @brief Construct a subtitle list bound to the timeline */
     explicit SubtitleModel(std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 

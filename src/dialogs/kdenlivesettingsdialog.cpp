@@ -114,32 +114,36 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configTimeline.setupUi(p3);
     m_page3 = addPage(p3, i18n("Timeline"), QStringLiteral("video-display"));
 
+    QWidget *p4 = new QWidget;
+    m_configTools.setupUi(p4);
+    m_page4 = addPage(p4, i18n("Tools"), QStringLiteral("tools"));
+
     initEnviromentPage();
 
-    QWidget *p10 = new QWidget;
-    m_configColors.setupUi(p10);
-    m_page10 = addPage(p10, i18n("Colors and Guides"), QStringLiteral("color-management"));
+    QWidget *p11 = new QWidget;
+    m_configColors.setupUi(p11);
+    m_page11 = addPage(p11, i18n("Colors and Guides"), QStringLiteral("color-management"));
     m_guidesCategories = new GuideCategories(nullptr, this);
     QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
     guidesLayout->addWidget(m_guidesCategories);
 
-    QWidget *p11 = new QWidget;
-    m_configSpeech.setupUi(p11);
-    m_page11 = addPage(p11, i18n("Speech To Text"), QStringLiteral("text-speak"));
+    QWidget *p12 = new QWidget;
+    m_configSpeech.setupUi(p12);
+    m_page12 = addPage(p12, i18n("Speech To Text"), QStringLiteral("text-speak"));
 
-    QWidget *p6 = new QWidget;
-    m_configSdl.setupUi(p6);
-    m_page6 = addPage(p6, i18n("Playback"), QStringLiteral("media-playback-start"));
+    QWidget *p7 = new QWidget;
+    m_configSdl.setupUi(p7);
+    m_page7 = addPage(p7, i18n("Playback"), QStringLiteral("media-playback-start"));
 
-    QWidget *p4 = new QWidget;
-    m_configCapture.setupUi(p4);
+    QWidget *p5 = new QWidget;
+    m_configCapture.setupUi(p5);
     m_decklinkProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::DecklinkCapture, false, QStringLiteral("decklink_profile"));
     m_configCapture.decklink_profile_box->addWidget(m_decklinkProfiles);
     m_v4lProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::V4LCapture, false, QStringLiteral("v4l_profile"));
     m_configCapture.v4l_profile_box->addWidget(m_v4lProfiles);
     m_grabProfiles = new EncodingProfilesChooser(this, EncodingProfilesManager::ScreenCapture, false, QStringLiteral("grab_profile"));
     m_configCapture.screen_grab_profile_box->addWidget(m_grabProfiles);
-    m_page4 = addPage(p4, i18n("Capture"), QStringLiteral("media-record"));
+    m_page5 = addPage(p5, i18n("Capture"), QStringLiteral("media-record"));
 
     initDevices();
     initCapturePage();
@@ -156,7 +160,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     if (!settingsGroup.exists() || !settingsGroup.hasKey("dialogSize")) {
         const QSize screenSize = (QGuiApplication::primaryScreen()->availableSize() * 0.9);
-        const QSize targetSize = QSize(1024, 700);
+        const QSize targetSize = QSize(1024, 708);
         optimalSize = targetSize.boundedTo(screenSize);
     } else {
         optimalSize = settingsGroup.readEntry("dialogSize", QVariant(size())).toSize();
@@ -262,12 +266,12 @@ void KdenliveSettingsDialog::initMiscPage()
 
 void KdenliveSettingsDialog::initProjectPage()
 {
-    QWidget *p8 = new QWidget;
-    m_configProject.setupUi(p8);
+    QWidget *p9 = new QWidget;
+    m_configProject.setupUi(p9);
     // Timeline preview
     QString currentPreviewData =
         KdenliveSettings::previewparams().isEmpty() ? QString() : QString("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
-    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p8, true, currentPreviewData, false);
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p9, true, currentPreviewData, false);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
@@ -294,16 +298,16 @@ void KdenliveSettingsDialog::initProjectPage()
         }
     });
 
-    m_page8 = addPage(p8, i18n("Project Defaults"), QStringLiteral("project-defaults"));
+    m_page9 = addPage(p9, i18n("Project Defaults"), QStringLiteral("project-defaults"));
 }
 
 void KdenliveSettingsDialog::initProxyPage()
 {
-    QWidget *p9 = new QWidget;
-    m_configProxy.setupUi(p9);
-    m_proxyProfiles = new EncodingProfilesChooser(p9, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
+    QWidget *p10 = new QWidget;
+    m_configProxy.setupUi(p10);
+    m_proxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
     m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
-    addPage(p9, i18n("Proxy Clips"), QStringLiteral("zoom-out"));
+    addPage(p10, i18n("Proxy Clips"), QStringLiteral("zoom-out"));
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
@@ -437,8 +441,8 @@ void KdenliveSettingsDialog::initCapturePage()
 
 void KdenliveSettingsDialog::initJogShuttlePage()
 {
-    QWidget *p5 = new QWidget;
-    m_configShuttle.setupUi(p5);
+    QWidget *p6 = new QWidget;
+    m_configShuttle.setupUi(p6);
 #ifdef USE_JOGSHUTTLE
     connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
@@ -472,14 +476,14 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
 #endif /* USE_JOGSHUTTLE */
-    m_page5 = addPage(p5, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
+    m_page6 = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 }
 
 void KdenliveSettingsDialog::initTranscodePage()
 {
-    QWidget *p7 = new QWidget;
-    m_configTranscode.setupUi(p7);
-    m_page7 = addPage(p7, i18n("Transcode"), QStringLiteral("edit-copy"));
+    QWidget *p8 = new QWidget;
+    m_configTranscode.setupUi(p8);
+    m_page8 = addPage(p8, i18n("Transcode"), QStringLiteral("edit-copy"));
 
     connect(m_configTranscode.button_add, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotAddTranscode);
     connect(m_configTranscode.button_delete, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotDeleteTranscode);
@@ -837,10 +841,10 @@ void KdenliveSettingsDialog::showPage(int page, int option)
         break;
     case 4:
         setCurrentPage(m_page4);
-        m_configCapture.tabWidget->setCurrentIndex(option);
         break;
     case 5:
         setCurrentPage(m_page5);
+        m_configCapture.tabWidget->setCurrentIndex(option);
         break;
     case 6:
         setCurrentPage(m_page6);
@@ -849,7 +853,10 @@ void KdenliveSettingsDialog::showPage(int page, int option)
         setCurrentPage(m_page7);
         break;
     case 8:
-        setCurrentPage(m_page11);
+        setCurrentPage(m_page8);
+        break;
+    case 9:
+        setCurrentPage(m_page12);
         m_stt->checkDependencies();
         break;
     default:

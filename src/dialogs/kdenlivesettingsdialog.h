@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "ui_configproxy_ui.h"
 #include "ui_configsdl_ui.h"
 #include "ui_configtimeline_ui.h"
+#include "ui_configtools_ui.h"
 #include "ui_configtranscode_ui.h"
 #include "ui_configcolors_ui.h"
 #include "ui_configspeech_ui.h"
@@ -110,12 +111,15 @@ private:
     KPageWidgetItem *m_page6;
     KPageWidgetItem *m_page7;
     KPageWidgetItem *m_page8;
+    KPageWidgetItem *m_page9;
     KPageWidgetItem *m_page10;
     KPageWidgetItem *m_page11;
+    KPageWidgetItem *m_page12;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;
     Ui::ConfigTimeline_UI m_configTimeline;
+    Ui::ConfigTools_UI m_configTools;
     Ui::ConfigCapture_UI m_configCapture;
     Ui::ConfigJogShuttle_UI m_configShuttle;
     Ui::ConfigSdl_UI m_configSdl;
