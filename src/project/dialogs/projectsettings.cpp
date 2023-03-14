@@ -429,6 +429,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         switch (clip->clipType()) {
         case ClipType::Color:
+        case ClipType::Timeline:
             // ignore color clips in list, there is no real file
             break;
         case ClipType::SlideShow: {

@@ -568,7 +568,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         });
         connect(colorWheelWidget, &LumaLiftGainParam::updateHeight, this, [&](int h) {
             setFixedHeight(m_baseHeight + m_addedHeight + h);
-            ColorWheel Q_EMIT updateHeight();
+            Q_EMIT updateHeight();
         });
         paramWidget = colorWheelWidget;
     } else if (type == ParamType::Roto_spline) {
