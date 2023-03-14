@@ -30,7 +30,7 @@ sample_rate=16000
 source=sys.argv[1]
 # zone rendering
 if len(sys.argv) > 7 and (float(sys.argv[6])>0 or float(sys.argv[7])>0):
-    process = subprocess.run([path, '-loglevel', 'quiet', '-i',
+    process = subprocess.run([path, '-loglevel', 'quiet', '-y', '-i',
                             sys.argv[1], '-ss', sys.argv[6], '-t', sys.argv[7],
                             '-vn', '-ar', str(sample_rate) , '-ac', '1', '-f', 'wav', sys.argv[8]],
                             stdout=subprocess.PIPE)

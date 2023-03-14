@@ -18,6 +18,7 @@
 #include "mlt++/MltTractor.h"
 
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KMessageWidget>
 #include <QButtonGroup>
 #include <QDir>
@@ -91,6 +92,8 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     speech_info->hide();
     m_voskConfig = new QAction(i18n("Configure"), this);
     connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotPreferences(8); });
+    m_logAction = new QAction(i18n("Show log"), this);
+    connect(m_logAction, &QAction::triggered, [&]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(timeline_zone);
@@ -261,6 +264,8 @@ void SpeechDialog::slotProcessSpeech()
         return;
     }
     speech_progress->setValue(0);
+    m_errorLog.clear();
+    speech_info->clearActions();
     frame_progress->setVisible(true);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     qApp->processEvents();
@@ -303,6 +308,7 @@ void SpeechDialog::slotProcessSpeech()
 
 void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile)
 {
+    speech_info->addAction(m_logAction);
     if (status == QProcess::CrashExit) {
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Speech recognition aborted."));
@@ -337,5 +343,7 @@ void SpeechDialog::slotProcessWhisperProgress()
         int prog = saveData.section(QLatin1Char('%'), 0, 0).toInt();
         qDebug() << "=== GOT DATA:\n" << saveData << " = " << prog;
         speech_progress->setValue(prog);
+    } else {
+        m_errorLog.append(saveData);
     }
 }

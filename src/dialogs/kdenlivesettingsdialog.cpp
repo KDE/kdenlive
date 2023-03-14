@@ -1291,7 +1291,7 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData().toString());
     }
     if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
-        KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentText());
+        KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
     }
     if (m_configSpeech.wr_translate->isChecked() != KdenliveSettings::whisperTranslate()) {
         KdenliveSettings::setWhisperTranslate(m_configSpeech.wr_translate->isChecked());
@@ -1714,6 +1714,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     }
 
     // Whisper
+    m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
     PythonDependencyMessage *msgWr = new PythonDependencyMessage(this, m_sttWhisper);
     m_configSpeech.message_layout_wr->addWidget(msgWr);
     QList<std::pair<QString, QString>> whisperModels = m_sttWhisper->whisperModels();
@@ -1735,16 +1736,24 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
     }
     m_configSpeech.wr_translate->setChecked(KdenliveSettings::whisperTranslate());
-
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &jobData) { m_configSpeech.combo_wr_device->addItem(jobData.simplified()); });
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
+        m_configSpeech.combo_wr_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    });
     connect(m_sttWhisper, &SpeechToText::scriptFinished, [this]() {
-        int ix = m_configSpeech.combo_wr_device->findText(KdenliveSettings::whisperDevice());
+        int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
         if (ix > -1) {
             m_configSpeech.combo_wr_device->setCurrentIndex(ix);
         }
     });
     connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
-        m_configSpeech.combo_wr_device->clear();
+        qDebug() << ":::::: WHISPER DEPS AVAILABLE!!!!!!!!!!";
         m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
     });
     m_sttWhisper->checkDependencies();

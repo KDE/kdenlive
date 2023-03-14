@@ -117,6 +117,7 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     , m_dependencies()
     , m_versions(new QMap<QString, QString>())
     , m_disableInstall(pCore->packageType() == QStringLiteral("flatpak"))
+    , m_dependenciesChecked(false)
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
@@ -185,6 +186,10 @@ void AbstractPythonInterface::addScript(const QString &script)
 
 void AbstractPythonInterface::checkDependencies()
 {
+    if (m_dependenciesChecked) {
+        // Don't check twice if dependecies are satisfied
+        return;
+    }
     QString output = runPackageScript(QStringLiteral("--check"));
     if (output.isEmpty()) {
         return;
@@ -202,6 +207,7 @@ void AbstractPythonInterface::checkDependencies()
         }
     }
     if (messages.isEmpty()) {
+        m_dependenciesChecked = true;
         Q_EMIT dependenciesAvailable();
     } else {
         Q_EMIT dependenciesMissing(messages);
@@ -330,7 +336,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     if (concurrent) {
         connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
             const QString processData = QString::fromUtf8(scriptJob.readAll());
-            Q_EMIT scriptFeedback(processData);
+            Q_EMIT scriptFeedback(processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
         });
     }
     scriptJob.start(m_pyExec, args);

@@ -58,6 +58,7 @@ private:
     QStringList m_missing;
     QMap<QString, QString> *m_versions;
     bool m_disableInstall;
+    bool m_dependenciesChecked;
 
     void installMissingDependencies();
     QString locateScript(const QString &script);
@@ -76,7 +77,7 @@ Q_SIGNALS:
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
     void proposeUpdate(const QString &message);
-    void scriptFeedback(const QString &message);
+    void scriptFeedback(const QStringList message);
     void scriptFinished();
 };
 

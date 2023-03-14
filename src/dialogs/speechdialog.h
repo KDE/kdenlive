@@ -41,6 +41,8 @@ private:
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
     QMetaObject::Connection m_modelsConnection;
     QAction *m_voskConfig;
+    QAction *m_logAction;
+    QString m_errorLog;
     SpeechToText *m_stt;
 
 private Q_SLOTS:
