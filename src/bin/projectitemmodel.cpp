@@ -973,7 +973,7 @@ bool ProjectItemModel::requestCleanupUnused()
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-        if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline()) {
+        if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline() && c->clipType() != ClipType::Timeline) {
             to_delete.push_back(c);
         }
     }

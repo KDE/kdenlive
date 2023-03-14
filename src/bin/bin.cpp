@@ -4845,6 +4845,10 @@ void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unused
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+        // Don't count sequence clips here
+        if (clip->clipType() == ClipType::Timeline) {
+            continue;
+        }
         if (clip->refCount() == 0) {
             *unused += 1;
             *unusedSize += clip->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
