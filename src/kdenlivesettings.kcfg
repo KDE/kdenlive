@@ -504,6 +504,13 @@
     </entry>
 </group>
 
+<group name="tools">
+  <entry name="subtitle_razor_mode" type="Int">
+    <label>How to split subtitles when using the razor tool.</label>
+    <default>0</default>
+  </entry>
+</group>
+
   <group name="env">
     <entry name="mltpath" type="Path">
       <label>Mlt framework install path.</label>

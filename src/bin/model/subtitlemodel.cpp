@@ -649,15 +649,41 @@ int SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
     }
     if (start >= GenTime()) {
         GenTime end = m_subtitleList.at(start).second;
-        QString text = m_subtitleList.at(start).first;
+        QString originalText = m_subtitleList.at(start).first;
+        QString leftText, rightText;
+
+        if (KdenliveSettings::subtitle_razor_mode() == RAZOR_MODE_DUPLICATE) {
+            leftText = originalText;
+            rightText = originalText;
+        } else if (KdenliveSettings::subtitle_razor_mode() == RAZOR_MODE_AFTER_FIRST_LINE) {
+            static const QRegularExpression newlineRe("\\r?\\n\\s*\\S");
+            QRegularExpressionMatch newlineMatch = newlineRe.match(originalText);
+            if (!newlineMatch.hasMatch()) {
+                undo();
+                return -1;
+            } else {
+                leftText = originalText;
+                leftText.truncate(newlineMatch.capturedStart());
+
+                // Add 1 because the regex matches the non-whitespace character at the end.
+                rightText = originalText.right(originalText.length() - newlineMatch.capturedEnd() + 1);
+            }
+        } else {
+            undo();
+            return -1;
+        }
 
         int subId = getIdForStartPos(start);
         int duration = position - start.frames(pCore->getCurrentFps());
         bool res = requestResize(subId, duration, true, undo, redo, false);
         if (res) {
             int id = TimelineModel::getNextId();
-            Fun local_redo = [this, id, pos, end, text]() { return addSubtitle(id, pos, end, text); };
-            Fun local_undo = [this, id]() {
+            Fun local_redo = [this, id, pos, end, subId, leftText, rightText]() {
+                editSubtitle(subId, leftText);
+                return addSubtitle(id, pos, end, rightText);
+            };
+            Fun local_undo = [this, id, subId, originalText]() {
+                editSubtitle(subId, originalText);
                 removeSubtitle(id);
                 return true;
             };

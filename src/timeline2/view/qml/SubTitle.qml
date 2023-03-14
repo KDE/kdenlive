@@ -113,6 +113,7 @@ Item {
                 } else {
                     timeline.showAsset(subtitleRoot.subId)
                 }
+                timeline.activeTrack = -2
             }
             function checkOffset(offset) {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
