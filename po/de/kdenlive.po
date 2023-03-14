@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-12 14:38+0000\n"
+"POT-Creation-Date: 2023-03-14 02:52+0000\n"
 "PO-Revision-Date: 2022-07-14 00:35+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-doc@kde.org>\n"
@@ -744,7 +744,7 @@ msgid "Initial Zoom"
 msgstr "Verschieben und Größe ändern"
 
 #: data/effects/dance.xml:23 data/effects/vidstab.xml:40
-#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:346
+#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:347
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
@@ -4730,13 +4730,13 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3541 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3541 src/dialogs/textbasededit.cpp:625
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "Protokoll anzeigen"
 
-#: src/bin/bin.cpp:3544 src/dialogs/textbasededit.cpp:625
+#: src/bin/bin.cpp:3544 src/dialogs/textbasededit.cpp:626
 #, kde-format
 msgid "Detailed log"
 msgstr "Ausführliches Protokoll"
@@ -4860,7 +4860,7 @@ msgstr ""
 "an der Titeldatei speichern oder die Änderungen nur für dieses Projekt "
 "speichern?"
 
-#: src/bin/bin.cpp:4493 src/titler/titlewidget.cpp:2182
+#: src/bin/bin.cpp:4493 src/titler/titlewidget.cpp:2183
 #, kde-format
 msgid "Save Title"
 msgstr "Titel speichern"
@@ -4948,7 +4948,7 @@ msgstr "Keinen Clip gefunden, um die Markierung hinzuzufügen"
 msgid "Could not find master clip"
 msgstr "Clips werden hinzugefügt"
 
-#: src/bin/bin.cpp:5449 src/bin/clipcreator.cpp:254
+#: src/bin/bin.cpp:5449 src/bin/clipcreator.cpp:255
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5018,50 +5018,50 @@ msgstr "Zone umbenennen"
 msgid "Edit clip"
 msgstr "Clip bearbeiten"
 
-#: src/bin/clipcreator.cpp:65
+#: src/bin/clipcreator.cpp:66
 #, kde-format
 msgid "Create title clip"
 msgstr "Titel-Clip erstellen"
 
-#: src/bin/clipcreator.cpp:78
+#: src/bin/clipcreator.cpp:79
 #, kde-format
 msgid "Create color clip"
 msgstr "Farb-Clip erstellen"
 
-#: src/bin/clipcreator.cpp:149 src/bin/clipcreator.cpp:179
+#: src/bin/clipcreator.cpp:150 src/bin/clipcreator.cpp:180
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create sequence"
 msgstr "Neue Sequenz erstellen"
 
-#: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
+#: src/bin/clipcreator.cpp:169 src/bin/clipcreator.cpp:171
 #: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
 msgstr "Sequenzname"
 
-#: src/bin/clipcreator.cpp:189
+#: src/bin/clipcreator.cpp:190
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr ""
 
-#: src/bin/clipcreator.cpp:189
+#: src/bin/clipcreator.cpp:190
 #, kde-format
 msgid "Cannot create clip"
 msgstr "Clip kann nicht erstellt werden"
 
-#: src/bin/clipcreator.cpp:269
+#: src/bin/clipcreator.cpp:270
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Diaschau-Clip erstellen"
 
-#: src/bin/clipcreator.cpp:301
+#: src/bin/clipcreator.cpp:302
 #, kde-format
 msgid "Create title template"
 msgstr "Titelvorlage erstellen"
 
-#: src/bin/clipcreator.cpp:325
+#: src/bin/clipcreator.cpp:326
 #, fuzzy, kde-format
 #| msgid "The layout %1 already exists. Do you want to replace it?"
 msgid ""
@@ -5069,19 +5069,19 @@ msgid ""
 "duplicate them?"
 msgstr "Das Layout %1 existiert bereits. Möchten Sie es überschreiben?"
 
-#: src/bin/clipcreator.cpp:326
+#: src/bin/clipcreator.cpp:327
 #, fuzzy, kde-format
 #| msgid "Duplicate clip"
 msgid "Duplicate"
 msgstr "Clip duplizieren"
 
-#: src/bin/clipcreator.cpp:350 src/core.cpp:938
+#: src/bin/clipcreator.cpp:351 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Loading clips"
 msgstr "Clips werden geladen"
 
-#: src/bin/clipcreator.cpp:450
+#: src/bin/clipcreator.cpp:451
 #, fuzzy, kde-format
 #| msgid ""
 #| "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5095,18 +5095,18 @@ msgstr ""
 "Der Clip <b>%1</b><br /> befindet sich auf einem Wechselmedium, er ist nicht "
 "verfügbar, wenn das Gerät ausgehängt wird."
 
-#: src/bin/clipcreator.cpp:454
+#: src/bin/clipcreator.cpp:455
 #, kde-format
 msgid "Removable device"
 msgstr "Wechselmedien"
 
-#: src/bin/clipcreator.cpp:477
+#: src/bin/clipcreator.cpp:478
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading done"
 msgstr "Projekt wird geladen"
 
-#: src/bin/clipcreator.cpp:488 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:489 src/dialogs/clipcreationdialog.cpp:552
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5479,7 +5479,7 @@ msgstr "Projekt bereinigen"
 msgid "Loading project clips…"
 msgstr "Projekt-Clips werden geladen ..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2109
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2110
 #, kde-format
 msgid "Zone %1"
 msgstr "Zone %1"
@@ -5490,7 +5490,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:569
+#: src/dialogs/textbasededit.cpp:570
 #, kde-format
 msgid "Configure"
 msgstr "Einrichten"
@@ -6119,11 +6119,11 @@ msgstr "Hilfslinien importieren"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1480
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4996
-#: src/titler/titlewidget.cpp:2195
+#: src/titler/titlewidget.cpp:2196
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "In die Datei %1 kann nicht geschrieben werden"
@@ -6206,7 +6206,7 @@ msgstr "Verschiedenes"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:244
 #: src/dialogs/kdenlivesettingsdialog.cpp:784
-#: src/doc/documentvalidator.cpp:2221
+#: src/doc/documentvalidator.cpp:2222
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -6962,7 +6962,7 @@ msgstr "Untertitel verschieben"
 msgid "Process"
 msgstr "Prozess"
 
-#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:610
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:611
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
@@ -6985,7 +6985,7 @@ msgstr "Wählen Sie Clips in der Zeitleiste für die Bibliothek aus"
 msgid "No audio track found"
 msgstr "Kein vorheriges Bild gefunden"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:755
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:756
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
@@ -7001,12 +7001,12 @@ msgstr "Audioexport wird gestartet"
 msgid "Audio export failed"
 msgstr "Audio-Export ist fehlgeschlagen"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:772
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:773
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Spracherkennung wird gestartet"
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:890
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:891
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Spracherkennung wurde abgebrochen."
@@ -7154,106 +7154,106 @@ msgstr "Hor. Mitte"
 msgid "Top Right"
 msgstr "Rechts anschneiden"
 
-#: src/dialogs/textbasededit.cpp:51
+#: src/dialogs/textbasededit.cpp:52
 #, kde-format
 msgid "Add bookmark"
 msgstr "Lesezeichen hinzufügen"
 
-#: src/dialogs/textbasededit.cpp:53
+#: src/dialogs/textbasededit.cpp:54
 #, kde-format
 msgid "Delete selection"
 msgstr "Auswahl löschen"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:906
-#: src/dialogs/textbasededit.cpp:974
+#: src/dialogs/textbasededit.cpp:529 src/dialogs/textbasededit.cpp:907
+#: src/dialogs/textbasededit.cpp:975
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No speech"
 msgstr "Kein Profil ausgewählt"
 
-#: src/dialogs/textbasededit.cpp:630
+#: src/dialogs/textbasededit.cpp:631
 #, kde-format
 msgid "Delete selected text"
 msgstr "Ausgewählten Text löschen"
 
-#: src/dialogs/textbasededit.cpp:636
+#: src/dialogs/textbasededit.cpp:637
 #, kde-format
 msgid "Add bookmark for current selection"
 msgstr "Lesezeichen für aktuelle Auswahl hinzufügen"
 
-#: src/dialogs/textbasededit.cpp:744
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:761
+#: src/dialogs/textbasededit.cpp:762
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:767
+#: src/dialogs/textbasededit.cpp:768
 #, fuzzy, kde-format
 #| msgid "Clip in Project Bin"
 msgid "Select a clip with audio in Project Bin."
 msgstr "Clip im Projektinhalt"
 
-#: src/dialogs/textbasededit.cpp:815
+#: src/dialogs/textbasededit.cpp:816
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Bitte wählen Sie vor dem Kopieren einen Clip"
 
-#: src/dialogs/textbasededit.cpp:824
+#: src/dialogs/textbasededit.cpp:825
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Temporäre Datei kann nicht erstellt werden."
 
-#: src/dialogs/textbasededit.cpp:829
+#: src/dialogs/textbasededit.cpp:830
 #, fuzzy, kde-format
 #| msgid "Extracting audio thumb from clip %1"
 msgid "Extracting audio for %1."
 msgstr "Audio-Vorschau wird aus dem Clip %1 extrahiert"
 
-#: src/dialogs/textbasededit.cpp:838
+#: src/dialogs/textbasededit.cpp:839
 #, fuzzy, kde-format
 #| msgid "Audio bitrate"
 msgid "Audio extract failed."
 msgstr "Audio-Bitrate"
 
-#: src/dialogs/textbasededit.cpp:844 src/dialogs/textbasededit.cpp:871
+#: src/dialogs/textbasededit.cpp:845 src/dialogs/textbasededit.cpp:872
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Spracherkennung für %1wird gestartet."
 
-#: src/dialogs/textbasededit.cpp:893
+#: src/dialogs/textbasededit.cpp:894
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:895
+#: src/dialogs/textbasededit.cpp:896
 #, kde-format
 msgid "No speech detected."
 msgstr "Kein Sprache erkannt."
 
-#: src/dialogs/textbasededit.cpp:913
+#: src/dialogs/textbasededit.cpp:914
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Spracherkennung abgeschlossen."
 
-#: src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1083
 #, kde-format
 msgid "No text to export"
 msgstr "Kein Text zum Export"
 
-#: src/dialogs/textbasededit.cpp:1102
+#: src/dialogs/textbasededit.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgid "Enter new playlist path"
 msgstr "Vorlagen-Pfad eingeben"
 
-#: src/dialogs/textbasededit.cpp:1203
+#: src/dialogs/textbasededit.cpp:1204
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No timecode found in selection"
@@ -7754,7 +7754,7 @@ msgstr[1] "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
 msgid "Remove clips"
 msgstr "Clips entfernen"
 
-#: src/doc/documentvalidator.cpp:87
+#: src/doc/documentvalidator.cpp:88
 #, kde-format
 msgid ""
 "The document was created in \"%1\" locale, which is not installed on your "
@@ -7765,20 +7765,20 @@ msgstr ""
 "nicht installiert ist. Bitte installieren Sie dieses Sprachpaket. Bis zur "
 "Installation kann Kdenlive das Dokument möglicherweise nicht korrekt öffnen."
 
-#: src/doc/documentvalidator.cpp:125
+#: src/doc/documentvalidator.cpp:126
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
 "Attempting to open nonetheless."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:126
+#: src/doc/documentvalidator.cpp:127
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Incorrect project file"
 msgstr "Diese Projektdatei kann nicht wieder hergestellt werden"
 
-#: src/doc/documentvalidator.cpp:160
+#: src/doc/documentvalidator.cpp:161
 #, kde-format
 msgid ""
 "This project type is unsupported (version %1) and cannot be loaded.\n"
@@ -7788,19 +7788,19 @@ msgstr ""
 "geladen werden.\n"
 "Bitte aktualisieren Sie Ihre Kdenlive-Version."
 
-#: src/doc/documentvalidator.cpp:161 src/doc/documentvalidator.cpp:170
+#: src/doc/documentvalidator.cpp:162 src/doc/documentvalidator.cpp:171
 #, kde-format
 msgid "Unable to open project"
 msgstr "Das Projekt kann nicht geöffnet werden"
 
-#: src/doc/documentvalidator.cpp:169
+#: src/doc/documentvalidator.cpp:170
 #, kde-format
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr ""
 "Dieser Projekt-Typ wird nicht unterstützt (Version %1) und kann nicht "
 "geladen werden."
 
-#: src/doc/documentvalidator.cpp:694
+#: src/doc/documentvalidator.cpp:695
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -7814,29 +7814,29 @@ msgstr ""
 "wird empfohlen, dies auf dem Computer durchzuführen, auf dem die Texte "
 "erstellt wurden, sonst muss die Größe vielleicht neu angepasst werden."
 
-#: src/doc/documentvalidator.cpp:697
+#: src/doc/documentvalidator.cpp:698
 #, kde-format
 msgid "Update Text Clips"
 msgstr "Text-Clips aktualisieren"
 
-#: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
+#: src/doc/documentvalidator.cpp:698 src/doc/documentvalidator.cpp:2213
 #, fuzzy, kde-format
 #| msgid "Convert to"
 msgid "Convert"
 msgstr "Umwandeln in"
 
-#: src/doc/documentvalidator.cpp:1267
+#: src/doc/documentvalidator.cpp:1268
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "Diese Projektdatei kann nicht wieder hergestellt werden"
 
-#: src/doc/documentvalidator.cpp:1587
+#: src/doc/documentvalidator.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "extra audio"
 msgstr "Audio extrahieren"
 
-#: src/doc/documentvalidator.cpp:2210
+#: src/doc/documentvalidator.cpp:2211
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7849,19 +7849,19 @@ msgstr ""
 "Möchten Sie das Projekt in eine Nicht-GPU-Version umwandeln?\n"
 "Das könnte zu Datenverlusten führen."
 
-#: src/doc/documentvalidator.cpp:2212
+#: src/doc/documentvalidator.cpp:2213
 #, fuzzy, kde-format
 #| msgid "GPU effects"
 msgid "GPU Effects"
 msgstr "GPU-Effekte"
 
-#: src/doc/documentvalidator.cpp:2305
+#: src/doc/documentvalidator.cpp:2306
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Die folgenden Filter/Übergänge wurden in Nicht-GPU-Versionen umgewandelt:"
 
-#: src/doc/documentvalidator.cpp:2308
+#: src/doc/documentvalidator.cpp:2309
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Die folgenden Filter/Übergänge wurden aus dem Projekt entfernt:"
@@ -7962,7 +7962,7 @@ msgstr "Fehler beim Verschieben des Projektordners: %1"
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2142
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1312
+#: src/project/projectmanager.cpp:1313
 #, kde-format
 msgid "Untitled"
 msgstr "Unbenannt"
@@ -8082,22 +8082,22 @@ msgstr ""
 "Es wurde kein Profil für Ihren Clip gefunden\n"
 "Neues Profil erstellen und zu neuem Profil (%1x%2, %3fps)%4 wechseln?"
 
-#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:230
-#: src/scopes/colorscopes/colorplaneexport.cpp:258
+#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rot"
 
-#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
+#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Green"
 msgstr "Grün"
 
-#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blau"
@@ -9802,8 +9802,8 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Die letzte Spur der Zeitleiste kann nicht gelöscht werden"
 
-#: src/mainwindow.cpp:1202 src/titler/titlewidget.cpp:370
-#: src/titler/titlewidget.cpp:373
+#: src/mainwindow.cpp:1202 src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:374
 #, kde-format
 msgid "Selection Tool"
 msgstr "Auswahlwerkzeug"
@@ -10778,8 +10778,8 @@ msgid "Recreate"
 msgstr "Erstellen"
 
 #: src/mainwindow.cpp:2082 src/onlineresources/resourcewidget.cpp:568
-#: src/scopes/colorscopes/colorplaneexport.cpp:156
-#: src/titler/titlewidget.cpp:2178
+#: src/scopes/colorscopes/colorplaneexport.cpp:158
+#: src/titler/titlewidget.cpp:2179
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -13118,7 +13118,7 @@ msgstr "Clip-Markierungen laden"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr ""
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1373
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1374
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4902
 #, fuzzy, kde-format
@@ -13709,7 +13709,7 @@ msgstr "Sicherungskopie-Datei öffnen"
 msgid "Save changes to document?"
 msgstr "Änderungen des Dokuments speichern?"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1311
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1312
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13860,13 +13860,13 @@ msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1322
-#: src/project/projectmanager.cpp:1332 src/project/projectmanager.cpp:1348
+#: src/project/projectmanager.cpp:1318 src/project/projectmanager.cpp:1323
+#: src/project/projectmanager.cpp:1333 src/project/projectmanager.cpp:1349
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Änderung des Projektprofils abgebrochen"
 
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1465
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13875,12 +13875,12 @@ msgstr ""
 "Ausgabedatei %1 existiert bereits.\n"
 "Möchten Sie sie überschreiben?"
 
-#: src/project/projectmanager.cpp:1489
+#: src/project/projectmanager.cpp:1490
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil geändert"
 
-#: src/project/projectmanager.cpp:1541
+#: src/project/projectmanager.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13888,7 +13888,7 @@ msgid ""
 "%1"
 msgstr "Der Filter %1 kann nicht erstellt werden"
 
-#: src/project/projectmanager.cpp:1616
+#: src/project/projectmanager.cpp:1617
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
@@ -14339,102 +14339,102 @@ msgstr ""
 "%1\n"
 "dB"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:26
+#: src/scopes/colorscopes/colorplaneexport.cpp:28
 #, kde-format
 msgid "YUV UV plane"
 msgstr "YUV-UV-Fläche"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:27
+#: src/scopes/colorscopes/colorplaneexport.cpp:29
 #, kde-format
 msgid "YUV Y plane"
 msgstr "YUV-Y-Fläche"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:28
+#: src/scopes/colorscopes/colorplaneexport.cpp:30
 #: src/scopes/colorscopes/vectorscope.cpp:51
 #: src/scopes/colorscopes/vectorscope.cpp:57
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr "Modifiziertes YUV (Chroma)"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:29
+#: src/scopes/colorscopes/colorplaneexport.cpp:31
 #, kde-format
 msgid "YCbCr CbCr plane"
 msgstr "YCbCr-CbCr-Fläche"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:30
+#: src/scopes/colorscopes/colorplaneexport.cpp:32
 #, kde-format
 msgid "RGB plane, one component varying"
 msgstr "RGB-Fläche, eine Komponente variierend"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:31
+#: src/scopes/colorscopes/colorplaneexport.cpp:33
 #, kde-format
 msgid "HSV Hue Shift"
 msgstr "HSV-Farbtonverschiebung"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:32
-#: src/scopes/colorscopes/colorplaneexport.cpp:244
+#: src/scopes/colorscopes/colorplaneexport.cpp:34
+#: src/scopes/colorscopes/colorplaneexport.cpp:246
 #, kde-format
 msgid "HSV Saturation"
 msgstr "HSV-Sättigung"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:107
+#: src/scopes/colorscopes/colorplaneexport.cpp:109
 #: src/scopes/colorscopes/vectorscope.cpp:257
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:114
+#: src/scopes/colorscopes/colorplaneexport.cpp:116
 #, kde-format
 msgid "%1 px"
 msgstr "%1 px"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, fuzzy, kde-format
 #| msgid "File has no extension. Add extension (%1)?"
 msgid "File has no valid extension. Add extension (%1)?"
 msgstr "Datei hat keine Erweiterung. Erweiterung anhängen (%1)?"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "File Extension"
 msgstr "Dateierweiterung:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: src/scopes/colorscopes/colorplaneexport.cpp:197
+#: src/scopes/colorscopes/colorplaneexport.cpp:199
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
 msgstr "Skalierung"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:208
+#: src/scopes/colorscopes/colorplaneexport.cpp:210
 #, kde-format
 msgid "Y value"
 msgstr "Y-Wert"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:209
+#: src/scopes/colorscopes/colorplaneexport.cpp:211
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
 msgstr "Der Y-Wert beschreibt die Helligkeit der Farben."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:221
+#: src/scopes/colorscopes/colorplaneexport.cpp:223
 #, kde-format
 msgid "UV angle"
 msgstr "UV-Winkel"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:222
+#: src/scopes/colorscopes/colorplaneexport.cpp:224
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "Winkel durch die UV-Fläche, mit allen möglichen Y-Werten."
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:233
-#: src/scopes/colorscopes/colorplaneexport.cpp:261
+#: src/scopes/colorscopes/colorplaneexport.cpp:235
+#: src/scopes/colorscopes/colorplaneexport.cpp:263
 #, kde-format
 msgid "Luma"
 msgstr "Luma"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:245
-#: src/scopes/colorscopes/colorplaneexport.cpp:252
+#: src/scopes/colorscopes/colorplaneexport.cpp:247
+#: src/scopes/colorscopes/colorplaneexport.cpp:254
 #, kde-format
 msgid "HSV Value"
 msgstr "HSV-Wert"
@@ -16021,7 +16021,7 @@ msgid "No available stream"
 msgstr "Alle Bilder"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3232 src/titler/titlewidget.cpp:3235
+#: src/titler/titlewidget.cpp:3233 src/titler/titlewidget.cpp:3236
 #, kde-format
 msgid "Gradient %1"
 msgstr "Verlauf %1"
@@ -16053,202 +16053,202 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "Text-Clips aktualisiert"
 
-#: src/titler/titlewidget.cpp:128
+#: src/titler/titlewidget.cpp:129
 #, kde-format
 msgid "Outline width"
 msgstr "Breite der Außenlinie"
 
-#: src/titler/titlewidget.cpp:135
+#: src/titler/titlewidget.cpp:136
 #, kde-format
 msgid "Background color opacity"
 msgstr "Deckkraft Hintergrundfarbe"
 
-#: src/titler/titlewidget.cpp:141
+#: src/titler/titlewidget.cpp:142
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Drehung um die x-Achse"
 
-#: src/titler/titlewidget.cpp:147
+#: src/titler/titlewidget.cpp:148
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Drehung um die y-Achse"
 
-#: src/titler/titlewidget.cpp:153
+#: src/titler/titlewidget.cpp:154
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Drehung um die z-Achse"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:159 src/ui/titlewidget_ui.ui:1351
+#: src/titler/titlewidget.cpp:160 src/ui/titlewidget_ui.ui:1351
 #, kde-format
 msgid "Border width"
 msgstr "Rahmenbreite"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:161 src/ui/clipspeed_ui.ui:62
+#: src/titler/titlewidget.cpp:162 src/ui/clipspeed_ui.ui:62
 #: src/ui/titlewidget_ui.ui:92 src/widgets/geometrywidget.cpp:71
 #: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr " %"
 
-#: src/titler/titlewidget.cpp:258
+#: src/titler/titlewidget.cpp:259
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Fein"
 
-#: src/titler/titlewidget.cpp:259
+#: src/titler/titlewidget.cpp:260
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/titler/titlewidget.cpp:260
+#: src/titler/titlewidget.cpp:261
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Halbfett"
 
-#: src/titler/titlewidget.cpp:261
+#: src/titler/titlewidget.cpp:262
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Fett"
 
-#: src/titler/titlewidget.cpp:262
+#: src/titler/titlewidget.cpp:263
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Schwarz"
 
-#: src/titler/titlewidget.cpp:263
+#: src/titler/titlewidget.cpp:264
 #, kde-format
 msgid "Font weight"
 msgstr "Schriftstärke"
 
-#: src/titler/titlewidget.cpp:277
+#: src/titler/titlewidget.cpp:278
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Unicode-Zeichen einfügen"
 
-#: src/titler/titlewidget.cpp:283
+#: src/titler/titlewidget.cpp:284
 #, kde-format
 msgid "Raise object"
 msgstr "Objekt anheben"
 
-#: src/titler/titlewidget.cpp:289
+#: src/titler/titlewidget.cpp:290
 #, kde-format
 msgid "Lower object"
 msgstr "Objekt absenken"
 
-#: src/titler/titlewidget.cpp:297
+#: src/titler/titlewidget.cpp:298
 #, kde-format
 msgid "Raise object to top"
 msgstr "Objekt nach ganz oben anheben"
 
-#: src/titler/titlewidget.cpp:304
+#: src/titler/titlewidget.cpp:305
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Objekt nach ganz unten absenken"
 
-#: src/titler/titlewidget.cpp:310
+#: src/titler/titlewidget.cpp:311
 #, fuzzy, kde-format
 #| msgid "Select all"
 msgid "Select All"
 msgstr "Alles auswählen"
 
-#: src/titler/titlewidget.cpp:316
+#: src/titler/titlewidget.cpp:317
 #, fuzzy, kde-format
 #| msgid "No target track(s) selected"
 msgid "Keep only text items selected"
 msgstr "Kein Zielclip ausgewählt."
 
-#: src/titler/titlewidget.cpp:323
+#: src/titler/titlewidget.cpp:324
 #, fuzzy, kde-format
 #| msgid "No target track(s) selected"
 msgid "Keep only rect items selected"
 msgstr "Kein Zielclip ausgewählt."
 
-#: src/titler/titlewidget.cpp:330
+#: src/titler/titlewidget.cpp:331
 #, fuzzy, kde-format
 #| msgid "Select image items in current selection"
 msgid "Keep only image items selected"
 msgstr "Bildelemente in der aktuellen Auswahl wählen"
 
-#: src/titler/titlewidget.cpp:337
+#: src/titler/titlewidget.cpp:338
 #, fuzzy, kde-format
 #| msgid "Deselect Clip"
 msgid "Deselect"
 msgstr "Clip-Auswahl aufheben"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:343
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "x-Achse invertieren und Ursprungspunkt ändern"
 
-#: src/titler/titlewidget.cpp:343
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "y-Achse invertieren und Ursprungspunkt ändern"
 
-#: src/titler/titlewidget.cpp:344
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select fill color"
 msgstr "Füllfarbe wählen"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Select border color"
 msgstr "Rahmenfarbe wählen"
 
-#: src/titler/titlewidget.cpp:347
+#: src/titler/titlewidget.cpp:348
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Originalgröße (1:1)"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:349
 #, kde-format
 msgid "Fit zoom"
 msgstr "Zoom einpassen"
 
-#: src/titler/titlewidget.cpp:349
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Select background color"
 msgstr "Hintergrundfarbe wählen"
 
-#: src/titler/titlewidget.cpp:350
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Background opacity"
 msgstr "Deckkraft des Hintergrunds"
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Select all"
 msgstr "Alles auswählen"
 
-#: src/titler/titlewidget.cpp:352
+#: src/titler/titlewidget.cpp:353
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Textelemente in der aktuellen Auswahl wählen"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Rechteckige Elemente in der aktuellen Auswahl wählen"
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:355
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Bildelemente in der aktuellen Auswahl wählen"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:356
 #, kde-format
 msgid "Unselect all"
 msgstr "Auswahl aufheben"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:375
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16256,53 +16256,53 @@ msgid ""
 "clip, composition)."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:378 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Add Text"
 msgstr "Text hinzufügen"
 
-#: src/titler/titlewidget.cpp:383 src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:384 src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Rechteck hinzufügen"
 
-#: src/titler/titlewidget.cpp:389 src/titler/titlewidget.cpp:392
+#: src/titler/titlewidget.cpp:390 src/titler/titlewidget.cpp:393
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Ellipse hinzufügen"
 
-#: src/titler/titlewidget.cpp:395 src/titler/titlewidget.cpp:398
-#: src/titler/titlewidget.cpp:812
+#: src/titler/titlewidget.cpp:396 src/titler/titlewidget.cpp:399
+#: src/titler/titlewidget.cpp:813
 #, kde-format
 msgid "Add Image"
 msgstr "Bild hinzufügen"
 
-#: src/titler/titlewidget.cpp:403 src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:404 src/titler/titlewidget.cpp:407
 #, kde-format
 msgid "Open Document"
 msgstr "Dokument öffnen"
 
-#: src/titler/titlewidget.cpp:409 src/titler/titlewidget.cpp:412
+#: src/titler/titlewidget.cpp:410 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Save As"
 msgstr "Speichern unter"
 
-#: src/titler/titlewidget.cpp:415 src/titler/titlewidget.cpp:417
+#: src/titler/titlewidget.cpp:416 src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "Neue Titelvorlagen herunterladen ..."
 
-#: src/titler/titlewidget.cpp:542
+#: src/titler/titlewidget.cpp:543
 #, kde-format
 msgid "Save and add to project"
 msgstr "Speichern und zum Projekt hinzufügen"
 
-#: src/titler/titlewidget.cpp:543
+#: src/titler/titlewidget.cpp:544
 #, kde-format
 msgid "Create Title"
 msgstr "Titel erstellen"
 
-#: src/titler/titlewidget.cpp:692
+#: src/titler/titlewidget.cpp:693
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -16311,49 +16311,49 @@ msgstr ""
 "Möchten Sie wirklich eine neue Titelvorlage laden? Alle bisherigen "
 "Änderungen gehen verloren."
 
-#: src/titler/titlewidget.cpp:800
+#: src/titler/titlewidget.cpp:801
 #, kde-format
 msgid "All Images"
 msgstr "Alle Bilder"
 
-#: src/titler/titlewidget.cpp:802
+#: src/titler/titlewidget.cpp:803
 #, kde-format
 msgid "%1 Image"
 msgstr "Bild %1"
 
-#: src/titler/titlewidget.cpp:1636
+#: src/titler/titlewidget.cpp:1637
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1638 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1639 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1660
+#: src/titler/titlewidget.cpp:1661
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1662 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1663 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2129
+#: src/titler/titlewidget.cpp:2130
 #, kde-format
 msgid "Load Title"
 msgstr "Titel laden"
 
-#: src/titler/titlewidget.cpp:2130
+#: src/titler/titlewidget.cpp:2131
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive-Titel (*.kdenlivetitle)"
 
-#: src/titler/titlewidget.cpp:2176
+#: src/titler/titlewidget.cpp:2177
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -16362,60 +16362,60 @@ msgstr ""
 "Möchten Sie die Bilder in dieses Titel-Dokument einbetten?\n"
 "Dies wird meistens für die Freigabe von Titeln benötigt."
 
-#: src/titler/titlewidget.cpp:2177
+#: src/titler/titlewidget.cpp:2178
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Bild hinzufügen"
 
-#: src/titler/titlewidget.cpp:2232
+#: src/titler/titlewidget.cpp:2233
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "In diesem Titel fehlt 1 Element"
 msgstr[1] "In diesem Titel fehlt %1 Elemente"
 
-#: src/titler/titlewidget.cpp:2233 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2234 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Details"
 
-#: src/titler/titlewidget.cpp:2236
+#: src/titler/titlewidget.cpp:2237
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Fehlende Elemente löschen"
 
-#: src/titler/titlewidget.cpp:2296
+#: src/titler/titlewidget.cpp:2297
 #, kde-format
 msgid "Update Title"
 msgstr "Titel aktualisieren "
 
-#: src/titler/titlewidget.cpp:2299
+#: src/titler/titlewidget.cpp:2300
 #, kde-format
 msgid "Add as new Title"
 msgstr "Als neuen Titel hinzufügen"
 
-#: src/titler/titlewidget.cpp:2353
+#: src/titler/titlewidget.cpp:2354
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Die folgenden Dateien fehlen:"
 
-#: src/titler/titlewidget.cpp:2547
+#: src/titler/titlewidget.cpp:2548
 #, fuzzy, kde-format
 #| msgid "Start-/EndViewport"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start-/Endbereich"
 
-#: src/titler/titlewidget.cpp:2548
+#: src/titler/titlewidget.cpp:2549
 #, fuzzy, kde-format
 #| msgid "EndViewport"
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Endfenster"
 
-#: src/titler/titlewidget.cpp:3265
+#: src/titler/titlewidget.cpp:3266
 #, kde-format
 msgid "Gradient"
 msgstr "Verlauf"

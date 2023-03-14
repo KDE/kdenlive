@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-12 14:38+0000\n"
+"POT-Creation-Date: 2023-03-14 02:52+0000\n"
 "PO-Revision-Date: 2023-03-11 04:55\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -714,7 +714,7 @@ msgid "Initial Zoom"
 msgstr "初始缩放"
 
 #: data/effects/dance.xml:23 data/effects/vidstab.xml:40
-#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:346
+#: src/project/dialogs/slideshowclip.cpp:67 src/titler/titlewidget.cpp:347
 #, kde-format
 msgid "Zoom"
 msgstr "缩放"
@@ -4566,13 +4566,13 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3541 src/dialogs/textbasededit.cpp:624
+#: src/bin/bin.cpp:3541 src/dialogs/textbasededit.cpp:625
 #: src/monitor/recmanager.cpp:43
 #, kde-format
 msgid "Show log"
 msgstr "显示日志"
 
-#: src/bin/bin.cpp:3544 src/dialogs/textbasededit.cpp:625
+#: src/bin/bin.cpp:3544 src/dialogs/textbasededit.cpp:626
 #, kde-format
 msgid "Detailed log"
 msgstr "详细日志"
@@ -4680,7 +4680,7 @@ msgstr ""
 "您正在编辑外部字幕剪辑 (%1)。您想要保存更改到该字幕文件，还是仅保存更改到此项"
 "目？"
 
-#: src/bin/bin.cpp:4493 src/titler/titlewidget.cpp:2182
+#: src/bin/bin.cpp:4493 src/titler/titlewidget.cpp:2183
 #, kde-format
 msgid "Save Title"
 msgstr "保存字幕"
@@ -4765,7 +4765,7 @@ msgstr "无法找到要添加标记的剪辑"
 msgid "Could not find master clip"
 msgstr "无法找到主剪辑"
 
-#: src/bin/bin.cpp:5449 src/bin/clipcreator.cpp:254
+#: src/bin/bin.cpp:5449 src/bin/clipcreator.cpp:255
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4832,69 +4832,69 @@ msgstr "重命名区段"
 msgid "Edit clip"
 msgstr "编辑剪辑"
 
-#: src/bin/clipcreator.cpp:65
+#: src/bin/clipcreator.cpp:66
 #, kde-format
 msgid "Create title clip"
 msgstr "创建字幕剪辑"
 
-#: src/bin/clipcreator.cpp:78
+#: src/bin/clipcreator.cpp:79
 #, kde-format
 msgid "Create color clip"
 msgstr "创建颜色剪辑"
 
-#: src/bin/clipcreator.cpp:149 src/bin/clipcreator.cpp:179
+#: src/bin/clipcreator.cpp:150 src/bin/clipcreator.cpp:180
 #, fuzzy, kde-format
 #| msgid "Image sequence:"
 msgid "Create sequence"
 msgstr "图像序列："
 
-#: src/bin/clipcreator.cpp:168 src/bin/clipcreator.cpp:170
+#: src/bin/clipcreator.cpp:169 src/bin/clipcreator.cpp:171
 #: src/project/projectmanager.cpp:1206 src/project/projectmanager.cpp:1208
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequences"
 msgstr "图像序列"
 
-#: src/bin/clipcreator.cpp:189
+#: src/bin/clipcreator.cpp:190
 #, kde-format
 msgid "You cannot add a project inside itself."
 msgstr "不能将项目添加到其自身内部"
 
-#: src/bin/clipcreator.cpp:189
+#: src/bin/clipcreator.cpp:190
 #, kde-format
 msgid "Cannot create clip"
 msgstr "无法创建剪辑"
 
-#: src/bin/clipcreator.cpp:269
+#: src/bin/clipcreator.cpp:270
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "创建幻灯片剪辑"
 
-#: src/bin/clipcreator.cpp:301
+#: src/bin/clipcreator.cpp:302
 #, kde-format
 msgid "Create title template"
 msgstr "创建字幕模板"
 
-#: src/bin/clipcreator.cpp:325
+#: src/bin/clipcreator.cpp:326
 #, kde-format
 msgid ""
 "The following clips are already inserted in the project. Do you want to "
 "duplicate them?"
 msgstr "以下剪辑已经插入到项目中。您想要创建它们的副本吗？"
 
-#: src/bin/clipcreator.cpp:326
+#: src/bin/clipcreator.cpp:327
 #, fuzzy, kde-format
 #| msgid "Duplicate clip"
 msgid "Duplicate"
 msgstr "创建剪辑副本"
 
-#: src/bin/clipcreator.cpp:350 src/core.cpp:938
+#: src/bin/clipcreator.cpp:351 src/core.cpp:938
 #: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Loading clips"
 msgstr "加载剪辑"
 
-#: src/bin/clipcreator.cpp:450
+#: src/bin/clipcreator.cpp:451
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -4906,17 +4906,17 @@ msgstr ""
 "将不可用。\n"
 "建议先将该素材复制到本机存储设备之后再进行添加。您仍然要添加它吗？"
 
-#: src/bin/clipcreator.cpp:454
+#: src/bin/clipcreator.cpp:455
 #, kde-format
 msgid "Removable device"
 msgstr "可移动设备"
 
-#: src/bin/clipcreator.cpp:477
+#: src/bin/clipcreator.cpp:478
 #, kde-format
 msgid "Loading done"
 msgstr "加载完成"
 
-#: src/bin/clipcreator.cpp:488 src/dialogs/clipcreationdialog.cpp:552
+#: src/bin/clipcreator.cpp:489 src/dialogs/clipcreationdialog.cpp:552
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -5267,7 +5267,7 @@ msgstr "清理项目"
 msgid "Loading project clips…"
 msgstr "正在加载项目剪辑…"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2109
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2110
 #, kde-format
 msgid "Zone %1"
 msgstr "区段 %1"
@@ -5278,7 +5278,7 @@ msgid "Tag %1"
 msgstr "标签 %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:43
-#: src/dialogs/textbasededit.cpp:569
+#: src/dialogs/textbasededit.cpp:570
 #, kde-format
 msgid "Configure"
 msgstr "配置"
@@ -5878,11 +5878,11 @@ msgstr "导出辅助线数据…"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1479
+#: src/project/projectmanager.cpp:1480
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:4996
-#: src/titler/titlewidget.cpp:2195
+#: src/titler/titlewidget.cpp:2196
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "无法写入文件 %1"
@@ -5960,7 +5960,7 @@ msgstr "常规"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:244
 #: src/dialogs/kdenlivesettingsdialog.cpp:784
-#: src/doc/documentvalidator.cpp:2221
+#: src/doc/documentvalidator.cpp:2222
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
@@ -6674,7 +6674,7 @@ msgstr "自动字幕"
 msgid "Process"
 msgstr "处理"
 
-#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:610
+#: src/dialogs/speechdialog.cpp:51 src/dialogs/textbasededit.cpp:611
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "请安装语音识别模型"
@@ -6694,7 +6694,7 @@ msgstr "在时间轴中选择一段剪辑以进行分析"
 msgid "No audio track found"
 msgstr "未找到音轨"
 
-#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:755
+#: src/dialogs/speechdialog.cpp:145 src/dialogs/textbasededit.cpp:756
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "请配置语音转文字功能。"
@@ -6709,12 +6709,12 @@ msgstr "开始音频导出"
 msgid "Audio export failed"
 msgstr "音频导出失败"
 
-#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:772
+#: src/dialogs/speechdialog.cpp:241 src/dialogs/textbasededit.cpp:773
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "开始语音识别"
 
-#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:890
+#: src/dialogs/speechdialog.cpp:256 src/dialogs/textbasededit.cpp:891
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
@@ -6853,100 +6853,100 @@ msgstr "上方中央"
 msgid "Top Right"
 msgstr "右上"
 
-#: src/dialogs/textbasededit.cpp:51
+#: src/dialogs/textbasededit.cpp:52
 #, kde-format
 msgid "Add bookmark"
 msgstr "添加书签"
 
-#: src/dialogs/textbasededit.cpp:53
+#: src/dialogs/textbasededit.cpp:54
 #, kde-format
 msgid "Delete selection"
 msgstr "删除所选内容"
 
-#: src/dialogs/textbasededit.cpp:528 src/dialogs/textbasededit.cpp:906
-#: src/dialogs/textbasededit.cpp:974
+#: src/dialogs/textbasededit.cpp:529 src/dialogs/textbasededit.cpp:907
+#: src/dialogs/textbasededit.cpp:975
 #, kde-format
 msgid "No speech"
 msgstr "无语音"
 
-#: src/dialogs/textbasededit.cpp:630
+#: src/dialogs/textbasededit.cpp:631
 #, kde-format
 msgid "Delete selected text"
 msgstr "删除所选文字"
 
-#: src/dialogs/textbasededit.cpp:636
+#: src/dialogs/textbasededit.cpp:637
 #, kde-format
 msgid "Add bookmark for current selection"
 msgstr "添加书签到当前选择内容位置"
 
-#: src/dialogs/textbasededit.cpp:744
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:761
+#: src/dialogs/textbasededit.cpp:762
 #, kde-format
 msgid "Please install a language model."
 msgstr "请安装语言模型。"
 
-#: src/dialogs/textbasededit.cpp:767
+#: src/dialogs/textbasededit.cpp:768
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "选择项目素材箱中的带音频剪辑。"
 
-#: src/dialogs/textbasededit.cpp:815
+#: src/dialogs/textbasededit.cpp:816
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "选择一段带有音频的剪辑以进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:824
+#: src/dialogs/textbasededit.cpp:825
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "无法创建临时文件。"
 
-#: src/dialogs/textbasededit.cpp:829
+#: src/dialogs/textbasededit.cpp:830
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "正在为 %1 提取音频。"
 
-#: src/dialogs/textbasededit.cpp:838
+#: src/dialogs/textbasededit.cpp:839
 #, kde-format
 msgid "Audio extract failed."
 msgstr "音频提取失败。"
 
-#: src/dialogs/textbasededit.cpp:844 src/dialogs/textbasededit.cpp:871
+#: src/dialogs/textbasededit.cpp:845 src/dialogs/textbasededit.cpp:872
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在开始对 %1 进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:893
+#: src/dialogs/textbasededit.cpp:894
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "发生错误，请检查语音转文字功能配置。"
 
-#: src/dialogs/textbasededit.cpp:895
+#: src/dialogs/textbasededit.cpp:896
 #, kde-format
 msgid "No speech detected."
 msgstr "未检测到语音。"
 
-#: src/dialogs/textbasededit.cpp:913
+#: src/dialogs/textbasededit.cpp:914
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
-#: src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1083
 #, kde-format
 msgid "No text to export"
 msgstr "没有可供导出的文字"
 
-#: src/dialogs/textbasededit.cpp:1102
+#: src/dialogs/textbasededit.cpp:1103
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "输入新播放列表路径"
 
-#: src/dialogs/textbasededit.cpp:1203
+#: src/dialogs/textbasededit.cpp:1204
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "未找到所选内容中的时间码"
@@ -7391,7 +7391,7 @@ msgstr[0] "此操作将从项目中移除所选剪辑"
 msgid "Remove clips"
 msgstr "移除剪辑"
 
-#: src/doc/documentvalidator.cpp:87
+#: src/doc/documentvalidator.cpp:88
 #, kde-format
 msgid ""
 "The document was created in \"%1\" locale, which is not installed on your "
@@ -7401,7 +7401,7 @@ msgstr ""
 "该项目文件是在“%1”语言环境下创建的，本机系统尚未安装该语言包。在先安装对应的"
 "语言包，否则 Kdenlive 可能无法正常打开该文件。"
 
-#: src/doc/documentvalidator.cpp:125
+#: src/doc/documentvalidator.cpp:126
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
@@ -7410,12 +7410,12 @@ msgstr ""
 "无法读取此项目文件的版本。\n"
 "Kdenlive 仍然会尝试打开它。"
 
-#: src/doc/documentvalidator.cpp:126
+#: src/doc/documentvalidator.cpp:127
 #, kde-format
 msgid "Incorrect project file"
 msgstr "项目文件不正确"
 
-#: src/doc/documentvalidator.cpp:160
+#: src/doc/documentvalidator.cpp:161
 #, kde-format
 msgid ""
 "This project type is unsupported (version %1) and cannot be loaded.\n"
@@ -7424,17 +7424,17 @@ msgstr ""
 "不支持此项目类型（版本 %1）且无法加载。\n"
 "请考虑升级您的 Kdenlive 版本。"
 
-#: src/doc/documentvalidator.cpp:161 src/doc/documentvalidator.cpp:170
+#: src/doc/documentvalidator.cpp:162 src/doc/documentvalidator.cpp:171
 #, kde-format
 msgid "Unable to open project"
 msgstr "无法打开项目"
 
-#: src/doc/documentvalidator.cpp:169
+#: src/doc/documentvalidator.cpp:170
 #, kde-format
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr "不支持此项目类型 (版本 %1)，无法加载。 "
 
-#: src/doc/documentvalidator.cpp:694
+#: src/doc/documentvalidator.cpp:695
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -7447,28 +7447,28 @@ msgstr ""
 "致？建议您在创建文字时就执行此操作，否则您可能需要为每一台不同的显示器逐一调"
 "整这些文字的大小。"
 
-#: src/doc/documentvalidator.cpp:697
+#: src/doc/documentvalidator.cpp:698
 #, kde-format
 msgid "Update Text Clips"
 msgstr "更新文字剪辑"
 
-#: src/doc/documentvalidator.cpp:697 src/doc/documentvalidator.cpp:2212
+#: src/doc/documentvalidator.cpp:698 src/doc/documentvalidator.cpp:2213
 #, fuzzy, kde-format
 #| msgid "Convert to"
 msgid "Convert"
 msgstr "转换为"
 
-#: src/doc/documentvalidator.cpp:1267
+#: src/doc/documentvalidator.cpp:1268
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "无法恢复此项目文件"
 
-#: src/doc/documentvalidator.cpp:1587
+#: src/doc/documentvalidator.cpp:1588
 #, kde-format
 msgid "extra audio"
 msgstr "额外音频"
 
-#: src/doc/documentvalidator.cpp:2210
+#: src/doc/documentvalidator.cpp:2211
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -7480,18 +7480,18 @@ msgstr ""
 "您想要将项目转换为非 GPU 版本吗？\n"
 "此操作可能会导致数据丢失。"
 
-#: src/doc/documentvalidator.cpp:2212
+#: src/doc/documentvalidator.cpp:2213
 #, fuzzy, kde-format
 #| msgid "GPU effects"
 msgid "GPU Effects"
 msgstr "GPU effects - GPU 效果"
 
-#: src/doc/documentvalidator.cpp:2305
+#: src/doc/documentvalidator.cpp:2306
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "下列滤镜/转场已被转换为非 GPU 版本："
 
-#: src/doc/documentvalidator.cpp:2308
+#: src/doc/documentvalidator.cpp:2309
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "下列滤镜/转场已被从项目中删除："
@@ -7584,7 +7584,7 @@ msgstr "移动项目文件夹时出错：%1"
 
 #: src/doc/kdenlivedoc.cpp:1039 src/doc/kdenlivedoc.cpp:2142
 #: src/project/dialogs/archivewidget.cpp:214
-#: src/project/projectmanager.cpp:1312
+#: src/project/projectmanager.cpp:1313
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -7703,22 +7703,22 @@ msgstr ""
 "找不到剪辑 %1 的编码方案。\n"
 "创建并切换到新编码方案 (%2x%3, %4fps) 吗？%5"
 
-#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:230
-#: src/scopes/colorscopes/colorplaneexport.cpp:258
+#: src/doc/kdenlivedoc.cpp:2181 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "红"
 
-#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:231
-#: src/scopes/colorscopes/colorplaneexport.cpp:259
+#: src/doc/kdenlivedoc.cpp:2182 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
 #, kde-format
 msgid "Green"
 msgstr "绿"
 
-#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:232
-#: src/scopes/colorscopes/colorplaneexport.cpp:260
+#: src/doc/kdenlivedoc.cpp:2183 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "蓝"
@@ -9339,8 +9339,8 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "无法删除时间轴中的最后一条轨道"
 
-#: src/mainwindow.cpp:1202 src/titler/titlewidget.cpp:370
-#: src/titler/titlewidget.cpp:373
+#: src/mainwindow.cpp:1202 src/titler/titlewidget.cpp:371
+#: src/titler/titlewidget.cpp:374
 #, kde-format
 msgid "Selection Tool"
 msgstr "选择工具"
@@ -10252,8 +10252,8 @@ msgid "Recreate"
 msgstr "创建"
 
 #: src/mainwindow.cpp:2082 src/onlineresources/resourcewidget.cpp:568
-#: src/scopes/colorscopes/colorplaneexport.cpp:156
-#: src/titler/titlewidget.cpp:2178
+#: src/scopes/colorscopes/colorplaneexport.cpp:158
+#: src/titler/titlewidget.cpp:2179
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -12525,7 +12525,7 @@ msgstr "加载剪辑标记"
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
 msgstr "标记文件大于 1MB，您确定要导入吗？"
 
-#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1373
+#: src/project/dialogs/guideslist.cpp:178 src/project/projectmanager.cpp:1374
 #: src/renderpresets/renderpresetrepository.cpp:313
 #: src/timeline2/view/timelinecontroller.cpp:4902
 #, kde-format
@@ -13120,7 +13120,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1311
+#: src/project/projectmanager.cpp:356 src/project/projectmanager.cpp:1312
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -13262,13 +13262,13 @@ msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1317 src/project/projectmanager.cpp:1322
-#: src/project/projectmanager.cpp:1332 src/project/projectmanager.cpp:1348
+#: src/project/projectmanager.cpp:1318 src/project/projectmanager.cpp:1323
+#: src/project/projectmanager.cpp:1333 src/project/projectmanager.cpp:1349
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:1464
+#: src/project/projectmanager.cpp:1465
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -13277,12 +13277,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:1489
+#: src/project/projectmanager.cpp:1490
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1541
+#: src/project/projectmanager.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -13290,7 +13290,7 @@ msgid ""
 "%1"
 msgstr "无法创建滤镜 %1"
 
-#: src/project/projectmanager.cpp:1616
+#: src/project/projectmanager.cpp:1617
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
@@ -13716,102 +13716,102 @@ msgstr ""
 "%1\n"
 "分贝"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:26
+#: src/scopes/colorscopes/colorplaneexport.cpp:28
 #, kde-format
 msgid "YUV UV plane"
 msgstr "YUV UV 平面"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:27
+#: src/scopes/colorscopes/colorplaneexport.cpp:29
 #, kde-format
 msgid "YUV Y plane"
 msgstr "YUV Y 平面"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:28
+#: src/scopes/colorscopes/colorplaneexport.cpp:30
 #: src/scopes/colorscopes/vectorscope.cpp:51
 #: src/scopes/colorscopes/vectorscope.cpp:57
 #, kde-format
 msgid "Modified YUV (Chroma)"
 msgstr "改良 YUV (色品)"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:29
+#: src/scopes/colorscopes/colorplaneexport.cpp:31
 #, kde-format
 msgid "YCbCr CbCr plane"
 msgstr "YCbCr CbCr 平面"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:30
+#: src/scopes/colorscopes/colorplaneexport.cpp:32
 #, kde-format
 msgid "RGB plane, one component varying"
 msgstr "RGB 平面，单颜色分量变化"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:31
+#: src/scopes/colorscopes/colorplaneexport.cpp:33
 #, kde-format
 msgid "HSV Hue Shift"
 msgstr "HSV 色相偏移"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:32
-#: src/scopes/colorscopes/colorplaneexport.cpp:244
+#: src/scopes/colorscopes/colorplaneexport.cpp:34
+#: src/scopes/colorscopes/colorplaneexport.cpp:246
 #, kde-format
 msgid "HSV Saturation"
 msgstr "HSV 饱和度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:107
+#: src/scopes/colorscopes/colorplaneexport.cpp:109
 #: src/scopes/colorscopes/vectorscope.cpp:257
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:114
+#: src/scopes/colorscopes/colorplaneexport.cpp:116
 #, kde-format
 msgid "%1 px"
 msgstr "%1 像素"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, fuzzy, kde-format
 #| msgid "File has no extension. Add extension (%1)?"
 msgid "File has no valid extension. Add extension (%1)?"
 msgstr "文件不含扩展名。添加扩展名 (%1) 吗？"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:155
+#: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "File Extension"
 msgstr "文件扩展名："
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
-#: src/scopes/colorscopes/colorplaneexport.cpp:197
+#: src/scopes/colorscopes/colorplaneexport.cpp:199
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
 msgstr "缩放"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:208
+#: src/scopes/colorscopes/colorplaneexport.cpp:210
 #, kde-format
 msgid "Y value"
 msgstr "Y 明度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:209
+#: src/scopes/colorscopes/colorplaneexport.cpp:211
 #, kde-format
 msgid "The Y value describes the brightness of the colors."
 msgstr "此 Y 明度数值用于描述颜色的亮度。"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:221
+#: src/scopes/colorscopes/colorplaneexport.cpp:223
 #, kde-format
 msgid "UV angle"
 msgstr "UV 角度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:222
+#: src/scopes/colorscopes/colorplaneexport.cpp:224
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
 msgstr "通过 UV 平面的角度，以及所有可能的 Y 明度。"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:233
-#: src/scopes/colorscopes/colorplaneexport.cpp:261
+#: src/scopes/colorscopes/colorplaneexport.cpp:235
+#: src/scopes/colorscopes/colorplaneexport.cpp:263
 #, kde-format
 msgid "Luma"
 msgstr "亮度"
 
-#: src/scopes/colorscopes/colorplaneexport.cpp:245
-#: src/scopes/colorscopes/colorplaneexport.cpp:252
+#: src/scopes/colorscopes/colorplaneexport.cpp:247
+#: src/scopes/colorscopes/colorplaneexport.cpp:254
 #, kde-format
 msgid "HSV Value"
 msgstr "HSV 明度"
@@ -15316,7 +15316,7 @@ msgid "No available stream"
 msgstr "无可用流"
 
 #: src/titler/gradientwidget.cpp:140 src/titler/gradientwidget.cpp:143
-#: src/titler/titlewidget.cpp:3232 src/titler/titlewidget.cpp:3235
+#: src/titler/titlewidget.cpp:3233 src/titler/titlewidget.cpp:3236
 #, kde-format
 msgid "Gradient %1"
 msgstr "渐变 %1"
@@ -15347,197 +15347,197 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "文字剪辑已更新"
 
-#: src/titler/titlewidget.cpp:128
+#: src/titler/titlewidget.cpp:129
 #, kde-format
 msgid "Outline width"
 msgstr "轮廓宽度"
 
-#: src/titler/titlewidget.cpp:135
+#: src/titler/titlewidget.cpp:136
 #, kde-format
 msgid "Background color opacity"
 msgstr "背景颜色不透明度"
 
-#: src/titler/titlewidget.cpp:141
+#: src/titler/titlewidget.cpp:142
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "绕 X 轴旋转"
 
-#: src/titler/titlewidget.cpp:147
+#: src/titler/titlewidget.cpp:148
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "绕 Y 轴旋转"
 
-#: src/titler/titlewidget.cpp:153
+#: src/titler/titlewidget.cpp:154
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "绕 Z 轴旋转"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:159 src/ui/titlewidget_ui.ui:1351
+#: src/titler/titlewidget.cpp:160 src/ui/titlewidget_ui.ui:1351
 #, kde-format
 msgid "Border width"
 msgstr "边框宽度"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, speedSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:161 src/ui/clipspeed_ui.ui:62
+#: src/titler/titlewidget.cpp:162 src/ui/clipspeed_ui.ui:62
 #: src/ui/titlewidget_ui.ui:92 src/widgets/geometrywidget.cpp:71
 #: src/widgets/geometrywidget.cpp:78
 #, no-c-format, kde-format
 msgid "%"
 msgstr "%"
 
-#: src/titler/titlewidget.cpp:258
+#: src/titler/titlewidget.cpp:259
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "细体 (Light)"
 
-#: src/titler/titlewidget.cpp:259
+#: src/titler/titlewidget.cpp:260
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "标准 (Normal)"
 
-#: src/titler/titlewidget.cpp:260
+#: src/titler/titlewidget.cpp:261
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "次粗 (Demi-Bold)"
 
-#: src/titler/titlewidget.cpp:261
+#: src/titler/titlewidget.cpp:262
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "粗体 (Bold)"
 
-#: src/titler/titlewidget.cpp:262
+#: src/titler/titlewidget.cpp:263
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "浓体 (Black)"
 
-#: src/titler/titlewidget.cpp:263
+#: src/titler/titlewidget.cpp:264
 #, kde-format
 msgid "Font weight"
 msgstr "字体粗细"
 
-#: src/titler/titlewidget.cpp:277
+#: src/titler/titlewidget.cpp:278
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "插入 Unicode 字符"
 
-#: src/titler/titlewidget.cpp:283
+#: src/titler/titlewidget.cpp:284
 #, kde-format
 msgid "Raise object"
 msgstr "上移对象"
 
-#: src/titler/titlewidget.cpp:289
+#: src/titler/titlewidget.cpp:290
 #, kde-format
 msgid "Lower object"
 msgstr "下移对象"
 
-#: src/titler/titlewidget.cpp:297
+#: src/titler/titlewidget.cpp:298
 #, kde-format
 msgid "Raise object to top"
 msgstr "置顶对象"
 
-#: src/titler/titlewidget.cpp:304
+#: src/titler/titlewidget.cpp:305
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "置底对象"
 
-#: src/titler/titlewidget.cpp:310
+#: src/titler/titlewidget.cpp:311
 #, kde-format
 msgid "Select All"
 msgstr "全部选中"
 
-#: src/titler/titlewidget.cpp:316
+#: src/titler/titlewidget.cpp:317
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "只保留选中的文字项目"
 
-#: src/titler/titlewidget.cpp:323
+#: src/titler/titlewidget.cpp:324
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "只保留选中的矩形项目"
 
-#: src/titler/titlewidget.cpp:330
+#: src/titler/titlewidget.cpp:331
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "只保留选中的图像项目"
 
-#: src/titler/titlewidget.cpp:337
+#: src/titler/titlewidget.cpp:338
 #, kde-format
 msgid "Deselect"
 msgstr "取消选择"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:343
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "翻转 X 轴并更改 0 点"
 
-#: src/titler/titlewidget.cpp:343
+#: src/titler/titlewidget.cpp:344
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "翻转 Y 轴并更改 0 点"
 
-#: src/titler/titlewidget.cpp:344
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Select fill color"
 msgstr "选择填充颜色"
 
-#: src/titler/titlewidget.cpp:345
+#: src/titler/titlewidget.cpp:346
 #, kde-format
 msgid "Select border color"
 msgstr "选择边框颜色"
 
-#: src/titler/titlewidget.cpp:347
+#: src/titler/titlewidget.cpp:348
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "原始大小 (1:1)"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:349
 #, kde-format
 msgid "Fit zoom"
 msgstr "适合缩放"
 
-#: src/titler/titlewidget.cpp:349
+#: src/titler/titlewidget.cpp:350
 #, kde-format
 msgid "Select background color"
 msgstr "选择背景颜色"
 
-#: src/titler/titlewidget.cpp:350
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Background opacity"
 msgstr "背景不透明度"
 
-#: src/titler/titlewidget.cpp:351
+#: src/titler/titlewidget.cpp:352
 #, kde-format
 msgid "Select all"
 msgstr "全部选择"
 
-#: src/titler/titlewidget.cpp:352
+#: src/titler/titlewidget.cpp:353
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "选择当前选中范围内的文字项目"
 
-#: src/titler/titlewidget.cpp:353
+#: src/titler/titlewidget.cpp:354
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "选择当前选中范围内的矩形项目"
 
-#: src/titler/titlewidget.cpp:354
+#: src/titler/titlewidget.cpp:355
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "选择当前选中范围内的图像项目"
 
-#: src/titler/titlewidget.cpp:355
+#: src/titler/titlewidget.cpp:356
 #, kde-format
 msgid "Unselect all"
 msgstr "取消选择"
 
-#: src/titler/titlewidget.cpp:374
+#: src/titler/titlewidget.cpp:375
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15545,102 +15545,102 @@ msgid ""
 "clip, composition)."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:377 src/titler/titlewidget.cpp:380
+#: src/titler/titlewidget.cpp:378 src/titler/titlewidget.cpp:381
 #, kde-format
 msgid "Add Text"
 msgstr "添加文本"
 
-#: src/titler/titlewidget.cpp:383 src/titler/titlewidget.cpp:386
+#: src/titler/titlewidget.cpp:384 src/titler/titlewidget.cpp:387
 #, kde-format
 msgid "Add Rectangle"
 msgstr "添加矩形"
 
-#: src/titler/titlewidget.cpp:389 src/titler/titlewidget.cpp:392
+#: src/titler/titlewidget.cpp:390 src/titler/titlewidget.cpp:393
 #, kde-format
 msgid "Add Ellipse"
 msgstr "添加椭圆"
 
-#: src/titler/titlewidget.cpp:395 src/titler/titlewidget.cpp:398
-#: src/titler/titlewidget.cpp:812
+#: src/titler/titlewidget.cpp:396 src/titler/titlewidget.cpp:399
+#: src/titler/titlewidget.cpp:813
 #, kde-format
 msgid "Add Image"
 msgstr "添加图像"
 
-#: src/titler/titlewidget.cpp:403 src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:404 src/titler/titlewidget.cpp:407
 #, kde-format
 msgid "Open Document"
 msgstr "打开文件"
 
-#: src/titler/titlewidget.cpp:409 src/titler/titlewidget.cpp:412
+#: src/titler/titlewidget.cpp:410 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Save As"
 msgstr "另存为"
 
-#: src/titler/titlewidget.cpp:415 src/titler/titlewidget.cpp:417
+#: src/titler/titlewidget.cpp:416 src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Download New Title Templates..."
 msgstr "下载新的字幕模板..."
 
-#: src/titler/titlewidget.cpp:542
+#: src/titler/titlewidget.cpp:543
 #, kde-format
 msgid "Save and add to project"
 msgstr "保存并添加到项目"
 
-#: src/titler/titlewidget.cpp:543
+#: src/titler/titlewidget.cpp:544
 #, kde-format
 msgid "Create Title"
 msgstr "创建字幕"
 
-#: src/titler/titlewidget.cpp:692
+#: src/titler/titlewidget.cpp:693
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "您确定要加载新的模板吗？此字幕的更改将会丢失。"
 
-#: src/titler/titlewidget.cpp:800
+#: src/titler/titlewidget.cpp:801
 #, kde-format
 msgid "All Images"
 msgstr "全部图像"
 
-#: src/titler/titlewidget.cpp:802
+#: src/titler/titlewidget.cpp:803
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 图像"
 
-#: src/titler/titlewidget.cpp:1636
+#: src/titler/titlewidget.cpp:1637
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1638 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1639 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1660
+#: src/titler/titlewidget.cpp:1661
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1662 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1663 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2129
+#: src/titler/titlewidget.cpp:2130
 #, kde-format
 msgid "Load Title"
 msgstr "加载字幕"
 
-#: src/titler/titlewidget.cpp:2130
+#: src/titler/titlewidget.cpp:2131
 #, kde-format
 msgid "Kdenlive title (*.kdenlivetitle)"
 msgstr "Kdenlive 字幕 (*.kdenlivettile)"
 
-#: src/titler/titlewidget.cpp:2176
+#: src/titler/titlewidget.cpp:2177
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -15649,57 +15649,57 @@ msgstr ""
 "您想要嵌入图像到此字幕文件吗？\n"
 "此操作是分享字幕所必需的。"
 
-#: src/titler/titlewidget.cpp:2177
+#: src/titler/titlewidget.cpp:2178
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "添加图像"
 
-#: src/titler/titlewidget.cpp:2232
+#: src/titler/titlewidget.cpp:2233
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "此字幕有 %1 个缺失元素"
 
-#: src/titler/titlewidget.cpp:2233 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2234 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "细节"
 
-#: src/titler/titlewidget.cpp:2236
+#: src/titler/titlewidget.cpp:2237
 #, kde-format
 msgid "Delete missing elements"
 msgstr "删除缺失的元素"
 
-#: src/titler/titlewidget.cpp:2296
+#: src/titler/titlewidget.cpp:2297
 #, kde-format
 msgid "Update Title"
 msgstr "更新字幕"
 
-#: src/titler/titlewidget.cpp:2299
+#: src/titler/titlewidget.cpp:2300
 #, kde-format
 msgid "Add as new Title"
 msgstr "添加为新字幕"
 
-#: src/titler/titlewidget.cpp:2353
+#: src/titler/titlewidget.cpp:2354
 #, kde-format
 msgid "The following files are missing:"
 msgstr "缺少以下文件："
 
-#: src/titler/titlewidget.cpp:2547
+#: src/titler/titlewidget.cpp:2548
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "开始视图"
 
-#: src/titler/titlewidget.cpp:2548
+#: src/titler/titlewidget.cpp:2549
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "结束视图"
 
-#: src/titler/titlewidget.cpp:3265
+#: src/titler/titlewidget.cpp:3266
 #, kde-format
 msgid "Gradient"
 msgstr "渐变"
