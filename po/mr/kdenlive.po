@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-14 00:46+0000\n"
+"POT-Creation-Date: 2023-03-15 00:46+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -2766,7 +2766,8 @@ msgstr ""
 msgid "Noise Reduction and audio Restoration"
 msgstr ""
 
-#: data/kdenliveeffectscategory.rc:88 src/mainwindow.cpp:1374
+#: data/kdenliveeffectscategory.rc:88
+#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:1374
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3557,14 +3558,14 @@ msgid "Deletes the currently selected preset."
 msgstr "काढून टाका %1"
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1359
+#: src/dialogs/kdenlivesettingsdialog.cpp:1366
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr ""
 
 #: src/assets/view/assetparameterview.cpp:329
-#: src/dialogs/kdenlivesettingsdialog.cpp:1359
+#: src/dialogs/kdenlivesettingsdialog.cpp:1366
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -4826,101 +4827,101 @@ msgstr "प्रोफाईल \"%1\" संपादित करा"
 msgid "Disable proxies"
 msgstr "परिणाम नाही"
 
-#: src/bin/bin.cpp:4874
+#: src/bin/bin.cpp:4878
 #, kde-format
 msgid "Rebuild proxies"
 msgstr ""
 
-#: src/bin/bin.cpp:5107
+#: src/bin/bin.cpp:5111
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "परियोजना : %1"
 
-#: src/bin/bin.cpp:5123
+#: src/bin/bin.cpp:5127
 #, fuzzy, kde-format
 msgid "Add Tracks"
 msgstr "1 ट्रॅक्स [%2]"
 
-#: src/bin/bin.cpp:5125
+#: src/bin/bin.cpp:5129
 #, fuzzy, kde-format
 msgid "Edit Streams"
 msgstr "प्रोफाईल \"%1\" संपादित करा"
 
-#: src/bin/bin.cpp:5140
+#: src/bin/bin.cpp:5144
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5144
+#: src/bin/bin.cpp:5148
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5156 src/mainwindow.cpp:2652
+#: src/bin/bin.cpp:5160 src/mainwindow.cpp:2652
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
 
-#: src/bin/bin.cpp:5258
+#: src/bin/bin.cpp:5262
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Could not find master clip"
 msgstr "सर्व फाईल्स"
 
-#: src/bin/bin.cpp:5449 src/bin/clipcreator.cpp:255
+#: src/bin/bin.cpp:5453 src/bin/clipcreator.cpp:255
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@action"
 msgid "Add clip"
 msgstr "सर्व फाईल्स"
 
-#: src/bin/bin.cpp:5471
+#: src/bin/bin.cpp:5475
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5473
+#: src/bin/bin.cpp:5477
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5538 src/bin/bin.cpp:5612
+#: src/bin/bin.cpp:5542 src/bin/bin.cpp:5616
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bin/bin.cpp:5559
+#: src/bin/bin.cpp:5563
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Import selected clips"
 msgstr "ट्रॅक"
 
-#: src/bin/bin.cpp:5561
+#: src/bin/bin.cpp:5565
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5571 src/mltcontroller/clippropertiescontroller.cpp:633
+#: src/bin/bin.cpp:5575 src/mltcontroller/clippropertiescontroller.cpp:633
 #, kde-format
 msgid "Video stream %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5586
+#: src/bin/bin.cpp:5590
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio stream %1"
 msgstr "बिटदर"
 
-#: src/bin/bin.cpp:5639
+#: src/bin/bin.cpp:5643
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove clip markers"
@@ -5215,32 +5216,32 @@ msgid "Edit subtitle style"
 msgstr "शिर्षकहीन"
 
 #: src/bin/model/subtitlemodel.cpp:379 src/bin/model/subtitlemodel.cpp:597
-#: src/bin/model/subtitlemodel.cpp:1475
+#: src/bin/model/subtitlemodel.cpp:1501
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Edit subtitle"
 msgstr "शिर्षकहीन"
 
-#: src/bin/model/subtitlemodel.cpp:631 src/bin/model/subtitlemodel.cpp:1562
+#: src/bin/model/subtitlemodel.cpp:631 src/bin/model/subtitlemodel.cpp:1588
 #: src/timeline2/model/timelinefunctions.cpp:188
 #, kde-format
 msgid "Cut clip"
 msgstr ""
 
-#: src/bin/model/subtitlemodel.cpp:761 src/bin/model/subtitlemodel.cpp:1494
+#: src/bin/model/subtitlemodel.cpp:787 src/bin/model/subtitlemodel.cpp:1520
 #: src/timeline2/model/timelinemodel.cpp:3498
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Resize subtitle"
 msgstr "काढून टाका %1"
 
-#: src/bin/model/subtitlemodel.cpp:957
+#: src/bin/model/subtitlemodel.cpp:983
 #: src/timeline2/model/timelinemodel.cpp:1249
 #, fuzzy, kde-format
 msgid "Move subtitle"
 msgstr "प्रतिमेचा आकार"
 
-#: src/bin/model/subtitlemodel.cpp:1113 src/dialogs/renderwidget.cpp:837
+#: src/bin/model/subtitlemodel.cpp:1139 src/dialogs/renderwidget.cpp:837
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #: src/effects/effectstack/view/effectstackview.cpp:563
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:837
@@ -5253,19 +5254,19 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/bin/model/subtitlemodel.cpp:1506
+#: src/bin/model/subtitlemodel.cpp:1532
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Add text"
 msgstr "शिर्षकहीन"
 
-#: src/bin/model/subtitlemodel.cpp:1526 src/dialogs/subtitleedit.cpp:109
+#: src/bin/model/subtitlemodel.cpp:1552 src/dialogs/subtitleedit.cpp:109
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Add subtitle"
 msgstr "शिर्षकहीन"
 
-#: src/bin/model/subtitlemodel.cpp:1581 src/dialogs/subtitleedit.cpp:119
+#: src/bin/model/subtitlemodel.cpp:1607 src/dialogs/subtitleedit.cpp:119
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete subtitle"
@@ -5839,7 +5840,7 @@ msgid "Manage Encoding Profiles"
 msgstr "प्रोफाईल संपादित करा"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
-#: src/dialogs/kdenlivesettingsdialog.cpp:306
+#: src/dialogs/kdenlivesettingsdialog.cpp:310
 #: src/project/dialogs/archivewidget.cpp:92
 #, fuzzy, kde-format
 #| msgid "Folder"
@@ -5915,17 +5916,17 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:260
 #: src/dialogs/encodingprofilesdialog.cpp:347
 #: src/dialogs/encodingprofilesdialog.cpp:349
-#: src/dialogs/kdenlivesettingsdialog.cpp:674
-#: src/project/dialogs/projectsettings.cpp:875
-#: src/project/dialogs/projectsettings.cpp:877
+#: src/dialogs/kdenlivesettingsdialog.cpp:678
+#: src/project/dialogs/projectsettings.cpp:876
+#: src/project/dialogs/projectsettings.cpp:878
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
 msgid "Automatic"
 msgstr "स्वयंचलित"
 
 #: src/dialogs/encodingprofilesdialog.cpp:328
-#: src/project/dialogs/projectsettings.cpp:907
-#: src/project/dialogs/projectsettings.cpp:938
+#: src/project/dialogs/projectsettings.cpp:908
+#: src/project/dialogs/projectsettings.cpp:939
 #, kde-format
 msgid "Current Settings"
 msgstr ""
@@ -6052,222 +6053,222 @@ msgstr "टीप"
 msgid "Timeline"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:121
+#: src/dialogs/kdenlivesettingsdialog.cpp:125
 #, fuzzy, kde-format
 #| msgid "Color 1"
 msgid "Colors and Guides"
 msgstr "रंग 1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:128
+#: src/dialogs/kdenlivesettingsdialog.cpp:132
 #, kde-format
 msgid "Speech To Text"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:132
+#: src/dialogs/kdenlivesettingsdialog.cpp:136
 #, kde-format
 msgid "Playback"
 msgstr "प्लेबॅक"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:142
+#: src/dialogs/kdenlivesettingsdialog.cpp:146
 #, fuzzy, kde-format
 msgid "Capture"
 msgstr "कॅपचर: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:220
+#: src/dialogs/kdenlivesettingsdialog.cpp:224
 #: src/effects/effectlist/model/effecttreemodel.cpp:59
 #, kde-format
 msgid "Misc"
 msgstr "किरकोळ"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:244
-#: src/dialogs/kdenlivesettingsdialog.cpp:784
+#: src/dialogs/kdenlivesettingsdialog.cpp:248
+#: src/dialogs/kdenlivesettingsdialog.cpp:788
 #: src/doc/documentvalidator.cpp:2222
 #: src/transitions/transitionsrepository.cpp:178
 #, kde-format
 msgid "auto"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:277
+#: src/dialogs/kdenlivesettingsdialog.cpp:281
 #, fuzzy, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "रूपरेषा नष्ट करा (&D)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:297
+#: src/dialogs/kdenlivesettingsdialog.cpp:301
 #, kde-format
 msgid "Project Defaults"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:330
-#: src/dialogs/kdenlivesettingsdialog.cpp:354
+#: src/dialogs/kdenlivesettingsdialog.cpp:334
+#: src/dialogs/kdenlivesettingsdialog.cpp:358
 #, fuzzy, kde-format
 msgid "Use default folder: %1"
 msgstr "संचयीका काढून टाका (&D)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:332
-#: src/dialogs/kdenlivesettingsdialog.cpp:356
-#: src/dialogs/kdenlivesettingsdialog.cpp:1029
-#: src/dialogs/kdenlivesettingsdialog.cpp:1030
-#: src/dialogs/kdenlivesettingsdialog.cpp:1039
-#: src/dialogs/kdenlivesettingsdialog.cpp:1040
+#: src/dialogs/kdenlivesettingsdialog.cpp:336
+#: src/dialogs/kdenlivesettingsdialog.cpp:360
+#: src/dialogs/kdenlivesettingsdialog.cpp:1036
+#: src/dialogs/kdenlivesettingsdialog.cpp:1037
+#: src/dialogs/kdenlivesettingsdialog.cpp:1046
+#: src/dialogs/kdenlivesettingsdialog.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Always use project folder: %1"
 msgstr "संचयीका बनवा"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:334
-#: src/dialogs/kdenlivesettingsdialog.cpp:358
-#: src/dialogs/kdenlivesettingsdialog.cpp:1036
-#: src/dialogs/kdenlivesettingsdialog.cpp:1037
+#: src/dialogs/kdenlivesettingsdialog.cpp:338
+#: src/dialogs/kdenlivesettingsdialog.cpp:362
+#: src/dialogs/kdenlivesettingsdialog.cpp:1043
+#: src/dialogs/kdenlivesettingsdialog.cpp:1044
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Always use active project folder"
 msgstr "संचयीका बनवा"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:371
+#: src/dialogs/kdenlivesettingsdialog.cpp:375
 #, fuzzy, kde-format
 msgid "Environment"
 msgstr "वातावरण:"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:407
+#: src/dialogs/kdenlivesettingsdialog.cpp:411
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:417
+#: src/dialogs/kdenlivesettingsdialog.cpp:421
 #, fuzzy, kde-format
 msgid "Mono (1 channel)"
 msgstr "ऑडिओ माध्यमे (&A)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:418
+#: src/dialogs/kdenlivesettingsdialog.cpp:422
 #, fuzzy, kde-format
 msgid "Stereo (2 channels)"
 msgstr "ऑडिओ माध्यमे (&A)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:425
+#: src/dialogs/kdenlivesettingsdialog.cpp:429
 #, fuzzy, kde-format
 msgid "44100 Hz"
 msgstr "%1 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:426
+#: src/dialogs/kdenlivesettingsdialog.cpp:430
 #, fuzzy, kde-format
 msgid "48000 Hz"
 msgstr "%1 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:475
+#: src/dialogs/kdenlivesettingsdialog.cpp:479
 #, kde-format
 msgid "JogShuttle"
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:482 src/dialogs/timeremap.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:486 src/dialogs/timeremap.cpp:1658
 #: src/kdenliveui.rc:81 src/mltcontroller/clippropertiescontroller.cpp:987
 #: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
 #, kde-format
 msgid "Transcode"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:512
+#: src/dialogs/kdenlivesettingsdialog.cpp:516
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:681
+#: src/dialogs/kdenlivesettingsdialog.cpp:685
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:682
-#: src/dialogs/kdenlivesettingsdialog.cpp:735
+#: src/dialogs/kdenlivesettingsdialog.cpp:686
+#: src/dialogs/kdenlivesettingsdialog.cpp:739
 #, kde-format
 msgid "PulseAudio"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:683
+#: src/dialogs/kdenlivesettingsdialog.cpp:687
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:684
+#: src/dialogs/kdenlivesettingsdialog.cpp:688
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:686
+#: src/dialogs/kdenlivesettingsdialog.cpp:690
 #, kde-format
 msgid "Esound Daemon"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:687
+#: src/dialogs/kdenlivesettingsdialog.cpp:691
 #, kde-format
 msgid "ARTS Daemon"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:699
-#: src/dialogs/kdenlivesettingsdialog.cpp:700 src/mainwindow.cpp:187
+#: src/dialogs/kdenlivesettingsdialog.cpp:703
+#: src/dialogs/kdenlivesettingsdialog.cpp:704 src/mainwindow.cpp:187
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "मूलभूत"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:751
+#: src/dialogs/kdenlivesettingsdialog.cpp:755
 #, kde-format
 msgid "SDL"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:763
+#: src/dialogs/kdenlivesettingsdialog.cpp:767
 #, fuzzy, kde-format
 msgid "RtAudio"
 msgstr "ऑडिओ"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:787 src/mainwindow.cpp:331
+#: src/dialogs/kdenlivesettingsdialog.cpp:791 src/mainwindow.cpp:331
 #, fuzzy, kde-format
 msgid "Monitor %1"
 msgstr "मॉनिटर %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:862
+#: src/dialogs/kdenlivesettingsdialog.cpp:869
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:870
+#: src/dialogs/kdenlivesettingsdialog.cpp:877
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:878 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:885 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:961
-#: src/dialogs/kdenlivesettingsdialog.cpp:979
-#: src/project/dialogs/projectsettings.cpp:508
+#: src/dialogs/kdenlivesettingsdialog.cpp:968
+#: src/dialogs/kdenlivesettingsdialog.cpp:986
+#: src/project/dialogs/projectsettings.cpp:509
 #, fuzzy, kde-format
 msgid "Please select a video profile"
 msgstr "रूपरेषा नष्ट करा (&D)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1240
+#: src/dialogs/kdenlivesettingsdialog.cpp:1247
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1362
+#: src/dialogs/kdenlivesettingsdialog.cpp:1369
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1496
+#: src/dialogs/kdenlivesettingsdialog.cpp:1503
 #, kde-format
 msgid "Current settings"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1534
-#: src/dialogs/kdenlivesettingsdialog.cpp:1570
-#: src/dialogs/kdenlivesettingsdialog.cpp:1587
+#: src/dialogs/kdenlivesettingsdialog.cpp:1541
+#: src/dialogs/kdenlivesettingsdialog.cpp:1577
+#: src/dialogs/kdenlivesettingsdialog.cpp:1594
 #: src/mltcontroller/clippropertiescontroller.cpp:538
 #: src/mltcontroller/clippropertiescontroller.cpp:1358
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6276,70 +6277,70 @@ msgstr ""
 msgid "Progressive"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1680
-#: src/dialogs/kdenlivesettingsdialog.cpp:1862
+#: src/dialogs/kdenlivesettingsdialog.cpp:1687
+#: src/dialogs/kdenlivesettingsdialog.cpp:1869
 #, fuzzy, kde-format
 msgid "Please add a speech model."
 msgstr "निवड साधन (&S)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1685
+#: src/dialogs/kdenlivesettingsdialog.cpp:1692
 #: src/pythoninterfaces/abstractpythoninterface.cpp:48
 #: src/pythoninterfaces/abstractpythoninterface.cpp:77
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1716
+#: src/dialogs/kdenlivesettingsdialog.cpp:1723
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1744
+#: src/dialogs/kdenlivesettingsdialog.cpp:1751
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1750
+#: src/dialogs/kdenlivesettingsdialog.cpp:1757
 #, fuzzy, kde-format
 msgid "Downloading model…"
 msgstr "संग्रह करत आहे"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1760
+#: src/dialogs/kdenlivesettingsdialog.cpp:1767
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1766
-#: src/dialogs/kdenlivesettingsdialog.cpp:1825
+#: src/dialogs/kdenlivesettingsdialog.cpp:1773
+#: src/dialogs/kdenlivesettingsdialog.cpp:1832
 #, fuzzy, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1775
+#: src/dialogs/kdenlivesettingsdialog.cpp:1782
 #, fuzzy, kde-format
 msgid ""
 "Delete folder:\n"
 "%1"
 msgstr "संचयीका काढून टाका (&D)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1799
+#: src/dialogs/kdenlivesettingsdialog.cpp:1806
 #, kde-format
 msgid "Download error"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1804
+#: src/dialogs/kdenlivesettingsdialog.cpp:1811
 #, fuzzy, kde-format
 msgid "Download error %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1832
+#: src/dialogs/kdenlivesettingsdialog.cpp:1839
 #, kde-format
 msgid "Extracting archive…"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1839
+#: src/dialogs/kdenlivesettingsdialog.cpp:1846
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -10567,7 +10568,8 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
-#: src/mainwindow.cpp:3299
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
+#: src/mainwindow.cpp:3299 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr ""
@@ -11066,7 +11068,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1026
-#: src/project/dialogs/projectsettings.cpp:841 src/ui/projectsettings_ui.ui:534
+#: src/project/dialogs/projectsettings.cpp:842 src/ui/projectsettings_ui.ui:534
 #, kde-format
 msgid "Metadata"
 msgstr ""
@@ -12939,7 +12941,7 @@ msgstr ""
 msgid "Other clips"
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:517
+#: src/project/dialogs/projectsettings.cpp:518
 #, kde-format
 msgid ""
 "You changed the timeline preview profile. This will remove all existing "
@@ -12947,13 +12949,13 @@ msgid ""
 " Are you sure you want to proceed?"
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:519
-#: src/project/dialogs/projectsettings.cpp:529
+#: src/project/dialogs/projectsettings.cpp:520
+#: src/project/dialogs/projectsettings.cpp:530
 #, kde-format
 msgid "Confirm profile change"
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:527
+#: src/project/dialogs/projectsettings.cpp:528
 #, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
@@ -12962,8 +12964,8 @@ msgid ""
 "Are you sure you want to proceed?"
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:754
-#: src/project/dialogs/projectsettings.cpp:769
+#: src/project/dialogs/projectsettings.cpp:755
+#: src/project/dialogs/projectsettings.cpp:770
 #: src/project/dialogs/slideshowclip.cpp:321
 #, kde-format
 msgid "1 image found"
@@ -12971,22 +12973,22 @@ msgid_plural "%1 images found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/project/dialogs/projectsettings.cpp:785
+#: src/project/dialogs/projectsettings.cpp:786
 #, kde-format
 msgid "Project folder: %1"
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:786
+#: src/project/dialogs/projectsettings.cpp:787
 #, kde-format
 msgid "Project profile: %1"
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:787
+#: src/project/dialogs/projectsettings.cpp:788
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
 msgstr ""
 
-#: src/project/dialogs/projectsettings.cpp:841
+#: src/project/dialogs/projectsettings.cpp:842
 #, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
@@ -14857,7 +14859,7 @@ msgid "Stop"
 msgstr "थांबा"
 
 #: src/timeline2/view/qml/AudioLevels.qml:26
-#: src/timeline2/view/qml/timeline.qml:2003
+#: src/timeline2/view/qml/timeline.qml:2004
 #, fuzzy, kde-format
 msgid "Paused"
 msgstr "स्तब्ध करा"
@@ -14873,8 +14875,8 @@ msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
 #: src/timeline2/view/qml/Clip.qml:333 src/timeline2/view/qml/Clip.qml:340
-#: src/timeline2/view/qml/SubTitle.qml:163
-#: src/timeline2/view/qml/SubTitle.qml:169
+#: src/timeline2/view/qml/SubTitle.qml:164
+#: src/timeline2/view/qml/SubTitle.qml:170
 #, fuzzy, kde-format
 msgid "Position: %1"
 msgstr "स्थिती"
@@ -14968,8 +14970,8 @@ msgstr "स्थिती"
 
 #: src/timeline2/view/qml/Composition.qml:309
 #: src/timeline2/view/qml/Composition.qml:371
-#: src/timeline2/view/qml/SubTitle.qml:286
-#: src/timeline2/view/qml/SubTitle.qml:375
+#: src/timeline2/view/qml/SubTitle.qml:287
+#: src/timeline2/view/qml/SubTitle.qml:376
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr ""
@@ -15028,24 +15030,24 @@ msgstr "ट्रॅक"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1680
+#: src/timeline2/view/qml/timeline.qml:1681
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "पर्याय"
 
-#: src/timeline2/view/qml/timeline.qml:1844
+#: src/timeline2/view/qml/timeline.qml:1845
 #, fuzzy, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "स्थिती"
 
-#: src/timeline2/view/qml/timeline.qml:1992
-#: src/timeline2/view/qml/timeline.qml:2001
+#: src/timeline2/view/qml/timeline.qml:1993
+#: src/timeline2/view/qml/timeline.qml:2002
 #, fuzzy, kde-format
 msgid "Recording"
 msgstr "मॉनिटर %1"
 
-#: src/timeline2/view/qml/timeline.qml:2090
+#: src/timeline2/view/qml/timeline.qml:2091
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17591,6 +17593,25 @@ msgstr ""
 #: src/ui/configtimeline_ui.ui:230
 #, kde-format
 msgid "Check if project contains enough tracks"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configtools_ui.ui:27
+#, kde-format
+msgid "When cutting subtitles:"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
+#: src/ui/configtools_ui.ui:41
+#, fuzzy, kde-format
+#| msgid "Track"
+msgid "Duplicate text"
+msgstr "ट्रॅक"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
+#: src/ui/configtools_ui.ui:46
+#, kde-format
+msgid "Split after first line"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
