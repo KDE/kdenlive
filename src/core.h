@@ -424,4 +424,6 @@ Q_SIGNALS:
     void refreshActiveGuides();
     /** @brief The default marker category was changed, update guides list button */
     void updateDefaultMarkerCategory();
+    /** @brief The default speech engine was changed */
+    void speechEngineChanged();
 };

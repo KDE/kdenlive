@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>355</height>
+    <width>364</width>
+    <height>344</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -132,6 +132,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="6" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QToolButton" name="button_config">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QComboBox" name="language_box">
        <property name="sizeAdjustPolicy">
         <enum>QComboBox::AdjustToContents</enum>
@@ -139,9 +152,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </widget>
      </item>
      <item>
+      <widget class="QComboBox" name="speech_language"/>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
        </property>
       </spacer>
      </item>

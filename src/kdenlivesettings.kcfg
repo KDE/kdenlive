@@ -1288,5 +1288,25 @@
            <label>Last selected model for automatic subtitling</label>
            <default>true</default>
        </entry>
+       <entry name="whisperModel" type="String">
+           <label>Last selected model for automatic subtitling</label>
+           <default>base</default>
+       </entry>
+       <entry name="whisperLanguage" type="String">
+           <label>Last selected language for speech detection</label>
+           <default></default>
+       </entry>
+       <entry name="whisperDevice" type="String">
+           <label>Device for data processing</label>
+           <default>cpu</default>
+       </entry>
+       <entry name="whisperTranslate" type="Bool">
+           <label>Translate speech detection to english</label>
+           <default>false</default>
+       </entry>
+       <entry name="speechEngine" type="String">
+           <label>Selected model for speech recognition (whisper or vosk)</label>
+           <default></default>
+       </entry>
    </group>
 </kcfg>

@@ -146,6 +146,7 @@ public Q_SLOTS:
 private Q_SLOTS:
     void startRecognition();
     void slotProcessSpeech();
+    void slotProcessWhisperSpeech();
     void slotProcessSpeechError();
     void slotProcessSpeechStatus(int, QProcess::ExitStatus status);
     /** @brief insert currently selected zones to timeline */
@@ -155,6 +156,7 @@ private Q_SLOTS:
     /** @brief Display info message */
     void showMessage(const QString &text, KMessageWidget::MessageType type, QAction *action = nullptr);
     void addBookmark();
+    void updateEngine();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -179,5 +181,7 @@ private:
     QTimer m_hideTimer;
     double m_clipOffset;
     QTemporaryFile m_playlistWav;
+    QTemporaryFile m_tmpCutWav;
+    QAction *m_translateAction;
     SpeechToText *m_stt;
 };
