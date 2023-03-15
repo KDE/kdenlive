@@ -1764,6 +1764,11 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
     });
     m_sttWhisper->checkDependencies();
+    connect(m_configSpeech.check_whisper, &QPushButton::clicked, this, [this]() {
+        m_configSpeech.check_whisper->setEnabled(false);
+        m_sttWhisper->checkDependencies();
+        m_configSpeech.check_whisper->setEnabled(true);
+    });
 
     // VOSK
     PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);

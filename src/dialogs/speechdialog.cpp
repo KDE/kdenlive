@@ -266,7 +266,7 @@ void SpeechDialog::slotProcessSpeech()
     }
     speech_progress->setValue(0);
     m_errorLog.clear();
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     speech_info->clearActions();
 #else
     speech_info->removeAction(m_logAction);

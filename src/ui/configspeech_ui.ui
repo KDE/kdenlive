@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>354</width>
-    <height>371</height>
+    <height>332</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -52,7 +52,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="2" column="1" colspan="4">
     <widget class="QStackedWidget" name="speech_stack">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout">
@@ -165,15 +165,42 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </widget>
      <widget class="QWidget" name="page_2">
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="3" column="0" colspan="2">
+        <widget class="KMessageWidget" name="kmessagewidget">
+         <property name="text">
+          <string>Whisper processing on cpu is very slow</string>
+         </property>
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="combo_wr_model"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Language</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="combo_wr_lang"/>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="wr_translate">
+         <property name="text">
+          <string>Translate text to english</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Model</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="combo_wr_lang"/>
        </item>
        <item row="6" column="1">
         <spacer name="verticalSpacer">
@@ -191,33 +218,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <item row="2" column="1">
         <widget class="QComboBox" name="combo_wr_device"/>
        </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="combo_wr_model"/>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="wr_translate">
-         <property name="text">
-          <string>Translate text to english</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="KMessageWidget" name="kmessagewidget">
-         <property name="text">
-          <string>Whisper processing on cpu is very slow</string>
-         </property>
-         <property name="closeButtonVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Language</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
@@ -227,6 +227,29 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </item>
        <item row="5" column="0" colspan="2">
         <layout class="QVBoxLayout" name="message_layout_wr"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="check_whisper">
+         <property name="text">
+          <string>Check configuration</string>
+         </property>
+         <property name="icon">
+          <iconset theme="view-refresh"/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
