@@ -248,7 +248,11 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
     if (!checkSetup()) {
         return;
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtConcurrent::run(this, &AbstractPythonInterface::runScript, script, args, QString(), true);
+#else
+    QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true);
+#endif
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
