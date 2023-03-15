@@ -16,15 +16,21 @@ class SpeechToText: public AbstractPythonInterface
 {
     Q_OBJECT
 public:
-    SpeechToText();
+    enum class EngineType { EngineVosk = 0, EngineWhisper = 1 };
+    SpeechToText(EngineType engineType = EngineType::EngineVosk, QObject *parent = nullptr);
     QString runSubtitleScript(QString modelDirectory, QString language, QString audio, QString speech);
-    QString subtitleScript() { return m_scripts->value(QStringLiteral("speech.py")); };
-    QString speechScript() { return m_scripts->value(QStringLiteral("speechtotext.py")); };
+    QString subtitleScript();
+    QString speechScript();
     QString voskModelPath();
     QStringList parseVoskDictionaries();
+    static QList<std::pair<QString, QString>> whisperModels();
+    static QMap<QString, QString> whisperLanguages();
 
 protected:
     QString featureName() override;
+
+private:
+    EngineType m_engineType;
 
 public Q_SLOTS:
 

@@ -15,6 +15,7 @@
 #include <QGuiApplication>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QtConcurrent>
 
 PythonDependencyMessage::PythonDependencyMessage(QWidget *parent, AbstractPythonInterface *interface)
     : KMessageWidget(parent)
@@ -116,9 +117,11 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     , m_dependencies()
     , m_versions(new QMap<QString, QString>())
     , m_disableInstall(pCore->packageType() == QStringLiteral("flatpak"))
+    , m_dependenciesChecked(false)
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
+    addScript(QStringLiteral("checkgpu.py"));
 }
 
 AbstractPythonInterface::~AbstractPythonInterface()
@@ -183,6 +186,10 @@ void AbstractPythonInterface::addScript(const QString &script)
 
 void AbstractPythonInterface::checkDependencies()
 {
+    if (m_dependenciesChecked) {
+        // Don't check twice if dependecies are satisfied
+        return;
+    }
     QString output = runPackageScript(QStringLiteral("--check"));
     if (output.isEmpty()) {
         return;
@@ -200,6 +207,7 @@ void AbstractPythonInterface::checkDependencies()
         }
     }
     if (messages.isEmpty()) {
+        m_dependenciesChecked = true;
         Q_EMIT dependenciesAvailable();
     } else {
         Q_EMIT dependenciesMissing(messages);
@@ -228,6 +236,23 @@ void AbstractPythonInterface::installMissingDependencies()
 void AbstractPythonInterface::updateDependencies()
 {
     runPackageScript(QStringLiteral("--upgrade"));
+}
+
+void AbstractPythonInterface::runConcurrentScript(const QString &script, QStringList args)
+{
+    if (m_dependencies.keys().isEmpty()) {
+        qWarning() << "No dependencies specified";
+        Q_EMIT setupError(i18n("Internal Error: Cannot find dependency list"));
+        return;
+    }
+    if (!checkSetup()) {
+        return;
+    }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(this, &AbstractPythonInterface::runScript, script, args, QString(), true);
+#else
+    QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true);
+#endif
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
@@ -300,7 +325,7 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode)
     return runScript(QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode);
 }
 
-QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg)
+QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent)
 {
     QString scriptpath = m_scripts->value(script);
     if (m_pyExec.isEmpty() || scriptpath.isEmpty()) {
@@ -312,11 +337,18 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     }
     args.prepend(scriptpath);
     QProcess scriptJob;
+    if (concurrent) {
+        connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
+            const QString processData = QString::fromUtf8(scriptJob.readAll());
+            Q_EMIT scriptFeedback(processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
+        });
+    }
     scriptJob.start(m_pyExec, args);
     scriptJob.waitForFinished();
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
         KMessageBox::detailedError(pCore->window(), i18n("Error while running python3 script:\n %1", scriptpath), scriptJob.readAllStandardError());
         return {};
     }
+    Q_EMIT scriptFinished();
     return scriptJob.readAllStandardOutput();
 }

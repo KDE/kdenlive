@@ -858,6 +858,7 @@ void KdenliveSettingsDialog::showPage(int page, int option)
     case 9:
         setCurrentPage(m_page12);
         m_stt->checkDependencies();
+        m_sttWhisper->checkDependencies();
         break;
     default:
         setCurrentPage(m_page1);
@@ -1274,6 +1275,35 @@ void KdenliveSettingsDialog::updateSettings()
         Q_EMIT pCore->window()->getCurrentTimeline()->controller()->scrollVerticallyChanged();
     }
 
+    // Speech
+    switch (m_configSpeech.speech_stack->currentIndex()) {
+    case 1:
+        if (KdenliveSettings::speechEngine() != QLatin1String("whisper")) {
+            KdenliveSettings::setSpeechEngine(QStringLiteral("whisper"));
+            Q_EMIT pCore->speechEngineChanged();
+        }
+        break;
+    default:
+        if (!KdenliveSettings::speechEngine().isEmpty()) {
+            KdenliveSettings::setSpeechEngine(QString());
+            Q_EMIT pCore->speechEngineChanged();
+        }
+        break;
+    }
+
+    if (m_configSpeech.combo_wr_lang->currentData().toString() != KdenliveSettings::whisperLanguage()) {
+        KdenliveSettings::setWhisperLanguage(m_configSpeech.combo_wr_lang->currentData().toString());
+    }
+    if (m_configSpeech.combo_wr_model->currentData().toString() != KdenliveSettings::whisperModel()) {
+        KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData().toString());
+    }
+    if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
+        KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
+    }
+    if (m_configSpeech.wr_translate->isChecked() != KdenliveSettings::whisperTranslate()) {
+        KdenliveSettings::setWhisperTranslate(m_configSpeech.wr_translate->isChecked());
+    }
+
     // Mimes
     if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
         // Update list
@@ -1678,7 +1708,64 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
 
 void KdenliveSettingsDialog::initSpeechPage()
 {
-    m_stt = new SpeechToText();
+    m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
+    m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+    connect(m_configSpeech.engine_vosk, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(0); });
+    connect(m_configSpeech.engine_whisper, &QRadioButton::clicked, [&]() { m_configSpeech.speech_stack->setCurrentIndex(1); });
+    if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+        m_configSpeech.engine_whisper->setChecked(true);
+        m_configSpeech.speech_stack->setCurrentIndex(1);
+    } else {
+        m_configSpeech.engine_vosk->setChecked(true);
+        m_configSpeech.speech_stack->setCurrentIndex(0);
+    }
+
+    // Whisper
+    m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
+    PythonDependencyMessage *msgWr = new PythonDependencyMessage(this, m_sttWhisper);
+    m_configSpeech.message_layout_wr->addWidget(msgWr);
+    QList<std::pair<QString, QString>> whisperModels = m_sttWhisper->whisperModels();
+    for (auto &w : whisperModels) {
+        m_configSpeech.combo_wr_model->addItem(w.first, w.second);
+    }
+    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel());
+    if (ix > -1) {
+        m_configSpeech.combo_wr_model->setCurrentIndex(ix);
+    }
+    QMap<QString, QString> whisperLanguages = m_sttWhisper->whisperLanguages();
+    QMapIterator<QString, QString> j(whisperLanguages);
+    while (j.hasNext()) {
+        j.next();
+        m_configSpeech.combo_wr_lang->addItem(j.key(), j.value());
+    }
+    ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
+    if (ix > -1) {
+        m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
+    }
+    m_configSpeech.wr_translate->setChecked(KdenliveSettings::whisperTranslate());
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
+        m_configSpeech.combo_wr_device->clear();
+        for (auto &s : jobData) {
+            if (s.contains(QLatin1Char('#'))) {
+                m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+            } else {
+                m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+            }
+        }
+    });
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, [this]() {
+        int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
+        if (ix > -1) {
+            m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+        }
+    });
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
+        qDebug() << ":::::: WHISPER DEPS AVAILABLE!!!!!!!!!!";
+        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+    });
+    m_sttWhisper->checkDependencies();
+
+    // VOSK
     PythonDependencyMessage *msg = new PythonDependencyMessage(this, m_stt);
     m_configSpeech.message_layout->addWidget(msg);
 
@@ -1689,7 +1776,6 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.speech_info->animatedHide(); });
 
-    m_voskAction = new QAction(i18n("Install missing dependencies"), this);
     m_speechListWidget = new SpeechList(this);
     connect(m_speechListWidget, &SpeechList::getDictionary, this, &KdenliveSettingsDialog::getDictionary);
     QVBoxLayout *l = new QVBoxLayout(m_configSpeech.list_frame);
