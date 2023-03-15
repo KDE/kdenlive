@@ -313,7 +313,9 @@ void SpeechDialog::slotProcessSpeech()
 
 void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile)
 {
-    speech_info->addAction(m_logAction);
+    if (!m_errorLog.isEmpty()) {
+        speech_info->addAction(m_logAction);
+    }
     if (status == QProcess::CrashExit) {
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Speech recognition aborted."));
