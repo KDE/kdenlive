@@ -383,6 +383,11 @@ public:
     void setSequenceThumbnail(const QUuid &uuid, int frame);
     /** @brief When saving or rendering, copy timewarp temporary playlists to the correct folder. */
     void moveTimeWarpToFolder(const QDir sequenceFolder, bool copy);
+    /** @brief Create new sequence clip
+     * @param aTracks the audio tracks count, use default if -1
+     * @param vTracks the video tracks count, use default if -1 */
+    void buildSequenceClip(int aTracks = -1, int vTracks = -1);
+    const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1);
 
 private Q_SLOTS:
     void slotAddClip();

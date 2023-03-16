@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/backupwidget.h"
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
+#include "timeline2/model/timelinefunctions.hpp"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 #include <audiomixer/mixermanager.hpp>
@@ -1300,6 +1301,10 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 
 const QDir ProjectManager::cacheDir(bool audio, bool *ok) const
 {
+    if (m_project == nullptr) {
+        *ok = false;
+        return QDir();
+    }
     return m_project->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
 }
 
@@ -1816,4 +1821,39 @@ void ProjectManager::seekTimeline(const QString &frameAndTrack)
         frame = frameAndTrack.toInt();
     }
     pCore->monitorManager()->projectMonitor()->requestSeek(frame);
+}
+
+void ProjectManager::slotCreateSequenceFromSelection()
+{
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    std::pair<int, QString> copiedData = pCore->window()->getCurrentTimeline()->controller()->getCopyItemData();
+    if (copiedData.first == -1) {
+        pCore->displayMessage(i18n("Select a clip to create sequence"), InformationMessage);
+        return;
+    }
+    const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    bool hasVideo;
+    bool hasAudio;
+    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&hasVideo, &hasAudio);
+    pCore->window()->getCurrentTimeline()->model()->requestItemDeletion(copiedData.first, undo, redo, true);
+    const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo);
+    const QUuid destSequence = pCore->window()->getCurrentTimeline()->getUuid();
+    int trackId = pCore->window()->getCurrentTimeline()->controller()->activeTrack();
+    Fun local_redo1 = [this, destSequence, copiedData, trackId]() {
+        pCore->window()->raiseTimeline(destSequence);
+        return true;
+    };
+    local_redo1();
+    TimelineFunctions::pasteClips(m_activeTimelineModel, copiedData.second, trackId, 0);
+    PUSH_LAMBDA(local_redo1, redo);
+    Fun local_redo = [this, sourceSequence]() {
+        pCore->window()->raiseTimeline(sourceSequence);
+        return true;
+    };
+    local_redo();
+    PUSH_LAMBDA(local_redo, redo);
+    int newId;
+    m_activeTimelineModel->requestClipInsertion(newSequenceId, vPosition.second, vPosition.first, newId, false, true, false, undo, redo, {});
+    pCore->pushUndo(undo, redo, i18n("Create Sequence Clip"));
 }

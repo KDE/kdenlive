@@ -3587,33 +3587,64 @@ void Bin::slotCreateProjectClip()
     case ClipType::Animation:
         ClipCreationDialog::createAnimationClip(m_doc, parentFolder);
         break;
-    case ClipType::Timeline: {
-        QScopedPointer<QDialog> dia(new QDialog(this));
-        Ui::NewTimeline_UI dia_ui;
-        dia_ui.setupUi(dia.data());
-        dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
-        int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
-        dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
-        dia_ui.video_tracks->setValue(KdenliveSettings::videotracks());
-        dia_ui.audio_tracks->setValue(KdenliveSettings::audiotracks());
-        if (dia->exec() == QDialog::Accepted) {
-            int vTracks = dia_ui.video_tracks->value();
-            int aTracks = dia_ui.audio_tracks->value();
-            if (m_itemModel->defaultSequencesFolder() > -1) {
-                const QString sequenceFolder = QString::number(m_itemModel->defaultSequencesFolder());
-                std::shared_ptr<ProjectFolder> folderItem = m_itemModel->getFolderByBinId(sequenceFolder);
-                if (folderItem) {
-                    parentFolder = sequenceFolder;
-                }
-            }
-            ClipCreationDialog::createPlaylistClip(dia_ui.sequence_name->text(), {aTracks, vTracks}, parentFolder, m_itemModel);
-        }
+    case ClipType::Timeline:
+        buildSequenceClip();
         break;
-    }
     default:
         break;
     }
     pCore->window()->raiseBin();
+}
+
+void Bin::buildSequenceClip(int aTracks, int vTracks)
+{
+    QScopedPointer<QDialog> dia(new QDialog(this));
+    Ui::NewTimeline_UI dia_ui;
+    dia_ui.setupUi(dia.data());
+    dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
+    int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+    dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
+    dia_ui.video_tracks->setValue(KdenliveSettings::videotracks());
+    dia_ui.audio_tracks->setValue(KdenliveSettings::audiotracks());
+    if (dia->exec() == QDialog::Accepted) {
+        int videoTracks = vTracks > -1 ? vTracks : dia_ui.video_tracks->value();
+        int audioTracks = aTracks > -1 ? aTracks : dia_ui.audio_tracks->value();
+        QString parentFolder = getCurrentFolder();
+        if (m_itemModel->defaultSequencesFolder() > -1) {
+            const QString sequenceFolder = QString::number(m_itemModel->defaultSequencesFolder());
+            std::shared_ptr<ProjectFolder> folderItem = m_itemModel->getFolderByBinId(sequenceFolder);
+            if (folderItem) {
+                parentFolder = sequenceFolder;
+            }
+        }
+        ClipCreationDialog::createPlaylistClip(dia_ui.sequence_name->text(), {audioTracks, videoTracks}, parentFolder, m_itemModel);
+    }
+}
+
+const QString Bin::buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks, int vTracks)
+{
+    QScopedPointer<QDialog> dia(new QDialog(this));
+    Ui::NewTimeline_UI dia_ui;
+    dia_ui.setupUi(dia.data());
+    dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
+    int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
+    dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
+    dia_ui.video_tracks->setValue(KdenliveSettings::videotracks());
+    dia_ui.audio_tracks->setValue(KdenliveSettings::audiotracks());
+    if (dia->exec() == QDialog::Accepted) {
+        int videoTracks = vTracks > -1 ? vTracks : dia_ui.video_tracks->value();
+        int audioTracks = aTracks > -1 ? aTracks : dia_ui.audio_tracks->value();
+        QString parentFolder = getCurrentFolder();
+        if (m_itemModel->defaultSequencesFolder() > -1) {
+            const QString sequenceFolder = QString::number(m_itemModel->defaultSequencesFolder());
+            std::shared_ptr<ProjectFolder> folderItem = m_itemModel->getFolderByBinId(sequenceFolder);
+            if (folderItem) {
+                parentFolder = sequenceFolder;
+            }
+        }
+        return ClipCreator::createPlaylistClipWithUndo(dia_ui.sequence_name->text(), {audioTracks, videoTracks}, parentFolder, m_itemModel, undo, redo);
+    }
+    return QString();
 }
 
 void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)

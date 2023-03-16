@@ -677,17 +677,75 @@ int TimelineController::getMainSelectedItem(bool restrictToCurrentPos, bool allo
     return -1;
 }
 
-void TimelineController::copyItem()
+std::pair<int, int> TimelineController::selectionPosition(bool *hasVideo, bool *hasAudio)
 {
     std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
     if (selectedIds.empty()) {
-        return;
+        return {-1, -1};
+    }
+    int position = -1;
+    int lowerVideoTid = -1;
+    int upperAudioTid = -1;
+    for (auto &id : selectedIds) {
+        int tid = m_model->getItemTrackId(id);
+        if (m_model->isSubtitleTrack(tid)) {
+            // Subtitle track not supported
+            continue;
+        }
+        if (m_model->isAudioTrack(tid)) {
+            *hasAudio = true;
+        } else {
+            *hasVideo = true;
+        }
+        if (position == -1 || position > m_model->getItemPosition(id)) {
+            position = m_model->getItemPosition(id);
+        }
+        int trackPos = m_model->getTrackPosition(tid);
+        if (m_model->isAudioTrack(tid)) {
+            // Find upper audio track
+            if (upperAudioTid == -1) {
+                upperAudioTid = tid;
+            } else if (trackPos > m_model->getTrackPosition(upperAudioTid)) {
+                upperAudioTid = tid;
+            }
+        } else {
+            // Find lower video track
+            if (lowerVideoTid == -1) {
+                lowerVideoTid = tid;
+            } else if (trackPos < m_model->getTrackPosition(lowerVideoTid)) {
+                lowerVideoTid = tid;
+            }
+        }
+    }
+    if (lowerVideoTid > -1) {
+        return {position, lowerVideoTid};
+    }
+    return {position, upperAudioTid};
+}
+
+int TimelineController::copyItem()
+{
+    std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+    if (selectedIds.empty()) {
+        return -1;
     }
     int clipId = *(selectedIds.begin());
     QString copyString = TimelineFunctions::copyClips(m_model, selectedIds);
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);
+    return clipId;
+}
+
+std::pair<int, QString> TimelineController::getCopyItemData()
+{
+    std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+    if (selectedIds.empty()) {
+        return {-1, QString()};
+    }
+    int clipId = *(selectedIds.begin());
+    QString copyString = TimelineFunctions::copyClips(m_model, selectedIds);
+    return {clipId, copyString};
 }
 
 bool TimelineController::pasteItem(int position, int tid)
